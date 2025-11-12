@@ -1,0 +1,16 @@
+/**
+ * @doc-comment-developing-promptpartdevelopment
+ * domain: agent
+ * intent: "Instruct substep to format reasoning and judgment into required type without additional thinking"
+ * current_version: "GA1.50.0"
+ * versions: []
+ * benchmarks: [
+ *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50.50 },
+ *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50.50 }
+ * ]
+ */
+
+import { PromptPart } from '../../parts/PromptPart';
+
+export const PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT: PromptPart = 
+  'Format the reasoning and judgment into the required output type. Do not perform additional reasoning - simply slot the results into the correct JSON structure ensuring all fields are properly populated, types are correct, and include the useTools array if tools were selected and approved by judgment.' as PromptPart;

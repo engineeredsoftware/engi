@@ -1,0 +1,122 @@
+/* Coming Soon Text Glow Fix - Mobile-friendly approach */
+
+/* 
+ * This file contains a completely different approach to text glow effects
+ * that works reliably on mobile devices by using SVG filters instead of
+ * CSS text-shadow or pseudo-elements.
+ */
+
+/* Add the SVG filter definition to the root */
+@media (max-width: 768px) {
+
+  /* Override the super-shiny-text styles for mobile */
+  .super-shiny-text {
+    /* Reset any existing text-shadow */
+    text-shadow: none !important;
+    /* Apply the SVG filter */
+    filter: url('#glow-filter') drop-shadow(0 0 2px theme(colors.brand.emerald-glow)) !important;
+    /* Ensure proper positioning */
+    position: relative;
+    /* Prevent clipping */
+    overflow: visible !important;
+    /* Force hardware acceleration */
+    transform: translateZ(0);
+    /* Ensure proper z-index */
+    z-index: 2;
+    /* Prevent any clipping */
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    /* Ensure proper animation */
+    will-change: filter, opacity;
+    /* Smooth transition for animations */
+    transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    /* Override any existing animations */
+    animation: mobile-glow-pulse 4s infinite cubic-bezier(0.4, 0, 0.6, 1) !important;
+  }
+
+  /* Ensure the staggered text container doesn't clip */
+  .staggered-text {
+    overflow: visible !important;
+    /* Reduce padding to fix word spacing */
+    padding: 10px !important;
+    /* Fix the gap between words */
+    gap: 1px !important;
+    /* Override any space-x classes */
+    margin-left: -4px !important;
+  }
+
+  /* Ensure the staggered word container doesn't clip */
+  .staggered-word {
+    overflow: visible !important;
+    /* Reduce padding to fix word spacing */
+    padding: 4px !important;
+    margin: 0 !important;
+    /* Fix the gap between words */
+    margin-right: 4px !important;
+  }
+
+  /* Ensure the main content doesn't clip */
+  .main-content {
+    overflow: visible !important;
+  }
+
+  /* Ensure the coming soon container doesn't clip */
+  .coming-soon-container {
+    overflow: visible !important;
+  }
+
+  /* Smoother animation for the glow effect with more keyframes for smoother transitions */
+  @keyframes mobile-glow-pulse {
+    0% {
+      filter: url('#glow-filter') drop-shadow(0 0 2px theme(colors.brand.emerald-glow-subtle)) !important;
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+
+    15% {
+      filter: url('#glow-filter') drop-shadow(0 0 2.5px theme(colors.brand.emerald-glow)) !important;
+      opacity: 0.9;
+      transform: scale(0.99);
+    }
+
+    30% {
+      filter: url('#glow-filter') drop-shadow(0 0 3px theme(colors.brand.emerald-glow)) !important;
+      opacity: 0.95;
+      transform: scale(0.995);
+    }
+
+    50% {
+      filter: url('#glow-filter') drop-shadow(0 0 5px theme(colors.brand.emerald-bright)) !important;
+      opacity: 1;
+      transform: scale(1.01);
+    }
+
+    70% {
+      filter: url('#glow-filter') drop-shadow(0 0 3px theme(colors.brand.emerald-glow)) !important;
+      opacity: 0.95;
+      transform: scale(0.995);
+    }
+
+    85% {
+      filter: url('#glow-filter') drop-shadow(0 0 2.5px theme(colors.brand.emerald-glow)) !important;
+      opacity: 0.9;
+      transform: scale(0.99);
+    }
+
+    100% {
+      filter: url('#glow-filter') drop-shadow(0 0 2px theme(colors.brand.emerald-glow-subtle)) !important;
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    .super-shiny-text {
+      /* Increase the glow intensity for iOS */
+      filter: url('#glow-filter') drop-shadow(0 0 3px theme(colors.brand.emerald-bright)) !important;
+    }
+  }
+}

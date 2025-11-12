@@ -1,0 +1,7 @@
+{
+  "repoInfo": { "name": "mockRepo1", "default_branch": "main", "private": false },
+  "branches": [
+    { "name": "main" },
+    { "name": "dev" }
+  ]
+}

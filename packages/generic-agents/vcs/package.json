@@ -1,0 +1,23 @@
+{
+  "name": "@engi/generic-agents-vcs",
+  "version": "1.0.0",
+  "description": "VCS agent for orchestrating version control operations through provider APIs",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@engi/agent-generics": "workspace:*",
+    "@engi/vcs": "workspace:*",
+    "@engi/logger": "workspace:*",
+    "@engi/errors": "workspace:*",
+    "@engi/supabase": "workspace:*",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

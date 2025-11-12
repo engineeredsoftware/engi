@@ -1,0 +1,6 @@
+{
+  "issues": [
+    { "id": "1", "title": "Mock Issue 1", "isPR": false, "url": "https://github.com/mockOrg1/mockRepo1/issues/1" },
+    { "id": "2", "title": "Mock PR 2", "isPR": true, "url": "https://github.com/mockOrg1/mockRepo1/pull/2" }
+  ]
+}

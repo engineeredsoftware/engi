@@ -1,0 +1,20 @@
+{
+  "name": "@engi/parsing",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/parsing.ts",
+  "types": "src/parsing.ts",
+  "exports": {
+    ".": {
+      "require": "./src/parsing.ts",
+      "default": "./src/parsing.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@engi/logger": "workspace:*"
+  }
+}

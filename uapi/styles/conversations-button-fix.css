@@ -1,0 +1,69 @@
+/* Enhanced visibility for fullscreen button */
+/*
+ * NOTE: This stylesheet provides a thin override layer for the specialised
+ * Conversations fullscreen control buttons.  A recent refactor introduced fixed
+ * width / height and a pulsing animation that caused the surrounding button
+ * chrome to render at the wrong size.  We now revert to natural sizing so
+ * the green pill grows with its contents and disable the at-rest pulse.
+ */
+
+.fullscreen-button,
+.fullscreen-exit-button,
+.split-screen-button {
+  background-color: rgba(103, 254, 183, 0.1) !important;
+  border: 1px solid rgba(103, 254, 183, 0.2) !important;
+  color: #67feb7 !important;
+
+  /* Let the element size itself based on its content */
+  width: auto !important;
+  height: auto !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  gap: 0.25rem !important;         /* Space between icon & text */
+  padding: 0.25rem 0.5rem !important; /* Horizontal ‑ consistent with px-2 */
+
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.fullscreen-button:hover,
+.fullscreen-exit-button:hover,
+.split-screen-button:hover {
+  background-color: rgba(103, 254, 183, 0.2) !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 10px rgba(103, 254, 183, 0.3) !important;
+}
+
+.fullscreen-button:active,
+.fullscreen-exit-button:active,
+.split-screen-button:active {
+  transform: scale(0.95) !important;
+}
+
+/* Add a pulsing effect to make it more noticeable */
+@keyframes pulse-button {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(103, 254, 183, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(103, 254, 183, 0);
+  }
+}
+
+/* Disable the idle pulsing – keeps UI calm. */
+.fullscreen-button,
+.fullscreen-exit-button,
+.split-screen-button {
+  animation: none !important;
+}
+
+/* Make sure the button is visible in the chat header */
+.chat-header-right {
+  position: relative;
+  z-index: 20;
+}

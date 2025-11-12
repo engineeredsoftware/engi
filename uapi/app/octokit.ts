@@ -1,0 +1,428 @@
+/**
+ * VCS-Migrated version of octokit.ts
+ * 
+ * This file provides backward compatibility for legacy code while using
+ * the new VCS abstraction layer underneath.
+ */
+
+import { supabaseAdmin } from '@engi/supabase';
+import { VCSService, VCSConnections, VCSProviderFactory } from '@engi/vcs';
+// Removed vcsAgent import - using VCS primitives directly
+import { log } from '@engi/logger';
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+import decompress from 'decompress';
+
+// Legacy configuration for backward compatibility
+export const config = {
+  appId: 244206,
+  privateKey: process.env.GITHUB_PRIVATE_KEY || '',
+  oauth: {
+    clientId: process.env.GITHUB_CLIENT_ID || "91e477521eb83c9b24c3",
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+  },
+};
+
+// Legacy app export for backward compatibility
+// This will be removed once all references are migrated
+export const app = {
+  async getInstallationOctokit(connectionId: number) {
+    log('DEPRECATED: app.getInstallationOctokit called, using VCS abstraction', 'warn', { connectionId });
+    
+    // Find user by installation ID (legacy GitHub-specific)
+    const { data: connection } = await supabaseAdmin
+      .from('user_connections')
+      .select('*')
+      .eq('provider', 'github')
+      .eq('connection_data->>connectionId', connectionId)
+      .single();
+    
+    if (!connection) {
+      throw new Error(`No GitHub connection found for installation ${connectionId}`);
+    }
+    
+    // Return a proxy that mimics Octokit interface but uses VCS underneath
+    const provider = await VCSProviderFactory.create({
+      provider: 'github',
+      clientId: config.oauth.clientId,
+      clientSecret: config.oauth.clientSecret,
+      redirectUri: process.env.GITHUB_REDIRECT_URI || ''
+    });
+    
+    const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+    
+    return {
+      request: async (route: string, options: any) => {
+        // Map common Octokit routes to VCS methods
+        if (route === 'GET /repos/{owner}/{repo}/issues') {
+          const issues = await provider.listIssues(auth, options.owner, options.repo, {
+            state: 'open',
+            perPage: 100
+          });
+          return { data: issues };
+        }
+        
+        if (route === 'GET /repos/{owner}/{repo}/issues/{issue_number}/comments') {
+          const comments = await provider.listIssueComments(auth, options.owner, options.repo, options.issue_number);
+          return { data: comments };
+        }
+        
+        if (route === 'POST /repos/{owner}/{repo}/issues/{issue_number}/comments') {
+          const comment = await provider.createIssueComment(
+            auth,
+            options.owner,
+            options.repo,
+            options.issue_number,
+            options.body
+          );
+          return { data: comment };
+        }
+        
+        if (route === 'GET /repos/{owner}/{repo}/zipball/{ref}') {
+          // VCS doesn't have direct zipball support, return GitHub URL
+          return { url: `https://api.github.com/repos/${options.owner}/${options.repo}/zipball/${options.ref}` };
+        }
+        
+        if (route === 'GET /repos/{owner}/{repo}/git/ref/{ref}') {
+          const branch = await provider.getBranch(auth, options.owner, options.repo, options.ref.replace('heads/', ''));
+          return { data: { object: { sha: branch.commit.sha } } };
+        }
+        
+        if (route === 'POST /repos/{owner}/{repo}/git/refs') {
+          const branch = await provider.createBranch(
+            auth,
+            options.owner,
+            options.repo,
+            options.ref.replace('refs/heads/', ''),
+            options.sha
+          );
+          return { data: branch };
+        }
+        
+        throw new Error(`Unmapped Octokit route: ${route}`);
+      }
+    };
+  },
+  
+  eachRepository: {
+    async *iterator({ connectionId }: { connectionId: number }) {
+      log('DEPRECATED: app.eachRepository.iterator called, using VCS abstraction', 'warn', { connectionId });
+      
+      // Find user by installation ID
+      const { data: connection } = await supabaseAdmin
+        .from('user_connections')
+        .select('*')
+        .eq('provider', 'github')
+        .eq('connection_data->>connectionId', connectionId)
+        .single();
+      
+      if (!connection) {
+        return;
+      }
+      
+      const provider = await VCSProviderFactory.create({
+        provider: 'github',
+        clientId: config.oauth.clientId,
+        clientSecret: config.oauth.clientSecret,
+        redirectUri: process.env.GITHUB_REDIRECT_URI || ''
+      });
+      
+      const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+      const repos = await provider.listRepositories(auth, { perPage: 100 });
+      
+      for (const repo of repos) {
+        yield {
+          octokit: await vcsProvider.getClient(connectionId),
+          repository: {
+            name: repo.name,
+            owner: { login: repo.owner.username },
+            // Map other fields as needed
+          }
+        };
+      }
+    }
+  }
+};
+
+/**
+ * Returns all connected users' repositories using VCS abstraction
+ */
+export const getUsersRepositories = async () => {
+  log('Getting all users repositories via VCS abstraction', 'info');
+  
+  const { data: connections, error } = await supabaseAdmin
+    .from('user_connections')
+    .select('*')
+    .eq('provider', 'github');
+    
+  if (error || !connections) {
+    log('Error fetching user connections', 'error', { error });
+    return {};
+  }
+  
+  const usersRepositories: Record<string, any> = {};
+  
+  for (const conn of connections) {
+    const userId = conn.user_id;
+    
+    try {
+      // Use VCS service to sync repositories
+      const vcsService = new VCSService({ supabaseClient: supabaseAdmin });
+      const repositories = await vcsService.listRepositories(userId);
+      
+      // Store in database for caching
+      const upsertData = repositories.map((repo: any) => ({
+        user_id: userId,
+        provider: 'github',
+        provider_provider_repo_id: repo.id.toString(),
+        repo_name: repo.name,
+        repo_full_name: repo.fullName,
+        repo_owner: repo.owner.username,
+        repo_description: repo.description,
+        repo_url: repo.url,
+        repo_language: repo.language,
+        repo_default_branch: repo.defaultBranch,
+        repo_private: repo.private,
+        repo_created_at: repo.createdAt,
+        repo_updated_at: repo.updatedAt,
+        repo_data: repo,
+        synced_at: new Date().toISOString()
+      }));
+
+      await supabaseAdmin
+        .from('vcs_repositories')
+        .upsert(upsertData, {
+          onConflict: 'user_id,provider,provider_provider_repo_id'
+        });
+      
+      if (repositories.length > 0) {
+        // Fetch synced repositories from database
+        const { data: repos } = await supabaseAdmin
+          .from('vcs_repositories')
+          .select('*')
+          .eq('user_id', userId)
+          .eq('provider', 'github');
+          
+        usersRepositories[userId] = {
+          repositories: repos?.map(r => ({
+            name: r.repo_name,
+            owner: { login: r.repo_owner },
+            // Map other fields
+          })) || []
+        };
+      }
+    } catch (error) {
+      log('Error syncing repositories for user', 'error', { userId, error });
+    }
+  }
+  
+  return usersRepositories;
+};
+
+/**
+ * Get issues for repository using VCS abstraction
+ */
+export const getIssuesForRepository = async (connectionId: number, repository: any) => {
+  log('Getting issues via VCS abstraction', 'info', { 
+    connectionId, 
+    repo: `${repository.owner.login}/${repository.name}` 
+  });
+  
+  // Find connection by installation ID
+  const { data: connection } = await supabaseAdmin
+    .from('user_connections')
+    .select('*')
+    .eq('provider', 'github')
+    .eq('connection_data->>connectionId', connectionId)
+    .single();
+    
+  if (!connection) {
+    throw new Error(`No GitHub connection found for installation ${connectionId}`);
+  }
+  
+  const provider = await VCSProviderFactory.create({
+    provider: 'github',
+    clientId: config.oauth.clientId,
+    clientSecret: config.oauth.clientSecret,
+    redirectUri: process.env.GITHUB_REDIRECT_URI || ''
+  });
+  
+  const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+  return await provider.listIssues(auth, repository.owner.login, repository.name, {
+    state: 'open',
+    perPage: 100
+  });
+};
+
+/**
+ * Get comments for issue using VCS abstraction
+ */
+export const getCommentsForIssue = async (connectionId: number, repository: any, issue: any) => {
+  log('Getting issue comments via VCS abstraction', 'info', { 
+    connectionId, 
+    repo: `${repository.owner.login}/${repository.name}`,
+    issue: issue.number 
+  });
+  
+  const { data: connection } = await supabaseAdmin
+    .from('user_connections')
+    .select('*')
+    .eq('provider', 'github')
+    .eq('connection_data->>connectionId', connectionId)
+    .single();
+    
+  if (!connection) {
+    throw new Error(`No GitHub connection found for installation ${connectionId}`);
+  }
+  
+  const provider = await VCSProviderFactory.create({
+    provider: 'github',
+    clientId: config.oauth.clientId,
+    clientSecret: config.oauth.clientSecret,
+    redirectUri: process.env.GITHUB_REDIRECT_URI || ''
+  });
+  
+  const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+  return await provider.listIssueComments(auth, repository.owner.login, repository.name, issue.number);
+};
+
+/**
+ * Leave issue comment using VCS abstraction
+ */
+export const leaveIssueComment = async (connectionId: number, repository: any, issue: any, body: string) => {
+  log('Creating issue comment via VCS abstraction', 'info', { 
+    connectionId, 
+    repo: `${repository.owner.login}/${repository.name}`,
+    issue: issue.number 
+  });
+  
+  const { data: connection } = await supabaseAdmin
+    .from('user_connections')
+    .select('*')
+    .eq('provider', 'github')
+    .eq('connection_data->>connectionId', connectionId)
+    .single();
+    
+  if (!connection) {
+    throw new Error(`No GitHub connection found for installation ${connectionId}`);
+  }
+  
+  // Use VCS provider for comment creation
+  const vcsConnections = new VCSConnections(supabaseAdmin);
+  const auth = await vcsConnections.getAuthFromConnection(connection.id);
+  
+  if (!auth) {
+    throw new Error('No auth found for connection');
+  }
+  
+  const provider = await VCSProviderFactory.create({
+    provider: 'github',
+    clientId: process.env.GITHUB_CLIENT_ID || '',
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
+    redirectUri: process.env.VCS_REDIRECT_URI || ''
+  });
+  
+  await provider.createIssueComment(
+    auth,
+    repository.owner.login,
+    repository.name,
+    issue.number,
+    body
+  );
+};
+
+/**
+ * Download repository - This remains GitHub-specific as VCS doesn't provide zipball
+ */
+export const downloadRepository = async (connectionId: number, repository: any) => {
+  log('Downloading repository', 'info', { 
+    connectionId, 
+    repo: `${repository.owner.login}/${repository.name}` 
+  });
+  
+  // For download, we still need to use GitHub API directly
+  // VCS abstraction doesn't cover file downloads
+  const downloadUrl = `https://api.github.com/repos/${repository.owner.login}/${repository.name}/zipball/main`;
+  
+  const zipDirPath = path.join(os.homedir(), `.engi/memory/${repository.name}`);
+  fs.mkdirSync(zipDirPath, { recursive: true });
+  
+  const zipPath = path.join(zipDirPath, `${repository.name}.zip`);
+  
+  // Get auth token for download
+  const { data: connection } = await supabaseAdmin
+    .from('user_connections')
+    .select('*')
+    .eq('provider', 'github')
+    .eq('connection_data->>connectionId', connectionId)
+    .single();
+    
+  if (!connection) {
+    throw new Error(`No GitHub connection found for installation ${connectionId}`);
+  }
+  
+  const auth = await new VCSConnectionManager(supabaseAdmin).getAuthFromConnection(connection.id);
+  
+  const response = await fetch(downloadUrl, {
+    headers: {
+      'Authorization': `Bearer ${auth.accessToken}`,
+      'Accept': 'application/vnd.github.v3+json'
+    }
+  });
+  
+  fs.writeFileSync(zipPath, Buffer.from(await response.arrayBuffer()));
+  
+  const unzipPath = path.join(os.homedir(), `.engi/memory/${repository.name}/${repository.name}`);
+  await decompress(zipPath, unzipPath);
+  
+  return unzipPath;
+};
+
+/**
+ * Create branch using VCS abstraction
+ */
+export const createBranch = async (connectionId: number, repository: any, name: string) => {
+  log('Creating branch via VCS abstraction', 'info', { 
+    connectionId, 
+    repo: `${repository.owner.login}/${repository.name}`,
+    branch: name 
+  });
+  
+  const { data: connection } = await supabaseAdmin
+    .from('user_connections')
+    .select('*')
+    .eq('provider', 'github')
+    .eq('connection_data->>connectionId', connectionId)
+    .single();
+    
+  if (!connection) {
+    throw new Error(`No GitHub connection found for installation ${connectionId}`);
+  }
+  
+  // Use VCS provider for branch creation
+  const vcsConnections = new VCSConnections(supabaseAdmin);
+  const auth = await vcsConnections.getAuthFromConnection(connection.id);
+  
+  if (!auth) {
+    throw new Error('No auth found for connection');
+  }
+  
+  const provider = await VCSProviderFactory.create({
+    provider: 'github',
+    clientId: process.env.GITHUB_CLIENT_ID || '',
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
+    redirectUri: process.env.VCS_REDIRECT_URI || ''
+  });
+  
+  // Get the SHA of the source branch first
+  const sourceBranch = await provider.getBranch(auth, repository.owner.login, repository.name, 'main');
+  
+  return await provider.createBranch(
+    auth,
+    repository.owner.login,
+    repository.name,
+    name,
+    sourceBranch.commit.sha
+  );
+};

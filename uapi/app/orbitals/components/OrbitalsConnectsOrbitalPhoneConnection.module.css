@@ -1,0 +1,71 @@
+/* Loading state */
+:global { .orbitals-connects-phone-connect-loading { position: relative; height: 180px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(15, 30, 50, 0.8), rgba(10, 20, 35, 0.8)); border-radius: 16px; border: 1px solid rgba(103, 254, 183, 0.2); overflow: hidden; } }
+:global { .orbitals-connects-loading-glow { position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(103, 254, 183, 0.1) 0%, transparent 70%); animation: pulse-glow 2s ease-in-out infinite; } }
+:global { .orbitals-connects-loading-content { display: flex; align-items: center; gap: 16px; z-index: 1; } }
+:global { .orbitals-connects-orbital-ring { width: 40px; height: 40px; border: 2px solid rgba(103, 254, 183, 0.3); border-radius: 50%; position: relative; animation: orbital-rotation 3s linear infinite; } }
+:global { .orbitals-connects-quantum-dot { position: absolute; width: 8px; height: 8px; background: #65FEB7; border-radius: 50%; top: -4px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px rgba(103, 254, 183, 0.8); } }
+:global { .orbitals-connects-loading-text { color: rgba(255, 255, 255, 0.8); font-size: 14px; } }
+:global {
+  @keyframes pulse-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  @keyframes orbital-rotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+}
+
+/* Connected state */
+:global { .orbitals-connects-phone-connected-container { position: relative; background: linear-gradient(135deg, rgba(15, 30, 50, 0.9), rgba(10, 25, 45, 0.9)); border-radius: 16px; border: 1px solid rgba(103, 254, 183, 0.3); padding: 24px; overflow: hidden; transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); } }
+:global { .orbitals-connects-phone-connected-container::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 20%, rgba(103, 254, 183, 0.15) 0%, transparent 50%); opacity: 0.7; transition: opacity 0.3s ease; } }
+:global { .orbitals-connects-phone-connected-container:hover { border-color: rgba(103, 254, 183, 0.5); box-shadow: 0 0 30px rgba(103, 254, 183, 0.2), 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(103, 254, 183, 0.05); } }
+:global { .orbitals-connects-phone-connected-container:hover::before { opacity: 1; } }
+:global { .orbitals-connects-success-rings { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; } }
+:global { .orbitals-connects-ring { position: absolute; width: 100px; height: 100px; border: 2px solid rgba(103, 254, 183, 0.6); border-radius: 50%; } }
+:global { .orbitals-connects-connected-content { position: relative; z-index: 1; } }
+:global { .orbitals-connects-status-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; } }
+:global { .orbitals-connects-icon-container { position: relative; width: 48px; height: 48px; flex-shrink: 0; } }
+:global { .orbitals-connects-icon-glow { position: absolute; inset: -8px; background: radial-gradient(circle, rgba(103, 254, 183, 0.4) 0%, transparent 70%); filter: blur(8px); animation: pulse-subtle 3s ease-in-out infinite; } }
+:global { .orbitals-connects-icon-inner { position: relative; width: 100%; height: 100%; background: linear-gradient(135deg, #65FEB7, #50E3C2); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(103, 254, 183, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2); } }
+:global { .orbitals-connects-check-icon { width: 24px; height: 24px; color: rgba(0, 20, 40, 0.9); } }
+:global { .orbitals-connects-status-info { flex: 1; } }
+:global { .orbitals-connects-status-title { font-size: 18px; font-weight: 600; color: white; margin: 0 0 4px 0; display: flex; align-items: center; gap: 8px; } }
+:global { .orbitals-connects-sso-badge { font-size: 11px; padding: 2px 8px; background: rgba(103, 254, 183, 0.15); color: #65FEB7; border-radius: 10px; border: 1px solid rgba(103, 254, 183, 0.3); } }
+:global { .orbitals-connects-phone-number { color: rgba(255, 255, 255, 0.7); font-size: 14px; margin: 0; font-family: monospace; } }
+:global { .orbitals-connects-disconnect-button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; } }
+:global { .orbitals-connects-disconnect-button:hover { background: rgba(255, 71, 87, 0.1); border-color: rgba(255, 71, 87, 0.3); color: #FF4757; transform: scale(1.05); } }
+:global { .orbitals-connects-disconnect-button svg { width: 16px; height: 16px; } }
+:global { .orbitals-connects-command-showcase { background: rgba(0, 10, 20, 0.5); border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid rgba(103, 254, 183, 0.1); } }
+:global { .orbitals-connects-showcase-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; } }
+:global { .orbitals-connects-showcase-label { font-size: 13px; color: rgba(255, 255, 255, 0.6); } }
+:global { .orbitals-connects-engi-number { font-family: monospace; font-size: 14px; color: #65FEB7; font-weight: 500; padding: 2px 8px; background: rgba(103, 254, 183, 0.1); border-radius: 6px; } }
+:global { .orbitals-connects-command-examples { display: flex; flex-wrap: wrap; gap: 8px; } }
+:global { .orbitals-connects-command-pill { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; border: 1px solid; transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1); cursor: default; } }
+:global { .orbitals-connects-command-pill.emerald { background: rgba(103, 254, 183, 0.1); border-color: rgba(103, 254, 183, 0.3); color: #65FEB7; } }
+:global { .orbitals-connects-command-pill.blue { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #3B82F6; } }
+:global { .orbitals-connects-command-pill.purple { background: rgba(147, 51, 234, 0.1); border-color: rgba(147, 51, 234, 0.3); color: #9333EA; } }
+:global { .orbitals-connects-command-pill:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); } }
+:global { .orbitals-connects-command-icon { font-size: 14px; } }
+
+/* Not connected state */
+:global { .phone-not-connected { background: linear-gradient(135deg, rgba(15, 30, 50, 0.8), rgba(10, 20, 35, 0.8)); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 24px; position: relative; overflow: hidden; } }
+:global { .phone-not-connected::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(103, 254, 183, 0.05) 0%, transparent 40%); animation: float-gradient 20s ease-in-out infinite; } }
+:global { .connect-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; position: relative; z-index: 1; } }
+:global { .phone-icon { position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; } }
+:global { .icon-bg { position: absolute; inset: 0; background: rgba(103, 254, 183, 0.1); border-radius: 16px; border: 1px solid rgba(103, 254, 183, 0.2); } }
+:global { .icon-emoji { font-size: 28px; z-index: 1; } }
+:global { .pulse-ring { position: absolute; inset: -8px; border: 1px solid rgba(103, 254, 183, 0.3); border-radius: 20px; animation: pulse-ring 3s cubic-bezier(0.19, 1, 0.22, 1) infinite; } }
+:global { .connect-info { flex: 1; } }
+:global { .connect-title { font-size: 18px; font-weight: 600; color: white; margin: 0 0 6px 0; } }
+:global { .connect-description { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin: 0; line-height: 1.5; } }
+:global { .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; position: relative; z-index: 1; } }
+:global { .feature { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; font-size: 12px; color: rgba(255, 255, 255, 0.8); transition: all 0.2s ease; } }
+:global { .feature:hover { background: rgba(103, 254, 183, 0.05); border-color: rgba(103, 254, 183, 0.2); transform: translateX(2px); } }
+:global { .feature-icon { font-size: 16px; } }
+:global { .connect-button { position: relative; width: 100%; padding: 14px 24px; background: linear-gradient(135deg, rgba(103, 254, 183, 0.9), rgba(80, 227, 194, 0.9)); border: none; border-radius: 12px; font-size: 15px; font-weight: 600; color: rgba(0, 20, 40, 0.9); cursor: pointer; overflow: hidden; transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); z-index: 1; } }
+:global { .button-text { position: relative; z-index: 1; } }
+:global { .button-glow { position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s ease; } }
+:global { .connect-button:hover .button-glow { opacity: 1; } }
+:global { .button-shimmer { position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); transition: left 0.5s ease; } }
+:global { .connect-button:hover .button-shimmer { left: 100%; } }
+:global { .connect-button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(103, 254, 183, 0.4), 0 0 0 1px rgba(103, 254, 183, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1); } }
+:global {
+  @keyframes float-gradient { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 33% { transform: translate(30px, -30px) rotate(120deg); } 66% { transform: translate(-20px, 20px) rotate(240deg); } }
+  @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 0.3; } 100% { transform: scale(1); opacity: 0.6; } }
+}
+/* moved to orbital */

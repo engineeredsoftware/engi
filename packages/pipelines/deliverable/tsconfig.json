@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "composite": false,
+    "baseUrl": "../../../",
+    "paths": {
+      "@engi/*": ["packages/*/src/index.ts"],
+      "@engi/generic-agents/*": ["packages/generic-agents/*/src/index.ts"],
+      "@engi/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "**/*.test.ts", "**/*.spec.ts"]
+}

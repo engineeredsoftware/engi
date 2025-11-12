@@ -1,0 +1,23 @@
+{
+  "name": "@engi/gitlab",
+  "version": "1.0.0",
+  "description": "GitLab provider implementation and MCP tools",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@engi/vcs": "workspace:*",
+    "@engi/logger": "workspace:*",
+    "@engi/supabase": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.1.1"
+  }
+}

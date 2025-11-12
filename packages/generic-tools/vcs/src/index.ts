@@ -1,0 +1,481 @@
+/**
+ * VCS-based tools using the unified VCS abstraction layer
+ * 
+ * These tools provide git operations through the VCS provider pattern,
+ * supporting GitHub, GitLab, and Bitbucket with consistent interfaces.
+ */
+
+import { Tool } from '@engi/tools-generics';
+import { z } from 'zod';
+import { VCSProviderFactory, VCSConnections } from '@engi/vcs';
+import { createClient as createSupabaseServerClient } from '@engi/supabase/ssr/server';
+// Utility functions for retry and timeout logic
+const withTimeout = async <T>(fn: () => Promise<T>, timeoutMs: number): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error(`Operation timed out after ${timeoutMs}ms`));
+    }, timeoutMs);
+
+    fn().then(resolve).catch(reject).finally(() => clearTimeout(timeout));
+  });
+};
+
+const withRetry = async <T>(
+  fn: () => Promise<T>,
+  options: { maxAttempts: number; delayMs: number; shouldRetry?: (error: Error) => boolean }
+): Promise<T> => {
+  let lastError: Error;
+
+  for (let attempt = 1; attempt <= options.maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error as Error;
+
+      if (attempt === options.maxAttempts) {
+        break;
+      }
+
+      if (options.shouldRetry && !options.shouldRetry(lastError)) {
+        break;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, options.delayMs));
+    }
+  }
+
+  throw lastError!;
+};
+import {
+  LIST_REPOSITORIES_DOC_CODE_TOOL_PROMPT,
+  CREATE_PULL_REQUEST_DOC_CODE_TOOL_PROMPT,
+  CREATE_OR_UPDATE_FILE_DOC_CODE_TOOL_PROMPT,
+  CREATE_ISSUE_DOC_CODE_TOOL_PROMPT,
+  CREATE_COMMENT_DOC_CODE_TOOL_PROMPT,
+  LIST_BRANCHES_DOC_CODE_TOOL_PROMPT,
+  GET_FILE_CONTENT_DOC_CODE_TOOL_PROMPT
+} from './prompts';
+import { executionContext } from '@engi/generic-tools/files-maintaining';
+
+/**
+ * Base schema for VCS operations
+ */
+const vcsBaseSchema = z.object({
+  provider: z.enum(['github', 'gitlab', 'bitbucket']).describe('VCS provider'),
+  connectionId: z.string().optional().describe('VCS connection ID'),
+  userId: z.string().optional().describe('User ID (used if connectionId not provided)'),
+  owner: z.string().describe('Repository owner'),
+  repo: z.string().describe('Repository name')
+});
+
+/**
+ * @doc-code-tool
+ * @prompt LIST_REPOSITORIES_DOC_CODE_TOOL_PROMPT
+ */
+class ListRepositoriesTool extends Tool<any> {
+  name = 'vcs_list_repositories';
+  description = 'List repositories from a VCS provider with unified interface';
+  
+  inputSchema = z.object({
+    provider: z.enum(['github', 'gitlab', 'bitbucket']).describe('VCS provider'),
+    connectionId: z.string().optional().describe('VCS connection ID'),
+    userId: z.string().optional().describe('User ID'),
+    page: z.number().optional().describe('Page number'),
+    perPage: z.number().optional().describe('Items per page'),
+    sort: z.enum(['created', 'updated', 'pushed', 'full_name']).optional(),
+    direction: z.enum(['asc', 'desc']).optional()
+  });
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    try {
+      const execution = executionContext?.getStore?.();
+      if (execution) {
+        const metaPhase =
+          execution.get?.('gate', 'current') ||
+          execution.get?.('meta', 'phase') ||
+          'Develop';
+        const { validateFileOperation } = await import('@engi/pipelines-generics/src/gate-system/file-gates');
+        const validation = validateFileOperation('write', input.path, metaPhase as any);
+        if (!validation.allowed) {
+          try {
+            execution.store?.('gates', 'lastViolation', {
+              metaPhase,
+              operation: 'write',
+              path: input.path,
+              reason: validation.reason,
+              timestamp: new Date().toISOString(),
+            });
+          } catch {}
+          const gateError = new Error(
+            validation.reason ||
+              `${metaPhase} phase can only modify designated files. Attempted: ${input.path}`
+          );
+          (gateError as any).code = 'GATE_VIOLATION';
+          throw gateError;
+        }
+      }
+    } catch (gateCheckError) {
+      if ((gateCheckError as any)?.code === 'GATE_VIOLATION') {
+        throw gateCheckError;
+      }
+      // If the gate check itself fails unexpectedly, surface a descriptive error
+      throw new Error(
+        `Failed to evaluate gate permissions for ${input.path}: ${(gateCheckError as Error).message}`
+      );
+    }
+
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    return await withTimeout(
+      () => vcsProvider.listRepositories(auth, {
+        page: input.page,
+        perPage: input.perPage,
+        sort: input.sort,
+        direction: input.direction
+      }),
+      30000
+    );
+  }
+}
+
+export const listRepositoriesTool = new ListRepositoriesTool();
+
+/**
+ * @doc-code-tool
+ * @prompt CREATE_PULL_REQUEST_DOC_CODE_TOOL_PROMPT
+ */
+class CreatePullRequestTool extends Tool<any> {
+  name = 'vcs_create_pull_request';
+  description = 'Create a pull request through unified VCS interface';
+  
+  inputSchema = vcsBaseSchema.extend({
+    title: z.string().describe('Pull request title'),
+    description: z.string().optional().describe('Pull request description'),
+    sourceBranch: z.string().describe('Source branch'),
+    targetBranch: z.string().describe('Target branch'),
+    draft: z.boolean().optional().describe('Create as draft PR')
+  });
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    return await withRetry(
+      () => vcsProvider.createPullRequest(auth, input.owner, input.repo, {
+        title: input.title,
+        description: input.description,
+        sourceBranch: input.sourceBranch,
+        targetBranch: input.targetBranch,
+        draft: input.draft
+      }),
+      {
+        maxAttempts: 3,
+        delayMs: 1000,
+        shouldRetry: (error) => {
+          const message = error.message.toLowerCase();
+          return message.includes('network') || message.includes('timeout');
+        }
+      }
+    );
+  }
+}
+
+export const createPullRequestTool = new CreatePullRequestTool();
+
+/**
+ * @doc-code-tool
+ * @prompt CREATE_OR_UPDATE_FILE_DOC_CODE_TOOL_PROMPT
+ */
+class CreateOrUpdateFileTool extends Tool<any> {
+  name = 'vcs_create_or_update_file';
+  description = 'Create or update a file in a repository through unified VCS interface';
+  
+  inputSchema = vcsBaseSchema.extend({
+    path: z.string().describe('File path'),
+    content: z.string().describe('File content'),
+    message: z.string().describe('Commit message'),
+    branch: z.string().optional().describe('Target branch'),
+    sha: z.string().optional().describe('Current file SHA (for updates)')
+  });
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    return await withRetry(
+      () => vcsProvider.createOrUpdateFile(auth, input.owner, input.repo, input.path, {
+        content: Buffer.from(input.content).toString('base64'),
+        message: input.message,
+        branch: input.branch,
+        sha: input.sha
+      }),
+      {
+        maxAttempts: 3,
+        delayMs: 1000
+      }
+    );
+  }
+}
+
+export const createOrUpdateFileTool = new CreateOrUpdateFileTool();
+
+/**
+ * @doc-code-tool
+ * @prompt CREATE_ISSUE_DOC_CODE_TOOL_PROMPT
+ */
+class CreateIssueTool extends Tool<any> {
+  name = 'vcs_create_issue';
+  description = 'Create an issue through unified VCS interface';
+  
+  inputSchema = vcsBaseSchema.extend({
+    title: z.string().describe('Issue title'),
+    body: z.string().optional().describe('Issue body'),
+    labels: z.array(z.string()).optional().describe('Issue labels'),
+    assignees: z.array(z.string()).optional().describe('Assignees'),
+    milestone: z.string().optional().describe('Milestone')
+  });
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    if (!vcsProvider.createIssue) {
+      throw new Error(`Issue creation not supported by ${input.provider}`);
+    }
+    
+    return await vcsProvider.createIssue(auth, input.owner, input.repo, {
+      title: input.title,
+      body: input.body,
+      labels: input.labels,
+      assignees: input.assignees,
+      milestone: input.milestone
+    });
+  }
+}
+
+export const createIssueTool = new CreateIssueTool();
+
+/**
+ * @doc-code-tool
+ * @prompt CREATE_COMMENT_DOC_CODE_TOOL_PROMPT
+ */
+class CreateCommentTool extends Tool<any> {
+  name = 'vcs_create_comment';
+  description = 'Create a comment on an issue or pull request through unified VCS interface';
+  
+  inputSchema = vcsBaseSchema.extend({
+    type: z.enum(['issue', 'pr']).describe('Comment target type'),
+    number: z.number().describe('Issue or PR number'),
+    body: z.string().describe('Comment body')
+  });
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    if (input.type === 'issue' && vcsProvider.createIssueComment) {
+      return await vcsProvider.createIssueComment(
+        auth,
+        input.owner,
+        input.repo,
+        input.number,
+        input.body
+      );
+    } else if (input.type === 'pr' && vcsProvider.createPullRequestComment) {
+      return await vcsProvider.createPullRequestComment(
+        auth,
+        input.owner,
+        input.repo,
+        input.number,
+        input.body
+      );
+    }
+    
+    throw new Error(`${input.type} comments not supported by ${input.provider}`);
+  }
+}
+
+export const createCommentTool = new CreateCommentTool();
+
+/**
+ * @doc-code-tool
+ * @prompt LIST_BRANCHES_DOC_CODE_TOOL_PROMPT
+ */
+class ListBranchesTool extends Tool<any> {
+  name = 'vcs_list_branches';
+  description = 'List branches in a repository through unified VCS interface';
+  
+  inputSchema = vcsBaseSchema;
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    return await vcsProvider.listBranches(auth, input.owner, input.repo);
+  }
+}
+
+export const listBranchesTool = new ListBranchesTool();
+
+/**
+ * @doc-code-tool
+ * @prompt GET_FILE_CONTENT_DOC_CODE_TOOL_PROMPT
+ */
+class GetFileContentTool extends Tool<any> {
+  name = 'vcs_get_file_content';
+  description = 'Get file content from a repository through unified VCS interface';
+  
+  inputSchema = vcsBaseSchema.extend({
+    path: z.string().describe('File path'),
+    ref: z.string().optional().describe('Branch, tag, or commit SHA')
+  });
+
+  async use(input: z.infer<typeof this.inputSchema>) {
+    const supabase = createSupabaseServerClient();
+    const connectionManager = new VCSConnections(supabase);
+    
+    const connection = input.connectionId 
+      ? await connectionManager.getConnectionById(input.connectionId)
+      : await connectionManager.getConnection(input.userId!, input.provider);
+    
+    if (!connection) {
+      throw new Error(`No ${input.provider} connection found`);
+    }
+    
+    const auth = await connectionManager.getAuthFromConnection(connection.id);
+    const vcsProvider = await VCSProviderFactory.create({
+      provider: input.provider,
+      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+      instanceUrl: connection.instanceUrl
+    });
+    
+    const file = await vcsProvider.getFileContent(auth, input.owner, input.repo, input.path, input.ref);
+    
+    // Decode base64 content if present
+    if (file.content && file.encoding === 'base64') {
+      file.decodedContent = Buffer.from(file.content, 'base64').toString('utf-8');
+    }
+    
+    return file;
+  }
+}
+
+export const getFileContentTool = new GetFileContentTool();
+
+/**
+ * Export all VCS tools
+ */
+export const vcsTools = [
+  listRepositoriesTool,
+  createPullRequestTool,
+  createOrUpdateFileTool,
+  createIssueTool,
+  createCommentTool,
+  listBranchesTool,
+  getFileContentTool
+];

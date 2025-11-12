@@ -1,0 +1,303 @@
+/* =====================================================================
+ * ENHANCED DOD INPUT - Pattern Recognition & Intelligence Layer
+ * 
+ * Transforms the Definition of Done input into an intelligent, 
+ * pattern-recognizing interface that learns and adapts.
+ * ===================================================================== */
+
+@layer components {
+  /* Enhanced container with mouse tracking */
+  .dod-input {
+    position: relative;
+    
+    /* Intelligence-aware border glow */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 8px;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(103, 254, 183, calc(var(--confidence, 0) * 0.3)) 50%,
+        transparent 100%
+      );
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: xor;
+      -webkit-mask-composite: xor;
+      pointer-events: none;
+      opacity: calc(var(--confidence, 0) * 0.8);
+      transition: opacity 0.5s ease-out;
+    }
+    
+    /* High confidence golden border */
+    &[data-high-confidence="true"]::after {
+      background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(245, 158, 11, 0.4) 30%,
+        rgba(103, 254, 183, 0.3) 70%,
+        transparent 100%
+      );
+    }
+  }
+  
+  /* Textarea enhancements */
+  .dod-input textarea {
+    transition: all 0.3s ease-out;
+    
+    /* Confidence-based text shadow */
+    text-shadow: 0 0 calc(var(--confidence, 0) * 10px) rgba(103, 254, 183, calc(var(--confidence, 0) * 0.3));
+    
+    /* High confidence golden glow */
+    &[data-high-confidence="true"] {
+      text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
+    
+    /* Focus enhancements */
+    &:focus {
+      text-shadow: 0 0 12px rgba(103, 254, 183, 0.4);
+    }
+  }
+  
+  /* Action button intelligence states */
+  .dod-input button {
+    /* Pattern confidence glow */
+    &[data-pattern-confidence="high"] {
+      box-shadow: 
+        0 0 15px rgba(245, 158, 11, 0.6),
+        0 0 30px rgba(245, 158, 11, 0.3);
+      
+      &:hover {
+        box-shadow: 
+          0 0 20px rgba(245, 158, 11, 0.8),
+          0 0 40px rgba(245, 158, 11, 0.4);
+      }
+    }
+    
+    &[data-pattern-confidence="medium"] {
+      box-shadow: 
+        0 0 10px rgba(52, 211, 153, 0.4),
+        0 0 20px rgba(52, 211, 153, 0.2);
+    }
+  }
+  
+  /* Pattern insights panel */
+  .pattern-insights-panel {
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(103, 254, 183, 0.2);
+    
+    /* Slide-up animation */
+    animation: panel-slide-up 0.3s ease-out;
+  }
+  
+  /* Pattern tags */
+  .pattern-tag {
+    transition: all 0.2s ease-out;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+    
+    /* High confidence tags */
+    &.high-confidence {
+      animation: pattern-tag-glow 2s ease-in-out infinite;
+    }
+  }
+  
+  /* Learning insights */
+  .learning-insight {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(52, 211, 153, 0.6) 50%,
+        transparent 100%
+      );
+      opacity: 0.7;
+    }
+  }
+}
+
+/* =====================================================================
+ * PATTERN RECOGNITION ANIMATIONS
+ * ===================================================================== */
+
+@keyframes pattern-celebration {
+  0% {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0) 0%, transparent 70%);
+  }
+  20% {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+  }
+  40% {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+  }
+  60% {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+  }
+  100% {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0) 0%, transparent 70%);
+  }
+}
+
+@keyframes panel-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pattern-tag-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+  }
+}
+
+@keyframes confidence-build {
+  0% {
+    stroke-dashoffset: 125.66;
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Intelligence particles animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.7;
+  }
+  33% {
+    transform: translateY(-3px) translateX(2px);
+    opacity: 1;
+  }
+  66% {
+    transform: translateY(1px) translateX(-1px);
+    opacity: 0.8;
+  }
+}
+
+/* Enhancement loading animation */
+@keyframes enhancement-pulse {
+  0%, 100% {
+    background-color: rgba(52, 211, 153, 0.1);
+    border-color: rgba(52, 211, 153, 0.2);
+  }
+  50% {
+    background-color: rgba(52, 211, 153, 0.2);
+    border-color: rgba(52, 211, 153, 0.4);
+  }
+}
+
+/* Confidence ring animation */
+@keyframes confidence-ring {
+  0% {
+    stroke-dasharray: 0 125.66;
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dasharray: calc(125.66 * var(--confidence, 0)) 125.66;
+    opacity: 1;
+  }
+}
+
+/* Mouse tracking glow */
+@keyframes mouse-glow {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Pattern mastery celebration */
+@keyframes pattern-mastery {
+  0% {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.1) rotate(2deg);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(0.95) rotate(-1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dod-input {
+    /* Reduce effects on mobile */
+    &::after {
+      opacity: calc(var(--confidence, 0) * 0.5);
+    }
+  }
+  
+  .pattern-insights-panel {
+    backdrop-filter: blur(4px);
+  }
+  
+  .pattern-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .dod-input,
+  .pattern-tag,
+  .dod-input button,
+  .dod-input textarea {
+    animation: none;
+    transition: none;
+  }
+  
+  .pattern-insights-panel {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dod-input::after {
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 100%
+    );
+  }
+  
+  .pattern-insights-panel {
+    border-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+}

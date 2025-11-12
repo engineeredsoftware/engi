@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@engi/registry": ["packages/llm-generics/__mocks__/engi-registry"],
+      "@engi/prompts": ["packages/llm-generics/__mocks__/engi-prompts"]
+    }
+  },
+  "include": ["test-stubs.d.ts", "src"]
+}

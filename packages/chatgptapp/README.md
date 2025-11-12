@@ -1,0 +1,131 @@
+# @engi/chatgptapp
+
+Engi’s ChatGPT App MCP package lets product-minded builders ship software without touching a code editor. Inside a single ChatGPT thread, Engi captures your intent, keeps AI design documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps changes with explicit confirmation.
+
+> Docs live alongside the package for consistency. Use this README for positioning + tool catalog, skim `TLDR.md` to get oriented in under a minute, check `TODO.md` for the active backlog, and follow `DEMO.md` to rehearse the Yapper launch video.
+
+## Product framing
+
+- **Audience** – Semi-technical builders (founders, product leads, architects) who can articulate intent but prefer AI to execute.
+- **Promise** – “Design software conversationally, let Engi ship it.” Every artifact lives in `.ai/PRODUCT.md`, `.ai/AGENTS.md`, or committed code, with attribution and history.
+- **Relationship to Codex** – Codex remains the editing IDE for expert engineers. Engi owns the design-first loop, keeps state synchronised, and triggers write operations with explicit confirmation.
+- **AI Documents** – Templates for `.ai/PRODUCT.md` and `.ai/AGENTS.md` ship inside `src/tools.ts`; sessions create and evolve them via the `design_code`, `code_design`, and `improve_developing_behavior` tools.
+
+## Why Engi (landing narrative)
+
+The pre-launch landing page and demo video revolve around three promises:
+
+1. **Design-first control** – Capture every requirement as you talk. Engi turns them into structured updates inside `.ai/PRODUCT.md`, so intent stays visible and portable.
+2. **Explain-before-you-edit** – Before any code changes land, Engi narrates the relevant files, drafts a plan, and shows diff-ready stubs. You steer scope; Engi handles detail.
+3. **Ship with receipts** – GitHub commits, Vercel deploys, and AWS tweaks only happen with confirmation. Every decision is mirrored into `.ai/AGENTS.md` for future sessions.
+
+The headline: *“Design your app in chat. Engi keeps the documents honest, drafts the code, and ships it when you say go.”*
+
+## Local dev workflow
+
+```bash
+# install dependencies (workspace root)
+pnpm install
+
+# start Engi MCP server (logs muted for inspector)
+ENGI_LOG_STDOUT=0 pnpm --silent --filter @engi/chatgptapp start
+
+# optional: hot reload during development
+pnpm --filter @engi/chatgptapp dev
+```
+
+> Environment variables in `.env` / `.env.local` files (repo root or any parent directory) are auto-loaded before tools initialise, so flags like `ENGI_MOCK_EXA=true` take effect without exporting them manually.
+
+## Using the MCP Inspector
+
+1. **Start the server** in one terminal:
+   ```bash
+   ENGI_LOG_STDOUT=0 pnpm --silent --filter @engi/chatgptapp start
+   ```
+2. **Launch the inspector UI** in another terminal:
+   ```bash
+   pnpm exec mcp-inspector
+   ```
+   This prints a session token and opens http://localhost:6274 with the token pre-filled.
+3. If the STDIO panel shows an old command (e.g. `--stdio-command`), clear the inspector’s cached config:
+   - Browser DevTools → `localStorage.clear()` + reload; or use the gear icon → “Clear STDIO configuration”.
+4. Connect via STDIO:
+   - Command: `pnpm`
+   - Arguments: `--silent`, `--filter=@engi/chatgptapp`, `start`
+   - Environment: `ENGI_LOG_STDOUT=0`
+   - Click **Connect** (optionally tick “Remember”).
+
+The `tools/list` call should display the canonical identifiers below (no `engi:` prefix).
+
+## Canonical tools
+
+| Tool | Purpose | Example prompt | Notes |
+| --- | --- | --- | --- |
+| `answer_codebase_query` | Run high-signal repository searches and answer targeted questions. | “Engi, where do we validate Yapper posts before save?” | Returns newline-delimited hits plus structured metadata. |
+| `answer_codeweb_query` | Research external references, examples, or docs. | “Engi, find guidance on building optimistic UI timelines.” | Defaults to Exa search; honours `ENGI_MOCK_EXA`. |
+| `depict_design_asset` | Describe screenshots/diagrams for later recall. | “Engi, narrate this wireframe—focus on onboarding.” | Accepts base64 assets, optional focus and notes. |
+| `design_code` | Update `.ai/PRODUCT.md` from conversational ideas. | “Engi, add a flow for muting noisy Yapper feeds.” | Creates the doc if missing, appends a `### Proposed Updates` block; set `regenerateFromDigest: true` to refresh the baseline via `@engi/digest`. |
+| `code_design` | Translate design updates into actionable implementation steps. | “Engi, draft the edits to implement the mute-feed feature.” | Emits task bullets and patch stubs for targeted files. |
+| `read_code_changes_from_vcs` | Summarise recent GitHub activity for a repo/branch. | “Engi, what shipped on `main` over the last five commits?” | Requires repo-scoped token; outputs author-tagged lines. |
+| `write_code_changes_to_vcs` | Create repositories or push file updates. | “Engi, commit the generated Yapper seed data to `main`.” | Confirmation-gated; leverages Octokit for file writes. |
+| `improve_developing_behavior` | Capture collaboration learnings in `.ai/AGENTS.md`. | “Engi, note that we always reference file paths with line numbers.” | Returns both the delta block and the latest agent doc; set `regenerateFromDigest: true` to refresh via `@engi/digest`. |
+| `use_vercel_read_external_mcp` | Narrate Vercel teams, projects, deployments, or docs. | “Engi, list deployments for Yapper and flag the prod URL.” | Payload: `request` (e.g. `list_deployments`) + `payload` (tool args). |
+| `use_vercel_write_external_mcp` | Demo Vercel mutations (deploy, domains) with believable fixtures. | “Engi, kick off a fresh preview deploy—confirm with me first.” | Returns realistic responses while reminding viewers to use real creds live. |
+| `use_aws_read_external_mcp` | Run AWS health checks (Lambda invoke, S3/Dynamo reads, CloudWatch logs). | “Engi, run the `yap-transcribe` lambda and share the response.” | Payload: `request` (e.g. `lambda.invoke`) + `payload` (CLI-style args). |
+| `use_aws_write_external_mcp` | Apply scoped AWS writes with confirmation (S3 uploads, Dynamo inserts). | “Engi, upload the Yapper demo config to S3—confirm first.” | Emits success fixtures and nudges users to document the impact in PRODUCT.md. |
+
+Refer to `TLDR.md` for a quick-start checklist and `TODO.md` for the active backlog.
+
+## Prompt playbook
+
+**Golden prompts**
+
+1. “Engi, I’d like to create a new application repository for [purpose].”
+2. “Engi, I’d like to update my application’s software to add [feature].”
+3. “Engi, I need to fix a bug—the errors I’m seeing are […].”
+4. “Engi, I want my application to do [expected] but I’m seeing [actual]; what might be causing it?”
+5. “Engi, I need to learn about [component] of the codebase—summarise it for me.”
+6. “Engi, use [third-party DevOps tool] to [action].”
+
+**Indirect prompts**
+
+1. “How is our base Button React component implemented?”
+2. “We’re tracing a regression but can’t find the cause—where should we look?”
+3. “I’m unfamiliar with this code…”
+4. “Let’s build more of our software!”
+5. “I want to build an app.”
+
+**Negative prompts** (decline gracefully)
+
+- “Let’s talk about favorite ice cream flavors.”
+- “What is the weather today?”
+- “Tell me about history, geography, or art.”
+- “I don’t have a codebase and I don’t want to work with software.”
+
+## AI document support
+
+- `design_code` seeds or evolves `.ai/PRODUCT.md` using design-first bullet updates.
+- `code_design` converts those updates into numbered tasks plus patch scaffolds ready for review.
+- `improve_developing_behavior` keeps `.ai/AGENTS.md` aligned with how we prefer to work.
+
+All templates live in `src/tools.ts` so new sessions can bootstrap immediately.
+
+## Demo and script
+
+- See `DEMO.md` for the full Yapper walkthrough (user turn, Engi reasoning summary, tool invocation, and representative output).
+- The script exercises each tool exactly once so the recording captures the full capability surface.
+
+## QA checklist
+
+1. **MCP Inspector**
+   - Start the server: `ENGI_LOG_STDOUT=0 pnpm --silent --filter @engi/chatgptapp start`.
+   - Launch the inspector: `pnpm exec mcp-inspector`.
+   - Clear cached STDIO config if necessary.
+   - Call every tool with sample payloads to validate schema + output shapes.
+2. **ChatGPT (Apps SDK developer mode)**
+   - Install the Engi MCP pointing to the local server.
+   - Follow the `DEMO.md` script verbatim; confirm each tool responds as expected.
+   - Ensure confirmation prompts fire for `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, and `use_aws_write_external_mcp`.
+3. **App metadata review**
+   - Align App Store copy and screenshots with the tool list above.
+   - Verify environment variables (`EXA_API_KEY`, AWS creds, GitHub tokens) before filming.

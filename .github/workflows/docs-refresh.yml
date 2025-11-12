@@ -1,0 +1,38 @@
+name: Docs Refresh Check
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  docs-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Refresh MCP docs and OpenAPI
+        run: npm run docs:refresh
+
+      - name: Fail on uncommitted changes
+        run: |
+          if ! git diff --quiet; then
+            echo "❌ Docs are not up-to-date. Run 'npm run docs:refresh' and commit changes." >&2
+            git status --porcelain
+            exit 1
+          fi
+

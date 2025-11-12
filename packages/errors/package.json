@@ -1,0 +1,21 @@
+{
+  "name": "@engi/errors",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Unified error primitives shared across Engi services.",
+  "main": "src/errors.ts",
+  "types": "src/errors.ts",
+  "exports": {
+    ".": {
+      "require": "./src/errors.ts",
+      "default": "./src/errors.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@engi/sentry": "workspace:*"
+  }
+}

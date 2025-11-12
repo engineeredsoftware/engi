@@ -1,0 +1,1127 @@
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_chunk';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_tools_execution';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_tools_execution';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_tools_execution';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_tools_execution';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_single_object';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_top_level_keys_hint';
+/**
+ * SubStep Executor Factories - PTRR Architecture Implementation
+ * 
+ * CRITICAL ARCHITECTURE:
+ * - Failsafe SubSteps are PARENT executions that orchestrate child executions
+ * - Generation SubSteps are CHILD executions that run WITHIN failsafe parents
+ * - This creates the hierarchy: Step -> Failsafe SubStep -> Generation SubStep
+ * 
+ * The 7 SubSteps per PTRR step:
+ * - 3 Failsafe SubSteps (parents): PrepareConciseContext, ChunkThenSum, StitchUntilComplete
+ * - 3 Generation SubSteps (children): Reason, Judge, StructuredOutput  
+ * - 1 Tool SubStep (conditional based on Generation sequence output)
+ */
+
+import { createContextSelectors, prepareConciseContext } from '@engi/context';
+import { Executor, Execution, sequential, parallel, conditional } from '@engi/execution-generics';
+import { SubStepExecution, AgentExecution, FailsafeExecution, GenerationExecution } from '../execution';
+import { LLMInput } from '@engi/llm-generics';
+import { parseResponse } from '@engi/parsing';
+import { PromptPart } from '@engi/prompts';
+
+// Import generic agent PromptParts directly from their files
+// TODO: why are these imports used but below unused?
+
+
+
+
+
+
+
+// Import PTRR-specific substep PromptParts
+// Import individual PromptParts directly from their files
+// TODO: why are these all unused (i just commented)?
+//
+//
+//
+//
+//
+//
+//
+//// Import Try substep PromptParts directly
+//
+//
+//
+//
+//
+//
+//
+//// Import Refine substep PromptParts directly
+//
+//
+//
+//
+//
+//
+//
+//// Import Retry substep PromptParts directly
+//
+//
+//
+//
+//
+//
+//
+import { z } from 'zod';
+import {
+  FailsafeMetaSubStep,
+  GenerationSubMetaSubStep,
+  PreparedContext,
+  Chunk,
+  Reasoning,
+  UseTool,
+  Judgment,
+  UsedTool
+} from '../types';
+import { logLLMSubstepStart, logLLMSubstepSuccess, logLLMSubstepError, logFailsafeEvent, logToolStart, logToolSuccess, logToolError, shouldDebugStopAfterFirstReason, shouldDebugStopAfterFirstStructuredOutput } from '../diagnostics/instrumentation';
+// JSON-only prompt parts for structured outputs
+
+
+// ==================== SUBSTEP EXECUTION FACTORIES ====================
+
+/**
+ * Factory for Failsafe SubStep Executions
+ */
+export function factoryAgentFailsafeSubStepExecution(
+  name: string,
+  execution: Execution
+): SubStepExecution {
+  return new FailsafeExecution(`failsafe:${name}`, execution);
+}
+
+/**
+ * Factory for Generation SubStep Executions
+ */
+export function factoryAgentGenerationSubStepExecution(
+  name: string,
+  execution: Execution
+): SubStepExecution {
+  return new GenerationExecution(`generation:${name}`, execution);
+}
+
+/**
+ * Factory for Tools SubStep Execution
+ */
+export function factoryAgentToolSubStepExecution(
+  execution: Execution
+): SubStepExecution {
+  return new SubStepExecution('tools:execution', execution);
+}
+
+// ==================== CORE LLM SUBSTEP FACTORY ====================
+
+/**
+ * Creates a SubStep Executor that uses LLM
+ * 
+ * This is the foundation - pure, elegant, reusable.
+ * Each SubStep creates its own execution with its own prompt.
+ */
+function factoryLLMSubStep<TInput, TOutput>(
+  sequence: FailsafeMetaSubStep | GenerationSubMetaSubStep,
+  config: {
+    buildUserPrompt: (input: TInput) => string;
+    parseOutput?: (output: string, input: TInput) => Promise<TOutput>;
+    enrichPrompt?: (execution: SubStepExecution) => void;
+  }
+): Executor<TInput, TOutput> {
+
+  return async (input: TInput, execution: Execution): Promise<TOutput> => {
+    // Ensure we have access to registries from this node or its ancestors
+    const hasRegistries = (() => {
+      try {
+        const llms = (execution as any).llms;
+        const tools = (execution as any).tools;
+        const agents = (execution as any).agents;
+        return !!llms && !!tools && !!agents;
+      } catch { return false; }
+    })();
+    // If registries are not directly on this node, parent chain proxies will resolve them.
+    // Proceed without hard throw to allow Pipeline/Step/SubStep executions with proxy getters.
+
+    // 1. Create SubStep execution with its own prompt registry
+    const isFailsafe = Object.values(FailsafeMetaSubStep).includes(sequence as FailsafeMetaSubStep);
+    const substep = isFailsafe
+      ? factoryAgentFailsafeSubStepExecution(sequence, execution)
+      : factoryAgentGenerationSubStepExecution(sequence, execution);
+
+    // Persist PTRR substep for downstream streaming/traces (generation only)
+    try {
+      if (!isFailsafe) {
+        substep.store('ptrr', 'generation', sequence as any);
+      }
+    } catch {}
+
+    // 2. Get path from execution for prompt path
+    const path = substep.getPath();
+    const promptPath = [...path, 'substep', sequence].join(':');
+
+    // 3. Add sequence-specific prompt
+    if ('prompt' in substep) {
+      substep.prompt.setSpecificExecution(
+        promptPath,
+        getSequencePrompt(sequence)
+      );
+    }
+
+    // 3.5 Apply overlays from execution (AI Documents, OTF, etc.)
+    try {
+      const { applyPromptOverlays } = require('../execution/prompt-overlays');
+      applyPromptOverlays(execution as any, (substep as any).prompt);
+    } catch {}
+
+    // 4. Allow custom prompt enrichment
+    if (config.enrichPrompt) {
+      config.enrichPrompt(substep);
+    }
+
+    // 5. Get LLM from execution's registry
+    const llm = execution.llms.getDefaultLLM();
+    if (!llm) {
+      throw new Error(`No default LLM configured for substep '${sequence}'`);
+    }
+
+    // 6. Build LLM input by accumulating prompts from hierarchy
+    const systemPrompt = buildHierarchicalPrompt(substep);
+    let userPrompt = config.buildUserPrompt(input);
+
+    // Enforce strict JSON output for generation substeps to support parsing
+    // Provide minimal key shape hints per sequence to improve reliability
+    if (sequence === GenerationSubMetaSubStep.REASON) {
+      const shape = (ReasoningSchema as any)?.description || '{ "analysis": string, "steps": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
+      userPrompt = [
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
+        shape,
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
+        '',
+        userPrompt,
+      ].join('\n');
+    } else if (sequence === GenerationSubMetaSubStep.JUDGE) {
+      const shape = (JudgmentSchema as any)?.description || '{ "quality": number (0..1), "issues": string[], "suggestions": string[], "approved": boolean }';
+      userPrompt = [
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
+        shape,
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
+        '',
+        userPrompt,
+      ].join('\n');
+    } else if (sequence === GenerationSubMetaSubStep.STRUCTURED_OUTPUT) {
+      userPrompt = [
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA),
+        '',
+        userPrompt,
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
+      ].join('\n');
+    }
+
+    // Support optional one-shot prompt composition (no system/user separation)
+    const oneShot = process?.env?.ENGI_LLM_ONE_SHOT === '1';
+    const combinedPrompt = `${systemPrompt}\n\n${userPrompt}`;
+    const finalPrompt = oneShot ? combinedPrompt : combinedPrompt; // unified single-string view
+    const llmInput: LLMInput = oneShot
+      ? { messages: [{ role: 'user', content: combinedPrompt }] }
+      : { messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }] };
+
+    // 7. Execute LLM with centralized diagnostics
+    const startTime = Date.now();
+    try {
+      try { logLLMSubstepStart(execution, String(sequence), systemPrompt, userPrompt, finalPrompt, (llmInput as any)?.config); } catch { }
+      const output = await llm(llmInput);
+      try { logLLMSubstepSuccess(execution, String(sequence), output as any, finalPrompt); } catch { }
+
+      // 8. Store execution data
+      substep.store('timing', 'duration', Date.now() - startTime);
+      // Include meta hints on LLM stores for richer streaming executionState
+      let currentFailsafe: any; let phase: any; let agent: any; let step: any;
+      try { currentFailsafe = (substep as any).findUp?.('ptrr', 'failsafe'); } catch { currentFailsafe = undefined; }
+      try { phase = (substep as any).findUp?.('phase', 'current'); } catch { phase = undefined; }
+      try { agent = (substep as any).findUp?.('agent', 'name'); } catch { agent = undefined; }
+      try { step = (substep as any).findUp?.('step', 'name'); } catch { step = undefined; }
+      let provider: any; let model: any;
+      try { provider = (output as any)?.metadata?.provider; } catch { provider = undefined; }
+      try { model = (output as any)?.metadata?.model; } catch { model = undefined; }
+      const currentSub = sequence;
+      substep.store('llm', 'input', Object.assign({}, llmInput as any, { phase, agent, step, failsafe: currentFailsafe, generation: currentSub }));
+      substep.store('llm', 'prompt', finalPrompt);
+      substep.store('llm', 'output', { content: output.content, phase, agent, step, failsafe: currentFailsafe, generation: currentSub, provider, model } as any);
+      try { substep.store('llm', 'stopReason', (output as any)?.metadata?.stopReason); } catch { }
+      substep.store('llm', 'usage', output.usage);
+      try { substep.store('llm', 'provider', (output as any)?.metadata?.provider); } catch { }
+      try { substep.store('llm', 'model', (output as any)?.metadata?.model); } catch { }
+
+      // Optional debug stop (centralized)
+      try {
+        if (shouldDebugStopAfterFirstReason(substep, String(sequence))) {
+          substep.store('debug', 'stop_after_first_reason', true);
+          throw new Error('__ENGI_DEBUG_STOP_AFTER_FIRST_REASON__');
+        }
+      } catch { }
+
+      try {
+        if (shouldDebugStopAfterFirstStructuredOutput(substep, String(sequence))) {
+          substep.store('debug', 'stop_after_first_structured_output', true);
+          throw new Error('__ENGI_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
+        }
+      } catch { }
+
+      // 9. Parse output if parser provided
+      if (config.parseOutput) {
+        return await config.parseOutput(output.content, input);
+      }
+
+      // Default: return content as output
+      return output.content as unknown as TOutput;
+    } catch (err) {
+      try { logLLMSubstepError(execution, String(sequence), err, Date.now() - startTime); } catch { }
+      throw err;
+    }
+  };
+}
+
+// ==================== FAILSAFE SUBSTEPS (PARENT EXECUTIONS) ====================
+
+/**
+ * PrepareConciseContext - Parent execution that prepares context
+ * 
+ * CRITICAL: This is a PARENT execution that:
+ * 1. Finds the greatest-grandparent execution to get full context
+ * 2. Determines if chunking is needed based on token limits
+ * 3. Returns array of prepared contexts if chunking required
+ * 4. Runs generation substeps as children
+ */
+export function factoryPrepareConciseContext<T>(
+  generationSubSteps: Executor<any, any>[]
+): Executor<T, T & { preparedContexts: PreparedContext[] }> {
+  return async (input: T, execution: Execution) => {
+    // Ensure we have access to registries (AgentExecution or compatible)
+    const hasRegistries = (() => {
+      try { return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents; } catch { return false; }
+    })();
+    // Do not hard fail here; Step/SubStep executions proxy registries from AgentExecution/PipelineExecution.
+
+    // Create failsafe parent execution as SubStepExecution for proper registry proxying
+    const failsafeExec = factoryAgentFailsafeSubStepExecution(
+      FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT,
+      execution
+    );
+    // Surface PTRR meta step for downstream streaming and traces
+    try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT as any); } catch {}
+    try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT as any); } catch {}
+    try { logFailsafeEvent(execution, 'prepare-context', { start: true }); } catch {}
+
+    // Find greatest parent (pipeline root) and synthesize a comprehensive
+    // context snapshot from canonical namespaces.
+    const greatestParent = findGreatestParent(execution);
+    const toObject = (m?: Map<string, any>) => {
+      const o: any = {};
+      if (!m) return o;
+      for (const [k, v] of m.entries()) o[k] = v;
+      return o;
+    };
+    const attachments = (greatestParent as any).get?.('attachments', 'list') || [];
+    const instructions = (greatestParent as any).get?.('instructions', 'all') || [];
+    const aiDocuments = (greatestParent as any).get?.('ai_documents', 'list') || [];
+    const pipelineInput = (greatestParent as any).get?.('pipeline', 'input');
+
+    const fullContext = {
+      repository: toObject(greatestParent.getAll('repository')),
+      task: toObject(greatestParent.getAll('task')),
+      source: toObject(greatestParent.getAll('source')),
+      dod: toObject(greatestParent.getAll('dod')),
+      config: toObject(greatestParent.getAll('config')),
+      attachments,
+      instructions,
+      ai_documents: aiDocuments,
+      pipeline: pipelineInput ? { input: pipelineInput } : undefined
+    } as any;
+
+    const selectors = createContextSelectors(
+      [
+        { namespace: 'repository', data: greatestParent.getAll('repository') },
+        { namespace: 'task', data: greatestParent.getAll('task') },
+        { namespace: 'source', data: greatestParent.getAll('source') },
+        { namespace: 'dod', data: greatestParent.getAll('dod') },
+        { namespace: 'config', data: greatestParent.getAll('config') }
+      ],
+      [
+        { namespace: 'attachments', key: 'list', value: attachments },
+        { namespace: 'instructions', key: 'all', value: instructions },
+        { namespace: 'ai_documents', key: 'list', value: aiDocuments },
+        ...(pipelineInput ? [{ namespace: 'pipeline', key: 'input', value: pipelineInput }] : [])
+      ]
+    );
+
+    // Store full context reference
+    // Persist under the reserved failsafe-local 'context' namespace
+    // (context is reserved exclusively for Prepare Concise Context usage)
+    failsafeExec.store('context', 'full', fullContext);
+    failsafeExec.store('context', 'selectors', selectors as any);
+
+    // Run generation substeps as children to analyze context needs
+    let result = input;
+    for (let i = 0; i < generationSubSteps.length; i++) {
+      result = await generationSubSteps[i](result, failsafeExec.child(`gen-${i}`));
+    }
+
+    const tokenLimit = (failsafeExec as any).llms?.getDefaultConfig?.()?.maxTokens || 4000;
+    const concise = prepareConciseContext(fullContext, { tokenLimit });
+    try {
+      logFailsafeEvent(execution, 'prepare-context', {
+        chunked: concise.chunked,
+        chunkCount: concise.chunkCount,
+        tokenLimit,
+        contextSize: concise.contextSize
+      });
+    } catch {}
+
+    return {
+      ...result,
+      preparedContexts: concise.preparedContexts
+    };
+  };
+}
+
+/**
+ * ChunkThenSum - Parent execution that handles large inputs
+ * 
+ * CRITICAL: This is a PARENT execution that:
+ * 1. Checks if input was chunked by PrepareConciseContext
+ * 2. If chunked: runs generation substeps in parallel/sequential per chunk, then sums
+ * 3. If not chunked: runs generation substeps once without chunking prompts
+ * 4. Always engages generation sequence regardless of chunking
+ */
+export function factoryChunkThenSum<T extends { preparedContexts: PreparedContext[] }>(
+  generationSubSteps: Executor<any, any>[],
+  options?: { parallel?: boolean }
+): Executor<T, T & { processedResult: any }> {
+  return async (input: T, execution: Execution) => {
+    // Create failsafe parent execution as SubStepExecution
+    const failsafeExec = factoryAgentFailsafeSubStepExecution(
+      FailsafeMetaSubStep.CHUNK_THEN_SUM,
+      execution
+    );
+    // Surface PTRR meta step for downstream streaming and traces
+    try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.CHUNK_THEN_SUM as any); } catch {}
+    try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.CHUNK_THEN_SUM as any); } catch {}
+
+    const isChunked = input.preparedContexts.length > 1;
+    failsafeExec.store('chunking', 'required', isChunked);
+    try { logFailsafeEvent(execution, 'chunk-then-sum', { start: true, isChunked, contexts: input.preparedContexts.length }); } catch { }
+
+    if (isChunked) {
+      // Process chunks
+      const chunkExecutors = input.preparedContexts.map((context, idx) =>
+        sequential(...generationSubSteps.map(gen =>
+          (chunkInput: any, exec: Execution) => gen(
+            { ...chunkInput, currentContext: context },
+            exec
+          )
+        ))
+      );
+
+      // Run chunks in parallel or sequential
+      const doParallel = options?.parallel ?? true;
+      const chunkResults = doParallel
+        ? await parallel(...chunkExecutors)(input, failsafeExec.child('chunks'))
+        : await sequential(...chunkExecutors)(input, failsafeExec.child('chunks'));
+
+      // Sum the results using generation substeps with summing prompt
+      const sumInput = { ...input, chunkResults };
+      let sumResult = sumInput;
+
+      for (let i = 0; i < generationSubSteps.length; i++) {
+        sumResult = await generationSubSteps[i](
+          sumResult,
+          failsafeExec.child(`sum-gen-${i}`)
+        );
+      }
+
+      try {
+        const { log } = require('@engi/logger');
+        const phase = (execution as any).findUp?.('phase', 'current');
+        const agentName = (execution as any).findUp?.('agent', 'name');
+        const step = (execution as any).findUp?.('step', 'name');
+        const correlationId = (execution as any).findUp?.('pipeline', 'correlationId');
+        try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'chunked', chunkCount: input.preparedContexts.length }); } catch { }
+      } catch { }
+      return { ...sumResult, processedResult: sumResult };
+    } else {
+      // No chunking needed - run generation substeps once
+      let result = input;
+
+      for (let i = 0; i < generationSubSteps.length; i++) {
+        result = await generationSubSteps[i](
+          result,
+          failsafeExec.child(`gen-${i}`)
+        );
+      }
+
+      try {
+        const { log } = require('@engi/logger');
+        const phase = (execution as any).findUp?.('phase', 'current');
+        const agentName = (execution as any).findUp?.('agent', 'name');
+        const step = (execution as any).findUp?.('step', 'name');
+        const correlationId = (execution as any).findUp?.('pipeline', 'correlationId');
+        try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'single' }); } catch { }
+      } catch { }
+      return { ...result, processedResult: result };
+    }
+  };
+}
+
+/**
+ * StitchUntilComplete - Parent execution that handles token limit overflows
+ * 
+ * CRITICAL: This is a PARENT execution that:
+ * 1. Checks if output hit the token limit (output length === max tokens)
+ * 2. If truncated: recursively calls generation substeps to continue/stitch
+ * 3. Continues until complete structured output is achieved
+ * 4. Validates final output matches expected schema
+ */
+export function factoryStitchUntilComplete<T>(
+  generationSubSteps: Executor<any, any>[],
+  outputSchema?: z.ZodType<any>
+): Executor<T, T & { finalOutput: any }> {
+  return async (input: T, execution: Execution) => {
+    // Ensure we have access to registries (AgentExecution or compatible)
+    const hasRegistries = (() => {
+      try { return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents; } catch { return false; }
+    })();
+    // Allow proxy-based registries resolution without hard fail.
+
+    // Create failsafe parent execution as SubStepExecution  
+    const failsafeExec = factoryAgentFailsafeSubStepExecution(
+      FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE,
+      execution
+    );
+    // Surface PTRR meta step for downstream streaming and traces
+    try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE as any); } catch {}
+    try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE as any); } catch {}
+    try { logFailsafeEvent(execution, 'stitch-until-complete', { start: true }); } catch { }
+
+    // Get LLM config to check token limits
+    const llmConfig = (failsafeExec as any).llms?.getDefaultConfig?.();
+    const maxOutputTokens = llmConfig?.maxTokens || 4000;
+
+    let currentResult = input;
+    let stitchCount = 0;
+    const maxStitches = 5; // Prevent infinite loops
+
+    // Check if output appears truncated (measure the structured output if present)
+    const checkTruncation = (candidate: any): boolean => {
+      const toMeasure = (candidate && typeof candidate === 'object' && 'output' in candidate)
+        ? (candidate as any).output
+        : candidate;
+      if (typeof toMeasure === 'string') {
+        return toMeasure.length >= maxOutputTokens * 3; // Rough token→char estimate
+      }
+      const serialized = JSON.stringify(toMeasure);
+      return serialized.length >= maxOutputTokens * 3;
+    };
+
+    while (stitchCount < maxStitches) {
+      // If we already have a schema-valid structured output, stop early
+      if (outputSchema) {
+        try {
+          const candidate = (currentResult && (currentResult as any).output !== undefined)
+            ? (currentResult as any).output
+            : currentResult;
+          outputSchema.parse(candidate);
+          break; // Valid complete output; no stitching required
+        } catch {
+          // Fall through to truncation/stitching logic
+        }
+      }
+
+      // Check if we need to stitch due to apparent truncation/overflow
+      const needsStitching = checkTruncation(currentResult);
+
+      if (!needsStitching) {
+        // Validate if we have complete output
+        if (outputSchema) {
+          try {
+            outputSchema.parse(currentResult);
+            break; // Valid complete output
+          } catch (e) {
+            // Output incomplete, needs stitching
+            failsafeExec.store('validation', 'error', e);
+          }
+        } else {
+          break; // No schema to validate against
+        }
+      }
+
+      // Run generation substeps to continue/stitch
+      stitchCount++;
+      const minimalPartial = (currentResult && (currentResult as any).output !== undefined)
+        ? (currentResult as any).output
+        : currentResult;
+      const stitchInput = {
+        partialOutput: minimalPartial,
+        instruction: 'Continue and complete the previous output'
+      } as any;
+
+      for (let i = 0; i < generationSubSteps.length; i++) {
+        currentResult = await generationSubSteps[i](
+          stitchInput,
+          failsafeExec.child(`stitch-${stitchCount}-gen-${i}`)
+        );
+      }
+    }
+
+    failsafeExec.store('stitching', 'count', stitchCount);
+    try { logFailsafeEvent(execution, 'stitch-until-complete', { complete: true, stitchCount, exceeded: stitchCount >= maxStitches }); } catch { }
+
+    // Check if we exceeded max stitches
+    if (stitchCount >= maxStitches) {
+      const error = new Error(
+        `StitchUntilComplete exceeded maximum stitch attempts (${maxStitches}). ` +
+        `Output may be incomplete or truncated. Consider increasing maxTokens or ` +
+        `breaking the operation into smaller chunks.`
+      );
+      failsafeExec.store('stitching', 'error', error.message);
+
+      // Optionally throw the error or return with a warning
+      // For now, we'll throw to ensure the issue is addressed
+      throw error;
+    }
+
+    return { ...currentResult, finalOutput: (currentResult as any).output ?? currentResult };
+  };
+}
+
+// ==================== GENERATION SUBSTEPS (CHILD EXECUTIONS) ====================
+
+/**
+ * Judge - Generation substep that evaluates quality
+ * CRITICAL: This is a CHILD execution that runs within failsafe parents
+ */
+export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
+  const exec = factoryLLMSubStep(
+    GenerationSubMetaSubStep.JUDGE,
+    {
+      buildUserPrompt: (input) => {
+        // Check if we're in a sum context
+        const isSum = input.chunkResults !== undefined;
+        if (isSum) {
+          return `Judge the quality of these chunked results:\n\n${JSON.stringify(input.chunkResults, null, 2)}`;
+        }
+        return `Evaluate the quality and correctness of:\n\n${JSON.stringify(input, null, 2)}`;
+      },
+
+      parseOutput: async (output, input) => {
+        const judgment = await parseResponse(
+          output,
+          JudgmentSchema,
+          () => ({
+            quality: 0,
+            issues: [],
+            suggestions: [],
+            approved: false
+          })
+        );
+
+        return { ...input, judgment };
+      }
+    }
+  );
+  return Object.assign(exec, { __gen: 'judge' as const });
+}
+
+/**
+ * Reason - Generation substep that applies logical reasoning  
+ * CRITICAL: This is a CHILD execution that runs within failsafe parents
+ */
+export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
+  const exec = factoryLLMSubStep(
+    GenerationSubMetaSubStep.REASON,
+    {
+      buildUserPrompt: (input) => {
+        // Check context to provide appropriate reasoning prompt
+        const isStitch = input.partialOutput !== undefined;
+        const isSum = input.chunkResults !== undefined;
+
+        if (isStitch) {
+          return `Continue reasoning from this partial output:\n\n${JSON.stringify(input.partialOutput, null, 2)}`;
+        }
+        if (isSum) {
+          return `Reason about how to combine these chunk results:\n\n${JSON.stringify(input.chunkResults, null, 2)}`;
+        }
+        return `Apply logical reasoning to solve:\n\n${JSON.stringify(input, null, 2)}`;
+      },
+
+      parseOutput: async (output, input) => {
+        const reasoning = await parseResponse(
+          output,
+          ReasoningSchema,
+          () => ({
+            analysis: 'Failed to reason',
+            steps: [],
+            conclusion: 'No conclusion',
+            confidence: 0
+          })
+        );
+
+        return { ...input, reasoning };
+      }
+    }
+  );
+  return Object.assign(exec, { __gen: 'reason' as const });
+}
+
+/**
+ * StructuredOutput - Generation substep that produces formatted output
+ * CRITICAL: This is a CHILD execution that runs within failsafe parents
+ */
+export function factoryStructuredOutput<T, TSchema>(
+  schema: z.ZodType<TSchema>
+): Executor<T, T & { output: TSchema }> {
+  const exec = factoryLLMSubStep(
+    GenerationSubMetaSubStep.STRUCTURED_OUTPUT,
+    {
+      buildUserPrompt: (input) => {
+        const shape = schema.description || inferSchemaShape(schema);
+        const keys = inferTopLevelKeys(schema);
+        return [
+          String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
+          String(PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA),
+          shape,
+          keys.length ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT)} ${keys.join(', ')}` : '',
+          String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
+          '',
+          'Generate structured output for:',
+          JSON.stringify(input, null, 2),
+        ].filter(Boolean).join('\n');
+      },
+
+      parseOutput: async (output, input) => {
+        const structured = await parseResponse(
+          output,
+          schema,
+          () => buildCoercedBySchema(schema)
+        );
+        return { ...input, output: structured };
+      },
+
+      enrichPrompt: (execution) => {
+        // Add schema information to prompt
+        const path = execution.getPath();
+        const schemaPath = [...path, 'output', 'schema'].join(':');
+        execution.prompt.setSpecificExecution(
+          schemaPath,
+          `Output must match schema: ${schema.description || inferSchemaShape(schema)}` as PromptPart
+        );
+      }
+    }
+  );
+  return Object.assign(exec, { __gen: 'structured_output' as const });
+}
+
+// Infer a minimal shape string from a Zod schema when description is missing
+function inferSchemaShape(s: z.ZodTypeAny): string {
+  try {
+    const def: any = (s as any)._def;
+    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
+      const entries = Object.entries(def.shape as Record<string, z.ZodTypeAny>);
+      const shapeLines = entries.map(([k, v]) => `  "${k}": ${inferField(v)}`);
+      return `{
+${shapeLines.join(',\n')}
+}`;
+    }
+  } catch { }
+  return '{ /* see agent docs for required fields */ }';
+}
+
+function inferField(v: z.ZodTypeAny): string {
+  const t = (v as any)?._def?.typeName;
+  switch (t) {
+    case z.ZodFirstPartyTypeKind.ZodString: return 'string';
+    case z.ZodFirstPartyTypeKind.ZodNumber: return 'number';
+    case z.ZodFirstPartyTypeKind.ZodBoolean: return 'boolean';
+    case z.ZodFirstPartyTypeKind.ZodArray: {
+      const inner = (v as any)?._def?.type;
+      return `[ ${inner ? inferField(inner) : 'any'} ]`;
+    }
+    case z.ZodFirstPartyTypeKind.ZodObject: return '{ ... }';
+    case z.ZodFirstPartyTypeKind.ZodRecord: return '{ [key: string]: any }';
+    case z.ZodFirstPartyTypeKind.ZodEnum: return 'enum';
+    case z.ZodFirstPartyTypeKind.ZodOptional: return `${inferField((v as any)?._def?.innerType)}?`;
+    default: return 'any';
+  }
+}
+
+function inferTopLevelKeys(s: z.ZodTypeAny): string[] {
+  try {
+    const def: any = (s as any)._def;
+    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
+      return Object.keys(def.shape as Record<string, z.ZodTypeAny>);
+    }
+  } catch { }
+  return [];
+}
+
+function buildCoercedBySchema(s: z.ZodTypeAny): any {
+  try {
+    const def: any = (s as any)._def;
+    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
+      const shape = def.shape as Record<string, z.ZodTypeAny>;
+      const out: any = {};
+      for (const [k, v] of Object.entries(shape)) {
+        const t = (v as any)?._def?.typeName;
+        const optional = t === z.ZodFirstPartyTypeKind.ZodOptional;
+        const inner = optional ? (v as any)?._def?.innerType : v;
+        const typeName = (inner as any)?._def?.typeName;
+        if (optional) continue; // skip optional
+        switch (typeName) {
+          case z.ZodFirstPartyTypeKind.ZodString: out[k] = ''; break;
+          case z.ZodFirstPartyTypeKind.ZodNumber: out[k] = 0; break;
+          case z.ZodFirstPartyTypeKind.ZodBoolean: out[k] = false; break;
+          case z.ZodFirstPartyTypeKind.ZodArray: out[k] = []; break;
+          case z.ZodFirstPartyTypeKind.ZodObject: out[k] = buildCoercedBySchema(inner); break;
+          case z.ZodFirstPartyTypeKind.ZodRecord: out[k] = {}; break;
+          case z.ZodFirstPartyTypeKind.ZodEnum: {
+            const values = (inner as any)?._def?.values;
+            out[k] = Array.isArray(values) && values.length ? values[0] : null;
+            break;
+          }
+          default: out[k] = null; break;
+        }
+      }
+      return out;
+    }
+  } catch { }
+  return {};
+}
+
+// ==================== TOOL SUBSTEP ====================
+
+// ==================== TOOL & VALIDATION SUBSTEPS ====================
+
+/**
+ * ToolsExecution - Executes tools selected by reasoning
+ * Part of the 7-substep PTRR architecture (not a numbered substep itself)
+ */
+export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[] } }>():
+  Executor<T, T & { usedTools: UsedTool[] }> {
+
+  return async (input: T, execution: Execution): Promise<T & { usedTools: UsedTool[] }> => {
+    // Ensure we have access to registries (AgentExecution or compatible)
+    const hasRegistries = (() => {
+      try { return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents; } catch { return false; }
+    })();
+    // Allow proxy-based registries resolution without hard fail.
+
+    const substep = factoryAgentToolSubStepExecution(execution);
+
+    // Get tools to use from the structured output (after reasoning + judgment)
+    const useTools = input.output?.useTools;
+
+    if (!useTools?.length) {
+      return { ...input, usedTools: [] };
+    }
+
+    // Execute each selected tool
+    const usedTools: UsedTool[] = [];
+
+    for (const toolToUse of useTools) {
+      // Get tool from execution's registry
+      const tool = execution.tools.getTool(toolToUse.name);
+      // Resolve current PTRR meta/sub context from step-level store
+      let currentFailsafe: any; let phase: any; let agent: any; let step: any;
+      try { currentFailsafe = (substep as any).findUp?.('ptrr', 'failsafe'); } catch { currentFailsafe = undefined; }
+      try { phase = (substep as any).findUp?.('phase', 'current'); } catch { phase = undefined; }
+      try { agent = (substep as any).findUp?.('agent', 'name'); } catch { agent = undefined; }
+      try { step = (substep as any).findUp?.('step', 'name'); } catch { step = undefined; }
+      const currentSub = 'tools_execution';
+
+      // Emit a structured store for invocation (drives streaming executionState)
+      try {
+        substep.store('tools', 'invocation', {
+          tool: toolToUse.name,
+          input: summarize(toolToUse.input),
+          phase,
+          agent,
+          step,
+          failsafe: currentFailsafe,
+          generation: currentSub
+        } as any);
+      } catch {}
+      if (!tool) {
+        try { logToolError(execution, toolToUse.name, new Error(`Tool not found: ${toolToUse.name}`)); } catch { }
+        usedTools.push({
+          tool: toolToUse.name,
+          error: `Tool not found: ${toolToUse.name}`
+        });
+        continue;
+      }
+
+      try {
+        // Execute tool with its bound execution context
+        try { logToolStart(execution, toolToUse.name, summarize(toolToUse.input)); } catch { }
+
+        // Set execution context for gate-aware tools
+        let output: any;
+        try {
+          const { executionContext } = await import('@engi/generic-tools/files-maintaining');
+          output = await executionContext.run(execution, () => tool.execute(toolToUse.input));
+        } catch (importError) {
+          // Fallback if executionContext not available
+          output = await tool.execute(toolToUse.input);
+        }
+
+        try { logToolSuccess(execution, toolToUse.name, summarize(output)); } catch { }
+
+        usedTools.push({
+          tool: toolToUse.name,
+          input: toolToUse.input,
+          output
+        });
+        try {
+          substep.store('tools', 'result', {
+            tool: toolToUse.name,
+            ok: true,
+            output: summarize(output),
+            phase,
+            agent,
+            step,
+            failsafe: currentFailsafe,
+            generation: currentSub
+          } as any);
+        } catch {}
+      } catch (error) {
+        try { logToolError(execution, toolToUse.name, error); } catch { }
+        usedTools.push({
+          tool: toolToUse.name,
+          error: error instanceof Error ? error.message : String(error)
+        });
+        try {
+          substep.store('tools', 'result', {
+            tool: toolToUse.name,
+            ok: false,
+            error: error instanceof Error ? error.message : String(error),
+            phase,
+            agent,
+            step,
+            failsafe: currentFailsafe,
+            generation: currentSub
+          } as any);
+        } catch {}
+      }
+    }
+
+    return { ...input, usedTools };
+  };
+}
+
+function summarize(v: any): any {
+  try {
+    if (v == null) return v;
+    if (typeof v === 'string') return v.length > 200 ? v.slice(0, 200) + '…' : v;
+    if (Array.isArray(v)) return { type: 'array', length: v.length };
+    if (typeof v === 'object') return { type: 'object', keys: Object.keys(v).slice(0, 10) };
+    return v;
+  } catch { return '[unserializable]'; }
+}
+
+/**
+ * Validation - Validates output against expectations  
+ * NOT part of core 7-substep sequence - removed in correct architecture
+ * @deprecated Use schema validation within StructuredOutput instead
+ */
+export function factoryValidation<T>(
+  validators?: Array<(input: T) => boolean | Promise<boolean>>
+): Executor<T, T & { validation: { passed: boolean; errors: string[] } }> {
+  return async (input: T, execution: Execution) => {
+    const substep = execution.child('validation');
+    const errors: string[] = [];
+
+    if (!validators || validators.length === 0) {
+      return {
+        ...input,
+        validation: { passed: true, errors: [] }
+      };
+    }
+
+    for (let i = 0; i < validators.length; i++) {
+      try {
+        const isValid = await validators[i](input);
+        if (!isValid) {
+          errors.push(`Validator ${i} failed`);
+        }
+      } catch (e) {
+        errors.push(`Validator ${i} error: ${e}`);
+      }
+    }
+
+    const validation = {
+      passed: errors.length === 0,
+      errors
+    };
+
+    substep.store('validation', 'result', validation);
+
+    return { ...input, validation };
+  };
+}
+
+// ==================== HELPER FUNCTIONS ====================
+
+/**
+ * Find the greatest parent (root) execution in the tree
+ * Used by PrepareConciseContext to get full pipeline context
+ */
+function findGreatestParent(execution: Execution): Execution {
+  let current = execution;
+  while (current.parent) {
+    current = current.parent;
+  }
+  return current;
+}
+
+// ==================== SCHEMAS ====================
+
+// PreparedContext is now a Partial of execution state
+// Schema validates the partial fields we expect
+// TODO: these are unused? defined elsewhere and this is legacy or missing impl?
+const PreparedContextSchema = z.object({
+  files: z.array(z.string()).optional(),
+  dependencies: z.array(z.string()).optional(),
+  constraints: z.array(z.string()).optional(),
+  context: z.record(z.any()).optional(),
+  metadata: z.record(z.any()).optional()
+}).partial();
+
+// TODO: these are unused? defined elsewhere and this is legacy or missing impl?
+const ChunkedContentSchema = z.object({
+  chunks: z.array(z.object({
+    id: z.string(),
+    content: z.string(),
+    dependencies: z.array(z.string())
+  }))
+});
+
+// TODO: ReasoningFailsafeOutputSchema or ReasoningFailsafeInputSchema better namign
+const ReasoningSchema = z.object({
+  analysis: z.string(),
+  steps: z.array(z.string()),
+  conclusion: z.string(),
+  confidence: z.number().min(0).max(1),
+  useTools: z.array(z.object({
+    tool: z.any(), // Tool reference - validated at runtime
+    name: z.string(),
+    input: z.any(),
+    reason: z.string()
+  })).optional()
+}).describe('{ "analysis": string, "steps": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }');
+
+const JudgmentSchema = z.object({
+  quality: z.number().min(0).max(1),
+  issues: z.array(z.string()),
+  suggestions: z.array(z.string()),
+  approved: z.boolean()
+}).describe('{ "quality": number (0..1), "issues": string[], "suggestions": string[], "approved": boolean }');
+
+// ==================== TYPES ====================
+
+// Types are imported from ../types.ts
+
+// ==================== HELPERS ====================
+
+/**
+ * Build hierarchical prompt by accumulating from execution tree
+ * 
+ * Walks up the execution tree and accumulates prompts in order:
+ * 1. Agent prompt (from variation/agent level)
+ * 2. Step prompt (Plan/Try/Refine/Retry)
+ * 3. Failsafe prompt (PrepareConciseContext/ChunkThenSum/StitchUntilComplete)  
+ * 4. Generation prompt (Reason/Judge/StructuredOutput)
+ *
+   * TODO: naming build Hierachacl sub step prompt? too vague
+ */
+function buildHierarchicalPrompt(execution: Execution): string {
+  const prompts: string[] = [];
+
+  // Walk up tree collecting prompts
+  let current: Execution | undefined = execution;
+  const executions: Execution[] = [];
+
+  while (current) {
+    executions.unshift(current); // Add to front to get root->leaf order
+    current = current.parent;
+  }
+
+  // Format each execution's prompt and accumulate
+  for (const exec of executions) {
+    // Check if this execution has a prompt registry
+    if ('prompt' in exec && exec.prompt) {
+      const formatted = exec.prompt.format();
+      if (formatted && formatted.trim()) {
+        prompts.push(formatted);
+      }
+    } else if ('prompts' in exec && exec.prompts && exec instanceof AgentExecution) {
+      // For AgentExecution, check the prompts registry
+      const agentPrompt = exec.prompts.get('system');
+      if (agentPrompt) {
+        prompts.push(agentPrompt);
+      }
+    }
+  }
+
+  // Join all prompts with clear separation
+  return prompts.join('\n\n---\n\n');
+}
+
+function getSequencePrompt(sequence: FailsafeMetaSubStep | GenerationSubMetaSubStep): PromptPart {
+  const prompts: Record<string, PromptPart> = {
+    // FailsafeMetaSubSteps - handling context/input/output concerns
+    [FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT]: PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,
+    [FailsafeMetaSubStep.CHUNK_THEN_SUM]: PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK, // TODO: Create combined prompt
+    [FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE]: PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH,
+    // GenerationSubMetaSubSteps - the intelligence sequence
+    // Order here mirrors execution: REASON → JUDGE → STRUCTURED_OUTPUT
+    [GenerationSubMetaSubStep.REASON]: PROMPTPART_GENERIC_AGENT_GENERATION_REASON,
+    [GenerationSubMetaSubStep.JUDGE]: PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,
+    [GenerationSubMetaSubStep.STRUCTURED_OUTPUT]: PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT
+  };
+
+  return prompts[sequence] || `Execute ${sequence} operation` as PromptPart;
+}

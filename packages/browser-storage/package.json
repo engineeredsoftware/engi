@@ -1,0 +1,19 @@
+{
+  "name": "@engi/browser-storage",
+  "version": "1.0.0",
+  "description": "Core browser storage utilities with versioning, migration, and multi-tab synchronization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "typescript": "^5.0.0"
+  }
+}

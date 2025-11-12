@@ -1,0 +1,53 @@
+name: Long-Runner Image
+
+on:
+  push:
+    paths:
+      - "uapi/**"
+      - "Dockerfile.long-runner"
+      - ".github/workflows/long-runner-ci.yml"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # For OIDC auth to cloud registry (e.g. AWS ECR)
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Optionally configure AWS credentials – replace with GCP/Azure/Fly
+      - name: Configure AWS credentials
+        if: env.AWS_ROLE_TO_ASSUME != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        if: env.AWS_ROLE_TO_ASSUME != ''
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Runner
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.long-runner
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ secrets.ECR_REPOSITORY }}:latest
+
+      - name: Build and Push Worker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.long-runner-worker
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ secrets.ECR_REPOSITORY }}:worker

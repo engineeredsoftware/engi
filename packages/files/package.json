@@ -1,0 +1,25 @@
+{
+  "name": "@engi/files",
+  "version": "0.1.0",
+  "private": true,
+  "description": "File helpers (JS stub build).",
+  "main": "src/files.ts",
+  "types": "src/files.ts",
+  "exports": {
+    ".": {
+      "require": "./src/files.ts",
+      "default": "./src/files.ts"
+    },
+    "./src/files": {
+      "require": "./src/files.ts",
+      "default": "./src/files.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@engi/logger": "workspace:*"
+  }
+}

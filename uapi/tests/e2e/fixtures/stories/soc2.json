@@ -1,0 +1,9 @@
+{
+  "title": "Automate SOC 2 Compliance",
+  "steps": [
+    { "type": "user", "text": "Meet 2024 SOC 2 controls for fintech-api." },
+    { "type": "agent", "text": "Analyzing controls spreadsheet…" },
+    { "type": "run", "kind": "ai_document", "id": "run_soc2_001", "logChunks": ["queued", "injecting encryption", "adding audit logs", "infra tests", "evidence docs", "done ✅"] },
+    { "type": "agent", "text": "Audit binder ready in PR #789." }
+  ]
+}

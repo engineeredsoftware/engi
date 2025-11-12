@@ -1,0 +1,122 @@
+[
+  {
+    "id": "91093cf9-9d76-4c60-8745-c6ef6dcb4824",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": 10000,
+    "balance": 10000,
+    "description": "Initial credit purchase",
+    "created_at": "2023-08-28T10:02:00Z"
+  },
+  {
+    "id": "c04bfbe2-85b6-49c4-8edb-4a756dc53697",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9900,
+    "description": "Credit deduction for deliverable run CB7F1D49-229E-4EC9-B09A-E8C8E1A88607",
+    "created_at": "2023-09-01T09:10:00Z"
+  },
+  {
+    "id": "3d793621-239d-4038-9a23-ec2d1ef3f6c0",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9800,
+    "description": "Credit deduction for deliverable run 4C9ACB24-5AF9-4BAE-B89C-A008B4DB925F",
+    "created_at": "2023-09-01T10:10:00Z"
+  },
+  {
+    "id": "a569b870-7903-4b3a-b321-df7d350bc957",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9700,
+    "description": "Credit deduction for deliverable run 8C28ABF8-E41E-48E6-A3D7-083D76E0913C",
+    "created_at": "2023-09-01T11:10:00Z"
+  },
+  {
+    "id": "e00972c0-e2d7-420a-a5cd-4c78ab3768d6",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9600,
+    "description": "Credit deduction for deliverable run BA3F9692-BBBB-44B5-8F17-23C9E80BA615",
+    "created_at": "2023-09-01T12:10:00Z"
+  },
+  {
+    "id": "4818d16a-d978-424f-8a07-7c6681cd5821",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9500,
+    "description": "Credit deduction for deliverable run A76E3044-7673-4681-9F17-42F243D6F55A",
+    "created_at": "2023-09-01T13:10:00Z"
+  },
+  {
+    "id": "6f9b5ab4-13c4-4b7e-8221-5a5fe7082fcc",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9400,
+    "description": "Credit deduction for deliverable run A39B27DF-67D2-48F9-A468-565D7DCE1133",
+    "created_at": "2023-09-01T14:10:00Z"
+  },
+  {
+    "id": "da030795-7467-49dd-8246-a8be380f4198",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -100,
+    "balance": 9300,
+    "description": "Credit deduction for deliverable run 4A1C8459-39BD-4256-939C-52DA84CFD13C",
+    "created_at": "2023-09-01T15:10:00Z"
+  },
+  {
+    "id": "02d4621c-08f8-4449-bd55-09613335e9de",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 9250,
+    "description": "Credit deduction for AI Document run 57DB3E99-F4EC-4C16-9F72-5E1A0D485DFA",
+    "created_at": "2023-09-02T09:10:00Z"
+  },
+  {
+    "id": "273a8101-eb27-46fc-8c14-120b52e52750",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 9200,
+    "description": "Credit deduction for AI Document run 1AAE8B7C-173C-4FAD-BD01-925C4A8D2859",
+    "created_at": "2023-09-02T10:10:00Z"
+  },
+  {
+    "id": "675c5cc0-6f25-44be-99d8-cb8c6b82920f",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 9150,
+    "description": "Credit deduction for AI Document run 63E64AF9-6238-4233-A0BA-763EFA5D6897",
+    "created_at": "2023-09-02T11:10:00Z"
+  },
+  {
+    "id": "bd4d16a5-be25-40e1-bfb8-8513fc29ac44",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 9100,
+    "description": "Credit deduction for AI Document run 2F950E39-8035-44FF-9E7F-DF287C001651",
+    "created_at": "2023-09-02T12:10:00Z"
+  },
+  {
+    "id": "0b1c8ffe-0707-4131-83de-6aabafef898e",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 9050,
+    "description": "Credit deduction for AI Document run 7C19D5C9-7BC4-4A9A-9742-10BA732B255B",
+    "created_at": "2023-09-02T13:10:00Z"
+  },
+  {
+    "id": "78f98a4e-a263-4eae-bdbd-39badabe61f7",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 9000,
+    "description": "Credit deduction for AI Document run E6B9AD30-1052-4142-9D21-35D3CB64A8F8",
+    "created_at": "2023-09-02T14:10:00Z"
+  },
+  {
+    "id": "dcf3a64e-57a1-4510-899a-352a99aad625",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "change": -50,
+    "balance": 8950,
+    "description": "Credit deduction for AI Document run 8F24C973-8BDC-42C2-A86F-AB94F0B3E382",
+    "created_at": "2023-09-02T15:10:00Z"
+  }
+]

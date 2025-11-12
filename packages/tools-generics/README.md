@@ -1,0 +1,110 @@
+# @engi/tools-generics
+
+The foundational tool primitives for Engi. This package provides the `Tool` class and related infrastructure for building type-safe, doc-aware tools.
+
+## Overview
+
+Tools in Engi are type-safe wrappers around functions that:
+- Provide structured documentation via `@doc-code-tool`
+- Enable automatic invocation tracking
+- Support MCP (Model Context Protocol) integration
+- Maintain zero runtime overhead
+
+## Core API
+
+### Tool Class
+
+```typescript
+export abstract class Tool<T extends ToolFunction = ToolFunction> {
+  abstract use: T;
+  
+  // Runtime execution
+  async execute(...args: Parameters<T>): Promise<Awaited<ReturnType<T>>> {
+    return this.use(...args);
+  }
+}
+```
+
+### Creating a Tool
+
+```typescript
+import { Tool } from '@engi/tools-generics';
+import { z } from 'zod';
+
+// Define the tool function
+async function searchCode(query: string, options?: { limit?: number }) {
+  // Implementation
+  return results;
+}
+
+// Create the Tool class
+export class SearchCodeTool extends Tool<typeof searchCode> {
+  use = searchCode;
+}
+```
+
+## Doc-Code Integration
+
+Tools use `@doc-code-tool` comments that ARE prompts:
+
+```typescript
+/**
+ * @doc-code-tool
+ * @purpose Search through codebase for patterns
+ * @capabilities AST-aware search, regex support, file filtering
+ * @parameters query: search pattern, options: search configuration
+ * @output Array of matched locations with context
+ */
+export class SearchCodeTool extends Tool<typeof searchCode> {
+  use = searchCode;
+}
+```
+
+The doc-code-tool plugin processes these comments at build time to generate tool documentation and integrate with the prompt system.
+
+## MCP Integration
+
+The package provides MCP (Model Context Protocol) wrappers for external tools:
+
+```typescript
+import { wrapMCPTool } from '@engi/tools-generics';
+
+const mcpTool = wrapMCPTool({
+  name: 'github-create-pr',
+  description: 'Create a pull request',
+  inputSchema: { /* zod schema */ },
+  handler: async (params) => { /* implementation */ }
+});
+```
+
+## Best Practices
+
+1. **Always extend Tool class** - Never use raw functions
+2. **Include @doc-code-tool** - Documentation IS the prompt
+3. **Type-safe parameters** - Use zod schemas for validation
+4. **Pure functions** - Tools should be stateless
+5. **Error handling** - Return structured errors, don't throw
+
+## Directory Structure
+
+```
+/src/
+├── Tool.ts           # Core Tool class
+├── types.ts          # Type definitions
+├── mcp/              # MCP integration
+│   └── MCPToolWrapper.ts
+└── doc-code-tool/    # Doc-code prompt + formatter infrastructure
+    ├── DocCodeToolPrompt.ts
+    ├── DocCodeToolDecorator.ts
+    └── formatUsableTools.ts
+```
+
+## Philosophy
+
+Tools are the interface between AI systems and concrete capabilities. By maintaining type safety and structured documentation, we enable:
+- Automatic tool discovery
+- Automated tool selection
+- Safe tool composition
+- Performance tracking
+
+Every tool in Engi follows these patterns for consistency and reliability.

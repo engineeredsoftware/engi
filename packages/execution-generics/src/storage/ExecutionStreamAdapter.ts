@@ -1,0 +1,280 @@
+/**
+ * EXECUTION STREAM ADAPTER - Bridge between execution storage and streaming
+ * 
+ * Hooks into the execution storage flow to emit stream events
+ * when executions store data. This enables real-time streaming
+ * of pipeline execution progress.
+ */
+
+import { Streamer } from '@engi/streams';
+import { ExecutionStorageDestination } from './StorageDestination';
+
+/**
+ * Stream event types emitted during execution
+ */
+export enum ExecutionStreamEventType {
+  PHASE_START = 'phase-start',
+  PHASE_COMPLETE = 'phase-complete',
+  AGENT_START = 'agent-start',
+  AGENT_COMPLETE = 'agent-complete',
+  TOOL_USE = 'tool-use',
+  GENERATION = 'generation',
+  THINKING = 'thinking',
+  ERROR = 'error',
+  COMPLETION = 'completion',
+  STATUS = 'status',
+  WORK_UPDATE = 'work-update',
+}
+
+/**
+ * Stream adapter configuration
+ */
+export interface ExecutionStreamConfig {
+  streamer?: Streamer;
+  emitToDatabase?: boolean;
+  runId?: string;
+  userId?: string;
+}
+
+/**
+ * Adapter for streaming execution events
+ */
+export class ExecutionStreamAdapter {
+  private static streamers = new Map<string, Streamer>();
+
+  /**
+   * Register a streamer for an execution
+   */
+  static registerStreamer(
+    executionId: string,
+    streamer: Streamer
+  ): void {
+    this.streamers.set(executionId, streamer);
+  }
+
+  /**
+   * Unregister a streamer
+   */
+  static unregisterStreamer(executionId: string): void {
+    this.streamers.delete(executionId);
+  }
+
+  /**
+   * Hook called when execution stores data
+   * Emits appropriate stream events based on the storage namespace and key
+   */
+  static async onStore(
+    executionId: string,
+    namespace: string,
+    key: string,
+    value: any,
+    destinations: ExecutionStorageDestination[],
+    nodeInfo?: { nodeId: string; rootId: string; path: string[] }
+  ): Promise<void> {
+    const streamer = this.streamers.get(executionId);
+    if (!streamer) return;
+
+    // Determine event type based on namespace/key patterns
+    const eventType = this.inferEventType(namespace, key, value);
+    if (!eventType) return;
+
+    // Best-effort metadata enrichment for UI (attach step stores when present)
+    const metadata: Record<string, any> = {};
+    try {
+      const stores: any = {};
+      if (value && typeof value === 'object') {
+        if (Array.isArray((value as any).usableTools)) {
+          stores.tools = stores.tools || {};
+          stores.tools.usable = (value as any).usableTools;
+        }
+        if (Array.isArray((value as any).useTools)) {
+          stores.tools = stores.tools || {};
+          stores.tools.use = (value as any).useTools;
+        }
+        if (Array.isArray((value as any).usedTools)) {
+          stores.tools = stores.tools || {};
+          stores.tools.used = (value as any).usedTools;
+        }
+        // Attach single tool invocation/result events as arrays if applicable
+        if (namespace === 'tools' && key === 'invocation') {
+          stores.toolEvents = stores.toolEvents || {};
+          stores.toolEvents.invocation = [this.sanitizeData(value)];
+        }
+        if (namespace === 'tools' && key === 'result') {
+          stores.toolEvents = stores.toolEvents || {};
+          stores.toolEvents.result = [this.sanitizeData(value)];
+        }
+        // Attach generation output snapshots keyed by failsafe/generation
+        if (namespace === 'llm') {
+          const es = this.extractExecutionState(value);
+          const fs = es.failsafe;
+          const gn = es.generation;
+          if (fs && gn) {
+            stores.generations = stores.generations || {};
+            stores.generations[fs] = stores.generations[fs] || {};
+            (stores.generations[fs] as any)[gn] = { llm: key === 'output' ? { output: this.sanitizeData(value) } : { input: this.sanitizeData(value) } };
+          }
+        }
+      }
+      if (Object.keys(stores).length > 0) metadata.stores = stores;
+    } catch {}
+
+    // Build stream message
+    const message = {
+      type: eventType,
+      executionId,
+      executionNodeId: nodeInfo?.nodeId || executionId,
+      executionRootId: nodeInfo?.rootId || executionId,
+      executionPath: nodeInfo?.path || [],
+      namespace,
+      key,
+      timestamp: new Date().toISOString(),
+      executionState: this.extractExecutionState(value),
+      message: this.extractMessage(value),
+      data: this.sanitizeData(value),
+      metadata,
+    };
+
+    if (eventType === ExecutionStreamEventType.WORK_UPDATE) {
+      (message as any).update = message.data;
+      (message as any).scope = key;
+    }
+
+    // Emit to stream
+    await streamer.emit(message);
+  }
+
+  /**
+   * Infer stream event type from storage patterns
+   */
+  private static inferEventType(
+    namespace: string,
+    key: string,
+    value: any
+  ): ExecutionStreamEventType | null {
+    // Phase transitions
+    if (namespace === 'phase' && key === 'start') {
+      return ExecutionStreamEventType.PHASE_START;
+    }
+    if (namespace === 'phase' && key === 'complete') {
+      return ExecutionStreamEventType.PHASE_COMPLETE;
+    }
+
+    // Agent activity
+    if (namespace.startsWith('agent:')) {
+      if (key === 'start') return ExecutionStreamEventType.AGENT_START;
+      if (key === 'complete') return ExecutionStreamEventType.AGENT_COMPLETE;
+    }
+
+    // Tool usage: prefer 'result' as primary event; treat 'invocation' as status
+    if (namespace === 'tools') {
+      if (key === 'result') return ExecutionStreamEventType.TOOL_USE;
+      if (key === 'invocation') return ExecutionStreamEventType.STATUS;
+      return ExecutionStreamEventType.STATUS;
+    }
+
+    // Work updates
+    if (namespace === 'work-update') {
+      return ExecutionStreamEventType.WORK_UPDATE;
+    }
+
+    // Generation (LLM calls): prefer 'output' as primary event; treat 'input'/'prompt' as status
+    if (namespace === 'llm') {
+      if (key === 'output') return ExecutionStreamEventType.GENERATION;
+      return ExecutionStreamEventType.STATUS;
+    }
+
+    // Thinking/reasoning
+    if (namespace === 'thinking' || key.includes('reason')) {
+      return ExecutionStreamEventType.THINKING;
+    }
+
+    // Errors
+    if (namespace === 'error' || key === 'error') {
+      return ExecutionStreamEventType.ERROR;
+    }
+
+    // Completion
+    if (namespace === 'final' || key === 'completion') {
+      return ExecutionStreamEventType.COMPLETION;
+    }
+
+    // Default to status
+    return ExecutionStreamEventType.STATUS;
+  }
+
+  /**
+   * Extract execution state from stored value
+   */
+  private static extractExecutionState(value: any): any {
+    if (!value || typeof value !== 'object') return {};
+
+    return {
+      phase: value.phase || value.currentPhase,
+      agent: value.agent || value.currentAgent,
+      step: value.step || value.currentStep,
+      failsafe: value.failsafe || value.currentFailsafe,
+      generation: value.generation || value.currentGeneration,
+    };
+  }
+
+  /**
+   * Extract human-readable message from stored value
+   */
+  private static extractMessage(value: any): string {
+    if (typeof value === 'string') return value;
+    if (!value || typeof value !== 'object') return '';
+
+    // Look for common message fields
+    return value.message || 
+           value.description || 
+           value.status?.message ||
+           value.text ||
+           value.output ||
+           '';
+  }
+
+  /**
+   * Sanitize data for streaming (remove sensitive/large content)
+   */
+  private static sanitizeData(value: any): any {
+    if (!value || typeof value !== 'object') return value;
+
+    // Create shallow copy
+    const sanitized = { ...value };
+
+    // Remove large fields
+    delete sanitized.fullContent;
+    delete sanitized.rawData;
+    delete sanitized.tokens;
+    delete sanitized.embeddings;
+
+    // Truncate long strings
+    for (const key in sanitized) {
+      if (typeof sanitized[key] === 'string' && sanitized[key].length > 1000) {
+        sanitized[key] = sanitized[key].substring(0, 1000) + '...';
+      }
+    }
+
+    return sanitized;
+  }
+
+  /**
+   * Emit a custom event directly
+   */
+  static async emitEvent(
+    executionId: string,
+    type: ExecutionStreamEventType,
+    data: any
+  ): Promise<void> {
+    const streamer = this.streamers.get(executionId);
+    if (!streamer) return;
+
+    await streamer.emit({
+      type,
+      executionId,
+      timestamp: new Date().toISOString(),
+      ...data,
+    });
+  }
+} 

@@ -1,0 +1,22 @@
+# Use Node.js LTS
+FROM node:20-slim
+
+# Create app directory
+WORKDIR /app
+
+# Install dependencies first (for better caching)
+COPY package*.json ./
+RUN npm ci
+
+# Copy source
+COPY . .
+
+# Build test environment
+RUN npm run build
+
+# Set test environment
+ENV NODE_ENV=test
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Default test command
+CMD ["npm", "test"]

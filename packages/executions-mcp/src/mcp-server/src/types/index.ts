@@ -1,0 +1,307 @@
+/**
+ * Engi MCP Server Type System
+ * 
+ * Comprehensive type definitions for the Model Context Protocol server
+ * that exposes Engi's engineering intelligence platform.
+ */
+
+import { z } from 'zod';
+import type { 
+  EngiPhase,
+  PipelineSubType,
+  DeliverablesSubType
+} from '@engi/pipelines-generics';
+
+// Supported pipeline names exposed via MCP (align with supported pipelines only)
+export const PipelineNameValues = ['deliverable'] as const;
+export type PipelineName = typeof PipelineNameValues[number];
+
+// ============================================================================
+// Core MCP Server Types
+// ============================================================================
+
+/**
+ * Authentication context for MCP requests
+ */
+export interface MCPAuthContext {
+  userId: string;
+  organizationId?: string;
+  organizationRole?: 'viewer' | 'member' | 'admin' | 'owner';
+  permissions: {
+    pipelines: {
+      create: boolean;
+      read: boolean;
+      cancel: boolean;
+      retry: boolean;
+    };
+    organization: {
+      manageMembers: boolean;
+      viewAnalytics: boolean;
+      manageCredits: boolean;
+    };
+    resources: {
+      read: boolean;
+      export: boolean;
+    };
+  };
+  email?: string;
+  fullName?: string;
+  apiKeyId?: string;
+  apiKeyName?: string;
+  scopes?: string[];
+  organizationName?: string;
+  organizationSlug?: string;
+  organizationPermissions?: Record<string, any>;
+  creditBalance: number;
+  mcpCredentials: Record<string, any>;
+}
+
+/**
+ * Repository context for pipeline operations
+ */
+export const RepositoryContextSchema = z.object({
+  owner: z.string().optional().describe('Repository owner (user or organization) - not needed for local repos'),
+  name: z.string().describe('Repository name or local directory name'),
+  branch: z.string().optional().default('main').describe('Git branch to work on'),
+  path: z.string().optional().describe('Local file system path (e.g., /Users/g/Developer/engi/engi)'),
+  connectionId: z.number().optional().describe('GitHub App installation ID'),
+  provider: z.enum(['github', 'gitlab', 'bitbucket', 'local']).optional().default('github')
+    .describe('Repository provider - use "local" for local directories')
+}).refine((data) => {
+  // For local provider, path is required and owner is not needed
+  if (data.provider === 'local') {
+    return !!data.path;
+  }
+  // For remote providers, owner is required
+  return !!data.owner;
+}, {
+  message: "Local repositories require 'path', remote repositories require 'owner'"
+});
+
+export type RepositoryContext = z.infer<typeof RepositoryContextSchema>;
+
+/**
+ * Attachment context for multimodal processing
+ */
+export const AttachmentSchema = z.object({
+  type: z.enum(['image', 'document', 'audio', 'video', 'url', 'figma', 'file'])
+    .describe('Type of attachment for specialized processing'),
+  content: z.string().describe('Attachment content (URL, file path, or encoded data)'),
+  metadata: z.record(z.any()).optional().describe('Additional metadata for processing')
+});
+
+export type Attachment = z.infer<typeof AttachmentSchema>;
+
+/**
+ * Pipeline execution status
+ */
+export enum PipelineStatus {
+  PENDING = 'pending',
+  RUNNING = 'running', 
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+  CANCELLED = 'cancelled'
+}
+
+/**
+ * Pipeline execution result
+ */
+export interface PipelineExecutionResult {
+  pipelineId: string;
+  status: PipelineStatus;
+  pipeline: PipelineName;
+  subtype?: PipelineSubType;
+  task: string;
+  repository: RepositoryContext;
+  
+  // Execution metadata
+  startTime: string;
+  endTime?: string;
+  duration?: number;
+  
+  // Results and outputs
+  results?: any;
+  deliverables?: Array<{
+    type: string;
+    url?: string;
+    content?: string;
+    metadata?: any;
+  }>;
+  
+  // Performance metrics
+  metrics: {
+    creditsUsed: number;
+    tokensProcessed: number;
+    confidence: number;
+    phases: Record<EngiPhase, {
+      duration: number;
+      success: boolean;
+      confidence: number;
+    }>;
+  };
+  
+  // Error information
+  error?: {
+    message: string;
+    phase?: EngiPhase;
+    agent?: string;
+    step?: string;
+    recovery?: boolean;
+  };
+  
+  // Streaming support
+  streamUrl?: string;
+}
+
+/**
+ * Real-time pipeline event for streaming
+ */
+export interface PipelineStreamEvent {
+  type: 'phase' | 'agent' | 'step' | 'tool' | 'completion' | 'error';
+  timestamp: string;
+  pipelineId: string;
+  
+  // Context information
+  phase?: EngiPhase;
+  agent?: string;
+  step?: string;
+  tool?: string;
+  
+  // Event data
+  data: {
+    progress: number;        // 0-100
+    message: string;
+    metadata?: any;
+    tokensUsed?: number;
+    confidence?: number;
+    error?: {
+      message: string;
+      recoverable: boolean;
+    };
+  };
+}
+
+// ============================================================================
+// MCP Tool Schemas
+// ============================================================================
+
+/**
+ * Base schema for all pipeline creation tools
+ */
+export const BasePipelineToolSchema = z.object({
+  task: z.string().min(10).describe('Detailed task description (minimum 10 characters)'),
+  repository: RepositoryContextSchema,
+  attachments: z.array(AttachmentSchema).optional().default([])
+    .describe('Optional attachments for multimodal processing'),
+  mcpConfig: z.record(z.any()).optional().default({})
+    .describe('MCP provider configuration for external integrations'),
+  streaming: z.boolean().optional().default(true)
+    .describe('Enable real-time streaming of pipeline execution'),
+  organizationId: z.string().optional().describe('Organization context for team operations'),
+  modelPreferences: z.object({
+    model: z.string().optional(),
+    temperature: z.number().min(0).max(2).optional(),
+    maxTokens: z.number().positive().optional()
+  }).optional().describe('AI model preferences for pipeline execution')
+});
+
+/**
+ * Deliverable pipeline tool schema with subtype specialization
+ */
+export const DeliverablePipelineToolSchema = BasePipelineToolSchema.extend({
+  subtype: z.enum([
+    'pull_request', 'pr_review', 'issue', 'comment', 'blog_post', 
+    'diagram', 'api_spec', 'frontend_scaffolder', 'scope_analysis',
+    'implementation_plan', 'refactor_proposal'
+  ] as const).describe('Specific deliverable type to create'),
+  
+  // Deliverable-specific options
+  options: z.object({
+    createPR: z.boolean().optional().default(true).describe('Create GitHub pull request'),
+    runTests: z.boolean().optional().default(true).describe('Run automated tests'),
+    generateDocs: z.boolean().optional().default(true).describe('Generate documentation'),
+    securityCheck: z.boolean().optional().default(true).describe('Run security analysis')
+  }).optional().default({})
+});
+
+// (AI Document pipeline tool schema omitted; only Deliverable is exposed via MCP)
+
+// (Measure pipeline tool schemas are not exposed via MCP)
+
+// ============================================================================
+// MCP Resource Schemas  
+// ============================================================================
+
+/**
+ * Pipeline history filter schema
+ */
+export const PipelineHistoryFilterSchema = z.object({
+  pipeline: z.enum(PipelineNameValues).optional().describe('Filter by pipeline type'),
+  subtype: z.string().optional().describe('Filter by pipeline subtype'),
+  status: z.nativeEnum(PipelineStatus).optional().describe('Filter by execution status'),
+  dateRange: z.object({
+    start: z.string().datetime(),
+    end: z.string().datetime()
+  }).optional().describe('Filter by date range'),
+  repository: z.object({
+    owner: z.string(),
+    name: z.string()
+  }).optional().describe('Filter by repository'),
+  tags: z.array(z.string()).optional().describe('Filter by custom tags'),
+  userId: z.string().optional().describe('Filter by user (admin only)'),
+  organizationId: z.string().optional().describe('Filter by organization')
+});
+
+/**
+ * Intelligence synthesis configuration schema
+ */
+export const IntelligenceSynthesisConfigSchema = z.object({
+  scope: z.enum(['repository', 'team', 'organization', 'all']).default('all')
+    .describe('Scope of intelligence synthesis'),
+  timeframe: z.enum(['7d', '30d', '90d', 'all']).default('30d')
+    .describe('Time range for analysis'),
+  includeMetrics: z.boolean().default(true).describe('Include quantitative metrics'),
+  includeRecommendations: z.boolean().default(true).describe('Include AI recommendations'),
+  includeTrends: z.boolean().default(true).describe('Include trend analysis'),
+  outputFormat: z.enum(['json', 'markdown', 'html']).default('json')
+    .describe('Output format for synthesis')
+});
+
+// ============================================================================
+// MCP Prompt Template Types
+// ============================================================================
+
+/**
+ * Prompt template configuration
+ */
+export interface PromptTemplate {
+  name: string;
+  description: string;
+  category: 'development' | 'analysis' | 'planning' | 'review' | 'documentation';
+  parameters: Record<string, {
+    type: 'string' | 'number' | 'boolean' | 'array' | 'object';
+    description: string;
+    required?: boolean;
+    default?: any;
+  }>;
+  messages: Array<{
+    role: 'system' | 'user' | 'assistant';
+    content: string | ((params: Record<string, any>) => string);
+  }>;
+  tools?: string[];
+  examples?: Array<{
+    name: string;
+    description: string;
+    parameters: Record<string, any>;
+  }>;
+}
+
+// ============================================================================
+// Export Types
+// ============================================================================
+
+export type {
+  EngiPhase,
+  PipelineSubType,
+  DeliverablesSubType
+} from '@engi/pipelines-generics';

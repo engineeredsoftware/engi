@@ -1,0 +1,46 @@
+[
+  {
+    "id": "a1e2b3c4-d5f6-7890-1234-56789abcdef0",
+    "user_id": "91c2a5cf-44b6-46d2-93a0-07a21d365555",
+    "username": "demo_account",
+    "display_name": "Demo Account",
+    "bio": "This is a demo account for the Sample Project.",
+    "company_name": "ACME Corp",
+    "avatar_url": "https://avatars.githubusercontent.com/u/000000?v=4",
+    "team_members": [
+      {
+        "id": "552a205b-b27f-44f2-8c34-2a4d4dbedd91",
+        "username": "alice",
+        "display_name": "Alice Admin",
+        "role": "admin"
+      },
+      {
+        "id": "aa7ccd20-966d-4a2c-80d9-c0342052cd25",
+        "username": "bob",
+        "display_name": "Bob Builder",
+        "role": "ops"
+      },
+      {
+        "id": "6753078a-a88d-4e40-8153-47f5f11433a9",
+        "username": "carol",
+        "display_name": "Carol Support",
+        "role": "support"
+      },
+      {
+        "id": "30af2a6d-0894-4fb8-a2dd-5e73c0f65c76",
+        "username": "dave",
+        "display_name": "Dave Viewer",
+        "role": "viewer"
+      }
+    ],
+    "is_verified": true,
+    "installation_id": 123456789,
+    "customer_id": "cust_001",
+    "payment_method_id": "pm_001",
+    "is_customer": true,
+    "is_admin": false,
+    "role": "admin",
+    "created_at": "2023-08-28T10:01:00Z",
+    "updated_at": "2023-08-28T10:01:00Z"
+  }
+]

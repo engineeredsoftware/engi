@@ -1,0 +1,9 @@
+{
+  "title": "Add Another AI Feature",
+  "steps": [
+    { "type": "user", "text": "Need new /summaries endpoint that returns concise JSON." },
+    { "type": "agent", "text": "Designing endpoint, selecting best model…" },
+    { "type": "run", "kind": "deliverable", "id": "run_ai_001", "logChunks": ["queued", "benchmarking models", "coding route", "unit tests", "all green ✅"] },
+    { "type": "agent", "text": "Feature PR ready #456 – docs & tests included." }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@engi/logger",
+  "version": "0.1.0",
+  "description": "Shared logging utilities for the Engi monorepo.",
+  "main": "src/logger.ts",
+  "types": "src/logger.ts",
+  "exports": {
+    ".": {
+      "edge-light": "./src/logger-edge.ts",
+      "worker": "./src/logger-edge.ts",
+      "browser": "./src/logger-edge.ts",
+      "require": "./src/logger.ts",
+      "default": "./src/logger.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "license": "SEE LICENSE IN root",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@engi/supabase": "workspace:*",
+    "@engi/sentry": "workspace:*"
+  }
+}

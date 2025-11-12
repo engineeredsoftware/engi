@@ -1,0 +1,9 @@
+{
+  "name": "@engi/responses",
+  "version": "1.0.0",
+  "description": "HTTP response utilities for engi",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "private": true,
+  "dependencies": {}
+}

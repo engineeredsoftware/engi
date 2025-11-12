@@ -1,0 +1,11 @@
+{
+  "name": "@engi/generic-agents-text-search",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@engi/logger": "workspace:*",
+    "@engi/generic-tools-simple-system-text-search": "workspace:*"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@engi/generic-tools-multimodal-processing",
+  "version": "0.1.0",
+  "description": "Multimodal attachment processing tools for Engi pipelines",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "ai": "^3.4.33",
+    "zod": "^3.20.2",
+    "@engi/tools-generics": "workspace:*",
+    "@engi/logger": "workspace:*",
+    "@engi/multimodal-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "@types/jest": "^29.5.12"
+  }
+}

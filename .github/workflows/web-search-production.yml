@@ -1,0 +1,472 @@
+name: Web Search Production Deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/web-search/**'
+      - 'packages/generic-tools/web-search/**'
+      - 'packages/generic-agents/web-researcher/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/web-search/**'
+      - 'packages/generic-tools/web-search/**'
+      - 'packages/generic-agents/web-researcher/**'
+
+env:
+  NODE_VERSION: '18'
+  CACHE_VERSION: v1
+
+jobs:
+  # ============================================================================
+  # Quality Assurance and Testing
+  # ============================================================================
+  quality-assurance:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:packages
+          
+      - name: Lint web search packages
+        run: |
+          npm run lint:packages -- packages/web-search packages/generic-tools/web-search packages/generic-agents/web-researcher
+          
+      - name: Type checking
+        run: |
+          npm run typecheck:packages -- packages/web-search packages/generic-tools/web-search packages/generic-agents/web-researcher
+          
+      - name: Run unit tests
+        env:
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_TEST }}
+          GITHUB_API_KEY: ${{ secrets.GITHUB_API_KEY_TEST }}
+          STACKEXCHANGE_API_KEY: ${{ secrets.STACKEXCHANGE_API_KEY_TEST }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY_TEST }}
+          NODE_ENV: test
+        run: |
+          npm test -- --coverage --coverageReporters=lcov --coverageDirectory=coverage/web-search
+          
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/web-search/lcov.info
+          flags: web-search
+          name: web-search-coverage
+
+  # ============================================================================
+  # Security and Vulnerability Scanning
+  # ============================================================================
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level=high --production
+          
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --file=packages/web-search/package.json
+          
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/init@v2
+        with:
+          languages: typescript, javascript
+          
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v2
+
+  # ============================================================================
+  # Performance and Load Testing
+  # ============================================================================
+  performance-testing:
+    name: Performance Testing
+    runs-on: ubuntu-latest
+    needs: [quality-assurance]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:packages
+          
+      - name: Run performance benchmarks
+        env:
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_TEST }}
+          NODE_ENV: test
+          WEB_SEARCH_ENABLE_METRICS: 'true'
+        run: |
+          npm run test:performance -- packages/web-search
+          
+      - name: Run load testing
+        env:
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_TEST }}
+          NODE_ENV: test
+        run: |
+          npm run test:load -- packages/web-search
+          
+      - name: Upload performance results
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-results
+          path: ./performance-results/
+
+  # ============================================================================
+  # Integration Testing
+  # ============================================================================
+  integration-testing:
+    name: Integration Testing
+    runs-on: ubuntu-latest
+    needs: [quality-assurance]
+    
+    strategy:
+      matrix:
+        test-suite:
+          - production-integration
+          - multi-provider-integration
+          - resilience-integration
+          - web-researcher-integration
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:packages
+          
+      - name: Run integration tests
+        env:
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_TEST }}
+          GITHUB_API_KEY: ${{ secrets.GITHUB_API_KEY_TEST }}
+          STACKEXCHANGE_API_KEY: ${{ secrets.STACKEXCHANGE_API_KEY_TEST }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY_TEST }}
+          NODE_ENV: test
+          WEB_SEARCH_ENABLE_RESILIENCE: 'true'
+          WEB_SEARCH_ENABLE_METRICS: 'true'
+          WEB_SEARCH_TIMEOUT: '10000'
+        run: |
+          npm run test:integration -- --testNamePattern="${{ matrix.test-suite }}"
+          
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: integration-test-results-${{ matrix.test-suite }}
+          path: ./test-results/
+
+  # ============================================================================
+  # Staging Deployment
+  # ============================================================================
+  staging-deployment:
+    name: Staging Deployment
+    runs-on: ubuntu-latest
+    needs: [quality-assurance, security-scan, performance-testing, integration-testing]
+    if: github.event_name == 'pull_request'
+    
+    environment:
+      name: staging
+      url: https://staging.engi.com
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:packages
+          
+      - name: Build for staging
+        env:
+          NODE_ENV: staging
+          WEB_SEARCH_ENABLE_CACHING: 'true'
+          WEB_SEARCH_ENABLE_MULTI_PROVIDER: 'true'
+          WEB_SEARCH_ENABLE_RESILIENCE: 'true'
+          WEB_SEARCH_ENABLE_METRICS: 'true'
+        run: |
+          npm run build:web-search
+          
+      - name: Deploy to staging
+        env:
+          STAGING_DEPLOY_KEY: ${{ secrets.STAGING_DEPLOY_KEY }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_STAGING }}
+          GITHUB_API_KEY: ${{ secrets.GITHUB_API_KEY_STAGING }}
+          STACKEXCHANGE_API_KEY: ${{ secrets.STACKEXCHANGE_API_KEY_STAGING }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY_STAGING }}
+        run: |
+          npm run deploy:staging
+          
+      - name: Run staging health checks
+        env:
+          STAGING_URL: https://staging.engi.com
+        run: |
+          npm run healthcheck:staging
+          
+      - name: Comment PR with staging URL
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 Staging deployment completed! Test the changes at https://staging.engi.com'
+            })
+
+  # ============================================================================
+  # Production Deployment
+  # ============================================================================
+  production-deployment:
+    name: Production Deployment
+    runs-on: ubuntu-latest
+    needs: [quality-assurance, security-scan, performance-testing, integration-testing]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    environment:
+      name: production
+      url: https://engi.com
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:packages
+          
+      - name: Validate production configuration
+        env:
+          NODE_ENV: production
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_PRODUCTION }}
+          GITHUB_API_KEY: ${{ secrets.GITHUB_API_KEY_PRODUCTION }}
+          STACKEXCHANGE_API_KEY: ${{ secrets.STACKEXCHANGE_API_KEY_PRODUCTION }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY_PRODUCTION }}
+          WEB_SEARCH_ENABLE_CACHING: 'true'
+          WEB_SEARCH_ENABLE_MULTI_PROVIDER: 'true'
+          WEB_SEARCH_ENABLE_RESILIENCE: 'true'
+          WEB_SEARCH_ENABLE_METRICS: 'true'
+          WEB_SEARCH_CACHE_SIZE: '2000'
+          WEB_SEARCH_TIMEOUT: '15000'
+          WEB_SEARCH_RETRY_ATTEMPTS: '3'
+          LOG_LEVEL: 'info'
+        run: |
+          npm run validate:production-config
+          
+      - name: Build for production
+        env:
+          NODE_ENV: production
+        run: |
+          npm run build:web-search -- --mode=production
+          
+      - name: Create production bundle
+        run: |
+          npm run bundle:web-search
+          
+      - name: Run pre-deployment tests
+        env:
+          NODE_ENV: production
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_PRODUCTION }}
+        run: |
+          npm run test:pre-deployment
+          
+      - name: Deploy to production (Blue-Green)
+        env:
+          PRODUCTION_DEPLOY_KEY: ${{ secrets.PRODUCTION_DEPLOY_KEY }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_PRODUCTION }}
+          GITHUB_API_KEY: ${{ secrets.GITHUB_API_KEY_PRODUCTION }}
+          STACKEXCHANGE_API_KEY: ${{ secrets.STACKEXCHANGE_API_KEY_PRODUCTION }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY_PRODUCTION }}
+          DEPLOYMENT_STRATEGY: blue-green
+        run: |
+          npm run deploy:production
+          
+      - name: Run post-deployment health checks
+        env:
+          PRODUCTION_URL: https://engi.com
+          HEALTH_CHECK_TIMEOUT: 300
+        run: |
+          npm run healthcheck:production
+          
+      - name: Run smoke tests
+        env:
+          PRODUCTION_URL: https://engi.com
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY_PRODUCTION }}
+        run: |
+          npm run test:smoke
+          
+      - name: Monitor deployment metrics
+        env:
+          MONITORING_API_KEY: ${{ secrets.MONITORING_API_KEY }}
+        run: |
+          npm run monitor:deployment-metrics
+          
+      - name: Notify deployment success
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              description: 'Production deployment completed successfully',
+              context: 'deployment/production'
+            })
+
+  # ============================================================================
+  # Rollback Capability
+  # ============================================================================
+  rollback-production:
+    name: Rollback Production
+    runs-on: ubuntu-latest
+    if: failure() && github.ref == 'refs/heads/main'
+    needs: [production-deployment]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
+      - name: Trigger automatic rollback
+        env:
+          PRODUCTION_DEPLOY_KEY: ${{ secrets.PRODUCTION_DEPLOY_KEY }}
+          ROLLBACK_TO_PREVIOUS: 'true'
+        run: |
+          npm run rollback:production
+          
+      - name: Verify rollback health
+        env:
+          PRODUCTION_URL: https://engi.com
+        run: |
+          npm run healthcheck:production
+          
+      - name: Notify rollback
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'failure',
+              description: 'Production deployment failed, automatic rollback executed',
+              context: 'deployment/production'
+            })
+
+  # ============================================================================
+  # Monitoring and Alerting Setup
+  # ============================================================================
+  setup-monitoring:
+    name: Setup Production Monitoring
+    runs-on: ubuntu-latest
+    needs: [production-deployment]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Configure performance monitoring
+        env:
+          MONITORING_API_KEY: ${{ secrets.MONITORING_API_KEY }}
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        run: |
+          npm run setup:monitoring
+          
+      - name: Configure alerting rules
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          PAGERDUTY_API_KEY: ${{ secrets.PAGERDUTY_API_KEY }}
+        run: |
+          npm run setup:alerting
+          
+      - name: Validate monitoring setup
+        run: |
+          npm run validate:monitoring
+
+  # ============================================================================
+  # Documentation Update
+  # ============================================================================
+  update-documentation:
+    name: Update Documentation
+    runs-on: ubuntu-latest
+    needs: [production-deployment]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
+      - name: Generate API documentation
+        run: |
+          npm run docs:generate -- packages/web-search
+          
+      - name: Update performance benchmarks
+        run: |
+          npm run docs:benchmarks
+          
+      - name: Deploy documentation
+        env:
+          DOCS_DEPLOY_KEY: ${{ secrets.DOCS_DEPLOY_KEY }}
+        run: |
+          npm run docs:deploy

@@ -1,0 +1,144 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: long-runner
+---
+# Holds non-secret configuration.  Supabase URL is not sensitive; the service
+# role key must be provided as a Secret (see below).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: long-runner-config
+  namespace: long-runner
+data:
+  SUPABASE_URL: "${SUPABASE_URL}"
+  LONG_RUNNER_QUEUE: "true"
+  POLL_INTERVAL_MS: "2000"
+  # Fill with your bucket and region if using S3
+  ARTIFACT_S3_BUCKET: "${ARTIFACT_S3_BUCKET}"
+  AWS_REGION: "${AWS_REGION}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: long-runner-secrets
+  namespace: long-runner
+type: Opaque
+stringData:
+  SUPABASE_SERVICE_ROLE_KEY: "${SUPABASE_SERVICE_ROLE_KEY}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: long-runner-worker
+  namespace: long-runner
+spec:
+  replicas: 3  # scale horizontally for concurrency
+  selector:
+    matchLabels:
+      app: long-runner-worker
+  template:
+    metadata:
+      labels:
+        app: long-runner-worker
+    spec:
+      containers:
+        - name: worker
+          image: ${ECR_REPOSITORY}:worker
+          env:
+            - name: SUPABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: long-runner-config
+                  key: SUPABASE_URL
+            - name: SUPABASE_SERVICE_ROLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: long-runner-secrets
+                  key: SUPABASE_SERVICE_ROLE_KEY
+            - name: POLL_INTERVAL_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: long-runner-config
+                  key: POLL_INTERVAL_MS
+            - name: ARTIFACT_S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: long-runner-config
+                  key: ARTIFACT_S3_BUCKET
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: long-runner-config
+                  key: AWS_REGION
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+          ports:
+            - name: metrics
+              containerPort: 9090
+      restartPolicy: Always
+---
+# Service so Prometheus can scrape /metrics on :9090
+apiVersion: v1
+kind: Service
+metadata:
+  name: long-runner-metrics
+  namespace: long-runner
+  labels:
+    app: long-runner-worker
+spec:
+  selector:
+    app: long-runner-worker
+  ports:
+    - port: 9090
+      targetPort: metrics
+      name: metrics
+---
+# Horizontal scaling based on queued jobs metric (placeholder).  You will need
+# to configure the external metric `queue_depth` via Prometheus Adapter.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: long-runner-worker
+  namespace: long-runner
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: long-runner-worker
+  minReplicas: 3
+  maxReplicas: 30
+  metrics:
+    - type: Pods
+      pods:
+        metric:
+          name: queued_jobs
+        target:
+          type: AverageValue
+          averageValue: "1"
+
+---
+# ServiceMonitor (for clusters with kube-prometheus-stack). Remove if not used.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: long-runner
+  namespace: long-runner
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: long-runner-worker
+  namespaceSelector:
+    matchNames:
+      - long-runner
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s

@@ -1,0 +1,150 @@
+/**
+ * AGENT-GENERICS - INTELLIGENT ORCHESTRATION WITH EXCELLENCE
+ * 
+ * Agents are Executors that sequence PTRR steps. No variations - just different
+ * agent implementations selected from registries dynamically.
+ * Each step runs 3 failsafe parents sequentially, each running 3 generation children.
+ * Tools execute AFTER all failsafes complete (conditional on reasoning + judgment output).
+ * 
+ * Key Abstractions:
+ * - Agent: Executor that sequences PTRR steps
+ * - Step: StepExecutor that sequences 7 SubSteps
+ * - SubStep: The atomic operations (3 failsafes + 3 generation + 1 tool)
+ * 
+ * @doc-package
+ * version: 1.0.0
+ * pattern: ptrr-orchestration
+ * philosophy: "Intelligence emerges from Plan-Try-Refine-Retry patterns"
+ */
+
+// ==================== CORE TYPES ====================
+
+// Agent enums and types
+export {
+  AgentVariationStep,
+  FailsafeMetaSubStep,
+  GenerationSubMetaSubStep
+} from './types';
+
+// Agent interfaces
+export type {
+  Agent,
+  AgentStep,
+  AgentGeneration,
+  QuickAgent,
+  StepExecutor,
+  PreparedContext,
+  Chunk,
+  Reasoning,
+  UseTool,
+  Judgment,
+  UsedTool
+} from './types';
+
+// ==================== AGENT FACTORIES ====================
+
+// Agent creation
+export {
+  factoryAgent,
+  factoryAgentWithPTRR,
+  factoryAgentWithSingleStep,
+  factoryQuickAgent
+} from './agents/factories';
+export {
+  factoryAgentWithGenerations,
+  factoryAgentWithPTRRGenerations
+} from './agents/factories';
+
+// ==================== STEP FACTORIES ====================
+
+// PTRR step creation
+export {
+  factoryPlanStep,
+  factoryTryStep,
+  factoryRefineStep,
+  factoryRetryStep,
+  factoryStep
+} from './steps/factories';
+// Generation-first aliases
+export {
+  factoryPlanGeneration,
+  factoryTryGeneration,
+  factoryRefineGeneration,
+  factoryRetryGeneration,
+  factoryGeneration,
+  createFailsafedGenerationSequence,
+  createFailsafedThricifiedGeneration,
+  createFailsafedGeneration
+} from './generations/factories';
+export { createThricifiedGeneration } from './steps/thricified-generation';
+export {
+  createFailsafeGenerationSequence,
+  createContextfulFailsafedThricifiedGeneration
+} from './steps/failsafe-sequence';
+
+// ==================== SUBSTEP FACTORIES ====================
+
+// Failsafe substeps
+export {
+  factoryPrepareConciseContext,
+  factoryChunkThenSum,
+  factoryStitchUntilComplete
+} from './substeps/factories';
+
+// Generation substeps
+export {
+  factoryReason,
+  factoryJudge,
+  factoryStructuredOutput,
+  factoryToolsExecution,
+  factoryValidation
+} from './substeps/factories';
+
+// Substep execution factories
+export {
+  factoryAgentFailsafeSubStepExecution,
+  factoryAgentGenerationSubStepExecution,
+  factoryAgentToolSubStepExecution
+} from './substeps/factories';
+
+// ==================== EXECUTION TYPES ====================
+
+// Agent execution hierarchy with full registry support
+export {
+  AgentExecution,
+  createAgentExecution,
+  StepExecution,
+  SubStepExecution,
+  factoryStepExecution,
+  factorySubStepExecution,
+  
+  // Registries
+  AgentPromptsRegistry,
+  AgentToolsRegistry,
+  AgentLLMsRegistry,
+  AgentAgentsRegistry,
+  
+  // Types
+  ExecutionTool
+} from './execution';
+
+// Export ExecutionAgent as a type
+export type { ExecutionAgent } from './execution';
+
+// Export prompt structures
+export { AgentPrompt } from './prompts/AgentPrompt';
+export type { AgentPromptConfig } from './prompts/AgentPrompt';
+export { AgentStepPrompt } from './prompts/AgentStepPrompt';
+export type { AgentStepPromptConfig } from './prompts/AgentStepPrompt';
+
+// Diagnostics
+export { collectExecutionTrace, collectAgentTrace } from './diagnostics/trace';
+
+// File diff integration
+export {
+  streamFileChangesAfterStep,
+  withFileDiffStreaming
+} from './execution/file-diff-integration';
+
+// Phase helpers
+export { normalizeStepName } from './phaseHelpers/normalizeStepName';

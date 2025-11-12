@@ -1,0 +1,28 @@
+{
+  "name": "@engi/observability",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tracing helpers for Engi (JS build).",
+  "main": "src/observability.ts",
+  "types": "src/observability.ts",
+  "exports": {
+    ".": {
+      "require": "./src/observability.ts",
+      "default": "./src/observability.ts"
+    },
+    "./src/observability": {
+      "require": "./src/observability.ts",
+      "default": "./src/observability.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@engi/logger": "workspace:*",
+    "@engi/streams": "workspace:*",
+    "@engi/sentry": "workspace:*",
+    "@engi/errors": "workspace:*"
+  }
+}

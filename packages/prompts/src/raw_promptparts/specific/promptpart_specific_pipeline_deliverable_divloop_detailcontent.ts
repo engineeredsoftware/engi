@@ -1,0 +1,15 @@
+import { PromptPart } from '../../parts/PromptPart';
+
+/**
+ * @doc-comment-developing-promptpartdevelopment
+ * domain: pipeline
+ * intent: "Describe DIV loop execution pattern for deliverables"
+ * current_version: "GA1.50.0"
+ * versions: []
+ * benchmarks: [
+ *   { "name": "technical_accuracy", "test": "Uses specific technical terms?", "score": 0.96 },
+ *   { "name": "implementation_ready", "test": "Can developers implement?", "score": 0.94 }
+ * ]
+ */
+export const PROMPTPART_SPECIFIC_PIPELINE_DELIVERABLE_DIVLOOP_DETAILCONTENT: PromptPart = 
+  'DIV (Discovery-Implementation-Validation) loop executes with repeat combinator until validation score >= 0.9 or max iterations reached. Each iteration stores validation scores for plateau detection. Implementation generates VCS-compatible file changes. Validation runs automated test suites and security scans.' as PromptPart;

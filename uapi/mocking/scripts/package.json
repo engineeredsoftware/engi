@@ -1,0 +1,29 @@
+{
+  "name": "@engi/mock-scripts",
+  "version": "1.0.0",
+  "description": "Easy setup and validation scripts for the Engi Mock System",
+  "scripts": {
+    "setup": "node setup-mock-system.js",
+    "setup:demo": "node setup-mock-system.js demo",
+    "setup:enterprise": "node setup-mock-system.js enterprise", 
+    "setup:testing": "node setup-mock-system.js testing",
+    "setup:onboarding": "node setup-mock-system.js onboarding",
+    "setup:empty": "node setup-mock-system.js empty",
+    "validate": "node validate-mock-system.js",
+    "help": "node -e \"console.log('\\n🎭 Engi Mock System Scripts\\n\\nAvailable commands:\\n  npm run setup [scenario]  - Set up mock system\\n  npm run validate          - Validate configuration\\n  npm run help              - Show this help\\n\\nScenarios: demo, enterprise, testing, onboarding, empty\\n');\""
+  },
+  "bin": {
+    "engi-mock-setup": "./setup-mock-system.js",
+    "engi-mock-validate": "./validate-mock-system.js"
+  },
+  "keywords": [
+    "engi",
+    "mock",
+    "setup",
+    "validation",
+    "testing",
+    "development"
+  ],
+  "author": "Engi Team",
+  "license": "MIT"
+}

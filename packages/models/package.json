@@ -1,0 +1,18 @@
+{
+  "name": "@engi/models",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "generate-prompt-configs": "node scripts/generate-prompt-configs.js",
+    "prebuild": "npm run generate-prompt-configs"
+  },
+  "dependencies": {
+    "@engi/logger": "workspace:*",
+    "@engi/observability": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

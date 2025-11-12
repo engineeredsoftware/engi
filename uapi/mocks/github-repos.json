@@ -1,0 +1,6 @@
+{
+  "repositories": [
+    { "id": "repo1", "name": "mockRepo1" },
+    { "id": "repo2", "name": "mockRepo2" }
+  ]
+}

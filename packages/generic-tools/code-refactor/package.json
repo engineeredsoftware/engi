@@ -1,0 +1,11 @@
+{
+  "name": "@engi/generic-tools-code-refactor",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "private": true,
+  "dependencies": {
+    "@engi/refactoring": "workspace:*",
+    "ai": "*",
+    "zod": "^3.22.0"
+  }
+}

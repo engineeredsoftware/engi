@@ -1,0 +1,43 @@
+/*
+ * Global Skeleton Shine Styles
+ * ----------------------------------------
+ * Provides a subtle, elegant shimmer used for loading placeholders across the
+ * application.  Inspired by the “super-shiny” text effect but tuned down for
+ * large surface areas so the motion feels calm rather than distracting.
+ */
+
+.skeleton-shine {
+  position: relative;
+  overflow: hidden;
+  /* Match the base nav backdrop so no visible seam between nav spacer and
+     loading skeleton.  Using a slightly translucent deep grey allows the sheen
+     highlight to stand out while blending with the page background. */
+  background-color: rgba(10, 10, 15, 0.8);
+}
+
+.skeleton-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 55%,
+    transparent 100%
+  );
+  animation: skeleton-shine-move 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes skeleton-shine-move {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

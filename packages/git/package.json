@@ -1,0 +1,8 @@
+{
+  "name": "@engi/git",
+  "version": "0.0.0-deprecated",
+  "description": "DEPRECATED - Use @engi/vcs-core instead",
+  "main": "src/index.ts",
+  "dependencies": {},
+  "deprecated": "This package has been replaced by @engi/vcs-core which supports multiple VCS providers"
+}

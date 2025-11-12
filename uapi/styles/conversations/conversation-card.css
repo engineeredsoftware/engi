@@ -1,0 +1,15 @@
+.conversation-card {
+  border-radius: 6px;
+  /* subtle inner shadow to separate from grid gaps */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: box-shadow 0.15s ease-out;
+}
+
+.conversation-card.active {
+  z-index: 2;
+
+  /* Emerald glow border visible on all sides without protruding */
+  box-shadow: 0 0 0 2px rgba(103, 254, 183, 0.9),
+    0 0 10px rgba(103, 254, 183, 0.6),
+    0 0 24px rgba(103, 254, 183, 0.35);
+}

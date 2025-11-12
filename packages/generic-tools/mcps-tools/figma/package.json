@@ -1,0 +1,24 @@
+{
+  "name": "@engi/figma-tools",
+  "version": "1.0.0",
+  "description": "Figma MCP tool wrappers for Engi agents",
+  "main": "./src/index.js",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@engi/figma": "workspace:*",
+    "@engi/tools-generics": "workspace:*",
+    "ai": "^3.0.0",
+    "zod": "^3.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "@types/jest": "^29.5.12"
+  }
+}

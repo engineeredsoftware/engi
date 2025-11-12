@@ -1,0 +1,40 @@
+/* Highlight transition styles */
+
+/* Prevent highlight text from flickering during transition */
+.highlight-container {
+  position: relative;
+  display: inline;
+}
+
+/* Pre-positioned highlight that will be revealed */
+.highlight-text {
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Highlight text that's visible */
+.highlight-text-visible {
+  opacity: 1;
+}
+
+/* Ensure the highlight doesn't cause layout shifts */
+.highlight-placeholder {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Prevent any unwanted transitions during typing */
+.typing-no-transition * {
+  transition: none !important;
+}
+
+/* Ensure highlight text is properly positioned */
+.highlight-text-wrapper {
+  position: relative;
+  display: inline;
+}

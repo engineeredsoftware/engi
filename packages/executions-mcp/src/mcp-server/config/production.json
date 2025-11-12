@@ -1,0 +1,172 @@
+{
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "corsOrigins": ["https://engi.ai", "https://app.engi.ai"],
+    "trustProxy": true,
+    "maxRequestSize": "50mb"
+  },
+  
+  "streaming": {
+    "websocketPort": 8080,
+    "heartbeatInterval": 10000,
+    "connectionTimeout": 60000,
+    "maxConnectionsPerUser": 10,
+    "maxConnectionsTotal": 10000
+  },
+  
+  "authentication": {
+    "cacheTTL": 300000,
+    "cacheMaxSize": 10000,
+    "sessionTimeout": 86400000,
+    "apiKeyPrefix": "engi_",
+    "requireHttps": true
+  },
+  
+  "rateLimiting": {
+    "enabled": true,
+    "windowMs": 60000,
+    "maxRequests": 100,
+    "maxBurst": 20,
+    "keyGenerator": "userId",
+    "skipSuccessfulRequests": false,
+    "customLimits": {
+      "pipeline-execution": {
+        "windowMs": 300000,
+        "maxRequests": 10
+      },
+      "tool-execution": {
+        "windowMs": 60000,
+        "maxRequests": 500
+      }
+    }
+  },
+  
+  "resourceLimits": {
+    "maxMemoryMB": 2048,
+    "maxExecutionTimeMs": 60000,
+    "maxConcurrentRequests": 100,
+    "maxPayloadSize": 52428800,
+    "maxFileSize": 104857600,
+    "cpuThreshold": 0.8,
+    "memoryThreshold": 0.85
+  },
+  
+  "monitoring": {
+    "enabled": true,
+    "metricsPort": 9090,
+    "healthCheckInterval": 30000,
+    "logLevel": "info",
+    "errorReporting": true,
+    "performanceTracking": true,
+    "alerts": {
+      "errorRateThreshold": 0.05,
+      "responseTimeThreshold": 5000,
+      "memoryUsageThreshold": 0.8,
+      "cpuUsageThreshold": 0.8
+    }
+  },
+  
+  "pipeline": {
+    "queueConcurrency": 5,
+    "jobTimeout": 3600000,
+    "retryAttempts": 3,
+    "retryDelayMs": 5000,
+    "maxQueueSize": 1000,
+    "priorityLevels": ["critical", "high", "normal", "low"],
+    "localExecutionEnabled": true,
+    "sandboxing": {
+      "enabled": true,
+      "allowedPaths": ["/tmp", "/var/tmp"],
+      "maxFileOperations": 10000,
+      "maxProcesses": 50
+    }
+  },
+  
+  "circuitBreaker": {
+    "enabled": true,
+    "failureThreshold": 5,
+    "successThreshold": 2,
+    "timeout": 30000,
+    "resetTimeout": 60000,
+    "monitoredServices": [
+      "authentication",
+      "database",
+      "pipeline-queue",
+      "credit-system"
+    ]
+  },
+  
+  "shutdown": {
+    "gracePeriodMs": 30000,
+    "forceShutdownMs": 60000,
+    "persistState": true,
+    "notifyClients": true,
+    "drainTimeout": 25000
+  },
+  
+  "security": {
+    "enableHelmet": true,
+    "enableCSRF": false,
+    "enableXSSProtection": true,
+    "contentSecurityPolicy": {
+      "defaultSrc": ["'self'"],
+      "scriptSrc": ["'self'", "'unsafe-inline'"],
+      "styleSrc": ["'self'", "'unsafe-inline'"],
+      "imgSrc": ["'self'", "data:", "https:"],
+      "connectSrc": ["'self'", "wss:", "https:"]
+    },
+    "rateLimitBypass": [],
+    "trustedIPs": []
+  },
+  
+  "features": {
+    "localRepositories": true,
+    "streaming": true,
+    "pipelineExecution": true,
+    "toolExecution": true,
+    "resourceManagement": true,
+    "teamCollaboration": true,
+    "analyticsExport": true,
+    "customPipelines": true,
+    "experimentalFeatures": false
+  },
+  
+  "cache": {
+    "redis": {
+      "enabled": false,
+      "url": "redis://localhost:6379",
+      "ttl": 3600,
+      "maxRetriesPerRequest": 3
+    },
+    "memory": {
+      "maxSize": 1000,
+      "ttl": 300000,
+      "checkPeriod": 60000
+    }
+  },
+  
+  "observability": {
+    "tracing": {
+      "enabled": true,
+      "serviceName": "engi-mcp-server",
+      "samplingRate": 0.1,
+      "exporters": ["otlp"]
+    },
+    "metrics": {
+      "enabled": true,
+      "prefix": "engi_mcp_",
+      "defaultLabels": {
+        "service": "mcp-server",
+        "environment": "production"
+      }
+    },
+    "logging": {
+      "format": "json",
+      "level": "info",
+      "prettyPrint": false,
+      "redactPaths": ["password", "token", "key", "secret"],
+      "destination": "stdout"
+    }
+  }
+}

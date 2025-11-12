@@ -1,0 +1,6 @@
+{
+  "accounts": [
+    { "login": "mockOrg1", "type": "Organization", "id": 1 },
+    { "login": "mockUser", "type": "User", "id": 2 }
+  ]
+}

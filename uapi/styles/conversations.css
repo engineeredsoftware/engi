@@ -1,0 +1,663 @@
+.conversations-orb-fullscreen::before,
+.conversations-orb-fullscreen::after {
+  /* Bring rings above particle layer so they’re visible */
+  z-index: 1;
+}
+.chat-input-container {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(3, 8, 22, 0.95);
+}
+/* Optimized styles for Conversations component */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* custom-scrollbar base moved to SSOT: app/styles/components.css */
+
+.chat-item-hover:hover {
+  background-color: theme(colors.brand.emerald-glow-subtle) !important;
+}
+
+/* Waterfall enhancements */
+
+@keyframes engi-bubble-entry {
+  0% { transform: scale(0.98) translateY(6px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+.bubble-animate-entry {
+  animation: engi-bubble-entry 0.18s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes engi-typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: .25; }
+  30% { transform: translateY(-3px); opacity: .8; }
+}
+.typing-dot {
+  background: theme(colors.brand.emerald);
+  border-radius: 50%;
+  width: 4px;
+  height: 4px;
+  margin: 0 1px;
+  animation: engi-typing 1s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: .15s; }
+.typing-dot:nth-child(3) { animation-delay: .3s; }
+
+@keyframes engi-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.pipeline-progress {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 0%, theme(colors.brand.emerald-glow) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: engi-shimmer 1.5s linear infinite;
+}
+
+.timestamp-hidden {
+  opacity: 0;
+  transition: opacity .15s ease;
+}
+.bubble-wrapper:hover .timestamp-hidden { opacity: .6; }
+
+
+/* ---------------------------------------------------------
+ *   Performance: isolate heavy scrolling areas so updates
+ *   within them do not trigger full-page re-paints.
+ * --------------------------------------------------------- */
+.chat-messages,
+.embedded-process-log,
+.process-log-scroll {
+  contain: paint layout;
+  content-visibility: auto;
+}
+
+.header-hover:hover {
+  background-color: theme(colors.brand.emerald-glow-subtle);
+}
+
+.action-hover:hover {
+  background-color: theme(colors.brand.emerald-glow-subtle);
+  border-color: theme(colors.brand.emerald-glow-subtle);
+}
+
+.input-focus:focus {
+  border-color: theme(colors.brand.emerald-glow-subtle);
+  box-shadow: 0 0 0 1px theme(colors.brand.emerald-glow-subtle);
+}
+
+.send-button-hover:hover {
+  color: theme(colors.brand.emerald-glow);
+  background-color: theme(colors.brand.emerald-glow-subtle);
+}
+
+.send-button-hover:hover svg {
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* Bubble highlight when navigated via permalink */
+.msg-highlight {
+  animation: msg-flash 3s ease-in-out;
+}
+
+@keyframes msg-flash {
+  0% { box-shadow: 0 0 0 2px theme(colors.brand.emerald-glow); }
+  100% { box-shadow: 0 0 0 0 theme(colors.brand.emerald-glow-subtle); }
+}
+
+/* Pulsing emerald halo on the orb while the assistant is streaming */
+.conversations-orb-streaming {
+  box-shadow: 0 0 0 2px theme(colors.brand.emerald-glow-subtle);
+  animation: engi-orb-glow 1.4s ease-in-out infinite;
+}
+
+@keyframes engi-orb-glow {
+  0%, 100% { box-shadow: 0 0 0 2px theme(colors.brand.emerald-glow-subtle); }
+  50% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.8); }
+}
+
+.timestamp-hover {
+  opacity: 0;
+}
+
+div:hover>.timestamp-hover {
+  opacity: 1;
+}
+
+/* Token styles for messages */
+.token {
+  border-radius: 4px;
+  padding: 0.125rem 0.25rem;
+  margin: 0 0.125rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.token-upgrade {
+  background-color: theme(colors.brand.emerald-glow-subtle);
+  color: #67feb7;
+  border: 1px solid rgba(103, 254, 183, 0.2);
+}
+
+.token-deliverable {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.token-attachment {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+.token-source {
+  background-color: rgba(236, 72, 153, 0.1);
+  color: #ec4899;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+.token-command {
+  background-color: rgba(139, 92, 246, 0.1);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* Optimize animations with will-change */
+.conversations-container {
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: rgba(3, 8, 22, 0.95);
+}
+
+.quantum-orb-container {
+  will-change: transform;
+}
+
+/* Ensure fullscreen container magnifies the orb – this sits one level above
+   the orb element so it avoids any inline transform clashes inside the
+   QuantumOrb component. */
+.conversations-container-fullscreen {
+  transform: translateX(0) scale(1.35) !important;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+/* Use hardware acceleration for animations */
+.conversations-chat-container {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Chat history panel (inline in Big‑O main view) */
+.chat-history-sidebar {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid theme(colors.brand.emerald-glow-10);
+  background-color: rgba(3, 8, 22, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 1rem 0.75rem 1rem;
+}
+.chat-history-sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid theme(colors.brand.emerald-glow-10);
+  background-color: rgba(3, 8, 22, 0.95);
+}
+.chat-history-sidebar .sidebar-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+.chat-history-sidebar .sidebar-content {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: 0.5rem 0.25rem;
+}
+
+/* Conversation list items */
+.conversation-list .chat-item {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.conversation-list .chat-item:hover {
+  background-color: theme(colors.brand.emerald-glow-05);
+}
+.conversation-list .chat-item-active {
+  background-color: theme(colors.brand.emerald-glow-10);
+}
+.conversation-list .chat-item-title {
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.conversation-list .chat-item-preview {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.conversation-list .chat-item-delete {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.conversation-list .chat-item-delete:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Sidebar header */
+.conversations-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid theme(colors.brand.emerald-glow-10);
+  background-color: rgba(3, 8, 22, 0.95);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+/* Messages area */
+.conversations-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  contain: paint layout;
+  content-visibility: auto;
+}
+
+/* Process log (embedded) */
+.conversations-process-log {
+  border-top: 1px solid theme(colors.brand.emerald-glow-10);
+  background-color: rgba(3, 8, 22, 0.9);
+}
+
+/* Input area */
+.conversations-input {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid theme(colors.brand.emerald-glow-10);
+  background-color: rgba(3, 8, 22, 0.95);
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+}
+
+/* Error area */
+.conversations-error {
+  padding: 0.75rem 1rem;
+  background-color: rgba(239, 68, 68, 0.08);
+  border-top: 1px solid rgba(239, 68, 68, 0.2);
+}
+.conversations-error .error-message {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------- */
+/* CONVERSATIONS ORB  – single source of visual truth                                   */
+/* --------------------------------------------------------------------------- */
+
+/*
+ *  The element hierarchy after refactor:
+ *
+ *  <motion.div class="conversations-container">         – translation only (Framer)
+ *    <div class="conversations-orb [-open|-fullscreen]"> – scale, glow, rings
+ *      <QuantumOrb />                            – heavy WebGL visuals
+ *
+ *  No inline transform is ever applied to `.conversations-orb`, eliminating clashes
+ *  between Framer and stylesheet rules.
+ */
+
+.conversations-orb {
+  /* Core geometry -------------------------------------------------------- */
+  position: relative;
+  --orb-scale: 1;
+  --ring-inset-inner: -8%;  /* hover (closed) */
+  --ring-inset-outer: -16%;
+  --orb-glow: 0 0 0 rgba(103, 254, 183, 0.0);
+
+  transform: scale(var(--orb-scale));
+  filter: drop-shadow(var(--orb-glow));
+
+  transition:
+    transform 0.33s cubic-bezier(0.35, 1.56, 0.64, 1),
+    filter    0.33s ease;
+  will-change: transform, filter;
+  transform-style: preserve-3d;
+}
+
+/* Pseudo-rings ----------------------------------------------------------- */
+.conversations-orb::before,
+.conversations-orb::after {
+  content: '';
+  position: absolute;
+  inset: var(--ring-inset-inner);
+  border-radius: 50%;
+  border: 1.5px solid theme(colors.brand.emerald-glow-subtle);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateZ(0) rotate(0deg);
+  /* animation-name set separately for inner / outer to get opposing axes */
+  animation-duration: 28s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transition:
+    opacity 0.33s ease,
+    border-color 0.33s ease,
+    inset 0.33s ease;
+}
+
+/* Inner ring specific (XY tilt) */
+.conversations-orb::before {
+  animation-name: conversations-orb-ring-x;
+}
+
+/* Outer ring */
+.conversations-orb::after {
+  inset: var(--ring-inset-outer);
+  border-width: 2px;
+  animation-name: conversations-orb-ring-y;
+  animation-direction: reverse;
+}
+
+/* ----------------------- STATES ---------------------------------------- */
+
+/* HOVER (closed) – light lift + reveal rings */
+.conversations-orb:not(.conversations-orb-fullscreen):hover {
+  --orb-scale: 1.035;
+  --orb-glow: 0 0 6px theme(colors.brand.emerald-glow-subtle);
+  transform: translateY(-2px) scale(var(--orb-scale));
+  opacity: 1;
+}
+
+.conversations-orb:not(.conversations-orb-fullscreen):hover::before,
+.conversations-orb:not(.conversations-orb-fullscreen):hover::after {
+  opacity: 1;
+}
+
+/* SIDEBAR OPEN ----------------------------------------------------------- */
+.conversations-orb-open {
+  --orb-scale: 1.08;
+  --orb-glow: 0 0 8px theme(colors.brand.emerald-glow);
+  --ring-inset-inner: -12%;
+  --ring-inset-outer: -24%;
+  transform: translateY(-2px) scale(var(--orb-scale));
+}
+.conversations-orb-open::before,
+.conversations-orb-open::after {
+  opacity: 1;
+  animation-duration: 16s;
+}
+
+
+
+/* FULLSCREEN ------------------------------------------------------------- */
+/* FULLSCREEN (rest) – same recipe as open, bigger rings, modest glow */
+/* Hide the orb entirely in fullscreen mode – UX decision */
+.conversations-orb-fullscreen {
+  /* We still keep the custom properties in case any child depends on them, but
+     the element itself is removed from the flow and interaction. */
+  --orb-scale: 1.08; /* was equal to open */
+  --orb-glow: 0 0 8px theme(colors.brand.emerald-glow);
+  --ring-inset-inner: -18%;
+  --ring-inset-outer: -36%;
+
+  display: none !important;
+}
+.conversations-orb-fullscreen::before,
+.conversations-orb-fullscreen::after {
+  opacity: 1;
+  animation-duration: 10s;
+  animation-timing-function: cubic-bezier(0.55, 0.1, 0.25, 1);
+  border-color: theme(colors.brand.emerald-glow-subtle);
+}
+
+/* FULLSCREEN Hover – calm (prepare to close) */
+/* FULLSCREEN hover – indicates close: calm down */
+.conversations-orb-fullscreen:hover {
+  --orb-scale: 1.04;
+  --orb-glow: 0 0 4px theme(colors.brand.emerald-glow-subtle);
+}
+.conversations-orb-fullscreen:hover::before,
+.conversations-orb-fullscreen:hover::after {
+  opacity: 0.6;
+  animation-duration: 14s;
+}
+
+/* ANIMATIONS ------------------------------------------------------------- */
+@keyframes conversations-orb-orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* 3-D tilt versions for inner & outer rings */
+@keyframes conversations-orb-ring-x {
+  from { transform: rotateX(65deg) rotateZ(0deg); }
+  to   { transform: rotateX(65deg) rotateZ(360deg); }
+}
+
+@keyframes conversations-orb-ring-y {
+  from { transform: rotateY(65deg) rotateZ(0deg); }
+  to   { transform: rotateY(65deg) rotateZ(360deg); }
+}
+
+/* ------------------------------------------------------------- */
+/* UI tweaks                                                      */
+/* ------------------------------------------------------------- */
+
+/* Ensure top-bar icons inside chat header share consistent size */
+.fullscreen-button svg,
+.split-screen-button svg {
+  width: 1.25rem;   /* 20px */
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.fullscreen-button,
+.split-screen-button,
+.new-chat-button {
+  gap: 0.25rem; /* space between icon & text */
+  padding: 0 0.5rem;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+}
+
+.button-text { display:none; }
+@media (min-width: 768px) { /* tablet */
+  .button-text { display:inline; }
+}
+
+/* Layout helpers */
+.fullscreen-wrapper { display:flex; flex-direction:column; height:100vh; }
+.split-grid { height:100%; }
+.conversation-card { height:100%; background:#0a1428; }
+
+/* Ensure small source-selector & close buttons always above glow */
+.conversation-card button { position:relative; z-index:2; }
+
+/* Right sidebar vertical stack – 3/4 log, 1/4 links */
+.fullscreen-sidebar-right {
+  /* Match left sidebar (15vw) × 1.5 ≈ 22.5vw */
+  flex: 0 0 22.5vw;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.right-links-pane         { flex:1 1 0%; }
+
+/* Gap between split panes so active ring doesn’t overlap */
+.split-grid {
+  /* Added breathing room so active glow doesn’t overlap adjacent pane */
+  gap: 6px;
+  padding: 6px;
+  background: #000;
+}
+
+.fullscreen-button,
+.split-screen-button,
+.new-chat-button {
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:2rem;min-height:2rem;
+  padding:0 0.5rem;gap:0.25rem;
+  border-radius:0.375rem;
+}
+
+/* =============================================================== */
+/* STATE OVERRIDES                                                 */
+/* (placed at end to beat any earlier rule with equal specificity) */
+/* =============================================================== */
+
+/* Alias: active == open    (keeps old markup working) */
+.conversations-orb-active {
+  --orb-scale: 1.08;
+  --orb-glow: 0 0 8px theme(colors.brand.emerald-glow);
+  --ring-inset-inner: -12%;
+  --ring-inset-outer: -24%;
+}
+
+.conversations-orb-active::before,
+.conversations-orb-active::after {
+  opacity: 1;
+  animation-duration: 16s;
+}
+
+/* FULLSCREEN – identical to open, bigger rings, faster orbit */
+.conversations-orb-fullscreen {
+  --orb-scale: 1.08;
+  --orb-glow: 0 0 8px theme(colors.brand.emerald-glow);
+  --ring-inset-inner: -14%;
+  --ring-inset-outer: -28%;
+}
+
+.conversations-orb-fullscreen::before,
+.conversations-orb-fullscreen::after {
+  opacity: 1;
+  animation-duration: 6s;
+  border-color: theme(colors.brand.emerald-glow-subtle);
+}
+
+.conversations-orb-fullscreen:hover {
+  --orb-scale: 1.04;
+  --orb-glow: 0 0 4px theme(colors.brand.emerald-glow-subtle);
+}
+
+.conversations-orb-fullscreen:hover::before,
+.conversations-orb-fullscreen:hover::after {
+  opacity: 0.6;
+  animation-duration: 14s;
+}
+
+/* ------------------------------------------------------------------ */
+/* Temporarily disable QuantumOrb hover/active visuals within Conversations      */
+/* ------------------------------------------------------------------ */
+
+.conversations-container .quantum-orb-container:not(.conversations-orb):hover,
+.conversations-container .quantum-orb-container:not(.conversations-orb):active {
+  /* Suppress the default QuantumOrb hover transform on the *other* orbs (if any) */
+  transform: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Entrance + glow animation                                          */
+/* ------------------------------------------------------------------ */
+
+@keyframes conversations-open {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-4deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.conversations-enter {
+  animation: conversations-open 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Typing indicator                                                   */
+/* ------------------------------------------------------------------ */
+
+.typing-indicator {
+  display: inline-flex;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: theme(colors.brand.emerald);
+  opacity: 0.6;
+  animation: typingJump 0.9s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s;  }
+
+@keyframes typingJump {
+  0%, 80%, 100% { transform: translateY(0);    }
+  40%          { transform: translateY(-5px); }
+}
+
+/* Thumbnail hover lift (gallery) */
+.thumbnail-hover:hover { transform: translateY(-4px) scale(1.03); }
+/* Basic chat message styles for marketing Conversations demo */
+.message-container {
+  display: flex;
+  width: 100%;
+}
+.message-user {
+  justify-content: flex-end;
+}
+.message-agent {
+  justify-content: flex-start;
+}
+.message-bubble {
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  max-width: 75%;
+  margin: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  line-height: 1.4;
+}
+.message-user .message-bubble {
+  background-color: theme(colors.brand.emerald);
+  color: #030816;
+}
+
+/* Contain chat dynamic to limit reflows on message updates */
+.chat-dynamic-container {
+  contain: layout paint;
+}
+
+/* Add content-visibility to the scrolling messages list so the browser can
+   skip paint/layout work when it is outside the viewport. */
+.chat-messages {
+  content-visibility: auto;
+}

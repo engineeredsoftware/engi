@@ -1,0 +1,9 @@
+{
+  "name": "@engi/generic-agents-web-search",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "private": true,
+  "dependencies": {
+    "@engi/agent-generics": "workspace:*"
+  }
+}

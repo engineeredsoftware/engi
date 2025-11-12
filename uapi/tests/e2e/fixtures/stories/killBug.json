@@ -1,0 +1,9 @@
+{
+  "title": "Kill the Bug Backlog",
+  "steps": [
+    { "type": "user", "text": "Engi, clear our Q2 bug backlog in backend-api repo." },
+    { "type": "agent", "text": "Absolutely. Analysing recent stack traces…" },
+    { "type": "run", "kind": "deliverable", "id": "run_bug_001", "logChunks": ["queued", "reproducing ✨", "writing failing test", "patching", "tests green ✅"] },
+    { "type": "agent", "text": "Pushed PR #123 with fixes and exhaustive tests." }
+  ]
+}

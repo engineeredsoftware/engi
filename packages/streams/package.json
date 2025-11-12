@@ -1,0 +1,32 @@
+{
+  "name": "@engi/streams",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Streaming helpers (JS stub build).",
+  "main": "src/streams.ts",
+  "types": "src/streams.ts",
+  "exports": {
+    ".": {
+      "require": "./src/streams.ts",
+      "default": "./src/streams.ts"
+    },
+    "./src/streams": {
+      "require": "./src/streams.ts",
+      "default": "./src/streams.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@engi/logger": "workspace:*",
+    "@engi/supabase": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

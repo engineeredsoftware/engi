@@ -1,0 +1,32 @@
+/**
+ * Git Repository Research MCP Tools - Modern Tool Class Architecture
+ * 
+ * Git repository semantic search and analysis tools using the Tool class pattern.
+ */
+
+import { Tool } from '@engi/tools-generics';
+import {
+  gitRepoSemanticSearchTool as _gitRepoSemanticSearch,
+} from '@engi/git-repo-research';
+
+// Import DocCodeToolPrompt
+import { GIT_REPO_RESEARCH_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/GitRepoResearchMCPDocCodeToolPrompt';
+
+/**
+ * Git Repository Semantic Search Tool for intelligent code search and analysis
+ * 
+ * @doc-code-tool
+ * @prompt GIT_REPO_RESEARCH_MCP_DOC_CODE_TOOL_PROMPT
+ */
+class GitRepoSemanticSearchTool extends Tool<typeof _gitRepoSemanticSearch> {
+  use = _gitRepoSemanticSearch;
+}
+
+// Export singleton instances - proper non-barrel exports
+export const gitRepoSemanticSearchTool = new GitRepoSemanticSearchTool();
+
+// Export DocCodeToolPrompt instance
+export { GIT_REPO_RESEARCH_MCP_DOC_CODE_TOOL_PROMPT };
+
+// Export classes for type safety and extensibility
+export { GitRepoSemanticSearchTool };

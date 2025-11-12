@@ -1,0 +1,208 @@
+/**
+ * AgentToolsRegistry - Tool registry for agent executions
+ * 
+ * Manages tool registration and hierarchical lookup for agents.
+ * Tools can be registered at any level and resolved upward.
+ * 
+ * @doc-code
+ * type: registry
+ * purpose: Hierarchical tool management for agents
+ * pattern: registry-with-execution-binding
+ */
+
+import { RegistryImpl } from '@engi/registry';
+import { Tool } from '@engi/tools-generics';
+import { Execution } from '@engi/execution-generics';
+
+/**
+ * ExecutionTool - Tool that integrates with execution context
+ * 
+ * Extends base Tool with execution binding and automatic tracking.
+ */
+export abstract class ExecutionTool<T extends (...args: any[]) => any = (...args: any[]) => any> extends Tool<T> {
+  protected execution?: Execution;
+  
+  /**
+   * Bind this tool to an execution context
+   */
+  bindExecution(execution: Execution): this {
+    this.execution = execution;
+    return this;
+  }
+  
+  /**
+   * Execute with automatic execution tracking
+   */
+  async execute(...args: Parameters<T>): Promise<Awaited<ReturnType<T>>> {
+    if (!this.execution) {
+      return super.execute(...args);
+    }
+    
+    // Create child execution for tracking
+    const toolName = this.constructor.name;
+    const toolExec = this.execution.child(`tool:${toolName}`);
+    
+    // Track execution
+    toolExec.store('tool', 'name', toolName);
+    toolExec.store('tool', 'startTime', Date.now());
+    toolExec.store('tool', 'input', args);
+    
+    try {
+      const result = await this.use(...args);
+      
+      // Track success
+      toolExec.store('tool', 'result', result);
+      toolExec.store('tool', 'status', 'success');
+      toolExec.store('tool', 'endTime', Date.now());
+      
+      return result;
+    } catch (error) {
+      // Track failure
+      toolExec.store('tool', 'error', error instanceof Error ? error.message : String(error));
+      toolExec.store('tool', 'status', 'failed');
+      toolExec.store('tool', 'endTime', Date.now());
+      
+      throw error;
+    }
+  }
+}
+
+/**
+ * AgentToolsRegistry - Hierarchical tool registry for agents
+ * 
+ * Stores tool instances and provides hierarchical lookup.
+ * When getting a tool, walks up execution hierarchy to find it.
+ */
+export class AgentToolsRegistry extends RegistryImpl<ExecutionTool> {
+  private readonly execution: Execution;
+  private allowedKeys?: Set<string>;
+  
+  constructor(execution: Execution) {
+    super();
+    this.execution = execution;
+  }
+
+  /**
+   * Restrict accessible tools to the provided keys at this level.
+   * When restricted, getTool will not fall back to parents for other keys.
+   */
+  restrictTo(keys: string[]): void {
+    this.allowedKeys = new Set(keys);
+  }
+
+  /**
+   * Check if a tool is available at this level
+   */
+  hasToolHere(key: string): boolean {
+    return this.get(key) !== undefined;
+  }
+
+  /**
+   * Ensure that required tools exist somewhere in the hierarchy
+   * Returns list of missing tools; optionally throws
+   */
+  ensureTools(keys: string[], options?: { throw?: boolean }): string[] {
+    const missing: string[] = [];
+    for (const key of keys) {
+      const tool = this.getTool(key);
+      if (!tool) missing.push(key);
+    }
+    if (missing.length && options?.throw) {
+      throw new Error(`Missing required tools: ${missing.join(', ')}`);
+    }
+    return missing;
+  }
+  
+  /**
+   * Register a tool instance
+   */
+  registerTool(key: string, tool: ExecutionTool, priority: number = 0): void {
+    this.set(key, tool, priority);
+  }
+  
+  /**
+   * Register a tool class by instantiating it
+   */
+  registerToolClass<T extends ExecutionTool>(
+    key: string,
+    ToolClass: new () => T,
+    priority: number = 0
+  ): void {
+    const instance = new ToolClass();
+    this.set(key, instance as any, priority);
+  }
+  
+  /**
+   * Get a tool by walking up the execution hierarchy
+   */
+  getTool(key: string): ExecutionTool | undefined {
+    // If restricted, deny access to tools not explicitly allowed
+    if (this.allowedKeys && !this.allowedKeys.has(key)) {
+      return undefined;
+    }
+    // Try this registry first
+    let tool = this.get(key);
+    if (tool) {
+      return tool.bindExecution(this.execution);
+    }
+    
+    // Walk up parent chain looking for tools
+    let current = this.execution.parent;
+    while (current) {
+      // Check if parent has tools registry
+      if ('tools' in current && current.tools instanceof AgentToolsRegistry) {
+        tool = (current.tools as AgentToolsRegistry).get(key);
+        if (tool) {
+          return tool.bindExecution(this.execution);
+        }
+      }
+      current = current.parent;
+    }
+    
+    return undefined;
+  }
+  
+  /**
+   * Get tool with fallback pattern
+   * 
+   * Try multiple keys in order, returning first match.
+   * Useful for tool specialization with graceful degradation.
+   */
+  getToolWithFallback(keys: string[]): ExecutionTool | undefined {
+    for (const key of keys) {
+      const tool = this.getTool(key);
+      if (tool) return tool;
+    }
+    return undefined;
+  }
+  
+  /**
+   * Get all tools available in hierarchy
+   */
+  getUsableTools(): Record<string, ExecutionTool> {
+    const tools: Record<string, ExecutionTool> = {};
+    
+    // Collect from entire hierarchy (bottom-up so children override parents)
+    const collectFromExecution = (exec: Execution) => {
+      if (exec.parent) {
+        collectFromExecution(exec.parent);
+      }
+      
+      // Add tools from this level if it has a registry
+      if ('tools' in exec && exec.tools instanceof AgentToolsRegistry) {
+        const registry = exec.tools as AgentToolsRegistry;
+        const paths = registry.getPaths();
+        for (const path of paths) {
+          const tool = registry.get(path);
+          if (tool) {
+            tools[path] = tool;
+          }
+        }
+      }
+    };
+    
+    collectFromExecution(this.execution);
+    
+    return tools;
+  }
+}

@@ -1,0 +1,508 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Engi MCP Server API",
+    "version": "1.0.0",
+    "description": "# Engi MCP Server API\n\nThe Model Context Protocol (MCP) server exposing Engi’s engineering intelligence via standardized tools, resources, and prompts.\n\n## Features\n\n- Tools interface for Deliverable pipeline execution\n- Real-time streaming (WebSocket)\n- Multi‑modal attachments (Figma, documents, images, audio, video)\n- Credit‑based usage (reserve → finalize → refund)\n\n## Getting Started\n\n1. **Get API Key**: Create an API key in your Engi account\n2. **Connect a Client**: Use an MCP‑capable client (e.g., Claude Desktop)\n3. **Call a Tool**: Invoke `engi://pipelines/deliverable/execute` with your task\n\n## Support\n\n- **Documentation**: https://docs.engi.network/mcp\n- **Community**: https://discord.gg/engi-mcp\n- **Support**: mcp-support@engi.network",
+    "contact": {
+      "name": "Engi API Support",
+      "url": "https://engi.com/support",
+      "email": "support@engi.com"
+    },
+    "license": {
+      "name": "Engi Commercial License",
+      "url": "https://engi.com/license"
+    },
+    "termsOfService": "https://engi.com/terms"
+  },
+  "servers": [
+    {
+      "url": "https://api.engi.com/mcp",
+      "description": "Production API"
+    },
+    {
+      "url": "https://staging-api.engi.com/mcp",
+      "description": "Staging API"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development"
+    }
+  ],
+  "security": [
+    { "ApiKeyAuth": [] },
+    { "BearerAuth": [] }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key for authentication. Get yours at https://engi.com/api-keys"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT token from session authentication"
+      }
+    },
+    "schemas": {
+      "RepositoryContext": {
+        "type": "object",
+        "required": ["owner", "name"],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "description": "Repository owner (user or organization)",
+            "example": "engi-corp"
+          },
+          "name": {
+            "type": "string",
+            "description": "Repository name",
+            "example": "webapp"
+          },
+          "branch": {
+            "type": "string",
+            "description": "Git branch to work on",
+            "default": "main",
+            "example": "feature/auth"
+          },
+          "path": {
+            "type": "string",
+            "description": "Optional path within repository to focus on",
+            "example": "src/components"
+          },
+          "installationId": {
+            "type": "integer",
+            "description": "GitHub App installation ID",
+            "example": 12345
+          }
+        }
+      },
+      "Attachment": {
+        "type": "object",
+        "required": ["type", "content"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["image", "document", "audio", "video", "url", "figma", "file"],
+            "description": "Type of attachment for specialized processing"
+          },
+          "content": {
+            "type": "string",
+            "description": "Attachment content (URL, file path, or encoded data)",
+            "example": "https://www.figma.com/file/ABC123/Design-System"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Additional metadata for processing",
+            "example": {
+              "title": "E-commerce Design System",
+              "components": ["Button", "Card", "Modal"]
+            }
+          }
+        }
+      },
+      "PipelineStatus": {
+        "type": "string",
+        "enum": ["pending", "running", "completed", "failed", "cancelled"],
+        "description": "Current status of pipeline execution"
+      },
+      "ExecutionMetrics": {
+        "type": "object",
+        "properties": {
+          "creditsUsed": {
+            "type": "integer",
+            "description": "Number of credits consumed",
+            "example": 150
+          },
+          "tokensProcessed": {
+            "type": "integer",
+            "description": "Total tokens processed by AI models",
+            "example": 25000
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score for the execution results",
+            "example": 0.92
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Execution duration in milliseconds",
+            "example": 180000
+          }
+        }
+      },
+      "Deliverable": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of deliverable created",
+            "example": "pull_request"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "External URL for the deliverable",
+            "example": "https://github.com/engi-corp/webapp/pull/123"
+          },
+          "content": {
+            "type": "string",
+            "description": "Inline content for the deliverable"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Additional deliverable metadata"
+          }
+        }
+      },
+      "DeliverableRequest": {
+        "type": "object",
+        "required": ["task", "repository", "subtype"],
+        "properties": {
+          "task": {
+            "type": "string",
+            "minLength": 10,
+            "description": "Detailed task description (minimum 10 characters)",
+            "example": "Create a complete user authentication system with JWT tokens, password hashing, and email verification"
+          },
+          "repository": { "$ref": "#/components/schemas/RepositoryContext" },
+          "subtype": {
+            "type": "string",
+            "enum": ["pull_request", "pr_review", "issue", "comment", "blog_post", "diagram", "api_spec", "frontend_scaffolder", "scope_analysis", "implementation_plan", "refactor_proposal"],
+            "description": "Specific deliverable type to create"
+          },
+          "attachments": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Attachment" },
+            "description": "Optional attachments for multimodal processing"
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "createPR": {
+                "type": "boolean",
+                "default": true,
+                "description": "Create GitHub pull request"
+              },
+              "runTests": {
+                "type": "boolean",
+                "default": true,
+                "description": "Run automated tests"
+              },
+              "generateDocs": {
+                "type": "boolean",
+                "default": true,
+                "description": "Generate documentation"
+              },
+              "securityCheck": {
+                "type": "boolean",
+                "default": true,
+                "description": "Run security analysis"
+              }
+            }
+          },
+          "streaming": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable real-time streaming of pipeline execution"
+          }
+        }
+      },
+      "PipelineResponse": {
+        "type": "object",
+        "properties": {
+          "pipelineId": {
+            "type": "string",
+            "description": "Unique pipeline execution identifier",
+            "example": "pipeline-123e4567-e89b-12d3-a456-426614174000"
+          },
+          "status": { "$ref": "#/components/schemas/PipelineStatus" },
+          "deliverables": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Deliverable" },
+            "description": "Generated deliverables and outputs"
+          },
+          "metrics": { "$ref": "#/components/schemas/ExecutionMetrics" },
+          "streamUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "WebSocket URL for real-time execution updates",
+            "example": "wss://stream.engi.com/pipeline/123e4567-e89b-12d3-a456-426614174000"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Pipeline execution start time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Pipeline execution end time"
+          }
+        }
+      },
+      "MCPError": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code",
+            "example": "INVALID_REQUEST"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "Task description must be at least 10 characters long"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Additional error context and details"
+          },
+          "retryable": {
+            "type": "boolean",
+            "description": "Whether the operation can be retried",
+            "example": false
+          },
+          "suggestion": {
+            "type": "string",
+            "description": "Suggested fix or next steps",
+            "example": "Please provide a more detailed task description with specific requirements"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request - Invalid input parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/MCPError" },
+            "example": {
+              "code": "INVALID_REQUEST",
+              "message": "Task description must be at least 10 characters long",
+              "retryable": false,
+              "suggestion": "Please provide a more detailed task description"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized - Invalid or missing API key",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/MCPError" },
+            "example": {
+              "code": "AUTHENTICATION_FAILED",
+              "message": "Invalid API key provided",
+              "retryable": false,
+              "suggestion": "Check your API key at https://engi.com/api-keys"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden - Insufficient permissions",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/MCPError" },
+            "example": {
+              "code": "INSUFFICIENT_PERMISSIONS",
+              "message": "User lacks required permissions for this operation",
+              "retryable": false,
+              "suggestion": "Contact your organization admin to grant pipeline creation permissions"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found - Resource does not exist",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/MCPError" },
+            "example": {
+              "code": "RESOURCE_NOT_FOUND",
+              "message": "Pipeline not found",
+              "retryable": false,
+              "suggestion": "Check the pipeline ID and try again"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/tools/list": {
+      "get": {
+        "summary": "List Available Tools",
+        "description": "Get a comprehensive list of all available MCP tools with their capabilities and descriptions.",
+        "operationId": "listTools",
+        "tags": ["Tools"],
+        "responses": {
+          "200": {
+            "description": "List of available tools",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tools": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Tool identifier",
+                            "example": "engi://pipelines/deliverable/create"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Tool description and capabilities",
+                            "example": "Create production-ready deliverables with comprehensive testing and documentation"
+                          },
+                          "category": {
+                            "type": "string",
+                            "description": "Tool category",
+                            "example": "pipeline"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/tools/call": {
+      "post": {
+        "summary": "Execute Tool",
+        "description": "Execute a specific MCP tool with the provided parameters. Supports both synchronous and streaming execution modes.",
+        "operationId": "callTool",
+        "tags": ["Tools"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "arguments"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Tool name to execute",
+                    "example": "engi://pipelines/deliverable/create"
+                  },
+                  "arguments": {
+                    "type": "object",
+                    "description": "Tool-specific parameters"
+                  }
+                }
+              },
+              "examples": {
+                "createDeliverable": {
+                  "summary": "Create Feature Deliverable",
+                  "description": "Example of creating a complete feature with pull request",
+                  "value": {
+                    "name": "engi://pipelines/deliverable/create",
+                    "arguments": {
+                      "task": "Create user authentication system with JWT tokens, password hashing, email verification, and password reset functionality",
+                      "repository": {
+                        "owner": "mycompany",
+                        "name": "webapp",
+                        "branch": "feature/auth"
+                      },
+                      "subtype": "pull_request",
+                      "options": {
+                        "createPR": true,
+                        "runTests": true,
+                        "generateDocs": true,
+                        "securityCheck": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool execution completed successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PipelineResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    },
+    "/pipelines/{pipelineId}": {
+      "get": {
+        "summary": "Get Pipeline Status",
+        "description": "Retrieve the current status and results of a specific pipeline execution.",
+        "operationId": "getPipelineStatus",
+        "tags": ["Pipelines"],
+        "parameters": [
+          {
+            "name": "pipelineId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "pipeline-123e4567-e89b-12d3-a456-426614174000"
+            },
+            "description": "Unique pipeline identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pipeline status and details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PipelineResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Tools",
+      "description": "Execute sophisticated engineering tools and pipelines"
+    },
+    {
+      "name": "Pipelines",
+      "description": "Monitor and control pipeline executions"
+    },
+    {
+      "name": "Resources",
+      "description": "Access read-only data and analytics"
+    }
+  ],
+  "externalDocs": {
+    "description": "Complete MCP Documentation",
+    "url": "https://docs.engi.com/mcp"
+  }
+}

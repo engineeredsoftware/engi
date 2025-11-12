@@ -1,0 +1,236 @@
+/* =====================================================================
+ * ENHANCED DELIVER BUTTON - Confidence & Intelligence Layer
+ * 
+ * Builds upon the existing quantum-button.css with intelligence
+ * awareness, confidence visualization, and predictive preview.
+ * ===================================================================== */
+
+@layer components {
+  /* Enhanced container with confidence states */
+  .deliver-button-container {
+    position: relative;
+    
+    /* Confidence-based glow enhancements */
+    &[data-confidence="high"] .quantum-button {
+      box-shadow: 
+        0 0 20px theme('colors.brand.emerald-glow'),
+        0 0 40px theme('colors.brand.emerald-glow-subtle'),
+        0 0 60px theme('colors.ai.celebration-gold');
+    }
+    
+    &[data-confidence="medium"] .quantum-button {
+      box-shadow: 
+        0 0 15px theme('colors.brand.emerald-glow'),
+        0 0 30px theme('colors.brand.emerald-glow-subtle');
+    }
+    
+    &[data-confidence="low"] .quantum-button {
+      box-shadow: 
+        0 0 10px theme('colors.brand.emerald-glow-subtle'),
+        0 0 20px theme('colors.brand.emerald-glow-subtle');
+      opacity: 0.8;
+    }
+  }
+  
+  /* Confidence ring visualization */
+  .confidence-ring {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 2px theme('colors.brand.emerald-glow'));
+    transition: all 0.5s ease-out;
+  }
+  
+  /* Resource indicator styling */
+  .resource-indicator {
+    z-index: 15;
+    animation: resource-float 3s ease-in-out infinite;
+  }
+  
+  /* Delivery preview styling */
+  .delivery-preview {
+    z-index: 20;
+    animation: preview-entrance 0.3s ease-out;
+  }
+  
+  /* Confidence ambient glow */
+  .confidence-ambient-glow {
+    z-index: -1;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  /* Enhanced button states */
+  .deliver-button.confidence-high {
+    animation: confidence-high-pulse 3s ease-in-out infinite;
+  }
+  
+  .deliver-button.confidence-medium {
+    animation: confidence-medium-glow 4s ease-in-out infinite;
+  }
+  
+  .deliver-button.confidence-low {
+    animation: confidence-low-breathe 5s ease-in-out infinite;
+  }
+}
+
+/* =====================================================================
+ * CONFIDENCE ANIMATIONS - GPU-Optimized
+ * ===================================================================== */
+
+@keyframes confidence-pulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes confidence-high-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px theme('colors.brand.emerald-glow'),
+      0 0 40px theme('colors.brand.emerald-glow-subtle'),
+      0 0 60px theme('colors.ai.celebration-gold');
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px theme('colors.brand.emerald-glow'),
+      0 0 50px theme('colors.brand.emerald-glow-subtle'),
+      0 0 80px theme('colors.ai.celebration-gold');
+    filter: brightness(1.05);
+  }
+}
+
+@keyframes confidence-medium-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px theme('colors.brand.emerald-glow'),
+      0 0 30px theme('colors.brand.emerald-glow-subtle');
+  }
+  50% {
+    box-shadow: 
+      0 0 18px theme('colors.brand.emerald-glow'),
+      0 0 36px theme('colors.brand.emerald-glow-subtle');
+  }
+}
+
+@keyframes confidence-low-breathe {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.01);
+  }
+}
+
+@keyframes resource-float {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-2px);
+  }
+}
+
+@keyframes preview-entrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.9);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0px) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Pattern-based enhancements */
+@keyframes pattern-confidence {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  30% {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+  }
+  70% {
+    transform: scale(1.01);
+    filter: brightness(1.05);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* Success prediction glow */
+@keyframes success-prediction {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px theme('colors.brand.emerald-glow'),
+      0 0 30px theme('colors.brand.emerald-glow-subtle');
+  }
+  50% {
+    box-shadow: 
+      0 0 20px theme('colors.ai.celebration-gold'),
+      0 0 40px theme('colors.ai.celebration-gold'),
+      0 0 60px theme('colors.brand.emerald-glow-subtle');
+  }
+}
+
+/* Responsive design - reduce effects on smaller screens */
+@media (max-width: 768px) {
+  .confidence-ambient-glow {
+    opacity: 0.5;
+  }
+  
+  .delivery-preview {
+    max-width: 280px;
+    font-size: 0.75rem;
+  }
+  
+  .resource-indicator {
+    display: none;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .confidence-ambient-glow,
+  .deliver-button.confidence-high,
+  .deliver-button.confidence-medium,
+  .deliver-button.confidence-low {
+    animation: none;
+  }
+  
+  .resource-indicator {
+    animation: none;
+  }
+  
+  .delivery-preview {
+    animation: none;
+  }
+  
+  .confidence-ring {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .delivery-preview {
+    border-width: 2px;
+    background: theme('colors.brand.cosmic');
+  }
+  
+  .confidence-ring {
+    stroke-width: 2;
+  }
+}

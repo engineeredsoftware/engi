@@ -1,0 +1,475 @@
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import SplitGrid from '@/app/conversations/components/ConversationsSplitGrid';
+import FullscreenPortal from '@/app/conversations/components/ConversationsFullscreenPortal';
+
+const meta = {
+  title: 'Conversations/Complete System Demo',
+  component: SplitGrid,
+  parameters: {
+    layout: 'fullscreen',
+    backgrounds: { default: 'dark' },
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof SplitGrid>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Complete conversation with all features
+const completeConversationData = {
+  conversation: {
+    id: 'conv-complete',
+    title: 'Full-Stack E-Commerce Platform Development',
+    created_at: '2024-01-15T08:00:00Z',
+    updated_at: '2024-01-15T12:30:00Z'
+  },
+  messages: [
+    {
+      id: 'msg-1',
+      role: 'user' as const,
+      content: 'I want to build a complete e-commerce platform with modern stack #mycompany/ecommerce-platform +requirements.pdf +ui-mockups.figma',
+      created_at: '2024-01-15T08:00:00Z',
+      tokens: [
+        {
+          type: 'source' as const,
+          value: 'mycompany/ecommerce-platform',
+          metadata: {
+            repoSlug: 'mycompany/ecommerce-platform',
+            branch: 'main',
+            selectedFiles: ['package.json', 'src/App.js', 'src/components/Layout.js']
+          }
+        },
+        {
+          type: 'attachment' as const,
+          value: 'requirements.pdf',
+          metadata: {
+            id: 'att-req',
+            name: 'requirements.pdf',
+            type: 'file',
+            size: 2048000,
+            preview: 'E-commerce platform requirements: user auth, product catalog, shopping cart, payment processing...'
+          }
+        },
+        {
+          type: 'attachment' as const,
+          value: 'ui-mockups.figma',
+          metadata: {
+            id: 'att-figma',
+            name: 'ui-mockups.figma',
+            type: 'url',
+            url: 'https://figma.com/file/123/ecommerce-mockups',
+            preview: 'Complete UI/UX mockups for e-commerce platform'
+          }
+        }
+      ]
+    },
+    {
+      id: 'msg-2',
+      role: 'assistant' as const,
+      content: "Excellent! I'll help you build a complete e-commerce platform. Based on your requirements document and UI mockups, I can see you need:\n\n**Core Features:**\n- User authentication and profiles\n- Product catalog with search/filtering\n- Shopping cart and wishlist\n- Secure payment processing\n- Order management and tracking\n- Admin dashboard\n\n**Technology Stack Analysis:**\nFrom your repository, I can see you're using React. I'll enhance it with:\n- Next.js for SSR and API routes\n- TypeScript for type safety\n- Prisma for database management\n- Stripe for payment processing\n- Tailwind CSS for styling\n\n🚀 **Starting multiple pipelines** to build this comprehensively:",
+      created_at: '2024-01-15T08:02:00Z'
+    },
+    {
+      id: 'msg-3',
+      role: 'user' as const,
+      content: '@deliverable User Authentication System @deliverable Product Catalog with Search @deliverable Shopping Cart & Checkout',
+      created_at: '2024-01-15T08:05:00Z',
+      tokens: [
+        {
+          type: 'deliverable' as const,
+          value: 'User Authentication System',
+          metadata: {
+            priority: 'high',
+            estimatedCredits: 150
+          }
+        },
+        {
+          type: 'deliverable' as const,
+          value: 'Product Catalog with Search',
+          metadata: {
+            priority: 'high',
+            estimatedCredits: 200
+          }
+        },
+        {
+          type: 'deliverable' as const,
+          value: 'Shopping Cart & Checkout',
+          metadata: {
+            priority: 'medium',
+            estimatedCredits: 180
+          }
+        }
+      ]
+    },
+    {
+      id: 'msg-4',
+      role: 'assistant' as const,
+      content: "Perfect! I've started three parallel deliverable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Product Catalog with Search** (Pipeline #2) \n- Product CRUD operations\n- Advanced search with filters\n- Category management\n- Image upload and optimization\n\n✅ **Shopping Cart & Checkout** (Pipeline #3)\n- Cart state management\n- Stripe payment integration\n- Order processing workflow\n- Email notifications\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
+      created_at: '2024-01-15T08:07:00Z'
+    },
+    {
+      id: 'msg-5',
+      role: 'user' as const,
+      content: 'Great progress! Can you also :runs to show me current status?',
+      created_at: '2024-01-15T09:30:00Z',
+      tokens: [
+        {
+          type: 'command' as const,
+          value: 'runs',
+          metadata: {
+            id: 'runs',
+            category: 'navigation'
+          }
+        }
+      ]
+    },
+    {
+      id: 'msg-6',
+      role: 'assistant' as const,
+      content: "📊 **Pipeline Status Report**\n\n**✅ Completed:**\n- **User Authentication System** (del-auth) - Completed in 25 minutes\n  - Created 12 files, 1,240 lines of code\n  - Pull Request: #156 (Ready for review)\n  - Features: OAuth, JWT, RBAC, profiles\n\n**🚀 Active:**\n- **Product Catalog** (del-catalog) - 75% complete (Implementation phase)\n  - ETA: 10 minutes remaining\n  - Current: Implementing search functionality\n  - Created 8 files so far\n\n- **Shopping Cart & Checkout** (del-cart) - 45% complete (Discovery phase)\n  - ETA: 20 minutes remaining  \n  - Current: Analyzing Stripe integration patterns\n  - Processed payment requirements\n\n**💳 Credits Used:** 425 of 530 estimated\n**🎯 Success Rate:** 100% (all pipelines on track)",
+      created_at: '2024-01-15T09:31:00Z'
+    },
+    {
+      id: 'msg-7',
+      role: 'user' as const,
+      content: 'Excellent! Now let\'s add some improvements: ^React 18 Migration ^TypeScript Strict Mode',
+      created_at: '2024-01-15T10:00:00Z',
+      tokens: [
+        {
+          type: 'upgrade' as const,
+          value: 'React 18 Migration',
+          metadata: {
+            type: 'framework_upgrade',
+            estimatedCredits: 100,
+            recommendationScore: 90
+          }
+        },
+        {
+          type: 'upgrade' as const,
+          value: 'TypeScript Strict Mode',
+          metadata: {
+            type: 'code_improvement',
+            estimatedCredits: 120,
+            recommendationScore: 85
+          }
+        }
+      ]
+    },
+    {
+      id: 'msg-8',
+      role: 'assistant' as const,
+      content: "🔄 **Upgrade Pipelines Started**\n\nI've initiated two upgrade pipelines to modernize your codebase:\n\n**⬆️ React 18 Migration** (upg-react18)\n- Upgrading from React 17 to React 18\n- Implementing concurrent features\n- Automatic batching optimizations\n- Updating dependencies and types\n- Testing concurrent rendering\n\n**📊 TypeScript Strict Mode** (upg-typescript)\n- Enabling strict TypeScript configuration\n- Fixing type errors across codebase\n- Adding comprehensive type definitions\n- Improving code quality and safety\n\nThese upgrades will run in parallel with your deliverable pipelines and will enhance the entire platform's performance and maintainability!",
+      created_at: '2024-01-15T10:02:00Z'
+    }
+  ],
+  isStreaming: false,
+  currentContent: '',
+  activePipelines: new Set(['del-catalog', 'del-cart', 'upg-react18', 'upg-typescript']),
+  completedPipelines: new Set(['del-auth']),
+  pipelineEvents: [
+    {
+      id: 'pipeline-auth',
+      type: 'deliverable' as const,
+      runId: 'del-auth',
+      status: 'completed' as const,
+      progress: 100,
+      phase: 'Complete',
+      estimatedCredits: 150,
+      usedCredits: 145,
+      startedAt: '2024-01-15T08:07:00Z',
+      completedAt: '2024-01-15T08:32:00Z',
+      pullRequestUrl: 'https://github.com/mycompany/ecommerce-platform/pull/156',
+      events: [
+        {
+          id: 'evt-auth-complete',
+          timestamp: '08:32:00',
+          phase: 'Shipping',
+          message: '✅ User Authentication System completed successfully',
+          level: 'success' as const
+        },
+        {
+          id: 'evt-auth-pr',
+          timestamp: '08:32:15',
+          phase: 'Shipping',
+          message: '🎉 Pull Request #156: OAuth Authentication System (Ready for review)',
+          level: 'success' as const,
+          details: {
+            pullRequestUrl: 'https://github.com/mycompany/ecommerce-platform/pull/156',
+            filesChanged: 12,
+            linesAdded: 1240,
+            linesRemoved: 35
+          }
+        }
+      ]
+    },
+    {
+      id: 'pipeline-catalog',
+      type: 'deliverable' as const,
+      runId: 'del-catalog',
+      status: 'running' as const,
+      progress: 75,
+      phase: 'Implementation',
+      estimatedCredits: 200,
+      usedCredits: 150,
+      startedAt: '2024-01-15T08:07:30Z',
+      events: [
+        {
+          id: 'evt-cat-current',
+          timestamp: '09:45:00',
+          phase: 'Implementation',
+          message: '🔍 Implementing advanced product search with Elasticsearch',
+          level: 'info' as const,
+          isStreaming: true
+        }
+      ]
+    },
+    {
+      id: 'pipeline-cart',
+      type: 'deliverable' as const,
+      runId: 'del-cart',
+      status: 'running' as const,
+      progress: 45,
+      phase: 'Discovery',
+      estimatedCredits: 180,
+      usedCredits: 81,
+      startedAt: '2024-01-15T08:07:45Z',
+      events: [
+        {
+          id: 'evt-cart-current',
+          timestamp: '09:25:00',
+          phase: 'Discovery',
+          message: '💳 Analyzing Stripe payment integration patterns',
+          level: 'info' as const
+        }
+      ]
+    },
+    {
+      id: 'pipeline-react18',
+      type: 'upgrade' as const,
+      runId: 'upg-react18',
+      status: 'running' as const,
+      progress: 30,
+      phase: 'Implementation',
+      estimatedCredits: 100,
+      usedCredits: 30,
+      startedAt: '2024-01-15T10:02:30Z',
+      events: [
+        {
+          id: 'evt-react-current',
+          timestamp: '10:15:00',
+          phase: 'Implementation',
+          message: '⬆️ Upgrading React components to use concurrent features',
+          level: 'info' as const,
+          isStreaming: true
+        }
+      ]
+    },
+    {
+      id: 'pipeline-typescript',
+      type: 'upgrade' as const,
+      runId: 'upg-typescript',
+      status: 'running' as const,
+      progress: 20,
+      phase: 'Setup',
+      estimatedCredits: 120,
+      usedCredits: 24,
+      startedAt: '2024-01-15T10:03:00Z',
+      events: [
+        {
+          id: 'evt-ts-current',
+          timestamp: '10:10:00',
+          phase: 'Setup',
+          message: '📊 Configuring strict TypeScript settings',
+          level: 'info' as const
+        }
+      ]
+    }
+  ]
+};
+
+export const CompleteECommerceDemo: Story = {
+  args: {
+    leftPanel: {
+      component: 'ConversationCard',
+      props: completeConversationData
+    },
+    rightPanel: {
+      component: 'SidebarLogs',
+      props: {
+        activePipelines: completeConversationData.activePipelines,
+        pipelineEvents: completeConversationData.pipelineEvents,
+        onViewFullLog: (runId: string) => console.log('Viewing full log for:', runId),
+        onRetryPipeline: (runId: string) => console.log('Retrying pipeline:', runId),
+        isCollapsed: false
+      }
+    },
+    isFullscreen: false,
+    splitRatio: 70
+  }
+};
+
+// Fullscreen Experience
+export const FullscreenExperience: Story = {
+  render: () => (
+    <FullscreenPortal isOpen onClose={() => console.log('Closing fullscreen')}>
+      <SplitGrid
+        leftPanel={{
+          component: 'ConversationCard',
+          props: completeConversationData
+        }}
+        rightPanel={{
+          component: 'SidebarLogs',
+          props: {
+            activePipelines: completeConversationData.activePipelines,
+            pipelineEvents: completeConversationData.pipelineEvents,
+            onViewFullLog: (runId: string) => console.log('Viewing full log for:', runId),
+            onRetryPipeline: (runId: string) => console.log('Retrying pipeline:', runId),
+            isCollapsed: false
+          }
+        }}
+        isFullscreen={true}
+        splitRatio={65}
+      />
+    </FullscreenPortal>
+  )
+};
+
+// Mobile-Responsive Experience
+export const MobileExperience: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1'
+    }
+  },
+  args: {
+    leftPanel: {
+      component: 'ConversationCard',
+      props: {
+        ...completeConversationData,
+        isMobile: true
+      }
+    },
+    rightPanel: {
+      component: 'SidebarLogs',
+      props: {
+        activePipelines: completeConversationData.activePipelines,
+        pipelineEvents: completeConversationData.pipelineEvents,
+        onViewFullLog: (runId: string) => console.log('Viewing full log for:', runId),
+        onRetryPipeline: (runId: string) => console.log('Retrying pipeline:', runId),
+        isCollapsed: true,
+        isMobile: true
+      }
+    },
+    isFullscreen: false,
+    splitRatio: 100, // Full width on mobile
+    isMobile: true
+  }
+};
+
+// Performance Stress Test
+export const PerformanceStressTest: Story = {
+  args: {
+    leftPanel: {
+      component: 'ConversationCard',
+      props: {
+        ...completeConversationData,
+        messages: [
+          ...completeConversationData.messages,
+          // Add 50 more messages to test performance
+          ...Array.from({ length: 50 }, (_, i) => ({
+            id: `stress-msg-${i}`,
+            role: (i % 2 === 0 ? 'user' : 'assistant') as const,
+            content: `Stress test message ${i + 1}: This is a longer message to test performance with large conversations. It includes multiple sentences and technical details about the implementation process.`,
+            created_at: new Date(Date.now() + i * 60000).toISOString(),
+            tokens: i % 5 === 0 ? [
+              {
+                type: 'attachment' as const,
+                value: `test-file-${i}.pdf`,
+                metadata: { id: `att-stress-${i}` }
+              }
+            ] : undefined
+          }))
+        ]
+      }
+    },
+    rightPanel: {
+      component: 'SidebarLogs',
+      props: {
+        activePipelines: new Set(['stress-test-1', 'stress-test-2', 'stress-test-3']),
+        pipelineEvents: Array.from({ length: 10 }, (_, i) => ({
+          id: `stress-pipeline-${i}`,
+          type: 'deliverable' as const,
+          runId: `stress-test-${i}`,
+          status: 'running' as const,
+          progress: Math.floor(Math.random() * 100),
+          phase: ['Setup', 'Discovery', 'Implementation', 'Validation', 'Shipping'][Math.floor(Math.random() * 5)],
+          estimatedCredits: 100,
+          usedCredits: Math.floor(Math.random() * 100),
+          startedAt: new Date(Date.now() - Math.random() * 3600000).toISOString(),
+          events: Array.from({ length: 20 }, (_, j) => ({
+            id: `stress-evt-${i}-${j}`,
+            timestamp: new Date(Date.now() - Math.random() * 1800000).toISOString().slice(11, 19),
+            phase: ['Setup', 'Discovery', 'Implementation'][Math.floor(Math.random() * 3)],
+            message: `Stress test event ${j + 1} for pipeline ${i + 1}`,
+            level: 'info' as const
+          }))
+        })),
+        onViewFullLog: (runId: string) => console.log('Viewing full log for:', runId),
+        onRetryPipeline: (runId: string) => console.log('Retrying pipeline:', runId),
+        isCollapsed: false
+      }
+    },
+    isFullscreen: false,
+    splitRatio: 70
+  }
+};
+
+// Real-Time Streaming Demo
+export const RealTimeStreamingDemo: Story = {
+  args: {
+    leftPanel: {
+      component: 'ConversationCard',
+      props: {
+        ...completeConversationData,
+        isStreaming: true,
+        currentContent: "I'm analyzing your e-commerce platform requirements and creating a comprehensive implementation plan. This includes:\n\n1. **Database Schema Design**\n   - User tables with authentication\n   - Product catalog with categories\n   - Order and payment tracking\n\n2. **API Architecture**\n   - RESTful endpoints for all operations\n   - Real-time inventory updates\n   - Secure payment processing\n\n3. **Frontend Components**\n   - Responsive product grids\n   - Interactive shopping cart\n   - Checkout flow with validation\n\nI'm now implementing these features across multiple parallel pipelines to deliver your complete e-commerce solution efficiently.",
+        activePipelines: new Set(['del-streaming'])
+      }
+    },
+    rightPanel: {
+      component: 'SidebarLogs',
+      props: {
+        activePipelines: new Set(['del-streaming']),
+        pipelineEvents: [
+          {
+            id: 'streaming-pipeline',
+            type: 'deliverable' as const,
+            runId: 'del-streaming',
+            status: 'running' as const,
+            progress: 55,
+            phase: 'Implementation',
+            estimatedCredits: 250,
+            usedCredits: 138,
+            startedAt: '2024-01-15T12:00:00Z',
+            events: [
+              {
+                id: 'stream-evt-current',
+                timestamp: '12:25:00',
+                phase: 'Implementation',
+                message: '🔄 Real-time implementation in progress...',
+                level: 'info' as const,
+                isStreaming: true
+              }
+            ]
+          }
+        ],
+        onViewFullLog: (runId: string) => console.log('Viewing full log for:', runId),
+        onRetryPipeline: (runId: string) => console.log('Retrying pipeline:', runId),
+        isCollapsed: false
+      }
+    },
+    isFullscreen: false,
+    splitRatio: 70
+  }
+};

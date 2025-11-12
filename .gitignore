@@ -1,0 +1,78 @@
+.DS_Store
+node_modules
+__pycache__
+app/app/__pychache__
+uapi/tmp
+# Playwright test artifacts
+**/playwright-report/**
+uapi/playwright-report/
+**/test-results/**
+uapi/test-results/**
+
+# Auto-generated inventory docs
+internal-docs/agents-auto.md
+# Coverage output
+coverage/
+uapi/coverage/
+# Jest snapshot directories
+**/__snapshots__/
+**/.next/**
+**/.jest_cache/**
+**/storybook-static/**
+.cloc_tmp/
+
+# Ignore pnpm temp workspaces
+**/.pnpm-home/
+**/dist/**
+
+# Ignore accidental TS build outputs in packages (source lives in TS)
+packages/**/src/**/*.js
+packages/**/src/**/*.js.map
+packages/**/__tests__/**/*.js
+
+# Prevent accidental JS emission alongside TS in apps
+# Admin app
+admin/__tests__/**/*.js
+admin/app/**/*.js
+admin/components/**/*.js
+admin/lib/**/*.js
+admin/middleware.js
+
+# UAPI app
+uapi/__tests__/**/*.js
+uapi/tests/**/*.js
+uapi/app/**/*.js
+uapi/components/**/*.js
+uapi/lib/**/*.js
+uapi/middleware/**/*.js
+uapi/middleware.js
+
+# UI registry example JS (generated)
+uapi/components/ui/apps/**/example/**/*.js
+uapi/components/ui/apps/www/registry/**/example/**/*.js
+
+# Shadcn test fixtures and internal JS helpers
+uapi/components/ui/packages/shadcn/test/**/*.js
+uapi/components/ui/packages/shadcn/src/utils/**/*.js
+
+
+# Extra ignore for JS build artifacts across workspaces
+uapi/playwright.config.js
+uapi/prompts/**/*.js
+uapi/scripts/**/*.js
+uapi/specifics/**/*.js
+uapi/stories/**/*.js
+admin/tailwind.config.js
+packages/**/tests/**/*.js
+packages/**/test/**/*.js
+packages/**/examples/**/*.js
+packages/**/run/**/*.js
+packages/**/prompts/**/*.js
+packages/doc-code/scripts/*.js
+packages/doc-comment/examples/*.js
+packages/web-search/examples/**/*.js
+packages/pipelines/deliverable/test/**/*.js
+packages/digest/**/*.js
+packages/pipelines/deliverable/test-pipeline.js
+scripts/*.js
+uapi/tailwind.config.js

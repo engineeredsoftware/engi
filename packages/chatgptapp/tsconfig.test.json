@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest", "node"],
+    "noEmit": true,
+    "paths": {
+      "@engi/generic-tools-simple-system-text-search": ["packages/chatgptapp/src/__stubs__/generic-tools-simple-system-text-search.ts"],
+      "@engi/generic-tools-web-search": ["packages/chatgptapp/src/__stubs__/generic-tools-web-search.ts"],
+      "@engi/digest/run": ["packages/chatgptapp/src/__stubs__/digest-run.ts"],
+      "@engi/generic-tools-mcps-aws": ["packages/chatgptapp/src/__stubs__/generic-tools-mcps-aws.ts"],
+      "@engi/generic-tools-mcps-vercel": ["packages/chatgptapp/src/__stubs__/generic-tools-mcps-vercel.ts"],
+      "@engi/github": ["packages/chatgptapp/src/__stubs__/github.ts"],
+      "@engi/vcs": ["packages/chatgptapp/src/__stubs__/vcs.ts"],
+      "@engi/artifacts": ["packages/chatgptapp/src/__mocks__/engi-artifacts.ts"],
+      "@engi/context": ["packages/chatgptapp/src/__stubs__/context.ts"],
+      "@engi/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/vercel-doc-prompt.ts"],
+      "@engi/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/aws-doc-prompt.ts"],
+      "@engi/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/ssts-doc-prompt.ts"],
+      "@engi/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/web-search-doc-prompt.ts"],
+      "@engi/prompts/src/*": ["../prompts/src/*"],
+      "@engi/prompts": ["../prompts/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

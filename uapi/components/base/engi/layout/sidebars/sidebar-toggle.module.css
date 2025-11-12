@@ -1,0 +1,17 @@
+.particle { top: 45%; left: 40%; transform-origin: center center; animation: sidebarParticle 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; box-shadow: 0 0 6px rgba(103,254,183,0.2); will-change: transform, opacity, filter; }
+.pulse { animation: sidebarPulse 2s infinite ease-in-out; }
+
+@keyframes sidebarParticle {
+  0% { transform: rotate(var(--angle)) translateY(0) scale(0.2); opacity: 0; }
+  50% { transform: rotate(var(--angle)) translateY(-12px) scale(1); opacity: 0.8; }
+  100% { transform: rotate(var(--angle)) translateY(-24px) scale(0.2); opacity: 0; }
+}
+
+@keyframes sidebarPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle, .pulse { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; }
+}

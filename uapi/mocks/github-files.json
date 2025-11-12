@@ -1,0 +1,6 @@
+{
+  "files": [
+    { "path": "src/index.js", "type": "file", "sha": "abc123" },
+    { "path": "README.md", "type": "file", "sha": "def456" }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "profile": {
+    "email": "mockuser@example.com",
+    "is_verified": true,
+    "username": "mockuser",
+    "display_name": "Mock User",
+    "bio": "This is a mock bio.",
+    "company_name": "Mock Company",
+    "avatar_url": "/images/mock-avatar.png",
+    "team_members": []
+  },
+  "vcsConnections": [
+    {
+      "id": "mock-github-connection",
+      "provider": "github",
+      "connection_data": {
+        "installationId": "12345",
+        "code": "abcdef"
+      }
+    }
+  ],
+  "credits": 1000,
+  "modelPreferences": [],
+  "onboarded_steps": ["profile", "connects", "models", "credits"],
+  "isOnboardingComplete": true
+}

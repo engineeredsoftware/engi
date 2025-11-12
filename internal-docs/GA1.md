@@ -1,0 +1,74 @@
+# GA-1 Execution Status (Source-Aligned)
+
+Single-source tracker for GA-1. Every bullet below maps to concrete source files; any drift between this doc and code is a bug.
+
+---
+
+## Design → Develop → Digest Router
+- `packages/pipelines/deliverable/src/index.ts:12` – `deliverablePipeline` wraps `createGuidedPipelineExecution` so executions move through **Design → Develop → Digest** based on the gate stored in `execution.get('gate','current')`.
+- `factoryPreprocess` / `factoryIterationPreprocess` (same file, lines 46-125) hydrate Supabase instructions, attachment metadata, definition-of-done snapshots, and persist per-iteration stats under `pipeline:iteration:*`.
+- `phases/design.ts` exports `designPhase` (PRODUCT.md iteration) and `phases/digest.ts` exports `digestPhase` (AGENTS.md learning capture). Digest here is the gated post-Develop phase—not the SDIVS "digest" tool; inside SDIVS the term only appears in agent prompts.
+- `factoryDevelopPhase` composes the SDIVS runner via `factorySDIVSExecutorPipeline('develop', deliverablePhases…)`, wiring preprocess, PTRR iterations, postprocess snapshots, and a test harness stub.
+
+## SDIVS Execution Stack (Setup→Discovery→Implementation→Validation→Shipping)
+- `phases/setup.ts` – `deliverablesPipelineSetupPhaseExecutor` sequences clone → plan → DoD comprehension (+optional LSP init) → MCP bootstrap while Danger Wall lives in this gate. Returns the original input; downstream phases read execution stores.
+- `phases/discovery.ts` registers research agents and runs them via `sequential(createAgentExecutor('discovery:…'))` so requirements, approach, and validation criteria live under `execution.store('discovery', …)`.
+- `phases/implementation.ts` fans out by deliverable type. Code changes run Divide (determine files) → parallel Conquer (per-file agent) → Correct (global fixer). Review and design variants map to dedicated agents. This phase injects per-file Tool access via `createAgentExecutor('implementation:…')`.
+- `phases/validation.ts` gathers validator agents (`validation:validate-last-iterations…`, discovery validator, type-specific implementation validator), then runs `ready-to-instruct`, waits for user input if confidence < 0.8 (`waitForInstruction`), and finishes with `ready-to-ship`.
+- `phases/shipping.ts` sequences `shipping:deliverable-pipeline-ship-agent` and `shipping:final-work-summary`, registering VCS/MCP tools so PR creation, metrics, and summary posting are atomic.
+- `factoryPostprocess` normalizes outputs (`normalizeDeliverableOutput` + `buildDeliverablePostprocessedResult`) so `postprocessed.result` always contains deliverable summary, file diffs, and validation flags for gating.
+
+## Key Agents & Tooling
+- Implementation agents live in `agents/implementation-agents.ts`: `DeliverablesPipelineImplementationPhaseDividePullRequestAgent`, `…ConquerFileAgent`, `…CorrectPullRequestAgent`, and review/design variants. All are `factoryAgentWithPTRR` instances with explicit Zod schemas, chunk thresholds, and doc-code prompts.
+- Validation agents (`agents/validation/*.ts`) keep READY-TO-INSTRUCT (`deliverable-pipeline-ready-to-instruct-agent`) and READY-TO-SHIP logic isolated, capturing confidence & instruction metadata inside `validation/selfInstruction`.
+- Digest gate agent (`agents/digest/capture-learnings-agent.ts`) reads Develop outputs, file-change stats, and `.ai/AGENTS.md`; it only edits AGENTS.md via the files-maintaining tool wrappers and stores proposals under `execution.store('digest','proposal')`.
+- `packages/pipelines/deliverable/src/tools/index.ts` defines phase tool sets plus `ALL_DELIVERABLE_TOOLS`. Wrappers like `DeliverablePipelineCloneVCSRepositoryTool` attach deliverables-specific doc-code prompts by cloning the base prompt and merging metadata sections.
+- `initializeDeliverablePipeline` (`preprocess.ts`) calls `assertDocCodePrompt` for every tool before `execution.tools.registerTool`. Missing doc-code prompts hard fail so agents never see undocumented tools.
+- Runtime tool docs are formatted exclusively from doc-code via `packages/tools-generics/src/doc-code-tool/formatUsableTools.ts`. `factoryToolsExecution` (`agent-generics/src/substeps/factories.ts`) pulls step-selected tools, fetches them from the registry, and the doc-code prompt travels with the Tool instance (`tool.__docCodePrompt`).
+
+## Persistence, Gate History & Post-Run UX
+- `packages/api/src/routes/deliverables.ts:1031-1215` handles execution completion. It lifts `gateHistory` from `execution.get('gate','state')`, attaches Digest status, embeds validation ready-to-ship metadata, and stores everything in `pipeline_executions.metadata` via `packages/orm`.
+- `packages/pipelines-generics/src/execution/route-pipeline-execution.ts` maintains `gateState.history` so every transition (Design→Develop→Digest, ship blocks, short-circuits) is serialized.
+- `/api/executions/history/[runId]` (`uapi/app/api/executions/history/[runId]/route.ts`) exposes the stored metadata. `ExecutionsPageClient.tsx:232-307` merges the saved `gateHistory` into header processing stats so reconnects show historical guides, digest summaries, and final work summaries.
+
+## Streaming + Conversations (Re-enablement) Surfaces
+- Streaming integration pipes each guide event through `packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts` and `uapi/streaming/stream-parser.ts`, emitting `guide-start`, `work-update`, tool usage, and completion telemetry.
+- The Conversations overlay stack lives in `uapi/app/conversations/components/ConversationsOverlay.tsx`, with floating/fullscreen renderers, while hooks `uapi/hooks/useConversationStream.ts` and `useConversationsPerformanceMonitor.ts` throttle SSE throughput + FPS.
+- UI widgets (`uapi/app/executions/components/ExecutionsPageHeader.tsx`, `GuideIndicator`, `InstructionConfidenceTimer`, `WorkUpdatePanel`, `useExecutionState.ts`) surface live plan/try/refine/retry updates, tool usage, and gate transitions.
+
+## Instruction, Attachments & Guard Rails
+- Iteration preprocess pulls Supabase instructions (`@engi/supabase`) and attachments, storing them under `instructions:list` and `context:enhancements`. `/api/executions/instructions` + `ExecutionsInstructions.tsx` provide the UX.
+- Files written by Design/Digest guides go through `packages/generic-tools/vcs/src/index.ts` + `createGatedTool`, ensuring out-of-scope repositories cannot be mutated.
+- Digest gate enforces `.ai/AGENTS.md` updates before Shipping (`uapi/app/api/executions/[runId]/route.ts` blocks Ship until ready-to-digest approves the diff).
+
+## Commerce, Onboarding & Notifications
+- Credits + ledger: `packages/credits/src/index.ts` manages reservations/escrow/refunds; `/api/orbitals/user/credits` & `/api/orbitals/transactions` expose balances/history to `OrbitalsCreditsPane` and `credits-tracker`.
+- Checkout: `/api/create-checkout-session` and `/api/fulfill-checkout-session` (stub) implement Stripe flows. Tests in `uapi/tests/createCheckoutSessionRoute.test.ts` assert the session payload.
+- Onboarding gating: `/api/orbitals/user/onboarding` + `/api/orbitals/user/data` feed `ExecutionsPageClient` so users must connect VCS + credits before kicking off runs.
+- Notifications & telemetry: `/api/notifications/*`, `packages/api/src/routes/deliverables.ts` (`sendServerEvent`) and `uapi/streaming/streaming-performance.ts` capture telemetry, credit depletion events, and SSE timing.
+
+## Prompt + Documentation Systems
+- **Doc-comments** (`packages/doc-comment/*`, `packages/generic-doc-comment-plugins/doc-developing/*`, `packages/prompts/src/benchmarking/runner.ts`) only run at dev/build time for benchmarking, dry-runs, and coverage scripts. Nothing under `@engi/doc-comment` is imported by runtime agents.
+- **Doc-code** (`packages/doc-code/src/index.ts` + loader) scans for `@doc-code-tool` comments, injects `instance.__docCodePrompt = PROMPT`, and is consumed by the tool registry/formatter above. Only doc-code prompts travel with Tool instances.
+- `packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.ts` validates metadata, while `formatToolsWithDocCodeToolsIntoUsableTools` renders the structured prompt that gets injected into PTRR steps whenever tools are requested.
+- Result: doc-comments stay in tooling/CI, doc-code prompts are the only documentation that reaches inference time, and every agent capable of invoking a tool receives doc-code-tool context automatically through `StepExecution.tools.getUsableTools()` + `factoryToolsExecution`.
+
+## Legacy Cleanup Status
+- **Memo**: `uapi/styles/memo/*` and related data were removed; current searches only surface legitimate `React.memo` usages via `import { memo } … }`.
+- **Re-enablement naming**: All remaining references to the legacy chat codename are being scrubbed (assets/tests/routes renamed in this change set) so Conversations/Re-enablement is the only terminology in code, docs, and UI.
+
+## 🚧 Remaining GA-1 Work (highest impact first)
+1. **Stripe fulfillment + credit grant** (`uapi/app/api/fulfill-checkout-session/route.ts`, `packages/credits/src/index.ts`)
+   - Implement Stripe session lookup, credit issuance, and Orbitals UI success/abort flows; remove the placeholder response so purchases actually grant credits.
+2. **Guide history surfaces** (`uapi/app/executions/components/ExecutionsPageClient.tsx`, `uapi/components/base/engi/execution/*`)
+   - Now that metadata contains `gateHistory`, build explicit UI (sidebar panels / timeline) so Design→Develop→Digest transitions are reviewable post-run.
+3. **Guide-aware history persistence** (`packages/pipelines-generics/src/execution/route-pipeline-execution.ts`, `packages/api/src/routes/deliverables.ts`)
+   - Extend `gateHistory` with timestamps + short-circuit reasons per transition and ensure `/api/executions/history` exposes the enriched structure.
+4. **Security audit closure** (`internal-docs/SECURITY.md`, `/api/*`, `packages/api`)
+   - Complete JWT validation, SQL parameterization, per-route rate limiting, CSRF protection, and secret-rotation hooks before GA-1 can ship.
+
+## 🔍 Verification Checklist After Each Change
+- `pnpm ts-node packages/api/scripts/describe-execution.ts <runId>` shows executions with `{ type, guide, output, metadata.guide, metadata.gateHistory }`.
+- `/api/executions/stream` emits guide-aware start/completion events plus `work-update` payloads including doc-code-instrumented tool usage.
+- Attempting Design/Digest writes against disallowed paths triggers `createGatedTool` errors.
+- Header timer + suggestion list use the latest `work-update` confidence; Digest gate blocks Ship until `.ai/AGENTS.md` diff is approved and recorded in metadata/digest snapshot.

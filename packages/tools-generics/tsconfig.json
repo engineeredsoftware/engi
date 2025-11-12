@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../doc-comment" },
+    { "path": "../doc-code" },
+    { "path": "../prompts" }
+  ]
+}

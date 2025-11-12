@@ -1,0 +1,117 @@
+/* Quantum Orb Styles */
+
+.quantum-orb-container {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Hardware acceleration hints */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.quantum-orb-container:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.quantum-orb-container:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Quantum particles */
+.quantum-particle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: theme('colors.quantum.particle');
+  box-shadow: 0 0 10px theme('colors.brand.emerald-glow-60');
+  opacity: 0;
+  transform: scale(0);
+  animation: quantum-particle-float 10s infinite ease-in-out;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes quantum-particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0);
+  }
+
+  20% {
+    opacity: var(--opacity, 0.6);
+    transform: translateY(0) scale(1);
+  }
+
+  80% {
+    opacity: var(--opacity, 0.6);
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0);
+  }
+}
+
+/* Orbital ring animations are defined in the SSOT: app/styles/orbital-rings.css */
+
+/* Pulse animation for active state */
+@keyframes quantum-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Glow animation */
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+    filter: blur(8px);
+  }
+
+  50% {
+    opacity: 1;
+    filter: blur(12px);
+  }
+}
+
+/* Performance optimizations */
+.wavy-blob-container,
+.orbital-ring,
+.glow-inner,
+.glow-outer,
+.core-pulse,
+.quantum-orb-outer-glow,
+.quantum-orb-active-indicator {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce paint area for blur effects */
+.glow-inner,
+.glow-outer,
+.quantum-orb-outer-glow {
+  contain: paint;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  .quantum-orb-container * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
+  }
+}

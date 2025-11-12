@@ -1,0 +1,108 @@
+import { DocCodeToolPrompt } from '@engi/tools-generics';
+import { PromptPart } from '@engi/prompts';
+import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLNAME } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLPURPOSE } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLCAPABILITIES } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLPARAMETERS } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLOUTPUT } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_depictdesignasset_doccodetooloutput';
+
+import { PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLNAME } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_designcode_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLPURPOSE } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_designcode_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLCAPABILITIES } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_designcode_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLPARAMETERS } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_designcode_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLOUTPUT } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_designcode_doccodetooloutput';
+
+import { PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLNAME } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_codedesign_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLPURPOSE } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_codedesign_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLCAPABILITIES } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_codedesign_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLPARAMETERS } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_codedesign_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLOUTPUT } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_codedesign_doccodetooloutput';
+
+import { PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLNAME } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_readcodechangesvcs_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLPURPOSE } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_readcodechangesvcs_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLCAPABILITIES } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_readcodechangesvcs_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLPARAMETERS } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_readcodechangesvcs_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLOUTPUT } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_readcodechangesvcs_doccodetooloutput';
+
+import { PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLNAME } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_writecodechangesvcs_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLPURPOSE } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_writecodechangesvcs_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLCAPABILITIES } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_writecodechangesvcs_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLPARAMETERS } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_writecodechangesvcs_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLOUTPUT } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_writecodechangesvcs_doccodetooloutput';
+
+import { PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLNAME } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_improvedevelopingbehavior_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLPURPOSE } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_improvedevelopingbehavior_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLCAPABILITIES } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_improvedevelopingbehavior_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLPARAMETERS } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_improvedevelopingbehavior_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLOUTPUT } from '@engi/prompts/src/raw_promptparts/specific/promptpart_specific_tool_improvedevelopingbehavior_doccodetooloutput';
+
+function buildPrompt(
+  name: PromptPart,
+  purpose: PromptPart,
+  capabilities: PromptPart,
+  parameters: PromptPart,
+  output: PromptPart,
+  category: PromptPart
+) {
+  const prompt = new DocCodeToolPrompt();
+  prompt.setMetadata(name, category, 'GA1.70.0' as PromptPart, 'high' as PromptPart, 'stable' as PromptPart);
+  prompt.setPurpose(purpose);
+  prompt.setCapabilities(capabilities);
+  prompt.setParameters(parameters);
+  prompt.setOutput(output);
+  return prompt;
+}
+
+export const DEPICT_DESIGN_ASSET_DOC_CODE_TOOL_PROMPT = buildPrompt(
+  PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLNAME,
+  PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLPURPOSE,
+  PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLCAPABILITIES,
+  PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLPARAMETERS,
+  PROMPTPART_SPECIFIC_TOOL_DEPICTDESIGNASSET_DOCCODETOOLOUTPUT,
+  'design-intel' as PromptPart
+);
+
+export const DESIGN_CODE_DOC_CODE_TOOL_PROMPT = buildPrompt(
+  PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLNAME,
+  PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLPURPOSE,
+  PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLCAPABILITIES,
+  PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLPARAMETERS,
+  PROMPTPART_SPECIFIC_TOOL_DESIGNCODE_DOCCODETOOLOUTPUT,
+  'product-docs' as PromptPart
+);
+
+export const CODE_DESIGN_DOC_CODE_TOOL_PROMPT = buildPrompt(
+  PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLNAME,
+  PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLPURPOSE,
+  PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLCAPABILITIES,
+  PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLPARAMETERS,
+  PROMPTPART_SPECIFIC_TOOL_CODEDESIGN_DOCCODETOOLOUTPUT,
+  'engineering-plan' as PromptPart
+);
+
+export const READ_CODE_CHANGES_VCS_DOC_CODE_TOOL_PROMPT = buildPrompt(
+  PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLNAME,
+  PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLPURPOSE,
+  PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLCAPABILITIES,
+  PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLPARAMETERS,
+  PROMPTPART_SPECIFIC_TOOL_READCODECHANGESVCS_DOCCODETOOLOUTPUT,
+  'version-control' as PromptPart
+);
+
+export const WRITE_CODE_CHANGES_VCS_DOC_CODE_TOOL_PROMPT = buildPrompt(
+  PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLNAME,
+  PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLPURPOSE,
+  PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLCAPABILITIES,
+  PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLPARAMETERS,
+  PROMPTPART_SPECIFIC_TOOL_WRITECODECHANGESVCS_DOCCODETOOLOUTPUT,
+  'version-control' as PromptPart
+);
+
+export const IMPROVE_DEVELOPING_BEHAVIOR_DOC_CODE_TOOL_PROMPT = buildPrompt(
+  PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLNAME,
+  PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLPURPOSE,
+  PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLCAPABILITIES,
+  PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLPARAMETERS,
+  PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLOUTPUT,
+  'ai-documents' as PromptPart
+);

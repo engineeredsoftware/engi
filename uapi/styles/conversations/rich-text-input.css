@@ -1,0 +1,342 @@
+/* Rich Text Input Styles */
+:root {
+  /* Theme variables */
+  --input-bg: rgba(26, 36, 51, 0.9);
+  --border-default: rgba(103, 254, 183, 0.2);
+  --border-focus: rgba(103, 254, 183, 0.5);
+  --token-upgrade-bg: rgba(103, 254, 183, 0.2);
+  --token-upgrade-text: #67feb7;
+  --token-deliverable-bg: rgba(99, 102, 241, 0.2);
+  --token-deliverable-text: #818cf8;
+  --token-attachment-bg: rgba(249, 115, 22, 0.2);
+  --token-attachment-text: #fb923c;
+  --token-source-bg: rgba(236, 72, 153, 0.2);
+  --token-source-text: #ec4899;
+  --token-command-bg: rgba(139, 92, 246, 0.2);
+  --token-command-text: #a78bfa;
+}
+.rich-text-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.rich-text-input {
+  width: 100%;
+  min-height: 2.5rem;
+  max-height: 6rem;
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  background-color: var(--input-bg);
+  /* Make text completely invisible */
+  color: transparent;
+  /* Hide the cursor completely */
+  caret-color: transparent;
+  font-size: 0.875rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-default);
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  line-height: 1.5;
+  font-family: inherit;
+  letter-spacing: normal;
+  word-spacing: normal;
+  box-sizing: border-box;
+  /* Force hardware acceleration for better rendering */
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+  /* Ensure consistent positioning */
+  position: relative;
+  z-index: 1;
+}
+
+.rich-text-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 1px var(--border-focus);
+  /* Ensure cursor remains hidden even when focused */
+  caret-color: transparent;
+}
+
+.rich-text-input::-webkit-scrollbar {
+  display: none;
+}
+
+.rich-text-display {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  color: white;
+  background: transparent;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  overflow: hidden;
+  pointer-events: none;
+  line-height: 1.5;
+  font-family: inherit;
+  letter-spacing: normal;
+  word-spacing: normal;
+  box-sizing: border-box;
+  /* Force hardware acceleration for better rendering */
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+  /* Ensure exact alignment with textarea */
+  text-align: left;
+  text-indent: 0;
+  /* Higher z-index to ensure it's above the textarea */
+  z-index: 3;
+  /* Ensure the display is visible */
+  opacity: 1;
+}
+
+/* Blinking cursor indicator - only visible when .show-cursor is applied */
+.rich-text-display::after {
+  display: none;
+}
+.rich-text-display.show-cursor::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: white;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.rich-text-display .token {
+  border-radius: 4px;
+  padding: 0.125rem 0.375rem;
+  margin: 0 0.125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  line-height: 1.4;
+  min-height: 1.5rem;
+  top: 0;
+  vertical-align: baseline;
+  /* Ensure token doesn't affect text flow */
+  transform: translateY(0);
+  /* Ensure token doesn't affect cursor position */
+  letter-spacing: normal;
+  word-spacing: normal;
+  /* Make sure tokens are clearly visible */
+  opacity: 1;
+}
+
+.rich-text-display .token::before {
+  content: '';
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin-right: 0.125rem;
+  flex-shrink: 0;
+}
+
+.rich-text-display .token-info {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  margin-left: 0.25rem;
+  font-style: italic;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rich-text-display .token-upgrade {
+  background-color: var(--token-upgrade-bg);
+  color: var(--token-upgrade-text);
+  border: 1px solid var(--token-upgrade-text);
+}
+
+.rich-text-display .token-upgrade::before {
+  background-color: var(--token-upgrade-text);
+}
+
+.rich-text-display .token-deliverable {
+  background-color: var(--token-deliverable-bg);
+  color: var(--token-deliverable-text);
+  border: 1px solid var(--token-deliverable-text);
+}
+
+.rich-text-display .token-deliverable::before {
+  background-color: var(--token-deliverable-text);
+}
+
+.rich-text-display .token-attachment {
+  background-color: var(--token-attachment-bg);
+  color: var(--token-attachment-text);
+  border: 1px solid var(--token-attachment-text);
+}
+
+.rich-text-display .token-attachment::before {
+  background-color: var(--token-attachment-text);
+}
+
+.rich-text-display .token-source {
+  background-color: var(--token-source-bg);
+  color: var(--token-source-text);
+  border: 1px solid var(--token-source-text);
+}
+
+.rich-text-display .token-source::before {
+  background-color: var(--token-source-text);
+}
+
+.rich-text-display .token-command {
+  background-color: var(--token-command-bg);
+  color: var(--token-command-text);
+  border: 1px solid var(--token-command-text);
+}
+
+.rich-text-display .token-command::before {
+  background-color: var(--token-command-text);
+}
+
+.picker-container {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  background-color: rgba(3, 8, 22, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  border: 1px solid rgba(103, 254, 183, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(103, 254, 183, 0.05);
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.picker-header {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(103, 254, 183, 0.05);
+  border-bottom: 1px solid rgba(103, 254, 183, 0.1);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.picker-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(103, 254, 183, 0.05);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.picker-item:hover {
+  background-color: rgba(103, 254, 183, 0.05);
+}
+
+.picker-item-title {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.picker-item-description {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.picker-empty {
+  padding: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.picker-search {
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  background-color: rgba(26, 36, 51, 1);
+  color: white;
+  font-size: 0.875rem;
+  border: none;
+  border-bottom: 1px solid rgba(103, 254, 183, 0.1);
+  outline: none;
+}
+
+.picker-search:focus {
+  border-bottom-color: rgba(103, 254, 183, 0.3);
+}
+
+.send-button {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  color: #67feb7;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.send-button:hover {
+  color: rgba(103, 254, 183, 0.8);
+  background-color: rgba(103, 254, 183, 0.05);
+}
+
+.send-button:hover svg {
+  transform: rotate(90deg) scale(1.1);
+}
+
+.send-button:disabled {
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+.send-button svg {
+  width: 20px;
+  height: 20px;
+  transform: rotate(90deg);
+  transition: transform 0.2s;
+}
+
+/* Token indicators */
+.token-indicators {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+}
+
+.token-count {
+  color: rgba(103, 254, 183, 0.8);
+  background-color: rgba(3, 8, 22, 0.7);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  border: 1px solid rgba(103, 254, 183, 0.2);
+}

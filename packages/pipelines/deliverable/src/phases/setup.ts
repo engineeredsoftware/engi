@@ -1,0 +1,66 @@
+/**
+ * Setup Phase - Declarative PhaseRunner (Executor pattern)
+ *
+ * Pure “sequence and save”: agents run, the stack stores execution state.
+ * Returns the original input unchanged; downstream phases read from stores.
+ */
+
+import { Executor } from '@engi/execution-generics';
+import { createPhaseRunner, type PhaseConfig } from '@engi/pipelines-generics';
+
+const setupPhaseConfig: PhaseConfig = {
+  phaseName: 'setup',
+  sequence: [
+    { agent: 'setup:deliverable-pipeline-clone-vcs-repository-agent' },
+    { agent: 'setup:deliverable-setup-plan-agent' },
+    { parallel: [
+      { agent: 'setup:deliverable-pipeline-comprehend-dod-agent' },
+      // Optional when available:
+      // { agent: 'setup:deliverable-pipeline-initialize-lsp-agent' }
+    ]},
+    // Initialize MCPs tools once during setup
+    { agent: 'setup:deliverable-pipeline-initialize-mcps-tools-agent' }
+  ],
+  allowShortCircuit: false
+};
+
+const runSetupPhase = createPhaseRunner(setupPhaseConfig);
+
+export const deliverablesPipelineSetupPhaseExecutor: Executor<any, any> = async (input, execution) => {
+  await runSetupPhase(input, execution);
+  // PhaseRunner returns PhaseResult; pipeline expects input forward. Use stores for state.
+  return input;
+};
+
+/**
+ * Setup phase agent registration
+ * Called at pipeline initialization to register all setup agents
+ */
+export function registerSetupAgents(agentRegistry: any): void {
+  // Import and register all setup phase agents
+  // First sequence, clone
+  agentRegistry.registerAgent(
+    'setup:deliverable-pipeline-clone-vcs-repository-agent',
+    () => import('../agents/setup/deliverable-pipeline-clone-vcs-repository-agent').then(m => m.default)
+  );
+
+  // Second sequence, init lsp and comprehend task
+  agentRegistry.registerAgent(
+    'setup:deliverable-pipeline-initialize-lsp-agent',
+    () => import('../agents/setup/deliverable-pipeline-initialize-lsp-agent').then(m => m.default)
+  );
+  agentRegistry.registerAgent(
+    'setup:deliverable-setup-plan-agent',
+    () => import('../agents/setup/deliverable-pipeline-setup-plan-agent').then(m => m.default)
+  );
+  agentRegistry.registerAgent(
+    'setup:deliverable-pipeline-comprehend-dod-agent',
+    () => import('../agents/setup/deliverable-pipeline-comprehend-task-agent').then(m => m.default)
+  );
+
+  // Initialize MCPs tools
+  agentRegistry.registerAgent(
+    'setup:deliverable-pipeline-initialize-mcps-tools-agent',
+    () => import('../agents/setup/initialize-mcps-tools-agent').then(m => m.default)
+  );
+}

@@ -1,0 +1,4 @@
+llama_index
+tree_sitter
+tree_sitter_languages
+pinecone-client

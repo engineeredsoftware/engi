@@ -1,0 +1,6 @@
+{
+  "commits": [
+    { "sha": "abc123", "commit": { "author": { "date": "2025-04-01T12:00:00Z" } } },
+    { "sha": "def456", "commit": { "author": { "date": "2025-04-02T13:00:00Z" } } }
+  ]
+}

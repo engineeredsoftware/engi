@@ -1,0 +1,9 @@
+{
+  "title": "Ship Pricing API Fast",
+  "steps": [
+    { "type": "user", "text": "Need /calculate pricing endpoint ASAP." },
+    { "type": "agent", "text": "Drafting schema & tests…" },
+    { "type": "run", "kind": "deliverable", "id": "run_price_001", "logChunks": ["queued", "scraping competitors", "coding handler", "load test", "tests pass ✅"] },
+    { "type": "agent", "text": "Production-ready API PR submitted." }
+  ]
+}

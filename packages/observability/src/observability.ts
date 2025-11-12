@@ -1,0 +1,47 @@
+import { startSpan } from '@engi/sentry';
+
+// Friendly helper to measure a block of async work.  Automatically becomes a
+// no-op when the Sentry SDK or DSN is not available.
+
+export async function trace<T>(name: string, fn: () => Promise<T>): Promise<T> {
+  return startSpan({ name }, fn);
+}
+
+// ---------------------------------------------------------------------------
+// helper: tracedGenerateText (for calls using 'ai' generateText)
+// ---------------------------------------------------------------------------
+
+import { generateText as rawGenerateText } from 'ai';
+
+export async function generateTextTraced<T = any>(args: any): Promise<T> {
+  const modelName = (args?.model?.model ?? args?.model?.id ?? 'unknown') as string;
+  return trace(`llm:generateText:${modelName}`, () => rawGenerateText<T>(args as any));
+}
+
+// ---------------------------------------------------------------------------
+// Wrapper helper for Next.js route handlers
+// ---------------------------------------------------------------------------
+
+import { reportError, toHttpResponse } from '@engi/errors';
+
+export function traceRoute<T extends (...args: any[]) => any>(name: string, fn: T): T {
+  return (async (...args: any[]) => {
+    try {
+      return await trace(`api:${name}`, () => fn(...(args as any)));
+    } catch (err) {
+      const { status, body } = toHttpResponse(reportError(err));
+      return new Response(JSON.stringify(body), {
+        status,
+        headers: { 'Content-Type': 'application/json' },
+      }) as any;
+    }
+  }) as unknown as T;
+}
+
+// ---------------------------------------------------------------------------
+// helper: Step-level tracing (Plan / Generate / Refine / …)
+// ---------------------------------------------------------------------------
+
+export async function traceStep<T>(name: string, fn: () => Promise<T>): Promise<T> {
+  return trace(`step:${name}`, fn);
+}

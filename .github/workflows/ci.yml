@@ -1,0 +1,301 @@
+name: CI
+
+# Trigger on pushes to any branch, pull requests targeting main, and manual dispatch
+on:
+  push:  # Run CI on every commit push to any branch
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Cancel any in-progress runs when a newer commit is pushed to the same ref
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # --------------------------------------------------------------------------
+  # 1. Static analysis & build verification
+  # --------------------------------------------------------------------------
+  lint-build:
+    name: Lint, Type-Check & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Cache node_modules for faster builds
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: uapi/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('uapi/package-lock.json') }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        working-directory: uapi
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: uapi
+        run: npm run lint
+
+      - name: Prettier formatting check
+        working-directory: uapi
+        run: npx prettier --check .
+
+      - name: Type-check with TypeScript
+        working-directory: uapi
+        run: npx tsc --noEmit
+
+      - name: npm audit (moderate and above)
+        working-directory: uapi
+        run: npm audit --audit-level=moderate
+
+      - name: Build Next.js application
+        working-directory: uapi
+        run: npm run build
+
+      - name: Build Storybook
+        working-directory: uapi
+        run: npm run build-storybook
+
+      - name: Upload Storybook static build
+        uses: actions/upload-artifact@v3
+        with:
+          name: storybook-static
+          path: uapi/storybook-static
+
+  # --------------------------------------------------------------------------
+  # 2. Jest unit & integration tests using mocks (fast feedback)
+  # --------------------------------------------------------------------------
+  test-mocks:
+    name: Unit & Integration Tests (mocks)
+    needs: lint-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: uapi/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('uapi/package-lock.json') }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        working-directory: uapi
+        run: npm ci
+
+      - name: Run tests (mocked) & collect coverage
+        working-directory: uapi
+        run: npm test -- --coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: uapi/coverage
+
+      - name: Upload coverage to Codecov (mocks)
+        uses: codecov/codecov-action@v3
+        with:
+          flags: mocks
+          directory: ./uapi/coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # --------------------------------------------------------------------------
+  # 3. Full end-to-end, visual & DB-integrated tests
+  # --------------------------------------------------------------------------
+  test-real-db:
+    name: E2E, Visual & DB Tests
+    needs: test-mocks
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    services:
+      # Use official Postgres image for Playwright reporters that may need DB
+      # (We still spin Supabase locally via CLI)
+      # This just guarantees port availability in the matrix
+      postgres:
+        image: postgres:15
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports: ["5432:5432"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: uapi/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('uapi/package-lock.json') }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # ------------------------------------------------------------------
+      # Supabase local stack to replicate production
+      # ------------------------------------------------------------------
+      - name: Install Supabase CLI
+        run: npm install -g supabase
+
+      - name: Start Supabase
+        run: supabase start --non-interactive
+
+      - name: Wait for Supabase to become healthy
+        run: |
+          echo "Waiting for Supabase API..."
+          for i in {1..30}; do
+            if curl -sSf http://localhost:54321 > /dev/null; then
+              echo "Supabase is up ✅"; break;
+            fi
+            echo "Still not up – retry $i/30"
+            sleep 2
+          done
+
+      - name: Reset database & apply migrations
+        run: supabase db reset --yes
+
+      - name: Install dependencies
+        working-directory: uapi
+        run: npm ci
+
+      # If embeddings are required for tests we sync them now (needs OpenAI key)
+      - name: Sync upgrade template embeddings
+        # Only sync embeddings when an OpenAI key is available. GitHub does not
+        # expose the `secrets` context for use in step-level `if:` expressions
+        # at workflow validation time, which causes the "Unrecognized named-value:
+        # 'secrets'" error. Instead, rely on the job-level environment variable
+        # we already populate from the secret.
+        if: ${{ env.OPENAI_API_KEY != '' }}
+        working-directory: uapi
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run sync-upgrades-embeddings
+
+
+      # ------------------------------------------------------------------
+      # Run the test suites
+      # ------------------------------------------------------------------
+      - name: Run Jest integration tests (real DB)
+        working-directory: uapi
+        env:
+          USE_REAL_DB: "true"
+          SUPABASE_URL: "http://localhost:54321"
+          NEXT_PUBLIC_SUPABASE_URL: "http://localhost:54321"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm test -- --runInBand
+
+      - name: Install Playwright browsers
+        working-directory: uapi
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright E2E (UI + visual)
+        working-directory: uapi
+        env:
+          USE_REAL_DB: "true"
+          SUPABASE_URL: "http://localhost:54321"
+          NEXT_PUBLIC_SUPABASE_URL: "http://localhost:54321"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm run test:e2e:ui
+
+      # ------------------------------------------------------------------
+      # Upload artifacts so that PR authors/reviewers can inspect results
+      # ------------------------------------------------------------------
+      - name: Upload Playwright HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-html-report
+          path: uapi/playwright-report
+
+      - name: Upload Playwright Artifacts (screenshots, traces, videos)
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-artifacts
+          path: uapi/test-results
+
+      # Jest coverage from this job (real DB) can override/merge with mocks if desired
+      - name: Upload coverage (real-db) report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report-real-db
+          path: uapi/coverage
+
+      - name: Upload coverage to Codecov (real-db)
+        uses: codecov/codecov-action@v3
+        with:
+          flags: real-db
+          directory: ./uapi/coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+# --------------------------------------------------------------------------
+# 4. Validate workflow files themselves with actionlint
+# --------------------------------------------------------------------------
+  actionlint:
+    name: Validate GitHub Actions workflows
+    runs-on: ubuntu-latest
+    needs: lint-build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: reviewdog/action-actionlint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+# --------------------------------------------------------------------------
+# 5. CodeQL static security analysis (JavaScript/TypeScript)
+# --------------------------------------------------------------------------
+  codeql-analysis:
+    name: CodeQL Analysis
+    permissions:
+      actions: read
+      security-events: write
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript-typescript' ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+# --------------------------------------------------------------------------
+# 6. GitHub Super-Linter (Markdown, YAML, Shell, etc.)
+# --------------------------------------------------------------------------
+  super-linter:
+    name: Super Linter (misc files)
+    runs-on: ubuntu-latest
+    needs: lint-build
+    steps:
+      - name: Super-Linter
+        uses: github/super-linter/slim@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

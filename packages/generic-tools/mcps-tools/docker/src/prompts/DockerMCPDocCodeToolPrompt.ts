@@ -1,0 +1,88 @@
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
+import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
+import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
+import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
+import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLNAME } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLPURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLCAPABILITIES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLPARAMETERS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLOUTPUT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE1 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolexample1';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE2 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolexample2';
+import { PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE3 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_dockermcp_doccodetoolexample3';
+/**
+ * DOCKER MCP DOC-CODE-TOOL PROMPT
+ * 
+ * Containerization-Intelligence DocCodeToolPrompt for Docker MCP runtime documentation.
+ * This tool enables transcendent containerization with AI-driven orchestration optimization.
+ */
+
+import { DocCodeToolPrompt } from '@engi/tools-generics';
+import { PromptPart } from '@engi/prompts';
+
+// Import generic labels from /raw_promptparts/generic/
+
+
+
+
+
+
+
+// Import ALL specific PromptParts from /raw_promptparts/specific/
+
+
+
+
+
+
+
+
+
+/**
+ * Docker MCP tool-specific DocCodeToolPrompt
+ * 
+ * @doc-comment-developing-promptdevelopment
+ * versions: []
+ * domain: tool
+ * intent: "Containerization intelligence MCP tool for transcendent application packaging with AI-driven orchestration optimization"
+ * 
+ * This containerization intelligence MCP tool represents the evolutionary leap in application packaging,
+ * enabling transcendent containerization with AI-driven orchestration optimization and
+ * quantum-isolated execution environments for revolutionary microservices architecture excellence.
+ */
+export class DockerMCPDocCodeToolPrompt extends DocCodeToolPrompt {
+  constructor() {
+    super();
+    
+    // Set labels
+    this.set('metadata:label', PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL);
+    this.set('purpose:label', PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL);
+    this.set('capabilities:label', PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL);
+    this.set('parameters:label', PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL);
+    this.set('output:label', PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL);
+    this.set('examples:label', PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL);
+    
+    // Set metadata directly
+    this.set('metadata:name', PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLNAME);
+    this.set('metadata:category', 'mcp-integration' as PromptPart);
+    this.set('metadata:version', 'GA1.00.0' as PromptPart);
+    this.set('metadata:priority', 'high' as PromptPart);
+    this.set('metadata:stability', 'stable' as PromptPart);
+    
+    // Set core documentation
+    this.setPurpose(PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLPURPOSE);
+    this.setCapabilities(PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLCAPABILITIES);
+    this.setParameters(PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLPARAMETERS);
+    this.setOutput(PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLOUTPUT);
+    
+    // Add examples - demonstrating containerization intelligence mastery
+    this.set('examples:1', PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE1);
+    this.set('examples:2', PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE2);
+    this.set('examples:3', PROMPTPART_SPECIFIC_TOOL_DOCKERMCP_DOCCODETOOLEXAMPLE3);
+  }
+}
+
+// Export singleton instance
+export const DOCKER_MCP_DOC_CODE_TOOL_PROMPT = new DockerMCPDocCodeToolPrompt();

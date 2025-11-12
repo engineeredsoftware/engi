@@ -1,0 +1,57 @@
+/**
+ * Persisted state hook for executions page
+ */
+import { useCallback } from 'react';
+import { createPersistedState } from '@engi/browser-storage';
+
+const STORAGE_KEY = 'engi_execution_state_v1';
+const SAVE_DEBOUNCE_MS = 3000;
+
+export interface PersistedExecutionState {
+  definitionOfDone: string;
+  modelSelection: string;
+  vcs: {
+    provider: string | null;
+    account: string | null;
+    repo: string | null;
+    branch: string | null;
+    commit: string | null;
+    issuesOrPRs: string[];
+  };
+  attachments: {
+    urls: Array<{ url: string; title: string; content: string; error?: string }>;
+    files: Array<{ name: string; size: number; type: string; lastModified: number }>;
+    integrations: Array<{ type: string; id: string; name: string; metadata?: any }>;
+  };
+  toggles: { compute: boolean; multiAgent: boolean; iterations: number };
+  timestamp: number;
+  version: string;
+}
+
+const usePersistedStateBase = createPersistedState<PersistedExecutionState>({
+  key: STORAGE_KEY,
+  version: 'v1',
+  debounceMs: SAVE_DEBOUNCE_MS,
+  syncAcrossTabs: true,
+  defaultValue: {
+    definitionOfDone: '',
+    modelSelection: '',
+    vcs: { provider: null, account: null, repo: null, branch: null, commit: null, issuesOrPRs: [] },
+    attachments: { urls: [], files: [], integrations: [] },
+    toggles: { compute: false, multiAgent: false, iterations: 3 },
+    timestamp: Date.now(),
+    version: 'v1'
+  },
+  migrations: []
+});
+
+export function usePersistedState() {
+  const [state, setState, clearStateBase] = usePersistedStateBase();
+  const updateDefinitionOfDone = useCallback((definitionOfDone: string) => { setState(prev => ({ ...prev, definitionOfDone })); }, [setState]);
+  const updateModelSelection = useCallback((modelSelection: string) => { setState(prev => ({ ...prev, modelSelection })); }, [setState]);
+  const updateVCS = useCallback((vcs: Partial<PersistedExecutionState['vcs']>) => { setState(prev => ({ ...prev, vcs: { ...prev.vcs, ...vcs } })); }, [setState]);
+  const updateAttachments = useCallback((updater: (prev: PersistedExecutionState['attachments']) => PersistedExecutionState['attachments']) => { setState(prev => ({ ...prev, attachments: updater(prev.attachments) })); }, [setState]);
+  const updateToggles = useCallback((toggles: Partial<PersistedExecutionState['toggles']>) => { setState(prev => ({ ...prev, toggles: { ...prev.toggles, ...toggles } })); }, [setState]);
+  const clearState = useCallback(() => { clearStateBase(); }, [clearStateBase]);
+  return { state, updateDefinitionOfDone, updateModelSelection, updateVCS, updateAttachments, updateToggles, clearState, setState };
+}

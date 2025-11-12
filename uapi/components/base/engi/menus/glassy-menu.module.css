@@ -1,0 +1,73 @@
+.menu { 
+  min-width: 230px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  margin: 0;
+  background: rgba(10, 12, 20, 0.86);
+  background-image: radial-gradient(1200px 400px at var(--mouse-x, 50%) var(--mouse-y, 0%), rgba(167, 139, 250, 0.06), transparent 50%),
+                    linear-gradient(180deg, rgba(24, 18, 35, 0.35), rgba(10, 12, 20, 0.86));
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border-radius: 12px;
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(167, 139, 250, 0.08), inset 0 0 24px rgba(167, 139, 250, 0.04);
+  padding: 0;
+  z-index: 100;
+  color: #e5e7eb;
+}
+
+.sectionTitle { 
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(216, 180, 254, 0.8);
+  padding: 8px 12px;
+}
+
+.item { 
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  color: #cbd5e1;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.08s ease;
+}
+
+.item::before { 
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 1px;
+  background: linear-gradient(120deg, rgba(167, 139, 250, 0.20), rgba(216, 180, 254, 0.30));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.item:hover { color: #ffffff; }
+.item:hover::before { opacity: 1; }
+.item:active { transform: scale(0.98); }
+
+.danger { color: #f87171; }
+.danger:hover { background: rgba(248, 113, 113, 0.08); }
+.dangerIcon { color: #f87171; }
+
+/* Picker containers in Conversations can adopt this for visual consistency */
+.pickerSurface { 
+  background: rgba(10, 12, 20, 0.9);
+  border: 1px solid rgba(167, 139, 250, 0.16);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(167, 139, 250, 0.08), inset 0 0 24px rgba(167, 139, 250, 0.04);
+  border-radius: 12px;
+}

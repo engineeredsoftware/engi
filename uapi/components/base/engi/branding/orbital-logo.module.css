@@ -1,0 +1,13 @@
+.container { position: relative; display: flex; align-items: center; justify-content: center; }
+.logo { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; perspective: 1000px; }
+.svg { width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(103,254,183,0.3)); }
+.ring1 { animation: rotate 20s linear infinite; transform-origin: center; }
+.ring2 { animation: rotate 25s linear infinite reverse; transform-origin: center; }
+.ring3 { animation: rotate 30s linear infinite; transform-origin: center; }
+.q1 { animation: pulse 3s ease-in-out infinite; transform-origin: center; filter: drop-shadow(0 0 5px rgba(103,254,183,0.5)); }
+.q2 { animation: pulse 3s ease-in-out infinite 1s; transform-origin: center; filter: drop-shadow(0 0 5px rgba(103,254,183,0.5)); }
+.q3 { animation: pulse 3s ease-in-out infinite 2s; transform-origin: center; filter: drop-shadow(0 0 5px rgba(103,254,183,0.5)); }
+@keyframes rotate { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
+@keyframes pulse { 0%,100% { opacity: .4; r: 1.5; } 50% { opacity: 1; r: 2.5; } }
+

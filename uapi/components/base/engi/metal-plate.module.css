@@ -1,0 +1,15 @@
+.metalPlate { position: relative; transform-style: preserve-3d; backface-visibility: hidden; will-change: transform, box-shadow; display: flex; flex-direction: column; }
+.metalPlate::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, var(--plate-main-alpha-08), var(--plate-glow-alpha-04) 30%, transparent 70%); pointer-events: none; transition: all 0.4s ease; opacity: 0.4; z-index: 1; }
+.cornerDot { display: none; }
+.headlineIconContainer { position: relative; display: flex; align-items: center; justify-content: center; }
+.headlineIconGlow { position: absolute; inset: -4px; border-radius: 50%; background: radial-gradient(circle at center, var(--plate-glow-alpha-30), transparent 70%); opacity: 0; filter: blur(2px); z-index: -1; }
+.headlineText { position: relative; }
+.quantumParticles { position: absolute; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; }
+.titleLinkIcon { color: var(--plate-main-alpha-60); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; justify-content: center; padding: 6px; border-radius: 50%; position: relative; z-index: 10; }
+.titleLinkIcon:hover { color: var(--plate-main); transform: scale(1.15); text-shadow: 0 0 10px var(--plate-main-alpha-40); }
+.titleLinkIcon:hover svg { filter: drop-shadow(0 0 3px var(--plate-main-alpha-40)); }
+.titleLinkIcon:active { transform: scale(0.95); }
+.customScrollbar::-webkit-scrollbar { width: 6px; }
+.customScrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+.customScrollbar::-webkit-scrollbar-thumb { background: rgba(186, 84, 236, 0.3); border-radius: 10px; }
+.customScrollbar::-webkit-scrollbar-thumb:hover { background: rgba(186, 84, 236, 0.5); }

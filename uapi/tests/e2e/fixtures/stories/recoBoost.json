@@ -1,0 +1,9 @@
+{
+  "title": "Boost Recommendation CTR",
+  "steps": [
+    { "type": "user", "text": "Increase recommendation CTR by 15%." },
+    { "type": "agent", "text": "Mining new features & training models…" },
+    { "type": "run", "kind": "ai_document", "id": "run_ctr_001", "logChunks": ["queued", "train LightFM", "train XGBoost", "offline tests", "online tests", "done ✅"] },
+    { "type": "agent", "text": "CTR jump-start PR delivered." }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "items": [],
+  "setupAI Documents": [],
+  "summary": "This is a mock deliverables summary.",
+  "processingStats": { "time": "0s", "tokens": { "input": 0, "output": 0, "total": 0 } },
+  "repoSnapshot": { "org": "mockOrg", "repo": "mockRepo", "branch": "main", "commit": "abcdef" }
+}

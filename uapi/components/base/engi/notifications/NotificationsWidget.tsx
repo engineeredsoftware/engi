@@ -1,0 +1,214 @@
+"use client";
+
+/*
+ * Base Notifications widget: self-contained UI, app-specific endpoints injected via fetch
+ * paths remain compatible with current app routes.
+ */
+
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { createClient } from '@engi/supabase/ssr/client';
+import '@/styles/notifications-widget.css';
+
+type Notification = {
+  id: string;
+  user_id: string;
+  type: string;
+  title?: string;
+  message: string;
+  data: any;
+  read: boolean;
+  created_at: string;
+};
+
+export function NotificationsWidget() {
+  const supabase = createClient();
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [open, setOpen] = useState(false);
+  const [initialised, setInitialised] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Fetch helper
+  const normalize = useCallback((rows: any[]): Notification[] => {
+    return rows.map((row) => ({
+      ...row,
+      read: row.read ?? row.is_read ?? false,
+    }));
+  }, []);
+
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const res = await fetch('/api/orbitals/notifications');
+      if (res.ok) {
+        const raw: any[] = await res.json();
+        setNotifications(normalize(raw));
+      }
+    } catch (err) {
+      console.error('[notifications] fetch failed', err);
+    }
+  }, [normalize]);
+
+  // Initial load + realtime subscription
+  useEffect(() => {
+    let channel: any;
+    (async () => {
+      await fetchNotifications();
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        setInitialised(true);
+        return;
+      }
+
+      channel = supabase
+        .channel('notifications')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'notifications',
+            filter: `user_id=eq.${user.id}`,
+          },
+          (payload) => {
+            const { eventType, new: newRow, old: oldRow } = payload as any;
+            setNotifications((prev) => {
+              if (eventType === 'INSERT' && newRow) return [normalize([newRow])[0], ...prev];
+              if (eventType === 'UPDATE' && newRow) return prev.map((n) => (n.id === newRow.id ? normalize([newRow])[0] : n));
+              if (eventType === 'DELETE' && oldRow) return prev.filter((n) => n.id !== oldRow.id);
+              return prev;
+            });
+          },
+        )
+        .subscribe(() => setInitialised(true));
+    })();
+
+    const handleOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+
+    return () => {
+      if (channel) supabase.removeChannel(channel);
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [supabase, fetchNotifications, normalize]);
+
+  const unread = notifications.filter((n) => !n.read).length;
+
+  // Track arrival animation state
+  const [arrival, setArrival] = useState(false);
+  const prevUnreadRef = useRef(0);
+  useEffect(() => {
+    const prevUnread = prevUnreadRef.current;
+    if (unread > prevUnread) {
+      setArrival(true);
+      setTimeout(() => setArrival(false), 1200);
+    }
+    prevUnreadRef.current = unread;
+  }, [unread]);
+
+  // Mutations
+  const toggleRead = async (id: string, read: boolean) => {
+    try {
+      await fetch(`/api/orbitals/notifications/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ read }),
+      });
+    } catch (err) {
+      console.error('[notifications] toggle read failed', err);
+    }
+  };
+
+  const deleteNotification = async (id: string) => {
+    try {
+      await fetch(`/api/orbitals/notifications/${id}`, { method: 'DELETE' });
+    } catch (err) {
+      console.error('[notifications] delete failed', err);
+    }
+  };
+
+  return (
+    <div className="notifications-widget-container" ref={ref}>
+      <button
+        type="button"
+        className={['notifications-bell', unread > 0 ? 'has-unread' : '', arrival ? 'new-arrival' : ''].filter(Boolean).join(' ')}
+        onClick={() => setOpen((o) => !o)}
+        data-testid="notifications-toggle"
+      >
+        {/* icon */}
+        <div className="bell-icon-container">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="bell-icon">
+            <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 01-3.46 0" />
+          </svg>
+          {unread > 0 && [0, 1].map((i) => <span key={i} className="orbital-bell-ring" style={{ '--ring-index': i } as any} />)}
+          {arrival && [...Array(6)].map((_, i) => (
+            <span key={i} className="bell-quantum-particle" style={{ '--particle-index': i, '--particle-angle': `${i * 60}deg` } as any} />
+          ))}
+        </div>
+
+        {unread > 0 && (
+          <div className="notification-counter notification-counter-pulse">
+            <span>{unread}</span>
+            <span className="counter-glow" />
+          </div>
+        )}
+      </button>
+
+      {open && (
+        <div className="notifications-dropdown shadow-popover">
+          <div className="notifications-header">
+            <h3>Notifications</h3>
+            {notifications.length > 0 && (
+              <button
+                className="mark-all-read"
+                onClick={async () => {
+                  await Promise.all(
+                    notifications
+                      .filter((n) => !n.read)
+                      .map((n) => fetch(`/api/orbitals/notifications/${n.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ read: true }) })),
+                  );
+                }}
+              >
+                Mark all read
+              </button>
+            )}
+          </div>
+
+          {notifications.length === 0 ? (
+            <div className="no-notifications">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" fill="none" className="w-10 h-10 text-emerald-400/70">
+                <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" />
+                <path d="M13.73 21a2 2 0 01-3.46 0" />
+              </svg>
+              <p>All caught up! No notifications yet.</p>
+            </div>
+          ) : (
+            <div className="notifications-list">
+              {notifications.map((n) => (
+                <div key={n.id} className={`notification-item ${n.read ? '' : 'notification-unread'}`}>
+                  <div className="notification-content">
+                    <div className="notification-message">{n.message}</div>
+                    <div className="notification-time">{new Date(n.created_at).toLocaleString()}</div>
+                  </div>
+                  <div className="flex-shrink-0 ml-3 flex space-x-2">
+                    <button onClick={() => toggleRead(n.id, !n.read)} className="text-[11px] text-emerald-400 hover:text-white transition-colors">
+                      {n.read ? 'Unread' : 'Read'}
+                    </button>
+                    <button onClick={() => deleteNotification(n.id)} className="text-[11px] text-red-400 hover:text-white transition-colors">
+                      ×
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

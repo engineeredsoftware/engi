@@ -1,0 +1,176 @@
+/* Orbital Ring Animation Styles 
+   This file only contains the core visual styles for orbital rings
+   Other UI styles are in orbital.css
+*/
+
+/* Orbital ring core styling - GPU-optimized with pseudo-elements */
+.orbital-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid theme('colors.brand.emerald-glow-subtle');
+  width: var(--size, 50%);
+  height: var(--size, 50%);
+  animation: var(--rotation, '')orbital-rotation 20s linear infinite;
+  animation-delay: var(--delay, 0s);
+  animation-play-state: paused; /* Start paused for performance */
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  transform-origin: center center;
+  
+  /* GPU acceleration hints - but not will-change by default */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style paint;
+}
+
+/* Enable animations after initial render */
+.animations-enabled .orbital-ring {
+  animation-play-state: running;
+  will-change: transform; /* Only add will-change when animating */
+}
+
+/* Pseudo-element for glow effect - better performance than box-shadow animation */
+.orbital-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, theme('colors.brand.emerald-glow') 0%, transparent 70%);
+  opacity: 0.1;
+  animation: orbital-glow-pseudo 8s ease-in-out infinite;
+  animation-play-state: paused; /* Start paused */
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Enable glow animation when ready */
+.animations-enabled .orbital-ring::before {
+  animation-play-state: running;
+  will-change: opacity;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Apply fluid sizing to the first three rings using the CSS vars declared    */
+/* in orbital.css. Additional rings will keep their inline size logic.   */
+/* -------------------------------------------------------------------------- */
+
+.orbital-ring:nth-child(1) {
+  --size: var(--ring-inner);
+}
+
+.orbital-ring:nth-child(2) {
+  --size: var(--ring-mid);
+}
+
+.orbital-ring:nth-child(3) {
+  --size: var(--ring-outer);
+}
+
+/* Variations - Using design tokens and pseudo-elements */
+.orbital-ring-active {
+  border-color: theme('colors.brand.emerald-glow-strong');
+  /* don't change border width here as it moves the indicators and subtley shifts things */
+}
+
+.orbital-ring-active::before {
+  opacity: 0.4;
+  background: radial-gradient(circle, theme('colors.brand.emerald-glow-strong') 0%, transparent 70%);
+}
+
+.orbital-ring-active::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, theme('colors.brand.emerald-glow') 0%, transparent 80%);
+  opacity: 0.3;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.orbital-ring-completed {
+  border-color: theme('colors.brand.emerald-glow');
+}
+
+.orbital-ring-completed::before {
+  opacity: 0.25;
+}
+
+.orbital-ring-available {
+  border-color: theme('colors.brand.emerald-glow');
+  cursor: pointer;
+}
+
+.orbital-ring-available::before {
+  opacity: 0.2;
+}
+
+.orbital-ring-available:hover {
+  border-color: theme('colors.brand.emerald-glow-strong');
+}
+
+.orbital-ring-available:hover::before {
+  opacity: 0.3;
+}
+
+.orbital-ring-locked {
+  border-color: theme('colors.brand.emerald-glow-subtle');
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.orbital-ring-locked::before {
+  opacity: 0.05;
+}
+
+/* Background orbital styling */
+.orbital-system-background {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbital-system-background .orbital-ring {
+  border: 1px solid theme('colors.brand.emerald-glow-subtle');
+}
+
+.orbital-system-background .orbital-ring::before {
+  opacity: 0.08;
+}
+
+/* Animation keyframes - GPU-optimized */
+/* Simplified rotation with GPU acceleration */
+@keyframes orbital-rotation {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(360deg) translateZ(0);
+  }
+}
+
+/* Simplified counter-rotation with GPU acceleration */
+@keyframes orbital-counter-rotation {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(-360deg) translateZ(0);
+  }
+}
+
+/* Pseudo-element glow animation - better performance than box-shadow */
+@keyframes orbital-glow-pseudo {
+  0% {
+    opacity: 0.06;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0.06;
+  }
+}

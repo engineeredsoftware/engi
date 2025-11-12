@@ -1,0 +1,179 @@
+/* Smooth typing animation styles */
+.typing-animation {
+  display: inline-block;
+  white-space: pre-line;
+  position: relative;
+  line-height: 1.2;
+  min-height: 1.2em;
+  width: 100%;
+  vertical-align: middle;
+  /* Use layout containment only; drop paint containment so fixed-position descendants (particles) can escape */
+  contain: layout;
+  will-change: contents, transform;
+}
+
+/* -------------------------------------------------- */
+/*  Micro-fade for each freshly typed character       */
+/* -------------------------------------------------- */
+
+.typing-char {
+  opacity: 0;
+  display: inline-block;
+  white-space: pre; /* preserve spaces exactly, allows wrapping between chars */
+  animation: fadeInChar 0.28s ease-out forwards;
+}
+
+@keyframes fadeInChar {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Subtle highlight emphasis */
+.visible .typing-char {
+  animation: fadeInCharHighlight 0.10s ease-out forwards;
+}
+
+@keyframes fadeInCharHighlight {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.04em);
+    filter: blur(1px);
+    text-shadow: 0 0 8px rgba(103, 254, 183, 0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    text-shadow: none;
+  }
+}
+
+/* Cursor “bump” momentum – toned down */
+.typing-cursor.bump {
+  animation: cursor-bump 0.06s ease-out;
+}
+
+@keyframes cursor-bump {
+  0% { transform: translateX(0.4px) scaleX(1.03); }
+  100% { transform: translateX(0) scaleX(1); }
+}
+
+/* Enhanced coding-inspired cursor with quantum aesthetics */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  min-height: 1.2em; /* Ensure minimum height is maintained */
+  background-color: rgba(103, 254, 183, 0.9);
+  box-shadow: 0 0 8px rgba(103, 254, 183, 0.5), 0 0 12px rgba(103, 254, 183, 0.3);
+  margin-left: 2px;
+  animation: cursor-blink 0.8s step-end infinite, cursor-pulse 4s ease-in-out infinite;
+  vertical-align: middle;
+  position: relative;
+  border-radius: 1px;
+  transform-origin: center;
+  backdrop-filter: blur(4px);
+  z-index: 5;
+  /* Ensure the cursor maintains its space even when invisible */
+  visibility: visible;
+}
+
+.typing-cursor::before,
+.typing-cursor::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 2px;
+  background-color: rgba(103, 254, 183, 0.7);
+  left: -1px;
+  border-radius: 1px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.typing-cursor::before {
+  top: 0;
+  box-shadow: 0 0 4px rgba(103, 254, 183, 0.4);
+  animation: cursor-bracket-top 3s ease-in-out infinite;
+}
+
+.typing-cursor::after {
+  bottom: 0;
+  box-shadow: 0 0 4px rgba(103, 254, 183, 0.4);
+  animation: cursor-bracket-bottom 3s ease-in-out infinite;
+}
+
+/* Hidden cursor state - use opacity instead of display changes to maintain layout */
+.typing-cursor-hidden {
+  opacity: 0;
+  animation: none;
+  /* Critical: maintain the same dimensions even when hidden */
+  visibility: visible !important;
+}
+
+.typing-cursor-hidden::before,
+.typing-cursor-hidden::after {
+  animation: none;
+  visibility: hidden;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes cursor-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(103, 254, 183, 0.5), 0 0 12px rgba(103, 254, 183, 0.3);
+    height: 1.2em;
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(103, 254, 183, 0.7), 0 0 20px rgba(103, 254, 183, 0.4);
+    height: 1.2em;
+    transform: scaleY(1.04);
+  }
+}
+
+@keyframes cursor-bracket-top {
+  0%, 100% { width: 4px; transform: translateY(0); }
+  50% { width: 6px; transform: translateY(-1px); }
+}
+
+@keyframes cursor-bracket-bottom {
+  0%, 100% { width: 4px; transform: translateY(0); }
+  50% { width: 6px; transform: translateY(1px); }
+}
+
+/* Ensure text doesn't shift during typing */
+.typing-container {
+  display: inline-block;
+  min-height: 1.5em;
+  height: auto;
+  vertical-align: middle;
+}
+
+.typing-cursor::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(103, 254, 183, 0.8) 0%, rgba(103, 254, 183, 0) 70%);
+  filter: blur(4px);
+  opacity: 0;
+  animation: cursor-quantum-glow 4s ease-in-out infinite;
+  border-radius: 50%;
+  transform: scale(1.5);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes cursor-quantum-glow {
+  0%, 100% { opacity: 0; transform: scale(1.5); }
+  50% { opacity: 0.4; transform: scale(2); }
+}

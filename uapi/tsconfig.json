@@ -1,0 +1,247 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      { "name": "next" }
+    ],
+    "paths": {
+      "@/*": ["./*"],
+
+      // Generic deep imports: allow any @engi/<pkg>/src/<path>
+      "@engi/*/src/*": ["../packages/*/src/*"],
+
+      // Ensure deep prompt parts resolve before the generic @engi/* pattern
+      "@engi/prompts": ["../packages/prompts/src/index.ts"],
+      "@engi/prompts/*": ["../packages/prompts/src/*"],
+      "@engi/prompts/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@engi/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@engi/prompts/src/*": ["../packages/prompts/src/*"],
+      // Keep the generic mapping after specific ones so it doesn't hijack
+      // deep imports like @engi/prompts/src/... and duplicate /src
+      "@engi/*": ["../packages/*/src", "../packages/*"],
+      "@engi/agent-generics/*": ["../packages/agent-generics/*"],
+
+      // Allow importing tool packages using the new
+      // "@engi/generic-tools/<tool>" pattern.
+      "@engi/generic-tools/*": ["../packages/generic-tools/*/src/index.ts"],
+
+
+      "@/lib/engine": ["../packages/pipelines-generics/src/pipeline/index.ts"],
+      "@/lib/engine/*": ["../packages/pipelines-generics/src/pipeline/*"],
+      "@/lib/engine/pipeline": ["../packages/pipelines-generics/src/pipeline/index.ts"],
+      "@/lib/engine/pipeline/*": ["../packages/pipelines-generics/src/pipeline/*"],
+
+      "@/lib/engine/pipeline/pipelineSetupPhaseWrapper": ["../packages/pipelines-generics/src/phases/setup/index.ts"],
+      "@/lib/engine/pipeline/pipelineDiscoveryPhaseWrapper": ["../packages/pipelines-generics/src/phases/discovery/index.ts"],
+      "@/lib/engine/pipeline/pipelineImplementationPhaseWrapper": ["../packages/pipelines-generics/src/phases/implementation/index.ts"],
+      "@/lib/engine/pipeline/pipelineValidationPhaseWrapper": ["../packages/pipelines-generics/src/phases/validation/index.ts"],
+      "@/lib/engine/pipeline/pipelineShippingPhaseWrapper": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
+      "@/lib/engine/pipeline/pipelineSDIVS": ["../packages/pipelines/deliverable/src/run.ts"],
+      "@/lib/engine/pipeline/pipelineMeasureSDIVS": ["../packages/pipelines/measure/src/run.ts"],
+      "@/lib/engine/pipeline/pipelineObfuscateSDIVS": ["../packages/pipelines/obfuscate/src/run.ts"],
+      "@/lib/engine/constants": ["../packages/pipelines-generics/src/constants.ts"],
+
+      "@/lib/files": ["../packages/files/src/files.ts"],
+      "@/lib/files/*": ["../packages/files/src/*"],
+
+
+      "@/lib/steps": ["../packages/pipelines-generics/src/steps/index.ts"],
+      "@/lib/steps/*": ["../packages/pipelines-generics/src/steps/*"],
+
+      "@/lib/setup": ["../packages/pipelines-generics/src/phases/setup/index.ts"],
+      "@/lib/setup/*": ["../packages/pipelines-generics/src/phases/setup/*", "../packages/pipelines-generics/src/setup/*"],
+
+      "@/lib/discovery": ["../packages/pipelines-generics/src/phases/discovery/index.ts"],
+      "@/lib/discovery/*": ["../packages/pipelines-generics/src/phases/discovery/*"],
+
+      "@/lib/implementation": ["../packages/pipelines-generics/src/implementation/index.ts"],
+      "@/lib/implementation/*": ["../packages/pipelines-generics/src/implementation/*"],
+
+      "@/lib/validation": ["../packages/validation/src/index.ts"],
+      "@/lib/validation/*": ["../packages/validation/src/*"],
+
+      "@/lib/shipping": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
+      "@/lib/shipping/*": ["../packages/pipelines-generics/src/phases/shipping/*", "../packages/pipelines-generics/src/shipping/*"],
+
+      // ---------------------------------------------------------------
+      // Generic phase umbrella – allow `@/lib/phases/<phase>` imports.
+      // ---------------------------------------------------------------
+      "@/lib/phases": ["../packages/pipelines-generics/src/phases/index.ts"],
+      "@/lib/phases/*": ["../packages/pipelines-generics/src/phases/*"],
+
+      "@/lib/logger": ["../packages/logger/src/logger.ts"],
+      "@/lib/streams": ["../packages/streams/src/streams.ts"],
+      "@/lib/sentry": ["../packages/sentry/src/sentry.ts"],
+      "@/lib/time": ["../packages/pipelines-generics/src/time.ts"],
+      "@/lib/parsing": ["../packages/pipelines-generics/src/parsing.ts"],
+      "@/lib/observability": ["../packages/observability/src/observability.ts"],
+
+      "@/lib/dryrun": ["../packages/observability/src/dryrun.ts"],
+      "@/lib/dryrun/*": ["../packages/observability/src/dryrun/*"],
+
+
+      "@engi/pipeline-deliverable/*": ["../packages/pipelines/deliverable/*"],
+
+
+      "@engi/generic-agents-initialize-mcps": [
+        "../packages/generic-agents/mcps-initializer/src/index.ts"
+      ],
+      "@engi/generic-agents-ready-to-short-circuit": [
+        "../packages/generic-agents/ready-to-short-circuit/src/index.ts"
+      ],
+      "@engi/generic-agents-digesting": [
+        "../packages/generic-agents/digester/src/index.ts"
+      ],
+      "@engi/generic-agents-file-pick": [
+        "../packages/generic-agents/file-pick/src/index.ts"
+      ],
+      "@engi/generic-agents-language": [
+        "../packages/generic-agents/language/src/index.ts"
+      ],
+      "@engi/generic-agents-web-search": [
+        "../packages/generic-agents/web-search/src/index.ts"
+      ],
+      "@engi/pipeline-engine-generics/*": ["../packages/pipelines-generics/src/*"],
+      "@engi/generic-tools-registry": ["../packages/tools-generics/src/registry.ts"],
+      "@engi/generic-tools-editing": ["../packages/generic-tools/files-maintaining/src/index.ts"],
+      "@engi/generic-tools/repository": ["../packages/generic-tools/git-interactor/src/index.ts"],
+      "@engi/generic-tools/file-tracker": ["../packages/pipelines-generics/src/context/context.ts"],
+      "@engi/generic-agents-git": ["../packages/generic-agents/git-interactor/src/index.ts"],
+      "@engi/generic-tools-simple-system-text-search": ["../packages/generic-tools/simple-system-text-search/src/index.ts"],
+      "@engi/generic-tools-git": ["../packages/generic-tools/git-interactor/src/index.ts"],
+      "@engi/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["../packages/pipelines/deliverable/src/phases/validation.ts"],
+
+      // -------------------------------------------------------------------
+      // New @engi/* aliases replacing the historical @/lib/* imports.
+      // -------------------------------------------------------------------
+      "@engi/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
+      "@engi/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
+      "@engi/context/*": ["../packages/context/src/*"],
+      "@engi/context": ["../packages/context/src/index.ts"],
+      "@engi/steps/*": ["../packages/pipelines-generics/src/steps/*"],
+      "@engi/steps": ["../packages/pipelines-generics/src/steps/index.ts"],
+      "@engi/streams/*": ["../packages/streams/src/*"],
+      "@engi/streams": ["../packages/streams/src/index.ts"],
+      "@engi/logger": ["../packages/logger/src/logger.ts"],
+      "@engi/time": ["../packages/pipelines-generics/src/time.ts"],
+      "@engi/parsing": ["../packages/parsing/src/parsing.ts"],
+      "@engi/phases": ["../packages/pipelines-generics/src/phases/index.ts"],
+      "@engi/phases/*": ["../packages/pipelines-generics/src/phases/*"],
+      "@engi/agents/*": ["../packages/agent-generics/src/*"],
+      "@engi/agents": ["../packages/agent-generics/src/index.ts"],
+      "@engi/files": ["../packages/files/src/files.ts"],
+      "@engi/files/*": ["../packages/files/src/*"],
+      "@engi/styling": ["../packages/styling/src/index.ts"],
+      "@engi/styling/*": ["../packages/styling/src/*"],
+      "@engi/utils": ["../packages/styling/src/index.ts"],
+      "@engi/observability": ["../packages/observability/src/observability.ts"],
+      "@engi/observability/*": ["../packages/observability/src/observability.ts"],
+      "@engi/discovery": ["../packages/pipelines-generics/src/phases/discovery/index.ts"],
+      "@engi/discovery/*": ["../packages/pipelines-generics/src/phases/discovery/*"],
+      "@engi/setup": ["../packages/pipelines-generics/src/phases/setup/index.ts"],
+      "@engi/setup/*": ["../packages/pipelines-generics/src/phases/setup/*", "../packages/pipelines-generics/src/setup/*"],
+      "@engi/supabase/ssr/*": ["../packages/supabase/src/ssr/*"],
+      "@engi/implementation": ["../packages/pipelines-generics/src/phases/implementation/index.ts"],
+      "@engi/implementation/*": ["../packages/pipelines-generics/src/implementation/*"],
+      "@engi/validation": ["../packages/validation/src/index.ts"],
+      "@engi/validation/*": ["../packages/validation/src/*"],
+      "@engi/shipping": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
+      "@engi/shipping/*": ["../packages/pipelines-generics/src/phases/shipping/*", "../packages/pipelines-generics/src/shipping/*"],
+      "@engi/sentry": ["../packages/sentry/src/sentry.ts"],
+
+      // -------------------------------------------------------------------
+      // UI registry components (Shadcn)
+      // -------------------------------------------------------------------
+      "@/registry/*": ["components/ui/apps/www/registry/*"],
+
+      // Generic tools & utilities
+      "@engi/tools/types": ["../packages/tools-generics/src/types.ts"],
+      "@engi/execution-generics": ["../packages/execution-generics/src/index.ts"],
+      "@engi/execution-generics/*": ["../packages/execution-generics/src/*"],
+      "@engi/registry": ["../packages/registry/src/index.ts"],
+      "@engi/registry/*": ["../packages/registry/src/*"],
+      "@engi/llm-generics": ["../packages/llm-generics/src/index.ts"],
+      "@engi/llm-generics/*": ["../packages/llm-generics/src/*"],
+      "@engi/doc-comment": ["../packages/doc-comment/src/index.ts"],
+      "@engi/doc-comment/*": ["../packages/doc-comment/src/*"],
+      "@engi/github": ["../packages/github/src/index.ts"],
+      "@engi/github/*": ["../packages/github/src/*"],
+      "@engi/vcs": ["../packages/vcs/src/index.ts"],
+      "@engi/vcs/*": ["../packages/vcs/src/*"],
+      "@engi/orm": ["../packages/orm/src/index.ts"],
+      "@engi/orm/*": ["../packages/orm/src/*"],
+      "@engi/tools/*": ["../packages/generic-tools/src/*"],
+      "@engi/tools": ["../packages/generic-tools/src/index.ts"],
+      "@engi/digest": ["../packages/digest/run/index.ts"],
+      "@engi/digest/*": ["../packages/digest/*"],
+      "@engi/email": ["../packages/notifications/src/index.ts"],
+      "@engi/prompts": ["../packages/prompts/src/index.ts"],
+      "@engi/prompts/src/*": ["../packages/prompts/src/*"],
+      "@engi/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@engi/system_prompt.txt": ["../packages/prompts/src/system_prompt.txt"],
+      "@engi/responses": ["../packages/networking/src/responses.ts"],
+      "@engi/sse": ["../packages/networking/src/sse.ts"],
+      "@engi/models": ["../packages/models/src/index.ts"],
+      "@engi/telemetry": ["../packages/observability/src/telemetry.ts"],
+      "@engi/web-search": ["../packages/web-search/src/index.ts"],
+      
+      "@engi/obfuscate": ["../packages/obfuscate/src/index.ts"],
+      "@engi/dockerUtils": ["../packages/docker/src/index.ts"],
+      "@engi/supabase": ["../packages/supabase/src/index.ts"],
+      "@/lib/measure/measureEngi": ["../packages/measure/src/measureEngi.ts"],
+      "@/lib/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
+      "@/lib/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
+
+      "@engi/objects-arrays-objects": ["../packages/objects-arrays/objects/src/index.ts"],
+      "@engi/objects-arrays-objects/*": ["../packages/objects-arrays/objects/src/*"],
+
+      "@engi/web-search": ["../packages/web-search/src/index.ts"],
+      
+      "@engi/obfuscate": ["../packages/obfuscate/src/index.ts"],
+
+
+      "@/lib/email": ["../packages/notifications/src/index.ts"],
+      "@/lib/prompts": ["../packages/prompts/src/index.ts"],
+      "@/lib/system_prompt.txt": ["../packages/prompts/src/system_prompt.txt"],
+      "@/lib/responses": ["../packages/networking/src/responses.ts"],
+      "@/lib/sse": ["../packages/networking/src/sse.ts"],
+      "@/lib/web-search": ["../packages/web-search/src/index.ts"],
+      "@/lib/deliverables": ["../packages/pipelines/deliverable/src/index.ts"],
+      "@/lib/models": ["../packages/models/src/index.ts"],
+      "@/lib/telemetry": ["../packages/observability/src/telemetry.ts"],
+
+      "@/lib/dockerUtils": ["../packages/docker/src/index.ts"],
+      // -----------------------------------------------------------------
+      // Legacy utils aliases – `uapi/utils` folder has been removed. These
+      // mappings keep existing import paths working without code changes.
+      // -----------------------------------------------------------------
+      "@/utils/credit-plans": ["../packages/credits/src/plans.ts"],
+      "@/utils/model-pricing": ["../packages/models/src/pricing.ts"],
+      "@/lib/git": ["../packages/git/src"],
+      "@/lib/git/*": ["../packages/git/src/*"],
+      "@/digest/*": ["../packages/digest/*"],
+      "@/lib/digest": ["../packages/digest/run/index.ts"],
+      "@/lib/digest/*": ["../packages/digest/*"],
+
+
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "lib"]
+}

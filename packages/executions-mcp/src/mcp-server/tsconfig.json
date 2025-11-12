@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../mcp/src/mcp-server/dist",
+    "rootDir": "../mcp/src/mcp-server/src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../mcp/src/mcp-server/src/**/*"
+  ],
+  "exclude": [
+    "../mcp/src/mcp-server/dist",
+    "../mcp/src/mcp-server/node_modules",
+    "../mcp/src/mcp-server/**/*.test.ts",
+    "../mcp/src/mcp-server/**/*.spec.ts"
+  ]
+}

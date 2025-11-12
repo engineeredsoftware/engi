@@ -1,0 +1,15 @@
+{
+  "name": "@engi/artifacts",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/artifacts.ts",
+  "types": "src/artifacts.ts",
+  "exports": {
+    ".": {
+      "require": "./src/artifacts.ts",
+      "default": "./src/artifacts.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": ["src"]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@engi/doc-code",
+  "version": "1.0.0",
+  "description": "Runtime documentation injection system - makes docs available IN CODE",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./loader": {
+      "default": "./dist/loaders/doc-code-tool-loader.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "transform": "ts-node scripts/apply-doc-code-transform.ts"
+  },
+  "keywords": [
+    "documentation",
+    "runtime",
+    "injection",
+    "proto",
+    "metadata"
+  ],
+  "dependencies": {
+    "@engi/doc-comment": "workspace:*",
+    "glob": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/webpack": "^5.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0"
+  }
+}

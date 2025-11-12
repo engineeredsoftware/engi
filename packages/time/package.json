@@ -1,0 +1,18 @@
+{
+  "name": "@engi/time",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/time.ts",
+  "types": "src/time.ts",
+  "exports": {
+    ".": {
+      "require": "./src/time.ts",
+      "default": "./src/time.ts"
+    },
+    "./src/*": "./src/*"
+  },
+  "files": ["src"],
+  "dependencies": {
+    "date-fns": "^3.3.1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/artifacts": ["packages/digest/__mocks__/artifacts.ts"],
+      "@/lib/logger": ["packages/digest/__mocks__/logger.ts"],
+      "@/lib/engine/constants": ["packages/digest/__mocks__/lib/engine/constants.ts"],
+      "@/digest/streams": ["packages/digest/__mocks__/streams.ts"],
+      "../streams": ["packages/digest/__mocks__/streams.ts"],
+      "minimatch": ["packages/digest/__mocks__/minimatch.ts"],
+      "dotenv": ["packages/digest/__mocks__/dotenv.ts"],
+      "@engi/logger": ["packages/digest/__mocks__/engi/logger.ts"],
+      "@/llm/geminiClient": ["packages/digest/__mocks__/llm/geminiClient.ts"],
+      "@/llm/anthropicClient": ["packages/digest/__mocks__/llm/anthropicClient.ts"],
+      "@/lib/dryrun": ["packages/digest/__mocks__/lib/dryrun.ts"],
+      "@/lib/git/git": ["packages/digest/__mocks__/lib/git/git.ts"],
+      "@/lib/models": ["packages/digest/__mocks__/lib/models.ts"]
+    },
+    "suppressImplicitAnyIndexErrors": true
+  }
+}

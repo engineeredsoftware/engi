@@ -1,0 +1,60 @@
+# Base Components (Engi UI)
+
+This folder contains the canonical base layers for Engi’s UI. App code imports ONLY from here (and Engi primitives), never from vendored demo registries.
+
+- First‑party: `engi/` — Engi’s own base primitives (perf + layout + neutral composition)
+- Vendor providers: `<provider>/` — Proper‑noun folders for vendored component families (e.g., `shadcn`)
+
+General Rules
+- Explicit imports only; no re‑exports (no index barrels)
+- No app code imports from `uapi/components/ui/apps/www/registry/*` (they are fixtures)
+- Tokenized classes; avoid hard‑coded RGBA/hex for brand colors
+- Use `cn` from `@engi/styling`
+
+## Provider Checklist (for adding a new vendor family or component)
+
+When adding a new component to an existing provider (e.g., `shadcn`):
+
+1) File location
+- `uapi/components/base/<provider>/<component>.tsx`
+- `<provider>` is a proper noun (e.g., `shadcn`) — do not create generic names like `primitives`.
+
+2) Implementation
+- Self‑contained file; do not re‑export from an `index.ts`.
+- Import `cn` from `@engi/styling` and apply classes (Tailwind + tokens).
+- Avoid hex/rgba brand colors; use Tailwind tokens.
+- Keep API compatible with upstream where reasonable, but prefer Engi naming precision.
+
+3) Exports
+- Export explicit symbols only (no `export *`).
+- Example:
+```ts
+export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription };
+```
+
+4) Docs & references
+- If the component has caveats (e.g., needs pairing with another component), document in file comments at top.
+- If the component is heavy, consider dynamic usage notes in the consumer docs.
+
+5) Usage in app code
+- Import from `@/components/base/<provider>/<component>` directly.
+- Do not import from `@/components/ui/...`.
+
+## Engi Primitives (first‑party)
+
+Use these to standardize efficient behavior without imposing looks:
+- `engi/panels/ScrollContainer.tsx` — SSOT scrollbars for all scroll regions
+- `engi/perf/ContentVisibility.tsx` — content‑visibility wrapper for large off‑screen content
+- `engi/perf/GPUAcceleration.tsx` — GPU/compositor hints for animated containers
+- `engi/page-header/PageHeaderSection.tsx` — neutral header composition shell
+
+See `internal-docs/STYLE.md` for full guidance.
+
+## Engi Base Components (shared UI)
+
+Reusable Engi-branded UI that is shared across features lives flat under `engi/` (no `ui/` nesting):
+- `engi/typing-animation.tsx`, `engi/multi-line-typing-animation.tsx`
+- `engi/quantum-button.tsx`, `engi/word-rotate.tsx`
+- `engi/metal-plate.tsx`, `engi/dock.tsx`, `engi/multi-agents-icon.tsx`, `engi/particle-effect.tsx`
+
+App code may import these directly, and page-specific components should be colocated under the page (e.g., `app/executions/components/*`) while reusing these base components.

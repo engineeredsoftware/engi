@@ -1,0 +1,15 @@
+import { PromptPart } from '../../parts/PromptPart';
+
+/**
+ * @doc-comment-developing-promptpartdevelopment
+ * domain: lsp
+ * intent: "Footer: LSP navigation capabilities purpose"
+ * current_version: "GA1.50.0"
+ * versions: []
+  * benchmarks: [
+ *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.50 },
+ *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.50 }
+ * ]
+ */
+export const PROMPTPART_SPECIFIC_TOOL_CAPABILITIES_LSP_FOOTER: PromptPart =
+  'to accelerate development workflows' as PromptPart;
