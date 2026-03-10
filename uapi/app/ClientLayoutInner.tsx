@@ -1,7 +1,9 @@
 "use client"
+/* eslint-disable react/no-multi-comp */
 
 import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { createClient } from '@engi/supabase/ssr/client'
 import { AuthProvider } from '@/components/base/engi/auth/AuthProvider'
 import OrbitalsProvider from '@/app/orbitals/components/OrbitalsProvider'
@@ -81,6 +83,7 @@ const RightSidebar = dynamic(
 )
 
 // Nav skeleton placeholder
+// eslint-disable-next-line react/no-multi-comp
 const NavSkeleton = () => (
   <div className="h-36 w-full skeleton-shine" />
 );
@@ -91,6 +94,7 @@ const Nav = dynamic(
 const Footer = dynamic(() => import('@/components/base/engi/layout/footer'), { ssr: false })
 
 // Content skeleton
+// eslint-disable-next-line react/no-multi-comp
 const ContentSkeleton = () => (
   <div className="w-full min-h-[calc(100vh-9rem)] skeleton-shine" />
 )
@@ -105,6 +109,7 @@ const PageContent = dynamic(
 Nav.preload?.();
 
 export default function ClientLayoutInner({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
   const queryClient = useQueryClient();
   const supabase = createClient()
   const [user, setUser] = React.useState<null | import('@supabase/supabase-js').User>(null)
@@ -211,7 +216,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         <>
         {FEATURE_FLAGS.NAV_BAR && <Nav />}
         <PageContent>{children}</PageContent>
-        <Footer />
+        {pathname !== '/' && <Footer />}
         <React.Suspense fallback={null}>
           {/* Sidebars on desktop (md+): left runs/items and right Conversations chat */}
           <div className="hidden laptop:block">

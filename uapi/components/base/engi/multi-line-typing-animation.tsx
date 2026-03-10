@@ -11,8 +11,10 @@ interface Props {
   charDelay?: number;
   startDelay?: number;
   className?: string;
+  align?: 'left' | 'center';
   onComplete?: () => void;
   highlightText?: string;
+  highlightTexts?: Array<string | { text: string; className?: string }>;
   highlightClass?: string;
   showCursor?: boolean;
   disableParticleEffect?: boolean;
@@ -23,8 +25,10 @@ const MultiLineTypingAnimation: FC<Props> = ({
   charDelay = 40,
   startDelay = 0,
   className = '',
+  align = 'center',
   onComplete,
   highlightText = '',
+  highlightTexts,
   highlightClass = '',
   showCursor = true,
   disableParticleEffect = false,
@@ -32,6 +36,60 @@ const MultiLineTypingAnimation: FC<Props> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const ghostRef = useRef<HTMLDivElement | null>(null);
   const [lines, setLines] = useState<string[] | null>(null);
+  const onCompleteRef = useRef(onComplete);
+  const highlightTextsKey = JSON.stringify(highlightTexts ?? []);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  const normalizedHighlights = useMemo(() => {
+    const plain = text.replace(/\n/g, ' ');
+    const rawHighlights =
+      highlightTexts && highlightTexts.length > 0
+        ? highlightTexts
+        : highlightText
+          ? [{ text: highlightText, className: highlightClass }]
+          : [];
+
+    return rawHighlights
+      .map((entry, index) => {
+        const config = typeof entry === 'string'
+          ? { text: entry, className: highlightClass }
+          : { text: entry.text, className: entry.className ?? highlightClass };
+
+        if (!config.text) {
+          return null;
+        }
+
+        const start = plain.indexOf(config.text);
+        if (start === -1) {
+          return null;
+        }
+
+        return {
+          id: `typing-highlight-${index}`,
+          text: config.text,
+          className: config.className,
+          start,
+          end: start + config.text.length,
+        };
+      })
+      .filter((highlight): highlight is {
+        id: string;
+        text: string;
+        className: string;
+        start: number;
+        end: number;
+      } => Boolean(highlight))
+      .sort((left, right) => left.start - right.start);
+  }, [highlightClass, highlightText, highlightTextsKey, text]);
+  const highlightRefs = useMemo(() => {
+    return normalizedHighlights.reduce<Record<string, React.RefObject<HTMLSpanElement>>>((acc, highlight) => {
+      acc[highlight.id] = React.createRef<HTMLSpanElement>();
+      return acc;
+    }, {});
+  }, [normalizedHighlights]);
 
   const measureLines = () => {
     if (!containerRef.current) return;
@@ -135,21 +193,17 @@ const MultiLineTypingAnimation: FC<Props> = ({
   const [displayed, setDisplayed] = useState<string[]>([]);
   const [complete, setComplete] = useState(false);
   const [typingStarted, setTypingStarted] = useState(false);
-  const [highlightVisible, setHighlightVisible] = useState(false);
-  const highlightRef = useRef<HTMLSpanElement | null>(null);
-  const [highlightStartIdx, highlightEndIdx] = useMemo(() => {
-    const plain = text.replace(/\n/g, ' ');
-    const start = highlightText ? plain.indexOf(highlightText) : -1;
-    const end = start !== -1 ? start + highlightText.length : -1;
-    return [start, end];
-  }, [text, highlightText]);
+  const [visibleHighlightIds, setVisibleHighlightIds] = useState<string[]>([]);
+  const visibleHighlightIdsRef = useRef<Set<string>>(new Set());
+  const visibleHighlightSet = useMemo(() => new Set(visibleHighlightIds), [visibleHighlightIds]);
 
   useEffect(() => {
     if (!lines) return;
+    setComplete(false);
     setTypingStarted(false);
     setDisplayed(Array.from({ length: lines.length }, () => ''));
-    setHighlightVisible(false);
-    highlightRef.current = null;
+    setVisibleHighlightIds([]);
+    visibleHighlightIdsRef.current = new Set();
 
     const timerIds: number[] = [];
     const schedule = (fn: () => void, delay: number) => {
@@ -164,7 +218,7 @@ const MultiLineTypingAnimation: FC<Props> = ({
     const typeNext = () => {
       if (globalIndex >= totalChars) {
         setComplete(true);
-        onComplete?.();
+        onCompleteRef.current?.();
         return;
       }
       const currentLine = lines[lineIndex];
@@ -174,13 +228,17 @@ const MultiLineTypingAnimation: FC<Props> = ({
         copy[lineIndex] = currentLine.substring(0, charIndexInLine + 1);
         return copy;
       });
-      if (
-        highlightText &&
-        !highlightVisible &&
-        highlightStartIdx !== -1 &&
-        globalIndex >= highlightStartIdx + highlightText.length - 1
-      ) {
-        setHighlightVisible(true);
+
+      const newlyVisibleHighlights = normalizedHighlights.filter(
+        (highlight) =>
+          !visibleHighlightIdsRef.current.has(highlight.id) &&
+          globalIndex >= highlight.end - 1,
+      );
+      if (newlyVisibleHighlights.length > 0) {
+        newlyVisibleHighlights.forEach((highlight) => {
+          visibleHighlightIdsRef.current.add(highlight.id);
+        });
+        setVisibleHighlightIds(Array.from(visibleHighlightIdsRef.current));
       }
       globalIndex++;
       charIndexInLine++;
@@ -204,7 +262,7 @@ const MultiLineTypingAnimation: FC<Props> = ({
       typeNext();
     }, startDelay + charDelay);
     return () => timerIds.forEach((id) => clearTimeout(id));
-  }, [lines]);
+  }, [charDelay, lines, normalizedHighlights, startDelay]);
 
   if (!lines) {
     return (
@@ -214,40 +272,63 @@ const MultiLineTypingAnimation: FC<Props> = ({
     );
   }
 
-  const captureHighlightRef = (el: HTMLSpanElement | null) => {
-    if (el && !highlightRef.current) highlightRef.current = el;
-  };
-
   return (
-    <div ref={containerRef} className={cn('typing-animation relative flex flex-col items-center', className)}>
+    <div
+      ref={containerRef}
+      className={cn(
+        'typing-animation relative flex flex-col',
+        align === 'left' ? 'items-start' : 'items-center',
+        className,
+      )}
+    >
       {lines.map((fullLine, i) => {
         const shown = displayed[i] ?? '';
         const globalLineStart = lines.slice(0, i).reduce((s, l) => s + l.length, 0);
         const globalLineEnd = globalLineStart + fullLine.length;
         let rendered: React.ReactNode = shown;
-        if (
-          highlightText &&
-          highlightVisible &&
-          highlightStartIdx !== -1 &&
-          globalLineEnd > highlightStartIdx &&
-          globalLineStart < highlightEndIdx
-        ) {
-          const sliceStart = Math.max(0, highlightStartIdx - globalLineStart);
-          const sliceEnd = Math.min(fullLine.length, highlightEndIdx - globalLineStart);
-          const before = shown.slice(0, sliceStart);
-          const highlightPart = shown.slice(sliceStart, sliceEnd);
-          const after = shown.slice(sliceEnd);
-          rendered = (
-            <>
-              {before}
-              {highlightPart && (
-                <span ref={captureHighlightRef} className={highlightClass} style={{ display: 'inline' }}>
-                  {highlightPart}
-                </span>
-              )}
-              {after}
-            </>
-          );
+        const lineHighlights = normalizedHighlights.filter(
+          (highlight) =>
+            visibleHighlightSet.has(highlight.id) &&
+            globalLineEnd > highlight.start &&
+            globalLineStart < highlight.end,
+        );
+
+        if (lineHighlights.length > 0) {
+          const pieces: React.ReactNode[] = [];
+          let cursor = 0;
+
+          lineHighlights.forEach((highlight) => {
+            const sliceStart = Math.max(0, highlight.start - globalLineStart);
+            const sliceEnd = Math.min(fullLine.length, highlight.end - globalLineStart);
+            const safeStart = Math.min(sliceStart, shown.length);
+            const safeEnd = Math.min(sliceEnd, shown.length);
+
+            if (cursor < safeStart) {
+              pieces.push(shown.slice(cursor, safeStart));
+            }
+
+            if (safeEnd > safeStart) {
+              pieces.push(
+                <span
+                  key={`${highlight.id}-${i}`}
+                  ref={highlightRefs[highlight.id]}
+                  className={`${highlight.className} ${highlight.id}`}
+                  data-particle-highlight={highlight.id}
+                  style={{ display: 'inline' }}
+                >
+                  {shown.slice(safeStart, safeEnd)}
+                </span>,
+              );
+            }
+
+            cursor = Math.max(cursor, safeEnd);
+          });
+
+          if (cursor < shown.length) {
+            pieces.push(shown.slice(cursor));
+          }
+
+          rendered = <>{pieces}</>;
         }
         const isActiveLine = i === displayed.findIndex((l, idx) => l.length < (lines[idx]?.length || 0));
         return (
@@ -262,9 +343,18 @@ const MultiLineTypingAnimation: FC<Props> = ({
           </span>
         );
       })}
-      {!disableParticleEffect && highlightVisible && highlightRef.current && (
-        <ParticleEffect targetRef={highlightRef} particleCount={70} delay={0} duration={2500} />)
-      }
+      {!disableParticleEffect &&
+        normalizedHighlights
+          .filter((highlight) => visibleHighlightSet.has(highlight.id))
+          .map((highlight) => (
+            <ParticleEffect
+              key={highlight.id}
+              targetRef={highlightRefs[highlight.id] as React.RefObject<HTMLElement>}
+              particleCount={70}
+              delay={0}
+              duration={2500}
+            />
+          ))}
     </div>
   );
 };

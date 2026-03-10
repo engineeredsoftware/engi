@@ -175,7 +175,7 @@ export default function RichTextInput({
   };
 
   // Handle selection from pickers
-  const handleSelectAI Document = (ai_document: any) => {
+  const handleSelectAiDocument = (ai_document: any) => {
     insertToken({
       id: `ai_document-${Date.now()}`,
       type: 'ai_document',
@@ -572,9 +572,9 @@ export default function RichTextInput({
 
       {/* Pickers */}
       {activePicker === 'ai_document' && (
-        <AI DocumentPicker
+        <DeliverablePicker
           isOpen={true}
-          onSelect={handleSelectAI Document}
+          onSelect={handleSelectAiDocument}
           onClose={() => setActivePicker(null)}
           searchTerm={searchTerm}
         />
@@ -613,7 +613,7 @@ export default function RichTextInput({
       {activePicker === 'pipeline_run' && (
         <PipelineRunPicker
           isOpen={true}
-          onSelect={handleSelectOTFTarget}
+          onSelect={handleSelectPipelineRun}
           onClose={() => setActivePicker(null)}
           searchTerm={searchTerm}
           currentConversationId={currentConversationId}

@@ -26,11 +26,12 @@ const ParticleEffect: FC<ParticleEffectProps> = ({
       const container = containerRef.current!;
 
       const el = targetElement;
-      const classSelector = Array.from(el.classList)
-        .map((c) => '.' + c)
-        .join('');
       const root = el.closest('.typing-animation');
-      const spans = root ? Array.from(root.querySelectorAll(classSelector)) : [el];
+      const highlightId = el.getAttribute('data-particle-highlight');
+      const spans =
+        root && highlightId
+          ? Array.from(root.querySelectorAll(`[data-particle-highlight="${highlightId}"]`))
+          : [el];
       const rects = spans.map((s) => s.getBoundingClientRect());
       const left = Math.min(...rects.map((r) => r.left));
       const top = Math.min(...rects.map((r) => r.top));
