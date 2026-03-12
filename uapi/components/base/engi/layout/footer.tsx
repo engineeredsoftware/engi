@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react'
+import Image from 'next/image';
 
 
 
@@ -76,12 +77,31 @@ const footerNavs = [
 
 const footerSocials = [
   {
-    name: 'X',
-    href: 'https://x.com/engisoftware',
+    name: 'Bluesky',
+    label: (
+      <>
+        <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
+          $ENGI
+        </span>
+        <span>&apos;s Social Media</span>
+      </>
+    ),
+    href: 'https://bsky.app/profile/engicomms.bsky.social',
     icon: (
-      <svg fill="currentColor" viewBox="0 0 24 24" className="size-4">
-        <path d="M13.6823 10.6218L20.2391 3H18.6854L12.9921 9.61788L8.44486 3H3.2002L10.0765 13.0074L3.2002 21H4.75404L10.7663 14.0113L15.5685 21H20.8131L13.6819 10.6218H13.6823ZM11.5541 13.0956L10.8574 12.0991L5.31391 4.16971H7.70053L12.1742 10.5689L12.8709 11.5655L18.6861 19.8835H16.2995L11.5541 13.096V13.0956Z" />
-      </svg>
+      <span
+        className="inline-flex items-center justify-center"
+        style={{
+          filter: 'drop-shadow(0 0 6px rgba(61,131,246,0.66)) drop-shadow(0 0 15px rgba(61,131,246,0.33))',
+        }}
+      >
+        <Image
+          src="/Bluesky_butterfly-logo.svg"
+          alt=""
+          width={14}
+          height={14}
+          className="h-[14px] w-[14px]"
+        />
+      </span>
     ),
   },
 ];
@@ -236,9 +256,12 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   <a
                     key={social.name}
                     href={social.href}
-                    className="fill-gray-500 text-gray-500 hover:fill-gray-900 hover:text-gray-900 dark:hover:fill-gray-600 dark:hover:text-gray-600"
+                    target={social.href.startsWith('http') ? '_blank' : undefined}
+                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                   >
                     {social.icon}
+                    <span className="whitespace-nowrap">{social.label}</span>
                     <span className="sr-only">{social.name}</span>
                   </a>
                 ))}

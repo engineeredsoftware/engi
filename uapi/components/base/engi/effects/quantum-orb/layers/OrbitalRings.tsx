@@ -12,7 +12,12 @@ interface OrbitalRingsProps {
   isAnimating?: boolean;
 }
 
-export function OrbitalRings({ color, speed, state, isAnimating = true }: OrbitalRingsProps) {
+export function OrbitalRings({
+  color,
+  speed,
+  state,
+  isAnimating = true,
+}: OrbitalRingsProps) {
   // Get opacity based on state
   const getOpacity = (baseOpacity: number) => {
     switch (state) {
@@ -26,7 +31,7 @@ export function OrbitalRings({ color, speed, state, isAnimating = true }: Orbita
     <>
       {/* Outer glow */}
       <motion.div
-        className="orbital-ring outer-glow"
+        className="quantum-orb-ring quantum-orb-ring-glow"
         style={{
           position: 'absolute',
           inset: '3%',
@@ -53,7 +58,7 @@ export function OrbitalRings({ color, speed, state, isAnimating = true }: Orbita
 
       {/* Outer ring */}
       <motion.div
-        className="orbital-ring outer-ring"
+        className="quantum-orb-ring quantum-orb-ring-outer"
         style={{
           position: 'absolute',
           inset: '3%',
@@ -76,7 +81,7 @@ export function OrbitalRings({ color, speed, state, isAnimating = true }: Orbita
 
       {/* Middle ring */}
       <motion.div
-        className="orbital-ring middle-ring"
+        className="quantum-orb-ring quantum-orb-ring-middle"
         style={{
           position: 'absolute',
           inset: '15%',
@@ -99,7 +104,7 @@ export function OrbitalRings({ color, speed, state, isAnimating = true }: Orbita
 
       {/* Inner ring */}
       <motion.div
-        className="orbital-ring inner-ring"
+        className="quantum-orb-ring quantum-orb-ring-inner"
         style={{
           position: 'absolute',
           inset: '30%',

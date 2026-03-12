@@ -13,7 +13,13 @@ interface GlowLayerProps {
   isAnimating?: boolean;
 }
 
-export function GlowLayer({ color, intensity, speed, state, isAnimating = true }: GlowLayerProps) {
+export function GlowLayer({
+  color,
+  intensity,
+  speed,
+  state,
+  isAnimating = true,
+}: GlowLayerProps) {
   // Calculate blur based on state
   // Lower blur radii during the heaviest ("active") phase – GPU samples on
   // larger blurs are disproportionately expensive and the visual difference

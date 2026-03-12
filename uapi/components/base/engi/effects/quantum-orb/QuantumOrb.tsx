@@ -355,6 +355,22 @@ function QuantumOrb({
             }}
           />
         )}
+        {!orbConfig.showBackground && (
+          <div
+            className="quantum-orb-transparent-backdrop"
+            style={{
+              position: 'absolute',
+              inset: '8%',
+              borderRadius: '50%',
+              background: `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 46%, ${orbConfig.glowColor}22 72%, transparent 88%)`,
+              opacity: state === 'active' ? 0.95 : 0.8,
+              filter: 'blur(2px)',
+              willChange: 'transform, opacity',
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden',
+            }}
+          />
+        )}
 
         {renderDynamic && (
           <>
@@ -400,8 +416,8 @@ function QuantumOrb({
                 color={orbConfig.glowColor}
                 intensity={stateProps.coreIntensity}
                 speed={stateProps.particleSpeed * qualityMultiplier}
-                  state={state}
-                  isAnimating={isAnimating}
+                state={state}
+                isAnimating={isAnimating}
               />
             )}
 
@@ -443,7 +459,7 @@ function QuantumOrb({
       />
 
       {/* Realistic shadow */}
-      {orbConfig.showShadow && (
+      {orbConfig.showShadow && orbConfig.showBackground && (
         <>
           <div
             className="quantum-orb-shadow-inner"
