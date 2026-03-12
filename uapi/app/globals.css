@@ -416,13 +416,6 @@ nextjs-portal {
   --chart-5: 27 87% 67%;
   }
 
-/* Soft-launch mode: lock viewport to prevent scrolling */
-html.soft-launch,
-body.soft-launch {
-  overflow: hidden !important;
-  height: 100vh !important;
-}
-
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

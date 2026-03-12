@@ -1,27 +1,23 @@
 /* Coming Soon Component - Specific Fixes */
 
-/* Ensure the container allows overflow for glow effects but prevents scrollbars */
+/* Use normal document scrolling while keeping horizontal overflow clipped. */
 .coming-soon-container {
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: clip;
+  overflow-y: visible;
   background-color: #030816;
   min-height: 100svh;
   width: 100%;
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Create a wrapper to prevent scrollbars while allowing overflow for visual effects */
 .coming-soon-container::before {
   content: "";
   position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
+  inset: 0;
   pointer-events: none;
 }
 

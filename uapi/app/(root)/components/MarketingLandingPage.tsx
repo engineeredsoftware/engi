@@ -386,8 +386,8 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
         <span className={heroHighlightClass}>$ENGI</span>
         <span>&apos;s purpose is to hoard valuable technical information and compensate contributors
         fairly. Provable knowledge measuring algorithms build the foundations for collection and
-        issuance. Ideal long-term partners for asset management, infrastructure, and legal will be
-        finalized to empower the safe and secure future of a thriving </span>
+        issuance. Ideal long-term partnerships for asset management and infrastructure will be
+        finalized to empower the secure and thriving future of </span>
         <span className={heroHighlightClass}>$ENGI</span>
         <span>.</span>
       </p>
@@ -397,24 +397,10 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
 
 export default function MarketingLandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    html.classList.add('soft-launch');
-    body.classList.add('soft-launch');
-
-    return () => {
-      html.classList.remove('soft-launch');
-      body.classList.remove('soft-launch');
-    };
-  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
-    const stage = stageRef.current;
-    if (!container || !stage) {
+    if (!container) {
       return;
     }
 
@@ -443,9 +429,9 @@ export default function MarketingLandingPage() {
 
     const handlePointerMove = (event: PointerEvent) => {
       const rect = container.getBoundingClientRect();
-      const stageHeight = stage.offsetHeight || container.scrollHeight || rect.height;
+      const stageHeight = container.offsetHeight || container.scrollHeight || rect.height;
       nextX = ((event.clientX - rect.left) / rect.width) * 100;
-      nextY = ((event.clientY - rect.top + container.scrollTop) / stageHeight) * 100;
+      nextY = ((event.clientY - rect.top) / stageHeight) * 100;
       scheduleCommit();
     };
 
@@ -467,39 +453,6 @@ export default function MarketingLandingPage() {
     };
   }, []);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    const stage = stageRef.current;
-    if (!container || !stage) {
-      return;
-    }
-
-    const updateStageHeight = () => {
-      const stageHeight = Math.max(
-        container.scrollHeight,
-        container.clientHeight,
-        stage.scrollHeight,
-        stage.offsetHeight,
-      );
-      container.style.setProperty('--stage-height-px', `${stageHeight}px`);
-    };
-
-    updateStageHeight();
-
-    const resizeObserver = new ResizeObserver(() => {
-      updateStageHeight();
-    });
-
-    resizeObserver.observe(container);
-    resizeObserver.observe(stage);
-    window.addEventListener('resize', updateStageHeight);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', updateStageHeight);
-    };
-  }, []);
-
   return (
     <>
       <svg width="0" height="0" style={{ position: 'absolute', top: '-9999px' }}>
@@ -518,21 +471,14 @@ export default function MarketingLandingPage() {
 
       <div
         ref={containerRef}
-        className="coming-soon-container relative flex w-full flex-col overflow-x-hidden overflow-y-auto bg-[#030816] text-white"
+        className="coming-soon-container relative flex w-full flex-col bg-[#030816] text-white"
         style={{
-          height: '100svh',
           minHeight: '100svh',
-          overscrollBehaviorY: 'contain',
-          '--stage-height-px': '100svh',
           '--mouse-x': '50%',
           '--mouse-y': '50%',
         } as React.CSSProperties}
       >
-        <div
-          ref={stageRef}
-          className="relative flex w-full flex-col"
-          style={{ minHeight: 'var(--stage-height-px)' }}
-        >
+        <div className="relative flex min-h-[100svh] w-full flex-col">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(103,254,183,0.14),transparent_34%),linear-gradient(180deg,#07131d_0%,#030816_45%,#02060d_100%)]" />
           <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(103,254,183,0.09)_1px,transparent_1px),linear-gradient(90deg,rgba(103,254,183,0.09)_1px,transparent_1px)] [background-size:160px_160px]" />
 
@@ -570,9 +516,8 @@ export default function MarketingLandingPage() {
           ))}
 
           <div
-            className="pointer-events-none absolute inset-x-0 top-0 transition-opacity duration-300"
+            className="pointer-events-none absolute inset-0 transition-opacity duration-300"
             style={{
-              height: 'var(--stage-height-px)',
               background:
                 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(103, 254, 183, 0.16) 0%, rgba(103, 254, 183, 0.08) 16%, transparent 44%)',
               willChange: 'background',
@@ -924,11 +869,11 @@ export default function MarketingLandingPage() {
                       <span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" />
                     </div>
                     <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-emerald-200/60">
-                      <span>read</span>
+                      <span>write</span>
                       <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
                       <span>measure</span>
                       <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-                      <span>write</span>
+                      <span>read</span>
                     </div>
                   </div>
 

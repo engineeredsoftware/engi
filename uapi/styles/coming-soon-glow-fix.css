@@ -60,9 +60,10 @@
     overflow: visible !important;
   }
 
-  /* Ensure the coming soon container doesn't clip */
+  /* Keep natural document scrolling on mobile. */
   .coming-soon-container {
-    overflow: visible !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
   }
 
   /* Smoother animation for the glow effect with more keyframes for smoother transitions */
