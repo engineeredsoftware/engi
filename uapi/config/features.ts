@@ -29,7 +29,6 @@ const env = {
   NEXT_PUBLIC_CONVERSATION_SECTION: process.env.NEXT_PUBLIC_CONVERSATION_SECTION,
   NEXT_PUBLIC_TESTIMONIALS_SECTION: process.env.NEXT_PUBLIC_TESTIMONIALS_SECTION,
   NEXT_PUBLIC_LIGHTPAPER_BANNER: process.env.NEXT_PUBLIC_LIGHTPAPER_BANNER,
-  NEXT_PUBLIC_COMING_SOON: process.env.NEXT_PUBLIC_COMING_SOON,
   NEXT_PUBLIC_SOFT_LAUNCH: process.env.NEXT_PUBLIC_SOFT_LAUNCH,
   NEXT_PUBLIC_MAINTENANCE_MODE: process.env.NEXT_PUBLIC_MAINTENANCE_MODE,
   NEXT_PUBLIC_INVISIBLE_INTERFACES_GROUP: process.env.NEXT_PUBLIC_INVISIBLE_INTERFACES_GROUP,
@@ -87,7 +86,6 @@ export const FEATURE_FLAGS = {
   // Misc controls retain their old default "off" behaviour.
   MCP_UPGRADES: envFlag('NEXT_PUBLIC_MCP_UPGRADES'),
   SOFT_LAUNCH: envFlag('NEXT_PUBLIC_SOFT_LAUNCH'),
-  COMING_SOON: envFlag('NEXT_PUBLIC_COMING_SOON'),
   LIVE_DAY_CREDIT_BUY: envFlag('NEXT_PUBLIC_LIVE_DAY_CREDIT_BUY'),
   // Disable all public “use / sign-in / sign-up” entry points. We use direct
   // static access so Next.js’ DefinePlugin inlines the env string at build

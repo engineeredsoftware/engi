@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 // the ComingSoon screen.  This keeps the JS footprint for authenticated
 // visitors minimal and avoids executing the animation code path at all once
 // the password has been entered.
-const ComingSoon = dynamic(() => import('./MarketingComingSoon'), {
+const ComingSoon = dynamic(() => import('@/app/(root)/components/MarketingLandingPage'), {
   // Disable SSR for the animation component – we will already have rendered a
   // server copy during the first request, subsequent visits are client only.
   ssr: false,

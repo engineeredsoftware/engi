@@ -66,4 +66,3 @@ export default function AuthCallbackPage({ searchParams }: AuthCallbackPageProps
     </div>
   );
 }
-

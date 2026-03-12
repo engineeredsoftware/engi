@@ -5,4 +5,3 @@ export default function LegacyStripeCallback({ searchParams }: { searchParams: R
   const target = `/tps/stripe/checkout${qs ? `?${qs}` : ''}`;
   permanentRedirect(target);
 }
-

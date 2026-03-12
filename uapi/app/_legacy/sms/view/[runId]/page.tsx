@@ -5,4 +5,3 @@ export default function LegacySMSViewer({ params, searchParams }: { params: { ru
   const target = `/tps/twilio/sms/${params.runId}${qs ? `?${qs}` : ''}`;
   permanentRedirect(target);
 }
-

@@ -5,4 +5,3 @@ export default function LegacyGitHubCallback({ searchParams }: { searchParams: R
   const target = `/tps/github/app-install${qs ? `?${qs}` : ''}`;
   permanentRedirect(target);
 }
-

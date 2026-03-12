@@ -1,5 +1,5 @@
-import MarketingComingSoon from './(root)/components/MarketingComingSoon';
+import MarketingLandingPage from './(root)/components/MarketingLandingPage';
 
 export default function Home() {
-  return <MarketingComingSoon />;
+  return <MarketingLandingPage />;
 }

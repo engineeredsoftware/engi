@@ -395,7 +395,7 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
   );
 });
 
-export default function MarketingComingSoon() {
+export default function MarketingLandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 

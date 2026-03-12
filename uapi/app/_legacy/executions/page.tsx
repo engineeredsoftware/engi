@@ -4,9 +4,9 @@
 
 import React, { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ExecutionsPage from './components/ExecutionsPage';
+import ExecutionsPageScreen from '@/app/executions/components/ExecutionsPage';
 
-export default function ExecutionsPage() {
+export default function LegacyExecutionsPage() {
   const router = useRouter();
   const search = useSearchParams();
   const executionId = search.get('executionId');
@@ -22,5 +22,5 @@ export default function ExecutionsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [executionId, runId]);
 
-  return <ExecutionsPage />;
+  return <ExecutionsPageScreen />;
 }

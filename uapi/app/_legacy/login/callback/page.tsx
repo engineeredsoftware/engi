@@ -5,4 +5,3 @@ export default function LegacyLoginCallback({ searchParams }: { searchParams: Re
   const target = `/tps/supabase/callback${qs ? `?${qs}` : ''}`;
   permanentRedirect(target);
 }
-
