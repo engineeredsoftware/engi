@@ -30,10 +30,31 @@ initSentry({
 // text remains visible during fetch.
 // Disable Google Font fetching in offline / CI environments.
 const inter = { className: '' } as const;
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.engi.ai';
+const metadataTitle = "$ENGI • The Engineering Knowledge Token";
+const metadataDescription =
+  "$ENGI is a data depot for the world's most valuable technical data used to improve advanced engineering artifical intelligences.";
 
 export const metadata: Metadata = {
-  title: "engi • eng/acc",
-  description: "evolutionary engineering AI",
+  metadataBase: new URL(appUrl),
+  title: metadataTitle,
+  description: metadataDescription,
+  applicationName: '$ENGI',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: metadataTitle,
+    description: metadataDescription,
+    url: '/',
+    siteName: '$ENGI',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: metadataTitle,
+    description: metadataDescription,
+  },
 };
 
 export default function RootLayout({
