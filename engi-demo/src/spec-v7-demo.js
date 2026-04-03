@@ -1,14 +1,14 @@
 import crypto from 'node:crypto';
 
-export const SPEC_VERSION = 'ENGI Spec V7 deterministic local prototype';
+export const SPEC_VERSION = 'ENGI Spec V8 deterministic local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
-export const PROFILE_A = 'Profile A — local deterministic prototype';
-export const PROFILE_B = 'Profile B — production-boundary intent';
+export const PROFILE_A = 'Profile A — local deterministic V8 prototype';
+export const PROFILE_B = 'Profile B — GitHub/App and external production boundary';
 const MAX_BPS = 10000;
 const VECTOR_DIMENSIONS = 16;
-const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v3';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v7-demo/2026-04-02';
+const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v4';
+const DEFAULT_POLICY_REF = 'policy://engi/spec-v8-demo/2026-04-03';
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
   failureModeSearch: 50,
@@ -36,6 +36,17 @@ const REQUIRED_SENSITIVE_DATA_CLASSES = [
   'private-proof-artifact',
   'bounded-public-proof-metadata'
 ];
+
+const RECALL_CHANNEL_SPECS = {
+  semanticTaskSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.task', 'unit.text'], recordedOn: ['need.queryRepresentations.task', 'asset.contentUnits[].embeddings.taskVector'], vectorizedIn: 'task-semantic-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'needMatch.taskSemanticFit + recall fusion', downstreamUses: ['candidate recall ordering', 'need-match scoring', 'asset-pack selection'] },
+  failureModeSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.failureModes', 'need.failingCases', 'unit.text', 'unit.extracted.constraints', 'unit.extracted.symbols'], recordedOn: ['need.queryRepresentations.failureModes', 'asset.contentUnits[].embeddings.failureModeVector'], vectorizedIn: 'failure-mode-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'needMatch.failureModeFit + benchmarkImpact.likelyImprovesFailingCases', downstreamUses: ['candidate recall ordering', 'benchmark-impact scoring', 'asset-pack coverage'] },
+  technicalContextSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.touchedPaths', 'need.extractedSymbols', 'need.configKeys', 'need.stackHints', 'unit.extracted.*'], recordedOn: ['need.queryRepresentations.technicalContext', 'asset.contentUnits[].embeddings.technicalContextVector'], vectorizedIn: 'technical-context-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'pathFit/stackFit/context generalization', downstreamUses: ['repo-context ranking', 'benchmark generalization scoring', 'branch selection guardrails'] },
+  lexicalSearch: { signalFamily: 'lexical', determinesFrom: ['tokenize(need.task/failureModes/constraints/weakDimensions)', 'tokenize(unit.text)'], recordedOn: ['need.lexicalTerms', 'unit text tokens'], vectorizedIn: null, searchedBy: 'exact token overlap', scoredBy: 'hit ratio', rankedUsage: 'support-only lexical evidence', downstreamUses: ['recall provenance', 'needMatch.lexicalSupport', 'visual explainability'] },
+  symbolSearch: { signalFamily: 'symbolic', determinesFrom: ['need.extractedSymbols', 'unit.extracted.symbols'], recordedOn: ['need.extractedSymbols', 'asset.contentUnits[].extracted.symbols'], vectorizedIn: null, searchedBy: 'exact symbol intersection', scoredBy: 'binary presence', rankedUsage: 'needMatch.symbolFit + recall fusion', downstreamUses: ['subsystem alignment', 'implementation specificity', 'visual explainability'] },
+  pathSearch: { signalFamily: 'path', determinesFrom: ['need.touchedPaths', 'asset.metadata.sourcePaths', 'unit.extracted.paths'], recordedOn: ['need.touchedPaths', 'asset provenance/source paths'], vectorizedIn: null, searchedBy: 'exact path intersection', scoredBy: 'binary presence', rankedUsage: 'needMatch.pathFit + repo-context linkage', downstreamUses: ['asset-pack coverage', 'benchmark impact generalization', 'penalty avoidance'] },
+  configKeySearch: { signalFamily: 'config', determinesFrom: ['need.configKeys', 'unit.extracted.configKeys'], recordedOn: ['need.configKeys', 'asset.contentUnits[].extracted.configKeys'], vectorizedIn: null, searchedBy: 'exact config-key intersection', scoredBy: 'binary presence', rankedUsage: 'subsystem alignment + context linkage', downstreamUses: ['need-match scoring', 'artifact precision', 'visual explainability'] },
+  artifactKindFilteredSearch: { signalFamily: 'artifact-kind/type', determinesFrom: ['need.targetArtifactKinds', 'asset.artifactKind', 'asset.artifactType'], recordedOn: ['need.targetArtifactKinds', 'asset metadata'], vectorizedIn: null, searchedBy: 'kind/type eligibility filter', scoredBy: 'binary match', rankedUsage: 'artifact kind fit + candidate filtering', downstreamUses: ['need-match scoring', 'penalty mass', 'asset-pack assembly'] }
+};
 
 export function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
@@ -211,7 +222,7 @@ function cosineSimilarity(left, right) {
 function enforceRange(name, value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric < 0 || numeric > 1) {
-    throw new Error(`Spec V7 debug failure: ${name} out of range (${value}).`);
+    throw new Error(`Spec V8 debug failure: ${name} out of range (${value}).`);
   }
   return numeric;
 }
@@ -222,7 +233,7 @@ function summarizeScore(score) {
 
 function enforceTelemetryTrace(name, trace) {
   if (!trace || typeof trace !== 'object') {
-    throw new Error(`Spec V7 debug failure: missing telemetry trace for ${name}.`);
+    throw new Error(`Spec V8 debug failure: missing telemetry trace for ${name}.`);
   }
   return trace;
 }
@@ -234,7 +245,7 @@ function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanat
     measurementClass,
     evaluatorKind,
     toolOrPromptId,
-    version: 'demo-v7.0',
+    version: 'demo-v8.0',
     evidenceRefs: evidenceRefs.filter(Boolean),
     unitRefs,
     explanation,
@@ -346,9 +357,9 @@ function splitContentUnits(assetId, content, hints = {}) {
     ].join(' ');
     const unitKind = detectUnitKind(text);
     const embeddings = {
-      taskVector: buildEmbeddingArtifact('task-semantic-space.v7', text),
-      failureModeVector: buildEmbeddingArtifact('failure-mode-space.v7', [text, ...(extracted.constraints || []), ...(extracted.symbols || [])].join(' ')),
-      technicalContextVector: buildEmbeddingArtifact('technical-context-space.v7', technicalContextText)
+      taskVector: buildEmbeddingArtifact('task-semantic-space.v8', text),
+      failureModeVector: buildEmbeddingArtifact('failure-mode-space.v8', [text, ...(extracted.constraints || []), ...(extracted.symbols || [])].join(' ')),
+      technicalContextVector: buildEmbeddingArtifact('technical-context-space.v8', technicalContextText)
     };
     const unitHash = stableHashObject({ text });
 
@@ -366,8 +377,8 @@ function splitContentUnits(assetId, content, hints = {}) {
         profileBFutureReplacementBoundary: 'replace embedding artifact values/providers without changing unit metadata contract'
       },
       measurementProvenance: [
-        measurementTrace('static', 'content-unit.extract-signals.v7', [unitHash, ...extracted.paths, ...extracted.configKeys], { measurementClass: 'static-analysis', evaluatorKind: 'deterministic-static-command', standIn: false }),
-        measurementTrace('hybrid', 'content-unit.embedding-standin.v7', [unitHash], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
+        measurementTrace('static', 'content-unit.extract-signals.v8', [unitHash, ...extracted.paths, ...extracted.configKeys], { measurementClass: 'static-analysis', evaluatorKind: 'deterministic-static-command', standIn: false }),
+        measurementTrace('hybrid', 'content-unit.embedding-standin.v8', [unitHash], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
       ],
       semanticSummary: {
         tokenCount: uniqueTokens(text).length,
@@ -393,7 +404,7 @@ function measurementTrace(mode, toolOrPromptId, evidenceRefs, options = {}) {
     measurementClass,
     evaluatorKind,
     toolOrPromptId,
-    version: 'demo-v7.0',
+    version: 'demo-v8.0',
     evidenceRefs,
     evaluatorSurface: evaluatorSurface({
       evaluatorId: toolOrPromptId,
@@ -410,6 +421,199 @@ function measurementTrace(mode, toolOrPromptId, evidenceRefs, options = {}) {
 
 function summarizeStrings(values) {
   return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+}
+
+function artifactTypeForKind(kind) {
+  const table = {
+    runbook: 'runbook/operator-playbook',
+    patch: 'code/patch',
+    config: 'config/policy-change',
+    proof: 'proof/verification-log',
+    'incident-note': 'notes/incident-retrospective',
+    mixed: 'bundle/mixed'
+  };
+  return table[kind] || `${kind || 'unknown'}/unspecified`;
+}
+
+function buildArtifactUploadSurface(input, content, extracted, artifactKind, artifactType) {
+  const visualPreview = String(input.visualPreview || input.summary || content.split(/\n\s*\n/g)[0] || content).slice(0, 320);
+  return {
+    uploadId: `upload_${sha256(`${input.title}:${content}`).slice(0, 12)}`,
+    artifactKind,
+    artifactType,
+    precision: {
+      kindDeterminedBy: input.artifactKind ? 'user-specified' : 'defaulted',
+      typeDeterminedBy: input.artifactType ? 'user-specified' : 'kind-mapped',
+      sourceSignalCounts: {
+        symbols: extracted.symbols.length,
+        paths: extracted.paths.length,
+        configKeys: extracted.configKeys.length
+      }
+    },
+    surfaces: [
+      { surfaceId: 'visual-preview', mediaType: 'text/markdown', role: 'visual', available: !!visualPreview, valuePreview: visualPreview },
+      { surfaceId: 'raw-content', mediaType: 'text/plain', role: 'raw', available: !!content, valuePreview: content.slice(0, 220) },
+      { surfaceId: 'signal-summary', mediaType: 'application/json', role: 'derived', available: true, valuePreview: JSON.stringify({ symbols: extracted.symbols.length, paths: extracted.paths.length, configKeys: extracted.configKeys.length }) }
+    ],
+    githubBinding: {
+      sourceProvider: input.sourceProvider || 'github',
+      sourceRepo: input.sourceRepo || 'frontier/demo-auth',
+      sourceCommit: input.sourceCommit || null,
+      workflowRunId: input.workflowRunId || null,
+      workflowPath: input.workflowPath || null,
+      profileABoundary: 'Stored locally as modeled metadata only.',
+      profileBBoundary: 'Would bind to real GitHub/App installation objects and remote fetches.'
+    }
+  };
+}
+
+function buildProfileCompositions() {
+  return {
+    activeProfile: 'A',
+    demoOperatorGuidance: {
+      audienceMeaning: 'Profile A means the local deterministic demo is real and inspectable today; Profile B means the production boundary contracts are explicit but intentionally not live-switched in this repo.',
+      whyOnlyAIsLive: 'Switching to Profile B would imply real GitHub/App auth, remote model execution, external vector infra, signer verification, and settlement/network effects. The repo keeps those contracts explicit without faking them.',
+      recommendedWalkthrough: ['Start with Profile A identity + need measurement', 'Show prompt lineage and score-group explainability', 'Open boundary manifests to explain what Profile B would hand off externally', 'Close on proof bundle + settlement invariants']
+    },
+    profiles: [
+      {
+        profileId: 'A',
+        label: PROFILE_A,
+        switchableInDemo: true,
+        identity: { whoItIs: 'A local deterministic operator-grade demo profile running entirely inside this repository.', operatorRole: 'Use this live in demos to show measured need, prompt lineage, ranking, proof closure, and exact-accounting settlement.', audienceMeaning: 'What you are seeing is implemented here, reproducible here, and inspectable here.' },
+        composition: ['local deterministic ranking', 'local stand-in embeddings', 'local policy model', 'local branch artifact materialization', 'local proof bundle + exact accounting'],
+        metadata: { externalWrites: false, githubLiveCalls: false, settlementMode: 'local exact accounting demo', modelExecution: 'deterministic stand-in', vectorExecution: 'deterministic local stand-in' }
+      },
+      {
+        profileId: 'B',
+        label: PROFILE_B,
+        switchableInDemo: false,
+        identity: { whoItIs: 'The production-intent boundary profile that would run against live GitHub/App, model, identity, vector, and settlement systems.', operatorRole: 'Use this as the explanation surface for external hand-offs, contracts, and what the live system would do beyond the local repo.', audienceMeaning: 'This is not missing design; it is a concrete boundary contract whose implementation lives outside the local prototype.' },
+        composition: ['real GitHub App auth', 'remote benchmark fetch', 'external evaluator/model routing', 'production privacy/authz enforcement', 'networked settlement + signer verification'],
+        metadata: { externalWrites: true, githubLiveCalls: true, settlementMode: 'external / production boundary', modelExecution: 'remote routed execution', vectorExecution: 'external vector substrate' },
+        whyNotSwitchable: 'This repo only demos Profile A deterministically; Profile B depends on external GitHub/App/runtime integrations not faked here.'
+      }
+    ],
+    comparisonAxes: ['identity/auth', 'github binding', 'vector/evaluator execution', 'artifact materialization', 'settlement authority']
+  };
+}
+
+function interpolateTemplate(template, values = {}) {
+  return String(template || '').replace(/\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g, (_, key) => {
+    const value = values[key];
+    return Array.isArray(value) ? value.join(', ') : String(value ?? '');
+  });
+}
+
+function buildPromptSurface({ promptId, purpose, template, values, contextInputs = [], outputFields = [], downstreamArtifacts = [], evaluatorKind = 'inferred-evaluator', modelId = DEFAULT_MODEL_ID, standIn = true }) {
+  const evidenceRefs = summarizeStrings(contextInputs.flatMap((input) => input.evidenceRefs || []));
+  return {
+    promptId,
+    purpose,
+    templateVersion: 'spec-v8-demo-prompt.v1',
+    template,
+    interpolatedPrompt: interpolateTemplate(template, values),
+    interpolatedValues: values,
+    contextInputs: contextInputs.map((input, index) => ({
+      order: index + 1,
+      field: input.field,
+      value: input.value,
+      source: input.source,
+      evidenceRefs: summarizeStrings(input.evidenceRefs || []),
+      artifactBindings: summarizeStrings(input.artifactBindings || []),
+      notes: input.notes || null
+    })),
+    lineage: {
+      derivedFrom: contextInputs.map((input) => input.field),
+      evidenceRefs,
+      outputFields,
+      downstreamArtifacts
+    },
+    evaluatorSurface: evaluatorSurface({
+      evaluatorId: promptId,
+      evaluatorKind,
+      measurementClass: 'inferred-measurement',
+      mode: 'inferred',
+      promptId,
+      modelId,
+      evidenceRefs,
+      standIn,
+      profile: PROFILE_A
+    })
+  };
+}
+
+function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetPack, settlementPreview }) {
+  const selectedGithubBindings = selectedCandidates.map((candidate) => ({
+    assetId: candidate.assetId,
+    sourceRepo: candidate.asset.githubBoundary?.sourceRepo,
+    workflowRunId: candidate.asset.githubBoundary?.workflowRunId,
+    sourceCommit: candidate.asset.githubBoundary?.sourceCommit
+  }));
+
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    repo: buyer.repo,
+    assetPackId: assetPack.assetPackId,
+    bundleId: settlementPreview.bundleId,
+    interfaces: [
+      {
+        interfaceId: 'github-app-auth',
+        label: 'GitHub App auth + installation context',
+        status: 'modeled-local-boundary',
+        profileA: { implemented: true, surface: 'modeled installation ID + repo binding only', artifactRefs: ['.engi/github-boundary.json', '.engi/external-boundary-manifest.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['exchange app JWT for installation token', 'bind installation to buyer repo + branch permissions', 'record token expiry + scope envelope'], boundaryArtifacts: ['github.installation-binding', 'github.installation-token-envelope'] }
+      },
+      {
+        interfaceId: 'workflow-artifact-fetch',
+        label: 'Workflow artifact fetch + benchmark evidence',
+        status: 'partially-localized',
+        profileA: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to need measurement', artifactRefs: ['.engi/need-measurement.json', '.engi/benchmark-target.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['fetch workflow artifacts by run ID', 'verify artifact media type + digest', 'normalize benchmark outputs fail-closed'], boundaryArtifacts: ['github.workflow-fetch-request', 'github.workflow-fetch-response', 'benchmark.canonical-output-manifest'] }
+      },
+      {
+        interfaceId: 'branch-pr-actions',
+        label: 'Branch / PR / comment / review actions',
+        status: 'modeled-local-boundary',
+        profileA: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.engi/deliverables.json', '.engi/profile-composition.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['create/update branch', 'push materialized artifacts', 'open or update PR', 'publish comments / review annotations'], boundaryArtifacts: ['github.branch-action-request', 'github.pr-action-request', 'github.review-action-request'] }
+      },
+      {
+        interfaceId: 'model-execution',
+        label: 'Prompt execution + evaluator routing',
+        status: 'implemented-as-stand-in',
+        profileA: { implemented: true, surface: 'deterministic stand-in evaluator and prompt replay metadata', artifactRefs: ['.engi/eval-manifest.json', '.engi/prompt-surfaces.json', '.engi/system-proof-bundle.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['select model/provider', 'execute prompt with trace capture', 'bind output to evaluator receipt + prompt hash'], boundaryArtifacts: ['model.execution-request', 'model.execution-receipt', 'model.trace-manifest'] }
+      },
+      {
+        interfaceId: 'vector-store',
+        label: 'Embedding + vector retrieval substrate',
+        status: 'implemented-as-local-stand-in',
+        profileA: { implemented: true, surface: 'local deterministic vectors and recall contracts', artifactRefs: ['.engi/unit-catalog.json', '.engi/eval-manifest.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['upsert embedding documents', 'execute filtered similarity search', 'bind vector space/version metadata'], boundaryArtifacts: ['vector.upsert-manifest', 'vector.search-request', 'vector.search-response'] }
+      },
+      {
+        interfaceId: 'signer-verification',
+        label: 'Signer / identity verification',
+        status: 'modeled-local-boundary',
+        profileA: { implemented: true, surface: 'modeled signer bindings, attestation checks, and policy gates', artifactRefs: ['.engi/identity-bindings.json', '.engi/verification-report.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['resolve signer identity', 'verify attestation chain', 'bind signer to org / repo authority'], boundaryArtifacts: ['identity.resolve-request', 'identity.verification-receipt', 'signer.authority-binding'] }
+      },
+      {
+        interfaceId: 'settlement-network-effects',
+        label: 'Settlement execution + network effects',
+        status: 'implemented-as-local-accounting-only',
+        profileA: { implemented: true, surface: 'deterministic journal diff + exact accounting invariants', artifactRefs: ['.engi/settlement-preview.json', '.engi/settlement-proof.json', '.engi/journal-diff.json'] },
+        profileB: { implemented: false, requiredForLive: true, contract: ['submit settlement transaction', 'wait for network confirmation', 'publish claim / redemption events'], boundaryArtifacts: ['settlement.execution-request', 'settlement.execution-receipt', 'settlement.network-observation'] }
+      }
+    ],
+    selectedGithubBindings
+  };
+}
+
+function buildRecallChannelContracts() {
+  return Object.entries(RECALL_CHANNEL_SPECS).map(([channelId, spec]) => ({ channelId, ...spec }));
 }
 
 function allowedUseTiersForBranchMode(branchMode) {
@@ -475,7 +679,7 @@ function makeAuthorizationDecision(binding, action, resourceRef, policyState) {
 function buildPolicyState() {
   return {
     policyRef: DEFAULT_POLICY_REF,
-    releaseId: 'policy-release-engi-v7-demo-2026-04-02',
+    releaseId: 'policy-release-engi-v8-demo-2026-04-03',
     retentionPolicies: {
       'retention/private-remediation-30d': {
         retentionPolicyId: 'retention/private-remediation-30d',
@@ -570,8 +774,8 @@ function buildPolicyRelease(policyState) {
 
 function buildGithubActionsBenchmarkParser() {
   return {
-    parserKind: 'github-actions.auth-remediation.v2',
-    parserVersion: '2.0.0',
+    parserKind: 'github-actions.auth-remediation.v3',
+    parserVersion: '3.0.0',
     parse(runEvidence) {
       const extracted = runEvidence?.extractedOutputs || {};
       return {
@@ -607,6 +811,8 @@ function buildGithubActionsBenchmarkParser() {
 
 export function makeCandidateAsset(input) {
   const content = String(input.content || '').trim();
+  const artifactKind = input.artifactKind || 'mixed';
+  const artifactType = input.artifactType || artifactTypeForKind(artifactKind);
   const assetId = input.assetId || `asset_${toSlug(input.title)}_${sha256(`${input.author}:${input.title}:${content}`).slice(0, 10)}`;
   const extracted = extractSignals(content, {
     symbols: input.symbols,
@@ -616,6 +822,7 @@ export function makeCandidateAsset(input) {
     constraints: input.declaredConstraints
   });
   const contentUnits = splitContentUnits(assetId, content, extracted);
+  const uploadSurface = buildArtifactUploadSurface(input, content, extracted, artifactKind, artifactType);
   const contentRoot = stableHashObject(contentUnits.map((unit) => unit.unitHash));
   const attestationPayload = { assetId, title: input.title, contentRoot };
   const signerAddress = input.signerAddress || `did:key:${toSlug(input.author)}`;
@@ -630,15 +837,15 @@ export function makeCandidateAsset(input) {
     },
     contentUnitSemantics: contentUnits.map(unitSemanticSummary),
     vectorInterfaces: {
-      taskVectorSpace: 'task-semantic-space.v7',
-      failureModeVectorSpace: 'failure-mode-space.v7',
-      technicalContextVectorSpace: 'technical-context-space.v7',
+      taskVectorSpace: 'task-semantic-space.v8',
+      failureModeVectorSpace: 'failure-mode-space.v8',
+      technicalContextVectorSpace: 'technical-context-space.v8',
       profileAStandInEmbeddings: true,
       profileBFutureBoundary: 'swap embedding providers/models while preserving vector-space contracts and unit ids'
     },
     provenance: [
       measurementTrace('static', 'asset.measurement.extract.v2', [contentRoot, ...(input.sourcePaths || extracted.paths)], { measurementClass: 'static-analysis', evaluatorKind: 'deterministic-static-command', standIn: false }),
-      measurementTrace('hybrid', 'asset.measurement.semantic-hand-off.v7', [contentRoot, ...contentUnits.map((unit) => unit.unitHash)], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
+      measurementTrace('hybrid', 'asset.measurement.semantic-hand-off.v8', [contentRoot, ...contentUnits.map((unit) => unit.unitHash)], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
     ]
   };
 
@@ -646,7 +853,8 @@ export function makeCandidateAsset(input) {
     assetId,
     depositedAt: input.depositedAt || nowIso(),
     title: input.title,
-    artifactKind: input.artifactKind || 'mixed',
+    artifactKind,
+    artifactType,
     sourceMaterialBinding: {
       mode: input.bindingMode || 'read-only-mounted-copy',
       confidentiality: 'private-required',
@@ -666,6 +874,15 @@ export function makeCandidateAsset(input) {
         attestationHash: stableHashObject({ signerAddress, contentRoot })
       }
     ],
+    uploadSurface,
+    githubBoundary: uploadSurface.githubBinding,
+    identitySurface: {
+      signerAddress,
+      signerClass: 'issuer-principal',
+      signerSource: 'attestation',
+      profileABoundary: 'Local modeled signer binding only.',
+      profileBBoundary: 'Would verify real signer identity / GitHub App / org-bound authorization externally.'
+    },
     provenanceBinding: {
       sourceProvider: input.sourceProvider || 'github',
       repo: input.sourceRepo || 'frontier/demo-auth',
@@ -697,7 +914,16 @@ export function makeCandidateAsset(input) {
       privateContent: content,
       issuerPolicyStatus: input.issuerPolicyStatus || 'allowed'
     },
-    assetMeasurement,
+    assetMeasurement: {
+      ...assetMeasurement,
+      signalLifecycle: {
+        determined: ['extractSignals', 'repo provenance normalization', 'artifact upload precision mapping'],
+        recorded: ['assetMeasurement.measuredFields', 'contentUnits[].extracted', 'uploadSurface'],
+        vectorized: ['contentUnits[].embeddings.taskVector', 'contentUnits[].embeddings.failureModeVector', 'contentUnits[].embeddings.technicalContextVector'],
+        searched: buildRecallChannelContracts(),
+        downstreamUses: ['recallCandidates', 'evaluateCandidates', 'assembleAssetPack', 'visual explainability']
+      }
+    },
     measurementProvenance: assetMeasurement.provenance
   };
 }
@@ -834,8 +1060,8 @@ export function buildInitialState() {
           touchedPaths: ['services/auth/rollback.ts', 'services/auth/session_validator.rs', 'config/auth/issuer-compat.yml'],
           symbols: ['restoreLegacyVerifier', 'validateIssuerAudience', 'emitAuditReceipt'],
           configKeys: ['auth.issuer.compatibilityWindow', 'auth.rollback.killSwitch'],
-          parserKind: 'github-actions.auth-remediation.v2',
-          parserVersion: '2.0.0'
+          parserKind: 'github-actions.auth-remediation.v3',
+          parserVersion: '3.0.0'
         }
       }
     }
@@ -856,7 +1082,8 @@ export function buildInitialState() {
     conformanceProfiles: {
       active: PROFILE_A,
       productionIntent: PROFILE_B,
-      prototypeOnlyModeledControls: true
+      prototypeOnlyModeledControls: true,
+      profileCompositions: buildProfileCompositions()
     },
     assets,
     buyers,
@@ -874,6 +1101,7 @@ export function publicAsset(asset) {
     depositedAt: asset.depositedAt,
     title: asset.title,
     artifactKind: asset.artifactKind,
+    artifactType: asset.artifactType,
     author: asset.metadata.author,
     organization: asset.metadata.organization,
     tags: asset.metadata.tags,
@@ -884,6 +1112,9 @@ export function publicAsset(asset) {
     unitCount: asset.contentUnits.length,
     declaredStacks: asset.metadata.declaredStacks,
     declaredConstraints: asset.metadata.declaredConstraints,
+    uploadSurface: asset.uploadSurface,
+    githubBoundary: asset.githubBoundary,
+    identitySurface: asset.identitySurface,
     verificationEvidence: {
       testsPassed: asset.verificationEvidence.testsPassed,
       typecheckPassed: asset.verificationEvidence.typecheckPassed,
@@ -953,7 +1184,7 @@ export function measureNeedFromScenario(scenario) {
   const canonicalBenchmarkOutputs = parser.parse(scenario.canonicalRunEvidence);
   const parserValidation = parser.validate(canonicalBenchmarkOutputs);
   if (!parserValidation.ok) {
-    throw new Error(`Spec V7 parser validation failed: ${parserValidation.reasons.join('; ')}`);
+    throw new Error(`Spec V8 parser validation failed: ${parserValidation.reasons.join('; ')}`);
   }
 
   const repoMeasurements = repoContextStaticMeasurements(scenario, canonicalBenchmarkOutputs);
@@ -1039,6 +1270,62 @@ export function measureNeedFromScenario(scenario) {
     inferenceProof('constraints', [...evidenceRefs, ...canonicalBenchmarkOutputs.weakDimensions], 'need-measurement.constraints.v2'),
     inferenceProof('targetArtifactKinds', [...evidenceRefs, ...repoMeasurements.touchedPaths], 'need-measurement.target-artifact-kinds.v2')
   ];
+  const promptSurfaces = [
+    buildPromptSurface({
+      promptId: 'need-measurement.task.v2',
+      purpose: 'Synthesize the canonical engineering need statement from benchmark evidence.',
+      template: 'You are measuring an ENGI remediation need for repo {{repo}} on branch {{baseRef}} after GitHub run {{benchmarkRunId}}. Failing cases: {{failingCases}}. Weak dimensions: {{weakDimensions}}. Touched paths: {{touchedPaths}}. Constraints: {{constraints}}. Produce a concise task statement that preserves rollback safety and session validity.',
+      values: { repo: scenario.repo, baseRef: scenario.baseRef, benchmarkRunId: scenario.benchmarkRunId, failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, touchedPaths: repoMeasurements.touchedPaths, constraints },
+      contextInputs: [
+        { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/need.json'] },
+        { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: [scenario.canonicalRunEvidence?.runId], artifactBindings: ['.engi/benchmark-target.json'] },
+        { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.engi/need-measurement.json'] },
+        { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] },
+        { field: 'touchedPaths', value: repoMeasurements.touchedPaths, source: 'repoContextStaticMeasurements.touchedPaths', evidenceRefs: repoMeasurements.touchedPaths, artifactBindings: ['.engi/need.json', '.engi/match-report.json'] },
+        { field: 'constraints', value: constraints, source: 'inferConstraints()', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need.json'] }
+      ],
+      outputFields: ['task'],
+      downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/system-proof-bundle.json']
+    }),
+    buildPromptSurface({
+      promptId: 'need-measurement.failure-modes.v2',
+      purpose: 'Normalize failure modes from canonical benchmark evidence into remediation language.',
+      template: 'Given failing cases {{failingCases}} and weak dimensions {{weakDimensions}} for repo {{repo}}, derive the concrete failure modes that must be addressed in the private ENGI remediation branch.',
+      values: { failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, repo: scenario.repo },
+      contextInputs: [
+        { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.engi/need-measurement.json'] },
+        { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] }
+      ],
+      outputFields: ['failureModes'],
+      downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/prompt-surfaces.json']
+    }),
+    buildPromptSurface({
+      promptId: 'need-measurement.constraints.v2',
+      purpose: 'Derive safety and governance constraints that the branch flow must honor.',
+      template: 'Use weak dimensions {{weakDimensions}}, benchmark run {{benchmarkRunId}}, and repo privacy expectations to derive the non-negotiable constraints for this ENGI branch. Include rollback safety, privacy, and auditability where supported.',
+      values: { weakDimensions: canonicalBenchmarkOutputs.weakDimensions, benchmarkRunId: scenario.benchmarkRunId },
+      contextInputs: [
+        { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] },
+        { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: [scenario.canonicalRunEvidence?.runId], artifactBindings: ['.engi/benchmark-target.json'] },
+        { field: 'repoPrivacy', value: 'private remediation branch until bounded public proof', source: 'spec policy', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/policy-release.json'] }
+      ],
+      outputFields: ['constraints'],
+      downstreamArtifacts: ['.engi/need.json', '.engi/policy-release.json', '.engi/system-proof-bundle.json']
+    }),
+    buildPromptSurface({
+      promptId: 'need-measurement.target-artifact-kinds.v2',
+      purpose: 'Infer the required artifact shapes for the measured need.',
+      template: 'From touched paths {{touchedPaths}}, symbols {{symbols}}, and repo context {{stackHints}}, determine which artifact kinds are needed to remediate the benchmark failures without widening scope.',
+      values: { touchedPaths: repoMeasurements.touchedPaths, symbols: repoMeasurements.extractedSymbols, stackHints: repoMeasurements.stackHints },
+      contextInputs: [
+        { field: 'touchedPaths', value: repoMeasurements.touchedPaths, source: 'repoContextStaticMeasurements.touchedPaths', evidenceRefs: repoMeasurements.touchedPaths, artifactBindings: ['.engi/need.json'] },
+        { field: 'symbols', value: repoMeasurements.extractedSymbols, source: 'repoContextStaticMeasurements.extractedSymbols', evidenceRefs: repoMeasurements.extractedSymbols, artifactBindings: ['.engi/unit-catalog.json'] },
+        { field: 'stackHints', value: repoMeasurements.stackHints, source: 'inferStackHints()', evidenceRefs: repoMeasurements.stackHints, artifactBindings: ['.engi/eval-manifest.json'] }
+      ],
+      outputFields: ['targetArtifactKinds'],
+      downstreamArtifacts: ['.engi/need.json', '.engi/artifact-upload-manifest.json']
+    })
+  ];
   const measurementProvenance = [
     measurementTrace('static', 'github-actions.benchmark-parser.v2', [
       scenario.canonicalRunEvidence?.runId,
@@ -1050,7 +1337,7 @@ export function measureNeedFromScenario(scenario) {
     measurementTrace('inferred', 'need-measurement.failure-modes.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases]),
     measurementTrace('inferred', 'need-measurement.constraints.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.weakDimensions]),
     measurementTrace('inferred', 'need-measurement.target-artifact-kinds.v2', [...evidenceRefs, ...repoMeasurements.touchedPaths]),
-    measurementTrace('hybrid', 'need-measurement.derivation-closure.v7', Object.values(fieldDerivations).flatMap((entry) => entry.evidenceRefs || []))
+    measurementTrace('hybrid', 'need-measurement.derivation-closure.v8', Object.values(fieldDerivations).flatMap((entry) => entry.evidenceRefs || []))
   ];
 
   const needDescriptor = {
@@ -1105,7 +1392,40 @@ export function measureNeedFromScenario(scenario) {
       failureModes,
       constraints,
       targetArtifactKinds
-    }
+    },
+    recallChannelContracts: buildRecallChannelContracts(),
+    promptSurfaces,
+    signalLifecycle: {
+      determined: {
+        lexical: 'tokenize over need.task/failureModes/constraints/weakDimensions',
+        symbolic: 'benchmark parser + repo-context extraction + asset unit signal extraction',
+        path: 'canonical benchmark touchedPaths plus repo-context extraction',
+        config: 'canonical benchmark configKeys plus repo-context extraction',
+        semanticVector: 'deterministic stand-in embeddings over task/failure-mode/context texts'
+      },
+      recorded: {
+        lexical: 'need.lexicalTerms during recall build',
+        symbolic: 'need.extractedSymbols + contentUnits[].extracted.symbols',
+        path: 'need.touchedPaths + asset.metadata.sourcePaths + unit.extracted.paths',
+        config: 'need.configKeys + unit.extracted.configKeys',
+        semanticVector: 'queryRepresentations + contentUnits[].embeddings.*'
+      },
+      searched: {
+        lexical: 'lexicalSearch exact-token overlap',
+        symbolic: 'symbolSearch exact symbol intersection',
+        path: 'pathSearch exact path intersection',
+        config: 'configKeySearch exact key intersection',
+        semanticVector: 'semanticTaskSearch/failureModeSearch/technicalContextSearch via cosine similarity'
+      },
+      downstreamUses: {
+        recall: 'recallCandidates fusion',
+        scoring: ['needMatch', 'benchmarkImpact', 'penaltyMass'],
+        ranking: 'evaluateCandidates final ranking score',
+        selection: 'assembleAssetPack and settlement eligibility',
+        UX: 'visual/raw score explainability surfaces'
+      }
+    },
+    profileCompositions: buildProfileCompositions()
   };
 
   return {
@@ -1124,7 +1444,8 @@ export function measureNeedFromScenario(scenario) {
       consumedInputs: canonicalBenchmarkOutputs.consumedInputs
     },
     parserValidation,
-    inferenceProofs
+    inferenceProofs,
+    promptSurfaces
   };
 }
 
@@ -1147,9 +1468,9 @@ function buildAssetCorpus(asset) {
 
 export function recallCandidates(need, assets) {
   const queryRepresentations = {
-    task: buildEmbeddingArtifact('task-semantic-space.v7', need.task),
-    failureModes: buildEmbeddingArtifact('failure-mode-space.v7', need.failureModes.join(' ')),
-    technicalContext: buildEmbeddingArtifact('technical-context-space.v7', [
+    task: buildEmbeddingArtifact('task-semantic-space.v8', need.task),
+    failureModes: buildEmbeddingArtifact('failure-mode-space.v8', need.failureModes.join(' ')),
+    technicalContext: buildEmbeddingArtifact('technical-context-space.v8', [
       ...need.touchedPaths,
       ...need.extractedSymbols,
       ...need.configKeys,
@@ -1279,6 +1600,7 @@ export function recallCandidates(need, assets) {
       };
       current.recallProvenance.push({
         channelId,
+        signalFamily: RECALL_CHANNEL_SPECS[channelId]?.signalFamily || 'unknown',
         score: summarizeScore(entry.score),
         evidenceRefs: entry.evidenceRefs,
         matchedValues: entry.matchedValues
@@ -1317,6 +1639,8 @@ export function recallCandidates(need, assets) {
     .map((entry) => ({
       ...entry,
       queryRepresentations: Object.fromEntries(Object.entries(queryRepresentations).map(([key, artifact]) => [key, artifact.spec])),
+      lexicalTerms,
+      recallChannelContracts: buildRecallChannelContracts(),
       recallScore: Number(entry.recallScore.toFixed(4)),
       fusion: {
         ...entry.fusion,
@@ -1750,6 +2074,78 @@ function upgradeToSettlementEligible(tier, verification) {
   return tier;
 }
 
+function buildScoreGroups(need, asset, recall, needMatch, benchmarkImpact, actionability, penaltyInfo, finalRankingScore) {
+  const running = [];
+  let cumulative = 0;
+  const steps = [
+    { groupId: 'need-match', label: 'Need match', value: needMatch.finalScore, weight: 0.65, refs: rankingEvidenceRefs(need, asset, [need.task, ...need.touchedPaths.slice(0, 3)]) },
+    { groupId: 'benchmark-impact', label: 'Benchmark impact', value: benchmarkImpact.finalScore, weight: 0.25, refs: rankingEvidenceRefs(need, asset, [...need.failingCases.slice(0, 3), ...need.weakDimensions.slice(0, 2)]) },
+    { groupId: 'actionability', label: 'Actionability', value: actionability.finalScore, weight: 0.10, refs: rankingEvidenceRefs(need, asset, asset.metadata.sourcePaths || []) }
+  ];
+  for (const step of steps) {
+    const contribution = Number((step.value * step.weight).toFixed(4));
+    cumulative = Number((cumulative + contribution).toFixed(4));
+    running.push({ ...step, contribution, cumulative });
+  }
+  const penaltyRunning = [];
+  let penaltyCumulative = 0;
+  for (const penalty of penaltyInfo.rankingPenalties) {
+    penaltyCumulative = Number((penaltyCumulative + penalty.mass).toFixed(4));
+    penaltyRunning.push({
+      code: penalty.code,
+      mass: penalty.mass,
+      cumulative: penaltyCumulative,
+      evidenceRefs: penalty.evidenceRefs
+    });
+  }
+  return {
+    needMatch: {
+      groupId: 'need-match',
+      finalScore: needMatch.finalScore,
+      verifiedInputs: {
+        task: need.task,
+        failureModes: need.failureModes,
+        touchedPaths: need.touchedPaths,
+        extractedSymbols: need.extractedSymbols,
+        configKeys: need.configKeys,
+        stackHints: need.stackHints,
+        targetArtifactKinds: need.targetArtifactKinds,
+        recallUnitIds: recall.unitIds
+      },
+      sequence: [
+        { step: 1, label: 'Task semantic fit', value: needMatch.taskSemanticFit, refs: needMatch.detail.taskSemanticFit.evidenceRefs },
+        { step: 2, label: 'Failure mode fit', value: needMatch.failureModeFit, refs: needMatch.detail.failureModeFit.evidenceRefs },
+        { step: 3, label: 'Symbol fit', value: needMatch.symbolFit, refs: needMatch.detail.symbolFit.evidenceRefs },
+        { step: 4, label: 'Path fit', value: needMatch.pathFit, refs: needMatch.detail.pathFit.evidenceRefs },
+        { step: 5, label: 'Constraint + artifact precision', value: Number(((needMatch.constraintFit + needMatch.artifactKindFit) / 2).toFixed(4)), refs: [...needMatch.detail.constraintFit.evidenceRefs, ...needMatch.detail.artifactKindFit.evidenceRefs] }
+      ],
+      accumulation: running.filter((entry) => entry.groupId === 'need-match'),
+      references: rankingEvidenceRefs(need, asset, recall.unitIds)
+    },
+    benchmarkImpact: {
+      groupId: 'benchmark-impact',
+      finalScore: benchmarkImpact.finalScore,
+      verifiedInputs: { failingCases: need.failingCases, weakDimensions: need.weakDimensions, baselineMetrics: need.baselineMetrics, recallChannels: recall.fusion.contributingChannels },
+      sequence: [
+        { step: 1, label: 'Improves failing cases', value: benchmarkImpact.likelyImprovesFailingCases, refs: benchmarkImpact.detail.likelyImprovesFailingCases.evidenceRefs },
+        { step: 2, label: 'Improves weak dimensions', value: benchmarkImpact.likelyImprovesWeakDimensions, refs: benchmarkImpact.detail.likelyImprovesWeakDimensions.evidenceRefs },
+        { step: 3, label: 'Generalizes to repo context', value: benchmarkImpact.likelyGeneralizesToRepoContext, refs: benchmarkImpact.detail.likelyGeneralizesToRepoContext.evidenceRefs }
+      ],
+      accumulation: running.filter((entry) => entry.groupId === 'benchmark-impact'),
+      references: rankingEvidenceRefs(need, asset, [...need.failingCases, ...need.weakDimensions])
+    },
+    penaltyMass: {
+      groupId: 'penalty-mass',
+      finalScore: penaltyInfo.penaltyMass,
+      verifiedInputs: { penalties: penaltyInfo.rankingPenalties.map((p) => p.code), artifactKind: asset.artifactKind, artifactType: asset.artifactType, sourcePaths: asset.metadata.sourcePaths },
+      sequence: penaltyRunning.map((entry, index) => ({ step: index + 1, label: entry.code, value: entry.mass, refs: entry.evidenceRefs })),
+      accumulation: penaltyRunning,
+      references: rankingEvidenceRefs(need, asset, penaltyInfo.rankingPenalties.flatMap((p) => p.evidenceRefs || []))
+    },
+    finalRank: { prePenalty: cumulative, penaltyMass: penaltyInfo.penaltyMass, finalRankingScore }
+  };
+}
+
 export function evaluateCandidates(need, assets, policyState = buildPolicyState()) {
   const recalled = recallCandidates(need, assets);
   const recallByAssetId = new Map(recalled.map((entry) => [entry.assetId, entry]));
@@ -1774,10 +2170,15 @@ export function evaluateCandidates(need, assets, policyState = buildPolicyState(
       if (verification.issuerPolicyStatus.policyTierCap === 'context-only' && useTier === 'patch-eligible') useTier = 'context-only';
       useTier = upgradeToSettlementEligible(useTier, verification);
 
+      const scoreGroups = buildScoreGroups(need, asset, recall, needMatch, benchmarkImpact, actionability, penaltyInfo, finalRankingScore);
+
       return {
         assetId: asset.assetId,
         asset,
         recall,
+        githubBoundary: asset.githubBoundary,
+        identitySurface: asset.identitySurface,
+        uploadSurface: asset.uploadSurface,
         ranking: {
           wholeAssetNeedScore,
           needMatch,
@@ -1786,6 +2187,7 @@ export function evaluateCandidates(need, assets, policyState = buildPolicyState(
           rankingPenalties: penaltyInfo.rankingPenalties,
           penaltyMass: penaltyInfo.penaltyMass,
           finalRankingScore,
+          scoreGroups,
           explainability: {
             strongestSignals: [
               { label: 'taskSemanticFit', value: Number(needMatch.taskSemanticFit.toFixed(4)) },
@@ -1794,7 +2196,8 @@ export function evaluateCandidates(need, assets, policyState = buildPolicyState(
               { label: 'implementationSpecificity', value: Number(actionability.implementationSpecificity.toFixed(4)) }
             ].sort((a, b) => b.value - a.value),
             penaltiesApplied: penaltyInfo.rankingPenalties.map((penalty) => penalty.code),
-            recallFusion: recall.fusion
+            recallFusion: recall.fusion,
+            finalRank: scoreGroups.finalRank
           }
         },
         verification,
@@ -1894,7 +2297,7 @@ function buildVerificationReport(need, evaluatedCandidates, branchMode = DEFAULT
   };
 }
 
-function buildEvalManifest(need, evaluatedCandidates) {
+function buildEvalManifest(need, evaluatedCandidates, promptSurfaces = []) {
   const evaluatorInterfaces = [
     evaluatorSurface({ evaluatorId: 'need-measurement.task.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.task.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId, need.benchmarkRunId], standIn: true }),
     evaluatorSurface({ evaluatorId: 'need-measurement.failure-modes.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.failure-modes.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
@@ -1907,15 +2310,16 @@ function buildEvalManifest(need, evaluatedCandidates) {
   return {
     needId: need.needId,
     benchmarkRunId: need.benchmarkRunId,
-    promptsVersion: 'spec-v7-demo-deterministic.v3',
+    promptsVersion: 'spec-v8-demo-deterministic.v4',
     modelsUsed: [DEFAULT_MODEL_ID],
-    deterministicFeatureVersion: 'spec-v7-demo-static.v3',
+    deterministicFeatureVersion: 'spec-v8-demo-static.v4',
     evaluatorInterfaces,
     evaluatorBoundaryNotes: {
       profileA: 'Deterministic/local stand-ins satisfy the evaluator and embedding contracts for demo use.',
       profileB: 'Real embedding providers, prompt execution, and external evaluator services can replace the stand-ins without changing artifact schema.'
     },
-    vectorSpaces: ['task-semantic-space.v7', 'failure-mode-space.v7', 'technical-context-space.v7'],
+    vectorSpaces: ['task-semantic-space.v8', 'failure-mode-space.v8', 'technical-context-space.v8'],
+    promptSurfaces,
     evaluatorsUsed: evaluatorInterfaces.map((entry) => entry.evaluatorId),
     assetMeasurementProvenance: evaluatedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
@@ -2277,7 +2681,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/system-proof-bundle.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: 'ENGI_NEED.md', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false }
     ],
-    retentionPolicies: [
+    retentionRules: [
       { retentionPolicyId: 'retention/private-remediation-30d', appliesTo: ['.engi/source-material/', '.engi/settlement-preview.json', '.engi/settlement-proof.json', 'ENGI_NEED.md'], ttlDays: 30 },
       { retentionPolicyId: 'retention/bounded-public-365d', appliesTo: ['bounded-public-proof-surface'], ttlDays: 365 }
     ],
@@ -2286,6 +2690,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       revokedIssuerBlocksNewDelivery: true,
       'previouslyIssuedArtifactsRemainHash-addressableOnly': true
     },
+    selectedAssets: selectedCandidates.map((candidate) => candidate.assetId),
     selectedAssetBindings: selectedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
       useTier: candidate.useTier,
@@ -2352,6 +2757,34 @@ function buildAssetMeasurementProofs(selectedCandidates) {
   }));
 }
 
+function buildProofContract({ needId, assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords }) {
+  return {
+    contractId: `proof_contract_${sha256(`${needId}:${assetPackId}:${branchName}`).slice(0, 12)}` ,
+    needId,
+    assetPackId,
+    branchName,
+    evidenceChain: [
+      { stage: 'need-measurement', artifactRefs: ['.engi/need.json', '.engi/need-measurement.json', '.engi/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence.' },
+      { stage: 'ranking-and-verification', artifactRefs: ['.engi/match-report.json', '.engi/verification-report.json', '.engi/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
+      { stage: 'identity-and-boundaries', artifactRefs: ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/github-boundary.json', '.engi/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
+      { stage: 'materialization', artifactRefs: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', 'ENGI_NEED.md'], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
+      { stage: 'settlement-and-proof', artifactRefs: ['.engi/settlement-preview.json', '.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable.' }
+    ],
+    theoremChecks: [
+      'selected assets respect branch-mode use tiers',
+      'all state-changing actions are authorized',
+      'no unauthorized public disclosure occurs',
+      'debits equal credits exactly',
+      'asset-pack lock binds settlement refs closed'
+    ],
+    artifactBindings: {
+      selectedAssets: selectedCandidates.map((candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
+      authorizationDecisionCount: authorizationDecisions.length,
+      sensitiveFlowCount: sensitiveDataFlowRecords.length
+    }
+  };
+}
+
 function buildSettlementProof(journalDiff, assetPackLock) {
   const derivedAfterRoot = ledgerRoot(journalDiff.afterBalances);
   return {
@@ -2398,7 +2831,7 @@ function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selected
       telemetryEvent('content-unit-semantics', {
         assetCount: selectedCandidates.length,
         unitCount: selectedCandidates.reduce((sum, candidate) => sum + candidate.asset.contentUnits.length, 0),
-        vectorSpaces: ['task-semantic-space.v7', 'failure-mode-space.v7', 'technical-context-space.v7']
+        vectorSpaces: ['task-semantic-space.v8', 'failure-mode-space.v8', 'technical-context-space.v8']
       }),
       telemetryEvent('recall-and-ranking', {
         rankedAssets: evaluatedCandidates.map((candidate) => ({
@@ -2433,10 +2866,24 @@ function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selected
   };
 }
 
-function buildPromptImplementationSurface(inferenceProofs) {
+function buildPromptImplementationSurface(inferenceProofs, promptSurfaces = []) {
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
+    promptTemplates: promptSurfaces.map((surface) => ({
+      promptId: surface.promptId,
+      purpose: surface.purpose,
+      templateVersion: surface.templateVersion,
+      contextInputCount: surface.contextInputs.length,
+      downstreamArtifacts: surface.lineage.downstreamArtifacts
+    })),
+    promptLineage: promptSurfaces.map((surface) => ({
+      promptId: surface.promptId,
+      derivedFrom: surface.lineage.derivedFrom,
+      evidenceRefs: surface.lineage.evidenceRefs,
+      outputFields: surface.lineage.outputFields,
+      downstreamArtifacts: surface.lineage.downstreamArtifacts
+    })),
     inferredOutputs: inferenceProofs.map((proof) => ({
       outputField: proof.outputField,
       evaluatorSurface: proof.evaluatorSurface
@@ -2446,13 +2893,14 @@ function buildPromptImplementationSurface(inferenceProofs) {
   };
 }
 
-function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasurementProofs, selectionConsistencyProof, journalCompletenessProof, identityAuthorizationProof, sensitiveDataFlowProof, settlementProof, promptImplementationSurface) {
+function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasurementProofs, selectionConsistencyProof, journalCompletenessProof, identityAuthorizationProof, sensitiveDataFlowProof, settlementProof, promptImplementationSurface, proofContract) {
   return {
     needId,
     assetPackId,
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     prototypeOnlyModeledControls: true,
+    proofContract,
     inferenceProofs,
     assetMeasurementProofs,
     promptImplementationSurface,
@@ -2464,7 +2912,39 @@ function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasu
   };
 }
 
-function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPack, assetPackLock, settlementPreview, settlementProof, selectedSourceMaterialManifest, policyRelease, unitCatalog, pipelineTelemetry }) {
+function buildArtifactUploadManifest(selectedCandidates) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    uploads: selectedCandidates.map((candidate) => ({
+      assetId: candidate.assetId,
+      title: candidate.asset.title,
+      artifactKind: candidate.asset.artifactKind,
+      artifactType: candidate.asset.artifactType,
+      uploadSurface: candidate.asset.uploadSurface,
+      githubBoundary: candidate.asset.githubBoundary,
+      identitySurface: candidate.asset.identitySurface
+    }))
+  };
+}
+
+function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    modeledBindings: {
+      buyerInstallationId: buyer.installationId,
+      repo: buyer.repo,
+      benchmarkRunId: need.benchmarkRunId,
+      benchmarkWorkflowPath: need.benchmarkWorkflowPath,
+      selectedAssetGithubBindings: selectedCandidates.map((candidate) => candidate.asset.githubBoundary)
+    },
+    profileABoundary: 'Demo stores GitHub/App references only and never fakes live API effects.',
+    profileBBoundary: 'Live GitHub App installation auth, workflow fetches, PR writes, and branch operations remain external.'
+  };
+}
+
+function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPack, assetPackLock, settlementPreview, settlementProof, selectedSourceMaterialManifest, policyRelease, unitCatalog, pipelineTelemetry, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, externalBoundaryManifest, promptSurfaces }) {
   return {
     branchName,
     needId: need.needId,
@@ -2535,6 +3015,48 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['policy-release']
       },
       {
+        path: '.engi/identity-bindings.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['identity-authorization']
+      },
+      {
+        path: '.engi/github-boundary.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['benchmark-parser', 'github-binding']
+      },
+      {
+        path: '.engi/artifact-upload-manifest.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'licensed-source-material',
+        potentiallyDisclosable: false,
+        dependsOn: ['artifact-upload', 'content-unit-semantics']
+      },
+      {
+        path: '.engi/profile-composition.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['profile-semantics']
+      },
+      {
+        path: '.engi/prompt-surfaces.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['prompt-lineage', 'model-execution']
+      },
+      {
+        path: '.engi/external-boundary-manifest.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['github-binding', 'profile-semantics', 'external-boundaries']
+      },
+      {
         path: '.engi/settlement-preview.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
@@ -2586,7 +3108,13 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
       settlementProofHash: stableHashObject(settlementProof),
       selectedSourceMaterialCount: selectedSourceMaterialManifest.selectedSourceMaterial.length,
       unitCatalogCount: unitCatalog.units.length,
-      telemetryEventCount: pipelineTelemetry.events.length
+      telemetryEventCount: pipelineTelemetry.events.length,
+      identityBindingCount: identityBindings.length,
+      uploadCount: artifactUploadManifest.uploads.length,
+      githubBindingCount: githubBoundarySurface.modeledBindings.selectedAssetGithubBindings.length,
+      profileCount: profileCompositionSurface.profiles.length,
+      promptSurfaceCount: promptSurfaces.length,
+      externalBoundaryInterfaceCount: externalBoundaryManifest.interfaces.length
     }
   };
 }
@@ -2594,7 +3122,7 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
 export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, selectedCandidates, branchName, branchMode }) {
   const settlementCandidates = selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible');
   if (!settlementCandidates.length) {
-    throw new Error('No settlement-eligible assets available for Spec V7 settlement.');
+    throw new Error('No settlement-eligible assets available for Spec V8 settlement.');
   }
 
   const rawShares = computeAssetSharesRaw(need, settlementCandidates);
@@ -2747,18 +3275,24 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
     '.engi/authorization-decisions.json',
     '.engi/sensitive-data-flow.json',
     '.engi/policy-release.json',
+    '.engi/identity-bindings.json',
+    '.engi/github-boundary.json',
+    '.engi/artifact-upload-manifest.json',
+    '.engi/profile-composition.json',
+    '.engi/prompt-surfaces.json',
+    '.engi/external-boundary-manifest.json',
     '.engi/unit-catalog.json',
     '.engi/pipeline-telemetry.json',
     'ENGI_NEED.md'
   ];
   for (const requiredPath of requiredPaths) {
     if (!branchArtifacts.files[requiredPath]) {
-      throw new Error(`Spec V7 branch artifact contract failed: missing ${requiredPath}.`);
+      throw new Error(`Spec V8 branch artifact contract failed: missing ${requiredPath}.`);
     }
   }
 }
 
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff }) {
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, externalBoundaryManifest }) {
   const files = {
     '.engi/need.json': JSON.stringify(need, null, 2),
     '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -2775,6 +3309,12 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     '.engi/authorization-decisions.json': JSON.stringify(authorizationDecisions, null, 2),
     '.engi/sensitive-data-flow.json': JSON.stringify(sensitiveDataFlowRecords, null, 2),
     '.engi/policy-release.json': JSON.stringify(policyRelease, null, 2),
+    '.engi/identity-bindings.json': JSON.stringify(identityBindings, null, 2),
+    '.engi/github-boundary.json': JSON.stringify(githubBoundarySurface, null, 2),
+    '.engi/artifact-upload-manifest.json': JSON.stringify(artifactUploadManifest, null, 2),
+    '.engi/profile-composition.json': JSON.stringify(profileCompositionSurface, null, 2),
+    '.engi/prompt-surfaces.json': JSON.stringify(promptSurfaces, null, 2),
+    '.engi/external-boundary-manifest.json': JSON.stringify(externalBoundaryManifest, null, 2),
     '.engi/unit-catalog.json': JSON.stringify(unitCatalog, null, 2),
     '.engi/pipeline-telemetry.json': JSON.stringify(pipelineTelemetry, null, 2),
     '.engi/deliverables.json': JSON.stringify(deliverablesManifest, null, 2),
@@ -2800,7 +3340,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
 
   const policyState = state.policyState || buildPolicyState();
   const needMeasurement = measureNeedFromScenario(scenario);
-  const { needDescriptor: need, benchmarkTarget, benchmarkParserContract, canonicalBenchmarkOutputs, parserValidation, inferenceProofs } = needMeasurement;
+  const { needDescriptor: need, benchmarkTarget, benchmarkParserContract, canonicalBenchmarkOutputs, parserValidation, inferenceProofs, promptSurfaces } = needMeasurement;
   const evaluatedCandidates = evaluateCandidates(need, state.assets, policyState);
   const assetPack = assembleAssetPack(need, evaluatedCandidates, branchMode);
   const selectedCandidates = evaluatedCandidates.filter((candidate) => assetPack.selectedAssets.includes(candidate.assetId));
@@ -2809,20 +3349,25 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const branchName = `engi/remediation-${need.needId}-${toSlug(scenario.scenarioId)}`;
   const matchReport = buildMatchReport(need, evaluatedCandidates, assetPack);
   const verificationReport = buildVerificationReport(need, evaluatedCandidates, branchMode);
-  const evalManifest = buildEvalManifest(need, evaluatedCandidates);
+  const evalManifest = buildEvalManifest(need, evaluatedCandidates, promptSurfaces);
   const assetPackLock = buildAssetPackLock(assetPack, selectedCandidates);
   const selectedSourceMaterialManifest = buildSelectedSourceMaterialManifest(assetPack, selectedCandidates);
   const settlement = settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, selectedCandidates, branchName, branchMode });
   const selectionConsistencyProof = buildSelectionConsistencyProof(assetPack, selectedCandidates, selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible'), branchMode);
   const journalCompletenessProof = buildJournalCompletenessProof(settlement.eventId, settlement.journalDiff);
   const identityBindings = buildIdentityBindings(buyer, selectedCandidates);
+  const githubBoundarySurface = buildGithubBoundarySurface(buyer, need, selectedCandidates);
+  const artifactUploadManifest = buildArtifactUploadManifest(selectedCandidates);
+  const profileCompositionSurface = buildProfileCompositions();
+  const externalBoundaryManifest = buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetPack, settlementPreview: settlement.settlementPreview });
   const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, buyer, branchName, assetPack);
   const sensitiveDataFlowRecords = buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack, selectedCandidates);
   const identityAuthorizationProof = buildIdentityAuthorizationProof(branchName, authorizationDecisions, identityBindings);
   const sensitiveDataFlowProof = buildSensitiveDataFlowProof(sensitiveDataFlowRecords);
   const assetMeasurementProofs = buildAssetMeasurementProofs(selectedCandidates);
   const settlementProof = buildSettlementProof(settlement.journalDiff, assetPackLock);
-  const promptImplementationSurface = buildPromptImplementationSurface(inferenceProofs);
+  const promptImplementationSurface = buildPromptImplementationSurface(inferenceProofs, promptSurfaces);
+  const proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
   const systemProofBundle = buildSystemProofBundle(
     need.needId,
     assetPack.assetPackId,
@@ -2833,7 +3378,8 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     identityAuthorizationProof,
     sensitiveDataFlowProof,
     settlementProof,
-    promptImplementationSurface
+    promptImplementationSurface,
+    proofContract
   );
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates);
   const unitCatalog = buildUnitCatalog(selectedCandidates);
@@ -2857,7 +3403,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     selectedSourceMaterialManifest,
     policyRelease,
     unitCatalog,
-    pipelineTelemetry
+    pipelineTelemetry,
+    identityBindings,
+    githubBoundarySurface,
+    artifactUploadManifest,
+    profileCompositionSurface,
+    externalBoundaryManifest,
+    promptSurfaces
   });
   const branchArtifacts = buildBranchArtifacts({
     need,
@@ -2881,7 +3433,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     unitCatalog,
     pipelineTelemetry,
     selectedCandidates,
-    journalDiff: settlement.journalDiff
+    journalDiff: settlement.journalDiff,
+    identityBindings,
+    githubBoundarySurface,
+    artifactUploadManifest,
+    profileCompositionSurface,
+    promptSurfaces,
+    externalBoundaryManifest
   });
   assertRequiredBranchArtifacts(branchArtifacts);
 
@@ -2900,6 +3458,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     canonicalBenchmarkOutputs,
     parserValidation,
     inferenceProofs,
+    promptSurfaces,
     canonicalRunEvidence: scenario.canonicalRunEvidence,
     evaluatedCandidates: evaluatedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
@@ -2938,12 +3497,18 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     authorizationDecisions,
     sensitiveDataFlowRecords,
     policyRelease,
+    githubBoundarySurface,
+    artifactUploadManifest,
+    profileCompositionSurface,
+    promptSurfaces,
+    externalBoundaryManifest,
     deliverablesManifest,
     unitCatalog,
     pipelineTelemetry,
     settlementPreview: settlement.settlementPreview,
     journalDiff: settlement.journalDiff,
     systemProofBundle,
+    proofContract,
     branchArtifacts,
     boundedPublicProof: {
       needId: need.needId,
@@ -2953,6 +3518,8 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
       productionIntentProfile: PROFILE_B,
       selectedAssetIds: assetPack.selectedAssets,
       invariantSummary: settlement.journalDiff.invariants,
+      proofContractRef: proofContract.contractId,
+      evidenceChain: proofContract.evidenceChain.map((entry) => ({ stage: entry.stage, artifactRefs: entry.artifactRefs })),
       redactionStatus: 'bounded-public-proof-metadata-only'
     }
   };
@@ -2983,8 +3550,10 @@ export function publicState(state) {
     conformanceProfiles: state.conformanceProfiles || {
       active: PROFILE_A,
       productionIntent: PROFILE_B,
-      prototypeOnlyModeledControls: true
+      prototypeOnlyModeledControls: true,
+      profileCompositions: buildProfileCompositions()
     },
+    profileCompositions: buildProfileCompositions(),
     updatedAt: nowIso(),
     buyers: state.buyers,
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
@@ -2999,8 +3568,8 @@ export function publicState(state) {
       weakDimensions: scenario.canonicalRunEvidence?.extractedOutputs?.weakDimensions || [],
       benchmarkRunId: scenario.benchmarkRunId,
       benchmarkWorkflowPath: scenario.benchmarkWorkflowPath,
-      parserKind: 'github-actions.auth-remediation.v2',
-      parserVersion: '2.0.0'
+      parserKind: 'github-actions.auth-remediation.v3',
+      parserVersion: '3.0.0'
     })),
     assets: state.assets.map(publicAsset),
     ledger: state.ledger,

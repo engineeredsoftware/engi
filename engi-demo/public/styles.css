@@ -204,3 +204,9 @@ pre {
   .surface-mode-button { flex: 1; justify-content: center; }
   .timeline-item { grid-template-columns: 1fr; }
 }
+
+.wrap-anywhere { overflow-wrap: anywhere; word-break: break-word; }
+.json-surface, .mini-card, .section-card, .kv-row, .badge, .meta, strong, span { overflow-wrap: anywhere; }
+.detail-table { display: grid; gap: 8px; }
+.detail-row { display: grid; grid-template-columns: 56px minmax(0, 1.2fr) 90px minmax(0, 2fr); gap: 8px; align-items: start; padding: 8px 10px; border: 1px solid var(--line-soft); border-radius: 12px; background: rgba(7, 12, 24, .28); }
+@media (max-width: 960px) { .detail-row { grid-template-columns: 1fr; } }

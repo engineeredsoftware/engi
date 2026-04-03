@@ -204,6 +204,171 @@ function renderJsonSurface({ title, subtitle = '', eyebrow = '', help = '', data
   `;
 }
 
+function renderPromptSurfaceCollectionVisual(promptSurfaces = []) {
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid three-up compact-metrics">
+        ${metricTile('Prompt templates', promptSurfaces.length)}
+        ${metricTile('Output fields', new Set(promptSurfaces.flatMap((surface) => surface.lineage?.outputFields || [])).size)}
+        ${metricTile('Downstream artifacts', new Set(promptSurfaces.flatMap((surface) => surface.lineage?.downstreamArtifacts || [])).size)}
+      </div>
+      <div class="object-list">
+        ${promptSurfaces.map((surface) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(surface.promptId || 'Prompt')}</strong>
+                <p class="meta">${escapeHtml(surface.purpose || '')}</p>
+              </div>
+              <div class="badge-row">${statusBadge(surface.evaluatorSurface?.mode || 'inferred')} ${statusBadge(surface.templateVersion || 'template')}</div>
+            </div>
+            <div class="callout">
+              <strong>Interpolated prompt</strong>
+              <pre>${escapeHtml(surface.interpolatedPrompt || '')}</pre>
+            </div>
+            <div class="mini-grid two-up">
+              <div class="section-card">
+                <div class="section-head"><h4>Context lineage</h4><span class="badge">${(surface.contextInputs || []).length} inputs</span></div>
+                <div class="object-list nested">
+                  ${(surface.contextInputs || []).map((input) => `
+                    <div class="mini-card">
+                      <strong>${escapeHtml(input.field || 'field')}</strong>
+                      <p class="meta wrap-anywhere">${escapeHtml(input.source || 'source')}</p>
+                      <p>${escapeHtml(Array.isArray(input.value) ? input.value.join(' • ') : input.value ?? '—')}</p>
+                      <p class="meta wrap-anywhere">Refs: ${escapeHtml((input.evidenceRefs || []).join(' • ') || '—')}</p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+              <div class="section-card">
+                <div class="section-head"><h4>Downstream lineage</h4><span class="badge">Output binding</span></div>
+                <div class="kv-grid">
+                  ${kvRow('Output fields', formatList(surface.lineage?.outputFields || []), { html: true })}
+                  ${kvRow('Downstream artifacts', formatList(surface.lineage?.downstreamArtifacts || []), { html: true })}
+                  ${kvRow('Evidence refs', formatList(surface.lineage?.evidenceRefs || []), { html: true })}
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderExternalBoundaryManifestVisual(manifest) {
+  const interfaces = manifest?.interfaces || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Boundary interfaces', interfaces.length)}
+        ${metricTile('Modeled local', interfaces.filter((entry) => /modeled|local/i.test(entry.status || '')).length)}
+        ${metricTile('Stand-in local', interfaces.filter((entry) => /stand-in/i.test(entry.status || '')).length)}
+        ${metricTile('Live external required', interfaces.filter((entry) => entry.profileB?.requiredForLive).length)}
+      </div>
+      <div class="object-list">
+        ${interfaces.map((entry) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(entry.label || entry.interfaceId)}</strong>
+                <p class="meta">${escapeHtml(entry.interfaceId || '')}</p>
+              </div>
+              <div class="badge-row">${statusBadge(entry.status)} ${boolBadge(entry.profileB?.requiredForLive, 'Required live', 'Optional')}</div>
+            </div>
+            <div class="mini-grid two-up">
+              <div class="section-card">
+                <div class="section-head"><h4>Profile A</h4><span class="badge">Implemented here</span></div>
+                <div class="kv-grid">
+                  ${kvRow('Surface', entry.profileA?.surface || '—')}
+                  ${kvRow('Artifact refs', formatList(entry.profileA?.artifactRefs || []), { html: true })}
+                </div>
+              </div>
+              <div class="section-card">
+                <div class="section-head"><h4>Profile B</h4><span class="badge">External boundary</span></div>
+                <div class="kv-grid">
+                  ${kvRow('Contract', formatList(entry.profileB?.contract || []), { html: true })}
+                  ${kvRow('Boundary artifacts', formatList(entry.profileB?.boundaryArtifacts || []), { html: true })}
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderProfileCompositionVisual(profileState) {
+  const profiles = profileState?.profiles || profileState?.profileCompositions?.profiles || [];
+  const guidance = profileState?.demoOperatorGuidance || {};
+  return `
+    <div class="visual-stack">
+      <div class="callout">
+        <strong>Profile switching semantics</strong>
+        <span>${escapeHtml(guidance.audienceMeaning || profileState?.profiles?.find?.((entry) => entry.profileId === 'B')?.whyNotSwitchable || 'Profile A is demo-active; Profile B is described but not switchable here because external integrations are not faked.')}</span>
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Operator walkthrough</h4><span class="badge">Demo script</span></div>
+          <div class="badge-row">${chipList(guidance.recommendedWalkthrough || [])}</div>
+          ${guidance.whyOnlyAIsLive ? `<p class="meta">${escapeHtml(guidance.whyOnlyAIsLive)}</p>` : ''}
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Audience takeaway</h4><span class="badge">What profiles mean</span></div>
+          <p>${escapeHtml(guidance.audienceMeaning || '—')}</p>
+        </div>
+      </div>
+      <div class="mini-grid two-up">
+        ${profiles.map((profile) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <strong>${escapeHtml(profile.label || profile.profileId)}</strong>
+              <div class="badge-row">${statusBadge(profile.profileId === 'A' ? 'active in demo' : 'external boundary')} ${boolBadge(profile.switchableInDemo, 'Switchable', 'Not switchable')}</div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Who this is', profile.identity?.whoItIs || '—')}
+              ${kvRow('How to demonstrate', profile.identity?.operatorRole || '—')}
+              ${kvRow('Audience should understand', profile.identity?.audienceMeaning || '—')}
+              ${kvRow('Composition', formatList(profile.composition || []), { html: true })}
+              ${kvRow('External writes', boolBadge(profile.metadata?.externalWrites, 'Yes', 'No'), { html: true })}
+              ${kvRow('GitHub live calls', boolBadge(profile.metadata?.githubLiveCalls, 'Yes', 'No'), { html: true })}
+              ${kvRow('Settlement mode', profile.metadata?.settlementMode || '—')}
+              ${kvRow('Model execution', profile.metadata?.modelExecution || '—')}
+            </div>
+            ${profile.whyNotSwitchable ? `<p class="meta">${escapeHtml(profile.whyNotSwitchable)}</p>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderScoreGroupVisual(group, tone = '') {
+  const accumulation = group?.accumulation || [];
+  const sequence = group?.sequence || [];
+  return `
+    <div class="section-card ${tone}">
+      <div class="row wrap-gap">
+        <strong>${escapeHtml(labelize(group?.groupId || 'score-group'))}</strong>
+        <div class="badge-row"><span class="badge">final ${escapeHtml(Number(group?.finalScore || 0).toFixed(3))}</span><span class="badge">${escapeHtml(formatCount(sequence.length, 'step'))}</span></div>
+      </div>
+      <div class="detail-table">
+        ${sequence.map((step) => `
+          <div class="detail-row">
+            <span class="meta">${escapeHtml(step.step)}</span>
+            <strong>${escapeHtml(step.label)}</strong>
+            <span>${escapeHtml(Number(step.value || 0).toFixed(3))}</span>
+            <span class="meta wrap-anywhere">${escapeHtml((step.refs || []).slice(0, 4).join(' • ') || '—')}</span>
+          </div>
+        `).join('')}
+      </div>
+      ${accumulation.length ? `<div class="detail-block"><summary>Accumulation</summary><div class="detail-table">${accumulation.map((step) => `<div class="detail-row"><span class="meta">${escapeHtml(step.label || step.code)}</span><strong>${escapeHtml(step.contribution ?? step.mass ?? '—')}</strong><span>cum ${escapeHtml(step.cumulative ?? '—')}</span><span class="meta">${escapeHtml(step.weight != null ? `weight ${step.weight}` : 'penalty')}</span></div>`).join('')}</div></div>` : ''}
+      <div class="kv-grid">${Object.entries(group?.verifiedInputs || {}).slice(0, 6).map(([key, value]) => kvRow(labelize(key), Array.isArray(value) ? formatList(value.slice(0, 6), 'None') : value, { html: Array.isArray(value) })).join('')}</div>
+    </div>
+  `;
+}
+
 function renderNeedVisual(need) {
   const parser = need.benchmarkParserContract || {};
   const parserFailure = parser.parserFailureContract || {};
@@ -258,11 +423,24 @@ function renderNeedVisual(need) {
             ${Object.entries(need.fieldDerivations || {}).slice(0, 6).map(([field, spec]) => `
               <div class="mini-card">
                 <strong>${escapeHtml(labelize(field))}</strong>
-                <p class="meta">${escapeHtml(spec.source || 'derived')}</p>
+                <p class="meta wrap-anywhere">${escapeHtml(spec.source || 'derived')}</p>
                 ${spec.policy ? `<p>${escapeHtml(spec.policy)}</p>` : ''}
               </div>
             `).join('')}
           </div>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Recall channels + hand-offs</h4><span class="badge">V8 contracts</span></div>
+        <div class="detail-table">
+          ${(need.recallChannelContracts || []).map((channel) => `
+            <div class="detail-row">
+              <strong>${escapeHtml(channel.channelId)}</strong>
+              <span>${escapeHtml(channel.signalFamily)}</span>
+              <span class="meta wrap-anywhere">${escapeHtml(channel.searchedBy || '—')}</span>
+              <span class="meta wrap-anywhere">${escapeHtml((channel.downstreamUses || []).join(' • '))}</span>
+            </div>
+          `).join('')}
         </div>
       </div>
     </div>
@@ -304,7 +482,7 @@ function renderAssetVisual(asset) {
       <div class="row wrap-gap">
         <div>
           <strong>${escapeHtml(asset.title)}</strong>
-          <p class="meta">${escapeHtml(asset.author)} · ${escapeHtml(asset.artifactKind)}</p>
+          <p class="meta">${escapeHtml(asset.author)} · ${escapeHtml(asset.artifactKind)} · ${escapeHtml(asset.artifactType || 'untyped')}</p>
         </div>
         <div class="badge-row">
           ${chipList(asset.tags || [])}
@@ -324,6 +502,28 @@ function renderAssetVisual(asset) {
           <div class="kv-grid">
             ${kvRow('Stacks', formatList(asset.declaredStacks || []), { html: true })}
             ${kvRow('Constraints', formatList(asset.declaredConstraints || []), { html: true })}
+            ${kvRow('Upload kind/type', `${escapeHtml(asset.uploadSurface?.artifactKind || asset.artifactKind)} / ${escapeHtml(asset.uploadSurface?.artifactType || asset.artifactType || '—')}`, { html: true })}
+            ${kvRow('Upload surfaces', formatList((asset.uploadSurface?.surfaces || []).map((surface) => `${surface.role}:${surface.surfaceId}`), 'None'), { html: true })}
+          </div>
+        </div>
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Identity / signer</h4><span class="badge">Separate from proofs + settlement</span></div>
+          <div class="kv-grid">
+            ${kvRow('Signer', asset.identitySurface?.signerAddress || '—')}
+            ${kvRow('Signer class', asset.identitySurface?.signerClass || '—')}
+            ${kvRow('Profile A boundary', asset.identitySurface?.profileABoundary || '—')}
+            ${kvRow('Profile B boundary', asset.identitySurface?.profileBBoundary || '—')}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>GitHub boundary</h4><span class="badge">Separate from local modeling</span></div>
+          <div class="kv-grid">
+            ${kvRow('Repo', asset.githubBoundary?.sourceRepo || '—')}
+            ${kvRow('Workflow run', asset.githubBoundary?.workflowRunId || '—')}
+            ${kvRow('Profile A boundary', asset.githubBoundary?.profileABoundary || '—')}
+            ${kvRow('Profile B boundary', asset.githubBoundary?.profileBBoundary || '—')}
           </div>
         </div>
       </div>
@@ -357,7 +557,7 @@ function renderEvaluationVisual(item) {
         ${metricTile('Need match', scoreBar(item.ranking.needMatch.finalScore), 'metric', { html: true })}
         ${metricTile('Benchmark impact', scoreBar(item.ranking.benchmarkImpact.finalScore), 'metric', { html: true })}
         ${metricTile('Actionability', scoreBar(item.ranking.actionability.finalScore), 'metric', { html: true })}
-        ${metricTile('Penalty mass', Number(item.ranking.penaltyMass || 0).toFixed(3), penalties.length ? 'warn' : '')}
+        ${metricTile('Penalty mass', scoreBar(item.ranking.penaltyMass || 0), penalties.length ? 'warn' : '', { html: true })}
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
@@ -366,13 +566,14 @@ function renderEvaluationVisual(item) {
             ${kvRow('Recall score', item.recall?.recallScore ?? '—')}
             ${kvRow('Whole asset need score', item.ranking.wholeAssetNeedScore ?? '—')}
             ${kvRow('Recall channels', formatList((item.recall?.fusion?.contributingChannels || []).map((entry) => entry.channelId || entry)), { html: true })}
+            ${kvRow('Artifact type', item.uploadSurface?.artifactType || item.artifactType || '—')}
           </div>
           <div class="badge-row">${strongestSignals.map((signal) => `<span class="badge">${escapeHtml(signal.label)} ${escapeHtml(signal.value)}</span>`).join(' ') || '<span class="meta">No strongest signals recorded.</span>'}</div>
         </div>
         <div class="section-card">
           <div class="section-head"><h4>Verification + rights</h4><span class="badge">Use-tier gate</span></div>
           <div class="kv-grid">
-            ${kvRow('Proof logs', sufficiency.proofLogCount ?? '—')}
+            ${kvRow('Proof logs', sufficiency.evidenceCoverage?.proofLogCount ?? '—')}
             ${kvRow('Benchmark bound to GitHub run', boolBadge(sufficiency.benchmarkEvidenceBoundToGitHubRun, 'Bound', 'Unbound'), { html: true })}
             ${kvRow('Recommended tier', statusBadge(sufficiency.recommendedUseTier), { html: true })}
             ${kvRow('Policy tier cap', statusBadge(verification.issuerPolicyStatus?.policyTierCap), { html: true })}
@@ -380,6 +581,11 @@ function renderEvaluationVisual(item) {
             ${kvRow('Settlement allowed', boolBadge(rights.settlementAllowed, 'Allowed', 'Blocked'), { html: true })}
           </div>
         </div>
+      </div>
+      <div class="mini-grid three-up">
+        ${renderScoreGroupVisual(item.ranking.scoreGroups?.needMatch, 'accent-blue')}
+        ${renderScoreGroupVisual(item.ranking.scoreGroups?.benchmarkImpact, 'accent-green')}
+        ${renderScoreGroupVisual(item.ranking.scoreGroups?.penaltyMass, penalties.length ? 'accent-orange' : 'accent-slate')}
       </div>
       ${penalties.length ? `<div class="callout warn"><strong>Penalty reasons</strong><div class="badge-row">${penalties.map((penalty) => `<span class="badge warn">${escapeHtml(penalty.code || penalty)}</span>`).join(' ')}</div></div>` : '<div class="callout"><strong>No ranking penalties</strong><span class="meta">This candidate kept a clean ranking path.</span></div>'}
     </div>
@@ -683,6 +889,8 @@ function renderJournalDiffVisual(diff) {
 }
 
 function renderSystemProofBundleVisual(bundle) {
+  const proofContract = bundle.proofContract || {};
+  const theoremChecks = bundle.settlementProof?.theoremChecks || {};
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
@@ -693,18 +901,36 @@ function renderSystemProofBundleVisual(bundle) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>System proof checks</h4><span class="badge">Closure</span></div>
-          <div class="badge-row">
-            ${boolBadge(bundle.selectionConsistencyProof?.allSelectedAssetsRespectUseTier, 'Use tiers respected', 'Use tier break')}
-            ${boolBadge(bundle.identityAuthorizationProof?.allStateChangingActionsAuthorized, 'State changes authorized', 'Unauthorized state change')}
-            ${boolBadge(bundle.sensitiveDataFlowProof?.noUnauthorizedPublicDisclosure, 'No unauthorized public disclosure', 'Disclosure issue')}
-            ${boolBadge(bundle.settlementProof?.theoremChecks?.debitsEqualCredits, 'Debits = credits', 'Accounting mismatch')}
+          <div class="section-head"><h4>Proof contract + evidence chain</h4><span class="badge">Final closure</span></div>
+          <div class="kv-grid">
+            ${kvRow('Contract ID', proofContract.contractId || '—')}
+            ${kvRow('Theorem checks declared', formatList(proofContract.theoremChecks || []), { html: true })}
+          </div>
+          <div class="object-list nested">
+            ${(proofContract.evidenceChain || []).map((entry) => `
+              <div class="mini-card">
+                <strong>${escapeHtml(entry.stage || 'stage')}</strong>
+                <p>${escapeHtml(entry.claim || '')}</p>
+                <p class="meta wrap-anywhere">${escapeHtml((entry.artifactRefs || []).join(' • '))}</p>
+              </div>
+            `).join('')}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Prompt / evaluator surface</h4><span class="badge">Profile B hand-off</span></div>
-          ${surfaceVisualFallback(bundle.promptImplementationSurface || {})}
+          <div class="section-head"><h4>Theorem / invariant checks</h4><span class="badge">Evidence-bound</span></div>
+          <div class="badge-row">
+            ${Object.entries(theoremChecks).map(([key, value]) => `<span class="badge ${value ? 'private' : 'bad'}">${escapeHtml(labelize(key))}: ${escapeHtml(value)}</span>`).join(' ')}
+          </div>
+          <div class="kv-grid">
+            ${kvRow('Prompt templates', (bundle.promptImplementationSurface?.promptTemplates || []).length)}
+            ${kvRow('Prompt lineage rows', (bundle.promptImplementationSurface?.promptLineage || []).length)}
+            ${kvRow('Asset bindings', (proofContract.artifactBindings?.selectedAssets || []).length)}
+          </div>
         </div>
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Prompt / evaluator surface</h4><span class="badge">Profile B hand-off</span></div>
+        ${surfaceVisualFallback(bundle.promptImplementationSurface || {})}
       </div>
     </div>
   `;
@@ -818,17 +1044,35 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">This panel now defaults to a visual read of the measured need, but every artifact below can flip to exact raw JSON for debugging or inspection.</p>
+      <p class="meta">V8 keeps the visual read first, but now also makes profile composition, recall-channel hand-offs, and GitHub/Profile-B boundaries explicit without hiding raw JSON.</p>
     </div>
     ${renderJsonSurface({
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'V7 artifact',
+      eyebrow: 'V8 artifact',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       data: source,
       visual: renderNeedVisual,
       accent: 'accent-blue'
     })}
+    ${renderJsonSurface({
+      title: 'Profile composition + demo semantics',
+      subtitle: 'Why Profile A is live here and Profile B is not switchable in-demo',
+      eyebrow: 'V8 artifact',
+      help: 'Profile A is implemented locally in this repo. Profile B is specified as an external boundary and intentionally not faked.',
+      data: state.profileCompositions || state.conformanceProfiles?.profileCompositions || {},
+      visual: renderProfileCompositionVisual,
+      accent: 'accent-orange'
+    })}
+    ${source.promptSurfaces?.length ? renderJsonSurface({
+      title: 'Prompt surfaces + lineage',
+      subtitle: 'Templates, interpolated context, and downstream derivation bindings',
+      eyebrow: 'Prompt artifact',
+      help: 'V8 makes prompts first-class: the operator can inspect the template, the exact interpolated context, and which artifacts consume each output.',
+      data: source.promptSurfaces,
+      visual: renderPromptSurfaceCollectionVisual,
+      accent: 'accent-purple'
+    }) : ''}
     ${measurementPayload ? renderJsonSurface({
       title: 'Need measurement + parser validation',
       subtitle: 'Benchmark target, parser validation, and inference proof package',
@@ -873,7 +1117,7 @@ function renderEvaluations(state) {
     ${verificationReport ? renderJsonSurface({
       title: 'Verification report',
       subtitle: 'Ranking is separate from verification and rights propagation',
-      eyebrow: 'V7 artifact',
+      eyebrow: 'V8 artifact',
       help: 'Visual mode emphasizes allowed downstream use rather than making you read a wall of nested booleans.',
       data: verificationReport,
       visual: renderVerificationReportVisual,
@@ -932,6 +1176,54 @@ function renderBranchArtifacts(state) {
       accent: 'accent-purple'
     },
     {
+      title: 'Identity bindings',
+      subtitle: '.engi/identity-bindings.json',
+      data: run.identityBindings,
+      raw: branchFiles['.engi/identity-bindings.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-orange'
+    },
+    {
+      title: 'GitHub boundary surface',
+      subtitle: '.engi/github-boundary.json',
+      data: run.githubBoundarySurface,
+      raw: branchFiles['.engi/github-boundary.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-slate'
+    },
+    {
+      title: 'Artifact upload manifest',
+      subtitle: '.engi/artifact-upload-manifest.json',
+      data: run.artifactUploadManifest,
+      raw: branchFiles['.engi/artifact-upload-manifest.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-slate'
+    },
+    {
+      title: 'Profile composition surface',
+      subtitle: '.engi/profile-composition.json',
+      data: run.profileCompositionSurface,
+      raw: branchFiles['.engi/profile-composition.json'],
+      visual: renderProfileCompositionVisual,
+      accent: 'accent-orange'
+    },
+    {
+      title: 'Prompt surfaces',
+      subtitle: '.engi/prompt-surfaces.json',
+      data: run.promptSurfaces,
+      raw: branchFiles['.engi/prompt-surfaces.json'],
+      visual: renderPromptSurfaceCollectionVisual,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'External boundary manifest',
+      subtitle: '.engi/external-boundary-manifest.json',
+      data: run.externalBoundaryManifest,
+      raw: branchFiles['.engi/external-boundary-manifest.json'],
+      visual: renderExternalBoundaryManifestVisual,
+      accent: 'accent-slate'
+    },
+    {
       title: 'Unit catalog',
       subtitle: '.engi/unit-catalog.json',
       data: run.unitCatalog,
@@ -980,7 +1272,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V7 demo. Every JSON artifact card below now shares the same Visual|Raw switch so the operator can stay in narrative mode until they want exact bytes.</p>
+      <p class="meta">This is the artifact-heavy heart of the V8 demo. Identity/signer, GitHub boundary, artifact-upload, policy, and settlement surfaces are now deliberately separated for legibility.</p>
     </div>
     ${artifactDefs.map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -1124,7 +1416,7 @@ document.getElementById('resetButton').addEventListener('click', async () => {
   try {
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to seeded Spec V7 scenario.');
+    setStatus('Demo reset to seeded Spec V8 scenario.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -1140,6 +1432,12 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
         title: form.get('title'),
         author: form.get('author'),
         artifactKind: form.get('artifactKind'),
+        artifactType: form.get('artifactType'),
+        sourceRepo: form.get('sourceRepo'),
+        sourceCommit: form.get('sourceCommit'),
+        workflowRunId: form.get('workflowRunId'),
+        signerAddress: form.get('signerAddress'),
+        visualPreview: form.get('visualPreview'),
         tags: String(form.get('tags') || '').split(',').map((entry) => entry.trim()).filter(Boolean),
         content: form.get('content')
       })
@@ -1153,7 +1451,7 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
 });
 
 refresh().then(() => {
-  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V7 prototype flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V8 prototype flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

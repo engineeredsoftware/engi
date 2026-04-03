@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENGI Demo — Spec V7</title>
+    <title>ENGI Demo — Spec V8</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -11,7 +11,7 @@
       <header class="hero">
         <p class="eyebrow">ENGI deterministic local prototype</p>
         <h1>Make ENGI branch from GitHub benchmark evidence.</h1>
-        <p class="lede">This prototype now follows the Spec V7 story: measure a GitHub-bound engineering need from benchmark evidence, rank and verify candidate assets, assemble an asset pack, stage a private ENGI remediation branch, and settle value movement through an exact journal diff — while explicitly labeling Profile A prototype behavior versus Profile B production intent.</p>
+        <p class="lede">This prototype now follows the finalized Spec V8 story: recall channels and signal hand-offs are explicit, prompt templates and prompt lineage are first-class, proof closure and theorem checks are inspectable, candidate assets are ranked and verified with clearer score-group explainability, and the branch artifacts separate Profile A’s real local implementation from Profile B’s concrete but external GitHub/App, model, vector, signer, and settlement boundaries.</p>
         <div class="hero-actions">
           <button id="makeBranchButton">Make ENGI branch</button>
           <button id="resetButton" class="ghost">Reset demo</button>
@@ -39,8 +39,14 @@
             <input name="title" placeholder="Asset title" required />
             <input name="author" placeholder="Author" required />
             <input name="artifactKind" placeholder="Artifact kind (runbook, patch, config...)" value="mixed" />
+            <input name="artifactType" placeholder="Artifact type (e.g. runbook/operator-playbook)" />
+            <input name="sourceRepo" placeholder="GitHub repo boundary (owner/repo)" value="frontier/demo-auth" />
+            <input name="sourceCommit" placeholder="Commit SHA / ref (optional)" />
+            <input name="workflowRunId" placeholder="GitHub workflow run ID (optional)" />
+            <input name="signerAddress" placeholder="Signer / issuer DID (optional)" />
             <input name="tags" placeholder="Tags (comma-separated)" />
-            <textarea name="content" rows="7" placeholder="Private source material" required></textarea>
+            <textarea name="visualPreview" rows="3" placeholder="Visual upload preview / human-readable summary (optional)"></textarea>
+            <textarea name="content" rows="7" placeholder="Raw/private source material" required></textarea>
             <button type="submit">Deposit candidate asset</button>
           </form>
           <div id="assets" class="stack"></div>

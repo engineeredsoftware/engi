@@ -89,15 +89,16 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-test('GET /api/state returns seeded Spec V7 public state', async (t) => {
+test('GET /api/state returns seeded Spec V8 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.assets.length, 3);
     assert.equal(response.json.needScenarios.length, 1);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
-    assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v2');
-    assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic prototype');
+    assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
+    assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic V8 prototype');
+    assert.ok(response.json.profileCompositions.profiles.length === 2);
     assert.equal(response.json.latestRun, null);
   });
 });
@@ -107,18 +108,26 @@ test('GET / returns the app shell', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /Make ENGI branch from GitHub benchmark evidence/);
-    assert.match(response.text, /Spec V7/);
+    assert.match(response.text, /Spec V8/);
+    assert.match(response.text, /Profile A.*Profile B/s);
   });
 });
 
-test('GET /api/state exposes V7 profile labels and task seed before any run', async (t) => {
+test('GET /api/state exposes V8 profile labels and task seed before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.needScenarios[0].taskSeed, 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.');
-    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — local deterministic prototype');
-    assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — production-boundary intent');
+    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — local deterministic V8 prototype');
+    assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — GitHub/App and external production boundary');
   });
+});
+
+test('HOST capability docs are present in repo', async () => {
+  const root = path.join(process.cwd(), 'HOST_CAPABILITIES.md');
+  const json = path.join(process.cwd(), 'HOST_CAPABILITIES.json');
+  assert.equal(fs.existsSync(root), true);
+  assert.equal(fs.existsSync(json), true);
 });
 
 test('GET /styles.css serves static css', async (t) => {
@@ -162,6 +171,7 @@ test('POST /api/deposits adds a candidate asset and ledger account', async (t) =
     assert.equal(response.json.ok, true);
     assert.equal(response.json.asset.metadata.author, 'Tester');
     assert.equal(response.json.asset.artifactKind, 'runbook');
+    assert.equal(response.json.asset.uploadSurface.artifactType, 'runbook/operator-playbook');
 
     const state = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(state.json.assets.length, 4);
@@ -190,7 +200,35 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
   });
 });
 
-test('POST /api/make-engi-branch runs the V7 gold path', async (t) => {
+
+test('POST /api/deposits accepts V8 artifact precision and boundary fields', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: 'Typed patch',
+        author: 'Tester',
+        artifactKind: 'patch',
+        artifactType: 'code/patch',
+        sourceRepo: 'frontier/demo-auth',
+        sourceCommit: 'abc123',
+        workflowRunId: 'gha_run_custom',
+        signerAddress: 'did:key:tester',
+        visualPreview: 'Short visual preview',
+        content: 'restoreLegacyVerifier in services/auth/rollback.ts'
+      })
+    });
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.asset.artifactType, 'code/patch');
+    assert.equal(response.json.asset.githubBoundary.sourceCommit, 'abc123');
+    assert.equal(response.json.asset.identitySurface.signerAddress, 'did:key:tester');
+  });
+});
+
+test('POST /api/make-engi-branch runs the V8 gold path', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -202,7 +240,7 @@ test('POST /api/make-engi-branch runs the V7 gold path', async (t) => {
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.ok, true);
     assert.equal(response.json.latestRun.needLifecycle, 'settled');
-    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — local deterministic prototype');
+    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — local deterministic V8 prototype');
     assert.ok(response.json.latestRun.need.needId);
     assert.equal(response.json.latestRun.need.benchmarkParserContract.parserFailureContract.failClosed, true);
     assert.equal(response.json.latestRun.need.fieldDerivations.task.source, 'seed.expectedTask');
@@ -213,6 +251,12 @@ test('POST /api/make-engi-branch runs the V7 gold path', async (t) => {
     assert.ok(response.json.latestRun.branchArtifacts.files['.engi/sensitive-data-flow.json']);
     assert.ok(response.json.latestRun.branchArtifacts.files['.engi/unit-catalog.json']);
     assert.ok(response.json.latestRun.branchArtifacts.files['.engi/pipeline-telemetry.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/github-boundary.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/artifact-upload-manifest.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/prompt-surfaces.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/external-boundary-manifest.json']);
+    assert.ok(response.json.latestRun.promptSurfaces.length >= 4);
+    assert.ok(response.json.latestRun.externalBoundaryManifest.interfaces.length >= 6);
     assert.equal(response.json.latestRun.journalDiff.invariants.debitsEqualCredits, true);
     assert.equal(response.json.latestRun.journalDiff.totals.difference, '0');
     assert.ok(response.json.latestRun.evaluatedCandidates.some((candidate) => candidate.useTier === 'settlement-eligible'));

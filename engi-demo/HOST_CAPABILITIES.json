@@ -1,0 +1,70 @@
+{
+  "inspectedAt": "2026-04-03",
+  "host": {
+    "os": "Darwin 25.4.0",
+    "arch": "arm64"
+  },
+  "runtime": {
+    "node": "v24.14.1",
+    "npm": "11.11.0",
+    "pnpm": "10.33.0",
+    "python3": "3.13.12",
+    "rustc": "1.94.1",
+    "cargo": "1.94.1",
+    "java": "present"
+  },
+  "presentPrograms": [
+    "git",
+    "gh",
+    "docker",
+    "jq",
+    "rg",
+    "curl",
+    "openclaw",
+    "codex",
+    "node",
+    "npm",
+    "pnpm",
+    "python3",
+    "rustc",
+    "cargo"
+  ],
+  "absentPrograms": [
+    "ollama",
+    "claude",
+    "uv",
+    "bun",
+    "go"
+  ],
+  "github": {
+    "remote": "https://github.com/engineeredsoftware/ENGI.git",
+    "ghAuth": true,
+    "account": "garrettmaring",
+    "scopes": [
+      "gist",
+      "read:org",
+      "repo",
+      "workflow"
+    ]
+  },
+  "profileA": {
+    "implementedLocally": [
+      "deterministic evaluator stand-ins",
+      "deterministic vector stand-ins",
+      "local ranking and settlement flow",
+      "artifact generation",
+      "UI and tests"
+    ]
+  },
+  "profileB": {
+    "modeledButExternal": [
+      "GitHub App auth",
+      "workflow artifact fetch",
+      "branch and PR writes",
+      "remote model execution",
+      "external vector store",
+      "signer verification",
+      "settlement network effects"
+    ]
+  }
+}

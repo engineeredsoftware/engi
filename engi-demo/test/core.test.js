@@ -28,18 +28,31 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   assert.ok(state.ledger.accounts['buyer:frontier-code-systems:license_pool']);
 });
 
-test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V7 derivation closure', () => {
+test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V8 derivation closure', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
 
   assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
-  assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v2');
+  assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
   assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
-  assert.equal(need.conformanceProfile, 'Profile A — local deterministic prototype');
-  assert.equal(need.productionIntentProfile, 'Profile B — production-boundary intent');
+  assert.equal(need.conformanceProfile, 'Profile A — local deterministic V8 prototype');
+  assert.equal(need.productionIntentProfile, 'Profile B — GitHub/App and external production boundary');
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
   assert.ok(need.measurementProvenance.length >= 2);
+  assert.ok(Array.isArray(need.recallChannelContracts));
+  assert.ok(need.recallChannelContracts.some((entry) => entry.channelId === 'lexicalSearch' && entry.signalFamily === 'lexical'));
+});
+
+test('measureNeedFromScenario materializes prompt surfaces with interpolated lineage and downstream bindings', () => {
+  const state = buildInitialState();
+  const measurement = measureNeedFromScenario(state.needScenarios[0]);
+
+  assert.ok(measurement.promptSurfaces.length >= 4);
+  assert.equal(measurement.needDescriptor.promptSurfaces.length, measurement.promptSurfaces.length);
+  assert.match(measurement.promptSurfaces[0].interpolatedPrompt, /frontier\/demo-auth/);
+  assert.ok(measurement.promptSurfaces[0].contextInputs.length >= 3);
+  assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.engi/need.json'));
 });
 
 test('measureNeedFromScenario fails closed when canonical benchmark outputs are malformed', () => {
@@ -73,7 +86,9 @@ test('makeCandidateAsset creates spec-shaped candidate asset with content units'
   assert.ok(asset.contentRoot.startsWith('sha256:'));
   assert.equal(asset.sourceMaterialBinding.confidentiality, 'private-required');
   assert.equal(asset.attestations.length, 1);
-  assert.equal(asset.assetMeasurement.vectorInterfaces.taskVectorSpace, 'task-semantic-space.v7');
+  assert.equal(asset.assetMeasurement.vectorInterfaces.taskVectorSpace, 'task-semantic-space.v8');
+  assert.equal(asset.uploadSurface.artifactType, 'runbook/operator-playbook');
+  assert.equal(asset.identitySurface.signerClass, 'issuer-principal');
   assert.equal(asset.contentUnits[0].semanticInterfaces.embeddingHandOffReady, true);
 });
 
@@ -91,8 +106,9 @@ test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embed
   assert.ok(unit.extracted.configKeys.includes('auth.issuer.compatibility.window'));
   assert.ok(unit.extracted.stackTags.includes('node'));
   assert.ok(unit.extracted.stackTags.includes('jwt'));
-  assert.equal(unit.embeddings.taskVector.spec.vectorSpace, 'task-semantic-space.v7');
+  assert.equal(unit.embeddings.taskVector.spec.vectorSpace, 'task-semantic-space.v8');
   assert.equal(unit.embeddings.taskVector.spec.standIn, true);
+  assert.ok(asset.uploadSurface.surfaces.some((surface) => surface.role === 'raw'));
 });
 
 test('recallCandidates emits weighted channel hits, fusion summary, and query vector contracts', () => {
@@ -104,7 +120,9 @@ test('recallCandidates emits weighted channel hits, fusion summary, and query ve
   assert.ok(recalled[0].recallProvenance.some((entry) => entry.channelId === 'pathSearch'));
   assert.ok(recalled[0].fusion.contributingChannels.length >= 2);
   assert.ok(recalled[0].recallScore > 0);
-  assert.equal(recalled[0].queryRepresentations.task.vectorSpace, 'task-semantic-space.v7');
+  assert.equal(recalled[0].queryRepresentations.task.vectorSpace, 'task-semantic-space.v8');
+  assert.ok(recalled[0].recallChannelContracts.some((entry) => entry.channelId === 'semanticTaskSearch'));
+  assert.ok(recalled[0].recallProvenance.every((entry) => entry.signalFamily));
 });
 
 test('evaluateCandidates separates ranking from verification and produces use tiers', () => {
@@ -118,6 +136,8 @@ test('evaluateCandidates separates ranking from verification and produces use ti
   assert.ok(evaluated[0].ranking.actionability.finalScore > 0);
   assert.ok(evaluated[0].ranking.wholeAssetNeedScore > 0);
   assert.ok(evaluated[0].ranking.explainability.strongestSignals.length >= 3);
+  assert.ok(evaluated[0].ranking.scoreGroups.needMatch.sequence.length >= 4);
+  assert.ok(evaluated[0].ranking.scoreGroups.benchmarkImpact.sequence.length >= 3);
   assert.ok(evaluated.some((candidate) => candidate.useTier === 'settlement-eligible'));
   assert.ok(evaluated.some((candidate) => candidate.useTier === 'context-only' || candidate.useTier === 'patch-eligible'));
 });
@@ -184,6 +204,18 @@ test('context-mode asset pack can admit context-only candidates while patch mode
   assert.equal(patchPack.selectedAssets.includes(lowEvidence.assetId), false);
 });
 
+
+test('V8 score groups and branch artifacts separate identity, GitHub boundary, uploads, and profile surfaces', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.ok(latestRun.evaluatedCandidates[0].ranking.scoreGroups.penaltyMass);
+  assert.ok(latestRun.branchArtifacts.files['.engi/identity-bindings.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-boundary.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/artifact-upload-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/profile-composition.json']);
+});
+
 test('runMakeEngiBranch produces branch artifacts and exact journal settlement', () => {
   const state = buildInitialState();
   const { nextState, latestRun } = runMakeEngiBranch(state, {});
@@ -232,6 +264,17 @@ test('asset pack lock covers selected assets and unit hashes', () => {
   assert.ok(latestRun.assetPackLock.units.every((unit) => unit.unitHash.startsWith('sha256:')));
 });
 
+test('runMakeEngiBranch materializes prompt surfaces, external boundary manifest, and proof contract', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.ok(latestRun.promptSurfaces.length >= 4);
+  assert.ok(latestRun.externalBoundaryManifest.interfaces.length >= 6);
+  assert.ok(latestRun.proofContract.evidenceChain.length >= 4);
+  assert.ok(latestRun.branchArtifacts.files['.engi/prompt-surfaces.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/external-boundary-manifest.json']);
+});
+
 test('system proof bundle includes measurement, selection, identity, data-flow, and settlement proofs', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
@@ -243,6 +286,8 @@ test('system proof bundle includes measurement, selection, identity, data-flow, 
   assert.equal(proof.sensitiveDataFlowProof.requiredSensitiveClassesCovered, true);
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
+  assert.ok(proof.proofContract.contractId.startsWith('proof_contract_'));
+  assert.ok(proof.promptImplementationSurface.promptLineage.length >= 1);
 });
 
 test('authorization decisions and policy release are persisted on latest run', () => {
@@ -256,8 +301,10 @@ test('authorization decisions and policy release are persisted on latest run', (
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'settle:journal-event' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
-  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic prototype');
+  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic V8 prototype');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
+  assert.ok(latestRun.githubBoundarySurface.profileBBoundary.includes('GitHub App'));
+  assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
 });
 
 test('policy release artifact classes cover verification, authz, and sensitive-data artifacts', () => {
@@ -276,10 +323,11 @@ test('eval manifest codifies evaluator interfaces and stand-in boundaries', () =
 
   assert.ok(latestRun.evalManifest.evaluatorInterfaces.length >= 3);
   assert.ok(latestRun.evalManifest.evaluatorInterfaces.some((entry) => entry.measurementClass === 'inferred-measurement'));
-  assert.equal(latestRun.evalManifest.vectorSpaces.includes('task-semantic-space.v7'), true);
+  assert.equal(latestRun.evalManifest.vectorSpaces.includes('task-semantic-space.v8'), true);
+  assert.equal(latestRun.evalManifest.evaluatorBoundaryNotes.profileA.includes('stand-ins'), true);
 });
 
-test('sensitive data flow records cover all required V7 data classes', () => {
+test('sensitive data flow records cover all required V8 data classes', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
   const classes = new Set(latestRun.sensitiveDataFlowRecords.map((record) => record.dataClass));
@@ -317,7 +365,7 @@ test('settlement preview records participating assets and asset-pack-lock bindin
   assert.equal(latestRun.settlementPreview.assetPackLockHash, latestRun.systemProofBundle.settlementProof.assetPackLockHash);
 });
 
-test('telemetry artifacts explain the V7 pipeline and prompt implementation surface', () => {
+test('telemetry artifacts explain the V8 pipeline and prompt implementation surface', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
@@ -337,7 +385,8 @@ test('ENGI_NEED markdown includes parser contract, conformance profiles, and set
   assert.match(markdown, /Benchmark parser contract/);
   assert.match(markdown, /Conformance profiles/);
   assert.match(markdown, /raw share asset count/);
-  assert.match(markdown, /github-actions.auth-remediation.v2/);
+  assert.match(markdown, /github-actions.auth-remediation.v3/);
+  assert.match(markdown, /Profile A — local deterministic V8 prototype/);
 });
 
 test('publicState returns public projection including latest run, parser metadata, and profile labels', () => {
@@ -348,10 +397,11 @@ test('publicState returns public projection including latest run, parser metadat
   assert.equal(projected.assets.length, 3);
   assert.ok(projected.latestRun.need.needId);
   assert.ok(projected.latestRun.assetPack.assetPackId);
-  assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v2');
-  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic prototype');
-  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic prototype');
-  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v7-demo-2026-04-02');
+  assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
+  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic V8 prototype');
+  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic V8 prototype');
+  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v8-demo-2026-04-03');
+  assert.ok(projected.profileCompositions.profiles.length === 2);
   assert.ok(projected.runHistory.length, 1);
 });
 
