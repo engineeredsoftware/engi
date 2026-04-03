@@ -3,34 +3,70 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { startServer } from '../server.js';
+import { EventEmitter } from 'node:events';
+import { createAppContext } from '../server.js';
 
-async function withServer(t, fn) {
+function createMockReq({ method = 'GET', url = '/', headers = {}, body } = {}) {
+  const req = new EventEmitter();
+  req.method = method;
+  req.url = url;
+  req.headers = headers;
+  req.destroy = () => {};
+  process.nextTick(() => {
+    if (body !== undefined) req.emit('data', Buffer.from(body));
+    req.emit('end');
+  });
+  return req;
+}
+
+function createMockRes() {
+  const chunks = [];
+  let resolved;
+  const done = new Promise((resolve) => {
+    resolved = resolve;
+  });
+
+  return {
+    statusCode: 200,
+    headers: {},
+    writeHead(status, headers = {}) {
+      this.statusCode = status;
+      this.headers = { ...this.headers, ...headers };
+      return this;
+    },
+    end(chunk = '') {
+      if (chunk) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk)));
+      resolved({
+        statusCode: this.statusCode,
+        headers: this.headers,
+        text: Buffer.concat(chunks).toString('utf8')
+      });
+    },
+    done
+  };
+}
+
+async function invoke(app, request) {
+  const req = createMockReq(request);
+  const res = createMockRes();
+  await app.handle(req, res);
+  const response = await res.done;
+  const contentType = String(response.headers['Content-Type'] || response.headers['content-type'] || '');
+  const json = contentType.includes('application/json') && response.text ? JSON.parse(response.text) : null;
+  return { ...response, json };
+}
+
+async function withApp(t, fn) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'engi-demo-test-'));
   const dataPath = path.join(tempDir, 'state.json');
-  const { server, port } = await startServer({ port: 0, dataPath });
-  const base = `http://127.0.0.1:${port}`;
-
-  t.after(async () => {
-    await new Promise((resolve, reject) => server.close((err) => err ? reject(err) : resolve()));
-    fs.rmSync(tempDir, { recursive: true, force: true });
-  });
-
-  return fn({ base, dataPath });
+  const app = createAppContext({ dataPath, publicDir: path.join(process.cwd(), 'public') });
+  app.ensureState();
+  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+  return fn({ app, dataPath });
 }
 
-async function getJson(url, options) {
-  const response = await fetch(url, options);
-  const body = await response.json();
-  return { response, body };
-}
-
-async function postJson(base, route, payload) {
-  return getJson(`${base}${route}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
+function readPersistedState(dataPath) {
+  return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 }
 
 async function withCorruptingWriteFailure(dataPath, fn) {
@@ -38,7 +74,7 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   let shouldFail = true;
 
   fs.writeFileSync = function patchedWriteFileSync(targetPath, data, ...rest) {
-    if (shouldFail && (targetPath === dataPath || targetPath.startsWith(`${dataPath}.tmp-`))) {
+    if (shouldFail && (targetPath === dataPath || String(targetPath).startsWith(`${dataPath}.tmp-`))) {
       shouldFail = false;
       originalWriteFileSync.call(fs, targetPath, '{"broken":', ...rest);
       throw new Error('Simulated disk write failure.');
@@ -53,325 +89,240 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-function readPersistedState(dataPath) {
-  return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-}
-
-async function expectFailedWriteLeavesStateUntouched({ base, dataPath, action, assertResponse, assertPublicState }) {
-  const before = readPersistedState(dataPath);
-
-  await withCorruptingWriteFailure(dataPath, async () => {
-    const failed = await action();
-    assert.equal(failed.response.status, 500);
-    assert.match(failed.body.error, /Simulated disk write failure/);
-    if (assertResponse) assertResponse(failed);
-  });
-
-  const afterRaw = fs.readFileSync(dataPath, 'utf8');
-  assert.doesNotThrow(() => JSON.parse(afterRaw));
-
-  const after = JSON.parse(afterRaw);
-  assert.deepEqual(after, before);
-
-  const state = await getJson(`${base}/api/state`);
-  assert.equal(state.response.status, 200);
-  if (assertPublicState) {
-    assertPublicState(state.body, before);
-  }
-}
-
-test('GET /api/state returns seeded public state', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await getJson(`${base}/api/state`);
-    assert.equal(response.status, 200);
-    assert.equal(body.assets.length, 3);
-    assert.equal(body.receipts.length, 0);
-    assert.equal(body.demoScenario.query, 'enterprise auth migration rollback for monorepo services with issuer mismatch');
-    assert.equal(body.policyRelease.version, 'engi-policy-v0.2');
+test('GET /api/state returns seeded Spec V6 public state', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.assets.length, 3);
+    assert.equal(response.json.needScenarios.length, 1);
+    assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
+    assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v2');
+    assert.equal(response.json.latestRun, null);
   });
 });
 
 test('GET / returns the app shell', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const response = await fetch(`${base}/`);
-    const html = await response.text();
-    assert.equal(response.status, 200);
-    assert.match(html, /Public commitments in\. Private licensed bundles out\./);
-    assert.match(html, /Mode: heavy/);
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/' });
+    assert.equal(response.statusCode, 200);
+    assert.match(response.text, /Make ENGI branch from GitHub benchmark evidence/);
+    assert.match(response.text, /Spec V6/);
+  });
+});
+
+test('GET /styles.css serves static css', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/styles.css' });
+    assert.equal(response.statusCode, 200);
+    assert.match(String(response.headers['Content-Type']), /text\/css/);
+    assert.match(response.text, /--accent/);
   });
 });
 
 test('POST /api/deposits validates required fields', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await postJson(base, '/api/deposits', { title: '', author: '', content: '' });
-
-    assert.equal(response.status, 400);
-    assert.match(body.error, /Title is required/);
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: '', author: '', content: '' })
+    });
+    assert.equal(response.statusCode, 400);
+    assert.match(response.json.error, /Title is required/);
   });
 });
 
-test('POST /api/deposits adds a public asset and deposit receipt', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await postJson(base, '/api/deposits', {
-      title: 'Operator playbook',
-      author: 'Tester',
-      content: 'roll back safely\n\nverify issuer',
-      compileOk: true,
-      testsOk: true,
-      proofOk: false
+test('POST /api/deposits adds a candidate asset and ledger account', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: 'Operator playbook',
+        author: 'Tester',
+        artifactKind: 'runbook',
+        tags: ['auth', 'rollback'],
+        content: 'validate issuer compatibility\n\nrerun benchmark workflow'
+      })
     });
 
-    assert.equal(response.status, 200);
-    assert.equal(body.ok, true);
-    assert.equal(body.asset.author, 'Tester');
-    assert.equal(body.receipt.type, 'deposit');
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.ok, true);
+    assert.equal(response.json.asset.metadata.author, 'Tester');
+    assert.equal(response.json.asset.artifactKind, 'runbook');
 
-    const state = await getJson(`${base}/api/state`);
-    assert.equal(state.body.assets.length, 4);
-    assert.equal(state.body.receipts.length, 1);
+    const state = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(state.json.assets.length, 4);
+    assert.equal(state.json.assets[0].title, 'Operator playbook');
+    assert.equal(state.json.ledger.accounts[`supplier:${response.json.asset.assetId}:pending_claims`], '0');
   });
 });
 
-test('POST /api/license-query validates inputs and missing license', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const missingOrg = await postJson(base, '/api/license-query', { query: 'auth rollback' });
-    assert.equal(missingOrg.response.status, 400);
-
-    const missingLicense = await postJson(base, '/api/license-query', { orgId: 'missing', query: 'auth rollback' });
-    assert.equal(missingLicense.response.status, 404);
-  });
-});
-
-test('POST /api/license-query rejects unmatched queries', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await postJson(base, '/api/license-query', { orgId: 'demo-ai-lab', query: 'zebra quantum banana vacuum' });
-
-    assert.equal(response.status, 500);
-    assert.match(body.error, /No matching chunks found/);
-  });
-});
-
-test('POST /api/license-query runs the gold-path licensed read', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await postJson(base, '/api/license-query', {
-      orgId: 'demo-ai-lab',
-      query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
+test('POST /api/deposits can create a revoked issuer candidate without crashing public state', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: 'Revoked note',
+        author: 'Restricted Tester',
+        issuerPolicyStatus: 'revoked',
+        content: 'legacy issuer note with private remediation content'
+      })
     });
 
-    assert.equal(response.status, 200);
-    assert.equal(body.ok, true);
-    assert.ok(body.privateBundle.bundleId);
-    assert.ok(body.ranking.length > 0);
-    assert.equal(body.conservation.conserved, true);
-    assert.equal(body.publicReceipt.type, 'bundle_issuance');
-    assert.equal(body.allocationReceipt.type, 'allocation');
-    assert.equal(body.license.unitsRemaining, 800);
-
-    const state = await getJson(`${base}/api/state`);
-    assert.equal(state.body.receipts.length, 2);
-    assert.deepEqual(state.body.proofLog.map((item) => item.type), ['allocation', 'bundle_issuance']);
+    assert.equal(response.statusCode, 200);
+    const state = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(state.json.assets.length, 4);
   });
 });
 
-test('POST /api/utility validates required fields', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await postJson(base, '/api/utility', { bundleId: '', benchmark: '' });
+test('POST /api/make-engi-branch runs the V6 gold path', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}'
+    });
 
-    assert.equal(response.status, 400);
-    assert.match(body.error, /bundleId is required/);
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.ok, true);
+    assert.equal(response.json.latestRun.needLifecycle, 'settled');
+    assert.ok(response.json.latestRun.need.needId);
+    assert.equal(response.json.latestRun.need.benchmarkParserContract.parserFailureContract.failClosed, true);
+    assert.ok(response.json.latestRun.assetPack.assetPackId);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/need.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/policy-release.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/authorization-decisions.json']);
+    assert.equal(response.json.latestRun.journalDiff.invariants.debitsEqualCredits, true);
+    assert.equal(response.json.latestRun.journalDiff.totals.difference, '0');
+    assert.ok(response.json.latestRun.evaluatedCandidates.some((candidate) => candidate.useTier === 'settlement-eligible'));
+    assert.ok(response.json.latestRun.evaluatedCandidates.every((candidate) => candidate.recall.recallProvenance.length >= 1));
   });
 });
 
-test('POST /api/utility records value proof and utility ledger', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const read = await postJson(base, '/api/license-query', {
-      orgId: 'demo-ai-lab',
-      query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
+test('POST /api/make-engi-branch supports context branch mode', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ branchMode: 'context' })
     });
 
-    const { response, body } = await postJson(base, '/api/utility', {
-      bundleId: read.body.privateBundle.bundleId,
-      benchmark: 'production-auth-remediation',
-      baselineBp: 4200,
-      treatmentBp: 6700
-    });
-
-    assert.equal(response.status, 200);
-    assert.equal(body.comparison.upliftBp, 2500);
-    assert.match(body.comparison.businessImpact, /Higher confidence incident recovery/);
-
-    const state = await getJson(`${base}/api/state`);
-    assert.equal(state.body.receipts.length, 3);
-    assert.equal(state.body.utilityLedger[read.body.privateBundle.bundleId].upliftBp, 2500);
-    assert.deepEqual(state.body.proofLog.map((item) => item.type), ['allocation', 'bundle_issuance', 'utility']);
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.latestRun.branchMode, 'context');
+    assert.equal(response.json.latestRun.assetPack.branchMode, 'context');
   });
 });
 
-test('POST /api/reset restores seeded state and clears receipts', async (t) => {
-  await withServer(t, async ({ base, dataPath }) => {
-    await postJson(base, '/api/license-query', {
-      orgId: 'demo-ai-lab',
-      query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
-    });
+test('POST /api/reset restores seeded state and clears latest run', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    await invoke(app, { method: 'POST', url: '/api/make-engi-branch', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+    const reset = await invoke(app, { method: 'POST', url: '/api/reset', headers: { 'Content-Type': 'application/json' }, body: '{}' });
 
-    const reset = await postJson(base, '/api/reset', {});
-
-    assert.equal(reset.response.status, 200);
-    assert.equal(reset.body.state.receipts.length, 0);
+    assert.equal(reset.statusCode, 200);
+    assert.equal(reset.json.state.latestRun, null);
 
     const persisted = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-    assert.equal(persisted.receipts.length, 0);
-    assert.deepEqual(persisted.utilityLedger, {});
+    assert.equal(persisted.latestRun, null);
+    assert.equal(persisted.runHistory.length, 0);
   });
 });
 
 test('malformed JSON body returns 400 instead of 500', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const response = await fetch(`${base}/api/deposits`, {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
       method: 'POST',
+      url: '/api/deposits',
       headers: { 'Content-Type': 'application/json' },
       body: '{bad json'
     });
-    const body = await response.json();
 
-    assert.equal(response.status, 400);
-    assert.match(body.error, /Invalid JSON body/);
+    assert.equal(response.statusCode, 400);
+    assert.match(response.json.error, /Invalid JSON body/);
   });
 });
 
 test('static path traversal is blocked', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const response = await fetch(`${base}/../server.js`);
-    const body = await response.text();
-
-    assert.equal(response.status, 404);
-    assert.match(body, /Not found/);
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/../server.js' });
+    assert.equal(response.statusCode, 404);
+    assert.match(response.text, /Not found/);
   });
 });
 
 test('unknown api route returns JSON 404', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const { response, body } = await getJson(`${base}/api/nope`);
-    assert.equal(response.status, 404);
-    assert.equal(body.error, 'Not found.');
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/api/nope' });
+    assert.equal(response.statusCode, 404);
+    assert.equal(response.json.error, 'Not found.');
   });
 });
 
-test('exhausted license fails cleanly after repeated reads', async (t) => {
-  await withServer(t, async ({ base }) => {
-    for (let i = 0; i < 9; i += 1) {
-      const read = await postJson(base, '/api/license-query', {
-        orgId: 'demo-ai-lab',
-        query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
-      });
-      assert.equal(read.response.status, 200);
-    }
-
-    const finalAttempt = await postJson(base, '/api/license-query', {
-      orgId: 'demo-ai-lab',
-      query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
-    });
-
-    assert.equal(finalAttempt.response.status, 500);
-    assert.match(finalAttempt.body.error, /does not have enough units remaining/);
-  });
-});
-
-test('repeated utility writes overwrite ledger entry but keep receipt trail', async (t) => {
-  await withServer(t, async ({ base }) => {
-    const read = await postJson(base, '/api/license-query', {
-      orgId: 'demo-ai-lab',
-      query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
-    });
-    const bundleId = read.body.privateBundle.bundleId;
-
-    const first = await postJson(base, '/api/utility', {
-      bundleId,
-      benchmark: 'production-auth-remediation',
-      baselineBp: 4200,
-      treatmentBp: 6700
-    });
-    assert.equal(first.response.status, 200);
-
-    const second = await postJson(base, '/api/utility', {
-      bundleId,
-      benchmark: 'production-auth-remediation',
-      baselineBp: 5000,
-      treatmentBp: 7000
-    });
-    assert.equal(second.response.status, 200);
-    assert.equal(second.body.comparison.upliftBp, 2000);
-
-    const state = await getJson(`${base}/api/state`);
-    assert.equal(state.body.utilityLedger[bundleId].upliftBp, 2000);
-    assert.equal(state.body.receipts.filter((item) => item.type === 'utility').length, 2);
+test('unsupported non-GET route returns JSON 404', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'DELETE', url: '/api/state' });
+    assert.equal(response.statusCode, 404);
+    assert.equal(response.json.error, 'Not found.');
   });
 });
 
 test('failed deposit write does not corrupt persisted demo state', async (t) => {
-  await withServer(t, async ({ base, dataPath }) => {
-    await expectFailedWriteLeavesStateUntouched({
-      base,
-      dataPath,
-      action: () => postJson(base, '/api/deposits', {
-        title: 'Operator playbook',
-        author: 'Tester',
-        content: 'roll back safely\n\nverify issuer',
-        compileOk: true,
-        testsOk: true,
-        proofOk: false
-      }),
-      assertPublicState: (publicState, before) => {
-        assert.equal(publicState.assets.length, before.assets.length);
-        assert.equal(publicState.receipts.length, before.receipts.length);
-      }
+  await withApp(t, async ({ app, dataPath }) => {
+    const before = readPersistedState(dataPath);
+
+    await withCorruptingWriteFailure(dataPath, async () => {
+      const failed = await invoke(app, {
+        method: 'POST',
+        url: '/api/deposits',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'Operator playbook', author: 'Tester', content: 'validate issuer compatibility' })
+      });
+      assert.equal(failed.statusCode, 500);
+      assert.match(failed.json.error, /Simulated disk write failure/);
     });
+
+    assert.deepEqual(readPersistedState(dataPath), before);
+    const state = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(state.json.assets.length, before.assets.length);
+    assert.equal(state.json.runHistory.length, before.runHistory.length);
   });
 });
 
-test('failed license write does not burn units or persist receipts', async (t) => {
-  await withServer(t, async ({ base, dataPath }) => {
-    await expectFailedWriteLeavesStateUntouched({
-      base,
-      dataPath,
-      action: () => postJson(base, '/api/license-query', {
-        orgId: 'demo-ai-lab',
-        query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
-      }),
-      assertPublicState: (publicState, before) => {
-        assert.equal(publicState.receipts.length, before.receipts.length);
-        assert.deepEqual(publicState.utilityLedger, before.utilityLedger);
-        assert.deepEqual(publicState.balances, before.balances);
-        assert.equal(
-          publicState.licenses.find((item) => item.orgId === 'demo-ai-lab').unitsRemaining,
-          before.licenses.find((item) => item.orgId === 'demo-ai-lab').unitsRemaining
-        );
-      }
+test('failed make-engi-branch write does not persist settlement state', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const before = readPersistedState(dataPath);
+
+    await withCorruptingWriteFailure(dataPath, async () => {
+      const failed = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      assert.equal(failed.statusCode, 500);
+      assert.match(failed.json.error, /Simulated disk write failure/);
     });
+
+    assert.deepEqual(readPersistedState(dataPath), before);
+    const state = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(state.json.runHistory.length, before.runHistory.length);
+    assert.deepEqual(state.json.ledger.accounts, before.ledger.accounts);
   });
 });
 
-test('failed utility write does not persist utility ledger or proof receipt', async (t) => {
-  await withServer(t, async ({ base, dataPath }) => {
-    const read = await postJson(base, '/api/license-query', {
-      orgId: 'demo-ai-lab',
-      query: 'enterprise auth migration rollback for monorepo services with issuer mismatch'
-    });
-    assert.equal(read.response.status, 200);
-
-    await expectFailedWriteLeavesStateUntouched({
-      base,
-      dataPath,
-      action: () => postJson(base, '/api/utility', {
-        bundleId: read.body.privateBundle.bundleId,
-        benchmark: 'production-auth-remediation',
-        baselineBp: 4200,
-        treatmentBp: 6700
-      }),
-      assertPublicState: (publicState, before) => {
-        assert.equal(publicState.receipts.length, before.receipts.length);
-        assert.deepEqual(publicState.utilityLedger, before.utilityLedger);
-      }
-    });
+test('bootstrap repairs incomplete on-disk state', async (t) => {
+  await withApp(t, async ({ dataPath }) => {
+    fs.writeFileSync(dataPath, JSON.stringify({ assets: [] }, null, 2));
+    const repaired = createAppContext({ dataPath, publicDir: path.join(process.cwd(), 'public') });
+    const result = repaired.ensureState();
+    assert.equal(result.bootstrapped, true);
+    const state = repaired.readState();
+    assert.equal(state.assets.length, 3);
+    assert.equal(state.buyers.length, 1);
   });
 });
