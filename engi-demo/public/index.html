@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ENGI Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <p class="eyebrow">ENGI demo prototype</p>
+        <h1>Public commitments in. Private licensed bundles out.</h1>
+        <p class="lede">This demo shows an ENGI buyer scenario end to end: contributors deposit engineering knowledge, the depot measures it deterministically, a licensed reader facing a production auth incident receives a need-matched private bundle, and public proof surfaces explain allocation, conservation, and provenance. A separate interactive value demonstration below then illustrates benchmark lift for the buyer system.</p>
+        <div class="hero-actions">
+          <button id="guidedDemoButton">Run guided demo</button>
+          <button id="densityModeButton" class="ghost">Mode: heavy</button>
+          <button id="resetButton" class="ghost">Reset demo</button>
+        </div>
+      </header>
+
+      <section class="thesis-strip">
+        <div class="thesis-pill writable">
+          <strong>Openly writable</strong>
+          <span>contributors can deposit supply into the depot</span>
+        </div>
+        <div class="thesis-pill readable">
+          <strong>Measurably readable</strong>
+          <span>licensed queries assemble ranked private bundles</span>
+        </div>
+        <div class="thesis-pill provable">
+          <strong>Provable</strong>
+          <span>receipts, policy, conservation, and provenance are inspectable</span>
+        </div>
+        <div class="thesis-pill valuable">
+          <strong>Valuable</strong>
+          <span>a separate interactive benchmark demo illustrates buyer value</span>
+        </div>
+      </section>
+
+      <section class="summary-grid">
+        <div class="summary-card">
+          <span class="meta">Public committed assets</span>
+          <strong id="assetCount">0</strong>
+        </div>
+        <div class="summary-card">
+          <span class="meta">Public receipts</span>
+          <strong id="receiptCount">0</strong>
+        </div>
+        <div class="summary-card">
+          <span class="meta">Private bundles issued</span>
+          <strong id="bundleCount">0</strong>
+        </div>
+        <div class="summary-card">
+          <span class="meta">Contributor units allocated</span>
+          <strong id="allocatedUnits">0</strong>
+        </div>
+      </section>
+
+      <section class="presenter-note" id="densityNote" hidden>
+        <div class="card">
+          <strong>Light mode is on</strong>
+          <p class="meta">This ultra-minimal MVP is prioritizing the core story: writable, readable, provable. The separate value demonstration stays below, and deep proof sections can be expanded when needed.</p>
+        </div>
+      </section>
+
+      <section class="panel walkthrough">
+        <div class="panel-head">
+          <h2>Demo walkthrough</h2>
+          <span class="badge">operator script</span>
+        </div>
+        <ol class="walkthrough-list">
+          <li>Show that deposits reveal only commitments, metadata, hashes, and measured status.</li>
+          <li>Issue a licensed query for a concrete engineering need and reveal the private bundle only to the licensed reader.</li>
+          <li>Show public issuance + allocation receipts, ranking explanations, conservation, and proof/attestation surfaces without exposing sealed corpus content.</li>
+          <li>Optionally finish on a separate interactive value demonstration: an illustrative utility receipt showing observed benchmark uplift from licensed consumption.</li>
+        </ol>
+        <div id="guidedDemoStatus" class="meta"></div>
+      </section>
+
+      <div id="guidedDemoTooltip" class="guided-demo-tooltip" hidden aria-live="polite"></div>
+
+      <main class="grid">
+        <section class="panel" id="section-deposits">
+          <div class="panel-head">
+            <h2>1. Public deposits</h2>
+            <span class="badge">public</span>
+          </div>
+          <form id="depositForm" class="stack compact">
+            <input name="title" placeholder="Asset title" required />
+            <input name="author" placeholder="Author" required />
+            <input name="tags" placeholder="Tags (comma-separated)" />
+            <textarea name="content" rows="6" placeholder="Private asset content" required></textarea>
+            <div class="row checks">
+              <label><input type="checkbox" name="compileOk" checked /> compile ok</label>
+              <label><input type="checkbox" name="testsOk" checked /> tests ok</label>
+              <label><input type="checkbox" name="proofOk" /> proof ok</label>
+            </div>
+            <button type="submit">Deposit asset</button>
+          </form>
+          <div id="assets" class="stack"></div>
+        </section>
+
+        <section class="panel" id="section-read">
+          <div class="panel-head">
+            <h2>2. Licensed read</h2>
+            <span class="badge private">private output</span>
+          </div>
+          <form id="queryForm" class="stack compact">
+            <select name="orgId" id="orgId"></select>
+            <textarea name="query" rows="5" placeholder="Example: enterprise auth migration rollback for monorepo services with issuer mismatch" required></textarea>
+            <button type="submit">Issue private bundle</button>
+          </form>
+          <div id="bundleResult" class="stack"></div>
+        </section>
+
+        <details class="proof-group" id="proofGroup" open>
+          <summary>
+            <div class="card proof-summary-card">
+              <div class="row">
+                <strong>3. Proof and inspection surfaces</strong>
+                <span class="badge">expand for ranking, conservation, receipts, schemas, provenance</span>
+              </div>
+              <p class="meta">Heavy mode keeps this open by default. Light mode collapses it so the demo stays story-first while preserving auditability.</p>
+              <div id="proofSummaryStats" class="proof-summary-stats"></div>
+            </div>
+          </summary>
+
+          <div class="proof-group-body">
+            <section class="panel wide" id="section-receipts">
+              <div class="panel-head">
+                <h2>3a. Public receipts</h2>
+                <span class="badge">provable surface</span>
+              </div>
+              <div id="receipts" class="stack"></div>
+            </section>
+
+            <section class="panel" id="section-ranking">
+              <div class="panel-head">
+                <h2>3b. Ranking explanation</h2>
+                <span class="badge">why these chunks won</span>
+              </div>
+              <div id="rankingPanel" class="stack"></div>
+            </section>
+
+            <section class="panel" id="section-conservation">
+              <div class="panel-head">
+                <h2>3c. Conservation check</h2>
+                <span class="badge">metered units in = allocated units out</span>
+              </div>
+              <div id="conservationPanel" class="stack"></div>
+            </section>
+
+            <section class="panel" id="section-schemas">
+              <div class="panel-head">
+                <h2>3d. Receipt schemas</h2>
+                <span class="badge">why each proof exists</span>
+              </div>
+              <div id="schemas" class="stack"></div>
+            </section>
+
+            <section class="panel" id="section-attestation">
+              <div class="panel-head">
+                <h2>3e. Deployment / attestation</h2>
+                <span class="badge">modeled provenance</span>
+              </div>
+              <div id="attestation" class="stack"></div>
+            </section>
+
+            <section class="panel wide" id="section-proof-log">
+              <div class="panel-head">
+                <h2>3f. Proof log timeline</h2>
+                <span class="badge">public event history</span>
+              </div>
+              <div id="proofLogPanel" class="stack"></div>
+            </section>
+          </div>
+        </details>
+
+        <section class="panel" id="section-value">
+          <div class="panel-head">
+            <h2>Interactive value demonstration</h2>
+            <span class="badge">illustrative</span>
+          </div>
+          <div class="card compact-proof-card">
+            <strong>Observed benchmark uplift</strong>
+            <p class="meta">This section is intentionally separate from the core protocol flow above. It records an illustrative utility receipt showing buyer-system performance before vs after licensed bundle consumption. In the current prototype, these scores are operator-entered benchmark results in basis points, not an automatically computed benchmark harness, and they do not feed back into asset measurement.</p>
+          </div>
+          <form id="utilityForm" class="stack compact">
+            <input name="bundleId" placeholder="Bundle id from licensed issuance" required />
+            <input name="benchmark" placeholder="Benchmark name" value="production-auth-remediation" required />
+            <input name="baselineBp" type="number" min="0" max="10000" value="4200" required placeholder="Baseline score (without licensed bundle)" />
+            <input name="treatmentBp" type="number" min="0" max="10000" value="6700" required placeholder="Treatment score (with licensed bundle)" />
+            <button type="submit">Emit illustrative utility receipt</button>
+          </form>
+          <div id="benchmarkPanel" class="stack"></div>
+          <div id="balances" class="stack"></div>
+          <div class="card final-beat">
+            <strong>Operator framing</strong>
+            <p class="meta">Use this section only after the audience understands the core protocol behaviors. The claim here is buyer value: treatment minus baseline on a benchmark task after licensed consumption. The claim is not that ENGI currently auto-measures this lift or feeds it back into contributor scoring.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

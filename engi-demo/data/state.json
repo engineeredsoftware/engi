@@ -1,0 +1,860 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "assetId": "asset_asdff_4fe1a68e5b",
+      "title": "asdff",
+      "author": "asdff",
+      "organization": "ENGI",
+      "tags": [
+        "asdff"
+      ],
+      "createdAt": "2026-04-02T17:50:52.375Z",
+      "sourceType": "note",
+      "preview": "asdff",
+      "assetRoot": "27d93e8a9a1acd097ef24ce73fc40b7dc70caeabe0c2741f5ee877aad1997e95",
+      "verification": {
+        "compileOk": true,
+        "testsOk": true,
+        "proofOk": true
+      },
+      "measurement": {
+        "quantityBp": 1120,
+        "qualityBp": 9270,
+        "valenceBp": 6400,
+        "totalBp": 6636
+      },
+      "privateBlob": {
+        "content": "asdff",
+        "chunks": [
+          {
+            "chunkId": "chunk-1",
+            "body": "asdff",
+            "hash": "5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e",
+            "preview": "asdff"
+          }
+        ]
+      },
+      "chunkIndex": [
+        {
+          "chunkId": "chunk-1",
+          "body": "asdff",
+          "hash": "5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e",
+          "preview": "asdff",
+          "tokens": [
+            "asdff"
+          ]
+        }
+      ],
+      "metadata": {
+        "citations": [],
+        "authorshipClaim": "self-asserted"
+      }
+    },
+    {
+      "assetId": "asset_asdf_1ab113ac06",
+      "title": "asdf",
+      "author": "asdf",
+      "organization": "ENGI",
+      "tags": [
+        "asdf"
+      ],
+      "createdAt": "2026-04-02T17:47:03.583Z",
+      "sourceType": "note",
+      "preview": "asdf",
+      "assetRoot": "7624e1f89ce009f8ec7e6e39781a42c0a27fa38f94db4f05f78b0f301007e06a",
+      "verification": {
+        "compileOk": true,
+        "testsOk": true,
+        "proofOk": true
+      },
+      "measurement": {
+        "quantityBp": 1120,
+        "qualityBp": 9270,
+        "valenceBp": 6400,
+        "totalBp": 6636
+      },
+      "privateBlob": {
+        "content": "asdf",
+        "chunks": [
+          {
+            "chunkId": "chunk-1",
+            "body": "asdf",
+            "hash": "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b",
+            "preview": "asdf"
+          }
+        ]
+      },
+      "chunkIndex": [
+        {
+          "chunkId": "chunk-1",
+          "body": "asdf",
+          "hash": "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b",
+          "preview": "asdf",
+          "tokens": [
+            "asdf"
+          ]
+        }
+      ],
+      "metadata": {
+        "citations": [],
+        "authorshipClaim": "self-asserted"
+      }
+    },
+    {
+      "assetId": "asset_a_415379415e",
+      "title": "a",
+      "author": "a",
+      "organization": "ENGI",
+      "tags": [
+        "a"
+      ],
+      "createdAt": "2026-04-02T07:26:42.952Z",
+      "sourceType": "note",
+      "preview": "a",
+      "assetRoot": "da3811154d59c4267077ddd8bb768fa9b06399c486e1fc00485116b57c9872f5",
+      "verification": {
+        "compileOk": true,
+        "testsOk": true,
+        "proofOk": true
+      },
+      "measurement": {
+        "quantityBp": 1120,
+        "qualityBp": 9270,
+        "valenceBp": 6400,
+        "totalBp": 6636
+      },
+      "privateBlob": {
+        "content": "a",
+        "chunks": [
+          {
+            "chunkId": "chunk-1",
+            "body": "a",
+            "hash": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "preview": "a"
+          }
+        ]
+      },
+      "chunkIndex": [
+        {
+          "chunkId": "chunk-1",
+          "body": "a",
+          "hash": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "preview": "a",
+          "tokens": [
+            "a"
+          ]
+        }
+      ],
+      "metadata": {
+        "citations": [],
+        "authorshipClaim": "self-asserted"
+      }
+    },
+    {
+      "assetId": "asset_enterprise-auth-migration-rollback-playbook_d1f6843320",
+      "title": "Enterprise auth migration rollback playbook",
+      "author": "Garrett",
+      "organization": "$ENGI",
+      "tags": [
+        "auth",
+        "migration",
+        "rollback",
+        "monorepo",
+        "enterprise"
+      ],
+      "createdAt": "2026-04-02T07:26:37.288Z",
+      "sourceType": "runbook",
+      "preview": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore ",
+      "assetRoot": "b633c110709901b7ff693f23042f9adf8affe89d7d645213d080a7a5a86ff66a",
+      "verification": {
+        "compileOk": true,
+        "testsOk": true,
+        "proofOk": true
+      },
+      "measurement": {
+        "quantityBp": 6120,
+        "qualityBp": 9270,
+        "valenceBp": 7500,
+        "totalBp": 8021
+      },
+      "privateBlob": {
+        "content": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nGuardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together.\n\nBuyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic advice.",
+        "chunks": [
+          {
+            "chunkId": "chunk-1",
+            "body": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.",
+            "hash": "54eedd2666167aa92f50d81109ca0a6621c65d9668bd0e2d4c2a4058d78ff790",
+            "preview": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production."
+          },
+          {
+            "chunkId": "chunk-2",
+            "body": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.",
+            "hash": "d86008af027d64002ade2939517c02fdaa561dfa141ec7308bdce8dbe976b85b",
+            "preview": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-"
+          },
+          {
+            "chunkId": "chunk-3",
+            "body": "Guardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together.",
+            "hash": "bc01eb69261efe359343fb5b0b5d897aa62be0ade4dee4c8baaf35cf28221dd9",
+            "preview": "Guardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together."
+          },
+          {
+            "chunkId": "chunk-4",
+            "body": "Buyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic advice.",
+            "hash": "1103edaac98d3a3fbe6385a37adc8811737d516e66f2e1e330330efe57d5e5f0",
+            "preview": "Buyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic a"
+          }
+        ]
+      },
+      "chunkIndex": [
+        {
+          "chunkId": "chunk-1",
+          "body": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.",
+          "hash": "54eedd2666167aa92f50d81109ca0a6621c65d9668bd0e2d4c2a4058d78ff790",
+          "preview": "Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.",
+          "tokens": [
+            "objective",
+            "recover",
+            "an",
+            "enterprise",
+            "monorepo",
+            "auth",
+            "migration",
+            "without",
+            "leaving",
+            "half",
+            "migrated",
+            "services",
+            "or",
+            "invalid",
+            "sessions",
+            "in",
+            "production"
+          ]
+        },
+        {
+          "chunkId": "chunk-2",
+          "body": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.",
+          "hash": "d86008af027d64002ade2939517c02fdaa561dfa141ec7308bdce8dbe976b85b",
+          "preview": "Procedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-",
+          "tokens": [
+            "procedure",
+            "freeze",
+            "writes",
+            "capture",
+            "a",
+            "signed",
+            "migration",
+            "snapshot",
+            "validate",
+            "token",
+            "issuer",
+            "compatibility",
+            "restore",
+            "old",
+            "verifier",
+            "configuration",
+            "replay",
+            "only",
+            "idempotent",
+            "schema",
+            "steps",
+            "and",
+            "re",
+            "enable",
+            "traffic",
+            "behind",
+            "kill",
+            "switch"
+          ]
+        },
+        {
+          "chunkId": "chunk-3",
+          "body": "Guardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together.",
+          "hash": "bc01eb69261efe359343fb5b0b5d897aa62be0ade4dee4c8baaf35cf28221dd9",
+          "preview": "Guardrail: every rollback step must preserve session validation invariants and emit an audit receipt that ties environment, commit, and migration batch together.",
+          "tokens": [
+            "guardrail",
+            "every",
+            "rollback",
+            "step",
+            "must",
+            "preserve",
+            "session",
+            "validation",
+            "invariants",
+            "and",
+            "emit",
+            "an",
+            "audit",
+            "receipt",
+            "that",
+            "ties",
+            "environment",
+            "commit",
+            "migration",
+            "batch",
+            "together"
+          ]
+        },
+        {
+          "chunkId": "chunk-4",
+          "body": "Buyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic advice.",
+          "hash": "1103edaac98d3a3fbe6385a37adc8811737d516e66f2e1e330330efe57d5e5f0",
+          "preview": "Buyer value: this artifact cuts mean time to safe rollback during a revenue-sensitive auth incident and gives downstream agents a high-confidence recovery path instead of generic a",
+          "tokens": [
+            "buyer",
+            "value",
+            "this",
+            "artifact",
+            "cuts",
+            "mean",
+            "time",
+            "to",
+            "safe",
+            "rollback",
+            "during",
+            "a",
+            "revenue",
+            "sensitive",
+            "auth",
+            "incident",
+            "and",
+            "gives",
+            "downstream",
+            "agents",
+            "high",
+            "confidence",
+            "recovery",
+            "path",
+            "instead",
+            "of",
+            "generic",
+            "advice"
+          ]
+        }
+      ],
+      "metadata": {
+        "citations": [],
+        "authorshipClaim": "self-asserted"
+      }
+    },
+    {
+      "assetId": "asset_proof-carrying-session-validator-patch-kit_ec710dfada",
+      "title": "Proof-carrying session validator patch kit",
+      "author": "Eve",
+      "organization": "$ENGI",
+      "tags": [
+        "rust",
+        "proof",
+        "validator",
+        "safety",
+        "patch"
+      ],
+      "createdAt": "2026-04-02T07:26:37.288Z",
+      "sourceType": "crate",
+      "preview": "Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries.\n\nImplementation note: replace unchecked indexing with guarded access, propagate Result and Option v",
+      "assetRoot": "fdcfe1e1b48849ed136b81f6d8df7b938f90dd8b96772649103afe475f2c8f1c",
+      "verification": {
+        "compileOk": true,
+        "testsOk": true,
+        "proofOk": true
+      },
+      "measurement": {
+        "quantityBp": 5800,
+        "qualityBp": 9270,
+        "valenceBp": 7200,
+        "totalBp": 7852
+      },
+      "privateBlob": {
+        "content": "Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries.\n\nImplementation note: replace unchecked indexing with guarded access, propagate Result and Option values, and prove that cache eviction preserves validator invariants.\n\nVerification summary: cargo test passes, cargo creusot prove passes, and the proof logs show no overflow or assertion failures under the contract preconditions.\n\nBuyer value: this gives an AI remediation system a proof-backed patch pattern it can reuse under production pressure.",
+        "chunks": [
+          {
+            "chunkId": "chunk-1",
+            "body": "Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries.",
+            "hash": "e682d1799fe102d25f3609129fb2e363f41c4379bbf96687c4c5fa09cf2884d8",
+            "preview": "Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries."
+          },
+          {
+            "chunkId": "chunk-2",
+            "body": "Implementation note: replace unchecked indexing with guarded access, propagate Result and Option values, and prove that cache eviction preserves validator invariants.",
+            "hash": "b38f2fcc31202e68feb1ba0fe3f44ef657b5963dd85ecfffa0bd266e704ee1cf",
+            "preview": "Implementation note: replace unchecked indexing with guarded access, propagate Result and Option values, and prove that cache eviction preserves validator invariants."
+          },
+          {
+            "chunkId": "chunk-3",
+            "body": "Verification summary: cargo test passes, cargo creusot prove passes, and the proof logs show no overflow or assertion failures under the contract preconditions.",
+            "hash": "a19a2377844d3fb756a0b2248bc6b26eea63005a7ff29a5d815265c9b52a0ce8",
+            "preview": "Verification summary: cargo test passes, cargo creusot prove passes, and the proof logs show no overflow or assertion failures under the contract preconditions."
+          },
+          {
+            "chunkId": "chunk-4",
+            "body": "Buyer value: this gives an AI remediation system a proof-backed patch pattern it can reuse under production pressure.",
+            "hash": "70b9e7b4ee7ddefa154f98853c152a84d75981989340f7c01737631b24918eb7",
+            "preview": "Buyer value: this gives an AI remediation system a proof-backed patch pattern it can reuse under production pressure."
+          }
+        ]
+      },
+      "chunkIndex": [
+        {
+          "chunkId": "chunk-1",
+          "body": "Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries.",
+          "hash": "e682d1799fe102d25f3609129fb2e363f41c4379bbf96687c4c5fa09cf2884d8",
+          "preview": "Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries.",
+          "tokens": [
+            "contract",
+            "session",
+            "validation",
+            "lookups",
+            "must",
+            "not",
+            "panic",
+            "preserve",
+            "index",
+            "bounds",
+            "and",
+            "never",
+            "accept",
+            "expired",
+            "or",
+            "issuer",
+            "mismatched",
+            "entries"
+          ]
+        },
+        {
+          "chunkId": "chunk-2",
+          "body": "Implementation note: replace unchecked indexing with guarded access, propagate Result and Option values, and prove that cache eviction preserves validator invariants.",
+          "hash": "b38f2fcc31202e68feb1ba0fe3f44ef657b5963dd85ecfffa0bd266e704ee1cf",
+          "preview": "Implementation note: replace unchecked indexing with guarded access, propagate Result and Option values, and prove that cache eviction preserves validator invariants.",
+          "tokens": [
+            "implementation",
+            "note",
+            "replace",
+            "unchecked",
+            "indexing",
+            "with",
+            "guarded",
+            "access",
+            "propagate",
+            "result",
+            "and",
+            "option",
+            "values",
+            "prove",
+            "that",
+            "cache",
+            "eviction",
+            "preserves",
+            "validator",
+            "invariants"
+          ]
+        },
+        {
+          "chunkId": "chunk-3",
+          "body": "Verification summary: cargo test passes, cargo creusot prove passes, and the proof logs show no overflow or assertion failures under the contract preconditions.",
+          "hash": "a19a2377844d3fb756a0b2248bc6b26eea63005a7ff29a5d815265c9b52a0ce8",
+          "preview": "Verification summary: cargo test passes, cargo creusot prove passes, and the proof logs show no overflow or assertion failures under the contract preconditions.",
+          "tokens": [
+            "verification",
+            "summary",
+            "cargo",
+            "test",
+            "passes",
+            "creusot",
+            "prove",
+            "and",
+            "the",
+            "proof",
+            "logs",
+            "show",
+            "no",
+            "overflow",
+            "or",
+            "assertion",
+            "failures",
+            "under",
+            "contract",
+            "preconditions"
+          ]
+        },
+        {
+          "chunkId": "chunk-4",
+          "body": "Buyer value: this gives an AI remediation system a proof-backed patch pattern it can reuse under production pressure.",
+          "hash": "70b9e7b4ee7ddefa154f98853c152a84d75981989340f7c01737631b24918eb7",
+          "preview": "Buyer value: this gives an AI remediation system a proof-backed patch pattern it can reuse under production pressure.",
+          "tokens": [
+            "buyer",
+            "value",
+            "this",
+            "gives",
+            "an",
+            "ai",
+            "remediation",
+            "system",
+            "a",
+            "proof",
+            "backed",
+            "patch",
+            "pattern",
+            "it",
+            "can",
+            "reuse",
+            "under",
+            "production",
+            "pressure"
+          ]
+        }
+      ],
+      "metadata": {
+        "citations": [],
+        "authorshipClaim": "self-asserted"
+      }
+    },
+    {
+      "assetId": "asset_token-issuer-incident-escalation-notes_beec06ad04",
+      "title": "Token issuer incident escalation notes",
+      "author": "Avery",
+      "organization": "$ENGI",
+      "tags": [
+        "issuer",
+        "incident-response",
+        "runbook",
+        "escalation"
+      ],
+      "createdAt": "2026-04-02T07:26:37.288Z",
+      "sourceType": "notes",
+      "preview": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit com",
+      "assetRoot": "db8316e7dbc23ffd269a9d4d5acdfd946835f0997630f2358948a4b5ca9c98f1",
+      "verification": {
+        "compileOk": false,
+        "testsOk": true,
+        "proofOk": false
+      },
+      "measurement": {
+        "quantityBp": 5620,
+        "qualityBp": 4970,
+        "valenceBp": 5800,
+        "totalBp": 5391
+      },
+      "privateBlob": {
+        "content": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.\n\nRecovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.\n\nOperator note: most failed recoveries came from restoring schema before restoring validator config.\n\nBuyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed.",
+        "chunks": [
+          {
+            "chunkId": "chunk-1",
+            "body": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.",
+            "hash": "2a826599e0e563d13abb69ff616b4efc27a0d8fb9afcb3c8c316dc70bee0c515",
+            "preview": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint."
+          },
+          {
+            "chunkId": "chunk-2",
+            "body": "Recovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.",
+            "hash": "1387b88e7f862fd2755a459695143a2a8d69c0ced880a45a46e3e50f07fd1173",
+            "preview": "Recovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout."
+          },
+          {
+            "chunkId": "chunk-3",
+            "body": "Operator note: most failed recoveries came from restoring schema before restoring validator config.",
+            "hash": "0ab68e9fad7aed3d362df8434e3f1b62081bf7cc78638fab7f6a0d9a2a5fa31e",
+            "preview": "Operator note: most failed recoveries came from restoring schema before restoring validator config."
+          },
+          {
+            "chunkId": "chunk-4",
+            "body": "Buyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed.",
+            "hash": "1901fafbbf181cb041832a04624473d3c032cdaeb738f92bfba355327bc0a74c",
+            "preview": "Buyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed."
+          }
+        ]
+      },
+      "chunkIndex": [
+        {
+          "chunkId": "chunk-1",
+          "body": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.",
+          "hash": "2a826599e0e563d13abb69ff616b4efc27a0d8fb9afcb3c8c316dc70bee0c515",
+          "preview": "Incident pattern: auth migration changed issuer and audience validation together, which broke older services still pinned to the previous JWKS endpoint.",
+          "tokens": [
+            "incident",
+            "pattern",
+            "auth",
+            "migration",
+            "changed",
+            "issuer",
+            "and",
+            "audience",
+            "validation",
+            "together",
+            "which",
+            "broke",
+            "older",
+            "services",
+            "still",
+            "pinned",
+            "to",
+            "the",
+            "previous",
+            "jwks",
+            "endpoint"
+          ]
+        },
+        {
+          "chunkId": "chunk-2",
+          "body": "Recovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.",
+          "hash": "1387b88e7f862fd2755a459695143a2a8d69c0ced880a45a46e3e50f07fd1173",
+          "preview": "Recovery pattern: split issuer migration from audience migration, ship an explicit compatibility window, and add a runtime audit that rejects mixed config before rollout.",
+          "tokens": [
+            "recovery",
+            "pattern",
+            "split",
+            "issuer",
+            "migration",
+            "from",
+            "audience",
+            "ship",
+            "an",
+            "explicit",
+            "compatibility",
+            "window",
+            "and",
+            "add",
+            "a",
+            "runtime",
+            "audit",
+            "that",
+            "rejects",
+            "mixed",
+            "config",
+            "before",
+            "rollout"
+          ]
+        },
+        {
+          "chunkId": "chunk-3",
+          "body": "Operator note: most failed recoveries came from restoring schema before restoring validator config.",
+          "hash": "0ab68e9fad7aed3d362df8434e3f1b62081bf7cc78638fab7f6a0d9a2a5fa31e",
+          "preview": "Operator note: most failed recoveries came from restoring schema before restoring validator config.",
+          "tokens": [
+            "operator",
+            "note",
+            "most",
+            "failed",
+            "recoveries",
+            "came",
+            "from",
+            "restoring",
+            "schema",
+            "before",
+            "validator",
+            "config"
+          ]
+        },
+        {
+          "chunkId": "chunk-4",
+          "body": "Buyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed.",
+          "hash": "1901fafbbf181cb041832a04624473d3c032cdaeb738f92bfba355327bc0a74c",
+          "preview": "Buyer value: this note shortens on-call diagnosis by telling the reader where prior recoveries actually failed.",
+          "tokens": [
+            "buyer",
+            "value",
+            "this",
+            "note",
+            "shortens",
+            "on",
+            "call",
+            "diagnosis",
+            "by",
+            "telling",
+            "the",
+            "reader",
+            "where",
+            "prior",
+            "recoveries",
+            "actually",
+            "failed"
+          ]
+        }
+      ],
+      "metadata": {
+        "citations": [],
+        "authorshipClaim": "self-asserted"
+      }
+    }
+  ],
+  "licenses": [
+    {
+      "licenseId": "lic_demo-ai-lab_b0ca09a6",
+      "orgId": "demo-ai-lab",
+      "orgName": "Frontier Code Systems",
+      "active": true,
+      "unitsRemaining": 700,
+      "createdAt": "2026-04-02T07:26:37.289Z",
+      "mode": "private_bundle"
+    },
+    {
+      "licenseId": "lic_engi-internal_b59ca9f8",
+      "orgId": "engi-internal",
+      "orgName": "ENGI Internal",
+      "active": true,
+      "unitsRemaining": 1500,
+      "createdAt": "2026-04-02T07:26:37.289Z",
+      "mode": "private_bundle"
+    }
+  ],
+  "receipts": [
+    {
+      "type": "utility",
+      "receiptId": "rct_d28b1e5aa35a",
+      "bundleId": "bundle_40312eb757b6",
+      "benchmark": "production-auth-remediation",
+      "baselineBp": 4200,
+      "treatmentBp": 6700,
+      "upliftBp": 2500,
+      "issuedAt": "2026-04-02T17:53:04.419Z",
+      "receiptHash": "8e8f8cad3670181c90660d5c1c42c83cade4d0f47a44a918e9b24f5306ab8f28"
+    },
+    {
+      "type": "bundle_issuance",
+      "receiptId": "rct_79b4211def22",
+      "bundleId": "bundle_40312eb757b6",
+      "bundleRoot": "27d93e8a9a1acd097ef24ce73fc40b7dc70caeabe0c2741f5ee877aad1997e95",
+      "issuedAt": "2026-04-02T17:51:40.204Z",
+      "orgId": "demo-ai-lab",
+      "orgName": "Frontier Code Systems",
+      "queryHash": "5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e",
+      "meteredUnits": 100,
+      "assetIds": [
+        "asset_asdff_4fe1a68e5b"
+      ],
+      "chunkRefs": [
+        {
+          "assetId": "asset_asdff_4fe1a68e5b",
+          "chunkId": "chunk-1",
+          "chunkHash": "5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e",
+          "scoreBp": 3976,
+          "contributionBp": 10000
+        }
+      ],
+      "receiptHash": "e824295229c91affc1f721a9f18d9ec647a9324401da85eafe4d9fb50ef3a5d2"
+    },
+    {
+      "type": "allocation",
+      "receiptId": "rct_0bd6dbfd0499",
+      "bundleId": "bundle_40312eb757b6",
+      "issuedAt": "2026-04-02T17:51:40.204Z",
+      "totalUnits": 100,
+      "allocations": [
+        {
+          "assetId": "asset_asdff_4fe1a68e5b",
+          "author": "asdff",
+          "units": 100,
+          "contributionBp": 10000
+        }
+      ],
+      "receiptHash": "7db536f247fc30509ce13b2422417e4eb8cdb4e6703ba5ceb9f13448084c36ec"
+    },
+    {
+      "type": "bundle_issuance",
+      "receiptId": "rct_846bc06c5a34",
+      "bundleId": "bundle_7f19e3a1965f",
+      "bundleRoot": "27d93e8a9a1acd097ef24ce73fc40b7dc70caeabe0c2741f5ee877aad1997e95",
+      "issuedAt": "2026-04-02T17:51:19.889Z",
+      "orgId": "demo-ai-lab",
+      "orgName": "Frontier Code Systems",
+      "queryHash": "5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e",
+      "meteredUnits": 100,
+      "assetIds": [
+        "asset_asdff_4fe1a68e5b"
+      ],
+      "chunkRefs": [
+        {
+          "assetId": "asset_asdff_4fe1a68e5b",
+          "chunkId": "chunk-1",
+          "chunkHash": "5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e",
+          "scoreBp": 3976,
+          "contributionBp": 10000
+        }
+      ],
+      "receiptHash": "709cc28e0be346b59b3d70e0ac7604d1220788f0e55e30e02eadcb71b593ec13"
+    },
+    {
+      "type": "allocation",
+      "receiptId": "rct_a5ec76205e56",
+      "bundleId": "bundle_7f19e3a1965f",
+      "issuedAt": "2026-04-02T17:51:19.890Z",
+      "totalUnits": 100,
+      "allocations": [
+        {
+          "assetId": "asset_asdff_4fe1a68e5b",
+          "author": "asdff",
+          "units": 100,
+          "contributionBp": 10000
+        }
+      ],
+      "receiptHash": "1ba6b24a790eb5dd78247b34c6bcd7db3567ad7ac7e3e5130301e2c1555c9954"
+    },
+    {
+      "type": "deposit",
+      "receiptId": "dep_asset_asdff_4fe1a68e5b",
+      "assetId": "asset_asdff_4fe1a68e5b",
+      "title": "asdff",
+      "author": "asdff",
+      "assetRoot": "27d93e8a9a1acd097ef24ce73fc40b7dc70caeabe0c2741f5ee877aad1997e95",
+      "issuedAt": "2026-04-02T17:50:52.375Z",
+      "receiptHash": "28d714089ff56f80440487531f5d98d92885f3b8df5895d7f875bcafb1eaaf7b"
+    },
+    {
+      "type": "deposit",
+      "receiptId": "dep_asset_asdf_1ab113ac06",
+      "assetId": "asset_asdf_1ab113ac06",
+      "title": "asdf",
+      "author": "asdf",
+      "assetRoot": "7624e1f89ce009f8ec7e6e39781a42c0a27fa38f94db4f05f78b0f301007e06a",
+      "issuedAt": "2026-04-02T17:47:03.583Z",
+      "receiptHash": "5b8d5b35a64ec8660c6ba2cef5c9f20102b6d34c2fca4db572fea3eaaddeefab"
+    },
+    {
+      "type": "deposit",
+      "receiptId": "dep_asset_a_415379415e",
+      "assetId": "asset_a_415379415e",
+      "title": "a",
+      "author": "a",
+      "assetRoot": "da3811154d59c4267077ddd8bb768fa9b06399c486e1fc00485116b57c9872f5",
+      "issuedAt": "2026-04-02T07:26:42.952Z",
+      "receiptHash": "1efd4a4bb838550ddc3a668ff7bf58d3df0fd0da54f88198a6d9aeef7b093852"
+    }
+  ],
+  "balances": {
+    "Garrett": 0,
+    "Eve": 0,
+    "Avery": 0,
+    "a": 0,
+    "asdf": 0,
+    "asdff": 200
+  },
+  "utilityLedger": {
+    "bundle_40312eb757b6": {
+      "benchmark": "production-auth-remediation",
+      "upliftBp": 2500,
+      "comparison": {
+        "bundleId": "bundle_40312eb757b6",
+        "benchmark": "production-auth-remediation",
+        "task": "Recover a production monorepo auth migration with issuer mismatch while preserving session validity and rollback safety.",
+        "baselineBp": 4200,
+        "treatmentBp": 6700,
+        "upliftBp": 2500,
+        "baselineOutcome": "Without the licensed bundle, the remediation system proposes a generic rollback that misses issuer compatibility sequencing and audit guardrails.",
+        "treatmentOutcome": "With the licensed bundle, the remediation system restores verifier configuration in the right order, preserves session invariants, and emits the expected audit steps.",
+        "whyItHelped": "The licensed bundle supplied specific rollback sequencing, issuer-mismatch diagnosis, and proof-backed validator patch guidance that the baseline system lacked.",
+        "businessImpact": "Higher confidence incident recovery, faster safe rollback, and lower risk of shipping an auth fix that breaks live sessions.",
+        "interpretation": "Licensed bundle improved the reader system's remediation performance on the target task.",
+        "checks": [
+          "same task family",
+          "baseline without licensed bundle",
+          "treatment with licensed bundle",
+          "scored in basis points for simple comparability"
+        ]
+      },
+      "updatedAt": "2026-04-02T17:53:04.419Z"
+    }
+  }
+}
