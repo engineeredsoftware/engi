@@ -80,6 +80,10 @@ Important line:
 
 > The need descriptor is a measured object, not just a text box.
 
+Operator note:
+
+> Keep the demo in **Visual** mode by default so people can follow the story, then flip any artifact to **Raw** when you want to prove the exact JSON contract.
+
 ---
 
 ### 2. Candidate recall and hybrid matching
@@ -171,6 +175,10 @@ Point out artifacts such as:
 Important line:
 
 > The branch artifact set is the inspectable remediation package, not just a hidden internal state blob.
+
+Operator note:
+
+> Every major artifact card now shares the same Visual|Raw toggle, so you can move fluidly between human legibility and exact machine-facing structure.
 
 ---
 

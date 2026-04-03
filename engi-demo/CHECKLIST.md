@@ -18,6 +18,7 @@ npm start
 - [ ] Confirm the hero says **Spec V7**
 - [ ] Confirm the primary CTA is **Make ENGI branch**
 - [ ] Confirm no stale V6/query-era language is visible in the main flow
+- [ ] Confirm JSON-heavy surfaces default to **Visual** mode and can be flipped to **Raw**
 
 ---
 

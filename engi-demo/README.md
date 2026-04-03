@@ -54,6 +54,7 @@ All of those surfaces are represented deterministically in local state.
 - Measurement provenance distinguishes static deterministic analysis from inferred evaluator surfaces.
 - Structured telemetry artifacts (`.engi/unit-catalog.json`, `.engi/pipeline-telemetry.json`) explain the live pipeline during demos.
 - Proof bundles now include prompt/evaluator implementation surfaces alongside the existing settlement / policy / identity proofs.
+- Every JSON-heavy demo surface now supports a reusable **Visual | Raw** presentation mode. Visual is the default for readability; Raw preserves the exact pretty-printed artifact JSON for inspection/debugging.
 
 ## Run
 
