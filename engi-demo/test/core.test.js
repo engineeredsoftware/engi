@@ -4,6 +4,8 @@ import {
   canonicalJson,
   buildInitialState,
   buildNeedDescriptor,
+  buildPromptContract,
+  assertPromptContractComplete,
   measureNeedFromScenario,
   recallCandidates,
   evaluateCandidates,
@@ -28,14 +30,14 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   assert.ok(state.ledger.accounts['buyer:frontier-code-systems:license_pool']);
 });
 
-test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V8 derivation closure', () => {
+test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V9 derivation closure', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
 
   assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
   assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
   assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
-  assert.equal(need.conformanceProfile, 'Profile A — local deterministic V8 prototype');
+  assert.equal(need.conformanceProfile, 'Profile A — local deterministic V9 prototype');
   assert.equal(need.productionIntentProfile, 'Profile B — GitHub/App and external production boundary');
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
@@ -53,6 +55,10 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.match(measurement.promptSurfaces[0].interpolatedPrompt, /frontier\/demo-auth/);
   assert.ok(measurement.promptSurfaces[0].contextInputs.length >= 3);
   assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.engi/need.json'));
+  assert.equal(measurement.promptCompletenessProof.allContractsComplete, true);
+  assert.ok(measurement.promptContracts.every((contract) => contract.completeness.ok));
+  assert.ok(measurement.staticExecutionReceipts.length >= 2);
+  assert.ok(measurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.length >= 1));
 });
 
 test('measureNeedFromScenario fails closed when canonical benchmark outputs are malformed', () => {
@@ -70,6 +76,40 @@ test('measureNeedFromScenario fails closed when canonical benchmark outputs are 
   };
 
   assert.throws(() => measureNeedFromScenario(brokenScenario), /parser validation failed/i);
+});
+
+test('prompt contracts fail deterministically on missing placeholder bindings', () => {
+  const promptContract = buildPromptContract({
+    promptId: 'test.prompt.mismatch',
+    templateVersion: 'spec-v9-demo-prompt.v1',
+    template: 'Repo {{repo}} branch {{baseRef}}',
+    contextInputs: [
+      { field: 'repo', value: 'frontier/demo-auth', source: 'test' }
+    ],
+    outputFields: ['task'],
+    downstreamArtifacts: ['.engi/need.json']
+  });
+
+  assert.equal(promptContract.completeness.ok, false);
+  assert.deepEqual(promptContract.missingPlaceholderBindings, ['baseRef']);
+  assert.throws(() => assertPromptContractComplete(promptContract), /prompt completeness failed/i);
+});
+
+test('prompt contracts require non-rendered context to be declared explicitly', () => {
+  const promptContract = buildPromptContract({
+    promptId: 'test.prompt.nonrendered',
+    templateVersion: 'spec-v9-demo-prompt.v1',
+    template: 'Repo {{repo}}',
+    contextInputs: [
+      { field: 'repo', value: 'frontier/demo-auth', source: 'test' },
+      { field: 'repoPrivacy', value: 'private', source: 'test' }
+    ],
+    outputFields: ['task'],
+    downstreamArtifacts: ['.engi/need.json']
+  });
+
+  assert.equal(promptContract.completeness.ok, false);
+  assert.deepEqual(promptContract.unusedContextFields, ['repoPrivacy']);
 });
 
 test('makeCandidateAsset creates spec-shaped candidate asset with content units', () => {
@@ -101,11 +141,11 @@ test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embed
   });
 
   const unit = asset.contentUnits[0];
-  assert.ok(unit.extracted.symbols.includes('SessionValidator'));
-  assert.ok(unit.extracted.paths.includes('services/auth/session_validator.rs'));
-  assert.ok(unit.extracted.configKeys.includes('auth.issuer.compatibility.window'));
-  assert.ok(unit.extracted.stackTags.includes('node'));
-  assert.ok(unit.extracted.stackTags.includes('jwt'));
+  assert.ok(unit.codeAnalysisFacts.symbols.includes('SessionValidator'));
+  assert.ok(unit.codeAnalysisFacts.paths.includes('services/auth/session_validator.rs'));
+  assert.ok(unit.codeAnalysisFacts.configKeys.includes('auth.issuer.compatibility.window'));
+  assert.ok(unit.codeAnalysisFacts.stackTags.includes('node'));
+  assert.ok(unit.codeAnalysisFacts.stackTags.includes('jwt'));
   assert.equal(unit.embeddings.taskVector.spec.vectorSpace, 'task-semantic-space.v8');
   assert.equal(unit.embeddings.taskVector.spec.standIn, true);
   assert.ok(asset.uploadSurface.surfaces.some((surface) => surface.role === 'raw'));
@@ -135,7 +175,7 @@ test('evaluateCandidates separates ranking from verification and produces use ti
   assert.ok(evaluated[0].ranking.benchmarkImpact.finalScore > 0);
   assert.ok(evaluated[0].ranking.actionability.finalScore > 0);
   assert.ok(evaluated[0].ranking.wholeAssetNeedScore > 0);
-  assert.ok(evaluated[0].ranking.explainability.strongestSignals.length >= 3);
+  assert.ok(evaluated[0].ranking.explainability.strongestScoreDrivers.length >= 3);
   assert.ok(evaluated[0].ranking.scoreGroups.needMatch.sequence.length >= 4);
   assert.ok(evaluated[0].ranking.scoreGroups.benchmarkImpact.sequence.length >= 3);
   assert.ok(evaluated.some((candidate) => candidate.useTier === 'settlement-eligible'));
@@ -275,16 +315,21 @@ test('runMakeEngiBranch materializes prompt surfaces, external boundary manifest
   assert.ok(latestRun.branchArtifacts.files['.engi/external-boundary-manifest.json']);
 });
 
-test('system proof bundle includes measurement, selection, identity, data-flow, and settlement proofs', () => {
+test('system proof bundle includes prompt, measurement, verification, materialization, and settlement witnesses', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
   const proof = latestRun.systemProofBundle;
 
   assert.ok(proof.assetMeasurementProofs.length >= 1);
+  assert.equal(proof.promptCompletenessProof.allContractsComplete, true);
+  assert.equal(proof.staticMeasurementProof.allReceiptRefsResolve, true);
   assert.equal(proof.selectionConsistencyProof.allSelectedAssetsRespectUseTier, true);
+  assert.equal(proof.materializationVisibilityProof.allSelectedAssetsHaveMaterializedSourceBindings, true);
   assert.equal(proof.identityAuthorizationProof.allStateChangingActionsAuthorized, true);
   assert.equal(proof.sensitiveDataFlowProof.requiredSensitiveClassesCovered, true);
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
+  assert.ok(proof.verificationReceiptsArtifact.verificationReceipts.length >= 4);
+  assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 5);
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
   assert.ok(proof.proofContract.contractId.startsWith('proof_contract_'));
   assert.ok(proof.promptImplementationSurface.promptLineage.length >= 1);
@@ -301,7 +346,7 @@ test('authorization decisions and policy release are persisted on latest run', (
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'settle:journal-event' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
-  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic V8 prototype');
+  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic V9 prototype');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
   assert.ok(latestRun.githubBoundarySurface.profileBBoundary.includes('GitHub App'));
   assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
@@ -313,8 +358,11 @@ test('policy release artifact classes cover verification, authz, and sensitive-d
   const artifactPaths = latestRun.policyRelease.artifactClasses.map((entry) => entry.path);
 
   assert.ok(artifactPaths.includes('.engi/verification-report.json'));
+  assert.ok(artifactPaths.includes('.engi/verification-receipts.json'));
   assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
   assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
+  assert.ok(artifactPaths.includes('.engi/code-analysis-fact-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/static-measurement-proof.json'));
 });
 
 test('eval manifest codifies evaluator interfaces and stand-in boundaries', () => {
@@ -410,10 +458,10 @@ test('ENGI_NEED markdown includes parser contract, conformance profiles, and set
   assert.match(markdown, /raw share asset count/);
   assert.match(markdown, /zero-credit settlement asset count/);
   assert.match(markdown, /github-actions.auth-remediation.v3/);
-  assert.match(markdown, /Profile A — local deterministic V8 prototype/);
+  assert.match(markdown, /Profile A — local deterministic V9 prototype/);
 });
 
-test('publicState returns public projection including latest run, parser metadata, and profile labels', () => {
+test('publicState returns public projection including bounded public proof and profile labels', () => {
   const state = buildInitialState();
   const { nextState } = runMakeEngiBranch(state, {});
   const projected = publicState(nextState);
@@ -421,12 +469,45 @@ test('publicState returns public projection including latest run, parser metadat
   assert.equal(projected.assets.length, 3);
   assert.ok(projected.latestRun.need.needId);
   assert.ok(projected.latestRun.assetPack.assetPackId);
+  assert.equal(projected.latestRun.projectionPrincipal, 'public');
+  assert.ok(projected.latestRun.boundedPublicProof.bundleId);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/redaction-proof.json']);
+  assert.equal(projected.latestRun.authorizationDecisions, undefined);
+  assert.equal(projected.latestRun.journalDiff, undefined);
   assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic V8 prototype');
-  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic V8 prototype');
-  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v8-demo-2026-04-03');
+  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic V9 prototype');
+  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic V9 prototype');
+  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v9-demo-2026-04-03');
   assert.ok(projected.profileCompositions.profiles.length === 2);
   assert.ok(projected.runHistory.length, 1);
+});
+
+test('buyer projection exposes richer artifacts without raw branch files or source material', () => {
+  const state = buildInitialState();
+  const { nextState } = runMakeEngiBranch(state, {});
+  const projected = publicState(nextState, 'buyer');
+
+  assert.equal(projected.latestRun.projectionPrincipal, 'buyer');
+  assert.ok(projected.latestRun.verificationReport.assetVerification.length >= 1);
+  assert.ok(projected.latestRun.verificationReceipts.verificationReceipts.length >= 4);
+  assert.ok(projected.latestRun.codeAnalysisFactRegistry.registeredFactCount >= 10);
+  assert.ok(projected.latestRun.promptContracts.length >= 4);
+  assert.ok(projected.latestRun.measurementReceipts.length >= 3);
+  assert.equal(projected.latestRun.branchArtifacts.files, undefined);
+});
+
+test('measurement receipts and static report stay linked to provenance ids', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+  const receiptIds = new Set(latestRun.measurementReceipts.map((receipt) => receipt.receiptId));
+
+  assert.ok(latestRun.measurementReceipts.length >= 3);
+  assert.equal(latestRun.staticMeasurementReport.allReceiptRefsResolve, true);
+  assert.equal(latestRun.staticMeasurementProof.allReceiptRefsResolve, true);
+  assert.equal(latestRun.codeAnalysisFactRegistry.audit.allConsumedFactsRegistered, true);
+  assert.ok(latestRun.needMeasurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.every((receiptId) => receiptIds.has(receiptId))));
+  assert.ok(latestRun.evaluatedCandidates.some((candidate) => candidate.measurementProvenance.some((entry) => entry.receiptRefs.some((receiptId) => receiptIds.has(receiptId)))));
 });
 
 test('deliverables manifest and journal receipts remain internally consistent', () => {
@@ -436,6 +517,7 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/settlement-proof.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/authorization-decisions.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/sensitive-data-flow.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/proof-witness-manifest.json'));
   assert.equal(latestRun.journalDiff.receipts.length, 2);
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));
   assert.equal(latestRun.systemProofBundle.settlementProof.theoremChecks.stateRootIntegrity, true);
@@ -450,6 +532,8 @@ test('verification report records branch-mode rights per use tier', () => {
   assert.ok(contextOnly);
   assert.equal(contextOnly.rights.branchMaterializationAllowed, false);
   assert.equal(contextOnly.rights.settlementAllowed, false);
+  assert.ok(contextOnly.receiptRefs.length >= 4);
+  assert.ok(Array.isArray(contextOnly.policyRestrictions.additionalRequirements));
 });
 
 test('runMakeEngiBranch fails if no settlement-eligible assets exist', () => {

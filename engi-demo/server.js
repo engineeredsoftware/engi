@@ -107,8 +107,10 @@ export function createAppContext({
 
   async function handle(req, res) {
     try {
-      if (req.method === 'GET' && req.url === '/api/state') {
-        return sendJson(res, 200, buildPublicState(readState()));
+      if (req.method === 'GET' && req.url?.startsWith('/api/state')) {
+        const url = new URL(req.url, 'http://127.0.0.1');
+        const principal = url.searchParams.get('principal') || undefined;
+        return sendJson(res, 200, buildPublicState(readState(), principal));
       }
 
       if (req.method === 'POST' && req.url === '/api/deposits') {
@@ -156,10 +158,11 @@ export function createAppContext({
           branchMode: body.branchMode
         });
         writeState(nextState);
+        const principal = body.principal || undefined;
         return sendJson(res, 200, {
           ok: true,
           specVersion: SPEC_VERSION,
-          latestRun,
+          latestRun: buildPublicState({ ...nextState, latestRun }, principal).latestRun,
           ledger: nextState.ledger,
           runHistory: nextState.runHistory
         });

@@ -535,7 +535,7 @@ function renderEvaluationVisual(item) {
   const verification = item.verification || {};
   const sufficiency = verification.verificationSufficiency || {};
   const rights = item.rights || {};
-  const strongestSignals = item.ranking?.explainability?.strongestSignals || [];
+  const strongestScoreDrivers = item.ranking?.explainability?.strongestScoreDrivers || [];
   const penalties = item.ranking?.rankingPenalties || [];
 
   return `
@@ -551,7 +551,7 @@ function renderEvaluationVisual(item) {
             <span class="badge">score ${escapeHtml(item.ranking.finalRankingScore)}</span>
           </div>
         </div>
-        <p>${escapeHtml((strongestSignals[0]?.label || 'Top signal') + (strongestSignals[0] ? `: ${strongestSignals[0].value}` : ''))}</p>
+        <p>${escapeHtml((strongestScoreDrivers[0]?.label || 'Top driver') + (strongestScoreDrivers[0] ? `: ${strongestScoreDrivers[0].value}` : ''))}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Need match', scoreBar(item.ranking.needMatch.finalScore), 'metric', { html: true })}
@@ -568,7 +568,7 @@ function renderEvaluationVisual(item) {
             ${kvRow('Recall channels', formatList((item.recall?.fusion?.contributingChannels || []).map((entry) => entry.channelId || entry)), { html: true })}
             ${kvRow('Artifact type', item.uploadSurface?.artifactType || item.artifactType || '—')}
           </div>
-          <div class="badge-row">${strongestSignals.map((signal) => `<span class="badge">${escapeHtml(signal.label)} ${escapeHtml(signal.value)}</span>`).join(' ') || '<span class="meta">No strongest signals recorded.</span>'}</div>
+          <div class="badge-row">${strongestScoreDrivers.map((signal) => `<span class="badge">${escapeHtml(signal.label)} ${escapeHtml(signal.value)}</span>`).join(' ') || '<span class="meta">No strongest score drivers recorded.</span>'}</div>
         </div>
         <div class="section-card">
           <div class="section-head"><h4>Verification + rights</h4><span class="badge">Use-tier gate</span></div>
@@ -613,6 +613,8 @@ function renderVerificationReportVisual(report) {
               ${kvRow('Issuance verification', entry.issuanceVerification?.status || entry.issuanceVerification?.testsPassed || 'see raw')}
               ${kvRow('Provenance verification', entry.provenanceVerification?.status || 'see raw')}
               ${kvRow('Recommended use tier', statusBadge(entry.verificationSufficiency?.recommendedUseTier), { html: true })}
+              ${kvRow('Verification receipts', formatCount((entry.receiptRefs || []).length, 'receipt'))}
+              ${kvRow('Policy tier cap', statusBadge(entry.policyRestrictions?.policyTierCap || entry.issuerPolicyStatus?.policyTierCap), { html: true })}
               ${kvRow('Settlement allowed', boolBadge(entry.rights?.settlementAllowed, 'Allowed', 'Blocked'), { html: true })}
             </div>
             <div class="badge-row">${chipList(entry.verificationSufficiency?.reasons || [], 'warn')}</div>
@@ -1080,12 +1082,12 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">V8 keeps the visual read first, but now also makes profile composition, recall-channel hand-offs, and GitHub/Profile-B boundaries explicit without hiding raw JSON.</p>
+      <p class="meta">V9 keeps the visual read first, but now also proves prompt completeness, static measurement receipts, and projection enforcement without hiding the buyer-safe JSON view.</p>
     </div>
     ${renderJsonSurface({
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'V8 artifact',
+      eyebrow: 'V9 artifact',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       data: source,
       visual: renderNeedVisual,
@@ -1094,7 +1096,7 @@ function renderScenario(state) {
     ${renderJsonSurface({
       title: 'Profile composition + demo semantics',
       subtitle: 'Why Profile A is live here and Profile B is not switchable in-demo',
-      eyebrow: 'V8 artifact',
+      eyebrow: 'V9 artifact',
       help: 'Profile A is implemented locally in this repo. Profile B is specified as an external boundary and intentionally not faked.',
       data: state.profileCompositions || state.conformanceProfiles?.profileCompositions || {},
       visual: renderProfileCompositionVisual,
@@ -1104,7 +1106,7 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'V8 makes prompts first-class: the operator can inspect the template, the exact interpolated context, and which artifacts consume each output.',
+      help: 'V9 keeps prompts first-class and now adds explicit completeness proofing, contract hashes, and downstream artifact bindings.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
@@ -1153,7 +1155,7 @@ function renderEvaluations(state) {
     ${verificationReport ? renderJsonSurface({
       title: 'Verification report',
       subtitle: 'Ranking is separate from verification and rights propagation',
-      eyebrow: 'V8 artifact',
+      eyebrow: 'V9 artifact',
       help: 'Visual mode emphasizes allowed downstream use rather than making you read a wall of nested booleans.',
       data: verificationReport,
       visual: renderVerificationReportVisual,
@@ -1252,6 +1254,38 @@ function renderBranchArtifacts(state) {
       accent: 'accent-purple'
     },
     {
+      title: 'Code analysis fact registry',
+      subtitle: '.engi/code-analysis-fact-registry.json',
+      data: run.codeAnalysisFactRegistry,
+      raw: branchFiles['.engi/code-analysis-fact-registry.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-blue'
+    },
+    {
+      title: 'Verification receipts',
+      subtitle: '.engi/verification-receipts.json',
+      data: run.verificationReceipts,
+      raw: branchFiles['.engi/verification-receipts.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-orange'
+    },
+    {
+      title: 'Static measurement proof',
+      subtitle: '.engi/static-measurement-proof.json',
+      data: run.staticMeasurementProof,
+      raw: branchFiles['.engi/static-measurement-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Proof witness manifest',
+      subtitle: '.engi/proof-witness-manifest.json',
+      data: run.proofWitnessManifest,
+      raw: branchFiles['.engi/proof-witness-manifest.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
       title: 'External boundary manifest',
       subtitle: '.engi/external-boundary-manifest.json',
       data: run.externalBoundaryManifest,
@@ -1308,7 +1342,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V8 demo. Identity/signer, GitHub boundary, artifact-upload, policy, and settlement surfaces are now deliberately separated for legibility.</p>
+      <p class="meta">This is the artifact-heavy heart of the V9 demo. The buyer projection can inspect rich private-safe artifacts, but raw source material and unrestricted branch files remain withheld by projection policy.</p>
     </div>
     ${artifactDefs.map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -1411,7 +1445,7 @@ function renderLedger(state) {
 
 async function refresh() {
   surfaceCounter = 0;
-  const state = await api('/api/state');
+  const state = await api('/api/state?principal=buyer');
   renderSummary(state);
   renderScenario(state);
   renderAssets(state);
@@ -1440,9 +1474,9 @@ document.addEventListener('click', (event) => {
 document.getElementById('makeBranchButton').addEventListener('click', async () => {
   try {
     setStatus('Measuring need, ranking candidates, staging branch artifacts, and settling journal diff…');
-    const result = await api('/api/make-engi-branch', { method: 'POST', body: '{}' });
+    const result = await api('/api/make-engi-branch', { method: 'POST', body: JSON.stringify({ principal: 'buyer' }) });
     await refresh();
-    setStatus(`Created ${result.latestRun.branchArtifacts.branchName} and settled bundle ${result.latestRun.journalDiff.bundleId}.`);
+    setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
   } catch (error) {
     setStatus(error.message);
   }
@@ -1452,7 +1486,7 @@ document.getElementById('resetButton').addEventListener('click', async () => {
   try {
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to seeded Spec V8 scenario.');
+    setStatus('Demo reset to seeded Spec V9 scenario.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -1487,7 +1521,7 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
 });
 
 refresh().then(() => {
-  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V8 prototype flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V9 closure flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });
