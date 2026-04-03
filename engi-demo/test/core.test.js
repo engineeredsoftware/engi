@@ -12,7 +12,7 @@ import {
   runMakeEngiBranch,
   makeCandidateAsset,
   METERED_MICRO_UNITS
-} from '../src/spec-v7-demo.js';
+} from '../src/engi-demo.js';
 
 test('canonicalJson is stable across key order', () => {
   const a = { b: 2, a: 1, c: { y: 2, x: 1 } };
@@ -365,6 +365,29 @@ test('settlement preview records participating assets and asset-pack-lock bindin
   assert.equal(latestRun.settlementPreview.assetPackLockHash, latestRun.systemProofBundle.settlementProof.assetPackLockHash);
 });
 
+test('seeded settlement explicitly distinguishes selected, participating, and credited assets', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.deepEqual(
+    latestRun.settlementPreview.selectedAssetIds.slice().sort(),
+    latestRun.assetPack.selectedAssets.slice().sort()
+  );
+  assert.equal(latestRun.settlementPreview.settlementParticipatingAssetIds.length, 2);
+  assert.deepEqual(
+    latestRun.settlementPreview.creditedAssetIds,
+    latestRun.journalDiff.credits.filter((entry) => BigInt(entry.delta) > 0n).map((entry) => entry.assetId)
+  );
+  assert.deepEqual(
+    latestRun.settlementPreview.zeroCreditAssetIds,
+    latestRun.journalDiff.credits.filter((entry) => BigInt(entry.delta) === 0n).map((entry) => entry.assetId)
+  );
+  assert.ok(latestRun.settlementPreview.zeroCreditAssetIds.length >= 1);
+  const zeroAllocation = latestRun.settlementPreview.allocations.find((entry) => entry.assetId === latestRun.settlementPreview.zeroCreditAssetIds[0]);
+  assert.equal(zeroAllocation.creditedMicroUnits, '0');
+  assert.match(zeroAllocation.rationale.join(' '), /marginal bundle contribution was non-positive/i);
+});
+
 test('telemetry artifacts explain the V8 pipeline and prompt implementation surface', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
@@ -385,6 +408,7 @@ test('ENGI_NEED markdown includes parser contract, conformance profiles, and set
   assert.match(markdown, /Benchmark parser contract/);
   assert.match(markdown, /Conformance profiles/);
   assert.match(markdown, /raw share asset count/);
+  assert.match(markdown, /zero-credit settlement asset count/);
   assert.match(markdown, /github-actions.auth-remediation.v3/);
   assert.match(markdown, /Profile A — local deterministic V8 prototype/);
 });

@@ -1,4 +1,4 @@
-# ENGI Demo Script — Short Version (Spec V7)
+# ENGI Demo Script — Short Version (Spec V8)
 
 Use this when you want the cleanest possible live explanation in ~90 seconds.
 
@@ -12,7 +12,7 @@ ENGI measures a GitHub-bound engineering need, matches the right technical intel
 
 ## 90-second script
 
-> This demo shows ENGI as a Spec V7 deterministic prototype.
+> This demo shows ENGI as a Spec V8 deterministic prototype.
 >
 > A buyer has a concrete GitHub-bound auth rollback incident with benchmark evidence from GitHub Actions. ENGI first normalizes that evidence into a measured need descriptor instead of treating the task as a loose prompt.
 >
@@ -46,7 +46,7 @@ ENGI measures a GitHub-bound engineering need, matches the right technical intel
 - Repo: `frontier/demo-auth`
 - Scenario: auth issuer rollback / migration recovery
 - Expected strongest asset: `Enterprise auth migration rollback playbook`
-- V7-specific artifacts to mention if asked:
+- V8-specific artifacts to mention if asked:
   - `.engi/unit-catalog.json`
   - `.engi/pipeline-telemetry.json`
   - `.engi/policy-release.json`

@@ -1,6 +1,6 @@
-# ENGI Demo Script — Spec V7
+# ENGI Demo Script — Spec V8
 
-This is the live presentation / interactive QA script for the current ENGI V7 deterministic prototype.
+This is the live presentation / interactive QA script for the current ENGI V8 deterministic prototype.
 
 ---
 
@@ -12,7 +12,7 @@ ENGI measures a GitHub-bound engineering need, matches the right technical intel
 
 ## What this demo is
 
-This demo is **Profile A — local deterministic prototype** behavior for ENGI Spec V7.
+This demo is **Profile A — local deterministic prototype** behavior for ENGI Spec V8.
 
 It is meant to demonstrate:
 - need measurement from GitHub-bound benchmark evidence,
@@ -41,10 +41,10 @@ Say something like:
 
 > ENGI is a system for turning engineering knowledge into an inspectable remediation pipeline.
 >
-> In Spec V7, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound need, selecting the right technical intelligence supply for that need, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
+> In Spec V8, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound need, selecting the right technical intelligence supply for that need, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
 
 Then point out:
-- Spec V7
+- Spec V8
 - Profile A / Profile B framing
 - the seeded GitHub-bound auth rollback scenario
 
@@ -182,7 +182,7 @@ Operator note:
 
 ---
 
-### 5. Telemetry and advanced V7 surfaces
+### 5. Telemetry and advanced V8 surfaces
 
 #### Where to look
 
@@ -192,7 +192,7 @@ Operator note:
 
 #### What to say
 
-> V7 adds stronger interface codification around unitization, semantics, embeddings, evaluator surfaces, and telemetry.
+> V8 adds stronger interface codification around unitization, semantics, embeddings, evaluator surfaces, and telemetry.
 >
 > So now the demo can show not only what was selected, but how units were derived, what metadata/vector contracts exist, how recall/scoring hand-offs happened, and how those choices fed settlement and proof.
 
@@ -239,7 +239,7 @@ Important line:
 
 > ENGI turns engineering knowledge into a measurable, governable, inspectable remediation pipeline.
 >
-> In this V7 prototype, the system measures a GitHub-bound need, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
+> In this V8 prototype, the system measures a GitHub-bound need, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
 
 ---
 
@@ -249,7 +249,7 @@ Use this sequence when verifying the demo live:
 
 1. open the app
 2. reset seeded state
-3. confirm Profile A + Spec V7 labels
+3. confirm Profile A + Spec V8 labels
 4. confirm the auth rollback scenario
 5. click **Make ENGI branch**
 6. inspect evaluated candidates
@@ -266,7 +266,7 @@ Use this sequence when verifying the demo live:
 - Repo: `frontier/demo-auth`
 - Scenario: auth issuer rollback / migration recovery
 - Expected strongest asset: `Enterprise auth migration rollback playbook`
-- Important V7-only surfaces:
+- Important V8-only surfaces:
   - field derivations
   - use-tier rights
   - asset-pack-lock closure
@@ -286,5 +286,5 @@ Do **not** present the current demo as:
 - a real external proof-publication system.
 
 Present it as:
-- a **Spec V7 Profile A deterministic prototype**
+- a **Spec V8 Profile A deterministic prototype**
 - with strong codification of the production-facing hand-offs and artifact contracts.

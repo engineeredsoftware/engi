@@ -1,10 +1,10 @@
-# ENGI Demo — Spec V7 Deterministic Local Prototype
+# ENGI Demo — Spec V8 Deterministic Local Prototype
 
-This demo now tracks the Spec V7 core flow much more closely:
+This demo now tracks the Spec V8 core flow closely:
 
 1. parse mocked GitHub Actions evidence through a declared benchmark parser contract and build a `GitHubNeedDescriptor`,
 2. model hybrid candidate recall across task, failure-mode, technical-context, lexical, symbol, path, config, and artifact-kind channels,
-3. rank deposited candidate assets with explicit Spec V7 subscores, explainability traces, and penalties,
+3. rank deposited candidate assets with explicit Spec V8 score groups, explainability traces, and penalties,
 4. apply separate verification determinisms, issuer policy, and downstream use-tier propagation,
 5. assemble a locked `AssetPack` plus selected source-material manifest,
 6. stage a private remediation branch artifact set with deliverable metadata, authorization decisions, and sensitive-data-flow records,
@@ -13,7 +13,7 @@ This demo now tracks the Spec V7 core flow much more closely:
 
 ## What this prototype is
 
-A deterministic, local, no-dependency Node app that models the V7 Profile A architecture faithfully enough to demo while explicitly labeling Profile B production intent:
+A deterministic, local, no-dependency Node app that models the V8 Profile A architecture faithfully enough to demo while explicitly labeling Profile B production intent:
 
 - need measurement from GitHub-bound benchmark evidence,
 - parser fail-closed behavior and canonical run-evidence normalization,
@@ -48,7 +48,7 @@ All of those surfaces are represented deterministically in local state.
 - `Profile A — local deterministic prototype`: what this repo implements and demos now.
 - `Profile B — production-boundary intent`: live GitHub binding, real branch/privacy/authz enforcement, real embeddings/evaluators/prompts, and external integrations still outside the local prototype boundary.
 
-## Advanced V7 interface notes
+## Advanced V8 interface notes
 
 - Content units now carry explicit semantic/embedding contracts so real embedding providers can replace deterministic stand-ins without changing downstream schemas.
 - Measurement provenance distinguishes static deterministic analysis from inferred evaluator surfaces.
@@ -107,4 +107,5 @@ npm test
 - `ARCHITECTURE_MAP.md` — tight map of the original/current demo architecture baseline
 - `SPEC_V6_GAP_ANALYSIS.md` — earlier gap analysis and implementation guide used for the V6 refactor
 - `SPEC_V6_COVERAGE_MATRIX.md` — durable section-by-section coverage audit against the V6 spec
-- `SPEC_V7_COVERAGE_MATRIX.md` — section-by-section coverage audit against the V7 spec, including V6→V7 deltas and Profile A/Profile B splits
+- `SPEC_V7_COVERAGE_MATRIX.md` — preserved historical coverage audit for the V7 spec and V6→V7 deltas
+- `SPEC_V8_COVERAGE_MATRIX.md` — authoritative audit/design/closure plan for the current V8 demo

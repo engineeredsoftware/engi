@@ -825,6 +825,11 @@ function renderTelemetryVisual(telemetry) {
 }
 
 function renderSettlementPreviewVisual(preview) {
+  const selectedAssetIds = preview.selectedAssetIds || [];
+  const participatingAssetIds = preview.settlementParticipatingAssetIds || [];
+  const creditedAssetIds = preview.creditedAssetIds || [];
+  const zeroCreditAssetIds = preview.zeroCreditAssetIds || [];
+  const allocations = preview.allocations || [];
   return `
     <div class="visual-stack">
       <div class="highlight-card">
@@ -832,22 +837,51 @@ function renderSettlementPreviewVisual(preview) {
           <strong>${escapeHtml(preview.bundleId || 'Settlement preview')}</strong>
           <div class="badge-row">${statusBadge(preview.branchMode)} ${statusBadge(preview.assetPackLockHash ? 'asset-pack-lock bound' : 'unbound')}</div>
         </div>
-        <p class="meta">Need ${escapeHtml(preview.needId || '—')} · ${formatCount((preview.participatingAssets || preview.settlementParticipatingAssetIds || []).length, 'participating asset')}</p>
+        <p class="meta">Need ${escapeHtml(preview.needId || '—')} · ${formatCount(participatingAssetIds.length, 'participating asset')} · ${formatCount(creditedAssetIds.length, 'credited asset')}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Metered micro-units', preview.meteredMicroUnits || '—')}
-        ${metricTile('Participating assets', (preview.settlementParticipatingAssetIds || []).length)}
-        ${metricTile('Preview allocations', (preview.allocations || []).length)}
+        ${metricTile('Selected branch assets', selectedAssetIds.length)}
+        ${metricTile('Settlement participants', participatingAssetIds.length)}
+        ${metricTile('Credited assets', creditedAssetIds.length)}
+        ${metricTile('Zero-credit participants', zeroCreditAssetIds.length, zeroCreditAssetIds.length ? 'warn' : '')}
+      </div>
+      <div class="mini-grid three-up compact-metrics">
+        ${metricTile('Preview allocations', allocations.length)}
         ${metricTile('Lock hash', preview.assetPackLockHash ? truncate(preview.assetPackLockHash, 18) : '—')}
+        ${metricTile('Branch mode', preview.branchMode || '—')}
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Selection semantics</h4><span class="badge">Branch vs settlement</span></div>
+          <div class="kv-grid">
+            ${kvRow('Selected branch assets', formatList(selectedAssetIds), { html: true })}
+            ${kvRow('Settlement participants', formatList(participatingAssetIds), { html: true })}
+            ${kvRow('Credited settlement assets', formatList(creditedAssetIds), { html: true })}
+            ${kvRow('Zero-credit participants', formatList(zeroCreditAssetIds, 'None'), { html: true })}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Operator meaning</h4><span class="badge">Intentional distinction</span></div>
+          <p>${escapeHtml(preview.semanticsNote || 'Selected assets, settlement participants, and credited assets can differ.')}</p>
+        </div>
       </div>
       <div class="section-card">
         <div class="section-head"><h4>Allocation preview</h4><span class="badge">Bundle shares</span></div>
         <div class="object-list nested">
-          ${(preview.allocations || []).map((allocation) => `
+          ${allocations.map((allocation) => `
             <div class="mini-card">
               <div class="row wrap-gap">
-                <strong>${escapeHtml(allocation.assetId || 'Asset')}</strong>
-                <span class="badge">${escapeHtml(allocation.settledShareBp ?? allocation.shareBp ?? '—')} bp</span>
+                <strong>${escapeHtml(allocation.title || allocation.assetId || 'Asset')}</strong>
+                <div class="badge-row">
+                  <span class="badge">${escapeHtml(allocation.settledShareBp ?? allocation.shareBp ?? '—')} bp</span>
+                  ${statusBadge(allocation.creditedMicroUnits === '0' ? 'zero credited units' : 'credited')}
+                </div>
+              </div>
+              <p class="meta wrap-anywhere">${escapeHtml(allocation.assetId || '')}</p>
+              <div class="kv-grid">
+                ${kvRow('Use tier', allocation.useTier || '—')}
+                ${kvRow('Credited micro-units', allocation.creditedMicroUnits || '0')}
               </div>
               <p class="meta">${escapeHtml((allocation.rationale || []).join(' • '))}</p>
             </div>
@@ -1006,7 +1040,9 @@ function renderRunHistoryVisual(history) {
 function renderSummary(state) {
   const latestRun = state.latestRun;
   const selected = latestRun?.assetPack?.selectedAssets?.length || 0;
-  const settled = latestRun?.journalDiff?.credits?.length || 0;
+  const settled = latestRun?.settlementPreview?.creditedAssetIds?.length
+    ?? latestRun?.journalDiff?.credits?.filter((entry) => entry.delta !== '0').length
+    ?? 0;
   const flows = latestRun?.sensitiveDataFlowRecords?.length || 0;
   const authz = latestRun?.authorizationDecisions?.length || 0;
 

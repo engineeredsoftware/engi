@@ -2502,7 +2502,9 @@ function materializeSelectedSourceMaterial(selectedCandidates, branchMode) {
 
 function buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease) {
   const selectedList = selectedCandidates.map((candidate) => `- ${candidate.asset.title} (${candidate.useTier}) — score ${candidate.ranking.finalRankingScore.toFixed(4)}`).join('\n');
-  return `# ENGI Need\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}`;
+  const creditedAssetCount = journalDiff.credits.filter((entry) => BigInt(entry.delta) > 0n).length;
+  const zeroCreditAssetCount = journalDiff.credits.filter((entry) => BigInt(entry.delta) === 0n).length;
+  return `# ENGI Need\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}\n- credited settlement asset count: ${creditedAssetCount}\n- zero-credit settlement asset count: ${zeroCreditAssetCount}`;
 }
 
 function buildIdentityBindings(buyer, selectedCandidates) {
@@ -3200,6 +3202,10 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
   const afterRoot = ledgerRoot(stringifyBigIntMap(afterBalances));
   const debited = total;
   const credited = credits.reduce((sum, entry) => sum + BigInt(entry.delta), 0n);
+  const creditedAssetIds = allocations.filter((allocation) => allocation.microUnits !== '0').map((allocation) => allocation.assetId);
+  const zeroCreditAssetIds = allocations.filter((allocation) => allocation.microUnits === '0').map((allocation) => allocation.assetId);
+  const allocationByAssetId = new Map(allocations.map((allocation) => [allocation.assetId, allocation]));
+  const settledShareByAssetId = new Map(settledShares.map((item) => [item.assetId, item]));
   const lockedAssetIds = new Set(assetPackLock.assets.map((asset) => asset.assetId));
   const lockedUnitIds = new Set(assetPackLock.units.map((unit) => `${unit.assetId}:${unit.unitId}`));
   const receiptIds = new Set(receipts.map((receipt) => receipt.receiptId));
@@ -3240,12 +3246,42 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
   const settlementPreview = {
     needId: need.needId,
     bundleId,
+    branchMode,
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
+    selectedAssetIds: selectedCandidates.map((candidate) => candidate.assetId),
     rawShares,
     settledShares,
     meteredMicroUnits: METERED_MICRO_UNITS,
     settlementParticipatingAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
+    creditedAssetIds,
+    zeroCreditAssetIds,
+    allocations: settlementCandidates.map((candidate) => {
+      const share = settledShareByAssetId.get(candidate.assetId);
+      const allocation = allocationByAssetId.get(candidate.assetId);
+      const zeroCredit = allocation?.microUnits === '0';
+      return {
+        assetId: candidate.assetId,
+        title: candidate.asset.title,
+        useTier: candidate.useTier,
+        rawShareBp: share?.rawShareBp ?? 0,
+        settledShareBp: share?.settledShareBp ?? 0,
+        creditedMicroUnits: allocation?.microUnits || '0',
+        rationale: zeroCredit
+          ? [
+              'Selected into the branch and permitted for settlement participation.',
+              'Credited 0 units because its marginal bundle contribution was non-positive after evaluating the full selected settlement bundle.',
+              ...((share?.settlementAdjustmentReasons || []).filter(Boolean)),
+              ...((rawShares.find((item) => item.assetId === candidate.assetId)?.reasons || []).filter(Boolean))
+            ]
+          : [
+              'Selected into the branch and credited by deterministic settled shares.',
+              ...((share?.settlementAdjustmentReasons || []).filter(Boolean)),
+              ...((rawShares.find((item) => item.assetId === candidate.assetId)?.reasons || []).filter(Boolean))
+            ]
+      };
+    }),
+    semanticsNote: 'Selected branch assets, settlement participants, and credited settlement assets are intentionally distinct sets. A selected settlement-eligible asset can receive zero credited units when its marginal bundle contribution is non-positive.',
     assetPackLockHash: stableHashObject(assetPackLock),
     receipts
   };

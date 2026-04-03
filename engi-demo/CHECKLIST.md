@@ -1,6 +1,6 @@
-# ENGI Demo Checklist — Spec V7
+# ENGI Demo Checklist — Spec V8
 
-Use this before an interactive V7 demo, QA pass, or live walkthrough.
+Use this before an interactive V8 demo, QA pass, or live walkthrough.
 
 ---
 
@@ -15,7 +15,7 @@ npm start
 
 - [ ] Open: `http://127.0.0.1:4318`
 - [ ] Confirm the page loads
-- [ ] Confirm the hero says **Spec V7**
+- [ ] Confirm the hero says **Spec V8**
 - [ ] Confirm the primary CTA is **Make ENGI branch**
 - [ ] Confirm no stale V6/query-era language is visible in the main flow
 - [ ] Confirm JSON-heavy surfaces default to **Visual** mode and can be flipped to **Raw**
@@ -40,7 +40,7 @@ Expected seeded scenario cues:
 
 ---
 
-## 2. V7 gold-path interactive run
+## 2. V8 gold-path interactive run
 
 ### A. Need measurement
 
@@ -105,7 +105,7 @@ What should be visible after the run:
 
 ---
 
-## 3. Advanced V7 surfaces
+## 3. Advanced V8 surfaces
 
 ### Content-unit semantics / vector interfaces
 
@@ -140,12 +140,12 @@ What should be visible after the run:
 
 ## 4. E2E QA verdict
 
-Call the demo **interactive V7 E2E-QA ready** only if all of the following are true:
+Call the demo **interactive V8 E2E-QA ready** only if all of the following are true:
 
 - [ ] page loads cleanly
 - [ ] reset works
 - [ ] make-ENGI-branch gold path works end-to-end
-- [ ] V7 profile/derivation/rights/telemetry surfaces are visible
+- [ ] V8 profile/derivation/rights/telemetry surfaces are visible
 - [ ] settlement invariants hold
 - [ ] no stale query-first story is required to understand the demo
 - [ ] docs/checklist match the actual UI/runtime behavior
@@ -160,7 +160,7 @@ Call the demo **interactive V7 E2E-QA ready** only if all of the following are t
 
 ### If the UI seems stale
 - [ ] Hard refresh browser
-- [ ] Verify `data/state.json` was regenerated from the current V7 model if needed
+- [ ] Verify `data/state.json` was regenerated from the current V8 model if needed
 
 ### If the server is not responding
 
@@ -184,6 +184,6 @@ Do not present the demo as:
 - a real policy publication / authz enforcement plane
 
 Present it as:
-- a **Spec V7 Profile A deterministic prototype**
+- a **Spec V8 Profile A deterministic prototype**
 - with explicit **Profile B production-boundary intent**
 - and with strong inspectability across ranking, verification, artifacts, telemetry, and settlement
