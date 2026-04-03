@@ -24,10 +24,15 @@ test('canonicalJson is stable across key order', () => {
 
 test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', () => {
   const state = buildInitialState();
-  assert.equal(state.assets.length, 3);
+  assert.equal(state.assets.length, 11);
   assert.equal(state.buyers.length, 1);
-  assert.equal(state.needScenarios.length, 1);
+  assert.equal(state.needScenarios.length, 8);
+  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'));
+  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'privacy-boundary-stress'));
+  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'));
+  assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'many-asset-settlement-normalization'));
   assert.ok(state.ledger.accounts['buyer:frontier-code-systems:license_pool']);
+  assert.equal(Object.keys(state.ledger.accounts).length, state.assets.length + 1);
 });
 
 test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V9 derivation closure', () => {
@@ -220,6 +225,20 @@ test('assembleAssetPack selects allowed tiers and locks roots', () => {
   assert.equal(assetPack.branchMode, 'patch');
 });
 
+test('seeded scenario corpus yields coherent repo-bound branches across families', () => {
+  const state = buildInitialState();
+
+  for (const scenario of state.needScenarios) {
+    const { latestRun } = runMakeEngiBranch(state, { scenarioId: scenario.scenarioId });
+    assert.equal(latestRun.scenarioId, scenario.scenarioId);
+    assert.equal(latestRun.need.repo, scenario.repo);
+    assert.equal(latestRun.buyer.repo, scenario.repo);
+    assert.equal(latestRun.buyer.buyerBranch, scenario.baseRef);
+    assert.ok(latestRun.assetPack.selectedAssets.length >= 1);
+    assert.ok(latestRun.scenarioFixtureManifest.scenarioFamilies.some((entry) => entry.scenarioId === scenario.scenarioId));
+  }
+});
+
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {
   const state = buildInitialState();
   const lowEvidence = makeCandidateAsset({
@@ -324,12 +343,19 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.equal(proof.promptCompletenessProof.allContractsComplete, true);
   assert.equal(proof.staticMeasurementProof.allReceiptRefsResolve, true);
   assert.equal(proof.selectionConsistencyProof.allSelectedAssetsRespectUseTier, true);
+  assert.equal(proof.materializationProof.allSelectedAssetsMaterialized, true);
   assert.equal(proof.materializationVisibilityProof.allSelectedAssetsHaveMaterializedSourceBindings, true);
+  assert.equal(proof.materializationVisibilityProof.noUnexpectedMaterializedSourceBindings, true);
   assert.equal(proof.identityAuthorizationProof.allStateChangingActionsAuthorized, true);
   assert.equal(proof.sensitiveDataFlowProof.requiredSensitiveClassesCovered, true);
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
   assert.ok(proof.verificationReceiptsArtifact.verificationReceipts.length >= 4);
-  assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 5);
+  assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 7);
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/source-to-shares.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/materialization-proof.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
+  assert.ok(proof.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
   assert.ok(proof.proofContract.contractId.startsWith('proof_contract_'));
   assert.ok(proof.promptImplementationSurface.promptLineage.length >= 1);
@@ -362,6 +388,9 @@ test('policy release artifact classes cover verification, authz, and sensitive-d
   assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
   assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
   assert.ok(artifactPaths.includes('.engi/code-analysis-fact-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/static-heuristics-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/materialization-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/materialization-exclusions.json'));
   assert.ok(artifactPaths.includes('.engi/static-measurement-proof.json'));
 });
 
@@ -421,7 +450,10 @@ test('seeded settlement explicitly distinguishes selected, participating, and cr
     latestRun.settlementPreview.selectedAssetIds.slice().sort(),
     latestRun.assetPack.selectedAssets.slice().sort()
   );
-  assert.equal(latestRun.settlementPreview.settlementParticipatingAssetIds.length, 2);
+  assert.equal(
+    latestRun.settlementPreview.settlementParticipatingAssetIds.length,
+    latestRun.settlementParticipationArtifact.records.filter((entry) => entry.settlementParticipating).length
+  );
   assert.deepEqual(
     latestRun.settlementPreview.creditedAssetIds,
     latestRun.journalDiff.credits.filter((entry) => BigInt(entry.delta) > 0n).map((entry) => entry.assetId)
@@ -434,6 +466,23 @@ test('seeded settlement explicitly distinguishes selected, participating, and cr
   const zeroAllocation = latestRun.settlementPreview.allocations.find((entry) => entry.assetId === latestRun.settlementPreview.zeroCreditAssetIds[0]);
   assert.equal(zeroAllocation.creditedMicroUnits, '0');
   assert.match(zeroAllocation.rationale.join(' '), /marginal bundle contribution was non-positive/i);
+});
+
+test('source-to-shares artifact, settlement participation, and accounting precision report stay aligned', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+  const sourceToShares = latestRun.sourceToSharesArtifact;
+  const participation = latestRun.settlementParticipationArtifact;
+  const precision = latestRun.accountingPrecisionReport;
+
+  assert.equal(sourceToShares.rawShares.reduce((sum, entry) => sum + entry.shareBp, 0), 10000);
+  assert.ok(sourceToShares.clippingReceipts.every((receipt) => receipt.receiptId));
+  assert.ok(participation.records.some((record) => record.zeroCreditParticipating));
+  assert.equal(participation.zeroCreditParticipatingCount, latestRun.settlementPreview.zeroCreditAssetIds.length);
+  assert.equal(precision.exactAccountingInvariants.clippedContributionDecisionsReceiptBacked, true);
+  assert.equal(precision.exactAccountingInvariants.zeroCreditParticipationExplicit, true);
+  assert.equal(precision.microUnitAllocation.finalAllocatedMicroUnits, latestRun.journalDiff.totals.credited);
+  assert.equal(precision.sourceToSharesRef, sourceToShares.proofHash);
 });
 
 test('telemetry artifacts explain the V8 pipeline and prompt implementation surface', () => {
@@ -466,12 +515,17 @@ test('publicState returns public projection including bounded public proof and p
   const { nextState } = runMakeEngiBranch(state, {});
   const projected = publicState(nextState);
 
-  assert.equal(projected.assets.length, 3);
+  assert.equal(projected.assets.length, 11);
   assert.ok(projected.latestRun.need.needId);
   assert.ok(projected.latestRun.assetPack.assetPackId);
   assert.equal(projected.latestRun.projectionPrincipal, 'public');
   assert.ok(projected.latestRun.boundedPublicProof.bundleId);
   assert.ok(projected.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/static-heuristics-registry.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/materialization-proof.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
   assert.ok(projected.latestRun.publicArtifacts['.engi/redaction-proof.json']);
   assert.equal(projected.latestRun.authorizationDecisions, undefined);
   assert.equal(projected.latestRun.journalDiff, undefined);
@@ -492,8 +546,17 @@ test('buyer projection exposes richer artifacts without raw branch files or sour
   assert.ok(projected.latestRun.verificationReport.assetVerification.length >= 1);
   assert.ok(projected.latestRun.verificationReceipts.verificationReceipts.length >= 4);
   assert.ok(projected.latestRun.codeAnalysisFactRegistry.registeredFactCount >= 10);
+  assert.ok(projected.latestRun.staticHeuristicsRegistry.registeredFactCount >= 10);
   assert.ok(projected.latestRun.promptContracts.length >= 4);
   assert.ok(projected.latestRun.measurementReceipts.length >= 3);
+  assert.equal(projected.latestRun.materializationProof.allExclusionsExplained, true);
+  assert.ok(projected.latestRun.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
+  assert.ok(projected.latestRun.settlementParticipationArtifact.records.length >= projected.latestRun.evaluatedCandidates.length);
+  assert.equal(projected.latestRun.accountingPrecisionReport.exactAccountingInvariants.allocationConserved, true);
+  assert.ok(projected.latestRun.scenarioFixtureManifest.scenarioFamilies.length >= 8);
+  assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.privacyBoundaryScenarioPresent, true);
+  assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.polyglotRepoScenarioPresent, true);
+  assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.manyAssetNormalizationScenarioPresent, true);
   assert.equal(projected.latestRun.branchArtifacts.files, undefined);
 });
 
@@ -518,6 +581,9 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/authorization-decisions.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/sensitive-data-flow.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/proof-witness-manifest.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-proof.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-exclusions.json'));
   assert.equal(latestRun.journalDiff.receipts.length, 2);
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));
   assert.equal(latestRun.systemProofBundle.settlementProof.theoremChecks.stateRootIntegrity, true);
@@ -534,6 +600,21 @@ test('verification report records branch-mode rights per use tier', () => {
   assert.equal(contextOnly.rights.settlementAllowed, false);
   assert.ok(contextOnly.receiptRefs.length >= 4);
   assert.ok(Array.isArray(contextOnly.policyRestrictions.additionalRequirements));
+});
+
+test('many-asset normalization scenario keeps source-to-shares replay traces deterministic', () => {
+  const state = buildInitialState();
+  const { latestRun: firstRun } = runMakeEngiBranch(state, { scenarioId: 'auth-many-asset-normalization' });
+  const { latestRun: secondRun } = runMakeEngiBranch(state, { scenarioId: 'auth-many-asset-normalization' });
+
+  assert.equal(firstRun.scenarioId, 'auth-many-asset-normalization');
+  assert.ok(firstRun.sourceToSharesArtifact.sourceContributionEntries.length >= 2);
+  assert.ok(firstRun.sourceToSharesArtifact.normalizationLedger.length >= 2);
+  assert.ok(firstRun.accountingPrecisionReport.sourceMaterialToSharesClosure.length >= 2);
+  assert.deepEqual(
+    firstRun.sourceToSharesArtifact.basisPointNormalization.remainderDistributionOrder,
+    secondRun.sourceToSharesArtifact.basisPointNormalization.remainderDistributionOrder
+  );
 });
 
 test('runMakeEngiBranch fails if no settlement-eligible assets exist', () => {

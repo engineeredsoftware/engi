@@ -481,6 +481,8 @@ function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
+    registrySemantics: 'code-analysis-fact-registry',
+    specArtifactAliases: ['.engi/static-heuristics-registry.json'],
     registeredFactCount: registeredFacts.length,
     consumedFactCount: consumedFactIds.length,
     registeredFacts,
@@ -497,6 +499,14 @@ function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
         consumerMatrix: Object.entries(CODE_ANALYSIS_CONSUMERS)
       })
     }
+  };
+}
+
+function buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry) {
+  return {
+    ...codeAnalysisFactRegistry,
+    artifactId: 'static-heuristics-registry.v9',
+    artifactSemantics: 'specific code-analysis fact registry emitted as the local static heuristics registry surface'
   };
 }
 
@@ -1488,6 +1498,25 @@ export function buildInitialState() {
       pinnedEnvironment: 'ubuntu-24.04 + rust stable'
     }),
     makeCandidateAsset({
+      title: 'Formal replay-window validator proof bundle',
+      author: 'Sora',
+      organization: '$ENGI',
+      artifactKind: 'proof',
+      sourceRepo: 'frontier/payments-ledger',
+      sourceCommit: 'validator014proof',
+      workflowRunId: 'gha_run_validator_014',
+      benchmarkRunId: 'gha_run_validator_014',
+      sourcePaths: ['crates/validator/src/session_guard.rs', 'crates/validator/src/replay_window.rs', 'proofs/session_guard.creusot'],
+      symbols: ['SessionGuard', 'proveReplayWindow', 'applyOverflowBound'],
+      configKeys: ['validator.replayWindow.maxNonces', 'validator.proof.requireNoUncheckedMath'],
+      tags: ['rust', 'proof', 'validator', 'formal-methods', 'replay-window'],
+      declaredStacks: ['rust', 'creusot', 'cargo', 'formal-methods'],
+      declaredConstraints: ['preserve proof obligations', 'no unchecked arithmetic', 'replay benchmark after proof'],
+      content: `Proof bundle objective: repair replay-window and overflow proof regressions in the validator crate without weakening nonce or arithmetic guarantees.\n\nImplementation note: keep the replay window bounded, prove the overflow guard over the full input range, and bind the proof outputs back to the benchmark harness.\n\nValidation steps: cargo test -p payments-validator, cargo creusot prove proofs/session_guard.creusot, and rerun the validator regression benchmark.`,
+      proofLogs: ['validator-replay-window-proof.log'],
+      pinnedEnvironment: 'ubuntu-24.04 + rust stable'
+    }),
+    makeCandidateAsset({
       title: 'Token issuer incident escalation notes',
       author: 'Avery',
       organization: '$ENGI',
@@ -1511,6 +1540,10 @@ export function buildInitialState() {
       author: 'Noah',
       organization: '$ENGI',
       artifactKind: 'config',
+      sourceRepo: 'frontier/policy-control-plane',
+      sourceCommit: 'policy031fix',
+      workflowRunId: 'gha_run_policy_031',
+      benchmarkRunId: 'gha_run_policy_031',
       sourcePaths: ['config/policy/issuer-precedence.yml', 'services/policy/evaluate_rollout.ts'],
       symbols: ['evaluateRolloutPolicy', 'PolicyPrecedenceMatrix', 'emitPolicyAuditReceipt'],
       configKeys: ['policy.rollout.precedence', 'policy.rollout.approvalWindowHours'],
@@ -1525,6 +1558,10 @@ export function buildInitialState() {
       author: 'Mina',
       organization: '$ENGI',
       artifactKind: 'runbook',
+      sourceRepo: 'frontier/review-gateway',
+      sourceCommit: 'review009contain',
+      workflowRunId: 'gha_run_review_009',
+      benchmarkRunId: 'gha_run_review_009',
       sourcePaths: ['docs/reviews/unsafe_patch_containment.md', 'services/review/review_gate.ts'],
       symbols: ['ReviewGate', 'emitReviewRationale', 'enforceTouchedFileBudget'],
       configKeys: ['review.patch.maxTouchedFiles', 'review.patch.requireRationale'],
@@ -1540,6 +1577,10 @@ export function buildInitialState() {
       author: 'Iris',
       organization: '$ENGI',
       artifactKind: 'runbook',
+      sourceRepo: 'frontier/deploy-orchestrator',
+      sourceCommit: 'deploy018drift',
+      workflowRunId: 'gha_run_deploy_018',
+      benchmarkRunId: 'gha_run_deploy_018',
       sourcePaths: ['infra/terraform/services/auth/main.tf', 'deploy/helm/auth/values.yaml', 'ops/runbooks/deployment-drift.md'],
       symbols: ['reconcileReleasePlan', 'detectVersionDrift', 'emitDeploymentReceipt'],
       configKeys: ['deploy.rollback.maxParallel', 'deploy.release.expectedChartVersion'],
@@ -1554,6 +1595,10 @@ export function buildInitialState() {
       author: 'Jules',
       organization: '$ENGI',
       artifactKind: 'proof',
+      sourceRepo: 'frontier/private-proof-service',
+      sourceCommit: 'projection006bound',
+      workflowRunId: 'gha_run_projection_006',
+      benchmarkRunId: 'gha_run_projection_006',
       sourcePaths: ['services/redaction/project_public_proof.ts', 'policies/disclosure/bounded_public.yml'],
       symbols: ['projectBoundedPublicProof', 'redactPrivateArtifacts', 'allowBoundedDisclosure'],
       configKeys: ['projection.public.allowedArtifacts', 'projection.redaction.defaultMode'],
@@ -1562,6 +1607,62 @@ export function buildInitialState() {
       declaredConstraints: ['bounded metadata only', 'no private artifact leak', 'replay disclosure decisions'],
       content: `Bounded proof export: derive the public proof surface strictly from bounded metadata, redact private branch artifacts by policy class, and record every disclosure decision with replayable artifact hashes.\n\nVerification: compare public artifact inventory against projection policy, assert that private source material never appears in public outputs, and preserve a replayable disclosure chain.`,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
+    }),
+    makeCandidateAsset({
+      title: 'Session validator compatibility witness dossier',
+      author: 'Lane',
+      organization: '$ENGI',
+      artifactKind: 'proof',
+      sourceRepo: 'frontier/demo-auth',
+      sourceCommit: 'auth019validator',
+      workflowPath: '.github/workflows/benchmark-auth-normalization.yml',
+      workflowRunId: 'gha_run_auth_019',
+      benchmarkRunId: 'gha_run_auth_019',
+      sourcePaths: ['services/auth/session_validator.rs', 'services/auth/audit_receipt.ts', 'services/auth/rollback.ts', 'config/auth/issuer-compat.yml'],
+      symbols: ['SessionValidator', 'emitAuditReceipt', 'restoreLegacyVerifier', 'validateIssuerAudience'],
+      configKeys: ['auth.session.cache.maxAgeSeconds', 'auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
+      tags: ['auth', 'session-validity', 'proof', 'rollback', 'auditability'],
+      declaredStacks: ['rust', 'typescript', 'node', 'auth', 'github-actions', 'jwt'],
+      declaredConstraints: ['preserve session validity', 'bind workflow run to receipt', 'keep issuer compatibility explicit', 'no unchecked validator panic'],
+      content: `Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator and restoreLegacyVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.\n\nVerification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.`,
+      proofLogs: ['auth019-session-validator-proof.log'],
+      pinnedEnvironment: 'ubuntu-24.04 + rust stable + node 22'
+    }),
+    makeCandidateAsset({
+      title: 'Auth audit receipt reconciliation patchset',
+      author: 'Kai',
+      organization: '$ENGI',
+      artifactKind: 'patch',
+      sourceRepo: 'frontier/demo-auth',
+      sourceCommit: 'auth019audit',
+      workflowRunId: 'gha_run_auth_019',
+      benchmarkRunId: 'gha_run_auth_019',
+      sourcePaths: ['services/auth/audit_receipt.ts', 'services/auth/rollback.ts', 'config/auth/issuer-compat.yml'],
+      symbols: ['emitAuditReceipt', 'reconcileRollbackReceipt', 'restoreLegacyVerifier'],
+      configKeys: ['auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
+      tags: ['auth', 'auditability', 'patch', 'rollback'],
+      declaredStacks: ['typescript', 'node', 'auth', 'github-actions'],
+      declaredConstraints: ['emit audit receipt', 'preserve session validity', 'bind workflow run to receipt'],
+      content: `Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into emitAuditReceipt, keep restoreLegacyVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.\n\nValidation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.`,
+      pinnedEnvironment: 'ubuntu-24.04 + node 22'
+    }),
+    makeCandidateAsset({
+      title: 'Polyglot gateway rollback coordination playbook',
+      author: 'Rin',
+      organization: '$ENGI',
+      artifactKind: 'runbook',
+      sourceRepo: 'frontier/polyglot-gateway',
+      sourceCommit: 'gateway021rollback',
+      workflowRunId: 'gha_run_gateway_021',
+      benchmarkRunId: 'gha_run_gateway_021',
+      sourcePaths: ['gateway/api/server.ts', 'workers/session_replay.py', 'crates/token_bridge/src/lib.rs', 'config/gateway/issuer_policy.yml'],
+      symbols: ['applyIssuerRollback', 'replayQueuedSession', 'BridgeGuard'],
+      configKeys: ['gateway.issuer.rollbackWindowSeconds', 'gateway.audit.requireCrossLanguageReceipt'],
+      tags: ['polyglot', 'rollback', 'typescript', 'python', 'rust', 'gateway'],
+      declaredStacks: ['typescript', 'python', 'rust', 'gateway', 'github-actions'],
+      declaredConstraints: ['preserve cross-language parity', 'emit audit receipt', 'keep rollback reversible'],
+      content: `Polyglot rollback objective: recover gateway issuer drift without letting the TypeScript API, Python replay worker, or Rust token bridge diverge.\n\nExecution plan: freeze queued session replay, coordinate the server.ts issuer rollback with workers/session_replay.py, validate BridgeGuard assumptions in crates/token_bridge/src/lib.rs, and only then reopen traffic.\n\nValidation: rerun the gateway parity benchmark, verify the cross-language receipt chain, and confirm that config/gateway/issuer_policy.yml stays aligned with the rollback window.`,
+      pinnedEnvironment: 'ubuntu-24.04 + node 22 + python 3.13 + rust stable'
     })
   ];
 
@@ -2007,6 +2108,156 @@ export function buildInitialState() {
           touchedPaths: ['services/redaction/project_public_proof.ts', 'policies/disclosure/bounded_public.yml', 'docs/privacy/remediation.md'],
           symbols: ['projectBoundedPublicProof', 'redactPrivateArtifacts', 'allowBoundedDisclosure'],
           configKeys: ['projection.public.allowedArtifacts', 'projection.redaction.defaultMode'],
+          parserKind: 'github-actions.auth-remediation.v3',
+          parserVersion: '3.0.0'
+        }
+      }
+    },
+    {
+      scenarioId: 'polyglot-gateway-benchmark-remediation',
+      scenarioFamily: 'polyglot-repo-benchmark-remediation',
+      coverageTags: ['polyglot', 'typescript', 'python', 'rust', 'cross-language', 'rollback'],
+      repo: 'frontier/polyglot-gateway',
+      installationId: 'gh_inst_engi_demo_001',
+      baseRef: 'ENGI-polyglot-gateway-remediation',
+      targetRef: 'main',
+      prNumber: 1021,
+      benchmarkHarnessPath: 'benchmarks/gateway_parity.yaml',
+      benchmarkWorkflowPath: '.github/workflows/benchmark-gateway.yml',
+      benchmarkRunId: 'gha_run_gateway_021',
+      benchmarkRunUrl: 'https://github.com/frontier/polyglot-gateway/actions/runs/gha_run_gateway_021',
+      repoContext: {
+        repoTree: [
+          'gateway/api/server.ts',
+          'workers/session_replay.py',
+          'crates/token_bridge/src/lib.rs',
+          'config/gateway/issuer_policy.yml',
+          'benchmarks/gateway_parity.yaml'
+        ],
+        stackHints: ['typescript', 'python', 'rust', 'gateway', 'github-actions'],
+        symbols: ['applyIssuerRollback', 'replayQueuedSession', 'BridgeGuard'],
+        configKeys: ['gateway.issuer.rollbackWindowSeconds', 'gateway.audit.requireCrossLanguageReceipt'],
+        benchmarkTarget: {
+          harnessPath: 'benchmarks/gateway_parity.yaml',
+          targetSlice: 'gateway-parity'
+        }
+      },
+      expectedTask: 'Repair a polyglot gateway issuer rollback without letting TypeScript, Python, and Rust session paths diverge.',
+      expectedFailureModes: [
+        'cross-language issuer rollback drifts between API, worker, and bridge runtimes',
+        'queued session replay keeps stale issuer data after rollback',
+        'cross-language audit receipt chain cannot be replayed end to end'
+      ],
+      expectedConstraints: [
+        'preserve cross-language parity',
+        'emit audit receipt',
+        'keep rollback reversible',
+        'keep remediation branch private until settlement completes'
+      ],
+      expectedTargetArtifactKinds: ['runbook', 'patch', 'config', 'proof'],
+      humanPrompt: 'Need a polyglot remediation branch that keeps gateway rollback logic consistent across TypeScript, Python, and Rust.',
+      canonicalRunEvidence: {
+        workflowPath: '.github/workflows/benchmark-gateway.yml',
+        runId: 'gha_run_gateway_021',
+        runUrl: 'https://github.com/frontier/polyglot-gateway/actions/runs/gha_run_gateway_021',
+        commitSha: 'gateway1021abc',
+        branch: 'ENGI-polyglot-gateway-remediation',
+        conclusion: 'failure',
+        artifacts: [
+          { name: 'gateway-parity-report.json', path: 'artifacts/gateway-parity-report.json', mediaType: 'application/json' },
+          { name: 'cross-language-receipts.log', path: 'artifacts/cross-language-receipts.log', mediaType: 'text/plain' }
+        ],
+        checks: [
+          { name: 'gateway parity benchmark', conclusion: 'failure' },
+          { name: 'session replay worker', conclusion: 'failure' },
+          { name: 'bridge receipt audit', conclusion: 'failure' }
+        ],
+        extractedOutputs: {
+          failingCases: ['gateway-issuer-parity-drift', 'queued-session-replay-divergence', 'cross-language-receipt-gap'],
+          weakDimensions: ['cross-language-parity', 'rollback-safety', 'auditability'],
+          baselineMetrics: {
+            crossLanguageParity: 0.31,
+            rollbackSafety: 0.43,
+            auditability: 0.39
+          },
+          touchedPaths: ['gateway/api/server.ts', 'workers/session_replay.py', 'crates/token_bridge/src/lib.rs', 'config/gateway/issuer_policy.yml'],
+          symbols: ['applyIssuerRollback', 'replayQueuedSession', 'BridgeGuard'],
+          configKeys: ['gateway.issuer.rollbackWindowSeconds', 'gateway.audit.requireCrossLanguageReceipt'],
+          parserKind: 'github-actions.auth-remediation.v3',
+          parserVersion: '3.0.0'
+        }
+      }
+    },
+    {
+      scenarioId: 'auth-many-asset-normalization',
+      scenarioFamily: 'many-asset-settlement-normalization',
+      coverageTags: ['auth', 'many-asset', 'source-to-shares', 'normalization', 'auditability'],
+      repo: 'frontier/demo-auth',
+      installationId: 'gh_inst_engi_demo_001',
+      baseRef: 'ENGI-auth-many-asset-normalization',
+      targetRef: 'main',
+      prNumber: 519,
+      benchmarkHarnessPath: 'benchmarks/auth_settlement_normalization.yaml',
+      benchmarkWorkflowPath: '.github/workflows/benchmark-auth-normalization.yml',
+      benchmarkRunId: 'gha_run_auth_019',
+      benchmarkRunUrl: 'https://github.com/frontier/demo-auth/actions/runs/gha_run_auth_019',
+      repoContext: {
+        repoTree: [
+          'services/auth/rollback.ts',
+          'services/auth/session_validator.rs',
+          'services/auth/audit_receipt.ts',
+          'config/auth/issuer-compat.yml',
+          'benchmarks/auth_settlement_normalization.yaml'
+        ],
+        stackHints: ['typescript', 'node', 'rust', 'auth', 'github-actions', 'jwt'],
+        symbols: ['restoreLegacyVerifier', 'SessionValidator', 'emitAuditReceipt'],
+        configKeys: ['auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
+        benchmarkTarget: {
+          harnessPath: 'benchmarks/auth_settlement_normalization.yaml',
+          targetSlice: 'auth-normalization'
+        }
+      },
+      expectedTask: 'Recover auth rollback while keeping session validity, issuer compatibility, and audit receipts aligned across multiple remediation assets.',
+      expectedFailureModes: [
+        'issuer rollback repair is split across several strong assets with partial overlap',
+        'audit receipt linkage drops the workflow run during rollback',
+        'session validator and rollback notes disagree on the compatibility window'
+      ],
+      expectedConstraints: [
+        'preserve session validity',
+        'emit audit receipt',
+        'bind workflow run to receipt',
+        'keep remediation branch private until settlement completes'
+      ],
+      expectedTargetArtifactKinds: ['runbook', 'patch', 'config', 'proof'],
+      humanPrompt: 'Need a normalization-heavy auth remediation branch that can justify source-to-shares replay across multiple strong assets.',
+      canonicalRunEvidence: {
+        workflowPath: '.github/workflows/benchmark-auth-normalization.yml',
+        runId: 'gha_run_auth_019',
+        runUrl: 'https://github.com/frontier/demo-auth/actions/runs/gha_run_auth_019',
+        commitSha: 'auth519abc',
+        branch: 'ENGI-auth-many-asset-normalization',
+        conclusion: 'failure',
+        artifacts: [
+          { name: 'auth-normalization-report.json', path: 'artifacts/auth-normalization-report.json', mediaType: 'application/json' },
+          { name: 'audit-receipt-diff.log', path: 'artifacts/audit-receipt-diff.log', mediaType: 'text/plain' }
+        ],
+        checks: [
+          { name: 'auth normalization benchmark', conclusion: 'failure' },
+          { name: 'audit receipt reconciliation', conclusion: 'failure' },
+          { name: 'session validator compatibility', conclusion: 'failure' }
+        ],
+        extractedOutputs: {
+          failingCases: ['rollback-ordering-audit-receipt', 'issuer-mismatch-legacy-service', 'workflow-run-receipt-gap'],
+          weakDimensions: ['rollback-safety', 'session-validity', 'auditability'],
+          baselineMetrics: {
+            rollbackSafety: 0.44,
+            sessionValidity: 0.45,
+            auditability: 0.36
+          },
+          touchedPaths: ['services/auth/rollback.ts', 'services/auth/session_validator.rs', 'services/auth/audit_receipt.ts', 'config/auth/issuer-compat.yml'],
+          symbols: ['restoreLegacyVerifier', 'SessionValidator', 'emitAuditReceipt'],
+          configKeys: ['auth.audit.requireWorkflowRun', 'auth.issuer.compatibilityWindow'],
           parserKind: 'github-actions.auth-remediation.v3',
           parserVersion: '3.0.0'
         }
@@ -3526,6 +3777,8 @@ function normalizeContributionUnitsToBasisPoints(contributionEntries) {
         fallbackEvenDistribution: false,
         tieBreakPolicy: 'remainder desc, clipped contribution desc, assetId asc',
         remainderDistributionOrder: [],
+        provisionalShares: [],
+        remainderBasisPoints: 0,
         normalizedTotalBp: 0
       }
     };
@@ -3544,6 +3797,16 @@ function normalizeContributionUnitsToBasisPoints(contributionEntries) {
       normalizationRemainderUnits: '0',
       reasons: [...entry.reasons, 'fallback-even-distribution']
     }));
+    const provisionalShares = orderedByAssetId.map((entry, index) => ({
+      assetId: entry.assetId,
+      tieBreakRank: index + 1,
+      floorShareBp: even,
+      remainderUnits: '0',
+      remainderAwardedBp: index < remainderUnits ? 1 : 0,
+      finalShareBp: even + (index < remainderUnits ? 1 : 0),
+      rawContributionUnits: entry.rawContributionUnits.toString(),
+      clippedContributionUnits: entry.clippedContributionUnits.toString()
+    }));
     return {
       normalizedShares,
       normalizationTrace: {
@@ -3552,6 +3815,8 @@ function normalizeContributionUnitsToBasisPoints(contributionEntries) {
         fallbackEvenDistribution: true,
         tieBreakPolicy: 'assetId asc for even fallback remainder',
         remainderDistributionOrder: orderedByAssetId.map((entry) => entry.assetId),
+        provisionalShares,
+        remainderBasisPoints: remainderUnits,
         normalizedTotalBp: normalizedShares.reduce((sum, entry) => sum + entry.shareBp, 0)
       }
     };
@@ -3566,7 +3831,9 @@ function normalizeContributionUnitsToBasisPoints(contributionEntries) {
       remainderUnits: exactNumerator % totalContributionUnits,
       clippedContributionUnits: entry.clippedContributionUnits,
       rawContributionUnits: entry.rawContributionUnits,
-      reasons: entry.reasons
+      reasons: entry.reasons,
+      remainderAwardedBp: 0,
+      tieBreakRank: 0
     };
   });
   const usedBasisPoints = provisional.reduce((sum, entry) => sum + entry.floorShare, 0);
@@ -3578,9 +3845,23 @@ function normalizeContributionUnitsToBasisPoints(contributionEntries) {
   });
 
   const remainderDistributionOrder = provisional.map((entry) => entry.assetId);
+  provisional.forEach((entry, index) => {
+    entry.tieBreakRank = index + 1;
+  });
   for (let index = 0; index < remainderBasisPoints; index += 1) {
+    provisional[index].remainderAwardedBp += 1;
     provisional[index].floorShare += 1;
   }
+  const provisionalShares = provisional.map((entry) => ({
+    assetId: entry.assetId,
+    tieBreakRank: entry.tieBreakRank,
+    floorShareBp: entry.floorShare - entry.remainderAwardedBp,
+    remainderUnits: entry.remainderUnits.toString(),
+    remainderAwardedBp: entry.remainderAwardedBp,
+    finalShareBp: entry.floorShare,
+    rawContributionUnits: entry.rawContributionUnits.toString(),
+    clippedContributionUnits: entry.clippedContributionUnits.toString()
+  }));
 
   const normalizedShares = provisional
     .sort((left, right) => right.floorShare - left.floorShare || left.assetId.localeCompare(right.assetId))
@@ -3601,6 +3882,8 @@ function normalizeContributionUnitsToBasisPoints(contributionEntries) {
       fallbackEvenDistribution: false,
       tieBreakPolicy: 'remainder desc, clipped contribution desc, assetId asc',
       remainderDistributionOrder,
+      provisionalShares,
+      remainderBasisPoints,
       normalizedTotalBp: normalizedShares.reduce((sum, entry) => sum + entry.shareBp, 0)
     }
   };
@@ -3620,12 +3903,14 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
     return {
       assetId: candidate.assetId,
       title: candidate.asset.title,
+      contentRoot: candidate.asset.contentRoot,
       fullBundleScoreUnits: fullBundleScore.bundleShareScoreUnits,
       bundleWithoutAssetScoreUnits: bundleWithoutCandidate.bundleShareScoreUnits,
       rawContributionUnits,
       clippedContributionUnits,
       clipped,
       clippingReceiptId,
+      selectedUnitRefs: candidate.asset.contentUnits.slice(0, 2).map((unit) => unit.unitId),
       reasons: clipped
         ? [
             `raw marginal contribution for ${candidate.assetId} was non-positive`,
@@ -3667,6 +3952,13 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     scoreScale: SOURCE_TO_SHARES_SCALE.toString(),
+    bundleShareScoreWeightsBp: {
+      averageRanking: 6000,
+      failureModeCoverage: 2000,
+      constraintCoverage: 1000,
+      touchedPathCoverage: 1000
+    },
+    settlementCandidateAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
     bundleShareScore: {
       bundleShareScoreUnits: fullBundleScore.bundleShareScoreUnits.toString(),
       bundleShareScore: fixedPointUnitsToString(fullBundleScore.bundleShareScoreUnits),
@@ -3678,6 +3970,8 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
     sourceContributionEntries: sourceContributionEntries.map((entry) => ({
       assetId: entry.assetId,
       title: entry.title,
+      contentRoot: entry.contentRoot,
+      selectedUnitRefs: entry.selectedUnitRefs,
       fullBundleScoreUnits: entry.fullBundleScoreUnits.toString(),
       bundleWithoutAssetScoreUnits: entry.bundleWithoutAssetScoreUnits.toString(),
       rawContributionUnits: entry.rawContributionUnits.toString(),
@@ -3685,6 +3979,14 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
       clipped: entry.clipped,
       clippingReceiptId: entry.clippingReceiptId,
       candidateRankingScoreUnits: entry.candidateRankingScoreUnits.toString(),
+      marginalContributionReplay: {
+        fullBundleScoreUnits: entry.fullBundleScoreUnits.toString(),
+        bundleWithoutAssetScoreUnits: entry.bundleWithoutAssetScoreUnits.toString(),
+        rawContributionUnits: entry.rawContributionUnits.toString(),
+        clippedContributionUnits: entry.clippedContributionUnits.toString(),
+        clipped: entry.clipped,
+        clippingReceiptId: entry.clippingReceiptId
+      },
       coveredNeedEvidence: entry.coveredNeedEvidence,
       reasons: entry.reasons,
       rawShareBp: rawShareByAssetId.get(entry.assetId)?.shareBp || 0,
@@ -3692,6 +3994,7 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
     })),
     clippingReceipts,
     basisPointNormalization: normalizationTrace,
+    normalizationLedger: normalizationTrace.provisionalShares || [],
     rawShares: normalizedShares,
     proofHash: stableHashObject({
       needId: need.needId,
@@ -3714,8 +4017,11 @@ function allocateExactMicroUnitsByShare(totalMicroUnits, settledShares) {
     return {
       assetId: entry.assetId,
       settledShareBp: entry.settledShareBp,
+      floorMicroUnits: numerator / MAX_BPS_BIGINT,
       microUnits: numerator / MAX_BPS_BIGINT,
-      remainderUnits: numerator % MAX_BPS_BIGINT
+      remainderUnits: numerator % MAX_BPS_BIGINT,
+      extraMicroUnitsAwarded: 0n,
+      tieBreakRank: 0
     };
   });
   const initiallyAllocated = provisional.reduce((sum, entry) => sum + entry.microUnits, 0n);
@@ -3726,9 +4032,13 @@ function allocateExactMicroUnitsByShare(totalMicroUnits, settledShares) {
     return left.assetId.localeCompare(right.assetId);
   });
   const remainderDistributionOrder = provisional.map((entry) => entry.assetId);
+  provisional.forEach((entry, index) => {
+    entry.tieBreakRank = index + 1;
+  });
   let index = 0;
   while (remainingUnits > 0n && provisional.length) {
     provisional[index % provisional.length].microUnits += 1n;
+    provisional[index % provisional.length].extraMicroUnitsAwarded += 1n;
     remainingUnits -= 1n;
     index += 1;
   }
@@ -3736,7 +4046,12 @@ function allocateExactMicroUnitsByShare(totalMicroUnits, settledShares) {
     .sort((left, right) => right.settledShareBp - left.settledShareBp || left.assetId.localeCompare(right.assetId))
     .map((entry) => ({
       assetId: entry.assetId,
-      microUnits: entry.microUnits.toString()
+      settledShareBp: entry.settledShareBp,
+      microUnits: entry.microUnits.toString(),
+      floorMicroUnits: entry.floorMicroUnits.toString(),
+      remainderUnits: entry.remainderUnits.toString(),
+      extraMicroUnitsAwarded: entry.extraMicroUnitsAwarded.toString(),
+      tieBreakRank: entry.tieBreakRank
     }));
   return {
     allocations,
@@ -3744,6 +4059,7 @@ function allocateExactMicroUnitsByShare(totalMicroUnits, settledShares) {
       method: 'largest-remainder',
       tieBreakPolicy: 'remainder desc, settled share desc, assetId asc',
       remainderDistributionOrder,
+      allocationLedger: allocations,
       initiallyAllocatedMicroUnits: initiallyAllocated.toString(),
       totalMicroUnits: totalMicroUnits,
       finalAllocatedMicroUnits: allocations.reduce((sum, entry) => sum + BigInt(entry.microUnits), 0n).toString()
@@ -3951,15 +4267,24 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/prompt-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/prompt-completeness-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/measurement-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/static-measurement-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-measurement-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/verification-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/materialization-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/materialization-exclusions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/proof-witness-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/materialization-visibility-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/projection-policy.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/bounded-public-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/redaction-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/disclosure-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/source-to-shares.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/settlement-participation.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
+      { path: '.engi/accounting-precision-report.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/scenario-fixture-manifest.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/test-coverage-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/source-material/', sensitiveDataClass: 'licensed-source-material', disclosable: false },
       { path: '.engi/settlement-preview.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
       { path: '.engi/settlement-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
@@ -4142,9 +4467,81 @@ function buildMaterializationVisibilityProof({ assetPackLock, selectedSourceMate
   };
 }
 
+function buildMaterializationExclusions({ assetPack, evaluatedCandidates = [], selectedCandidates = [], branchMode }) {
+  const selectedAssetIds = new Set(selectedCandidates.map((candidate) => candidate.assetId));
+  const exclusions = evaluatedCandidates
+    .filter((candidate) => !selectedAssetIds.has(candidate.assetId))
+    .map((candidate) => ({
+      assetId: candidate.assetId,
+      title: candidate.asset.title,
+      artifactKind: candidate.asset.artifactKind,
+      useTier: candidate.useTier,
+      branchMode,
+      materializationAllowed: !!candidate.rights?.branchMaterializationAllowed,
+      settlementAllowed: !!candidate.rights?.settlementAllowed,
+      exclusionClass: candidate.useTier === 'reject'
+        ? 'verification-or-policy-rejection'
+        : candidate.rights?.branchMaterializationAllowed
+          ? 'ranking-cut'
+          : 'branch-mode-or-use-tier',
+      exclusionReason: candidate.rights?.branchMaterializationAllowed
+        ? `Not selected into the top ${assetPack.selectedAssets.length} ${branchMode} branch assets.`
+        : `Use tier ${candidate.useTier} does not authorize ${branchMode} branch materialization.`
+    }));
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    branchMode,
+    selectedAssetCount: selectedCandidates.length,
+    excludedAssetCount: exclusions.length,
+    exclusions,
+    proofHash: stableHashObject({
+      branchMode,
+      exclusions: exclusions.map((entry) => ({
+        assetId: entry.assetId,
+        exclusionClass: entry.exclusionClass,
+        exclusionReason: entry.exclusionReason
+      }))
+    })
+  };
+}
+
+function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMaterialManifest, materializationVisibilityProof, materializationExclusions, branchMode }) {
+  const selectedAssetIds = (assetPack.selectedAssets || []).slice();
+  const materializedAssetIds = (selectedSourceMaterialManifest.selectedSourceMaterial || []).map((entry) => entry.assetId);
+  const excludedAssetIds = (materializationExclusions.exclusions || []).map((entry) => entry.assetId);
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    assetPackId: assetPack.assetPackId,
+    branchMode,
+    allSelectedAssetsMaterialized: stableHashObject(selectedAssetIds.slice().sort()) === stableHashObject(materializedAssetIds.slice().sort()),
+    allExclusionsExplained: (materializationExclusions.exclusions || []).every((entry) => !!entry.exclusionClass && !!entry.exclusionReason),
+    visibilityProofRef: materializationVisibilityProof.proofHash,
+    exclusionManifestRef: materializationExclusions.proofHash,
+    witnessRefs: {
+      selectedAssetIds,
+      materializedAssetIds,
+      excludedAssetIds,
+      lockedUnitRefs: (assetPackLock.units || []).map((unit) => `${unit.assetId}:${unit.unitId}`)
+    },
+    proofHash: stableHashObject({
+      assetPackId: assetPack.assetPackId,
+      branchMode,
+      selectedAssetIds,
+      materializedAssetIds,
+      excludedAssetIds,
+      visibilityProofRef: materializationVisibilityProof.proofHash,
+      exclusionManifestRef: materializationExclusions.proofHash
+    })
+  };
+}
+
 function buildProofWitnessManifest({
   promptContracts,
   promptCompletenessProof,
+  codeAnalysisFactRegistry,
+  staticHeuristicsRegistry,
   measurementReceipts,
   staticMeasurementReport,
   staticMeasurementProof,
@@ -4154,6 +4551,8 @@ function buildProofWitnessManifest({
   journalCompletenessProof,
   identityAuthorizationProof,
   sensitiveDataFlowProof,
+  materializationProof,
+  materializationExclusions,
   materializationVisibilityProof,
   sourceToSharesArtifact,
   settlementParticipationArtifact,
@@ -4166,17 +4565,23 @@ function buildProofWitnessManifest({
   const artifactDigests = [
     { path: '.engi/prompt-contracts.json', digest: stableHashObject(promptContracts || []), proofFamilies: ['prompt-completeness'] },
     { path: '.engi/prompt-completeness-proof.json', digest: promptCompletenessProof.proofHash, proofFamilies: ['prompt-completeness'] },
+    { path: '.engi/code-analysis-fact-registry.json', digest: stableHashObject(codeAnalysisFactRegistry || {}), proofFamilies: ['static-code-analysis'] },
     { path: '.engi/measurement-receipts.json', digest: stableHashObject(measurementReceipts || []), proofFamilies: ['static-code-analysis'] },
     { path: '.engi/static-measurement-report.json', digest: staticMeasurementReport.reportHash, proofFamilies: ['static-code-analysis'] },
     { path: '.engi/static-measurement-proof.json', digest: staticMeasurementProof.proofHash, proofFamilies: ['static-code-analysis'] },
     { path: '.engi/verification-report.json', digest: stableHashObject(verificationReport || {}), proofFamilies: ['verification-decisions'] },
     { path: '.engi/verification-receipts.json', digest: stableHashObject(verificationReceiptsArtifact || {}), proofFamilies: ['verification-decisions'] },
+    { path: '.engi/materialization-proof.json', digest: materializationProof.proofHash, proofFamilies: ['selection-and-materialization'] },
+    { path: '.engi/materialization-exclusions.json', digest: materializationExclusions.proofHash, proofFamilies: ['selection-and-materialization'] },
     { path: '.engi/materialization-visibility-proof.json', digest: materializationVisibilityProof.proofHash, proofFamilies: ['selection-and-materialization'] },
     { path: '.engi/source-to-shares.json', digest: sourceToSharesArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/settlement-participation.json', digest: settlementParticipationArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/accounting-precision-report.json', digest: accountingPrecisionReport.reportHash, proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/projection-policy.json', digest: disclosureProof?.projectionPolicyRef || stableHashObject({ missing: 'projection-policy' }), proofFamilies: ['disclosure-boundary'] },
+    { path: '.engi/bounded-public-proof.json', digest: redactionProof?.boundedPublicProofHash || stableHashObject({ missing: 'bounded-public-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/redaction-proof.json', digest: redactionProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/disclosure-proof.json', digest: disclosureProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
+    { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] },
     { path: '.engi/settlement-proof.json', digest: stableHashObject(settlementProof || {}), proofFamilies: ['settlement-source-to-shares'] }
   ];
   return {
@@ -4192,7 +4597,7 @@ function buildProofWitnessManifest({
       },
       {
         proofFamily: 'static-code-analysis',
-        witnessArtifactPaths: ['.engi/code-analysis-fact-registry.json', '.engi/measurement-receipts.json', '.engi/static-measurement-report.json', '.engi/static-measurement-proof.json'],
+        witnessArtifactPaths: ['.engi/code-analysis-fact-registry.json', '.engi/static-heuristics-registry.json', '.engi/measurement-receipts.json', '.engi/static-measurement-report.json', '.engi/static-measurement-proof.json'],
         witnessRefs: (measurementReceipts || []).map((receipt) => receipt.receiptId)
       },
       {
@@ -4202,13 +4607,13 @@ function buildProofWitnessManifest({
       },
       {
         proofFamily: 'selection-and-materialization',
-        witnessArtifactPaths: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/materialization-visibility-proof.json'],
-        witnessRefs: [selectionConsistencyProof.proofHash, materializationVisibilityProof.proofHash]
+        witnessArtifactPaths: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/materialization-proof.json', '.engi/materialization-exclusions.json', '.engi/materialization-visibility-proof.json'],
+        witnessRefs: [selectionConsistencyProof.proofHash, materializationProof.proofHash, materializationExclusions.proofHash, materializationVisibilityProof.proofHash]
       },
       {
         proofFamily: 'authorization-and-sensitive-flow',
         witnessArtifactPaths: ['.engi/authorization-decisions.json', '.engi/sensitive-data-flow.json'],
-        witnessRefs: [identityAuthorizationProof.witnessRefs?.decisionIds?.length || 0, sensitiveDataFlowProof.proofHash]
+        witnessRefs: [identityAuthorizationProof.proofHash, sensitiveDataFlowProof.proofHash]
       },
       {
         proofFamily: 'settlement-source-to-shares',
@@ -4230,6 +4635,7 @@ function buildProofWitnessManifest({
       promptCompletenessProof: promptCompletenessProof.proofHash,
       staticMeasurementProof: staticMeasurementProof.proofHash,
       verificationReceiptCount: verificationReceiptsArtifact?.verificationReceipts?.length || 0,
+      materializationProof: materializationProof.proofHash,
       materializationVisibilityProof: materializationVisibilityProof.proofHash,
       sourceToSharesArtifact: sourceToSharesArtifact.proofHash,
       accountingPrecisionReport: accountingPrecisionReport.reportHash
@@ -4247,13 +4653,14 @@ function buildProofContract({ needId, assetPackId, branchName, selectedCandidate
       { stage: 'need-measurement', artifactRefs: ['.engi/need.json', '.engi/need-measurement.json', '.engi/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence.' },
       { stage: 'ranking-and-verification', artifactRefs: ['.engi/match-report.json', '.engi/verification-report.json', '.engi/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
       { stage: 'identity-and-boundaries', artifactRefs: ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/github-boundary.json', '.engi/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
-      { stage: 'materialization', artifactRefs: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', 'ENGI_NEED.md'], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
-      { stage: 'settlement-and-proof', artifactRefs: ['.engi/settlement-preview.json', '.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable.' }
+      { stage: 'materialization', artifactRefs: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/materialization-visibility-proof.json', 'ENGI_NEED.md'], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
+      { stage: 'settlement-and-proof', artifactRefs: ['.engi/settlement-preview.json', '.engi/source-to-shares.json', '.engi/settlement-participation.json', '.engi/accounting-precision-report.json', '.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable from source contribution to journal entry.' }
     ],
     theoremChecks: [
       'selected assets respect branch-mode use tiers',
       'all state-changing actions are authorized',
       'no unauthorized public disclosure occurs',
+      'source-to-shares clipping and tie-breaks are replayable',
       'debits equal credits exactly',
       'asset-pack lock binds settlement refs closed'
     ],
@@ -4356,6 +4763,7 @@ function buildSettlementParticipationArtifact({ evaluatedCandidates, selectedCan
 
 function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToSharesArtifact, settlementParticipationArtifact, allocationTrace, journalDiff }) {
   const sourceContributionEntries = sourceToSharesArtifact?.sourceContributionEntries || [];
+  const settlementRecords = settlementParticipationArtifact?.records || [];
   return {
     needId: need.needId,
     assetPackId: assetPack.assetPackId,
@@ -4396,15 +4804,31 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
     },
     microUnitAllocation: {
       ...allocationTrace,
-      allocations: (settlementParticipationArtifact?.records || [])
+      allocations: settlementRecords
         .filter((record) => record.settlementParticipating)
         .map((record) => ({
           assetId: record.assetId,
           settledShareBp: record.settledShareBp,
           creditedMicroUnits: record.creditedMicroUnits,
-          zeroCreditParticipating: record.zeroCreditParticipating
+          zeroCreditParticipating: record.zeroCreditParticipating,
+          selectedUnitRefs: record.selectedUnitRefs,
+          tieBreakRank: (allocationTrace?.allocationLedger || []).find((entry) => entry.assetId === record.assetId)?.tieBreakRank || null,
+          remainderUnits: (allocationTrace?.allocationLedger || []).find((entry) => entry.assetId === record.assetId)?.remainderUnits || '0',
+          extraMicroUnitsAwarded: (allocationTrace?.allocationLedger || []).find((entry) => entry.assetId === record.assetId)?.extraMicroUnitsAwarded || '0'
         }))
     },
+    sourceMaterialToSharesClosure: settlementRecords
+      .filter((record) => record.selected)
+      .map((record) => ({
+        assetId: record.assetId,
+        selectedUnitRefs: record.selectedUnitRefs,
+        rawContributionMass: record.rawContributionMass,
+        clippedContributionMass: record.clippedContributionMass,
+        rawShareBp: record.rawShareBp,
+        settledShareBp: record.settledShareBp,
+        creditedMicroUnits: record.creditedMicroUnits,
+        zeroCreditParticipating: record.zeroCreditParticipating
+      })),
     exactAccountingInvariants: {
       rawSharesNormalized: journalDiff.invariants.rawSharesNormalized,
       settledSharesNormalized: journalDiff.invariants.settledSharesNormalized,
@@ -4524,7 +4948,7 @@ function buildPromptImplementationSurface(inferenceProofs, promptSurfaces = []) 
   };
 }
 
-function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasurementProofs, selectionConsistencyProof, journalCompletenessProof, identityAuthorizationProof, sensitiveDataFlowProof, settlementProof, promptImplementationSurface, promptCompletenessProof, staticMeasurementProof, materializationVisibilityProof, verificationReceiptsArtifact, redactionProof, disclosureProof, proofWitnessManifest, proofContract) {
+function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasurementProofs, selectionConsistencyProof, journalCompletenessProof, identityAuthorizationProof, sensitiveDataFlowProof, settlementProof, promptImplementationSurface, promptCompletenessProof, staticMeasurementProof, materializationProof, materializationExclusions, materializationVisibilityProof, verificationReceiptsArtifact, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, redactionProof, disclosureProof, proofWitnessManifest, proofContract) {
   return {
     needId,
     assetPackId,
@@ -4541,12 +4965,38 @@ function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasu
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
+    materializationProof,
+    materializationExclusions,
     materializationVisibilityProof,
     verificationReceiptsArtifact,
+    sourceToSharesArtifact,
+    settlementParticipationArtifact,
+    accountingPrecisionReport,
     redactionProof,
     disclosureProof,
     proofWitnessManifest,
-    settlementProof
+    settlementProof,
+    verifierEntrypoint: {
+      replayArtifacts: [
+        '.engi/prompt-contracts.json',
+        '.engi/code-analysis-fact-registry.json',
+        '.engi/static-heuristics-registry.json',
+        '.engi/measurement-receipts.json',
+        '.engi/verification-receipts.json',
+        '.engi/materialization-proof.json',
+        '.engi/materialization-exclusions.json',
+        '.engi/source-to-shares.json',
+        '.engi/settlement-participation.json',
+        '.engi/accounting-precision-report.json',
+        '.engi/journal-diff.json'
+      ],
+      replayInstructions: [
+        'Recompute prompt completeness from the prompt contracts and compare the proof hash.',
+        'Recompute code-analysis facts and static heuristics from the code-analysis registries, then resolve all static and verification receipt refs against the receipt artifacts.',
+        'Recompute selected-vs-materialized-vs-excluded asset sets from the materialization artifacts and compare the proof hashes.',
+        'Replay source-to-shares marginal contribution clipping, basis-point normalization, and exact micro-unit allocation from the settlement artifacts.'
+      ]
+    }
   };
 }
 
@@ -4709,6 +5159,13 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['need-measurement', 'ranking', 'verification']
       },
       {
+        path: '.engi/static-heuristics-registry.json',
+        useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['need-measurement', 'ranking', 'verification']
+      },
+      {
         path: '.engi/external-boundary-manifest.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
@@ -4744,6 +5201,20 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['verification-determinisms', 'issuer-policy']
       },
       {
+        path: '.engi/materialization-proof.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['asset-pack.lock', 'selected-source-material', 'materialization-visibility-proof']
+      },
+      {
+        path: '.engi/materialization-exclusions.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['ranking', 'asset-pack-assembly', 'materialization-proof']
+      },
+      {
         path: '.engi/proof-witness-manifest.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
@@ -4751,11 +5222,39 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['proof-bundle', 'prompt-completeness', 'verification-determinisms', 'projection-policy']
       },
       {
+        path: '.engi/materialization-visibility-proof.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['asset-pack.lock', 'selected-source-material', 'projection-policy']
+      },
+      {
         path: '.engi/settlement-preview.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
         potentiallyDisclosable: false,
         dependsOn: ['asset-shares', 'settlement']
+      },
+      {
+        path: '.engi/source-to-shares.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['ranking', 'asset-pack.lock', 'settlement']
+      },
+      {
+        path: '.engi/settlement-participation.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'settlement-preview',
+        potentiallyDisclosable: false,
+        dependsOn: ['source-to-shares', 'asset-pack.lock', 'settlement']
+      },
+      {
+        path: '.engi/accounting-precision-report.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['source-to-shares', 'settlement-participation', 'journal-diff']
       },
       {
         path: '.engi/settlement-proof.json',
@@ -4814,6 +5313,20 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['projection-policy', 'bounded-public-proof']
       },
       {
+        path: '.engi/scenario-fixture-manifest.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['need-measurement', 'profile-semantics']
+      },
+      {
+        path: '.engi/test-coverage-report.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['scenario-fixture-manifest', 'proof-bundle', 'settlement']
+      },
+      {
         path: 'ENGI_NEED.md',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-branch-derived-artifact',
@@ -4841,13 +5354,127 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
   };
 }
 
-export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, selectedCandidates, branchName, branchMode }) {
+function buildScenarioFixtureManifest(state, activeScenarioId = null) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    activeScenarioId,
+    selectableScenarioCount: state.needScenarios.length,
+    candidateAssetCount: state.assets.length,
+    fixtureFamilies: [
+      'GitHub workflow run envelopes',
+      'GitHub artifact manifests',
+      'GitHub check suites',
+      'Repo trees',
+      'Parser outputs',
+      'Projection-safe artifact inventories',
+      'Cross-language repo slices',
+      'Source-to-shares normalization ledgers'
+    ],
+    scenarioFamilies: state.needScenarios.map((scenario) => ({
+      scenarioId: scenario.scenarioId,
+      scenarioFamily: scenario.scenarioFamily || 'unspecified',
+      coverageTags: scenario.coverageTags || [],
+      repo: scenario.repo,
+      benchmarkRunId: scenario.benchmarkRunId,
+      parserKind: scenario.canonicalRunEvidence?.extractedOutputs?.parserKind || 'github-actions.auth-remediation.v3',
+      benchmarkWorkflowPath: scenario.benchmarkWorkflowPath,
+      benchmarkHarnessPath: scenario.benchmarkHarnessPath,
+      repoTreeSize: scenario.repoContext?.repoTree?.length || 0,
+      stackHints: scenario.repoContext?.stackHints || [],
+      targetArtifactKinds: scenario.expectedTargetArtifactKinds || [],
+      artifactCount: scenario.canonicalRunEvidence?.artifacts?.length || 0,
+      checkCount: scenario.canonicalRunEvidence?.checks?.length || 0,
+      failingCases: scenario.canonicalRunEvidence?.extractedOutputs?.failingCases || [],
+      weakDimensions: scenario.canonicalRunEvidence?.extractedOutputs?.weakDimensions || []
+    })),
+    negativeFixtures: [
+      {
+        fixtureId: 'malformed-canonical-benchmark-output',
+        expectedOutcome: 'parser validation fails closed before need materialization',
+        basedOnScenarioId: 'auth-issuer-rollback'
+      },
+      {
+        fixtureId: 'restricted-or-revoked-issuer-asset',
+        expectedOutcome: 'restricted assets never settle and revoked assets reject outright',
+        basedOnScenarioId: 'auth-issuer-rollback'
+      },
+      {
+        fixtureId: 'zero-credit-source-to-shares',
+        expectedOutcome: 'zero-credit participation remains explicit and receipt-backed',
+        basedOnScenarioId: activeScenarioId || state.needScenarios[0]?.scenarioId
+      },
+      {
+        fixtureId: 'polyglot-cross-language-parity-gap',
+        expectedOutcome: 'cross-language rollback evidence stays repo-bound and replayable across TypeScript, Python, and Rust slices',
+        basedOnScenarioId: 'polyglot-gateway-benchmark-remediation'
+      },
+      {
+        fixtureId: 'many-asset-normalization-ledger',
+        expectedOutcome: 'source-to-shares tie-break and normalization ledgers remain deterministic across repeated runs',
+        basedOnScenarioId: 'auth-many-asset-normalization'
+      }
+    ],
+    proofHash: stableHashObject({
+      activeScenarioId,
+      scenarioIds: state.needScenarios.map((scenario) => scenario.scenarioId),
+      candidateAssetIds: state.assets.map((asset) => asset.assetId)
+    })
+  };
+}
+
+function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenarioId, selectedCandidates, settlementParticipationArtifact }) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    activeScenarioId,
+    declaredCoverageTargets: [
+      'prompt completeness mismatches fail closed',
+      'static code analysis and verification receipts resolve',
+      'projection policy enforces bounded public proof surfaces',
+      'proof witness manifest digests proof-relevant artifacts',
+      'source-to-shares precision stays replayable through journal settlement',
+      'scenario corpus covers GitHub-shaped, privacy, issuer-policy, and deployment stress cases'
+    ],
+    adversarialCoverage: {
+      malformedGithubArtifactFixturePresent: scenarioFixtureManifest.negativeFixtures.some((fixture) => fixture.fixtureId === 'malformed-canonical-benchmark-output'),
+      privacyBoundaryScenarioPresent: state.needScenarios.some((scenario) => (scenario.coverageTags || []).includes('privacy-boundary') || scenario.scenarioFamily === 'privacy-boundary-stress'),
+      proofHeavyScenarioPresent: state.needScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'),
+      polyglotRepoScenarioPresent: state.needScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'),
+      manyAssetNormalizationScenarioPresent: state.needScenarios.some((scenario) => scenario.scenarioFamily === 'many-asset-settlement-normalization'),
+      manyAssetSettlementCorpusPresent: state.assets.length >= 6,
+      zeroCreditParticipationObservedInLatestRun: (settlementParticipationArtifact?.records || []).some((record) => record.zeroCreditParticipating)
+    },
+    latestRunCoverage: {
+      selectedAssetCount: selectedCandidates.length,
+      settlementParticipatingCount: settlementParticipationArtifact?.settlementParticipatingCount || 0,
+      zeroCreditParticipatingCount: settlementParticipationArtifact?.zeroCreditParticipatingCount || 0,
+      scenarioFamilyCount: scenarioFixtureManifest.scenarioFamilies.length,
+      coverageTagCount: new Set(state.needScenarios.flatMap((scenario) => scenario.coverageTags || [])).size
+    },
+    reportHash: stableHashObject({
+      activeScenarioId,
+      scenarioFamilyCount: scenarioFixtureManifest.scenarioFamilies.length,
+      selectedAssetCount: selectedCandidates.length,
+      settlementParticipatingCount: settlementParticipationArtifact?.settlementParticipatingCount || 0
+    })
+  };
+}
+
+export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
   const settlementCandidates = selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible');
   if (!settlementCandidates.length) {
-    throw new Error('No settlement-eligible assets available for Spec V8 settlement.');
+    throw new Error('No settlement-eligible assets available for Spec V9 settlement.');
   }
 
-  const rawShares = computeAssetSharesRaw(need, settlementCandidates);
+  const sourceToSharesArtifact = buildSourceToSharesArtifact(need, settlementCandidates);
+  const rawShares = sourceToSharesArtifact.rawShares.map((entry) => ({
+    assetId: entry.assetId,
+    shareBp: entry.shareBp,
+    reasons: entry.reasons,
+    rawContributionUnits: entry.rawContributionUnits,
+    clippedContributionUnits: entry.clippedContributionUnits
+  }));
   const settledShares = rawShares.map((item) => ({
     assetId: item.assetId,
     rawShareBp: item.shareBp,
@@ -4855,7 +5482,7 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
     settlementAdjustmentReasons: []
   }));
 
-  const allocations = allocateExactMicroUnits(METERED_MICRO_UNITS, settledShares);
+  const { allocations, allocationTrace } = allocateExactMicroUnitsByShare(METERED_MICRO_UNITS, settledShares);
   const beforeBalances = Object.fromEntries(Object.entries(state.ledger.accounts).map(([key, value]) => [key, BigInt(value)]));
   const buyerAccount = `buyer:${buyer.buyerId}:license_pool`;
   const total = BigInt(METERED_MICRO_UNITS);
@@ -4962,6 +5589,25 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
       difference: (debited - credited).toString()
     }
   };
+  const settlementParticipationArtifact = buildSettlementParticipationArtifact({
+    evaluatedCandidates,
+    selectedCandidates,
+    settlementCandidates,
+    assetPackLock,
+    sourceToSharesArtifact,
+    settledShares,
+    allocations,
+    branchMode
+  });
+  const accountingPrecisionReport = buildAccountingPrecisionReport({
+    need,
+    assetPack,
+    branchMode,
+    sourceToSharesArtifact,
+    settlementParticipationArtifact,
+    allocationTrace,
+    journalDiff
+  });
 
   const settlementPreview = {
     needId: need.needId,
@@ -5003,6 +5649,8 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
     }),
     semanticsNote: 'Selected branch assets, settlement participants, and credited settlement assets are intentionally distinct sets. A selected settlement-eligible asset can receive zero credited units when its marginal bundle contribution is non-positive.',
     assetPackLockHash: stableHashObject(assetPackLock),
+    sourceToSharesRef: sourceToSharesArtifact.proofHash,
+    settlementParticipationRef: settlementParticipationArtifact.proofHash,
     receipts
   };
 
@@ -5013,6 +5661,9 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
     branchMode,
     issuanceReceiptId,
     allocationReceiptId,
+    sourceToSharesArtifact,
+    settlementParticipationArtifact,
+    accountingPrecisionReport,
     journalDiff,
     settlementPreview,
     nextLedgerAccounts: stringifyBigIntMap(afterBalances)
@@ -5081,6 +5732,11 @@ function buildBoundedPublicProofArtifact({ need, assetPack, settlement, proofCon
     staticMeasurementSummary: {
       receiptCount: staticMeasurementReport.receiptCount,
       allReceiptRefsResolve: staticMeasurementReport.allReceiptRefsResolve
+    },
+    sourceToSharesSummary: {
+      sourceContributionCount: settlement.sourceToSharesArtifact?.sourceContributionEntries?.length || 0,
+      zeroCreditParticipatingCount: settlement.settlementParticipationArtifact?.zeroCreditParticipatingCount || 0,
+      normalizationMethod: settlement.sourceToSharesArtifact?.basisPointNormalization?.method || 'largest-remainder'
     },
     redactionStatus: 'bounded-public-proof-metadata-only'
   };
@@ -5165,8 +5821,13 @@ function buildPublicProjection(latestRun) {
     boundedPublicProof: latestRun.boundedPublicProof,
     promptCompletenessProof: latestRun.promptCompletenessProof,
     codeAnalysisFactRegistry: latestRun.codeAnalysisFactRegistry,
+    staticHeuristicsRegistry: latestRun.staticHeuristicsRegistry,
     staticMeasurementReport: latestRun.staticMeasurementReport,
     staticMeasurementProof: latestRun.staticMeasurementProof,
+    materializationProof: latestRun.materializationProof,
+    materializationVisibilityProof: latestRun.materializationVisibilityProof,
+    scenarioFixtureManifest: latestRun.scenarioFixtureManifest,
+    testCoverageReport: latestRun.testCoverageReport,
     projectionPolicy: latestRun.projectionPolicy,
     redactionProof: latestRun.redactionProof,
     disclosureProof: latestRun.disclosureProof,
@@ -5180,8 +5841,13 @@ function buildPublicProjection(latestRun) {
       '.engi/bounded-public-proof.json': latestRun.boundedPublicProof,
       '.engi/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
       '.engi/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
+      '.engi/static-heuristics-registry.json': latestRun.staticHeuristicsRegistry,
       '.engi/static-measurement-report.json': latestRun.staticMeasurementReport,
       '.engi/static-measurement-proof.json': latestRun.staticMeasurementProof,
+      '.engi/materialization-proof.json': latestRun.materializationProof,
+      '.engi/materialization-visibility-proof.json': latestRun.materializationVisibilityProof,
+      '.engi/scenario-fixture-manifest.json': latestRun.scenarioFixtureManifest,
+      '.engi/test-coverage-report.json': latestRun.testCoverageReport,
       '.engi/projection-policy.json': latestRun.projectionPolicy,
       '.engi/redaction-proof.json': latestRun.redactionProof,
       '.engi/disclosure-proof.json': latestRun.disclosureProof
@@ -5212,7 +5878,15 @@ function buildBuyerProjection(latestRun) {
     pipelineTelemetry: latestRun.pipelineTelemetry,
     measurementReceipts: latestRun.measurementReceipts,
     verificationReceipts: latestRun.verificationReceipts,
+    materializationProof: latestRun.materializationProof,
+    materializationExclusions: latestRun.materializationExclusions,
+    materializationVisibilityProof: latestRun.materializationVisibilityProof,
     proofWitnessManifest: latestRun.proofWitnessManifest,
+    sourceToSharesArtifact: latestRun.sourceToSharesArtifact,
+    settlementParticipationArtifact: latestRun.settlementParticipationArtifact,
+    accountingPrecisionReport: latestRun.accountingPrecisionReport,
+    scenarioFixtureManifest: latestRun.scenarioFixtureManifest,
+    testCoverageReport: latestRun.testCoverageReport,
     settlementPreview: latestRun.settlementPreview,
     journalDiff: latestRun.journalDiff,
     systemProofBundle: latestRun.systemProofBundle,
@@ -5237,9 +5911,13 @@ function buildReviewerProjection(latestRun) {
     codeAnalysisFactRegistry: latestRun.codeAnalysisFactRegistry,
     staticMeasurementReport: latestRun.staticMeasurementReport,
     staticMeasurementProof: latestRun.staticMeasurementProof,
+    materializationProof: latestRun.materializationProof,
+    materializationVisibilityProof: latestRun.materializationVisibilityProof,
     externalBoundaryManifest: latestRun.externalBoundaryManifest,
     systemProofBundle: latestRun.systemProofBundle,
     proofWitnessManifest: latestRun.proofWitnessManifest,
+    scenarioFixtureManifest: latestRun.scenarioFixtureManifest,
+    testCoverageReport: latestRun.testCoverageReport,
     branchArtifacts: {
       branchName: latestRun.branchArtifacts?.branchName,
       branchMode: latestRun.branchArtifacts?.branchMode,
@@ -5278,12 +5956,21 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
     '.engi/prompt-contracts.json',
     '.engi/prompt-completeness-proof.json',
     '.engi/code-analysis-fact-registry.json',
+    '.engi/static-heuristics-registry.json',
     '.engi/external-boundary-manifest.json',
     '.engi/measurement-receipts.json',
     '.engi/static-measurement-report.json',
     '.engi/static-measurement-proof.json',
     '.engi/verification-receipts.json',
+    '.engi/materialization-proof.json',
+    '.engi/materialization-exclusions.json',
     '.engi/proof-witness-manifest.json',
+    '.engi/materialization-visibility-proof.json',
+    '.engi/source-to-shares.json',
+    '.engi/settlement-participation.json',
+    '.engi/accounting-precision-report.json',
+    '.engi/scenario-fixture-manifest.json',
+    '.engi/test-coverage-report.json',
     '.engi/unit-catalog.json',
     '.engi/pipeline-telemetry.json',
     '.engi/projection-policy.json',
@@ -5294,12 +5981,12 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
   ];
   for (const requiredPath of requiredPaths) {
     if (!branchArtifacts.files[requiredPath]) {
-      throw new Error(`Spec V8 branch artifact contract failed: missing ${requiredPath}.`);
+      throw new Error(`Spec V9 branch artifact contract failed: missing ${requiredPath}.`);
     }
   }
 }
 
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, verificationReceiptsArtifact, proofWitnessManifest, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, proofWitnessManifest, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
   const files = {
     '.engi/need.json': JSON.stringify(need, null, 2),
     '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -5324,12 +6011,21 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     '.engi/prompt-contracts.json': JSON.stringify(promptContracts, null, 2),
     '.engi/prompt-completeness-proof.json': JSON.stringify(promptCompletenessProof, null, 2),
     '.engi/code-analysis-fact-registry.json': JSON.stringify(codeAnalysisFactRegistry, null, 2),
+    '.engi/static-heuristics-registry.json': JSON.stringify(staticHeuristicsRegistry, null, 2),
     '.engi/external-boundary-manifest.json': JSON.stringify(externalBoundaryManifest, null, 2),
     '.engi/measurement-receipts.json': JSON.stringify(measurementReceipts, null, 2),
     '.engi/static-measurement-report.json': JSON.stringify(staticMeasurementReport, null, 2),
     '.engi/static-measurement-proof.json': JSON.stringify(staticMeasurementProof, null, 2),
     '.engi/verification-receipts.json': JSON.stringify(verificationReceiptsArtifact, null, 2),
+    '.engi/materialization-proof.json': JSON.stringify(materializationProof, null, 2),
+    '.engi/materialization-exclusions.json': JSON.stringify(materializationExclusions, null, 2),
     '.engi/proof-witness-manifest.json': JSON.stringify(proofWitnessManifest, null, 2),
+    '.engi/materialization-visibility-proof.json': JSON.stringify(materializationVisibilityProof, null, 2),
+    '.engi/source-to-shares.json': JSON.stringify(sourceToSharesArtifact, null, 2),
+    '.engi/settlement-participation.json': JSON.stringify(settlementParticipationArtifact, null, 2),
+    '.engi/accounting-precision-report.json': JSON.stringify(accountingPrecisionReport, null, 2),
+    '.engi/scenario-fixture-manifest.json': JSON.stringify(scenarioFixtureManifest, null, 2),
+    '.engi/test-coverage-report.json': JSON.stringify(testCoverageReport, null, 2),
     '.engi/unit-catalog.json': JSON.stringify(unitCatalog, null, 2),
     '.engi/pipeline-telemetry.json': JSON.stringify(pipelineTelemetry, null, 2),
     '.engi/projection-policy.json': JSON.stringify(projectionPolicy, null, 2),
@@ -5356,6 +6052,12 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const scenario = state.needScenarios.find((entry) => entry.scenarioId === (scenarioId || state.needScenarios[0]?.scenarioId));
   if (!buyer) throw new Error('Buyer not found.');
   if (!scenario) throw new Error('Need scenario not found.');
+  const scenarioBoundBuyer = {
+    ...buyer,
+    repo: scenario.repo,
+    buyerBranch: scenario.baseRef,
+    installationId: scenario.installationId
+  };
 
   const policyState = state.policyState || buildPolicyState();
   const needMeasurement = measureNeedFromScenario(scenario);
@@ -5371,16 +6073,32 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const evalManifest = buildEvalManifest(need, evaluatedCandidates, promptSurfaces);
   const assetPackLock = buildAssetPackLock(assetPack, selectedCandidates);
   const selectedSourceMaterialManifest = buildSelectedSourceMaterialManifest(assetPack, selectedCandidates);
-  const settlement = settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, selectedCandidates, branchName, branchMode });
-  const selectionConsistencyProof = buildSelectionConsistencyProof(assetPack, selectedCandidates, selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible'), branchMode);
+  const settlement = settleNeedEvent(state, {
+    buyer: scenarioBoundBuyer,
+    need,
+    assetPack,
+    assetPackLock,
+    evaluatedCandidates,
+    selectedCandidates,
+    branchName,
+    branchMode
+  });
+  const selectionConsistencyProof = buildSelectionConsistencyProof({
+    assetPack,
+    assetPackLock,
+    selectedCandidates,
+    settlementCandidates: selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible'),
+    selectedSourceMaterialManifest,
+    branchMode
+  });
   const journalCompletenessProof = buildJournalCompletenessProof(settlement.eventId, settlement.journalDiff);
-  const identityBindings = buildIdentityBindings(buyer, selectedCandidates);
-  const githubBoundarySurface = buildGithubBoundarySurface(buyer, need, selectedCandidates);
+  const identityBindings = buildIdentityBindings(scenarioBoundBuyer, selectedCandidates);
+  const githubBoundarySurface = buildGithubBoundarySurface(scenarioBoundBuyer, need, selectedCandidates);
   const artifactUploadManifest = buildArtifactUploadManifest(selectedCandidates);
   const profileCompositionSurface = buildProfileCompositions();
-  const externalBoundaryManifest = buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetPack, settlementPreview: settlement.settlementPreview });
-  const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, buyer, branchName, assetPack);
-  const sensitiveDataFlowRecords = buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack, selectedCandidates);
+  const externalBoundaryManifest = buildExternalBoundaryManifest({ buyer: scenarioBoundBuyer, need, selectedCandidates, assetPack, settlementPreview: settlement.settlementPreview });
+  const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, scenarioBoundBuyer, branchName, assetPack);
+  const sensitiveDataFlowRecords = buildSensitiveDataFlowRecords(policyState, scenarioBoundBuyer, branchName, assetPack, selectedCandidates);
   const identityAuthorizationProof = buildIdentityAuthorizationProof(branchName, authorizationDecisions, identityBindings);
   const sensitiveDataFlowProof = buildSensitiveDataFlowProof(sensitiveDataFlowRecords);
   const assetMeasurementProofs = buildAssetMeasurementProofs(selectedCandidates);
@@ -5389,12 +6107,14 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates);
   const unitCatalog = buildUnitCatalog(selectedCandidates);
+  const scenarioFixtureManifest = buildScenarioFixtureManifest(state, scenario.scenarioId);
   const measurementReceipts = collectStaticExecutionReceipts([
     needMeasurement.staticExecutionReceipts,
     evaluatedCandidates.map((candidate) => candidate.staticExecutionReceipts),
     state.assets.map((asset) => asset.assetMeasurement?.staticExecutionReceipts)
   ]);
   const codeAnalysisFactRegistry = buildCodeAnalysisFactRegistry({ need, evaluatedCandidates });
+  const staticHeuristicsRegistry = buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry);
   const staticMeasurementReport = buildStaticMeasurementReport(measurementReceipts, needMeasurement, evaluatedCandidates);
   const staticMeasurementProof = buildStaticMeasurementProof(measurementReceipts, needMeasurement, evaluatedCandidates);
   const verificationReceiptsArtifact = buildVerificationReceiptsArtifact(need, evaluatedCandidates);
@@ -5406,6 +6126,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     verificationReport,
     settlementPreview: settlement.settlementPreview,
     journalDiff: settlement.journalDiff
+  });
+  const testCoverageReport = buildTestCoverageReport({
+    state,
+    scenarioFixtureManifest,
+    activeScenarioId: scenario.scenarioId,
+    selectedCandidates,
+    settlementParticipationArtifact: settlement.settlementParticipationArtifact
   });
   const deliverablesManifest = buildDeliverablesManifest({
     branchName,
@@ -5459,12 +6186,41 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     projectionPolicy,
     policyRelease
   });
-  let proofWitnessManifest = buildProofWitnessManifest({
-    measurementReceipts,
-    promptCompletenessProof,
-    staticMeasurementProof,
-    verificationReceiptsArtifact,
+  let materializationExclusions = buildMaterializationExclusions({
+    assetPack,
+    evaluatedCandidates,
+    selectedCandidates,
+    branchMode
+  });
+  let materializationProof = buildMaterializationProof({
+    assetPack,
+    assetPackLock,
+    selectedSourceMaterialManifest,
     materializationVisibilityProof,
+    materializationExclusions,
+    branchMode
+  });
+  let proofWitnessManifest = buildProofWitnessManifest({
+    promptContracts,
+    promptCompletenessProof,
+    codeAnalysisFactRegistry,
+    staticHeuristicsRegistry,
+    measurementReceipts,
+    staticMeasurementReport,
+    staticMeasurementProof,
+    verificationReport,
+    verificationReceiptsArtifact,
+    selectionConsistencyProof,
+    journalCompletenessProof,
+    identityAuthorizationProof,
+    sensitiveDataFlowProof,
+    materializationProof,
+    materializationExclusions,
+    materializationVisibilityProof,
+    sourceToSharesArtifact: settlement.sourceToSharesArtifact,
+    settlementParticipationArtifact: settlement.settlementParticipationArtifact,
+    accountingPrecisionReport: settlement.accountingPrecisionReport,
+    settlementProof,
     redactionProof,
     disclosureProof,
     proofContract
@@ -5482,8 +6238,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     promptImplementationSurface,
     promptCompletenessProof,
     staticMeasurementProof,
+    materializationProof,
+    materializationExclusions,
     materializationVisibilityProof,
     verificationReceiptsArtifact,
+    settlement.sourceToSharesArtifact,
+    settlement.settlementParticipationArtifact,
+    settlement.accountingPrecisionReport,
     redactionProof,
     disclosureProof,
     proofWitnessManifest,
@@ -5520,12 +6281,21 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     promptContracts,
     promptCompletenessProof,
     codeAnalysisFactRegistry,
+    staticHeuristicsRegistry,
     externalBoundaryManifest,
     measurementReceipts,
     staticMeasurementReport,
     staticMeasurementProof,
     verificationReceiptsArtifact,
     proofWitnessManifest,
+    materializationProof,
+    materializationExclusions,
+    materializationVisibilityProof,
+    sourceToSharesArtifact: settlement.sourceToSharesArtifact,
+    settlementParticipationArtifact: settlement.settlementParticipationArtifact,
+    accountingPrecisionReport: settlement.accountingPrecisionReport,
+    scenarioFixtureManifest,
+    testCoverageReport,
     projectionPolicy,
     boundedPublicProof: provisionalBoundedPublicProof,
     redactionProof,
@@ -5552,12 +6322,47 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     projectionPolicy: finalizedProjectionPolicy,
     boundedPublicProof
   });
+  const finalizedMaterializationVisibilityProof = buildMaterializationVisibilityProof({
+    assetPackLock,
+    selectedSourceMaterialManifest,
+    projectionPolicy: finalizedProjectionPolicy,
+    policyRelease
+  });
+  materializationExclusions = buildMaterializationExclusions({
+    assetPack,
+    evaluatedCandidates,
+    selectedCandidates,
+    branchMode
+  });
+  materializationProof = buildMaterializationProof({
+    assetPack,
+    assetPackLock,
+    selectedSourceMaterialManifest,
+    materializationVisibilityProof: finalizedMaterializationVisibilityProof,
+    materializationExclusions,
+    branchMode
+  });
   proofWitnessManifest = buildProofWitnessManifest({
-    measurementReceipts,
+    promptContracts,
     promptCompletenessProof,
+    codeAnalysisFactRegistry,
+    staticHeuristicsRegistry,
+    measurementReceipts,
+    staticMeasurementReport,
     staticMeasurementProof,
+    verificationReport,
     verificationReceiptsArtifact,
-    materializationVisibilityProof,
+    selectionConsistencyProof,
+    journalCompletenessProof,
+    identityAuthorizationProof,
+    sensitiveDataFlowProof,
+    materializationProof,
+    materializationExclusions,
+    materializationVisibilityProof: finalizedMaterializationVisibilityProof,
+    sourceToSharesArtifact: settlement.sourceToSharesArtifact,
+    settlementParticipationArtifact: settlement.settlementParticipationArtifact,
+    accountingPrecisionReport: settlement.accountingPrecisionReport,
+    settlementProof,
     redactionProof: finalizedRedactionProof,
     disclosureProof: finalizedDisclosureProof,
     proofContract
@@ -5575,8 +6380,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     promptImplementationSurface,
     promptCompletenessProof,
     staticMeasurementProof,
-    materializationVisibilityProof,
+    materializationProof,
+    materializationExclusions,
+    finalizedMaterializationVisibilityProof,
     verificationReceiptsArtifact,
+    settlement.sourceToSharesArtifact,
+    settlement.settlementParticipationArtifact,
+    settlement.accountingPrecisionReport,
     finalizedRedactionProof,
     finalizedDisclosureProof,
     proofWitnessManifest,
@@ -5613,12 +6423,21 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     promptContracts,
     promptCompletenessProof,
     codeAnalysisFactRegistry,
+    staticHeuristicsRegistry,
     externalBoundaryManifest,
     measurementReceipts,
     staticMeasurementReport,
     staticMeasurementProof,
     verificationReceiptsArtifact,
     proofWitnessManifest,
+    materializationProof,
+    materializationExclusions,
+    materializationVisibilityProof: finalizedMaterializationVisibilityProof,
+    sourceToSharesArtifact: settlement.sourceToSharesArtifact,
+    settlementParticipationArtifact: settlement.settlementParticipationArtifact,
+    accountingPrecisionReport: settlement.accountingPrecisionReport,
+    scenarioFixtureManifest,
+    testCoverageReport,
     projectionPolicy: finalizedProjectionPolicy,
     boundedPublicProof,
     redactionProof: finalizedRedactionProof,
@@ -5628,7 +6447,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
 
   const latestRun = {
     createdAt: nowIso(),
-    buyer,
+    buyer: scenarioBoundBuyer,
     scenarioId: scenario.scenarioId,
     branchMode,
     conformanceProfile: PROFILE_A,
@@ -5693,11 +6512,20 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     deliverablesManifest,
     unitCatalog,
     codeAnalysisFactRegistry,
+    staticHeuristicsRegistry,
     measurementReceipts,
     verificationReceipts: verificationReceiptsArtifact,
     staticMeasurementReport,
     staticMeasurementProof,
+    materializationProof,
+    materializationExclusions,
+    materializationVisibilityProof: finalizedMaterializationVisibilityProof,
     pipelineTelemetry,
+    sourceToSharesArtifact: settlement.sourceToSharesArtifact,
+    settlementParticipationArtifact: settlement.settlementParticipationArtifact,
+    accountingPrecisionReport: settlement.accountingPrecisionReport,
+    scenarioFixtureManifest,
+    testCoverageReport,
     settlementPreview: settlement.settlementPreview,
     journalDiff: settlement.journalDiff,
     systemProofBundle,
@@ -5719,11 +6547,14 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     latestRun,
     runHistory: [...state.runHistory, {
       createdAt: latestRun.createdAt,
+      scenarioId: scenario.scenarioId,
       needId: need.needId,
+      needLifecycle: latestRun.needLifecycle,
       branchName,
       branchMode,
       selectedAssets: assetPack.selectedAssets,
-      bundleId: settlement.bundleId
+      bundleId: settlement.bundleId,
+      redactionStatus: boundedPublicProof.redactionStatus
     }]
   };
 
@@ -5747,6 +6578,8 @@ export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
     needScenarios: state.needScenarios.map((scenario) => ({
       scenarioId: scenario.scenarioId,
+      scenarioFamily: scenario.scenarioFamily || 'unspecified',
+      coverageTags: scenario.coverageTags || [],
       repo: scenario.repo,
       buyerBranch: scenario.baseRef,
       taskSeed: scenario.expectedTask,
@@ -5756,8 +6589,8 @@ export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
       weakDimensions: scenario.canonicalRunEvidence?.extractedOutputs?.weakDimensions || [],
       benchmarkRunId: scenario.benchmarkRunId,
       benchmarkWorkflowPath: scenario.benchmarkWorkflowPath,
-      parserKind: 'github-actions.auth-remediation.v3',
-      parserVersion: '3.0.0'
+      parserKind: scenario.canonicalRunEvidence?.extractedOutputs?.parserKind || 'github-actions.auth-remediation.v3',
+      parserVersion: scenario.canonicalRunEvidence?.extractedOutputs?.parserVersion || '3.0.0'
     })),
     assets: state.assets.map(publicAsset),
     ledger: state.ledger,

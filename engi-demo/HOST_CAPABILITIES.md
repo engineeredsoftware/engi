@@ -1,164 +1,222 @@
 # ENGI Demo Host Capabilities
 
 Last inspected: 2026-04-03 (America/Los_Angeles)
-Host scope: local machine capabilities relevant to the ENGI Spec V8 demo implementation in this repo.
+Host scope: local machine capabilities relevant to the ENGI Spec V9 demo implementation in this repo.
 
 ## Purpose
 
-This document records what the local host can actually provide for the ENGI demo, what is absent, and what the demo intentionally models instead of executing live.
+This document records what the host actually needs to run the current V9 demo, what it can optionally support, what remains modeled instead of executed, and how the repo can be furnished natively or in a container without overclaiming production readiness.
 
-It exists so the V8 spec and demo can make concrete promises without quietly depending on unspoken workstation assumptions.
+The source of truth for this document is:
 
-## System / runtime surfaces present
+- live host inspection commands run on 2026-04-03
+- the current repo implementation in `server.js`, `src/engi-demo.js`, `public/app.js`, and `test/`
+- the current V9 artifact and proof flow, not older V8 assumptions
 
-- OS: macOS / Darwin 25.4.0
-- Architecture: arm64
-- Node.js: v24.14.1
-- npm: 11.11.0
-- pnpm: 10.33.0
-- Python: 3.13.12
-- Rust: rustc 1.94.1 / cargo 1.94.1
-- Java: `/usr/bin/java`
+## Program usage truth
 
-These are sufficient for the current local demo implementation, including:
-- running the Node demo server
-- running the Node test suite
-- local deterministic ranking / settlement / artifact generation
-- local source inspection and simple scripting
+### Required for the current V9 demo
 
-## Command-line / global programs present
+The repo needs only a local Node runtime plus filesystem access to execute its real control-plane behavior:
 
-Confirmed present on this machine during inspection:
+- serve the demo UI and JSON API
+- run the deterministic need-derivation flow
+- execute local static code-analysis receipts implemented in-process
+- assemble proof/materialization/accounting artifacts
+- run the Node test suite
 
+In the current implementation, the following V9 stages are real local program usage, but they are all executed by deterministic in-process Node logic rather than external commands:
+
+- benchmark parser normalization: `github-actions.benchmark-parser.v9`
+- repo code-analysis derivation: `github.repo-context.extract.v9`
+- content-unit code analysis: `content-unit.extract-static-code-analysis.v9`
+- asset code-analysis derivation: `asset.measurement.extract.v9`
+- verification determinisms: `verification.*.v9`
+- source-to-shares replay, exact allocation, journal settlement, and proof assembly
+
+### Present on host but not required for the core V9 path
+
+- `python3`
+- `rustc`
+- `cargo`
 - `git`
-- `gh`
 - `docker`
 - `jq`
 - `rg`
 - `curl`
 - `openclaw`
 - `codex`
-- `node`, `npm`, `pnpm`
-- `python3`
-- `rustc`, `cargo`
 
-## Command-line / global programs absent at inspection time
+These are useful for inspection, authoring, proof-log generation outside the core demo path, or container work, but the demo does not require them to complete its main run.
 
-Confirmed absent during inspection:
+### Proof-program usage truth
 
-- `ollama`
-- `claude`
-- `uv`
-- `bun`
-- `go`
+The current V9 demo does **not** execute external proof engines as part of the core flow.
 
-Implication for the V8 demo:
-- the repo should not imply a local Ollama-backed inference path
-- the repo should not imply a local Go toolchain requirement
-- model execution in the demo remains deterministic/local stand-in logic, not a live local LLM runtime
+Instead it:
 
-## GitHub / remote connection assumptions
+- models proof-bearing assets and proof logs as evidence-bearing source material
+- assembles witness-complete proof artifacts locally in Node
+- treats Rust / Creusot / other proof tooling as optional upstream producers of evidence, not mandatory runtime dependencies for demo execution
 
-Observed locally:
+So:
+
+- proof bundle assembly is local and real
+- proof-program execution is modeled as upstream evidence, not required live host behavior
+
+### GitHub / remote usage truth
+
+Observed on this host:
 
 - repo remote: `https://github.com/engineeredsoftware/ENGI.git`
-- `gh auth status` reports an authenticated GitHub account for `garrettmaring`
-- token scopes observed: `gist`, `read:org`, `repo`, `workflow`
+- `gh` is installed
+- `gh auth status` currently reports the default token as invalid for `garrettmaring`
 
-Important V8 interpretation:
-- this machine is capable of authenticated GitHub CLI operations in principle
-- the current demo does **not** use those credentials to fake live GitHub App behavior
-- Profile B boundaries remain external because live GitHub App installation auth, workflow artifact fetch, branch writes, PR writes, and review actions are intentionally not executed by the local prototype
+V9 interpretation:
 
-## Inference / model needs
+- GitHub CLI presence is real
+- GitHub CLI authorization is **not** currently healthy
+- the demo must continue treating GitHub/App actions as modeled Profile B boundaries rather than host-ready live operations
 
-Present in this repo today:
-- deterministic stand-in evaluator logic inside the demo implementation
-- deterministic local vector/embedding stand-ins
-- prompt/evaluator lineage artifacts and manifests
+## Required host capability specification
 
-Not present / not claimed:
-- local Ollama runtime
-- production remote model orchestration inside the demo
-- external vector database required for the local prototype
+### Hard requirements
 
-V8 interpretation:
-- Profile A can fully demonstrate prompt surfaces, evaluator surfaces, and vector contracts without a live model backend
-- Profile B still requires external model execution, trace capture, and potentially remote vector infrastructure
+- macOS or Linux host with a modern Node runtime
+- ability to read and write the repo working tree
+- ability to bind a local HTTP server on port `4318` or another chosen port
 
-## What is present vs absent vs modeled
+### Repo-minimal runtime requirement
 
-### Present and used directly
-- local Node runtime
-- local file system
-- local deterministic ranking / recall / proof / settlement logic
-- local browser-served demo UI
-- local test runner
+- Node.js `v24.14.1` observed on this host
+- npm `11.11.0` observed on this host
 
-### Present on host but intentionally not used as live demo execution
-- authenticated GitHub CLI access
-- Docker
-- Codex / OpenClaw CLIs
+Because the repo currently has no third-party npm dependencies, the practical runtime requirement is:
 
-These exist on the machine, but the V8 demo keeps them out of the core flow so the repo does not overclaim live production behavior.
+- `node`
+- `npm`
 
-### Absent on host
-- Ollama
-- local Claude CLI
-- Go toolchain
-- Bun / uv
+### Optional but useful local tooling
 
-### Modeled in the demo rather than executed live
-- GitHub App auth and installation token exchange
+- `pnpm` for parity with broader workstation habits
+- `rg`, `jq`, `curl` for inspection
+- `docker` for the container configuration provided in this repo
+- `python3`, `rustc`, `cargo` for upstream proof/code-analysis experiments outside the core demo path
+- `openclaw` for the completion notification command used at the end of local work
+
+## Install / bootstrap / furnishing
+
+This repo intentionally stays light, but if the machine needs broader furnishing the recommended pattern is the existing Casa bootstrap layout at `~/Developer/casa`.
+
+Relevant Casa references:
+
+- bootstrap entrypoint: `/Users/garrettmaring/Developer/casa/scripts/bootstrap.sh`
+- package installer: `/Users/garrettmaring/Developer/casa/scripts/install-packages.sh`
+- bootstrap overview: `/Users/garrettmaring/Developer/casa/README.md`
+
+Casa’s useful patterns for this repo are:
+
+- manifest-driven package installation instead of ad hoc shell history
+- one bootstrap entrypoint
+- separate install, app, and config-linking phases
+
+For this repo specifically, furnishing is simpler:
+
+1. ensure `node` and `npm` are present
+2. optionally ensure `docker` is present if using the container configuration
+3. optionally ensure `openclaw` is present if you want the local completion notification command
+
+## Available configurations
+
+### `native-runtime`
+
+- start command: `npm start`
+- bind address default: `127.0.0.1`
+- purpose: local interactive UI + API walkthrough
+
+### `native-test`
+
+- test command: `npm test`
+- purpose: deterministic API/core regression suite
+
+### `docker-runtime`
+
+- build command: `docker build -t engi-demo-v9 .`
+- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v9`
+- purpose: containerized local serving with no host Node requirement beyond Docker
+
+### `docker-test`
+
+- build command: `docker build -t engi-demo-v9 .`
+- run command: `docker run --rm engi-demo-v9 npm test`
+- purpose: containerized regression check using the same image contents
+
+## Telemetry and safety
+
+The current repo truth relevant to host safety:
+
+- state writes are atomic via temp-file + rename
+- request bodies are capped at 1 MB
+- static path traversal is blocked
+- public/API projection defaults to `public`
+- buyer/reviewer/internal projections are explicit
+- no remote network access is required for the core flow
+- private branch files and source material remain withheld from public projection
+
+Operational implication:
+
+- the host does not need secret production credentials to run the demo safely
+- the container configuration should remain local-demo scoped and must not be described as a production deployment path
+
+## Remote assumptions and boundaries
+
+The repo still models, rather than executes live:
+
+- GitHub App installation auth
 - workflow artifact fetch by run ID
 - branch / PR / review writes
-- remote prompt execution and model routing
-- external vector-store read/write operations
-- signer / identity verification against external authorities
-- settlement network effects / external confirmations
+- remote model execution
+- external vector store operations
+- signer verification against external authorities
+- settlement network effects
 
-## Network boundary assumptions
+These remain Profile B boundaries even if the host later gains the necessary credentials or tools.
 
-The local prototype assumes:
-- internet-capable host is plausible
-- GitHub auth exists locally
-- remote production integrations are possible from this machine
+## Containerization
 
-But the prototype intentionally stops short of claiming:
-- that a live GitHub App is configured for this repo
-- that model-provider credentials are configured
-- that external vector infra is provisioned
-- that settlement/signer network backends are available
+This repo now includes:
 
-## Guidance for future Profile B work
+- `Dockerfile`
+- `.dockerignore`
 
-Before claiming Profile B is live-switchable from this host, verify separately:
+Container scope is intentionally narrow:
 
-1. GitHub App installation auth and token issuance
-2. workflow artifact fetch + verification
-3. branch / PR write paths
-4. model-provider credentials and trace capture
-5. vector-store provisioning and schema compatibility
-6. signer verification source of truth
-7. settlement execution / confirmation backend
+- run the Node server
+- run the Node tests
+- keep the same deterministic V9 behavior as native execution
 
-Until then, V8 should continue presenting those as concrete boundary interfaces, not as local working integrations.
+Container scope does **not** imply:
+
+- GitHub CLI auth inside the container
+- live GitHub/App operations
+- proof-engine execution inside the container
+- a production-grade deployment posture
 
 ## Inspection commands used
 
-- `uname -a`
+- `uname -srmo`
 - `node -v`
 - `npm -v`
 - `pnpm -v`
 - `python3 --version`
-- `git --version`
-- `gh --version`
-- `docker --version`
 - `rustc --version`
 - `cargo --version`
-- `jq --version`
-- `rg --version`
-- `curl --version`
-- `which ...`
+- `git --version`
+- `docker --version`
 - `gh auth status`
-- `git remote -v`
+- `git remote get-url origin`
+- `command -v openclaw`
+- `command -v codex`
+- `command -v rg`
+- `command -v jq`
+- `command -v curl`

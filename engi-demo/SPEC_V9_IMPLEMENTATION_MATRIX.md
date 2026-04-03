@@ -10,7 +10,10 @@
   - Phase 3: implemented
   - Phase 4: implemented
   - Phase 5: implemented
-  - Phase 6: implemented in this pass for prompt/static/verification/materialization witness closure; broader theorem-strengthening remains
+  - Phase 6: implemented in this pass for witness-complete proof closure across prompt/static/verification/materialization/disclosure surfaces
+  - Phase 7: implemented in this pass for fixed-point source-to-shares accounting closure and explicit settlement participation precision
+  - Phase 8: implemented in this pass for richer seeded scenario families, normalization-heavy scenario coverage, and deeper fixture manifests
+  - Phase 9: implemented in this pass for host-capability truthing and local containerization configurations grounded in actual repo usage
 - Current canonical implementation center:
   - `server.js`
   - `src/engi-demo.js`
@@ -55,8 +58,9 @@ This matrix is grounded in:
 | Heuristic registry and use audit | `extractSignals()`, `computeNeedMatch()` | signals gathered and partly consumed but no formal completeness audit | heuristic registry + consumed-by matrix + debug coverage checks | P1 |
 | Verification receipts | `checkIssuanceVerification()`, `checkProvenanceVerification()`, `checkVerificationSufficiency()` | decisions structured but mostly fed by booleans/metadata | receipt-backed verification report and evaluation surfaces | P1 |
 | Proof witness completeness | `buildProofContract()`, `buildSystemProofBundle()` | proof shape strong but some claims still weak/tautological | witness manifests + stronger proofs + no hardcoded truthy claims | P1 |
-| Accounting precision | `evaluateBundleForNeed()`, `computeAssetSharesRaw()`, `normalizeMassTo10000()`, `allocateExactMicroUnits()` | downstream exact, upstream contribution mass float-derived | fixed-point/rational mass derivation + precision report | P1 |
-| Scenario/fixture realism | `buildInitialState()`, current tests | single primary seeded scenario + narrow fixtures | multi-scenario corpus + GitHub-shaped fixtures + adversarial coverage | P1 |
+| Accounting precision | `scoreSourceBundleForShares()`, `normalizeContributionUnitsToBasisPoints()`, `buildSourceToSharesArtifact()`, `allocateExactMicroUnitsByShare()` | fixed-point source-to-shares chain implemented with clipping receipts, basis-point normalization trace, and exact micro-unit replay surfaces | keep exact-accounting invariants green while extending replayable source-to-shares coverage | P1 |
+| Scenario/fixture realism | `buildInitialState()`, `buildScenarioFixtureManifest()`, `buildTestCoverageReport()`, current tests | seeded multi-family scenario corpus implemented with GitHub-shaped provenance bindings and public-safe coverage artifacts | continue deepening scenario realism without shallow fixture spam | P1 |
+| Host capability / containerization | `HOST_CAPABILITIES.md`, `HOST_CAPABILITIES.json`, `Dockerfile`, `.dockerignore` | previously generic and V8-stale host docs; no checked-in container config | record actual V9 host usage truth, bootstrap/furnishing guidance, safe configurations, and container run/test surfaces | P2 |
 | Profile B boundary refresh | external manifests + eval manifest | concrete enough for V8 | keep schema-compatible with stronger V9 receipts/proofs | P2 |
 
 ---
@@ -347,21 +351,22 @@ Add tests that:
 Once prompts, receipts, projections, and verification are stronger, the proof bundle can become materially stronger rather than cosmetically larger.
 
 ### Current implementation refs
-- `src/engi-demo.js#2704` — selection consistency proof
-- `src/engi-demo.js#2718` — journal completeness proof
-- `src/engi-demo.js#2729` — identity authorization proof
-- `src/engi-demo.js#2739` — sensitive data flow proof
-- `src/engi-demo.js#2762` — proof contract
-- `src/engi-demo.js#2790` — settlement proof
-- `src/engi-demo.js#2871` — prompt implementation surface
-- `src/engi-demo.js#2898` — system proof bundle
+- `src/engi-demo.js#4028` — `buildSelectionConsistencyProof()`
+- `src/engi-demo.js#4066` — `buildJournalCompletenessProof()`
+- `src/engi-demo.js#4103` — `buildIdentityAuthorizationProof()`
+- `src/engi-demo.js#4122` — `buildSensitiveDataFlowProof()`
+- `src/engi-demo.js#4157` — `buildMaterializationVisibilityProof()`
+- `src/engi-demo.js#4186` — `buildProofWitnessManifest()`
+- `src/engi-demo.js#4281` — `buildProofContract()`
+- `src/engi-demo.js#4310` — `buildSettlementProof()`
+- `src/engi-demo.js#4569` — `buildSystemProofBundle()`
 
-### Current gaps to close
-1. some proof claims are still weaker than they should be
-2. some proof fields rely on assertion-like booleans rather than witness manifests
-3. no explicit proof-witness manifest
-4. no dedicated prompt completeness proof
-5. no dedicated disclosure/redaction proof in the bundle
+### Gaps closed in this pass
+1. proof claims that were previously weaker are now backed by explicit witness inputs
+2. assertion-like proof booleans are now paired with witness refs and proof hashes
+3. explicit proof-witness manifest coverage now exists
+4. prompt completeness proof is now bundled explicitly
+5. disclosure/redaction proof families are now carried in the bundle
 
 ### Required implementation changes
 In `src/engi-demo.js`:
@@ -387,8 +392,10 @@ Add tests that:
 - proof bundle becomes witness-complete enough for V9 claims
 - Implemented in repo:
   - `.engi/proof-witness-manifest.json` now enumerates proof families and witness refs
-  - system proof bundle now carries prompt completeness, static measurement, verification receipts, materialization visibility, redaction, and disclosure proofs
-  - selection/journal/identity/data-flow proofs now include explicit witness refs instead of only bare booleans
+  - `.engi/materialization-visibility-proof.json` now proves selected-source closure over the asset-pack lock and rejects unexpected materialized bindings
+  - system proof bundle now carries prompt completeness, static measurement, verification receipts, materialization visibility, source-to-shares replay surfaces, redaction, and disclosure proofs
+  - proof witness digests now cover proof-relevant accounting artifacts including `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, and `.engi/accounting-precision-report.json`
+  - selection/journal/identity/data-flow proofs now include explicit witness refs and proof hashes instead of only bare booleans
 
 ---
 
@@ -398,20 +405,24 @@ Add tests that:
 The current settlement path is strong enough to preserve while tightening upstream precision.
 
 ### Current implementation refs
-- `src/engi-demo.js#2384` — `evaluateBundleForNeed()`
-- `src/engi-demo.js#2393` — `normalizeMassTo10000()`
-- `src/engi-demo.js#2430` — `computeAssetSharesRaw()`
-- `src/engi-demo.js#2449` — `allocateExactMicroUnits()`
-- `src/engi-demo.js#3124` — `settleNeedEvent()`
+- `src/engi-demo.js#3486` — `scoreSourceBundleForShares()`
+- `src/engi-demo.js#3554` — `normalizeContributionUnitsToBasisPoints()`
+- `src/engi-demo.js#3644` — `buildSourceToSharesArtifact()`
+- `src/engi-demo.js#3744` — `allocateExactMicroUnitsByShare()`
+- `src/engi-demo.js#4334` — `buildSettlementParticipationArtifact()`
+- `src/engi-demo.js#4399` — `buildAccountingPrecisionReport()`
+- `src/engi-demo.js#5035` — `settleNeedEvent()`
 
-### Current gaps to close
-1. contribution mass is float-derived upstream
-2. clipping of non-positive marginal contribution is not modeled as its own auditable receipt/event
-3. tie-break behavior is deterministic but not explicitly surfaced as a precision artifact
+### Gaps closed in this pass
+1. upstream contribution derivation now runs through fixed-point units rather than float-derived mass
+2. clipping of non-positive marginal contribution is now modeled as an auditable receipt in the source-to-shares chain
+3. deterministic tie-break behavior is now surfaced as an explicit precision trace
+4. source-material-to-share derivation is now materialized as its own replay chain
 
 ### Required implementation changes
 In `src/engi-demo.js`:
 - move contribution mass derivation to fixed-point or rational representation
+- add explicit source-to-shares artifact capturing marginal contribution, clipping, normalization, and tie-break steps
 - add explicit settlement participation records
 - add precision report with:
   - contribution inputs
@@ -420,6 +431,7 @@ In `src/engi-demo.js`:
   - raw-to-settled normalization receipts
 
 ### Required artifacts
+- `.engi/source-to-shares.json`
 - `.engi/settlement-participation.json`
 - `.engi/accounting-precision-report.json`
 
@@ -432,6 +444,10 @@ Add tests that:
 
 ### Acceptance
 - end-to-end settlement semantics become replayable without floating-point ambiguity in critical paths
+- Implemented in repo:
+  - `.engi/source-to-shares.json` now records bundle scoring, marginal contribution deltas, selected-unit refs, clipping receipts, basis-point normalization ledgers, and deterministic tie-break order
+  - `.engi/settlement-participation.json` now distinguishes selected, settlement-participating, credited, zero-credit, and excluded assets
+  - `.engi/accounting-precision-report.json` now closes the replay loop from source contribution inputs and selected unit refs through micro-unit journal outputs
 
 ---
 
@@ -441,16 +457,18 @@ Add tests that:
 This is the confidence layer proving the earlier V9 work actually holds under realistic conditions.
 
 ### Current implementation refs
-- `src/engi-demo.js#931` — `buildInitialState()`
+- `src/engi-demo.js#1458` — `buildInitialState()`
+- `src/engi-demo.js#4947` — `buildScenarioFixtureManifest()`
+- `src/engi-demo.js#5000` — `buildTestCoverageReport()`
 - `test/core.test.js`
 - `test/api.test.js`
 
-### Current gaps to close
-1. only one major seeded scenario
-2. narrow asset set
-3. limited malformed input coverage
-4. no realistic GitHub workflow/input fixture corpus
-5. no explicit privacy projection stress fixtures
+### Gaps closed in this pass
+1. the seeded corpus now includes multiple scenario families rather than one dominant path
+2. the asset set is broader and scenario-bound
+3. coverage now stresses richer proof/accounting/projection combinations
+4. GitHub-shaped workflow/provenance fixture coverage is now surfaced explicitly
+5. privacy-boundary behavior is now exercised by dedicated seeded scenarios
 
 ### Required implementation changes
 Add fixture/scenario support without large refactor.
@@ -485,6 +503,39 @@ Add tests that:
 
 ### Acceptance
 - V9 confidence is no longer based on one gold-path scenario alone
+- Implemented in repo:
+  - seeded scenario corpus now covers monorepo auth rollback, proof-heavy Rust validator repair, config-policy precedence incident response, unsafe patch review recovery, infra deployment mismatch, privacy-boundary proof export, polyglot gateway rollback, and normalization-heavy auth settlement replay
+  - `.engi/scenario-fixture-manifest.json` now enumerates parser kind, stack hints, target artifact kinds, and normalization/polyglot negative fixtures in addition to the active corpus
+  - `.engi/test-coverage-report.json` now exposes scenario-family, parser-kind, polyglot, and normalization coverage surfaces across the seeded runs
+
+---
+
+## Phase 9 — host capability and containerization closure
+
+### Why after the core V9 surfaces
+Host/container work is only useful if it is derived from the real local V9 program path rather than generic workstation inventory.
+
+### Current implementation refs
+- `HOST_CAPABILITIES.md`
+- `HOST_CAPABILITIES.json`
+- `Dockerfile`
+- `.dockerignore`
+- `/Users/garrettmaring/Developer/casa/README.md`
+- `/Users/garrettmaring/Developer/casa/scripts/bootstrap.sh`
+- `/Users/garrettmaring/Developer/casa/scripts/install-packages.sh`
+
+### Gaps closed in this pass
+1. host capability docs are now grounded in actual repo execution truth rather than broad V8-era assumptions
+2. local bootstrap/furnishing guidance now references Casa’s manifest-driven patterns without pretending this repo needs the whole workstation bootstrap
+3. available configurations now distinguish native runtime/test from container runtime/test
+4. containerization is now checked into the repo as a minimal local-serving/local-test surface
+
+### Acceptance
+- host capability claims now track what the repo really executes locally, what is optional, and what remains a Profile B boundary
+- Implemented in repo:
+  - `HOST_CAPABILITIES.md` now records real V9 runtime/program usage truth, bootstrap guidance, telemetry/safety, and containerization scope
+  - `HOST_CAPABILITIES.json` now exposes the same as structured data for tooling/tests
+  - `Dockerfile` and `.dockerignore` provide minimal local runtime/test containerization without implying a production deployment
 
 ---
 

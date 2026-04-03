@@ -93,9 +93,10 @@ test('GET /api/state returns seeded Spec V9 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
-    assert.equal(response.json.assets.length, 3);
-    assert.equal(response.json.needScenarios.length, 1);
+    assert.equal(response.json.assets.length, 11);
+    assert.equal(response.json.needScenarios.length, 8);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
+    assert.equal(response.json.needScenarios[1].scenarioFamily, 'proof-heavy-rust-validator');
     assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
     assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic V9 prototype');
     assert.equal(response.json.projectionPrincipal, 'public');
@@ -127,8 +128,12 @@ test('GET /api/state exposes V9 profile labels and task seed before any run', as
 test('HOST capability docs are present in repo', async () => {
   const root = path.join(process.cwd(), 'HOST_CAPABILITIES.md');
   const json = path.join(process.cwd(), 'HOST_CAPABILITIES.json');
+  const dockerfile = path.join(process.cwd(), 'Dockerfile');
+  const dockerignore = path.join(process.cwd(), '.dockerignore');
   assert.equal(fs.existsSync(root), true);
   assert.equal(fs.existsSync(json), true);
+  assert.equal(fs.existsSync(dockerfile), true);
+  assert.equal(fs.existsSync(dockerignore), true);
 });
 
 test('GET /styles.css serves static css', async (t) => {
@@ -175,7 +180,7 @@ test('POST /api/deposits adds a candidate asset and ledger account', async (t) =
     assert.equal(response.json.asset.uploadSurface.artifactType, 'runbook/operator-playbook');
 
     const state = await invoke(app, { method: 'GET', url: '/api/state' });
-    assert.equal(state.json.assets.length, 4);
+    assert.equal(state.json.assets.length, 12);
     assert.equal(state.json.assets[0].title, 'Operator playbook');
     assert.equal(state.json.ledger.accounts[`supplier:${response.json.asset.assetId}:pending_claims`], '0');
   });
@@ -197,7 +202,7 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
 
     assert.equal(response.statusCode, 200);
     const state = await invoke(app, { method: 'GET', url: '/api/state' });
-    assert.equal(state.json.assets.length, 4);
+    assert.equal(state.json.assets.length, 12);
   });
 });
 
@@ -248,10 +253,32 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
     assert.ok(response.json.latestRun.boundedPublicProof.bundleId);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/static-heuristics-registry.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/static-measurement-report.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/static-measurement-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/materialization-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
     assert.equal(response.json.latestRun.authorizationDecisions, undefined);
     assert.match(response.json.latestRun.branchArtifacts.publicFiles['.engi/bounded-public-proof.json'], new RegExp(response.json.latestRun.boundedPublicProof.bundleId));
+  });
+});
+
+test('POST /api/make-engi-branch can run a non-default seeded scenario', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scenarioId: 'infra-deployment-mismatch', principal: 'buyer' })
+    });
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.latestRun.scenarioId, 'infra-deployment-mismatch');
+    assert.equal(response.json.latestRun.need.repo, 'frontier/deploy-orchestrator');
+    assert.ok(response.json.latestRun.settlementParticipationArtifact.records.some((entry) => entry.assetId === response.json.latestRun.assetPack.selectedAssets[0]));
+    assert.equal(response.json.latestRun.accountingPrecisionReport.exactAccountingInvariants.debitsEqualCredits, true);
   });
 });
 
@@ -272,6 +299,9 @@ test('POST /api/make-engi-branch supports buyer projection and context branch mo
     assert.ok(response.json.latestRun.promptContracts.length >= 4);
     assert.ok(response.json.latestRun.measurementReceipts.length >= 3);
     assert.ok(response.json.latestRun.verificationReceipts.verificationReceipts.length >= 4);
+    assert.ok(response.json.latestRun.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
+    assert.ok(response.json.latestRun.materializationProof.allExclusionsExplained);
+    assert.ok(response.json.latestRun.scenarioFixtureManifest.scenarioFamilies.length >= 8);
   });
 });
 
@@ -290,6 +320,8 @@ test('GET /api/state supports buyer projection without raw branch files', async 
     assert.equal(response.json.latestRun.projectionPrincipal, 'buyer');
     assert.ok(response.json.latestRun.verificationReport.assetVerification.length >= 1);
     assert.ok(response.json.latestRun.codeAnalysisFactRegistry.registeredFactCount >= 10);
+    assert.ok(response.json.latestRun.staticHeuristicsRegistry.registeredFactCount >= 10);
+    assert.ok(response.json.latestRun.accountingPrecisionReport.microUnitAllocation.allocations.length >= 1);
     assert.equal(response.json.latestRun.branchArtifacts.files, undefined);
   });
 });
@@ -397,7 +429,7 @@ test('bootstrap repairs incomplete on-disk state', async (t) => {
     const result = repaired.ensureState();
     assert.equal(result.bootstrapped, true);
     const state = repaired.readState();
-    assert.equal(state.assets.length, 3);
+    assert.equal(state.assets.length, 11);
     assert.equal(state.buyers.length, 1);
   });
 });

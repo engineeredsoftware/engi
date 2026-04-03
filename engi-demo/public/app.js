@@ -6,9 +6,12 @@ const branchArtifactsEl = document.getElementById('branchArtifacts');
 const settlementEl = document.getElementById('settlement');
 const ledgerEl = document.getElementById('ledger');
 const statusEl = document.getElementById('status');
+const scenarioPickerEl = document.getElementById('scenarioPicker');
 
 const DEFAULT_SURFACE_MODE = 'visual';
 let surfaceCounter = 0;
+let selectedScenarioId = '';
+let lastLoadedState = null;
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -54,6 +57,21 @@ function api(path, options = {}) {
     if (!response.ok) throw new Error(json.error || 'Request failed');
     return json;
   });
+}
+
+function syncScenarioPicker(state) {
+  const scenarios = state.needScenarios || [];
+  if (!scenarios.length || !scenarioPickerEl) return;
+  const desiredScenarioId = state.latestRun?.scenarioId || selectedScenarioId || scenarios[0].scenarioId;
+  if (scenarioPickerEl.options.length !== scenarios.length) {
+    scenarioPickerEl.innerHTML = scenarios.map((scenario) => `
+      <option value="${escapeHtml(scenario.scenarioId)}">${escapeHtml(`${scenario.scenarioFamily} · ${scenario.repo}`)}</option>
+    `).join('');
+  }
+  scenarioPickerEl.value = scenarios.some((scenario) => scenario.scenarioId === desiredScenarioId)
+    ? desiredScenarioId
+    : scenarios[0].scenarioId;
+  selectedScenarioId = scenarioPickerEl.value;
 }
 
 function setStatus(text) {
@@ -894,6 +912,199 @@ function renderSettlementPreviewVisual(preview) {
   `;
 }
 
+function renderSourceToSharesVisual(sourceToShares) {
+  const entries = sourceToShares?.sourceContributionEntries || [];
+  const normalizationLedger = sourceToShares?.normalizationLedger || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Contribution entries', entries.length)}
+        ${metricTile('Bundle share score', sourceToShares?.bundleShareScore?.bundleShareScore || '—')}
+        ${metricTile('Normalization', sourceToShares?.basisPointNormalization?.method || '—')}
+        ${metricTile('Tie-break order', (sourceToShares?.basisPointNormalization?.remainderDistributionOrder || []).length)}
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Contribution basis</h4><span class="badge">Source to shares</span></div>
+        <div class="object-list nested">
+          ${entries.map((entry) => `
+            <div class="mini-card">
+              <div class="row wrap-gap">
+                <strong>${escapeHtml(entry.title || entry.assetId || 'Asset')}</strong>
+                <div class="badge-row">
+                  <span class="badge">${escapeHtml(`${entry.rawShareBp ?? 0} bp`)}</span>
+                  ${statusBadge(entry.clipped ? 'clipped to zero' : 'positive contribution')}
+                </div>
+              </div>
+              <p class="meta wrap-anywhere">${escapeHtml(entry.assetId || '')}</p>
+              <div class="kv-grid">
+                ${kvRow('Raw contribution units', entry.rawContributionUnits || '0')}
+                ${kvRow('Clipped contribution units', entry.clippedContributionUnits || '0')}
+                ${kvRow('Clipping receipt', entry.clippingReceiptId || '—')}
+                ${kvRow('Selected unit refs', formatList(entry.selectedUnitRefs || []), { html: true })}
+                ${kvRow('Need evidence', formatList([...(entry.coveredNeedEvidence?.failureModes || []), ...(entry.coveredNeedEvidence?.constraints || []), ...(entry.coveredNeedEvidence?.touchedPaths || [])], 'None'), { html: true })}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Normalization ledger</h4><span class="badge">Deterministic tie-break</span></div>
+        <div class="object-list nested">
+          ${normalizationLedger.map((entry) => `
+            <div class="mini-card">
+              <div class="row wrap-gap">
+                <strong>${escapeHtml(entry.assetId || 'Asset')}</strong>
+                <span class="badge">${escapeHtml(`rank ${entry.tieBreakRank ?? '—'}`)}</span>
+              </div>
+              <div class="kv-grid">
+                ${kvRow('Floor share bp', entry.floorShareBp ?? '—')}
+                ${kvRow('Remainder units', entry.remainderUnits || '0')}
+                ${kvRow('Awarded remainder bp', entry.remainderAwardedBp ?? 0)}
+                ${kvRow('Final share bp', entry.finalShareBp ?? '—')}
+              </div>
+            </div>
+          `).join('') || '<p class="meta">No normalization ledger.</p>'}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderSettlementParticipationVisual(participation) {
+  const records = participation?.records || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Selected', participation?.selectedAssetCount || 0)}
+        ${metricTile('Participating', participation?.settlementParticipatingCount || 0)}
+        ${metricTile('Credited', participation?.positivelyCreditedCount || 0)}
+        ${metricTile('Zero-credit', participation?.zeroCreditParticipatingCount || 0, (participation?.zeroCreditParticipatingCount || 0) ? 'warn' : '')}
+      </div>
+      <div class="object-list">
+        ${records.map((record) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(record.title || record.assetId || 'Asset')}</strong>
+                <p class="meta wrap-anywhere">${escapeHtml(record.assetId || '')}</p>
+              </div>
+              <div class="badge-row">
+                ${statusBadge(record.selected ? 'selected' : 'excluded')}
+                ${statusBadge(record.zeroCreditParticipating ? 'zero-credit participating' : record.positivelyCredited ? 'positively credited' : record.settlementParticipating ? 'participating' : 'excluded')}
+              </div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Use tier', record.useTier || '—')}
+              ${kvRow('Raw share bp', record.rawShareBp ?? 0)}
+              ${kvRow('Settled share bp', record.settledShareBp ?? 0)}
+              ${kvRow('Credited micro-units', record.creditedMicroUnits || '0')}
+            </div>
+            ${record.exclusionReason ? `<p class="meta">${escapeHtml(record.exclusionReason)}</p>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderAccountingPrecisionVisual(report) {
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Contribution inputs', (report?.contributionInputs || []).length)}
+        ${metricTile('Clipping receipts', (report?.clippingDecisions || []).length)}
+        ${metricTile('Allocation rows', (report?.microUnitAllocation?.allocations || []).length)}
+        ${metricTile('Source-to-shares closure rows', (report?.sourceMaterialToSharesClosure || []).length)}
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Exact accounting invariants</h4><span class="badge">Replayable</span></div>
+        <div class="badge-row">
+          ${Object.entries(report?.exactAccountingInvariants || {}).map(([key, value]) => `<span class="badge ${value ? 'private' : 'bad'}">${escapeHtml(labelize(key))}: ${escapeHtml(value)}</span>`).join(' ')}
+        </div>
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Basis-point normalization</h4><span class="badge">Source to shares</span></div>
+          ${surfaceVisualFallback(report?.basisPointNormalization || {})}
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Micro-unit allocation</h4><span class="badge">Exact remainder order</span></div>
+          ${surfaceVisualFallback(report?.microUnitAllocation || {})}
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Source material to shares closure</h4><span class="badge">Unit refs to credited micro-units</span></div>
+        ${surfaceVisualFallback(report?.sourceMaterialToSharesClosure || [])}
+      </div>
+    </div>
+  `;
+}
+
+function renderMaterializationProofVisual(proof) {
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Selected assets', (proof?.witnessRefs?.selectedAssetIds || []).length)}
+        ${metricTile('Materialized assets', (proof?.witnessRefs?.materializedAssetIds || []).length)}
+        ${metricTile('Excluded assets', (proof?.witnessRefs?.excludedAssetIds || []).length)}
+        ${metricTile('Locked units', (proof?.witnessRefs?.lockedUnitRefs || []).length)}
+      </div>
+      <div class="badge-row">
+        ${statusBadge(proof?.allSelectedAssetsMaterialized ? 'selected assets materialized' : 'selected assets missing')}
+        ${statusBadge(proof?.allExclusionsExplained ? 'exclusions explained' : 'unexplained exclusions')}
+      </div>
+      ${surfaceVisualFallback(proof || {})}
+    </div>
+  `;
+}
+
+function renderMaterializationVisibilityVisual(proof) {
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Selected assets', (proof?.witnessRefs?.selectedAssetIds || []).length)}
+        ${metricTile('Materialized assets', (proof?.witnessRefs?.materializedSourceAssetIds || []).length)}
+        ${metricTile('Unit refs', (proof?.witnessRefs?.materializedUnitRefs || []).length)}
+        ${metricTile('Public artifacts', (proof?.witnessRefs?.publicArtifactPaths || []).length)}
+      </div>
+      <div class="badge-row">
+        ${statusBadge(proof?.allSelectedAssetsHaveMaterializedSourceBindings ? 'selected assets materialized' : 'selected assets missing')}
+        ${statusBadge(proof?.noUnexpectedMaterializedSourceBindings ? 'no unexpected materialization' : 'unexpected materialization')}
+        ${statusBadge(proof?.allMaterializedUnitsClosedOverLock ? 'unit refs closed' : 'unit refs open')}
+        ${statusBadge(proof?.noPrivateArtifactsLeakIntoPublicProjection ? 'public projection bounded' : 'public projection leaked')}
+      </div>
+      ${surfaceVisualFallback(proof || {})}
+    </div>
+  `;
+}
+
+function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
+  return `
+    <div class="object-list">
+      ${scenarios.map((scenario) => `
+        <div class="section-card">
+          <div class="row wrap-gap">
+            <div>
+              <strong>${escapeHtml(scenario.scenarioFamily || scenario.scenarioId || 'Scenario')}</strong>
+              <p class="meta">${escapeHtml(scenario.repo || '')}</p>
+            </div>
+            <div class="badge-row">
+              ${statusBadge(scenario.scenarioId === activeScenarioId ? 'active scenario' : 'seeded scenario')}
+              <span class="badge">${escapeHtml(scenario.parserKind || 'parser')}</span>
+            </div>
+          </div>
+          <p>${escapeHtml(scenario.taskSeed || '—')}</p>
+          <div class="kv-grid">
+            ${kvRow('Coverage tags', chipList(scenario.coverageTags || []), { html: true })}
+            ${kvRow('Failing cases', formatList(scenario.failingCases || []), { html: true })}
+            ${kvRow('Weak dimensions', formatList(scenario.weakDimensions || []), { html: true })}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
 function renderJournalDiffVisual(diff) {
   const invariants = diff.invariants || {};
   return `
@@ -1061,7 +1272,8 @@ function renderSummary(state) {
 }
 
 function renderScenario(state) {
-  const scenario = state.needScenarios[0];
+  const activeScenarioId = selectedScenarioId || state.latestRun?.scenarioId || state.needScenarios[0]?.scenarioId;
+  const scenario = state.needScenarios.find((entry) => entry.scenarioId === activeScenarioId) || state.needScenarios[0];
   const latestNeed = state.latestRun?.need;
   const source = latestNeed || scenario;
   const measurementPayload = state.latestRun?.needMeasurement ? {
@@ -1094,6 +1306,15 @@ function renderScenario(state) {
       accent: 'accent-blue'
     })}
     ${renderJsonSurface({
+      title: 'Scenario corpus',
+      subtitle: 'Seeded GitHub-shaped scenario families available in this demo',
+      eyebrow: 'Corpus surface',
+      help: 'The corpus now covers auth rollback, proof-heavy Rust, config policy, unsafe review, deployment drift, privacy-boundary proof export, a polyglot gateway rollback, and a normalization-heavy auth scenario for source-to-shares replay.',
+      data: state.needScenarios,
+      visual: (scenarios) => renderScenarioCorpusVisual(scenarios, activeScenarioId),
+      accent: 'accent-green'
+    })}
+    ${renderJsonSurface({
       title: 'Profile composition + demo semantics',
       subtitle: 'Why Profile A is live here and Profile B is not switchable in-demo',
       eyebrow: 'V9 artifact',
@@ -1112,7 +1333,7 @@ function renderScenario(state) {
       accent: 'accent-purple'
     }) : ''}
     ${measurementPayload ? renderJsonSurface({
-      title: 'Need measurement + parser validation',
+      title: 'Need derivation + parser validation',
       subtitle: 'Benchmark target, parser validation, and inference proof package',
       eyebrow: 'Measurement artifact',
       help: 'This is where fail-closed parsing, benchmark targeting, and derivation proofs become legible without losing access to the underlying JSON.',
@@ -1254,10 +1475,10 @@ function renderBranchArtifacts(state) {
       accent: 'accent-purple'
     },
     {
-      title: 'Code analysis fact registry',
-      subtitle: '.engi/code-analysis-fact-registry.json',
-      data: run.codeAnalysisFactRegistry,
-      raw: branchFiles['.engi/code-analysis-fact-registry.json'],
+      title: 'Code analysis / static heuristics registry',
+      subtitle: '.engi/static-heuristics-registry.json',
+      data: run.staticHeuristicsRegistry || run.codeAnalysisFactRegistry,
+      raw: branchFiles['.engi/static-heuristics-registry.json'] || branchFiles['.engi/code-analysis-fact-registry.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-blue'
     },
@@ -1270,12 +1491,36 @@ function renderBranchArtifacts(state) {
       accent: 'accent-orange'
     },
     {
-      title: 'Static measurement proof',
+      title: 'Static code-analysis closure proof',
       subtitle: '.engi/static-measurement-proof.json',
       data: run.staticMeasurementProof,
       raw: branchFiles['.engi/static-measurement-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
+    },
+    {
+      title: 'Materialization proof',
+      subtitle: '.engi/materialization-proof.json',
+      data: run.materializationProof,
+      raw: branchFiles['.engi/materialization-proof.json'],
+      visual: renderMaterializationProofVisual,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Materialization visibility proof',
+      subtitle: '.engi/materialization-visibility-proof.json',
+      data: run.materializationVisibilityProof,
+      raw: branchFiles['.engi/materialization-visibility-proof.json'],
+      visual: renderMaterializationVisibilityVisual,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Materialization exclusions',
+      subtitle: '.engi/materialization-exclusions.json',
+      data: run.materializationExclusions,
+      raw: branchFiles['.engi/materialization-exclusions.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-slate'
     },
     {
       title: 'Proof witness manifest',
@@ -1284,6 +1529,22 @@ function renderBranchArtifacts(state) {
       raw: branchFiles['.engi/proof-witness-manifest.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
+    },
+    {
+      title: 'Scenario corpus manifest',
+      subtitle: '.engi/scenario-fixture-manifest.json',
+      data: run.scenarioFixtureManifest,
+      raw: branchFiles['.engi/scenario-fixture-manifest.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-green'
+    },
+    {
+      title: 'Test coverage report',
+      subtitle: '.engi/test-coverage-report.json',
+      data: run.testCoverageReport,
+      raw: branchFiles['.engi/test-coverage-report.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-green'
     },
     {
       title: 'External boundary manifest',
@@ -1383,6 +1644,26 @@ function renderSettlement(state) {
       accent: 'accent-green'
     }),
     renderJsonSurface({
+      title: 'Source-to-shares chain',
+      subtitle: '.engi/source-to-shares.json',
+      eyebrow: 'Accounting artifact',
+      help: 'This is the explicit path from source contribution basis to raw share basis points, including clipping receipts and normalization order.',
+      data: run.sourceToSharesArtifact,
+      raw: branchFiles['.engi/source-to-shares.json'],
+      visual: renderSourceToSharesVisual,
+      accent: 'accent-green'
+    }),
+    renderJsonSurface({
+      title: 'Settlement participation',
+      subtitle: '.engi/settlement-participation.json',
+      eyebrow: 'Accounting artifact',
+      help: 'Every evaluated asset is classified as selected, settlement-participating, credited, zero-credit participating, or excluded.',
+      data: run.settlementParticipationArtifact,
+      raw: branchFiles['.engi/settlement-participation.json'],
+      visual: renderSettlementParticipationVisual,
+      accent: 'accent-green'
+    }),
+    renderJsonSurface({
       title: 'Journal diff',
       subtitle: '.engi/journal-diff.json',
       eyebrow: 'Accounting artifact',
@@ -1391,6 +1672,16 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/journal-diff.json'],
       visual: renderJournalDiffVisual,
       accent: 'accent-green'
+    }),
+    renderJsonSurface({
+      title: 'Accounting precision report',
+      subtitle: '.engi/accounting-precision-report.json',
+      eyebrow: 'Accounting artifact',
+      help: 'V9 precision closure now records clipping, tie-break policy, and exact micro-unit allocation as replayable accounting surfaces.',
+      data: run.accountingPrecisionReport,
+      raw: branchFiles['.engi/accounting-precision-report.json'],
+      visual: renderAccountingPrecisionVisual,
+      accent: 'accent-purple'
     }),
     renderJsonSurface({
       title: 'Settlement proof',
@@ -1446,6 +1737,8 @@ function renderLedger(state) {
 async function refresh() {
   surfaceCounter = 0;
   const state = await api('/api/state?principal=buyer');
+  lastLoadedState = state;
+  syncScenarioPicker(state);
   renderSummary(state);
   renderScenario(state);
   renderAssets(state);
@@ -1474,12 +1767,21 @@ document.addEventListener('click', (event) => {
 document.getElementById('makeBranchButton').addEventListener('click', async () => {
   try {
     setStatus('Measuring need, ranking candidates, staging branch artifacts, and settling journal diff…');
-    const result = await api('/api/make-engi-branch', { method: 'POST', body: JSON.stringify({ principal: 'buyer' }) });
+    const result = await api('/api/make-engi-branch', {
+      method: 'POST',
+      body: JSON.stringify({ principal: 'buyer', scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
+    });
     await refresh();
     setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
   } catch (error) {
     setStatus(error.message);
   }
+});
+
+scenarioPickerEl?.addEventListener('change', () => {
+  selectedScenarioId = scenarioPickerEl.value;
+  if (lastLoadedState) renderScenario(lastLoadedState);
+  setStatus(`Selected scenario ${selectedScenarioId}.`);
 });
 
 document.getElementById('resetButton').addEventListener('click', async () => {

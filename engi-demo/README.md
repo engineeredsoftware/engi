@@ -1,10 +1,10 @@
-# ENGI Demo — Spec V8 Deterministic Local Prototype
+# ENGI Demo — Spec V9 Deterministic Local Prototype
 
-This demo now tracks the Spec V8 core flow closely:
+This demo now tracks the Spec V9 core flow closely:
 
 1. parse mocked GitHub Actions evidence through a declared benchmark parser contract and build a `GitHubNeedDescriptor`,
 2. model hybrid candidate recall across task, failure-mode, technical-context, lexical, symbol, path, config, and artifact-kind channels,
-3. rank deposited candidate assets with explicit Spec V8 score groups, explainability traces, and penalties,
+3. rank deposited candidate assets with explicit score groups, explainability traces, and penalties,
 4. apply separate verification determinisms, issuer policy, and downstream use-tier propagation,
 5. assemble a locked `AssetPack` plus selected source-material manifest,
 6. stage a private remediation branch artifact set with deliverable metadata, authorization decisions, and sensitive-data-flow records,
@@ -13,7 +13,7 @@ This demo now tracks the Spec V8 core flow closely:
 
 ## What this prototype is
 
-A deterministic, local, no-dependency Node app that models the V8 Profile A architecture faithfully enough to demo while explicitly labeling Profile B production intent:
+A deterministic, local, no-dependency Node app that models the V9 Profile A architecture faithfully enough to demo while explicitly labeling Profile B production intent:
 
 - need measurement from GitHub-bound benchmark evidence,
 - parser fail-closed behavior and canonical run-evidence normalization,
@@ -48,7 +48,7 @@ All of those surfaces are represented deterministically in local state.
 - `Profile A — local deterministic prototype`: what this repo implements and demos now.
 - `Profile B — production-boundary intent`: live GitHub binding, real branch/privacy/authz enforcement, real embeddings/evaluators/prompts, and external integrations still outside the local prototype boundary.
 
-## Advanced V8 interface notes
+## Advanced V9 interface notes
 
 - Content units now carry explicit semantic/embedding contracts so real embedding providers can replace deterministic stand-ins without changing downstream schemas.
 - Measurement provenance distinguishes static deterministic analysis from inferred evaluator surfaces.
@@ -64,6 +64,14 @@ npm start
 ```
 
 Open <http://localhost:4318>.
+
+## Container run
+
+```bash
+cd /Users/garrettmaring/Developer/ENGI/engi-demo
+docker build -t engi-demo-v9 .
+docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v9
+```
 
 ## Test
 
@@ -96,6 +104,15 @@ npm test
 - `.engi/authorization-decisions.json`
 - `.engi/sensitive-data-flow.json`
 - `.engi/policy-release.json`
+- `.engi/code-analysis-fact-registry.json`
+- `.engi/static-heuristics-registry.json`
+- `.engi/materialization-proof.json`
+- `.engi/materialization-exclusions.json`
+- `.engi/source-to-shares.json`
+- `.engi/settlement-participation.json`
+- `.engi/accounting-precision-report.json`
+- `.engi/scenario-fixture-manifest.json`
+- `.engi/test-coverage-report.json`
 - `.engi/unit-catalog.json`
 - `.engi/pipeline-telemetry.json`
 - `.engi/deliverables.json`
@@ -109,3 +126,4 @@ npm test
 - `SPEC_V6_COVERAGE_MATRIX.md` — durable section-by-section coverage audit against the V6 spec
 - `SPEC_V7_COVERAGE_MATRIX.md` — preserved historical coverage audit for the V7 spec and V6→V7 deltas
 - `SPEC_V8_COVERAGE_MATRIX.md` — authoritative audit/design/closure plan for the current V8 demo
+- `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` — V9 host/runtime/bootstrap/containerization truth for this repo
