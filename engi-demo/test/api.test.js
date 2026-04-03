@@ -89,7 +89,7 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-test('GET /api/state returns seeded Spec V6 public state', async (t) => {
+test('GET /api/state returns seeded Spec V7 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -97,6 +97,7 @@ test('GET /api/state returns seeded Spec V6 public state', async (t) => {
     assert.equal(response.json.needScenarios.length, 1);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
     assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v2');
+    assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic prototype');
     assert.equal(response.json.latestRun, null);
   });
 });
@@ -106,7 +107,17 @@ test('GET / returns the app shell', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /Make ENGI branch from GitHub benchmark evidence/);
-    assert.match(response.text, /Spec V6/);
+    assert.match(response.text, /Spec V7/);
+  });
+});
+
+test('GET /api/state exposes V7 profile labels and task seed before any run', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.needScenarios[0].taskSeed, 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.');
+    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — local deterministic prototype');
+    assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — production-boundary intent');
   });
 });
 
@@ -179,7 +190,7 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
   });
 });
 
-test('POST /api/make-engi-branch runs the V6 gold path', async (t) => {
+test('POST /api/make-engi-branch runs the V7 gold path', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -191,12 +202,17 @@ test('POST /api/make-engi-branch runs the V6 gold path', async (t) => {
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.ok, true);
     assert.equal(response.json.latestRun.needLifecycle, 'settled');
+    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — local deterministic prototype');
     assert.ok(response.json.latestRun.need.needId);
     assert.equal(response.json.latestRun.need.benchmarkParserContract.parserFailureContract.failClosed, true);
+    assert.equal(response.json.latestRun.need.fieldDerivations.task.source, 'seed.expectedTask');
     assert.ok(response.json.latestRun.assetPack.assetPackId);
     assert.ok(response.json.latestRun.branchArtifacts.files['.engi/need.json']);
     assert.ok(response.json.latestRun.branchArtifacts.files['.engi/policy-release.json']);
     assert.ok(response.json.latestRun.branchArtifacts.files['.engi/authorization-decisions.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/sensitive-data-flow.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/unit-catalog.json']);
+    assert.ok(response.json.latestRun.branchArtifacts.files['.engi/pipeline-telemetry.json']);
     assert.equal(response.json.latestRun.journalDiff.invariants.debitsEqualCredits, true);
     assert.equal(response.json.latestRun.journalDiff.totals.difference, '0');
     assert.ok(response.json.latestRun.evaluatedCandidates.some((candidate) => candidate.useTier === 'settlement-eligible'));
@@ -216,6 +232,7 @@ test('POST /api/make-engi-branch supports context branch mode', async (t) => {
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.latestRun.branchMode, 'context');
     assert.equal(response.json.latestRun.assetPack.branchMode, 'context');
+    assert.ok(response.json.latestRun.verificationReport.assetVerification.some((entry) => entry.rights.branchMode === 'context'));
   });
 });
 

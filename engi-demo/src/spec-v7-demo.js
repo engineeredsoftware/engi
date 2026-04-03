@@ -1,12 +1,14 @@
 import crypto from 'node:crypto';
 
-export const SPEC_VERSION = 'ENGI Spec V6 deterministic local prototype';
+export const SPEC_VERSION = 'ENGI Spec V7 deterministic local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
+export const PROFILE_A = 'Profile A — local deterministic prototype';
+export const PROFILE_B = 'Profile B — production-boundary intent';
 const MAX_BPS = 10000;
 const VECTOR_DIMENSIONS = 16;
-const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v2';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v6-demo/2026-04-02';
+const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v3';
+const DEFAULT_POLICY_REF = 'policy://engi/spec-v7-demo/2026-04-02';
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
   failureModeSearch: 50,
@@ -25,6 +27,15 @@ const PRIVATE_DATA_CLASSES = new Set([
   'settlement-preview',
   'private-proof-artifact'
 ]);
+const REQUIRED_SENSITIVE_DATA_CLASSES = [
+  'repo-private-source',
+  'licensed-source-material',
+  'private-branch-derived-artifact',
+  'verification-evidence',
+  'settlement-preview',
+  'private-proof-artifact',
+  'bounded-public-proof-metadata'
+];
 
 export function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
@@ -119,7 +130,75 @@ function buildDeterministicVector(input) {
   return buckets.map((value) => Number((value / magnitude).toFixed(6)));
 }
 
+function buildEmbeddingSpec(vectorSpace, inputText, { profile = PROFILE_A, standIn = true, provider = 'engi-demo', modelId = DEFAULT_MODEL_ID, generationMethod = 'deterministic-stand-in', dimensions = VECTOR_DIMENSIONS } = {}) {
+  return {
+    vectorSpace,
+    dimensions,
+    profile,
+    standIn,
+    provider,
+    modelId,
+    generationMethod,
+    inputHash: stableHashObject({ vectorSpace, inputText })
+  };
+}
+
+function buildEmbeddingArtifact(vectorSpace, inputText, options = {}) {
+  return {
+    spec: buildEmbeddingSpec(vectorSpace, inputText, options),
+    values: buildDeterministicVector(inputText)
+  };
+}
+
+function evaluatorSurface({ evaluatorId, evaluatorKind, measurementClass, mode, evidenceRefs = [], modelId = DEFAULT_MODEL_ID, promptId = null, toolId = null, replayableTrace = true, profile = PROFILE_A, standIn = mode !== 'inferred' }) {
+  return {
+    evaluatorId,
+    evaluatorKind,
+    measurementClass,
+    mode,
+    modelId,
+    promptId,
+    toolId,
+    replayableTrace,
+    profile,
+    standIn,
+    evidenceRefs: summarizeStrings(evidenceRefs)
+  };
+}
+
+function telemetryEvent(stage, payload = {}) {
+  return {
+    eventId: `evt_${sha256(`${stage}:${canonicalJson(payload)}`).slice(0, 12)}`,
+    stage,
+    createdAt: nowIso(),
+    profile: PROFILE_A,
+    payload
+  };
+}
+
+function unitSemanticSummary(unit) {
+  return {
+    unitId: unit.unitId,
+    unitKind: unit.unitKind,
+    unitHash: unit.unitHash,
+    signalCounts: {
+      symbols: unit.extracted.symbols.length,
+      paths: unit.extracted.paths.length,
+      configKeys: unit.extracted.configKeys.length,
+      stackTags: unit.extracted.stackTags.length,
+      constraints: unit.extracted.constraints.length
+    },
+    embeddingSpecs: Object.fromEntries(Object.entries(unit.embeddings || {}).map(([key, artifact]) => [key, artifact.spec]))
+  };
+}
+
+function vectorValues(vectorOrArtifact) {
+  return Array.isArray(vectorOrArtifact) ? vectorOrArtifact : vectorOrArtifact?.values;
+}
+
 function cosineSimilarity(left, right) {
+  left = vectorValues(left);
+  right = vectorValues(right);
   if (!Array.isArray(left) || !Array.isArray(right) || !left.length || !right.length) return 0;
   const length = Math.min(left.length, right.length);
   let total = 0;
@@ -132,7 +211,7 @@ function cosineSimilarity(left, right) {
 function enforceRange(name, value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric < 0 || numeric > 1) {
-    throw new Error(`Spec V6 debug failure: ${name} out of range (${value}).`);
+    throw new Error(`Spec V7 debug failure: ${name} out of range (${value}).`);
   }
   return numeric;
 }
@@ -143,20 +222,31 @@ function summarizeScore(score) {
 
 function enforceTelemetryTrace(name, trace) {
   if (!trace || typeof trace !== 'object') {
-    throw new Error(`Spec V6 debug failure: missing telemetry trace for ${name}.`);
+    throw new Error(`Spec V7 debug failure: missing telemetry trace for ${name}.`);
   }
   return trace;
 }
 
-function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanation, unitRefs = [] }) {
+function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanation, unitRefs = [], measurementClass = mode === 'inferred' ? 'inferred-evaluation' : 'static-analysis', evaluatorKind = mode === 'inferred' ? 'inferred-evaluator' : 'deterministic-static-command' }) {
   return {
     value: summarizeScore(value),
     mode,
+    measurementClass,
+    evaluatorKind,
     toolOrPromptId,
-    version: 'demo-v6.2',
+    version: 'demo-v7.0',
     evidenceRefs: evidenceRefs.filter(Boolean),
     unitRefs,
-    explanation
+    explanation,
+    evaluatorSurface: evaluatorSurface({
+      evaluatorId: toolOrPromptId,
+      evaluatorKind,
+      measurementClass,
+      mode,
+      promptId: mode === 'inferred' ? toolOrPromptId : null,
+      toolId: mode !== 'inferred' ? toolOrPromptId : null,
+      evidenceRefs
+    })
   };
 }
 
@@ -166,6 +256,15 @@ function inferenceProof(outputField, evidenceRefs, promptOrEvaluatorId, modelId 
     evidenceRefs: evidenceRefs.filter(Boolean),
     promptOrEvaluatorId,
     modelId,
+    evaluatorSurface: evaluatorSurface({
+      evaluatorId: promptOrEvaluatorId,
+      evaluatorKind: 'inferred-evaluator',
+      measurementClass: 'inferred-measurement',
+      mode: 'inferred',
+      promptId: promptOrEvaluatorId,
+      modelId,
+      evidenceRefs
+    }),
     replayableTrace: true,
     admissible: evidenceRefs.filter(Boolean).length > 0 && !!promptOrEvaluatorId && !!modelId
   };
@@ -245,34 +344,101 @@ function splitContentUnits(assetId, content, hints = {}) {
       ...(extracted.stackTags || []),
       ...(extracted.constraints || [])
     ].join(' ');
+    const unitKind = detectUnitKind(text);
+    const embeddings = {
+      taskVector: buildEmbeddingArtifact('task-semantic-space.v7', text),
+      failureModeVector: buildEmbeddingArtifact('failure-mode-space.v7', [text, ...(extracted.constraints || []), ...(extracted.symbols || [])].join(' ')),
+      technicalContextVector: buildEmbeddingArtifact('technical-context-space.v7', technicalContextText)
+    };
+    const unitHash = stableHashObject({ text });
 
     return {
       unitId: `${assetId}:unit-${index + 1}`,
       assetId,
-      unitKind: detectUnitKind(text),
+      unitKind,
       text,
       extracted,
-      embeddings: {
-        taskVector: buildDeterministicVector(text),
-        failureModeVector: buildDeterministicVector([text, ...(extracted.constraints || []), ...(extracted.symbols || [])].join(' ')),
-        technicalContextVector: buildDeterministicVector(technicalContextText)
+      embeddings,
+      semanticInterfaces: {
+        contentUnitContractVersion: 'v7',
+        embeddingHandOffReady: true,
+        profileAStandInEmbeddings: true,
+        profileBFutureReplacementBoundary: 'replace embedding artifact values/providers without changing unit metadata contract'
       },
-      unitHash: stableHashObject({ text })
+      measurementProvenance: [
+        measurementTrace('static', 'content-unit.extract-signals.v7', [unitHash, ...extracted.paths, ...extracted.configKeys], { measurementClass: 'static-analysis', evaluatorKind: 'deterministic-static-command', standIn: false }),
+        measurementTrace('hybrid', 'content-unit.embedding-standin.v7', [unitHash], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
+      ],
+      semanticSummary: {
+        tokenCount: uniqueTokens(text).length,
+        embeddingSpaces: Object.values(embeddings).map((artifact) => artifact.spec.vectorSpace),
+        extractedSignalCounts: {
+          symbols: extracted.symbols.length,
+          paths: extracted.paths.length,
+          configKeys: extracted.configKeys.length,
+          stackTags: extracted.stackTags.length,
+          constraints: extracted.constraints.length
+        }
+      },
+      unitHash
     };
   });
 }
 
-function measurementTrace(mode, toolOrPromptId, evidenceRefs) {
+function measurementTrace(mode, toolOrPromptId, evidenceRefs, options = {}) {
+  const measurementClass = options.measurementClass || (mode === 'inferred' ? 'inferred-measurement' : mode === 'static' ? 'static-analysis' : 'hybrid-evaluation');
+  const evaluatorKind = options.evaluatorKind || (mode === 'inferred' ? 'inferred-evaluator' : mode === 'static' ? 'deterministic-static-command' : 'hybrid-pipeline-stage');
   return {
     mode,
+    measurementClass,
+    evaluatorKind,
     toolOrPromptId,
-    version: 'demo-v6.1',
-    evidenceRefs
+    version: 'demo-v7.0',
+    evidenceRefs,
+    evaluatorSurface: evaluatorSurface({
+      evaluatorId: toolOrPromptId,
+      evaluatorKind,
+      measurementClass,
+      mode,
+      promptId: mode === 'inferred' ? toolOrPromptId : null,
+      toolId: mode !== 'inferred' ? toolOrPromptId : null,
+      evidenceRefs,
+      standIn: options.standIn ?? (mode !== 'static')
+    })
   };
 }
 
 function summarizeStrings(values) {
   return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+}
+
+function allowedUseTiersForBranchMode(branchMode) {
+  return branchMode === 'context'
+    ? new Set(['context-only', 'patch-eligible', 'settlement-eligible'])
+    : new Set(['patch-eligible', 'settlement-eligible']);
+}
+
+function useTierRights(useTier, branchMode) {
+  const allowedTiers = allowedUseTiersForBranchMode(branchMode);
+  return {
+    useTier,
+    branchMode,
+    reportVisible: useTier !== 'reject',
+    branchMaterializationAllowed: allowedTiers.has(useTier),
+    settlementAllowed: useTier === 'settlement-eligible',
+    sourceMaterialMode: allowedTiers.has(useTier) ? branchMode : 'not-materialized'
+  };
+}
+
+function derivationRecord({ field, source, policy = 'required', confidence = 'high', evidenceRefs = [], notes }) {
+  return {
+    field,
+    source,
+    policy,
+    confidence,
+    evidenceRefs: summarizeStrings(evidenceRefs),
+    ...(notes ? { notes } : {})
+  };
 }
 
 function normalizeCaseId(value) {
@@ -309,7 +475,7 @@ function makeAuthorizationDecision(binding, action, resourceRef, policyState) {
 function buildPolicyState() {
   return {
     policyRef: DEFAULT_POLICY_REF,
-    releaseId: 'policy-release-engi-v6-demo-2026-04-02',
+    releaseId: 'policy-release-engi-v7-demo-2026-04-02',
     retentionPolicies: {
       'retention/private-remediation-30d': {
         retentionPolicyId: 'retention/private-remediation-30d',
@@ -349,23 +515,27 @@ function buildPolicyState() {
     authorizationMatrix: {
       'buyer-principal': {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Buyer principal may inspect private remediation delivery.'] },
-        'trigger:settlement': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Buyer principal may trigger the fixed local settlement preview.'] },
+        'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Buyer event authorizes licensed source material to be staged into the private branch.'] },
+        'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Buyer principal may authorize the fixed local settlement event.'] },
+        'derive:bounded-public-proof-metadata': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Buyer principals do not publish bounded public proof metadata directly.'] },
         'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Buyer may inspect bounded public proof metadata.'] },
         'open:delivery': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Delivery-open is blocked in the deterministic local prototype.'] }
       },
       'engi-system-principal': {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal materializes private artifacts.'] },
-        'trigger:settlement': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal executes deterministic settlement.'] },
+        'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI branch materializer may stage selected source material under .engi/source-material/.'] },
+        'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI settlement engine executes deterministic journal settlement.'] },
         'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal stages remediation artifacts.'] },
-        'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal may derive bounded proof metadata.'] }
+        'derive:bounded-public-proof-metadata': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI proof publisher may derive bounded proof metadata from the private proof surface.'] },
+        'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal may inspect bounded proof metadata.'] }
       },
       'authorized-reviewer': {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Authorized reviewer access is allowed under private review policy.'] },
-        'trigger:settlement': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Authorized reviewers may not trigger settlement.'] }
+        'settle:journal-event': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Authorized reviewers may not trigger settlement.'] }
       },
       'issuer-principal': {
         'read:private-branch': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Issuers do not gain read access by default.'] },
-        'trigger:settlement': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Issuers cannot self-settle the buyer event.'] }
+        'settle:journal-event': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Issuers cannot self-settle the buyer event.'] }
       },
       'public-reader': {
         'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Only bounded public proof metadata may be public.'] },
@@ -384,6 +554,9 @@ function buildPolicyRelease(policyState) {
   return {
     releaseId: policyState.releaseId,
     policyRef: policyState.policyRef,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    prototypeOnlyModeledControls: true,
     issuerClasses: {
       allowed: policyState.issuers.allowed.length,
       restricted: policyState.issuers.restricted.length,
@@ -455,8 +628,17 @@ export function makeCandidateAsset(input) {
       stackTags: input.declaredStacks || extracted.stackTags,
       constraints: input.declaredConstraints || extracted.constraints
     },
+    contentUnitSemantics: contentUnits.map(unitSemanticSummary),
+    vectorInterfaces: {
+      taskVectorSpace: 'task-semantic-space.v7',
+      failureModeVectorSpace: 'failure-mode-space.v7',
+      technicalContextVectorSpace: 'technical-context-space.v7',
+      profileAStandInEmbeddings: true,
+      profileBFutureBoundary: 'swap embedding providers/models while preserving vector-space contracts and unit ids'
+    },
     provenance: [
-      measurementTrace('static', 'asset.measurement.extract.v2', [contentRoot, ...(input.sourcePaths || extracted.paths)])
+      measurementTrace('static', 'asset.measurement.extract.v2', [contentRoot, ...(input.sourcePaths || extracted.paths)], { measurementClass: 'static-analysis', evaluatorKind: 'deterministic-static-command', standIn: false }),
+      measurementTrace('hybrid', 'asset.measurement.semantic-hand-off.v7', [contentRoot, ...contentUnits.map((unit) => unit.unitHash)], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
     ]
   };
 
@@ -652,8 +834,8 @@ export function buildInitialState() {
           touchedPaths: ['services/auth/rollback.ts', 'services/auth/session_validator.rs', 'config/auth/issuer-compat.yml'],
           symbols: ['restoreLegacyVerifier', 'validateIssuerAudience', 'emitAuditReceipt'],
           configKeys: ['auth.issuer.compatibilityWindow', 'auth.rollback.killSwitch'],
-          parserKind: 'github-actions.auth-remediation.v1',
-          parserVersion: '1.0.0'
+          parserKind: 'github-actions.auth-remediation.v2',
+          parserVersion: '2.0.0'
         }
       }
     }
@@ -671,6 +853,11 @@ export function buildInitialState() {
   return {
     version: 2,
     specVersion: SPEC_VERSION,
+    conformanceProfiles: {
+      active: PROFILE_A,
+      productionIntent: PROFILE_B,
+      prototypeOnlyModeledControls: true
+    },
     assets,
     buyers,
     needScenarios,
@@ -766,7 +953,7 @@ export function measureNeedFromScenario(scenario) {
   const canonicalBenchmarkOutputs = parser.parse(scenario.canonicalRunEvidence);
   const parserValidation = parser.validate(canonicalBenchmarkOutputs);
   if (!parserValidation.ok) {
-    throw new Error(`Spec V6 parser validation failed: ${parserValidation.reasons.join('; ')}`);
+    throw new Error(`Spec V7 parser validation failed: ${parserValidation.reasons.join('; ')}`);
   }
 
   const repoMeasurements = repoContextStaticMeasurements(scenario, canonicalBenchmarkOutputs);
@@ -774,6 +961,64 @@ export function measureNeedFromScenario(scenario) {
   const failureModes = inferFailureModes(scenario, canonicalBenchmarkOutputs);
   const constraints = inferConstraints(scenario, canonicalBenchmarkOutputs);
   const targetArtifactKinds = inferTargetArtifactKinds(scenario, canonicalBenchmarkOutputs);
+  const fieldDerivations = {
+    task: derivationRecord({
+      field: 'task',
+      source: scenario.task ? 'scenario.task' : scenario.expectedTask ? 'seed.expectedTask' : 'deterministic-synthesis',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, scenario.repo, scenario.benchmarkHarnessPath],
+      notes: 'Canonical need task is normalized before ranking; seed-only names do not leak downstream.'
+    }),
+    failureModes: derivationRecord({
+      field: 'failureModes',
+      source: scenario.failureModes?.length ? 'scenario.failureModes' : scenario.expectedFailureModes?.length ? 'seed.expectedFailureModes' : 'canonicalBenchmarkOutputs.failingCases',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...canonicalBenchmarkOutputs.failingCases]
+    }),
+    constraints: derivationRecord({
+      field: 'constraints',
+      source: scenario.constraints?.length ? 'scenario.constraints' : scenario.expectedConstraints?.length ? 'seed.expectedConstraints' : 'deterministic-synthesis',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...canonicalBenchmarkOutputs.weakDimensions]
+    }),
+    targetArtifactKinds: derivationRecord({
+      field: 'targetArtifactKinds',
+      source: scenario.targetArtifactKinds?.length ? 'scenario.targetArtifactKinds' : scenario.expectedTargetArtifactKinds?.length ? 'seed.expectedTargetArtifactKinds' : 'deterministic-synthesis',
+      evidenceRefs: [scenario.repo, ...repoMeasurements.touchedPaths]
+    }),
+    stackHints: derivationRecord({
+      field: 'stackHints',
+      source: 'repo-context-extraction',
+      evidenceRefs: [scenario.repo, ...repoMeasurements.stackHints]
+    }),
+    touchedPaths: derivationRecord({
+      field: 'touchedPaths',
+      source: canonicalBenchmarkOutputs.touchedPaths.length ? 'canonicalBenchmarkOutputs.touchedPaths + repo-context-extraction' : 'repo-context-extraction',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...repoMeasurements.touchedPaths]
+    }),
+    extractedSymbols: derivationRecord({
+      field: 'extractedSymbols',
+      source: canonicalBenchmarkOutputs.symbols.length ? 'canonicalBenchmarkOutputs.symbols + repo-context-extraction' : 'repo-context-extraction',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...repoMeasurements.extractedSymbols]
+    }),
+    configKeys: derivationRecord({
+      field: 'configKeys',
+      source: canonicalBenchmarkOutputs.configKeys.length ? 'canonicalBenchmarkOutputs.configKeys + repo-context-extraction' : 'repo-context-extraction',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...repoMeasurements.configKeys]
+    }),
+    failingCases: derivationRecord({
+      field: 'failingCases',
+      source: 'canonicalBenchmarkOutputs.failingCases',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...canonicalBenchmarkOutputs.failingCases]
+    }),
+    weakDimensions: derivationRecord({
+      field: 'weakDimensions',
+      source: 'canonicalBenchmarkOutputs.weakDimensions',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...canonicalBenchmarkOutputs.weakDimensions]
+    }),
+    baselineMetrics: derivationRecord({
+      field: 'baselineMetrics',
+      source: 'canonicalBenchmarkOutputs.baselineMetrics',
+      evidenceRefs: [scenario.canonicalRunEvidence?.runId, ...Object.keys(canonicalBenchmarkOutputs.baselineMetrics || {})]
+    })
+  };
   const benchmarkTarget = {
     harnessPath: scenario.benchmarkHarnessPath,
     runId: scenario.benchmarkRunId,
@@ -804,7 +1049,8 @@ export function measureNeedFromScenario(scenario) {
     measurementTrace('inferred', 'need-measurement.task.v2', evidenceRefs),
     measurementTrace('inferred', 'need-measurement.failure-modes.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases]),
     measurementTrace('inferred', 'need-measurement.constraints.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.weakDimensions]),
-    measurementTrace('inferred', 'need-measurement.target-artifact-kinds.v2', [...evidenceRefs, ...repoMeasurements.touchedPaths])
+    measurementTrace('inferred', 'need-measurement.target-artifact-kinds.v2', [...evidenceRefs, ...repoMeasurements.touchedPaths]),
+    measurementTrace('hybrid', 'need-measurement.derivation-closure.v7', Object.values(fieldDerivations).flatMap((entry) => entry.evidenceRefs || []))
   ];
 
   const needDescriptor = {
@@ -843,6 +1089,9 @@ export function measureNeedFromScenario(scenario) {
     weakDimensions: canonicalBenchmarkOutputs.weakDimensions,
     baselineMetrics: canonicalBenchmarkOutputs.baselineMetrics,
     humanPrompt: scenario.humanPrompt,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    fieldDerivations,
     measurementProvenance,
     staticMeasurements: {
       touchedPaths: repoMeasurements.touchedPaths,
@@ -897,14 +1146,16 @@ function buildAssetCorpus(asset) {
 }
 
 export function recallCandidates(need, assets) {
-  const taskVector = buildDeterministicVector(need.task);
-  const failureModeVector = buildDeterministicVector(need.failureModes.join(' '));
-  const technicalContextVector = buildDeterministicVector([
-    ...need.touchedPaths,
-    ...need.extractedSymbols,
-    ...need.configKeys,
-    ...need.stackHints
-  ].join(' '));
+  const queryRepresentations = {
+    task: buildEmbeddingArtifact('task-semantic-space.v7', need.task),
+    failureModes: buildEmbeddingArtifact('failure-mode-space.v7', need.failureModes.join(' ')),
+    technicalContext: buildEmbeddingArtifact('technical-context-space.v7', [
+      ...need.touchedPaths,
+      ...need.extractedSymbols,
+      ...need.configKeys,
+      ...need.stackHints
+    ].join(' '))
+  };
   const lexicalTerms = uniqueTokens([
     need.task,
     ...need.failureModes,
@@ -937,7 +1188,7 @@ export function recallCandidates(need, assets) {
         assetId: asset.assetId,
         unitId: unit.unitId,
         unitKey,
-        score: cosineSimilarity(taskVector, unit.embeddings.taskVector),
+        score: cosineSimilarity(queryRepresentations.task, unit.embeddings.taskVector),
         evidenceRefs: [need.needId, asset.contentRoot, unit.unitHash],
         matchedValues: lexicalHits
       });
@@ -946,7 +1197,7 @@ export function recallCandidates(need, assets) {
         assetId: asset.assetId,
         unitId: unit.unitId,
         unitKey,
-        score: cosineSimilarity(failureModeVector, unit.embeddings.failureModeVector),
+        score: cosineSimilarity(queryRepresentations.failureModes, unit.embeddings.failureModeVector),
         evidenceRefs: [need.needId, ...need.failingCases, unit.unitHash],
         matchedValues: intersection(need.failureModes, uniqueTokens(unit.text))
       });
@@ -955,7 +1206,7 @@ export function recallCandidates(need, assets) {
         assetId: asset.assetId,
         unitId: unit.unitId,
         unitKey,
-        score: cosineSimilarity(technicalContextVector, unit.embeddings.technicalContextVector),
+        score: cosineSimilarity(queryRepresentations.technicalContext, unit.embeddings.technicalContextVector),
         evidenceRefs: [need.needId, ...(asset.metadata.sourcePaths || []), unit.unitHash],
         matchedValues: union(pathHits, configHits)
       });
@@ -1065,6 +1316,7 @@ export function recallCandidates(need, assets) {
   return [...byAsset.values()]
     .map((entry) => ({
       ...entry,
+      queryRepresentations: Object.fromEntries(Object.entries(queryRepresentations).map(([key, artifact]) => [key, artifact.spec])),
       recallScore: Number(entry.recallScore.toFixed(4)),
       fusion: {
         ...entry.fusion,
@@ -1547,6 +1799,7 @@ export function evaluateCandidates(need, assets, policyState = buildPolicyState(
         },
         verification,
         useTier,
+        rights: useTierRights(useTier, DEFAULT_BRANCH_MODE),
         measurementProvenance: [
           measurementTrace('hybrid', 'ranking.recall-fusion.v2', rankingEvidenceRefs(need, asset, recall.unitIds)),
           measurementTrace('hybrid', 'ranking.need-match.v2', rankingEvidenceRefs(need, asset, recall.unitIds)),
@@ -1560,9 +1813,7 @@ export function evaluateCandidates(need, assets, policyState = buildPolicyState(
 }
 
 export function assembleAssetPack(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
-  const allowedTiers = branchMode === 'context'
-    ? new Set(['context-only', 'patch-eligible', 'settlement-eligible'])
-    : new Set(['patch-eligible', 'settlement-eligible']);
+  const allowedTiers = allowedUseTiersForBranchMode(branchMode);
 
   const selected = evaluatedCandidates
     .filter((candidate) => allowedTiers.has(candidate.useTier))
@@ -1577,6 +1828,8 @@ export function assembleAssetPack(need, evaluatedCandidates, branchMode = DEFAUL
   return {
     assetPackId: `asset_pack_${sha256(`${need.needId}:${selectedAssets.join(':')}`).slice(0, 12)}`,
     needId: need.needId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
     selectedAssets,
     selectedUnits,
     lockedContentRoots,
@@ -1596,12 +1849,16 @@ function buildMatchReport(need, evaluatedCandidates, assetPack) {
   const selectedSet = new Set(assetPack.selectedAssets);
   return {
     needId: need.needId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    branchMode: assetPack.branchMode,
     selectedAssets: evaluatedCandidates
       .filter((candidate) => selectedSet.has(candidate.assetId))
       .map((candidate) => ({
         assetId: candidate.assetId,
         finalRankingScore: Number(candidate.ranking.finalRankingScore.toFixed(4)),
         useTier: candidate.useTier,
+        rights: useTierRights(candidate.useTier, assetPack.branchMode),
         reasons: [
           `needMatch=${candidate.ranking.needMatch.finalScore.toFixed(4)}`,
           `benchmarkImpact=${candidate.ranking.benchmarkImpact.finalScore.toFixed(4)}`,
@@ -1612,49 +1869,58 @@ function buildMatchReport(need, evaluatedCandidates, assetPack) {
       .filter((candidate) => !selectedSet.has(candidate.assetId))
       .map((candidate) => ({
         assetId: candidate.assetId,
+        useTier: candidate.useTier,
+        rights: useTierRights(candidate.useTier, assetPack.branchMode),
         rejectionReason: `Not materialized into ${assetPack.branchMode} branch at tier ${candidate.useTier}.`
       }))
   };
 }
 
-function buildVerificationReport(need, evaluatedCandidates) {
+function buildVerificationReport(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
   return {
     needId: need.needId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    branchMode,
     assetVerification: evaluatedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
       issuanceVerification: candidate.verification.issuanceVerification,
       provenanceVerification: candidate.verification.provenanceVerification,
       verificationSufficiency: candidate.verification.verificationSufficiency,
       issuerPolicyStatus: candidate.verification.issuerPolicyStatus,
-      useTier: candidate.useTier
+      useTier: candidate.useTier,
+      rights: useTierRights(candidate.useTier, branchMode)
     }))
   };
 }
 
 function buildEvalManifest(need, evaluatedCandidates) {
+  const evaluatorInterfaces = [
+    evaluatorSurface({ evaluatorId: 'need-measurement.task.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.task.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId, need.benchmarkRunId], standIn: true }),
+    evaluatorSurface({ evaluatorId: 'need-measurement.failure-modes.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.failure-modes.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
+    evaluatorSurface({ evaluatorId: 'need-measurement.constraints.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.constraints.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
+    evaluatorSurface({ evaluatorId: 'need-measurement.target-artifact-kinds.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.target-artifact-kinds.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
+    evaluatorSurface({ evaluatorId: 'candidate-recall.hybrid.v2', evaluatorKind: 'hybrid-pipeline-stage', measurementClass: 'hybrid-evaluation', mode: 'hybrid', toolId: 'candidate-recall.hybrid.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
+    evaluatorSurface({ evaluatorId: 'verification.determinisms.v2', evaluatorKind: 'deterministic-static-command', measurementClass: 'static-analysis', mode: 'static', toolId: 'verification.determinisms.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: false })
+  ];
+
   return {
     needId: need.needId,
     benchmarkRunId: need.benchmarkRunId,
-    promptsVersion: 'spec-v6-demo-deterministic.v2',
+    promptsVersion: 'spec-v7-demo-deterministic.v3',
     modelsUsed: [DEFAULT_MODEL_ID],
-    deterministicFeatureVersion: 'spec-v6-demo-static.v2',
-    evaluatorsUsed: [
-      'need-measurement.task.v2',
-      'need-measurement.failure-modes.v2',
-      'need-measurement.constraints.v2',
-      'need-measurement.target-artifact-kinds.v2',
-      'candidate-recall.hybrid.v2',
-      'need-match',
-      'benchmark-impact',
-      'actionability',
-      'issuance',
-      'provenance',
-      'verification-sufficiency',
-      'issuer-policy'
-    ],
+    deterministicFeatureVersion: 'spec-v7-demo-static.v3',
+    evaluatorInterfaces,
+    evaluatorBoundaryNotes: {
+      profileA: 'Deterministic/local stand-ins satisfy the evaluator and embedding contracts for demo use.',
+      profileB: 'Real embedding providers, prompt execution, and external evaluator services can replace the stand-ins without changing artifact schema.'
+    },
+    vectorSpaces: ['task-semantic-space.v7', 'failure-mode-space.v7', 'technical-context-space.v7'],
+    evaluatorsUsed: evaluatorInterfaces.map((entry) => entry.evaluatorId),
     assetMeasurementProvenance: evaluatedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
-      provenance: candidate.measurementProvenance
+      provenance: candidate.measurementProvenance,
+      contentUnitSemantics: candidate.asset.assetMeasurement?.contentUnitSemantics || []
     }))
   };
 }
@@ -1663,6 +1929,9 @@ function buildAssetPackLock(assetPack, selectedCandidates) {
   return {
     assetPackId: assetPack.assetPackId,
     needId: assetPack.needId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    branchMode: assetPack.branchMode,
     acceptedUseTiers: assetPack.acceptedUseTiers,
     assets: selectedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
@@ -1690,12 +1959,15 @@ function buildSelectedSourceMaterialManifest(assetPack, selectedCandidates) {
   return {
     assetPackId: assetPack.assetPackId,
     branchMode: assetPack.branchMode,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
     selectedSourceMaterial: selectedCandidates.map((candidate) => ({
       assetId: candidate.assetId,
       title: candidate.asset.title,
       useTier: candidate.useTier,
       artifactKind: candidate.asset.artifactKind,
       sourceMaterialBinding: candidate.asset.sourceMaterialBinding,
+      rights: useTierRights(candidate.useTier, assetPack.branchMode),
       selectedUnits: candidate.asset.contentUnits.slice(0, 2).map((unit) => ({
         unitId: unit.unitId,
         unitKind: unit.unitKind,
@@ -1813,14 +2085,12 @@ function stringifyBigIntMap(accounts) {
 }
 
 function materializeSelectedSourceMaterial(selectedCandidates, branchMode) {
-  const allowedTiers = branchMode === 'context'
-    ? new Set(['context-only', 'patch-eligible', 'settlement-eligible'])
-    : new Set(['patch-eligible', 'settlement-eligible']);
+  const allowedTiers = allowedUseTiersForBranchMode(branchMode);
 
   const files = {};
   for (const candidate of selectedCandidates) {
     if (!allowedTiers.has(candidate.useTier)) continue;
-    const sections = candidate.asset.contentUnits.slice(0, 2).map((unit) => `## ${unit.unitId}\n\n${unit.text}`).join('\n\n');
+    const sections = candidate.asset.contentUnits.slice(0, 2).map((unit) => `## ${unit.unitId}\n\n- unitHash: ${unit.unitHash}\n- unitKind: ${unit.unitKind}\n\n${unit.text}`).join('\n\n');
     files[`.engi/source-material/${candidate.assetId}.md`] = `# ${candidate.asset.title}\n\n- assetId: ${candidate.assetId}\n- useTier: ${candidate.useTier}\n- artifactKind: ${candidate.asset.artifactKind}\n- contentRoot: ${candidate.asset.contentRoot}\n- materializationMode: ${candidate.asset.sourceMaterialBinding.mode}\n- confidentiality: ${candidate.asset.sourceMaterialBinding.confidentiality}\n\n${sections}`;
   }
   return files;
@@ -1828,7 +2098,7 @@ function materializeSelectedSourceMaterial(selectedCandidates, branchMode) {
 
 function buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease) {
   const selectedList = selectedCandidates.map((candidate) => `- ${candidate.asset.title} (${candidate.useTier}) — score ${candidate.ranking.finalRankingScore.toFixed(4)}`).join('\n');
-  return `# ENGI Need\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}`;
+  return `# ENGI Need\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}`;
 }
 
 function buildIdentityBindings(buyer, selectedCandidates) {
@@ -1838,6 +2108,12 @@ function buildIdentityBindings(buyer, selectedCandidates) {
       principalClass: 'buyer-principal',
       authSource: 'github',
       boundRefs: [buyer.repo, buyer.buyerBranch]
+    },
+    {
+      principalId: 'engi-system:need-measurement',
+      principalClass: 'engi-system-principal',
+      authSource: 'policy',
+      boundRefs: ['need-measurement']
     },
     {
       principalId: 'engi-system:branch-materializer',
@@ -1850,6 +2126,12 @@ function buildIdentityBindings(buyer, selectedCandidates) {
       principalClass: 'engi-system-principal',
       authSource: 'policy',
       boundRefs: ['settlement-engine']
+    },
+    {
+      principalId: 'engi-system:proof-publisher',
+      principalClass: 'engi-system-principal',
+      authSource: 'policy',
+      boundRefs: ['bounded-public-proof']
     },
     {
       principalId: 'reviewer:security',
@@ -1875,9 +2157,12 @@ function buildIdentityBindings(buyer, selectedCandidates) {
 function buildAuthorizationDecisions(policyState, bindings, buyer, branchName, assetPack) {
   return [
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'trigger:settlement', assetPack.assetPackId, policyState),
+    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
+    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:branch-materializer'), 'write:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:settlement-engine'), 'trigger:settlement', assetPack.assetPackId, policyState),
+    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
+    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:settlement-engine'), 'settle:journal-event', assetPack.assetPackId, policyState),
+    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:proof-publisher'), 'derive:bounded-public-proof-metadata', `${branchName}#bounded-proof`, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'reviewer:security'), 'read:private-branch', branchName, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'public:reader'), 'read:bounded-public-proof', `${branchName}#bounded-proof`, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'open:delivery', branchName, policyState)
@@ -1898,15 +2183,59 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       proofRefs: [assetPack.assetPackId]
     },
     {
+      recordId: `flow_${sha256(`${branchName}:verification`).slice(0, 10)}`,
+      dataClass: 'verification-evidence',
+      fromSurface: `${buyer.repo}@${buyer.buyerBranch}`,
+      toSurface: `${branchName}/.engi/verification-report.json`,
+      transformation: 'verification-report-materialization',
+      authorizedPrincipals: ['engi-system:need-measurement', 'engi-system:branch-materializer'],
+      retentionPolicyId: 'retention/private-remediation-30d',
+      disclosurePolicyId: 'disclosure/private-only',
+      proofRefs: selectedCandidates.map((candidate) => candidate.assetId)
+    },
+    {
       recordId: `flow_${sha256(`${branchName}:licensed-source`).slice(0, 10)}`,
       dataClass: 'licensed-source-material',
       fromSurface: assetPack.assetPackId,
-      toSurface: branchName,
+      toSurface: `${branchName}/.engi/source-material/`,
       transformation: 'source-material-mount',
       authorizedPrincipals: [`buyer:${buyer.buyerId}`, 'engi-system:branch-materializer'],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
       proofRefs: selectedCandidates.map((candidate) => candidate.assetId)
+    },
+    {
+      recordId: `flow_${sha256(`${branchName}:branch-artifacts`).slice(0, 10)}`,
+      dataClass: 'private-branch-derived-artifact',
+      fromSurface: branchName,
+      toSurface: `${branchName}/ENGI_NEED.md`,
+      transformation: 'human-readable-branch-briefing',
+      authorizedPrincipals: ['engi-system:branch-materializer', `buyer:${buyer.buyerId}`],
+      retentionPolicyId: 'retention/private-remediation-30d',
+      disclosurePolicyId: 'disclosure/private-only',
+      proofRefs: [assetPack.assetPackId, 'ENGI_NEED.md']
+    },
+    {
+      recordId: `flow_${sha256(`${branchName}:settlement-preview`).slice(0, 10)}`,
+      dataClass: 'settlement-preview',
+      fromSurface: `${branchName}/.engi/asset-pack.lock.json`,
+      toSurface: `${branchName}/.engi/settlement-preview.json`,
+      transformation: 'settlement-preview-derivation',
+      authorizedPrincipals: ['engi-system:settlement-engine'],
+      retentionPolicyId: 'retention/private-remediation-30d',
+      disclosurePolicyId: 'disclosure/private-only',
+      proofRefs: ['settlement-preview', assetPack.assetPackId]
+    },
+    {
+      recordId: `flow_${sha256(`${branchName}:private-proof`).slice(0, 10)}`,
+      dataClass: 'private-proof-artifact',
+      fromSurface: `${branchName}/.engi/journal-diff.json`,
+      toSurface: `${branchName}/.engi/system-proof-bundle.json`,
+      transformation: 'cross-proof-bundle-assembly',
+      authorizedPrincipals: ['engi-system:settlement-engine', 'engi-system:proof-publisher'],
+      retentionPolicyId: 'retention/private-remediation-30d',
+      disclosurePolicyId: 'disclosure/private-only',
+      proofRefs: ['system-proof-bundle', 'journal-diff']
     },
     {
       recordId: `flow_${sha256(`${branchName}:bounded-proof`).slice(0, 10)}`,
@@ -1918,17 +2247,6 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       retentionPolicyId: 'retention/bounded-public-365d',
       disclosurePolicyId: 'disclosure/bounded-public',
       proofRefs: ['system-proof-bundle']
-    },
-    {
-      recordId: `flow_${sha256(`${branchName}:settlement-proof`).slice(0, 10)}`,
-      dataClass: 'settlement-preview',
-      fromSurface: `${branchName}/.engi/settlement-preview.json`,
-      toSurface: `${branchName}/.engi/settlement-proof.json`,
-      transformation: 'settlement-proof-derivation',
-      authorizedPrincipals: ['engi-system:settlement-engine'],
-      retentionPolicyId: 'retention/private-remediation-30d',
-      disclosurePolicyId: 'disclosure/private-only',
-      proofRefs: ['settlement-proof']
     }
   ].map((record) => ({
     ...record,
@@ -1943,13 +2261,20 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
     releaseId: policyState.releaseId,
     releasePolicyId: policyState.releaseId,
     policyRef: policyState.policyRef,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
     confidentialityDefault: 'private-required',
     artifactClasses: [
+      { path: '.engi/need.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
+      { path: '.engi/match-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/verification-report.json', sensitiveDataClass: 'verification-evidence', disclosable: false },
+      { path: '.engi/authorization-decisions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/sensitive-data-flow.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/policy-release.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/source-material/', sensitiveDataClass: 'licensed-source-material', disclosable: false },
       { path: '.engi/settlement-preview.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
       { path: '.engi/settlement-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/system-proof-bundle.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.engi/match-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: 'ENGI_NEED.md', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false }
     ],
     retentionPolicies: [
@@ -1998,16 +2323,18 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
   return {
     resourceRef: branchName,
     allAccessBoundToKnownPrincipals: authorizationDecisions.every((decision) => bindings.some((binding) => binding.principalId === decision.principalId)),
-    allStateChangingActionsAuthorized: authorizationDecisions.filter((decision) => decision.action === 'trigger:settlement' || decision.action === 'write:private-branch').every((decision) => decision.decision === 'allow'),
+    allStateChangingActionsAuthorized: authorizationDecisions.filter((decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((decision) => decision.decision === 'allow'),
     issuerIdentityBound: bindings.some((binding) => binding.principalClass === 'issuer-principal'),
     buyerDeliveryPrincipalsBound: bindings.some((binding) => binding.principalClass === 'buyer-principal')
   };
 }
 
 function buildSensitiveDataFlowProof(records) {
+  const coveredClasses = new Set(records.map((record) => record.dataClass));
   return {
     allPrivateArtifactsClassified: records.every((record) => !!record.dataClass),
     allFlowsRecorded: records.length > 0,
+    requiredSensitiveClassesCovered: REQUIRED_SENSITIVE_DATA_CLASSES.every((dataClass) => coveredClasses.has(dataClass)),
     noUnauthorizedPublicDisclosure: records.every((record) => !(PRIVATE_DATA_CLASSES.has(record.dataClass) && record.toSurface === 'public')),
     retentionPoliciesAssigned: records.every((record) => !!record.retentionPolicyId),
     revocationBehaviorDefined: records.every((record) => !!record.disclosurePolicyId)
@@ -2044,12 +2371,91 @@ function buildSettlementProof(journalDiff, assetPackLock) {
   };
 }
 
-function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasurementProofs, selectionConsistencyProof, journalCompletenessProof, identityAuthorizationProof, sensitiveDataFlowProof, settlementProof) {
+function buildUnitCatalog(selectedCandidates) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    units: selectedCandidates.flatMap((candidate) => candidate.asset.contentUnits.map((unit) => ({
+      assetId: candidate.assetId,
+      title: candidate.asset.title,
+      useTier: candidate.useTier,
+      ...unitSemanticSummary(unit)
+    })))
+  };
+}
+
+function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selectedCandidates, verificationReport, settlementPreview, journalDiff }) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    events: [
+      telemetryEvent('need-measurement', {
+        needId: need.needId,
+        derivationFields: Object.keys(need.fieldDerivations || {}),
+        failingCases: need.failingCases,
+        weakDimensions: need.weakDimensions
+      }),
+      telemetryEvent('content-unit-semantics', {
+        assetCount: selectedCandidates.length,
+        unitCount: selectedCandidates.reduce((sum, candidate) => sum + candidate.asset.contentUnits.length, 0),
+        vectorSpaces: ['task-semantic-space.v7', 'failure-mode-space.v7', 'technical-context-space.v7']
+      }),
+      telemetryEvent('recall-and-ranking', {
+        rankedAssets: evaluatedCandidates.map((candidate) => ({
+          assetId: candidate.assetId,
+          recallScore: candidate.recall.recallScore,
+          finalRankingScore: Number(candidate.ranking.finalRankingScore.toFixed(4)),
+          strongestSignals: candidate.ranking.explainability.strongestSignals,
+          queryRepresentations: candidate.recall.queryRepresentations
+        }))
+      }),
+      telemetryEvent('verification-and-use-tier', {
+        assetVerification: verificationReport.assetVerification.map((entry) => ({
+          assetId: entry.assetId,
+          useTier: entry.useTier,
+          rights: entry.rights,
+          recommendedUseTier: entry.verificationSufficiency.recommendedUseTier
+        }))
+      }),
+      telemetryEvent('artifact-materialization', {
+        assetPackId: assetPack.assetPackId,
+        branchMode: assetPack.branchMode,
+        selectedAssets: assetPack.selectedAssets,
+        acceptedUseTiers: assetPack.acceptedUseTiers
+      }),
+      telemetryEvent('settlement-and-shares', {
+        bundleId: settlementPreview.bundleId,
+        rawShares: journalDiff.rawShares,
+        settledShares: journalDiff.settledShares,
+        totals: journalDiff.totals
+      })
+    ]
+  };
+}
+
+function buildPromptImplementationSurface(inferenceProofs) {
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    inferredOutputs: inferenceProofs.map((proof) => ({
+      outputField: proof.outputField,
+      evaluatorSurface: proof.evaluatorSurface
+    })),
+    profileABoundary: 'Deterministic/local stand-ins emulate prompt/evaluator contracts and replayability metadata.',
+    profileBBoundary: 'Production prompt execution, model routing, and remote trace capture remain external.'
+  };
+}
+
+function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasurementProofs, selectionConsistencyProof, journalCompletenessProof, identityAuthorizationProof, sensitiveDataFlowProof, settlementProof, promptImplementationSurface) {
   return {
     needId,
     assetPackId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    prototypeOnlyModeledControls: true,
     inferenceProofs,
     assetMeasurementProofs,
+    promptImplementationSurface,
     selectionConsistencyProof,
     journalCompletenessProof,
     identityAuthorizationProof,
@@ -2058,10 +2464,12 @@ function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasu
   };
 }
 
-function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPack, assetPackLock, settlementPreview, settlementProof, selectedSourceMaterialManifest, policyRelease }) {
+function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPack, assetPackLock, settlementPreview, settlementProof, selectedSourceMaterialManifest, policyRelease, unitCatalog, pipelineTelemetry }) {
   return {
     branchName,
     needId: need.needId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
     deliverables: [
       {
         path: '.engi/need.json',
@@ -2106,6 +2514,27 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['asset-pack-assembly', 'source-material-binding']
       },
       {
+        path: '.engi/authorization-decisions.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['identity-authorization', 'policy-release']
+      },
+      {
+        path: '.engi/sensitive-data-flow.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['sensitive-data-flow', 'policy-release']
+      },
+      {
+        path: '.engi/policy-release.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['policy-release']
+      },
+      {
         path: '.engi/settlement-preview.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
@@ -2127,6 +2556,20 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         dependsOn: ['selection-proof', 'identity-authorization', 'sensitive-data-flow', 'settlement-proof']
       },
       {
+        path: '.engi/unit-catalog.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['content-unit-semantics', 'asset-measurement']
+      },
+      {
+        path: '.engi/pipeline-telemetry.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['need-measurement', 'candidate-recall', 'ranking', 'verification', 'settlement']
+      },
+      {
         path: 'ENGI_NEED.md',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-branch-derived-artifact',
@@ -2141,7 +2584,9 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
       settlementBundleId: settlementPreview.bundleId,
       policyReleaseId: policyRelease.releaseId,
       settlementProofHash: stableHashObject(settlementProof),
-      selectedSourceMaterialCount: selectedSourceMaterialManifest.selectedSourceMaterial.length
+      selectedSourceMaterialCount: selectedSourceMaterialManifest.selectedSourceMaterial.length,
+      unitCatalogCount: unitCatalog.units.length,
+      telemetryEventCount: pipelineTelemetry.events.length
     }
   };
 }
@@ -2149,7 +2594,7 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
 export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, selectedCandidates, branchName, branchMode }) {
   const settlementCandidates = selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible');
   if (!settlementCandidates.length) {
-    throw new Error('No settlement-eligible assets available for Spec V6 settlement.');
+    throw new Error('No settlement-eligible assets available for Spec V7 settlement.');
   }
 
   const rawShares = computeAssetSharesRaw(need, settlementCandidates);
@@ -2267,9 +2712,13 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
   const settlementPreview = {
     needId: need.needId,
     bundleId,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
     rawShares,
     settledShares,
     meteredMicroUnits: METERED_MICRO_UNITS,
+    settlementParticipatingAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
+    assetPackLockHash: stableHashObject(assetPackLock),
     receipts
   };
 
@@ -2286,7 +2735,30 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
   };
 }
 
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, selectedCandidates, journalDiff }) {
+function assertRequiredBranchArtifacts(branchArtifacts) {
+  const requiredPaths = [
+    '.engi/need.json',
+    '.engi/match-report.json',
+    '.engi/verification-report.json',
+    '.engi/eval-manifest.json',
+    '.engi/asset-pack.lock.json',
+    '.engi/settlement-preview.json',
+    '.engi/system-proof-bundle.json',
+    '.engi/authorization-decisions.json',
+    '.engi/sensitive-data-flow.json',
+    '.engi/policy-release.json',
+    '.engi/unit-catalog.json',
+    '.engi/pipeline-telemetry.json',
+    'ENGI_NEED.md'
+  ];
+  for (const requiredPath of requiredPaths) {
+    if (!branchArtifacts.files[requiredPath]) {
+      throw new Error(`Spec V7 branch artifact contract failed: missing ${requiredPath}.`);
+    }
+  }
+}
+
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff }) {
   const files = {
     '.engi/need.json': JSON.stringify(need, null, 2),
     '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -2303,6 +2775,8 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     '.engi/authorization-decisions.json': JSON.stringify(authorizationDecisions, null, 2),
     '.engi/sensitive-data-flow.json': JSON.stringify(sensitiveDataFlowRecords, null, 2),
     '.engi/policy-release.json': JSON.stringify(policyRelease, null, 2),
+    '.engi/unit-catalog.json': JSON.stringify(unitCatalog, null, 2),
+    '.engi/pipeline-telemetry.json': JSON.stringify(pipelineTelemetry, null, 2),
     '.engi/deliverables.json': JSON.stringify(deliverablesManifest, null, 2),
     'ENGI_NEED.md': buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease)
   };
@@ -2334,7 +2808,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
 
   const branchName = `engi/remediation-${need.needId}-${toSlug(scenario.scenarioId)}`;
   const matchReport = buildMatchReport(need, evaluatedCandidates, assetPack);
-  const verificationReport = buildVerificationReport(need, evaluatedCandidates);
+  const verificationReport = buildVerificationReport(need, evaluatedCandidates, branchMode);
   const evalManifest = buildEvalManifest(need, evaluatedCandidates);
   const assetPackLock = buildAssetPackLock(assetPack, selectedCandidates);
   const selectedSourceMaterialManifest = buildSelectedSourceMaterialManifest(assetPack, selectedCandidates);
@@ -2348,6 +2822,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const sensitiveDataFlowProof = buildSensitiveDataFlowProof(sensitiveDataFlowRecords);
   const assetMeasurementProofs = buildAssetMeasurementProofs(selectedCandidates);
   const settlementProof = buildSettlementProof(settlement.journalDiff, assetPackLock);
+  const promptImplementationSurface = buildPromptImplementationSurface(inferenceProofs);
   const systemProofBundle = buildSystemProofBundle(
     need.needId,
     assetPack.assetPackId,
@@ -2357,9 +2832,20 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
-    settlementProof
+    settlementProof,
+    promptImplementationSurface
   );
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates);
+  const unitCatalog = buildUnitCatalog(selectedCandidates);
+  const pipelineTelemetry = buildPipelineTelemetry({
+    need,
+    evaluatedCandidates,
+    assetPack,
+    selectedCandidates,
+    verificationReport,
+    settlementPreview: settlement.settlementPreview,
+    journalDiff: settlement.journalDiff
+  });
   const deliverablesManifest = buildDeliverablesManifest({
     branchName,
     need,
@@ -2369,7 +2855,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     settlementPreview: settlement.settlementPreview,
     settlementProof,
     selectedSourceMaterialManifest,
-    policyRelease
+    policyRelease,
+    unitCatalog,
+    pipelineTelemetry
   });
   const branchArtifacts = buildBranchArtifacts({
     need,
@@ -2390,15 +2878,20 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     sensitiveDataFlowRecords,
     policyRelease,
     deliverablesManifest,
+    unitCatalog,
+    pipelineTelemetry,
     selectedCandidates,
     journalDiff: settlement.journalDiff
   });
+  assertRequiredBranchArtifacts(branchArtifacts);
 
   const latestRun = {
     createdAt: nowIso(),
     buyer,
     scenarioId: scenario.scenarioId,
     branchMode,
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
     needLifecycle: 'settled',
     need,
     needMeasurement,
@@ -2432,6 +2925,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
         }
       },
       verification: candidate.verification,
+      rights: useTierRights(candidate.useTier, branchMode),
       measurementProvenance: candidate.measurementProvenance
     })),
     assetPack,
@@ -2445,6 +2939,8 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     sensitiveDataFlowRecords,
     policyRelease,
     deliverablesManifest,
+    unitCatalog,
+    pipelineTelemetry,
     settlementPreview: settlement.settlementPreview,
     journalDiff: settlement.journalDiff,
     systemProofBundle,
@@ -2453,8 +2949,11 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
       needId: need.needId,
       bundleId: settlement.bundleId,
       branchName,
+      conformanceProfile: PROFILE_A,
+      productionIntentProfile: PROFILE_B,
       selectedAssetIds: assetPack.selectedAssets,
-      invariantSummary: settlement.journalDiff.invariants
+      invariantSummary: settlement.journalDiff.invariants,
+      redactionStatus: 'bounded-public-proof-metadata-only'
     }
   };
 
@@ -2481,6 +2980,11 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
 export function publicState(state) {
   return {
     specVersion: state.specVersion,
+    conformanceProfiles: state.conformanceProfiles || {
+      active: PROFILE_A,
+      productionIntent: PROFILE_B,
+      prototypeOnlyModeledControls: true
+    },
     updatedAt: nowIso(),
     buyers: state.buyers,
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
@@ -2488,7 +2992,9 @@ export function publicState(state) {
       scenarioId: scenario.scenarioId,
       repo: scenario.repo,
       buyerBranch: scenario.baseRef,
-      task: scenario.expectedTask,
+      taskSeed: scenario.expectedTask,
+      profileAStatus: PROFILE_A,
+      profileBStatus: PROFILE_B,
       failingCases: scenario.canonicalRunEvidence?.extractedOutputs?.failingCases || [],
       weakDimensions: scenario.canonicalRunEvidence?.extractedOutputs?.weakDimensions || [],
       benchmarkRunId: scenario.benchmarkRunId,

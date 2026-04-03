@@ -1,10 +1,10 @@
-# ENGI Demo — Spec V6 Deterministic Local Prototype
+# ENGI Demo — Spec V7 Deterministic Local Prototype
 
-This demo now tracks the Spec V6 core flow much more closely:
+This demo now tracks the Spec V7 core flow much more closely:
 
 1. parse mocked GitHub Actions evidence through a declared benchmark parser contract and build a `GitHubNeedDescriptor`,
 2. model hybrid candidate recall across task, failure-mode, technical-context, lexical, symbol, path, config, and artifact-kind channels,
-3. rank deposited candidate assets with explicit Spec V6 subscores, explainability traces, and penalties,
+3. rank deposited candidate assets with explicit Spec V7 subscores, explainability traces, and penalties,
 4. apply separate verification determinisms, issuer policy, and downstream use-tier propagation,
 5. assemble a locked `AssetPack` plus selected source-material manifest,
 6. stage a private remediation branch artifact set with deliverable metadata, authorization decisions, and sensitive-data-flow records,
@@ -13,18 +13,22 @@ This demo now tracks the Spec V6 core flow much more closely:
 
 ## What this prototype is
 
-A deterministic, local, no-dependency Node app that models the V6 architecture and naming faithfully enough to demo:
+A deterministic, local, no-dependency Node app that models the V7 Profile A architecture faithfully enough to demo while explicitly labeling Profile B production intent:
 
 - need measurement from GitHub-bound benchmark evidence,
 - parser fail-closed behavior and canonical run-evidence normalization,
+- canonical need-descriptor derivation closure with explicit field derivations,
+- content-unit semantics with explicit embedding/vector hand-off interfaces,
 - need-measurement provenance plus inference proof surfaces,
+- clean separation between static deterministic analysis and inferred evaluator surfaces,
 - hybrid candidate recall and fusion provenance,
 - ranking vs verification separation,
 - issuer policy / sufficiency / use-tier propagation,
-- branch materialization rules by use tier,
-- authorization, identity binding, confidentiality, retention, and revocation modeling,
+- branch materialization rules by use tier and branch mode,
+- authorization, identity binding, confidentiality, retention, revocation, and bounded-public-proof modeling,
+- structured pipeline telemetry and unit catalogs for live demo inspection,
 - private remediation branch artifacts under `.engi/`,
-- exact fixed-point settlement with asset-scoped pending claims.
+- exact fixed-point settlement with asset-scoped pending claims and asset-pack-lock binding.
 
 ## What it still is not
 
@@ -38,6 +42,18 @@ This is still a local prototype. It does **not**:
 - run LLM evaluators.
 
 All of those surfaces are represented deterministically in local state.
+
+## Conformance profiles
+
+- `Profile A — local deterministic prototype`: what this repo implements and demos now.
+- `Profile B — production-boundary intent`: live GitHub binding, real branch/privacy/authz enforcement, real embeddings/evaluators/prompts, and external integrations still outside the local prototype boundary.
+
+## Advanced V7 interface notes
+
+- Content units now carry explicit semantic/embedding contracts so real embedding providers can replace deterministic stand-ins without changing downstream schemas.
+- Measurement provenance distinguishes static deterministic analysis from inferred evaluator surfaces.
+- Structured telemetry artifacts (`.engi/unit-catalog.json`, `.engi/pipeline-telemetry.json`) explain the live pipeline during demos.
+- Proof bundles now include prompt/evaluator implementation surfaces alongside the existing settlement / policy / identity proofs.
 
 ## Run
 
@@ -79,6 +95,8 @@ npm test
 - `.engi/authorization-decisions.json`
 - `.engi/sensitive-data-flow.json`
 - `.engi/policy-release.json`
+- `.engi/unit-catalog.json`
+- `.engi/pipeline-telemetry.json`
 - `.engi/deliverables.json`
 - `.engi/source-material/*`
 - `ENGI_NEED.md`
@@ -86,5 +104,6 @@ npm test
 ## Repo docs added for this alignment pass
 
 - `ARCHITECTURE_MAP.md` — tight map of the original/current demo architecture baseline
-- `SPEC_V6_GAP_ANALYSIS.md` — gap analysis and implementation guide used for the refactor
+- `SPEC_V6_GAP_ANALYSIS.md` — earlier gap analysis and implementation guide used for the V6 refactor
 - `SPEC_V6_COVERAGE_MATRIX.md` — durable section-by-section coverage audit against the V6 spec
+- `SPEC_V7_COVERAGE_MATRIX.md` — section-by-section coverage audit against the V7 spec, including V6→V7 deltas and Profile A/Profile B splits

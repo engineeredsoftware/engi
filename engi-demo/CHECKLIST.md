@@ -1,137 +1,188 @@
-# ENGI Demo Checklist
+# ENGI Demo Checklist — Spec V7
 
-Use this before presenting the demo.
-
----
-
-## Pre-demo setup
-
-- [ ] Open the demo at `http://127.0.0.1:4318`
-- [ ] Confirm the page loads successfully
-- [ ] Confirm the thesis strip is visible
-- [ ] Confirm the top summary cards render
-- [ ] Set mode appropriately:
-  - [ ] `light` for live presentation
-  - [ ] `heavy` only if deeper inspection is expected
-- [ ] Click **Reset demo** before starting
-- [ ] Confirm seeded state appears clean:
-  - [ ] 3 assets
-  - [ ] 0 public receipts
-  - [ ] proof group summary shows clean initial state
+Use this before an interactive V7 demo, QA pass, or live walkthrough.
 
 ---
 
-## Seeded scenario sanity check
+## 0. Server / environment
 
-- [ ] Buyer is `Frontier Code Systems`
-- [ ] Seeded query is `enterprise auth migration rollback for monorepo services with issuer mismatch`
-- [ ] Expected top asset is `Enterprise auth migration rollback playbook`
-- [ ] Benchmark name is `production-auth-remediation`
-
----
-
-## Gold-path presentation checklist
-
-### 1. Openly writable
-- [ ] Point to thesis strip
-- [ ] Show `1. Public deposits`
-- [ ] Explain that public commitments are visible while corpus payloads stay sealed
-
-### 2. Measurably readable
-- [ ] Run the licensed query or click guided demo
-- [ ] Show the private bundle
-- [ ] Explain that the system assembles a need-matched bundle rather than revealing the full corpus
-
-### 3. Provable
-- [ ] In light mode, mention the collapsed proof summary
-- [ ] If needed, expand proof group
-- [ ] Show at least:
-  - [ ] ranking explanation
-  - [ ] conservation check
-  - [ ] public receipts
-- [ ] Mention policy/provenance if asked
-
-### 4. Valuable
-- [ ] End on the benchmark panel
-- [ ] Explain baseline outcome
-- [ ] Explain treatment outcome
-- [ ] Explain why the licensed bundle helped
-- [ ] Land the buyer impact clearly
-
----
-
-## Expected live outputs after gold path
-
-After one normal gold-path run, expect roughly:
-
-- [ ] private bundle issued successfully
-- [ ] top-ranked asset: `Enterprise auth migration rollback playbook`
-- [ ] allocation conservation: `verified`
-- [ ] public receipts present
-- [ ] benchmark uplift: `2500 bp`
-- [ ] buyer impact mentions:
-  - [ ] higher-confidence incident recovery
-  - [ ] faster safe rollback
-  - [ ] lower risk of breaking live sessions
-
----
-
-## If presenting in light mode
-
-- [ ] Keep proof group collapsed until the proof step
-- [ ] Use the proof summary card as the trust-at-a-glance surface
-- [ ] Do not get stuck inside raw proof payloads
-- [ ] Return quickly to the benchmark ending
-
----
-
-## If someone asks for deeper proof
-
-Expand the proof group and walk in this order:
-
-1. ranking explanation
-2. conservation check
-3. public receipts
-4. receipt schemas
-5. policy release / attestation
-6. proof log timeline
-
----
-
-## If something looks wrong
-
-### If state is dirty
-- [ ] Click **Reset demo**
-- [ ] Reconfirm 0 receipts
-
-### If proof group is distracting
-- [ ] Switch to `light` mode
-
-### If the benchmark panel is not the last visual beat
-- [ ] Scroll back to `3. Utility proof`
-- [ ] re-land the value claim before closing
-
-### If the server is not responding
-Run from repo root:
+- [ ] Start the demo:
 
 ```bash
-cd /Users/garrettmaring/.openclaw/workspace/engi-demo
-node server.js
+cd /Users/garrettmaring/Developer/ENGI/engi-demo
+npm start
 ```
 
-Then reload:
+- [ ] Open: `http://127.0.0.1:4318`
+- [ ] Confirm the page loads
+- [ ] Confirm the hero says **Spec V7**
+- [ ] Confirm the primary CTA is **Make ENGI branch**
+- [ ] Confirm no stale V6/query-era language is visible in the main flow
 
-`http://127.0.0.1:4318`
+---
+
+## 1. Clean seeded state
+
+- [ ] Click **Reset demo** before starting
+- [ ] Confirm seeded state is clean:
+  - [ ] 3 assets
+  - [ ] 1 need scenario
+  - [ ] no latest run yet
+- [ ] Confirm the active conformance profile shows **Profile A**
+- [ ] Confirm the seeded scenario is the auth rollback case
+
+Expected seeded scenario cues:
+- buyer: `Frontier Code Systems`
+- repo: `frontier/demo-auth`
+- branch: `ENGI-auth-issuer-rollback`
+- benchmark workflow / GitHub Actions evidence present
+
+---
+
+## 2. V7 gold-path interactive run
+
+### A. Need measurement
+
+- [ ] Show that the need is GitHub-bound, not a free-text-only query
+- [ ] Point out:
+  - [ ] parser contract
+  - [ ] canonical run evidence
+  - [ ] field derivations / normalization closure
+  - [ ] conformance profile labels
+
+What should be visible after the run:
+- [ ] measured `needId`
+- [ ] parser fail-closed framing
+- [ ] need derivation / provenance surface
+
+### B. Candidate recall + ranking
+
+- [ ] Run **Make ENGI branch**
+- [ ] Confirm evaluated candidates render
+- [ ] Confirm the top asset is still the rollback/auth material
+- [ ] Show:
+  - [ ] multi-channel recall / fusion
+  - [ ] need match
+  - [ ] benchmark impact
+  - [ ] actionability
+  - [ ] penalties
+  - [ ] whole-asset score / explainability
+
+### C. Verification + use tiers
+
+- [ ] Confirm verification is separate from ranking
+- [ ] Show:
+  - [ ] issuance verification
+  - [ ] provenance verification
+  - [ ] verification sufficiency
+  - [ ] issuer policy status
+- [ ] Confirm use tiers are visible
+- [ ] Confirm branch-mode rights are visible / inferable
+
+### D. Asset pack + branch artifacts
+
+- [ ] Confirm an `assetPackId` is generated
+- [ ] Confirm branch artifacts include at least:
+  - [ ] `.engi/need.json`
+  - [ ] `.engi/verification-report.json`
+  - [ ] `.engi/asset-pack.lock.json`
+  - [ ] `.engi/authorization-decisions.json`
+  - [ ] `.engi/sensitive-data-flow.json`
+  - [ ] `.engi/policy-release.json`
+  - [ ] `.engi/unit-catalog.json`
+  - [ ] `.engi/pipeline-telemetry.json`
+  - [ ] `.engi/system-proof-bundle.json`
+  - [ ] `ENGI_NEED.md`
+
+### E. Settlement / proof closure
+
+- [ ] Confirm settlement preview exists
+- [ ] Confirm journal diff exists
+- [ ] Confirm `debitsEqualCredits = true`
+- [ ] Confirm asset-pack-lock binding is visible in settlement/proof surfaces
+- [ ] Confirm participating assets and shares are visible
+
+---
+
+## 3. Advanced V7 surfaces
+
+### Content-unit semantics / vector interfaces
+
+- [ ] Confirm unit catalog exists
+- [ ] Confirm content units expose:
+  - [ ] semantic summary
+  - [ ] embedding / vector contract metadata
+  - [ ] provenance / unit hash
+- [ ] Confirm these are framed as **Profile A deterministic stand-ins** for richer Profile B embeddings
+
+### Static vs inferred evaluator boundaries
+
+- [ ] Confirm eval/proof surfaces distinguish between:
+  - [ ] static analysis / deterministic measurement
+  - [ ] inferred measurement / evaluator surfaces
+  - [ ] stand-in vs production-boundary behavior
+
+### Telemetry / harness
+
+- [ ] Confirm pipeline telemetry artifact exists
+- [ ] Confirm telemetry explains:
+  - [ ] unit extraction
+  - [ ] recall channels / fusion
+  - [ ] score composition
+  - [ ] verification decisions
+  - [ ] use-tier propagation
+  - [ ] artifact materialization
+  - [ ] settlement / shares
+  - [ ] fail-closed behavior when relevant
+
+---
+
+## 4. E2E QA verdict
+
+Call the demo **interactive V7 E2E-QA ready** only if all of the following are true:
+
+- [ ] page loads cleanly
+- [ ] reset works
+- [ ] make-ENGI-branch gold path works end-to-end
+- [ ] V7 profile/derivation/rights/telemetry surfaces are visible
+- [ ] settlement invariants hold
+- [ ] no stale query-first story is required to understand the demo
+- [ ] docs/checklist match the actual UI/runtime behavior
+
+---
+
+## 5. If something is wrong
+
+### If state looks dirty
+- [ ] Click **Reset demo**
+- [ ] Re-run the gold path
+
+### If the UI seems stale
+- [ ] Hard refresh browser
+- [ ] Verify `data/state.json` was regenerated from the current V7 model if needed
+
+### If the server is not responding
+
+```bash
+cd /Users/garrettmaring/Developer/ENGI/engi-demo
+npm start
+```
+
+### If invariants fail
+- [ ] stop the demo
+- [ ] run `npm test`
+- [ ] do not present the prototype as QA-ready until the failure is understood
 
 ---
 
 ## Final reminder
 
-Do not end on proof mechanics.
+Do not present the demo as:
+- a live GitHub-integrated production system
+- a real embedding/LLM evaluator deployment
+- a real policy publication / authz enforcement plane
 
-End on this:
-
-- the buyer had a real production auth incident
-- the system assembled the right licensed bundle
-- the read was provable
-- the read improved the buyer's remediation system
+Present it as:
+- a **Spec V7 Profile A deterministic prototype**
+- with explicit **Profile B production-boundary intent**
+- and with strong inspectability across ranking, verification, artifacts, telemetry, and settlement

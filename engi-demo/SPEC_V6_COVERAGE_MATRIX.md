@@ -1,94 +1,64 @@
 # ENGI Spec V6 Coverage Matrix
 
+Audit date: 2026-04-02  
+Repo: `/Users/garrettmaring/Developer/ENGI/engi-demo`
+
+This matrix records:
+
+- `Baseline`: reconstructed status from the repo state audited before the second V6 pass, using the implementation and the prior gap write-up in [`SPEC_V6_GAP_ANALYSIS.md`](./SPEC_V6_GAP_ANALYSIS.md).
+- `After pass2`: status after the deterministic local-prototype implementation in this pass.
+
 Status legend:
-- **implemented** — deterministic local prototype implements the modeled behavior end-to-end
-- **modeled** — explicit schema/proof/artifact exists, but boundary remains simulated
-- **partial** — meaningful implementation exists, but some spec depth is still trimmed
-- **missing** — not materially represented yet
-- **non-demoable-external** — intentionally outside a deterministic local prototype without fake integrations
 
-## Executive summary
+- `implemented`: deterministic local prototype now has explicit code, artifacts, and tests for the section’s core contract.
+- `modeled`: the section exists as explicit local data structures/proofs/contracts, but intentionally stops short of the real external behavior.
+- `partial`: meaningful coverage exists, but important parts of the section remain absent, shallow, or local-only.
+- `missing`: no meaningful section-level coverage found.
+- `non-demoable-external`: the section depends on live external systems intentionally not wired into this local prototype.
 
-This pass moved the demo much closer to V6’s actual control-plane shape.
+## Matrix
 
-Biggest improvements now present in code:
-- GitHub-need measurement from canonical benchmark evidence rather than free-text-first flow
-- explicit benchmark parser contract and canonical run evidence carry-through
-- multi-channel candidate recall + fusion traces
-- richer ranking decomposition, whole-asset score, and explainability surfaces
-- separate verification determinisms and use-tier derivation
-- asset-pack lock + selected source-material materialization
-- remediation-branch artifact set expanded toward V6
-- settlement preview + exact journal diff + proof bundle surfaces
-- authorization, confidentiality, retention, revocation, and policy-release modeling
-- materially stronger tests covering core flow and failure invariants
+| Spec section | Baseline | After pass2 | Notes | Exact refs |
+| --- | --- | --- | --- | --- |
+| `1. Executive summary` | `partial` | `modeled` | The end-to-end V6 story is now reflected in runtime, UI, and README, but remains a deterministic local simulation. | `README.md:1`, `public/index.html:10`, `src/spec-v6-demo.js:2321` |
+| `2. Normative language` | `modeled` | `modeled` | Normative behavior is enforced through fail-closed parser validation, invariant checks, and deterministic branch artifact generation. | `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:2149`, `test/core.test.js:28`, `test/core.test.js:289` |
+| `3. Product goals and non-goals` | `partial` | `partial` | Goals around measurement, ranking, verification, branch artifacts, shares, and journal diff are covered; live GitHub and real patch generation remain intentionally absent. | `README.md:14`, `src/spec-v6-demo.js:2321`, `public/index.html:10` |
+| `4. Design principles` | `modeled` | `modeled` | Need-first ranking, verification/ranking separation, private delivery default, explicit identity/authz, and inspectability are modeled in code and branch artifacts. | `src/spec-v6-demo.js:899`, `src/spec-v6-demo.js:1501`, `src/spec-v6-demo.js:1875`, `src/spec-v6-demo.js:2289` |
+| `5. Trusted integration boundary` | `partial` | `partial` | GitHub-only + GitHub Actions are modeled, including canonical run evidence and parser fail-closed behavior; live GitHub/Actions trust surfaces remain non-demoable-external. | `src/spec-v6-demo.js:398`, `src/spec-v6-demo.js:523`, `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:2481` |
+| `6. Terminology` | `partial` | `modeled` | Core terms now map cleanly to deterministic objects: `CandidateAsset`, `ContentUnit`, verification determinisms, asset shares, and journal diff surfaces. | `src/spec-v6-demo.js:435`, `src/spec-v6-demo.js:1077`, `src/spec-v6-demo.js:2149` |
+| `7. System overview` | `partial` | `implemented` | The pipeline order in the spec now exists in one deterministic flow from need measurement through settlement. | `src/spec-v6-demo.js:2321`, `test/core.test.js:161`, `test/api.test.js:182` |
+| `8. Core data model` | `partial` | `implemented` | Need descriptor, benchmark outputs, candidate assets, content units, measurement provenance, asset measurement, and proof objects are now explicit. | `src/spec-v6-demo.js:435`, `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:2028`, `src/spec-v6-demo.js:2047` |
+| `9. Need measurement` | `partial` | `implemented` | Need measurement is now explicit: benchmark parser, parser validation, repo-context extraction, benchmark target hand-off, measurement provenance, and inference proofs. | `src/spec-v6-demo.js:398`, `src/spec-v6-demo.js:706`, `src/spec-v6-demo.js:764`, `test/core.test.js:28`, `test/core.test.js:38` |
+| `10. Candidate recall` | `partial` | `implemented` | Hybrid recall channels and fusion are modeled deterministically across task, failure, technical context, lexical, symbol, path, config, and artifact kind. | `src/spec-v6-demo.js:899`, `src/spec-v6-demo.js:1501`, `test/core.test.js:68` |
+| `11. Ranking overview` | `partial` | `implemented` | Ranking now explicitly combines need match, benchmark impact, actionability, and penalties, separate from verification determinisms. | `src/spec-v6-demo.js:1077`, `src/spec-v6-demo.js:1207`, `src/spec-v6-demo.js:1260`, `src/spec-v6-demo.js:1501` |
+| `12. Whole-asset need scoring` | `missing` | `partial` | `wholeAssetNeedScore` now exists, but the spec’s richer unit-level/asset-level decomposition is still thinner than a full implementation. | `src/spec-v6-demo.js:1510`, `public/app.js:110` |
+| `13. Need match` | `partial` | `implemented` | All named need-match subscores plus explanation detail and measurement provenance are present. | `src/spec-v6-demo.js:1077`, `test/core.test.js:80` |
+| `14. Path fit` | `missing` | `implemented` | Path fit now has explicit `sourcePathPrecision`, `mentionedPathSupport`, and `subsystemAlignment` decomposition. | `src/spec-v6-demo.js:1086`, `src/spec-v6-demo.js:1172` |
+| `15. Benchmark impact likelihood` | `partial` | `implemented` | All three benchmark-impact subscores are modeled with explainability detail. | `src/spec-v6-demo.js:1207`, `test/core.test.js:80` |
+| `16. Actionability` | `partial` | `implemented` | Actionability now exposes remediation specificity, implementation specificity, and operational usability with detail traces. | `src/spec-v6-demo.js:1260`, `test/core.test.js:80` |
+| `17. Final candidate ranking` | `partial` | `implemented` | Final ranking score, penalty mass, evidence refs, and explainability/fusion surfaces are explicit and tested. | `src/spec-v6-demo.js:1314`, `src/spec-v6-demo.js:1501`, `test/core.test.js:80` |
+| `18. Verification determinisms` | `partial` | `implemented` | Issuance, provenance, sufficiency, and issuer policy are explicit objects with computed rejection semantics and tier caps. | `src/spec-v6-demo.js:1334`, `src/spec-v6-demo.js:1356`, `src/spec-v6-demo.js:1398`, `src/spec-v6-demo.js:1446`, `test/core.test.js:92`, `test/core.test.js:100` |
+| `19. Candidate verification result and use tier` | `partial` | `implemented` | Final use-tier derivation and settlement upgrade rules are explicit and flow downstream into branch assembly and settlement. | `src/spec-v6-demo.js:1476`, `src/spec-v6-demo.js:1485`, `src/spec-v6-demo.js:1501`, `src/spec-v6-demo.js:1562` |
+| `20. Expensive LLM evaluation roles` | `missing` | `modeled` | No live LLMs are invoked, but evaluator ids, deterministic “model” ids, inference proofs, and provenance surfaces model the appendix contracts. | `src/spec-v6-demo.js:64`, `src/spec-v6-demo.js:159`, `src/spec-v6-demo.js:783`, `src/spec-v6-demo.js:1634`, `src/spec-v6-demo.js:2047` |
+| `21. Asset pack assembly` | `partial` | `implemented` | Asset pack selection, accepted tiers, coverage, lock data, and selected source-material manifest now exist and are consumed downstream. | `src/spec-v6-demo.js:1562`, `src/spec-v6-demo.js:1662`, `src/spec-v6-demo.js:1689`, `test/core.test.js:112`, `test/core.test.js:186` |
+| `22. Buyer UX: Make ENGI branch` | `partial` | `partial` | The UI/API primary action is now “Make ENGI branch,” but real git branch creation/PR operations remain non-demoable-external. | `public/index.html:10`, `public/app.js:240`, `server.js:144`, `test/api.test.js:182` |
+| `23. Asset shares` | `partial` | `implemented` | Raw/settled shares, zero-adjustment default mode, and downstream settlement participation are explicit and tested. | `src/spec-v6-demo.js:1745`, `src/spec-v6-demo.js:2149`, `test/core.test.js:171` |
+| `24. Raw asset share computation` | `partial` | `implemented` | Leave-one-asset-out marginal contribution plus exact normalization to `10000` bp is implemented and tested. | `src/spec-v6-demo.js:1708`, `src/spec-v6-demo.js:1717`, `src/spec-v6-demo.js:1745`, `test/core.test.js:171` |
+| `25. Settlement and journal diff` | `partial` | `implemented` | Exact fixed-point accounting, deterministic allocation, receipts, invariant checks, journal diff, and settlement proof are all present. | `src/spec-v6-demo.js:1773`, `src/spec-v6-demo.js:2149`, `src/spec-v6-demo.js:2028`, `test/core.test.js:161`, `test/core.test.js:177`, `test/core.test.js:271` |
+| `26. Reports and manifests` | `partial` | `implemented` | Branch artifacts now include need, benchmark target, reports, lock, selected source material, settlement preview/proof, journal diff, policy/auth/data-flow, deliverables, and source material. | `src/spec-v6-demo.js:1595`, `src/spec-v6-demo.js:1620`, `src/spec-v6-demo.js:1634`, `src/spec-v6-demo.js:1662`, `src/spec-v6-demo.js:2289`, `README.md:66`, `test/core.test.js:161` |
+| `27. Telemetry, debugging, and implementation reliability` | `missing` | `partial` | The prototype now has fail-closed parser validation, score-range enforcement, invariant checks, and richer traces, but not a full telemetry/event sink over every stage. | `src/spec-v6-demo.js:131`, `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:2149`, `test/api.test.js:274` |
+| `28. Implementation order` | `modeled` | `modeled` | The runtime and UI now follow the same stage order as the spec, but this section is descriptive rather than a separate executable artifact. | `public/index.html:21`, `src/spec-v6-demo.js:2321` |
+| `29. Final locked decisions` | `partial` | `partial` | GitHub-only, benchmark-first, verification determinisms, zero-adjustment settlement, and journal diff are aligned; live GitHub operations remain local-only models. | `src/spec-v6-demo.js:398`, `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:1334`, `src/spec-v6-demo.js:2149` |
+| `30. Sensitive data, identity, and cross-cutting proof model` | `partial` | `modeled` | Identity bindings, authorization decisions, sensitive-data-flow records, retention/disclosure policies, policy release, proof bundle, and bounded public proof are now explicit. | `src/spec-v6-demo.js:309`, `src/spec-v6-demo.js:1834`, `src/spec-v6-demo.js:1875`, `src/spec-v6-demo.js:1887`, `src/spec-v6-demo.js:1939`, `src/spec-v6-demo.js:1997`, `src/spec-v6-demo.js:2007`, `src/spec-v6-demo.js:2047`, `test/core.test.js:216`, `public/app.js:164` |
+| `Appendix A — Precise type appendix` | `missing` | `partial` | The runtime uses plain JS objects rather than a literal TS appendix, but the canonical V6 shapes are materially modeled in code and artifacts. | `src/spec-v6-demo.js:435`, `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:2289` |
+| `Appendix B — Function signatures and pseudocode appendix` | `partial` | `implemented` | The appendix functions now have deterministic implementations with corresponding tests. | `src/spec-v6-demo.js:764`, `src/spec-v6-demo.js:1077`, `src/spec-v6-demo.js:1207`, `src/spec-v6-demo.js:1260`, `src/spec-v6-demo.js:2149`, `test/core.test.js:28`, `test/core.test.js:171` |
+| `Appendix B2 — Inference appendix` | `missing` | `modeled` | No real prompts are executed, but evaluator ids, model ids, inference proofs, provenance, and replayable traces are explicitly persisted. | `src/spec-v6-demo.js:64`, `src/spec-v6-demo.js:159`, `src/spec-v6-demo.js:783`, `src/spec-v6-demo.js:2047`, `src/spec-v6-demo.js:2321` |
+| `Appendix B3 — Abridged measurement appendix` | `partial` | `implemented` | The named measurements and use-tier derivation are now present in deterministic local code. | `src/spec-v6-demo.js:1077`, `src/spec-v6-demo.js:1207`, `src/spec-v6-demo.js:1260`, `src/spec-v6-demo.js:1398`, `src/spec-v6-demo.js:1501`, `src/spec-v6-demo.js:1745` |
 
-## Coverage matrix
+## Highest-value remaining gaps
 
-| Spec area | Status | Notes | Exact code / file refs |
-|---|---|---|---|
-| GitHub-bound need measurement | implemented | Need is measured from seeded GitHub scenario + canonical benchmark outputs, not from a free-text query. | `src/spec-v6-demo.js:755` (`measureNeedFromScenario`), `src/spec-v6-demo.js:859` (`buildNeedDescriptor`), `server.js:144` (`/api/make-engi-branch`) |
-| Benchmark parser contract | implemented | Parser contract, parser validation, fail-closed behavior, consumed inputs, and parser metadata are modeled explicitly. | `src/spec-v6-demo.js:385` (`buildGithubActionsBenchmarkParser`), `src/spec-v6-demo.js:755`, `src/spec-v6-demo.js:843`, `public/app.js:55` |
-| Canonical run evidence modeling | implemented | Scenario state includes canonical run evidence and latest run carries it forward for inspection. | `src/spec-v6-demo.js:620`, `src/spec-v6-demo.js:804`, `src/spec-v6-demo.js:2193`, `public/app.js:67` |
-| Need measurement richness + provenance | implemented | Static vs inferred measurement provenance and inference proofs are tracked. | `src/spec-v6-demo.js:778`, `src/spec-v6-demo.js:826`, `src/spec-v6-demo.js:837`, `test/core.test.js` |
-| Candidate asset schema | implemented | Candidate assets include content units, content root, attestations, provenance binding, verification evidence, source-material binding, and measurement provenance. | `src/spec-v6-demo.js:139` (`makeCandidateAsset`), `src/spec-v6-demo.js:111` (`splitContentUnits`) |
-| Candidate recall channels / fusion | implemented | Multi-channel recall over task, failure mode, technical context, lexical, symbol, path, config, and artifact-kind signals; fusion trace is persisted per recalled unit/asset. | `src/spec-v6-demo.js:876` (`recallCandidates`), `src/spec-v6-demo.js:1450` (`evaluateCandidates`), `public/app.js:92` |
-| Need-match scoring | implemented | Spec-shaped subscores and final weighted score with detail payloads are implemented. | `src/spec-v6-demo.js:1054` (`computeNeedMatch`) |
-| Benchmark-impact scoring | implemented | Failing-case, weak-dimension, and repo-context impact scores are implemented with detailed traces. | `src/spec-v6-demo.js:1184` (`computeBenchmarkImpact`) |
-| Actionability scoring | implemented | Remediation specificity, implementation specificity, and operational usability are computed with detail traces. | `src/spec-v6-demo.js:1237` (`computeActionability`) |
-| Ranking penalties | implemented | Penalty mass and named penalties are modeled separately from ranking components. | `src/spec-v6-demo.js:1282` (`computePenaltyMass`) |
-| Whole-asset scoring + explainability depth | implemented | Whole-asset need score, strongest signals, penalty list, and recall-fusion explainability are attached to each evaluated candidate and surfaced in UI/API. | `src/spec-v6-demo.js:1489`, `src/spec-v6-demo.js:1513`, `src/spec-v6-demo.js:2202`, `public/app.js:102` |
-| Verification determinisms | implemented | Issuance, provenance, sufficiency, and issuer-policy checks are represented separately from ranking. | `src/spec-v6-demo.js:1311`, `src/spec-v6-demo.js:1333`, `src/spec-v6-demo.js:1367`, `src/spec-v6-demo.js:1406` |
-| Use-tier propagation rules | implemented | Candidate tiers are derived from verification, issuer policy can cap tiers, and settlement upgrade is explicit. | `src/spec-v6-demo.js:1430`, `src/spec-v6-demo.js:1441`, `src/spec-v6-demo.js:1496`, `src/spec-v6-demo.js:1510` |
-| Asset-pack selection and lock | implemented | Selected assets, selected units, locked content roots, attestation hashes, and asset-pack lock artifact are produced. | `src/spec-v6-demo.js:1539` (`assembleAssetPack`), `src/spec-v6-demo.js:1591` (`buildAssetPackLock`) |
-| Selected source-material modeling | implemented | Selected source material is materialized into `.engi/source-material/*` with branch-mode-aware metadata. | `src/spec-v6-demo.js:1715` (`materializeSelectedSourceMaterial`), `src/spec-v6-demo.js:2028` (`buildBranchArtifacts`) |
-| Match report | implemented | Selected and rejected assets are emitted into a durable match report. | `src/spec-v6-demo.js:1562` (`buildMatchReport`), `src/spec-v6-demo.js:2110` |
-| Verification report | implemented | Verification determinisms and use tier are emitted per asset. | `src/spec-v6-demo.js:1587` (`buildVerificationReport`), `src/spec-v6-demo.js:2111` |
-| Eval manifest | implemented | Manifest includes benchmark run id, evaluator set, and asset measurement provenance. | `src/spec-v6-demo.js:1601` (`buildEvalManifest`), `src/spec-v6-demo.js:2112` |
-| Settlement preview | implemented | Raw shares, settled shares, and exact metered micro-units are persisted and surfaced. | `src/spec-v6-demo.js:1918` (`settleNeedEvent`), `src/spec-v6-demo.js:2113`, `public/app.js:167` |
-| Exact journal diff / invariants / proof surfaces | implemented | Before/after roots, debit/credit entries, invariant set, settlement proof, and system proof bundle are all produced. | `src/spec-v6-demo.js:1918`, `src/spec-v6-demo.js:2054`, `src/spec-v6-demo.js:2114`, `public/app.js:181` |
-| Authorization / principal modeling | implemented | Authorization decisions and identity/authorization proof are modeled explicitly and persisted as branch artifacts. | `src/spec-v6-demo.js:1734` (`buildAuthorizationDecisions`), `src/spec-v6-demo.js:2065`, `src/spec-v6-demo.js:2114` |
-| Confidentiality / sensitive-data classification | implemented | Policy release and sensitive-data flow records classify private vs bounded-public surfaces. | `src/spec-v6-demo.js:1763` (`buildSensitiveDataFlowRecords`), `src/spec-v6-demo.js:1801` (`buildBranchPolicyRelease`) |
-| Retention / revocation / policy-release modeling | implemented | Retention policy ids, revocation behavior, disclosure rules, and policy-release artifact are present. | `src/spec-v6-demo.js:1801`, `src/spec-v6-demo.js:2116` (`.engi/policy-release.json`) |
-| System proof bundle | implemented | Asset-measurement, selection, journal, identity/auth, sensitive-data-flow, and settlement proofs are bundled. | `src/spec-v6-demo.js:2054`, `src/spec-v6-demo.js:2114`, `test/core.test.js` |
-| API surfaces updated for V6 | implemented | API centers on `/api/make-engi-branch`, with state/deposit/reset preserved. | `server.js:108`, `server.js:144`, `server.js:159` |
-| UI surfaces updated for V6 | implemented | UI now presents need measurement, ranked/verified candidates, branch artifacts, settlement, and proof surfaces. | `public/app.js:55`, `public/app.js:92`, `public/app.js:127`, `public/app.js:167`, `public/index.html` |
-| Deterministic local branch/PR creation against GitHub | non-demoable-external | Real GitHub app auth, branch creation, PR flows, Actions invocation, and repo mutation are intentionally not faked here. | boundary only; represented via seeded scenario + branch artifacts |
-| Real benchmark artifact ingestion from network | non-demoable-external | Parser contract is implemented locally, but remote Actions artifact retrieval is not. | boundary only; local scenario in `src/spec-v6-demo.js:620` |
-| Real LLM evaluator execution | non-demoable-external | Static/inferred boundaries are modeled; no live model inference is performed. | boundary only; evaluator ids in manifests/proofs |
-| Automatic patch synthesis over a real repo | partial | Patch-mode branch assembly is represented, but actual patch generation/content rewriting is still not implemented. | `src/spec-v6-demo.js:1715`, `src/spec-v6-demo.js:2054` |
-| Full revocation enforcement over existing external artifacts | partial | Revocation and retention are modeled and surfaced, but there is no live external artifact deletion/permission revocation executor. | `src/spec-v6-demo.js:1763`, `src/spec-v6-demo.js:1801` |
-
-## Test coverage added in this pass
-
-Current test suite: **37 tests**.
-
-High-value coverage now includes:
-- API contract and static serving without binding a local port: `test/api.test.js`
-- bootstrapping / state repair behavior: `test/api.test.js`
-- deposit validation and persistence invariants: `test/api.test.js`
-- full make-ENGI-branch gold path: `test/api.test.js`, `test/core.test.js`
-- context-mode branch behavior: `test/api.test.js`, `test/core.test.js`
-- parser contract and canonical run evidence: `test/core.test.js`
-- asset schema extraction and signal capture: `test/core.test.js`
-- recall fusion and ranking/verification separation: `test/core.test.js`
-- issuer policy tier behavior including revoke/restrict cases: `test/core.test.js`
-- asset-pack lock invariants: `test/core.test.js`
-- exact debit/credit conservation and 10000-bp normalization: `test/core.test.js`
-- system proof bundle, authorization, policy release, and source-material materialization: `test/core.test.js`
-- write-failure atomicity for both deposit and make-branch flows: `test/api.test.js`
-
-## Remaining gaps by type
-
-### Non-demoable external boundaries
-- live GitHub App installation/auth
-- real PR/branch creation and repo mutation on GitHub
-- remote GitHub Actions artifact download and parsing from live runs
-- real model/evaluator execution
-- real artifact cleanup/revocation against external systems
-
-### Still merely partial inside the local prototype
-- actual remediation patch synthesis/edit application into a real checkout
-- richer policy execution state transitions beyond proof/artifact modeling
-- broader scenario library beyond the seeded auth-migration case
-- more exhaustive section-for-section artifact schemas for every appendix type in V6
+1. Live GitHub repository / PR / Actions integration remains `non-demoable-external` in this repo.
+2. Real patch generation and actual remediation branch git operations remain `non-demoable-external`.
+3. Full telemetry/event emission for every pipeline stage is still `partial`; most reliability signals exist as trace objects and invariant checks rather than a separate telemetry stream.
+4. The whole-asset need scoring layer is stronger than baseline but still thinner than the spec’s richest decomposition.
+5. LLM evaluator roles are still `modeled`, not executed.

@@ -49,6 +49,7 @@ function renderSummary(state) {
   summaryEl.innerHTML = `
     <div class="summary-card"><span class="meta">Candidate assets</span><strong>${state.assets.length}</strong></div>
     <div class="summary-card"><span class="meta">Need scenarios</span><strong>${state.needScenarios.length}</strong></div>
+    <div class="summary-card"><span class="meta">Active profile</span><strong>${escapeHtml(state.conformanceProfiles?.active || '')}</strong></div>
     <div class="summary-card"><span class="meta">Selected assets in latest pack</span><strong>${selected}</strong></div>
     <div class="summary-card"><span class="meta">Settlement-credited assets</span><strong>${settled}</strong></div>
     <div class="summary-card"><span class="meta">Sensitive-data flow records</span><strong>${flows}</strong></div>
@@ -63,8 +64,10 @@ function renderScenario(state) {
   scenarioEl.innerHTML = `
     <div class="card">
       <div class="row"><strong>${escapeHtml(source.repo)}</strong><span class="badge">${escapeHtml(source.benchmarkRunId)}</span></div>
-      <p>${escapeHtml(source.task)}</p>
+      <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
       <div class="kv">
+        <span class="meta">profile A</span><span>${escapeHtml(source.conformanceProfile || source.profileAStatus || '')}</span>
+        <span class="meta">profile B</span><span>${escapeHtml(source.productionIntentProfile || source.profileBStatus || '')}</span>
         <span class="meta">buyer branch</span><span>${escapeHtml(source.baseRef || source.buyerBranch || '')}</span>
         <span class="meta">workflow</span><span>${escapeHtml(source.benchmarkWorkflowPath)}</span>
         <span class="meta">parser</span><span>${escapeHtml(source.benchmarkParserContract?.parserKind || source.parserKind || '')} ${escapeHtml(source.benchmarkParserContract?.parserVersion || source.parserVersion || '')}</span>
@@ -76,7 +79,8 @@ function renderScenario(state) {
       ${state.latestRun?.needMeasurement ? `<details><summary class="meta">Show need measurement + parser validation</summary><pre>${escapeHtml(JSON.stringify({
         benchmarkTarget: state.latestRun.benchmarkTarget,
         parserValidation: state.latestRun.parserValidation,
-        inferenceProofs: state.latestRun.inferenceProofs
+        inferenceProofs: state.latestRun.inferenceProofs,
+        fieldDerivations: state.latestRun.need.fieldDerivations
       }, null, 2))}</pre></details>` : ''}
       ${state.latestRun?.canonicalRunEvidence ? `<details><summary class="meta">Show canonical run evidence</summary><pre>${escapeHtml(JSON.stringify(state.latestRun.canonicalRunEvidence, null, 2))}</pre></details>` : ''}
     </div>
@@ -126,8 +130,8 @@ function renderEvaluations(state) {
           <pre>${escapeHtml(JSON.stringify({ actionability: item.ranking.actionability, rankingPenalties: item.ranking.rankingPenalties, penaltyMass: item.ranking.penaltyMass }, null, 2))}</pre>
         </div>
         <div>
-          <p class="meta">Verification determinisms</p>
-          <pre>${escapeHtml(JSON.stringify(item.verification, null, 2))}</pre>
+          <p class="meta">Verification determinisms + use-tier rights</p>
+          <pre>${escapeHtml(JSON.stringify({ verification: item.verification, rights: item.rights }, null, 2))}</pre>
         </div>
       </div>
     </div>
@@ -170,6 +174,13 @@ function renderBranchArtifacts(state) {
           authorizationDecisions: run.authorizationDecisions,
           sensitiveDataFlowRecords: run.sensitiveDataFlowRecords,
           deliverablesManifest: run.deliverablesManifest
+        }, null, 2))}</pre>
+      </details>
+      <details>
+        <summary class="meta">Show unit catalog + pipeline telemetry</summary>
+        <pre>${escapeHtml(JSON.stringify({
+          unitCatalog: run.unitCatalog,
+          pipelineTelemetry: run.pipelineTelemetry
         }, null, 2))}</pre>
       </details>
     </div>
@@ -252,7 +263,7 @@ document.getElementById('resetButton').addEventListener('click', async () => {
   try {
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to seeded Spec V6 scenario.');
+    setStatus('Demo reset to seeded Spec V7 scenario.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -281,7 +292,7 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
 });
 
 refresh().then(() => {
-  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V6 prototype flow.');
+  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V7 prototype flow.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

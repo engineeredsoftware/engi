@@ -1,23 +1,29 @@
-# ENGI Demo Script
+# ENGI Demo Script — Spec V7
 
-This is the live presentation script for the current ENGI MVP demo.
+This is the live presentation / interactive QA script for the current ENGI V7 deterministic prototype.
 
 ---
 
 ## One-sentence thesis
 
-ENGI is a depot where engineering knowledge is **openly writable**, **measurably readable**, **provable**, and **valuable**.
+ENGI measures a GitHub-bound engineering need, matches the right technical intelligence supply to it, materializes an inspectable private remediation branch artifact set, and proves exactly how value moves through the system.
 
 ---
 
-## Core claim
+## What this demo is
 
-This demo shows that:
+This demo is **Profile A — local deterministic prototype** behavior for ENGI Spec V7.
 
-1. contributors can deposit engineering knowledge into the depot
-2. a buyer can issue a licensed query against a real engineering need
-3. the system can assemble a private, need-matched bundle and emit public proof artifacts
-4. the licensed read can measurably improve the buyer's system on a concrete task
+It is meant to demonstrate:
+- need measurement from GitHub-bound benchmark evidence,
+- candidate recall and hybrid matching,
+- ranking vs verification separation,
+- use-tier propagation and branch-mode rights,
+- artifact materialization,
+- telemetry / proof / policy surfaces,
+- exact settlement and journal closure.
+
+It is **not** a live GitHub-integrated production deployment.
 
 ---
 
@@ -29,299 +35,248 @@ Default local URL:
 
 ---
 
-## Recommended mode
-
-Use **light mode** when presenting live unless someone explicitly wants to inspect internals.
-
-- **Light mode** = story-first, proof group collapsed by default
-- **Heavy mode** = inspection-first, proof group open inline
-
-If someone asks "how does that actually work?" or "what proves this?", switch to **heavy mode** or expand the proof group.
-
----
-
-## Gold-path story
-
-### 0. Opening frame
+## Opening frame
 
 Say something like:
 
-> ENGI is a system for turning engineering knowledge into a measurable, licensable, and provable asset. This demo is intentionally minimal, but it shows the full loop end to end.
-
-Then point at the top thesis strip:
-
-- openly writable
-- measurably readable
-- provable
-- valuable
-
----
-
-## 1. Openly writable
-
-### Where to look
-
-- thesis strip
-- summary cards
-- **1. Public deposits**
-
-### What to say
-
-> First, the depot is openly writable. Contributors can deposit engineering knowledge into the system.
+> ENGI is a system for turning engineering knowledge into an inspectable remediation pipeline.
 >
-> What becomes public is not the entire corpus. What becomes public is the commitment surface: metadata, hashes, measurement state, and verification signals.
+> In Spec V7, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound need, selecting the right technical intelligence supply for that need, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
+
+Then point out:
+- Spec V7
+- Profile A / Profile B framing
+- the seeded GitHub-bound auth rollback scenario
+
+Important line:
+
+> This is a deterministic local prototype of the control plane, not a fake claim that all external production boundaries are already wired up.
+
+---
+
+## Gold-path walkthrough
+
+### 1. GitHub-bound need measurement
+
+#### Where to look
+
+- scenario / need section
+- parser / benchmark evidence surface
+- conformance profile labeling
+
+#### What to say
+
+> The demo begins with a buyer need that is GitHub-bound. A buyer branch and GitHub Actions benchmark run define the operational context.
 >
-> So this is not just a public dump of files. It is a structured supply layer for engineering knowledge.
+> ENGI does not treat the task as a loose prompt. It normalizes workflow evidence through a declared parser contract and derives a canonical need descriptor.
 
-### Point out on screen
+Point out:
+- canonical run evidence
+- parser contract
+- need field derivations / normalization closure
+- benchmark targets / failure modes / constraints
 
-- deposited assets are visible
-- each asset has:
-  - title
-  - author
-  - tags
-  - public commitment hash / asset root
-  - measurement values
-  - verification signals
-- private content is still sealed at this stage
+Important line:
 
-### Important line
-
-> The key distinction is: the supply is openly writable, but the highest-value assembled output can still be licensed and selectively disclosed.
+> The need descriptor is a measured object, not just a text box.
 
 ---
 
-## 2. Measurably readable
+### 2. Candidate recall and hybrid matching
 
-### Where to look
+#### Where to look
 
-- **2. Licensed read**
+- evaluated candidates
+- recall / fusion surfaces
+- explainability details
 
-### What to say
+#### What to say
 
-> Next, the system is measurably readable. A buyer with a license can issue a real engineering query.
+> Once the need is measured, ENGI recalls candidate assets through multiple channels: task alignment, failure-mode overlap, technical-context overlap, lexical/symbol/path/config matching, and artifact-kind compatibility.
 >
-> In this demo, the buyer is facing a production auth incident: an enterprise auth migration rollback with an issuer mismatch.
+> In the local prototype, embeddings and higher-dimensional retrieval are deterministic stand-ins, but the interface is already codified so Profile B can replace them cleanly later.
 
-### Use the seeded query
+Point out:
+- multi-channel recall / fusion
+- strongest signals
+- query/vector contracts if visible
+- top-ranked rollback/auth asset
 
-`enterprise auth migration rollback for monorepo services with issuer mismatch`
+Important line:
 
-### What to do
+> The point is not “search found a document.” The point is “the system can explain why this technical asset is a fit for this engineering need.”
 
-- issue the query manually, or run the guided demo
+---
 
-### What to say after issuance
+### 3. Ranking vs verification
 
-> The important thing is that the system does not just reveal everything. It assembles a private bundle matched to the need.
+#### Where to look
+
+- ranking breakdown
+- verification surfaces
+- use tiers
+
+#### What to say
+
+> Ranking and verification are intentionally separate.
 >
-> The read is not "I have data in a database." The read is "for this concrete problem, I can retrieve the most relevant knowledge and package it for use."
-
-### Point out on screen
-
-- private bundle appears
-- selected chunks are shown
-- this is licensed output, not the full depot
-
-### Important line
-
-> The value is in assembling the right subset of knowledge for the task, not merely storing documents.
-
----
-
-## 3. Provable
-
-### Where to look
-
-- collapsed or expanded **Proof and inspection surfaces**
-- ranking explanation
-- conservation check
-- public receipts
-- schemas
-- policy release
-- deployment / attestation
-- proof log timeline
-
-### What to say
-
-> Third, the system is provable.
+> Ranking asks: how useful is this asset for the need?
 >
-> The read event produces inspectable artifacts. You can see what was issued, how contribution was calculated, whether unit allocation conserved correctly, what schema each receipt follows, and what policy/deployment context is being claimed.
+> Verification asks: what is this asset actually allowed to do downstream? Can it be ranked only, used for context, materialized into a branch, or participate in settlement?
 
-### If presenting in light mode
+Point out:
+- need match
+- benchmark impact
+- actionability
+- penalties
+- issuance verification
+- provenance verification
+- sufficiency
+- issuer policy
+- final use tier
 
-Start with the collapsed proof summary card.
+Important line:
 
-### What to say in light mode
-
-> Even collapsed, the proof layer still tells you whether receipts exist, whether allocation conserved, what policy version is bound, and what the latest proof event was.
-
-### If expanding the proof group, walk in this order
-
-#### A. Ranking explanation
-
-> This shows why these chunks won. The read is not arbitrary — it reflects overlap with the query plus the measured value of the asset.
-
-#### B. Conservation check
-
-> This shows that metered units in equal allocated units out. In other words, the economic consequences are conserved rather than hand-waved.
-
-#### C. Public receipts
-
-> These are the public artifacts for issuance, allocation, deposit, and utility.
-
-#### D. Receipt schemas
-
-> Each receipt has a defined claim shape, so the proof surface is not just ad hoc JSON.
-
-#### E. Policy + attestation
-
-> This binds the behavior to a policy release and a deployment/provenance story.
-
-#### F. Proof log timeline
-
-> This gives a readable event history of what happened.
-
-### Important line
-
-> The system is not only generating output — it is generating inspectable evidence about how that output was produced and how value was allocated.
+> A useful asset is not automatically a settlement-eligible asset.
 
 ---
 
-## 4. Valuable
+### 4. Asset pack and private remediation branch artifacts
 
-### Where to look
+#### Where to look
 
-- **3. Utility proof**
-- benchmark panel
+- asset pack / asset-pack lock
+- branch artifacts
 
-### What to say
+#### What to say
 
-> Finally, the system is valuable.
+> After ranking and verification, ENGI assembles a locked asset pack.
 >
-> This is the most important part of the demo. The system should not stop at proving that a licensed bundle was issued. It should end by showing that the read improved the buyer's system on a real task.
-
-### Point out on screen
-
-- benchmark task
-- baseline score
-- treatment score
-- uplift
-- baseline outcome
-- treatment outcome
-- why the bundle helped
-- buyer impact
-
-### Say this clearly
-
-> Without the licensed bundle, the remediation system proposes a more generic rollback and misses critical issuer-compatibility sequencing and audit guardrails.
+> That lock then drives the private remediation branch artifact set.
 >
-> With the licensed bundle, it restores verifier configuration in the right order, preserves session invariants, and follows the expected recovery path.
+> The branch is the buyer-facing delivery surface: measured need, selected source material, authorization decisions, policy release, telemetry, and settlement preview all travel together.
 
-### Then land the business point
+Point out artifacts such as:
+- `.engi/need.json`
+- `.engi/verification-report.json`
+- `.engi/asset-pack.lock.json`
+- `.engi/authorization-decisions.json`
+- `.engi/sensitive-data-flow.json`
+- `.engi/policy-release.json`
+- `.engi/unit-catalog.json`
+- `.engi/pipeline-telemetry.json`
+- `.engi/system-proof-bundle.json`
+- `ENGI_NEED.md`
 
-> So the claim is not just that knowledge was stored, and not just that knowledge was read. The claim is that licensed engineering knowledge improved remediation performance on a production auth incident.
+Important line:
 
-### Important line
-
-> This is the payoff of the entire system: the read was useful.
+> The branch artifact set is the inspectable remediation package, not just a hidden internal state blob.
 
 ---
 
-## Recommended exact close
+### 5. Telemetry and advanced V7 surfaces
 
-> ENGI makes engineering knowledge openly writable, selectively and measurably readable, publicly provable, and economically valuable.
+#### Where to look
+
+- unit catalog
+- pipeline telemetry
+- proof bundle / eval manifest
+
+#### What to say
+
+> V7 adds stronger interface codification around unitization, semantics, embeddings, evaluator surfaces, and telemetry.
 >
-> In this demo, that means contributors deposit knowledge, a buyer facing a real production problem licenses the right bundle, the system emits proof artifacts around that read, and the final benchmark shows that the read improved the buyer's system.
+> So now the demo can show not only what was selected, but how units were derived, what metadata/vector contracts exist, how recall/scoring hand-offs happened, and how those choices fed settlement and proof.
+
+Point out:
+- unit catalog
+- pipeline telemetry
+- prompt / evaluator implementation surfaces
+- static vs inferred provenance
+
+Important line:
+
+> Even where Profile A still uses deterministic stand-ins, the interfaces are now explicit enough that production implementations can slot in without changing the surrounding contracts.
 
 ---
 
-## Recommended presenter flow
+### 6. Settlement and proof closure
 
-### Short version (~2 minutes)
+#### Where to look
 
-1. opening frame
-2. point to thesis strip
-3. show deposits
-4. issue query / show private bundle
-5. briefly mention proof group
-6. end on benchmark and buyer impact
+- settlement preview
+- journal diff
+- proof bundle
 
-### Medium version (~5 minutes)
+#### What to say
 
-1. opening frame
-2. openly writable
-3. measurably readable
-4. expand proof group
-5. show ranking + conservation + receipts
-6. end on utility proof and buyer impact
+> The demo ends on exact settlement closure.
+>
+> ENGI computes raw and settled shares, allocates exact micro-units, emits a journal diff, and proves the invariants — including the closure between the settlement proof and the asset-pack lock.
 
-### Longer version (~8-10 minutes)
+Point out:
+- participating assets
+- journal debits / credits
+- `debitsEqualCredits = true`
+- lock-hash binding
+- policy / identity / sensitive-data proof surfaces
 
-1. opening frame
-2. deposits and commitment structure
-3. licensed read and bundle assembly
-4. ranking explanation
-5. conservation and allocation
-6. receipt schemas and proof log
-7. policy release and attestation
-8. benchmark task, baseline, treatment, why it helped, buyer impact
-9. closing thesis
+Important line:
+
+> The system is not only selecting knowledge; it is proving the governed value movement around that selection.
 
 ---
 
-## Recommended answers to likely questions
+## Recommended close
 
-### "Why not just use a vector database?"
-
-> A vector database gives retrieval. ENGI is trying to give retrieval plus measurement, licensing, proof artifacts, and value allocation.
-
-### "What is actually public versus private?"
-
-> Public: commitments, hashes, metadata, measurement state, and receipts. Private: the licensed bundle payload and sealed corpus content until issuance.
-
-### "What is being measured?"
-
-> In the current MVP, a deterministic blend of quantity, quality, valence, and query relevance. It is a prototype policy, not the final measurement system.
-
-### "What makes it provable?"
-
-> The system emits structured receipts, ranking explanations, conservation checks, policy binding, and provenance surfaces. In the MVP this is modeled and deterministic; later versions can strengthen the trusted kernel.
-
-### "What proves value?"
-
-> The final utility proof. The demo ends on a concrete benchmark where the licensed bundle improves the buyer's remediation outcome.
+> ENGI turns engineering knowledge into a measurable, governable, inspectable remediation pipeline.
+>
+> In this V7 prototype, the system measures a GitHub-bound need, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
 
 ---
 
-## Operator reminders
+## Interactive QA flow
 
-- default to **light mode** for live demoing
-- only expand proof surfaces when needed
-- do **not** get stuck explaining every panel before landing the benchmark ending
-- the final benchmark panel is the payoff — spend the most emphasis there
-- keep repeating the four-part thesis:
-  - openly writable
-  - measurably readable
-  - provable
-  - valuable
+Use this sequence when verifying the demo live:
+
+1. open the app
+2. reset seeded state
+3. confirm Profile A + Spec V7 labels
+4. confirm the auth rollback scenario
+5. click **Make ENGI branch**
+6. inspect evaluated candidates
+7. inspect branch artifacts
+8. inspect unit catalog + pipeline telemetry
+9. inspect settlement preview / journal diff / proof bundle
+10. confirm the app still communicates Profile A vs Profile B clearly
 
 ---
 
-## Current seeded scenario
+## Seeded scenario reminder
 
-### Buyer
+- Buyer: `Frontier Code Systems`
+- Repo: `frontier/demo-auth`
+- Scenario: auth issuer rollback / migration recovery
+- Expected strongest asset: `Enterprise auth migration rollback playbook`
+- Important V7-only surfaces:
+  - field derivations
+  - use-tier rights
+  - asset-pack-lock closure
+  - unit catalog
+  - pipeline telemetry
+  - prompt/evaluator implementation surfaces
 
-`Frontier Code Systems`
+---
 
-### Problem
+## Do not overclaim
 
-`enterprise auth migration rollback for monorepo services with issuer mismatch`
+Do **not** present the current demo as:
+- a live GitHub App deployment,
+- a real embedding/vector DB service,
+- a live evaluator/prompt-routing system,
+- a production authz / retention / disclosure enforcement plane,
+- a real external proof-publication system.
 
-### Expected top asset
-
-`Enterprise auth migration rollback playbook`
-
-### Expected value claim
-
-The licensed read improves the buyer's remediation system, increasing confidence and reducing the risk of shipping an auth fix that breaks live sessions.
+Present it as:
+- a **Spec V7 Profile A deterministic prototype**
+- with strong codification of the production-facing hand-offs and artifact contracts.

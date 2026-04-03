@@ -8,7 +8,7 @@ import {
   publicState as buildPublicState,
   runMakeEngiBranch,
   SPEC_VERSION
-} from './src/spec-v6-demo.js';
+} from './src/spec-v7-demo.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DATA_PATH = path.join(__dirname, 'data', 'state.json');

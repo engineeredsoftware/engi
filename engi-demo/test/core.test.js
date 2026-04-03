@@ -12,7 +12,7 @@ import {
   runMakeEngiBranch,
   makeCandidateAsset,
   METERED_MICRO_UNITS
-} from '../src/spec-v6-demo.js';
+} from '../src/spec-v7-demo.js';
 
 test('canonicalJson is stable across key order', () => {
   const a = { b: 2, a: 1, c: { y: 2, x: 1 } };
@@ -28,13 +28,17 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   assert.ok(state.ledger.accounts['buyer:frontier-code-systems:license_pool']);
 });
 
-test('buildNeedDescriptor carries canonical run evidence and parser failure contract', () => {
+test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V7 derivation closure', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
 
   assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
   assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v2');
   assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
+  assert.equal(need.conformanceProfile, 'Profile A — local deterministic prototype');
+  assert.equal(need.productionIntentProfile, 'Profile B — production-boundary intent');
+  assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
+  assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
   assert.ok(need.measurementProvenance.length >= 2);
 });
 
@@ -69,9 +73,11 @@ test('makeCandidateAsset creates spec-shaped candidate asset with content units'
   assert.ok(asset.contentRoot.startsWith('sha256:'));
   assert.equal(asset.sourceMaterialBinding.confidentiality, 'private-required');
   assert.equal(asset.attestations.length, 1);
+  assert.equal(asset.assetMeasurement.vectorInterfaces.taskVectorSpace, 'task-semantic-space.v7');
+  assert.equal(asset.contentUnits[0].semanticInterfaces.embeddingHandOffReady, true);
 });
 
-test('makeCandidateAsset extracts symbols, paths, config keys, and stacks', () => {
+test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embedding specs', () => {
   const asset = makeCandidateAsset({
     title: 'Signal-rich asset',
     author: 'Tester',
@@ -85,9 +91,11 @@ test('makeCandidateAsset extracts symbols, paths, config keys, and stacks', () =
   assert.ok(unit.extracted.configKeys.includes('auth.issuer.compatibility.window'));
   assert.ok(unit.extracted.stackTags.includes('node'));
   assert.ok(unit.extracted.stackTags.includes('jwt'));
+  assert.equal(unit.embeddings.taskVector.spec.vectorSpace, 'task-semantic-space.v7');
+  assert.equal(unit.embeddings.taskVector.spec.standIn, true);
 });
 
-test('recallCandidates emits weighted channel hits and fusion summary', () => {
+test('recallCandidates emits weighted channel hits, fusion summary, and query vector contracts', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
   const recalled = recallCandidates(need, state.assets);
@@ -96,6 +104,7 @@ test('recallCandidates emits weighted channel hits and fusion summary', () => {
   assert.ok(recalled[0].recallProvenance.some((entry) => entry.channelId === 'pathSearch'));
   assert.ok(recalled[0].fusion.contributingChannels.length >= 2);
   assert.ok(recalled[0].recallScore > 0);
+  assert.equal(recalled[0].queryRepresentations.task.vectorSpace, 'task-semantic-space.v7');
 });
 
 test('evaluateCandidates separates ranking from verification and produces use tiers', () => {
@@ -151,7 +160,7 @@ test('assembleAssetPack selects allowed tiers and locks roots', () => {
   assert.equal(assetPack.branchMode, 'patch');
 });
 
-test('context-mode asset pack can admit context-only candidates', () => {
+test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {
   const state = buildInitialState();
   const lowEvidence = makeCandidateAsset({
     title: 'Context incident notes',
@@ -164,11 +173,15 @@ test('context-mode asset pack can admit context-only candidates', () => {
     content: 'issuer mismatch breaks older services and audit receipts'
   });
   const need = buildNeedDescriptor(state.needScenarios[0]);
-  const evaluated = evaluateCandidates(need, [lowEvidence, ...state.assets]);
-  const assetPack = assembleAssetPack(need, evaluated, 'context');
+  const evaluated = evaluateCandidates(need, [lowEvidence]);
+  const contextCandidate = evaluated.find((candidate) => candidate.assetId === lowEvidence.assetId);
+  const contextPack = assembleAssetPack(need, evaluated, 'context');
+  const patchPack = assembleAssetPack(need, evaluated, 'patch');
 
-  assert.equal(assetPack.branchMode, 'context');
-  assert.ok(assetPack.selectedAssets.length >= 1);
+  assert.equal(contextCandidate.useTier, 'context-only');
+  assert.equal(contextPack.branchMode, 'context');
+  assert.ok(contextPack.selectedAssets.includes(lowEvidence.assetId));
+  assert.equal(patchPack.selectedAssets.includes(lowEvidence.assetId), false);
 });
 
 test('runMakeEngiBranch produces branch artifacts and exact journal settlement', () => {
@@ -227,6 +240,7 @@ test('system proof bundle includes measurement, selection, identity, data-flow, 
   assert.ok(proof.assetMeasurementProofs.length >= 1);
   assert.equal(proof.selectionConsistencyProof.allSelectedAssetsRespectUseTier, true);
   assert.equal(proof.identityAuthorizationProof.allStateChangingActionsAuthorized, true);
+  assert.equal(proof.sensitiveDataFlowProof.requiredSensitiveClassesCovered, true);
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
 });
@@ -235,35 +249,98 @@ test('authorization decisions and policy release are persisted on latest run', (
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
-  assert.ok(latestRun.authorizationDecisions.length >= 3);
-  assert.ok(latestRun.identityBindings.some((binding) => binding.principalClass === 'buyer-principal'));
-  assert.ok(latestRun.sensitiveDataFlowRecords.length >= 3);
+  assert.ok(latestRun.authorizationDecisions.length >= 6);
+  assert.ok(latestRun.identityBindings.some((binding) => binding.principalId === 'engi-system:proof-publisher'));
+  assert.ok(latestRun.sensitiveDataFlowRecords.length >= 7);
+  assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'materialize:selected-source-material' && decision.decision === 'allow'));
+  assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'settle:journal-event' && decision.decision === 'allow'));
+  assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
+  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic prototype');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
 });
 
-test('branch artifacts materialize selected source material only', () => {
+test('policy release artifact classes cover verification, authz, and sensitive-data artifacts', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+  const artifactPaths = latestRun.policyRelease.artifactClasses.map((entry) => entry.path);
+
+  assert.ok(artifactPaths.includes('.engi/verification-report.json'));
+  assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
+  assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
+});
+
+test('eval manifest codifies evaluator interfaces and stand-in boundaries', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.ok(latestRun.evalManifest.evaluatorInterfaces.length >= 3);
+  assert.ok(latestRun.evalManifest.evaluatorInterfaces.some((entry) => entry.measurementClass === 'inferred-measurement'));
+  assert.equal(latestRun.evalManifest.vectorSpaces.includes('task-semantic-space.v7'), true);
+});
+
+test('sensitive data flow records cover all required V7 data classes', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+  const classes = new Set(latestRun.sensitiveDataFlowRecords.map((record) => record.dataClass));
+
+  assert.ok(classes.has('repo-private-source'));
+  assert.ok(classes.has('verification-evidence'));
+  assert.ok(classes.has('licensed-source-material'));
+  assert.ok(classes.has('private-branch-derived-artifact'));
+  assert.ok(classes.has('settlement-preview'));
+  assert.ok(classes.has('private-proof-artifact'));
+  assert.ok(classes.has('bounded-public-proof-metadata'));
+});
+
+test('branch artifacts materialize selected source material only with unit hashes bound', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
   const materializedPaths = Object.keys(latestRun.branchArtifacts.files).filter((file) => file.startsWith('.engi/source-material/'));
 
   assert.equal(materializedPaths.length, latestRun.assetPack.selectedAssets.length);
   for (const assetId of latestRun.assetPack.selectedAssets) {
-    assert.ok(materializedPaths.some((file) => file.includes(assetId)));
+    const path = materializedPaths.find((file) => file.includes(assetId));
+    assert.ok(path);
+    assert.match(latestRun.branchArtifacts.files[path], /unitHash:/);
   }
 });
 
-test('ENGI_NEED markdown includes parser contract and settlement preview summary', () => {
+test('settlement preview records participating assets and asset-pack-lock binding', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.deepEqual(
+    latestRun.settlementPreview.settlementParticipatingAssetIds.slice().sort(),
+    latestRun.journalDiff.settledShares.map((entry) => entry.assetId).slice().sort()
+  );
+  assert.equal(latestRun.settlementPreview.assetPackLockHash, latestRun.systemProofBundle.settlementProof.assetPackLockHash);
+});
+
+test('telemetry artifacts explain the V7 pipeline and prompt implementation surface', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.ok(latestRun.pipelineTelemetry.events.some((event) => event.stage === 'content-unit-semantics'));
+  assert.ok(latestRun.pipelineTelemetry.events.some((event) => event.stage === 'settlement-and-shares'));
+  assert.ok(latestRun.unitCatalog.units.length >= latestRun.assetPack.selectedAssets.length);
+  assert.ok(latestRun.systemProofBundle.promptImplementationSurface.inferredOutputs.length >= 1);
+  assert.ok(latestRun.branchArtifacts.files['.engi/pipeline-telemetry.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/unit-catalog.json']);
+});
+
+test('ENGI_NEED markdown includes parser contract, conformance profiles, and settlement preview summary', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
   const markdown = latestRun.branchArtifacts.files['ENGI_NEED.md'];
 
   assert.match(markdown, /Benchmark parser contract/);
+  assert.match(markdown, /Conformance profiles/);
   assert.match(markdown, /raw share asset count/);
   assert.match(markdown, /github-actions.auth-remediation.v2/);
 });
 
-test('publicState returns public projection including latest run and parser metadata', () => {
+test('publicState returns public projection including latest run, parser metadata, and profile labels', () => {
   const state = buildInitialState();
   const { nextState } = runMakeEngiBranch(state, {});
   const projected = publicState(nextState);
@@ -272,7 +349,9 @@ test('publicState returns public projection including latest run and parser meta
   assert.ok(projected.latestRun.need.needId);
   assert.ok(projected.latestRun.assetPack.assetPackId);
   assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v2');
-  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v6-demo-2026-04-02');
+  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic prototype');
+  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic prototype');
+  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v7-demo-2026-04-02');
   assert.ok(projected.runHistory.length, 1);
 });
 
@@ -281,9 +360,22 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   const { latestRun } = runMakeEngiBranch(state, {});
 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/settlement-proof.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/authorization-decisions.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/sensitive-data-flow.json'));
   assert.equal(latestRun.journalDiff.receipts.length, 2);
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));
   assert.equal(latestRun.systemProofBundle.settlementProof.theoremChecks.stateRootIntegrity, true);
+  assert.equal(latestRun.settlementPreview.assetPackLockHash, latestRun.systemProofBundle.settlementProof.assetPackLockHash);
+});
+
+test('verification report records branch-mode rights per use tier', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, { branchMode: 'patch' });
+  const contextOnly = latestRun.verificationReport.assetVerification.find((entry) => entry.useTier === 'context-only');
+
+  assert.ok(contextOnly);
+  assert.equal(contextOnly.rights.branchMaterializationAllowed, false);
+  assert.equal(contextOnly.rights.settlementAllowed, false);
 });
 
 test('runMakeEngiBranch fails if no settlement-eligible assets exist', () => {
