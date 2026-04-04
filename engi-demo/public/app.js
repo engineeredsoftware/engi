@@ -2359,10 +2359,11 @@ function explainerBadge(resolved, options = {}) {
   if (!explainer) return '';
   const tooltipId = `explainer-${++explainerCounter}`;
   const alignClass = options.align === 'center' ? ' align-center' : '';
+  const sideClass = options.side === 'bottom' ? ' side-bottom' : '';
   const title = explainer.title || labelize(key);
   const points = explainer.points || [];
   return `
-    <span class="explainer${alignClass}">
+    <span class="explainer${alignClass}${sideClass}">
       <button type="button" class="info-badge" aria-label="${escapeHtml(options.ariaLabel || `Explain ${title}`)}" aria-describedby="${tooltipId}">
         ${escapeHtml(options.label || 'i')}
       </button>
@@ -2448,6 +2449,7 @@ function decorateStaticExplainers(root = document) {
     node.insertAdjacentHTML('beforeend', explainerBadge(node.dataset.explainerKey, {
       label: node.dataset.explainerLabel || 'i',
       align: node.dataset.explainerAlign || 'right',
+      side: node.dataset.explainerSide || 'top',
       ariaLabel: node.dataset.explainerAriaLabel || undefined
     }));
     node.dataset.explainerDecorated = 'true';

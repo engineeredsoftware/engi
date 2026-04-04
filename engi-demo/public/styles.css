@@ -204,6 +204,14 @@ pre {
   left: 0;
   right: auto;
 }
+.explainer.side-bottom .explainer-panel {
+  top: calc(100% + 10px);
+  bottom: auto;
+  transform: translateY(-6px);
+}
+.explainer.align-center.side-bottom .explainer-panel {
+  transform: translate(-50%, -6px);
+}
 .explainer:hover .explainer-panel,
 .explainer:focus-within .explainer-panel {
   opacity: 1;
@@ -218,6 +226,10 @@ pre {
 .explainer.align-left:focus-within .explainer-panel {
   transform: translateY(0);
 }
+.explainer.align-center.side-bottom:hover .explainer-panel,
+.explainer.align-center.side-bottom:focus-within .explainer-panel {
+  transform: translate(-50%, 0);
+}
 .explainer-panel::after {
   content: "";
   position: absolute;
@@ -225,6 +237,12 @@ pre {
   right: 10px;
   border: 7px solid transparent;
   border-top-color: rgba(15, 24, 46, .98);
+}
+.explainer.side-bottom .explainer-panel::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: rgba(15, 24, 46, .98);
 }
 .explainer.align-center .explainer-panel::after {
   left: 50%;
