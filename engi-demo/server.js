@@ -38,13 +38,17 @@ export function createAppContext({
   dataPath = process.env.ENGI_DEMO_DATA_PATH || DEFAULT_DATA_PATH,
   publicDir = process.env.ENGI_DEMO_PUBLIC_DIR || DEFAULT_PUBLIC_DIR
 } = {}) {
+  function uniqueStrings(values = []) {
+    return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+  }
+
   function ensureState() {
     if (!fs.existsSync(dataPath)) {
       writeJsonAtomically(dataPath, buildInitialState());
       return { bootstrapped: true, reason: 'missing-file' };
     }
     const raw = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-    if (!Array.isArray(raw.assets) || !Array.isArray(raw.buyers) || !raw.ledger?.accounts) {
+    if (!Array.isArray(raw.assets) || !Array.isArray(raw.buyers) || !Array.isArray(raw.githubAppSessions) || !Array.isArray(raw.repoArtifactInventory) || !raw.ledger?.accounts) {
       writeJsonAtomically(dataPath, buildInitialState());
       return { bootstrapped: true, reason: 'incomplete-state' };
     }
@@ -105,6 +109,118 @@ export function createAppContext({
     res.end(fs.readFileSync(safePath));
   }
 
+  function buildDepositInput(state, body) {
+    const inventoryEntryIds = uniqueStrings(body.inventoryEntryIds || body.selectedInventoryEntryIds || []);
+    const selectedInventoryEntries = inventoryEntryIds.map((entryId) => state.repoArtifactInventory.find((entry) => entry.inventoryEntryId === entryId)).filter(Boolean);
+    if (inventoryEntryIds.length && selectedInventoryEntries.length !== inventoryEntryIds.length) {
+      const error = new Error('One or more selected repo artifacts could not be resolved.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const authSessionId = String(body.authSessionId || '').trim();
+    const authSession = authSessionId
+      ? state.githubAppSessions.find((session) => session.authSessionId === authSessionId)
+      : null;
+    if (inventoryEntryIds.length && !authSession) {
+      const error = new Error('Authenticated repo session is required for repo artifact selection.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const selectedRepos = uniqueStrings(selectedInventoryEntries.map((entry) => entry.repo));
+    if (selectedRepos.length > 1) {
+      const error = new Error('The initial V10 intake flow only supports selecting repo artifacts from one repository at a time.');
+      error.statusCode = 400;
+      throw error;
+    }
+    if (authSession && selectedRepos.length === 1 && authSession.repo !== selectedRepos[0]) {
+      const error = new Error('Selected repo artifacts must match the authenticated repo session.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const rawContent = String(body.content || '').trim();
+    const operatorNote = String(body.operatorNote || '').trim();
+    let content = rawContent;
+    if (selectedInventoryEntries.length) {
+      const sections = selectedInventoryEntries.map((entry) => {
+        const addressRef = entry.sourcePath || entry.artifactName || entry.workflowRunId || entry.sourceCommit || 'repo artifact';
+        return `[${entry.originKind}] ${entry.title}\nRepo: ${entry.repo}\nAddress: ${addressRef}\n${entry.content}`;
+      });
+      if (operatorNote) sections.push(`Operator note\n${operatorNote}`);
+      else if (rawContent) sections.push(`Raw fallback supplement\n${rawContent}`);
+      content = sections.join('\n\n---\n\n');
+    }
+    if (!String(content || '').trim()) {
+      const error = new Error('Raw content or repo artifact selection is required.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const inferredKinds = uniqueStrings(selectedInventoryEntries.map((entry) => entry.artifactKind));
+    const inferredTypes = uniqueStrings(selectedInventoryEntries.map((entry) => entry.artifactType));
+    const sourceRepo = String(body.sourceRepo || '').trim() || authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
+    const title = String(body.title || '').trim()
+      || (selectedInventoryEntries.length === 1
+        ? selectedInventoryEntries[0].title
+        : selectedInventoryEntries.length
+          ? `Repo artifact bundle · ${sourceRepo}`
+          : '');
+    if (!title) {
+      const error = new Error('Title is required.');
+      error.statusCode = 400;
+      throw error;
+    }
+    const author = String(body.author || '').trim()
+      || authSession?.operatorLogin
+      || authSession?.installationAccountLogin
+      || '';
+    if (!author) {
+      const error = new Error('Author is required.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const visualPreview = String(body.visualPreview || '').trim()
+      || selectedInventoryEntries.map((entry) => entry.previewSurface).filter(Boolean).join('\n');
+
+    return {
+      title,
+      author,
+      organization: body.organization || '$ENGI',
+      artifactKind: String(body.artifactKind || '').trim() || (inferredKinds.length === 1 ? inferredKinds[0] : inferredKinds.length ? 'mixed' : 'mixed'),
+      artifactType: String(body.artifactType || '').trim() || (inferredTypes.length === 1 ? inferredTypes[0] : undefined),
+      visualPreview,
+      operatorNote,
+      sourceProvider: body.sourceProvider || 'github',
+      sourceRepo,
+      sourceCommit: String(body.sourceCommit || '').trim() || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit,
+      sourceRef: String(body.sourceRef || '').trim() || authSession?.defaultRef || selectedInventoryEntries.find((entry) => entry.ref)?.ref,
+      workflowRunId: String(body.workflowRunId || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowRunId)?.workflowRunId,
+      workflowPath: String(body.workflowPath || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowPath)?.workflowPath,
+      workflowJobName: String(body.workflowJobName || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowJobName)?.workflowJobName,
+      signerAddress: String(body.signerAddress || '').trim() || authSession?.defaultSignerAddress || selectedInventoryEntries.find((entry) => entry.signerAddress)?.signerAddress,
+      signingAlgorithm: body.signingAlgorithm || authSession?.signingAlgorithm,
+      keySource: body.keySource || authSession?.keySource,
+      installationId: body.installationId || authSession?.installationId,
+      tags: uniqueStrings([...(body.tags || []), ...selectedInventoryEntries.flatMap((entry) => entry.tags || [])]),
+      sourcePaths: uniqueStrings([...(body.sourcePaths || []), ...selectedInventoryEntries.flatMap((entry) => entry.sourcePaths || [])]),
+      declaredStacks: uniqueStrings([...(body.declaredStacks || []), ...selectedInventoryEntries.flatMap((entry) => entry.declaredStacks || [])]),
+      declaredConstraints: uniqueStrings([...(body.declaredConstraints || []), ...selectedInventoryEntries.flatMap((entry) => entry.declaredConstraints || [])]),
+      inventoryEntries: selectedInventoryEntries,
+      authSession,
+      rawFallbackContent: rawContent,
+      contentDerivedFromSelection: selectedInventoryEntries.length > 0,
+      content,
+      testsPassed: body.testsPassed !== false,
+      typecheckPassed: body.typecheckPassed !== false,
+      staticAnalysisPassed: body.staticAnalysisPassed !== false,
+      benchmarkRan: body.benchmarkRan !== false,
+      issuerPolicyStatus: body.issuerPolicyStatus || 'allowed'
+    };
+  }
+
   async function handle(req, res) {
     try {
       if (req.method === 'GET' && req.url?.startsWith('/api/state')) {
@@ -115,33 +231,8 @@ export function createAppContext({
 
       if (req.method === 'POST' && req.url === '/api/deposits') {
         const body = await readBody(req);
-        if (!String(body.title || '').trim()) return sendJson(res, 400, { error: 'Title is required.' });
-        if (!String(body.author || '').trim()) return sendJson(res, 400, { error: 'Author is required.' });
-        if (!String(body.content || '').trim()) return sendJson(res, 400, { error: 'Content is required.' });
-
         const state = readState();
-        const asset = makeCandidateAsset({
-          title: body.title,
-          author: body.author,
-          organization: body.organization || '$ENGI',
-          artifactKind: body.artifactKind || 'mixed',
-          artifactType: body.artifactType,
-          visualPreview: body.visualPreview,
-          signerAddress: body.signerAddress,
-          sourceRepo: body.sourceRepo,
-          sourceCommit: body.sourceCommit,
-          workflowRunId: body.workflowRunId,
-          tags: body.tags || [],
-          sourcePaths: body.sourcePaths || [],
-          declaredStacks: body.declaredStacks || [],
-          declaredConstraints: body.declaredConstraints || [],
-          content: body.content,
-          testsPassed: body.testsPassed !== false,
-          typecheckPassed: body.typecheckPassed !== false,
-          staticAnalysisPassed: body.staticAnalysisPassed !== false,
-          benchmarkRan: body.benchmarkRan !== false,
-          issuerPolicyStatus: body.issuerPolicyStatus || 'allowed'
-        });
+        const asset = makeCandidateAsset(buildDepositInput(state, body));
 
         state.assets.unshift(asset);
         state.ledger.accounts[`supplier:${asset.assetId}:pending_claims`] = '0';

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENGI Demo — Spec V9</title>
+    <title>ENGI Demo — Spec V10</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -11,7 +11,7 @@
       <header class="hero">
         <p class="eyebrow">ENGI deterministic local prototype</p>
         <h1>Make ENGI branch from GitHub benchmark evidence.</h1>
-        <p class="lede">This prototype now follows the Spec V9 closure pass: recall channels and signal hand-offs remain explicit, prompt templates now carry completeness contracts, static local measurement stages emit receipts, bounded public proof is materialized as its own artifact, and branch/API projections enforce disclosure policy instead of exposing raw run internals by convention.</p>
+        <p class="lede">This prototype now follows the Spec V10 intake/auth pass on top of V9 closure: candidate intake starts from authenticated repo-bound artifact inventory, all artifact kinds sit on the same surface, address + signing + GitHub App auth payloads are carried explicitly, and the local demo still keeps the live GitHub boundary honest instead of faking installation-token behavior.</p>
         <div class="hero-actions">
           <label>
             Scenario
@@ -37,21 +37,45 @@
         <section class="panel">
           <div class="panel-head">
             <h2>2. Candidate assets</h2>
-            <span class="badge">deposited content</span>
+            <span class="badge">authenticated repo intake</span>
           </div>
           <form id="depositForm" class="stack compact">
-            <input name="title" placeholder="Asset title" required />
-            <input name="author" placeholder="Author" required />
-            <input name="artifactKind" placeholder="Artifact kind (runbook, patch, config...)" value="mixed" />
-            <input name="artifactType" placeholder="Artifact type (e.g. runbook/operator-playbook)" />
-            <input name="sourceRepo" placeholder="GitHub repo boundary (owner/repo)" value="frontier/demo-auth" />
-            <input name="sourceCommit" placeholder="Commit SHA / ref (optional)" />
-            <input name="workflowRunId" placeholder="GitHub workflow run ID (optional)" />
-            <input name="signerAddress" placeholder="Signer / issuer DID (optional)" />
-            <input name="tags" placeholder="Tags (comma-separated)" />
-            <textarea name="visualPreview" rows="3" placeholder="Visual upload preview / human-readable summary (optional)"></textarea>
-            <textarea name="content" rows="7" placeholder="Raw/private source material" required></textarea>
-            <button type="submit">Deposit candidate asset</button>
+            <div class="section-card">
+              <div class="section-head">
+                <h4>Authenticated Repo Session</h4>
+                <span class="badge">Modeled GitHub App</span>
+              </div>
+              <div class="stack">
+                <select id="authSessionPicker" name="authSessionId"></select>
+                <div id="inventorySelectionSummary" class="callout"></div>
+              </div>
+            </div>
+            <div class="section-card">
+              <div class="section-head">
+                <h4>Repo Artifact Inventory</h4>
+                <span class="badge">Selection-first</span>
+              </div>
+              <div class="mini-grid two-up">
+                <input id="inventorySearchInput" placeholder="Filter by title, path, workflow run, or tag" />
+                <select id="inventoryKindFilter" name="inventoryKindFilter">
+                  <option value="all">All artifact kinds</option>
+                </select>
+              </div>
+              <div id="repoInventoryList" class="stack"></div>
+            </div>
+            <input name="title" placeholder="Asset title override (optional; inferred from selection if omitted)" />
+            <input name="author" placeholder="Author override (optional; inferred from session if omitted)" />
+            <input name="artifactKind" placeholder="Artifact kind override (optional; inferred from selection if omitted)" />
+            <input name="artifactType" placeholder="Artifact type override (optional; inferred from selection if omitted)" />
+            <input name="sourceRepo" placeholder="GitHub repo boundary override (optional; inferred from session if omitted)" />
+            <input name="sourceCommit" placeholder="Commit SHA / ref override (optional)" />
+            <input name="workflowRunId" placeholder="GitHub workflow run ID override (optional)" />
+            <input name="signerAddress" placeholder="Signer / issuer DID override (optional)" />
+            <input name="tags" placeholder="Additional tags (comma-separated)" />
+            <textarea name="visualPreview" rows="3" placeholder="Visual preview override / human-readable summary (optional)"></textarea>
+            <textarea name="operatorNote" rows="3" placeholder="Operator note appended to selected repo artifacts (optional)"></textarea>
+            <textarea name="content" rows="5" placeholder="Raw fallback / supplemental private source material (optional if selecting repo artifacts)"></textarea>
+            <button type="submit">Create candidate asset from intake selection</button>
           </form>
           <div id="assets" class="stack"></div>
         </section>

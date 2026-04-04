@@ -89,7 +89,7 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-test('GET /api/state returns seeded Spec V9 public state', async (t) => {
+test('GET /api/state returns seeded Spec V10 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -98,8 +98,10 @@ test('GET /api/state returns seeded Spec V9 public state', async (t) => {
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
     assert.equal(response.json.needScenarios[1].scenarioFamily, 'proof-heavy-rust-validator');
     assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-    assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic V9 prototype');
+    assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic V10 prototype');
     assert.equal(response.json.projectionPrincipal, 'public');
+    assert.ok(response.json.githubAppSessions.length >= 1);
+    assert.ok(response.json.repoArtifactInventory.length >= 1);
     assert.ok(response.json.profileCompositions.profiles.length === 2);
     assert.equal(response.json.latestRun, null);
   });
@@ -110,17 +112,18 @@ test('GET / returns the app shell', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /Make ENGI branch from GitHub benchmark evidence/);
-    assert.match(response.text, /Spec V9/);
-    assert.match(response.text, /bounded public proof/i);
+    assert.match(response.text, /Spec V10/);
+    assert.match(response.text, /authenticated repo-bound artifact inventory/i);
+    assert.match(response.text, /GitHub App auth payloads/i);
   });
 });
 
-test('GET /api/state exposes V9 profile labels and task seed before any run', async (t) => {
+test('GET /api/state exposes V10 profile labels and task seed before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.needScenarios[0].taskSeed, 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.');
-    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — local deterministic V9 prototype');
+    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — local deterministic V10 prototype');
     assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — GitHub/App and external production boundary');
   });
 });
@@ -154,7 +157,7 @@ test('POST /api/deposits validates required fields', async (t) => {
       body: JSON.stringify({ title: '', author: '', content: '' })
     });
     assert.equal(response.statusCode, 400);
-    assert.match(response.json.error, /Title is required/);
+    assert.match(response.json.error, /Raw content or repo artifact selection is required/);
   });
 });
 
@@ -186,6 +189,34 @@ test('POST /api/deposits adds a candidate asset and ledger account', async (t) =
   });
 });
 
+test('POST /api/deposits accepts authenticated repo artifact selection without raw-only content', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const state = await invoke(app, { method: 'GET', url: '/api/state' });
+    const authSession = state.json.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
+    const inventoryEntryIds = state.json.repoArtifactInventory
+      .filter((entry) => entry.repo === 'frontier/demo-auth')
+      .slice(0, 2)
+      .map((entry) => entry.inventoryEntryId);
+
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        authSessionId: authSession.authSessionId,
+        inventoryEntryIds,
+        operatorNote: 'Bundle these repo artifacts for auth rollback repair.'
+      })
+    });
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.asset.artifactSelectionSurface.authSessionId, authSession.authSessionId);
+    assert.deepEqual(response.json.asset.artifactSelectionSurface.selectedInventoryEntryIds, inventoryEntryIds);
+    assert.equal(response.json.asset.githubAppAuthSurface.installationId, authSession.installationId);
+    assert.equal(response.json.asset.addressingSurface.repo, 'frontier/demo-auth');
+  });
+});
+
 test('POST /api/deposits can create a revoked issuer candidate without crashing public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
@@ -207,7 +238,7 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
 });
 
 
-test('POST /api/deposits accepts V8 artifact precision and boundary fields', async (t) => {
+test('POST /api/deposits accepts V10 artifact precision and boundary fields', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -231,6 +262,7 @@ test('POST /api/deposits accepts V8 artifact precision and boundary fields', asy
     assert.equal(response.json.asset.artifactType, 'code/patch');
     assert.equal(response.json.asset.githubBoundary.sourceCommit, 'abc123');
     assert.equal(response.json.asset.identitySurface.signerAddress, 'did:key:tester');
+    assert.equal(response.json.asset.signingSurface.signerAddress, 'did:key:tester');
   });
 });
 
@@ -246,7 +278,7 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.ok, true);
     assert.equal(response.json.latestRun.needLifecycle, 'settled');
-    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — local deterministic V9 prototype');
+    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — local deterministic V10 prototype');
     assert.equal(response.json.latestRun.projectionPrincipal, 'public');
     assert.ok(response.json.latestRun.need.needId);
     assert.ok(response.json.latestRun.assetPack.assetPackId);

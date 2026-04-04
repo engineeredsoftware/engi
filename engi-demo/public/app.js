@@ -7,10 +7,19 @@ const settlementEl = document.getElementById('settlement');
 const ledgerEl = document.getElementById('ledger');
 const statusEl = document.getElementById('status');
 const scenarioPickerEl = document.getElementById('scenarioPicker');
+const authSessionPickerEl = document.getElementById('authSessionPicker');
+const inventorySearchInputEl = document.getElementById('inventorySearchInput');
+const inventoryKindFilterEl = document.getElementById('inventoryKindFilter');
+const repoInventoryListEl = document.getElementById('repoInventoryList');
+const inventorySelectionSummaryEl = document.getElementById('inventorySelectionSummary');
 
 const DEFAULT_SURFACE_MODE = 'visual';
 let surfaceCounter = 0;
 let selectedScenarioId = '';
+let selectedAuthSessionId = '';
+let selectedInventoryEntryIds = new Set();
+let inventorySearchTerm = '';
+let selectedInventoryKind = 'all';
 let lastLoadedState = null;
 
 function escapeHtml(value) {
@@ -48,6 +57,22 @@ function formatCount(count, singular, plural = `${singular}s`) {
   return `${count} ${count === 1 ? singular : plural}`;
 }
 
+function countValues(items = []) {
+  return items.reduce((acc, item) => {
+    const key = String(item ?? '').trim();
+    if (!key) return acc;
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function formatCountMap(counts = {}, fallback = 'None') {
+  const entries = Object.entries(counts);
+  return entries.length
+    ? entries.map(([key, value]) => `${escapeHtml(key)} (${escapeHtml(value)})`).join(' • ')
+    : `<span class="meta">${fallback}</span>`;
+}
+
 function api(path, options = {}) {
   return fetch(path, {
     headers: { 'Content-Type': 'application/json' },
@@ -72,6 +97,141 @@ function syncScenarioPicker(state) {
     ? desiredScenarioId
     : scenarios[0].scenarioId;
   selectedScenarioId = scenarioPickerEl.value;
+}
+
+function currentScenario(state) {
+  const scenarios = state.needScenarios || [];
+  return scenarios.find((scenario) => scenario.scenarioId === (selectedScenarioId || scenarioPickerEl?.value)) || scenarios[0] || null;
+}
+
+function syncAuthSessionPicker(state) {
+  const sessions = state.githubAppSessions || [];
+  if (!authSessionPickerEl || !sessions.length) return;
+  const scenario = currentScenario(state);
+  const scenarioSession = sessions.find((session) => session.repo === scenario?.repo);
+  const desiredAuthSessionId = state.latestRun?.buyer?.installationId
+    ? sessions.find((session) => session.installationId === state.latestRun.buyer.installationId && session.repo === state.latestRun.buyer.repo)?.authSessionId
+    : selectedAuthSessionId || scenarioSession?.authSessionId || sessions[0].authSessionId;
+  if (authSessionPickerEl.options.length !== sessions.length) {
+    authSessionPickerEl.innerHTML = sessions.map((session) => `
+      <option value="${escapeHtml(session.authSessionId)}">${escapeHtml(`${session.repo} · ${session.installationId}`)}</option>
+    `).join('');
+  }
+  authSessionPickerEl.value = sessions.some((session) => session.authSessionId === desiredAuthSessionId)
+    ? desiredAuthSessionId
+    : sessions[0].authSessionId;
+  selectedAuthSessionId = authSessionPickerEl.value;
+  const activeSession = sessions.find((session) => session.authSessionId === selectedAuthSessionId);
+  const validEntryIds = new Set((state.repoArtifactInventory || [])
+    .filter((entry) => entry.repo === activeSession?.repo)
+    .map((entry) => entry.inventoryEntryId));
+  selectedInventoryEntryIds = new Set([...selectedInventoryEntryIds].filter((entryId) => validEntryIds.has(entryId)));
+}
+
+function activeAuthSession(state) {
+  const sessions = state.githubAppSessions || [];
+  return sessions.find((session) => session.authSessionId === selectedAuthSessionId) || sessions[0] || null;
+}
+
+function activeInventoryEntries(state) {
+  const session = activeAuthSession(state);
+  const entries = state.repoArtifactInventory || [];
+  return session ? entries.filter((entry) => entry.repo === session.repo) : entries;
+}
+
+function syncInventoryKindFilter(state) {
+  if (!inventoryKindFilterEl) return;
+  const kinds = ['all', ...new Set(activeInventoryEntries(state).map((entry) => entry.artifactKind))];
+  if (inventoryKindFilterEl.options.length !== kinds.length) {
+    inventoryKindFilterEl.innerHTML = kinds.map((kind) => `<option value="${escapeHtml(kind)}">${escapeHtml(kind === 'all' ? 'All artifact kinds' : labelize(kind))}</option>`).join('');
+  }
+  inventoryKindFilterEl.value = kinds.includes(selectedInventoryKind) ? selectedInventoryKind : 'all';
+  selectedInventoryKind = inventoryKindFilterEl.value;
+}
+
+function filteredInventoryEntries(state) {
+  const search = inventorySearchTerm.trim().toLowerCase();
+  return activeInventoryEntries(state).filter((entry) => {
+    if (selectedInventoryKind !== 'all' && entry.artifactKind !== selectedInventoryKind) return false;
+    if (!search) return true;
+    const haystack = [
+      entry.title,
+      entry.summary,
+      entry.sourcePath,
+      ...(entry.sourcePaths || []),
+      entry.workflowRunId,
+      entry.workflowPath,
+      entry.artifactName,
+      ...(entry.tags || [])
+    ].join(' ').toLowerCase();
+    return haystack.includes(search);
+  });
+}
+
+function renderInventorySelectionSummary(state) {
+  if (!inventorySelectionSummaryEl) return;
+  const session = activeAuthSession(state);
+  const selectedEntries = activeInventoryEntries(state).filter((entry) => selectedInventoryEntryIds.has(entry.inventoryEntryId));
+  const artifactKindCounts = countValues(selectedEntries.map((entry) => entry.artifactKind));
+  const originKindCounts = countValues(selectedEntries.map((entry) => entry.originKind));
+  inventorySelectionSummaryEl.innerHTML = session ? `
+    <strong>${escapeHtml(session.repo)}</strong>
+    <span class="meta">GitHub App ${escapeHtml(session.appSlug)} · installation ${escapeHtml(session.installationId)} · account ${escapeHtml(session.installationAccountLogin)}</span>
+    <div class="kv-grid">
+      ${kvRow('Auth session', session.authSessionId)}
+      ${kvRow('Repository ID', session.repositoryId)}
+      ${kvRow('Account ID', session.installationAccountId || '—')}
+      ${kvRow('Permissions root', session.permissionsRoot || '—')}
+      ${kvRow('Token boundary', session.tokenBoundary?.mintingState || '—')}
+      ${kvRow('Writable scopes', formatList(session.tokenBoundary?.writableScopes || []), { html: true })}
+    </div>
+    <span class="meta">Selected ${selectedEntries.length} inventory ${selectedEntries.length === 1 ? 'artifact' : 'artifacts'}.</span>
+    <span class="meta">Artifact kinds: ${formatCountMap(artifactKindCounts)}</span>
+    <span class="meta">Origin kinds: ${formatCountMap(originKindCounts)}</span>
+  ` : '<span class="meta">No authenticated repo session available.</span>';
+}
+
+function renderRepoInventory(state) {
+  if (!repoInventoryListEl) return;
+  const entries = filteredInventoryEntries(state);
+  if (!entries.length) {
+    repoInventoryListEl.innerHTML = '<div class="card"><p class="meta">No repo artifacts match the current session/filter.</p></div>';
+    renderInventorySelectionSummary(state);
+    return;
+  }
+  repoInventoryListEl.innerHTML = entries.map((entry) => {
+    const selected = selectedInventoryEntryIds.has(entry.inventoryEntryId);
+    return `
+      <button type="button" class="inventory-card ${selected ? 'selected' : ''}" data-inventory-entry-id="${escapeHtml(entry.inventoryEntryId)}">
+        <div class="row wrap-gap">
+          <div>
+            <strong>${escapeHtml(entry.title)}</strong>
+            <p class="meta">${escapeHtml(entry.originKind)} · ${escapeHtml(entry.artifactKind)} · ${escapeHtml(entry.artifactType)}</p>
+          </div>
+          <div class="badge-row">
+            <span class="badge ${selected ? 'private' : ''}">${selected ? 'Selected' : 'Select'}</span>
+            <span class="badge">${escapeHtml(entry.workflowRunId || entry.sourcePath || entry.artifactName || 'repo artifact')}</span>
+          </div>
+        </div>
+        <p>${escapeHtml(entry.summary)}</p>
+        <div class="badge-row">
+          ${chipList(entry.tags || [])}
+        </div>
+        <div class="kv-grid">
+          ${kvRow('Selection label', entry.provenance?.selectionLabel || '—')}
+          ${kvRow('Address', formatList([entry.sourcePath, ...(entry.sourcePaths || []).filter((path) => path !== entry.sourcePath), entry.artifactName, entry.workflowRunId].filter(Boolean)), { html: true })}
+          ${kvRow('Addressing scope', entry.addressing?.addressingScope || '—')}
+          ${kvRow('Content root', entry.contentRoot || '—')}
+          ${kvRow('Stacks', formatList(entry.declaredStacks || []), { html: true })}
+          ${kvRow('Constraints', formatList(entry.declaredConstraints || []), { html: true })}
+          ${kvRow('Signer', entry.signerAddress || '—')}
+          ${kvRow('Auth session', entry.authSessionId || '—')}
+          ${kvRow('Installation ID', entry.installationId || '—')}
+        </div>
+      </button>
+    `;
+  }).join('');
+  renderInventorySelectionSummary(state);
 }
 
 function setStatus(text) {
@@ -317,6 +477,179 @@ function renderExternalBoundaryManifestVisual(manifest) {
   `;
 }
 
+function renderIdentityBindingsVisual(bindings = []) {
+  const classCounts = countValues(bindings.map((binding) => binding.principalClass));
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Bindings', bindings.length)}
+        ${metricTile('Issuer principals', classCounts['issuer-principal'] || 0)}
+        ${metricTile('GitHub sessions', classCounts['github-app-session-principal'] || 0)}
+        ${metricTile('Installations', classCounts['github-app-installation-principal'] || 0)}
+      </div>
+      <div class="object-list">
+        ${bindings.map((binding) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(binding.principalId || 'principal')}</strong>
+                <p class="meta">${escapeHtml(binding.principalClass || 'unknown')}</p>
+              </div>
+              <div class="badge-row">${statusBadge(binding.authSource)} <span class="badge">${escapeHtml(binding.bindingRoot || '—')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Bound refs', formatList(binding.boundRefs || []), { html: true })}
+              ${kvRow('Selection refs', formatList(binding.selectedInventoryEntryIds || []), { html: true })}
+              ${kvRow('Surface roots', formatList(Object.entries(binding.surfaceRoots || {}).filter(([, value]) => value).map(([key, value]) => `${key}:${value}`)), { html: true })}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderGitHubBoundaryVisual(surface) {
+  const selectedAuthSessions = surface?.selectedAuthSessions || [];
+  const selectedInventoryProofs = surface?.selectedInventoryProofs || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Selected auth sessions', selectedAuthSessions.length)}
+        ${metricTile('Selected assets', selectedInventoryProofs.length)}
+        ${metricTile('Buyer installation', surface?.modeledBindings?.buyerInstallationId || '—')}
+        ${metricTile('Required auth fields', (surface?.authPayloadShape?.requiredFields || []).length)}
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Buyer binding</h4><span class="badge">Repo boundary</span></div>
+          <div class="kv-grid">
+            ${kvRow('Repo', surface?.modeledBindings?.repo || '—')}
+            ${kvRow('Repository ID', surface?.modeledBindings?.repositoryId || '—')}
+            ${kvRow('Benchmark run', surface?.modeledBindings?.benchmarkRunId || '—')}
+            ${kvRow('Workflow path', surface?.modeledBindings?.benchmarkWorkflowPath || '—')}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Auth payload shape</h4><span class="badge">Modeled only</span></div>
+          <div class="kv-grid">
+            ${kvRow('Mechanism', surface?.authPayloadShape?.authMechanism || '—')}
+            ${kvRow('Selection', surface?.authPayloadShape?.repositorySelection || '—')}
+            ${kvRow('Required fields', formatList(surface?.authPayloadShape?.requiredFields || []), { html: true })}
+          </div>
+        </div>
+      </div>
+      <div class="object-list">
+        ${selectedAuthSessions.map((session) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(session.authSessionId || 'session')}</strong>
+                <p class="meta">${escapeHtml(session.repo || '')}</p>
+              </div>
+              <div class="badge-row"><span class="badge">${escapeHtml(session.installationId || '—')}</span><span class="badge">${escapeHtml(session.tokenBoundary?.mintingState || '—')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Account', session.installationAccountLogin || '—')}
+              ${kvRow('Repository ID', session.repositoryId || '—')}
+              ${kvRow('Permissions root', session.permissionsRoot || '—')}
+              ${kvRow('Auth payload hash', session.authPayloadHash || '—')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="object-list">
+        ${selectedInventoryProofs.map((proof) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(proof.assetId || 'asset')}</strong>
+                <p class="meta">${escapeHtml(proof.selectionLabel || '')}</p>
+              </div>
+              <div class="badge-row"><span class="badge">${escapeHtml(proof.selectedInventoryRoot || '—')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Inventory refs', formatList((proof.selectedInventoryEntries || []).map((entry) => `${entry.inventoryEntryId}:${entry.primaryAddressRef}`)), { html: true })}
+              ${kvRow('Addressing root', proof.addressingRoot || '—')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderArtifactUploadManifestVisual(manifest) {
+  const uploads = manifest?.uploads || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Uploads', manifest?.uploadCount ?? uploads.length)}
+        ${metricTile('Inventory-backed', manifest?.inventoryBackedUploadCount ?? uploads.filter((upload) => (upload.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0).length)}
+        ${metricTile('Artifact kinds', Object.keys(manifest?.artifactKindCounts || {}).length)}
+        ${metricTile('Selection roots', uploads.filter((upload) => upload.selectionRoot).length)}
+      </div>
+      <div class="callout">
+        <strong>Artifact-kind coverage</strong>
+        <span>${formatCountMap(manifest?.artifactKindCounts || {})}</span>
+      </div>
+      <div class="object-list">
+        ${uploads.map((upload) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(upload.title || upload.assetId)}</strong>
+                <p class="meta">${escapeHtml(upload.artifactKind || '')} · ${escapeHtml(upload.artifactType || '')}</p>
+              </div>
+              <div class="badge-row"><span class="badge">${escapeHtml(upload.selectionRoot || 'raw-fallback')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Inventory refs', formatList(upload.artifactSelectionSurface?.selectedInventoryEntryIds || []), { html: true })}
+              ${kvRow('Addressing root', upload.addressingRoot || '—')}
+              ${kvRow('Auth payload hash', upload.authPayloadHash || '—')}
+              ${kvRow('Signing payload hash', upload.signingSurface?.payloadHash || '—')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderSelectedSourceMaterialManifestVisual(manifest) {
+  const selectedSourceMaterial = manifest?.selectedSourceMaterial || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Selected assets', selectedSourceMaterial.length)}
+        ${metricTile('Branch mode', manifest?.branchMode || '—')}
+        ${metricTile('Inventory-backed', selectedSourceMaterial.filter((entry) => (entry.selectedInventoryEntryIds || []).length > 0).length)}
+        ${metricTile('Units', selectedSourceMaterial.reduce((sum, entry) => sum + (entry.selectedUnits || []).length, 0))}
+      </div>
+      <div class="object-list">
+        ${selectedSourceMaterial.map((entry) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(entry.title || entry.assetId)}</strong>
+                <p class="meta">${escapeHtml(entry.useTier || '')} · ${escapeHtml(entry.artifactKind || '')}</p>
+              </div>
+              <div class="badge-row"><span class="badge">${escapeHtml(entry.selectionRoot || '—')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Selection label', entry.selectionLabel || '—')}
+              ${kvRow('Inventory refs', formatList(entry.selectedInventoryEntryIds || []), { html: true })}
+              ${kvRow('Addressing root', entry.addressingRoot || '—')}
+              ${kvRow('Auth payload hash', entry.authPayloadHash || '—')}
+              ${kvRow('Signing payload hash', entry.signingPayloadHash || '—')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderProfileCompositionVisual(profileState) {
   const profiles = profileState?.profiles || profileState?.profileCompositions?.profiles || [];
   const guidance = profileState?.demoOperatorGuidance || {};
@@ -527,21 +860,58 @@ function renderAssetVisual(asset) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Identity / signer</h4><span class="badge">Separate from proofs + settlement</span></div>
+          <div class="section-head"><h4>Artifact Selection</h4><span class="badge">V10 intake surface</span></div>
           <div class="kv-grid">
-            ${kvRow('Signer', asset.identitySurface?.signerAddress || '—')}
-            ${kvRow('Signer class', asset.identitySurface?.signerClass || '—')}
-            ${kvRow('Profile A boundary', asset.identitySurface?.profileABoundary || '—')}
-            ${kvRow('Profile B boundary', asset.identitySurface?.profileBBoundary || '—')}
+            ${kvRow('Intake mode', asset.artifactSelectionSurface?.intakeMode || '—')}
+            ${kvRow('Selection label', asset.artifactSelectionSurface?.selectionLabel || '—')}
+            ${kvRow('Auth session', asset.artifactSelectionSurface?.authSessionId || '—')}
+            ${kvRow('Inventory refs', formatList(asset.artifactSelectionSurface?.selectedInventoryEntryIds || []), { html: true })}
+            ${kvRow('Inventory root', asset.artifactSelectionSurface?.selectedInventoryRoot || '—')}
+            ${kvRow('Artifact kind counts', formatCountMap(asset.artifactSelectionSurface?.selectedArtifactKindCounts || {}), { html: true })}
+            ${kvRow('Origin kinds', formatList(asset.artifactSelectionSurface?.selectedOriginKinds || []), { html: true })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>GitHub boundary</h4><span class="badge">Separate from local modeling</span></div>
+          <div class="section-head"><h4>Addressing</h4><span class="badge">Explicit repo address</span></div>
           <div class="kv-grid">
-            ${kvRow('Repo', asset.githubBoundary?.sourceRepo || '—')}
-            ${kvRow('Workflow run', asset.githubBoundary?.workflowRunId || '—')}
-            ${kvRow('Profile A boundary', asset.githubBoundary?.profileABoundary || '—')}
-            ${kvRow('Profile B boundary', asset.githubBoundary?.profileBBoundary || '—')}
+            ${kvRow('Scope', asset.addressingSurface?.addressingScope || '—')}
+            ${kvRow('Repo', asset.addressingSurface?.repo || asset.githubBoundary?.sourceRepo || '—')}
+            ${kvRow('Repository ID', asset.addressingSurface?.repositoryId || '—')}
+            ${kvRow('Primary address', asset.addressingSurface?.primaryAddressRef || '—')}
+            ${kvRow('Ref / commit', [asset.addressingSurface?.ref, asset.addressingSurface?.commit].filter(Boolean).join(' @ ') || '—')}
+            ${kvRow('Source paths', formatList(asset.addressingSurface?.sourcePaths || []), { html: true })}
+            ${kvRow('Addressing root', asset.addressingSurface?.addressingRoot || '—')}
+          </div>
+        </div>
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Signing</h4><span class="badge">Address separate from signing</span></div>
+          <div class="kv-grid">
+            ${kvRow('Signer address', asset.signingSurface?.signerAddress || asset.identitySurface?.signerAddress || '—')}
+            ${kvRow('Algorithm', asset.signingSurface?.signingAlgorithm || '—')}
+            ${kvRow('Key source', asset.signingSurface?.keySource || '—')}
+            ${kvRow('Payload hash', asset.signingSurface?.payloadHash || '—')}
+            ${kvRow('Signed addressing root', asset.signingSurface?.signedAddressingRoot || '—')}
+            ${kvRow('Signed selection root', asset.signingSurface?.signedSelectionRoot || '—')}
+            ${kvRow('Attestation hash', asset.signingSurface?.attestationHash || '—')}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>GitHub App Auth</h4><span class="badge">Installation-scoped</span></div>
+          <div class="kv-grid">
+            ${kvRow('Mechanism', asset.githubAppAuthSurface?.authMechanism || '—')}
+            ${kvRow('Auth session', asset.githubAppAuthSurface?.authSessionId || '—')}
+            ${kvRow('Installation ID', asset.githubAppAuthSurface?.installationId || '—')}
+            ${kvRow('Account', asset.githubAppAuthSurface?.installationAccountLogin || '—')}
+            ${kvRow('Account ID', asset.githubAppAuthSurface?.installationAccountId || '—')}
+            ${kvRow('Repository ID', asset.githubAppAuthSurface?.repositoryId || '—')}
+            ${kvRow('Permissions root', asset.githubAppAuthSurface?.permissionsRoot || '—')}
+            ${kvRow('Auth payload hash', asset.githubAppAuthSurface?.authPayloadHash || '—')}
+            ${kvRow('Token boundary', asset.githubAppAuthSurface?.tokenBoundary?.mintingState || '—')}
+            ${kvRow('Permissions', formatList(Object.entries(asset.githubAppAuthSurface?.permissions || {}).map(([key, value]) => `${key}:${value}`)), { html: true })}
+            ${kvRow('Profile A boundary', asset.githubAppAuthSurface?.profileABoundary || '—')}
+            ${kvRow('Profile B boundary', asset.githubAppAuthSurface?.profileBBoundary || '—')}
           </div>
         </div>
       </div>
@@ -1739,6 +2109,9 @@ async function refresh() {
   const state = await api('/api/state?principal=buyer');
   lastLoadedState = state;
   syncScenarioPicker(state);
+  syncAuthSessionPicker(state);
+  syncInventoryKindFilter(state);
+  renderRepoInventory(state);
   renderSummary(state);
   renderScenario(state);
   renderAssets(state);
@@ -1780,18 +2153,53 @@ document.getElementById('makeBranchButton').addEventListener('click', async () =
 
 scenarioPickerEl?.addEventListener('change', () => {
   selectedScenarioId = scenarioPickerEl.value;
-  if (lastLoadedState) renderScenario(lastLoadedState);
+  if (lastLoadedState) {
+    syncAuthSessionPicker(lastLoadedState);
+    syncInventoryKindFilter(lastLoadedState);
+    renderRepoInventory(lastLoadedState);
+    renderScenario(lastLoadedState);
+  }
   setStatus(`Selected scenario ${selectedScenarioId}.`);
+});
+
+authSessionPickerEl?.addEventListener('change', () => {
+  selectedAuthSessionId = authSessionPickerEl.value;
+  if (lastLoadedState) {
+    syncInventoryKindFilter(lastLoadedState);
+    renderRepoInventory(lastLoadedState);
+  }
+  setStatus(`Bound intake to authenticated repo session ${selectedAuthSessionId}.`);
+});
+
+inventoryKindFilterEl?.addEventListener('change', () => {
+  selectedInventoryKind = inventoryKindFilterEl.value;
+  if (lastLoadedState) renderRepoInventory(lastLoadedState);
+});
+
+inventorySearchInputEl?.addEventListener('input', () => {
+  inventorySearchTerm = inventorySearchInputEl.value || '';
+  if (lastLoadedState) renderRepoInventory(lastLoadedState);
 });
 
 document.getElementById('resetButton').addEventListener('click', async () => {
   try {
+    selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to seeded Spec V9 scenario.');
+    setStatus('Demo reset to seeded Spec V10 scenario.');
   } catch (error) {
     setStatus(error.message);
   }
+});
+
+document.addEventListener('click', (event) => {
+  const inventoryCard = event.target.closest('[data-inventory-entry-id]');
+  if (!inventoryCard) return;
+  const entryId = inventoryCard.dataset.inventoryEntryId;
+  if (!entryId) return;
+  if (selectedInventoryEntryIds.has(entryId)) selectedInventoryEntryIds.delete(entryId);
+  else selectedInventoryEntryIds.add(entryId);
+  if (lastLoadedState) renderRepoInventory(lastLoadedState);
 });
 
 document.getElementById('depositForm').addEventListener('submit', async (event) => {
@@ -1805,25 +2213,31 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
         author: form.get('author'),
         artifactKind: form.get('artifactKind'),
         artifactType: form.get('artifactType'),
+        authSessionId: authSessionPickerEl?.value || form.get('authSessionId'),
+        inventoryEntryIds: [...selectedInventoryEntryIds],
         sourceRepo: form.get('sourceRepo'),
         sourceCommit: form.get('sourceCommit'),
         workflowRunId: form.get('workflowRunId'),
         signerAddress: form.get('signerAddress'),
         visualPreview: form.get('visualPreview'),
+        operatorNote: form.get('operatorNote'),
         tags: String(form.get('tags') || '').split(',').map((entry) => entry.trim()).filter(Boolean),
         content: form.get('content')
       })
     });
+    selectedInventoryEntryIds = new Set();
+    inventorySearchTerm = '';
+    selectedInventoryKind = 'all';
     event.currentTarget.reset();
     await refresh();
-    setStatus('Candidate asset deposited. Re-run “Make ENGI branch” to fold it into ranking and verification.');
+    setStatus('Candidate asset deposited from the V10 intake surface. Re-run “Make ENGI branch” to fold it into ranking and verification.');
   } catch (error) {
     setStatus(error.message);
   }
 });
 
 refresh().then(() => {
-  setStatus('Ready. Run “Make ENGI branch” to execute the full Spec V9 closure flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Select repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the full Spec V10 intake/auth flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

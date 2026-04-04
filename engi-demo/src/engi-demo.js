@@ -1,9 +1,9 @@
 import crypto from 'node:crypto';
 
-export const SPEC_VERSION = 'ENGI Spec V9 deterministic local prototype';
+export const SPEC_VERSION = 'ENGI Spec V10 deterministic local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
-export const PROFILE_A = 'Profile A — local deterministic V9 prototype';
+export const PROFILE_A = 'Profile A — local deterministic V10 prototype';
 export const PROFILE_B = 'Profile B — GitHub/App and external production boundary';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
 const MAX_BPS = 10000;
@@ -11,7 +11,7 @@ const MAX_BPS_BIGINT = 10000n;
 const SOURCE_TO_SHARES_SCALE = 1000000n;
 const VECTOR_DIMENSIONS = 16;
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v4';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v9-demo/2026-04-03';
+const DEFAULT_POLICY_REF = 'policy://engi/spec-v10-demo/2026-04-03';
 const PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
@@ -938,12 +938,926 @@ function artifactTypeForKind(kind) {
   return table[kind] || `${kind || 'unknown'}/unspecified`;
 }
 
-function buildArtifactUploadSurface(input, content, extracted, artifactKind, artifactType) {
+function countValues(values = []) {
+  const counts = {};
+  for (const value of values) {
+    const key = String(value || '').trim();
+    if (!key) continue;
+    counts[key] = (counts[key] || 0) + 1;
+  }
+  return counts;
+}
+
+function buildRepoIdentity(repo) {
+  const [owner = 'unknown', name = 'repo'] = String(repo || '').split('/');
+  return {
+    owner,
+    name,
+    repositoryId: `gh_repo_${sha256(repo || 'unknown').slice(0, 10)}`,
+    repositoryNodeId: `R_${sha256(`node:${repo || 'unknown'}`).slice(0, 16)}`
+  };
+}
+
+function buildAccountIdentity(login) {
+  const normalized = String(login || 'unknown-account').trim() || 'unknown-account';
+  return {
+    installationAccountId: `gh_acct_${sha256(`acct:${normalized}`).slice(0, 10)}`,
+    installationAccountNodeId: `A_${sha256(`acct-node:${normalized}`).slice(0, 16)}`
+  };
+}
+
+function inventoryAddressRef(entry = {}) {
+  return entry.sourcePath
+    || entry.sourcePaths?.[0]
+    || entry.artifactName
+    || entry.workflowRunId
+    || entry.checkSuiteId
+    || entry.sourceCommit
+    || entry.title
+    || 'repo-artifact';
+}
+
+function buildInventoryAddressingSurface({
+  repo,
+  ref = null,
+  sourceCommit = null,
+  sourcePath = null,
+  sourcePaths = [],
+  workflowRunId = null,
+  workflowPath = null,
+  workflowJobName = null,
+  checkSuiteId = null,
+  artifactName = null,
+  originKind = null,
+  title = ''
+} = {}) {
+  const repoIdentity = buildRepoIdentity(repo);
+  const normalizedSourcePaths = summarizeStrings([sourcePath, ...(sourcePaths || [])]);
+  let addressingScope = 'repo';
+  if (workflowRunId && (originKind === 'workflow-artifact' || artifactName)) addressingScope = 'workflow-artifact';
+  else if (workflowRunId) addressingScope = 'workflow-run';
+  else if (normalizedSourcePaths.length > 1) addressingScope = 'multi-artifact-selection';
+  else if (normalizedSourcePaths.length === 1) addressingScope = 'repo-file';
+  else if (sourceCommit) addressingScope = 'repo-commit';
+
+  const surface = {
+    addressingScope,
+    repo,
+    owner: repoIdentity.owner,
+    repoName: repoIdentity.name,
+    repositoryId: repoIdentity.repositoryId,
+    repositoryNodeId: repoIdentity.repositoryNodeId,
+    ref: ref || null,
+    commit: sourceCommit || null,
+    workflowRunId: workflowRunId || null,
+    workflowPath: workflowPath || null,
+    workflowJobName: workflowJobName || null,
+    checkSuiteId: checkSuiteId || null,
+    artifactName: artifactName || null,
+    sourcePaths: normalizedSourcePaths,
+    primaryAddressRef: normalizedSourcePaths[0] || artifactName || workflowRunId || checkSuiteId || sourceCommit || title || repo
+  };
+  return {
+    ...surface,
+    addressingRoot: stableHashObject(surface)
+  };
+}
+
+function inventorySelectionSnapshot(entry = {}) {
+  const addressing = entry.addressing || buildInventoryAddressingSurface(entry);
+  return {
+    inventoryEntryId: entry.inventoryEntryId,
+    repo: entry.repo,
+    repositoryId: entry.repositoryId || addressing.repositoryId,
+    repositoryNodeId: entry.repositoryNodeId || addressing.repositoryNodeId,
+    artifactKind: entry.artifactKind,
+    artifactType: entry.artifactType,
+    originKind: entry.originKind,
+    title: entry.title,
+    authSessionId: entry.authSessionId || null,
+    installationId: entry.installationId || null,
+    contentRoot: entry.contentRoot || null,
+    addressingScope: addressing.addressingScope,
+    primaryAddressRef: addressing.primaryAddressRef,
+    addressingRoot: addressing.addressingRoot
+  };
+}
+
+function buildGitHubAppSession({
+  repo,
+  installationId,
+  defaultRef,
+  appId = 'app_engi_demo',
+  appSlug = 'engi-demo-app',
+  installationAccountLogin = 'frontier-code-systems',
+  installationAccountType = 'Organization',
+  repositorySelection = 'selected',
+  permissions = {},
+  defaultSignerAddress = 'did:key:frontier-ci-signer',
+  signingAlgorithm = 'ed25519',
+  keySource = 'kms://engi-demo/github-app',
+  operatorLogin = 'engi-demo-app[bot]'
+}) {
+  const repoIdentity = buildRepoIdentity(repo);
+  const accountIdentity = buildAccountIdentity(installationAccountLogin);
+  const resolvedPermissions = {
+    actions: 'read',
+    attestations: 'read',
+    checks: 'read',
+    contents: 'read',
+    issues: 'write',
+    metadata: 'read',
+    pull_requests: 'write',
+    ...permissions
+  };
+  const tokenBoundary = {
+    mintingState: 'not-minted-in-profile-a',
+    tokenMaterialPresent: false,
+    modeledOnly: true,
+    liveExchangeImplemented: false,
+    repo,
+    installationId,
+    readableScopes: Object.keys(resolvedPermissions).filter((key) => resolvedPermissions[key] === 'read'),
+    writableScopes: Object.keys(resolvedPermissions).filter((key) => resolvedPermissions[key] === 'write')
+  };
+  const sessionCore = {
+    authSessionId: `ghapp_${toSlug(repo)}_${toSlug(installationId)}`,
+    authMechanism: 'github-app-installation',
+    appId,
+    appSlug,
+    installationId,
+    installationAccountLogin,
+    installationAccountId: accountIdentity.installationAccountId,
+    installationAccountNodeId: accountIdentity.installationAccountNodeId,
+    installationAccountType,
+    operatorLogin,
+    repo,
+    owner: repoIdentity.owner,
+    repoName: repoIdentity.name,
+    repositoryId: repoIdentity.repositoryId,
+    repositoryNodeId: repoIdentity.repositoryNodeId,
+    repositoryVisibility: 'private',
+    repositorySelection,
+    permissions: resolvedPermissions,
+    permissionsRoot: stableHashObject(resolvedPermissions),
+    defaultRef,
+    defaultSignerAddress,
+    signingAlgorithm,
+    keySource,
+    sessionIssuedAt: '2026-04-03T00:00:00.000Z',
+    sessionExpiresAt: null,
+    tokenBoundary,
+    profileABoundary: 'Local modeled GitHub App installation session only. No live installation token is minted in this repo.',
+    profileBBoundary: 'Would exchange a real GitHub App JWT for an installation access token and use live repository APIs.'
+  };
+  return {
+    ...sessionCore,
+    authPayloadHash: stableHashObject(sessionCore)
+  };
+}
+
+function buildRepoArtifactInventoryEntry({
+  repo,
+  artifactKind,
+  artifactType = artifactTypeForKind(artifactKind),
+  originKind,
+  title,
+  summary,
+  sourceCommit,
+  ref,
+  sourcePath = null,
+  sourcePaths = [],
+  workflowRunId = null,
+  workflowPath = null,
+  workflowJobName = null,
+  checkSuiteId = null,
+  artifactName = null,
+  tags = [],
+  declaredStacks = [],
+  declaredConstraints = [],
+  previewSurface,
+  content,
+  signerAddress = 'did:key:frontier-ci-signer',
+  authSession = null
+}) {
+  const repoIdentity = buildRepoIdentity(repo);
+  const normalizedSourcePaths = summarizeStrings([sourcePath, ...(sourcePaths || [])]);
+  const contentRoot = stableHashObject(content);
+  const addressing = buildInventoryAddressingSurface({
+    repo,
+    ref,
+    sourceCommit,
+    sourcePath,
+    sourcePaths: normalizedSourcePaths,
+    workflowRunId,
+    workflowPath,
+    workflowJobName,
+    checkSuiteId,
+    artifactName,
+    originKind,
+    title
+  });
+  const inventoryEntryId = `inv_${toSlug(repo)}_${toSlug(originKind)}_${sha256(`${repo}:${title}:${sourceCommit || ''}:${workflowRunId || ''}`).slice(0, 10)}`;
+  const authBinding = authSession ? {
+    authSessionId: authSession.authSessionId,
+    authMechanism: authSession.authMechanism,
+    appId: authSession.appId,
+    appSlug: authSession.appSlug,
+    installationId: authSession.installationId,
+    installationAccountLogin: authSession.installationAccountLogin,
+    installationAccountId: authSession.installationAccountId,
+    installationAccountNodeId: authSession.installationAccountNodeId,
+    installationAccountType: authSession.installationAccountType,
+    repositoryId: authSession.repositoryId,
+    repositoryNodeId: authSession.repositoryNodeId,
+    permissions: authSession.permissions,
+    permissionsRoot: authSession.permissionsRoot,
+    authPayloadHash: authSession.authPayloadHash,
+    tokenBoundary: authSession.tokenBoundary
+  } : null;
+  const provenance = {
+    selectionLabel: `${artifactKind} · ${originKind} · ${addressing.primaryAddressRef}`,
+    previewHash: stableHashObject(previewSurface || summary),
+    contentRoot,
+    addressingRoot: addressing.addressingRoot,
+    authPayloadHash: authBinding?.authPayloadHash || null,
+    provenanceHash: stableHashObject({
+      inventoryEntryId,
+      repo,
+      artifactKind,
+      artifactType,
+      originKind,
+      contentRoot,
+      addressingRoot: addressing.addressingRoot,
+      authPayloadHash: authBinding?.authPayloadHash || null
+    })
+  };
+  return {
+    inventoryEntryId,
+    repo,
+    owner: repoIdentity.owner,
+    repoName: repoIdentity.name,
+    repositoryId: repoIdentity.repositoryId,
+    repositoryNodeId: repoIdentity.repositoryNodeId,
+    artifactKind,
+    artifactType,
+    originKind,
+    title,
+    summary,
+    ref: ref || null,
+    sourceCommit: sourceCommit || null,
+    sourcePath,
+    sourcePaths: normalizedSourcePaths,
+    workflowRunId,
+    workflowPath,
+    workflowJobName,
+    checkSuiteId,
+    artifactName,
+    tags,
+    declaredStacks,
+    declaredConstraints,
+    previewSurface: previewSurface || summary,
+    content,
+    signerAddress,
+    authSessionId: authSession?.authSessionId || null,
+    installationId: authSession?.installationId || null,
+    installationAccountLogin: authSession?.installationAccountLogin || null,
+    installationAccountId: authSession?.installationAccountId || null,
+    installationAccountNodeId: authSession?.installationAccountNodeId || null,
+    contentRoot,
+    addressing,
+    authBinding,
+    provenance
+  };
+}
+
+function buildSeedGitHubAppSessions() {
+  return [
+    buildGitHubAppSession({ repo: 'frontier/demo-auth', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-auth-issuer-rollback' }),
+    buildGitHubAppSession({ repo: 'frontier/payments-ledger', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-proof-validator-gap' }),
+    buildGitHubAppSession({ repo: 'frontier/policy-control-plane', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-config-policy-precedence' }),
+    buildGitHubAppSession({ repo: 'frontier/review-gateway', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-unsafe-patch-review' }),
+    buildGitHubAppSession({ repo: 'frontier/deploy-orchestrator', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-deployment-drift-rollback' }),
+    buildGitHubAppSession({ repo: 'frontier/private-proof-service', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-bounded-proof-export' }),
+    buildGitHubAppSession({ repo: 'frontier/polyglot-gateway', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-polyglot-gateway-remediation' })
+  ];
+}
+
+function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSessions()) {
+  const sessionByRepo = Object.fromEntries(sessions.map((session) => [session.repo, session]));
+  const withSession = (repo, input) => buildRepoArtifactInventoryEntry({
+    repo,
+    authSession: sessionByRepo[repo] || null,
+    ...input
+  });
+
+  return [
+    withSession('frontier/demo-auth', {
+      artifactKind: 'runbook',
+      originKind: 'workflow-artifact',
+      title: 'Auth rollback benchmark summary',
+      summary: 'Workflow-generated benchmark summary describing issuer mismatch rollback failure slices.',
+      sourceCommit: 'auth001abc',
+      ref: 'ENGI-auth-issuer-rollback',
+      workflowRunId: 'gha_run_auth_001',
+      workflowPath: '.github/workflows/benchmark-auth.yml',
+      workflowJobName: 'benchmark-auth-remediation',
+      artifactName: 'auth-remediation-report.json',
+      tags: ['auth', 'rollback', 'benchmark', 'workflow-artifact'],
+      declaredStacks: ['typescript', 'node', 'github-actions', 'auth'],
+      declaredConstraints: ['preserve session validity', 'emit audit receipt'],
+      previewSurface: 'Workflow artifact: auth-remediation-report.json',
+      content: 'Workflow artifact report\n- failing: issuer mismatch legacy services\n- weak dimensions: rollback safety, session validity, auditability\n- action: restore verifier compatibility before schema replay'
+    }),
+    withSession('frontier/demo-auth', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Rollback verifier compatibility patch',
+      summary: 'Commit file candidate touching rollback handler and verifier restore path.',
+      sourceCommit: 'auth001abc',
+      ref: 'ENGI-auth-issuer-rollback',
+      sourcePath: 'services/auth/rollback.ts',
+      tags: ['patch', 'auth', 'rollback'],
+      declaredStacks: ['typescript', 'node', 'auth'],
+      declaredConstraints: ['restore verifier before schema replay'],
+      previewSurface: 'services/auth/rollback.ts',
+      content: 'Patch intent\n- restoreLegacyVerifier before schema replay\n- block traffic reopen until issuer compatibility audit passes'
+    }),
+    withSession('frontier/demo-auth', {
+      artifactKind: 'config',
+      originKind: 'config-snapshot',
+      title: 'Issuer compatibility config snapshot',
+      summary: 'Repo config snapshot for issuer compatibility window and rollback kill switch.',
+      sourceCommit: 'auth001abc',
+      ref: 'ENGI-auth-issuer-rollback',
+      sourcePath: 'config/auth/issuer-compat.yml',
+      tags: ['config', 'auth', 'compatibility-window'],
+      declaredStacks: ['yaml', 'auth'],
+      declaredConstraints: ['keep rollback reversible', 'compatibility window required'],
+      previewSurface: 'config/auth/issuer-compat.yml',
+      content: 'auth:\n  issuer:\n    compatibilityWindow: 30m\n  rollback:\n    killSwitch: true'
+    }),
+    withSession('frontier/demo-auth', {
+      artifactKind: 'proof',
+      originKind: 'proof-log',
+      title: 'Session validator proof log',
+      summary: 'Proof log showing validator invariants and replay safety obligations.',
+      sourceCommit: 'auth001abc',
+      ref: 'ENGI-auth-issuer-rollback',
+      sourcePath: 'proofs/session_validator.creusot.log',
+      workflowRunId: 'gha_run_auth_001',
+      workflowPath: '.github/workflows/benchmark-auth.yml',
+      workflowJobName: 'prove-session-validator',
+      tags: ['proof', 'validator', 'creusot'],
+      declaredStacks: ['rust', 'formal-methods', 'auth'],
+      declaredConstraints: ['no panic', 'preserve session validity'],
+      previewSurface: 'proofs/session_validator.creusot.log',
+      content: 'Proof log\n- SessionValidator replay window preserved\n- issuer compatibility precondition required before reopen'
+    }),
+    withSession('frontier/demo-auth', {
+      artifactKind: 'incident-note',
+      originKind: 'incident-document',
+      title: 'Issuer mismatch incident notes',
+      summary: 'Incident note capturing operator ordering mistakes and recovery guidance.',
+      sourceCommit: 'auth001abc',
+      ref: 'ENGI-auth-issuer-rollback',
+      sourcePath: 'docs/incidents/auth-issuer-mismatch.md',
+      tags: ['incident-response', 'auth', 'runbook'],
+      declaredStacks: ['markdown', 'auth'],
+      declaredConstraints: ['record operator ordering'],
+      previewSurface: 'docs/incidents/auth-issuer-mismatch.md',
+      content: 'Incident note\n- failures came from replaying schema before restoring verifier compatibility\n- public proof should omit private verifier details'
+    }),
+    withSession('frontier/demo-auth', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Auth audit receipt patchset',
+      summary: 'Receipt-binding patch that records workflow run, commit, and compatibility window together.',
+      sourceCommit: 'auth019audit',
+      ref: 'ENGI-auth-many-asset-normalization',
+      sourcePath: 'services/auth/audit_receipt.ts',
+      tags: ['auth', 'auditability', 'patch', 'workflow-binding'],
+      declaredStacks: ['typescript', 'node', 'auth', 'github-actions'],
+      declaredConstraints: ['emit audit receipt', 'bind workflow run to receipt'],
+      previewSurface: 'services/auth/audit_receipt.ts',
+      content: 'Patch intent\n- write workflow run and commit into emitAuditReceipt\n- fail closed when rollback receipt linkage is missing'
+    }),
+    withSession('frontier/payments-ledger', {
+      artifactKind: 'proof',
+      originKind: 'attestation-bundle',
+      title: 'Replay window attestation bundle',
+      summary: 'Attestation bundle for validator proof and benchmark rerun.',
+      sourceCommit: 'validator014proof',
+      ref: 'ENGI-proof-validator-gap',
+      workflowRunId: 'gha_run_validator_014',
+      workflowPath: '.github/workflows/validator-proof.yml',
+      workflowJobName: 'prove-validator',
+      artifactName: 'validator-proof-bundle.json',
+      tags: ['proof', 'validator', 'attestation'],
+      declaredStacks: ['rust', 'cargo', 'formal-methods'],
+      declaredConstraints: ['no unchecked arithmetic', 'replay benchmark after proof'],
+      previewSurface: 'validator-proof-bundle.json',
+      content: 'Attestation bundle\n- proof hash bound to validator replay window\n- benchmark rerun required before settlement eligibility'
+    }),
+    withSession('frontier/payments-ledger', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Replay guard patch',
+      summary: 'Patch that hardens nonce-window bounds and overflow checks in the validator path.',
+      sourceCommit: 'validator014proof',
+      ref: 'ENGI-proof-validator-gap',
+      sourcePaths: ['crates/validator/src/session_guard.rs', 'crates/validator/src/replay_window.rs'],
+      tags: ['validator', 'patch', 'overflow-safety'],
+      declaredStacks: ['rust', 'cargo', 'formal-methods'],
+      declaredConstraints: ['no unchecked arithmetic', 'preserve replay protections'],
+      previewSurface: 'crates/validator/src/session_guard.rs + crates/validator/src/replay_window.rs',
+      content: 'Patch intent\n- guard replay-window math\n- preserve SessionGuard invariants over the full nonce range'
+    }),
+    withSession('frontier/payments-ledger', {
+      artifactKind: 'runbook',
+      originKind: 'incident-document',
+      title: 'Validator proof recovery runbook',
+      summary: 'Operator playbook for rerunning proof plus benchmark after replay-window repair.',
+      sourceCommit: 'validator014proof',
+      ref: 'ENGI-proof-validator-gap',
+      sourcePath: 'docs/runbooks/validator-proof-recovery.md',
+      tags: ['validator', 'runbook', 'formal-methods'],
+      declaredStacks: ['markdown', 'rust', 'formal-methods'],
+      declaredConstraints: ['rerun proof plus benchmark'],
+      previewSurface: 'docs/runbooks/validator-proof-recovery.md',
+      content: 'Runbook\n- rerun cargo creusot after the patch\n- compare proof hash to benchmark rerun before delivery'
+    }),
+    withSession('frontier/policy-control-plane', {
+      artifactKind: 'config',
+      originKind: 'workflow-artifact',
+      title: 'Policy precedence benchmark output',
+      summary: 'Benchmark output for precedence regression across config policy layers.',
+      sourceCommit: 'policy031fix',
+      ref: 'ENGI-config-policy-precedence',
+      workflowRunId: 'gha_run_policy_031',
+      workflowPath: '.github/workflows/policy-benchmark.yml',
+      workflowJobName: 'policy-benchmark',
+      artifactName: 'policy-precedence-report.json',
+      tags: ['policy', 'config', 'workflow-artifact'],
+      declaredStacks: ['typescript', 'policy', 'github-actions'],
+      declaredConstraints: ['no precedence inversion'],
+      previewSurface: 'policy-precedence-report.json',
+      content: 'Policy benchmark output\n- precedence inversion detected in layered config merge\n- rollback requires explicit winner ordering receipts'
+    }),
+    withSession('frontier/policy-control-plane', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Policy precedence governor patch',
+      summary: 'Patch that rejects undeclared fallback winners and records the chosen policy source.',
+      sourceCommit: 'policy031fix',
+      ref: 'ENGI-config-policy-precedence',
+      sourcePath: 'services/policy/evaluate_rollout.ts',
+      tags: ['policy', 'patch', 'governance'],
+      declaredStacks: ['typescript', 'node', 'policy'],
+      declaredConstraints: ['block silent precedence fallback', 'emit policy audit receipt'],
+      previewSurface: 'services/policy/evaluate_rollout.ts',
+      content: 'Patch intent\n- make precedence winners explicit\n- attach chosen source to the rollout receipt'
+    }),
+    withSession('frontier/policy-control-plane', {
+      artifactKind: 'runbook',
+      originKind: 'incident-document',
+      title: 'Policy incident operator runbook',
+      summary: 'Runbook for recovering precedence drift without reopening the governance incident.',
+      sourceCommit: 'policy031fix',
+      ref: 'ENGI-config-policy-precedence',
+      sourcePath: 'docs/runbooks/policy-incident.md',
+      tags: ['policy', 'runbook', 'incident-response'],
+      declaredStacks: ['markdown', 'policy'],
+      declaredConstraints: ['preserve approval ordering'],
+      previewSurface: 'docs/runbooks/policy-incident.md',
+      content: 'Runbook\n- inspect precedence matrix first\n- reject undeclared defaults before rollout resume'
+    }),
+    withSession('frontier/review-gateway', {
+      artifactKind: 'patch',
+      originKind: 'pull-request-comment',
+      title: 'Unsafe review recovery diff note',
+      summary: 'Pull request comment summarizing unsafe patch review recovery steps.',
+      sourceCommit: 'review022safe',
+      ref: 'ENGI-unsafe-patch-review',
+      sourcePath: 'services/review/recovery.ts',
+      checkSuiteId: 'checksuite_review_022',
+      tags: ['review', 'patch', 'safety'],
+      declaredStacks: ['typescript', 'review'],
+      declaredConstraints: ['revert unsafe grant path'],
+      previewSurface: 'PR comment: unsafe patch review recovery',
+      content: 'Review recovery note\n- revert unsafe bypass grant\n- require second reviewer before branch materialization'
+    }),
+    withSession('frontier/review-gateway', {
+      artifactKind: 'runbook',
+      originKind: 'incident-document',
+      title: 'Unsafe review containment checklist',
+      summary: 'Checklist for applying touched-file budgets and reviewer rationale requirements.',
+      sourceCommit: 'review022safe',
+      ref: 'ENGI-unsafe-patch-review',
+      sourcePath: 'docs/reviews/unsafe_patch_containment.md',
+      tags: ['review', 'runbook', 'security'],
+      declaredStacks: ['markdown', 'security', 'review'],
+      declaredConstraints: ['require review rationale', 'preserve rollback path'],
+      previewSurface: 'docs/reviews/unsafe_patch_containment.md',
+      content: 'Checklist\n- confirm touched-file scope\n- require reviewer rationale\n- reopen the guard benchmark when the patch expands'
+    }),
+    withSession('frontier/review-gateway', {
+      artifactKind: 'proof',
+      originKind: 'proof-log',
+      title: 'Review gate proof log',
+      summary: 'Proof log binding touched-file budgets to rationale enforcement checks.',
+      sourceCommit: 'review022safe',
+      ref: 'ENGI-unsafe-patch-review',
+      sourcePath: 'proofs/review_gate.log',
+      workflowRunId: 'gha_run_review_009',
+      workflowPath: '.github/workflows/review-guard.yml',
+      workflowJobName: 'prove-review-gate',
+      tags: ['review', 'proof', 'auditability'],
+      declaredStacks: ['typescript', 'security', 'review'],
+      declaredConstraints: ['block unsafe patch bypass'],
+      previewSurface: 'proofs/review_gate.log',
+      content: 'Proof log\n- reviewer rationale must exist before apply\n- touched-file budgets stay bound to the review receipt'
+    }),
+    withSession('frontier/deploy-orchestrator', {
+      artifactKind: 'runbook',
+      originKind: 'workflow-artifact',
+      title: 'Deployment drift incident runbook',
+      summary: 'Workflow artifact describing deployment drift rollback and validation ordering.',
+      sourceCommit: 'deploy404rollback',
+      ref: 'ENGI-deployment-drift-rollback',
+      workflowRunId: 'gha_run_deploy_404',
+      workflowPath: '.github/workflows/deploy-drift.yml',
+      workflowJobName: 'rollback-drift',
+      artifactName: 'deploy-drift-report.json',
+      tags: ['deployment', 'drift', 'rollback'],
+      declaredStacks: ['kubernetes', 'typescript', 'github-actions'],
+      declaredConstraints: ['restore config before traffic reopen'],
+      previewSurface: 'deploy-drift-report.json',
+      content: 'Deployment drift report\n- config drift and rollout drift diverged\n- rollback requires environment receipt closure before reopen'
+    }),
+    withSession('frontier/deploy-orchestrator', {
+      artifactKind: 'config',
+      originKind: 'config-snapshot',
+      title: 'Deployment drift config snapshot',
+      summary: 'Combined Helm and Terraform config snapshot for the rollback window.',
+      sourceCommit: 'deploy404rollback',
+      ref: 'ENGI-deployment-drift-rollback',
+      sourcePaths: ['deploy/helm/auth/values.yaml', 'infra/terraform/services/auth/main.tf'],
+      tags: ['deployment', 'config', 'rollback'],
+      declaredStacks: ['terraform', 'helm', 'kubernetes'],
+      declaredConstraints: ['restore config before traffic reopen'],
+      previewSurface: 'deploy/helm/auth/values.yaml + infra/terraform/services/auth/main.tf',
+      content: 'Config snapshot\n- expected chart version and Terraform state must agree before reopen'
+    }),
+    withSession('frontier/deploy-orchestrator', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Deployment release parity patch',
+      summary: 'Patch that rebinds release receipts to the reconciled chart and infra revisions.',
+      sourceCommit: 'deploy404rollback',
+      ref: 'ENGI-deployment-drift-rollback',
+      sourcePath: 'services/deploy/reconcile_release.ts',
+      tags: ['deployment', 'patch', 'receipt-binding'],
+      declaredStacks: ['typescript', 'kubernetes', 'infra'],
+      declaredConstraints: ['emit deployment receipt', 'keep rollout reversible'],
+      previewSurface: 'services/deploy/reconcile_release.ts',
+      content: 'Patch intent\n- attach chart and infra revisions to the rollback receipt\n- stop traffic reopen until parity is proven'
+    }),
+    withSession('frontier/private-proof-service', {
+      artifactKind: 'proof',
+      originKind: 'workflow-artifact',
+      title: 'Bounded proof export witness bundle',
+      summary: 'Witness bundle for public proof export and redaction closure.',
+      sourceCommit: 'privacy065proof',
+      ref: 'ENGI-bounded-proof-export',
+      workflowRunId: 'gha_run_privacy_065',
+      workflowPath: '.github/workflows/privacy-proof.yml',
+      workflowJobName: 'bounded-proof-export',
+      artifactName: 'bounded-proof-export.json',
+      tags: ['privacy', 'proof', 'redaction'],
+      declaredStacks: ['typescript', 'privacy', 'proof'],
+      declaredConstraints: ['bounded public metadata only'],
+      previewSurface: 'bounded-proof-export.json',
+      content: 'Bounded proof export witness\n- public projection excludes private branch artifacts\n- redaction proof hash matches disclosure proof hash'
+    }),
+    withSession('frontier/private-proof-service', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Bounded proof redaction patch',
+      summary: 'Patch that tightens redaction defaults before public proof export.',
+      sourceCommit: 'projection006bound',
+      ref: 'ENGI-bounded-proof-export',
+      sourcePath: 'services/redaction/project_public_proof.ts',
+      tags: ['privacy', 'patch', 'redaction'],
+      declaredStacks: ['typescript', 'privacy', 'policy'],
+      declaredConstraints: ['no private artifact leak'],
+      previewSurface: 'services/redaction/project_public_proof.ts',
+      content: 'Patch intent\n- derive public proof strictly from bounded metadata\n- reject any private artifact that survives projection'
+    }),
+    withSession('frontier/private-proof-service', {
+      artifactKind: 'runbook',
+      originKind: 'incident-document',
+      title: 'Public proof disclosure runbook',
+      summary: 'Runbook for replaying disclosure decisions before publishing bounded proof output.',
+      sourceCommit: 'projection006bound',
+      ref: 'ENGI-bounded-proof-export',
+      sourcePath: 'docs/runbooks/public-proof-disclosure.md',
+      tags: ['privacy', 'runbook', 'disclosure'],
+      declaredStacks: ['markdown', 'privacy', 'policy'],
+      declaredConstraints: ['replay disclosure decisions'],
+      previewSurface: 'docs/runbooks/public-proof-disclosure.md',
+      content: 'Runbook\n- compare projection policy to public artifact inventory\n- publish only after disclosure proof hashes replay cleanly'
+    }),
+    withSession('frontier/polyglot-gateway', {
+      artifactKind: 'patch',
+      originKind: 'commit-file',
+      title: 'Polyglot gateway rollback patchset',
+      summary: 'Patchset coordinating TypeScript, Python, and Rust rollback surfaces.',
+      sourceCommit: 'gateway117poly',
+      ref: 'ENGI-polyglot-gateway-remediation',
+      sourcePaths: ['api/server.ts', 'workers/session_replay.py', 'crates/token_bridge/src/lib.rs'],
+      tags: ['polyglot', 'gateway', 'rollback'],
+      declaredStacks: ['typescript', 'python', 'rust', 'gateway'],
+      declaredConstraints: ['preserve cross-language parity', 'emit audit receipt'],
+      previewSurface: 'api/server.ts + workers/session_replay.py + crates/token_bridge/src/lib.rs',
+      content: 'Polyglot rollback patchset\n- coordinate issuer rollback across API, replay worker, and token bridge\n- reopen traffic only after parity benchmark rerun'
+    }),
+    withSession('frontier/polyglot-gateway', {
+      artifactKind: 'runbook',
+      originKind: 'incident-document',
+      title: 'Polyglot rollback runbook',
+      summary: 'Runbook for coordinating TypeScript, Python, and Rust rollback sequencing.',
+      sourceCommit: 'gateway117poly',
+      ref: 'ENGI-polyglot-gateway-remediation',
+      sourcePath: 'docs/runbooks/polyglot_gateway_rollback.md',
+      tags: ['polyglot', 'runbook', 'gateway'],
+      declaredStacks: ['markdown', 'typescript', 'python', 'rust'],
+      declaredConstraints: ['preserve cross-language parity', 'keep rollback reversible'],
+      previewSurface: 'docs/runbooks/polyglot_gateway_rollback.md',
+      content: 'Runbook\n- freeze session replay\n- coordinate rollback across API, worker, and bridge\n- reopen only after parity rerun'
+    }),
+    withSession('frontier/polyglot-gateway', {
+      artifactKind: 'config',
+      originKind: 'config-snapshot',
+      title: 'Cross-language receipt config snapshot',
+      summary: 'Config snapshot for rollback window and cross-language receipt requirements.',
+      sourceCommit: 'gateway117poly',
+      ref: 'ENGI-polyglot-gateway-remediation',
+      sourcePath: 'config/gateway/issuer_policy.yml',
+      tags: ['polyglot', 'config', 'gateway'],
+      declaredStacks: ['yaml', 'gateway', 'policy'],
+      declaredConstraints: ['emit audit receipt', 'preserve cross-language parity'],
+      previewSurface: 'config/gateway/issuer_policy.yml',
+      content: 'gateway:\n  issuer:\n    rollbackWindowSeconds: 300\n  audit:\n    requireCrossLanguageReceipt: true'
+    }),
+    withSession('frontier/polyglot-gateway', {
+      artifactKind: 'proof',
+      originKind: 'proof-log',
+      title: 'Gateway parity proof log',
+      summary: 'Proof log showing TypeScript, Python, and Rust rollback paths stay aligned.',
+      sourceCommit: 'gateway117poly',
+      ref: 'ENGI-polyglot-gateway-remediation',
+      sourcePath: 'proofs/gateway_parity.log',
+      workflowRunId: 'gha_run_gateway_021',
+      workflowPath: '.github/workflows/gateway-benchmark.yml',
+      workflowJobName: 'prove-gateway-parity',
+      tags: ['polyglot', 'proof', 'gateway'],
+      declaredStacks: ['typescript', 'python', 'rust', 'gateway'],
+      declaredConstraints: ['preserve cross-language parity'],
+      previewSurface: 'proofs/gateway_parity.log',
+      content: 'Proof log\n- server.ts, session_replay.py, and token bridge preserve the same rollback window\n- cross-language receipts share the same parity root'
+    })
+  ];
+}
+
+function inventorySourcePaths(selectedInventoryEntries = [], fallbackPaths = []) {
+  return summarizeStrings([
+    ...selectedInventoryEntries.flatMap((entry) => entry.sourcePaths || []),
+    ...fallbackPaths
+  ]);
+}
+
+function hasExplicitRawFallbackContent(input, selectedInventoryEntries = []) {
+  if (typeof input.rawFallbackUsed === 'boolean') return input.rawFallbackUsed;
+  if (input.rawFallbackContent !== undefined) return !!String(input.rawFallbackContent || '').trim();
+  if (selectedInventoryEntries.length && input.contentDerivedFromSelection !== false) return false;
+  return !!String(input.content || '').trim();
+}
+
+function resolveArtifactIntakeMode(input, selectedInventoryEntries) {
+  const hasInventorySelection = selectedInventoryEntries.length > 0;
+  const hasRawFallback = hasExplicitRawFallbackContent(input, selectedInventoryEntries);
+  const hasOperatorNote = !!String(input.operatorNote || '').trim();
+  if (hasInventorySelection && (hasOperatorNote || hasRawFallback)) return 'repo-artifact-selection-plus-note';
+  if (hasInventorySelection) return 'repo-artifact-selection';
+  return 'raw-fallback';
+}
+
+function buildArtifactSelectionSurface(input, selectedInventoryEntries = [], artifactKind) {
+  const intakeMode = resolveArtifactIntakeMode(input, selectedInventoryEntries);
+  const selectedInventoryEntriesSnapshot = selectedInventoryEntries.map(inventorySelectionSnapshot);
+  const selectedRepos = summarizeStrings(selectedInventoryEntriesSnapshot.map((entry) => entry.repo));
+  const selectedArtifactKinds = summarizeStrings(selectedInventoryEntries.map((entry) => entry.artifactKind).concat(artifactKind ? [artifactKind] : []));
+  const selectedOriginKinds = summarizeStrings(selectedInventoryEntries.map((entry) => entry.originKind));
+  const selectedArtifactKindCounts = countValues(selectedInventoryEntries.map((entry) => entry.artifactKind));
+  if (artifactKind && !selectedArtifactKindCounts[artifactKind]) selectedArtifactKindCounts[artifactKind] = 1;
+  const selectedOriginKindCounts = countValues(selectedInventoryEntries.map((entry) => entry.originKind));
+  const rawFallbackUsed = hasExplicitRawFallbackContent(input, selectedInventoryEntries);
+  return {
+    intakeMode,
+    authSessionId: input.authSession?.authSessionId || input.authSessionId || null,
+    selectedRepo: selectedRepos[0] || input.sourceRepo || input.authSession?.repo || null,
+    selectedRepositoryId: input.authSession?.repositoryId || selectedInventoryEntriesSnapshot[0]?.repositoryId || null,
+    selectedInventoryEntryIds: selectedInventoryEntriesSnapshot.map((entry) => entry.inventoryEntryId),
+    selectedInventoryEntries: selectedInventoryEntriesSnapshot,
+    selectedInventoryRoot: stableHashObject(selectedInventoryEntriesSnapshot),
+    selectedArtifactKinds,
+    selectedArtifactKindCounts,
+    selectedOriginKinds,
+    selectedOriginKindCounts,
+    rawFallbackUsed,
+    appendedOperatorNote: !!String(input.operatorNote || '').trim(),
+    selectionLabel: selectedInventoryEntriesSnapshot.length
+      ? `${selectedInventoryEntriesSnapshot.length} repo artifacts from ${selectedRepos[0]}`
+      : 'raw fallback content only'
+  };
+}
+
+function buildAddressingSurface(input, selectedInventoryEntries = [], extracted) {
+  const repo = input.sourceRepo || input.authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
+  const repoIdentity = buildRepoIdentity(repo);
+  const normalizedSourcePaths = inventorySourcePaths(selectedInventoryEntries, input.sourcePaths || extracted.paths);
+  const commit =
+    input.sourceCommit
+    || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit
+    || null;
+  const workflowRunId =
+    input.workflowRunId
+    || selectedInventoryEntries.find((entry) => entry.workflowRunId)?.workflowRunId
+    || null;
+  const workflowPath =
+    input.workflowPath
+    || selectedInventoryEntries.find((entry) => entry.workflowPath)?.workflowPath
+    || null;
+  const workflowJobName =
+    input.workflowJobName
+    || selectedInventoryEntries.find((entry) => entry.workflowJobName)?.workflowJobName
+    || null;
+
+  let addressingScope = 'repo';
+  if (selectedInventoryEntries.length > 1) addressingScope = 'multi-artifact-selection';
+  else if (workflowRunId) addressingScope = selectedInventoryEntries[0]?.originKind === 'workflow-artifact' ? 'workflow-artifact' : 'workflow-run';
+  else if (normalizedSourcePaths.length) addressingScope = normalizedSourcePaths.length > 1 ? 'multi-artifact-selection' : 'repo-file';
+  else if (commit) addressingScope = 'repo-commit';
+  const addressedInventoryEntries = selectedInventoryEntries.map((entry) => {
+    const addressing = entry.addressing || buildInventoryAddressingSurface(entry);
+    return {
+      inventoryEntryId: entry.inventoryEntryId,
+      artifactKind: entry.artifactKind,
+      artifactType: entry.artifactType,
+      originKind: entry.originKind,
+      primaryAddressRef: addressing.primaryAddressRef,
+      contentRoot: entry.contentRoot || null,
+      addressingRoot: addressing.addressingRoot
+    };
+  });
+  const surface = {
+    addressingScope,
+    repo,
+    owner: repoIdentity.owner,
+    repoName: repoIdentity.name,
+    repositoryId: repoIdentity.repositoryId,
+    repositoryNodeId: repoIdentity.repositoryNodeId,
+    ref: input.sourceRef || input.authSession?.defaultRef || selectedInventoryEntries.find((entry) => entry.ref)?.ref || null,
+    commit,
+    workflowRunId,
+    workflowPath,
+    workflowJobName,
+    sourcePaths: normalizedSourcePaths,
+    selectedInventoryEntryIds: selectedInventoryEntries.map((entry) => entry.inventoryEntryId),
+    selectedInventoryAddressRefs: addressedInventoryEntries.map((entry) => entry.primaryAddressRef),
+    addressedInventoryEntries,
+    primaryAddressRef: normalizedSourcePaths[0] || addressedInventoryEntries[0]?.primaryAddressRef || workflowRunId || commit || repo
+  };
+  return {
+    ...surface,
+    addressingRoot: stableHashObject(surface)
+  };
+}
+
+function buildSigningSurface(input, assetId, contentRoot, addressingSurface, artifactSelectionSurface, githubAppAuthSurface) {
+  const signerAddress = input.signerAddress || input.authSession?.defaultSignerAddress || `did:key:${toSlug(input.author)}`;
+  const signingAlgorithm = input.signingAlgorithm || input.authSession?.signingAlgorithm || 'ed25519';
+  const keySource = input.keySource || input.authSession?.keySource || 'manual-upload-key';
+  const signedStatement = {
+    statementKind: 'engi-asset-intake-attestation.v10',
+    assetId,
+    contentRoot,
+    repo: addressingSurface.repo,
+    addressingRoot: addressingSurface.addressingRoot,
+    selectionRoot: artifactSelectionSurface.selectedInventoryRoot,
+    githubAppAuthRoot: githubAppAuthSurface.authPayloadHash,
+    signerAddress,
+    signingAlgorithm
+  };
+  return {
+    signerAddress,
+    signerClass: 'issuer-principal',
+    signingAlgorithm,
+    keySource,
+    statementKind: signedStatement.statementKind,
+    payloadHash: stableHashObject(signedStatement),
+    signatureChecksPass: input.signatureChecksPass !== false,
+    signedPayloadHashMatchesContentRoot: input.signedPayloadHashMatchesContentRoot !== false,
+    attestationHash: stableHashObject({ signerAddress, signingAlgorithm, payloadHash: stableHashObject(signedStatement) }),
+    signedAddressingRoot: addressingSurface.addressingRoot,
+    signedSelectionRoot: artifactSelectionSurface.selectedInventoryRoot,
+    signedGitHubAppAuthRoot: githubAppAuthSurface.authPayloadHash
+  };
+}
+
+function buildGitHubAppAuthSurface(input, selectedInventoryEntries = []) {
+  const authSession = input.authSession || null;
+  const repo = input.sourceRepo || authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
+  const repoIdentity = buildRepoIdentity(repo);
+  const manualPermissions = {};
+  if (!authSession) {
+    const surfaceCore = {
+      authMechanism: 'manual-unbound',
+      authSessionId: null,
+      appId: null,
+      appSlug: null,
+      installationId: input.installationId || null,
+      installationAccountLogin: null,
+      installationAccountId: null,
+      installationAccountNodeId: null,
+      installationAccountType: null,
+      operatorLogin: null,
+      owner: repoIdentity.owner,
+      repoName: repoIdentity.name,
+      repositoryId: repoIdentity.repositoryId,
+      repositoryNodeId: repoIdentity.repositoryNodeId,
+      repositoryVisibility: 'private',
+      repositorySelection: 'selected',
+      permissions: manualPermissions,
+      permissionsRoot: stableHashObject(manualPermissions),
+      tokenBoundary: {
+        mintingState: 'manual-unbound',
+        tokenMaterialPresent: false,
+        modeledOnly: false,
+        liveExchangeImplemented: false,
+        repo,
+        installationId: input.installationId || null,
+        readableScopes: [],
+        writableScopes: []
+      },
+      profileABoundary: 'No authenticated GitHub App session is bound to this raw/manual candidate asset.',
+      profileBBoundary: 'A production flow would require a real installation-scoped GitHub App token for repository inventory selection.'
+    };
+    return {
+      ...surfaceCore,
+      authPayloadHash: stableHashObject(surfaceCore)
+    };
+  }
+  const surfaceCore = {
+    authMechanism: authSession.authMechanism,
+    authSessionId: authSession.authSessionId,
+    appId: authSession.appId,
+    appSlug: authSession.appSlug,
+    installationId: authSession.installationId,
+    installationAccountLogin: authSession.installationAccountLogin,
+    installationAccountId: authSession.installationAccountId,
+    installationAccountNodeId: authSession.installationAccountNodeId,
+    installationAccountType: authSession.installationAccountType,
+    operatorLogin: authSession.operatorLogin,
+    owner: authSession.owner,
+    repoName: authSession.repoName,
+    repositoryId: authSession.repositoryId,
+    repositoryNodeId: authSession.repositoryNodeId,
+    repositoryVisibility: authSession.repositoryVisibility,
+    repositorySelection: authSession.repositorySelection,
+    permissions: authSession.permissions,
+    permissionsRoot: authSession.permissionsRoot,
+    sessionIssuedAt: authSession.sessionIssuedAt,
+    sessionExpiresAt: authSession.sessionExpiresAt,
+    tokenBoundary: authSession.tokenBoundary,
+    profileABoundary: authSession.profileABoundary,
+    profileBBoundary: authSession.profileBBoundary
+  };
+  return {
+    ...surfaceCore,
+    authPayloadHash: authSession.authPayloadHash || stableHashObject(surfaceCore)
+  };
+}
+
+function buildArtifactUploadSurface(input, content, extracted, artifactKind, artifactType, selectedInventoryEntries = []) {
   const visualPreview = String(input.visualPreview || input.summary || content.split(/\n\s*\n/g)[0] || content).slice(0, 320);
+  const artifactSelectionSurface = buildArtifactSelectionSurface(input, selectedInventoryEntries, artifactKind);
   return {
     uploadId: `upload_${sha256(`${input.title}:${content}`).slice(0, 12)}`,
     artifactKind,
     artifactType,
+    artifactSelectionSurface,
     precision: {
       kindDeterminedBy: input.artifactKind ? 'user-specified' : 'defaulted',
       typeDeterminedBy: input.artifactType ? 'user-specified' : 'kind-mapped',
@@ -951,19 +1865,28 @@ function buildArtifactUploadSurface(input, content, extracted, artifactKind, art
         symbols: extracted.symbols.length,
         paths: extracted.paths.length,
         configKeys: extracted.configKeys.length
-      }
+      },
+      inventorySelectionCount: selectedInventoryEntries.length,
+      inventorySelectionRoot: artifactSelectionSurface.selectedInventoryRoot
     },
     surfaces: [
       { surfaceId: 'visual-preview', mediaType: 'text/markdown', role: 'visual', available: !!visualPreview, valuePreview: visualPreview },
       { surfaceId: 'raw-content', mediaType: 'text/plain', role: 'raw', available: !!content, valuePreview: content.slice(0, 220) },
-      { surfaceId: 'code-analysis-summary', mediaType: 'application/json', role: 'derived', available: true, valuePreview: JSON.stringify({ symbols: extracted.symbols.length, paths: extracted.paths.length, configKeys: extracted.configKeys.length }) }
+      { surfaceId: 'code-analysis-summary', mediaType: 'application/json', role: 'derived', available: true, valuePreview: JSON.stringify({ symbols: extracted.symbols.length, paths: extracted.paths.length, configKeys: extracted.configKeys.length }) },
+      { surfaceId: 'repo-artifact-selection', mediaType: 'application/json', role: 'selection', available: selectedInventoryEntries.length > 0, valuePreview: JSON.stringify({ selectedInventoryEntryIds: selectedInventoryEntries.map((entry) => entry.inventoryEntryId), selectedInventoryRoot: artifactSelectionSurface.selectedInventoryRoot, originKinds: summarizeStrings(selectedInventoryEntries.map((entry) => entry.originKind)) }) }
     ],
     githubBinding: {
       sourceProvider: input.sourceProvider || 'github',
-      sourceRepo: input.sourceRepo || 'frontier/demo-auth',
-      sourceCommit: input.sourceCommit || null,
-      workflowRunId: input.workflowRunId || null,
-      workflowPath: input.workflowPath || null,
+      sourceRepo: input.sourceRepo || input.authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth',
+      sourceCommit: input.sourceCommit || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit || null,
+      workflowRunId: input.workflowRunId || selectedInventoryEntries.find((entry) => entry.workflowRunId)?.workflowRunId || null,
+      workflowPath: input.workflowPath || selectedInventoryEntries.find((entry) => entry.workflowPath)?.workflowPath || null,
+      authSessionId: input.authSession?.authSessionId || null,
+      repositoryId: input.authSession?.repositoryId || null,
+      repositoryNodeId: input.authSession?.repositoryNodeId || null,
+      selectedInventoryEntryIds: selectedInventoryEntries.map((entry) => entry.inventoryEntryId),
+      selectedInventoryRoot: artifactSelectionSurface.selectedInventoryRoot,
+      authPayloadHash: input.authSession?.authPayloadHash || null,
       profileABoundary: 'Stored locally as modeled metadata only.',
       profileBBoundary: 'Would bind to real GitHub/App installation objects and remote fetches.'
     }
@@ -976,15 +1899,15 @@ function buildProfileCompositions() {
     demoOperatorGuidance: {
       audienceMeaning: 'Profile A means the local deterministic demo is real and inspectable today; Profile B means the production boundary contracts are explicit but intentionally not live-switched in this repo.',
       whyOnlyAIsLive: 'Switching to Profile B would imply real GitHub/App auth, remote model execution, external vector infra, signer verification, and settlement/network effects. The repo keeps those contracts explicit without faking them.',
-      recommendedWalkthrough: ['Start with Profile A identity + need measurement', 'Show prompt lineage and score-group explainability', 'Open boundary manifests to explain what Profile B would hand off externally', 'Close on proof bundle + settlement invariants']
+      recommendedWalkthrough: ['Start with authenticated repo inventory + intake mode', 'Show address + signing + GitHub App auth surfaces', 'Walk into need measurement, prompt lineage, and score-group explainability', 'Open boundary manifests to explain what Profile B would hand off externally', 'Close on proof bundle + settlement invariants']
     },
     profiles: [
       {
         profileId: 'A',
         label: PROFILE_A,
         switchableInDemo: true,
-        identity: { whoItIs: 'A local deterministic operator-grade demo profile running entirely inside this repository.', operatorRole: 'Use this live in demos to show measured need, prompt lineage, ranking, proof closure, and exact-accounting settlement.', audienceMeaning: 'What you are seeing is implemented here, reproducible here, and inspectable here.' },
-        composition: ['local deterministic ranking', 'local stand-in embeddings', 'local policy model', 'local branch artifact materialization', 'local proof bundle + exact accounting'],
+        identity: { whoItIs: 'A local deterministic operator-grade demo profile running entirely inside this repository.', operatorRole: 'Use this live in demos to show repo-bound intake, measured need, prompt lineage, ranking, proof closure, and exact-accounting settlement.', audienceMeaning: 'What you are seeing is implemented here, reproducible here, and inspectable here.' },
+        composition: ['modeled GitHub App repo sessions', 'seeded repo artifact inventory', 'local deterministic ranking', 'local stand-in embeddings', 'local policy model', 'local branch artifact materialization', 'local proof bundle + exact accounting'],
         metadata: { externalWrites: false, githubLiveCalls: false, settlementMode: 'local exact accounting demo', modelExecution: 'deterministic stand-in', vectorExecution: 'deterministic local stand-in' }
       },
       {
@@ -997,7 +1920,7 @@ function buildProfileCompositions() {
         whyNotSwitchable: 'This repo only demos Profile A deterministically; Profile B depends on external GitHub/App/runtime integrations not faked here.'
       }
     ],
-    comparisonAxes: ['identity/auth', 'github binding', 'vector/evaluator execution', 'artifact materialization', 'settlement authority']
+    comparisonAxes: ['artifact intake', 'identity/auth', 'github binding', 'vector/evaluator execution', 'artifact materialization', 'settlement authority']
   };
 }
 
@@ -1194,7 +2117,7 @@ function makeAuthorizationDecision(binding, action, resourceRef, policyState) {
 function buildPolicyState() {
   return {
     policyRef: DEFAULT_POLICY_REF,
-    releaseId: 'policy-release-engi-v9-demo-2026-04-03',
+    releaseId: 'policy-release-engi-v10-demo-2026-04-03',
     retentionPolicies: {
       'retention/private-remediation-30d': {
         retentionPolicyId: 'retention/private-remediation-30d',
@@ -1247,6 +2170,12 @@ function buildPolicyState() {
         'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal stages remediation artifacts.'] },
         'derive:bounded-public-proof-metadata': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI proof publisher may derive bounded proof metadata from the private proof surface.'] },
         'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal may inspect bounded proof metadata.'] }
+      },
+      'github-app-installation-principal': {
+        'read:repo-artifact-inventory': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Installation-scoped GitHub App session may enumerate repository artifact inventory.'] },
+        'read:private-branch': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['GitHub App installation sessions do not gain private branch read by default in the local demo.'] },
+        'write:private-branch': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['GitHub App installation sessions are modeled as intake auth, not branch writers.'] },
+        'settle:journal-event': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['GitHub App installation sessions cannot trigger settlement.'] }
       },
       'authorized-reviewer': {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Authorized reviewer access is allowed under private review policy.'] },
@@ -1326,21 +2255,26 @@ function buildGithubActionsBenchmarkParser() {
 
 export function makeCandidateAsset(input) {
   const content = String(input.content || '').trim();
+  const selectedInventoryEntries = Array.isArray(input.inventoryEntries) ? input.inventoryEntries : [];
   const artifactKind = input.artifactKind || 'mixed';
   const artifactType = input.artifactType || artifactTypeForKind(artifactKind);
   const assetId = input.assetId || `asset_${toSlug(input.title)}_${sha256(`${input.author}:${input.title}:${content}`).slice(0, 10)}`;
   const codeAnalysisFacts = extractStaticCodeAnalysisFacts(content, {
     symbols: input.symbols,
-    paths: input.sourcePaths,
+    paths: inventorySourcePaths(selectedInventoryEntries, input.sourcePaths),
     configKeys: input.configKeys,
     stackTags: [...(input.declaredStacks || []), ...(input.tags || [])],
     constraints: input.declaredConstraints
   });
   const contentUnits = splitContentUnits(assetId, content, codeAnalysisFacts);
-  const uploadSurface = buildArtifactUploadSurface(input, content, codeAnalysisFacts, artifactKind, artifactType);
   const contentRoot = stableHashObject(contentUnits.map((unit) => unit.unitHash));
   const attestationPayload = { assetId, title: input.title, contentRoot };
-  const signerAddress = input.signerAddress || `did:key:${toSlug(input.author)}`;
+  const artifactSelectionSurface = buildArtifactSelectionSurface(input, selectedInventoryEntries, artifactKind);
+  const addressingSurface = buildAddressingSurface(input, selectedInventoryEntries, codeAnalysisFacts);
+  const githubAppAuthSurface = buildGitHubAppAuthSurface(input, selectedInventoryEntries);
+  const signingSurface = buildSigningSurface(input, assetId, contentRoot, addressingSurface, artifactSelectionSurface, githubAppAuthSurface);
+  const uploadSurface = buildArtifactUploadSurface(input, content, codeAnalysisFacts, artifactKind, artifactType, selectedInventoryEntries);
+  const signerAddress = signingSurface.signerAddress;
   const assetCodeAnalysisReceipt = buildStaticExecutionReceipt({
     receiptKind: 'asset-static-code-analysis',
     stageId: 'asset.measurement.extract.v9',
@@ -1348,25 +2282,25 @@ export function makeCandidateAsset(input) {
     inputs: {
       assetId,
       contentRoot,
-      sourcePaths: input.sourcePaths || codeAnalysisFacts.paths,
+      sourcePaths: addressingSurface.sourcePaths,
       declaredStacks: input.declaredStacks || codeAnalysisFacts.stackTags,
       declaredConstraints: input.declaredConstraints || codeAnalysisFacts.constraints
     },
     normalizedOutputEnvelope: {
       symbols: codeAnalysisFacts.symbols,
-      paths: input.sourcePaths || codeAnalysisFacts.paths,
+      paths: addressingSurface.sourcePaths,
       configKeys: input.configKeys || codeAnalysisFacts.configKeys,
       stackTags: input.declaredStacks || codeAnalysisFacts.stackTags,
       constraints: input.declaredConstraints || codeAnalysisFacts.constraints
     },
-    evidenceRefs: [contentRoot, ...(input.sourcePaths || codeAnalysisFacts.paths)],
+    evidenceRefs: [contentRoot, ...addressingSurface.sourcePaths],
     replayInputClosure: [contentRoot, ...contentUnits.map((unit) => unit.unitHash)]
   });
   const assetMeasurement = {
     assetId,
     codeAnalysisFacts: {
       symbols: codeAnalysisFacts.symbols,
-      paths: input.sourcePaths || codeAnalysisFacts.paths,
+      paths: addressingSurface.sourcePaths,
       configKeys: input.configKeys || codeAnalysisFacts.configKeys,
       stackTags: input.declaredStacks || codeAnalysisFacts.stackTags,
       constraints: input.declaredConstraints || codeAnalysisFacts.constraints
@@ -1404,29 +2338,52 @@ export function makeCandidateAsset(input) {
       {
         attestationId: `att_${sha256(assetId).slice(0, 12)}`,
         signerAddress,
-        signatureChecksPass: input.signatureChecksPass !== false,
-        payloadHash: stableHashObject(attestationPayload),
-        signedPayloadHashMatchesContentRoot: input.signedPayloadHashMatchesContentRoot !== false,
+        signatureChecksPass: signingSurface.signatureChecksPass,
+        payloadHash: signingSurface.payloadHash || stableHashObject(attestationPayload),
+        signedPayloadHashMatchesContentRoot: signingSurface.signedPayloadHashMatchesContentRoot,
         cosignSatisfied: input.cosignSatisfied !== false,
-        attestationHash: stableHashObject({ signerAddress, contentRoot })
+        attestationHash: signingSurface.attestationHash || stableHashObject({ signerAddress, contentRoot })
       }
     ],
     uploadSurface,
-    githubBoundary: uploadSurface.githubBinding,
+    artifactSelectionSurface,
+    addressingSurface,
+    signingSurface,
+    githubAppAuthSurface,
+    githubBoundary: {
+      ...uploadSurface.githubBinding,
+      installationId: githubAppAuthSurface.installationId,
+      authSessionId: githubAppAuthSurface.authSessionId,
+      repositoryId: githubAppAuthSurface.repositoryId,
+      repositoryNodeId: githubAppAuthSurface.repositoryNodeId,
+      permissions: githubAppAuthSurface.permissions,
+      permissionsRoot: githubAppAuthSurface.permissionsRoot,
+      authPayloadHash: githubAppAuthSurface.authPayloadHash,
+      selectedInventoryRoot: artifactSelectionSurface.selectedInventoryRoot,
+      addressingScope: addressingSurface.addressingScope,
+      addressingRoot: addressingSurface.addressingRoot
+    },
     identitySurface: {
-      signerAddress,
+      signerAddress: signingSurface.signerAddress,
       signerClass: 'issuer-principal',
-      signerSource: 'attestation',
+      signerSource: 'signing-surface',
+      authSessionId: githubAppAuthSurface.authSessionId,
+      installationId: githubAppAuthSurface.installationId,
+      authMechanism: githubAppAuthSurface.authMechanism,
+      selectedInventoryRoot: artifactSelectionSurface.selectedInventoryRoot,
+      addressingRoot: addressingSurface.addressingRoot,
+      authPayloadHash: githubAppAuthSurface.authPayloadHash,
+      signedPayloadHash: signingSurface.payloadHash,
       profileABoundary: 'Local modeled signer binding only.',
       profileBBoundary: 'Would verify real signer identity / GitHub App / org-bound authorization externally.'
     },
     provenanceBinding: {
       sourceProvider: input.sourceProvider || 'github',
-      repo: input.sourceRepo || 'frontier/demo-auth',
-      commit: input.sourceCommit || `demo-${sha256(assetId).slice(0, 7)}`,
-      paths: input.sourcePaths || codeAnalysisFacts.paths,
-      workflowPath: input.workflowPath || '.github/workflows/benchmark.yml',
-      workflowRunId: input.workflowRunId || 'gha_run_auth_001'
+      repo: addressingSurface.repo,
+      commit: addressingSurface.commit || `demo-${sha256(assetId).slice(0, 7)}`,
+      paths: addressingSurface.sourcePaths,
+      workflowPath: addressingSurface.workflowPath || '.github/workflows/benchmark.yml',
+      workflowRunId: addressingSurface.workflowRunId || 'gha_run_auth_001'
     },
     verificationEvidence: {
       testsPassed: input.testsPassed !== false,
@@ -1441,12 +2398,12 @@ export function makeCandidateAsset(input) {
     metadata: {
       author: input.author,
       organization: input.organization || '$ENGI',
-      sourceRepo: input.sourceRepo || 'frontier/demo-auth',
-      sourceCommit: input.sourceCommit || `demo-${sha256(assetId).slice(0, 7)}`,
-      sourcePaths: input.sourcePaths || codeAnalysisFacts.paths,
-      tags: input.tags || [],
-      declaredStacks: input.declaredStacks || codeAnalysisFacts.stackTags,
-      declaredConstraints: input.declaredConstraints || codeAnalysisFacts.constraints,
+      sourceRepo: addressingSurface.repo,
+      sourceCommit: addressingSurface.commit || `demo-${sha256(assetId).slice(0, 7)}`,
+      sourcePaths: addressingSurface.sourcePaths,
+      tags: summarizeStrings([...(input.tags || []), ...selectedInventoryEntries.flatMap((entry) => entry.tags || [])]),
+      declaredStacks: summarizeStrings([...(input.declaredStacks || codeAnalysisFacts.stackTags), ...selectedInventoryEntries.flatMap((entry) => entry.declaredStacks || [])]),
+      declaredConstraints: summarizeStrings([...(input.declaredConstraints || codeAnalysisFacts.constraints), ...selectedInventoryEntries.flatMap((entry) => entry.declaredConstraints || [])]),
       summary: input.summary || content.slice(0, 220),
       privateContent: content,
       issuerPolicyStatus: input.issuerPolicyStatus || 'allowed'
@@ -1466,8 +2423,25 @@ export function makeCandidateAsset(input) {
 }
 
 export function buildInitialState() {
+  const githubAppSessions = buildSeedGitHubAppSessions();
+  const repoArtifactInventory = buildSeedRepoArtifactInventoryEntries(githubAppSessions);
+  const inventoryEntryByRepoTitle = new Map(
+    repoArtifactInventory.map((entry) => [`${entry.repo}:${entry.title}`, entry])
+  );
+  const bindSeedRepoSelection = (input, inventoryTitles = []) => {
+    const repo = input.sourceRepo || 'frontier/demo-auth';
+    return {
+      ...input,
+      sourceRepo: repo,
+      authSession: githubAppSessions.find((session) => session.repo === repo) || null,
+      inventoryEntries: inventoryTitles
+        .map((title) => inventoryEntryByRepoTitle.get(`${repo}:${title}`))
+        .filter(Boolean),
+      contentDerivedFromSelection: inventoryTitles.length > 0
+    };
+  };
   const assets = [
-    makeCandidateAsset({
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Enterprise auth migration rollback playbook',
       author: 'Garrett',
       organization: '$ENGI',
@@ -1481,8 +2455,8 @@ export function buildInitialState() {
       content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the ENGI remediation branch validation notes.`,
       proofLogs: ['creusot-session-validator-proof.log'],
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
-    }),
-    makeCandidateAsset({
+    }, ['Auth rollback benchmark summary', 'Issuer compatibility config snapshot', 'Issuer mismatch incident notes'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Proof-carrying session validator patch kit',
       author: 'Eve',
       organization: '$ENGI',
@@ -1496,8 +2470,8 @@ export function buildInitialState() {
       content: `Contract: session validation lookups must not panic, must preserve index bounds, and must never accept expired or issuer-mismatched entries.\n\nImplementation note: replace unchecked indexing with guarded access, propagate Result and Option values, and prove that cache eviction preserves validator invariants.\n\nValidation steps: cargo test -p auth-validator, cargo creusot prove services/auth/session_validator.rs, and rerun the GitHub Actions auth remediation benchmark.\n\nExpected touched areas: services/auth/session_validator.rs and services/auth/cache.rs.`,
       proofLogs: ['cargo-creusot-success.log'],
       pinnedEnvironment: 'ubuntu-24.04 + rust stable'
-    }),
-    makeCandidateAsset({
+    }, ['Rollback verifier compatibility patch', 'Session validator proof log'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Formal replay-window validator proof bundle',
       author: 'Sora',
       organization: '$ENGI',
@@ -1515,8 +2489,8 @@ export function buildInitialState() {
       content: `Proof bundle objective: repair replay-window and overflow proof regressions in the validator crate without weakening nonce or arithmetic guarantees.\n\nImplementation note: keep the replay window bounded, prove the overflow guard over the full input range, and bind the proof outputs back to the benchmark harness.\n\nValidation steps: cargo test -p payments-validator, cargo creusot prove proofs/session_guard.creusot, and rerun the validator regression benchmark.`,
       proofLogs: ['validator-replay-window-proof.log'],
       pinnedEnvironment: 'ubuntu-24.04 + rust stable'
-    }),
-    makeCandidateAsset({
+    }, ['Replay window attestation bundle', 'Replay guard patch', 'Validator proof recovery runbook'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Token issuer incident escalation notes',
       author: 'Avery',
       organization: '$ENGI',
@@ -1534,8 +2508,8 @@ export function buildInitialState() {
       signedPayloadHashMatchesContentRoot: true,
       issuerPolicyStatus: 'restricted',
       pinnedEnvironment: ''
-    }),
-    makeCandidateAsset({
+    }, ['Issuer mismatch incident notes'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Policy precedence incident governor fixpack',
       author: 'Noah',
       organization: '$ENGI',
@@ -1552,8 +2526,8 @@ export function buildInitialState() {
       declaredConstraints: ['preserve approval ordering', 'emit policy audit receipt', 'no silent precedence fallback'],
       content: `Policy incident closure: restore explicit precedence ordering between staged policy bundles and emergency overrides before rollout resumes.\n\nImplementation note: make precedence resolution explicit, record the chosen policy source in audit receipts, and reject rollouts that fall back to undeclared defaults.\n\nValidation steps: rerun the policy precedence benchmark, inspect approval-window traces, and confirm that policy audit receipts include workflow run and commit linkage.`,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
-    }),
-    makeCandidateAsset({
+    }, ['Policy precedence benchmark output', 'Policy precedence governor patch', 'Policy incident operator runbook'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Unsafe patch review containment checklist',
       author: 'Mina',
       organization: '$ENGI',
@@ -1571,8 +2545,8 @@ export function buildInitialState() {
       content: `Unsafe patch containment: reject broad patch drops that bypass review gates, force an explicit rationale, and attach the touched-file budget to the review receipt.\n\nOperator steps: diff the candidate patch against allowed file boundaries, require reviewer rationale before apply, and reopen the benchmark workflow if the patch exceeds policy scope.\n\nExpected touched areas: services/review/review_gate.ts, docs/reviews/unsafe_patch_containment.md.`,
       benchmarkRan: false,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
-    }),
-    makeCandidateAsset({
+    }, ['Unsafe review recovery diff note', 'Unsafe review containment checklist', 'Review gate proof log'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Deployment drift rollback release playbook',
       author: 'Iris',
       organization: '$ENGI',
@@ -1589,8 +2563,8 @@ export function buildInitialState() {
       declaredConstraints: ['preserve release ordering', 'emit deployment receipt', 'keep rollout reversible'],
       content: `Deployment drift recovery: compare Terraform state, Helm chart expectations, and runtime release receipts before rollback.\n\nExecution plan: stop progressive rollout, reconcile expected chart version with applied infrastructure revisions, and only then replay the rollback plan in bounded batches.\n\nValidation: rerun the deployment benchmark, confirm drift detection receipts, and verify release ordering stayed reversible throughout the rollback.`,
       pinnedEnvironment: 'ubuntu-24.04 + terraform 1.9 + helm 3'
-    }),
-    makeCandidateAsset({
+    }, ['Deployment drift incident runbook', 'Deployment drift config snapshot', 'Deployment release parity patch'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Projection-safe bounded proof export notes',
       author: 'Jules',
       organization: '$ENGI',
@@ -1607,8 +2581,8 @@ export function buildInitialState() {
       declaredConstraints: ['bounded metadata only', 'no private artifact leak', 'replay disclosure decisions'],
       content: `Bounded proof export: derive the public proof surface strictly from bounded metadata, redact private branch artifacts by policy class, and record every disclosure decision with replayable artifact hashes.\n\nVerification: compare public artifact inventory against projection policy, assert that private source material never appears in public outputs, and preserve a replayable disclosure chain.`,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
-    }),
-    makeCandidateAsset({
+    }, ['Bounded proof export witness bundle', 'Bounded proof redaction patch', 'Public proof disclosure runbook'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Session validator compatibility witness dossier',
       author: 'Lane',
       organization: '$ENGI',
@@ -1627,8 +2601,8 @@ export function buildInitialState() {
       content: `Witness objective: prove that session validation, issuer compatibility rollback, and audit receipt emission remain aligned for the normalization-heavy auth remediation branch.\n\nImplementation note: keep SessionValidator and restoreLegacyVerifier on the same rollback boundary, bind emitAuditReceipt to the exact workflow run and commit, and reject any compatibility-window repair that is not reflected in both session and receipt evidence.\n\nVerification steps: rerun the auth normalization benchmark, replay the validator proof log against services/auth/session_validator.rs, and confirm that services/auth/audit_receipt.ts and config/auth/issuer-compat.yml preserve the same workflow-bound compatibility window.`,
       proofLogs: ['auth019-session-validator-proof.log'],
       pinnedEnvironment: 'ubuntu-24.04 + rust stable + node 22'
-    }),
-    makeCandidateAsset({
+    }, ['Session validator proof log', 'Auth rollback benchmark summary', 'Issuer compatibility config snapshot'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Auth audit receipt reconciliation patchset',
       author: 'Kai',
       organization: '$ENGI',
@@ -1645,8 +2619,8 @@ export function buildInitialState() {
       declaredConstraints: ['emit audit receipt', 'preserve session validity', 'bind workflow run to receipt'],
       content: `Patch objective: reconcile auth rollback receipts with the workflow run, commit, and issuer compatibility window so rollback evidence stays settlement-grade.\n\nImplementation note: write the workflow run and commit into emitAuditReceipt, keep restoreLegacyVerifier and issuer compatibility updates in the same remediation patch, and fail closed if receipt linkage is missing.\n\nValidation steps: rerun the auth benchmark, inspect receipt reconciliation logs, and confirm that rollback receipts stay hash-bound to services/auth/audit_receipt.ts.`,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
-    }),
-    makeCandidateAsset({
+    }, ['Auth audit receipt patchset', 'Auth rollback benchmark summary', 'Issuer compatibility config snapshot'])),
+    makeCandidateAsset(bindSeedRepoSelection({
       title: 'Polyglot gateway rollback coordination playbook',
       author: 'Rin',
       organization: '$ENGI',
@@ -1663,7 +2637,7 @@ export function buildInitialState() {
       declaredConstraints: ['preserve cross-language parity', 'emit audit receipt', 'keep rollback reversible'],
       content: `Polyglot rollback objective: recover gateway issuer drift without letting the TypeScript API, Python replay worker, or Rust token bridge diverge.\n\nExecution plan: freeze queued session replay, coordinate the server.ts issuer rollback with workers/session_replay.py, validate BridgeGuard assumptions in crates/token_bridge/src/lib.rs, and only then reopen traffic.\n\nValidation: rerun the gateway parity benchmark, verify the cross-language receipt chain, and confirm that config/gateway/issuer_policy.yml stays aligned with the rollback window.`,
       pinnedEnvironment: 'ubuntu-24.04 + node 22 + python 3.13 + rust stable'
-    })
+    }, ['Polyglot gateway rollback patchset', 'Polyglot rollback runbook', 'Cross-language receipt config snapshot', 'Gateway parity proof log']))
   ];
 
   const buyers = [
@@ -2275,7 +3249,7 @@ export function buildInitialState() {
   };
 
   return {
-    version: 2,
+    version: 3,
     specVersion: SPEC_VERSION,
     conformanceProfiles: {
       active: PROFILE_A,
@@ -2286,10 +3260,85 @@ export function buildInitialState() {
     assets,
     buyers,
     needScenarios,
+    githubAppSessions,
+    repoArtifactInventory,
     policyState,
     ledger,
     latestRun: null,
     runHistory: []
+  };
+}
+
+function publicGitHubAppSession(session) {
+  return {
+    authSessionId: session.authSessionId,
+    authMechanism: session.authMechanism,
+    appId: session.appId,
+    appSlug: session.appSlug,
+    installationId: session.installationId,
+    installationAccountLogin: session.installationAccountLogin,
+    installationAccountId: session.installationAccountId,
+    installationAccountNodeId: session.installationAccountNodeId,
+    installationAccountType: session.installationAccountType,
+    operatorLogin: session.operatorLogin,
+    repo: session.repo,
+    owner: session.owner,
+    repoName: session.repoName,
+    repositoryId: session.repositoryId,
+    repositoryNodeId: session.repositoryNodeId,
+    repositoryVisibility: session.repositoryVisibility,
+    repositorySelection: session.repositorySelection,
+    permissions: session.permissions,
+    permissionsRoot: session.permissionsRoot,
+    defaultRef: session.defaultRef,
+    defaultSignerAddress: session.defaultSignerAddress,
+    signingAlgorithm: session.signingAlgorithm,
+    keySource: session.keySource,
+    sessionIssuedAt: session.sessionIssuedAt,
+    sessionExpiresAt: session.sessionExpiresAt,
+    tokenBoundary: session.tokenBoundary,
+    authPayloadHash: session.authPayloadHash,
+    profileABoundary: session.profileABoundary,
+    profileBBoundary: session.profileBBoundary
+  };
+}
+
+function publicRepoArtifactInventoryEntry(entry) {
+  return {
+    inventoryEntryId: entry.inventoryEntryId,
+    repo: entry.repo,
+    artifactKind: entry.artifactKind,
+    artifactType: entry.artifactType,
+    originKind: entry.originKind,
+    title: entry.title,
+    summary: entry.summary,
+    ref: entry.ref,
+    sourceCommit: entry.sourceCommit,
+    sourcePath: entry.sourcePath,
+    sourcePaths: entry.sourcePaths,
+    workflowRunId: entry.workflowRunId,
+    workflowPath: entry.workflowPath,
+    workflowJobName: entry.workflowJobName,
+    checkSuiteId: entry.checkSuiteId,
+    artifactName: entry.artifactName,
+    tags: entry.tags,
+    declaredStacks: entry.declaredStacks,
+    declaredConstraints: entry.declaredConstraints,
+    previewSurface: entry.previewSurface,
+    signerAddress: entry.signerAddress,
+    owner: entry.owner,
+    repoName: entry.repoName,
+    repositoryId: entry.repositoryId,
+    repositoryNodeId: entry.repositoryNodeId,
+    authSessionId: entry.authSessionId,
+    installationId: entry.installationId,
+    installationAccountLogin: entry.installationAccountLogin,
+    installationAccountId: entry.installationAccountId,
+    installationAccountNodeId: entry.installationAccountNodeId,
+    contentRoot: entry.contentRoot,
+    addressing: entry.addressing,
+    authBinding: entry.authBinding,
+    provenance: entry.provenance
   };
 }
 
@@ -2311,6 +3360,10 @@ export function publicAsset(asset) {
     declaredStacks: asset.metadata.declaredStacks,
     declaredConstraints: asset.metadata.declaredConstraints,
     uploadSurface: asset.uploadSurface,
+    artifactSelectionSurface: asset.artifactSelectionSurface,
+    addressingSurface: asset.addressingSurface,
+    signingSurface: asset.signingSurface,
+    githubAppAuthSurface: asset.githubAppAuthSurface,
     githubBoundary: asset.githubBoundary,
     identitySurface: asset.identitySurface,
     verificationEvidence: {
@@ -3659,7 +4712,12 @@ function buildAssetPackLock(assetPack, selectedCandidates) {
       contentRoot: candidate.asset.contentRoot,
       attestationHash: candidate.asset.attestations[0]?.attestationHash,
       useTier: candidate.useTier,
-      sourceMaterialBinding: candidate.asset.sourceMaterialBinding
+      sourceMaterialBinding: candidate.asset.sourceMaterialBinding,
+      selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+      addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+      authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+      signedPayloadHash: candidate.asset.signingSurface?.payloadHash,
+      selectedInventoryEntryIds: candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []
     })),
     units: selectedCandidates.flatMap((candidate) => candidate.asset.contentUnits.slice(0, 2).map((unit) => ({
       assetId: candidate.assetId,
@@ -3671,7 +4729,9 @@ function buildAssetPackLock(assetPack, selectedCandidates) {
       selectedUnitIds: candidate.asset.contentUnits.slice(0, 2).map((unit) => unit.unitId),
       materializationRoot: candidate.asset.sourceMaterialBinding.materializationRoot,
       mutableInBranch: candidate.asset.sourceMaterialBinding.mutableInBranch,
-      confidentiality: candidate.asset.sourceMaterialBinding.confidentiality
+      confidentiality: candidate.asset.sourceMaterialBinding.confidentiality,
+      selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+      addressingRoot: candidate.asset.addressingSurface?.addressingRoot
     }))
   };
 }
@@ -3689,6 +4749,13 @@ function buildSelectedSourceMaterialManifest(assetPack, selectedCandidates) {
       artifactKind: candidate.asset.artifactKind,
       sourceMaterialBinding: candidate.asset.sourceMaterialBinding,
       rights: useTierRights(candidate.useTier, assetPack.branchMode),
+      selectionLabel: candidate.asset.artifactSelectionSurface?.selectionLabel,
+      selectedInventoryEntryIds: candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [],
+      selectedInventoryEntries: candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || [],
+      selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+      addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+      authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+      signingPayloadHash: candidate.asset.signingSurface?.payloadHash,
       selectedUnits: candidate.asset.contentUnits.slice(0, 2).map((unit) => ({
         assetId: candidate.assetId,
         unitId: unit.unitId,
@@ -4095,12 +5162,38 @@ function buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, pol
 }
 
 function buildIdentityBindings(buyer, selectedCandidates) {
-  return [
+  const sessionBindings = [...new Map(
+    selectedCandidates
+      .filter((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId)
+      .map((candidate) => [candidate.asset.githubAppAuthSurface.authSessionId, {
+        principalId: `github-app-session:${candidate.asset.githubAppAuthSurface.authSessionId}`,
+        principalClass: 'github-app-session-principal',
+        authSource: 'github-app-installation',
+        boundRefs: [
+          candidate.asset.githubAppAuthSurface.authSessionId,
+          candidate.asset.addressingSurface?.repo,
+          candidate.asset.githubAppAuthSurface.installationId,
+          candidate.asset.githubAppAuthSurface.repositoryId
+        ].filter(Boolean),
+        surfaceRoots: {
+          authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+          permissionsRoot: candidate.asset.githubAppAuthSurface?.permissionsRoot
+        }
+      }])
+  ).values()];
+
+  const bindings = [
     {
       principalId: `buyer:${buyer.buyerId}`,
       principalClass: 'buyer-principal',
       authSource: 'github',
-      boundRefs: [buyer.repo, buyer.buyerBranch]
+      boundRefs: [buyer.repo, buyer.buyerBranch, buildRepoIdentity(buyer.repo).repositoryId]
+    },
+    {
+      principalId: `github-app-installation:${buyer.installationId}`,
+      principalClass: 'github-app-installation-principal',
+      authSource: 'github-app-installation',
+      boundRefs: [buyer.installationId, buyer.repo, buyer.buyerBranch, buildRepoIdentity(buyer.repo).repositoryId]
     },
     {
       principalId: 'engi-system:need-measurement',
@@ -4138,17 +5231,47 @@ function buildIdentityBindings(buyer, selectedCandidates) {
       authSource: 'policy',
       boundRefs: ['bounded-public-proof']
     },
+    ...sessionBindings,
     ...selectedCandidates.map((candidate) => ({
       principalId: candidate.asset.attestations[0]?.signerAddress || `issuer:${candidate.assetId}`,
       principalClass: 'issuer-principal',
       authSource: 'attestation',
-      boundRefs: [candidate.assetId, candidate.asset.contentRoot]
+      boundRefs: [
+        candidate.assetId,
+        candidate.asset.contentRoot,
+        candidate.asset.addressingSurface?.repo,
+        candidate.asset.githubAppAuthSurface?.installationId,
+        candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+        candidate.asset.addressingSurface?.addressingRoot,
+        candidate.asset.githubAppAuthSurface?.authPayloadHash,
+        candidate.asset.signingSurface?.payloadHash
+      ].filter(Boolean),
+      surfaceRoots: {
+        selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+        addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+        authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+        payloadHash: candidate.asset.signingSurface?.payloadHash
+      },
+      selectedInventoryEntryIds: candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []
     }))
   ];
+
+  return bindings.map((binding) => ({
+    ...binding,
+    bindingRoot: stableHashObject({
+      principalId: binding.principalId,
+      principalClass: binding.principalClass,
+      authSource: binding.authSource,
+      boundRefs: binding.boundRefs,
+      surfaceRoots: binding.surfaceRoots || {},
+      selectedInventoryEntryIds: binding.selectedInventoryEntryIds || []
+    })
+  }));
 }
 
 function buildAuthorizationDecisions(policyState, bindings, buyer, branchName, assetPack) {
   return [
+    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `github-app-installation:${buyer.installationId}`), 'read:repo-artifact-inventory', buyer.repo, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
@@ -4384,21 +5507,61 @@ function buildJournalCompletenessProof(eventId, journalDiff) {
   };
 }
 
-function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bindings) {
+function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bindings, selectedCandidates = []) {
+  const inventoryBackedCandidates = selectedCandidates.filter((candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
   return {
     resourceRef: branchName,
     allAccessBoundToKnownPrincipals: authorizationDecisions.every((decision) => bindings.some((binding) => binding.principalId === decision.principalId)),
     allStateChangingActionsAuthorized: authorizationDecisions.filter((decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((decision) => decision.decision === 'allow'),
     issuerIdentityBound: bindings.some((binding) => binding.principalClass === 'issuer-principal'),
     buyerDeliveryPrincipalsBound: bindings.some((binding) => binding.principalClass === 'buyer-principal'),
+    githubAppInstallationBound: bindings.some((binding) => binding.principalClass === 'github-app-installation-principal'),
+    repoArtifactInventoryReadAuthorized: authorizationDecisions.some((decision) => decision.action === 'read:repo-artifact-inventory' && decision.decision === 'allow'),
+    selectedAssetsAddressed: selectedCandidates.every((candidate) => !!candidate.asset.addressingSurface?.repo),
+    selectedAssetsSigned: selectedCandidates.every((candidate) => !!candidate.asset.signingSurface?.signerAddress && !!candidate.asset.signingSurface?.attestationHash),
+    selectedAssetsSignedAgainstAddressing: selectedCandidates.every((candidate) => candidate.asset.signingSurface?.signedAddressingRoot === candidate.asset.addressingSurface?.addressingRoot),
+    selectedAssetsSignedAgainstInventorySelection: selectedCandidates.every((candidate) => candidate.asset.signingSurface?.signedSelectionRoot === candidate.asset.artifactSelectionSurface?.selectedInventoryRoot),
+    selectedAssetsSignedAgainstGitHubAppAuth: selectedCandidates.every((candidate) => candidate.asset.signingSurface?.signedGitHubAppAuthRoot === candidate.asset.githubAppAuthSurface?.authPayloadHash),
+    selectedAssetsHaveInstallationScopedAuthWhenInventoryBacked: selectedCandidates.every((candidate) => {
+      const inventoryBacked = (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0;
+      return !inventoryBacked || !!candidate.asset.githubAppAuthSurface?.installationId;
+    }),
+    inventoryBackedAssetsPreserveSelectionSnapshots: inventoryBackedCandidates.every((candidate) => {
+      const selectedIds = candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [];
+      const selectedEntries = candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || [];
+      return selectedIds.length === selectedEntries.length;
+    }),
+    installationScopedBindingsMatchRepo: inventoryBackedCandidates.every((candidate) =>
+      candidate.asset.githubAppAuthSurface?.repositoryId === candidate.asset.addressingSurface?.repositoryId
+    ),
     witnessRefs: {
       principalIds: bindings.map((binding) => binding.principalId),
-      decisionIds: authorizationDecisions.map((decision) => `${decision.principalId}:${decision.action}`)
+      decisionIds: authorizationDecisions.map((decision) => `${decision.principalId}:${decision.action}`),
+      selectedAssetAddressRefs: selectedCandidates.map((candidate) => ({
+        assetId: candidate.assetId,
+        repo: candidate.asset.addressingSurface?.repo,
+        selectedInventoryEntryIds: candidate.asset.addressingSurface?.selectedInventoryEntryIds || [],
+        installationId: candidate.asset.githubAppAuthSurface?.installationId,
+        selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+        addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+        authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+        signedPayloadHash: candidate.asset.signingSurface?.payloadHash
+      }))
     },
     proofHash: stableHashObject({
       branchName,
       principalIds: bindings.map((binding) => binding.principalId),
-      decisionIds: authorizationDecisions.map((decision) => `${decision.principalId}:${decision.action}`)
+      decisionIds: authorizationDecisions.map((decision) => `${decision.principalId}:${decision.action}`),
+      selectedAssetAddressRefs: selectedCandidates.map((candidate) => ({
+        assetId: candidate.assetId,
+        repo: candidate.asset.addressingSurface?.repo,
+        selectedInventoryEntryIds: candidate.asset.addressingSurface?.selectedInventoryEntryIds || [],
+        installationId: candidate.asset.githubAppAuthSurface?.installationId,
+        selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+        addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+        authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+        signedPayloadHash: candidate.asset.signingSurface?.payloadHash
+      }))
     })
   };
 }
@@ -4860,6 +6023,9 @@ function buildUnitCatalog(selectedCandidates) {
       assetId: candidate.assetId,
       title: candidate.asset.title,
       useTier: candidate.useTier,
+      selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+      selectedInventoryEntryIds: candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [],
+      addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
       ...unitSemanticSummary(unit)
     })))
   };
@@ -5001,33 +6167,89 @@ function buildSystemProofBundle(needId, assetPackId, inferenceProofs, assetMeasu
 }
 
 function buildArtifactUploadManifest(selectedCandidates) {
+  const uploads = selectedCandidates.map((candidate) => ({
+    assetId: candidate.assetId,
+    title: candidate.asset.title,
+    artifactKind: candidate.asset.artifactKind,
+    artifactType: candidate.asset.artifactType,
+    uploadSurface: candidate.asset.uploadSurface,
+    artifactSelectionSurface: candidate.asset.artifactSelectionSurface,
+    selectionRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+    addressingSurface: candidate.asset.addressingSurface,
+    addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+    signingSurface: candidate.asset.signingSurface,
+    githubAppAuthSurface: candidate.asset.githubAppAuthSurface,
+    authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+    githubBoundary: candidate.asset.githubBoundary,
+    identitySurface: candidate.asset.identitySurface
+  }));
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
-    uploads: selectedCandidates.map((candidate) => ({
-      assetId: candidate.assetId,
-      title: candidate.asset.title,
-      artifactKind: candidate.asset.artifactKind,
-      artifactType: candidate.asset.artifactType,
-      uploadSurface: candidate.asset.uploadSurface,
-      githubBoundary: candidate.asset.githubBoundary,
-      identitySurface: candidate.asset.identitySurface
-    }))
+    uploadCount: uploads.length,
+    inventoryBackedUploadCount: uploads.filter((upload) => (upload.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0).length,
+    artifactKindCounts: countValues(uploads.map((upload) => upload.artifactKind)),
+    uploads
   };
 }
 
 function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
+  const selectedSessionBindings = [...new Map(
+    selectedCandidates
+      .filter((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId)
+      .map((candidate) => [candidate.asset.githubAppAuthSurface.authSessionId, {
+        authSessionId: candidate.asset.githubAppAuthSurface.authSessionId,
+        repo: candidate.asset.addressingSurface?.repo,
+        installationId: candidate.asset.githubAppAuthSurface.installationId,
+        installationAccountLogin: candidate.asset.githubAppAuthSurface.installationAccountLogin,
+        installationAccountId: candidate.asset.githubAppAuthSurface.installationAccountId,
+        repositoryId: candidate.asset.githubAppAuthSurface.repositoryId,
+        repositoryNodeId: candidate.asset.githubAppAuthSurface.repositoryNodeId,
+        permissionsRoot: candidate.asset.githubAppAuthSurface.permissionsRoot,
+        authPayloadHash: candidate.asset.githubAppAuthSurface.authPayloadHash,
+        tokenBoundary: candidate.asset.githubAppAuthSurface.tokenBoundary
+      }])
+  ).values()];
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     modeledBindings: {
       buyerInstallationId: buyer.installationId,
       repo: buyer.repo,
+      repositoryId: buildRepoIdentity(buyer.repo).repositoryId,
+      repositoryNodeId: buildRepoIdentity(buyer.repo).repositoryNodeId,
       benchmarkRunId: need.benchmarkRunId,
       benchmarkWorkflowPath: need.benchmarkWorkflowPath,
-      selectedAssetGithubBindings: selectedCandidates.map((candidate) => candidate.asset.githubBoundary)
+      selectedAssetGithubBindings: selectedCandidates.map((candidate) => candidate.asset.githubBoundary),
+      selectedAssetAuthBindings: selectedCandidates.map((candidate) => ({
+        assetId: candidate.assetId,
+        authSessionId: candidate.asset.githubAppAuthSurface?.authSessionId,
+        installationId: candidate.asset.githubAppAuthSurface?.installationId,
+        permissions: candidate.asset.githubAppAuthSurface?.permissions,
+        permissionsRoot: candidate.asset.githubAppAuthSurface?.permissionsRoot,
+        addressingScope: candidate.asset.addressingSurface?.addressingScope,
+        addressingRoot: candidate.asset.addressingSurface?.addressingRoot,
+        selectedInventoryEntryIds: candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [],
+        selectedInventoryRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+        authPayloadHash: candidate.asset.githubAppAuthSurface?.authPayloadHash,
+        signedPayloadHash: candidate.asset.signingSurface?.payloadHash
+      }))
     },
-    profileABoundary: 'Demo stores GitHub/App references only and never fakes live API effects.',
+    selectedAuthSessions: selectedSessionBindings,
+    selectedInventoryProofs: selectedCandidates.map((candidate) => ({
+      assetId: candidate.assetId,
+      selectionLabel: candidate.asset.artifactSelectionSurface?.selectionLabel,
+      selectedInventoryEntries: candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || [],
+      selectedInventoryRoot: candidate.asset.artifactSelectionSurface?.selectedInventoryRoot,
+      addressingRoot: candidate.asset.addressingSurface?.addressingRoot
+    })),
+    authPayloadShape: {
+      authMechanism: 'github-app-installation',
+      installationId: buyer.installationId,
+      repositorySelection: 'selected',
+      requiredFields: ['authSessionId', 'appId', 'appSlug', 'installationId', 'installationAccountLogin', 'installationAccountId', 'installationAccountType', 'repositoryId', 'repositoryNodeId', 'permissions', 'permissionsRoot', 'tokenBoundary', 'authPayloadHash']
+    },
+    profileABoundary: 'Demo stores GitHub/App auth payloads and repo bindings locally but never mints or uses a live installation token.',
     profileBBoundary: 'Live GitHub App installation auth, workflow fetches, PR writes, and branch operations remain external.'
   };
 }
@@ -6099,7 +7321,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const externalBoundaryManifest = buildExternalBoundaryManifest({ buyer: scenarioBoundBuyer, need, selectedCandidates, assetPack, settlementPreview: settlement.settlementPreview });
   const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, scenarioBoundBuyer, branchName, assetPack);
   const sensitiveDataFlowRecords = buildSensitiveDataFlowRecords(policyState, scenarioBoundBuyer, branchName, assetPack, selectedCandidates);
-  const identityAuthorizationProof = buildIdentityAuthorizationProof(branchName, authorizationDecisions, identityBindings);
+  const identityAuthorizationProof = buildIdentityAuthorizationProof(branchName, authorizationDecisions, identityBindings, selectedCandidates);
   const sensitiveDataFlowProof = buildSensitiveDataFlowProof(sensitiveDataFlowRecords);
   const assetMeasurementProofs = buildAssetMeasurementProofs(selectedCandidates);
   const settlementProof = buildSettlementProof(settlement.journalDiff, assetPackLock);
@@ -6575,6 +7797,8 @@ export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
     profileCompositions: buildProfileCompositions(),
     updatedAt: nowIso(),
     buyers: state.buyers,
+    githubAppSessions: (state.githubAppSessions || []).map(publicGitHubAppSession),
+    repoArtifactInventory: (state.repoArtifactInventory || []).map(publicRepoArtifactInventoryEntry),
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
     needScenarios: state.needScenarios.map((scenario) => ({
       scenarioId: scenario.scenarioId,

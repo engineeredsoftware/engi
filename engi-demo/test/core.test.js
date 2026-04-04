@@ -27,6 +27,8 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   assert.equal(state.assets.length, 11);
   assert.equal(state.buyers.length, 1);
   assert.equal(state.needScenarios.length, 8);
+  assert.equal(state.githubAppSessions.length, 7);
+  assert.ok(state.repoArtifactInventory.length >= 10);
   assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'));
   assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'privacy-boundary-stress'));
   assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'));
@@ -42,7 +44,7 @@ test('buildNeedDescriptor carries canonical run evidence, parser failure contrac
   assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
   assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
   assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
-  assert.equal(need.conformanceProfile, 'Profile A — local deterministic V9 prototype');
+  assert.equal(need.conformanceProfile, 'Profile A — local deterministic V10 prototype');
   assert.equal(need.productionIntentProfile, 'Profile B — GitHub/App and external production boundary');
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
@@ -134,7 +136,34 @@ test('makeCandidateAsset creates spec-shaped candidate asset with content units'
   assert.equal(asset.assetMeasurement.vectorInterfaces.taskVectorSpace, 'task-semantic-space.v8');
   assert.equal(asset.uploadSurface.artifactType, 'runbook/operator-playbook');
   assert.equal(asset.identitySurface.signerClass, 'issuer-principal');
+  assert.equal(asset.artifactSelectionSurface.intakeMode, 'raw-fallback');
+  assert.equal(asset.addressingSurface.repo, 'frontier/demo-auth');
+  assert.equal(asset.signingSurface.signingAlgorithm, 'ed25519');
+  assert.equal(asset.githubAppAuthSurface.authMechanism, 'manual-unbound');
   assert.equal(asset.contentUnits[0].semanticInterfaces.embeddingHandOffReady, true);
+});
+
+test('inventory-backed candidate asset carries V10 selection, addressing, signing, and GitHub App auth surfaces', () => {
+  const state = buildInitialState();
+  const authSession = state.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
+  const inventoryEntries = state.repoArtifactInventory.filter((entry) => entry.repo === 'frontier/demo-auth').slice(0, 2);
+  const asset = makeCandidateAsset({
+    title: 'Inventory-backed auth bundle',
+    author: authSession.operatorLogin,
+    artifactKind: 'mixed',
+    sourceRepo: authSession.repo,
+    authSession,
+    inventoryEntries,
+    operatorNote: 'Bundle these repo artifacts for auth rollback repair.',
+    content: inventoryEntries.map((entry) => entry.content).join('\n\n---\n\n')
+  });
+
+  assert.equal(asset.artifactSelectionSurface.intakeMode, 'repo-artifact-selection-plus-note');
+  assert.equal(asset.artifactSelectionSurface.authSessionId, authSession.authSessionId);
+  assert.deepEqual(asset.addressingSurface.selectedInventoryEntryIds, inventoryEntries.map((entry) => entry.inventoryEntryId));
+  assert.equal(asset.signingSurface.signerAddress, authSession.defaultSignerAddress);
+  assert.equal(asset.githubAppAuthSurface.installationId, authSession.installationId);
+  assert.equal(asset.githubBoundary.installationId, authSession.installationId);
 });
 
 test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embedding specs', () => {
@@ -365,17 +394,20 @@ test('authorization decisions and policy release are persisted on latest run', (
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
-  assert.ok(latestRun.authorizationDecisions.length >= 6);
+  assert.ok(latestRun.authorizationDecisions.length >= 7);
   assert.ok(latestRun.identityBindings.some((binding) => binding.principalId === 'engi-system:proof-publisher'));
+  assert.ok(latestRun.identityBindings.some((binding) => binding.principalClass === 'github-app-installation-principal'));
   assert.ok(latestRun.sensitiveDataFlowRecords.length >= 7);
+  assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'read:repo-artifact-inventory' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'materialize:selected-source-material' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'settle:journal-event' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
-  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic V9 prototype');
+  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic V10 prototype');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
   assert.ok(latestRun.githubBoundarySurface.profileBBoundary.includes('GitHub App'));
   assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
+  assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.githubAppInstallationBound, true);
 });
 
 test('policy release artifact classes cover verification, authz, and sensitive-data artifacts', () => {
@@ -507,7 +539,7 @@ test('ENGI_NEED markdown includes parser contract, conformance profiles, and set
   assert.match(markdown, /raw share asset count/);
   assert.match(markdown, /zero-credit settlement asset count/);
   assert.match(markdown, /github-actions.auth-remediation.v3/);
-  assert.match(markdown, /Profile A — local deterministic V9 prototype/);
+  assert.match(markdown, /Profile A — local deterministic V10 prototype/);
 });
 
 test('publicState returns public projection including bounded public proof and profile labels', () => {
@@ -530,9 +562,11 @@ test('publicState returns public projection including bounded public proof and p
   assert.equal(projected.latestRun.authorizationDecisions, undefined);
   assert.equal(projected.latestRun.journalDiff, undefined);
   assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic V9 prototype');
-  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic V9 prototype');
-  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v9-demo-2026-04-03');
+  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic V10 prototype');
+  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic V10 prototype');
+  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v10-demo-2026-04-03');
+  assert.ok(projected.githubAppSessions.length >= 1);
+  assert.ok(projected.repoArtifactInventory.length >= 1);
   assert.ok(projected.profileCompositions.profiles.length === 2);
   assert.ok(projected.runHistory.length, 1);
 });
