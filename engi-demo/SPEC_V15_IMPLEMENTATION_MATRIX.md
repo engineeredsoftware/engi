@@ -137,12 +137,85 @@ V15 should treat canonical source hardening as a staged process:
 | Area | Current expectation | V15 closure target | Gap judgment |
 |---|---|---|---|
 | JavaScript structural cleanup before TS hardening | landing pass complete: canonical builder families and demo-shell/public-state shaping now live outside `src/engi-demo.js` | cleaner pre-TypeScript system boundaries | closed for current V15 JS pass |
+| TypeScript compiler regime | active widening pass landed: `typescript` + `@types/node` installed, `tsconfig.json` added, `npm run typecheck` active, `src/canonical/type-contracts.ts` provides the first TS-native contract layer, and checked-JS now covers `src/realization-profile.js`, `src/settlement-structs.js`, `src/canonical/prompting.js`, `src/canonical/projections.js`, `src/canonical/proof-materialization.js`, `src/canonical/need-measurement.js`, `src/canonical/evaluation-materialization.js`, `src/canonical/settlement.js`, `src/demo-shell-state.js`, and `server.js` | expand the checked surface until the TS compiler governs the full canonical source graph | active |
 | Strong enum/discriminant design | partial | rich closed-case typing where appropriate | medium |
 | Domain type composition | partial | stronger composed system structs with explicit role separation | medium |
 | Typed identifiers / roots / refs | mixed | role-specific typing to reduce invalid mixing | medium |
 | System-layer vs demo-layer type separation | target emerging | explicit typed separation in source organization | medium/high |
 | Proof/measurement/settlement type hardening | partial | maximally typed canonical subsystem structures | medium/high |
-| Need measurement / inference seam | `measureNeedFromScenario(...)`, `buildPromptSurface(...)`, `buildRecallChannelContracts(...)`, `buildEvalManifest(...)`, `measurementTrace(...)`, and `inferenceProof(...)` remain in `src/engi-demo.js` | isolate measurement/inference into a dedicated canonical family once the current split stabilizes | medium/high |
-| Evaluation / materialization seam | `evaluateCandidates(...)`, `assembleAssetPack(...)`, `buildMatchReport(...)`, `buildVerificationReport(...)`, `buildBranchArtifacts(...)`, and `assertRequiredBranchArtifacts(...)` remain in `src/engi-demo.js` | isolate ranking/verification/materialization without breaking current demo flow | medium/high |
-| Proof / settlement emission seam | `buildSourceToSharesArtifact(...)`, `buildSettlementParticipationArtifact(...)`, and `buildSettlementProof(...)` remain in `src/engi-demo.js`, while proof-witness/accounting/materialization builders now live in `src/canonical/proof-materialization.js` | separate the remaining proof/settlement emitters from orchestration after the bundle/report layer | medium |
+| Need measurement / inference seam | landed in `src/canonical/need-measurement.js` with `src/engi-demo.js` retaining only composition/orchestration entrypoints | preserve this canonical boundary through the TS conversion rather than re-expanding it | closed for current V15 JS pass |
+| Evaluation / materialization seam | landed in `src/canonical/evaluation-materialization.js`; candidate recall, ranking, verification reporting, asset-pack assembly, and branch artifact materialization no longer define their core logic in `src/engi-demo.js` | preserve this canonical boundary through the TS conversion and strengthen its typed contracts | closed for current V15 JS pass |
+| Proof / settlement emission seam | landed in `src/canonical/settlement.js`, with exact accounting/proof emission removed from the `src/engi-demo.js` reservoir | preserve the settlement boundary and harden its numeric / discriminated typing in TS | closed for current V15 JS pass |
 | Projection / disclosure seam | `buildProjectionPolicy(...)`, `buildBoundedPublicProofArtifact(...)`, `buildRedactionProof(...)`, and `buildDisclosureProof(...)` now live in `src/canonical/projections.js` | isolate projection/disclosure policy builders from the monolith without claiming that split already landed | closed |
+
+## Explicit pre-TypeScript seam reading
+
+The previously identified pre-TypeScript extraction seams are now closed in JavaScript:
+1. need measurement / inference
+2. evaluation / materialization orchestration
+3. proof / settlement emission
+
+The remaining work before and during TypeScript is no longer another structural split of those core families.
+It is preserving the landed module boundaries while expressing them with stronger typed contracts, branded ids/roots/refs, discriminated unions, and runtime-decoded boundary inputs.
+The residual logic still living in `src/engi-demo.js` is primarily orchestration-local cross-cutting composition such as run assembly, identity/authz wiring, policy-release shaping, and proof-bundle coordination, rather than another monolithic subsystem reservoir that must be extracted before TypeScript.
+
+## Final V15 TypeScript implementation matrix
+
+The goal of the TypeScript phase is not a cosmetic extension rename.
+It is a maximal-strength typed implementation of the canonical ENGI system where the type system itself expresses more of:
+- closed-case subsystem truth,
+- role-specific ids/roots/refs,
+- canonical artifact family boundaries,
+- proof/measurement/settlement invariants,
+- and system-layer versus demo-layer separation.
+
+### TypeScript hardening phases
+
+| Phase | Scope | Type-strength objective | Concrete implementation target | Closure signal |
+|---|---|---|---|---|
+| TS-0 Compiler regime | repository-wide TypeScript enablement | strict compiler truth with no weak-default posture | landed and widened: `tsconfig.json` carries strict NodeNext settings, `npm run typecheck` is active, `src/canonical/type-contracts.ts` provides the first TS-native canonical contract layer, and checked JS now includes all landed canonical subsystem families plus `src/demo-shell-state.js` and `server.js`; next step is extending the same regime to `src/engi-demo.js` and the browser shell source | TypeScript exists as a hard gate rather than an optional sidecar |
+| TS-1 Boundary freeze before conversion | the landed canonical JS module graph | ensure TS migration lands on stable subsystem boundaries instead of retyping a moving monolith | preserve the landed canonical families such as `src/canonical/need-measurement.ts`, `src/canonical/evaluation-materialization.ts`, `src/canonical/settlement.ts`, `src/canonical/projections.ts`, and `src/canonical/proof-materialization.ts`; only split further if typing pressure exposes a concrete design gain | `src/engi-demo.js` remains primarily orchestration/composition rather than regressing into mixed subsystem definition |
+| TS-2 Canonical primitive and identity families | ids, refs, roots, hashes, addresses, branch names, parser/evaluator ids, artifact paths | prevent invalid cross-role mixing at compile time | introduce branded/string-distinct types for ids and roots; examples: `NeedId`, `AssetId`, `InventoryEntryId`, `UnitHash`, `ContentRoot`, `BranchName`, `PolicyRef`, `ParserContractId`, `PromptOrEvaluatorId`, `LedgerAccountId`, `SignerAddress` | role-confusion bugs become type errors instead of stringly runtime accidents |
+| TS-3 Closed-case subsystem truth | enums, literal registries, discriminants, state cases | express system cases as exhaustive compile-time domains | convert current enum/JSDoc families to exported literal-union or enum-backed types with exhaustive switch handling; use `satisfies`/const-literal preservation for registries and stage catalogs | closed-case drift is prevented by exhaustiveness checking |
+| TS-4 Canonical struct families | operating surfaces, receipts, manifests, proof artifacts, settlement artifacts | make canonical data families explicit and composable | define first-class interfaces/type aliases for depositing, needing, fit, projection, prompt, proof, settlement, journal, asset-pack, and boundary structures; replace ad hoc object literals with typed builders and typed return contracts | high-information artifacts are typed as named families rather than inferred shapes |
+| TS-5 Runtime-boundary decoding | API input, persisted state, seeded fixtures, parsed completion envelopes, external stand-ins | pair static types with runtime truth at trust boundaries | introduce explicit decoder/validator layer for request bodies, persisted JSON state, and prompt-completion payloads; keep external/JSON boundaries typed as `unknown` until decoded | runtime inputs stop bypassing the type system through unchecked casts |
+| TS-6 Need measurement and inference typing | prompt contracts, parser contracts, inference proofs, recall channels, measurement traces | encode inference ownership and parse closure in types | active checked-JS pass landed: `src/canonical/need-measurement.js` now sits behind `// @ts-check` with typed scenario/parser/repo-analysis contracts and strict prompt-surface lookup closure; next step is converting the module and its dependencies from checked JS to native `.ts` without weakening those boundaries | the need-measurement boundary is fully typed and independently testable |
+| TS-7 Evaluation and materialization typing | ranking, verification, use tiers, asset-pack selection, branch artifact assembly | encode selection and materialization policy in discriminated result types | active checked-JS pass landed: `src/canonical/evaluation-materialization.js` now sits behind `// @ts-check`, with typed recall/ranking/verification/materialization boundaries and strict branch-artifact contract checking; next step is native `.ts` conversion and further discriminated typing for evaluator families and use-tier outcomes | the evaluation/materialization boundary is fully typed and independently testable |
+| TS-8 Proof and settlement maximal typing | source-to-shares, settlement participation, journal diff, accounting precision, proof bundle closure | turn accounting/proof invariants into explicit type-level structure | active checked-JS pass landed: `src/canonical/proof-materialization.js` and `src/canonical/settlement.js` now sit behind `// @ts-check`, with strict proof/materialization witness contracts and settlement/accounting interfaces tightened enough to keep `npm run typecheck` green; next step is native `.ts` conversion and stronger branded/value-family typing for basis points, shares, and ledger structures | settlement/proof structures are compile-time distinct instead of loosely numeric objects |
+| TS-9 Demo-shell and server typing | `server.js`, demo-shell/public-state shaping, browser app source | preserve demo UX while moving source-of-truth into typed modules | active checked-JS pass landed for `server.js` and `src/demo-shell-state.js`; next step is native `.ts` conversion for those files, then moving browser source-of-truth from hand-authored `public/app.js` to typed source compiled into `public/app.js` | system source becomes typed end-to-end instead of stopping at backend modules |
+| TS-10 Test and fixture typing | node tests, e2e harness, seeded fixtures | make parity proof participate in the type regime | convert core/API/e2e tests to TypeScript-aware execution or precompiled output; type seeded fixture/state builders and assertion helpers | tests catch both runtime and static-shape regressions |
+| TS-11 Strictness ratchet and debt burn-down | final post-conversion hardening | eliminate weak escape hatches | forbid broad `any`; require documented/narrowed `unknown`; track and burn down temporary `@ts-expect-error` or compatibility shims; prefer exact return types for canonical builders | the final TS state is strong by default, not nominally converted |
+
+### Type-strength design requirements for the TS phase
+
+| Area | V15 TypeScript requirement | Intended effect |
+|---|---|---|
+| `any` posture | no broad `any` in canonical modules; boundary inputs start as `unknown` and are narrowed/decoded | prevents silent type escape hatches |
+| Identifier design | ids/roots/refs/hashes are role-specific branded types rather than plain `string` everywhere | prevents accidental cross-subsystem mixing |
+| Numeric exactness | accounting, basis points, raw shares, settled shares, and unit counts get explicit value-family typing where practical | keeps accounting semantics legible and harder to misuse |
+| Discriminated unions | candidate status, use-tiering, settlement participation, source contribution, artifact families, and projection principals use discriminated unions | enables exhaustive handling of major system cases |
+| Registry expression | evaluator registries, parser registries, artifact catalogs, and stage catalogs preserve literal specificity via `as const`/`satisfies`-style patterns | avoids literal widening and keeps catalog truth machine-checkable |
+| System-vs-demo separation | system-owned canonical types live in canonical modules; demo-shell projection/view types stay in demo-owned modules | preserves the V15 architecture at the type layer |
+| Runtime/schema parity | runtime validators and static types are kept aligned for persisted JSON and API boundaries | prevents static/runtime shape drift |
+
+### Recommended TypeScript migration order
+
+1. Add compiler/build infrastructure and strict settings.
+2. Preserve the landed JS canonical boundaries as the TS migration surface; only split further when the type design clearly benefits.
+3. Convert canonical leaf modules first: enums/types, realization-profile, settlement-structs, prompting, projections, proof-materialization, surfaces, run-artifacts. The checked-JS hardening pass is already active across the first six of those.
+4. Convert the landed canonical subsystem families next: need-measurement, evaluation-materialization, settlement. The checked-JS hardening pass is now active for all three.
+5. Convert demo-shell/public-state shaping and server boundary code. The checked-JS hardening pass is now active for `src/demo-shell-state.js` and `server.js`.
+6. Convert `src/engi-demo.js` last after its responsibilities stay narrowed to orchestration/composition. At this point it is the main remaining backend/source reservoir still outside the checked-JS widening pass, alongside the browser shell source.
+7. Convert tests and fixture helpers, then ratchet strictness and remove temporary compatibility shims.
+
+### TypeScript completion condition for the V15 refactor sub-focus
+
+The TypeScript phase is complete for V15 when:
+1. the landed canonical subsystem boundaries are preserved through conversion,
+2. canonical modules and orchestration are converted to TypeScript,
+3. demo-shell and server source-of-truth are typed,
+4. ids/roots/refs/hashes are role-distinct where misuse risk exists,
+5. major artifact families and settlement/proof structures are discriminated and explicitly typed,
+6. persisted-state and API boundaries are decoded rather than trusted implicitly,
+7. tests run against the typed source or typed build output,
+8. and the resulting codebase is strong-by-default rather than merely extension-renamed.

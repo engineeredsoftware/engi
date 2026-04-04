@@ -1,5 +1,225 @@
+// @ts-check
+
+/**
+ * @typedef {{
+ *   authSessionId: string,
+ *   authMechanism?: string | undefined,
+ *   appId?: string | number | undefined,
+ *   appSlug?: string | undefined,
+ *   installationId?: string | number | undefined,
+ *   installationAccountLogin?: string | undefined,
+ *   installationAccountId?: string | number | undefined,
+ *   installationAccountNodeId?: string | undefined,
+ *   installationAccountType?: string | undefined,
+ *   operatorLogin?: string | undefined,
+ *   repo?: string | undefined,
+ *   owner?: string | undefined,
+ *   repoName?: string | undefined,
+ *   repositoryId?: string | number | undefined,
+ *   repositoryNodeId?: string | undefined,
+ *   repositoryVisibility?: string | undefined,
+ *   repositorySelection?: string | undefined,
+ *   permissions?: Record<string, unknown> | undefined,
+ *   permissionsRoot?: string | undefined,
+ *   defaultRef?: string | undefined,
+ *   defaultSignerAddress?: string | undefined,
+ *   signingAlgorithm?: string | undefined,
+ *   keySource?: string | undefined,
+ *   sessionIssuedAt?: string | undefined,
+ *   sessionExpiresAt?: string | undefined,
+ *   tokenBoundary?: string | undefined,
+ *   authPayloadHash?: string | undefined,
+ *   localBoundary?: string | undefined,
+ *   externalBoundary?: string | undefined,
+ *   profileABoundary?: string | undefined,
+ *   profileBBoundary?: string | undefined
+ * }} SessionShape
+ *
+ * @typedef {{
+ *   inventoryEntryId: string,
+ *   repo?: string | undefined,
+ *   artifactKind?: string | undefined,
+ *   artifactType?: string | undefined,
+ *   originKind?: string | undefined,
+ *   title?: string | undefined,
+ *   summary?: string | undefined,
+ *   ref?: string | undefined,
+ *   sourceCommit?: string | undefined,
+ *   sourcePath?: string | undefined,
+ *   sourcePaths?: string[] | undefined,
+ *   workflowRunId?: string | undefined,
+ *   workflowPath?: string | undefined,
+ *   workflowJobName?: string | undefined,
+ *   checkSuiteId?: string | undefined,
+ *   artifactName?: string | undefined,
+ *   tags?: string[] | undefined,
+ *   declaredStacks?: string[] | undefined,
+ *   declaredConstraints?: string[] | undefined,
+ *   previewSurface?: string | undefined,
+ *   signerAddress?: string | undefined,
+ *   owner?: string | undefined,
+ *   repoName?: string | undefined,
+ *   repositoryId?: string | number | undefined,
+ *   repositoryNodeId?: string | undefined,
+ *   authSessionId?: string | undefined,
+ *   installationId?: string | number | undefined,
+ *   installationAccountLogin?: string | undefined,
+ *   installationAccountId?: string | number | undefined,
+ *   installationAccountNodeId?: string | undefined,
+ *   contentRoot?: string | undefined,
+ *   addressing?: unknown,
+ *   authBinding?: unknown,
+ *   provenance?: unknown
+ * }} RepoArtifactInventoryEntryShape
+ *
+ * @typedef {{
+ *   assetId: string,
+ *   title: string,
+ *   artifactKind: string,
+ *   metadata: { summary?: string | undefined, tags?: string[] | undefined, issuerPolicyStatus?: string | undefined },
+ *   attestations: Array<{ signerAddress?: string | undefined }>
+ * }} AssetSummaryShape
+ *
+ * @typedef {{
+ *   scenarioId: string,
+ *   scenarioFamily?: string | undefined,
+ *   coverageTags?: string[] | undefined,
+ *   repo: string,
+ *   baseRef: string,
+ *   expectedTask?: string | undefined,
+ *   realizationProfileId?: string | undefined,
+ *   canonicalRunEvidence?: { extractedOutputs?: { parserKind?: string | undefined } | undefined } | undefined
+ * }} NeedScenarioShape
+ *
+ * @typedef {{
+ *   needId: string,
+ *   repo: string,
+ *   benchmarkRunId?: string | undefined,
+ *   benchmarkHarnessPath?: string | undefined,
+ *   benchmarkWorkflowPath?: string | undefined,
+ *   benchmarkParserContract?: unknown,
+ *   task?: string | undefined,
+ *   failureModes?: string[] | undefined,
+ *   constraints?: string[] | undefined,
+ *   closureCriteria?: string[] | undefined,
+ *   targetArtifactKinds?: string[] | undefined,
+ *   touchedPaths?: string[] | undefined,
+ *   failingCases?: string[] | undefined,
+ *   weakDimensions?: string[] | undefined,
+ *   fieldDerivations?: unknown,
+ *   conformanceProfile?: string | undefined,
+ *   productionIntentProfile?: string | undefined,
+ *   realizationProfile?: unknown
+ * }} NeedPreviewShape
+ *
+ * @typedef {{
+ *   assetId: string,
+ *   title: string,
+ *   artifactKind: string,
+ *   useTier: string,
+ *   ranking: unknown,
+ *   verification: unknown,
+ *   rights: unknown
+ * }} LatestRunCandidateShape
+ *
+ * @typedef {{
+ *   createdAt?: string | undefined,
+ *   scenarioId?: string | undefined,
+ *   branchMode?: string | undefined,
+ *   branchArtifacts?: { branchName?: string | undefined, branchMode?: string | undefined, confidentiality?: string | undefined, files?: Record<string, string> | undefined } | undefined,
+ *   conformanceProfile?: string | undefined,
+ *   productionIntentProfile?: string | undefined,
+ *   realizationProfile?: unknown,
+ *   needLifecycle?: unknown,
+ *   need?: NeedPreviewShape | null | undefined,
+ *   depositingSurface?: unknown,
+ *   needingSurface?: unknown,
+ *   depositingToNeedingSurface?: unknown,
+ *   matchReport?: unknown,
+ *   assetPack?: { assetPackId?: string | undefined, branchMode?: string | undefined, selectedAssets?: string[] | undefined } | undefined,
+ *   evaluatedCandidates?: LatestRunCandidateShape[] | undefined,
+ *   repoToSettlementSurface?: unknown,
+ *   boundedPublicProof?: unknown,
+ *   promptCompletenessProof?: unknown,
+ *   codeAnalysisFactRegistry?: unknown,
+ *   staticHeuristicsRegistry?: unknown,
+ *   staticMeasurementReport?: unknown,
+ *   staticMeasurementProof?: unknown,
+ *   materializationProof?: unknown,
+ *   materializationExclusions?: unknown,
+ *   materializationVisibilityProof?: unknown,
+ *   scenarioFixtureManifest?: unknown,
+ *   testCoverageReport?: unknown,
+ *   projectionPolicy?: { publicArtifactPaths?: string[] | undefined, privateArtifactPaths?: string[] | undefined } | undefined,
+ *   redactionProof?: unknown,
+ *   disclosureProof?: unknown,
+ *   needMeasurement?: unknown,
+ *   promptContracts?: unknown,
+ *   promptSurfaces?: unknown,
+ *   parsedCompletionEnvelopes?: unknown,
+ *   parsedCompletionEnvelopeArtifact?: unknown,
+ *   verificationReport?: unknown,
+ *   identityAuthSpineSurface?: unknown,
+ *   evalManifest?: unknown,
+ *   assetPackLock?: unknown,
+ *   identityBindings?: unknown,
+ *   authorizationDecisions?: unknown,
+ *   sensitiveDataFlowRecords?: unknown,
+ *   githubBoundarySurface?: unknown,
+ *   artifactUploadManifest?: unknown,
+ *   profileCompositionSurface?: unknown,
+ *   externalBoundaryManifest?: unknown,
+ *   deliverablesManifest?: unknown,
+ *   unitCatalog?: unknown,
+ *   pipelineTelemetry?: unknown,
+ *   measurementReceipts?: unknown,
+ *   verificationReceipts?: unknown,
+ *   proofWitnessManifest?: unknown,
+ *   sourceToSharesArtifact?: unknown,
+ *   settlementParticipationArtifact?: unknown,
+ *   accountingPrecisionReport?: unknown,
+ *   settlementPreview?: unknown,
+ *   journalDiff?: unknown,
+ *   systemProofBundle?: unknown
+ * }} LatestRunShape
+ *
+ * @typedef {{
+ *   specVersion?: string | undefined,
+ *   buyers: unknown[],
+ *   githubAppSessions?: SessionShape[] | undefined,
+ *   repoArtifactInventory?: RepoArtifactInventoryEntryShape[] | undefined,
+ *   needScenarios: NeedScenarioShape[],
+ *   assets: AssetSummaryShape[],
+ *   ledger: unknown,
+ *   latestRun?: LatestRunShape | null | undefined,
+ *   runHistory?: unknown[] | undefined,
+ *   policyState?: unknown,
+ *   conformanceProfiles?: {
+ *     active?: string | undefined,
+ *     productionIntent?: string | undefined,
+ *     prototypeOnlyModeledControls?: boolean | undefined
+ *   } | undefined
+ * }} DemoStateShape
+ *
+ * @typedef {{
+ *   ensureProjectionPrincipal: (principal: string) => string,
+ *   buildRepoSupplySurface: (state: DemoStateShape) => unknown,
+ *   buildBoundaryRealitySurface: () => unknown,
+ *   buildPolicyState: () => unknown,
+ *   buildPolicyRelease: (policyState: unknown) => unknown,
+ *   buildNeedDescriptor: (scenario: NeedScenarioShape) => NeedPreviewShape,
+ *   buildNeedingSurface: (needPreview: Record<string, unknown>) => unknown,
+ *   nowIso: () => string
+ * }} PublicStateBuilderOptions
+ */
+
 import { PROFILE_A, PROFILE_B, buildRealizationProfile } from './realization-profile.js';
 
+/**
+ * @param {string | undefined} localBoundary
+ * @param {string | undefined} externalBoundary
+ * @returns {Record<string, string | undefined>}
+ */
 function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   return {
     localBoundary,
@@ -9,6 +229,9 @@ function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   };
 }
 
+/**
+ * @returns {Record<string, unknown>}
+ */
 export function buildProfileCompositions() {
   const profiles = ['A', 'B'].map((profileId) => {
     const profile = buildRealizationProfile(profileId);
@@ -45,6 +268,10 @@ export function buildProfileCompositions() {
   };
 }
 
+/**
+ * @param {NeedPreviewShape | null | undefined} need
+ * @returns {NeedPreviewShape | null}
+ */
 function minimalNeedProjection(need) {
   if (!need) return null;
   return {
@@ -69,6 +296,10 @@ function minimalNeedProjection(need) {
   };
 }
 
+/**
+ * @param {LatestRunCandidateShape} candidate
+ * @returns {LatestRunCandidateShape}
+ */
 function minimalCandidateProjection(candidate) {
   return {
     assetId: candidate.assetId,
@@ -81,6 +312,10 @@ function minimalCandidateProjection(candidate) {
   };
 }
 
+/**
+ * @param {LatestRunShape | null | undefined} latestRun
+ * @returns {Record<string, unknown> | null}
+ */
 function buildPublicProjection(latestRun) {
   if (!latestRun) return null;
   return {
@@ -144,6 +379,10 @@ function buildPublicProjection(latestRun) {
   };
 }
 
+/**
+ * @param {LatestRunShape | null | undefined} latestRun
+ * @returns {Record<string, unknown> | null}
+ */
 function buildBuyerProjection(latestRun) {
   if (!latestRun) return null;
   return {
@@ -191,6 +430,10 @@ function buildBuyerProjection(latestRun) {
   };
 }
 
+/**
+ * @param {LatestRunShape | null | undefined} latestRun
+ * @returns {Record<string, unknown> | null}
+ */
 function buildReviewerProjection(latestRun) {
   if (!latestRun) return null;
   return {
@@ -222,6 +465,10 @@ function buildReviewerProjection(latestRun) {
   };
 }
 
+/**
+ * @param {SessionShape} session
+ * @returns {Record<string, unknown>}
+ */
 export function buildPublicGitHubAppSession(session) {
   return {
     authSessionId: session.authSessionId,
@@ -258,6 +505,10 @@ export function buildPublicGitHubAppSession(session) {
   };
 }
 
+/**
+ * @param {RepoArtifactInventoryEntryShape} entry
+ * @returns {Record<string, unknown>}
+ */
 export function buildPublicRepoArtifactInventoryEntry(entry) {
   return {
     inventoryEntryId: entry.inventoryEntryId,
@@ -297,6 +548,10 @@ export function buildPublicRepoArtifactInventoryEntry(entry) {
   };
 }
 
+/**
+ * @param {AssetSummaryShape} asset
+ * @returns {Record<string, unknown>}
+ */
 export function buildPublicAssetSummary(asset) {
   return {
     assetId: asset.assetId,
@@ -309,6 +564,12 @@ export function buildPublicAssetSummary(asset) {
   };
 }
 
+/**
+ * @param {LatestRunShape | null | undefined} latestRun
+ * @param {string} [principal='public']
+ * @param {{ ensureProjectionPrincipal?: ((principal: string) => string) | undefined }} [options={}]
+ * @returns {Record<string, unknown> | LatestRunShape | null}
+ */
 export function buildProjectedLatestRun(latestRun, principal = 'public', { ensureProjectionPrincipal } = {}) {
   const resolvedPrincipal = ensureProjectionPrincipal ? ensureProjectionPrincipal(principal) : principal;
   if (!latestRun) return null;
@@ -318,6 +579,12 @@ export function buildProjectedLatestRun(latestRun, principal = 'public', { ensur
   return buildPublicProjection(latestRun);
 }
 
+/**
+ * @param {DemoStateShape} state
+ * @param {string} [principal='public']
+ * @param {PublicStateBuilderOptions} options
+ * @returns {Record<string, unknown>}
+ */
 export function buildPublicState(
   state,
   principal = 'public',
@@ -330,7 +597,7 @@ export function buildPublicState(
     buildNeedDescriptor,
     buildNeedingSurface,
     nowIso
-  }
+  } = /** @type {PublicStateBuilderOptions} */ ({})
 ) {
   const resolvedPrincipal = ensureProjectionPrincipal(principal);
   const repoSupplySurface = buildRepoSupplySurface(state);

@@ -1,22 +1,64 @@
+// @ts-check
+
+/**
+ * @typedef {import('./type-contracts.js').BuiltPromptSurface} BuiltPromptSurface
+ * @typedef {import('./type-contracts.js').PromptContractShape} PromptContractShape
+ * @typedef {import('./type-contracts.js').ParsedCompletionEnvelope} ParsedCompletionEnvelope
+ * @typedef {import('./type-contracts.js').ProjectionPolicyShape} ProjectionPolicyShape
+ *
+ * @typedef {{ assetId: string, unitId: string }} UnitRef
+ * @typedef {{ assetId: string, selectedUnits?: UnitRef[] | undefined }} SelectedSourceMaterialEntry
+ * @typedef {{ selectedSourceMaterial?: SelectedSourceMaterialEntry[] | undefined }} SelectedSourceMaterialManifest
+ * @typedef {{ title: string, artifactKind: string }} CandidateAsset
+ * @typedef {{ branchMaterializationAllowed?: boolean | undefined, settlementAllowed?: boolean | undefined }} CandidateRights
+ * @typedef {{ assetId: string, useTier: string, asset: CandidateAsset, rights?: CandidateRights | null }} EvaluatedCandidate
+ * @typedef {{ assetPackId: string, selectedAssets: string[], assets?: Array<{ assetId: string }> | undefined }} AssetPackShape
+ * @typedef {{ units?: UnitRef[] | undefined, assets?: Array<{ assetId: string }> | undefined }} AssetPackLockShape
+ * @typedef {{ artifactClasses?: Array<{ path: string, sensitiveDataClass?: string | undefined, disclosable: boolean }> | undefined }} PolicyReleaseShape
+ */
+
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
 
 const SOURCE_TO_SHARES_SCALE = 1000000n;
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(/** @type {Record<string, unknown>} */ (value)[key])}`).join(',')}}`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
 }
 
+/**
+ * @param {{
+ *   assetPack: AssetPackShape,
+ *   assetPackLock: AssetPackLockShape | null | undefined,
+ *   selectedCandidates: EvaluatedCandidate[],
+ *   settlementCandidates: EvaluatedCandidate[],
+ *   selectedSourceMaterialManifest: SelectedSourceMaterialManifest | null | undefined,
+ *   branchMode: string
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildSelectionConsistencyProof({ assetPack, assetPackLock, selectedCandidates, settlementCandidates, selectedSourceMaterialManifest, branchMode }) {
   const allowedTiers = branchMode === 'context'
     ? new Set(['context-only', 'patch-eligible', 'settlement-eligible'])
@@ -55,8 +97,17 @@ function buildSelectionConsistencyProof({ assetPack, assetPackLock, selectedCand
   };
 }
 
+/**
+ * @param {{
+ *   assetPackLock: AssetPackLockShape | null | undefined,
+ *   selectedSourceMaterialManifest: SelectedSourceMaterialManifest,
+ *   projectionPolicy: ProjectionPolicyShape,
+ *   policyRelease: PolicyReleaseShape | null | undefined
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildMaterializationVisibilityProof({ assetPackLock, selectedSourceMaterialManifest, projectionPolicy, policyRelease }) {
-  const selectedAssetIds = new Set((assetPackLock.assets || []).map((asset) => asset.assetId));
+  const selectedAssetIds = new Set((assetPackLock?.assets || []).map((asset) => asset.assetId));
   const selectedSourceMaterialIds = new Set((selectedSourceMaterialManifest.selectedSourceMaterial || []).map((entry) => entry.assetId));
   const publicPaths = new Set(projectionPolicy.publicArtifactPaths || []);
   const materializedUnits = (selectedSourceMaterialManifest.selectedSourceMaterial || []).flatMap((entry) => entry.selectedUnits || []);
@@ -66,9 +117,9 @@ function buildMaterializationVisibilityProof({ assetPackLock, selectedSourceMate
     allSelectedAssetsHaveMaterializedSourceBindings: [...selectedAssetIds].every((assetId) => selectedSourceMaterialIds.has(assetId)),
     noUnexpectedMaterializedSourceBindings: [...selectedSourceMaterialIds].every((assetId) => selectedAssetIds.has(assetId)),
     allMaterializedUnitsClosedOverLock: materializedUnits.every((unit) =>
-      (assetPackLock.units || []).some((lockedUnit) => lockedUnit.assetId === unit.assetId && lockedUnit.unitId === unit.unitId)
+      (assetPackLock?.units || []).some((lockedUnit) => lockedUnit.assetId === unit.assetId && lockedUnit.unitId === unit.unitId)
     ),
-    noPrivateArtifactsLeakIntoPublicProjection: (policyRelease.artifactClasses || []).filter((entry) => !entry.disclosable).every((entry) => !publicPaths.has(entry.path)),
+    noPrivateArtifactsLeakIntoPublicProjection: (policyRelease?.artifactClasses || []).filter((entry) => !entry.disclosable).every((entry) => !publicPaths.has(entry.path)),
     witnessRefs: {
       selectedAssetIds: [...selectedAssetIds],
       materializedSourceAssetIds: [...selectedSourceMaterialIds],
@@ -84,6 +135,15 @@ function buildMaterializationVisibilityProof({ assetPackLock, selectedSourceMate
   };
 }
 
+/**
+ * @param {{
+ *   assetPack: AssetPackShape,
+ *   evaluatedCandidates?: EvaluatedCandidate[],
+ *   selectedCandidates?: EvaluatedCandidate[],
+ *   branchMode: string
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildMaterializationExclusions({ assetPack, evaluatedCandidates = [], selectedCandidates = [], branchMode }) {
   const selectedAssetIds = new Set(selectedCandidates.map((candidate) => candidate.assetId));
   const exclusions = evaluatedCandidates
@@ -123,6 +183,17 @@ function buildMaterializationExclusions({ assetPack, evaluatedCandidates = [], s
   };
 }
 
+/**
+ * @param {{
+ *   assetPack: AssetPackShape,
+ *   assetPackLock: AssetPackLockShape,
+ *   selectedSourceMaterialManifest: SelectedSourceMaterialManifest,
+ *   materializationVisibilityProof: { proofHash: string },
+ *   materializationExclusions: { exclusions?: Array<{ assetId: string, exclusionClass?: string | undefined, exclusionReason?: string | undefined }> | undefined, proofHash: string },
+ *   branchMode: string
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMaterialManifest, materializationVisibilityProof, materializationExclusions, branchMode }) {
   const selectedAssetIds = (assetPack.selectedAssets || []).slice();
   const materializedAssetIds = (selectedSourceMaterialManifest.selectedSourceMaterial || []).map((entry) => entry.assetId);
@@ -154,6 +225,45 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
   };
 }
 
+/**
+ * @param {{
+ *   inferenceProofs?: Array<{ outputField: string, promptOrEvaluatorId: string }> | undefined,
+ *   promptSurfaces?: BuiltPromptSurface[] | undefined,
+ *   promptContracts?: PromptContractShape[] | undefined,
+ *   promptImplementationSurface: unknown,
+ *   promptCompletenessProof: { proofHash: string },
+ *   parsedCompletionEnvelopes?: ParsedCompletionEnvelope[] | undefined,
+ *   parsedCompletionEnvelopeArtifact?: { artifactHash?: string | undefined, verificationReceipts?: Array<{ receiptId: string }> | undefined } | null,
+ *   assetPackLock: AssetPackLockShape,
+ *   selectedSourceMaterialManifest: SelectedSourceMaterialManifest,
+ *   codeAnalysisFactRegistry: unknown,
+ *   staticHeuristicsRegistry: unknown,
+ *   measurementReceipts?: Array<{ receiptId: string }> | undefined,
+ *   staticMeasurementReport: { reportHash: string },
+ *   staticMeasurementProof: { proofHash: string },
+ *   verificationReport: unknown,
+ *   verificationReceiptsArtifact?: { verificationReceipts?: Array<{ receiptId: string }> | undefined } | null,
+ *   identityBindings: unknown,
+ *   authorizationDecisions: unknown,
+ *   sensitiveDataFlowRecords: unknown,
+ *   selectionConsistencyProof: { proofHash: string },
+ *   journalCompletenessProof: { proofHash: string },
+ *   identityAuthorizationProof: { proofHash: string },
+ *   sensitiveDataFlowProof: { proofHash: string },
+ *   materializationProof: { proofHash: string },
+ *   materializationExclusions: { proofHash: string },
+ *   materializationVisibilityProof: { proofHash: string },
+ *   sourceToSharesArtifact: { proofHash: string },
+ *   settlementParticipationArtifact: { proofHash: string },
+ *   accountingPrecisionReport: { reportHash: string },
+ *   settlementProof: { assetPackLockHash: string },
+ *   journalDiff: unknown,
+ *   redactionProof: { boundedPublicProofHash: string },
+ *   disclosureProof: { boundedPublicProofHash: string, projectionPolicyRef?: string | undefined },
+ *   proofContract: { contractId: string }
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildProofWitnessManifest({
   inferenceProofs,
   promptSurfaces,
@@ -297,6 +407,74 @@ function buildProofWitnessManifest({
   };
 }
 
+/**
+ * @param {{
+ *   need: { needId: string },
+ *   assetPack: AssetPackShape,
+ *   branchMode: string,
+ *   sourceToSharesArtifact: {
+ *     proofHash?: string | undefined,
+ *     scoreScale?: string | undefined,
+ *     sourceContributionEntries?: Array<{
+ *       entryKind: string,
+ *       assetId: string,
+ *       candidateRankingScoreUnits: string,
+ *       fullBundleScoreUnits: string,
+ *       bundleWithoutAssetScoreUnits: string,
+ *       rawContributionUnits: string,
+ *       clippedContributionUnits: string,
+ *       clipped: boolean,
+ *       contributionDisposition: string,
+ *       clippingReceiptId: string,
+ *       coveredNeedEvidence: unknown,
+ *       rawShareBp: string | number
+ *     }> | undefined,
+ *     clippingReceipts?: Array<{
+ *       receiptId: string,
+ *       assetId: string,
+ *       clipped: boolean,
+ *       contributionDisposition: string,
+ *       rawContributionUnits: string,
+ *       clippedContributionUnits: string,
+ *       reason: string
+ *     }> | undefined,
+ *     basisPointNormalization?: {
+ *       method?: string | undefined,
+ *       tieBreakPolicy?: string | undefined
+ *     } | undefined,
+ *     rawShares?: Array<{ assetId: string, shareBp: string | number, normalizationRemainderUnits: string }> | undefined
+ *   } | null | undefined,
+ *   settlementParticipationArtifact: {
+ *     proofHash?: string | undefined,
+ *     records?: Array<{
+ *       assetId: string,
+ *       selected: boolean,
+ *       settlementParticipating: boolean,
+ *       settledShareBp: string | number,
+ *       creditedMicroUnits: string,
+ *       zeroCreditParticipating: boolean,
+ *       selectedUnitRefs: string[],
+ *       rawContributionMass: string,
+ *       clippedContributionMass: string,
+ *       contributionDisposition: string,
+ *       rawShareBp: string | number,
+ *       creditDisposition: string,
+ *       settlementDisposition: string
+ *     }> | undefined
+ *   } | null | undefined,
+ *   allocationTrace: {
+ *     tieBreakPolicy?: string | undefined,
+ *     allocationLedger?: Array<{
+ *       assetId: string,
+ *       tieBreakRank?: number | null | undefined,
+ *       remainderUnits?: string | undefined,
+ *       extraMicroUnitsAwarded?: string | undefined
+ *     }> | undefined
+ *   } | null | undefined,
+ *   journalDiff: { bundleId: string, eventId: string, invariants: Record<string, boolean> }
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToSharesArtifact, settlementParticipationArtifact, allocationTrace, journalDiff }) {
   const sourceContributionEntries = sourceToSharesArtifact?.sourceContributionEntries || [];
   const settlementRecords = settlementParticipationArtifact?.records || [];
@@ -372,10 +550,10 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
         settlementDisposition: record.settlementDisposition
       })),
     exactAccountingInvariants: {
-      rawSharesNormalized: journalDiff.invariants.rawSharesNormalized,
-      settledSharesNormalized: journalDiff.invariants.settledSharesNormalized,
-      allocationConserved: journalDiff.invariants.allocationConserved,
-      debitsEqualCredits: journalDiff.invariants.debitsEqualCredits,
+      rawSharesNormalized: journalDiff.invariants['rawSharesNormalized'],
+      settledSharesNormalized: journalDiff.invariants['settledSharesNormalized'],
+      allocationConserved: journalDiff.invariants['allocationConserved'],
+      debitsEqualCredits: journalDiff.invariants['debitsEqualCredits'],
       zeroCreditParticipationExplicit: (settlementParticipationArtifact?.records || []).every(
         (record) => !record.zeroCreditParticipating || record.creditedMicroUnits === '0'
       ),

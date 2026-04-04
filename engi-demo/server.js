@@ -1,3 +1,112 @@
+// @ts-check
+
+/**
+ * @typedef {import('node:http').IncomingMessage} IncomingMessage
+ * @typedef {import('node:http').ServerResponse<IncomingMessage>} ServerResponse
+ * @typedef {import('node:http').Server} HttpServer
+ * @typedef {import('node:net').AddressInfo} AddressInfo
+ *
+ * @typedef {Error & { statusCode?: number | undefined }} StatusError
+ *
+ * @typedef {{
+ *   authSessionId: string,
+ *   repo?: string | undefined,
+ *   operatorLogin?: string | undefined,
+ *   installationAccountLogin?: string | undefined,
+ *   defaultRef?: string | undefined,
+ *   defaultSignerAddress?: string | undefined,
+ *   signingAlgorithm?: string | undefined,
+ *   keySource?: string | undefined,
+ *   installationId?: string | number | undefined
+ * }} SessionShape
+ *
+ * @typedef {{
+ *   inventoryEntryId: string,
+ *   title: string | null,
+ *   repo: string | null,
+  *   content: string,
+ *   originKind: string | null,
+  *   sourcePath?: string | null | undefined,
+ *   artifactName?: string | null | undefined,
+  *   workflowRunId?: string | null | undefined,
+  *   sourceCommit?: string | null | undefined,
+  *   ref?: string | null | undefined,
+  *   artifactKind?: string | null | undefined,
+  *   artifactType?: string | null | undefined,
+ *   tags?: string[] | null | undefined,
+ *   sourcePaths?: string[] | null | undefined,
+ *   declaredStacks?: string[] | null | undefined,
+ *   declaredConstraints?: string[] | null | undefined,
+  *   previewSurface?: string | null | undefined,
+  *   workflowPath?: string | null | undefined,
+  *   workflowJobName?: string | null | undefined,
+ *   signerAddress?: string | null | undefined,
+ *   summary?: string | null | undefined,
+ *   owner?: string | null | undefined,
+ *   repoName?: string | null | undefined,
+ *   repositoryId?: string | number | null | undefined,
+ *   repositoryNodeId?: string | null | undefined,
+ *   authSessionId?: string | null | undefined,
+ *   installationId?: string | number | null | undefined,
+ *   installationAccountLogin?: string | null | undefined,
+ *   installationAccountId?: string | number | null | undefined,
+ *   installationAccountNodeId?: string | null | undefined,
+ *   contentRoot?: string | null | undefined
+ * }} RepoArtifactInventoryEntryShape
+ *
+ * @typedef {{
+ *   assets: unknown[],
+ *   buyers: unknown[],
+ *   githubAppSessions: SessionShape[],
+ *   repoArtifactInventory: RepoArtifactInventoryEntryShape[],
+ *   ledger: { accounts: Record<string, string> },
+ *   latestRun?: unknown,
+ *   runHistory?: unknown[],
+ *   specVersion?: string,
+ *   needScenarios?: unknown[],
+ *   policyState?: unknown,
+ *   conformanceProfiles?: unknown
+ * }} AppState
+ *
+ * @typedef {{
+ *   inventoryEntryIds?: string[] | undefined,
+ *   selectedInventoryEntryIds?: string[] | undefined,
+ *   authSessionId?: string | undefined,
+ *   content?: string | undefined,
+ *   operatorNote?: string | undefined,
+ *   title?: string | undefined,
+ *   author?: string | undefined,
+ *   visualPreview?: string | undefined,
+ *   artifactKind?: string | undefined,
+ *   artifactType?: string | undefined,
+ *   organization?: string | undefined,
+ *   sourceProvider?: string | undefined,
+ *   sourceRepo?: string | undefined,
+ *   sourceCommit?: string | undefined,
+ *   sourceRef?: string | undefined,
+ *   workflowRunId?: string | undefined,
+ *   workflowPath?: string | undefined,
+ *   workflowJobName?: string | undefined,
+ *   signerAddress?: string | undefined,
+ *   signingAlgorithm?: string | undefined,
+ *   keySource?: string | undefined,
+ *   installationId?: string | number | undefined,
+ *   tags?: string[] | undefined,
+ *   sourcePaths?: string[] | undefined,
+ *   declaredStacks?: string[] | undefined,
+ *   declaredConstraints?: string[] | undefined,
+ *   testsPassed?: boolean | undefined,
+ *   typecheckPassed?: boolean | undefined,
+ *   staticAnalysisPassed?: boolean | undefined,
+ *   benchmarkRan?: boolean | undefined,
+ *   issuerPolicyStatus?: string | undefined,
+ *   buyerId?: string | undefined,
+ *   scenarioId?: string | undefined,
+ *   branchMode?: string | undefined,
+ *   principal?: string | undefined
+ * }} RequestBodyShape
+ */
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,8 +121,13 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DATA_PATH = path.join(__dirname, 'data', 'state.json');
 const DEFAULT_PUBLIC_DIR = path.join(__dirname, 'public');
-const DEFAULT_PORT = Number(process.env.PORT || 4318);
+const DEFAULT_PORT = Number(process.env['PORT'] || 4318);
 
+/**
+ * @param {string} targetPath
+ * @param {unknown} value
+ * @returns {void}
+ */
 function writeJsonAtomically(targetPath, value) {
   const directory = path.dirname(targetPath);
   const tempPath = `${targetPath}.tmp-${process.pid}-${Date.now()}`;
@@ -34,13 +148,20 @@ function writeJsonAtomically(targetPath, value) {
 }
 
 export function createAppContext({
-  dataPath = process.env.ENGI_DEMO_DATA_PATH || DEFAULT_DATA_PATH,
-  publicDir = process.env.ENGI_DEMO_PUBLIC_DIR || DEFAULT_PUBLIC_DIR
+  dataPath = process.env['ENGI_DEMO_DATA_PATH'] || DEFAULT_DATA_PATH,
+  publicDir = process.env['ENGI_DEMO_PUBLIC_DIR'] || DEFAULT_PUBLIC_DIR
 } = {}) {
+  /**
+   * @param {readonly unknown[]} [values=[]]
+   * @returns {string[]}
+   */
   function uniqueStrings(values = []) {
     return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
   }
 
+  /**
+   * @returns {{ bootstrapped: boolean, reason?: string, assetCount?: number, buyerCount?: number }}
+   */
   function ensureState() {
     if (!fs.existsSync(dataPath)) {
       writeJsonAtomically(dataPath, buildInitialState());
@@ -54,27 +175,45 @@ export function createAppContext({
     return { bootstrapped: false, assetCount: raw.assets.length, buyerCount: raw.buyers.length };
   }
 
+  /**
+   * @returns {AppState}
+   */
   function readState() {
     ensureState();
     return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
   }
 
+  /**
+   * @param {AppState} state
+   * @returns {{ ok: true }}
+   */
   function writeState(state) {
     writeJsonAtomically(dataPath, state);
     return { ok: true };
   }
 
+  /**
+   * @param {ServerResponse} res
+   * @param {number} status
+   * @param {unknown} payload
+   * @returns {void}
+   */
   function sendJson(res, status, payload) {
     res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
     res.end(JSON.stringify(payload, null, 2));
   }
 
+  /**
+   * @param {IncomingMessage} req
+   * @returns {Promise<RequestBodyShape>}
+   */
   function readBody(req) {
     return new Promise((resolve, reject) => {
       let data = '';
       req.on('data', (chunk) => {
         data += chunk;
         if (data.length > 1_000_000) {
+          /** @type {StatusError} */
           const error = new Error('Body too large.');
           error.statusCode = 413;
           reject(error);
@@ -85,6 +224,7 @@ export function createAppContext({
         try {
           resolve(data ? JSON.parse(data) : {});
         } catch {
+          /** @type {StatusError} */
           const error = new Error('Invalid JSON body.');
           error.statusCode = 400;
           reject(error);
@@ -94,8 +234,13 @@ export function createAppContext({
     });
   }
 
+  /**
+   * @param {IncomingMessage} req
+   * @param {ServerResponse} res
+   * @returns {void}
+   */
   function serveStatic(req, res) {
-    const pathname = req.url === '/' ? '/index.html' : req.url;
+    const pathname = req.url === '/' ? '/index.html' : (req.url || '/index.html');
     const safePath = path.normalize(path.join(publicDir, pathname));
     if (!safePath.startsWith(publicDir) || !fs.existsSync(safePath) || fs.statSync(safePath).isDirectory()) {
       res.writeHead(404);
@@ -108,10 +253,19 @@ export function createAppContext({
     res.end(fs.readFileSync(safePath));
   }
 
+  /**
+   * @param {AppState} state
+   * @param {RequestBodyShape} body
+   * @returns {Record<string, unknown>}
+   */
   function buildDepositInput(state, body) {
     const inventoryEntryIds = uniqueStrings(body.inventoryEntryIds || body.selectedInventoryEntryIds || []);
-    const selectedInventoryEntries = inventoryEntryIds.map((entryId) => state.repoArtifactInventory.find((entry) => entry.inventoryEntryId === entryId)).filter(Boolean);
+    /** @type {RepoArtifactInventoryEntryShape[]} */
+    const selectedInventoryEntries = inventoryEntryIds
+      .map((entryId) => state.repoArtifactInventory.find((entry) => entry.inventoryEntryId === entryId))
+      .filter((entry) => !!entry);
     if (inventoryEntryIds.length && selectedInventoryEntries.length !== inventoryEntryIds.length) {
+      /** @type {StatusError} */
       const error = new Error('One or more selected repo artifacts could not be resolved.');
       error.statusCode = 400;
       throw error;
@@ -122,6 +276,7 @@ export function createAppContext({
       ? state.githubAppSessions.find((session) => session.authSessionId === authSessionId)
       : null;
     if (inventoryEntryIds.length && !authSession) {
+      /** @type {StatusError} */
       const error = new Error('Authenticated repo session is required for repo artifact selection.');
       error.statusCode = 400;
       throw error;
@@ -129,11 +284,13 @@ export function createAppContext({
 
     const selectedRepos = uniqueStrings(selectedInventoryEntries.map((entry) => entry.repo));
     if (selectedRepos.length > 1) {
+      /** @type {StatusError} */
       const error = new Error('The initial V11 intake flow only supports selecting repo artifacts from one repository at a time.');
       error.statusCode = 400;
       throw error;
     }
     if (authSession && selectedRepos.length === 1 && authSession.repo !== selectedRepos[0]) {
+      /** @type {StatusError} */
       const error = new Error('Selected repo artifacts must match the authenticated repo session.');
       error.statusCode = 400;
       throw error;
@@ -152,6 +309,7 @@ export function createAppContext({
       content = sections.join('\n\n---\n\n');
     }
     if (!String(content || '').trim()) {
+      /** @type {StatusError} */
       const error = new Error('Raw content or repo artifact selection is required.');
       error.statusCode = 400;
       throw error;
@@ -162,11 +320,12 @@ export function createAppContext({
     const sourceRepo = String(body.sourceRepo || '').trim() || authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
     const title = String(body.title || '').trim()
       || (selectedInventoryEntries.length === 1
-        ? selectedInventoryEntries[0].title
+        ? (selectedInventoryEntries[0]?.title || '')
         : selectedInventoryEntries.length
           ? `Repo artifact bundle · ${sourceRepo}`
           : '');
     if (!title) {
+      /** @type {StatusError} */
       const error = new Error('Title is required.');
       error.statusCode = 400;
       throw error;
@@ -176,6 +335,7 @@ export function createAppContext({
       || authSession?.installationAccountLogin
       || '';
     if (!author) {
+      /** @type {StatusError} */
       const error = new Error('Author is required.');
       error.statusCode = 400;
       throw error;
@@ -194,12 +354,12 @@ export function createAppContext({
       operatorNote,
       sourceProvider: body.sourceProvider || 'github',
       sourceRepo,
-      sourceCommit: String(body.sourceCommit || '').trim() || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit,
-      sourceRef: String(body.sourceRef || '').trim() || authSession?.defaultRef || selectedInventoryEntries.find((entry) => entry.ref)?.ref,
-      workflowRunId: String(body.workflowRunId || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowRunId)?.workflowRunId,
-      workflowPath: String(body.workflowPath || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowPath)?.workflowPath,
-      workflowJobName: String(body.workflowJobName || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowJobName)?.workflowJobName,
-      signerAddress: String(body.signerAddress || '').trim() || authSession?.defaultSignerAddress || selectedInventoryEntries.find((entry) => entry.signerAddress)?.signerAddress,
+      sourceCommit: String(body.sourceCommit || '').trim() || selectedInventoryEntries.find((entry) => entry.sourceCommit)?.sourceCommit || undefined,
+      sourceRef: String(body.sourceRef || '').trim() || authSession?.defaultRef || selectedInventoryEntries.find((entry) => entry.ref)?.ref || undefined,
+      workflowRunId: String(body.workflowRunId || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowRunId)?.workflowRunId || undefined,
+      workflowPath: String(body.workflowPath || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowPath)?.workflowPath || undefined,
+      workflowJobName: String(body.workflowJobName || '').trim() || selectedInventoryEntries.find((entry) => entry.workflowJobName)?.workflowJobName || undefined,
+      signerAddress: String(body.signerAddress || '').trim() || authSession?.defaultSignerAddress || selectedInventoryEntries.find((entry) => entry.signerAddress)?.signerAddress || undefined,
       signingAlgorithm: body.signingAlgorithm || authSession?.signingAlgorithm,
       keySource: body.keySource || authSession?.keySource,
       installationId: body.installationId || authSession?.installationId,
@@ -220,6 +380,11 @@ export function createAppContext({
     };
   }
 
+  /**
+   * @param {IncomingMessage} req
+   * @param {ServerResponse} res
+   * @returns {Promise<void>}
+   */
   async function handle(req, res) {
     try {
       if (req.method === 'GET' && req.url?.startsWith('/api/state')) {
@@ -242,17 +407,19 @@ export function createAppContext({
       if (req.method === 'POST' && req.url === '/api/make-engi-branch') {
         const body = await readBody(req);
         const state = readState();
-        const { nextState, latestRun } = runMakeEngiBranch(state, {
+        const branchRequest = {
           buyerId: body.buyerId,
           scenarioId: body.scenarioId,
           branchMode: body.branchMode
-        });
+        };
+        const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
         writeState(nextState);
         const principal = body.principal || undefined;
+        const projectedState = buildPublicState({ ...nextState, latestRun }, principal);
         return sendJson(res, 200, {
           ok: true,
           specVersion: SPEC_VERSION,
-          latestRun: buildPublicState({ ...nextState, latestRun }, principal).latestRun,
+          latestRun: projectedState['latestRun'],
           ledger: nextState.ledger,
           runHistory: nextState.runHistory
         });
@@ -274,7 +441,8 @@ export function createAppContext({
 
       return sendJson(res, 404, { error: 'Not found.' });
     } catch (error) {
-      return sendJson(res, error.statusCode || 500, { error: error.message || 'Unknown error.' });
+      const resolvedError = /** @type {StatusError} */ (error instanceof Error ? error : new Error('Unknown error.'));
+      return sendJson(res, resolvedError.statusCode || 500, { error: resolvedError.message || 'Unknown error.' });
     }
   }
 
@@ -300,12 +468,16 @@ export async function startServer({ port = DEFAULT_PORT, host = '127.0.0.1', ...
   const { app, server } = await createServer(options);
   app.ensureState();
   return new Promise((resolve) => {
-    server.listen(port, host, () => resolve({ app, server, port: server.address().port }));
+    server.listen(port, host, () => {
+      const address = server.address();
+      const resolvedPort = typeof address === 'object' && address ? /** @type {AddressInfo} */ (address).port : port;
+      resolve({ app, server, port: resolvedPort });
+    });
   });
 }
 
-if (import.meta.url === new URL(process.argv[1], 'file://').href) {
-  const host = process.env.HOST || '127.0.0.1';
+if (process.argv[1] && import.meta.url === new URL(process.argv[1], 'file://').href) {
+  const host = process.env['HOST'] || '127.0.0.1';
   startServer({ port: DEFAULT_PORT, host }).then(({ port }) => {
     console.log(`ENGI demo listening on http://${host}:${port}`);
   });

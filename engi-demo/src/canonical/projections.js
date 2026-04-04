@@ -1,20 +1,44 @@
+// @ts-check
+
+/**
+ * @typedef {import('./type-contracts.js').ProjectionPolicyShape} ProjectionPolicyShape
+ */
+
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(/** @type {Record<string, unknown>} */ (value)[key])}`).join(',')}}`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
 }
 
+/**
+ * @param {{ artifactClasses?: Array<{ path: string, sensitiveDataClass: string, disclosable: boolean }> | undefined } | null | undefined} policyRelease
+ * @param {{ files?: Record<string, unknown> | undefined } | null | undefined} branchArtifacts
+ * @param {string} defaultPrincipal
+ * @returns {ProjectionPolicyShape}
+ */
 export function buildProjectionPolicy(policyRelease, branchArtifacts, defaultPrincipal) {
   const artifactRules = (policyRelease?.artifactClasses || []).map((entry) => ({
     path: entry.path,
@@ -58,6 +82,23 @@ export function buildProjectionPolicy(policyRelease, branchArtifacts, defaultPri
   };
 }
 
+/**
+ * @param {{
+ *   need: { needId: string },
+ *   assetPack: { selectedAssets: string[] },
+ *   settlement: {
+ *     bundleId: string,
+ *     journalDiff: { invariants: unknown },
+ *     sourceToSharesArtifact?: { sourceContributionEntries?: unknown[], basisPointNormalization?: { method?: string | undefined } | undefined } | null,
+ *     settlementParticipationArtifact?: { zeroCreditParticipatingCount?: number | undefined } | null
+ *   },
+ *   proofContract: { contractId: string, evidenceChain: Array<{ stage: string, artifactRefs: unknown[] }> },
+ *   branchName: string,
+ *   promptCompletenessProof: { checkedPromptCount: number, allContractsComplete: boolean },
+ *   staticMeasurementReport: { receiptCount: number, allReceiptRefsResolve: boolean }
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 export function buildBoundedPublicProofArtifact({ need, assetPack, settlement, proofContract, branchName, promptCompletenessProof, staticMeasurementReport }) {
   return {
     needId: need.needId,
@@ -87,6 +128,15 @@ export function buildBoundedPublicProofArtifact({ need, assetPack, settlement, p
   };
 }
 
+/**
+ * @param {{
+ *   policyRelease: { artifactClasses?: Array<{ path: string, disclosable: boolean }> | undefined } | null | undefined,
+ *   branchArtifacts: { files?: Record<string, unknown> | undefined } | null | undefined,
+ *   projectionPolicy: ProjectionPolicyShape,
+ *   boundedPublicProof: unknown
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 export function buildRedactionProof({ policyRelease, branchArtifacts, projectionPolicy, boundedPublicProof }) {
   const artifactRules = policyRelease?.artifactClasses || [];
   const redactedArtifactPaths = artifactRules.filter((entry) => !entry.disclosable).map((entry) => entry.path);
@@ -103,6 +153,14 @@ export function buildRedactionProof({ policyRelease, branchArtifacts, projection
   };
 }
 
+/**
+ * @param {{
+ *   policyRelease: { artifactClasses?: Array<{ path: string, sensitiveDataClass: string, disclosable: boolean }> | undefined } | null | undefined,
+ *   projectionPolicy: ProjectionPolicyShape,
+ *   boundedPublicProof: unknown
+ * }} input
+ * @returns {Record<string, unknown>}
+ */
 export function buildDisclosureProof({ policyRelease, projectionPolicy, boundedPublicProof }) {
   const artifactRules = policyRelease?.artifactClasses || [];
   return {

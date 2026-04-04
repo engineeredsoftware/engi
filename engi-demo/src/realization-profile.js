@@ -1,7 +1,17 @@
+// @ts-check
+
+/**
+ * @typedef {import('./canonical/type-contracts.js').RealizationProfileId} RealizationProfileId
+ * @typedef {import('./canonical/type-contracts.js').RealizationProfileDefinition} RealizationProfileDefinition
+ * @typedef {import('./canonical/type-contracts.js').BuiltRealizationProfile} BuiltRealizationProfile
+ * @typedef {import('./canonical/type-contracts.js').RealizationProfileSubject} RealizationProfileSubject
+ */
+
 export const PROFILE_A = 'Profile A — targeted deposit / bounded need';
 export const PROFILE_B = 'Profile B — normalization deposit / composite need';
 
 export const REALIZATION_PROFILE_KIND = 'realization-profile';
+/** @type {Readonly<{ TARGETED: RealizationProfileId, NORMALIZATION: RealizationProfileId }>} */
 export const REALIZATION_PROFILE_IDS = Object.freeze({
   TARGETED: 'A',
   NORMALIZATION: 'B'
@@ -12,7 +22,7 @@ const PROFILE_B_SCENARIO_FAMILIES = new Set([
   'many-asset-settlement-normalization'
 ]);
 
-const PROFILE_DEFINITIONS = Object.freeze({
+const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationProfileDefinition>} */ ({
   [REALIZATION_PROFILE_IDS.TARGETED]: Object.freeze({
     profileId: REALIZATION_PROFILE_IDS.TARGETED,
     label: PROFILE_A,
@@ -70,7 +80,12 @@ const PROFILE_DEFINITIONS = Object.freeze({
     boundaryRealityNote: 'Live GitHub and network hand-offs are still explicit boundary contracts, but they are not the reason this profile exists.'
   })
 });
+const PROFILE_DEFINITIONS = Object.freeze(profileDefinitions);
 
+/**
+ * @param {RealizationProfileDefinition} profile
+ * @returns {BuiltRealizationProfile}
+ */
 function cloneRealizationProfile(profile) {
   return {
     profileKind: REALIZATION_PROFILE_KIND,
@@ -82,16 +97,41 @@ function cloneRealizationProfile(profile) {
   };
 }
 
+/**
+ * @param {RealizationProfileSubject} [subject={}]
+ * @returns {RealizationProfileId}
+ */
 export function resolveRealizationProfileId(subject = {}) {
-  if (typeof subject === 'string' && subject.trim()) return subject.trim().toUpperCase();
-  return subject.realizationProfileId
-    || (PROFILE_B_SCENARIO_FAMILIES.has(subject.scenarioFamily)
+  if (typeof subject === 'string' && subject.trim()) {
+    const normalized = subject.trim().toUpperCase();
+    return normalized === REALIZATION_PROFILE_IDS.NORMALIZATION
       ? REALIZATION_PROFILE_IDS.NORMALIZATION
-      : REALIZATION_PROFILE_IDS.TARGETED);
+      : REALIZATION_PROFILE_IDS.TARGETED;
+  }
+
+  const resolvedSubject = typeof subject === 'string' ? {} : subject;
+  const explicitProfileId = typeof resolvedSubject.realizationProfileId === 'string'
+    ? resolvedSubject.realizationProfileId.trim().toUpperCase()
+    : '';
+  if (explicitProfileId === REALIZATION_PROFILE_IDS.NORMALIZATION) {
+    return REALIZATION_PROFILE_IDS.NORMALIZATION;
+  }
+  if (explicitProfileId === REALIZATION_PROFILE_IDS.TARGETED) {
+    return REALIZATION_PROFILE_IDS.TARGETED;
+  }
+  return PROFILE_B_SCENARIO_FAMILIES.has(resolvedSubject.scenarioFamily || '')
+    ? REALIZATION_PROFILE_IDS.NORMALIZATION
+    : REALIZATION_PROFILE_IDS.TARGETED;
 }
 
+/**
+ * @param {RealizationProfileSubject} [subject=REALIZATION_PROFILE_IDS.TARGETED]
+ * @returns {BuiltRealizationProfile}
+ */
 export function buildRealizationProfile(subject = REALIZATION_PROFILE_IDS.TARGETED) {
   const profileId = resolveRealizationProfileId(subject);
-  const profile = PROFILE_DEFINITIONS[profileId] || PROFILE_DEFINITIONS[REALIZATION_PROFILE_IDS.TARGETED];
+  const profile = profileId === REALIZATION_PROFILE_IDS.NORMALIZATION
+    ? PROFILE_DEFINITIONS[REALIZATION_PROFILE_IDS.NORMALIZATION]
+    : PROFILE_DEFINITIONS[REALIZATION_PROFILE_IDS.TARGETED];
   return cloneRealizationProfile(profile);
 }

@@ -1,23 +1,54 @@
+// @ts-check
+
+/**
+ * @typedef {import('./type-contracts.js').EvaluatorMode} EvaluatorMode
+ * @typedef {import('./type-contracts.js').EvaluatorKind} EvaluatorKind
+ * @typedef {import('./type-contracts.js').MeasurementClass} MeasurementClass
+ * @typedef {import('./type-contracts.js').PromptValueType} PromptValueType
+ * @typedef {import('./type-contracts.js').PromptSchemaEntry} PromptSchemaEntry
+ * @typedef {import('./type-contracts.js').PromptContextInput} PromptContextInput
+ * @typedef {import('./type-contracts.js').PromptContractShape} PromptContractShape
+ * @typedef {import('./type-contracts.js').BuiltPromptSurface} BuiltPromptSurface
+ * @typedef {import('./type-contracts.js').ParsedCompletionEnvelope} ParsedCompletionEnvelope
+ * @typedef {import('./type-contracts.js').EvaluatorSurfaceContract} EvaluatorSurfaceContract
+ */
+
 import crypto from 'node:crypto';
 import { PROFILE_A } from '../realization-profile.js';
 
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v15';
 const DEFAULT_PROMPT_TEMPLATE_VERSION = 'spec-v15-prompt-contract.v1';
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(/** @type {Record<string, unknown>} */ (value)[key])}`).join(',')}}`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
 }
 
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string[]}
+ */
 function summarizeStrings(values = []) {
   return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
 }
@@ -26,6 +57,11 @@ function nowIso() {
   return new Date().toISOString();
 }
 
+/**
+ * @param {string} template
+ * @param {Record<string, unknown>} [values={}]
+ * @returns {string}
+ */
 function interpolateTemplate(template, values = {}) {
   return String(template || '').replace(/\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g, (_, key) => {
     const value = values[key];
@@ -33,6 +69,11 @@ function interpolateTemplate(template, values = {}) {
   });
 }
 
+/**
+ * @param {PromptValueType} type
+ * @param {unknown} value
+ * @returns {unknown}
+ */
 function normalizeCompletionValue(type, value) {
   if (type === 'string') {
     if (typeof value !== 'string') {
@@ -51,11 +92,16 @@ function normalizeCompletionValue(type, value) {
   return value;
 }
 
+/**
+ * @param {BuiltPromptSurface | null | undefined} promptSurface
+ * @param {unknown} parsedPayload
+ * @returns {Record<string, unknown>}
+ */
 function normalizeParsedPayload(promptSurface, parsedPayload) {
   const expectedSchema = promptSurface?.promptContract?.expectedOutputSchema || [];
   const requiredTopLevelKeys = expectedSchema.filter((entry) => entry.required !== false).map((entry) => entry.field);
   const actualPayload = parsedPayload && typeof parsedPayload === 'object' && !Array.isArray(parsedPayload)
-    ? parsedPayload
+    ? /** @type {Record<string, unknown>} */ (parsedPayload)
     : null;
 
   if (!actualPayload) {
@@ -81,6 +127,22 @@ function normalizeParsedPayload(promptSurface, parsedPayload) {
   ]));
 }
 
+/**
+ * @param {{
+ *   evaluatorId: string,
+ *   evaluatorKind: EvaluatorKind,
+ *   measurementClass: MeasurementClass,
+ *   mode: EvaluatorMode,
+ *   evidenceRefs?: readonly unknown[],
+ *   modelId?: string,
+ *   promptId?: string | null,
+ *   toolId?: string | null,
+ *   replayableTrace?: boolean,
+ *   profile?: string,
+ *   standIn?: boolean
+ * }} input
+ * @returns {EvaluatorSurfaceContract}
+ */
 export function buildEvaluatorSurface({
   evaluatorId,
   evaluatorKind,
@@ -109,6 +171,21 @@ export function buildEvaluatorSurface({
   };
 }
 
+/**
+ * @param {string} outputField
+ * @param {readonly unknown[]} evidenceRefs
+ * @param {string} promptOrEvaluatorId
+ * @param {string} [modelId=DEFAULT_MODEL_ID]
+ * @returns {{
+ *   outputField: string,
+ *   evidenceRefs: string[],
+ *   promptOrEvaluatorId: string,
+ *   modelId: string,
+ *   evaluatorSurface: EvaluatorSurfaceContract,
+ *   replayableTrace: boolean,
+ *   admissible: boolean
+ * }}
+ */
 export function buildInferenceProof(outputField, evidenceRefs, promptOrEvaluatorId, modelId = DEFAULT_MODEL_ID) {
   return {
     outputField,
@@ -129,12 +206,30 @@ export function buildInferenceProof(outputField, evidenceRefs, promptOrEvaluator
   };
 }
 
+/**
+ * @param {string} template
+ * @returns {string[]}
+ */
 export function extractPromptPlaceholders(template) {
   return summarizeStrings(
     [...String(template || '').matchAll(/\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}/g)].map((match) => match[1])
   );
 }
 
+/**
+ * @param {{
+ *   promptId: string,
+ *   templateVersion?: string,
+ *   template: string,
+ *   contextInputs?: PromptContextInput[],
+ *   outputFields?: string[],
+ *   outputSchema?: PromptSchemaEntry[],
+ *   downstreamArtifacts?: readonly unknown[],
+ *   nonRenderedContextFields?: readonly unknown[],
+ *   evidenceRefs?: readonly unknown[]
+ * }} input
+ * @returns {PromptContractShape}
+ */
 export function buildPromptContract({
   promptId,
   templateVersion = DEFAULT_PROMPT_TEMPLATE_VERSION,
@@ -153,6 +248,7 @@ export function buildPromptContract({
   const undeclaredNonRenderedContextFields = explicitNonRendered.filter((field) => !declaredContextFields.includes(field));
   const unusedContextFields = declaredContextFields.filter((field) => !placeholderSet.includes(field) && !explicitNonRendered.includes(field));
   const renderedContextFields = declaredContextFields.filter((field) => placeholderSet.includes(field));
+  /** @type {PromptSchemaEntry[]} */
   const exactOutputSchema = outputSchema.length
     ? outputSchema.map((entry) => ({
         field: entry.field,
@@ -208,6 +304,10 @@ export function buildPromptContract({
   };
 }
 
+/**
+ * @param {PromptContractShape} promptContract
+ * @returns {void}
+ */
 export function assertPromptContractComplete(promptContract) {
   if (!promptContract.completeness.ok) {
     throw new Error(
@@ -219,6 +319,9 @@ export function assertPromptContractComplete(promptContract) {
   }
 }
 
+/**
+ * @param {PromptContractShape[]} [promptContracts=[]]
+ */
 export function buildPromptCompletenessProof(promptContracts = []) {
   return {
     conformanceProfile: PROFILE_A,
@@ -244,6 +347,23 @@ export function buildPromptCompletenessProof(promptContracts = []) {
   };
 }
 
+/**
+ * @param {{
+ *   promptId: string,
+ *   purpose: string,
+ *   template: string,
+ *   values: Record<string, unknown>,
+ *   contextInputs?: PromptContextInput[],
+ *   outputFields?: string[],
+ *   downstreamArtifacts?: readonly unknown[],
+ *   evaluatorKind?: EvaluatorKind,
+ *   modelId?: string,
+ *   standIn?: boolean,
+ *   nonRenderedContextFields?: readonly unknown[],
+ *   templateVersion?: string
+ * }} input
+ * @returns {BuiltPromptSurface}
+ */
 export function buildPromptSurface({
   promptId,
   purpose,
@@ -259,6 +379,8 @@ export function buildPromptSurface({
   templateVersion = DEFAULT_PROMPT_TEMPLATE_VERSION
 }) {
   const evidenceRefs = summarizeStrings(contextInputs.flatMap((input) => input.evidenceRefs || []));
+  const normalizedDownstreamArtifacts = summarizeStrings(downstreamArtifacts);
+  /** @type {PromptSchemaEntry[]} */
   const outputSchema = outputFields.map((field) => ({
     field,
     type: field === 'task' ? 'string' : 'string[]',
@@ -298,20 +420,20 @@ export function buildPromptSurface({
       derivedFrom: contextInputs.map((input) => input.field),
       evidenceRefs,
       outputFields,
-      downstreamArtifacts
+      downstreamArtifacts: normalizedDownstreamArtifacts
     },
     promptContract,
     parsableCompletionContract: {
       contractId: promptContract.parseContractId,
       evaluatorId: promptId,
-      payloadType: outputSchema.length === 1 ? outputSchema[0].type : 'object',
+      payloadType: outputSchema.length === 1 ? (outputSchema[0]?.type || 'object') : 'object',
       schemaHash: promptContract.outputSchemaHash,
       ownedOutputFields: outputFields,
       requiredTopLevelKeys: outputSchema.filter((entry) => entry.required).map((entry) => entry.field),
       parseMode: promptContract.parseMode,
       requiresExactTopLevelKeys: promptContract.requiresExactTopLevelKeys,
       allowsExtraneousText: promptContract.allowsExtraneousText,
-      downstreamArtifacts,
+      downstreamArtifacts: normalizedDownstreamArtifacts,
       onParseFailure: promptContract.onParseFailure,
       onMissingRequiredField: promptContract.onMissingRequiredField
     },
@@ -329,6 +451,16 @@ export function buildPromptSurface({
   };
 }
 
+/**
+ * @param {{
+ *   promptSurface: BuiltPromptSurface,
+ *   parsedPayload: unknown,
+ *   parsedAt?: string,
+ *   executionMode?: string,
+ *   evidenceRefs?: readonly unknown[]
+ * }} input
+ * @returns {ParsedCompletionEnvelope}
+ */
 export function buildParsedCompletionEnvelope({
   promptSurface,
   parsedPayload,
@@ -379,6 +511,9 @@ export function buildParsedCompletionEnvelope({
   };
 }
 
+/**
+ * @param {ParsedCompletionEnvelope[]} [parsedCompletionEnvelopes=[]]
+ */
 export function buildParsedCompletionEnvelopeArtifact(parsedCompletionEnvelopes = []) {
   return {
     conformanceProfile: PROFILE_A,
