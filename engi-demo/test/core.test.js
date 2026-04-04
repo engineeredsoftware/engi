@@ -4,6 +4,7 @@ import {
   canonicalJson,
   buildInitialState,
   buildNeedDescriptor,
+  buildRealizationProfile,
   buildPromptContract,
   assertPromptContractComplete,
   measureNeedFromScenario,
@@ -77,6 +78,20 @@ test('publicState exposes V12 profile comparison guidance for the demo shell', (
   assert.match(projected.profileCompositions.demoOperatorGuidance.boundaryTruthPlacement, /Boundary reality/i);
 });
 
+test('buildRealizationProfile preserves canonical aliasing while keeping legacy demo names honest', () => {
+  const targeted = buildRealizationProfile('A');
+  const normalization = buildRealizationProfile({ scenarioFamily: 'many-asset-settlement-normalization' });
+
+  assert.equal(targeted.profileKind, 'demo-realization-profile');
+  assert.equal(targeted.profileDiscriminant, 'demo-realization-profile:A');
+  assert.deepEqual(targeted.canonicalNames, {
+    preferred: 'realizationProfile',
+    legacy: 'demonstrationProfile'
+  });
+  assert.equal(normalization.profileId, 'B');
+  assert.equal(normalization.profileDiscriminant, 'demo-realization-profile:B');
+});
+
 test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
@@ -88,6 +103,8 @@ test('buildNeedDescriptor carries canonical run evidence, parser failure contrac
   assert.equal(need.productionIntentProfile, 'Profile B — normalization deposit / composite need');
   assert.equal(need.demonstrationProfile.profileId, 'A');
   assert.equal(need.demonstrationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(need.demonstrationProfile.profileKind, 'demo-realization-profile');
+  assert.equal(need.demonstrationProfile.canonicalNames.preferred, 'realizationProfile');
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
   assert.equal(need.fieldDerivations.closureCriteria.source, 'deterministic-synthesis');
@@ -633,9 +650,24 @@ test('source-to-shares artifact, settlement participation, and accounting precis
   const zeroCreditParticipatingCount = participation.records.filter((record) => record.zeroCreditParticipating).length;
 
   assert.equal(sourceToShares.rawShares.reduce((sum, entry) => sum + entry.shareBp, 0), 10000);
+  assert.ok(sourceToShares.sourceContributionEntries.every((entry) => entry.entryKind === 'source-contribution-entry'));
+  assert.equal(
+    Object.values(sourceToShares.contributionDispositionCounts).reduce((sum, value) => sum + value, 0),
+    sourceToShares.sourceContributionEntries.length
+  );
   assert.ok(sourceToShares.clippingReceipts.every((receipt) => receipt.receiptId));
+  assert.ok(participation.records.every((record) => record.recordKind === 'settlement-participation-record'));
   assert.equal(participation.zeroCreditParticipatingCount, zeroCreditParticipatingCount);
   assert.equal(participation.zeroCreditParticipatingCount, latestRun.settlementPreview.zeroCreditAssetIds.length);
+  assert.equal(
+    participation.recordCountsByDisposition.creditDisposition['zero-credit-participating'] || 0,
+    zeroCreditParticipatingCount
+  );
+  assert.ok(
+    participation.records
+      .filter((record) => record.zeroCreditParticipating)
+      .every((record) => record.creditDisposition === 'zero-credit-participating' && record.settlementDisposition === 'participating-zero-credit')
+  );
   assert.equal(precision.exactAccountingInvariants.clippedContributionDecisionsReceiptBacked, true);
   assert.equal(precision.exactAccountingInvariants.zeroCreditParticipationExplicit, true);
   assert.equal(precision.microUnitAllocation.finalAllocatedMicroUnits, latestRun.journalDiff.totals.credited);

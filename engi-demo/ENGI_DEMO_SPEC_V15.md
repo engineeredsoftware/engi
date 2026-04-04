@@ -6,7 +6,7 @@ Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -
 Current canonical/latest target remains: `V14`
 Last fully realized canon preserved in source: `V12`
 System-spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
-Demo matrix companion: `/Users/garrettmaring/Developer/ENGI/engi-demo/ENGI_DEMO_SPEC_V15_IMPLEMENTATION_MATRIX.md`
+Demo matrix companion: `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V15_IMPLEMENTATION_MATRIX.md`
 
 ---
 
@@ -86,6 +86,8 @@ Explainers, tooltips, visual/raw renderings, and panel summaries are demo-canoni
 
 Primary implementation files:
 - `src/engi-demo.js`
+- `src/realization-profile.js`
+- `src/settlement-structs.js`
 - `server.js`
 - `public/app.js`
 - `public/index.html`

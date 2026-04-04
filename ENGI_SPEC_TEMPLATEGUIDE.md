@@ -82,7 +82,7 @@ A full enriched ENGI release SHOULD normally include the following file family:
    Required when a version is materially recovering lost density, parity, or conceptual coverage from earlier canon.
 5. optional realization/demo family, for example:
    - `engi-demo/ENGI_DEMO_SPEC_VN.md`
-   - `engi-demo/ENGI_DEMO_SPEC_VN_IMPLEMENTATION_MATRIX.md`
+   - `engi-demo/SPEC_VN_IMPLEMENTATION_MATRIX.md`
 6. optional parity-bearing adjunct files
    Examples include host capability documents, architecture maps, or other structured reference artifacts that the canonical spec relies on directly.
 
@@ -94,6 +94,7 @@ File-family rules:
 5. A realization/demo implementation matrix records realization-local parity/debt and MUST NOT stand in for the system parity matrix.
 6. If adjunct files are used as canonical parity surfaces, the spec or relevant matrix MUST name them explicitly and judge whether they are aligned.
 7. Notes and the system parity matrix MUST repeat the same pointer/latest-target vs last-fully-realized-canon interpretation as the main spec.
+8. When a realization/demo implementation matrix exists, its preferred filename under the realization root SHOULD be `SPEC_VN_IMPLEMENTATION_MATRIX.md`; longer demo-prefixed aliases MAY exist temporarily for compatibility but MUST NOT become the primary maintained path.
 
 The system parity matrix is not optional bookkeeping for a serious release.
 It is the ledger that separates:
@@ -130,6 +131,19 @@ Matrix-honesty rules:
 3. If adjunct docs are ahead or behind the matrix's previous assumption, the matrix MUST be corrected to the current repo truth rather than preserving stale review language.
 4. False closure is worse than explicit debt because it hides where the next realization work actually belongs.
 5. A demo-local matrix MUST NOT claim closure for system-canonical implementation expectations that are not actually satisfied outside the demo realization family.
+
+## 3.3 Canonical source refactor posture
+
+Some ENGI versions will need to improve source-canon alignment without redefining ENGI semantics.
+When that happens, the file family SHOULD state the refactor focus explicitly rather than smuggling it in as vague cleanup language.
+
+Canonical source-refactor rules:
+1. canonical types and structs SHOULD be named directly in the system spec even if the current source still realizes them through builders, emitted JSON artifacts, or concentrated orchestration files,
+2. the system spec MAY define preferred concept names while still preserving the current source names as honest realization-era labels until migration lands,
+3. high-information structures such as proofs, receipts, manifests, settlement artifacts, and operating surfaces SHOULD be separable from explainer-only or projection-only summaries,
+4. the system spec MAY describe preferred file or module boundaries for future implementations, but the relevant parity matrix MUST state plainly when current source layout still trails that target,
+5. docs, explainers, and tests SHOULD be read as one parity surface: if they describe different canonical objects, the mismatch belongs in the matrix,
+6. system canon owns the target naming/type/module posture, while realization files own the current migration reality.
 
 ---
 
@@ -515,3 +529,38 @@ A future full enriched ENGI release is in good structural shape when all of the 
 
 This guide is the cross-version drafting standard.
 Individual `_VN_` specs remain the product/system canon for their own release, but they SHOULD now be written against this guide rather than rediscovering the structure each time.
+
+
+# Canonical source refactor posture
+
+When a version explicitly includes a canonical source-refactor focus, the spec family SHOULD treat that refactor as first-class canonical work rather than as implementation garnish.
+
+The default goals of such a refactor are:
+- stronger primitive types and struct design,
+- richer enum cases where they improve provability,
+- stronger type composition and information-value organization,
+- clearer naming,
+- better file/module organization,
+- better comments/docs/tests parity,
+- and preservation of system behavior and state integrity.
+
+A canonical source-refactor pass MUST distinguish between:
+- structural/formal improvement,
+- and semantic/behavioral change.
+
+The default expectation is:
+- structural/formal improvement is encouraged,
+- semantic/behavioral drift is prohibited unless explicitly justified and reflected in the spec/matrix.
+
+## Typing for provability
+
+Future ENGI spec drafts SHOULD explicitly state when stronger typing is part of the version focus.
+When it is, the spec family SHOULD require attention to:
+- enum design,
+- discriminated unions,
+- rich nominal or structural composition where useful,
+- explicit roots/ids/refs typed by role,
+- and stronger formal separation between system-layer and demo-layer structures.
+
+Typing improvements are not merely ergonomic.
+They are part of making the ENGI program more provable through its own shape.

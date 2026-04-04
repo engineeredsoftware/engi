@@ -1,11 +1,16 @@
 import crypto from 'node:crypto';
+import { PROFILE_A, PROFILE_B, buildDemonstrationProfile } from './realization-profile.js';
+import {
+  buildSettlementParticipationStruct,
+  buildSourceContributionDisposition,
+  SOURCE_CONTRIBUTION_ENTRY_KIND
+} from './settlement-structs.js';
 
 export const SPEC_VERSION = 'ENGI Spec V12 deterministic local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
-export const PROFILE_A = 'Profile A — targeted deposit / bounded need';
-export const PROFILE_B = 'Profile B — normalization deposit / composite need';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
+export { PROFILE_A, PROFILE_B, buildRealizationProfile } from './realization-profile.js';
 const MAX_BPS = 10000;
 const MAX_BPS_BIGINT = 10000n;
 const SOURCE_TO_SHARES_SCALE = 1000000n;
@@ -13,68 +18,6 @@ const VECTOR_DIMENSIONS = 16;
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v4';
 const DEFAULT_POLICY_REF = 'policy://engi/spec-v11-demo/2026-04-03';
 const PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
-const PROFILE_B_SCENARIO_FAMILIES = new Set([
-  'polyglot-repo-benchmark-remediation',
-  'many-asset-settlement-normalization'
-]);
-const PROFILE_DEFINITIONS = {
-  A: {
-    profileId: 'A',
-    label: PROFILE_A,
-    shortLabel: 'Targeted deposit',
-    identity: {
-      whoItIs: 'Deposit a small, decisive set of repo-authenticated artifacts against a sharply bounded benchmark need.',
-      operatorRole: 'Use this when ENGI should close one tight remediation need with minimal normalization overhead.',
-      audienceMeaning: 'The demo is proving decisive selection, narrow proof closure, and fast settlement explanation.'
-    },
-    depositMode: 'Deposit one or a few decisive repo-authenticated artifacts so the asset pack can stay tight.',
-    needMode: 'Need is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
-    assetPackShape: 'Tight pack with minimal normalization and quick branch closure.',
-    settlementShape: 'Credits concentrate on the decisive assets; zero-credit passengers should be rare and explicit.',
-    scenarioFamilies: [
-      'monorepo-auth-rollback',
-      'proof-heavy-rust-validator',
-      'config-policy-incident',
-      'unsafe-patch-review',
-      'infra-deployment-mismatch',
-      'privacy-boundary-stress'
-    ],
-    composition: [
-      'repo-authenticated targeted deposit',
-      'bounded benchmark need measurement',
-      'tight asset-pack selection',
-      'short proof closure',
-      'direct settlement explanation'
-    ],
-    boundaryRealityNote: 'Live GitHub, signer verification, and networked settlement still remain explicit external hand-offs elsewhere.'
-  },
-  B: {
-    profileId: 'B',
-    label: PROFILE_B,
-    shortLabel: 'Normalization deposit',
-    identity: {
-      whoItIs: 'Deposit several overlapping artifacts so ENGI can normalize coverage, provenance, and contribution across a composite need.',
-      operatorRole: 'Use this when ENGI must reconcile multiple slices, artifact kinds, or runtime surfaces before settlement is intelligible.',
-      audienceMeaning: 'The demo is proving normalization, overlap handling, and source-to-shares closure rather than a single decisive pick.'
-    },
-    depositMode: 'Deposit multiple overlapping artifacts across kinds so ENGI can normalize contribution and provenance.',
-    needMode: 'Need stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
-    assetPackShape: 'Broader pack where normalization, tie-break rules, and overlap accounting matter.',
-    settlementShape: 'Settlement makes source-to-shares normalization visible and may keep zero-credit participants explicit.',
-    scenarioFamilies: [
-      'polyglot-repo-benchmark-remediation',
-      'many-asset-settlement-normalization'
-    ],
-    composition: [
-      'repo-authenticated normalization deposit',
-      'composite benchmark need measurement',
-      'broader asset-pack normalization',
-      'heavier proof burden',
-      'source-to-shares settlement explanation'
-    ],
-    boundaryRealityNote: 'Live GitHub and network hand-offs are still explicit boundary contracts, but they are not the reason this profile exists.'
-  }
-};
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
   failureModeSearch: 50,
@@ -134,22 +77,6 @@ function buildExternalBoundaryInterface({ interfaceId, label, status, localProto
     externalBoundary,
     profileA: localPrototype,
     profileB: externalBoundary
-  };
-}
-
-function resolveDemonstrationProfileId(subject = {}) {
-  return subject.demonstrationProfileId
-    || (PROFILE_B_SCENARIO_FAMILIES.has(subject.scenarioFamily) ? 'B' : 'A');
-}
-
-function buildDemonstrationProfile(subject = 'A') {
-  const profileId = typeof subject === 'string' ? subject : resolveDemonstrationProfileId(subject);
-  const profile = PROFILE_DEFINITIONS[profileId] || PROFILE_DEFINITIONS.A;
-  return {
-    ...profile,
-    identity: { ...profile.identity },
-    scenarioFamilies: [...profile.scenarioFamilies],
-    composition: [...profile.composition]
   };
 }
 
@@ -5177,8 +5104,10 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
     const rawContributionUnits = fullBundleScore.bundleShareScoreUnits - bundleWithoutCandidate.bundleShareScoreUnits;
     const clippedContributionUnits = rawContributionUnits > 0n ? rawContributionUnits : 0n;
     const clipped = rawContributionUnits <= 0n;
+    const contributionDisposition = buildSourceContributionDisposition({ clipped });
     const clippingReceiptId = `clip_receipt_${sha256(`${need.needId}:${candidate.assetId}:${rawContributionUnits}`).slice(0, 12)}`;
     return {
+      entryKind: SOURCE_CONTRIBUTION_ENTRY_KIND,
       assetId: candidate.assetId,
       title: candidate.asset.title,
       contentRoot: candidate.asset.contentRoot,
@@ -5187,6 +5116,7 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
       rawContributionUnits,
       clippedContributionUnits,
       clipped,
+      contributionDisposition,
       clippingReceiptId,
       selectedUnitRefs: candidate.asset.contentUnits.slice(0, 2).map((unit) => unit.unitId),
       reasons: clipped
@@ -5213,6 +5143,7 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
     receiptKind: 'source-to-shares-clipping',
     assetId: entry.assetId,
     clipped: entry.clipped,
+    contributionDisposition: entry.contributionDisposition,
     rawContributionUnits: entry.rawContributionUnits.toString(),
     clippedContributionUnits: entry.clippedContributionUnits.toString(),
     reason: entry.clipped ? 'non-positive-marginal-contribution' : 'positive-marginal-contribution',
@@ -5236,6 +5167,7 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
       constraintCoverage: 1000,
       touchedPathCoverage: 1000
     },
+    contributionDispositionCounts: countValues(sourceContributionEntries.map((entry) => entry.contributionDisposition)),
     settlementCandidateAssetIds: settlementCandidates.map((candidate) => candidate.assetId),
     bundleShareScore: {
       bundleShareScoreUnits: fullBundleScore.bundleShareScoreUnits.toString(),
@@ -5246,6 +5178,7 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
       coveredNeedEvidence: fullBundleScore.coveredNeedEvidence
     },
     sourceContributionEntries: sourceContributionEntries.map((entry) => ({
+      entryKind: entry.entryKind,
       assetId: entry.assetId,
       title: entry.title,
       contentRoot: entry.contentRoot,
@@ -5255,6 +5188,7 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
       rawContributionUnits: entry.rawContributionUnits.toString(),
       clippedContributionUnits: entry.clippedContributionUnits.toString(),
       clipped: entry.clipped,
+      contributionDisposition: entry.contributionDisposition,
       clippingReceiptId: entry.clippingReceiptId,
       candidateRankingScoreUnits: entry.candidateRankingScoreUnits.toString(),
       marginalContributionReplay: {
@@ -5280,7 +5214,8 @@ function buildSourceToSharesArtifact(need, settlementCandidates) {
         assetId: entry.assetId,
         rawContributionUnits: entry.rawContributionUnits.toString(),
         clippedContributionUnits: entry.clippedContributionUnits.toString(),
-        clipped: entry.clipped
+        clipped: entry.clipped,
+        contributionDisposition: entry.contributionDisposition
       })),
       normalizationTrace
     })
@@ -6121,23 +6056,32 @@ function buildSettlementParticipationArtifact({ evaluatedCandidates, selectedCan
     const share = settledShareByAssetId.get(candidate.assetId);
     const sourceContribution = sourceContributionByAssetId.get(candidate.assetId);
     const creditedMicroUnits = allocation?.microUnits || '0';
-    const positivelyCredited = BigInt(creditedMicroUnits) > 0n;
-    const zeroCreditParticipating = settlementParticipating && creditedMicroUnits === '0';
-    const excludedFromSettlement = !settlementParticipating;
+    const contributionDisposition = sourceContribution?.contributionDisposition
+      || buildSourceContributionDisposition({ clipped: sourceContribution?.clipped });
+    const settlementStruct = buildSettlementParticipationStruct({
+      selected,
+      settlementParticipating,
+      creditedMicroUnits,
+      contributionDisposition,
+      branchMode,
+      useTier: candidate.useTier
+    });
     return {
+      recordKind: settlementStruct.recordKind,
       assetId: candidate.assetId,
       title: candidate.asset.title,
       useTier: candidate.useTier,
       selected,
+      selectionStatus: settlementStruct.selectionStatus,
       settlementParticipating,
-      positivelyCredited,
-      zeroCreditParticipating,
-      excludedFromSettlement,
-      exclusionReason: excludedFromSettlement
-        ? selected
-          ? `selected for ${branchMode} branch but excluded from settlement because use tier was ${candidate.useTier}`
-          : `not selected into the ${branchMode} branch`
-        : null,
+      settlementStatus: settlementStruct.settlementStatus,
+      positivelyCredited: settlementStruct.positivelyCredited,
+      zeroCreditParticipating: settlementStruct.zeroCreditParticipating,
+      excludedFromSettlement: settlementStruct.excludedFromSettlement,
+      exclusionReason: settlementStruct.exclusionReason,
+      creditDisposition: settlementStruct.creditDisposition,
+      settlementDisposition: settlementStruct.settlementDisposition,
+      contributionDisposition: settlementStruct.contributionDisposition,
       rawContributionMass: sourceContribution?.rawContributionUnits || '0',
       clippedContributionMass: sourceContribution?.clippedContributionUnits || '0',
       clippedMassReason: sourceContribution?.clipped ? 'non-positive-marginal-contribution' : null,
@@ -6158,6 +6102,13 @@ function buildSettlementParticipationArtifact({ evaluatedCandidates, selectedCan
     positivelyCreditedCount: records.filter((record) => record.positivelyCredited).length,
     zeroCreditParticipatingCount: records.filter((record) => record.zeroCreditParticipating).length,
     excludedFromSettlementCount: records.filter((record) => record.excludedFromSettlement).length,
+    recordCountsByDisposition: {
+      selectionStatus: countValues(records.map((record) => record.selectionStatus)),
+      settlementStatus: countValues(records.map((record) => record.settlementStatus)),
+      creditDisposition: countValues(records.map((record) => record.creditDisposition)),
+      contributionDisposition: countValues(records.map((record) => record.contributionDisposition)),
+      settlementDisposition: countValues(records.map((record) => record.settlementDisposition))
+    },
     records,
     proofHash: stableHashObject(records)
   };
@@ -6177,6 +6128,7 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
     sourceToSharesRef: sourceToSharesArtifact?.proofHash,
     settlementParticipationRef: settlementParticipationArtifact?.proofHash,
     contributionInputs: sourceContributionEntries.map((entry) => ({
+      entryKind: entry.entryKind,
       assetId: entry.assetId,
       candidateRankingScoreUnits: entry.candidateRankingScoreUnits,
       fullBundleScoreUnits: entry.fullBundleScoreUnits,
@@ -6184,6 +6136,7 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
       rawContributionUnits: entry.rawContributionUnits,
       clippedContributionUnits: entry.clippedContributionUnits,
       clipped: entry.clipped,
+      contributionDisposition: entry.contributionDisposition,
       clippingReceiptId: entry.clippingReceiptId,
       coveredNeedEvidence: entry.coveredNeedEvidence,
       rawShareBp: entry.rawShareBp
@@ -6192,6 +6145,7 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
       receiptId: receipt.receiptId,
       assetId: receipt.assetId,
       clipped: receipt.clipped,
+      contributionDisposition: receipt.contributionDisposition,
       rawContributionUnits: receipt.rawContributionUnits,
       clippedContributionUnits: receipt.clippedContributionUnits,
       reason: receipt.reason
@@ -6226,10 +6180,13 @@ function buildAccountingPrecisionReport({ need, assetPack, branchMode, sourceToS
         selectedUnitRefs: record.selectedUnitRefs,
         rawContributionMass: record.rawContributionMass,
         clippedContributionMass: record.clippedContributionMass,
+        contributionDisposition: record.contributionDisposition,
         rawShareBp: record.rawShareBp,
         settledShareBp: record.settledShareBp,
         creditedMicroUnits: record.creditedMicroUnits,
-        zeroCreditParticipating: record.zeroCreditParticipating
+        zeroCreditParticipating: record.zeroCreditParticipating,
+        creditDisposition: record.creditDisposition,
+        settlementDisposition: record.settlementDisposition
       })),
     exactAccountingInvariants: {
       rawSharesNormalized: journalDiff.invariants.rawSharesNormalized,

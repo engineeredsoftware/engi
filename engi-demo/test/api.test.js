@@ -137,6 +137,8 @@ test('GET /api/state exposes V12 profile labels, task seed, and needing surface 
     assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — targeted deposit / bounded need');
     assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — normalization deposit / composite need');
     assert.equal(response.json.needScenarios[0].demonstrationProfile.shortLabel, 'Targeted deposit');
+    assert.equal(response.json.needScenarios[0].demonstrationProfile.profileKind, 'demo-realization-profile');
+    assert.equal(response.json.needScenarios[0].demonstrationProfile.canonicalNames.preferred, 'realizationProfile');
     assert.equal(response.json.needScenarios[0].needingSurface.targetArtifactKinds.includes('patch'), true);
     assert.equal(response.json.needScenarios.at(-1).demonstrationProfile.shortLabel, 'Normalization deposit');
   });
