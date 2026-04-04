@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-export const SPEC_VERSION = 'ENGI Spec V11 deterministic local prototype';
+export const SPEC_VERSION = 'ENGI Spec V12 deterministic local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
 export const PROFILE_A = 'Profile A — targeted deposit / bounded need';
@@ -317,6 +317,13 @@ function countOverlap(left, right) {
 
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
+}
+
+function aggregateRootRef(surfaceId, values = []) {
+  const roots = summarizeStrings(values);
+  if (!roots.length) return null;
+  if (roots.length === 1) return roots[0];
+  return `${surfaceId}_aggregate_${sha256(`${surfaceId}:${roots.join('|')}`).slice(0, 12)}`;
 }
 
 function ensureProjectionPrincipal(principal = DEFAULT_PROJECTION_PRINCIPAL) {
@@ -2039,8 +2046,8 @@ function buildProfileCompositions() {
     activeProfile: 'A',
     distinctionBasis: 'deposit-and-need',
     demoOperatorGuidance: {
-      audienceMeaning: 'The V11 profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.',
-      boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode and need mode first.',
+      audienceMeaning: 'The V12 profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.',
+      boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode, need mode, and fit first.',
       recommendedWalkthrough: [
         'Start with repo supply and pick a targeted-deposit scenario to show a bounded need.',
         'Deposit or inspect a small decisive asset set, then run the branch flow to show tight closure.',
@@ -3548,6 +3555,22 @@ function inferTargetArtifactKinds(scenario, benchmarkOutputs) {
   return summarizeStrings(inferred);
 }
 
+function inferClosureCriteria(scenario, benchmarkOutputs, targetArtifactKinds = []) {
+  if (scenario.expectedClosureCriteria?.length) return summarizeStrings(scenario.expectedClosureCriteria);
+  if (scenario.closureCriteria?.length) return summarizeStrings(scenario.closureCriteria);
+  const criteria = benchmarkOutputs.failingCases.slice(0, 2).map((caseId) => `clear ${caseId.replace(/-/g, ' ')}`);
+  for (const dimension of benchmarkOutputs.weakDimensions || []) {
+    if (dimension === 'session-validity') criteria.push('preserve session validity during rollback');
+    else if (dimension === 'auditability') criteria.push('restore audit receipt linkage to repo and commit');
+    else if (dimension === 'rollback-safety') criteria.push('keep rollback sequencing replay-safe');
+    else criteria.push(`improve ${dimension}`);
+  }
+  if (targetArtifactKinds.includes('proof')) {
+    criteria.push('carry proof-bearing evidence for the decisive invariant checks');
+  }
+  return summarizeStrings(criteria).slice(0, 5);
+}
+
 function inferStackHints(scenario, benchmarkOutputs) {
   return summarizeStrings(union(scenario.repoContext?.stackHints || [], [
     ...benchmarkOutputs.symbols.filter((symbol) => /validator/i.test(symbol)).map(() => 'rust'),
@@ -3621,6 +3644,7 @@ export function measureNeedFromScenario(scenario) {
   const failureModes = inferFailureModes(scenario, canonicalBenchmarkOutputs);
   const constraints = inferConstraints(scenario, canonicalBenchmarkOutputs);
   const targetArtifactKinds = inferTargetArtifactKinds(scenario, canonicalBenchmarkOutputs);
+  const closureCriteria = inferClosureCriteria(scenario, canonicalBenchmarkOutputs, targetArtifactKinds);
   const fieldDerivations = {
     task: derivationRecord({
       field: 'task',
@@ -3642,6 +3666,15 @@ export function measureNeedFromScenario(scenario) {
       field: 'targetArtifactKinds',
       source: scenario.targetArtifactKinds?.length ? 'scenario.targetArtifactKinds' : scenario.expectedTargetArtifactKinds?.length ? 'seed.expectedTargetArtifactKinds' : 'deterministic-synthesis',
       evidenceRefs: [scenario.repo, ...repoCodeAnalysis.touchedPaths]
+    }),
+    closureCriteria: derivationRecord({
+      field: 'closureCriteria',
+      source: scenario.closureCriteria?.length ? 'scenario.closureCriteria' : scenario.expectedClosureCriteria?.length ? 'seed.expectedClosureCriteria' : 'deterministic-synthesis',
+      evidenceRefs: [
+        scenario.canonicalRunEvidence?.runId,
+        ...canonicalBenchmarkOutputs.failingCases,
+        ...canonicalBenchmarkOutputs.weakDimensions
+      ]
     }),
     stackHints: derivationRecord({
       field: 'stackHints',
@@ -3802,6 +3835,7 @@ export function measureNeedFromScenario(scenario) {
     failureModes,
     constraints,
     targetArtifactKinds,
+    closureCriteria,
     stackHints: repoCodeAnalysis.stackHints,
     touchedPaths: repoCodeAnalysis.touchedPaths,
     extractedSymbols: repoCodeAnalysis.extractedSymbols,
@@ -3817,7 +3851,7 @@ export function measureNeedFromScenario(scenario) {
     measurementProvenance,
     measurementClassInventory: {
       staticExecuted: ['canonicalBenchmarkOutputs', 'buildRepoStaticCodeAnalysis'],
-      inferredDerived: ['task', 'failureModes', 'constraints', 'targetArtifactKinds'],
+      inferredDerived: ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'],
       hybridComposed: ['fieldDerivations']
     },
     staticMeasurements: {
@@ -3831,7 +3865,8 @@ export function measureNeedFromScenario(scenario) {
       task,
       failureModes,
       constraints,
-      targetArtifactKinds
+      targetArtifactKinds,
+      closureCriteria
     },
     recallChannelContracts: buildRecallChannelContracts(),
     promptSurfaces,
@@ -5520,6 +5555,9 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
     confidentialityDefault: 'private-required',
     artifactClasses: [
       { path: '.engi/need.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
+      { path: '.engi/depositing-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/needing-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/depositing-to-needing-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/match-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/verification-report.json', sensitiveDataClass: 'verification-evidence', disclosable: false },
       { path: '.engi/authorization-decisions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
@@ -6378,6 +6416,97 @@ function buildRepoSupplySurface(state) {
   };
 }
 
+function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }) {
+  const demonstrationProfile = need.demonstrationProfile || buildDemonstrationProfile('A');
+  const selectedInventoryEntries = selectedCandidates.flatMap((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || []);
+  const selectedInventoryRefs = summarizeStrings(selectedInventoryEntries.map((entry) => entry.inventoryEntryId));
+  const selectedArtifactKindCounts = countValues(selectedCandidates.map((candidate) => candidate.asset.artifactKind));
+  const selectedOriginKindCounts = countValues(
+    selectedInventoryEntries.length
+      ? selectedInventoryEntries.map((entry) => entry.originKind)
+      : selectedCandidates.map((candidate) => candidate.asset.artifactSelectionSurface?.intakeMode || 'raw-fallback')
+  );
+  const addressingRoots = selectedCandidates.map((candidate) => candidate.asset.addressingSurface?.addressingRoot).filter(Boolean);
+  const signingRoots = selectedCandidates.map((candidate) => candidate.asset.signingSurface?.payloadHash).filter(Boolean);
+  const authRoots = selectedCandidates.map((candidate) => candidate.asset.githubAppAuthSurface?.authPayloadHash).filter(Boolean);
+  const authSessionIds = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId).filter(Boolean));
+  const selectedKinds = Object.keys(selectedArtifactKindCounts);
+
+  return {
+    depositSessionId: `deposit_session_${sha256(`${assetPack.assetPackId}:${selectedCandidates.map((candidate) => candidate.assetId).join(':')}`).slice(0, 12)}`,
+    depositProfile: demonstrationProfile.label,
+    repoSupplyRef: `repo-supply:${buyer.repo}:${authSessionIds.join('+') || 'unbound'}`,
+    selectedInventoryRefs: selectedInventoryRefs.length
+      ? selectedInventoryRefs
+      : selectedCandidates.map((candidate) => `asset:${candidate.assetId}`),
+    selectedArtifactKindCounts,
+    selectedOriginKindCounts,
+    addressingRoot: aggregateRootRef('addressing', addressingRoots),
+    signingRoot: aggregateRootRef('signing', signingRoots),
+    authRoot: aggregateRootRef('auth', authRoots),
+    depositIntentSummary: selectedCandidates.length
+      ? `Deposit ${selectedCandidates.length} repo-authenticated ${selectedCandidates.length === 1 ? 'asset' : 'assets'} from ${buyer.repo} with ${selectedKinds.join(', ')} coverage so ENGI can ${demonstrationProfile.profileId === 'A' ? 'close a bounded need decisively.' : 'normalize overlapping contribution across a composite need.'}`
+      : `No deposited assets are currently bound for ${buyer.repo}.`
+  };
+}
+
+function buildNeedingSurface(need) {
+  const demonstrationProfile = need.demonstrationProfile || buildDemonstrationProfile('A');
+  return {
+    needId: need.needId,
+    demonstrationProfile,
+    parserKind: need.benchmarkParserContract?.parserKind || 'unknown-parser',
+    taskSummary: need.task,
+    failureModeSummary: need.failureModes || [],
+    targetArtifactKinds: need.targetArtifactKinds || [],
+    boundednessSummary: demonstrationProfile.needMode || 'Need boundedness not specified.',
+    closureCriteria: need.closureCriteria?.length
+      ? need.closureCriteria
+      : summarizeStrings([
+        ...(need.failingCases || []).slice(0, 2).map((item) => `clear ${item.replace(/-/g, ' ')}`),
+        ...(need.constraints || []).slice(0, 2)
+      ])
+  };
+}
+
+function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, selectedCandidates, assetPack, settlementPreview }) {
+  const selectedKinds = Object.keys(depositingSurface.selectedArtifactKindCounts || {});
+  const overlapKinds = intersection(selectedKinds, needingSurface.targetArtifactKinds || []);
+  const decisiveKinds = summarizeStrings(
+    selectedCandidates
+      .slice()
+      .sort((left, right) => right.ranking.finalRankingScore - left.ranking.finalRankingScore || left.assetId.localeCompare(right.assetId))
+      .map((candidate) => candidate.asset.artifactKind)
+  ).slice(0, 3);
+  const profileId = needingSurface.demonstrationProfile?.profileId || 'A';
+  const normalizationPressure = profileId === 'B'
+    ? selectedCandidates.length > 1 ? 'high' : 'medium'
+    : selectedCandidates.length > 2 ? 'medium' : 'low';
+  const fitKinds = overlapKinds.length ? overlapKinds.join(', ') : selectedKinds.join(', ');
+  const failureFocus = needingSurface.failureModeSummary.slice(0, 2).join('; ') || needingSurface.taskSummary;
+  const settlementParticipants = settlementPreview?.settlementParticipatingAssetIds?.length || selectedCandidates.length;
+  const creditedAssets = settlementPreview?.creditedAssetIds?.length || selectedCandidates.length;
+
+  return {
+    relationId: `deposit_need_fit_${sha256(`${depositingSurface.depositSessionId}:${needingSurface.needId}:${assetPack.assetPackId}`).slice(0, 12)}`,
+    depositSessionId: depositingSurface.depositSessionId,
+    needId: needingSurface.needId,
+    fitSummary: profileId === 'B'
+      ? `Deposited ${selectedKinds.length} artifact kind${selectedKinds.length === 1 ? '' : 's'} against a composite need; overlap in ${fitKinds || 'selected coverage'} keeps normalization pressure ${normalizationPressure} before proof and settlement.`
+      : `Deposited ${fitKinds || 'selected coverage'} fits a bounded need: ${failureFocus}.`,
+    decisiveKinds: decisiveKinds.length ? decisiveKinds : overlapKinds,
+    overlapKinds,
+    normalizationPressure,
+    branchIntentSummary: `Materialize a ${assetPack.branchMode} branch around ${selectedCandidates.length} selected ${selectedCandidates.length === 1 ? 'asset' : 'assets'} so ${fitKinds || 'the deposited coverage'} can close the active need.`,
+    proofIntentSummary: profileId === 'B'
+      ? `Proof must show that overlapping ${fitKinds || 'selected'} deposits normalize cleanly across the composite need without losing provenance.`
+      : `Proof must show that the decisive ${fitKinds || 'selected'} deposit closes ${failureFocus}.`,
+    settlementIntentSummary: normalizationPressure === 'high'
+      ? `Settlement should replay source-to-shares normalization across ${settlementParticipants} participating assets before final crediting.`
+      : `Settlement should credit the decisive deposit once proof closure lands across ${creditedAssets} credited ${creditedAssets === 1 ? 'asset' : 'assets'}.`
+  };
+}
+
 function allowedActionsForPrincipal(authorizationDecisions = [], principalId) {
   return authorizationDecisions
     .filter((decision) => decision.principalId === principalId && decision.decision === 'allow')
@@ -6386,8 +6515,9 @@ function allowedActionsForPrincipal(authorizationDecisions = [], principalId) {
 
 function buildRepoToSettlementSurface({
   scenarioId,
-  buyer,
-  need,
+  depositingSurface,
+  needingSurface,
+  depositingToNeedingSurface,
   assetPack,
   branchArtifacts,
   selectedCandidates,
@@ -6395,19 +6525,13 @@ function buildRepoToSettlementSurface({
   boundedPublicProof,
   settlementPreview
 }) {
-  const selectedInventoryEntryIds = summarizeStrings(
-    selectedCandidates.flatMap((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [])
-  );
-  const selectedAuthSessionIds = summarizeStrings(
-    selectedCandidates.map((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId).filter(Boolean)
-  );
   const selectedArtifactKindCounts = countValues(selectedCandidates.map((candidate) => candidate.asset.artifactKind));
   const visibleBranchFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => !path.startsWith('.engi/source-material/'));
   const selectedSourceFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => path.startsWith('.engi/source-material/'));
   const proofFamilyCount = proofWitnessManifest?.proofFamilies?.length || 0;
   const settlementParticipantCount = settlementPreview?.settlementParticipatingAssetIds?.length || 0;
   const creditedAssetCount = settlementPreview?.creditedAssetIds?.length || 0;
-  const demonstrationProfile = need.demonstrationProfile || buildDemonstrationProfile('A');
+  const demonstrationProfile = needingSurface.demonstrationProfile || buildDemonstrationProfile('A');
 
   return {
     flowId: `flow_${sha256(`${scenarioId}:${assetPack.assetPackId}:${settlementPreview?.bundleId || 'pending'}`).slice(0, 12)}`,
@@ -6418,36 +6542,53 @@ function buildRepoToSettlementSurface({
     needMode: demonstrationProfile.needMode,
     stages: [
       {
-        stageId: 'repo-selection',
-        label: 'Repo selection',
-        status: 'repo-authenticated supply bound',
-        boundaryClass: 'modeled-local',
-        summary: `${selectedAuthSessionIds.length} authenticated session${selectedAuthSessionIds.length === 1 ? '' : 's'} and ${selectedInventoryEntryIds.length} repo artifact${selectedInventoryEntryIds.length === 1 ? '' : 's'} were bound into the intake roots for ${buyer.repo}.`,
-        refs: [buyer.repo, ...selectedAuthSessionIds, ...selectedInventoryEntryIds],
+        stageId: 'depositing',
+        label: 'Depositing',
+        status: 'repo-authenticated deposit staged',
+        boundaryClass: 'executed-local',
+        summary: depositingSurface.depositIntentSummary,
+        refs: [depositingSurface.depositSessionId, depositingSurface.repoSupplyRef, ...depositingSurface.selectedInventoryRefs],
         metrics: {
-          repo: buyer.repo,
-          authSessions: selectedAuthSessionIds.length,
-          inventoryEntries: selectedInventoryEntryIds.length,
+          repoSupplyRef: depositingSurface.repoSupplyRef,
+          inventoryEntries: depositingSurface.selectedInventoryRefs.length,
+          selectedAssets: selectedCandidates.length,
           artifactKinds: Object.keys(selectedArtifactKindCounts).length
         }
       },
       {
-        stageId: 'need',
-        label: 'Need',
+        stageId: 'needing',
+        label: 'Needing',
         status: 'measured from benchmark evidence',
         boundaryClass: 'executed-local',
-        summary: `Need ${need.needId} was derived from benchmark run ${need.benchmarkRunId} with ${need.failingCases?.length || 0} failing case${(need.failingCases?.length || 0) === 1 ? '' : 's'}.`,
-        refs: [need.needId, need.benchmarkRunId, need.benchmarkWorkflowPath].filter(Boolean),
+        summary: `Need ${needingSurface.needId} was measured as ${needingSurface.taskSummary}`,
+        refs: [needingSurface.needId, needingSurface.parserKind, ...needingSurface.targetArtifactKinds].filter(Boolean),
         metrics: {
-          benchmarkRunId: need.benchmarkRunId,
-          failingCases: need.failingCases?.length || 0,
-          weakDimensions: need.weakDimensions?.length || 0,
-          targetArtifactKinds: need.targetArtifactKinds?.length || 0
+          parserKind: needingSurface.parserKind,
+          failureModes: needingSurface.failureModeSummary.length,
+          closureCriteria: needingSurface.closureCriteria.length,
+          targetArtifactKinds: needingSurface.targetArtifactKinds.length
+        }
+      },
+      {
+        stageId: 'deposit-to-need-fit',
+        label: 'Deposit-to-need fit',
+        status: 'fit surfaced before deeper closure',
+        boundaryClass: 'executed-local',
+        summary: depositingToNeedingSurface.fitSummary,
+        refs: [
+          depositingToNeedingSurface.relationId,
+          ...depositingToNeedingSurface.decisiveKinds,
+          ...depositingToNeedingSurface.overlapKinds
+        ],
+        metrics: {
+          decisiveKinds: depositingToNeedingSurface.decisiveKinds.length,
+          overlapKinds: depositingToNeedingSurface.overlapKinds.length,
+          normalizationPressure: depositingToNeedingSurface.normalizationPressure
         }
       },
       {
         stageId: 'asset-pack',
-        label: 'Asset',
+        label: 'Selected asset pack',
         status: 'selected into asset pack',
         boundaryClass: 'executed-local',
         summary: `${assetPack.selectedAssets.length} asset${assetPack.selectedAssets.length === 1 ? '' : 's'} survived ranking and verification into asset pack ${assetPack.assetPackId}.`,
@@ -6706,7 +6847,7 @@ function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
   };
 }
 
-function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPack, assetPackLock, settlementPreview, settlementProof, selectedSourceMaterialManifest, policyRelease, unitCatalog, pipelineTelemetry, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, externalBoundaryManifest, promptSurfaces }) {
+function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositingSurface, needingSurface, depositingToNeedingSurface, assetPack, assetPackLock, settlementPreview, settlementProof, selectedSourceMaterialManifest, policyRelease, unitCatalog, pipelineTelemetry, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, externalBoundaryManifest, promptSurfaces }) {
   return {
     branchName,
     needId: need.needId,
@@ -6719,6 +6860,27 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, assetPac
         confidentialityClass: 'private-branch-derived-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['need-measurement', 'benchmark-parser']
+      },
+      {
+        path: '.engi/depositing-surface.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['repo-supply-selection', 'github-binding']
+      },
+      {
+        path: '.engi/needing-surface.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['need-measurement', 'benchmark-parser']
+      },
+      {
+        path: '.engi/depositing-to-needing-surface.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'bounded-public-proof-metadata',
+        potentiallyDisclosable: true,
+        dependsOn: ['repo-supply-selection', 'need-measurement', 'asset-pack-assembly']
       },
       {
         path: '.engi/benchmark-target.json',
@@ -7451,12 +7613,18 @@ function minimalNeedProjection(need) {
     needId: need.needId,
     repo: need.repo,
     benchmarkRunId: need.benchmarkRunId,
+    benchmarkHarnessPath: need.benchmarkHarnessPath,
+    benchmarkWorkflowPath: need.benchmarkWorkflowPath,
+    benchmarkParserContract: need.benchmarkParserContract,
     task: need.task,
     failureModes: need.failureModes,
     constraints: need.constraints,
+    closureCriteria: need.closureCriteria,
     targetArtifactKinds: need.targetArtifactKinds,
     touchedPaths: need.touchedPaths,
+    failingCases: need.failingCases,
     weakDimensions: need.weakDimensions,
+    fieldDerivations: need.fieldDerivations,
     conformanceProfile: need.conformanceProfile,
     productionIntentProfile: need.productionIntentProfile,
     demonstrationProfile: need.demonstrationProfile
@@ -7488,6 +7656,10 @@ function buildPublicProjection(latestRun) {
     demonstrationProfile: latestRun.demonstrationProfile,
     needLifecycle: latestRun.needLifecycle,
     need: minimalNeedProjection(latestRun.need),
+    depositingSurface: latestRun.depositingSurface,
+    needingSurface: latestRun.needingSurface,
+    depositingToNeedingSurface: latestRun.depositingToNeedingSurface,
+    matchReport: latestRun.matchReport,
     assetPack: {
       assetPackId: latestRun.assetPack?.assetPackId,
       branchMode: latestRun.assetPack?.branchMode,
@@ -7516,6 +7688,8 @@ function buildPublicProjection(latestRun) {
     },
     publicArtifacts: {
       '.engi/bounded-public-proof.json': latestRun.boundedPublicProof,
+      '.engi/needing-surface.json': latestRun.needingSurface,
+      '.engi/depositing-to-needing-surface.json': latestRun.depositingToNeedingSurface,
       '.engi/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
       '.engi/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
       '.engi/static-heuristics-registry.json': latestRun.staticHeuristicsRegistry,
@@ -7618,6 +7792,9 @@ function buildProjectedLatestRun(latestRun, principal = DEFAULT_PROJECTION_PRINC
 function assertRequiredBranchArtifacts(branchArtifacts) {
   const requiredPaths = [
     '.engi/need.json',
+    '.engi/depositing-surface.json',
+    '.engi/needing-surface.json',
+    '.engi/depositing-to-needing-surface.json',
     '.engi/match-report.json',
     '.engi/verification-report.json',
     '.engi/eval-manifest.json',
@@ -7660,16 +7837,19 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
   ];
   for (const requiredPath of requiredPaths) {
     if (!branchArtifacts.files[requiredPath]) {
-      throw new Error(`Spec V9 branch artifact contract failed: missing ${requiredPath}.`);
+      throw new Error(`Spec V12 branch artifact contract failed: missing ${requiredPath}.`);
     }
   }
 }
 
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, proofWitnessManifest, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, proofWitnessManifest, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
   const files = {
     '.engi/need.json': JSON.stringify(need, null, 2),
     '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
     '.engi/benchmark-target.json': JSON.stringify(benchmarkTarget, null, 2),
+    '.engi/depositing-surface.json': JSON.stringify(depositingSurface, null, 2),
+    '.engi/needing-surface.json': JSON.stringify(needingSurface, null, 2),
+    '.engi/depositing-to-needing-surface.json': JSON.stringify(depositingToNeedingSurface, null, 2),
     '.engi/match-report.json': JSON.stringify(matchReport, null, 2),
     '.engi/verification-report.json': JSON.stringify(verificationReport, null, 2),
     '.engi/eval-manifest.json': JSON.stringify(evalManifest, null, 2),
@@ -7745,6 +7925,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const assetPack = assembleAssetPack(need, evaluatedCandidates, branchMode);
   const selectedCandidates = evaluatedCandidates.filter((candidate) => assetPack.selectedAssets.includes(candidate.assetId));
   if (!selectedCandidates.length) throw new Error('No candidates survived into the asset pack.');
+  const depositingSurface = buildDepositingSurface({
+    buyer: scenarioBoundBuyer,
+    need,
+    assetPack,
+    selectedCandidates
+  });
+  const needingSurface = buildNeedingSurface(need);
 
   const branchName = `engi/remediation-${need.needId}-${toSlug(scenario.scenarioId)}`;
   const matchReport = buildMatchReport(need, evaluatedCandidates, assetPack);
@@ -7782,6 +7969,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const sensitiveDataFlowProof = buildSensitiveDataFlowProof(sensitiveDataFlowRecords);
   const assetMeasurementProofs = buildAssetMeasurementProofs(selectedCandidates);
   const settlementProof = buildSettlementProof(settlement.journalDiff, assetPackLock);
+  const depositingToNeedingSurface = buildDepositingToNeedingSurface({
+    depositingSurface,
+    needingSurface,
+    selectedCandidates,
+    assetPack,
+    settlementPreview: settlement.settlementPreview
+  });
   const promptImplementationSurface = buildPromptImplementationSurface(inferenceProofs, promptSurfaces);
   const proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates);
@@ -7817,6 +8011,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     branchName,
     need,
     benchmarkTarget,
+    depositingSurface,
+    needingSurface,
+    depositingToNeedingSurface,
     assetPack,
     assetPackLock,
     settlementPreview: settlement.settlementPreview,
@@ -7935,6 +8132,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     benchmarkTarget,
     branchMode,
     branchName,
+    depositingSurface,
+    needingSurface,
+    depositingToNeedingSurface,
     matchReport,
     verificationReport,
     evalManifest,
@@ -8077,6 +8277,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     benchmarkTarget,
     branchMode,
     branchName,
+    depositingSurface,
+    needingSurface,
+    depositingToNeedingSurface,
     matchReport,
     verificationReport,
     evalManifest,
@@ -8125,8 +8328,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   assertRequiredBranchArtifacts(branchArtifacts);
   const repoToSettlementSurface = buildRepoToSettlementSurface({
     scenarioId: scenario.scenarioId,
-    buyer: scenarioBoundBuyer,
-    need,
+    depositingSurface,
+    needingSurface,
+    depositingToNeedingSurface,
     assetPack,
     branchArtifacts,
     selectedCandidates,
@@ -8155,6 +8359,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     demonstrationProfile: need.demonstrationProfile,
     needLifecycle: 'settled',
     need,
+    depositingSurface,
+    needingSurface,
+    depositingToNeedingSurface,
     needMeasurement,
     benchmarkTarget,
     benchmarkParserContract,
@@ -8285,23 +8492,33 @@ export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
     githubAppSessions: (state.githubAppSessions || []).map(publicGitHubAppSession),
     repoArtifactInventory: (state.repoArtifactInventory || []).map(publicRepoArtifactInventoryEntry),
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
-    needScenarios: state.needScenarios.map((scenario) => ({
-      demonstrationProfile: buildDemonstrationProfile(scenario),
-      scenarioId: scenario.scenarioId,
-      scenarioFamily: scenario.scenarioFamily || 'unspecified',
-      coverageTags: scenario.coverageTags || [],
-      repo: scenario.repo,
-      buyerBranch: scenario.baseRef,
-      taskSeed: scenario.expectedTask,
-      profileAStatus: PROFILE_A,
-      profileBStatus: PROFILE_B,
-      failingCases: scenario.canonicalRunEvidence?.extractedOutputs?.failingCases || [],
-      weakDimensions: scenario.canonicalRunEvidence?.extractedOutputs?.weakDimensions || [],
-      benchmarkRunId: scenario.benchmarkRunId,
-      benchmarkWorkflowPath: scenario.benchmarkWorkflowPath,
-      parserKind: scenario.canonicalRunEvidence?.extractedOutputs?.parserKind || 'github-actions.auth-remediation.v3',
-      parserVersion: scenario.canonicalRunEvidence?.extractedOutputs?.parserVersion || '3.0.0'
-    })),
+    needScenarios: state.needScenarios.map((scenario) => {
+      const needPreview = buildNeedDescriptor(scenario);
+      const needingSurface = buildNeedingSurface(needPreview);
+      return {
+        demonstrationProfile: buildDemonstrationProfile(scenario),
+        needId: needPreview.needId,
+        needingSurface,
+        scenarioId: scenario.scenarioId,
+        scenarioFamily: scenario.scenarioFamily || 'unspecified',
+        coverageTags: scenario.coverageTags || [],
+        repo: scenario.repo,
+        buyerBranch: scenario.baseRef,
+        taskSeed: scenario.expectedTask,
+        profileAStatus: PROFILE_A,
+        profileBStatus: PROFILE_B,
+        failureModes: needPreview.failureModes,
+        targetArtifactKinds: needPreview.targetArtifactKinds,
+        constraints: needPreview.constraints,
+        closureCriteria: needPreview.closureCriteria,
+        failingCases: scenario.canonicalRunEvidence?.extractedOutputs?.failingCases || [],
+        weakDimensions: scenario.canonicalRunEvidence?.extractedOutputs?.weakDimensions || [],
+        benchmarkRunId: scenario.benchmarkRunId,
+        benchmarkWorkflowPath: scenario.benchmarkWorkflowPath,
+        parserKind: needPreview.benchmarkParserContract?.parserKind || 'github-actions.auth-remediation.v3',
+        parserVersion: needPreview.benchmarkParserContract?.parserVersion || '3.0.0'
+      };
+    }),
     assets: state.assets.map(publicAsset),
     ledger: state.ledger,
     latestRun: buildProjectedLatestRun(state.latestRun, resolvedPrincipal),

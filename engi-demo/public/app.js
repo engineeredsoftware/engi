@@ -2,6 +2,7 @@ const summaryEl = document.getElementById('summary');
 const operatingPictureEl = document.getElementById('operatingPicture');
 const scenarioEl = document.getElementById('scenario');
 const assetsEl = document.getElementById('assets');
+const fitEl = document.getElementById('fit');
 const evaluationsEl = document.getElementById('evaluations');
 const branchArtifactsEl = document.getElementById('branchArtifacts');
 const settlementEl = document.getElementById('settlement');
@@ -171,6 +172,90 @@ function filteredInventoryEntries(state) {
     ].join(' ').toLowerCase();
     return haystack.includes(search);
   });
+}
+
+function previewAggregateRoot(surfaceId, values = []) {
+  const roots = [...new Set(values.map((value) => String(value || '').trim()).filter(Boolean))];
+  if (!roots.length) return null;
+  if (roots.length === 1) return roots[0];
+  return `${surfaceId} preview aggregate (${roots.length} roots)`;
+}
+
+function selectedInventoryEntries(state) {
+  return activeInventoryEntries(state).filter((entry) => selectedInventoryEntryIds.has(entry.inventoryEntryId));
+}
+
+function buildPreviewDepositingSurface(state) {
+  const scenario = currentScenario(state);
+  const session = activeAuthSession(state);
+  const selectedEntries = selectedInventoryEntries(state);
+  const selectedArtifactKindCounts = countValues(selectedEntries.map((entry) => entry.artifactKind));
+  const selectedOriginKindCounts = countValues(selectedEntries.map((entry) => entry.originKind));
+  const selectedKinds = Object.keys(selectedArtifactKindCounts);
+
+  return {
+    depositSessionId: `preview:${session?.authSessionId || 'no-session'}:${selectedEntries.length}`,
+    depositProfile: scenario?.demonstrationProfile?.label || 'Pending deposit preview',
+    repoSupplyRef: session ? `${session.repo} · ${session.authSessionId}` : 'No authenticated repo session',
+    selectedInventoryRefs: selectedEntries.map((entry) => entry.inventoryEntryId),
+    selectedArtifactKindCounts,
+    selectedOriginKindCounts,
+    addressingRoot: previewAggregateRoot('addressing', selectedEntries.map((entry) => entry.addressing?.addressingRoot)),
+    signingRoot: null,
+    authRoot: previewAggregateRoot('auth', [
+      session?.authPayloadHash,
+      ...selectedEntries.map((entry) => entry.authBinding?.authPayloadHash)
+    ]),
+    depositIntentSummary: selectedEntries.length
+      ? `Previewing a ${scenario?.demonstrationProfile?.shortLabel?.toLowerCase() || 'selected'} deposit from ${session?.repo || 'the bound repo'} using ${selectedEntries.length} repo artifact${selectedEntries.length === 1 ? '' : 's'}.`
+      : `Select repo artifacts to preview the ${scenario?.demonstrationProfile?.shortLabel?.toLowerCase() || 'active'} deposit.`
+  };
+}
+
+function activeNeedingSurface(state) {
+  return state.latestRun?.needingSurface || currentScenario(state)?.needingSurface || null;
+}
+
+function activeDepositingSurface(state) {
+  return state.latestRun?.depositingSurface || buildPreviewDepositingSurface(state);
+}
+
+function buildPreviewDepositingToNeedingSurface(state) {
+  const depositingSurface = buildPreviewDepositingSurface(state);
+  const needingSurface = activeNeedingSurface(state);
+  if (!needingSurface) return null;
+  const selectedKinds = Object.keys(depositingSurface.selectedArtifactKindCounts || {});
+  const overlapKinds = selectedKinds.filter((kind) => (needingSurface.targetArtifactKinds || []).includes(kind));
+  const profileId = needingSurface.demonstrationProfile?.profileId || 'A';
+  const normalizationPressure = profileId === 'B'
+    ? selectedKinds.length > 1 ? 'high' : 'medium'
+    : 'low';
+  const fitKinds = overlapKinds.length ? overlapKinds : selectedKinds;
+
+  return {
+    relationId: `preview-fit:${depositingSurface.depositSessionId}:${needingSurface.needId}`,
+    depositSessionId: depositingSurface.depositSessionId,
+    needId: needingSurface.needId,
+    fitSummary: selectedKinds.length
+      ? `Preview overlap in ${fitKinds.join(', ')} against the active need. Run the branch flow to prove the fit and close settlement.`
+      : 'Select a deposit to make the active deposit-to-need fit visible before branch, proof, and settlement.',
+    decisiveKinds: fitKinds,
+    overlapKinds,
+    normalizationPressure,
+    branchIntentSummary: selectedKinds.length
+      ? `The next branch run will materialize a ${profileId === 'B' ? 'normalization-aware' : 'tight'} closure path around ${fitKinds.join(', ')} coverage.`
+      : 'No branch intent until a deposit is selected.',
+    proofIntentSummary: profileId === 'B'
+      ? 'Proof should explain how overlapping deposits normalize across the composite need.'
+      : 'Proof should explain why the selected deposit is decisive for the bounded need.',
+    settlementIntentSummary: profileId === 'B'
+      ? 'Settlement should stay source-to-shares aware once the fit is proven.'
+      : 'Settlement should read as the direct closure of the decisive fit.'
+  };
+}
+
+function activeDepositingToNeedingSurface(state) {
+  return state.latestRun?.depositingToNeedingSurface || buildPreviewDepositingToNeedingSurface(state);
 }
 
 function renderInventorySelectionSummary(state) {
@@ -737,6 +822,115 @@ function renderScoreGroupVisual(group, tone = '') {
   `;
 }
 
+function renderDepositingSurfaceVisual(surface) {
+  const selectedArtifactKindCounts = surface?.selectedArtifactKindCounts || {};
+  const selectedOriginKindCounts = surface?.selectedOriginKindCounts || {};
+  return `
+    <div class="visual-stack">
+      <div class="highlight-card">
+        <div class="row wrap-gap">
+          <strong>${escapeHtml(surface?.depositProfile || 'Depositing surface')}</strong>
+          <div class="badge-row">${statusBadge(surface?.selectedInventoryRefs?.length ? 'deposit selected' : 'awaiting selection')}</div>
+        </div>
+        <p>${escapeHtml(surface?.depositIntentSummary || 'No deposit intent summary available.')}</p>
+      </div>
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Deposit session', surface?.depositSessionId || '—')}
+        ${metricTile('Repo supply ref', surface?.repoSupplyRef || '—')}
+        ${metricTile('Selected inventory refs', surface?.selectedInventoryRefs?.length || 0)}
+        ${metricTile('Artifact kinds', Object.keys(selectedArtifactKindCounts).length)}
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Selected deposit shape</h4><span class="badge">Artifact-kind-native</span></div>
+          <div class="kv-grid">
+            ${kvRow('Artifact kinds', formatCountMap(selectedArtifactKindCounts), { html: true })}
+            ${kvRow('Origin kinds', formatCountMap(selectedOriginKindCounts), { html: true })}
+            ${kvRow('Inventory refs', formatList(surface?.selectedInventoryRefs || []), { html: true })}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Bound roots</h4><span class="badge">Address / sign / auth</span></div>
+          <div class="kv-grid">
+            ${kvRow('Addressing root', surface?.addressingRoot || '—')}
+            ${kvRow('Signing root', surface?.signingRoot || '—')}
+            ${kvRow('Auth root', surface?.authRoot || '—')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderNeedingSurfaceVisual(surface) {
+  return `
+    <div class="visual-stack">
+      <div class="highlight-card">
+        <div class="row wrap-gap">
+          <strong>${escapeHtml(surface?.taskSummary || 'Measured need')}</strong>
+          <div class="badge-row">${statusBadge(surface?.demonstrationProfile?.shortLabel || surface?.demonstrationProfile?.label || 'need')}</div>
+        </div>
+        <p>${escapeHtml(surface?.boundednessSummary || 'No boundedness summary available.')}</p>
+      </div>
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Need ID', surface?.needId || '—')}
+        ${metricTile('Parser', surface?.parserKind || '—')}
+        ${metricTile('Failure modes', surface?.failureModeSummary?.length || 0)}
+        ${metricTile('Target kinds', surface?.targetArtifactKinds?.length || 0)}
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Demand shape</h4><span class="badge">Measured need</span></div>
+          <div class="kv-grid">
+            ${kvRow('Failure modes', formatList(surface?.failureModeSummary || []), { html: true })}
+            ${kvRow('Target artifact kinds', formatList(surface?.targetArtifactKinds || []), { html: true })}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Closure criteria</h4><span class="badge">What counts as closed</span></div>
+          <div class="badge-row">${chipList(surface?.closureCriteria || [])}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderDepositingToNeedingVisual(surface) {
+  return `
+    <div class="visual-stack">
+      <div class="highlight-card">
+        <div class="row wrap-gap">
+          <strong>${escapeHtml(surface?.fitSummary || 'Depositing-to-needing fit')}</strong>
+          <div class="badge-row">${statusBadge(surface?.normalizationPressure || 'pending')}</div>
+        </div>
+        <p class="meta">${escapeHtml(surface?.relationId || 'No fit relation yet.')}</p>
+      </div>
+      <div class="mini-grid three-up compact-metrics">
+        ${metricTile('Decisive kinds', surface?.decisiveKinds?.length || 0)}
+        ${metricTile('Overlap kinds', surface?.overlapKinds?.length || 0)}
+        ${metricTile('Normalization pressure', surface?.normalizationPressure || 'pending')}
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Kind fit</h4><span class="badge">Before proof</span></div>
+          <div class="kv-grid">
+            ${kvRow('Decisive kinds', formatList(surface?.decisiveKinds || []), { html: true })}
+            ${kvRow('Overlap kinds', formatList(surface?.overlapKinds || []), { html: true })}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Closure path</h4><span class="badge">Branch -> proof -> settlement</span></div>
+          <div class="kv-grid">
+            ${kvRow('Branch intent', surface?.branchIntentSummary || '—')}
+            ${kvRow('Proof intent', surface?.proofIntentSummary || '—')}
+            ${kvRow('Settlement intent', surface?.settlementIntentSummary || '—')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderNeedVisual(need) {
   const parser = need.benchmarkParserContract || {};
   const parserFailure = parser.parserFailureContract || {};
@@ -795,7 +989,13 @@ function renderNeedVisual(need) {
           <div class="badge-row">${chipList(need.constraints || [])}</div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Field derivations</h4><span class="badge">Closure</span></div>
+          <div class="section-head"><h4>Closure criteria</h4><span class="badge">Need closure</span></div>
+          <div class="badge-row">${chipList(need.closureCriteria || [])}</div>
+        </div>
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Field derivations</h4><span class="badge">Lineage</span></div>
           <div class="object-list nested">
             ${Object.entries(need.fieldDerivations || {}).slice(0, 6).map(([field, spec]) => `
               <div class="mini-card">
@@ -886,7 +1086,7 @@ function renderAssetVisual(asset) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Artifact Selection</h4><span class="badge">V11 intake surface</span></div>
+          <div class="section-head"><h4>Artifact Selection</h4><span class="badge">V12 deposit source</span></div>
           <div class="kv-grid">
             ${kvRow('Intake mode', asset.artifactSelectionSurface?.intakeMode || '—')}
             ${kvRow('Selection label', asset.artifactSelectionSurface?.selectionLabel || '—')}
@@ -1798,12 +1998,58 @@ function renderBoundaryRealityVisual(surface) {
 function renderOperatingPicture(state) {
   if (!operatingPictureEl) return;
   const surfaces = [];
+  const depositingSurface = activeDepositingSurface(state);
+  const needingSurface = activeNeedingSurface(state);
+  const fitSurface = activeDepositingToNeedingSurface(state);
+
+  surfaces.push(renderJsonSurface({
+    title: 'Repo supply',
+    subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
+    eyebrow: 'V12 shell surface',
+    help: 'V12 starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+    data: state.repoSupplySurface,
+    visual: renderRepoSupplyVisual,
+    accent: 'accent-blue'
+  }));
+  if (depositingSurface) {
+    surfaces.push(renderJsonSurface({
+      title: 'Depositing surface',
+      subtitle: 'The active repo-authenticated deposit, before branch/proof/settlement detail',
+      eyebrow: state.latestRun?.depositingSurface ? 'V12 run surface' : 'V12 shell preview',
+      help: 'This is the opening operator action in V12: what was deposited, from where, and with which bound roots.',
+      data: depositingSurface,
+      visual: renderDepositingSurfaceVisual,
+      accent: 'accent-green'
+    }));
+  }
+  if (needingSurface) {
+    surfaces.push(renderJsonSurface({
+      title: 'Needing surface',
+      subtitle: 'The active measured demand surface',
+      eyebrow: state.latestRun?.needingSurface ? 'V12 run surface' : 'V12 scenario preview',
+      help: 'This is the measured need that the deposit has to justify before proof and settlement carry the story forward.',
+      data: needingSurface,
+      visual: renderNeedingSurfaceVisual,
+      accent: 'accent-blue'
+    }));
+  }
+  if (fitSurface) {
+    surfaces.push(renderJsonSurface({
+      title: 'Depositing-to-needing surface',
+      subtitle: 'Why this deposit fits this need before deeper closure inspection',
+      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V12 run surface' : 'V12 shell preview',
+      help: 'V12 makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      data: fitSurface,
+      visual: renderDepositingToNeedingVisual,
+      accent: 'accent-orange'
+    }));
+  }
   if (state.latestRun?.repoToSettlementSurface) {
     surfaces.push(renderJsonSurface({
       title: 'Repo-to-settlement path',
-      subtitle: 'Repo selection to settlement as one staged operating path',
-      eyebrow: 'V11 surface',
-      help: 'This surface is the shortest truthful read of how ENGI operates inside the selected deposit/need profile.',
+      subtitle: 'Depositing to settlement as one staged operating path',
+      eyebrow: 'V12 run surface',
+      help: 'Once deposit, need, and fit are legible, this surface walks the closure path through asset pack, branch, proof, and settlement.',
       data: state.latestRun.repoToSettlementSurface,
       visual: renderRepoToSettlementVisual,
       accent: 'accent-green'
@@ -1815,24 +2061,15 @@ function renderOperatingPicture(state) {
           <strong>Repo-to-settlement path is ready to execute</strong>
           <div class="badge-row">${statusBadge('awaiting run')}</div>
         </div>
-        <p class="meta">Pick repo artifacts from authenticated supply, then run the branch flow to stage need, asset, branch, proof, and settlement surfaces as one sequence.</p>
+        <p class="meta">Pick repo artifacts from authenticated supply, confirm the measured need, inspect the deposit-to-need fit, then run the branch flow to stage proof and settlement.</p>
       </div>
     `);
   }
-  surfaces.push(renderJsonSurface({
-    title: 'Repo supply',
-    subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-    eyebrow: 'V11 surface',
-    help: 'V11 starts from repo supply because the chosen deposits determine whether the run stays targeted or becomes normalization-heavy.',
-    data: state.repoSupplySurface,
-    visual: renderRepoSupplyVisual,
-    accent: 'accent-blue'
-  }));
   if (state.latestRun?.identityAuthSpineSurface) {
     surfaces.push(renderJsonSurface({
       title: 'Identity and auth spine',
       subtitle: 'Repo auth, signer authority, branch authority, proof authority, and settlement authority',
-      eyebrow: 'V11 surface',
+      eyebrow: 'V12 support surface',
       help: 'This surface turns the existing auth artifacts into one legible authority chain.',
       data: state.latestRun.identityAuthSpineSurface,
       visual: renderIdentityAuthSpineVisual,
@@ -1842,8 +2079,8 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Boundary reality',
     subtitle: 'What is modeled here, what executes here, and what remains external',
-    eyebrow: 'V11 surface',
-    help: 'Boundary truth stays explicit here so the profile headline can stay focused on deposit mode and need mode.',
+    eyebrow: 'V12 support surface',
+    help: 'Boundary truth stays explicit here so the primary story can stay centered on depositing, needing, and their fit.',
     data: state.boundaryRealitySurface,
     visual: renderBoundaryRealityVisual,
     accent: 'accent-slate'
@@ -1859,7 +2096,9 @@ function renderSummary(state) {
     ?? 0;
   const repoCount = state.repoSupplySurface?.repoCount || 0;
   const supplyEntries = state.repoSupplySurface?.inventoryEntryCount || 0;
-  const supplyKinds = Object.keys(state.repoSupplySurface?.artifactKindCounts || {}).length;
+  const depositSurface = activeDepositingSurface(state);
+  const needingSurface = activeNeedingSurface(state);
+  const fitSurface = activeDepositingToNeedingSurface(state);
   const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
   const bundleId = latestRun?.settlementPreview?.bundleId || 'No run yet';
   const activeScenario = currentScenario(state);
@@ -1868,11 +2107,13 @@ function renderSummary(state) {
   summaryEl.innerHTML = `
     <div class="summary-card"><span class="meta">Authenticated repos</span><strong>${repoCount}</strong></div>
     <div class="summary-card"><span class="meta">Repo supply entries</span><strong>${supplyEntries}</strong></div>
-    <div class="summary-card"><span class="meta">Artifact kinds in supply</span><strong>${supplyKinds}</strong></div>
+    <div class="summary-card"><span class="meta">Active deposit profile</span><strong>${escapeHtml(activeProfile?.shortLabel || activeProfile?.label || '—')}</strong></div>
     <div class="summary-card"><span class="meta">Candidate assets</span><strong>${state.assets.length}</strong></div>
     <div class="summary-card"><span class="meta">Need scenarios</span><strong>${state.needScenarios.length}</strong></div>
-    <div class="summary-card"><span class="meta">Scenario profile</span><strong>${escapeHtml(activeProfile?.shortLabel || activeProfile?.label || '—')}</strong></div>
+    <div class="summary-card"><span class="meta">Need parser</span><strong>${escapeHtml(needingSurface?.parserKind || '—')}</strong></div>
     <div class="summary-card"><span class="meta">Active scenario</span><strong>${escapeHtml(activeScenario?.scenarioFamily || '—')}</strong></div>
+    <div class="summary-card"><span class="meta">Selected deposit refs</span><strong>${depositSurface?.selectedInventoryRefs?.length || 0}</strong></div>
+    <div class="summary-card"><span class="meta">Fit pressure</span><strong>${escapeHtml(fitSurface?.normalizationPressure || 'pending')}</strong></div>
     <div class="summary-card"><span class="meta">Selected assets in latest pack</span><strong>${selected}</strong></div>
     <div class="summary-card"><span class="meta">Settlement-credited assets</span><strong>${settled}</strong></div>
     <div class="summary-card"><span class="meta">Latest bundle</span><strong>${escapeHtml(bundleId)}</strong></div>
@@ -1885,6 +2126,7 @@ function renderScenario(state) {
   const scenario = state.needScenarios.find((entry) => entry.scenarioId === activeScenarioId) || state.needScenarios[0];
   const latestNeed = state.latestRun?.need;
   const source = latestNeed || scenario;
+  const needingSurface = activeNeedingSurface(state);
   const measurementPayload = state.latestRun?.needMeasurement ? {
     ...state.latestRun.needMeasurement,
     benchmarkTarget: state.latestRun.benchmarkTarget,
@@ -1903,12 +2145,21 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">V11 keeps need measurement fully inspectable, but the main story is now operational: how this scenario deposits supply against its need shape, then carries that choice through branch, proof, and settlement.</p>
+      <p class="meta">V12 foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
+    ${needingSurface ? renderJsonSurface({
+      title: 'Needing surface',
+      subtitle: 'Measured demand before deeper proof and settlement inspection',
+      eyebrow: state.latestRun?.needingSurface ? 'V12 run surface' : 'V12 scenario preview',
+      help: 'This is the compact V12 read of what is needed, why it matters, and what closure should look like.',
+      data: needingSurface,
+      visual: renderNeedingSurfaceVisual,
+      accent: 'accent-blue'
+    }) : ''}
     ${renderJsonSurface({
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'V11 surface',
+      eyebrow: 'V12 detailed need surface',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       data: source,
       visual: renderNeedVisual,
@@ -1926,7 +2177,7 @@ function renderScenario(state) {
     ${renderJsonSurface({
       title: 'Operational profiles + demo semantics',
       subtitle: 'Targeted deposit versus normalization deposit',
-      eyebrow: 'V11 surface',
+      eyebrow: 'V12 profile surface',
       help: 'The profile distinction is about how ENGI deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
       data: {
         ...(state.profileCompositions || state.conformanceProfiles?.profileCompositions || {}),
@@ -1939,7 +2190,7 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'V11 keeps prompts first-class and binds them to the same staged operating picture as repo supply, branch materialization, proof, and settlement.',
+      help: 'V12 keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
@@ -1965,14 +2216,71 @@ function renderScenario(state) {
 }
 
 function renderAssets(state) {
-  assetsEl.innerHTML = state.assets.map((asset) => renderJsonSurface({
-    title: asset.title,
-    subtitle: `${asset.artifactKind} deposited by ${asset.author}`,
-    eyebrow: 'Candidate asset',
-    help: 'Visual mode lifts out the repo fit, stacks, constraints, and tags. Raw mode preserves the exact public projection for inspection.',
-    data: asset,
-    visual: renderAssetVisual
-  })).join('');
+  const depositingSurface = activeDepositingSurface(state);
+  assetsEl.innerHTML = `
+    ${depositingSurface ? renderJsonSurface({
+      title: 'Depositing surface',
+      subtitle: 'What the operator has deposited or is previewing right now',
+      eyebrow: state.latestRun?.depositingSurface ? 'V12 run surface' : 'V12 shell preview',
+      help: 'V12 treats depositing as the beginning of the operator story, not as a side form.',
+      data: depositingSurface,
+      visual: renderDepositingSurfaceVisual,
+      accent: 'accent-green'
+    }) : ''}
+    ${state.assets.map((asset) => renderJsonSurface({
+      title: asset.title,
+      subtitle: `${asset.artifactKind} deposited by ${asset.author}`,
+      eyebrow: 'Candidate asset',
+      help: 'Visual mode lifts out the repo fit, stacks, constraints, and tags. Raw mode preserves the exact public projection for inspection.',
+      data: asset,
+      visual: renderAssetVisual
+    })).join('')}
+  `;
+}
+
+function renderFit(state) {
+  if (!fitEl) return;
+  const fitSurface = activeDepositingToNeedingSurface(state);
+  if (!fitSurface) {
+    fitEl.innerHTML = '<div class="card"><p class="meta">No deposit-to-need fit surface is available yet.</p></div>';
+    return;
+  }
+
+  const sections = [
+    renderJsonSurface({
+      title: 'Depositing-to-needing surface',
+      subtitle: 'Why the active deposit fits the active need before deeper proof/settlement sections',
+      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V12 run surface' : 'V12 shell preview',
+      help: 'This is the primary V12 relation surface. It should answer why the selected deposit is right for the measured need.',
+      data: fitSurface,
+      visual: renderDepositingToNeedingVisual,
+      accent: 'accent-orange'
+    })
+  ];
+
+  if (state.latestRun?.assetPack) {
+    sections.push(renderJsonSurface({
+      title: 'Selected asset pack',
+      subtitle: 'What survived fit, ranking, and verification',
+      eyebrow: 'Asset-pack surface',
+      data: state.latestRun.assetPack,
+      visual: renderAssetPackVisual,
+      accent: 'accent-green'
+    }));
+  }
+
+  if (state.latestRun?.matchReport) {
+    sections.push(renderJsonSurface({
+      title: 'Match report',
+      subtitle: 'Selected versus rejected assets after the fit becomes explicit',
+      eyebrow: 'Selection artifact',
+      data: state.latestRun.matchReport,
+      visual: surfaceVisualFallback,
+      accent: 'accent-green'
+    }));
+  }
+
+  fitEl.innerHTML = sections.join('');
 }
 
 function renderEvaluations(state) {
@@ -1988,7 +2296,7 @@ function renderEvaluations(state) {
     ${verificationReport ? renderJsonSurface({
       title: 'Verification report',
       subtitle: 'Ranking is separate from verification and rights propagation',
-      eyebrow: 'V11 surface',
+      eyebrow: 'V12 support surface',
       help: 'Visual mode emphasizes allowed downstream use rather than making you read a wall of nested booleans.',
       data: verificationReport,
       visual: renderVerificationReportVisual,
@@ -2014,6 +2322,30 @@ function renderBranchArtifacts(state) {
 
   const branchFiles = run.branchArtifacts?.files || {};
   const artifactDefs = [
+    {
+      title: 'Depositing surface',
+      subtitle: '.engi/depositing-surface.json',
+      data: run.depositingSurface,
+      raw: branchFiles['.engi/depositing-surface.json'],
+      visual: renderDepositingSurfaceVisual,
+      accent: 'accent-green'
+    },
+    {
+      title: 'Needing surface',
+      subtitle: '.engi/needing-surface.json',
+      data: run.needingSurface,
+      raw: branchFiles['.engi/needing-surface.json'],
+      visual: renderNeedingSurfaceVisual,
+      accent: 'accent-blue'
+    },
+    {
+      title: 'Depositing-to-needing surface',
+      subtitle: '.engi/depositing-to-needing-surface.json',
+      data: run.depositingToNeedingSurface,
+      raw: branchFiles['.engi/depositing-to-needing-surface.json'],
+      visual: renderDepositingToNeedingVisual,
+      accent: 'accent-orange'
+    },
     {
       title: 'Asset pack lock',
       subtitle: '.engi/asset-pack.lock.json',
@@ -2215,7 +2547,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V11 demo. The operating surfaces tell the story first, and this branch stack still carries the exact private artifacts behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the V12 demo. The operating surfaces tell the story first, and this branch stack still carries the exact private artifacts behind that story.</p>
     </div>
     ${artifactDefs.map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -2289,7 +2621,7 @@ function renderSettlement(state) {
       title: 'Accounting precision report',
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
-      help: 'V11 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
+      help: 'V12 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
       data: run.accountingPrecisionReport,
       raw: branchFiles['.engi/accounting-precision-report.json'],
       visual: renderAccountingPrecisionVisual,
@@ -2358,6 +2690,7 @@ async function refresh() {
   renderOperatingPicture(state);
   renderScenario(state);
   renderAssets(state);
+  renderFit(state);
   renderEvaluations(state);
   renderBranchArtifacts(state);
   renderSettlement(state);
@@ -2400,7 +2733,11 @@ scenarioPickerEl?.addEventListener('change', () => {
     syncAuthSessionPicker(lastLoadedState);
     syncInventoryKindFilter(lastLoadedState);
     renderRepoInventory(lastLoadedState);
+    renderSummary(lastLoadedState);
+    renderOperatingPicture(lastLoadedState);
     renderScenario(lastLoadedState);
+    renderAssets(lastLoadedState);
+    renderFit(lastLoadedState);
   }
   const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
   setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.demonstrationProfile?.shortLabel || 'profile pending'}).`);
@@ -2411,6 +2748,10 @@ authSessionPickerEl?.addEventListener('change', () => {
   if (lastLoadedState) {
     syncInventoryKindFilter(lastLoadedState);
     renderRepoInventory(lastLoadedState);
+    renderSummary(lastLoadedState);
+    renderOperatingPicture(lastLoadedState);
+    renderAssets(lastLoadedState);
+    renderFit(lastLoadedState);
   }
   setStatus(`Bound intake to authenticated repo session ${selectedAuthSessionId}.`);
 });
@@ -2430,7 +2771,7 @@ document.getElementById('resetButton').addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to the seeded Spec V11 scenario state.');
+    setStatus('Demo reset to the seeded Spec V12 scenario state.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -2443,7 +2784,13 @@ document.addEventListener('click', (event) => {
   if (!entryId) return;
   if (selectedInventoryEntryIds.has(entryId)) selectedInventoryEntryIds.delete(entryId);
   else selectedInventoryEntryIds.add(entryId);
-  if (lastLoadedState) renderRepoInventory(lastLoadedState);
+  if (lastLoadedState) {
+    renderRepoInventory(lastLoadedState);
+    renderSummary(lastLoadedState);
+    renderOperatingPicture(lastLoadedState);
+    renderAssets(lastLoadedState);
+    renderFit(lastLoadedState);
+  }
 });
 
 document.getElementById('depositForm').addEventListener('submit', async (event) => {
@@ -2474,14 +2821,14 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
     selectedInventoryKind = 'all';
     event.currentTarget.reset();
     await refresh();
-    setStatus('Candidate asset deposited into the V11 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
+    setStatus('Candidate asset deposited into the V12 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
   } catch (error) {
     setStatus(error.message);
   }
 });
 
 refresh().then(() => {
-  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V11 repo-to-settlement path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V12 deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

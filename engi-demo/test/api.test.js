@@ -89,15 +89,18 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-test('GET /api/state returns seeded Spec V11 public state', async (t) => {
+test('GET /api/state returns seeded Spec V12 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
+    assert.equal(response.json.specVersion, 'ENGI Spec V12 deterministic local prototype');
     assert.equal(response.json.assets.length, 11);
     assert.equal(response.json.needScenarios.length, 8);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
     assert.equal(response.json.needScenarios[1].scenarioFamily, 'proof-heavy-rust-validator');
     assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
+    assert.ok(response.json.needScenarios[0].needingSurface.needId);
+    assert.ok(response.json.needScenarios[0].needingSurface.closureCriteria.length >= 1);
     assert.equal(response.json.conformanceProfiles.active, 'Profile A — targeted deposit / bounded need');
     assert.equal(response.json.projectionPrincipal, 'public');
     assert.ok(response.json.githubAppSessions.length >= 1);
@@ -116,14 +119,17 @@ test('GET / returns the app shell', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /Operate ENGI from repo supply to settlement/);
-    assert.match(response.text, /Spec V11/);
-    assert.match(response.text, /repo-authenticated supply/i);
-    assert.match(response.text, /targeted deposit versus normalization-heavy deposit/i);
-    assert.match(response.text, /repo-to-settlement path/i);
+    assert.match(response.text, /Spec V12/);
+    assert.match(response.text, /depositing, needing, and their fit/i);
+    assert.match(response.text, /Depositing \+ candidate assets/);
+    assert.match(response.text, /Needing \+ measured demand/);
+    assert.match(response.text, /Depositing-to-needing fit/);
+    assert.ok(response.text.indexOf('1. Depositing + candidate assets') < response.text.indexOf('2. Needing + measured demand'));
+    assert.ok(response.text.indexOf('2. Needing + measured demand') < response.text.indexOf('3. Depositing-to-needing fit'));
   });
 });
 
-test('GET /api/state exposes V11 profile labels and task seed before any run', async (t) => {
+test('GET /api/state exposes V12 profile labels, task seed, and needing surface before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -131,6 +137,7 @@ test('GET /api/state exposes V11 profile labels and task seed before any run', a
     assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — targeted deposit / bounded need');
     assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — normalization deposit / composite need');
     assert.equal(response.json.needScenarios[0].demonstrationProfile.shortLabel, 'Targeted deposit');
+    assert.equal(response.json.needScenarios[0].needingSurface.targetArtifactKinds.includes('patch'), true);
     assert.equal(response.json.needScenarios.at(-1).demonstrationProfile.shortLabel, 'Normalization deposit');
   });
 });
@@ -250,7 +257,7 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
 });
 
 
-test('POST /api/deposits accepts V11 artifact precision and boundary fields', async (t) => {
+test('POST /api/deposits accepts V12 artifact precision and boundary fields', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -295,10 +302,19 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
     assert.equal(response.json.latestRun.demonstrationProfile.shortLabel, 'Targeted deposit');
     assert.equal(response.json.latestRun.projectionPrincipal, 'public');
     assert.ok(response.json.latestRun.need.needId);
+    assert.ok(response.json.latestRun.depositingSurface.depositSessionId);
+    assert.ok(response.json.latestRun.needingSurface.needId);
+    assert.equal(response.json.latestRun.depositingToNeedingSurface.depositSessionId, response.json.latestRun.depositingSurface.depositSessionId);
     assert.ok(response.json.latestRun.assetPack.assetPackId);
-    assert.ok(response.json.latestRun.repoToSettlementSurface.stages.length === 6);
+    assert.deepEqual(
+      response.json.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((stage) => stage.stageId),
+      ['depositing', 'needing', 'deposit-to-need-fit']
+    );
+    assert.ok(response.json.latestRun.repoToSettlementSurface.stages.length === 7);
     assert.ok(response.json.latestRun.boundedPublicProof.bundleId);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/needing-surface.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/depositing-to-needing-surface.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/static-heuristics-registry.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/static-measurement-report.json']);

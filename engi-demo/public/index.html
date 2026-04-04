@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENGI Demo — Spec V11</title>
+    <title>ENGI Demo — Spec V12</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -11,7 +11,7 @@
       <header class="hero">
         <p class="eyebrow">ENGI deterministic local prototype</p>
         <h1>Operate ENGI from repo supply to settlement.</h1>
-        <p class="lede">Spec V11 keeps the V10 intake and auth closure, then recenters the demo around repo-authenticated supply, two operational profiles that distinguish targeted deposit versus normalization-heavy deposit, one coherent identity and authority spine, explicit boundary truth, and a repo-to-settlement path from repo selection to need, asset, branch, proof, and settlement.</p>
+        <p class="lede">Spec V12 makes depositing, needing, and their fit the center of the demo. Repo-authenticated supply still anchors the system, but the shell now leads with the active deposit, the measured need, and the closure path they induce before deeper proof and settlement sections.</p>
         <div class="hero-actions">
           <label>
             Scenario
@@ -36,16 +36,8 @@
 
         <section class="panel">
           <div class="panel-head">
-            <h2>1. GitHub need measurement</h2>
-            <span class="badge">need.json</span>
-          </div>
-          <div id="scenario" class="stack"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <h2>2. Repo-authenticated depositing + candidate assets</h2>
-            <span class="badge">artifact-kind-native intake</span>
+            <h2>1. Depositing + candidate assets</h2>
+            <span class="badge">artifact-kind-native deposit</span>
           </div>
           <form id="depositForm" class="stack compact">
             <div class="section-card">
@@ -89,9 +81,25 @@
           <div id="assets" class="stack"></div>
         </section>
 
+        <section class="panel">
+          <div class="panel-head">
+            <h2>2. Needing + measured demand</h2>
+            <span class="badge">needing surface</span>
+          </div>
+          <div id="scenario" class="stack"></div>
+        </section>
+
         <section class="panel wide">
           <div class="panel-head">
-            <h2>3. Ranked candidates + verification determinisms</h2>
+            <h2>3. Depositing-to-needing fit</h2>
+            <span class="badge">fit before proof</span>
+          </div>
+          <div id="fit" class="stack"></div>
+        </section>
+
+        <section class="panel wide">
+          <div class="panel-head">
+            <h2>4. Ranked candidates + verification determinisms</h2>
             <span class="badge">ranking + use tiers</span>
           </div>
           <div id="evaluations" class="stack"></div>
@@ -99,7 +107,7 @@
 
         <section class="panel">
           <div class="panel-head">
-            <h2>4. Asset pack + branch artifacts</h2>
+            <h2>5. Asset pack + branch artifacts</h2>
             <span class="badge private">private remediation branch</span>
           </div>
           <div id="branchArtifacts" class="stack"></div>
@@ -107,7 +115,7 @@
 
         <section class="panel">
           <div class="panel-head">
-            <h2>5. Settlement + journal diff</h2>
+            <h2>6. Settlement + journal diff</h2>
             <span class="badge">exact accounting</span>
           </div>
           <div id="settlement" class="stack"></div>
@@ -115,7 +123,7 @@
 
         <section class="panel wide">
           <div class="panel-head">
-            <h2>6. Ledger + policy surfaces</h2>
+            <h2>7. Ledger + policy surfaces</h2>
             <span class="badge">bounded proof metadata</span>
           </div>
           <div id="ledger" class="stack"></div>

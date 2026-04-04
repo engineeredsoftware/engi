@@ -49,6 +49,7 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   const state = buildInitialState();
   const projected = publicState(state);
 
+  assert.equal(projected.specVersion, 'ENGI Spec V12 deterministic local prototype');
   assert.equal(projected.repoSupplySurface.repoCount, state.githubAppSessions.length);
   assert.equal(projected.repoSupplySurface.inventoryEntryCount, state.repoArtifactInventory.length);
   assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.artifactKindCounts));
@@ -56,6 +57,8 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   assert.equal(projected.boundaryRealitySurface.posture, 'honest-local-prototype');
   assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'modeled-local'));
   assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'executed-local'));
+  assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.needId));
+  assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.closureCriteria?.length >= 1));
 });
 
 test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
@@ -71,6 +74,8 @@ test('buildNeedDescriptor carries canonical run evidence, parser failure contrac
   assert.equal(need.demonstrationProfile.shortLabel, 'Targeted deposit');
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
+  assert.equal(need.fieldDerivations.closureCriteria.source, 'deterministic-synthesis');
+  assert.ok(need.closureCriteria.length >= 3);
   assert.ok(need.measurementProvenance.length >= 2);
   assert.ok(Array.isArray(need.recallChannelContracts));
   assert.ok(need.recallChannelContracts.some((entry) => entry.channelId === 'lexicalSearch' && entry.signalFamily === 'lexical'));
@@ -176,7 +181,7 @@ test('makeCandidateAsset creates spec-shaped candidate asset with content units'
   assert.equal(asset.contentUnits[0].semanticInterfaces.embeddingHandOffReady, true);
 });
 
-test('inventory-backed candidate asset carries V11 selection, addressing, signing, and GitHub App auth surfaces', () => {
+test('inventory-backed candidate asset carries selection, addressing, signing, and GitHub App auth surfaces', () => {
   const state = buildInitialState();
   const authSession = state.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
   const inventoryEntries = state.repoArtifactInventory.filter((entry) => entry.repo === 'frontier/demo-auth').slice(0, 2);
@@ -337,18 +342,26 @@ test('branch artifacts separate identity, GitHub boundary, uploads, and profile 
   const { latestRun } = runMakeEngiBranch(state, {});
 
   assert.ok(latestRun.evaluatedCandidates[0].ranking.scoreGroups.penaltyMass);
+  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-to-needing-surface.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/identity-bindings.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/github-boundary.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/artifact-upload-manifest.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/profile-composition.json']);
 });
 
-test('latest run exposes repo-to-settlement path and identity spine surfaces', () => {
+test('latest run exposes V12 depositing, needing, fit, and identity spine surfaces', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
-  assert.equal(latestRun.repoToSettlementSurface.stages.length, 6);
-  assert.equal(latestRun.repoToSettlementSurface.stages[0].stageId, 'repo-selection');
+  assert.equal(latestRun.depositingSurface.depositProfile, latestRun.demonstrationProfile.label);
+  assert.equal(latestRun.needingSurface.needId, latestRun.need.needId);
+  assert.equal(latestRun.depositingToNeedingSurface.depositSessionId, latestRun.depositingSurface.depositSessionId);
+  assert.equal(latestRun.repoToSettlementSurface.stages.length, 7);
+  assert.equal(latestRun.repoToSettlementSurface.stages[0].stageId, 'depositing');
+  assert.equal(latestRun.repoToSettlementSurface.stages[1].stageId, 'needing');
+  assert.equal(latestRun.repoToSettlementSurface.stages[2].stageId, 'deposit-to-need-fit');
   assert.equal(latestRun.repoToSettlementSurface.stages.at(-1).stageId, 'settlement');
   assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'github-installation'));
   assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'settlement-authority'));
@@ -361,6 +374,9 @@ test('runMakeEngiBranch produces branch artifacts and exact journal settlement',
 
   assert.equal(latestRun.needLifecycle, 'settled');
   assert.ok(latestRun.branchArtifacts.files['.engi/need.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/needing-surface.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/depositing-to-needing-surface.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/system-proof-bundle.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/policy-release.json']);
   assert.ok(latestRun.branchArtifacts.files['ENGI_NEED.md']);
@@ -627,8 +643,14 @@ test('publicState returns public projection including bounded public proof and p
   assert.ok(projected.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
   assert.ok(projected.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
   assert.ok(projected.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/needing-surface.json']);
+  assert.ok(projected.latestRun.publicArtifacts['.engi/depositing-to-needing-surface.json']);
   assert.ok(projected.latestRun.publicArtifacts['.engi/redaction-proof.json']);
-  assert.ok(projected.latestRun.repoToSettlementSurface.stages.length === 6);
+  assert.ok(projected.latestRun.repoToSettlementSurface.stages.length === 7);
+  assert.deepEqual(
+    projected.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((stage) => stage.stageId),
+    ['depositing', 'needing', 'deposit-to-need-fit']
+  );
   assert.equal(projected.latestRun.demonstrationProfile.shortLabel, 'Targeted deposit');
   assert.equal(projected.latestRun.authorizationDecisions, undefined);
   assert.equal(projected.latestRun.journalDiff, undefined);
