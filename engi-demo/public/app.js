@@ -16,13 +16,1200 @@ const repoInventoryListEl = document.getElementById('repoInventoryList');
 const inventorySelectionSummaryEl = document.getElementById('inventorySelectionSummary');
 
 const DEFAULT_SURFACE_MODE = 'visual';
+const EXPLAINER_PANEL_MAX_WIDTH = 360;
 let surfaceCounter = 0;
+let explainerCounter = 0;
 let selectedScenarioId = '';
 let selectedAuthSessionId = '';
 let selectedInventoryEntryIds = new Set();
 let inventorySearchTerm = '';
 let selectedInventoryKind = 'all';
 let lastLoadedState = null;
+
+const EXPLAINERS = {
+  'repo-supply': {
+    kicker: 'Glossary',
+    title: 'Repo supply',
+    summary: 'The authenticated inventory ENGI can legally draw from for the current repository.',
+    detail: 'Supply means "available to select", not "already proven useful". It becomes a deposit only after the operator binds selected artifacts to the active need.',
+    points: [
+      'Built from GitHub App sessions plus repo artifact inventory',
+      'Can span multiple artifact kinds and origins inside one repo boundary'
+    ]
+  },
+  depositing: {
+    kicker: 'Glossary',
+    title: 'Depositing',
+    summary: 'Depositing is the operator act of presenting source material to ENGI as candidate supply for a need.',
+    detail: 'A deposit says "these are the artifacts I want ENGI to consider". It does not by itself guarantee fit, proof, or settlement credit.',
+    points: [
+      'Starts from selected repo artifacts or raw fallback content',
+      'Carries addressing, signing, and auth roots forward into later proofs'
+    ]
+  },
+  needing: {
+    kicker: 'Glossary',
+    title: 'Need / needing',
+    summary: 'The measured engineering demand ENGI is trying to close.',
+    detail: 'A need is derived from benchmark evidence, parser rules, failure modes, and closure criteria. Deposits are judged against that measured surface.',
+    points: [
+      'Defines what must improve or be explained',
+      'Determines which artifact kinds and proofs matter'
+    ]
+  },
+  'deposit-fit': {
+    kicker: 'Glossary',
+    title: 'Deposit-to-need fit',
+    summary: 'The explicit relation between the active deposit and the active need before deeper proof or settlement.',
+    detail: 'This answers the first operator question: why should these selected artifacts matter for this measured demand at all?',
+    points: [
+      'Surfaces overlap in artifact kinds and evidence coverage',
+      'Drives the branch, proof, and settlement intent that follows'
+    ]
+  },
+  'targeted-deposit': {
+    kicker: 'Profile A',
+    title: 'Targeted deposit',
+    summary: 'A narrow deposit meant to decisively close one bounded need.',
+    detail: 'Profile A prefers fewer, high-signal artifacts whose relevance is easy to explain end to end.',
+    points: [
+      'Usually one tight repo slice or a small set of closely related artifacts',
+      'Best when the need is narrow and the closure story should stay direct'
+    ]
+  },
+  'bounded-need': {
+    kicker: 'Profile A',
+    title: 'Bounded need',
+    summary: 'A need whose closure can be read as one crisp remediation target.',
+    detail: 'The audience should understand what counts as fixed without needing a broad normalization story across many sources.',
+    points: [
+      'Closure criteria are narrow and legible',
+      'Proof reads as decisive rather than compositional'
+    ]
+  },
+  'normalization-deposit': {
+    kicker: 'Profile B',
+    title: 'Normalization deposit',
+    summary: 'A broader deposit where multiple artifacts jointly contribute to a composite need.',
+    detail: 'Profile B expects overlap, partial contributions, and a later normalization step to turn source contributions into final settlement shares.',
+    points: [
+      'Useful when one artifact alone is not enough',
+      'Explains why several artifacts can participate but receive different credit'
+    ]
+  },
+  'composite-need': {
+    kicker: 'Profile B',
+    title: 'Composite need',
+    summary: 'A need with several coupled dimensions that must be satisfied together.',
+    detail: 'Composite needs create pressure to normalize partial contributions across several artifacts instead of forcing a one-asset closure story.',
+    points: [
+      'Often spans multiple failure modes or target artifact kinds',
+      'Settlement must stay source-to-shares aware'
+    ]
+  },
+  'identity-auth-spine': {
+    kicker: 'Glossary',
+    title: 'Identity / auth spine',
+    summary: 'The authority chain linking buyer identity, GitHub App session, signer authority, branch authority, and settlement authority.',
+    detail: 'This is ENGI\'s answer to "who was allowed to do what, under which roots, at each stage?"',
+    points: [
+      'Makes auth legible as one path instead of scattered hashes',
+      'Shows how repo-bound authority flows into proof and settlement'
+    ]
+  },
+  'repo-to-settlement': {
+    kicker: 'Glossary',
+    title: 'Repo-to-settlement path',
+    summary: 'The staged operating path from repo selection through branch artifacts, proof closure, and final accounting.',
+    detail: 'This compresses the whole demo into one timeline so an operator can see where a run currently is and what each stage means.',
+    points: [
+      'Starts with deposit + need + fit',
+      'Ends with proof-backed settlement and replayable accounting'
+    ]
+  },
+  'operating-picture': {
+    kicker: 'V12 shell',
+    title: 'Operating picture',
+    summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
+    detail: 'This panel is not a separate feature. It is the high-level operator map for how the V12 demo is supposed to read end to end.',
+    points: [
+      'Keeps the thesis legible before deep artifacts',
+      'Lets an operator place every later section in one chain'
+    ]
+  },
+  'boundary-reality': {
+    kicker: 'Glossary',
+    title: 'Boundary reality',
+    summary: 'The explicit split between what is modeled locally, what runs locally, and what remains a real external dependency.',
+    detail: 'This keeps the demo honest. ENGI can center the operator story on deposit/need/fit without pretending the external world disappeared.',
+    points: [
+      'Prevents profile semantics from being confused with integration truth',
+      'Shows where a live system would still need real external execution'
+    ]
+  },
+  'proof-closure': {
+    kicker: 'Glossary',
+    title: 'Proof / proof closure',
+    summary: 'The evidence-bound explanation that the selected artifacts, authorities, and accounting steps really close the need.',
+    detail: 'Proof closure is where ENGI stops hand-waving and binds the story to artifacts, roots, theorem checks, and closure criteria.',
+    points: [
+      'Connects deposit, need, authorization, and settlement into one evidence chain',
+      'Separates public bounded proof from deeper private artifacts'
+    ]
+  },
+  settlement: {
+    kicker: 'Glossary',
+    title: 'Settlement',
+    summary: 'The exact accounting step that turns proven participation into credited outcomes.',
+    detail: 'Settlement is not just "who looked relevant". It is the deterministic conversion from selected and participating assets into credited shares and journal entries.',
+    points: [
+      'Can distinguish selected, participating, zero-credit, and credited assets',
+      'Ends in replayable debits, credits, and bundle state'
+    ]
+  },
+  'source-to-shares': {
+    kicker: 'Glossary',
+    title: 'Source-to-shares',
+    summary: 'The deterministic path from source contribution evidence to final settlement share basis points.',
+    detail: 'This surface explains how raw contribution units are clipped, normalized, tie-broken, and turned into credited shares.',
+    points: [
+      'Especially important for normalization-heavy Profile B flows',
+      'Lets operators inspect why two participating assets received different credit'
+    ]
+  },
+  addressing: {
+    kicker: 'Glossary',
+    title: 'Addressing',
+    summary: 'The explicit repo-level references that say exactly which source material is being talked about.',
+    detail: 'Addressing answers "where is it?" with repo, path, ref, commit, artifact name, or workflow run references.',
+    points: [
+      'Separate from signing and separate from GitHub App auth',
+      'Feeds the addressing root carried through later proofs'
+    ]
+  },
+  signing: {
+    kicker: 'Glossary',
+    title: 'Signing',
+    summary: 'The attestation step that binds an issuer or signer to the selected material and its roots.',
+    detail: 'Signing answers "who is standing behind this payload?" without redefining where the artifact lives or what auth session selected it.',
+    points: [
+      'Can sign addressing, selection, and auth roots together',
+      'Produces hashes and attestations later consumed by proofs'
+    ]
+  },
+  'github-app-auth': {
+    kicker: 'Glossary',
+    title: 'GitHub App auth payloads',
+    summary: 'The modeled installation-scoped auth facts ENGI carries forward from the GitHub App session.',
+    detail: 'These payload hashes stand in for the repo-bound authorization envelope: installation, account, repository, permissions, and token boundary.',
+    points: [
+      'Used to show repo-scoped authority without exposing live tokens',
+      'Feeds the auth root and later identity/auth spine surfaces'
+    ]
+  },
+  'artifact-kind': {
+    kicker: 'Glossary',
+    title: 'Artifact kind',
+    summary: 'The ENGI category for what an artifact fundamentally is, such as code patch, runbook, config diff, or proof surface.',
+    detail: 'Kinds matter because needs target kinds, ranking compares kinds, and fit often becomes legible first at the kind level.',
+    points: [
+      'Used for overlap between deposits and needs',
+      'Different from origin kind, which describes where the artifact came from'
+    ]
+  },
+  'origin-kind': {
+    kicker: 'Glossary',
+    title: 'Origin kind',
+    summary: 'The source lineage of an artifact, such as repo file, workflow run output, benchmark evidence, or operator note.',
+    detail: 'Origin kind explains provenance rather than functional role. Two artifacts can share an artifact kind but come from different origins.',
+    points: [
+      'Helps operators read supply diversity',
+      'Useful when deciding how much trust or normalization pressure to apply'
+    ]
+  },
+  'target-artifact-kind': {
+    kicker: 'Glossary',
+    title: 'Target artifact kind',
+    summary: 'The artifact kinds the need expects to be relevant for closure.',
+    detail: 'These are the first kinds ENGI looks for when asking whether a deposit plausibly addresses the active demand.',
+    points: [
+      'Creates the opening overlap test for fit',
+      'Does not guarantee closure on its own'
+    ]
+  },
+  'closure-criteria': {
+    kicker: 'Glossary',
+    title: 'Closure criteria',
+    summary: 'The concrete conditions that must be satisfied before the need counts as closed.',
+    detail: 'Closure criteria keep ENGI from settling on vibes. They say what the proof and settlement story must actually demonstrate.',
+    points: [
+      'Can include benchmark outcomes, policy gates, or evidence coverage',
+      'Give proof closure a concrete finish line'
+    ]
+  },
+  'normalization-pressure': {
+    kicker: 'Glossary',
+    title: 'Normalization pressure',
+    summary: 'How much the current fit is pushing ENGI toward a compositional, source-to-shares settlement story.',
+    detail: 'Low pressure usually means a targeted deposit can close the need directly. Higher pressure means several overlapping artifacts need to be normalized together.',
+    points: [
+      'Rises when multiple kinds or partial contributions overlap the need',
+      'Signals whether Profile B-style settlement semantics are becoming important'
+    ]
+  },
+  'profile-a': {
+    kicker: 'Profile A',
+    title: 'Profile A summary',
+    summary: 'Targeted deposit plus bounded need. The story should read as direct closure with minimal normalization.',
+    detail: 'Use Profile A when one artifact or a tight cluster can plainly fix the measured problem and proof should feel decisive.',
+    points: [
+      'Tight deposit',
+      'Bounded need',
+      'Direct settlement story'
+    ]
+  },
+  'profile-b': {
+    kicker: 'Profile B',
+    title: 'Profile B summary',
+    summary: 'Normalization deposit plus composite need. The story should explain partial contribution and deterministic share normalization.',
+    detail: 'Use Profile B when the need spans several coupled dimensions and settlement has to justify why multiple sources participated or received different credit.',
+    points: [
+      'Broader deposit',
+      'Composite need',
+      'Source-to-shares aware settlement'
+    ]
+  },
+  'inventory-entries': {
+    kicker: 'Inventory',
+    title: 'Inventory entries',
+    summary: 'Selectable repo artifact snapshots available in supply under the current repo/auth boundary.',
+    detail: 'An inventory entry is candidate supply, not a deposited asset yet. It becomes part of the deposit only after selection.',
+    points: [
+      'Counted per repo in the repo supply surface',
+      'Selection roots and deposit previews are built from these entries'
+    ]
+  },
+  'scenario-coverage': {
+    kicker: 'Corpus',
+    title: 'Scenario coverage',
+    summary: 'Which seeded scenario families the current repo supply is meant to support in this demo corpus.',
+    detail: 'This is derived from the scenario fixture set matched to the repo, not from the currently selected deposit.',
+    points: [
+      'Shows which need families are represented for this repo',
+      'Useful for understanding why a repo appears in both targeted and normalization demos'
+    ]
+  },
+  'profile-coverage': {
+    kicker: 'Corpus',
+    title: 'Profile coverage',
+    summary: 'How the repo or corpus splits across targeted-deposit and normalization-deposit scenario profiles.',
+    detail: 'These counts come from seeded scenario families associated with the repo. They do not mean both profiles are active at once.',
+    points: [
+      'Computed from demonstration profile counts in source',
+      'Helps explain whether a repo mostly supports Profile A, Profile B, or both'
+    ]
+  },
+  'dominant-stacks': {
+    kicker: 'Repo inventory',
+    title: 'Dominant stacks',
+    summary: 'The most common declared stacks across inventory entries for the current repo.',
+    detail: 'This is a top-count summary of stack tags declared on repo artifacts, used to make the supply shape legible at a glance.',
+    points: [
+      'Derived from inventory entry declaredStacks',
+      'Signals the repo technologies most represented in current supply'
+    ]
+  },
+  'auth-session': {
+    kicker: 'GitHub auth',
+    title: 'Auth session',
+    summary: 'The modeled GitHub App installation session bound to the current repo selection.',
+    detail: 'This session ID identifies which installation-scoped auth payload, permissions root, and token-boundary facts are being carried forward.',
+    points: [
+      'Separate from signer identity',
+      'Feeds the GitHub auth surface and later identity/auth spine'
+    ]
+  },
+  'account-id': {
+    kicker: 'GitHub auth',
+    title: 'Account ID',
+    summary: 'Stable identifier for the GitHub installation account bound to the session.',
+    detail: 'In source this ID is derived from the installation account login and carried inside auth payloads and GitHub-boundary surfaces.',
+    points: [
+      'Represents the account that owns the installation',
+      'Distinct from repo ID and installation ID'
+    ]
+  },
+  'installation-account': {
+    kicker: 'GitHub auth',
+    title: 'Installation account',
+    summary: 'The GitHub user or organization that owns the bound App installation.',
+    detail: 'This is the human-readable account login carried with the installation session. It tells you which account the repo-bound installation belongs to.',
+    points: [
+      'Shown alongside installation ID and account ID',
+      'Distinct from the acting signer or operator note author'
+    ]
+  },
+  'repository-id': {
+    kicker: 'GitHub identity',
+    title: 'Repository ID',
+    summary: 'Stable repository identity bound into auth and addressing surfaces.',
+    detail: 'This is the canonical repo identifier ENGI hashes into roots so the flow stays tied to one exact repository, not just owner/name text.',
+    points: [
+      'Shows up in GitHub auth, addressing, and buyer bindings',
+      'Separate from installation account identity'
+    ]
+  },
+  'installation-id': {
+    kicker: 'GitHub auth',
+    title: 'Installation ID',
+    summary: 'The GitHub App installation bound to the repo session.',
+    detail: 'Permissions, token-boundary facts, and live GitHub exchange semantics hang off this installation, not off a generic user token.',
+    points: [
+      'Installation-scoped authority is central to V12 GitHub auth',
+      'Used to distinguish repo-bound app sessions from manual/unbound intake'
+    ]
+  },
+  'github-permissions': {
+    kicker: 'GitHub auth',
+    title: 'Permissions and scopes',
+    summary: 'The modeled GitHub App permissions ENGI carries from the installation session.',
+    detail: 'Permissions are hashed into the permissions root and split into readable and writable scopes so later proof surfaces can reference the same envelope.',
+    points: [
+      'Modeled only in this demo; no live token is minted',
+      'Writable scopes show what a live flow would be allowed to change'
+    ]
+  },
+  'selection-root': {
+    kicker: 'Selection proof',
+    title: 'Selection root',
+    summary: 'Hash root over the exact inventory snapshot selected at intake.',
+    detail: 'This root is how ENGI later proves which repo entries were chosen, signed, and carried into deposit, proof, and settlement surfaces.',
+    points: [
+      'Built from selected inventory entry snapshots',
+      'Keeps signing and proof tied to the same selection'
+    ]
+  },
+  'selection-label': {
+    kicker: 'Selection proof',
+    title: 'Selection label',
+    summary: 'Human-readable shorthand for what was selected at intake.',
+    detail: 'In source this is built from the selected inventory count and repo, or marks the intake as raw fallback when no repo inventory backed it.',
+    points: [
+      'Readable summary only',
+      'The authoritative binding is still the selection root and selected inventory IDs'
+    ]
+  },
+  'proof-logs': {
+    kicker: 'Proof evidence',
+    title: 'Proof logs',
+    summary: 'Formal or deterministic proof log artifacts emitted by validation runs.',
+    detail: 'They support proof closure and verification sufficiency, but they are only one part of the broader proof bundle.',
+    points: [
+      'Often come from validator or theorem-check workflows',
+      'Useful for replaying why a proof-bearing artifact was trusted'
+    ]
+  },
+  'external-boundary': {
+    kicker: 'Boundary reality',
+    title: 'External boundary',
+    summary: 'The live system contract that still sits outside this deterministic local demo.',
+    detail: 'These are the steps that would require real GitHub APIs, remote evaluators, signer verification, or settlement networks in production.',
+    points: [
+      'Kept explicit so the demo stays honest',
+      'Not the same thing as profile A/B semantics'
+    ]
+  },
+  'local-boundary': {
+    kicker: 'Boundary reality',
+    title: 'Local boundary',
+    summary: 'What the demo actually models or executes locally right now.',
+    detail: 'This tells you which surfaces are already materialized here as deterministic artifacts before any live system hand-off happens.',
+    points: [
+      'Complements external boundary rather than replacing it',
+      'Useful for understanding what is green in the worktree versus only specified for production'
+    ]
+  },
+  'supporting-surfaces': {
+    kicker: 'V12 shell',
+    title: 'Supporting surfaces',
+    summary: 'Secondary boundary, policy, or lineage surfaces that support the main operator story without becoming the headline.',
+    detail: 'V12 keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
+    points: [
+      'Important for honesty and depth',
+      'Intentionally downstream of the main deposit-to-need read'
+    ]
+  },
+  'coverage-tags': {
+    kicker: 'Corpus metadata',
+    title: 'Coverage tags',
+    summary: 'Tags describing the themes, stacks, or failure domains represented by a scenario or asset.',
+    detail: 'In source these come from seeded corpus metadata and asset tags. They are descriptive signals, not ranking scores or rights decisions.',
+    points: [
+      'Useful for quickly spotting proof-heavy, privacy-boundary, or normalization scenarios',
+      'Often overlap with stack or failure-domain vocabulary'
+    ]
+  },
+  'benchmark-workflow': {
+    kicker: 'Need measurement',
+    title: 'Benchmark workflow',
+    summary: 'The GitHub Actions workflow or run surface that produced benchmark evidence for the need.',
+    detail: 'This ties the measured need back to a concrete parser and benchmark execution context.',
+    points: [
+      'Connects benchmark run ID, workflow path, and parser behavior',
+      'Important when proof and verification need to bind back to a specific run'
+    ]
+  },
+  'artifact-kind-filter': {
+    kicker: 'Inventory control',
+    title: 'Artifact kind filter',
+    summary: 'Filters the visible repo inventory by ENGI artifact kind.',
+    detail: 'This only narrows the selection UI. It does not change the underlying repo supply or what scenarios the repo can support.',
+    points: [
+      'Useful when a repo has mixed proof, patch, runbook, and config artifacts',
+      'Selection still determines what becomes the active deposit'
+    ]
+  },
+  'inventory-search': {
+    kicker: 'Inventory control',
+    title: 'Artifact inventory search',
+    summary: 'Searches the current repo inventory by title, path, workflow run, or tag.',
+    detail: 'This is a convenience filter over the active repo session inventory, not a semantic ranking step.',
+    points: [
+      'Bound to the current authenticated repo session',
+      'Helps operators find supply entries before selection'
+    ]
+  },
+  'deposit-title-override': {
+    kicker: 'Deposit override',
+    title: 'Asset title override',
+    summary: 'Optional override for the deposited asset title shown in ENGI surfaces.',
+    detail: 'If omitted, the title is inferred from selected inventory or the submitted content.',
+    points: [
+      'Changes the human-readable asset label',
+      'Does not rewrite addressing or auth roots by itself'
+    ]
+  },
+  'author-override': {
+    kicker: 'Deposit override',
+    title: 'Author override',
+    summary: 'Optional display author or issuer label for the deposited asset.',
+    detail: 'If omitted, the demo falls back to the bound session or derived author naming.',
+    points: [
+      'Useful for clarifying operator intent in demo surfaces',
+      'Separate from signer address and attestation identity'
+    ]
+  },
+  'artifact-type': {
+    kicker: 'Artifact metadata',
+    title: 'Artifact type',
+    summary: 'The more specific subtype within an artifact kind.',
+    detail: 'Kind drives broad ENGI behavior; type adds a finer-grained label for the deposited surface and ranking context.',
+    points: [
+      'Examples include patch, proof bundle, runbook page, or benchmark output subtype',
+      'Can be inferred or explicitly overridden'
+    ]
+  },
+  'source-repo-override': {
+    kicker: 'Addressing override',
+    title: 'Repo boundary override',
+    summary: 'Optional explicit repo boundary for the deposited asset.',
+    detail: 'Normally the repo is inferred from the authenticated session or selected inventory. Override only when the address must be forced.',
+    points: [
+      'Feeds addressing and GitHub-binding surfaces',
+      'Should remain consistent with the auth boundary when inventory-backed'
+    ]
+  },
+  'source-commit-override': {
+    kicker: 'Addressing override',
+    title: 'Commit / ref override',
+    summary: 'Optional commit or ref override carried into addressing.',
+    detail: 'If provided, it becomes part of the explicit repo address and later addressing root.',
+    points: [
+      'Useful when the relevant source version must be stated directly',
+      'Can coexist with source paths or workflow-run addressing'
+    ]
+  },
+  'workflow-run-override': {
+    kicker: 'Addressing override',
+    title: 'Workflow run override',
+    summary: 'Optional workflow run ID used to bind the asset to a benchmark or artifact run.',
+    detail: 'This matters for workflow-run and workflow-artifact addressing scopes in the current source model.',
+    points: [
+      'Useful for proof bundles and benchmark outputs',
+      'Can become the primary address when no file path is available'
+    ]
+  },
+  'visual-preview': {
+    kicker: 'Deposit surface',
+    title: 'Visual preview',
+    summary: 'Human-readable summary text ENGI shows in visual surfaces.',
+    detail: 'It makes the deposited asset legible at a glance without replacing raw content or proof-bearing metadata.',
+    points: [
+      'Optimized for operator readability',
+      'Separate from raw fallback content and operator note'
+    ]
+  },
+  'operator-note': {
+    kicker: 'Deposit surface',
+    title: 'Operator note',
+    summary: 'Optional operator-authored note appended to selected repo artifacts at intake.',
+    detail: 'When present, the intake mode becomes repo-artifact-selection-plus-note because the operator is adding new narrative context.',
+    points: [
+      'Useful for framing why a selection matters',
+      'Does not replace the selected repo artifact evidence'
+    ]
+  },
+  'raw-fallback': {
+    kicker: 'Deposit surface',
+    title: 'Raw fallback content',
+    summary: 'Manual content deposited when repo inventory is not selected or needs supplementation.',
+    detail: 'This is the escape hatch when authenticated repo supply is not sufficient on its own.',
+    points: [
+      'Can stand alone or supplement selected inventory',
+      'Produces a different intake mode from plain repo-artifact selection'
+    ]
+  },
+  'verification-rights': {
+    kicker: 'Ranking support',
+    title: 'Verification and rights',
+    summary: 'The downstream-use gate that sits beside ranking rather than inside it.',
+    detail: 'V12 separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
+    points: [
+      'Explains recommended tier and policy caps',
+      'Makes branch and settlement rights explicit'
+    ]
+  },
+  'branch-artifacts': {
+    kicker: 'Branch stack',
+    title: 'Asset pack and branch artifacts',
+    summary: 'The exact private artifact stack materialized behind the high-level deposit/need/fit story.',
+    detail: 'This is where V12 keeps the dense manifests, proofs, policy surfaces, and deterministic files that justify the run.',
+    points: [
+      'Materialized locally in this demo',
+      'Carries the evidence behind branch, proof, and settlement'
+    ]
+  },
+  'private-remediation-branch': {
+    kicker: 'Branch capsule',
+    title: 'Private remediation branch',
+    summary: 'The run materializes its working artifacts on a private remediation branch before any bounded public proof is projected outward.',
+    detail: 'In V12 the branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
+    points: [
+      'Carries the exact branch artifact stack behind the higher-level story',
+      'Separates private remediation work from bounded public proof'
+    ]
+  },
+  'asset-pack': {
+    kicker: 'Branch selection',
+    title: 'Selected asset pack',
+    summary: 'The locked set of selected assets and units that survived fit, ranking, verification, and policy gates for this run.',
+    detail: 'The asset pack is the hand-off from candidate consideration into branch materialization and later settlement closure.',
+    points: [
+      'Locks the selected assets before branch materialization',
+      'Provides the closed selection boundary for proof and settlement'
+    ]
+  },
+  'selected-source-material': {
+    kicker: 'Branch materialization',
+    title: 'Selected source material',
+    summary: 'The exact source material and unit bindings mounted into the remediation branch for the selected asset pack.',
+    detail: 'This is where ENGI makes the selected assets operationally concrete inside the private branch rather than keeping them as abstract candidates.',
+    points: [
+      'Connects asset pack selection to mounted branch files',
+      'Keeps unit refs and addressing roots visible for replay'
+    ]
+  },
+  'branch-materialization': {
+    kicker: 'Branch materialization',
+    title: 'Branch materialization',
+    summary: 'The deterministic step where ENGI materializes the selected asset pack into the private remediation branch and mounted source files.',
+    detail: 'Materialization proofs explain which selected assets became branch artifacts, which stayed excluded, and why the public projection remains bounded.',
+    points: [
+      'Makes branch contents traceable back to selection and policy',
+      'Supports later proof and bounded-public disclosure'
+    ]
+  },
+  'ledger-policy': {
+    kicker: 'Post-settlement',
+    title: 'Ledger and policy surfaces',
+    summary: 'Balances, run history, and policy-oriented surfaces that remain after settlement closes.',
+    detail: 'These surfaces show durable consequences and governance context without reopening the primary deposit-to-need story.',
+    points: [
+      'Includes ledger state and prior run history',
+      'Complements proof and settlement with downstream accounting context'
+    ]
+  },
+  'ledger-accounts': {
+    kicker: 'Ledger surface',
+    title: 'Ledger accounts',
+    summary: 'The current post-settlement balances for buyer pools and supplier pending-claims accounts in this local prototype.',
+    detail: 'These accounts show durable state after settlement closes instead of replaying the whole proof and branch story again.',
+    points: [
+      'Shows the current account balances after the latest run',
+      'Lets the operator inspect downstream accounting consequences quickly'
+    ]
+  },
+  'run-history': {
+    kicker: 'History surface',
+    title: 'Run history',
+    summary: 'The public projection of prior runs: which need closed, which branch was staged, and which bundle was produced.',
+    detail: 'Run history is the durable record of what this demo has already materialized and settled, without reopening every private artifact.',
+    points: [
+      'Shows prior need lifecycle and bundle progression',
+      'Keeps history readable without exposing private branch payloads'
+    ]
+  },
+  'candidate-asset': {
+    kicker: 'Deposit surface',
+    title: 'Candidate asset',
+    summary: 'A deposited asset ENGI is still evaluating for fit, ranking, verification, and eventual branch or settlement use.',
+    detail: 'Candidate means the asset is in the deposit/evaluation flow. It is not yet guaranteed to survive into the selected asset pack or settlement.',
+    points: [
+      'Carries deposit, addressing, signing, and auth context forward',
+      'May end up selected, context-only, or excluded depending on later steps'
+    ]
+  },
+  'v12-scenario-preview': {
+    kicker: 'Scenario surface',
+    title: 'V12 scenario preview',
+    summary: 'The preview read of the active seeded scenario before a run materializes deeper branch, proof, and settlement artifacts.',
+    detail: 'This preview is meant to make the demand surface and profile semantics consequential before the operator reads private branch artifacts.',
+    points: [
+      'Shows the active measured-demand shape before a run',
+      'Keeps scenario meaning legible even without a latest run'
+    ]
+  },
+  'v12-detailed-need-surface': {
+    kicker: 'Need surface',
+    title: 'V12 detailed need surface',
+    summary: 'The full need and measurement read that expands the compact needing surface into task, parser, failure, derivation, and closure detail.',
+    detail: 'This is the deeper need-facing artifact for operators who want to inspect exactly how the active demand was measured.',
+    points: [
+      'Builds on the compact needing surface rather than replacing it',
+      'Preserves the exact need object in raw mode for inspection'
+    ]
+  },
+  'settlement-participation': {
+    kicker: 'Settlement semantics',
+    title: 'Settlement participation',
+    summary: 'The explicit classification of assets as selected, participating, credited, zero-credit participating, or excluded during settlement.',
+    detail: 'This surface keeps branch selection and economic credit distinct so operators can see why an asset mattered without assuming it always earned credit.',
+    points: [
+      'Separates branch selection from settlement participation',
+      'Makes zero-credit participation explicit instead of implicit'
+    ]
+  },
+  'journal-diff': {
+    kicker: 'Accounting artifact',
+    title: 'Journal diff',
+    summary: 'The exact debit/credit event that closes the run into ledger state.',
+    detail: 'This is the accounting event the operator can replay to confirm that shares, debits, credits, and balances all stay conserved.',
+    points: [
+      'Shows the before/after accounting consequence of settlement',
+      'Carries the invariants behind exact-accounting closure'
+    ]
+  },
+  'exact-accounting': {
+    kicker: 'Settlement semantics',
+    title: 'Exact accounting',
+    summary: 'The fixed-point, replayable accounting discipline that turns normalized shares into conserved debits, credits, and balances.',
+    detail: 'Exact accounting is the reason settlement can be explained precisely instead of as a fuzzy score summary. It keeps normalization, allocation, and journal closure deterministic.',
+    points: [
+      'Preserves conservation and normalization invariants',
+      'Explains why a credited share can be audited all the way to micro-units'
+    ]
+  },
+  'bounded-public-proof': {
+    kicker: 'Disclosure surface',
+    title: 'Bounded public proof',
+    summary: 'The redacted public proof surface derived from the private proof bundle without leaking private branch artifacts.',
+    detail: 'This is the operator-facing proof projection intended to remain public while the deeper private proof and branch materials stay bounded.',
+    points: [
+      'Separates public inspection from private branch payloads',
+      'Depends on the private proof chain without exposing all of it'
+    ]
+  },
+  'proof-term': {
+    kicker: 'Term',
+    title: 'Proof',
+    summary: 'Marks an artifact or tag as proof-bearing or proof-oriented, not merely implementation code.',
+    detail: 'In this demo proof surfaces include witness manifests, formal logs, redaction proofs, disclosure proofs, and settlement proof artifacts.',
+    points: [
+      'Proof closure binds deposit, need, rights, and settlement together',
+      'A proof tag usually signals evidence-heavy rather than code-only material'
+    ]
+  },
+  'validator-term': {
+    kicker: 'Term',
+    title: 'Validator',
+    summary: 'Refers to validator-focused remediation and proof surfaces in the seeded corpus.',
+    detail: 'Current source uses validator scenarios to stress replay safety, overflow checks, and proof/benchmark agreement.',
+    points: [
+      'Often appears with Rust, proof, or replay-window tags',
+      'Important in the proof-heavy validator scenario family'
+    ]
+  },
+  'replay-window-term': {
+    kicker: 'Term',
+    title: 'Replay window',
+    summary: 'The nonce or time window a validator uses to reject stale or replayed actions.',
+    detail: 'The validator scenarios explicitly target replay-window regressions and the proofs required to show they are fixed.',
+    points: [
+      'Tightly linked to validator overflow and nonce-bound checks',
+      'A narrow but important failure domain in the V12 corpus'
+    ]
+  },
+  'awaiting-run': {
+    kicker: 'Run status',
+    title: 'Awaiting run',
+    summary: 'The repo-to-settlement closure path has not been materialized yet for the current selection.',
+    detail: 'You can already inspect supply, deposit, need, and fit. Running the branch flow stages branch artifacts, proof, and settlement.',
+    points: [
+      'Pre-run state, not an error state',
+      'Useful when the shell is ready but deeper closure artifacts do not exist yet'
+    ]
+  },
+  'awaiting-selection': {
+    kicker: 'Deposit status',
+    title: 'Awaiting selection',
+    summary: 'No repo inventory entries are currently bound into the deposit preview.',
+    detail: 'Select inventory entries or provide raw fallback content to make the deposit surface concrete.',
+    points: [
+      'The deposit surface can still preview roots and profile semantics',
+      'Selection is what turns supply into an actual deposit candidate'
+    ]
+  },
+  'normalization-pressure-low': {
+    kicker: 'Fit status',
+    title: 'Low normalization pressure',
+    summary: 'The current fit looks close to a targeted, bounded closure path.',
+    detail: 'In current source this usually means a small Profile A-style selection that should settle directly once proof closure lands.',
+    points: [
+      'Usually paired with targeted deposit semantics',
+      'Signals less need for multi-asset normalization'
+    ]
+  },
+  'normalization-pressure-medium': {
+    kicker: 'Fit status',
+    title: 'Medium normalization pressure',
+    summary: 'The fit is no longer a single crisp closure, but it is not fully normalization-heavy either.',
+    detail: 'This is the middle state where overlap or asset count is starting to matter before settlement decides final crediting.',
+    points: [
+      'Often a transition zone between direct closure and heavy normalization',
+      'Worth reading alongside overlap kinds and proof intent'
+    ]
+  },
+  'normalization-pressure-high': {
+    kicker: 'Fit status',
+    title: 'High normalization pressure',
+    summary: 'The fit strongly points toward a multi-asset, source-to-shares settlement story.',
+    detail: 'In current source this is the expected posture for broader Profile B-style deposits against composite needs.',
+    points: [
+      'Usually means several overlapping artifacts matter',
+      'Proof and settlement must explain normalization explicitly'
+    ]
+  }
+};
+
+const EXPLAINER_REFERENCE_GROUPS = {
+  'repo-supply': ['repo-supply'],
+  depositing: ['depositing'],
+  needing: ['needing'],
+  'deposit-fit': ['fit'],
+  'targeted-deposit': ['depositing', 'profiles'],
+  'bounded-need': ['needing', 'profiles'],
+  'normalization-deposit': ['depositing', 'profiles'],
+  'composite-need': ['needing', 'profiles'],
+  'identity-auth-spine': ['identity'],
+  'repo-to-settlement': ['operating-picture'],
+  'operating-picture': ['operating-picture'],
+  'boundary-reality': ['boundary'],
+  'proof-closure': ['proof'],
+  settlement: ['settlement'],
+  'source-to-shares': ['source-to-shares'],
+  addressing: ['identity'],
+  signing: ['identity'],
+  'github-app-auth': ['identity', 'repo-supply'],
+  'artifact-kind': ['artifact-kinds'],
+  'origin-kind': ['artifact-kinds'],
+  'target-artifact-kind': ['artifact-kinds', 'needing'],
+  'closure-criteria': ['needing'],
+  'normalization-pressure': ['fit', 'profiles'],
+  'profile-a': ['profiles'],
+  'profile-b': ['profiles'],
+  'inventory-entries': ['repo-supply', 'inventory'],
+  'scenario-coverage': ['repo-supply', 'scenario-preview'],
+  'profile-coverage': ['repo-supply', 'profiles'],
+  'dominant-stacks': ['repo-supply', 'inventory'],
+  'auth-session': ['repo-supply', 'identity'],
+  'account-id': ['identity', 'repo-supply'],
+  'installation-account': ['identity', 'repo-supply'],
+  'repository-id': ['identity', 'repo-supply'],
+  'installation-id': ['identity', 'repo-supply'],
+  'github-permissions': ['identity', 'repo-supply'],
+  'selection-root': ['depositing', 'identity'],
+  'selection-label': ['depositing', 'inventory'],
+  'proof-logs': ['proof'],
+  'external-boundary': ['boundary'],
+  'local-boundary': ['boundary'],
+  'supporting-surfaces': ['boundary', 'operating-picture'],
+  'coverage-tags': ['scenario-preview', 'candidate-asset'],
+  'benchmark-workflow': ['needing', 'detailed-need'],
+  'artifact-kind-filter': ['inventory', 'artifact-kinds'],
+  'inventory-search': ['inventory'],
+  'deposit-title-override': ['depositing', 'candidate-asset'],
+  'author-override': ['depositing', 'candidate-asset'],
+  'artifact-type': ['artifact-kinds', 'candidate-asset'],
+  'source-repo-override': ['depositing', 'identity'],
+  'source-commit-override': ['depositing', 'identity'],
+  'workflow-run-override': ['depositing', 'detailed-need'],
+  'visual-preview': ['candidate-asset'],
+  'operator-note': ['candidate-asset', 'depositing'],
+  'raw-fallback': ['candidate-asset', 'depositing'],
+  'verification-rights': ['verification'],
+  'branch-artifacts': ['branch'],
+  'private-remediation-branch': ['branch', 'branch-materialization'],
+  'asset-pack': ['branch'],
+  'selected-source-material': ['branch-materialization'],
+  'branch-materialization': ['branch-materialization'],
+  'ledger-policy': ['ledger', 'boundary'],
+  'ledger-accounts': ['ledger'],
+  'run-history': ['run-history', 'ledger'],
+  'candidate-asset': ['candidate-asset'],
+  'v12-scenario-preview': ['scenario-preview'],
+  'v12-detailed-need-surface': ['detailed-need'],
+  'settlement-participation': ['settlement', 'exact-accounting'],
+  'journal-diff': ['exact-accounting'],
+  'exact-accounting': ['exact-accounting'],
+  'bounded-public-proof': ['proof', 'boundary'],
+  'proof-term': ['proof'],
+  'validator-term': ['scenario-preview', 'proof'],
+  'replay-window-term': ['scenario-preview', 'proof'],
+  'awaiting-run': ['operating-picture', 'proof'],
+  'awaiting-selection': ['depositing', 'inventory'],
+  'normalization-pressure-low': ['fit', 'profiles'],
+  'normalization-pressure-medium': ['fit', 'profiles'],
+  'normalization-pressure-high': ['fit', 'profiles']
+};
+
+const EXPLAINER_REFERENCE_LIBRARY = {
+  'repo-supply': {
+    code: [
+      'public/app.js -> renderRepoSupplyVisual()',
+      'src/engi-demo.js -> buildRepoSupplySurface()'
+    ],
+    spec: ['V12 §8', 'V12 §9']
+  },
+  depositing: {
+    code: [
+      'public/app.js -> renderDepositingSurfaceVisual()',
+      'src/engi-demo.js -> buildDepositingSurface()'
+    ],
+    spec: ['V12 §6.1', 'V12 §8']
+  },
+  needing: {
+    code: [
+      'public/app.js -> renderNeedingSurfaceVisual()',
+      'src/engi-demo.js -> buildNeedingSurface()'
+    ],
+    spec: ['V12 §6.2', 'V12 §8']
+  },
+  fit: {
+    code: [
+      'public/app.js -> renderDepositingToNeedingVisual()',
+      'src/engi-demo.js -> buildDepositingToNeedingSurface()'
+    ],
+    spec: ['V12 §6.3', 'V12 §8']
+  },
+  profiles: {
+    code: [
+      'public/app.js -> renderProfileCompositionVisual()',
+      'src/engi-demo.js -> buildProfileCompositions()'
+    ],
+    spec: ['V12 §7.1', 'V12 §7.2']
+  },
+  'operating-picture': {
+    code: [
+      'public/index.html -> section 0',
+      'public/app.js -> renderOperatingPicture()',
+      'src/engi-demo.js -> buildRepoToSettlementSurface()'
+    ],
+    spec: ['V12 §8', 'V12 §13']
+  },
+  identity: {
+    code: [
+      'public/app.js -> renderIdentityAuthSpineVisual()',
+      'public/app.js -> renderGitHubBoundaryVisual()',
+      'src/engi-demo.js -> buildIdentityAuthSpineSurface()',
+      'src/engi-demo.js -> buildGithubBoundarySurface()'
+    ],
+    spec: ['V12 §10', 'V12 §12']
+  },
+  'artifact-kinds': {
+    code: [
+      'public/app.js -> renderAssetVisual()',
+      'public/app.js -> renderRepoInventory()'
+    ],
+    spec: ['V12 §9', 'V12 §6.3']
+  },
+  inventory: {
+    code: [
+      'public/index.html -> inventory controls',
+      'public/app.js -> renderRepoInventory()',
+      'public/app.js -> syncInventoryKindFilter()'
+    ],
+    spec: ['V12 §6.1', 'V12 §9']
+  },
+  verification: {
+    code: [
+      'public/app.js -> renderVerificationReportVisual()',
+      'public/app.js -> renderEvaluationVisual()'
+    ],
+    spec: ['V12 §8', 'V12 §11']
+  },
+  branch: {
+    code: [
+      'public/app.js -> renderBranchArtifacts()',
+      'src/engi-demo.js -> assembleAssetPack()',
+      'src/engi-demo.js -> buildBranchArtifacts()'
+    ],
+    spec: ['V12 §8', 'V12 §11']
+  },
+  'branch-materialization': {
+    code: [
+      'public/app.js -> renderMaterializationProofVisual()',
+      'public/app.js -> renderSelectedSourceMaterialManifestVisual()',
+      'src/engi-demo.js -> buildSelectedSourceMaterialManifest()',
+      'src/engi-demo.js -> buildMaterializationProof()',
+      'src/engi-demo.js -> buildMaterializationVisibilityProof()'
+    ],
+    spec: ['V12 §8', 'V12 §11']
+  },
+  proof: {
+    code: [
+      'public/app.js -> renderSystemProofBundleVisual()',
+      'public/app.js -> renderBoundedProofVisual()',
+      'src/engi-demo.js -> buildProofWitnessManifest()',
+      'src/engi-demo.js -> buildBoundedPublicProofArtifact()'
+    ],
+    spec: ['V12 §11', 'V12 §12']
+  },
+  settlement: {
+    code: [
+      'public/app.js -> renderSettlementPreviewVisual()',
+      'public/app.js -> renderSettlementParticipationVisual()',
+      'src/engi-demo.js -> settleNeedEvent()',
+      'src/engi-demo.js -> buildSettlementParticipationArtifact()'
+    ],
+    spec: ['V12 §11', 'V12 §8']
+  },
+  'source-to-shares': {
+    code: [
+      'public/app.js -> renderSourceToSharesVisual()',
+      'src/engi-demo.js -> buildSourceToSharesArtifact()',
+      'src/engi-demo.js -> buildAccountingPrecisionReport()'
+    ],
+    spec: ['V12 §7.2', 'V12 §11']
+  },
+  'exact-accounting': {
+    code: [
+      'public/app.js -> renderAccountingPrecisionVisual()',
+      'public/app.js -> renderJournalDiffVisual()',
+      'src/engi-demo.js -> buildAccountingPrecisionReport()',
+      'src/engi-demo.js -> settleNeedEvent()'
+    ],
+    spec: ['V12 §11', 'V12 §13']
+  },
+  ledger: {
+    code: [
+      'public/app.js -> renderLedger()',
+      'public/app.js -> renderLedgerAccountsVisual()',
+      'src/engi-demo.js -> publicState()'
+    ],
+    spec: ['V12 §11', 'V12 §12']
+  },
+  'run-history': {
+    code: [
+      'public/app.js -> renderRunHistoryVisual()',
+      'src/engi-demo.js -> runMakeEngiBranch()',
+      'src/engi-demo.js -> publicState()'
+    ],
+    spec: ['V12 §11', 'V12 §13']
+  },
+  boundary: {
+    code: [
+      'public/app.js -> renderBoundaryRealityVisual()',
+      'src/engi-demo.js -> buildBoundaryRealitySurface()',
+      'src/engi-demo.js -> buildExternalBoundaryManifest()'
+    ],
+    spec: ['V12 §12', 'V12 §13']
+  },
+  'candidate-asset': {
+    code: [
+      'public/app.js -> renderAssets()',
+      'public/app.js -> renderAssetVisual()',
+      'src/engi-demo.js -> publicAsset()'
+    ],
+    spec: ['V12 §6.1', 'V12 §9']
+  },
+  'scenario-preview': {
+    code: [
+      'public/app.js -> renderScenario()',
+      'public/app.js -> renderScenarioCorpusVisual()',
+      'src/engi-demo.js -> publicState()',
+      'src/engi-demo.js -> buildNeedDescriptor()'
+    ],
+    spec: ['V12 §6.2', 'V12 §7']
+  },
+  'detailed-need': {
+    code: [
+      'public/app.js -> renderNeedVisual()',
+      'public/app.js -> renderNeedMeasurementVisual()',
+      'src/engi-demo.js -> buildNeedDescriptor()'
+    ],
+    spec: ['V12 §6.2', 'V12 §11']
+  }
+};
+
+function dedupeStrings(values = []) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function explainerReferences(key, explainer = null) {
+  const groups = EXPLAINER_REFERENCE_GROUPS[key] || [];
+  const merged = groups.reduce((acc, groupName) => {
+    const group = EXPLAINER_REFERENCE_LIBRARY[groupName];
+    if (!group) return acc;
+    acc.code.push(...(group.code || []));
+    acc.spec.push(...(group.spec || []));
+    return acc;
+  }, { code: [], spec: [] });
+  const overrides = explainer?.references || {};
+  return {
+    code: dedupeStrings([...merged.code, ...(overrides.code || [])]),
+    spec: dedupeStrings([...merged.spec, ...(overrides.spec || [])])
+  };
+}
+
+const LABEL_EXPLAINER_KEYS = {
+  'Account': 'installation-account',
+  'Account ID': 'account-id',
+  'Accounts': 'ledger-accounts',
+  'Allowed tiers': 'verification-rights',
+  'Allocation preview': 'settlement',
+  'Allocation rows': 'exact-accounting',
+  'Artifact classes': 'ledger-policy',
+  'Auth session': 'auth-session',
+  'Asset pack ID': 'asset-pack',
+  'Basis-point normalization': 'exact-accounting',
+  'Branch mode': 'private-remediation-branch',
+  'Buyer pools': 'ledger-accounts',
+  'Bundle ID': 'settlement',
+  'Clipped contribution units': 'source-to-shares',
+  'Clipping receipt': 'source-to-shares',
+  'Clipping receipts': 'exact-accounting',
+  'Contribution basis': 'source-to-shares',
+  'Contribution entries': 'source-to-shares',
+  'Contribution inputs': 'exact-accounting',
+  'Coverage tags': 'coverage-tags',
+  'Credited': 'settlement-participation',
+  'Credited assets': 'settlement-participation',
+  'Credited micro-units': 'exact-accounting',
+  'Credited settlement assets': 'settlement-participation',
+  'Debited': 'journal-diff',
+  'Debits': 'journal-diff',
+  'Dominant stacks': 'dominant-stacks',
+  'Exact accounting invariants': 'exact-accounting',
+  'External boundary': 'external-boundary',
+  'Final share bp': 'source-to-shares',
+  'Floor share bp': 'source-to-shares',
+  'Inventory entries': 'inventory-entries',
+  'Inventory refs': 'inventory-entries',
+  'Inventory root': 'selection-root',
+  'Journal invariants': 'journal-diff',
+  'Ledger accounts': 'ledger-accounts',
+  'Lock integrity': 'asset-pack',
+  'Locked assets': 'asset-pack',
+  'Locked attestations': 'asset-pack',
+  'Locked content roots': 'asset-pack',
+  'Locked units': 'asset-pack',
+  'Local boundary': 'local-boundary',
+  'Micro-unit allocation': 'exact-accounting',
+  'Normalization ledger': 'source-to-shares',
+  'Operating picture': 'operating-picture',
+  'Participating': 'settlement-participation',
+  'Permissions': 'github-permissions',
+  'Profile coverage': 'profile-coverage',
+  'Raw contribution units': 'source-to-shares',
+  'Raw share bp': 'source-to-shares',
+  'Remainder units': 'source-to-shares',
+  'Repository ID': 'repository-id',
+  'Run history': 'run-history',
+  'Scenario coverage': 'scenario-coverage',
+  'Selected deposit refs': 'inventory-entries',
+  'Selected asset pack': 'asset-pack',
+  'Selected assets': 'asset-pack',
+  'Selected branch assets': 'settlement-participation',
+  'Selected inventory refs': 'inventory-entries',
+  'Selected source material': 'selected-source-material',
+  'Selection label': 'selection-label',
+  'Selection semantics': 'settlement-participation',
+  'Selection refs': 'selection-root',
+  'Settlement participants': 'settlement-participation',
+  'Signed selection root': 'selection-root',
+  'Source material to shares closure': 'exact-accounting',
+  'Source-to-shares closure rows': 'exact-accounting',
+  'Supplier pending claims': 'ledger-accounts',
+  'Tie-break order': 'source-to-shares',
+  'Unique bundles': 'run-history',
+  'V12 detailed need surface': 'v12-detailed-need-surface',
+  'V12 scenario preview': 'v12-scenario-preview',
+  'Proof logs': 'proof-logs',
+  'Workflow': 'benchmark-workflow',
+  'Workflow path': 'benchmark-workflow',
+  'Writable scopes': 'github-permissions',
+  'Zero-credit': 'settlement-participation',
+  'Zero-credit participants': 'settlement-participation',
+  'Installation ID': 'installation-id'
+};
+
+const TERM_EXPLAINER_KEYS = {
+  'asset-pack-lock bound': 'asset-pack',
+  'awaiting run': 'awaiting-run',
+  'awaiting selection': 'awaiting-selection',
+  'credited': 'settlement-participation',
+  'explicit repo address': 'addressing',
+  'exact accounting': 'exact-accounting',
+  'exact settlement preview closed': 'exact-accounting',
+  'executed-local': 'local-boundary',
+  'executed local': 'local-boundary',
+  'excluded': 'settlement-participation',
+  'external boundary': 'external-boundary',
+  'high': 'normalization-pressure-high',
+  'live contract': 'external-boundary',
+  'low': 'normalization-pressure-low',
+  'medium': 'normalization-pressure-medium',
+  'modeled-local': 'local-boundary',
+  'modeled local': 'local-boundary',
+  'normalization deposit': 'normalization-deposit',
+  'participating': 'settlement-participation',
+  'positively credited': 'settlement-participation',
+  'proof': 'proof-term',
+  'private remediation branch': 'private-remediation-branch',
+  'private remediation branch staged': 'private-remediation-branch',
+  'replay-window': 'replay-window-term',
+  'settlement-eligible': 'verification-rights',
+  'selected': 'settlement-participation',
+  'selected assets materialized': 'branch-materialization',
+  'patch-eligible': 'verification-rights',
+  'public projection bounded': 'bounded-public-proof',
+  'context-only': 'verification-rights',
+  'supporting surfaces': 'supporting-surfaces',
+  'targeted deposit': 'targeted-deposit',
+  'validator': 'validator-term',
+  'zero credited units': 'settlement-participation',
+  'zero-credit participating': 'settlement-participation'
+};
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -73,6 +1260,158 @@ function formatCountMap(counts = {}, fallback = 'None') {
   return entries.length
     ? entries.map(([key, value]) => `${escapeHtml(key)} (${escapeHtml(value)})`).join(' • ')
     : `<span class="meta">${fallback}</span>`;
+}
+
+function normalizeExplainerLookup(value) {
+  return String(value ?? '').trim().toLowerCase();
+}
+
+function explainerFor(key) {
+  return EXPLAINERS[key] || null;
+}
+
+function inferredExplainerKey(label = '', explainerKey = '') {
+  if (explainerKey) return explainerKey;
+  return LABEL_EXPLAINER_KEYS[String(label ?? '').trim()]
+    || TERM_EXPLAINER_KEYS[normalizeExplainerLookup(label)]
+    || '';
+}
+
+function inferredTermExplainerKey(value = '') {
+  return TERM_EXPLAINER_KEYS[normalizeExplainerLookup(value)] || '';
+}
+
+function renderExplainerReferenceGroup(label, refs = []) {
+  if (!refs.length) return '';
+  return `
+    <div class="explainer-reference-group">
+      <span class="explainer-reference-label">${escapeHtml(label)}</span>
+      <div class="explainer-reference-list">
+        ${refs.map((ref) => `<span class="explainer-reference-chip">${escapeHtml(ref)}</span>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderExplainerFooter(key, explainer) {
+  const references = explainerReferences(key, explainer);
+  if (!references.code.length && !references.spec.length) return '';
+  return `
+    <div class="explainer-footer">
+      ${renderExplainerReferenceGroup('Current source', references.code)}
+      ${renderExplainerReferenceGroup('V12 spec', references.spec)}
+    </div>
+  `;
+}
+
+function explainerBadge(key, options = {}) {
+  const explainer = explainerFor(key);
+  if (!explainer) return '';
+  const tooltipId = `explainer-${++explainerCounter}`;
+  const alignClass = options.align === 'center' ? ' align-center' : '';
+  const title = explainer.title || labelize(key);
+  const points = explainer.points || [];
+  return `
+    <span class="explainer${alignClass}">
+      <button type="button" class="info-badge" aria-label="${escapeHtml(options.ariaLabel || `Explain ${title}`)}" aria-describedby="${tooltipId}">
+        ${escapeHtml(options.label || 'i')}
+      </button>
+      <span id="${tooltipId}" class="explainer-panel" role="tooltip">
+        ${explainer.kicker ? `<span class="eyebrow meta-inline">${escapeHtml(explainer.kicker)}</span>` : ''}
+        <strong>${escapeHtml(title)}</strong>
+        ${explainer.summary ? `<span class="explainer-summary">${escapeHtml(explainer.summary)}</span>` : ''}
+        ${explainer.detail ? `<span class="explainer-detail">${escapeHtml(explainer.detail)}</span>` : ''}
+        ${points.length ? `<ul class="explainer-points">${points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}</ul>` : ''}
+        ${renderExplainerFooter(key, explainer)}
+      </span>
+    </span>
+  `;
+}
+
+function labelWithExplainer(label, explainerKey, options = {}) {
+  const resolvedExplainerKey = inferredExplainerKey(label, explainerKey);
+  const text = options.html ? label : escapeHtml(label);
+  if (!resolvedExplainerKey) return text;
+  return `
+    <span class="label-with-info ${escapeHtml(options.className || '')}">
+      <span>${text}</span>
+      ${explainerBadge(resolvedExplainerKey, options.badgeOptions)}
+    </span>
+  `;
+}
+
+function badgeWithExplainer(value, options = {}) {
+  const rendered = `<span class="badge ${escapeHtml(options.className || '')}">${escapeHtml(value || 'n/a')}</span>`;
+  const explainerKey = inferredExplainerKey(value, options.explainerKey || inferredTermExplainerKey(value));
+  if (!explainerKey) return rendered;
+  return `
+    <span class="badge-with-explainer">
+      ${rendered}
+      ${explainerBadge(explainerKey, {
+        align: 'right',
+        ariaLabel: options.ariaLabel || `Explain ${String(value || 'badge')}`
+      })}
+    </span>
+  `;
+}
+
+function explainerCallout(key, options = {}) {
+  const explainer = explainerFor(key);
+  if (!explainer) return '';
+  return `
+    <div class="callout explainer-callout ${escapeHtml(options.tone || '')}">
+      <div class="row wrap-gap">
+        <strong>${escapeHtml(options.title || explainer.title || labelize(key))}</strong>
+        <span class="badge">${escapeHtml(options.badge || explainer.kicker || 'Explainer')}</span>
+      </div>
+      ${explainer.summary ? `<p>${escapeHtml(explainer.summary)}</p>` : ''}
+      ${explainer.detail ? `<p class="meta">${escapeHtml(explainer.detail)}</p>` : ''}
+      ${renderExplainerFooter(key, explainer)}
+    </div>
+  `;
+}
+
+function profileModeExplainers(profileId) {
+  return String(profileId || '').toUpperCase() === 'B'
+    ? { profile: 'profile-b', deposit: 'normalization-deposit', need: 'composite-need' }
+    : { profile: 'profile-a', deposit: 'targeted-deposit', need: 'bounded-need' };
+}
+
+const REPO_TO_SETTLEMENT_STAGE_EXPLAINERS = {
+  depositing: 'depositing',
+  needing: 'needing',
+  'deposit-to-need-fit': 'deposit-fit',
+  'asset-pack': 'asset-pack',
+  branch: 'private-remediation-branch',
+  proof: 'proof-closure',
+  settlement: 'exact-accounting'
+};
+
+function decorateStaticExplainers(root = document) {
+  root.querySelectorAll('[data-explainer-key]').forEach((node) => {
+    if (node.dataset.explainerDecorated === 'true') return;
+    node.classList.add('label-with-info');
+    node.insertAdjacentHTML('beforeend', explainerBadge(node.dataset.explainerKey, {
+      label: node.dataset.explainerLabel || 'i',
+      align: node.dataset.explainerAlign || 'right',
+      ariaLabel: node.dataset.explainerAriaLabel || undefined
+    }));
+    node.dataset.explainerDecorated = 'true';
+  });
+}
+
+function syncExplainerAlignment(root = document) {
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+  root.querySelectorAll('.explainer').forEach((node) => {
+    node.classList.remove('align-left');
+    if (node.classList.contains('align-center')) return;
+    const rect = node.getBoundingClientRect();
+    const spaceToLeft = rect.left;
+    const estimatedPanelWidth = Math.min(EXPLAINER_PANEL_MAX_WIDTH, Math.max(220, viewportWidth - 48));
+    if (spaceToLeft < estimatedPanelWidth - rect.width) {
+      node.classList.add('align-left');
+    }
+  });
 }
 
 function api(path, options = {}) {
@@ -272,11 +1611,11 @@ function renderInventorySelectionSummary(state) {
       ${kvRow('Auth session', session.authSessionId)}
       ${kvRow('Repository ID', session.repositoryId)}
       ${kvRow('Account ID', session.installationAccountId || '—')}
-      ${kvRow('Repo supply entries', repoSupply?.inventoryEntryCount ?? '—')}
+      ${kvRow('Repo supply entries', repoSupply?.inventoryEntryCount ?? '—', { explainerKey: 'repo-supply' })}
       ${kvRow('Scenario coverage', formatList(repoSupply?.scenarioFamilies || []), { html: true })}
       ${kvRow('Profile coverage', formatCountMap(repoSupply?.demonstrationProfileCounts || {}), { html: true })}
-      ${kvRow('Permissions root', session.permissionsRoot || '—')}
-      ${kvRow('Token boundary', session.tokenBoundary?.mintingState || '—')}
+      ${kvRow('Permissions root', session.permissionsRoot || '—', { explainerKey: 'github-app-auth' })}
+      ${kvRow('Token boundary', session.tokenBoundary?.mintingState || '—', { explainerKey: 'github-app-auth' })}
       ${kvRow('Writable scopes', formatList(session.tokenBoundary?.writableScopes || []), { html: true })}
     </div>
     <span class="meta">Selected ${selectedEntries.length} inventory ${selectedEntries.length === 1 ? 'artifact' : 'artifacts'}.</span>
@@ -315,13 +1654,13 @@ function renderRepoInventory(state) {
         </div>
         <div class="kv-grid">
           ${kvRow('Selection label', entry.provenance?.selectionLabel || '—')}
-          ${kvRow('Address', formatList([entry.sourcePath, ...(entry.sourcePaths || []).filter((path) => path !== entry.sourcePath), entry.artifactName, entry.workflowRunId].filter(Boolean)), { html: true })}
-          ${kvRow('Addressing scope', entry.addressing?.addressingScope || '—')}
+          ${kvRow('Address', formatList([entry.sourcePath, ...(entry.sourcePaths || []).filter((path) => path !== entry.sourcePath), entry.artifactName, entry.workflowRunId].filter(Boolean)), { html: true, explainerKey: 'addressing' })}
+          ${kvRow('Addressing scope', entry.addressing?.addressingScope || '—', { explainerKey: 'addressing' })}
           ${kvRow('Content root', entry.contentRoot || '—')}
           ${kvRow('Stacks', formatList(entry.declaredStacks || []), { html: true })}
           ${kvRow('Constraints', formatList(entry.declaredConstraints || []), { html: true })}
-          ${kvRow('Signer', entry.signerAddress || '—')}
-          ${kvRow('Auth session', entry.authSessionId || '—')}
+          ${kvRow('Signer', entry.signerAddress || '—', { explainerKey: 'signing' })}
+          ${kvRow('Auth session', entry.authSessionId || '—', { explainerKey: 'github-app-auth' })}
           ${kvRow('Installation ID', entry.installationId || '—')}
         </div>
       </button>
@@ -342,7 +1681,7 @@ function tierBadge(tier) {
       : tier === 'context-only'
         ? 'warn'
         : 'bad';
-  return `<span class="badge ${klass}">${escapeHtml(tier)}</span>`;
+  return badgeWithExplainer(tier, { className: klass, explainerKey: 'verification-rights' });
 }
 
 function boolBadge(value, yes = 'Yes', no = 'No') {
@@ -358,14 +1697,14 @@ function statusBadge(value) {
       : /(deny|reject|revoked|blocked|false|private-required|restricted|missing|bad)/.test(normalized)
         ? 'bad'
         : '';
-  return `<span class="badge ${klass}">${escapeHtml(value || 'n/a')}</span>`;
+  return badgeWithExplainer(value || 'n/a', { className: klass });
 }
 
 function metricTile(label, value, tone = '', options = {}) {
   const rendered = options.html ? value : escapeHtml(value);
   return `
     <div class="mini-card ${tone}">
-      <span class="meta">${escapeHtml(label)}</span>
+      <span class="meta">${labelWithExplainer(label, options.explainerKey)}</span>
       <strong>${rendered}</strong>
     </div>
   `;
@@ -373,12 +1712,17 @@ function metricTile(label, value, tone = '', options = {}) {
 
 function kvRow(label, value, options = {}) {
   const rendered = options.html ? value : escapeHtml(value ?? '—');
-  return `<div class="kv-row"><span class="meta">${escapeHtml(label)}</span><span>${rendered}</span></div>`;
+  return `<div class="kv-row"><span class="meta">${labelWithExplainer(label, options.explainerKey)}</span><span>${rendered}</span></div>`;
+}
+
+function summaryTile(label, value, explainerKey = '', options = {}) {
+  const rendered = options.html ? value : escapeHtml(value);
+  return `<div class="summary-card"><span class="meta">${labelWithExplainer(label, explainerKey)}</span><strong>${rendered}</strong></div>`;
 }
 
 function chipList(items = [], badgeClass = '') {
   if (!items.length) return '<span class="meta">None</span>';
-  return items.map((item) => `<span class="badge ${badgeClass}">${escapeHtml(item)}</span>`).join(' ');
+  return items.map((item) => badgeWithExplainer(item, { className: badgeClass })).join(' ');
 }
 
 function scoreBar(value) {
@@ -451,17 +1795,19 @@ function surfaceVisualFallback(data, depth = 0) {
   `;
 }
 
-function renderJsonSurface({ title, subtitle = '', eyebrow = '', help = '', data, raw, visual, defaultMode = DEFAULT_SURFACE_MODE, accent = '' }) {
+function renderJsonSurface({ title, subtitle = '', eyebrow = '', eyebrowExplainerKey = '', help = '', explainerKey = '', data, raw, visual, defaultMode = DEFAULT_SURFACE_MODE, accent = '' }) {
   const surfaceId = `surface-${++surfaceCounter}`;
   const rawContent = rawText(data, raw);
-  const visualContent = typeof visual === 'function' ? visual(data) : surfaceVisualFallback(data);
+  const visualContent = (typeof visual === 'function' && data != null)
+    ? visual(data)
+    : surfaceVisualFallback(data);
 
   return `
     <article class="json-surface ${accent}">
       <div class="json-surface-head">
         <div>
-          ${eyebrow ? `<p class="eyebrow meta-inline">${escapeHtml(eyebrow)}</p>` : ''}
-          <h3>${escapeHtml(title)}</h3>
+          ${eyebrow ? `<p class="eyebrow meta-inline">${eyebrowExplainerKey ? labelWithExplainer(eyebrow, eyebrowExplainerKey) : escapeHtml(eyebrow)}</p>` : ''}
+          <h3>${labelWithExplainer(title, explainerKey)}</h3>
           ${subtitle ? `<p class="meta">${escapeHtml(subtitle)}</p>` : ''}
         </div>
         <div class="surface-mode-toggle" role="tablist" aria-label="Toggle ${escapeHtml(title)} view">
@@ -555,14 +1901,14 @@ function renderExternalBoundaryManifestVisual(manifest) {
             </div>
             <div class="mini-grid two-up">
               <div class="section-card">
-                <div class="section-head"><h4>Local prototype</h4><span class="badge">Implemented here</span></div>
+                <div class="section-head"><h4>${labelWithExplainer('Local prototype', 'local-boundary')}</h4><span class="badge">Implemented here</span></div>
                 <div class="kv-grid">
                   ${kvRow('Surface', localPrototype.surface || '—')}
                   ${kvRow('Artifact refs', formatList(localPrototype.artifactRefs || []), { html: true })}
                 </div>
               </div>
               <div class="section-card">
-                <div class="section-head"><h4>External boundary</h4><span class="badge">Live contract</span></div>
+                <div class="section-head"><h4>${labelWithExplainer('External boundary', 'external-boundary')}</h4>${badgeWithExplainer('Live contract')}</div>
                 <div class="kv-grid">
                   ${kvRow('Contract', formatList(externalBoundary.contract || []), { html: true })}
                   ${kvRow('Boundary artifacts', formatList(externalBoundary.boundaryArtifacts || []), { html: true })}
@@ -582,9 +1928,9 @@ function renderIdentityBindingsVisual(bindings = []) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Bindings', bindings.length)}
+        ${metricTile('Bindings', bindings.length, '', { explainerKey: 'identity-auth-spine' })}
         ${metricTile('Issuer principals', classCounts['issuer-principal'] || 0)}
-        ${metricTile('GitHub sessions', classCounts['github-app-session-principal'] || 0)}
+        ${metricTile('GitHub sessions', classCounts['github-app-session-principal'] || 0, '', { explainerKey: 'github-app-auth' })}
         ${metricTile('Installations', classCounts['github-app-installation-principal'] || 0)}
       </div>
       <div class="object-list">
@@ -600,7 +1946,7 @@ function renderIdentityBindingsVisual(bindings = []) {
             <div class="kv-grid">
               ${kvRow('Bound refs', formatList(binding.boundRefs || []), { html: true })}
               ${kvRow('Selection refs', formatList(binding.selectedInventoryEntryIds || []), { html: true })}
-              ${kvRow('Surface roots', formatList(Object.entries(binding.surfaceRoots || {}).filter(([, value]) => value).map(([key, value]) => `${key}:${value}`)), { html: true })}
+              ${kvRow('Surface roots', formatList(Object.entries(binding.surfaceRoots || {}).filter(([, value]) => value).map(([key, value]) => `${key}:${value}`)), { html: true, explainerKey: 'identity-auth-spine' })}
             </div>
           </div>
         `).join('')}
@@ -615,14 +1961,14 @@ function renderGitHubBoundaryVisual(surface) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Selected auth sessions', selectedAuthSessions.length)}
+        ${metricTile('Selected auth sessions', selectedAuthSessions.length, '', { explainerKey: 'github-app-auth' })}
         ${metricTile('Selected assets', selectedInventoryProofs.length)}
         ${metricTile('Buyer installation', surface?.modeledBindings?.buyerInstallationId || '—')}
-        ${metricTile('Required auth fields', (surface?.authPayloadShape?.requiredFields || []).length)}
+        ${metricTile('Required auth fields', (surface?.authPayloadShape?.requiredFields || []).length, '', { explainerKey: 'github-app-auth' })}
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Buyer binding</h4><span class="badge">Repo boundary</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Buyer binding', 'identity-auth-spine')}</h4><span class="badge">Repo boundary</span></div>
           <div class="kv-grid">
             ${kvRow('Repo', surface?.modeledBindings?.repo || '—')}
             ${kvRow('Repository ID', surface?.modeledBindings?.repositoryId || '—')}
@@ -631,11 +1977,11 @@ function renderGitHubBoundaryVisual(surface) {
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Auth payload shape</h4><span class="badge">Modeled only</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Auth payload shape', 'github-app-auth')}</h4><span class="badge">Modeled only</span></div>
           <div class="kv-grid">
-            ${kvRow('Mechanism', surface?.authPayloadShape?.authMechanism || '—')}
+            ${kvRow('Mechanism', surface?.authPayloadShape?.authMechanism || '—', { explainerKey: 'github-app-auth' })}
             ${kvRow('Selection', surface?.authPayloadShape?.repositorySelection || '—')}
-            ${kvRow('Required fields', formatList(surface?.authPayloadShape?.requiredFields || []), { html: true })}
+            ${kvRow('Required fields', formatList(surface?.authPayloadShape?.requiredFields || []), { html: true, explainerKey: 'github-app-auth' })}
           </div>
         </div>
       </div>
@@ -652,8 +1998,8 @@ function renderGitHubBoundaryVisual(surface) {
             <div class="kv-grid">
               ${kvRow('Account', session.installationAccountLogin || '—')}
               ${kvRow('Repository ID', session.repositoryId || '—')}
-              ${kvRow('Permissions root', session.permissionsRoot || '—')}
-              ${kvRow('Auth payload hash', session.authPayloadHash || '—')}
+              ${kvRow('Permissions root', session.permissionsRoot || '—', { explainerKey: 'github-app-auth' })}
+              ${kvRow('Auth payload hash', session.authPayloadHash || '—', { explainerKey: 'github-app-auth' })}
             </div>
           </div>
         `).join('')}
@@ -670,7 +2016,7 @@ function renderGitHubBoundaryVisual(surface) {
             </div>
             <div class="kv-grid">
               ${kvRow('Inventory refs', formatList((proof.selectedInventoryEntries || []).map((entry) => `${entry.inventoryEntryId}:${entry.primaryAddressRef}`)), { html: true })}
-              ${kvRow('Addressing root', proof.addressingRoot || '—')}
+              ${kvRow('Addressing root', proof.addressingRoot || '—', { explainerKey: 'addressing' })}
             </div>
           </div>
         `).join('')}
@@ -756,6 +2102,10 @@ function renderProfileCompositionVisual(profileState) {
   const activeScenarioProfileId = profileState?.activeScenarioProfileId || '';
   return `
     <div class="visual-stack">
+      <div class="mini-grid two-up">
+        ${explainerCallout('profile-a', { title: 'Profile A in plain language', badge: 'Targeted deposit' })}
+        ${explainerCallout('profile-b', { title: 'Profile B in plain language', badge: 'Normalization deposit' })}
+      </div>
       <div class="callout">
         <strong>Operational profile semantics</strong>
         <span>${escapeHtml(guidance.audienceMeaning || 'The profiles distinguish how ENGI deposits supply against need, not whether GitHub is live.')}</span>
@@ -767,23 +2117,26 @@ function renderProfileCompositionVisual(profileState) {
           ${guidance.boundaryTruthPlacement ? `<p class="meta">${escapeHtml(guidance.boundaryTruthPlacement)}</p>` : ''}
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Boundary truth</h4><span class="badge">Supporting surfaces</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Boundary truth', 'boundary-reality')}</h4>${badgeWithExplainer('Supporting surfaces')}</div>
           <p>${escapeHtml(guidance.boundaryTruthPlacement || 'Boundary honesty still matters, but it belongs in the explicit boundary surfaces rather than in the profile headline.')}</p>
         </div>
       </div>
       <div class="mini-grid two-up">
         ${profiles.map((profile) => `
+          ${(() => {
+            const modeExplainers = profileModeExplainers(profile.profileId);
+            return `
           <div class="section-card">
             <div class="row wrap-gap">
-              <strong>${escapeHtml(profile.label || profile.profileId)}</strong>
+              <strong>${labelWithExplainer(profile.label || profile.profileId, modeExplainers.profile)}</strong>
               <div class="badge-row">${statusBadge(profile.profileId === activeScenarioProfileId ? 'selected scenario' : 'available in corpus')} <span class="badge">${escapeHtml(profile.shortLabel || profile.profileId)}</span></div>
             </div>
             <div class="kv-grid">
               ${kvRow('Who this is', profile.identity?.whoItIs || '—')}
               ${kvRow('How to demonstrate', profile.identity?.operatorRole || '—')}
               ${kvRow('Audience should understand', profile.identity?.audienceMeaning || '—')}
-              ${kvRow('Deposit mode', profile.depositMode || profile.metadata?.depositMode || '—')}
-              ${kvRow('Need mode', profile.needMode || profile.metadata?.needMode || '—')}
+              ${kvRow('Deposit mode', profile.depositMode || profile.metadata?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
+              ${kvRow('Need mode', profile.needMode || profile.metadata?.needMode || '—', { explainerKey: modeExplainers.need })}
               ${kvRow('Asset-pack shape', profile.assetPackShape || profile.metadata?.assetPackShape || '—')}
               ${kvRow('Settlement shape', profile.settlementShape || profile.metadata?.settlementShape || '—')}
               ${kvRow('Scenario anchors', formatList(profile.scenarioFamilies || []), { html: true })}
@@ -791,6 +2144,8 @@ function renderProfileCompositionVisual(profileState) {
               ${kvRow('Boundary truth', profile.metadata?.boundaryTruthNote || profile.boundaryRealityNote || '—')}
             </div>
           </div>
+        `;
+          })()}
         `).join('')}
       </div>
     </div>
@@ -835,26 +2190,26 @@ function renderDepositingSurfaceVisual(surface) {
         <p>${escapeHtml(surface?.depositIntentSummary || 'No deposit intent summary available.')}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Deposit session', surface?.depositSessionId || '—')}
-        ${metricTile('Repo supply ref', surface?.repoSupplyRef || '—')}
-        ${metricTile('Selected inventory refs', surface?.selectedInventoryRefs?.length || 0)}
-        ${metricTile('Artifact kinds', Object.keys(selectedArtifactKindCounts).length)}
+        ${metricTile('Deposit session', surface?.depositSessionId || '—', '', { explainerKey: 'depositing' })}
+        ${metricTile('Repo supply ref', surface?.repoSupplyRef || '—', '', { explainerKey: 'repo-supply' })}
+        ${metricTile('Selected inventory refs', surface?.selectedInventoryRefs?.length || 0, '', { explainerKey: 'depositing' })}
+        ${metricTile('Artifact kinds', Object.keys(selectedArtifactKindCounts).length, '', { explainerKey: 'artifact-kind' })}
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Selected deposit shape</h4><span class="badge">Artifact-kind-native</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Selected deposit shape', 'depositing')}</h4><span class="badge">Artifact-kind-native</span></div>
           <div class="kv-grid">
-            ${kvRow('Artifact kinds', formatCountMap(selectedArtifactKindCounts), { html: true })}
-            ${kvRow('Origin kinds', formatCountMap(selectedOriginKindCounts), { html: true })}
+            ${kvRow('Artifact kinds', formatCountMap(selectedArtifactKindCounts), { html: true, explainerKey: 'artifact-kind' })}
+            ${kvRow('Origin kinds', formatCountMap(selectedOriginKindCounts), { html: true, explainerKey: 'origin-kind' })}
             ${kvRow('Inventory refs', formatList(surface?.selectedInventoryRefs || []), { html: true })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Bound roots</h4><span class="badge">Address / sign / auth</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Bound roots', 'identity-auth-spine')}</h4><span class="badge">Address / sign / auth</span></div>
           <div class="kv-grid">
-            ${kvRow('Addressing root', surface?.addressingRoot || '—')}
-            ${kvRow('Signing root', surface?.signingRoot || '—')}
-            ${kvRow('Auth root', surface?.authRoot || '—')}
+            ${kvRow('Addressing root', surface?.addressingRoot || '—', { explainerKey: 'addressing' })}
+            ${kvRow('Signing root', surface?.signingRoot || '—', { explainerKey: 'signing' })}
+            ${kvRow('Auth root', surface?.authRoot || '—', { explainerKey: 'github-app-auth' })}
           </div>
         </div>
       </div>
@@ -873,21 +2228,21 @@ function renderNeedingSurfaceVisual(surface) {
         <p>${escapeHtml(surface?.boundednessSummary || 'No boundedness summary available.')}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Need ID', surface?.needId || '—')}
-        ${metricTile('Parser', surface?.parserKind || '—')}
-        ${metricTile('Failure modes', surface?.failureModeSummary?.length || 0)}
-        ${metricTile('Target kinds', surface?.targetArtifactKinds?.length || 0)}
+        ${metricTile('Need ID', surface?.needId || '—', '', { explainerKey: 'needing' })}
+        ${metricTile('Parser', surface?.parserKind || '—', '', { explainerKey: 'needing' })}
+        ${metricTile('Failure modes', surface?.failureModeSummary?.length || 0, '', { explainerKey: 'needing' })}
+        ${metricTile('Target kinds', surface?.targetArtifactKinds?.length || 0, '', { explainerKey: 'target-artifact-kind' })}
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Demand shape</h4><span class="badge">Measured need</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Demand shape', 'needing')}</h4><span class="badge">Measured need</span></div>
           <div class="kv-grid">
             ${kvRow('Failure modes', formatList(surface?.failureModeSummary || []), { html: true })}
-            ${kvRow('Target artifact kinds', formatList(surface?.targetArtifactKinds || []), { html: true })}
+            ${kvRow('Target artifact kinds', formatList(surface?.targetArtifactKinds || []), { html: true, explainerKey: 'target-artifact-kind' })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Closure criteria</h4><span class="badge">What counts as closed</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Closure criteria', 'closure-criteria')}</h4><span class="badge">What counts as closed</span></div>
           <div class="badge-row">${chipList(surface?.closureCriteria || [])}</div>
         </div>
       </div>
@@ -906,24 +2261,24 @@ function renderDepositingToNeedingVisual(surface) {
         <p class="meta">${escapeHtml(surface?.relationId || 'No fit relation yet.')}</p>
       </div>
       <div class="mini-grid three-up compact-metrics">
-        ${metricTile('Decisive kinds', surface?.decisiveKinds?.length || 0)}
-        ${metricTile('Overlap kinds', surface?.overlapKinds?.length || 0)}
-        ${metricTile('Normalization pressure', surface?.normalizationPressure || 'pending')}
+        ${metricTile('Decisive kinds', surface?.decisiveKinds?.length || 0, '', { explainerKey: 'deposit-fit' })}
+        ${metricTile('Overlap kinds', surface?.overlapKinds?.length || 0, '', { explainerKey: 'artifact-kind' })}
+        ${metricTile('Normalization pressure', surface?.normalizationPressure || 'pending', '', { explainerKey: 'normalization-pressure' })}
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Kind fit</h4><span class="badge">Before proof</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Kind fit', 'deposit-fit')}</h4><span class="badge">Before proof</span></div>
           <div class="kv-grid">
-            ${kvRow('Decisive kinds', formatList(surface?.decisiveKinds || []), { html: true })}
-            ${kvRow('Overlap kinds', formatList(surface?.overlapKinds || []), { html: true })}
+            ${kvRow('Decisive kinds', formatList(surface?.decisiveKinds || []), { html: true, explainerKey: 'deposit-fit' })}
+            ${kvRow('Overlap kinds', formatList(surface?.overlapKinds || []), { html: true, explainerKey: 'artifact-kind' })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Closure path</h4><span class="badge">Branch -> proof -> settlement</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Closure path', 'proof-closure')}</h4><span class="badge">Branch -> proof -> settlement</span></div>
           <div class="kv-grid">
             ${kvRow('Branch intent', surface?.branchIntentSummary || '—')}
-            ${kvRow('Proof intent', surface?.proofIntentSummary || '—')}
-            ${kvRow('Settlement intent', surface?.settlementIntentSummary || '—')}
+            ${kvRow('Proof intent', surface?.proofIntentSummary || '—', { explainerKey: 'proof-closure' })}
+            ${kvRow('Settlement intent', surface?.settlementIntentSummary || '—', { explainerKey: 'settlement' })}
           </div>
         </div>
       </div>
@@ -936,6 +2291,7 @@ function renderNeedVisual(need) {
   const parserFailure = parser.parserFailureContract || {};
   const benchmarkTarget = need.benchmarkTarget || {};
   const demonstrationProfile = need.demonstrationProfile || {};
+  const modeExplainers = profileModeExplainers(demonstrationProfile.profileId);
   return `
     <div class="visual-stack">
       <div class="highlight-card">
@@ -953,24 +2309,24 @@ function renderNeedVisual(need) {
         ${metricTile('Parser', `${parser.parserKind || need.parserKind || '—'} ${parser.parserVersion || need.parserVersion || ''}`.trim())}
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Profile semantics</h4><span class="badge">${escapeHtml(demonstrationProfile.label || 'Scenario profile')}</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Profile semantics', modeExplainers.profile)}</h4><span class="badge">${escapeHtml(demonstrationProfile.label || 'Scenario profile')}</span></div>
         <div class="kv-grid">
-          ${kvRow('Deposit mode', demonstrationProfile.depositMode || '—')}
-          ${kvRow('Need mode', demonstrationProfile.needMode || '—')}
+          ${kvRow('Deposit mode', demonstrationProfile.depositMode || '—', { explainerKey: modeExplainers.deposit })}
+          ${kvRow('Need mode', demonstrationProfile.needMode || '—', { explainerKey: modeExplainers.need })}
           ${kvRow('Asset-pack shape', demonstrationProfile.assetPackShape || '—')}
           ${kvRow('Settlement shape', demonstrationProfile.settlementShape || '—')}
         </div>
       </div>
       <div class="section-card">
         <div class="section-head">
-          <h4>Measured target</h4>
+          <h4>${labelWithExplainer('Measured target', 'needing')}</h4>
           ${boolBadge(parserFailure.failClosed, 'Fail-closed', 'Open failure mode')}
         </div>
         <div class="kv-grid">
           ${kvRow('Benchmark harness', benchmarkTarget.harnessPath || need.benchmarkHarnessPath || '—')}
           ${kvRow('Parser on missing outputs', parserFailure.onMissingCanonicalOutputs || '—')}
           ${kvRow('Parser on malformed outputs', parserFailure.onMalformedOutputs || '—')}
-          ${kvRow('Target artifact kinds', formatList(need.targetArtifactKinds || []), { html: true })}
+          ${kvRow('Target artifact kinds', formatList(need.targetArtifactKinds || []), { html: true, explainerKey: 'target-artifact-kind' })}
         </div>
       </div>
       <div class="mini-grid two-up">
@@ -989,7 +2345,7 @@ function renderNeedVisual(need) {
           <div class="badge-row">${chipList(need.constraints || [])}</div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Closure criteria</h4><span class="badge">Need closure</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Closure criteria', 'closure-criteria')}</h4><span class="badge">Need closure</span></div>
           <div class="badge-row">${chipList(need.closureCriteria || [])}</div>
         </div>
       </div>
@@ -1046,7 +2402,7 @@ function renderNeedMeasurementVisual(payload) {
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Inference proof surfaces</h4><span class="badge">${formatCount((payload.inferenceProofs || []).length, 'proof')}</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Inference proof surfaces', 'proof-closure')}</h4><span class="badge">${formatCount((payload.inferenceProofs || []).length, 'proof')}</span></div>
         ${surfaceVisualFallback(payload.inferenceProofs || [])}
       </div>
     </div>
@@ -1068,73 +2424,73 @@ function renderAssetVisual(asset) {
       <p>${escapeHtml(asset.summary || '')}</p>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Coverage</h4><span class="badge">Repository fit</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Coverage', 'deposit-fit')}</h4><span class="badge">Repository fit</span></div>
           <div class="kv-grid">
             ${kvRow('Content root', asset.contentRoot || '—')}
             ${kvRow('Source paths', formatList(asset.sourcePaths || []), { html: true })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Declared shape</h4><span class="badge">Asset metadata</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Declared shape', 'artifact-kind')}</h4><span class="badge">Asset metadata</span></div>
           <div class="kv-grid">
             ${kvRow('Stacks', formatList(asset.declaredStacks || []), { html: true })}
             ${kvRow('Constraints', formatList(asset.declaredConstraints || []), { html: true })}
-            ${kvRow('Upload kind/type', `${escapeHtml(asset.uploadSurface?.artifactKind || asset.artifactKind)} / ${escapeHtml(asset.uploadSurface?.artifactType || asset.artifactType || '—')}`, { html: true })}
+            ${kvRow('Upload kind/type', `${escapeHtml(asset.uploadSurface?.artifactKind || asset.artifactKind)} / ${escapeHtml(asset.uploadSurface?.artifactType || asset.artifactType || '—')}`, { html: true, explainerKey: 'artifact-kind' })}
             ${kvRow('Upload surfaces', formatList((asset.uploadSurface?.surfaces || []).map((surface) => `${surface.role}:${surface.surfaceId}`), 'None'), { html: true })}
           </div>
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Artifact Selection</h4><span class="badge">V12 deposit source</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Artifact selection', 'depositing')}</h4><span class="badge">V12 deposit source</span></div>
           <div class="kv-grid">
             ${kvRow('Intake mode', asset.artifactSelectionSurface?.intakeMode || '—')}
             ${kvRow('Selection label', asset.artifactSelectionSurface?.selectionLabel || '—')}
-            ${kvRow('Auth session', asset.artifactSelectionSurface?.authSessionId || '—')}
+            ${kvRow('Auth session', asset.artifactSelectionSurface?.authSessionId || '—', { explainerKey: 'github-app-auth' })}
             ${kvRow('Inventory refs', formatList(asset.artifactSelectionSurface?.selectedInventoryEntryIds || []), { html: true })}
             ${kvRow('Inventory root', asset.artifactSelectionSurface?.selectedInventoryRoot || '—')}
-            ${kvRow('Artifact kind counts', formatCountMap(asset.artifactSelectionSurface?.selectedArtifactKindCounts || {}), { html: true })}
-            ${kvRow('Origin kinds', formatList(asset.artifactSelectionSurface?.selectedOriginKinds || []), { html: true })}
+            ${kvRow('Artifact kind counts', formatCountMap(asset.artifactSelectionSurface?.selectedArtifactKindCounts || {}), { html: true, explainerKey: 'artifact-kind' })}
+            ${kvRow('Origin kinds', formatList(asset.artifactSelectionSurface?.selectedOriginKinds || []), { html: true, explainerKey: 'origin-kind' })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Addressing</h4><span class="badge">Explicit repo address</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Addressing', 'addressing')}</h4>${badgeWithExplainer('Explicit repo address')}</div>
           <div class="kv-grid">
-            ${kvRow('Scope', asset.addressingSurface?.addressingScope || '—')}
+            ${kvRow('Scope', asset.addressingSurface?.addressingScope || '—', { explainerKey: 'addressing' })}
             ${kvRow('Repo', asset.addressingSurface?.repo || asset.githubBoundary?.sourceRepo || '—')}
             ${kvRow('Repository ID', asset.addressingSurface?.repositoryId || '—')}
-            ${kvRow('Primary address', asset.addressingSurface?.primaryAddressRef || '—')}
+            ${kvRow('Primary address', asset.addressingSurface?.primaryAddressRef || '—', { explainerKey: 'addressing' })}
             ${kvRow('Ref / commit', [asset.addressingSurface?.ref, asset.addressingSurface?.commit].filter(Boolean).join(' @ ') || '—')}
             ${kvRow('Source paths', formatList(asset.addressingSurface?.sourcePaths || []), { html: true })}
-            ${kvRow('Addressing root', asset.addressingSurface?.addressingRoot || '—')}
+            ${kvRow('Addressing root', asset.addressingSurface?.addressingRoot || '—', { explainerKey: 'addressing' })}
           </div>
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Signing</h4><span class="badge">Address separate from signing</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Signing', 'signing')}</h4><span class="badge">Address separate from signing</span></div>
           <div class="kv-grid">
-            ${kvRow('Signer address', asset.signingSurface?.signerAddress || asset.identitySurface?.signerAddress || '—')}
+            ${kvRow('Signer address', asset.signingSurface?.signerAddress || asset.identitySurface?.signerAddress || '—', { explainerKey: 'signing' })}
             ${kvRow('Algorithm', asset.signingSurface?.signingAlgorithm || '—')}
             ${kvRow('Key source', asset.signingSurface?.keySource || '—')}
             ${kvRow('Payload hash', asset.signingSurface?.payloadHash || '—')}
-            ${kvRow('Signed addressing root', asset.signingSurface?.signedAddressingRoot || '—')}
+            ${kvRow('Signed addressing root', asset.signingSurface?.signedAddressingRoot || '—', { explainerKey: 'addressing' })}
             ${kvRow('Signed selection root', asset.signingSurface?.signedSelectionRoot || '—')}
             ${kvRow('Attestation hash', asset.signingSurface?.attestationHash || '—')}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>GitHub App Auth</h4><span class="badge">Installation-scoped</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('GitHub App auth', 'github-app-auth')}</h4><span class="badge">Installation-scoped</span></div>
           <div class="kv-grid">
-            ${kvRow('Mechanism', asset.githubAppAuthSurface?.authMechanism || '—')}
-            ${kvRow('Auth session', asset.githubAppAuthSurface?.authSessionId || '—')}
+            ${kvRow('Mechanism', asset.githubAppAuthSurface?.authMechanism || '—', { explainerKey: 'github-app-auth' })}
+            ${kvRow('Auth session', asset.githubAppAuthSurface?.authSessionId || '—', { explainerKey: 'github-app-auth' })}
             ${kvRow('Installation ID', asset.githubAppAuthSurface?.installationId || '—')}
             ${kvRow('Account', asset.githubAppAuthSurface?.installationAccountLogin || '—')}
             ${kvRow('Account ID', asset.githubAppAuthSurface?.installationAccountId || '—')}
             ${kvRow('Repository ID', asset.githubAppAuthSurface?.repositoryId || '—')}
-            ${kvRow('Permissions root', asset.githubAppAuthSurface?.permissionsRoot || '—')}
-            ${kvRow('Auth payload hash', asset.githubAppAuthSurface?.authPayloadHash || '—')}
-            ${kvRow('Token boundary', asset.githubAppAuthSurface?.tokenBoundary?.mintingState || '—')}
+            ${kvRow('Permissions root', asset.githubAppAuthSurface?.permissionsRoot || '—', { explainerKey: 'github-app-auth' })}
+            ${kvRow('Auth payload hash', asset.githubAppAuthSurface?.authPayloadHash || '—', { explainerKey: 'github-app-auth' })}
+            ${kvRow('Token boundary', asset.githubAppAuthSurface?.tokenBoundary?.mintingState || '—', { explainerKey: 'github-app-auth' })}
             ${kvRow('Permissions', formatList(Object.entries(asset.githubAppAuthSurface?.permissions || {}).map(([key, value]) => `${key}:${value}`)), { html: true })}
             ${kvRow('Local boundary', asset.githubAppAuthSurface?.localBoundary || asset.githubAppAuthSurface?.profileABoundary || '—')}
             ${kvRow('External boundary', asset.githubAppAuthSurface?.externalBoundary || asset.githubAppAuthSurface?.profileBBoundary || '—')}
@@ -1250,7 +2606,7 @@ function renderAssetPackVisual(lock) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Selected assets</h4><span class="badge">Locked for branch</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Selected assets', 'asset-pack')}</h4><span class="badge">Locked for branch</span></div>
           <div class="object-list nested">
             ${(lock.assets || []).map((asset) => `
               <div class="mini-card">
@@ -1262,7 +2618,7 @@ function renderAssetPackVisual(lock) {
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Lock integrity</h4><span class="badge">Roots + attestations</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Lock integrity', 'asset-pack')}</h4><span class="badge">Roots + attestations</span></div>
           <div class="kv-grid">
             ${kvRow('Locked content roots', formatCount((lock.lockedContentRoots || []).length, 'root'))}
             ${kvRow('Locked attestations', formatCount((lock.lockedAttestationHashes || []).length, 'hash'))}
@@ -1456,7 +2812,7 @@ function renderSettlementPreviewVisual(preview) {
         <p class="meta">Need ${escapeHtml(preview.needId || '—')} · ${formatCount(participatingAssetIds.length, 'participating asset')} · ${formatCount(creditedAssetIds.length, 'credited asset')}</p>
       </div>
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Metered micro-units', preview.meteredMicroUnits || '—')}
+        ${metricTile('Metered micro-units', preview.meteredMicroUnits || '—', '', { explainerKey: 'settlement' })}
         ${metricTile('Selected branch assets', selectedAssetIds.length)}
         ${metricTile('Settlement participants', participatingAssetIds.length)}
         ${metricTile('Credited assets', creditedAssetIds.length)}
@@ -1469,7 +2825,7 @@ function renderSettlementPreviewVisual(preview) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Selection semantics</h4><span class="badge">Branch vs settlement</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Selection semantics', 'settlement')}</h4><span class="badge">Branch vs settlement</span></div>
           <div class="kv-grid">
             ${kvRow('Selected branch assets', formatList(selectedAssetIds), { html: true })}
             ${kvRow('Settlement participants', formatList(participatingAssetIds), { html: true })}
@@ -1478,12 +2834,12 @@ function renderSettlementPreviewVisual(preview) {
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Operator meaning</h4><span class="badge">Intentional distinction</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Operator meaning', 'settlement')}</h4><span class="badge">Intentional distinction</span></div>
           <p>${escapeHtml(preview.semanticsNote || 'Selected assets, settlement participants, and credited assets can differ.')}</p>
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Allocation preview</h4><span class="badge">Bundle shares</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Allocation preview', 'settlement')}</h4><span class="badge">Bundle shares</span></div>
         <div class="object-list nested">
           ${allocations.map((allocation) => `
             <div class="mini-card">
@@ -1516,11 +2872,11 @@ function renderSourceToSharesVisual(sourceToShares) {
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Contribution entries', entries.length)}
         ${metricTile('Bundle share score', sourceToShares?.bundleShareScore?.bundleShareScore || '—')}
-        ${metricTile('Normalization', sourceToShares?.basisPointNormalization?.method || '—')}
+        ${metricTile('Normalization', sourceToShares?.basisPointNormalization?.method || '—', '', { explainerKey: 'normalization-pressure' })}
         ${metricTile('Tie-break order', (sourceToShares?.basisPointNormalization?.remainderDistributionOrder || []).length)}
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Contribution basis</h4><span class="badge">Source to shares</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Contribution basis', 'source-to-shares')}</h4><span class="badge">Source to shares</span></div>
         <div class="object-list nested">
           ${entries.map((entry) => `
             <div class="mini-card">
@@ -1544,7 +2900,7 @@ function renderSourceToSharesVisual(sourceToShares) {
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Normalization ledger</h4><span class="badge">Deterministic tie-break</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Normalization ledger', 'source-to-shares')}</h4><span class="badge">Deterministic tie-break</span></div>
         <div class="object-list nested">
           ${normalizationLedger.map((entry) => `
             <div class="mini-card">
@@ -1613,23 +2969,23 @@ function renderAccountingPrecisionVisual(report) {
         ${metricTile('Source-to-shares closure rows', (report?.sourceMaterialToSharesClosure || []).length)}
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Exact accounting invariants</h4><span class="badge">Replayable</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Exact accounting invariants', 'settlement')}</h4><span class="badge">Replayable</span></div>
         <div class="badge-row">
           ${Object.entries(report?.exactAccountingInvariants || {}).map(([key, value]) => `<span class="badge ${value ? 'private' : 'bad'}">${escapeHtml(labelize(key))}: ${escapeHtml(value)}</span>`).join(' ')}
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Basis-point normalization</h4><span class="badge">Source to shares</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Basis-point normalization', 'exact-accounting')}</h4><span class="badge">Source to shares</span></div>
           ${surfaceVisualFallback(report?.basisPointNormalization || {})}
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Micro-unit allocation</h4><span class="badge">Exact remainder order</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Micro-unit allocation', 'exact-accounting')}</h4><span class="badge">Exact remainder order</span></div>
           ${surfaceVisualFallback(report?.microUnitAllocation || {})}
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Source material to shares closure</h4><span class="badge">Unit refs to credited micro-units</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Source material to shares closure', 'source-to-shares')}</h4><span class="badge">Unit refs to credited micro-units</span></div>
         ${surfaceVisualFallback(report?.sourceMaterialToSharesClosure || [])}
       </div>
     </div>
@@ -1677,7 +3033,9 @@ function renderMaterializationVisibilityVisual(proof) {
 function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
   return `
     <div class="object-list">
-      ${scenarios.map((scenario) => `
+      ${scenarios.map((scenario) => {
+        const modeExplainers = profileModeExplainers(scenario.demonstrationProfile?.profileId);
+        return `
         <div class="section-card">
           <div class="row wrap-gap">
             <div>
@@ -1692,14 +3050,15 @@ function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
           </div>
           <p>${escapeHtml(scenario.taskSeed || '—')}</p>
           <div class="kv-grid">
-            ${kvRow('Deposit mode', scenario.demonstrationProfile?.depositMode || '—')}
-            ${kvRow('Need mode', scenario.demonstrationProfile?.needMode || '—')}
+            ${kvRow('Deposit mode', scenario.demonstrationProfile?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
+            ${kvRow('Need mode', scenario.demonstrationProfile?.needMode || '—', { explainerKey: modeExplainers.need })}
             ${kvRow('Coverage tags', chipList(scenario.coverageTags || []), { html: true })}
             ${kvRow('Failing cases', formatList(scenario.failingCases || []), { html: true })}
             ${kvRow('Weak dimensions', formatList(scenario.weakDimensions || []), { html: true })}
           </div>
         </div>
-      `).join('')}
+      `;
+      }).join('')}
     </div>
   `;
 }
@@ -1715,18 +3074,18 @@ function renderJournalDiffVisual(diff) {
         ${metricTile('Credited', diff.totals?.credited || '—')}
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Journal invariants</h4><span class="badge">Exact accounting</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Journal invariants', 'settlement')}</h4><span class="badge">Exact accounting</span></div>
         <div class="badge-row">
           ${Object.entries(invariants).map(([key, value]) => `<span class="badge ${value ? 'private' : 'bad'}">${escapeHtml(labelize(key))}: ${escapeHtml(value)}</span>`).join(' ')}
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Debits</h4><span class="badge">${(diff.debits || []).length}</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Debits', 'journal-diff')}</h4><span class="badge">${(diff.debits || []).length}</span></div>
           ${surfaceVisualFallback(diff.debits || [])}
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Credits</h4><span class="badge">${(diff.credits || []).length}</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Credits', 'journal-diff')}</h4><span class="badge">${(diff.credits || []).length}</span></div>
           ${surfaceVisualFallback(diff.credits || [])}
         </div>
       </div>
@@ -1747,7 +3106,7 @@ function renderSystemProofBundleVisual(bundle) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Proof contract + evidence chain</h4><span class="badge">Final closure</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Proof contract + evidence chain', 'proof-closure')}</h4><span class="badge">Final closure</span></div>
           <div class="kv-grid">
             ${kvRow('Contract ID', proofContract.contractId || '—')}
             ${kvRow('Theorem checks declared', formatList(proofContract.theoremChecks || []), { html: true })}
@@ -1763,7 +3122,7 @@ function renderSystemProofBundleVisual(bundle) {
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Theorem / invariant checks</h4><span class="badge">Evidence-bound</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Theorem / invariant checks', 'proof-closure')}</h4><span class="badge">Evidence-bound</span></div>
           <div class="badge-row">
             ${Object.entries(theoremChecks).map(([key, value]) => `<span class="badge ${value ? 'private' : 'bad'}">${escapeHtml(labelize(key))}: ${escapeHtml(value)}</span>`).join(' ')}
           </div>
@@ -1775,7 +3134,7 @@ function renderSystemProofBundleVisual(bundle) {
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Prompt / evaluator surface</h4><span class="badge">External hand-off</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Prompt / evaluator surface', 'proof-closure')}</h4><span class="badge">External hand-off</span></div>
         ${surfaceVisualFallback(bundle.promptImplementationSurface || {})}
       </div>
     </div>
@@ -1786,13 +3145,13 @@ function renderBoundedProofVisual(proof) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Need ID', proof.needId || '—')}
-        ${metricTile('Bundle ID', proof.bundleId || '—')}
+        ${metricTile('Need ID', proof.needId || '—', '', { explainerKey: 'proof-closure' })}
+        ${metricTile('Bundle ID', proof.bundleId || '—', '', { explainerKey: 'settlement' })}
         ${metricTile('Selected assets', (proof.selectedAssets || []).length)}
         ${metricTile('Redaction status', proof.redactionStatus || '—')}
       </div>
       <div class="callout">
-        <strong>Bounded public proof</strong>
+        <strong>${labelWithExplainer('Bounded public proof', 'proof-closure')}</strong>
         <span>${escapeHtml('This is the redacted inspection surface intended to remain public while private proof artifacts stay private.')}</span>
       </div>
       ${surfaceVisualFallback(proof)}
@@ -1854,13 +3213,13 @@ function renderRepoSupplyVisual(surface) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Authenticated repos', surface?.repoCount ?? repos.length)}
-        ${metricTile('Supply entries', surface?.inventoryEntryCount ?? 0)}
+        ${metricTile('Authenticated repos', surface?.repoCount ?? repos.length, '', { explainerKey: 'repo-supply' })}
+        ${metricTile('Supply entries', surface?.inventoryEntryCount ?? 0, '', { explainerKey: 'repo-supply' })}
         ${metricTile('Scenario families', surface?.scenarioCount ?? 0)}
-        ${metricTile('Artifact kinds', Object.keys(surface?.artifactKindCounts || {}).length)}
+        ${metricTile('Artifact kinds', Object.keys(surface?.artifactKindCounts || {}).length, '', { explainerKey: 'artifact-kind' })}
       </div>
       <div class="callout">
-        <strong>Supply parity</strong>
+        <strong>${labelWithExplainer('Supply parity', 'repo-supply')}</strong>
         <span>Artifact kinds: ${formatCountMap(surface?.artifactKindCounts || {})}</span>
         <span>Origin kinds: ${formatCountMap(surface?.originKindCounts || {})}</span>
         <span>Profile coverage: ${formatCountMap(surface?.demonstrationProfileCounts || {})}</span>
@@ -1879,8 +3238,8 @@ function renderRepoSupplyVisual(surface) {
               ${kvRow('Inventory entries', repo.inventoryEntryCount ?? '—')}
               ${kvRow('Scenario coverage', formatList(repo.scenarioFamilies || []), { html: true })}
               ${kvRow('Profile coverage', formatCountMap(repo.demonstrationProfileCounts || {}), { html: true })}
-              ${kvRow('Artifact kinds', formatCountMap(repo.artifactKindCounts || {}), { html: true })}
-              ${kvRow('Origin kinds', formatCountMap(repo.originKindCounts || {}), { html: true })}
+              ${kvRow('Artifact kinds', formatCountMap(repo.artifactKindCounts || {}), { html: true, explainerKey: 'artifact-kind' })}
+              ${kvRow('Origin kinds', formatCountMap(repo.originKindCounts || {}), { html: true, explainerKey: 'origin-kind' })}
               ${kvRow('Dominant stacks', formatList(repo.dominantStacks || []), { html: true })}
               ${kvRow('Dominant constraints', formatList(repo.dominantConstraints || []), { html: true })}
             </div>
@@ -1894,6 +3253,7 @@ function renderRepoSupplyVisual(surface) {
 function renderRepoToSettlementVisual(surface) {
   const stages = surface?.stages || [];
   const demonstrationProfile = surface?.demonstrationProfile || {};
+  const modeExplainers = profileModeExplainers(demonstrationProfile.profileId);
   return `
     <div class="visual-stack">
       <div class="highlight-card">
@@ -1905,11 +3265,11 @@ function renderRepoToSettlementVisual(surface) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Deposit mode</h4><span class="badge">Profile</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Deposit mode', modeExplainers.deposit)}</h4><span class="badge">Profile</span></div>
           <p>${escapeHtml(surface?.depositMode || demonstrationProfile.depositMode || '—')}</p>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Need mode</h4><span class="badge">Profile</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Need mode', modeExplainers.need)}</h4><span class="badge">Profile</span></div>
           <p>${escapeHtml(surface?.needMode || demonstrationProfile.needMode || '—')}</p>
         </div>
       </div>
@@ -1919,7 +3279,7 @@ function renderRepoToSettlementVisual(surface) {
             <div class="timeline-index">${index + 1}</div>
             <div class="timeline-card">
               <div class="row wrap-gap">
-                <strong>${escapeHtml(stage.label)}</strong>
+                <strong>${labelWithExplainer(stage.label, REPO_TO_SETTLEMENT_STAGE_EXPLAINERS[stage.stageId] || '')}</strong>
                 <div class="badge-row">${statusBadge(stage.status)} ${statusBadge(stage.boundaryClass)}</div>
               </div>
               <p>${escapeHtml(stage.summary || '')}</p>
@@ -1940,7 +3300,7 @@ function renderIdentityAuthSpineVisual(surface) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
-        ${metricTile('Spine hops', hops.length)}
+        ${metricTile('Spine hops', hops.length, '', { explainerKey: 'identity-auth-spine' })}
         ${metricTile('Buyer principal', surface?.buyerPrincipalId || '—')}
         ${metricTile('Installation principal', surface?.installationPrincipalId || '—')}
         ${metricTile('Settlement bundle', surface?.settlementBundleId || '—')}
@@ -1958,7 +3318,7 @@ function renderIdentityAuthSpineVisual(surface) {
               <div class="kv-grid">
                 ${kvRow('Principals', formatList(hop.principalRefs || []), { html: true })}
                 ${kvRow('Stage refs', formatList(hop.stageRefs || []), { html: true })}
-                ${kvRow('Root refs', formatList(hop.rootRefs || []), { html: true })}
+                ${kvRow('Root refs', formatList(hop.rootRefs || []), { html: true, explainerKey: 'identity-auth-spine' })}
               </div>
             </div>
           </div>
@@ -1973,7 +3333,7 @@ function renderBoundaryRealityVisual(surface) {
   return `
     <div class="visual-stack">
       <div class="mini-grid three-up compact-metrics">
-        ${metricTile('Boundary posture', surface?.posture || '—')}
+        ${metricTile('Boundary posture', surface?.posture || '—', '', { explainerKey: 'boundary-reality' })}
         ${metricTile('Modeled local stages', stages.filter((stage) => (stage.localStatus || stage.profileAStatus) === 'modeled-local').length)}
         ${metricTile('Executed local stages', stages.filter((stage) => (stage.localStatus || stage.profileAStatus) === 'executed-local').length)}
       </div>
@@ -1982,7 +3342,7 @@ function renderBoundaryRealityVisual(surface) {
           <div class="section-card">
             <div class="row wrap-gap">
               <strong>${escapeHtml(stage.label)}</strong>
-              <div class="badge-row">${statusBadge(stage.localStatus || stage.profileAStatus)} <span class="badge">${escapeHtml('External boundary')}</span></div>
+              <div class="badge-row">${statusBadge(stage.localStatus || stage.profileAStatus)} ${badgeWithExplainer('External boundary', { explainerKey: 'external-boundary' })}</div>
             </div>
             <div class="kv-grid">
               ${kvRow('Local here', stage.localDescription || stage.profileADescription || '—')}
@@ -2007,6 +3367,7 @@ function renderOperatingPicture(state) {
     subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
     eyebrow: 'V12 shell surface',
     help: 'V12 starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+    explainerKey: 'repo-supply',
     data: state.repoSupplySurface,
     visual: renderRepoSupplyVisual,
     accent: 'accent-blue'
@@ -2017,6 +3378,7 @@ function renderOperatingPicture(state) {
       subtitle: 'The active repo-authenticated deposit, before branch/proof/settlement detail',
       eyebrow: state.latestRun?.depositingSurface ? 'V12 run surface' : 'V12 shell preview',
       help: 'This is the opening operator action in V12: what was deposited, from where, and with which bound roots.',
+      explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
       accent: 'accent-green'
@@ -2028,6 +3390,7 @@ function renderOperatingPicture(state) {
       subtitle: 'The active measured demand surface',
       eyebrow: state.latestRun?.needingSurface ? 'V12 run surface' : 'V12 scenario preview',
       help: 'This is the measured need that the deposit has to justify before proof and settlement carry the story forward.',
+      explainerKey: 'needing',
       data: needingSurface,
       visual: renderNeedingSurfaceVisual,
       accent: 'accent-blue'
@@ -2039,6 +3402,7 @@ function renderOperatingPicture(state) {
       subtitle: 'Why this deposit fits this need before deeper closure inspection',
       eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V12 run surface' : 'V12 shell preview',
       help: 'V12 makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
       accent: 'accent-orange'
@@ -2050,6 +3414,7 @@ function renderOperatingPicture(state) {
       subtitle: 'Depositing to settlement as one staged operating path',
       eyebrow: 'V12 run surface',
       help: 'Once deposit, need, and fit are legible, this surface walks the closure path through asset pack, branch, proof, and settlement.',
+      explainerKey: 'repo-to-settlement',
       data: state.latestRun.repoToSettlementSurface,
       visual: renderRepoToSettlementVisual,
       accent: 'accent-green'
@@ -2071,6 +3436,7 @@ function renderOperatingPicture(state) {
       subtitle: 'Repo auth, signer authority, branch authority, proof authority, and settlement authority',
       eyebrow: 'V12 support surface',
       help: 'This surface turns the existing auth artifacts into one legible authority chain.',
+      explainerKey: 'identity-auth-spine',
       data: state.latestRun.identityAuthSpineSurface,
       visual: renderIdentityAuthSpineVisual,
       accent: 'accent-orange'
@@ -2081,6 +3447,7 @@ function renderOperatingPicture(state) {
     subtitle: 'What is modeled here, what executes here, and what remains external',
     eyebrow: 'V12 support surface',
     help: 'Boundary truth stays explicit here so the primary story can stay centered on depositing, needing, and their fit.',
+    explainerKey: 'boundary-reality',
     data: state.boundaryRealitySurface,
     visual: renderBoundaryRealityVisual,
     accent: 'accent-slate'
@@ -2104,21 +3471,21 @@ function renderSummary(state) {
   const activeScenario = currentScenario(state);
   const activeProfile = latestRun?.demonstrationProfile || activeScenario?.demonstrationProfile;
 
-  summaryEl.innerHTML = `
-    <div class="summary-card"><span class="meta">Authenticated repos</span><strong>${repoCount}</strong></div>
-    <div class="summary-card"><span class="meta">Repo supply entries</span><strong>${supplyEntries}</strong></div>
-    <div class="summary-card"><span class="meta">Active deposit profile</span><strong>${escapeHtml(activeProfile?.shortLabel || activeProfile?.label || '—')}</strong></div>
-    <div class="summary-card"><span class="meta">Candidate assets</span><strong>${state.assets.length}</strong></div>
-    <div class="summary-card"><span class="meta">Need scenarios</span><strong>${state.needScenarios.length}</strong></div>
-    <div class="summary-card"><span class="meta">Need parser</span><strong>${escapeHtml(needingSurface?.parserKind || '—')}</strong></div>
-    <div class="summary-card"><span class="meta">Active scenario</span><strong>${escapeHtml(activeScenario?.scenarioFamily || '—')}</strong></div>
-    <div class="summary-card"><span class="meta">Selected deposit refs</span><strong>${depositSurface?.selectedInventoryRefs?.length || 0}</strong></div>
-    <div class="summary-card"><span class="meta">Fit pressure</span><strong>${escapeHtml(fitSurface?.normalizationPressure || 'pending')}</strong></div>
-    <div class="summary-card"><span class="meta">Selected assets in latest pack</span><strong>${selected}</strong></div>
-    <div class="summary-card"><span class="meta">Settlement-credited assets</span><strong>${settled}</strong></div>
-    <div class="summary-card"><span class="meta">Latest bundle</span><strong>${escapeHtml(bundleId)}</strong></div>
-    <div class="summary-card"><span class="meta">Boundary stages</span><strong>${boundaryStages}</strong></div>
-  `;
+  summaryEl.innerHTML = [
+    summaryTile('Authenticated repos', repoCount, 'repo-supply'),
+    summaryTile('Repo supply entries', supplyEntries, 'repo-supply'),
+    summaryTile('Active deposit profile', activeProfile?.shortLabel || activeProfile?.label || '—', activeProfile?.profileId === 'B' ? 'profile-b' : 'profile-a'),
+    summaryTile('Candidate assets', state.assets.length, 'candidate-asset'),
+    summaryTile('Need scenarios', state.needScenarios.length, 'needing'),
+    summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
+    summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v12-scenario-preview'),
+    summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
+    summaryTile('Fit pressure', fitSurface?.normalizationPressure || 'pending', 'normalization-pressure'),
+    summaryTile('Selected assets in latest pack', selected, 'asset-pack'),
+    summaryTile('Settlement-credited assets', settled, 'settlement'),
+    summaryTile('Latest bundle', bundleId, 'settlement'),
+    summaryTile('Boundary stages', boundaryStages, 'boundary-reality')
+  ].join('');
 }
 
 function renderScenario(state) {
@@ -2151,7 +3518,9 @@ function renderScenario(state) {
       title: 'Needing surface',
       subtitle: 'Measured demand before deeper proof and settlement inspection',
       eyebrow: state.latestRun?.needingSurface ? 'V12 run surface' : 'V12 scenario preview',
+      eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'v12-scenario-preview',
       help: 'This is the compact V12 read of what is needed, why it matters, and what closure should look like.',
+      explainerKey: 'needing',
       data: needingSurface,
       visual: renderNeedingSurfaceVisual,
       accent: 'accent-blue'
@@ -2160,7 +3529,9 @@ function renderScenario(state) {
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
       eyebrow: 'V12 detailed need surface',
+      eyebrowExplainerKey: 'v12-detailed-need-surface',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
+      explainerKey: 'needing',
       data: source,
       visual: renderNeedVisual,
       accent: 'accent-blue'
@@ -2179,6 +3550,7 @@ function renderScenario(state) {
       subtitle: 'Targeted deposit versus normalization deposit',
       eyebrow: 'V12 profile surface',
       help: 'The profile distinction is about how ENGI deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
+      explainerKey: source.demonstrationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: {
         ...(state.profileCompositions || state.conformanceProfiles?.profileCompositions || {}),
         activeScenarioProfileId: source.demonstrationProfile?.profileId
@@ -2223,6 +3595,7 @@ function renderAssets(state) {
       subtitle: 'What the operator has deposited or is previewing right now',
       eyebrow: state.latestRun?.depositingSurface ? 'V12 run surface' : 'V12 shell preview',
       help: 'V12 treats depositing as the beginning of the operator story, not as a side form.',
+      explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
       accent: 'accent-green'
@@ -2231,7 +3604,9 @@ function renderAssets(state) {
       title: asset.title,
       subtitle: `${asset.artifactKind} deposited by ${asset.author}`,
       eyebrow: 'Candidate asset',
+      eyebrowExplainerKey: 'candidate-asset',
       help: 'Visual mode lifts out the repo fit, stacks, constraints, and tags. Raw mode preserves the exact public projection for inspection.',
+      explainerKey: 'candidate-asset',
       data: asset,
       visual: renderAssetVisual
     })).join('')}
@@ -2252,6 +3627,7 @@ function renderFit(state) {
       subtitle: 'Why the active deposit fits the active need before deeper proof/settlement sections',
       eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V12 run surface' : 'V12 shell preview',
       help: 'This is the primary V12 relation surface. It should answer why the selected deposit is right for the measured need.',
+      explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
       accent: 'accent-orange'
@@ -2263,6 +3639,7 @@ function renderFit(state) {
       title: 'Selected asset pack',
       subtitle: 'What survived fit, ranking, and verification',
       eyebrow: 'Asset-pack surface',
+      explainerKey: 'asset-pack',
       data: state.latestRun.assetPack,
       visual: renderAssetPackVisual,
       accent: 'accent-green'
@@ -2325,6 +3702,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Depositing surface',
       subtitle: '.engi/depositing-surface.json',
+      explainerKey: 'depositing',
       data: run.depositingSurface,
       raw: branchFiles['.engi/depositing-surface.json'],
       visual: renderDepositingSurfaceVisual,
@@ -2333,6 +3711,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Needing surface',
       subtitle: '.engi/needing-surface.json',
+      explainerKey: 'needing',
       data: run.needingSurface,
       raw: branchFiles['.engi/needing-surface.json'],
       visual: renderNeedingSurfaceVisual,
@@ -2341,6 +3720,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Depositing-to-needing surface',
       subtitle: '.engi/depositing-to-needing-surface.json',
+      explainerKey: 'deposit-fit',
       data: run.depositingToNeedingSurface,
       raw: branchFiles['.engi/depositing-to-needing-surface.json'],
       visual: renderDepositingToNeedingVisual,
@@ -2349,6 +3729,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Asset pack lock',
       subtitle: '.engi/asset-pack.lock.json',
+      explainerKey: 'asset-pack',
       data: run.assetPackLock,
       raw: branchFiles['.engi/asset-pack.lock.json'],
       visual: renderAssetPackVisual,
@@ -2357,6 +3738,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Authorization decisions',
       subtitle: '.engi/authorization-decisions.json',
+      explainerKey: 'verification-rights',
       data: run.authorizationDecisions,
       raw: branchFiles['.engi/authorization-decisions.json'],
       visual: renderAuthorizationVisual,
@@ -2373,6 +3755,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Policy release',
       subtitle: '.engi/policy-release.json',
+      explainerKey: 'ledger-policy',
       data: run.policyRelease,
       raw: branchFiles['.engi/policy-release.json'],
       visual: renderPolicyReleaseVisual,
@@ -2381,6 +3764,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Identity bindings',
       subtitle: '.engi/identity-bindings.json',
+      explainerKey: 'identity-auth-spine',
       data: run.identityBindings,
       raw: branchFiles['.engi/identity-bindings.json'],
       visual: renderIdentityBindingsVisual,
@@ -2389,6 +3773,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'GitHub boundary surface',
       subtitle: '.engi/github-boundary.json',
+      explainerKey: 'github-app-auth',
       data: run.githubBoundarySurface,
       raw: branchFiles['.engi/github-boundary.json'],
       visual: renderGitHubBoundaryVisual,
@@ -2405,6 +3790,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Profile composition surface',
       subtitle: '.engi/profile-composition.json',
+      explainerKey: run.demonstrationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: run.profileCompositionSurface,
       raw: branchFiles['.engi/profile-composition.json'],
       visual: renderProfileCompositionVisual,
@@ -2445,6 +3831,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Materialization proof',
       subtitle: '.engi/materialization-proof.json',
+      explainerKey: 'branch-materialization',
       data: run.materializationProof,
       raw: branchFiles['.engi/materialization-proof.json'],
       visual: renderMaterializationProofVisual,
@@ -2453,6 +3840,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Materialization visibility proof',
       subtitle: '.engi/materialization-visibility-proof.json',
+      explainerKey: 'branch-materialization',
       data: run.materializationVisibilityProof,
       raw: branchFiles['.engi/materialization-visibility-proof.json'],
       visual: renderMaterializationVisibilityVisual,
@@ -2461,6 +3849,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Materialization exclusions',
       subtitle: '.engi/materialization-exclusions.json',
+      explainerKey: 'branch-materialization',
       data: run.materializationExclusions,
       raw: branchFiles['.engi/materialization-exclusions.json'],
       visual: surfaceVisualFallback,
@@ -2469,6 +3858,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Proof witness manifest',
       subtitle: '.engi/proof-witness-manifest.json',
+      explainerKey: 'proof-closure',
       data: run.proofWitnessManifest,
       raw: branchFiles['.engi/proof-witness-manifest.json'],
       visual: surfaceVisualFallback,
@@ -2493,6 +3883,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'External boundary manifest',
       subtitle: '.engi/external-boundary-manifest.json',
+      explainerKey: 'boundary-reality',
       data: run.externalBoundaryManifest,
       raw: branchFiles['.engi/external-boundary-manifest.json'],
       visual: renderExternalBoundaryManifestVisual,
@@ -2517,6 +3908,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Selected source material manifest',
       subtitle: '.engi/selected-source-material.json',
+      explainerKey: 'selected-source-material',
       data: tryParseJson(branchFiles['.engi/selected-source-material.json']) || run.selectedSourceMaterialManifest || {},
       raw: branchFiles['.engi/selected-source-material.json'],
       visual: renderSelectedSourceMaterialManifestVisual
@@ -2524,6 +3916,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Deliverables manifest',
       subtitle: '.engi/deliverables.json',
+      explainerKey: 'branch-artifacts',
       data: run.deliverablesManifest,
       raw: branchFiles['.engi/deliverables.json'],
       visual: surfaceVisualFallback
@@ -2554,6 +3947,7 @@ function renderBranchArtifacts(state) {
       subtitle: artifact.subtitle,
       eyebrow: 'Branch artifact',
       help: 'Visual mode is tuned for demo readability; Raw preserves the exact artifact JSON.',
+      explainerKey: artifact.explainerKey,
       data: artifact.data,
       raw: artifact.raw,
       visual: artifact.visual,
@@ -2582,6 +3976,7 @@ function renderSettlement(state) {
       subtitle: '.engi/settlement-preview.json',
       eyebrow: 'Settlement artifact',
       help: 'Visual mode calls out bundle identity, lock binding, participating assets, and allocation preview.',
+      explainerKey: 'settlement',
       data: run.settlementPreview,
       raw: branchFiles['.engi/settlement-preview.json'],
       visual: renderSettlementPreviewVisual,
@@ -2592,6 +3987,7 @@ function renderSettlement(state) {
       subtitle: '.engi/source-to-shares.json',
       eyebrow: 'Accounting artifact',
       help: 'This is the explicit path from source contribution basis to raw share basis points, including clipping receipts and normalization order.',
+      explainerKey: 'source-to-shares',
       data: run.sourceToSharesArtifact,
       raw: branchFiles['.engi/source-to-shares.json'],
       visual: renderSourceToSharesVisual,
@@ -2602,6 +3998,7 @@ function renderSettlement(state) {
       subtitle: '.engi/settlement-participation.json',
       eyebrow: 'Accounting artifact',
       help: 'Every evaluated asset is classified as selected, settlement-participating, credited, zero-credit participating, or excluded.',
+      explainerKey: 'settlement-participation',
       data: run.settlementParticipationArtifact,
       raw: branchFiles['.engi/settlement-participation.json'],
       visual: renderSettlementParticipationVisual,
@@ -2612,6 +4009,7 @@ function renderSettlement(state) {
       subtitle: '.engi/journal-diff.json',
       eyebrow: 'Accounting artifact',
       help: 'The visual read emphasizes exact accounting invariants and the debit/credit structure before you dive into raw JSON.',
+      explainerKey: 'journal-diff',
       data: run.journalDiff,
       raw: branchFiles['.engi/journal-diff.json'],
       visual: renderJournalDiffVisual,
@@ -2622,6 +4020,7 @@ function renderSettlement(state) {
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
       help: 'V12 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
+      explainerKey: 'exact-accounting',
       data: run.accountingPrecisionReport,
       raw: branchFiles['.engi/accounting-precision-report.json'],
       visual: renderAccountingPrecisionVisual,
@@ -2631,6 +4030,7 @@ function renderSettlement(state) {
       title: 'Settlement proof',
       subtitle: '.engi/settlement-proof.json',
       eyebrow: 'Proof artifact',
+      explainerKey: 'proof-closure',
       data: tryParseJson(branchFiles['.engi/settlement-proof.json']) || run.systemProofBundle?.settlementProof || {},
       raw: branchFiles['.engi/settlement-proof.json'],
       visual: surfaceVisualFallback,
@@ -2641,6 +4041,7 @@ function renderSettlement(state) {
       subtitle: '.engi/system-proof-bundle.json',
       eyebrow: 'Proof bundle',
       help: 'Visual mode summarizes selection, authorization, disclosure, and settlement closure without hiding the exact proof graph.',
+      explainerKey: 'proof-closure',
       data: run.systemProofBundle,
       raw: branchFiles['.engi/system-proof-bundle.json'],
       visual: renderSystemProofBundleVisual,
@@ -2650,6 +4051,7 @@ function renderSettlement(state) {
       title: 'Bounded public proof',
       subtitle: 'Redacted proof surface',
       eyebrow: 'Public proof metadata',
+      explainerKey: 'bounded-public-proof',
       data: run.boundedPublicProof,
       visual: renderBoundedProofVisual,
       accent: 'accent-slate'
@@ -2663,6 +4065,7 @@ function renderLedger(state) {
       title: 'Ledger accounts',
       subtitle: 'Current balances after the latest settlement',
       eyebrow: 'Ledger surface',
+      explainerKey: 'ledger-accounts',
       data: state.ledger.accounts,
       visual: renderLedgerAccountsVisual,
       accent: 'accent-slate'
@@ -2671,6 +4074,7 @@ function renderLedger(state) {
       title: 'Run history',
       subtitle: 'Public projection of prior runs',
       eyebrow: 'History surface',
+      explainerKey: 'run-history',
       data: state.runHistory,
       visual: renderRunHistoryVisual,
       accent: 'accent-slate'
@@ -2695,6 +4099,8 @@ async function refresh() {
   renderBranchArtifacts(state);
   renderSettlement(state);
   renderLedger(state);
+  decorateStaticExplainers();
+  syncExplainerAlignment();
   return state;
 }
 
@@ -2738,6 +4144,8 @@ scenarioPickerEl?.addEventListener('change', () => {
     renderScenario(lastLoadedState);
     renderAssets(lastLoadedState);
     renderFit(lastLoadedState);
+    decorateStaticExplainers();
+    syncExplainerAlignment();
   }
   const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
   setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.demonstrationProfile?.shortLabel || 'profile pending'}).`);
@@ -2752,18 +4160,28 @@ authSessionPickerEl?.addEventListener('change', () => {
     renderOperatingPicture(lastLoadedState);
     renderAssets(lastLoadedState);
     renderFit(lastLoadedState);
+    decorateStaticExplainers();
+    syncExplainerAlignment();
   }
   setStatus(`Bound intake to authenticated repo session ${selectedAuthSessionId}.`);
 });
 
 inventoryKindFilterEl?.addEventListener('change', () => {
   selectedInventoryKind = inventoryKindFilterEl.value;
-  if (lastLoadedState) renderRepoInventory(lastLoadedState);
+  if (lastLoadedState) {
+    renderRepoInventory(lastLoadedState);
+    decorateStaticExplainers();
+    syncExplainerAlignment();
+  }
 });
 
 inventorySearchInputEl?.addEventListener('input', () => {
   inventorySearchTerm = inventorySearchInputEl.value || '';
-  if (lastLoadedState) renderRepoInventory(lastLoadedState);
+  if (lastLoadedState) {
+    renderRepoInventory(lastLoadedState);
+    decorateStaticExplainers();
+    syncExplainerAlignment();
+  }
 });
 
 document.getElementById('resetButton').addEventListener('click', async () => {
@@ -2790,6 +4208,8 @@ document.addEventListener('click', (event) => {
     renderOperatingPicture(lastLoadedState);
     renderAssets(lastLoadedState);
     renderFit(lastLoadedState);
+    decorateStaticExplainers();
+    syncExplainerAlignment();
   }
 });
 
@@ -2827,7 +4247,12 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
   }
 });
 
+decorateStaticExplainers();
+syncExplainerAlignment();
+window.addEventListener('resize', () => syncExplainerAlignment());
+
 refresh().then(() => {
+  syncExplainerAlignment();
   setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V12 deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;

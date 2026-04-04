@@ -12,9 +12,10 @@
         <p class="eyebrow">ENGI deterministic local prototype</p>
         <h1>Operate ENGI from repo supply to settlement.</h1>
         <p class="lede">Spec V12 makes depositing, needing, and their fit the center of the demo. Repo-authenticated supply still anchors the system, but the shell now leads with the active deposit, the measured need, and the closure path they induce before deeper proof and settlement sections.</p>
+        <p class="meta hero-tip">Hover or focus the info badges beside core ENGI terms to get plain-language explainers without turning the page into permanent microcopy.</p>
         <div class="hero-actions">
           <label>
-            Scenario
+            <span data-explainer-key="needing">Scenario</span>
             <select id="scenarioPicker"></select>
           </label>
           <button id="makeBranchButton">Make ENGI branch</button>
@@ -28,21 +29,21 @@
       <main class="grid">
         <section class="panel wide">
           <div class="panel-head">
-            <h2>0. Operating picture</h2>
-            <span class="badge">repo supply -> settlement</span>
+            <h2 data-explainer-key="operating-picture">0. Operating picture</h2>
+            <span class="badge" data-explainer-key="repo-to-settlement">repo supply -> settlement</span>
           </div>
           <div id="operatingPicture" class="stack"></div>
         </section>
 
         <section class="panel">
           <div class="panel-head">
-            <h2>1. Depositing + candidate assets</h2>
-            <span class="badge">artifact-kind-native deposit</span>
+            <h2 data-explainer-key="depositing">1. Depositing + candidate assets</h2>
+            <span class="badge" data-explainer-key="candidate-asset">artifact-kind-native deposit</span>
           </div>
           <form id="depositForm" class="stack compact">
             <div class="section-card">
               <div class="section-head">
-                <h4>Authenticated Repo Session</h4>
+                <h4 data-explainer-key="identity-auth-spine">Authenticated Repo Session</h4>
                 <span class="badge">Modeled GitHub App</span>
               </div>
               <div class="stack">
@@ -52,30 +53,72 @@
             </div>
             <div class="section-card">
               <div class="section-head">
-                <h4>Repo Artifact Inventory</h4>
+                <h4 data-explainer-key="repo-supply">Repo Artifact Inventory</h4>
                 <span class="badge">Selection-first</span>
               </div>
               <p class="meta">Selections here define the deposit side of the active profile: either a tight decisive deposit for a bounded need or a broader normalization deposit for a composite need.</p>
               <div class="mini-grid two-up">
-                <input id="inventorySearchInput" placeholder="Filter by title, path, workflow run, or tag" />
-                <select id="inventoryKindFilter" name="inventoryKindFilter">
-                  <option value="all">All artifact kinds</option>
-                </select>
+                <label class="field-stack">
+                  <span data-explainer-key="inventory-search">Artifact inventory search</span>
+                  <input id="inventorySearchInput" placeholder="Filter by title, path, workflow run, or tag" />
+                </label>
+                <label class="field-stack">
+                  <span data-explainer-key="artifact-kind-filter">Artifact kind filter</span>
+                  <select id="inventoryKindFilter" name="inventoryKindFilter">
+                    <option value="all">All artifact kinds</option>
+                  </select>
+                </label>
               </div>
               <div id="repoInventoryList" class="stack"></div>
             </div>
-            <input name="title" placeholder="Asset title override (optional; inferred from selection if omitted)" />
-            <input name="author" placeholder="Author override (optional; inferred from session if omitted)" />
-            <input name="artifactKind" placeholder="Artifact kind override (optional; inferred from selection if omitted)" />
-            <input name="artifactType" placeholder="Artifact type override (optional; inferred from selection if omitted)" />
-            <input name="sourceRepo" placeholder="GitHub repo boundary override (optional; inferred from session if omitted)" />
-            <input name="sourceCommit" placeholder="Commit SHA / ref override (optional)" />
-            <input name="workflowRunId" placeholder="GitHub workflow run ID override (optional)" />
-            <input name="signerAddress" placeholder="Signer / issuer DID override (optional)" />
-            <input name="tags" placeholder="Additional tags (comma-separated)" />
-            <textarea name="visualPreview" rows="3" placeholder="Visual preview override / human-readable summary (optional)"></textarea>
-            <textarea name="operatorNote" rows="3" placeholder="Operator note appended to selected repo artifacts (optional)"></textarea>
-            <textarea name="content" rows="5" placeholder="Raw fallback / supplemental private source material (optional if selecting repo artifacts)"></textarea>
+            <label class="field-stack">
+              <span data-explainer-key="deposit-title-override">Asset title override</span>
+              <input name="title" placeholder="Optional; inferred from selection if omitted" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="author-override">Author override</span>
+              <input name="author" placeholder="Optional; inferred from session if omitted" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="artifact-kind">Artifact kind override</span>
+              <input name="artifactKind" placeholder="Optional; inferred from selection if omitted" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="artifact-type">Artifact type override</span>
+              <input name="artifactType" placeholder="Optional; inferred from selection if omitted" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="source-repo-override">GitHub repo boundary override</span>
+              <input name="sourceRepo" placeholder="Optional; inferred from session if omitted" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="source-commit-override">Commit SHA / ref override</span>
+              <input name="sourceCommit" placeholder="Optional explicit commit or ref" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="workflow-run-override">GitHub workflow run ID override</span>
+              <input name="workflowRunId" placeholder="Optional workflow run binding" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="signing">Signer / issuer DID override</span>
+              <input name="signerAddress" placeholder="Optional signer or issuer DID" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="coverage-tags">Additional tags</span>
+              <input name="tags" placeholder="Comma-separated tags" />
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="visual-preview">Visual preview override</span>
+              <textarea name="visualPreview" rows="3" placeholder="Human-readable summary used in visual mode"></textarea>
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="operator-note">Operator note</span>
+              <textarea name="operatorNote" rows="3" placeholder="Optional note appended to selected repo artifacts"></textarea>
+            </label>
+            <label class="field-stack">
+              <span data-explainer-key="raw-fallback">Raw fallback / supplemental source material</span>
+              <textarea name="content" rows="5" placeholder="Optional if selecting repo artifacts"></textarea>
+            </label>
             <button type="submit">Deposit candidate asset into ENGI flow</button>
           </form>
           <div id="assets" class="stack"></div>
@@ -83,48 +126,48 @@
 
         <section class="panel">
           <div class="panel-head">
-            <h2>2. Needing + measured demand</h2>
-            <span class="badge">needing surface</span>
+            <h2 data-explainer-key="needing">2. Needing + measured demand</h2>
+            <span class="badge" data-explainer-key="v12-scenario-preview">needing surface</span>
           </div>
           <div id="scenario" class="stack"></div>
         </section>
 
         <section class="panel wide">
           <div class="panel-head">
-            <h2>3. Depositing-to-needing fit</h2>
-            <span class="badge">fit before proof</span>
+            <h2 data-explainer-key="deposit-fit">3. Depositing-to-needing fit</h2>
+            <span class="badge" data-explainer-key="deposit-fit">fit before proof</span>
           </div>
           <div id="fit" class="stack"></div>
         </section>
 
         <section class="panel wide">
           <div class="panel-head">
-            <h2>4. Ranked candidates + verification determinisms</h2>
-            <span class="badge">ranking + use tiers</span>
+            <h2 data-explainer-key="verification-rights">4. Ranked candidates + verification determinisms</h2>
+            <span class="badge" data-explainer-key="verification-rights">ranking + use tiers</span>
           </div>
           <div id="evaluations" class="stack"></div>
         </section>
 
         <section class="panel">
           <div class="panel-head">
-            <h2>5. Asset pack + branch artifacts</h2>
-            <span class="badge private">private remediation branch</span>
+            <h2 data-explainer-key="branch-artifacts">5. Asset pack + branch artifacts</h2>
+            <span class="badge private" data-explainer-key="private-remediation-branch">private remediation branch</span>
           </div>
           <div id="branchArtifacts" class="stack"></div>
         </section>
 
         <section class="panel">
           <div class="panel-head">
-            <h2>6. Settlement + journal diff</h2>
-            <span class="badge">exact accounting</span>
+            <h2 data-explainer-key="settlement">6. Settlement + journal diff</h2>
+            <span class="badge" data-explainer-key="exact-accounting">exact accounting</span>
           </div>
           <div id="settlement" class="stack"></div>
         </section>
 
         <section class="panel wide">
           <div class="panel-head">
-            <h2>7. Ledger + policy surfaces</h2>
-            <span class="badge">bounded proof metadata</span>
+            <h2 data-explainer-key="ledger-policy">7. Ledger + policy surfaces</h2>
+            <span class="badge" data-explainer-key="bounded-public-proof">bounded proof metadata</span>
           </div>
           <div id="ledger" class="stack"></div>
         </section>
