@@ -102,6 +102,8 @@ test('GET /api/state returns seeded Spec V10 public state', async (t) => {
     assert.equal(response.json.projectionPrincipal, 'public');
     assert.ok(response.json.githubAppSessions.length >= 1);
     assert.ok(response.json.repoArtifactInventory.length >= 1);
+    assert.ok(response.json.githubAppSessions.every((session) => session.authPayloadHash));
+    assert.ok(response.json.repoArtifactInventory.every((entry) => entry.provenance?.provenanceHash));
     assert.ok(response.json.profileCompositions.profiles.length === 2);
     assert.equal(response.json.latestRun, null);
   });
@@ -212,8 +214,13 @@ test('POST /api/deposits accepts authenticated repo artifact selection without r
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.asset.artifactSelectionSurface.authSessionId, authSession.authSessionId);
     assert.deepEqual(response.json.asset.artifactSelectionSurface.selectedInventoryEntryIds, inventoryEntryIds);
+    assert.equal(response.json.asset.artifactSelectionSurface.rawFallbackUsed, false);
+    assert.equal(response.json.asset.artifactSelectionSurface.selectedInventoryEntries.length, inventoryEntryIds.length);
     assert.equal(response.json.asset.githubAppAuthSurface.installationId, authSession.installationId);
+    assert.equal(response.json.asset.githubAppAuthSurface.authSessionId, authSession.authSessionId);
     assert.equal(response.json.asset.addressingSurface.repo, 'frontier/demo-auth');
+    assert.equal(response.json.asset.signingSurface.signedSelectionRoot, response.json.asset.artifactSelectionSurface.selectedInventoryRoot);
+    assert.equal(response.json.asset.signingSurface.signedGitHubAppAuthRoot, response.json.asset.githubAppAuthSurface.authPayloadHash);
   });
 });
 
@@ -263,6 +270,7 @@ test('POST /api/deposits accepts V10 artifact precision and boundary fields', as
     assert.equal(response.json.asset.githubBoundary.sourceCommit, 'abc123');
     assert.equal(response.json.asset.identitySurface.signerAddress, 'did:key:tester');
     assert.equal(response.json.asset.signingSurface.signerAddress, 'did:key:tester');
+    assert.equal(response.json.asset.signingSurface.signedGitHubAppAuthRoot, response.json.asset.githubAppAuthSurface.authPayloadHash);
   });
 });
 

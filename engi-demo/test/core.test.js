@@ -29,6 +29,14 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   assert.equal(state.needScenarios.length, 8);
   assert.equal(state.githubAppSessions.length, 7);
   assert.ok(state.repoArtifactInventory.length >= 10);
+  assert.deepEqual(
+    [...new Set(state.needScenarios.map((scenario) => scenario.repo))].sort(),
+    [...new Set(state.githubAppSessions.map((session) => session.repo))].sort()
+  );
+  assert.deepEqual(
+    [...new Set(state.githubAppSessions.map((session) => session.repo))].sort(),
+    [...new Set(state.repoArtifactInventory.map((entry) => entry.repo))].sort()
+  );
   assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'proof-heavy-rust-validator'));
   assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'privacy-boundary-stress'));
   assert.ok(state.needScenarios.some((scenario) => scenario.scenarioFamily === 'polyglot-repo-benchmark-remediation'));
@@ -161,7 +169,13 @@ test('inventory-backed candidate asset carries V10 selection, addressing, signin
   assert.equal(asset.artifactSelectionSurface.intakeMode, 'repo-artifact-selection-plus-note');
   assert.equal(asset.artifactSelectionSurface.authSessionId, authSession.authSessionId);
   assert.deepEqual(asset.addressingSurface.selectedInventoryEntryIds, inventoryEntries.map((entry) => entry.inventoryEntryId));
+  assert.equal(asset.artifactSelectionSurface.rawFallbackUsed, false);
+  assert.equal(asset.artifactSelectionSurface.selectedInventoryEntries.length, inventoryEntries.length);
+  assert.equal(asset.signingSurface.signedAddressingRoot, asset.addressingSurface.addressingRoot);
+  assert.equal(asset.signingSurface.signedSelectionRoot, asset.artifactSelectionSurface.selectedInventoryRoot);
+  assert.equal(asset.signingSurface.signedGitHubAppAuthRoot, asset.githubAppAuthSurface.authPayloadHash);
   assert.equal(asset.signingSurface.signerAddress, authSession.defaultSignerAddress);
+  assert.equal(asset.githubAppAuthSurface.authSessionId, authSession.authSessionId);
   assert.equal(asset.githubAppAuthSurface.installationId, authSession.installationId);
   assert.equal(asset.githubBoundary.installationId, authSession.installationId);
 });
@@ -293,7 +307,7 @@ test('context-mode asset pack can admit context-only candidates while patch mode
 });
 
 
-test('V8 score groups and branch artifacts separate identity, GitHub boundary, uploads, and profile surfaces', () => {
+test('V10 branch artifacts separate identity, GitHub boundary, uploads, and profile surfaces', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
@@ -408,6 +422,22 @@ test('authorization decisions and policy release are persisted on latest run', (
   assert.ok(latestRun.githubBoundarySurface.profileBBoundary.includes('GitHub App'));
   assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
   assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.githubAppInstallationBound, true);
+  assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.selectedAssetsSignedAgainstAddressing, true);
+  assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.selectedAssetsSignedAgainstInventorySelection, true);
+  assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.selectedAssetsSignedAgainstGitHubAppAuth, true);
+});
+
+test('selected source material manifest and upload manifest preserve inventory and auth roots', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.ok(latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.every((entry) => entry.selectionRoot));
+  assert.ok(latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.every((entry) => entry.addressingRoot));
+  assert.ok(latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.every((entry) => entry.authPayloadHash));
+  assert.ok(latestRun.artifactUploadManifest.uploads.every((upload) => upload.selectionRoot));
+  assert.ok(latestRun.artifactUploadManifest.uploads.every((upload) => upload.authPayloadHash));
+  assert.ok(latestRun.githubBoundarySurface.selectedAuthSessions.length >= 1);
+  assert.ok(latestRun.githubBoundarySurface.selectedInventoryProofs.every((entry) => entry.selectedInventoryRoot));
 });
 
 test('policy release artifact classes cover verification, authz, and sensitive-data artifacts', () => {
@@ -494,10 +524,11 @@ test('seeded settlement explicitly distinguishes selected, participating, and cr
     latestRun.settlementPreview.zeroCreditAssetIds,
     latestRun.journalDiff.credits.filter((entry) => BigInt(entry.delta) === 0n).map((entry) => entry.assetId)
   );
-  assert.ok(latestRun.settlementPreview.zeroCreditAssetIds.length >= 1);
-  const zeroAllocation = latestRun.settlementPreview.allocations.find((entry) => entry.assetId === latestRun.settlementPreview.zeroCreditAssetIds[0]);
-  assert.equal(zeroAllocation.creditedMicroUnits, '0');
-  assert.match(zeroAllocation.rationale.join(' '), /marginal bundle contribution was non-positive/i);
+  for (const assetId of latestRun.settlementPreview.zeroCreditAssetIds) {
+    const zeroAllocation = latestRun.settlementPreview.allocations.find((entry) => entry.assetId === assetId);
+    assert.equal(zeroAllocation.creditedMicroUnits, '0');
+    assert.match(zeroAllocation.rationale.join(' '), /marginal bundle contribution was non-positive/i);
+  }
 });
 
 test('source-to-shares artifact, settlement participation, and accounting precision report stay aligned', () => {
@@ -506,10 +537,11 @@ test('source-to-shares artifact, settlement participation, and accounting precis
   const sourceToShares = latestRun.sourceToSharesArtifact;
   const participation = latestRun.settlementParticipationArtifact;
   const precision = latestRun.accountingPrecisionReport;
+  const zeroCreditParticipatingCount = participation.records.filter((record) => record.zeroCreditParticipating).length;
 
   assert.equal(sourceToShares.rawShares.reduce((sum, entry) => sum + entry.shareBp, 0), 10000);
   assert.ok(sourceToShares.clippingReceipts.every((receipt) => receipt.receiptId));
-  assert.ok(participation.records.some((record) => record.zeroCreditParticipating));
+  assert.equal(participation.zeroCreditParticipatingCount, zeroCreditParticipatingCount);
   assert.equal(participation.zeroCreditParticipatingCount, latestRun.settlementPreview.zeroCreditAssetIds.length);
   assert.equal(precision.exactAccountingInvariants.clippedContributionDecisionsReceiptBacked, true);
   assert.equal(precision.exactAccountingInvariants.zeroCreditParticipationExplicit, true);

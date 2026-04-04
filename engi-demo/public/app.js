@@ -1809,7 +1809,7 @@ function renderBranchArtifacts(state) {
       subtitle: '.engi/identity-bindings.json',
       data: run.identityBindings,
       raw: branchFiles['.engi/identity-bindings.json'],
-      visual: surfaceVisualFallback,
+      visual: renderIdentityBindingsVisual,
       accent: 'accent-orange'
     },
     {
@@ -1817,7 +1817,7 @@ function renderBranchArtifacts(state) {
       subtitle: '.engi/github-boundary.json',
       data: run.githubBoundarySurface,
       raw: branchFiles['.engi/github-boundary.json'],
-      visual: surfaceVisualFallback,
+      visual: renderGitHubBoundaryVisual,
       accent: 'accent-slate'
     },
     {
@@ -1825,7 +1825,7 @@ function renderBranchArtifacts(state) {
       subtitle: '.engi/artifact-upload-manifest.json',
       data: run.artifactUploadManifest,
       raw: branchFiles['.engi/artifact-upload-manifest.json'],
-      visual: surfaceVisualFallback,
+      visual: renderArtifactUploadManifestVisual,
       accent: 'accent-slate'
     },
     {
@@ -1945,7 +1945,7 @@ function renderBranchArtifacts(state) {
       subtitle: '.engi/selected-source-material.json',
       data: tryParseJson(branchFiles['.engi/selected-source-material.json']) || run.selectedSourceMaterialManifest || {},
       raw: branchFiles['.engi/selected-source-material.json'],
-      visual: surfaceVisualFallback
+      visual: renderSelectedSourceMaterialManifestVisual
     },
     {
       title: 'Deliverables manifest',
