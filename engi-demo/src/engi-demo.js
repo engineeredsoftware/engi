@@ -1,18 +1,80 @@
 import crypto from 'node:crypto';
 
-export const SPEC_VERSION = 'ENGI Spec V10 deterministic local prototype';
+export const SPEC_VERSION = 'ENGI Spec V11 deterministic local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
-export const PROFILE_A = 'Profile A — local deterministic V10 prototype';
-export const PROFILE_B = 'Profile B — GitHub/App and external production boundary';
+export const PROFILE_A = 'Profile A — targeted deposit / bounded need';
+export const PROFILE_B = 'Profile B — normalization deposit / composite need';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
 const MAX_BPS = 10000;
 const MAX_BPS_BIGINT = 10000n;
 const SOURCE_TO_SHARES_SCALE = 1000000n;
 const VECTOR_DIMENSIONS = 16;
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v4';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v10-demo/2026-04-03';
+const DEFAULT_POLICY_REF = 'policy://engi/spec-v11-demo/2026-04-03';
 const PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
+const PROFILE_B_SCENARIO_FAMILIES = new Set([
+  'polyglot-repo-benchmark-remediation',
+  'many-asset-settlement-normalization'
+]);
+const PROFILE_DEFINITIONS = {
+  A: {
+    profileId: 'A',
+    label: PROFILE_A,
+    shortLabel: 'Targeted deposit',
+    identity: {
+      whoItIs: 'Deposit a small, decisive set of repo-authenticated artifacts against a sharply bounded benchmark need.',
+      operatorRole: 'Use this when ENGI should close one tight remediation need with minimal normalization overhead.',
+      audienceMeaning: 'The demo is proving decisive selection, narrow proof closure, and fast settlement explanation.'
+    },
+    depositMode: 'Deposit one or a few decisive repo-authenticated artifacts so the asset pack can stay tight.',
+    needMode: 'Need is sharply bounded by a narrow benchmark slice with a short list of failure modes and clear closure criteria.',
+    assetPackShape: 'Tight pack with minimal normalization and quick branch closure.',
+    settlementShape: 'Credits concentrate on the decisive assets; zero-credit passengers should be rare and explicit.',
+    scenarioFamilies: [
+      'monorepo-auth-rollback',
+      'proof-heavy-rust-validator',
+      'config-policy-incident',
+      'unsafe-patch-review',
+      'infra-deployment-mismatch',
+      'privacy-boundary-stress'
+    ],
+    composition: [
+      'repo-authenticated targeted deposit',
+      'bounded benchmark need measurement',
+      'tight asset-pack selection',
+      'short proof closure',
+      'direct settlement explanation'
+    ],
+    boundaryRealityNote: 'Live GitHub, signer verification, and networked settlement still remain explicit external hand-offs elsewhere.'
+  },
+  B: {
+    profileId: 'B',
+    label: PROFILE_B,
+    shortLabel: 'Normalization deposit',
+    identity: {
+      whoItIs: 'Deposit several overlapping artifacts so ENGI can normalize coverage, provenance, and contribution across a composite need.',
+      operatorRole: 'Use this when ENGI must reconcile multiple slices, artifact kinds, or runtime surfaces before settlement is intelligible.',
+      audienceMeaning: 'The demo is proving normalization, overlap handling, and source-to-shares closure rather than a single decisive pick.'
+    },
+    depositMode: 'Deposit multiple overlapping artifacts across kinds so ENGI can normalize contribution and provenance.',
+    needMode: 'Need stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
+    assetPackShape: 'Broader pack where normalization, tie-break rules, and overlap accounting matter.',
+    settlementShape: 'Settlement makes source-to-shares normalization visible and may keep zero-credit participants explicit.',
+    scenarioFamilies: [
+      'polyglot-repo-benchmark-remediation',
+      'many-asset-settlement-normalization'
+    ],
+    composition: [
+      'repo-authenticated normalization deposit',
+      'composite benchmark need measurement',
+      'broader asset-pack normalization',
+      'heavier proof burden',
+      'source-to-shares settlement explanation'
+    ],
+    boundaryRealityNote: 'Live GitHub and network hand-offs are still explicit boundary contracts, but they are not the reason this profile exists.'
+  }
+};
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
   failureModeSearch: 50,
@@ -40,6 +102,56 @@ const REQUIRED_SENSITIVE_DATA_CLASSES = [
   'private-proof-artifact',
   'bounded-public-proof-metadata'
 ];
+
+function buildBoundaryDescriptions(localBoundary, externalBoundary) {
+  return {
+    localBoundary,
+    externalBoundary,
+    profileABoundary: localBoundary,
+    profileBBoundary: externalBoundary
+  };
+}
+
+function buildBoundaryRealityStage({ stageId, label, localStatus, localDescription, externalRequirement }) {
+  return {
+    stageId,
+    label,
+    localStatus,
+    localDescription,
+    externalRequirement,
+    profileAStatus: localStatus,
+    profileADescription: localDescription,
+    profileBRequirement: externalRequirement
+  };
+}
+
+function buildExternalBoundaryInterface({ interfaceId, label, status, localPrototype, externalBoundary }) {
+  return {
+    interfaceId,
+    label,
+    status,
+    localPrototype,
+    externalBoundary,
+    profileA: localPrototype,
+    profileB: externalBoundary
+  };
+}
+
+function resolveDemonstrationProfileId(subject = {}) {
+  return subject.demonstrationProfileId
+    || (PROFILE_B_SCENARIO_FAMILIES.has(subject.scenarioFamily) ? 'B' : 'A');
+}
+
+function buildDemonstrationProfile(subject = 'A') {
+  const profileId = typeof subject === 'string' ? subject : resolveDemonstrationProfileId(subject);
+  const profile = PROFILE_DEFINITIONS[profileId] || PROFILE_DEFINITIONS.A;
+  return {
+    ...profile,
+    identity: { ...profile.identity },
+    scenarioFamilies: [...profile.scenarioFamilies],
+    composition: [...profile.composition]
+  };
+}
 
 const RECALL_CHANNEL_SPECS = {
   semanticTaskSearch: { signalFamily: 'semantic/vector', determinesFrom: ['need.task', 'unit.text'], recordedOn: ['need.queryRepresentations.task', 'asset.contentUnits[].embeddings.taskVector'], vectorizedIn: 'task-semantic-space.v8', searchedBy: 'cosineSimilarity', scoredBy: 'similarity score', rankedUsage: 'needMatch.taskSemanticFit + recall fusion', downstreamUses: ['candidate recall ordering', 'need-match scoring', 'asset-pack selection'] },
@@ -948,6 +1060,13 @@ function countValues(values = []) {
   return counts;
 }
 
+function topCountKeys(counts = {}, limit = 4) {
+  return Object.entries(counts)
+    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+    .slice(0, limit)
+    .map(([key]) => key);
+}
+
 function buildRepoIdentity(repo) {
   const [owner = 'unknown', name = 'repo'] = String(repo || '').split('/');
   return {
@@ -1107,8 +1226,10 @@ function buildGitHubAppSession({
     sessionIssuedAt: '2026-04-03T00:00:00.000Z',
     sessionExpiresAt: null,
     tokenBoundary,
-    profileABoundary: 'Local modeled GitHub App installation session only. No live installation token is minted in this repo.',
-    profileBBoundary: 'Would exchange a real GitHub App JWT for an installation access token and use live repository APIs.'
+    ...buildBoundaryDescriptions(
+      'Local modeled GitHub App installation session only. No live installation token is minted in this repo.',
+      'Would exchange a real GitHub App JWT for an installation access token and use live repository APIs.'
+    )
   };
   return {
     ...sessionCore,
@@ -1750,7 +1871,7 @@ function buildSigningSurface(input, assetId, contentRoot, addressingSurface, art
   const signingAlgorithm = input.signingAlgorithm || input.authSession?.signingAlgorithm || 'ed25519';
   const keySource = input.keySource || input.authSession?.keySource || 'manual-upload-key';
   const signedStatement = {
-    statementKind: 'engi-asset-intake-attestation.v10',
+    statementKind: 'engi-asset-intake-attestation.v11',
     assetId,
     contentRoot,
     repo: addressingSurface.repo,
@@ -1811,8 +1932,10 @@ function buildGitHubAppAuthSurface(input, selectedInventoryEntries = []) {
         readableScopes: [],
         writableScopes: []
       },
-      profileABoundary: 'No authenticated GitHub App session is bound to this raw/manual candidate asset.',
-      profileBBoundary: 'A production flow would require a real installation-scoped GitHub App token for repository inventory selection.'
+      ...buildBoundaryDescriptions(
+        'No authenticated GitHub App session is bound to this raw/manual candidate asset.',
+        'A production flow would require a real installation-scoped GitHub App token for repository inventory selection.'
+      )
     };
     return {
       ...surfaceCore,
@@ -1841,8 +1964,10 @@ function buildGitHubAppAuthSurface(input, selectedInventoryEntries = []) {
     sessionIssuedAt: authSession.sessionIssuedAt,
     sessionExpiresAt: authSession.sessionExpiresAt,
     tokenBoundary: authSession.tokenBoundary,
-    profileABoundary: authSession.profileABoundary,
-    profileBBoundary: authSession.profileBBoundary
+    ...buildBoundaryDescriptions(
+      authSession.localBoundary || authSession.profileABoundary,
+      authSession.externalBoundary || authSession.profileBBoundary
+    )
   };
   return {
     ...surfaceCore,
@@ -1887,40 +2012,46 @@ function buildArtifactUploadSurface(input, content, extracted, artifactKind, art
       selectedInventoryEntryIds: selectedInventoryEntries.map((entry) => entry.inventoryEntryId),
       selectedInventoryRoot: artifactSelectionSurface.selectedInventoryRoot,
       authPayloadHash: input.authSession?.authPayloadHash || null,
-      profileABoundary: 'Stored locally as modeled metadata only.',
-      profileBBoundary: 'Would bind to real GitHub/App installation objects and remote fetches.'
+      ...buildBoundaryDescriptions(
+        'Stored locally as modeled metadata only.',
+        'Would bind to real GitHub/App installation objects and remote fetches.'
+      )
     }
   };
 }
 
 function buildProfileCompositions() {
+  const profiles = ['A', 'B'].map((profileId) => {
+    const profile = buildDemonstrationProfile(profileId);
+    return {
+      ...profile,
+      switchableInDemo: true,
+      metadata: {
+        depositMode: profile.depositMode,
+        needMode: profile.needMode,
+        assetPackShape: profile.assetPackShape,
+        settlementShape: profile.settlementShape,
+        boundaryTruthNote: profile.boundaryRealityNote
+      }
+    };
+  });
   return {
     activeProfile: 'A',
+    distinctionBasis: 'deposit-and-need',
     demoOperatorGuidance: {
-      audienceMeaning: 'Profile A means the local deterministic demo is real and inspectable today; Profile B means the production boundary contracts are explicit but intentionally not live-switched in this repo.',
-      whyOnlyAIsLive: 'Switching to Profile B would imply real GitHub/App auth, remote model execution, external vector infra, signer verification, and settlement/network effects. The repo keeps those contracts explicit without faking them.',
-      recommendedWalkthrough: ['Start with authenticated repo inventory + intake mode', 'Show address + signing + GitHub App auth surfaces', 'Walk into need measurement, prompt lineage, and score-group explainability', 'Open boundary manifests to explain what Profile B would hand off externally', 'Close on proof bundle + settlement invariants']
+      audienceMeaning: 'The V11 profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.',
+      boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode and need mode first.',
+      recommendedWalkthrough: [
+        'Start with repo supply and pick a targeted-deposit scenario to show a bounded need.',
+        'Deposit or inspect a small decisive asset set, then run the branch flow to show tight closure.',
+        'Switch to a normalization-heavy scenario to show overlapping deposits and broader settlement logic.',
+        'Use boundary reality and GitHub boundary surfaces only after the deposit/need contrast is clear.',
+        'Close on proof bundle, source-to-shares, and settlement invariants.'
+      ]
     },
-    profiles: [
-      {
-        profileId: 'A',
-        label: PROFILE_A,
-        switchableInDemo: true,
-        identity: { whoItIs: 'A local deterministic operator-grade demo profile running entirely inside this repository.', operatorRole: 'Use this live in demos to show repo-bound intake, measured need, prompt lineage, ranking, proof closure, and exact-accounting settlement.', audienceMeaning: 'What you are seeing is implemented here, reproducible here, and inspectable here.' },
-        composition: ['modeled GitHub App repo sessions', 'seeded repo artifact inventory', 'local deterministic ranking', 'local stand-in embeddings', 'local policy model', 'local branch artifact materialization', 'local proof bundle + exact accounting'],
-        metadata: { externalWrites: false, githubLiveCalls: false, settlementMode: 'local exact accounting demo', modelExecution: 'deterministic stand-in', vectorExecution: 'deterministic local stand-in' }
-      },
-      {
-        profileId: 'B',
-        label: PROFILE_B,
-        switchableInDemo: false,
-        identity: { whoItIs: 'The production-intent boundary profile that would run against live GitHub/App, model, identity, vector, and settlement systems.', operatorRole: 'Use this as the explanation surface for external hand-offs, contracts, and what the live system would do beyond the local repo.', audienceMeaning: 'This is not missing design; it is a concrete boundary contract whose implementation lives outside the local prototype.' },
-        composition: ['real GitHub App auth', 'remote benchmark fetch', 'external evaluator/model routing', 'production privacy/authz enforcement', 'networked settlement + signer verification'],
-        metadata: { externalWrites: true, githubLiveCalls: true, settlementMode: 'external / production boundary', modelExecution: 'remote routed execution', vectorExecution: 'external vector substrate' },
-        whyNotSwitchable: 'This repo only demos Profile A deterministically; Profile B depends on external GitHub/App/runtime integrations not faked here.'
-      }
-    ],
-    comparisonAxes: ['artifact intake', 'identity/auth', 'github binding', 'vector/evaluator execution', 'artifact materialization', 'settlement authority']
+    profiles,
+    boundaryTruthSurfaces: ['boundaryRealitySurface', 'githubBoundarySurface', 'externalBoundaryManifest'],
+    comparisonAxes: ['deposit mode', 'need mode', 'asset-pack shape', 'settlement shape', 'boundary hand-off']
   };
 }
 
@@ -1996,55 +2127,55 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
     assetPackId: assetPack.assetPackId,
     bundleId: settlementPreview.bundleId,
     interfaces: [
-      {
+      buildExternalBoundaryInterface({
         interfaceId: 'github-app-auth',
         label: 'GitHub App auth + installation context',
         status: 'modeled-local-boundary',
-        profileA: { implemented: true, surface: 'modeled installation ID + repo binding only', artifactRefs: ['.engi/github-boundary.json', '.engi/external-boundary-manifest.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['exchange app JWT for installation token', 'bind installation to buyer repo + branch permissions', 'record token expiry + scope envelope'], boundaryArtifacts: ['github.installation-binding', 'github.installation-token-envelope'] }
-      },
-      {
+        localPrototype: { implemented: true, surface: 'modeled installation ID + repo binding only', artifactRefs: ['.engi/github-boundary.json', '.engi/external-boundary-manifest.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['exchange app JWT for installation token', 'bind installation to buyer repo + branch permissions', 'record token expiry + scope envelope'], boundaryArtifacts: ['github.installation-binding', 'github.installation-token-envelope'] }
+      }),
+      buildExternalBoundaryInterface({
         interfaceId: 'workflow-artifact-fetch',
         label: 'Workflow artifact fetch + benchmark evidence',
         status: 'partially-localized',
-        profileA: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to need measurement', artifactRefs: ['.engi/need-measurement.json', '.engi/benchmark-target.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['fetch workflow artifacts by run ID', 'verify artifact media type + digest', 'normalize benchmark outputs fail-closed'], boundaryArtifacts: ['github.workflow-fetch-request', 'github.workflow-fetch-response', 'benchmark.canonical-output-manifest'] }
-      },
-      {
+        localPrototype: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to need measurement', artifactRefs: ['.engi/need-measurement.json', '.engi/benchmark-target.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['fetch workflow artifacts by run ID', 'verify artifact media type + digest', 'normalize benchmark outputs fail-closed'], boundaryArtifacts: ['github.workflow-fetch-request', 'github.workflow-fetch-response', 'benchmark.canonical-output-manifest'] }
+      }),
+      buildExternalBoundaryInterface({
         interfaceId: 'branch-pr-actions',
         label: 'Branch / PR / comment / review actions',
         status: 'modeled-local-boundary',
-        profileA: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.engi/deliverables.json', '.engi/profile-composition.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['create/update branch', 'push materialized artifacts', 'open or update PR', 'publish comments / review annotations'], boundaryArtifacts: ['github.branch-action-request', 'github.pr-action-request', 'github.review-action-request'] }
-      },
-      {
+        localPrototype: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.engi/deliverables.json', '.engi/profile-composition.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['create/update branch', 'push materialized artifacts', 'open or update PR', 'publish comments / review annotations'], boundaryArtifacts: ['github.branch-action-request', 'github.pr-action-request', 'github.review-action-request'] }
+      }),
+      buildExternalBoundaryInterface({
         interfaceId: 'model-execution',
         label: 'Prompt execution + evaluator routing',
         status: 'implemented-as-stand-in',
-        profileA: { implemented: true, surface: 'deterministic stand-in evaluator and prompt replay metadata', artifactRefs: ['.engi/eval-manifest.json', '.engi/prompt-surfaces.json', '.engi/system-proof-bundle.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['select model/provider', 'execute prompt with trace capture', 'bind output to evaluator receipt + prompt hash'], boundaryArtifacts: ['model.execution-request', 'model.execution-receipt', 'model.trace-manifest'] }
-      },
-      {
+        localPrototype: { implemented: true, surface: 'deterministic stand-in evaluator and prompt replay metadata', artifactRefs: ['.engi/eval-manifest.json', '.engi/prompt-surfaces.json', '.engi/system-proof-bundle.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['select model/provider', 'execute prompt with trace capture', 'bind output to evaluator receipt + prompt hash'], boundaryArtifacts: ['model.execution-request', 'model.execution-receipt', 'model.trace-manifest'] }
+      }),
+      buildExternalBoundaryInterface({
         interfaceId: 'vector-store',
         label: 'Embedding + vector retrieval substrate',
         status: 'implemented-as-local-stand-in',
-        profileA: { implemented: true, surface: 'local deterministic vectors and recall contracts', artifactRefs: ['.engi/unit-catalog.json', '.engi/eval-manifest.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['upsert embedding documents', 'execute filtered similarity search', 'bind vector space/version metadata'], boundaryArtifacts: ['vector.upsert-manifest', 'vector.search-request', 'vector.search-response'] }
-      },
-      {
+        localPrototype: { implemented: true, surface: 'local deterministic vectors and recall contracts', artifactRefs: ['.engi/unit-catalog.json', '.engi/eval-manifest.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['upsert embedding documents', 'execute filtered similarity search', 'bind vector space/version metadata'], boundaryArtifacts: ['vector.upsert-manifest', 'vector.search-request', 'vector.search-response'] }
+      }),
+      buildExternalBoundaryInterface({
         interfaceId: 'signer-verification',
         label: 'Signer / identity verification',
         status: 'modeled-local-boundary',
-        profileA: { implemented: true, surface: 'modeled signer bindings, attestation checks, and policy gates', artifactRefs: ['.engi/identity-bindings.json', '.engi/verification-report.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['resolve signer identity', 'verify attestation chain', 'bind signer to org / repo authority'], boundaryArtifacts: ['identity.resolve-request', 'identity.verification-receipt', 'signer.authority-binding'] }
-      },
-      {
+        localPrototype: { implemented: true, surface: 'modeled signer bindings, attestation checks, and policy gates', artifactRefs: ['.engi/identity-bindings.json', '.engi/verification-report.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['resolve signer identity', 'verify attestation chain', 'bind signer to org / repo authority'], boundaryArtifacts: ['identity.resolve-request', 'identity.verification-receipt', 'signer.authority-binding'] }
+      }),
+      buildExternalBoundaryInterface({
         interfaceId: 'settlement-network-effects',
         label: 'Settlement execution + network effects',
         status: 'implemented-as-local-accounting-only',
-        profileA: { implemented: true, surface: 'deterministic journal diff + exact accounting invariants', artifactRefs: ['.engi/settlement-preview.json', '.engi/settlement-proof.json', '.engi/journal-diff.json'] },
-        profileB: { implemented: false, requiredForLive: true, contract: ['submit settlement transaction', 'wait for network confirmation', 'publish claim / redemption events'], boundaryArtifacts: ['settlement.execution-request', 'settlement.execution-receipt', 'settlement.network-observation'] }
-      }
+        localPrototype: { implemented: true, surface: 'deterministic journal diff + exact accounting invariants', artifactRefs: ['.engi/settlement-preview.json', '.engi/settlement-proof.json', '.engi/journal-diff.json'] },
+        externalBoundary: { implemented: false, requiredForLive: true, contract: ['submit settlement transaction', 'wait for network confirmation', 'publish claim / redemption events'], boundaryArtifacts: ['settlement.execution-request', 'settlement.execution-receipt', 'settlement.network-observation'] }
+      })
     ],
     selectedGithubBindings
   };
@@ -2117,7 +2248,7 @@ function makeAuthorizationDecision(binding, action, resourceRef, policyState) {
 function buildPolicyState() {
   return {
     policyRef: DEFAULT_POLICY_REF,
-    releaseId: 'policy-release-engi-v10-demo-2026-04-03',
+    releaseId: 'policy-release-engi-v11-demo-2026-04-03',
     retentionPolicies: {
       'retention/private-remediation-30d': {
         retentionPolicyId: 'retention/private-remediation-30d',
@@ -2374,8 +2505,10 @@ export function makeCandidateAsset(input) {
       addressingRoot: addressingSurface.addressingRoot,
       authPayloadHash: githubAppAuthSurface.authPayloadHash,
       signedPayloadHash: signingSurface.payloadHash,
-      profileABoundary: 'Local modeled signer binding only.',
-      profileBBoundary: 'Would verify real signer identity / GitHub App / org-bound authorization externally.'
+      ...buildBoundaryDescriptions(
+        'Local modeled signer binding only.',
+        'Would verify real signer identity / GitHub App / org-bound authorization externally.'
+      )
     },
     provenanceBinding: {
       sourceProvider: input.sourceProvider || 'github',
@@ -3298,8 +3431,10 @@ function publicGitHubAppSession(session) {
     sessionExpiresAt: session.sessionExpiresAt,
     tokenBoundary: session.tokenBoundary,
     authPayloadHash: session.authPayloadHash,
-    profileABoundary: session.profileABoundary,
-    profileBBoundary: session.profileBBoundary
+    ...buildBoundaryDescriptions(
+      session.localBoundary || session.profileABoundary,
+      session.externalBoundary || session.profileBBoundary
+    )
   };
 }
 
@@ -3448,6 +3583,8 @@ function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
 }
 
 export function measureNeedFromScenario(scenario) {
+  const demonstrationProfile = buildDemonstrationProfile(scenario);
+  const comparisonProfile = buildDemonstrationProfile(demonstrationProfile.profileId === 'A' ? 'B' : 'A');
   const parser = buildGithubActionsBenchmarkParser();
   const canonicalBenchmarkOutputs = parser.parse(scenario.canonicalRunEvidence);
   const parserValidation = parser.validate(canonicalBenchmarkOutputs);
@@ -3673,8 +3810,9 @@ export function measureNeedFromScenario(scenario) {
     weakDimensions: canonicalBenchmarkOutputs.weakDimensions,
     baselineMetrics: canonicalBenchmarkOutputs.baselineMetrics,
     humanPrompt: scenario.humanPrompt,
-    conformanceProfile: PROFILE_A,
-    productionIntentProfile: PROFILE_B,
+    conformanceProfile: demonstrationProfile.label,
+    productionIntentProfile: comparisonProfile.label,
+    demonstrationProfile,
     fieldDerivations,
     measurementProvenance,
     measurementClassInventory: {
@@ -6109,8 +6247,10 @@ function buildPromptImplementationSurface(inferenceProofs, promptSurfaces = []) 
       outputField: proof.outputField,
       evaluatorSurface: proof.evaluatorSurface
     })),
-    profileABoundary: 'Deterministic/local stand-ins emulate prompt/evaluator contracts and replayability metadata.',
-    profileBBoundary: 'Production prompt execution, model routing, and remote trace capture remain external.'
+    ...buildBoundaryDescriptions(
+      'Deterministic/local stand-ins emulate prompt/evaluator contracts and replayability metadata.',
+      'Production prompt execution, model routing, and remote trace capture remain external.'
+    )
   };
 }
 
@@ -6193,6 +6333,316 @@ function buildArtifactUploadManifest(selectedCandidates) {
   };
 }
 
+function buildRepoSupplySurface(state) {
+  const sessions = state.githubAppSessions || [];
+  const inventory = state.repoArtifactInventory || [];
+  const scenarios = state.needScenarios || [];
+  const repos = sessions.map((session) => {
+    const repoInventory = inventory.filter((entry) => entry.repo === session.repo);
+    const repoScenarios = scenarios.filter((scenario) => scenario.repo === session.repo);
+    const artifactKindCounts = countValues(repoInventory.map((entry) => entry.artifactKind));
+    const originKindCounts = countValues(repoInventory.map((entry) => entry.originKind));
+    const stackCounts = countValues(repoInventory.flatMap((entry) => entry.declaredStacks || []));
+    const constraintCounts = countValues(repoInventory.flatMap((entry) => entry.declaredConstraints || []));
+    const demonstrationProfileCounts = countValues(repoScenarios.map((scenario) => buildDemonstrationProfile(scenario).shortLabel));
+    return {
+      repo: session.repo,
+      authSessionId: session.authSessionId,
+      installationId: session.installationId,
+      defaultRef: session.defaultRef,
+      inventoryEntryCount: repoInventory.length,
+      scenarioCount: repoScenarios.length,
+      scenarioIds: repoScenarios.map((scenario) => scenario.scenarioId),
+      scenarioFamilies: repoScenarios.map((scenario) => scenario.scenarioFamily || scenario.scenarioId),
+      demonstrationProfileCounts,
+      artifactKindCounts,
+      originKindCounts,
+      dominantStacks: topCountKeys(stackCounts, 4),
+      dominantConstraints: topCountKeys(constraintCounts, 4),
+      ...buildBoundaryDescriptions(
+        session.localBoundary || session.profileABoundary,
+        session.externalBoundary || session.profileBBoundary
+      )
+    };
+  });
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    repoCount: repos.length,
+    inventoryEntryCount: inventory.length,
+    scenarioCount: scenarios.length,
+    demonstrationProfileCounts: countValues(scenarios.map((scenario) => buildDemonstrationProfile(scenario).shortLabel)),
+    artifactKindCounts: countValues(inventory.map((entry) => entry.artifactKind)),
+    originKindCounts: countValues(inventory.map((entry) => entry.originKind)),
+    repos
+  };
+}
+
+function allowedActionsForPrincipal(authorizationDecisions = [], principalId) {
+  return authorizationDecisions
+    .filter((decision) => decision.principalId === principalId && decision.decision === 'allow')
+    .map((decision) => decision.action);
+}
+
+function buildRepoToSettlementSurface({
+  scenarioId,
+  buyer,
+  need,
+  assetPack,
+  branchArtifacts,
+  selectedCandidates,
+  proofWitnessManifest,
+  boundedPublicProof,
+  settlementPreview
+}) {
+  const selectedInventoryEntryIds = summarizeStrings(
+    selectedCandidates.flatMap((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [])
+  );
+  const selectedAuthSessionIds = summarizeStrings(
+    selectedCandidates.map((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId).filter(Boolean)
+  );
+  const selectedArtifactKindCounts = countValues(selectedCandidates.map((candidate) => candidate.asset.artifactKind));
+  const visibleBranchFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => !path.startsWith('.engi/source-material/'));
+  const selectedSourceFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => path.startsWith('.engi/source-material/'));
+  const proofFamilyCount = proofWitnessManifest?.proofFamilies?.length || 0;
+  const settlementParticipantCount = settlementPreview?.settlementParticipatingAssetIds?.length || 0;
+  const creditedAssetCount = settlementPreview?.creditedAssetIds?.length || 0;
+  const demonstrationProfile = need.demonstrationProfile || buildDemonstrationProfile('A');
+
+  return {
+    flowId: `flow_${sha256(`${scenarioId}:${assetPack.assetPackId}:${settlementPreview?.bundleId || 'pending'}`).slice(0, 12)}`,
+    scenarioId,
+    branchName: branchArtifacts?.branchName || null,
+    demonstrationProfile,
+    depositMode: demonstrationProfile.depositMode,
+    needMode: demonstrationProfile.needMode,
+    stages: [
+      {
+        stageId: 'repo-selection',
+        label: 'Repo selection',
+        status: 'repo-authenticated supply bound',
+        boundaryClass: 'modeled-local',
+        summary: `${selectedAuthSessionIds.length} authenticated session${selectedAuthSessionIds.length === 1 ? '' : 's'} and ${selectedInventoryEntryIds.length} repo artifact${selectedInventoryEntryIds.length === 1 ? '' : 's'} were bound into the intake roots for ${buyer.repo}.`,
+        refs: [buyer.repo, ...selectedAuthSessionIds, ...selectedInventoryEntryIds],
+        metrics: {
+          repo: buyer.repo,
+          authSessions: selectedAuthSessionIds.length,
+          inventoryEntries: selectedInventoryEntryIds.length,
+          artifactKinds: Object.keys(selectedArtifactKindCounts).length
+        }
+      },
+      {
+        stageId: 'need',
+        label: 'Need',
+        status: 'measured from benchmark evidence',
+        boundaryClass: 'executed-local',
+        summary: `Need ${need.needId} was derived from benchmark run ${need.benchmarkRunId} with ${need.failingCases?.length || 0} failing case${(need.failingCases?.length || 0) === 1 ? '' : 's'}.`,
+        refs: [need.needId, need.benchmarkRunId, need.benchmarkWorkflowPath].filter(Boolean),
+        metrics: {
+          benchmarkRunId: need.benchmarkRunId,
+          failingCases: need.failingCases?.length || 0,
+          weakDimensions: need.weakDimensions?.length || 0,
+          targetArtifactKinds: need.targetArtifactKinds?.length || 0
+        }
+      },
+      {
+        stageId: 'asset-pack',
+        label: 'Asset',
+        status: 'selected into asset pack',
+        boundaryClass: 'executed-local',
+        summary: `${assetPack.selectedAssets.length} asset${assetPack.selectedAssets.length === 1 ? '' : 's'} survived ranking and verification into asset pack ${assetPack.assetPackId}.`,
+        refs: [assetPack.assetPackId, ...assetPack.selectedAssets],
+        metrics: {
+          assetPackId: assetPack.assetPackId,
+          selectedAssets: assetPack.selectedAssets.length,
+          selectedArtifactKinds: Object.keys(selectedArtifactKindCounts).length,
+          settlementEligibleAssets: selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible').length
+        }
+      },
+      {
+        stageId: 'branch',
+        label: 'Branch',
+        status: 'private remediation branch staged',
+        boundaryClass: 'executed-local',
+        summary: `Branch ${branchArtifacts?.branchName || 'pending'} materialized ${visibleBranchFiles.length} visible branch artifact${visibleBranchFiles.length === 1 ? '' : 's'} and ${selectedSourceFiles.length} mounted source file${selectedSourceFiles.length === 1 ? '' : 's'}.`,
+        refs: [branchArtifacts?.branchName, ...visibleBranchFiles.slice(0, 8)].filter(Boolean),
+        metrics: {
+          branchName: branchArtifacts?.branchName || 'pending',
+          visibleFiles: visibleBranchFiles.length,
+          selectedSourceFiles: selectedSourceFiles.length,
+          confidentiality: branchArtifacts?.confidentiality || 'private-required'
+        }
+      },
+      {
+        stageId: 'proof',
+        label: 'Proof',
+        status: 'proof closure assembled',
+        boundaryClass: 'executed-local',
+        summary: `${proofFamilyCount} proof family${proofFamilyCount === 1 ? '' : 'ies'} were digested into the witness manifest and projected into bounded public proof ${boundedPublicProof?.bundleId || 'pending'}.`,
+        refs: [proofWitnessManifest?.proofHash, boundedPublicProof?.bundleId, boundedPublicProof?.redactionStatus].filter(Boolean),
+        metrics: {
+          witnessFamilies: proofFamilyCount,
+          proofHash: proofWitnessManifest?.proofHash || 'pending',
+          bundleId: boundedPublicProof?.bundleId || 'pending',
+          redactionStatus: boundedPublicProof?.redactionStatus || 'pending'
+        }
+      },
+      {
+        stageId: 'settlement',
+        label: 'Settlement',
+        status: 'exact settlement preview closed',
+        boundaryClass: 'executed-local',
+        summary: `Bundle ${settlementPreview?.bundleId || 'pending'} classifies ${settlementParticipantCount} settlement participant${settlementParticipantCount === 1 ? '' : 's'} and credits ${creditedAssetCount} asset${creditedAssetCount === 1 ? '' : 's'} in exact micro-units.`,
+        refs: [settlementPreview?.bundleId, settlementPreview?.sourceToSharesRef, settlementPreview?.settlementParticipationRef].filter(Boolean),
+        metrics: {
+          bundleId: settlementPreview?.bundleId || 'pending',
+          settlementParticipants: settlementParticipantCount,
+          creditedAssets: creditedAssetCount,
+          zeroCreditParticipants: settlementPreview?.zeroCreditAssetIds?.length || 0
+        }
+      }
+    ]
+  };
+}
+
+function buildIdentityAuthSpineSurface({
+  buyer,
+  branchName,
+  selectedCandidates,
+  identityBindings,
+  authorizationDecisions,
+  githubBoundarySurface,
+  proofWitnessManifest,
+  settlementPreview
+}) {
+  const installationPrincipalId = buyer.installationId ? `github-app-installation:${buyer.installationId}` : null;
+  const buyerPrincipalId = `buyer:${buyer.buyerId}`;
+  const sessionBindings = identityBindings.filter((binding) => binding.principalClass === 'github-app-session-principal');
+  const signerBindings = identityBindings.filter((binding) => binding.principalClass === 'issuer-principal');
+  const selectionRoots = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryRoot).filter(Boolean));
+  const addressingRoots = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset.addressingSurface?.addressingRoot).filter(Boolean));
+  const authPayloadRoots = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset.githubAppAuthSurface?.authPayloadHash).filter(Boolean));
+  const signingRoots = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset.signingSurface?.payloadHash).filter(Boolean));
+
+  return {
+    spineId: `spine_${sha256(`${buyer.buyerId}:${branchName}:${settlementPreview?.bundleId || 'pending'}`).slice(0, 12)}`,
+    buyerPrincipalId,
+    installationPrincipalId,
+    branchName: branchName || null,
+    settlementBundleId: settlementPreview?.bundleId || null,
+    hops: [
+      {
+        hopId: 'github-installation',
+        label: 'GitHub App installation authority',
+        principalRefs: [installationPrincipalId].filter(Boolean),
+        authoritySummary: `Installation-scoped repo auth anchors intake for ${buyer.repo}.`,
+        stageRefs: [buyer.repo, buyer.buyerBranch, ...summarizeStrings(githubBoundarySurface?.selectedAuthSessions?.map((session) => session.authSessionId) || [])],
+        rootRefs: summarizeStrings(githubBoundarySurface?.selectedAuthSessions?.flatMap((session) => [session.authPayloadHash, session.permissionsRoot]).filter(Boolean) || []),
+        boundaryClass: 'modeled-local'
+      },
+      {
+        hopId: 'repo-supply-selection',
+        label: 'Repo supply selection',
+        principalRefs: sessionBindings.map((binding) => binding.principalId),
+        authoritySummary: 'Selected repo artifacts stay bound to authenticated session payloads and inventory roots.',
+        stageRefs: summarizeStrings(selectedCandidates.flatMap((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [])),
+        rootRefs: selectionRoots,
+        boundaryClass: 'modeled-local'
+      },
+      {
+        hopId: 'signer-attestation',
+        label: 'Signer attestation',
+        principalRefs: signerBindings.map((binding) => binding.principalId),
+        authoritySummary: 'Signer payloads bind selection roots, addressing roots, and GitHub App auth roots to each selected asset.',
+        stageRefs: selectedCandidates.map((candidate) => candidate.assetId),
+        rootRefs: summarizeStrings([...addressingRoots, ...authPayloadRoots, ...signingRoots]),
+        boundaryClass: 'executed-local'
+      },
+      {
+        hopId: 'buyer-authority',
+        label: 'Buyer authority',
+        principalRefs: [buyerPrincipalId],
+        authoritySummary: `Buyer is allowed to ${allowedActionsForPrincipal(authorizationDecisions, buyerPrincipalId).join(', ') || 'inspect the run under policy constraints'}.`,
+        stageRefs: [branchName, settlementPreview?.bundleId].filter(Boolean),
+        rootRefs: identityBindings.filter((binding) => binding.principalId === buyerPrincipalId).map((binding) => binding.bindingRoot),
+        boundaryClass: 'executed-local'
+      },
+      {
+        hopId: 'branch-authority',
+        label: 'ENGI branch authority',
+        principalRefs: ['engi-system:branch-materializer'],
+        authoritySummary: 'ENGI materializes the private remediation branch and mounted source material under policy release controls.',
+        stageRefs: [branchName, `${branchName}/.engi/source-material`].filter(Boolean),
+        rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:branch-materializer').map((binding) => binding.bindingRoot),
+        boundaryClass: 'executed-local'
+      },
+      {
+        hopId: 'proof-authority',
+        label: 'ENGI proof authority',
+        principalRefs: ['engi-system:proof-publisher'],
+        authoritySummary: 'ENGI proof publishing authority derives bounded public proof from the private proof closure.',
+        stageRefs: [proofWitnessManifest?.proofHash, `${branchName}#bounded-proof`].filter(Boolean),
+        rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:proof-publisher').map((binding) => binding.bindingRoot),
+        boundaryClass: 'executed-local'
+      },
+      {
+        hopId: 'settlement-authority',
+        label: 'ENGI settlement authority',
+        principalRefs: ['engi-system:settlement-engine'],
+        authoritySummary: 'ENGI settlement authority closes the exact-accounting journal event for the selected bundle.',
+        stageRefs: [settlementPreview?.bundleId, settlementPreview?.sourceToSharesRef, settlementPreview?.settlementParticipationRef].filter(Boolean),
+        rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:settlement-engine').map((binding) => binding.bindingRoot),
+        boundaryClass: 'executed-local'
+      }
+    ]
+  };
+}
+
+function buildBoundaryRealitySurface() {
+  return {
+    posture: 'honest-local-prototype',
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    stages: [
+      buildBoundaryRealityStage({
+        stageId: 'repo-auth-and-supply',
+        label: 'Repo auth + supply',
+        localStatus: 'modeled-local',
+        localDescription: 'GitHub App sessions, installation payloads, and repo supply are seeded and hash-bound locally. No live installation token is minted.',
+        externalRequirement: 'Exchange a real GitHub App JWT for an installation token and refresh repo supply directly from GitHub APIs.'
+      }),
+      buildBoundaryRealityStage({
+        stageId: 'need-measurement-and-ranking',
+        label: 'Need + ranking',
+        localStatus: 'executed-local',
+        localDescription: 'Need measurement, prompt lineage, ranking, and verification execute deterministically inside this repository.',
+        externalRequirement: 'Bind those same stages to live repo evidence refresh, remote evaluators as needed, and production policy controls.'
+      }),
+      buildBoundaryRealityStage({
+        stageId: 'branch-materialization',
+        label: 'Branch materialization',
+        localStatus: 'executed-local',
+        localDescription: 'Branch artifacts are materialized locally as deterministic files and manifests. No live Git branch or PR write occurs.',
+        externalRequirement: 'Create or update the remediation branch, push artifacts, and open or update the buyer-facing PR.'
+      }),
+      buildBoundaryRealityStage({
+        stageId: 'proof-and-disclosure',
+        label: 'Proof + disclosure',
+        localStatus: 'executed-local',
+        localDescription: 'Proof bundling, bounded public proof, redaction proof, and disclosure proof are computed locally from deterministic artifacts.',
+        externalRequirement: 'Verify signer and org identity chains and publish bounded proof outputs against the live disclosure boundary.'
+      }),
+      buildBoundaryRealityStage({
+        stageId: 'settlement-effects',
+        label: 'Settlement effects',
+        localStatus: 'executed-local',
+        localDescription: 'Settlement preview, participation, source-to-shares, and exact journal diff close locally without network effects.',
+        externalRequirement: 'Submit the settlement transaction or equivalent network effect, wait for confirmation, and publish the live receipt.'
+      })
+    ]
+  };
+}
+
 function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
   const selectedSessionBindings = [...new Map(
     selectedCandidates
@@ -6249,8 +6699,10 @@ function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
       repositorySelection: 'selected',
       requiredFields: ['authSessionId', 'appId', 'appSlug', 'installationId', 'installationAccountLogin', 'installationAccountId', 'installationAccountType', 'repositoryId', 'repositoryNodeId', 'permissions', 'permissionsRoot', 'tokenBoundary', 'authPayloadHash']
     },
-    profileABoundary: 'Demo stores GitHub/App auth payloads and repo bindings locally but never mints or uses a live installation token.',
-    profileBBoundary: 'Live GitHub App installation auth, workflow fetches, PR writes, and branch operations remain external.'
+    ...buildBoundaryDescriptions(
+      'Demo stores GitHub/App auth payloads and repo bindings locally but never mints or uses a live installation token.',
+      'Live GitHub App installation auth, workflow fetches, PR writes, and branch operations remain external.'
+    )
   };
 }
 
@@ -7006,7 +7458,8 @@ function minimalNeedProjection(need) {
     touchedPaths: need.touchedPaths,
     weakDimensions: need.weakDimensions,
     conformanceProfile: need.conformanceProfile,
-    productionIntentProfile: need.productionIntentProfile
+    productionIntentProfile: need.productionIntentProfile,
+    demonstrationProfile: need.demonstrationProfile
   };
 }
 
@@ -7032,6 +7485,7 @@ function buildPublicProjection(latestRun) {
     branchName: latestRun.branchArtifacts?.branchName,
     conformanceProfile: latestRun.conformanceProfile,
     productionIntentProfile: latestRun.productionIntentProfile,
+    demonstrationProfile: latestRun.demonstrationProfile,
     needLifecycle: latestRun.needLifecycle,
     need: minimalNeedProjection(latestRun.need),
     assetPack: {
@@ -7040,6 +7494,7 @@ function buildPublicProjection(latestRun) {
       selectedAssets: latestRun.assetPack?.selectedAssets || []
     },
     evaluatedCandidates: (latestRun.evaluatedCandidates || []).map(minimalCandidateProjection),
+    repoToSettlementSurface: latestRun.repoToSettlementSurface,
     boundedPublicProof: latestRun.boundedPublicProof,
     promptCompletenessProof: latestRun.promptCompletenessProof,
     codeAnalysisFactRegistry: latestRun.codeAnalysisFactRegistry,
@@ -7086,6 +7541,7 @@ function buildBuyerProjection(latestRun) {
     promptContracts: latestRun.promptContracts,
     promptSurfaces: latestRun.promptSurfaces,
     verificationReport: latestRun.verificationReport,
+    identityAuthSpineSurface: latestRun.identityAuthSpineSurface,
     evalManifest: latestRun.evalManifest,
     assetPackLock: latestRun.assetPackLock,
     identityBindings: latestRun.identityBindings,
@@ -7127,6 +7583,7 @@ function buildReviewerProjection(latestRun) {
     ...buildPublicProjection(latestRun),
     projectionPrincipal: 'reviewer',
     verificationReport: latestRun.verificationReport,
+    repoToSettlementSurface: latestRun.repoToSettlementSurface,
     verificationReceipts: latestRun.verificationReceipts,
     evalManifest: latestRun.evalManifest,
     promptCompletenessProof: latestRun.promptCompletenessProof,
@@ -7666,14 +8123,36 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     disclosureProof: finalizedDisclosureProof
   });
   assertRequiredBranchArtifacts(branchArtifacts);
+  const repoToSettlementSurface = buildRepoToSettlementSurface({
+    scenarioId: scenario.scenarioId,
+    buyer: scenarioBoundBuyer,
+    need,
+    assetPack,
+    branchArtifacts,
+    selectedCandidates,
+    proofWitnessManifest,
+    boundedPublicProof,
+    settlementPreview: settlement.settlementPreview
+  });
+  const identityAuthSpineSurface = buildIdentityAuthSpineSurface({
+    buyer: scenarioBoundBuyer,
+    branchName,
+    selectedCandidates,
+    identityBindings,
+    authorizationDecisions,
+    githubBoundarySurface,
+    proofWitnessManifest,
+    settlementPreview: settlement.settlementPreview
+  });
 
   const latestRun = {
     createdAt: nowIso(),
     buyer: scenarioBoundBuyer,
     scenarioId: scenario.scenarioId,
     branchMode,
-    conformanceProfile: PROFILE_A,
-    productionIntentProfile: PROFILE_B,
+    conformanceProfile: need.conformanceProfile,
+    productionIntentProfile: need.productionIntentProfile,
+    demonstrationProfile: need.demonstrationProfile,
     needLifecycle: 'settled',
     need,
     needMeasurement,
@@ -7743,6 +8222,8 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     materializationExclusions,
     materializationVisibilityProof: finalizedMaterializationVisibilityProof,
     pipelineTelemetry,
+    repoToSettlementSurface,
+    identityAuthSpineSurface,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
@@ -7785,6 +8266,8 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
 
 export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
   const resolvedPrincipal = ensureProjectionPrincipal(principal);
+  const repoSupplySurface = buildRepoSupplySurface(state);
+  const boundaryRealitySurface = buildBoundaryRealitySurface();
   return {
     specVersion: state.specVersion,
     projectionPrincipal: resolvedPrincipal,
@@ -7795,12 +8278,15 @@ export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
       profileCompositions: buildProfileCompositions()
     },
     profileCompositions: buildProfileCompositions(),
+    repoSupplySurface,
+    boundaryRealitySurface,
     updatedAt: nowIso(),
     buyers: state.buyers,
     githubAppSessions: (state.githubAppSessions || []).map(publicGitHubAppSession),
     repoArtifactInventory: (state.repoArtifactInventory || []).map(publicRepoArtifactInventoryEntry),
     policyRelease: buildPolicyRelease(state.policyState || buildPolicyState()),
     needScenarios: state.needScenarios.map((scenario) => ({
+      demonstrationProfile: buildDemonstrationProfile(scenario),
       scenarioId: scenario.scenarioId,
       scenarioFamily: scenario.scenarioFamily || 'unspecified',
       coverageTags: scenario.coverageTags || [],

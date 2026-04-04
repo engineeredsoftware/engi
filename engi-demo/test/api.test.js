@@ -89,7 +89,7 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-test('GET /api/state returns seeded Spec V10 public state', async (t) => {
+test('GET /api/state returns seeded Spec V11 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -98,10 +98,12 @@ test('GET /api/state returns seeded Spec V10 public state', async (t) => {
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
     assert.equal(response.json.needScenarios[1].scenarioFamily, 'proof-heavy-rust-validator');
     assert.equal(response.json.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-    assert.equal(response.json.conformanceProfiles.active, 'Profile A — local deterministic V10 prototype');
+    assert.equal(response.json.conformanceProfiles.active, 'Profile A — targeted deposit / bounded need');
     assert.equal(response.json.projectionPrincipal, 'public');
     assert.ok(response.json.githubAppSessions.length >= 1);
     assert.ok(response.json.repoArtifactInventory.length >= 1);
+    assert.ok(response.json.repoSupplySurface.repoCount >= 1);
+    assert.equal(response.json.boundaryRealitySurface.posture, 'honest-local-prototype');
     assert.ok(response.json.githubAppSessions.every((session) => session.authPayloadHash));
     assert.ok(response.json.repoArtifactInventory.every((entry) => entry.provenance?.provenanceHash));
     assert.ok(response.json.profileCompositions.profiles.length === 2);
@@ -113,20 +115,23 @@ test('GET / returns the app shell', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
-    assert.match(response.text, /Make ENGI branch from GitHub benchmark evidence/);
-    assert.match(response.text, /Spec V10/);
-    assert.match(response.text, /authenticated repo-bound artifact inventory/i);
-    assert.match(response.text, /GitHub App auth payloads/i);
+    assert.match(response.text, /Operate ENGI from repo supply to settlement/);
+    assert.match(response.text, /Spec V11/);
+    assert.match(response.text, /repo-authenticated supply/i);
+    assert.match(response.text, /targeted deposit versus normalization-heavy deposit/i);
+    assert.match(response.text, /repo-to-settlement path/i);
   });
 });
 
-test('GET /api/state exposes V10 profile labels and task seed before any run', async (t) => {
+test('GET /api/state exposes V11 profile labels and task seed before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.needScenarios[0].taskSeed, 'Recover a production auth migration with issuer mismatch while preserving session validity and rollback safety.');
-    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — local deterministic V10 prototype');
-    assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — GitHub/App and external production boundary');
+    assert.equal(response.json.needScenarios[0].profileAStatus, 'Profile A — targeted deposit / bounded need');
+    assert.equal(response.json.needScenarios[0].profileBStatus, 'Profile B — normalization deposit / composite need');
+    assert.equal(response.json.needScenarios[0].demonstrationProfile.shortLabel, 'Targeted deposit');
+    assert.equal(response.json.needScenarios.at(-1).demonstrationProfile.shortLabel, 'Normalization deposit');
   });
 });
 
@@ -245,7 +250,7 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
 });
 
 
-test('POST /api/deposits accepts V10 artifact precision and boundary fields', async (t) => {
+test('POST /api/deposits accepts V11 artifact precision and boundary fields', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -286,10 +291,12 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.ok, true);
     assert.equal(response.json.latestRun.needLifecycle, 'settled');
-    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — local deterministic V10 prototype');
+    assert.equal(response.json.latestRun.conformanceProfile, 'Profile A — targeted deposit / bounded need');
+    assert.equal(response.json.latestRun.demonstrationProfile.shortLabel, 'Targeted deposit');
     assert.equal(response.json.latestRun.projectionPrincipal, 'public');
     assert.ok(response.json.latestRun.need.needId);
     assert.ok(response.json.latestRun.assetPack.assetPackId);
+    assert.ok(response.json.latestRun.repoToSettlementSurface.stages.length === 6);
     assert.ok(response.json.latestRun.boundedPublicProof.bundleId);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);

@@ -45,15 +45,30 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
   assert.equal(Object.keys(state.ledger.accounts).length, state.assets.length + 1);
 });
 
-test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and V9 derivation closure', () => {
+test('publicState exposes repo supply and boundary reality before any run', () => {
+  const state = buildInitialState();
+  const projected = publicState(state);
+
+  assert.equal(projected.repoSupplySurface.repoCount, state.githubAppSessions.length);
+  assert.equal(projected.repoSupplySurface.inventoryEntryCount, state.repoArtifactInventory.length);
+  assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.artifactKindCounts));
+  assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.demonstrationProfileCounts));
+  assert.equal(projected.boundaryRealitySurface.posture, 'honest-local-prototype');
+  assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'modeled-local'));
+  assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'executed-local'));
+});
+
+test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
 
   assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
   assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
   assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
-  assert.equal(need.conformanceProfile, 'Profile A — local deterministic V10 prototype');
-  assert.equal(need.productionIntentProfile, 'Profile B — GitHub/App and external production boundary');
+  assert.equal(need.conformanceProfile, 'Profile A — targeted deposit / bounded need');
+  assert.equal(need.productionIntentProfile, 'Profile B — normalization deposit / composite need');
+  assert.equal(need.demonstrationProfile.profileId, 'A');
+  assert.equal(need.demonstrationProfile.shortLabel, 'Targeted deposit');
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
   assert.ok(need.measurementProvenance.length >= 2);
@@ -74,6 +89,16 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.ok(measurement.promptContracts.every((contract) => contract.completeness.ok));
   assert.ok(measurement.staticExecutionReceipts.length >= 2);
   assert.ok(measurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.length >= 1));
+});
+
+test('normalization-heavy scenarios resolve to Profile B', () => {
+  const state = buildInitialState();
+  const scenario = state.needScenarios.find((entry) => entry.scenarioId === 'auth-many-asset-normalization');
+  const need = buildNeedDescriptor(scenario);
+
+  assert.equal(need.demonstrationProfile.profileId, 'B');
+  assert.equal(need.demonstrationProfile.shortLabel, 'Normalization deposit');
+  assert.match(need.demonstrationProfile.needMode, /Need stays composite/i);
 });
 
 test('measureNeedFromScenario fails closed when canonical benchmark outputs are malformed', () => {
@@ -151,7 +176,7 @@ test('makeCandidateAsset creates spec-shaped candidate asset with content units'
   assert.equal(asset.contentUnits[0].semanticInterfaces.embeddingHandOffReady, true);
 });
 
-test('inventory-backed candidate asset carries V10 selection, addressing, signing, and GitHub App auth surfaces', () => {
+test('inventory-backed candidate asset carries V11 selection, addressing, signing, and GitHub App auth surfaces', () => {
   const state = buildInitialState();
   const authSession = state.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
   const inventoryEntries = state.repoArtifactInventory.filter((entry) => entry.repo === 'frontier/demo-auth').slice(0, 2);
@@ -307,7 +332,7 @@ test('context-mode asset pack can admit context-only candidates while patch mode
 });
 
 
-test('V10 branch artifacts separate identity, GitHub boundary, uploads, and profile surfaces', () => {
+test('branch artifacts separate identity, GitHub boundary, uploads, and profile surfaces', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
@@ -316,6 +341,18 @@ test('V10 branch artifacts separate identity, GitHub boundary, uploads, and prof
   assert.ok(latestRun.branchArtifacts.files['.engi/github-boundary.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/artifact-upload-manifest.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/profile-composition.json']);
+});
+
+test('latest run exposes repo-to-settlement path and identity spine surfaces', () => {
+  const state = buildInitialState();
+  const { latestRun } = runMakeEngiBranch(state, {});
+
+  assert.equal(latestRun.repoToSettlementSurface.stages.length, 6);
+  assert.equal(latestRun.repoToSettlementSurface.stages[0].stageId, 'repo-selection');
+  assert.equal(latestRun.repoToSettlementSurface.stages.at(-1).stageId, 'settlement');
+  assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'github-installation'));
+  assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'settlement-authority'));
+  assert.equal(latestRun.identityAuthSpineSurface.buyerPrincipalId, `buyer:${state.buyers[0].buyerId}`);
 });
 
 test('runMakeEngiBranch produces branch artifacts and exact journal settlement', () => {
@@ -417,9 +454,9 @@ test('authorization decisions and policy release are persisted on latest run', (
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'settle:journal-event' && decision.decision === 'allow'));
   assert.ok(latestRun.authorizationDecisions.some((decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
-  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — local deterministic V10 prototype');
+  assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — targeted deposit / bounded need');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
-  assert.ok(latestRun.githubBoundarySurface.profileBBoundary.includes('GitHub App'));
+  assert.ok(latestRun.githubBoundarySurface.externalBoundary.includes('GitHub App'));
   assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
   assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.githubAppInstallationBound, true);
   assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.selectedAssetsSignedAgainstAddressing, true);
@@ -549,7 +586,7 @@ test('source-to-shares artifact, settlement participation, and accounting precis
   assert.equal(precision.sourceToSharesRef, sourceToShares.proofHash);
 });
 
-test('telemetry artifacts explain the V8 pipeline and prompt implementation surface', () => {
+test('telemetry artifacts explain the pipeline and prompt implementation surface', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
@@ -571,7 +608,7 @@ test('ENGI_NEED markdown includes parser contract, conformance profiles, and set
   assert.match(markdown, /raw share asset count/);
   assert.match(markdown, /zero-credit settlement asset count/);
   assert.match(markdown, /github-actions.auth-remediation.v3/);
-  assert.match(markdown, /Profile A — local deterministic V10 prototype/);
+  assert.match(markdown, /Profile A — targeted deposit \/ bounded need/);
 });
 
 test('publicState returns public projection including bounded public proof and profile labels', () => {
@@ -591,12 +628,15 @@ test('publicState returns public projection including bounded public proof and p
   assert.ok(projected.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
   assert.ok(projected.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
   assert.ok(projected.latestRun.publicArtifacts['.engi/redaction-proof.json']);
+  assert.ok(projected.latestRun.repoToSettlementSurface.stages.length === 6);
+  assert.equal(projected.latestRun.demonstrationProfile.shortLabel, 'Targeted deposit');
   assert.equal(projected.latestRun.authorizationDecisions, undefined);
   assert.equal(projected.latestRun.journalDiff, undefined);
   assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-  assert.equal(projected.needScenarios[0].profileAStatus, 'Profile A — local deterministic V10 prototype');
-  assert.equal(projected.conformanceProfiles.active, 'Profile A — local deterministic V10 prototype');
-  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v10-demo-2026-04-03');
+  assert.equal(projected.needScenarios[0].demonstrationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(projected.needScenarios.at(-1).demonstrationProfile.shortLabel, 'Normalization deposit');
+  assert.equal(projected.conformanceProfiles.active, 'Profile A — targeted deposit / bounded need');
+  assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v11-demo-2026-04-03');
   assert.ok(projected.githubAppSessions.length >= 1);
   assert.ok(projected.repoArtifactInventory.length >= 1);
   assert.ok(projected.profileCompositions.profiles.length === 2);
@@ -623,6 +663,7 @@ test('buyer projection exposes richer artifacts without raw branch files or sour
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.privacyBoundaryScenarioPresent, true);
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.polyglotRepoScenarioPresent, true);
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.manyAssetNormalizationScenarioPresent, true);
+  assert.ok(projected.latestRun.identityAuthSpineSurface.hops.length >= 6);
   assert.equal(projected.latestRun.branchArtifacts.files, undefined);
 });
 

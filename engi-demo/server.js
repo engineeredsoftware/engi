@@ -1,4 +1,3 @@
-import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -130,7 +129,7 @@ export function createAppContext({
 
     const selectedRepos = uniqueStrings(selectedInventoryEntries.map((entry) => entry.repo));
     if (selectedRepos.length > 1) {
-      const error = new Error('The initial V10 intake flow only supports selecting repo artifacts from one repository at a time.');
+      const error = new Error('The initial V11 intake flow only supports selecting repo artifacts from one repository at a time.');
       error.statusCode = 400;
       throw error;
     }
@@ -290,14 +289,15 @@ export function createAppContext({
   };
 }
 
-export function createServer(options = {}) {
+export async function createServer(options = {}) {
+  const http = await import('node:http');
   const app = createAppContext(options);
   const server = http.createServer((req, res) => app.handle(req, res));
   return { app, server };
 }
 
-export function startServer({ port = DEFAULT_PORT, host = '127.0.0.1', ...options } = {}) {
-  const { app, server } = createServer(options);
+export async function startServer({ port = DEFAULT_PORT, host = '127.0.0.1', ...options } = {}) {
+  const { app, server } = await createServer(options);
   app.ensureState();
   return new Promise((resolve) => {
     server.listen(port, host, () => resolve({ app, server, port: server.address().port }));

@@ -1,4 +1,5 @@
 const summaryEl = document.getElementById('summary');
+const operatingPictureEl = document.getElementById('operatingPicture');
 const scenarioEl = document.getElementById('scenario');
 const assetsEl = document.getElementById('assets');
 const evaluationsEl = document.getElementById('evaluations');
@@ -90,7 +91,11 @@ function syncScenarioPicker(state) {
   const desiredScenarioId = state.latestRun?.scenarioId || selectedScenarioId || scenarios[0].scenarioId;
   if (scenarioPickerEl.options.length !== scenarios.length) {
     scenarioPickerEl.innerHTML = scenarios.map((scenario) => `
-      <option value="${escapeHtml(scenario.scenarioId)}">${escapeHtml(`${scenario.scenarioFamily} · ${scenario.repo}`)}</option>
+      <option value="${escapeHtml(scenario.scenarioId)}">${escapeHtml([
+        scenario.demonstrationProfile?.shortLabel,
+        scenario.scenarioFamily,
+        scenario.repo
+      ].filter(Boolean).join(' · '))}</option>
     `).join('');
   }
   scenarioPickerEl.value = scenarios.some((scenario) => scenario.scenarioId === desiredScenarioId)
@@ -171,6 +176,7 @@ function filteredInventoryEntries(state) {
 function renderInventorySelectionSummary(state) {
   if (!inventorySelectionSummaryEl) return;
   const session = activeAuthSession(state);
+  const repoSupply = (state.repoSupplySurface?.repos || []).find((entry) => entry.repo === session?.repo);
   const selectedEntries = activeInventoryEntries(state).filter((entry) => selectedInventoryEntryIds.has(entry.inventoryEntryId));
   const artifactKindCounts = countValues(selectedEntries.map((entry) => entry.artifactKind));
   const originKindCounts = countValues(selectedEntries.map((entry) => entry.originKind));
@@ -181,11 +187,16 @@ function renderInventorySelectionSummary(state) {
       ${kvRow('Auth session', session.authSessionId)}
       ${kvRow('Repository ID', session.repositoryId)}
       ${kvRow('Account ID', session.installationAccountId || '—')}
+      ${kvRow('Repo supply entries', repoSupply?.inventoryEntryCount ?? '—')}
+      ${kvRow('Scenario coverage', formatList(repoSupply?.scenarioFamilies || []), { html: true })}
+      ${kvRow('Profile coverage', formatCountMap(repoSupply?.demonstrationProfileCounts || {}), { html: true })}
       ${kvRow('Permissions root', session.permissionsRoot || '—')}
       ${kvRow('Token boundary', session.tokenBoundary?.mintingState || '—')}
       ${kvRow('Writable scopes', formatList(session.tokenBoundary?.writableScopes || []), { html: true })}
     </div>
     <span class="meta">Selected ${selectedEntries.length} inventory ${selectedEntries.length === 1 ? 'artifact' : 'artifacts'}.</span>
+    <span class="meta">Repo supply kinds: ${formatCountMap(repoSupply?.artifactKindCounts || {})}</span>
+    <span class="meta">Repo supply origins: ${formatCountMap(repoSupply?.originKindCounts || {})}</span>
     <span class="meta">Artifact kinds: ${formatCountMap(artifactKindCounts)}</span>
     <span class="meta">Origin kinds: ${formatCountMap(originKindCounts)}</span>
   ` : '<span class="meta">No authenticated repo session available.</span>';
@@ -442,36 +453,40 @@ function renderExternalBoundaryManifestVisual(manifest) {
         ${metricTile('Boundary interfaces', interfaces.length)}
         ${metricTile('Modeled local', interfaces.filter((entry) => /modeled|local/i.test(entry.status || '')).length)}
         ${metricTile('Stand-in local', interfaces.filter((entry) => /stand-in/i.test(entry.status || '')).length)}
-        ${metricTile('Live external required', interfaces.filter((entry) => entry.profileB?.requiredForLive).length)}
+        ${metricTile('Live external required', interfaces.filter((entry) => (entry.externalBoundary || entry.profileB)?.requiredForLive).length)}
       </div>
       <div class="object-list">
-        ${interfaces.map((entry) => `
+        ${interfaces.map((entry) => {
+          const localPrototype = entry.localPrototype || entry.profileA || {};
+          const externalBoundary = entry.externalBoundary || entry.profileB || {};
+          return `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
                 <strong>${escapeHtml(entry.label || entry.interfaceId)}</strong>
                 <p class="meta">${escapeHtml(entry.interfaceId || '')}</p>
               </div>
-              <div class="badge-row">${statusBadge(entry.status)} ${boolBadge(entry.profileB?.requiredForLive, 'Required live', 'Optional')}</div>
+              <div class="badge-row">${statusBadge(entry.status)} ${boolBadge(externalBoundary.requiredForLive, 'Required live', 'Optional')}</div>
             </div>
             <div class="mini-grid two-up">
               <div class="section-card">
-                <div class="section-head"><h4>Profile A</h4><span class="badge">Implemented here</span></div>
+                <div class="section-head"><h4>Local prototype</h4><span class="badge">Implemented here</span></div>
                 <div class="kv-grid">
-                  ${kvRow('Surface', entry.profileA?.surface || '—')}
-                  ${kvRow('Artifact refs', formatList(entry.profileA?.artifactRefs || []), { html: true })}
+                  ${kvRow('Surface', localPrototype.surface || '—')}
+                  ${kvRow('Artifact refs', formatList(localPrototype.artifactRefs || []), { html: true })}
                 </div>
               </div>
               <div class="section-card">
-                <div class="section-head"><h4>Profile B</h4><span class="badge">External boundary</span></div>
+                <div class="section-head"><h4>External boundary</h4><span class="badge">Live contract</span></div>
                 <div class="kv-grid">
-                  ${kvRow('Contract', formatList(entry.profileB?.contract || []), { html: true })}
-                  ${kvRow('Boundary artifacts', formatList(entry.profileB?.boundaryArtifacts || []), { html: true })}
+                  ${kvRow('Contract', formatList(externalBoundary.contract || []), { html: true })}
+                  ${kvRow('Boundary artifacts', formatList(externalBoundary.boundaryArtifacts || []), { html: true })}
                 </div>
               </div>
             </div>
           </div>
-        `).join('')}
+        `;
+        }).join('')}
       </div>
     </div>
   `;
@@ -653,21 +668,22 @@ function renderSelectedSourceMaterialManifestVisual(manifest) {
 function renderProfileCompositionVisual(profileState) {
   const profiles = profileState?.profiles || profileState?.profileCompositions?.profiles || [];
   const guidance = profileState?.demoOperatorGuidance || {};
+  const activeScenarioProfileId = profileState?.activeScenarioProfileId || '';
   return `
     <div class="visual-stack">
       <div class="callout">
-        <strong>Profile switching semantics</strong>
-        <span>${escapeHtml(guidance.audienceMeaning || profileState?.profiles?.find?.((entry) => entry.profileId === 'B')?.whyNotSwitchable || 'Profile A is demo-active; Profile B is described but not switchable here because external integrations are not faked.')}</span>
+        <strong>Operational profile semantics</strong>
+        <span>${escapeHtml(guidance.audienceMeaning || 'The profiles distinguish how ENGI deposits supply against need, not whether GitHub is live.')}</span>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
           <div class="section-head"><h4>Operator walkthrough</h4><span class="badge">Demo script</span></div>
           <div class="badge-row">${chipList(guidance.recommendedWalkthrough || [])}</div>
-          ${guidance.whyOnlyAIsLive ? `<p class="meta">${escapeHtml(guidance.whyOnlyAIsLive)}</p>` : ''}
+          ${guidance.boundaryTruthPlacement ? `<p class="meta">${escapeHtml(guidance.boundaryTruthPlacement)}</p>` : ''}
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Audience takeaway</h4><span class="badge">What profiles mean</span></div>
-          <p>${escapeHtml(guidance.audienceMeaning || '—')}</p>
+          <div class="section-head"><h4>Boundary truth</h4><span class="badge">Supporting surfaces</span></div>
+          <p>${escapeHtml(guidance.boundaryTruthPlacement || 'Boundary honesty still matters, but it belongs in the explicit boundary surfaces rather than in the profile headline.')}</p>
         </div>
       </div>
       <div class="mini-grid two-up">
@@ -675,19 +691,20 @@ function renderProfileCompositionVisual(profileState) {
           <div class="section-card">
             <div class="row wrap-gap">
               <strong>${escapeHtml(profile.label || profile.profileId)}</strong>
-              <div class="badge-row">${statusBadge(profile.profileId === 'A' ? 'active in demo' : 'external boundary')} ${boolBadge(profile.switchableInDemo, 'Switchable', 'Not switchable')}</div>
+              <div class="badge-row">${statusBadge(profile.profileId === activeScenarioProfileId ? 'selected scenario' : 'available in corpus')} <span class="badge">${escapeHtml(profile.shortLabel || profile.profileId)}</span></div>
             </div>
             <div class="kv-grid">
               ${kvRow('Who this is', profile.identity?.whoItIs || '—')}
               ${kvRow('How to demonstrate', profile.identity?.operatorRole || '—')}
               ${kvRow('Audience should understand', profile.identity?.audienceMeaning || '—')}
+              ${kvRow('Deposit mode', profile.depositMode || profile.metadata?.depositMode || '—')}
+              ${kvRow('Need mode', profile.needMode || profile.metadata?.needMode || '—')}
+              ${kvRow('Asset-pack shape', profile.assetPackShape || profile.metadata?.assetPackShape || '—')}
+              ${kvRow('Settlement shape', profile.settlementShape || profile.metadata?.settlementShape || '—')}
+              ${kvRow('Scenario anchors', formatList(profile.scenarioFamilies || []), { html: true })}
               ${kvRow('Composition', formatList(profile.composition || []), { html: true })}
-              ${kvRow('External writes', boolBadge(profile.metadata?.externalWrites, 'Yes', 'No'), { html: true })}
-              ${kvRow('GitHub live calls', boolBadge(profile.metadata?.githubLiveCalls, 'Yes', 'No'), { html: true })}
-              ${kvRow('Settlement mode', profile.metadata?.settlementMode || '—')}
-              ${kvRow('Model execution', profile.metadata?.modelExecution || '—')}
+              ${kvRow('Boundary truth', profile.metadata?.boundaryTruthNote || profile.boundaryRealityNote || '—')}
             </div>
-            ${profile.whyNotSwitchable ? `<p class="meta">${escapeHtml(profile.whyNotSwitchable)}</p>` : ''}
           </div>
         `).join('')}
       </div>
@@ -724,14 +741,14 @@ function renderNeedVisual(need) {
   const parser = need.benchmarkParserContract || {};
   const parserFailure = parser.parserFailureContract || {};
   const benchmarkTarget = need.benchmarkTarget || {};
+  const demonstrationProfile = need.demonstrationProfile || {};
   return `
     <div class="visual-stack">
       <div class="highlight-card">
         <div class="row wrap-gap">
           <strong>${escapeHtml(need.task || need.taskSeed || 'Measured engineering need')}</strong>
           <div class="badge-row">
-            ${statusBadge(need.conformanceProfile || need.profileAStatus)}
-            ${statusBadge(need.productionIntentProfile || need.profileBStatus)}
+            ${statusBadge(demonstrationProfile.shortLabel || demonstrationProfile.label || need.conformanceProfile || need.profileAStatus)}
           </div>
         </div>
         <p class="meta">${escapeHtml(need.repo || '')} · buyer branch ${escapeHtml(need.baseRef || need.buyerBranch || '—')} · benchmark run ${escapeHtml(need.benchmarkRunId || benchmarkTarget.runId || '—')}</p>
@@ -740,6 +757,15 @@ function renderNeedVisual(need) {
         ${metricTile('Need ID', need.needId || '—')}
         ${metricTile('Workflow', need.benchmarkWorkflowPath || parser.expectedCanonicalOutputs?.workflowPath || '—')}
         ${metricTile('Parser', `${parser.parserKind || need.parserKind || '—'} ${parser.parserVersion || need.parserVersion || ''}`.trim())}
+      </div>
+      <div class="section-card">
+        <div class="section-head"><h4>Profile semantics</h4><span class="badge">${escapeHtml(demonstrationProfile.label || 'Scenario profile')}</span></div>
+        <div class="kv-grid">
+          ${kvRow('Deposit mode', demonstrationProfile.depositMode || '—')}
+          ${kvRow('Need mode', demonstrationProfile.needMode || '—')}
+          ${kvRow('Asset-pack shape', demonstrationProfile.assetPackShape || '—')}
+          ${kvRow('Settlement shape', demonstrationProfile.settlementShape || '—')}
+        </div>
       </div>
       <div class="section-card">
         <div class="section-head">
@@ -860,7 +886,7 @@ function renderAssetVisual(asset) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Artifact Selection</h4><span class="badge">V10 intake surface</span></div>
+          <div class="section-head"><h4>Artifact Selection</h4><span class="badge">V11 intake surface</span></div>
           <div class="kv-grid">
             ${kvRow('Intake mode', asset.artifactSelectionSurface?.intakeMode || '—')}
             ${kvRow('Selection label', asset.artifactSelectionSurface?.selectionLabel || '—')}
@@ -910,8 +936,8 @@ function renderAssetVisual(asset) {
             ${kvRow('Auth payload hash', asset.githubAppAuthSurface?.authPayloadHash || '—')}
             ${kvRow('Token boundary', asset.githubAppAuthSurface?.tokenBoundary?.mintingState || '—')}
             ${kvRow('Permissions', formatList(Object.entries(asset.githubAppAuthSurface?.permissions || {}).map(([key, value]) => `${key}:${value}`)), { html: true })}
-            ${kvRow('Profile A boundary', asset.githubAppAuthSurface?.profileABoundary || '—')}
-            ${kvRow('Profile B boundary', asset.githubAppAuthSurface?.profileBBoundary || '—')}
+            ${kvRow('Local boundary', asset.githubAppAuthSurface?.localBoundary || asset.githubAppAuthSurface?.profileABoundary || '—')}
+            ${kvRow('External boundary', asset.githubAppAuthSurface?.externalBoundary || asset.githubAppAuthSurface?.profileBBoundary || '—')}
           </div>
         </div>
       </div>
@@ -1192,8 +1218,8 @@ function renderTelemetryVisual(telemetry) {
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Telemetry events', (telemetry.events || []).length)}
         ${metricTile('Stages', new Set((telemetry.events || []).map((event) => event.stage)).size)}
-        ${metricTile('Profile A', telemetry.conformanceProfile || '—')}
-        ${metricTile('Profile B', telemetry.productionIntentProfile || '—')}
+        ${metricTile('Primary profile', telemetry.conformanceProfile || '—')}
+        ${metricTile('Contrast profile', telemetry.productionIntentProfile || '—')}
       </div>
       <div class="timeline">
         ${(telemetry.events || []).map((event, index) => `
@@ -1460,11 +1486,14 @@ function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
             </div>
             <div class="badge-row">
               ${statusBadge(scenario.scenarioId === activeScenarioId ? 'active scenario' : 'seeded scenario')}
+              <span class="badge">${escapeHtml(scenario.demonstrationProfile?.shortLabel || 'Profile')}</span>
               <span class="badge">${escapeHtml(scenario.parserKind || 'parser')}</span>
             </div>
           </div>
           <p>${escapeHtml(scenario.taskSeed || '—')}</p>
           <div class="kv-grid">
+            ${kvRow('Deposit mode', scenario.demonstrationProfile?.depositMode || '—')}
+            ${kvRow('Need mode', scenario.demonstrationProfile?.needMode || '—')}
             ${kvRow('Coverage tags', chipList(scenario.coverageTags || []), { html: true })}
             ${kvRow('Failing cases', formatList(scenario.failingCases || []), { html: true })}
             ${kvRow('Weak dimensions', formatList(scenario.weakDimensions || []), { html: true })}
@@ -1546,7 +1575,7 @@ function renderSystemProofBundleVisual(bundle) {
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Prompt / evaluator surface</h4><span class="badge">Profile B hand-off</span></div>
+        <div class="section-head"><h4>Prompt / evaluator surface</h4><span class="badge">External hand-off</span></div>
         ${surfaceVisualFallback(bundle.promptImplementationSurface || {})}
       </div>
     </div>
@@ -1620,24 +1649,234 @@ function renderRunHistoryVisual(history) {
   `;
 }
 
+function renderRepoSupplyVisual(surface) {
+  const repos = surface?.repos || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Authenticated repos', surface?.repoCount ?? repos.length)}
+        ${metricTile('Supply entries', surface?.inventoryEntryCount ?? 0)}
+        ${metricTile('Scenario families', surface?.scenarioCount ?? 0)}
+        ${metricTile('Artifact kinds', Object.keys(surface?.artifactKindCounts || {}).length)}
+      </div>
+      <div class="callout">
+        <strong>Supply parity</strong>
+        <span>Artifact kinds: ${formatCountMap(surface?.artifactKindCounts || {})}</span>
+        <span>Origin kinds: ${formatCountMap(surface?.originKindCounts || {})}</span>
+        <span>Profile coverage: ${formatCountMap(surface?.demonstrationProfileCounts || {})}</span>
+      </div>
+      <div class="object-list">
+        ${repos.map((repo) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(repo.repo)}</strong>
+                <p class="meta">${escapeHtml(repo.authSessionId)} · default ref ${escapeHtml(repo.defaultRef || '—')}</p>
+              </div>
+              <div class="badge-row">${statusBadge((repo.localBoundary || repo.profileABoundary) ? 'modeled local' : 'unknown')} <span class="badge">${escapeHtml(repo.installationId || '—')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Inventory entries', repo.inventoryEntryCount ?? '—')}
+              ${kvRow('Scenario coverage', formatList(repo.scenarioFamilies || []), { html: true })}
+              ${kvRow('Profile coverage', formatCountMap(repo.demonstrationProfileCounts || {}), { html: true })}
+              ${kvRow('Artifact kinds', formatCountMap(repo.artifactKindCounts || {}), { html: true })}
+              ${kvRow('Origin kinds', formatCountMap(repo.originKindCounts || {}), { html: true })}
+              ${kvRow('Dominant stacks', formatList(repo.dominantStacks || []), { html: true })}
+              ${kvRow('Dominant constraints', formatList(repo.dominantConstraints || []), { html: true })}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderRepoToSettlementVisual(surface) {
+  const stages = surface?.stages || [];
+  const demonstrationProfile = surface?.demonstrationProfile || {};
+  return `
+    <div class="visual-stack">
+      <div class="highlight-card">
+        <div class="row wrap-gap">
+          <strong>${escapeHtml(surface?.branchName || 'Repo-to-settlement path')}</strong>
+          <div class="badge-row">${statusBadge(demonstrationProfile.shortLabel || surface?.scenarioId || 'scenario')} ${statusBadge(stages.at(-1)?.status || 'ready')}</div>
+        </div>
+        <p class="meta">${escapeHtml(demonstrationProfile.label || 'Repo selection -> need -> asset -> branch -> proof -> settlement')}.</p>
+      </div>
+      <div class="mini-grid two-up">
+        <div class="section-card">
+          <div class="section-head"><h4>Deposit mode</h4><span class="badge">Profile</span></div>
+          <p>${escapeHtml(surface?.depositMode || demonstrationProfile.depositMode || '—')}</p>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>Need mode</h4><span class="badge">Profile</span></div>
+          <p>${escapeHtml(surface?.needMode || demonstrationProfile.needMode || '—')}</p>
+        </div>
+      </div>
+      <div class="timeline">
+        ${stages.map((stage, index) => `
+          <div class="timeline-item">
+            <div class="timeline-index">${index + 1}</div>
+            <div class="timeline-card">
+              <div class="row wrap-gap">
+                <strong>${escapeHtml(stage.label)}</strong>
+                <div class="badge-row">${statusBadge(stage.status)} ${statusBadge(stage.boundaryClass)}</div>
+              </div>
+              <p>${escapeHtml(stage.summary || '')}</p>
+              <div class="kv-grid">
+                ${Object.entries(stage.metrics || {}).map(([key, value]) => kvRow(labelize(key), value)).join('')}
+                ${kvRow('Refs', formatList(stage.refs || []), { html: true })}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderIdentityAuthSpineVisual(surface) {
+  const hops = surface?.hops || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Spine hops', hops.length)}
+        ${metricTile('Buyer principal', surface?.buyerPrincipalId || '—')}
+        ${metricTile('Installation principal', surface?.installationPrincipalId || '—')}
+        ${metricTile('Settlement bundle', surface?.settlementBundleId || '—')}
+      </div>
+      <div class="timeline">
+        ${hops.map((hop, index) => `
+          <div class="timeline-item">
+            <div class="timeline-index">${index + 1}</div>
+            <div class="timeline-card">
+              <div class="row wrap-gap">
+                <strong>${escapeHtml(hop.label)}</strong>
+                <div class="badge-row">${statusBadge(hop.boundaryClass)}</div>
+              </div>
+              <p>${escapeHtml(hop.authoritySummary || '')}</p>
+              <div class="kv-grid">
+                ${kvRow('Principals', formatList(hop.principalRefs || []), { html: true })}
+                ${kvRow('Stage refs', formatList(hop.stageRefs || []), { html: true })}
+                ${kvRow('Root refs', formatList(hop.rootRefs || []), { html: true })}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderBoundaryRealityVisual(surface) {
+  const stages = surface?.stages || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid three-up compact-metrics">
+        ${metricTile('Boundary posture', surface?.posture || '—')}
+        ${metricTile('Modeled local stages', stages.filter((stage) => (stage.localStatus || stage.profileAStatus) === 'modeled-local').length)}
+        ${metricTile('Executed local stages', stages.filter((stage) => (stage.localStatus || stage.profileAStatus) === 'executed-local').length)}
+      </div>
+      <div class="object-list">
+        ${stages.map((stage) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <strong>${escapeHtml(stage.label)}</strong>
+              <div class="badge-row">${statusBadge(stage.localStatus || stage.profileAStatus)} <span class="badge">${escapeHtml('External boundary')}</span></div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Local here', stage.localDescription || stage.profileADescription || '—')}
+              ${kvRow('External next', stage.externalRequirement || stage.profileBRequirement || '—')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderOperatingPicture(state) {
+  if (!operatingPictureEl) return;
+  const surfaces = [];
+  if (state.latestRun?.repoToSettlementSurface) {
+    surfaces.push(renderJsonSurface({
+      title: 'Repo-to-settlement path',
+      subtitle: 'Repo selection to settlement as one staged operating path',
+      eyebrow: 'V11 surface',
+      help: 'This surface is the shortest truthful read of how ENGI operates inside the selected deposit/need profile.',
+      data: state.latestRun.repoToSettlementSurface,
+      visual: renderRepoToSettlementVisual,
+      accent: 'accent-green'
+    }));
+  } else {
+    surfaces.push(`
+      <div class="card intro-card">
+        <div class="row wrap-gap">
+          <strong>Repo-to-settlement path is ready to execute</strong>
+          <div class="badge-row">${statusBadge('awaiting run')}</div>
+        </div>
+        <p class="meta">Pick repo artifacts from authenticated supply, then run the branch flow to stage need, asset, branch, proof, and settlement surfaces as one sequence.</p>
+      </div>
+    `);
+  }
+  surfaces.push(renderJsonSurface({
+    title: 'Repo supply',
+    subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
+    eyebrow: 'V11 surface',
+    help: 'V11 starts from repo supply because the chosen deposits determine whether the run stays targeted or becomes normalization-heavy.',
+    data: state.repoSupplySurface,
+    visual: renderRepoSupplyVisual,
+    accent: 'accent-blue'
+  }));
+  if (state.latestRun?.identityAuthSpineSurface) {
+    surfaces.push(renderJsonSurface({
+      title: 'Identity and auth spine',
+      subtitle: 'Repo auth, signer authority, branch authority, proof authority, and settlement authority',
+      eyebrow: 'V11 surface',
+      help: 'This surface turns the existing auth artifacts into one legible authority chain.',
+      data: state.latestRun.identityAuthSpineSurface,
+      visual: renderIdentityAuthSpineVisual,
+      accent: 'accent-orange'
+    }));
+  }
+  surfaces.push(renderJsonSurface({
+    title: 'Boundary reality',
+    subtitle: 'What is modeled here, what executes here, and what remains external',
+    eyebrow: 'V11 surface',
+    help: 'Boundary truth stays explicit here so the profile headline can stay focused on deposit mode and need mode.',
+    data: state.boundaryRealitySurface,
+    visual: renderBoundaryRealityVisual,
+    accent: 'accent-slate'
+  }));
+  operatingPictureEl.innerHTML = surfaces.join('');
+}
+
 function renderSummary(state) {
   const latestRun = state.latestRun;
   const selected = latestRun?.assetPack?.selectedAssets?.length || 0;
   const settled = latestRun?.settlementPreview?.creditedAssetIds?.length
     ?? latestRun?.journalDiff?.credits?.filter((entry) => entry.delta !== '0').length
     ?? 0;
-  const flows = latestRun?.sensitiveDataFlowRecords?.length || 0;
-  const authz = latestRun?.authorizationDecisions?.length || 0;
+  const repoCount = state.repoSupplySurface?.repoCount || 0;
+  const supplyEntries = state.repoSupplySurface?.inventoryEntryCount || 0;
+  const supplyKinds = Object.keys(state.repoSupplySurface?.artifactKindCounts || {}).length;
+  const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
+  const bundleId = latestRun?.settlementPreview?.bundleId || 'No run yet';
+  const activeScenario = currentScenario(state);
+  const activeProfile = latestRun?.demonstrationProfile || activeScenario?.demonstrationProfile;
 
   summaryEl.innerHTML = `
+    <div class="summary-card"><span class="meta">Authenticated repos</span><strong>${repoCount}</strong></div>
+    <div class="summary-card"><span class="meta">Repo supply entries</span><strong>${supplyEntries}</strong></div>
+    <div class="summary-card"><span class="meta">Artifact kinds in supply</span><strong>${supplyKinds}</strong></div>
     <div class="summary-card"><span class="meta">Candidate assets</span><strong>${state.assets.length}</strong></div>
     <div class="summary-card"><span class="meta">Need scenarios</span><strong>${state.needScenarios.length}</strong></div>
-    <div class="summary-card"><span class="meta">Active profile</span><strong>${escapeHtml(state.conformanceProfiles?.active || '')}</strong></div>
+    <div class="summary-card"><span class="meta">Scenario profile</span><strong>${escapeHtml(activeProfile?.shortLabel || activeProfile?.label || '—')}</strong></div>
+    <div class="summary-card"><span class="meta">Active scenario</span><strong>${escapeHtml(activeScenario?.scenarioFamily || '—')}</strong></div>
     <div class="summary-card"><span class="meta">Selected assets in latest pack</span><strong>${selected}</strong></div>
     <div class="summary-card"><span class="meta">Settlement-credited assets</span><strong>${settled}</strong></div>
-    <div class="summary-card"><span class="meta">Sensitive-data flow records</span><strong>${flows}</strong></div>
-    <div class="summary-card"><span class="meta">Authorization decisions</span><strong>${authz}</strong></div>
-    <div class="summary-card"><span class="meta">Default artifact view</span><strong>Visual</strong></div>
+    <div class="summary-card"><span class="meta">Latest bundle</span><strong>${escapeHtml(bundleId)}</strong></div>
+    <div class="summary-card"><span class="meta">Boundary stages</span><strong>${boundaryStages}</strong></div>
   `;
 }
 
@@ -1659,17 +1898,17 @@ function renderScenario(state) {
       <div class="row wrap-gap">
         <strong>${escapeHtml(source.repo)}</strong>
         <div class="badge-row">
-          ${statusBadge(source.conformanceProfile || source.profileAStatus)}
+          ${statusBadge(source.demonstrationProfile?.shortLabel || source.conformanceProfile || source.profileAStatus)}
           ${source.benchmarkRunId ? `<span class="badge">${escapeHtml(source.benchmarkRunId)}</span>` : ''}
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">V9 keeps the visual read first, but now also proves prompt completeness, static measurement receipts, and projection enforcement without hiding the buyer-safe JSON view.</p>
+      <p class="meta">V11 keeps need measurement fully inspectable, but the main story is now operational: how this scenario deposits supply against its need shape, then carries that choice through branch, proof, and settlement.</p>
     </div>
     ${renderJsonSurface({
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'V9 artifact',
+      eyebrow: 'V11 surface',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       data: source,
       visual: renderNeedVisual,
@@ -1685,11 +1924,14 @@ function renderScenario(state) {
       accent: 'accent-green'
     })}
     ${renderJsonSurface({
-      title: 'Profile composition + demo semantics',
-      subtitle: 'Why Profile A is live here and Profile B is not switchable in-demo',
-      eyebrow: 'V9 artifact',
-      help: 'Profile A is implemented locally in this repo. Profile B is specified as an external boundary and intentionally not faked.',
-      data: state.profileCompositions || state.conformanceProfiles?.profileCompositions || {},
+      title: 'Operational profiles + demo semantics',
+      subtitle: 'Targeted deposit versus normalization deposit',
+      eyebrow: 'V11 surface',
+      help: 'The profile distinction is about how ENGI deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
+      data: {
+        ...(state.profileCompositions || state.conformanceProfiles?.profileCompositions || {}),
+        activeScenarioProfileId: source.demonstrationProfile?.profileId
+      },
       visual: renderProfileCompositionVisual,
       accent: 'accent-orange'
     })}
@@ -1697,7 +1939,7 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'V9 keeps prompts first-class and now adds explicit completeness proofing, contract hashes, and downstream artifact bindings.',
+      help: 'V11 keeps prompts first-class and binds them to the same staged operating picture as repo supply, branch materialization, proof, and settlement.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
@@ -1746,7 +1988,7 @@ function renderEvaluations(state) {
     ${verificationReport ? renderJsonSurface({
       title: 'Verification report',
       subtitle: 'Ranking is separate from verification and rights propagation',
-      eyebrow: 'V9 artifact',
+      eyebrow: 'V11 surface',
       help: 'Visual mode emphasizes allowed downstream use rather than making you read a wall of nested booleans.',
       data: verificationReport,
       visual: renderVerificationReportVisual,
@@ -1973,7 +2215,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V9 demo. The buyer projection can inspect rich private-safe artifacts, but raw source material and unrestricted branch files remain withheld by projection policy.</p>
+      <p class="meta">This is the artifact-heavy heart of the V11 demo. The operating surfaces tell the story first, and this branch stack still carries the exact private artifacts behind that story.</p>
     </div>
     ${artifactDefs.map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -2047,7 +2289,7 @@ function renderSettlement(state) {
       title: 'Accounting precision report',
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
-      help: 'V9 precision closure now records clipping, tie-break policy, and exact micro-unit allocation as replayable accounting surfaces.',
+      help: 'V11 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
       data: run.accountingPrecisionReport,
       raw: branchFiles['.engi/accounting-precision-report.json'],
       visual: renderAccountingPrecisionVisual,
@@ -2113,6 +2355,7 @@ async function refresh() {
   syncInventoryKindFilter(state);
   renderRepoInventory(state);
   renderSummary(state);
+  renderOperatingPicture(state);
   renderScenario(state);
   renderAssets(state);
   renderEvaluations(state);
@@ -2139,13 +2382,13 @@ document.addEventListener('click', (event) => {
 
 document.getElementById('makeBranchButton').addEventListener('click', async () => {
   try {
-    setStatus('Measuring need, ranking candidates, staging branch artifacts, and settling journal diff…');
+    setStatus('Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…');
     const result = await api('/api/make-engi-branch', {
       method: 'POST',
       body: JSON.stringify({ principal: 'buyer', scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
     });
     await refresh();
-    setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
+    setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} in ${result.latestRun.demonstrationProfile?.shortLabel || 'the selected profile'} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
   } catch (error) {
     setStatus(error.message);
   }
@@ -2159,7 +2402,8 @@ scenarioPickerEl?.addEventListener('change', () => {
     renderRepoInventory(lastLoadedState);
     renderScenario(lastLoadedState);
   }
-  setStatus(`Selected scenario ${selectedScenarioId}.`);
+  const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
+  setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.demonstrationProfile?.shortLabel || 'profile pending'}).`);
 });
 
 authSessionPickerEl?.addEventListener('change', () => {
@@ -2186,7 +2430,7 @@ document.getElementById('resetButton').addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to seeded Spec V10 scenario.');
+    setStatus('Demo reset to the seeded Spec V11 scenario state.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -2230,14 +2474,14 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
     selectedInventoryKind = 'all';
     event.currentTarget.reset();
     await refresh();
-    setStatus('Candidate asset deposited from the V10 intake surface. Re-run “Make ENGI branch” to fold it into ranking and verification.');
+    setStatus('Candidate asset deposited into the V11 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
   } catch (error) {
     setStatus(error.message);
   }
 });
 
 refresh().then(() => {
-  setStatus('Ready. Select repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the full Spec V10 intake/auth flow. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V11 repo-to-settlement path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });
