@@ -1,14 +1,10 @@
 export const PROFILE_A = 'Profile A — targeted deposit / bounded need';
 export const PROFILE_B = 'Profile B — normalization deposit / composite need';
 
-export const REALIZATION_PROFILE_KIND = 'demo-realization-profile';
+export const REALIZATION_PROFILE_KIND = 'realization-profile';
 export const REALIZATION_PROFILE_IDS = Object.freeze({
   TARGETED: 'A',
   NORMALIZATION: 'B'
-});
-export const REALIZATION_PROFILE_NAMES = Object.freeze({
-  preferred: 'realizationProfile',
-  legacy: 'demonstrationProfile'
 });
 
 const PROFILE_B_SCENARIO_FAMILIES = new Set([
@@ -79,7 +75,6 @@ function cloneRealizationProfile(profile) {
   return {
     profileKind: REALIZATION_PROFILE_KIND,
     profileDiscriminant: `${REALIZATION_PROFILE_KIND}:${profile.profileId}`,
-    canonicalNames: { ...REALIZATION_PROFILE_NAMES },
     ...profile,
     identity: { ...profile.identity },
     scenarioFamilies: [...profile.scenarioFamilies],
@@ -90,7 +85,6 @@ function cloneRealizationProfile(profile) {
 export function resolveRealizationProfileId(subject = {}) {
   if (typeof subject === 'string' && subject.trim()) return subject.trim().toUpperCase();
   return subject.realizationProfileId
-    || subject.demonstrationProfileId
     || (PROFILE_B_SCENARIO_FAMILIES.has(subject.scenarioFamily)
       ? REALIZATION_PROFILE_IDS.NORMALIZATION
       : REALIZATION_PROFILE_IDS.TARGETED);
@@ -100,8 +94,4 @@ export function buildRealizationProfile(subject = REALIZATION_PROFILE_IDS.TARGET
   const profileId = resolveRealizationProfileId(subject);
   const profile = PROFILE_DEFINITIONS[profileId] || PROFILE_DEFINITIONS[REALIZATION_PROFILE_IDS.TARGETED];
   return cloneRealizationProfile(profile);
-}
-
-export function buildDemonstrationProfile(subject = REALIZATION_PROFILE_IDS.TARGETED) {
-  return buildRealizationProfile(subject);
 }

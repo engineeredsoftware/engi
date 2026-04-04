@@ -1,13 +1,13 @@
 # ENGI Demo Host Capabilities
 
 Last inspected: 2026-04-03 (America/Los_Angeles)
-Host scope: local machine capabilities relevant to the ENGI Spec V14 canonical target over the current deterministic demo implementation in this repo.
+Host scope: local machine capabilities relevant to the ENGI Spec V15 canonical target over the current deterministic demo implementation in this repo.
 
 ## Canon status
 
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V14`
-- Current canonical/latest target: `V14`
-- Last fully realized canon preserved in the demo source: `V12`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V15`
+- Current canonical/latest target: `V15`
+- Last fully realized canon preserved in the demo source: `V15`
 
 ## Purpose
 
@@ -17,7 +17,7 @@ The source of truth for this document is:
 
 - live host inspection commands run on 2026-04-03
 - the current repo implementation in `server.js`, `src/engi-demo.js`, `public/app.js`, and `test/`
-- the current V14-canonical / V12-realized artifact and proof flow, not older V8/V9 framing
+- the current V15-canonical / V15-realized artifact and proof flow, not older V8/V9 framing
 
 ## Program usage truth
 
@@ -33,11 +33,11 @@ The repo needs only a local Node runtime plus filesystem access to execute its r
 
 In the current implementation, the following stages are real local program usage, but they are all executed by deterministic in-process Node logic rather than external commands:
 
-- benchmark parser normalization: `github-actions.benchmark-parser.v9`
-- repo code-analysis derivation: `github.repo-context.extract.v9`
-- content-unit code analysis: `content-unit.extract-static-code-analysis.v9`
-- asset code-analysis derivation: `asset.measurement.extract.v9`
-- verification determinisms: `verification.*.v9`
+- benchmark parser normalization: `github-actions.benchmark-parser.v15`
+- repo code-analysis derivation: `github.repo-context.extract.v15`
+- content-unit code analysis: `content-unit.extract-static-code-analysis.v15`
+- asset code-analysis derivation: `asset.measurement.extract.v15`
+- verification determinisms: `verification.*.v15`
 - source-to-shares replay, exact allocation, journal settlement, and proof assembly
 
 ### Present on host but not required for the core V9 path
@@ -147,14 +147,14 @@ For this repo specifically, furnishing is simpler:
 
 ### `docker-runtime`
 
-- build command: `docker build -t engi-demo-v14 .`
-- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v14`
+- build command: `docker build -t engi-demo-v15 .`
+- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v15`
 - purpose: containerized local serving with no host Node requirement beyond Docker
 
 ### `docker-test`
 
-- build command: `docker build -t engi-demo-v14 .`
-- run command: `docker run --rm engi-demo-v14 npm test`
+- build command: `docker build -t engi-demo-v15 .`
+- run command: `docker run --rm engi-demo-v15 npm test`
 - purpose: containerized regression check using the same image contents
 
 ## Telemetry and safety

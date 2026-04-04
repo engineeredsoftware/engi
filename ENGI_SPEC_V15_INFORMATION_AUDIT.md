@@ -1,7 +1,7 @@
 # ENGI Spec V15 Information Audit
 
-Status: draft
-Purpose: audit the transition from the V14 canonical/latest target into V15, focusing on separation of system canon from demonstration canon, canonical source refactor requirements, and the remaining parity debt between the current `engi-demo` implementation and the stronger V15 specification target.
+Status: active canonical audit record
+Purpose: audit the transition from the V14 canonical/latest target into active V15, focusing on separation of system canon from demonstration canon, canonical source refactor requirements, and the remaining parity debt between the current `engi-demo` implementation and the stronger V15 specification target.
 
 Baseline references:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
@@ -27,7 +27,7 @@ The key audit result is:
 
 > ENGI now has enough system richness and demonstration richness that the current co-location of those concerns in `engi-demo` and in the spec family is itself a meaningful source of design and parity debt.
 
-V15 therefore needs to do two kinds of work simultaneously:
+V15 therefore needed to do two kinds of work simultaneously:
 - complete the stronger formal/system specification work that V14 advanced,
 - and separate / refactor the implementation shape so the canonical system is not structurally conflated with the demonstration layer.
 
@@ -38,10 +38,10 @@ This is also the first version where **typing for provability** should be treate
 # 2. Current canonical-target nuance
 
 V15 must preserve this distinction explicitly:
-- `ENGI_SPEC.txt = V14` means **V14 is the current canonical/latest target**
-- **V12 remains the last fully realized canon**
+- `ENGI_SPEC.txt = V15` means **V15 is the current canonical/latest target**
+- **V15 is now the realized canonical baseline for this repo**
 
-This matters because V15 should not pretend the current implementation state already equals the strongest current spec target.
+This matters because the repo should distinguish between active canonical status and the remaining cleanup debt after promotion.
 
 ---
 
@@ -89,6 +89,22 @@ The current `engi-demo` source remains the canonical implementation truth for ma
 
 The existence of a single large `src/engi-demo.js` remains one of the strongest structural signals that V15’s refactor focus is real and necessary.
 
+## 4.3 Current extracted canonical module state
+
+The co-location debt is no longer abstract.
+The repo now has an explicit extracted canonical layer under `engi-demo/src/canonical/`:
+- `enums.js` for closed-case runtime-safe subsystem values,
+- `types.js` for JSDoc typedef vocabulary and stronger typed intent,
+- `surfaces.js` for primary operating-surface and repo-to-settlement builders,
+- `run-artifacts.js` for telemetry, manifest, bundle, and coverage-report builders.
+
+That is real structural progress, but it is not full subsystem separation.
+The next extraction seams are still concentrated in `src/engi-demo.js`:
+- need measurement and inference,
+- candidate evaluation and materialization,
+- proof and settlement artifact emission,
+- projection and disclosure shaping.
+
 ---
 
 # 5. Type-system and struct-design audit
@@ -105,6 +121,11 @@ The current implementation already contains rich domain structures for:
 - identity/auth spine
 - boundary reality
 - projections
+
+The current repo now expresses part of that more explicitly through:
+- runtime-safe canonical enums under `src/canonical/enums.js`,
+- JSDoc type vocabulary under `src/canonical/types.js`,
+- extracted high-information builder families under `src/canonical/surfaces.js` and `src/canonical/run-artifacts.js`.
 
 But this richness is not yet fully expressed through:
 - explicit closed-case enums/discriminants
@@ -225,6 +246,8 @@ This separation should appear in both:
 The V15 implementation matrix should therefore track at least these parity/debt families:
 - system-vs-demo architectural separation
 - canonical source refactor status
+- extracted canonical module ownership
+- next extraction seams and their current owners
 - typing-for-provability progress
 - information-value organization quality
 - module/file organization quality
@@ -244,8 +267,10 @@ The main V15 task is no longer only “more spec detail.”
 It is:
 - stronger system-vs-demo separation,
 - stronger canonical source shape,
+- explicit recognition of the extracted `src/canonical/` layer,
+- explicit naming of the seams still left in `src/engi-demo.js`,
 - stronger type-system formalization for provability,
 - stronger information-value organization,
 - and stronger parity between richly specified ENGI and the actual implementation that now carries it.
 
-That makes V15 the version where ENGI should begin to look not only fully specified, but structurally ready for a long-lived canonical implementation form.
+That makes V15 the version where ENGI should read like an active migration plan toward a long-lived canonical implementation form, not merely a higher-detail aspiration.

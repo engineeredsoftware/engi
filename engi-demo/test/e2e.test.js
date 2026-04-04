@@ -64,7 +64,7 @@ async function readSummary(page) {
   })));
 }
 
-test('browser flow keeps V12 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
+test('browser flow keeps V15 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
     const seededState = app.readState();
     const authSession = seededState.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
@@ -98,7 +98,7 @@ test('browser flow keeps V12 ordering and drives deposit to targeted settlement'
     await page.fill('input[name="title"]', 'Browser-selected auth bundle');
     await page.fill('textarea[name="operatorNote"]', 'Browser verification deposit.');
     await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
-    await waitForStatus(page, 'Candidate asset deposited into the V12 repo-authenticated flow.');
+    await waitForStatus(page, 'Candidate asset deposited into the V15 repo-authenticated flow.');
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');

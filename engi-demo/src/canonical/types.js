@@ -7,7 +7,7 @@
  */
 
 /**
- * @typedef {import('./enums.js').DemonstrationProfile[keyof import('./enums.js').DemonstrationProfile]} DemonstrationProfileValue
+ * @typedef {import('./enums.js').RealizationProfile[keyof import('./enums.js').RealizationProfile]} RealizationProfileValue
  * @typedef {import('./enums.js').ExecutionReality[keyof import('./enums.js').ExecutionReality]} ExecutionRealityValue
  * @typedef {import('./enums.js').NormalizationPressure[keyof import('./enums.js').NormalizationPressure]} NormalizationPressureValue
  */
@@ -29,7 +29,7 @@
 /**
  * @typedef {Object} NeedingSurface
  * @property {string} needId
- * @property {DemonstrationProfileValue} demonstrationProfile
+ * @property {RealizationProfileValue} realizationProfile
  * @property {string} parserKind
  * @property {string} taskSummary
  * @property {string[]} failureModeSummary

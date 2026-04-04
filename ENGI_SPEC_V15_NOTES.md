@@ -8,11 +8,11 @@ It is not enough for V15 to describe a better system. It should also begin to de
 
 ## Status
 
-V15 is a draft successor target to V14.
-It is not the active canonical pointer because `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` still points to `V14`.
+V15 is the active canonical target.
+`/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` now points to `V15`.
 
-That status distinction matters.
-V15 is the next-target drafting pass, not a silent repoint.
+That status distinction still matters historically.
+This file now records the reasoning that led to the V15 promotion and the remaining cleanup debt after repointing.
 
 ## Why V15 exists
 
@@ -73,14 +73,14 @@ V15 sharpens six families of work:
 ## Important non-decisions
 
 V15 does not:
-- repoint `ENGI_SPEC.txt` away from `V14`,
+- abandon the V15 pointer once promoted,
 - claim that the demo stopped being the strongest current realization,
 - or pretend that a non-demo canonical implementation family already exists in the repo.
 
 The correct reading is narrower:
-- V14 remains the active canonical/latest target,
-- V12 remains the last fully realized canon,
-- V15 is the drafted next target,
+- V15 is the active canonical/latest target,
+- V15 is the last fully realized canon in this repo,
+- V14 remains the predecessor target that V15 closes over,
 - and `engi-demo` remains the current local deterministic realization.
 
 ## File-family consequence
@@ -102,16 +102,16 @@ It remains the home of the current demo realization and its realization-local pa
 
 ## Naming posture
 
-V15 still encounters source-grounded names such as:
-- `buildDemonstrationProfile(...)`
-- `demonstrationProfile`
+V15 inherited source-grounded names such as:
+- older demo-profile builder names
+- older demo-profile public field names
 - demo-local shell language around operating order and browser flow
 
-V15 does not rewrite history around those names.
-Instead it interprets them as current realization labels for broader canonical concepts such as conformance profile or realization ordering.
+That historical posture mattered while the source was still mid-migration.
+The active V15 source has now completed the profile/public-surface rename and uses `buildRealizationProfile(...)` plus `realizationProfile` directly.
 
-That posture is deliberate.
-The point is separation without pretending the current source already uses the final ideal vocabulary everywhere.
+The remaining naming work is therefore no longer about preserving the old profile alias.
+It is about keeping subsystem/module names coherent as the source continues toward stronger typed separation.
 
 ## Additive canonical-source refactor posture
 
@@ -132,11 +132,12 @@ For V15, the right reading by family is:
 1. Types and structs
    The spec keeps canonical object shapes explicit even when the current source realizes them through builders in `engi-demo/src/engi-demo.js` and emitted `.engi/*` JSON artifacts.
 2. Names
-   The current source still exposes `demonstrationProfile` and preserves `buildDemonstrationProfile(...)`, but it now also exposes `buildRealizationProfile(...)`. V15 therefore uses an aliasing posture: it can describe broader canonical concepts such as conformance profile or realization profile, while keeping the legacy demo labels honest instead of pretending the whole source was already renamed.
+   The active source now exposes `buildRealizationProfile(...)` and `realizationProfile` directly. V15 therefore no longer needs a profile-name compatibility alias in source; the remaining naming concern is broader subsystem coherence and eventual typed identifier/struct hardening.
 3. Information-value organization
    High-information artifacts such as need surfaces, fit surfaces, proof bundles, settlement artifacts, and witness manifests should remain visibly distinct from explainer summaries, UI compression, or public projection shorthand.
 4. File and module organization
-   `engi-demo/src/engi-demo.js` is still the dominant orchestration file, but the repo now also contains `realization-profile.js` and `settlement-structs.js` in addition to helper modules such as `engi-core.js`, `receipt-schemas.js`, `benchmark-model.js`, `proof-log.js`, and `server-ranking.js`. V15 treats that as evidence of partial factorization, not final architecture.
+   `engi-demo/src/engi-demo.js` is still the dominant orchestration file, but the repo now also contains `src/canonical/enums.js`, `src/canonical/types.js`, `src/canonical/surfaces.js`, `src/canonical/run-artifacts.js`, `src/canonical/projections.js`, and `src/canonical/proof-materialization.js` alongside `demo-shell-state.js`, `realization-profile.js`, `settlement-structs.js`, and helper modules such as `engi-core.js`, `receipt-schemas.js`, `benchmark-model.js`, `proof-log.js`, and `server-ranking.js`. V15 treats that as meaningful factorization rather than merely planned factorization.
+   The extracted split is now clearer by role: `enums.js` and `types.js` own closed-case vocabulary, `surfaces.js` owns the primary operating surfaces, `run-artifacts.js` owns bundle/report/telemetry builders, `projections.js` owns bounded-public/disclosure policy builders, `proof-materialization.js` owns proof-witness/accounting/materialization builders, and `demo-shell-state.js` owns demo-shell/public-state shaping. The next seams are therefore narrower: `engi-demo.js` still owns need measurement/inference plus candidate evaluation/materialization orchestration.
 5. Docs/tests parity
    The current core/API/browser test split is already one of the strongest parity surfaces in the repo. V15 therefore treats docs/tests parity as a first-class refactor concern rather than cosmetic cleanup.
 
@@ -150,6 +151,8 @@ The key V15 discipline is:
 The right V15 matrix posture is:
 - root system parity matrix for system-canonical closure and implementation expectations,
 - demo-local matrix for operator-shell, persistence, host-doc, and demo-realization parity,
+- explicit module-owner language for what already moved into `src/canonical/`,
+- explicit next-seam language for what still remains in `engi-demo/src/engi-demo.js`,
 - explicit `spec closed; source gap` or `accepted boundary` language where appropriate,
 - no premature `closed` judgment just because the current demo tells a story well.
 
@@ -206,4 +209,4 @@ This is often better than doing a messy direct TypeScript pass over poorly separ
 The V15 target is therefore not a shallow TypeScript migration.
 It is a deeply typed canonical implementation where the type system itself strengthens provability.
 
-Current source-side progress has already begun in that direction by extracting canonical enum/type modules under `engi-demo/src/canonical/`, reducing some closed-case string drift in `engi-demo.js`, and establishing a typed vocabulary that later structural/module separation can build on.
+Current source-side progress has already begun in that direction by extracting canonical enum/type modules under `engi-demo/src/canonical/`, then extending that split with dedicated `surfaces.js`, `run-artifacts.js`, `projections.js`, and `proof-materialization.js` builder modules plus `demo-shell-state.js` for demo-shell/public-state shaping. That reduces closed-case string drift in `engi-demo.js`, gives high-information surface families clearer ownership, and dislocates demonstration usage shaping from core system implementation. The remaining migration seams are now concrete: need measurement/inference and candidate evaluation/materialization orchestration still remain in the main orchestration file and should be tracked as the next extractions rather than as already-solved architecture.

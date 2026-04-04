@@ -1,8 +1,8 @@
 {
   "inspectedAt": "2026-04-03",
-  "specVersion": "ENGI Spec V14 canonical target over the deterministic local prototype",
-  "canonicalPointerVersion": "V14",
-  "lastFullyRealizedCanonVersion": "V12",
+  "specVersion": "ENGI Spec V15 canonical target over the deterministic local prototype",
+  "canonicalPointerVersion": "V15",
+  "lastFullyRealizedCanonVersion": "V15",
   "repo": "engi-demo",
   "host": {
     "os": "Darwin 25.4.0",
@@ -20,14 +20,14 @@
   },
   "programUsageTruth": {
     "machineLocalStaticAnalysis": [
-      "github-actions.benchmark-parser.v9",
-      "github.repo-context.extract.v9",
-      "content-unit.extract-static-code-analysis.v9",
-      "asset.measurement.extract.v9",
-      "verification.issuance-checks.v9",
-      "verification.provenance-checks.v9",
-      "verification.sufficiency-checks.v9",
-      "verification.issuer-policy-checks.v9"
+      "github-actions.benchmark-parser.v15",
+      "github.repo-context.extract.v15",
+      "content-unit.extract-static-code-analysis.v15",
+      "asset.measurement.extract.v15",
+      "verification.issuance-checks.v15",
+      "verification.provenance-checks.v15",
+      "verification.sufficiency-checks.v15",
+      "verification.issuer-policy-checks.v15"
     ],
     "proofProgramUsage": {
       "coreDemoExecutesExternalProofTools": false,
@@ -95,14 +95,14 @@
     },
     {
       "configurationId": "docker-runtime",
-      "buildCommand": "docker build -t engi-demo-v14 .",
-      "runCommand": "docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v14",
+      "buildCommand": "docker build -t engi-demo-v15 .",
+      "runCommand": "docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v15",
       "purpose": "Serve the demo in a container"
     },
     {
       "configurationId": "docker-test",
-      "buildCommand": "docker build -t engi-demo-v14 .",
-      "runCommand": "docker run --rm engi-demo-v14 npm test",
+      "buildCommand": "docker build -t engi-demo-v15 .",
+      "runCommand": "docker run --rm engi-demo-v15 npm test",
       "purpose": "Run the regression suite in a container"
     }
   ],

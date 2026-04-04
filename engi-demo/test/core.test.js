@@ -50,11 +50,11 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   const state = buildInitialState();
   const projected = publicState(state);
 
-  assert.equal(projected.specVersion, 'ENGI Spec V12 deterministic local prototype');
+  assert.equal(projected.specVersion, 'ENGI Spec V15 canonical local prototype');
   assert.equal(projected.repoSupplySurface.repoCount, state.githubAppSessions.length);
   assert.equal(projected.repoSupplySurface.inventoryEntryCount, state.repoArtifactInventory.length);
   assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.artifactKindCounts));
-  assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.demonstrationProfileCounts));
+  assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.realizationProfileCounts));
   assert.equal(projected.boundaryRealitySurface.posture, 'honest-local-prototype');
   assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'modeled-local'));
   assert.ok(projected.boundaryRealitySurface.stages.some((stage) => stage.localStatus === 'executed-local'));
@@ -62,7 +62,7 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.closureCriteria?.length >= 1));
 });
 
-test('publicState exposes V12 profile comparison guidance for the demo shell', () => {
+test('publicState exposes V15 profile comparison guidance for the demo shell', () => {
   const projected = publicState(buildInitialState());
 
   assert.equal(projected.profileCompositions.distinctionBasis, 'deposit-and-need');
@@ -78,18 +78,15 @@ test('publicState exposes V12 profile comparison guidance for the demo shell', (
   assert.match(projected.profileCompositions.demoOperatorGuidance.boundaryTruthPlacement, /Boundary reality/i);
 });
 
-test('buildRealizationProfile preserves canonical aliasing while keeping legacy demo names honest', () => {
+test('buildRealizationProfile returns canonical realization descriptors', () => {
   const targeted = buildRealizationProfile('A');
   const normalization = buildRealizationProfile({ scenarioFamily: 'many-asset-settlement-normalization' });
 
-  assert.equal(targeted.profileKind, 'demo-realization-profile');
-  assert.equal(targeted.profileDiscriminant, 'demo-realization-profile:A');
-  assert.deepEqual(targeted.canonicalNames, {
-    preferred: 'realizationProfile',
-    legacy: 'demonstrationProfile'
-  });
+  assert.equal(targeted.profileKind, 'realization-profile');
+  assert.equal(targeted.profileDiscriminant, 'realization-profile:A');
+  assert.equal('canonicalNames' in targeted, false);
   assert.equal(normalization.profileId, 'B');
-  assert.equal(normalization.profileDiscriminant, 'demo-realization-profile:B');
+  assert.equal(normalization.profileDiscriminant, 'realization-profile:B');
 });
 
 test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
@@ -101,10 +98,10 @@ test('buildNeedDescriptor carries canonical run evidence, parser failure contrac
   assert.equal(need.benchmarkParserContract.parserFailureContract.failClosed, true);
   assert.equal(need.conformanceProfile, 'Profile A — targeted deposit / bounded need');
   assert.equal(need.productionIntentProfile, 'Profile B — normalization deposit / composite need');
-  assert.equal(need.demonstrationProfile.profileId, 'A');
-  assert.equal(need.demonstrationProfile.shortLabel, 'Targeted deposit');
-  assert.equal(need.demonstrationProfile.profileKind, 'demo-realization-profile');
-  assert.equal(need.demonstrationProfile.canonicalNames.preferred, 'realizationProfile');
+  assert.equal(need.realizationProfile.profileId, 'A');
+  assert.equal(need.realizationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(need.realizationProfile.profileKind, 'realization-profile');
+  assert.equal('canonicalNames' in need.realizationProfile, false);
   assert.equal(need.fieldDerivations.task.source, 'seed.expectedTask');
   assert.equal(need.fieldDerivations.failingCases.source, 'canonicalBenchmarkOutputs.failingCases');
   assert.equal(need.fieldDerivations.closureCriteria.source, 'deterministic-synthesis');
@@ -143,9 +140,9 @@ test('normalization-heavy scenarios resolve to Profile B', () => {
   const scenario = state.needScenarios.find((entry) => entry.scenarioId === 'auth-many-asset-normalization');
   const need = buildNeedDescriptor(scenario);
 
-  assert.equal(need.demonstrationProfile.profileId, 'B');
-  assert.equal(need.demonstrationProfile.shortLabel, 'Normalization deposit');
-  assert.match(need.demonstrationProfile.needMode, /Need stays composite/i);
+  assert.equal(need.realizationProfile.profileId, 'B');
+  assert.equal(need.realizationProfile.shortLabel, 'Normalization deposit');
+  assert.match(need.realizationProfile.needMode, /Need stays composite/i);
 });
 
 test('measureNeedFromScenario fails closed when canonical benchmark outputs are malformed', () => {
@@ -168,7 +165,7 @@ test('measureNeedFromScenario fails closed when canonical benchmark outputs are 
 test('prompt contracts fail deterministically on missing placeholder bindings', () => {
   const promptContract = buildPromptContract({
     promptId: 'test.prompt.mismatch',
-    templateVersion: 'spec-v9-demo-prompt.v1',
+    templateVersion: 'spec-v15-demo-prompt.v1',
     template: 'Repo {{repo}} branch {{baseRef}}',
     contextInputs: [
       { field: 'repo', value: 'frontier/demo-auth', source: 'test' }
@@ -185,7 +182,7 @@ test('prompt contracts fail deterministically on missing placeholder bindings', 
 test('prompt contracts require non-rendered context to be declared explicitly', () => {
   const promptContract = buildPromptContract({
     promptId: 'test.prompt.nonrendered',
-    templateVersion: 'spec-v9-demo-prompt.v1',
+    templateVersion: 'spec-v15-demo-prompt.v1',
     template: 'Repo {{repo}}',
     contextInputs: [
       { field: 'repo', value: 'frontier/demo-auth', source: 'test' },
@@ -393,11 +390,11 @@ test('branch artifacts separate identity, GitHub boundary, uploads, and profile 
   assert.ok(latestRun.branchArtifacts.files['.engi/profile-composition.json']);
 });
 
-test('latest run exposes V12 depositing, needing, fit, and identity spine surfaces', () => {
+test('latest run exposes V15 depositing, needing, fit, and identity spine surfaces', () => {
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
-  assert.equal(latestRun.depositingSurface.depositProfile, latestRun.demonstrationProfile.label);
+  assert.equal(latestRun.depositingSurface.depositProfile, latestRun.realizationProfile.label);
   assert.equal(latestRun.needingSurface.needId, latestRun.need.needId);
   assert.equal(latestRun.depositingToNeedingSurface.depositSessionId, latestRun.depositingSurface.depositSessionId);
   assert.equal(latestRun.repoToSettlementSurface.stages.length, 7);
@@ -504,7 +501,11 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/materialization-proof.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
   assert.ok(artifactPaths.includes('.engi/journal-diff.json'));
-  assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, ['.engi/prompt-surfaces.json', '.engi/prompt-contracts.json']);
+  assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, [
+    '.engi/prompt-surfaces.json',
+    '.engi/prompt-contracts.json',
+    '.engi/parsed-completion-envelopes.json'
+  ]);
   assert.ok(inferenceSynthesisFamily?.witnessRefs.length >= proof.promptImplementationSurface.inferredOutputs.length);
   assert.ok(proof.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
@@ -723,12 +724,12 @@ test('publicState returns public projection including bounded public proof and p
     projected.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((stage) => stage.stageId),
     ['depositing', 'needing', 'deposit-to-need-fit']
   );
-  assert.equal(projected.latestRun.demonstrationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(projected.latestRun.realizationProfile.shortLabel, 'Targeted deposit');
   assert.equal(projected.latestRun.authorizationDecisions, undefined);
   assert.equal(projected.latestRun.journalDiff, undefined);
   assert.equal(projected.needScenarios[0].parserKind, 'github-actions.auth-remediation.v3');
-  assert.equal(projected.needScenarios[0].demonstrationProfile.shortLabel, 'Targeted deposit');
-  assert.equal(projected.needScenarios.at(-1).demonstrationProfile.shortLabel, 'Normalization deposit');
+  assert.equal(projected.needScenarios[0].realizationProfile.shortLabel, 'Targeted deposit');
+  assert.equal(projected.needScenarios.at(-1).realizationProfile.shortLabel, 'Normalization deposit');
   assert.equal(projected.conformanceProfiles.active, 'Profile A — targeted deposit / bounded need');
   assert.equal(projected.policyRelease.releaseId, 'policy-release-engi-v11-demo-2026-04-03');
   assert.ok(projected.githubAppSessions.length >= 1);
@@ -760,7 +761,7 @@ test('buyer projection exposes richer artifacts without raw branch files or sour
   assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.unit.entrypoint, 'test/core.test.js');
   assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.api.entrypoint, 'test/api.test.js');
   assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.entrypoint, 'test/e2e.test.js');
-  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.requiredForV14, true);
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.requiredForV15, true);
   assert.ok(projected.latestRun.identityAuthSpineSurface.hops.length >= 6);
   assert.equal(projected.latestRun.branchArtifacts.files, undefined);
 });

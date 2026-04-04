@@ -128,10 +128,10 @@ const EXPLAINERS = {
     ]
   },
   'operating-picture': {
-    kicker: 'V12 shell',
+    kicker: 'V15 shell',
     title: 'Operating picture',
     summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
-    detail: 'This panel is not a separate feature. It is the high-level operator map for how the V12 demo is supposed to read end to end.',
+    detail: 'This panel is not a separate feature. It is the high-level operator map for how the V15 demo is supposed to read end to end.',
     points: [
       'Keeps the thesis legible before deep artifacts',
       'Lets an operator place every later section in one chain'
@@ -305,7 +305,7 @@ const EXPLAINERS = {
     summary: 'How the repo or corpus splits across targeted-deposit and normalization-deposit scenario profiles.',
     detail: 'These counts come from seeded scenario families associated with the repo. They do not mean both profiles are active at once.',
     points: [
-      'Computed from demonstration profile counts in source',
+      'Computed from realization profile counts in source',
       'Helps explain whether a repo mostly supports Profile A, Profile B, or both'
     ]
   },
@@ -365,7 +365,7 @@ const EXPLAINERS = {
     summary: 'The GitHub App installation bound to the repo session.',
     detail: 'Permissions, token-boundary facts, and live GitHub exchange semantics hang off this installation, not off a generic user token.',
     points: [
-      'Installation-scoped authority is central to V12 GitHub auth',
+      'Installation-scoped authority is central to V15 GitHub auth',
       'Used to distinguish repo-bound app sessions from manual/unbound intake'
     ]
   },
@@ -430,10 +430,10 @@ const EXPLAINERS = {
     ]
   },
   'supporting-surfaces': {
-    kicker: 'V12 shell',
+    kicker: 'V15 shell',
     title: 'Supporting surfaces',
     summary: 'Secondary boundary, policy, or lineage surfaces that support the main operator story without becoming the headline.',
-    detail: 'V12 keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
+    detail: 'V15 keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
     points: [
       'Important for honesty and depth',
       'Intentionally downstream of the main deposit-to-need read'
@@ -573,7 +573,7 @@ const EXPLAINERS = {
     kicker: 'Ranking support',
     title: 'Verification and rights',
     summary: 'The downstream-use gate that sits beside ranking rather than inside it.',
-    detail: 'V12 separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
+    detail: 'V15 separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
     points: [
       'Explains recommended tier and policy caps',
       'Makes branch and settlement rights explicit'
@@ -583,7 +583,7 @@ const EXPLAINERS = {
     kicker: 'Branch stack',
     title: 'Asset pack and branch artifacts',
     summary: 'The exact private artifact stack materialized behind the high-level deposit/need/fit story.',
-    detail: 'This is where V12 keeps the dense manifests, proofs, policy surfaces, and deterministic files that justify the run.',
+    detail: 'This is where V15 keeps the dense manifests, proofs, policy surfaces, and deterministic files that justify the run.',
     points: [
       'Materialized locally in this demo',
       'Carries the evidence behind branch, proof, and settlement'
@@ -593,7 +593,7 @@ const EXPLAINERS = {
     kicker: 'Branch capsule',
     title: 'Private remediation branch',
     summary: 'The run materializes its working artifacts on a private remediation branch before any bounded public proof is projected outward.',
-    detail: 'In V12 the branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
+    detail: 'In V15 the branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
     points: [
       'Carries the exact branch artifact stack behind the higher-level story',
       'Separates private remediation work from bounded public proof'
@@ -669,9 +669,9 @@ const EXPLAINERS = {
       'May end up selected, context-only, or excluded depending on later steps'
     ]
   },
-  'v12-scenario-preview': {
+  'v15-scenario-preview': {
     kicker: 'Scenario surface',
-    title: 'V12 scenario preview',
+    title: 'V15 scenario preview',
     summary: 'The preview read of the active seeded scenario before a run materializes deeper branch, proof, and settlement artifacts.',
     detail: 'This preview is meant to make the demand surface and profile semantics consequential before the operator reads private branch artifacts.',
     points: [
@@ -679,9 +679,9 @@ const EXPLAINERS = {
       'Keeps scenario meaning legible even without a latest run'
     ]
   },
-  'v12-detailed-need-surface': {
+  'v15-detailed-need-surface': {
     kicker: 'Need surface',
-    title: 'V12 detailed need surface',
+    title: 'V15 detailed need surface',
     summary: 'The full need and measurement read that expands the compact needing surface into task, parser, failure, derivation, and closure detail.',
     detail: 'This is the deeper need-facing artifact for operators who want to inspect exactly how the active demand was measured.',
     points: [
@@ -756,7 +756,7 @@ const EXPLAINERS = {
     detail: 'The validator scenarios explicitly target replay-window regressions and the proofs required to show they are fixed.',
     points: [
       'Tightly linked to validator overflow and nonce-bound checks',
-      'A narrow but important failure domain in the V12 corpus'
+      'A narrow but important failure domain in the V15 corpus'
     ]
   },
   'awaiting-run': {
@@ -817,7 +817,7 @@ const NEED_CAPSULE_REFERENCES = {
     'public/app.js -> renderNeedVisual()',
     'public/app.js -> renderScenarioCorpusVisual()'
   ],
-  spec: ['V14 §6.2', 'V14 §7', 'V14 §11']
+  spec: ['V15 §6.2', 'V15 §7', 'V15 §11']
 };
 
 const ASSET_CAPSULE_REFERENCES = {
@@ -826,7 +826,7 @@ const ASSET_CAPSULE_REFERENCES = {
     'public/app.js -> renderAssetVisual()',
     'src/engi-demo.js -> makeCandidateAsset()'
   ],
-  spec: ['V14 §6.1', 'V14 §9', 'V14 §10']
+  spec: ['V15 §6.1', 'V15 §9', 'V15 §10']
 };
 
 const EXTRA_EXPLAINERS = {
@@ -841,7 +841,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
-      spec: ['V14 §11', 'V14 §13']
+      spec: ['V15 §11', 'V15 §13']
     }
   },
   'settled-runs': {
@@ -855,21 +855,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
-      spec: ['V14 §11', 'V14 §13']
+      spec: ['V15 §11', 'V15 §13']
     }
   },
   'pre-proof-surface': {
     kicker: 'Closure staging',
     title: 'Before proof',
     summary: 'This surface is intentionally upstream of proof inspection.',
-    detail: 'V12 requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
+    detail: 'V15 requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
     points: [
       'Makes the fit story obvious first',
       'Keeps proof and settlement as downstream closure rather than upfront burden'
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()'],
-      spec: ['V14 §6.3', 'V14 §8', 'V14 §11']
+      spec: ['V15 §6.3', 'V15 §8', 'V15 §11']
     }
   },
   'closure-path-badge': {
@@ -883,7 +883,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()', 'public/app.js -> renderRepoToSettlementVisual()'],
-      spec: ['V14 §8', 'V14 §11']
+      spec: ['V15 §8', 'V15 §11']
     }
   },
   'branch-intent': {
@@ -897,7 +897,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/engi-demo.js -> buildDepositingToNeedingSurface()'],
-      spec: ['V14 §6.3', 'V14 §8', 'V14 §11']
+      spec: ['V15 §6.3', 'V15 §8', 'V15 §11']
     }
   },
   'ref-commit': {
@@ -911,21 +911,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §6.1', 'V14 §10']
+      spec: ['V15 §6.1', 'V15 §10']
     }
   },
   'source-paths': {
     kicker: 'Addressing field',
     title: 'Source paths',
     summary: 'The concrete repository paths ENGI believes this asset or deposit is drawing from.',
-    detail: 'Paths matter because V12 wants kind-native supply and exact addressing to stay legible before the operator opens raw content.',
+    detail: 'Paths matter because V15 wants kind-native supply and exact addressing to stay legible before the operator opens raw content.',
     points: [
       'Useful for repo artifact bundles and mixed deposits',
       'Complements repo/ref identity with file-level scope'
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §6.1', 'V14 §9', 'V14 §10']
+      spec: ['V15 §6.1', 'V15 §9', 'V15 §10']
     }
   },
   'content-root': {
@@ -939,7 +939,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §6.1', 'V14 §10', 'V14 §11']
+      spec: ['V15 §6.1', 'V15 §10', 'V15 §11']
     }
   },
   'upload-surfaces': {
@@ -953,7 +953,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §9']
+      spec: ['V15 §9']
     }
   },
   constraints: {
@@ -967,7 +967,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V14 §6.2', 'V14 §9', 'V14 §11']
+      spec: ['V15 §6.2', 'V15 §9', 'V15 §11']
     }
   },
   'signing-algorithm': {
@@ -981,7 +981,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §10', 'V14 §11']
+      spec: ['V15 §10', 'V15 §11']
     }
   },
   'key-source': {
@@ -995,7 +995,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §10', 'V14 §12']
+      spec: ['V15 §10', 'V15 §12']
     }
   },
   'payload-hash': {
@@ -1009,21 +1009,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V14 §10', 'V14 §11']
+      spec: ['V15 §10', 'V15 §11']
     }
   },
   'settlement-shape': {
     kicker: 'Profile meaning',
     title: 'Settlement shape',
     summary: 'The characteristic economic closure pattern the active profile is supposed to produce.',
-    detail: 'V12 wants Profile A and Profile B to feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
+    detail: 'V15 wants Profile A and Profile B to feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
     points: [
       'Profile A should read as concentrated and direct',
       'Profile B should read as normalized and source-to-shares aware'
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V14 §7', 'V14 §11']
+      spec: ['V15 §7', 'V15 §11']
     }
   },
   'scenario-anchors': {
@@ -1036,8 +1036,8 @@ const EXTRA_EXPLAINERS = {
       'Useful when one profile spans several scenario families'
     ],
     references: {
-      code: ['public/app.js -> renderProfileCompositionVisual()', 'src/engi-demo.js -> buildProfileCompositions()'],
-      spec: ['V14 §7', 'V14 §13']
+      code: ['public/app.js -> renderProfileCompositionVisual()', 'src/demo-shell-state.js -> buildProfileCompositions()'],
+      spec: ['V15 §7', 'V15 §13']
     }
   },
   'profile-composition': {
@@ -1050,15 +1050,15 @@ const EXTRA_EXPLAINERS = {
       'Keeps profile semantics readable without opening raw source fixtures'
     ],
     references: {
-      code: ['public/app.js -> renderProfileCompositionVisual()', 'src/engi-demo.js -> buildProfileCompositions()'],
-      spec: ['V14 §7', 'V14 §8']
+      code: ['public/app.js -> renderProfileCompositionVisual()', 'src/demo-shell-state.js -> buildProfileCompositions()'],
+      spec: ['V15 §7', 'V15 §8']
     }
   },
   'failing-cases': {
     kicker: 'Need measurement',
     title: 'Failing cases',
     summary: 'The concrete benchmark or parser failure slices the active need still carries.',
-    detail: 'These chips are the exact visible failure names V12 wants operators to understand before they start reading branch artifacts.',
+    detail: 'These chips are the exact visible failure names V15 wants operators to understand before they start reading branch artifacts.',
     points: [
       'Upstream of proof closure',
       'One of the clearest ways needing stays consequential in the shell'
@@ -1087,21 +1087,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()'],
-      spec: ['V14 §6.2', 'V14 §10']
+      spec: ['V15 §6.2', 'V15 §10']
     }
   },
   'recall-channels': {
     kicker: 'Need hand-off',
     title: 'Recall channels + hand-offs',
     summary: 'The search and retrieval contracts that move measured demand into candidate recall and later ranking.',
-    detail: 'These are the V8/V12 bridge surfaces that explain how the need becomes search queries, channel contributions, and downstream evidence use.',
+    detail: 'These are the V8/V15 bridge surfaces that explain how the need becomes search queries, channel contributions, and downstream evidence use.',
     points: [
       'Connects need measurement to retrieval behavior',
       'Useful for understanding why later ranking surfaces saw certain assets'
     ],
     references: {
       code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()', 'src/engi-demo.js -> recallCandidates()'],
-      spec: ['V14 §6.2', 'V14 §8']
+      spec: ['V15 §6.2', 'V15 §8']
     }
   },
   'modeled-local-stages': {
@@ -1115,7 +1115,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
-      spec: ['V14 §12']
+      spec: ['V15 §12']
     }
   },
   'executed-local-stages': {
@@ -1129,14 +1129,14 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
-      spec: ['V14 §12']
+      spec: ['V15 §12']
     }
   },
   auth: {
     kicker: 'Capsule term',
     title: 'Auth',
     summary: 'Marks a scenario or asset as primarily about authorization, identity binding, installation-scoped access, or issuer/session correctness.',
-    detail: 'In the V12 corpus auth capsules usually sit close to session validity, issuer compatibility, rollback safety, and GitHub App authority surfaces.',
+    detail: 'In the V15 corpus auth capsules usually sit close to session validity, issuer compatibility, rollback safety, and GitHub App authority surfaces.',
     points: [
       'A demand or asset domain tag',
       'Often upstream of identity/auth spine and proof closure'
@@ -1158,7 +1158,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Rollback',
     summary: 'Marks remediation work that must remain reversible, correctly ordered, and safe to back out.',
-    detail: 'Rollback capsules matter because V12 wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
+    detail: 'Rollback capsules matter because V15 wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
     points: [
       'Often paired with audit receipts or session-preservation constraints',
       'Common in both auth and deployment scenarios'
@@ -1400,7 +1400,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Privacy',
     summary: 'Marks scenarios or assets where disclosure boundaries and private artifact handling are first-class concerns.',
-    detail: 'Privacy capsules matter because V12 keeps branch/proof richness while still requiring bounded public disclosure.',
+    detail: 'Privacy capsules matter because V15 keeps branch/proof richness while still requiring bounded public disclosure.',
     points: [
       'Often pairs with redaction or disclosure tags',
       'Lives close to bounded public proof surfaces'
@@ -1444,7 +1444,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Disclosure',
     summary: 'Marks what can or cannot be projected outward from the private remediation branch.',
-    detail: 'Disclosure capsules matter because V12 wants public proof to stay legible without leaking private artifacts.',
+    detail: 'Disclosure capsules matter because V15 wants public proof to stay legible without leaking private artifacts.',
     points: [
       'Close to privacy and bounded-public-proof concerns',
       'Useful in redaction-heavy scenarios'
@@ -1513,7 +1513,7 @@ const EXTRA_EXPLAINERS = {
     detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may need to read theorem or validator surfaces.',
     points: [
       'Often paired with validator, Creusot, or Rust tags',
-      'Important in proof-heavy V12 demonstrations'
+      'Important in proof-heavy V15 demonstrations'
     ],
     references: ASSET_CAPSULE_REFERENCES
   },
@@ -1620,7 +1620,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Enterprise',
     summary: 'Marks material aimed at enterprise-facing operator concerns such as governance, proofability, and bounded disclosure.',
-    detail: 'Enterprise capsules are a reminder that V12 is trying to feel like the inevitable operating model for serious production use.',
+    detail: 'Enterprise capsules are a reminder that V15 is trying to feel like the inevitable operating model for serious production use.',
     points: [
       'A product-context tag rather than one failure mode',
       'Often appears alongside governance or proof-heavy material'
@@ -1729,8 +1729,8 @@ const EXPLAINER_REFERENCE_GROUPS = {
   'ledger-accounts': ['ledger'],
   'run-history': ['run-history', 'ledger'],
   'candidate-asset': ['candidate-asset'],
-  'v12-scenario-preview': ['scenario-preview'],
-  'v12-detailed-need-surface': ['detailed-need'],
+  'v15-scenario-preview': ['scenario-preview'],
+  'v15-detailed-need-surface': ['detailed-need'],
   'settlement-participation': ['settlement', 'exact-accounting'],
   'journal-diff': ['exact-accounting'],
   'exact-accounting': ['exact-accounting'],
@@ -1751,35 +1751,35 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderRepoSupplyVisual()',
       'src/engi-demo.js -> buildRepoSupplySurface()'
     ],
-    spec: ['V14 §8', 'V14 §9']
+    spec: ['V15 §8', 'V15 §9']
   },
   depositing: {
     code: [
       'public/app.js -> renderDepositingSurfaceVisual()',
       'src/engi-demo.js -> buildDepositingSurface()'
     ],
-    spec: ['V14 §6.1', 'V14 §8']
+    spec: ['V15 §6.1', 'V15 §8']
   },
   needing: {
     code: [
       'public/app.js -> renderNeedingSurfaceVisual()',
       'src/engi-demo.js -> buildNeedingSurface()'
     ],
-    spec: ['V14 §6.2', 'V14 §8']
+    spec: ['V15 §6.2', 'V15 §8']
   },
   fit: {
     code: [
       'public/app.js -> renderDepositingToNeedingVisual()',
       'src/engi-demo.js -> buildDepositingToNeedingSurface()'
     ],
-    spec: ['V14 §6.3', 'V14 §8']
+    spec: ['V15 §6.3', 'V15 §8']
   },
   profiles: {
     code: [
       'public/app.js -> renderProfileCompositionVisual()',
-      'src/engi-demo.js -> buildProfileCompositions()'
+      'src/demo-shell-state.js -> buildProfileCompositions()'
     ],
-    spec: ['V14 §7.1', 'V14 §7.2']
+    spec: ['V15 §7.1', 'V15 §7.2']
   },
   'operating-picture': {
     code: [
@@ -1787,7 +1787,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderOperatingPicture()',
       'src/engi-demo.js -> buildRepoToSettlementSurface()'
     ],
-    spec: ['V14 §8', 'V14 §13']
+    spec: ['V15 §8', 'V15 §13']
   },
   identity: {
     code: [
@@ -1796,14 +1796,14 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildIdentityAuthSpineSurface()',
       'src/engi-demo.js -> buildGithubBoundarySurface()'
     ],
-    spec: ['V14 §10', 'V14 §12']
+    spec: ['V15 §10', 'V15 §12']
   },
   'artifact-kinds': {
     code: [
       'public/app.js -> renderAssetVisual()',
       'public/app.js -> renderRepoInventory()'
     ],
-    spec: ['V14 §9', 'V14 §6.3']
+    spec: ['V15 §9', 'V15 §6.3']
   },
   inventory: {
     code: [
@@ -1811,14 +1811,14 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderRepoInventory()',
       'public/app.js -> syncInventoryKindFilter()'
     ],
-    spec: ['V14 §6.1', 'V14 §9']
+    spec: ['V15 §6.1', 'V15 §9']
   },
   verification: {
     code: [
       'public/app.js -> renderVerificationReportVisual()',
       'public/app.js -> renderEvaluationVisual()'
     ],
-    spec: ['V14 §8', 'V14 §11']
+    spec: ['V15 §8', 'V15 §11']
   },
   branch: {
     code: [
@@ -1826,7 +1826,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> assembleAssetPack()',
       'src/engi-demo.js -> buildBranchArtifacts()'
     ],
-    spec: ['V14 §8', 'V14 §11']
+    spec: ['V15 §8', 'V15 §11']
   },
   'branch-materialization': {
     code: [
@@ -1836,7 +1836,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildMaterializationProof()',
       'src/engi-demo.js -> buildMaterializationVisibilityProof()'
     ],
-    spec: ['V14 §8', 'V14 §11']
+    spec: ['V15 §8', 'V15 §11']
   },
   proof: {
     code: [
@@ -1845,7 +1845,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildProofWitnessManifest()',
       'src/engi-demo.js -> buildBoundedPublicProofArtifact()'
     ],
-    spec: ['V14 §11', 'V14 §12']
+    spec: ['V15 §11', 'V15 §12']
   },
   settlement: {
     code: [
@@ -1854,7 +1854,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> settleNeedEvent()',
       'src/engi-demo.js -> buildSettlementParticipationArtifact()'
     ],
-    spec: ['V14 §11', 'V14 §8']
+    spec: ['V15 §11', 'V15 §8']
   },
   'source-to-shares': {
     code: [
@@ -1862,7 +1862,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildSourceToSharesArtifact()',
       'src/engi-demo.js -> buildAccountingPrecisionReport()'
     ],
-    spec: ['V14 §7.2', 'V14 §11']
+    spec: ['V15 §7.2', 'V15 §11']
   },
   'exact-accounting': {
     code: [
@@ -1871,7 +1871,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildAccountingPrecisionReport()',
       'src/engi-demo.js -> settleNeedEvent()'
     ],
-    spec: ['V14 §11', 'V14 §13']
+    spec: ['V15 §11', 'V15 §13']
   },
   ledger: {
     code: [
@@ -1879,7 +1879,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderLedgerAccountsVisual()',
       'src/engi-demo.js -> publicState()'
     ],
-    spec: ['V14 §11', 'V14 §12']
+    spec: ['V15 §11', 'V15 §12']
   },
   'run-history': {
     code: [
@@ -1887,7 +1887,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> runMakeEngiBranch()',
       'src/engi-demo.js -> publicState()'
     ],
-    spec: ['V14 §11', 'V14 §13']
+    spec: ['V15 §11', 'V15 §13']
   },
   boundary: {
     code: [
@@ -1895,15 +1895,15 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildBoundaryRealitySurface()',
       'src/engi-demo.js -> buildExternalBoundaryManifest()'
     ],
-    spec: ['V14 §12', 'V14 §13']
+    spec: ['V15 §12', 'V15 §13']
   },
   'candidate-asset': {
     code: [
       'public/app.js -> renderAssets()',
       'public/app.js -> renderAssetVisual()',
-      'src/engi-demo.js -> publicAsset()'
+      'src/demo-shell-state.js -> buildPublicAssetSummary()'
     ],
-    spec: ['V14 §6.1', 'V14 §9']
+    spec: ['V15 §6.1', 'V15 §9']
   },
   'scenario-preview': {
     code: [
@@ -1912,7 +1912,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> publicState()',
       'src/engi-demo.js -> buildNeedDescriptor()'
     ],
-    spec: ['V14 §6.2', 'V14 §7']
+    spec: ['V15 §6.2', 'V15 §7']
   },
   'detailed-need': {
     code: [
@@ -1920,7 +1920,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderNeedMeasurementVisual()',
       'src/engi-demo.js -> buildNeedDescriptor()'
     ],
-    spec: ['V14 §6.2', 'V14 §11']
+    spec: ['V15 §6.2', 'V15 §11']
   }
 };
 
@@ -2015,8 +2015,8 @@ const LABEL_EXPLAINER_KEYS = {
   'Supplier pending claims': 'ledger-accounts',
   'Tie-break order': 'source-to-shares',
   'Unique bundles': 'run-history',
-  'V12 detailed need surface': 'v12-detailed-need-surface',
-  'V12 scenario preview': 'v12-scenario-preview',
+  'V15 detailed need surface': 'v15-detailed-need-surface',
+  'V15 scenario preview': 'v15-scenario-preview',
   'Proof logs': 'proof-logs',
   'Workflow': 'benchmark-workflow',
   'Workflow path': 'benchmark-workflow',
@@ -2270,14 +2270,14 @@ function buildDynamicExplainer(label = '', domainKey = '') {
   } else if (/^(preserve|keep|require|block|emit|bind|rerun|restore|replay|no)\b/.test(normalized)) {
     kicker = 'Need constraint';
     summary = 'This capsule is a hard rule the remediation, proof, or settlement path must respect while the need closes.';
-    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because V12 wants constraints to read concretely instead of abstractly.`;
+    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because V15 wants constraints to read concretely instead of abstractly.`;
   } else if (/\b(regression|gap|mismatch|bypass|drift|skip|divergence)\b/.test(normalized)) {
     kicker = 'Failing case';
     summary = 'This capsule names one concrete failing slice currently present in the measured need.';
     detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the needing surface before deeper proof inspection.`;
   } else if (normalized.includes('-')) {
     kicker = 'Scenario / corpus capsule';
-    summary = 'This capsule is part of the seeded V12 corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
+    summary = 'This capsule is part of the seeded V15 corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
     detail = `${domainTitle} is the closest domain anchor for this phrase in the current corpus.`;
   }
 
@@ -2345,7 +2345,7 @@ function renderExplainerFooter(key, explainer) {
   return `
     <div class="explainer-footer">
       ${renderExplainerReferenceGroup('Current source', references.code)}
-      ${renderExplainerReferenceGroup('V14 spec', references.spec)}
+      ${renderExplainerReferenceGroup('V15 spec', references.spec)}
     </div>
   `;
 }
@@ -2488,7 +2488,7 @@ function syncScenarioPicker(state) {
   if (scenarioPickerEl.options.length !== scenarios.length) {
     scenarioPickerEl.innerHTML = scenarios.map((scenario) => `
       <option value="${escapeHtml(scenario.scenarioId)}">${escapeHtml([
-        scenario.demonstrationProfile?.shortLabel,
+        scenario.realizationProfile?.shortLabel,
         scenario.scenarioFamily,
         scenario.repo
       ].filter(Boolean).join(' · '))}</option>
@@ -2590,7 +2590,7 @@ function buildPreviewDepositingSurface(state) {
 
   return {
     depositSessionId: `preview:${session?.authSessionId || 'no-session'}:${selectedEntries.length}`,
-    depositProfile: scenario?.demonstrationProfile?.label || 'Pending deposit preview',
+    depositProfile: scenario?.realizationProfile?.label || 'Pending deposit preview',
     repoSupplyRef: session ? `${session.repo} · ${session.authSessionId}` : 'No authenticated repo session',
     selectedInventoryRefs: selectedEntries.map((entry) => entry.inventoryEntryId),
     selectedArtifactKindCounts,
@@ -2602,8 +2602,8 @@ function buildPreviewDepositingSurface(state) {
       ...selectedEntries.map((entry) => entry.authBinding?.authPayloadHash)
     ]),
     depositIntentSummary: selectedEntries.length
-      ? `Previewing a ${scenario?.demonstrationProfile?.shortLabel?.toLowerCase() || 'selected'} deposit from ${session?.repo || 'the bound repo'} using ${selectedEntries.length} repo artifact${selectedEntries.length === 1 ? '' : 's'}.`
-      : `Select repo artifacts to preview the ${scenario?.demonstrationProfile?.shortLabel?.toLowerCase() || 'active'} deposit.`
+      ? `Previewing a ${scenario?.realizationProfile?.shortLabel?.toLowerCase() || 'selected'} deposit from ${session?.repo || 'the bound repo'} using ${selectedEntries.length} repo artifact${selectedEntries.length === 1 ? '' : 's'}.`
+      : `Select repo artifacts to preview the ${scenario?.realizationProfile?.shortLabel?.toLowerCase() || 'active'} deposit.`
   };
 }
 
@@ -2621,7 +2621,7 @@ function buildPreviewDepositingToNeedingSurface(state) {
   if (!needingSurface) return null;
   const selectedKinds = Object.keys(depositingSurface.selectedArtifactKindCounts || {});
   const overlapKinds = selectedKinds.filter((kind) => (needingSurface.targetArtifactKinds || []).includes(kind));
-  const profileId = needingSurface.demonstrationProfile?.profileId || 'A';
+  const profileId = needingSurface.realizationProfile?.profileId || 'A';
   const normalizationPressure = profileId === 'B'
     ? selectedKinds.length > 1 ? 'high' : 'medium'
     : 'low';
@@ -2669,7 +2669,7 @@ function renderInventorySelectionSummary(state) {
       ${kvRow('Account ID', session.installationAccountId || '—')}
       ${kvRow('Repo supply entries', repoSupply?.inventoryEntryCount ?? '—', { explainerKey: 'repo-supply' })}
       ${kvRow('Scenario coverage', formatList(repoSupply?.scenarioFamilies || []), { html: true })}
-      ${kvRow('Profile coverage', formatCountMap(repoSupply?.demonstrationProfileCounts || {}), { html: true })}
+      ${kvRow('Profile coverage', formatCountMap(repoSupply?.realizationProfileCounts || {}), { html: true })}
       ${kvRow('Permissions root', session.permissionsRoot || '—', { explainerKey: 'github-app-auth' })}
       ${kvRow('Token boundary', session.tokenBoundary?.mintingState || '—', { explainerKey: 'github-app-auth' })}
       ${kvRow('Writable scopes', formatList(session.tokenBoundary?.writableScopes || []), { html: true })}
@@ -3282,7 +3282,7 @@ function renderNeedingSurfaceVisual(surface) {
       <div class="highlight-card">
         <div class="row wrap-gap">
           <strong>${escapeHtml(surface?.taskSummary || 'Measured need')}</strong>
-          <div class="badge-row">${statusBadge(surface?.demonstrationProfile?.shortLabel || surface?.demonstrationProfile?.label || 'need')}</div>
+          <div class="badge-row">${statusBadge(surface?.realizationProfile?.shortLabel || surface?.realizationProfile?.label || 'need')}</div>
         </div>
         <p>${escapeHtml(surface?.boundednessSummary || 'No boundedness summary available.')}</p>
       </div>
@@ -3349,15 +3349,15 @@ function renderNeedVisual(need) {
   const parser = need.benchmarkParserContract || {};
   const parserFailure = parser.parserFailureContract || {};
   const benchmarkTarget = need.benchmarkTarget || {};
-  const demonstrationProfile = need.demonstrationProfile || {};
-  const modeExplainers = profileModeExplainers(demonstrationProfile.profileId);
+  const realizationProfile = need.realizationProfile || {};
+  const modeExplainers = profileModeExplainers(realizationProfile.profileId);
   return `
     <div class="visual-stack">
       <div class="highlight-card">
         <div class="row wrap-gap">
           <strong>${escapeHtml(need.task || need.taskSeed || 'Measured engineering need')}</strong>
           <div class="badge-row">
-            ${statusBadge(demonstrationProfile.shortLabel || demonstrationProfile.label || need.conformanceProfile || need.profileAStatus)}
+            ${statusBadge(realizationProfile.shortLabel || realizationProfile.label || need.conformanceProfile || need.profileAStatus)}
           </div>
         </div>
         <p class="meta">${escapeHtml(need.repo || '')} · buyer branch ${escapeHtml(need.baseRef || need.buyerBranch || '—')} · benchmark run ${escapeHtml(need.benchmarkRunId || benchmarkTarget.runId || '—')}</p>
@@ -3368,12 +3368,12 @@ function renderNeedVisual(need) {
         ${metricTile('Parser', `${parser.parserKind || need.parserKind || '—'} ${parser.parserVersion || need.parserVersion || ''}`.trim())}
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>${labelWithExplainer('Profile semantics', modeExplainers.profile)}</h4><span class="badge">${escapeHtml(demonstrationProfile.label || 'Scenario profile')}</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Profile semantics', modeExplainers.profile)}</h4><span class="badge">${escapeHtml(realizationProfile.label || 'Scenario profile')}</span></div>
         <div class="kv-grid">
-          ${kvRow('Deposit mode', demonstrationProfile.depositMode || '—', { explainerKey: modeExplainers.deposit })}
-          ${kvRow('Need mode', demonstrationProfile.needMode || '—', { explainerKey: modeExplainers.need })}
-          ${kvRow('Asset-pack shape', demonstrationProfile.assetPackShape || '—')}
-          ${kvRow('Settlement shape', demonstrationProfile.settlementShape || '—')}
+          ${kvRow('Deposit mode', realizationProfile.depositMode || '—', { explainerKey: modeExplainers.deposit })}
+          ${kvRow('Need mode', realizationProfile.needMode || '—', { explainerKey: modeExplainers.need })}
+          ${kvRow('Asset-pack shape', realizationProfile.assetPackShape || '—')}
+          ${kvRow('Settlement shape', realizationProfile.settlementShape || '—')}
         </div>
       </div>
       <div class="section-card">
@@ -3501,7 +3501,7 @@ function renderAssetVisual(asset) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Artifact selection', 'depositing')}</h4><span class="badge">V12 deposit source</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Artifact selection', 'depositing')}</h4><span class="badge">V15 deposit source</span></div>
           <div class="kv-grid">
             ${kvRow('Intake mode', asset.artifactSelectionSurface?.intakeMode || '—')}
             ${kvRow('Selection label', asset.artifactSelectionSurface?.selectionLabel || '—')}
@@ -4093,7 +4093,7 @@ function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
   return `
     <div class="object-list">
       ${scenarios.map((scenario) => {
-        const modeExplainers = profileModeExplainers(scenario.demonstrationProfile?.profileId);
+        const modeExplainers = profileModeExplainers(scenario.realizationProfile?.profileId);
         return `
         <div class="section-card">
           <div class="row wrap-gap">
@@ -4103,14 +4103,14 @@ function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
             </div>
             <div class="badge-row">
               ${statusBadge(scenario.scenarioId === activeScenarioId ? 'active scenario' : 'seeded scenario')}
-              <span class="badge">${escapeHtml(scenario.demonstrationProfile?.shortLabel || 'Profile')}</span>
+              <span class="badge">${escapeHtml(scenario.realizationProfile?.shortLabel || 'Profile')}</span>
               <span class="badge">${escapeHtml(scenario.parserKind || 'parser')}</span>
             </div>
           </div>
           <p>${escapeHtml(scenario.taskSeed || '—')}</p>
           <div class="kv-grid">
-            ${kvRow('Deposit mode', scenario.demonstrationProfile?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
-            ${kvRow('Need mode', scenario.demonstrationProfile?.needMode || '—', { explainerKey: modeExplainers.need })}
+            ${kvRow('Deposit mode', scenario.realizationProfile?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
+            ${kvRow('Need mode', scenario.realizationProfile?.needMode || '—', { explainerKey: modeExplainers.need })}
             ${kvRow('Coverage tags', chipList(scenario.coverageTags || []), { html: true })}
             ${kvRow('Failing cases', formatList(scenario.failingCases || []), { html: true })}
             ${kvRow('Weak dimensions', formatList(scenario.weakDimensions || []), { html: true })}
@@ -4281,7 +4281,7 @@ function renderRepoSupplyVisual(surface) {
         <strong>${labelWithExplainer('Supply parity', 'repo-supply')}</strong>
         <span>Artifact kinds: ${formatCountMap(surface?.artifactKindCounts || {})}</span>
         <span>Origin kinds: ${formatCountMap(surface?.originKindCounts || {})}</span>
-        <span>Profile coverage: ${formatCountMap(surface?.demonstrationProfileCounts || {})}</span>
+        <span>Profile coverage: ${formatCountMap(surface?.realizationProfileCounts || {})}</span>
       </div>
       <div class="object-list">
         ${repos.map((repo) => `
@@ -4296,7 +4296,7 @@ function renderRepoSupplyVisual(surface) {
             <div class="kv-grid">
               ${kvRow('Inventory entries', repo.inventoryEntryCount ?? '—')}
               ${kvRow('Scenario coverage', formatList(repo.scenarioFamilies || []), { html: true })}
-              ${kvRow('Profile coverage', formatCountMap(repo.demonstrationProfileCounts || {}), { html: true })}
+              ${kvRow('Profile coverage', formatCountMap(repo.realizationProfileCounts || {}), { html: true })}
               ${kvRow('Artifact kinds', formatCountMap(repo.artifactKindCounts || {}), { html: true, explainerKey: 'artifact-kind' })}
               ${kvRow('Origin kinds', formatCountMap(repo.originKindCounts || {}), { html: true, explainerKey: 'origin-kind' })}
               ${kvRow('Dominant stacks', formatList(repo.dominantStacks || []), { html: true })}
@@ -4311,25 +4311,25 @@ function renderRepoSupplyVisual(surface) {
 
 function renderRepoToSettlementVisual(surface) {
   const stages = surface?.stages || [];
-  const demonstrationProfile = surface?.demonstrationProfile || {};
-  const modeExplainers = profileModeExplainers(demonstrationProfile.profileId);
+  const realizationProfile = surface?.realizationProfile || {};
+  const modeExplainers = profileModeExplainers(realizationProfile.profileId);
   return `
     <div class="visual-stack">
       <div class="highlight-card">
         <div class="row wrap-gap">
           <strong>${escapeHtml(surface?.branchName || 'Repo-to-settlement path')}</strong>
-          <div class="badge-row">${statusBadge(demonstrationProfile.shortLabel || surface?.scenarioId || 'scenario')} ${statusBadge(stages.at(-1)?.status || 'ready')}</div>
+          <div class="badge-row">${statusBadge(realizationProfile.shortLabel || surface?.scenarioId || 'scenario')} ${statusBadge(stages.at(-1)?.status || 'ready')}</div>
         </div>
-        <p class="meta">${escapeHtml(demonstrationProfile.label || 'Repo selection -> need -> asset -> branch -> proof -> settlement')}.</p>
+        <p class="meta">${escapeHtml(realizationProfile.label || 'Repo selection -> need -> asset -> branch -> proof -> settlement')}.</p>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
           <div class="section-head"><h4>${labelWithExplainer('Deposit mode', modeExplainers.deposit)}</h4><span class="badge">Profile</span></div>
-          <p>${escapeHtml(surface?.depositMode || demonstrationProfile.depositMode || '—')}</p>
+          <p>${escapeHtml(surface?.depositMode || realizationProfile.depositMode || '—')}</p>
         </div>
         <div class="section-card">
           <div class="section-head"><h4>${labelWithExplainer('Need mode', modeExplainers.need)}</h4><span class="badge">Profile</span></div>
-          <p>${escapeHtml(surface?.needMode || demonstrationProfile.needMode || '—')}</p>
+          <p>${escapeHtml(surface?.needMode || realizationProfile.needMode || '—')}</p>
         </div>
       </div>
       <div class="timeline">
@@ -4424,8 +4424,8 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Repo supply',
     subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-    eyebrow: 'V12 shell surface',
-    help: 'V12 starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+    eyebrow: 'V15 shell surface',
+    help: 'V15 starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
     explainerKey: 'repo-supply',
     data: state.repoSupplySurface,
     visual: renderRepoSupplyVisual,
@@ -4435,8 +4435,8 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Depositing surface',
       subtitle: 'The active repo-authenticated deposit, before branch/proof/settlement detail',
-      eyebrow: state.latestRun?.depositingSurface ? 'V12 run surface' : 'V12 shell preview',
-      help: 'This is the opening operator action in V12: what was deposited, from where, and with which bound roots.',
+      eyebrow: state.latestRun?.depositingSurface ? 'V15 run surface' : 'V15 shell preview',
+      help: 'This is the opening operator action in V15: what was deposited, from where, and with which bound roots.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -4447,7 +4447,7 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Needing surface',
       subtitle: 'The active measured demand surface',
-      eyebrow: state.latestRun?.needingSurface ? 'V12 run surface' : 'V12 scenario preview',
+      eyebrow: state.latestRun?.needingSurface ? 'V15 run surface' : 'V15 scenario preview',
       help: 'This is the measured need that the deposit has to justify before proof and settlement carry the story forward.',
       explainerKey: 'needing',
       data: needingSurface,
@@ -4459,8 +4459,8 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Depositing-to-needing surface',
       subtitle: 'Why this deposit fits this need before deeper closure inspection',
-      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V12 run surface' : 'V12 shell preview',
-      help: 'V12 makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V15 run surface' : 'V15 shell preview',
+      help: 'V15 makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
@@ -4471,7 +4471,7 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Repo-to-settlement path',
       subtitle: 'Depositing to settlement as one staged operating path',
-      eyebrow: 'V12 run surface',
+      eyebrow: 'V15 run surface',
       help: 'Once deposit, need, and fit are legible, this surface walks the closure path through asset pack, branch, proof, and settlement.',
       explainerKey: 'repo-to-settlement',
       data: state.latestRun.repoToSettlementSurface,
@@ -4493,7 +4493,7 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Identity and auth spine',
       subtitle: 'Repo auth, signer authority, branch authority, proof authority, and settlement authority',
-      eyebrow: 'V12 support surface',
+      eyebrow: 'V15 support surface',
       help: 'This surface turns the existing auth artifacts into one legible authority chain.',
       explainerKey: 'identity-auth-spine',
       data: state.latestRun.identityAuthSpineSurface,
@@ -4504,7 +4504,7 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Boundary reality',
     subtitle: 'What is modeled here, what executes here, and what remains external',
-    eyebrow: 'V12 support surface',
+    eyebrow: 'V15 support surface',
     help: 'Boundary truth stays explicit here so the primary story can stay centered on depositing, needing, and their fit.',
     explainerKey: 'boundary-reality',
     data: state.boundaryRealitySurface,
@@ -4528,7 +4528,7 @@ function renderSummary(state) {
   const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
   const bundleId = latestRun?.settlementPreview?.bundleId || 'No run yet';
   const activeScenario = currentScenario(state);
-  const activeProfile = latestRun?.demonstrationProfile || activeScenario?.demonstrationProfile;
+  const activeProfile = latestRun?.realizationProfile || activeScenario?.realizationProfile;
 
   summaryEl.innerHTML = [
     summaryTile('Authenticated repos', repoCount, 'repo-supply'),
@@ -4537,7 +4537,7 @@ function renderSummary(state) {
     summaryTile('Candidate assets', state.assets.length, 'candidate-asset'),
     summaryTile('Need scenarios', state.needScenarios.length, 'needing'),
     summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
-    summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v12-scenario-preview'),
+    summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v15-scenario-preview'),
     summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
     summaryTile('Fit pressure', fitSurface?.normalizationPressure || 'pending', 'normalization-pressure'),
     summaryTile('Selected assets in latest pack', selected, 'asset-pack'),
@@ -4566,19 +4566,19 @@ function renderScenario(state) {
       <div class="row wrap-gap">
         <strong>${escapeHtml(source.repo)}</strong>
         <div class="badge-row">
-          ${statusBadge(source.demonstrationProfile?.shortLabel || source.conformanceProfile || source.profileAStatus)}
+          ${statusBadge(source.realizationProfile?.shortLabel || source.conformanceProfile || source.profileAStatus)}
           ${source.benchmarkRunId ? `<span class="badge">${escapeHtml(source.benchmarkRunId)}</span>` : ''}
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">V12 foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
+      <p class="meta">V15 foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
     ${needingSurface ? renderJsonSurface({
       title: 'Needing surface',
       subtitle: 'Measured demand before deeper proof and settlement inspection',
-      eyebrow: state.latestRun?.needingSurface ? 'V12 run surface' : 'V12 scenario preview',
-      eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'v12-scenario-preview',
-      help: 'This is the compact V12 read of what is needed, why it matters, and what closure should look like.',
+      eyebrow: state.latestRun?.needingSurface ? 'V15 run surface' : 'V15 scenario preview',
+      eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'v15-scenario-preview',
+      help: 'This is the compact V15 read of what is needed, why it matters, and what closure should look like.',
       explainerKey: 'needing',
       data: needingSurface,
       visual: renderNeedingSurfaceVisual,
@@ -4587,8 +4587,8 @@ function renderScenario(state) {
     ${renderJsonSurface({
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'V12 detailed need surface',
-      eyebrowExplainerKey: 'v12-detailed-need-surface',
+      eyebrow: 'V15 detailed need surface',
+      eyebrowExplainerKey: 'v15-detailed-need-surface',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       explainerKey: 'needing',
       data: source,
@@ -4607,12 +4607,12 @@ function renderScenario(state) {
     ${renderJsonSurface({
       title: 'Operational profiles + demo semantics',
       subtitle: 'Targeted deposit versus normalization deposit',
-      eyebrow: 'V12 profile surface',
+      eyebrow: 'V15 profile surface',
       help: 'The profile distinction is about how ENGI deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
-      explainerKey: source.demonstrationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
+      explainerKey: source.realizationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: {
         ...(state.profileCompositions || state.conformanceProfiles?.profileCompositions || {}),
-        activeScenarioProfileId: source.demonstrationProfile?.profileId
+        activeScenarioProfileId: source.realizationProfile?.profileId
       },
       visual: renderProfileCompositionVisual,
       accent: 'accent-orange'
@@ -4621,7 +4621,7 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'V12 keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
+      help: 'V15 keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
@@ -4652,8 +4652,8 @@ function renderAssets(state) {
     ${depositingSurface ? renderJsonSurface({
       title: 'Depositing surface',
       subtitle: 'What the operator has deposited or is previewing right now',
-      eyebrow: state.latestRun?.depositingSurface ? 'V12 run surface' : 'V12 shell preview',
-      help: 'V12 treats depositing as the beginning of the operator story, not as a side form.',
+      eyebrow: state.latestRun?.depositingSurface ? 'V15 run surface' : 'V15 shell preview',
+      help: 'V15 treats depositing as the beginning of the operator story, not as a side form.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -4684,8 +4684,8 @@ function renderFit(state) {
     renderJsonSurface({
       title: 'Depositing-to-needing surface',
       subtitle: 'Why the active deposit fits the active need before deeper proof/settlement sections',
-      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V12 run surface' : 'V12 shell preview',
-      help: 'This is the primary V12 relation surface. It should answer why the selected deposit is right for the measured need.',
+      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V15 run surface' : 'V15 shell preview',
+      help: 'This is the primary V15 relation surface. It should answer why the selected deposit is right for the measured need.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
@@ -4732,7 +4732,7 @@ function renderEvaluations(state) {
     ${verificationReport ? renderJsonSurface({
       title: 'Verification report',
       subtitle: 'Ranking is separate from verification and rights propagation',
-      eyebrow: 'V12 support surface',
+      eyebrow: 'V15 support surface',
       help: 'Visual mode emphasizes allowed downstream use rather than making you read a wall of nested booleans.',
       data: verificationReport,
       visual: renderVerificationReportVisual,
@@ -4849,7 +4849,7 @@ function renderBranchArtifacts(state) {
     {
       title: 'Profile composition surface',
       subtitle: '.engi/profile-composition.json',
-      explainerKey: run.demonstrationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
+      explainerKey: run.realizationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: run.profileCompositionSurface,
       raw: branchFiles['.engi/profile-composition.json'],
       visual: renderProfileCompositionVisual,
@@ -4999,7 +4999,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V12 demo. The operating surfaces tell the story first, and this branch stack still carries the exact private artifacts behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the V15 demo. The operating surfaces tell the story first, and this branch stack still carries the exact private artifacts behind that story.</p>
     </div>
     ${artifactDefs.map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -5078,7 +5078,7 @@ function renderSettlement(state) {
       title: 'Accounting precision report',
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
-      help: 'V12 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
+      help: 'V15 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
       explainerKey: 'exact-accounting',
       data: run.accountingPrecisionReport,
       raw: branchFiles['.engi/accounting-precision-report.json'],
@@ -5186,7 +5186,7 @@ document.getElementById('makeBranchButton').addEventListener('click', async () =
       body: JSON.stringify({ principal: 'buyer', scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
     });
     await refresh();
-    setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} in ${result.latestRun.demonstrationProfile?.shortLabel || 'the selected profile'} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
+    setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} in ${result.latestRun.realizationProfile?.shortLabel || 'the selected profile'} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
   } catch (error) {
     setStatus(error.message);
   }
@@ -5207,7 +5207,7 @@ scenarioPickerEl?.addEventListener('change', () => {
     syncExplainerAlignment();
   }
   const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
-  setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.demonstrationProfile?.shortLabel || 'profile pending'}).`);
+  setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.realizationProfile?.shortLabel || 'profile pending'}).`);
 });
 
 authSessionPickerEl?.addEventListener('change', () => {
@@ -5248,7 +5248,7 @@ document.getElementById('resetButton').addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to the seeded Spec V12 scenario state.');
+    setStatus('Demo reset to the seeded Spec V15 scenario state.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -5301,7 +5301,7 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
     selectedInventoryKind = 'all';
     formEl.reset();
     await refresh();
-    setStatus('Candidate asset deposited into the V12 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
+    setStatus('Candidate asset deposited into the V15 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
   } catch (error) {
     setStatus(error.message);
   }
@@ -5313,7 +5313,7 @@ window.addEventListener('resize', () => syncExplainerAlignment());
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V12 deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V15 deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

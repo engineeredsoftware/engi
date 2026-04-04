@@ -1,13 +1,13 @@
-# ENGI Demo - V14-canonical / V12-realized deterministic local prototype with V15 draft companions
+# ENGI Demo - V15 canonical deterministic local prototype
 
-This demo is now governed by the V14 canonical spec while still remaining most fully realized against the preserved V12 design/demonstration baseline.
+This demo is now governed by the active V15 canonical spec and serves as the current reference realization for the V15 operating chain.
 
 Current spec/doc truth for this repo:
-- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V14`
-- V14 is the current canonical/latest target and governing spec
-- V12 remains the last fully realized canon implementation baseline preserved in the demo source
-- V13 established the spec-file structure/formality standard that V14 now realizes in full
-- V15 is the drafted next target, with demo-local parity now tracked at `SPEC_V15_IMPLEMENTATION_MATRIX.md`
+- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V15`
+- V15 is the current canonical/latest target and governing spec
+- V15 is the current realized canon implementation baseline preserved in the demo source
+- V13 established the spec-file structure/formality standard that V15 now realizes in full
+- Demo-local parity is tracked at `SPEC_V15_IMPLEMENTATION_MATRIX.md`
 
 ## What this prototype demonstrates
 
@@ -47,8 +47,11 @@ Those surfaces are represented deterministically in local state and called out e
 
 Primary source files:
 - `src/engi-demo.js` - core state, need measurement, evaluation, proof, settlement, projection, and branch artifact builders
-- `src/realization-profile.js` - canonical profile aliasing, discriminants, and legacy demo-name compatibility
+- `src/demo-shell-state.js` - demo-shell/public-state projection shaping, profile composition surfaces, and bounded projection summaries
+- `src/realization-profile.js` - canonical realization-profile discriminants and profile builders
 - `src/settlement-structs.js` - source-to-shares and settlement participation discriminants
+- `src/canonical/projections.js` - bounded public proof, redaction, disclosure, and projection-policy builders
+- `src/canonical/proof-materialization.js` - materialization, witness-manifest, and accounting-precision builders
 - `server.js` - deterministic API and atomic local persistence
 - `public/app.js` - operator shell, visual/raw surfaces, explainers, and panel ordering
 - `public/index.html` - canonical shell structure for the demo
@@ -99,12 +102,12 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 
 ## Repo documentation for the current pass
 
-- `../ENGI_SPEC_V14.md` - full enriched canonical spec
-- `../ENGI_SPEC_V14_NOTES.md` - version-local drafting notes
+- `../ENGI_SPEC_V15.md` - full enriched canonical spec
+- `../ENGI_SPEC_V15_NOTES.md` - version-local drafting notes
 - `../ENGI_SPEC_V15.md` - drafted next system-spec target with explicit system-vs-demo separation
 - `../ENGI_SPEC_V15_NOTES.md` - V15 drafting rationale and refactor posture
 - `../ENGI_SPEC_V15_INFORMATION_AUDIT.md` - latest prior-state to V15 information audit
 - `SPEC_V15_IMPLEMENTATION_MATRIX.md` - canonical V15 demo parity/debt ledger for this repo
-- `SPEC_V14_IMPLEMENTATION_MATRIX.md` - parity/debt ledger for the current demo
+- `SPEC_V15_IMPLEMENTATION_MATRIX.md` - parity/debt ledger for the current demo
 - `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` - host/runtime/container truth
 - `ARCHITECTURE_MAP.md` - preserved architecture map

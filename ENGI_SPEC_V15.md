@@ -1,27 +1,27 @@
 # ENGI Spec V15
 
-Status: draft
+Status: active canonical target
 Scope: ENGI v1 / V15 structural separation, provable typing, and canonical source-refactor target
-Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` remains `V14` as current canonical/latest target
+Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V15`
 Baseline references:
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15_INFORMATION_AUDIT.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
 
 
-Status: draft successor target to V14; not the current canonical/latest target while `ENGI_SPEC.txt` remains `V14`
-Scope: next canonical system-spec target with explicit system-canon / demo-canon separation
-Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V14`
-Current canonical/latest target preserved: `V14`
-Last fully realized canon preserved: `V12`
+Status: active canonical system specification
+Scope: canonical system-spec target with explicit system-canon / demo-canon separation
+Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V15`
+Current canonical/latest target preserved: `V15`
+Last fully realized canon preserved: `V15`
 Structural standard preserved: `V13`
-Current V15 realization baseline: `engi-demo` deterministic prototype plus demo-local docs, treated as the current demo realization rather than the default home of system canon
+Current V15 realization baseline: `engi-demo` deterministic prototype plus demo-local docs, treated as the current reference realization rather than the default home of system canon
 Baseline references:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V14_IMPLEMENTATION_MATRIX.md`
+- `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V15_IMPLEMENTATION_MATRIX.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V13_INFORMATION_AUDIT.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12.md`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
@@ -44,7 +44,7 @@ Its job is not to redesign ENGI.
 Its job is to carry the V14 close-review findings forward, sharpen the major closure appendices, and separate system canon from demo canon so future implementations are not forced to live inside one demonstration directory.
 
 Relative to V14, V15 now does all of the following explicitly:
-1. keeps `ENGI_SPEC.txt = V14` explicit and does not repoint away from V14,
+1. repoints `ENGI_SPEC.txt` to `V15` and promotes this file family to the active canonical target,
 2. defines a root system-spec family separately from the demo-spec family under `engi-demo/`,
 3. introduces a root-level system parity/debt matrix and a separate demo implementation matrix,
 4. preserves `V12` as the last fully realized canon while refusing to treat the current demo as the universal home of system implementation expectations,
@@ -65,8 +65,8 @@ The central V15 rule is:
 ## 1.3 Current canonical-target nuance
 
 A V15-conformant document family must preserve the distinction that:
-- `ENGI_SPEC.txt = V14` means V14 is the current canonical/latest target
-- **V12 remains the last fully realized canon**
+- `ENGI_SPEC.txt = V15` means V15 is the current canonical/latest target
+- **V15 is the now-realized canonical implementation baseline**
 
 This nuance must remain explicit anywhere version authority or implementation parity is discussed.
 
@@ -205,9 +205,9 @@ ENGI versioning remains:
 4. a draft version does not automatically become canonical merely because it is newer.
 
 Accordingly:
-- `ENGI_SPEC.txt = V14` means V14 remains the pointer target and current canonical/latest target,
-- V15 is the drafted successor target and next canonical candidate, not the active pointer,
-- V12 remains the last fully realized canon and preserved semantic anchor,
+- `ENGI_SPEC.txt = V15` means V15 is the pointer target and current canonical/latest target,
+- V15 is the active canonical system specification rather than a draft-only successor target,
+- V15 is the realized canonical baseline and preserved semantic anchor for the current repo,
 - V13 remains the file-structure/formality standard,
 - the current `engi-demo` source remains the most concrete realization baseline referenced by V15,
 - but `engi-demo` is no longer treated as the universal home of canonical system implementation expectations.
@@ -352,9 +352,9 @@ For V15 drafting, source-of-truth precedence is:
 8. prior versions as historical context.
 
 Interpretation for this pass is:
-1. keep `V14` explicit as the current canonical/latest target because the pointer still resolves there,
-2. treat V15 as the drafted successor target for system canon,
-3. preserve `V12` as the most fully realized semantic anchor where current source still reflects older explicitness or naming,
+1. keep `V15` explicit as the current canonical/latest target because the pointer now resolves there,
+2. treat V15 as the governing system canon rather than a draft-only successor target,
+3. preserve predecessor versions only where they clarify historical design deltas or naming migration,
 4. treat the V15 demo spec as the governing interpretation of the current local deterministic prototype,
 5. record system-vs-demo divergence explicitly in the V15 system parity matrix and the V15 demo matrix rather than collapsing them into one ledger,
 6. use prior versions only to recover lost explicitness, not to dilute current canon status or demo/system separation.
@@ -383,7 +383,7 @@ Canonical source references in V15 SHOULD identify:
 - and the test entrypoint that validates it when one exists.
 
 Preferred style in the spec body and appendices is:
-- `engi-demo/src/engi-demo.js -> buildDepositingSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildDepositingSurface(...)`
 - `engi-demo/public/app.js -> renderDepositingSurfaceVisual(...)`
 - `engi-demo/test/e2e.test.js -> browser flow keeps V12 ordering...`
 
@@ -411,11 +411,11 @@ This is additive.
 It is not a claim that the current repo has already completed the refactor, and it is not permission to collapse demo-local migration work into the system layer.
 
 The purpose of the refactor focus is to make future implementation growth easier without rewriting ENGI semantics each time source layout improves.
-It exists so the next implementation family can inherit stable canonical structures and names even if the current realization still preserves older vocabulary or concentrated builder files.
+It exists so the next implementation family can inherit stable canonical structures and names even while remaining orchestration is still concentrated in a smaller number of source files.
 
 Canonical source-refactor rules for V15 are:
 1. canonical types and structs MUST remain explicit in the system spec even when the current source still realizes them through JavaScript object builders and emitted JSON artifacts,
-2. system canon MAY define preferred concept names while preserving current source names such as `buildDemonstrationProfile(...)` and `demonstrationProfile` as honest realization-era labels until source migration actually lands,
+2. system canon MAY define preferred concept names during migration, but once source migration lands the active source SHOULD converge on those canonical names rather than preserving obsolete aliases indefinitely,
 3. high-information surfaces such as receipts, proofs, settlement artifacts, manifests, and canonical operating surfaces SHOULD stay distinguishable from explainer-only or projection-only summaries,
 4. file and module organization SHOULD be able to evolve toward clearer subsystem boundaries such as need measurement, deposit surfaces, evaluation, proof, settlement, projection, and validation without forcing a rewrite of core canon,
 5. docs, explainers, and tests SHOULD reference the same canonical surfaces and builder or artifact families so parity is about the same system truth rather than parallel storytelling,
@@ -423,8 +423,15 @@ Canonical source-refactor rules for V15 are:
 7. the root V15 system family owns canonical naming, type, and module-boundary intent, while the demo family owns the current migration reality of `engi-demo/`.
 
 For this repo, the current refactor reading is:
-- `engi-demo/src/engi-demo.js` remains the dominant orchestration file and canonical builder reservoir for the current demo realization,
+- `engi-demo/src/engi-demo.js` remains the dominant orchestration file and still owns need measurement, ranking/evaluation, branch materialization, and several remaining proof/settlement builders,
+- `engi-demo/src/canonical/enums.js` and `engi-demo/src/canonical/types.js` now isolate closed-case values and JSDoc surface vocabulary,
+- `engi-demo/src/canonical/surfaces.js` now owns the primary operating-surface builders and the compact repo-to-settlement summary surfaces,
+- `engi-demo/src/canonical/run-artifacts.js` now owns run-level artifact, manifest, telemetry, and coverage-report builders,
+- `engi-demo/src/canonical/projections.js` now owns bounded-public, disclosure, and projection-policy builders,
+- `engi-demo/src/canonical/proof-materialization.js` now owns proof-witness, accounting-precision, and materialization-specific builders,
+- `engi-demo/src/demo-shell-state.js` now owns demo-shell/public-state projection shaping,
 - helper modules such as `engi-demo/src/engi-core.js`, `engi-demo/src/receipt-schemas.js`, `engi-demo/src/benchmark-model.js`, `engi-demo/src/proof-log.js`, and `engi-demo/src/server-ranking.js` already show partial concern-based factoring,
+- the next extraction seams are now concrete rather than hypothetical: need measurement/inference, evaluation/materialization, the remaining proof/settlement artifact emission, and server/persistence boundaries still remain outside the extracted modules,
 - `engi-demo/public/app.js` carries operator-experience and explainer organization that must stay traceable to the canonical artifact surfaces rather than drifting into separate glossary-only truth,
 - `engi-demo/test/core.test.js`, `engi-demo/test/api.test.js`, and `engi-demo/test/e2e.test.js` already form the primary docs/tests parity evidence for the current realization.
 
@@ -562,8 +569,8 @@ type DepositingSurface = {
 }
 ```
 
-Current demo source still exposes the public field family `demonstrationProfile` and preserves `buildDemonstrationProfile(...)` as a legacy alias, while `buildRealizationProfile(...)` now states the preferred canonical name more directly.
-V15 treats the legacy surface as current realization labeling for the canonical `ConformanceProfile` object rather than as a contradiction.
+Current demo source now exposes the public field family `realizationProfile` and uses `buildRealizationProfile(...)` directly.
+V15 therefore treats the profile naming cleanup as landed source truth rather than as an aliasing exception.
 
 ### Invariants
 
@@ -584,8 +591,8 @@ The operator should understand the depositing surface as the answer to:
 
 ### Current source references
 
-- `engi-demo/src/engi-demo.js -> buildRepoSupplySurface(...)`
-- `engi-demo/src/engi-demo.js -> buildDepositingSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildRepoSupplySurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildDepositingSurface(...)`
 - `engi-demo/server.js -> buildDepositInput(...)`
 - `engi-demo/public/app.js -> renderRepoSupplyVisual(...)`
 - `engi-demo/public/app.js -> renderDepositingSurfaceVisual(...)`
@@ -703,7 +710,7 @@ The operator should understand the needing surface as the answer to:
 ### Current source references
 
 - `engi-demo/src/engi-demo.js -> measureNeedFromScenario(...)`
-- `engi-demo/src/engi-demo.js -> buildNeedingSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildNeedingSurface(...)`
 - `engi-demo/public/app.js -> renderNeedingSurfaceVisual(...)`
 - `engi-demo/public/app.js -> renderNeedVisual(...)`
 
@@ -764,14 +771,14 @@ The operator should understand the relation surface as the answer to:
 
 ### Current source references
 
-- `engi-demo/src/engi-demo.js -> buildDepositingToNeedingSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildDepositingToNeedingSurface(...)`
 - `engi-demo/public/app.js -> renderDepositingToNeedingVisual(...)`
 
 ---
 
 # 7. V15 conformance profiles
 
-V15 preserves the V12 profile meaning exactly while treating the current demo's `demonstrationProfile` labeling as a source-level realization name rather than a system-canonical layer name.
+V15 preserves the V12 profile meaning exactly while naming the active source surface `realizationProfile` directly rather than through a demo-era alias.
 
 ## 7.1 Profile A - targeted deposit / bounded need
 
@@ -818,7 +825,6 @@ The main profile distinction is operating shape.
 ### Current source references
 
 - `engi-demo/src/realization-profile.js -> buildRealizationProfile(...)`
-- `engi-demo/src/realization-profile.js -> buildDemonstrationProfile(...)`
 - `engi-demo/public/app.js -> renderProfileCompositionVisual(...)`
 
 ---
@@ -1133,7 +1139,8 @@ Identity/auth requirements in V15:
 - `engi-demo/src/engi-demo.js -> buildGitHubAppAuthSurface(...)`
 - `engi-demo/src/engi-demo.js -> buildIdentityBindings(...)`
 - `engi-demo/src/engi-demo.js -> buildAuthorizationDecisions(...)`
-- `engi-demo/src/engi-demo.js -> buildIdentityAuthSpineSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildIdentityAuthSpineSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildGithubBoundarySurface(...)`
 - `engi-demo/public/app.js -> renderIdentityAuthSpineVisual(...)`
 - `engi-demo/public/app.js -> renderGitHubBoundaryVisual(...)`
 
@@ -1489,7 +1496,7 @@ These are expanded in Appendix C.
 ### Current source references
 
 - `engi-demo/src/engi-demo.js -> buildProofWitnessManifest(...)`
-- `engi-demo/src/engi-demo.js -> buildSystemProofBundle(...)`
+- `engi-demo/src/canonical/run-artifacts.js -> buildSystemProofBundle(...)`
 - `engi-demo/src/engi-demo.js -> buildSourceToSharesArtifact(...)`
 - `engi-demo/src/engi-demo.js -> buildSettlementParticipationArtifact(...)`
 - `engi-demo/src/engi-demo.js -> buildAccountingPrecisionReport(...)`
@@ -1582,8 +1589,8 @@ These surfaces MUST jointly demonstrate:
 
 ### Current source references
 
-- `engi-demo/src/engi-demo.js -> buildBoundaryRealitySurface(...)`
-- `engi-demo/src/engi-demo.js -> buildRepoToSettlementSurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildBoundaryRealitySurface(...)`
+- `engi-demo/src/canonical/surfaces.js -> buildRepoToSettlementSurface(...)`
 - `engi-demo/src/engi-demo.js -> buildProjectionPolicy(...)`
 - `engi-demo/src/engi-demo.js -> buildBoundedPublicProofArtifact(...)`
 - `engi-demo/src/engi-demo.js -> buildRedactionProof(...)`
@@ -1669,9 +1676,9 @@ The dedicated V15 appendix on test coverage is normative, not optional.
 For the current repo, the V15 draft set is in good structural shape when:
 1. the V15 system spec, notes, information audit, and system parity matrix exist,
 2. the V15 demo spec and demo implementation matrix exist separately under `engi-demo/`,
-3. `ENGI_SPEC.txt` still points to `V14` and the V15 draft does not misrepresent that status,
+3. `ENGI_SPEC.txt` points to `V15` and the rest of the repo does not misrepresent that status,
 4. system-canonical and demo-canonical responsibilities are stated explicitly,
-5. the current demo realization stays aligned to the preserved V12 design truth and carried-forward closure themes,
+5. the current demo realization stays aligned to the promoted V15 design truth and carried-forward closure themes,
 6. parity/debt is split honestly rather than collapsed into one matrix.
 
 ### Current source references
@@ -2230,18 +2237,18 @@ V15 MUST NOT flatten them into one namespace when the source keeps both.
 The current source-grounded canonical moments are:
 
 - benchmark parser normalization
-  Concrete stage id: `github-actions.benchmark-parser.v9`
+  Concrete stage id: `github-actions.benchmark-parser.v15`
   Family / trace id: `github-actions.benchmark-parser.v2`
   Owns canonical benchmark normalization and parser fail-closed behavior for need materialization.
 - repo-context extraction
-  Concrete stage id: `github.repo-context.extract.v9`
+  Concrete stage id: `github.repo-context.extract.v15`
   Family / trace id: `github.repo-context.extract.v2`
   Owns repo-static context such as touched paths, symbols, config keys, and stack hints.
 - content-unit static analysis
-  Concrete stage id: `content-unit.extract-static-code-analysis.v9`
+  Concrete stage id: `content-unit.extract-static-code-analysis.v15`
   Owns content-unit-local static facts and receipt families.
 - asset-level static analysis
-  Concrete stage id: `asset.measurement.extract.v9`
+  Concrete stage id: `asset.measurement.extract.v15`
   Owns asset-level code-analysis facts and source-path/static fact closure.
 - stand-in embedding derivation
   Moment id: `content-unit.embedding-standin.v8`
@@ -2253,7 +2260,7 @@ The current source-grounded canonical moments are:
   Moment ids: `candidate-recall.hybrid.v2`, `ranking.recall-fusion.v2`, `ranking.need-match.v2`, `ranking.benchmark-impact.v2`, `ranking.actionability.v2`
   Own recall assembly, recall fusion, need-match scoring, benchmark-impact scoring, and actionability scoring.
 - verification determinisms
-  Concrete stage ids: `verification.issuance-checks.v9`, `verification.provenance-checks.v9`, `verification.sufficiency-checks.v9`, `verification.issuer-policy-checks.v9`
+  Concrete stage ids: `verification.issuance-checks.v15`, `verification.provenance-checks.v15`, `verification.sufficiency-checks.v15`, `verification.issuer-policy-checks.v15`
   Family / trace id: `verification.determinisms.v2`
   Own issuance, provenance, sufficiency, and issuer-policy determinisms plus use-tier decision support.
 
@@ -2400,7 +2407,7 @@ V15 requires:
 
 Current source reading:
 - `buildPromptContract(...)` now records exact `expectedOutputSchema` entries, `parseContractId`, and fail-closed parse policy alongside completeness and placeholder closure.
-- `buildPromptSurface(...)` now carries a `parsableCompletionContract` surface even though the deterministic stand-in path does not emit a separate parsed completion artifact instance.
+- `buildPromptSurface(...)` now carries a `parsableCompletionContract` surface and the deterministic stand-in path emits first-class parsed completion envelope artifacts alongside the prompt lineage.
 
 ## B.5 Output schemas and parsable completion contracts
 
@@ -2444,8 +2451,8 @@ If parsing fails, ENGI MUST:
 3. avoid silently falling back to free-form prose,
 4. avoid treating malformed completion output as static evidence.
 
-The current deterministic prototype now carries exact output schemas and parsable-completion contracts on prompt surfaces, but it still does not emit a first-class parsed completion envelope artifact for stand-in prompt execution.
-That remaining distinction belongs in the relevant parity matrix, not in hidden assumptions.
+The current deterministic prototype now carries exact output schemas, parsable-completion contracts, and first-class parsed completion envelope artifacts for stand-in prompt execution.
+That means parse receipt closure is now part of the landed V15 source posture rather than an outstanding parity delta.
 
 ## B.6 Recall channel contracts and fact lifecycle
 
@@ -2512,7 +2519,7 @@ Current source references:
 - `engi-demo/src/engi-demo.js -> measureNeedFromScenario(...)`
 - `engi-demo/src/engi-demo.js -> buildRecallChannelContracts(...)`
 - `engi-demo/src/engi-demo.js -> buildEvalManifest(...)`
-- `engi-demo/src/engi-demo.js -> buildPromptImplementationSurface(...)`
+- `engi-demo/src/canonical/run-artifacts.js -> buildPromptImplementationSurface(...)`
 - `engi-demo/src/engi-demo.js -> measurementTrace(...)`
 - `engi-demo/src/engi-demo.js -> inferenceProof(...)`
 
@@ -2810,7 +2817,7 @@ Current source references:
 - `engi-demo/src/engi-demo.js -> buildSettlementProof(...)`
 - `engi-demo/src/engi-demo.js -> buildProofWitnessManifest(...)`
 - `engi-demo/src/engi-demo.js -> buildProofContract(...)`
-- `engi-demo/src/engi-demo.js -> buildSystemProofBundle(...)`
+- `engi-demo/src/canonical/run-artifacts.js -> buildSystemProofBundle(...)`
 
 ---
 
@@ -2998,6 +3005,12 @@ The scenario fixture and coverage artifacts SHOULD explicitly track:
 
 Primary source files for current parity:
 - `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/enums.js`
+- `engi-demo/src/canonical/types.js`
+- `engi-demo/src/canonical/surfaces.js`
+- `engi-demo/src/canonical/run-artifacts.js`
+- `engi-demo/src/realization-profile.js`
+- `engi-demo/src/settlement-structs.js`
 - `engi-demo/server.js`
 - `engi-demo/public/app.js`
 - `engi-demo/public/index.html`
@@ -3010,24 +3023,30 @@ Primary source files for current parity:
 
 | V15 area | Canonical builders or paths |
 |---|---|
-| 6.1 Depositing | `buildRepoSupplySurface`, `buildDepositingSurface`, `buildDepositInput`, `renderDepositingSurfaceVisual` |
-| 6.2 Needing | `measureNeedFromScenario`, `buildNeedingSurface`, `renderNeedVisual`, `renderNeedingSurfaceVisual` |
-| 6.3 Fit | `buildDepositingToNeedingSurface`, `renderDepositingToNeedingVisual` |
-| 7 Profiles | `buildRealizationProfile`, `buildDemonstrationProfile`, `renderProfileCompositionVisual` |
-| 8 Ordering | `public/index.html`, `renderOperatingPicture`, `test/e2e.test.js` |
-| 9 Evaluation and materialization | `evaluateCandidates`, `assembleAssetPack`, `buildBranchArtifacts`, `assertRequiredBranchArtifacts` |
-| 10 Identity/auth | `buildIdentityBindings`, `buildAuthorizationDecisions`, `buildIdentityAuthSpineSurface`, `buildGithubBoundarySurface` |
-| 11 Proof and settlement | `buildProofWitnessManifest`, `buildSystemProofBundle`, `buildSourceToSharesArtifact`, `buildSettlementParticipationArtifact`, `buildAccountingPrecisionReport` |
-| 12 Boundary and projection | `buildBoundaryRealitySurface`, `buildProjectionPolicy`, `buildBoundedPublicProofArtifact`, `buildRedactionProof`, `buildDisclosureProof` |
-| 13 Validation | `writeJsonAtomically`, `buildTestCoverageReport`, `test/core.test.js`, `test/api.test.js`, `test/e2e.test.js` |
+| 6.1 Depositing | `src/canonical/surfaces.js -> buildRepoSupplySurface`, `src/canonical/surfaces.js -> buildDepositingSurface`, `server.js -> buildDepositInput`, `public/app.js -> renderDepositingSurfaceVisual` |
+| 6.2 Needing | `src/engi-demo.js -> measureNeedFromScenario`, `src/canonical/surfaces.js -> buildNeedingSurface`, `public/app.js -> renderNeedVisual`, `public/app.js -> renderNeedingSurfaceVisual` |
+| 6.3 Fit | `src/canonical/surfaces.js -> buildDepositingToNeedingSurface`, `public/app.js -> renderDepositingToNeedingVisual` |
+| 7 Profiles | `src/realization-profile.js -> buildRealizationProfile`, `src/demo-shell-state.js -> buildProfileCompositions`, `public/app.js -> renderProfileCompositionVisual` |
+| 8 Ordering | `public/index.html`, `public/app.js -> renderOperatingPicture`, `test/e2e.test.js` |
+| 9 Evaluation and materialization | `src/engi-demo.js -> evaluateCandidates`, `src/engi-demo.js -> assembleAssetPack`, `src/engi-demo.js -> buildBranchArtifacts`, `src/engi-demo.js -> assertRequiredBranchArtifacts` |
+| 10 Identity/auth | `src/engi-demo.js -> buildIdentityBindings`, `src/engi-demo.js -> buildAuthorizationDecisions`, `src/canonical/surfaces.js -> buildIdentityAuthSpineSurface`, `src/canonical/surfaces.js -> buildGithubBoundarySurface` |
+| 11 Proof and settlement | `src/engi-demo.js -> buildProofWitnessManifest`, `src/canonical/run-artifacts.js -> buildSystemProofBundle`, `src/engi-demo.js -> buildSourceToSharesArtifact`, `src/engi-demo.js -> buildSettlementParticipationArtifact`, `src/engi-demo.js -> buildAccountingPrecisionReport` |
+| 12 Boundary and projection | `src/canonical/surfaces.js -> buildBoundaryRealitySurface`, `src/engi-demo.js -> buildProjectionPolicy`, `src/engi-demo.js -> buildBoundedPublicProofArtifact`, `src/engi-demo.js -> buildRedactionProof`, `src/engi-demo.js -> buildDisclosureProof` |
+| 13 Validation | `server.js -> writeJsonAtomically`, `src/canonical/run-artifacts.js -> buildTestCoverageReport`, `test/core.test.js`, `test/api.test.js`, `test/e2e.test.js` |
 
 ## G.2.1 Current module reality relevant to V15 refactor work
 
 The current demo realization is not a pure single-file implementation, but neither is it yet a fully decomposed subsystem tree.
 
 Relevant current module facts are:
-- `engi-demo/src/engi-demo.js` still concentrates the main operating builders, orchestration flow, projection shaping, and branch-artifact assembly,
-- `engi-demo/src/realization-profile.js` now isolates profile ids, canonical aliases, and legacy demo-profile naming compatibility,
+- `engi-demo/src/engi-demo.js` still concentrates the main operating flow, projection shaping, branch-artifact assembly, and many subsystem builders,
+- `engi-demo/src/canonical/enums.js` and `engi-demo/src/canonical/types.js` now isolate closed-case values and JSDoc surface vocabulary,
+- `engi-demo/src/canonical/surfaces.js` now isolates repo-supply, depositing, needing, deposit-to-need-fit, repo-to-settlement, identity/auth-spine, boundary-reality, and GitHub-boundary builders,
+- `engi-demo/src/canonical/run-artifacts.js` now isolates pipeline-telemetry, prompt-implementation, system-proof-bundle, artifact-upload-manifest, deliverables-manifest, scenario-fixture-manifest, and test-coverage-report builders,
+- `engi-demo/src/canonical/projections.js` now isolates projection-policy, bounded-public-proof, redaction-proof, and disclosure-proof builders,
+- `engi-demo/src/canonical/proof-materialization.js` now isolates proof-witness, accounting-precision, and materialization-specific builders,
+- `engi-demo/src/demo-shell-state.js` now isolates demo-shell/public-state projection shaping,
+- `engi-demo/src/realization-profile.js` now isolates profile ids and canonical realization naming,
 - `engi-demo/src/settlement-structs.js` now isolates source-to-shares and settlement participation discriminants,
 - `engi-demo/src/engi-core.js` carries shared hashing, normalization, tokenization, and issuance helpers,
 - `engi-demo/src/receipt-schemas.js`, `engi-demo/src/benchmark-model.js`, `engi-demo/src/attestation-model.js`, `engi-demo/src/proof-log.js`, and `engi-demo/src/server-ranking.js` already split out specialized structures or reasoning surfaces,
@@ -3035,6 +3054,17 @@ Relevant current module facts are:
 - the three primary test files remain the main parity proof that docs, shell, and emitted artifacts still align.
 
 This matters because V15's canonical-source refactor focus is about making that partial factorization legible and extensible rather than pretending the current layout is already the final architecture.
+
+## G.2.2 Active migration seams
+
+The extracted canonical modules narrow the next source moves enough that V15 should now describe them as an active migration plan rather than a generic hope.
+
+The current next seams are:
+- `engi-demo/src/engi-demo.js` still owns need-measurement and inference orchestration such as `measureNeedFromScenario(...)`, `buildRecallChannelContracts(...)`, `buildEvalManifest(...)`, `measurementTrace(...)`, and its use of canonical prompt/evaluator builders.
+- `engi-demo/src/engi-demo.js` still owns candidate evaluation, verification, asset-pack assembly, and branch materialization through builders such as `evaluateCandidates(...)`, `assembleAssetPack(...)`, `buildMatchReport(...)`, `buildVerificationReport(...)`, `buildBranchArtifacts(...)`, and `assertRequiredBranchArtifacts(...)`.
+- `engi-demo/src/engi-demo.js` still owns several remaining proof and settlement emitters even after `src/canonical/run-artifacts.js`, `src/canonical/projections.js`, and `src/canonical/proof-materialization.js` extracted major bundle/report/projection/materialization layers; examples include `buildSourceToSharesArtifact(...)`, `buildSettlementParticipationArtifact(...)`, and `buildSettlementProof(...)`.
+- `engi-demo/src/demo-shell-state.js` now owns public-state and bounded projection shaping, so the remaining concentration is system orchestration rather than demo-shell usage code.
+- `engi-demo/server.js` and `engi-demo/public/app.js` still own the persistence/input and operator-shell boundaries, so docs/tests parity must keep those boundary surfaces tied back to the canonical builders rather than letting them drift into a separate story.
 
 ## G.3 UI parity map
 
@@ -3081,30 +3111,31 @@ These are boundary truths, not V15 parity failures, so long as:
 ## G.6 Explicit current parity deltas
 
 The current system-to-realization parity is materially stronger after the V14 hardening pass and the V15 separation pass, but the following nuances remain explicit:
-- prompt contracts and prompt surfaces now carry exact output schemas and parse-contract ids, but the deterministic stand-in path still does not emit a first-class parsed completion envelope artifact,
+- prompt contracts and prompt surfaces now carry exact output schemas, parse-contract ids, and first-class parsed completion envelope artifacts,
 - evaluator-family ids and deterministic stage ids intentionally coexist, so V15 parity requires the reader to keep both layers visible instead of forcing one naming layer to erase the other,
-- source names such as `demonstrationProfile` and the V12-labeled `SPEC_VERSION` constant still preserve realization-era vocabulary even though `buildRealizationProfile(...)` now makes the preferred profile naming more explicit, so V15 keeps an aliasing posture rather than pretending a full rename already landed in source,
-- file organization is materially improved by helper modules, but `engi-demo/src/engi-demo.js` still acts as the main orchestration reservoir, so module-boundary cleanup remains explicit refactor debt rather than hidden closure,
+- active source naming now aligns on `realizationProfile` and `buildRealizationProfile(...)`, so naming debt is no longer centered on profile aliases,
+- file organization is materially improved by helper modules including `src/canonical/projections.js`, `src/canonical/proof-materialization.js`, and `src/demo-shell-state.js`, but `engi-demo/src/engi-demo.js` still acts as the main orchestration reservoir for measurement/inference and evaluation/materialization,
 - docs/tests parity is stronger than naming/module parity because the current test suites cover depositing, needing, fit, proof, settlement, and shell ordering more consistently than the current source names or doc labels normalize them,
 - the proof witness manifest now covers inference-synthesis and the major proof-bearing artifacts directly, while aggregate bundle-carried surfaces are still represented through stable witness refs rather than separate digest rows when direct digest closure would be circular,
-- current host capability adjunct docs remain V14-governed and canon-aligned on V14/V12 status, but still preserve some current-source stage-id phrasing until the V15 draft is adopted.
+- current host capability adjunct docs now align on active V15 status and current-source stage-id phrasing.
 
 ---
 
 # Final conclusion
 
-V15 is the drafted successor target after V14, not the active pointer.
+V15 is the active canonical target after V14.
 Its main contribution is structural:
-- keep V14 as the current canonical/latest target while drafting the next target honestly,
-- preserve V12 as the last fully realized canon,
+- promote V15 to the current canonical/latest target without losing the historical V14 comparison layer,
+- preserve predecessor versions as historical references rather than active status pointers,
 - sharpen host, inference, proof, settlement, and exact-accounting closure,
 - separate root system canon from demo canon under `engi-demo`,
 - split system parity/debt from demo-local parity/debt,
 - and keep source, docs, UI, and validation traceable without pretending the demo is the whole of future implementation truth.
 
 The remaining work after this pass should be explicit realization against a clearer architecture:
-- parsed completion envelope artifacts if live or stand-in execution wants first-class parse receipts,
+- continued extraction of measurement/inference and evaluation/materialization orchestration into narrower canonical modules if further decomposition is desired,
 - continued adjunct-doc wording cleanup where current source stage ids leak older phrasing,
+- TypeScript migration and deeper typed hardening now that the JavaScript/module cleanup pass is materially complete,
 - demo-spec maintenance against the current local prototype,
 - and eventual adoption work if V15 is promoted beyond draft status.
 
@@ -3141,7 +3172,8 @@ The default rule is:
 - preserve method semantics and whole-state integrity,
 - and reflect any important type-system formalization back into the spec family.
 
-A first concrete implementation step for this V15 direction is the extraction of canonical enum/type modules so closed-case subsystem values and core V15 surfaces stop living only as ad hoc string literals.
+A first concrete implementation step for this V15 direction was the extraction of canonical enum/type modules so closed-case subsystem values and core V15 surfaces stop living only as ad hoc string literals.
+A second concrete implementation step has now landed through the extraction of coherent builder families such as primary operating surfaces, run-level artifact/report builders, projection/disclosure builders, proof/materialization builders, and demo-shell/public-state shaping into dedicated modules so the monolith no longer owns every high-information surface directly.
 
 
 # Additional V15 refactor rule — staged JavaScript-to-TypeScript hardening

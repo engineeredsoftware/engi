@@ -1,10 +1,10 @@
 # ENGI Demo Spec V15
 
-Status: V15 draft demo-realization companion; not the active canonical pointer target
+Status: V15 demo-realization companion for the active canonical pointer target
 Scope: current deterministic local prototype under `engi-demo/`
-Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V14`
-Current canonical/latest target remains: `V14`
-Last fully realized canon preserved in source: `V12`
+Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V15`
+Current canonical/latest target: `V15`
+Last fully realized canon preserved in source: `V15`
 System-spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
 Demo matrix companion: `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V15_IMPLEMENTATION_MATRIX.md`
 
@@ -86,6 +86,10 @@ Explainers, tooltips, visual/raw renderings, and panel summaries are demo-canoni
 
 Primary implementation files:
 - `src/engi-demo.js`
+- `src/canonical/enums.js`
+- `src/canonical/types.js`
+- `src/canonical/surfaces.js`
+- `src/canonical/run-artifacts.js`
 - `src/realization-profile.js`
 - `src/settlement-structs.js`
 - `server.js`
@@ -104,6 +108,12 @@ Primary adjunct docs:
 
 These files define the current realization.
 They do not, by themselves, define the whole of system canon.
+
+Current module-boundary reading for the demo:
+- `src/canonical/enums.js` and `src/canonical/types.js` now own closed-case vocabulary and typed intent for the extracted canonical layer.
+- `src/canonical/surfaces.js` now owns the primary operating surfaces: repo supply, depositing, needing, deposit-to-need fit, repo-to-settlement, identity/auth spine, boundary reality, and GitHub boundary.
+- `src/canonical/run-artifacts.js` now owns run-level telemetry, manifest, bundle, and coverage-report builders.
+- `src/engi-demo.js` remains the orchestration reservoir and still owns the next extraction seams: need measurement/inference, evaluation/materialization, proof/settlement artifact emission, and projection/disclosure.
 
 ---
 
@@ -208,5 +218,6 @@ The V15 demo spec is in good shape for this pass when:
 3. it preserves the current operator shell and validation story,
 4. it states modeled-versus-live boundaries explicitly,
 5. it points back to the root V15 system spec for system-canonical meaning.
+6. it identifies the landed `src/canonical/` split and the remaining demo-local seams honestly.
 
 This condition is satisfied for the current drafting pass.

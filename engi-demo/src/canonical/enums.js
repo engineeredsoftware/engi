@@ -5,12 +5,12 @@
  * toward the richer TypeScript/discriminated-union target described in V15.
  */
 
-export const DemonstrationProfile = Object.freeze({
+export const RealizationProfile = Object.freeze({
   TARGETED_BOUNDED: 'Profile A — targeted deposit / bounded need',
   NORMALIZATION_COMPOSITE: 'Profile B — normalization deposit / composite need'
 });
 
-export const DemonstrationProfileKey = Object.freeze({
+export const RealizationProfileKey = Object.freeze({
   TARGETED_BOUNDED: 'targeted-bounded',
   NORMALIZATION_COMPOSITE: 'normalization-composite'
 });
@@ -27,7 +27,7 @@ export const NormalizationPressure = Object.freeze({
   HIGH: 'high'
 });
 
-export const DemonstrationStage = Object.freeze({
+export const RealizationStage = Object.freeze({
   DEPOSITING: 'depositing',
   NEEDING: 'needing',
   DEPOSIT_TO_NEED_FIT: 'deposit-to-need-fit',
