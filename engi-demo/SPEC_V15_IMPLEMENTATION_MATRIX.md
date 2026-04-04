@@ -104,6 +104,17 @@ The V15 demo-realization layer is in good shape when:
 This condition is satisfied for the current drafting pass.
 
 
+## Core V15 parity / debt families
+
+| Area | Current source reality | V15 target | Gap judgment |
+|---|---|---|---|
+| System-vs-demo co-location | `src/engi-demo.js` still co-locates major system and demo concerns, though canonical modules are starting to be extracted under `src/canonical/` | cleaner system/demo separation in source and spec architecture | high |
+| Canonical source shape | current source is rich but historically accreted; V15 canonical enum/type modules are now present as a first source-canon step | cleaner long-lived canonical structure | medium/high |
+| Type-system provability | initial canonical enum and JSDoc type modules now exist, but rich typed separation is still far from complete | rich enums/discriminants/composition and stronger typed separation | high |
+| Information-value organization | many values are explicit but not yet clearly layer-owned | clearer role- and layer-based ownership | medium/high |
+| Module/file organization | initial `src/canonical/` module split has begun, but most logic still remains in `src/engi-demo.js` | cleaner modular boundaries after separation | medium/high |
+| Naming finalization | improved, but likely not fully canonical yet | final canonical names aligned to V15 system model | medium |
+
 ## Additional V15 implementation strategy — staged refactor toward maximally typed source
 
 V15 should treat canonical source hardening as a staged process:

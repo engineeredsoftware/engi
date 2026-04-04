@@ -1,5 +1,11 @@
 # ENGI Spec V15 Notes
 
+## V15 drafting posture
+
+V15 is the first version that must let spec, implementation architecture, and type-system design seriously inform one another.
+It is not enough for V15 to describe a better system. It should also begin to demand a cleaner canonical source form capable of carrying that system without structural ambiguity.
+
+
 ## Status
 
 V15 is a draft successor target to V14.
@@ -185,6 +191,9 @@ This should be treated as a totalistic co-evolution concern across:
 
 ## Additional V15 refactor strategy — JavaScript first, then TypeScript hardening
 
+This should be interpreted as a canonical implementation strategy, not merely a coding convenience. A cleaner JavaScript/module boundary can make the later TypeScript design much more correct and much more expressive.
+
+
 A useful V15 refinement is to treat the canonical refactor in two stages:
 1. clean structural refactor in the current implementation shape,
 2. then aggressive TypeScript hardening once the boundaries are cleaner.
@@ -196,3 +205,5 @@ This is often better than doing a messy direct TypeScript pass over poorly separ
 
 The V15 target is therefore not a shallow TypeScript migration.
 It is a deeply typed canonical implementation where the type system itself strengthens provability.
+
+Current source-side progress has already begun in that direction by extracting canonical enum/type modules under `engi-demo/src/canonical/`, reducing some closed-case string drift in `engi-demo.js`, and establishing a typed vocabulary that later structural/module separation can build on.

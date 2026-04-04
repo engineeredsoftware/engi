@@ -1,5 +1,15 @@
 # ENGI Spec V15
 
+Status: draft
+Scope: ENGI v1 / V15 structural separation, provable typing, and canonical source-refactor target
+Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` remains `V14` as current canonical/latest target
+Baseline references:
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15_INFORMATION_AUDIT.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
+- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
+
+
 Status: draft successor target to V14; not the current canonical/latest target while `ENGI_SPEC.txt` remains `V14`
 Scope: next canonical system-spec target with explicit system-canon / demo-canon separation
 Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V14`
@@ -51,6 +61,83 @@ The central V15 rule is:
 > The canonical ENGI system spec MUST NOT be co-located with or collapsed into one demo realization. A demo may realize canon; it may not define the whole of canon.
 
 ## 1.2 Canonical ENGI executive summary
+
+## 1.3 Current canonical-target nuance
+
+A V15-conformant document family must preserve the distinction that:
+- `ENGI_SPEC.txt = V14` means V14 is the current canonical/latest target
+- **V12 remains the last fully realized canon**
+
+This nuance must remain explicit anywhere version authority or implementation parity is discussed.
+
+# 2. Canonical system-vs-demonstration separation
+
+V15 requires that system canon and demonstration canon be separated explicitly in both specification and implementation architecture.
+
+## 2.1 System canon
+
+System canon includes:
+- depositing / needing / fit as domain/system concepts
+- recall / ranking / verification
+- identity/auth spine
+- proof families / witness structures
+- settlement / journal diff / source-to-shares
+- projection/disclosure / boundary reality
+- host capability and execution-environment requirements
+
+## 2.2 Demonstration canon
+
+Demonstration canon includes:
+- shell ordering
+- operator-facing summaries
+- explainer/tooltip pedagogy
+- demonstration profile sequencing
+- interactive flows and e2e validation specific to the current demo application
+
+## 2.3 Separation rule
+
+The demonstration may depend on the system canon.
+The system canon must not depend on accidental demonstration organization.
+
+System-layer structures, types, and modules should therefore be designed so they remain intelligible and correct even if the current demo shell changes.
+
+# 3. Canonical source refactor and typing for provability
+
+V15 makes canonical source refactor a first-class version concern.
+This includes structural cleanup, type/struct redesign, naming finalization, and module organization improvements that preserve behavior while strengthening provability.
+
+## 3.1 Refactor sequencing
+
+The preferred sequence is:
+1. system-vs-demo boundary clarification
+2. JavaScript structural/module cleanup where useful
+3. naming and information-value organization cleanup
+4. TypeScript hardening
+5. stronger enum/discriminant/type-composition formalization
+
+## 3.2 Typing for provability
+
+Typing is not treated as implementation garnish.
+It is a canonical formalization layer.
+
+A V15-aligned implementation should strengthen, where practical:
+- rich enums for closed case sets
+- discriminated unions for major variant families
+- role-specific ids / refs / roots
+- stronger domain struct composition
+- system-layer vs demo-layer type separation
+- proof / measurement / settlement type hardening
+- compile-time distinctions that reduce invalid cross-subsystem mixing
+
+## 3.3 Information-value organization
+
+V15 expects information to be located at the correct layer and owned by the correct struct/module.
+This includes clearer distinctions among:
+- system-layer domain state
+- proof/measurement/settlement state
+- projection-layer state
+- demonstration-only explanatory state
+
 
 ENGI is a system for making technical supply legible, selectable, provable, and settleable against measured enterprise need.
 
@@ -3053,6 +3140,8 @@ The default rule is:
 - improve type/struct clarity aggressively,
 - preserve method semantics and whole-state integrity,
 - and reflect any important type-system formalization back into the spec family.
+
+A first concrete implementation step for this V15 direction is the extraction of canonical enum/type modules so closed-case subsystem values and core V15 surfaces stop living only as ad hoc string literals.
 
 
 # Additional V15 refactor rule — staged JavaScript-to-TypeScript hardening

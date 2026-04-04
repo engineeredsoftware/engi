@@ -1,3 +1,6 @@
+import { DemonstrationProfile, ExecutionReality, NormalizationPressure, DemonstrationStage } from './canonical/enums.js';
+import './canonical/types.js';
+
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B, buildDemonstrationProfile } from './realization-profile.js';
 import {
@@ -2175,7 +2178,7 @@ function useTierRights(useTier, branchMode) {
   };
 }
 
-function derivationRecord({ field, source, policy = 'required', confidence = 'high', evidenceRefs = [], notes }) {
+function derivationRecord({ field, source, policy = 'required', confidence = NormalizationPressure.HIGH, evidenceRefs = [], notes }) {
   return {
     field,
     source,
@@ -6502,8 +6505,8 @@ function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, se
   ).slice(0, 3);
   const profileId = needingSurface.demonstrationProfile?.profileId || 'A';
   const normalizationPressure = profileId === 'B'
-    ? selectedCandidates.length > 1 ? 'high' : 'medium'
-    : selectedCandidates.length > 2 ? 'medium' : 'low';
+    ? selectedCandidates.length > 1 ? NormalizationPressure.HIGH : NormalizationPressure.MEDIUM
+    : selectedCandidates.length > 2 ? NormalizationPressure.MEDIUM : NormalizationPressure.LOW;
   const fitKinds = overlapKinds.length ? overlapKinds.join(', ') : selectedKinds.join(', ');
   const failureFocus = needingSurface.failureModeSummary.slice(0, 2).join('; ') || needingSurface.taskSummary;
   const settlementParticipants = settlementPreview?.settlementParticipatingAssetIds?.length || selectedCandidates.length;
@@ -6523,7 +6526,7 @@ function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, se
     proofIntentSummary: profileId === 'B'
       ? `Proof must show that overlapping ${fitKinds || 'selected'} deposits normalize cleanly across the composite need without losing provenance.`
       : `Proof must show that the decisive ${fitKinds || 'selected'} deposit closes ${failureFocus}.`,
-    settlementIntentSummary: normalizationPressure === 'high'
+    settlementIntentSummary: normalizationPressure === NormalizationPressure.HIGH
       ? `Settlement should replay source-to-shares normalization across ${settlementParticipants} participating assets before final crediting.`
       : `Settlement should credit the decisive deposit once proof closure lands across ${creditedAssets} credited ${creditedAssets === 1 ? 'asset' : 'assets'}.`
   };
@@ -6564,10 +6567,10 @@ function buildRepoToSettlementSurface({
     needMode: demonstrationProfile.needMode,
     stages: [
       {
-        stageId: 'depositing',
+        stageId: DemonstrationStage.DEPOSITING,
         label: 'Depositing',
         status: 'repo-authenticated deposit staged',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: depositingSurface.depositIntentSummary,
         refs: [depositingSurface.depositSessionId, depositingSurface.repoSupplyRef, ...depositingSurface.selectedInventoryRefs],
         metrics: {
@@ -6578,10 +6581,10 @@ function buildRepoToSettlementSurface({
         }
       },
       {
-        stageId: 'needing',
+        stageId: DemonstrationStage.NEEDING,
         label: 'Needing',
         status: 'measured from benchmark evidence',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: `Need ${needingSurface.needId} was measured as ${needingSurface.taskSummary}`,
         refs: [needingSurface.needId, needingSurface.parserKind, ...needingSurface.targetArtifactKinds].filter(Boolean),
         metrics: {
@@ -6592,10 +6595,10 @@ function buildRepoToSettlementSurface({
         }
       },
       {
-        stageId: 'deposit-to-need-fit',
+        stageId: DemonstrationStage.DEPOSIT_TO_NEED_FIT,
         label: 'Deposit-to-need fit',
         status: 'fit surfaced before deeper closure',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: depositingToNeedingSurface.fitSummary,
         refs: [
           depositingToNeedingSurface.relationId,
@@ -6609,10 +6612,10 @@ function buildRepoToSettlementSurface({
         }
       },
       {
-        stageId: 'asset-pack',
+        stageId: DemonstrationStage.ASSET_PACK,
         label: 'Selected asset pack',
         status: 'selected into asset pack',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: `${assetPack.selectedAssets.length} asset${assetPack.selectedAssets.length === 1 ? '' : 's'} survived ranking and verification into asset pack ${assetPack.assetPackId}.`,
         refs: [assetPack.assetPackId, ...assetPack.selectedAssets],
         metrics: {
@@ -6626,7 +6629,7 @@ function buildRepoToSettlementSurface({
         stageId: 'branch',
         label: 'Branch',
         status: 'private remediation branch staged',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: `Branch ${branchArtifacts?.branchName || 'pending'} materialized ${visibleBranchFiles.length} visible branch artifact${visibleBranchFiles.length === 1 ? '' : 's'} and ${selectedSourceFiles.length} mounted source file${selectedSourceFiles.length === 1 ? '' : 's'}.`,
         refs: [branchArtifacts?.branchName, ...visibleBranchFiles.slice(0, 8)].filter(Boolean),
         metrics: {
@@ -6640,7 +6643,7 @@ function buildRepoToSettlementSurface({
         stageId: 'proof',
         label: 'Proof',
         status: 'proof closure assembled',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: `${proofFamilyCount} proof family${proofFamilyCount === 1 ? '' : 'ies'} were digested into the witness manifest and projected into bounded public proof ${boundedPublicProof?.bundleId || 'pending'}.`,
         refs: [proofWitnessManifest?.proofHash, boundedPublicProof?.bundleId, boundedPublicProof?.redactionStatus].filter(Boolean),
         metrics: {
@@ -6651,10 +6654,10 @@ function buildRepoToSettlementSurface({
         }
       },
       {
-        stageId: 'settlement',
+        stageId: DemonstrationStage.SETTLEMENT,
         label: 'Settlement',
         status: 'exact settlement preview closed',
-        boundaryClass: 'executed-local',
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL,
         summary: `Bundle ${settlementPreview?.bundleId || 'pending'} classifies ${settlementParticipantCount} settlement participant${settlementParticipantCount === 1 ? '' : 's'} and credits ${creditedAssetCount} asset${creditedAssetCount === 1 ? '' : 's'} in exact micro-units.`,
         refs: [settlementPreview?.bundleId, settlementPreview?.sourceToSharesRef, settlementPreview?.settlementParticipationRef].filter(Boolean),
         metrics: {
@@ -6701,7 +6704,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: `Installation-scoped repo auth anchors intake for ${buyer.repo}.`,
         stageRefs: [buyer.repo, buyer.buyerBranch, ...summarizeStrings(githubBoundarySurface?.selectedAuthSessions?.map((session) => session.authSessionId) || [])],
         rootRefs: summarizeStrings(githubBoundarySurface?.selectedAuthSessions?.flatMap((session) => [session.authPayloadHash, session.permissionsRoot]).filter(Boolean) || []),
-        boundaryClass: 'modeled-local'
+        boundaryClass: ExecutionReality.MODELED_LOCAL
       },
       {
         hopId: 'repo-supply-selection',
@@ -6710,7 +6713,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: 'Selected repo artifacts stay bound to authenticated session payloads and inventory roots.',
         stageRefs: summarizeStrings(selectedCandidates.flatMap((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [])),
         rootRefs: selectionRoots,
-        boundaryClass: 'modeled-local'
+        boundaryClass: ExecutionReality.MODELED_LOCAL
       },
       {
         hopId: 'signer-attestation',
@@ -6719,7 +6722,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: 'Signer payloads bind selection roots, addressing roots, and GitHub App auth roots to each selected asset.',
         stageRefs: selectedCandidates.map((candidate) => candidate.assetId),
         rootRefs: summarizeStrings([...addressingRoots, ...authPayloadRoots, ...signingRoots]),
-        boundaryClass: 'executed-local'
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },
       {
         hopId: 'buyer-authority',
@@ -6728,7 +6731,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: `Buyer is allowed to ${allowedActionsForPrincipal(authorizationDecisions, buyerPrincipalId).join(', ') || 'inspect the run under policy constraints'}.`,
         stageRefs: [branchName, settlementPreview?.bundleId].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === buyerPrincipalId).map((binding) => binding.bindingRoot),
-        boundaryClass: 'executed-local'
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },
       {
         hopId: 'branch-authority',
@@ -6737,7 +6740,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: 'ENGI materializes the private remediation branch and mounted source material under policy release controls.',
         stageRefs: [branchName, `${branchName}/.engi/source-material`].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:branch-materializer').map((binding) => binding.bindingRoot),
-        boundaryClass: 'executed-local'
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },
       {
         hopId: 'proof-authority',
@@ -6746,7 +6749,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: 'ENGI proof publishing authority derives bounded public proof from the private proof closure.',
         stageRefs: [proofWitnessManifest?.proofHash, `${branchName}#bounded-proof`].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:proof-publisher').map((binding) => binding.bindingRoot),
-        boundaryClass: 'executed-local'
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },
       {
         hopId: 'settlement-authority',
@@ -6755,7 +6758,7 @@ function buildIdentityAuthSpineSurface({
         authoritySummary: 'ENGI settlement authority closes the exact-accounting journal event for the selected bundle.',
         stageRefs: [settlementPreview?.bundleId, settlementPreview?.sourceToSharesRef, settlementPreview?.settlementParticipationRef].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:settlement-engine').map((binding) => binding.bindingRoot),
-        boundaryClass: 'executed-local'
+        boundaryClass: ExecutionReality.EXECUTED_LOCAL
       }
     ]
   };
@@ -6770,35 +6773,35 @@ function buildBoundaryRealitySurface() {
       buildBoundaryRealityStage({
         stageId: 'repo-auth-and-supply',
         label: 'Repo auth + supply',
-        localStatus: 'modeled-local',
+        localStatus: ExecutionReality.MODELED_LOCAL,
         localDescription: 'GitHub App sessions, installation payloads, and repo supply are seeded and hash-bound locally. No live installation token is minted.',
         externalRequirement: 'Exchange a real GitHub App JWT for an installation token and refresh repo supply directly from GitHub APIs.'
       }),
       buildBoundaryRealityStage({
         stageId: 'need-measurement-and-ranking',
         label: 'Need + ranking',
-        localStatus: 'executed-local',
+        localStatus: ExecutionReality.EXECUTED_LOCAL,
         localDescription: 'Need measurement, prompt lineage, ranking, and verification execute deterministically inside this repository.',
         externalRequirement: 'Bind those same stages to live repo evidence refresh, remote evaluators as needed, and production policy controls.'
       }),
       buildBoundaryRealityStage({
-        stageId: 'branch-materialization',
+        stageId: DemonstrationStage.BRANCH,
         label: 'Branch materialization',
-        localStatus: 'executed-local',
+        localStatus: ExecutionReality.EXECUTED_LOCAL,
         localDescription: 'Branch artifacts are materialized locally as deterministic files and manifests. No live Git branch or PR write occurs.',
         externalRequirement: 'Create or update the remediation branch, push artifacts, and open or update the buyer-facing PR.'
       }),
       buildBoundaryRealityStage({
         stageId: 'proof-and-disclosure',
         label: 'Proof + disclosure',
-        localStatus: 'executed-local',
+        localStatus: ExecutionReality.EXECUTED_LOCAL,
         localDescription: 'Proof bundling, bounded public proof, redaction proof, and disclosure proof are computed locally from deterministic artifacts.',
         externalRequirement: 'Verify signer and org identity chains and publish bounded proof outputs against the live disclosure boundary.'
       }),
       buildBoundaryRealityStage({
         stageId: 'settlement-effects',
         label: 'Settlement effects',
-        localStatus: 'executed-local',
+        localStatus: ExecutionReality.EXECUTED_LOCAL,
         localDescription: 'Settlement preview, participation, source-to-shares, and exact journal diff close locally without network effects.',
         externalRequirement: 'Submit the settlement transaction or equivalent network effect, wait for confirmation, and publish the live receipt.'
       })
@@ -7105,21 +7108,21 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
         potentiallyDisclosable: false,
-        dependsOn: ['asset-shares', 'settlement']
+        dependsOn: ['asset-shares', DemonstrationStage.SETTLEMENT]
       },
       {
         path: '.engi/source-to-shares.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['ranking', 'asset-pack.lock', 'settlement']
+        dependsOn: ['ranking', 'asset-pack.lock', DemonstrationStage.SETTLEMENT]
       },
       {
         path: '.engi/settlement-participation.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
         potentiallyDisclosable: false,
-        dependsOn: ['source-to-shares', 'asset-pack.lock', 'settlement']
+        dependsOn: ['source-to-shares', 'asset-pack.lock', DemonstrationStage.SETTLEMENT]
       },
       {
         path: '.engi/accounting-precision-report.json',
@@ -7140,7 +7143,7 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['settlement', 'asset-pack.lock']
+        dependsOn: [DemonstrationStage.SETTLEMENT, 'asset-pack.lock']
       },
       {
         path: '.engi/system-proof-bundle.json',
@@ -7161,7 +7164,7 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['need-measurement', 'candidate-recall', 'ranking', 'verification', 'settlement']
+        dependsOn: ['need-measurement', 'candidate-recall', 'ranking', 'verification', DemonstrationStage.SETTLEMENT]
       },
       {
         path: '.engi/projection-policy.json',
@@ -7203,14 +7206,14 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
-        dependsOn: ['scenario-fixture-manifest', 'proof-bundle', 'settlement']
+        dependsOn: ['scenario-fixture-manifest', 'proof-bundle', DemonstrationStage.SETTLEMENT]
       },
       {
         path: '.engi/deliverables.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
-        dependsOn: ['deliverables-manifest', 'branch-materialization']
+        dependsOn: ['deliverables-manifest', DemonstrationStage.BRANCH]
       },
       {
         path: 'ENGI_NEED.md',
