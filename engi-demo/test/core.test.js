@@ -108,6 +108,15 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.engi/need.json'));
   assert.equal(measurement.promptCompletenessProof.allContractsComplete, true);
   assert.ok(measurement.promptContracts.every((contract) => contract.completeness.ok));
+  assert.ok(measurement.promptContracts.every((contract) => contract.parseContractId.startsWith('parse_contract_')));
+  assert.ok(measurement.promptContracts.every((contract) => contract.expectedOutputSchema.length === 1));
+  assert.ok(measurement.promptContracts.every((contract) => contract.requiresExactTopLevelKeys === true));
+  assert.ok(measurement.promptContracts.every((contract) => contract.allowsExtraneousText === false));
+  assert.ok(measurement.promptSurfaces.every((surface) => surface.parsableCompletionContract));
+  assert.ok(measurement.promptSurfaces.every((surface) => surface.parsableCompletionContract.contractId === surface.promptContract.parseContractId));
+  assert.ok(measurement.promptSurfaces.every((surface) => surface.parsableCompletionContract.parseMode === 'strict-json-object'));
+  assert.ok(measurement.promptSurfaces.every((surface) => surface.parsableCompletionContract.requiresExactTopLevelKeys === true));
+  assert.ok(measurement.promptSurfaces.every((surface) => surface.parsableCompletionContract.allowsExtraneousText === false));
   assert.ok(measurement.staticExecutionReceipts.length >= 2);
   assert.ok(measurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.length >= 1));
 });
@@ -450,6 +459,9 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
   const proof = latestRun.systemProofBundle;
+  const proofFamilies = proof.proofWitnessManifest.proofFamilies.map((entry) => entry.proofFamily);
+  const artifactPaths = proof.proofWitnessManifest.artifactDigests.map((entry) => entry.path);
+  const inferenceSynthesisFamily = proof.proofWitnessManifest.proofFamilies.find((entry) => entry.proofFamily === 'inference-synthesis');
 
   assert.ok(proof.assetMeasurementProofs.length >= 1);
   assert.equal(proof.promptCompletenessProof.allContractsComplete, true);
@@ -463,14 +475,26 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
   assert.ok(proof.verificationReceiptsArtifact.verificationReceipts.length >= 4);
   assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 7);
+  assert.ok(proofFamilies.includes('inference-synthesis'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/prompt-surfaces.json'));
+  assert.ok(artifactPaths.includes('.engi/asset-pack.lock.json'));
+  assert.ok(artifactPaths.includes('.engi/selected-source-material.json'));
+  assert.ok(artifactPaths.includes('.engi/identity-bindings.json'));
+  assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
+  assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/source-to-shares.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/materialization-proof.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/journal-diff.json'));
+  assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, ['.engi/prompt-surfaces.json', '.engi/prompt-contracts.json']);
+  assert.ok(inferenceSynthesisFamily?.witnessRefs.length >= proof.promptImplementationSurface.inferredOutputs.length);
   assert.ok(proof.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
   assert.ok(proof.proofContract.contractId.startsWith('proof_contract_'));
   assert.ok(proof.promptImplementationSurface.promptLineage.length >= 1);
+  assert.ok(proof.promptImplementationSurface.promptTemplates.every((template) => template.parseContractId.startsWith('parse_contract_')));
+  assert.ok(proof.promptImplementationSurface.promptTemplates.every((template) => template.expectedOutputSchema.length === 1));
 });
 
 test('authorization decisions and policy release are persisted on latest run', () => {

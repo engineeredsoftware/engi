@@ -104,8 +104,13 @@ This pass added or strengthened:
    - witness-manifest closure expectations
 7. Stronger operator-experience parity treatment:
    - explainer/tooltip/visual-vs-raw parity called out in test coverage and parity appendices
+8. Stronger exact-accounting treatment:
+   - selected vs settlement-participating vs positively credited vs zero-credit semantics
+   - source-to-shares, clipping, normalization, and journal invariants
 
-No source-code changes were required for this correction path.
+This pass also required targeted source-parity changes in `engi-demo/src/engi-demo.js`:
+1. Prompt contracts and prompt surfaces now carry exact output schema and parse-contract metadata instead of only loose `string-or-array` typing.
+2. The proof witness manifest now represents `inference-synthesis` as a first-class family and digests more of the proof-bearing artifact surface directly.
 
 ---
 
@@ -118,9 +123,14 @@ No source-code changes were required for this correction path.
 | Executive-summary split | present in V14 spec | version summary separated from canonical ENGI summary | closed |
 | Pointer vs realized-canon nuance | spec, notes, and matrix now agree on `V14` / `V12` split | must remain explicit | closed |
 | Whole-ENGI design coverage | present in V14 spec | full operator chain plus appendices | closed |
-| Host capability canonical treatment | strengthened in V14 spec; repo host docs exist | role, categories, bootstrap, container, telemetry, execution truth explicit | spec closed; adjunct docs lag |
-| Inference appendix completeness | strengthened in Appendix B | moments, prompt templates/contracts, context injectables, outputs, parse contracts explicit | closed |
-| Proof appendix completeness | strengthened in Appendix C | families, obligations, witnesses, theorem catalog, witness closure explicit | closed |
+| Host capability canonical treatment | strengthened in V14 spec; repo host docs exist and already preserve `V14` / `V12` nuance | role, categories, bootstrap, container, telemetry, execution truth explicit | closed |
+| Host capability adjunct docs | present and canon-aligned on version nuance; still preserve some current-source `v9` stage-id phrasing | adjunct docs should preserve execution truth without pretending stage ids changed | substantially aligned |
+| Evaluator family ids vs deterministic stage ids | V14 Appendix B now records both layers explicitly | family ids and concrete receipt-producing stage ids must remain distinguishable | closed |
+| Inference appendix completeness | Appendix B now matches source-grounded moments, exact prompt output schemas, and parse-contract metadata | moments, prompt templates/contracts, context injectables, outputs, parse contracts explicit | closed |
+| First-class parsed completion envelope artifact | still not emitted as a standalone branch artifact | acceptable only if explicit and not confused with static evidence | low-risk follow-up |
+| Proof appendix completeness | Appendix C now matches source-grounded proof families, obligations, witness structures, and aggregate-witness handling | families, obligations, witnesses, theorem catalog, witness closure explicit | closed |
+| Proof witness manifest family coverage | source now includes `inference-synthesis` and digests major proof-bearing artifacts directly | witness-manifest family coverage must not omit core proof families | closed |
+| Zero-credit / exact-accounting settlement semantics | spec and source now agree on source-to-shares, participation, positive credit, zero-credit participation, and journal invariants | exact accounting and zero-point semantics must be explicit | closed |
 | Test coverage appendix | explicit | unit/API/browser plus operator-experience parity surfaces | closed |
 | Spec-to-source parity appendix | explicit | builder maps, UI parity, accepted boundaries | closed |
 | Operator-experience parity surfaces | explicit in spec appendices; `public/app.js` remains V14-linked | explainers/tooltips/visual-raw surfaces treated as canonical where material | closed |
@@ -128,19 +138,15 @@ No source-code changes were required for this correction path.
 | Deliverables manifest completeness | present in source | manifest should not omit emitted artifacts | closed |
 | Test coverage artifact richness | present in source | explicit unit/API/browser e2e expectation | closed |
 | Browser e2e validation | present and required | canonical conformance evidence | closed |
-| Host capability adjunct docs | present but still V9-labeled | human-readable and structured host docs should eventually reflect V14 latest-target / V12 last-realized nuance | low-risk follow-up |
-| README version-status wording | current README still says pointer `V11` | repo docs should reflect current V14 / V12 split | low-risk follow-up |
-| Parsed completion envelope artifact for stand-in prompts | still modeled rather than first-class emitted artifact | acceptable if disclosed explicitly | low-risk follow-up |
 | Live GitHub, proof publication, and settlement effects | intentionally external | explicit external boundary, not local parity failure | accepted boundary |
 
 ---
 
 ## Remaining low-risk observations
 
-1. `HOST_CAPABILITIES.md` and `HOST_CAPABILITIES.json` still preserve useful execution truth, but they are labeled as V9-era adjunct docs rather than V14/latest-target documents.
-2. `README.md` still states the old pointer value and should be aligned in a later small doc cleanup.
+1. The deterministic stand-in prompt path now carries exact parse-contract metadata, but it still does not emit a first-class parsed completion envelope artifact.
+2. `HOST_CAPABILITIES.md` and `HOST_CAPABILITIES.json` are already canon-aligned on V14/V12 status, but they still preserve some current-source `v9` stage-id wording.
 3. Source references remain builder-level rather than line-level; that is intentional and sufficient for the current canonical pass.
-4. The deterministic stand-in prompt path still models parse-contract discipline without emitting a first-class parsed completion envelope artifact; V14 now states that distinction explicitly instead of hiding it.
 
 ---
 
@@ -150,7 +156,8 @@ V14 is in a good state for this correction path when:
 1. the standalone template guide exists,
 2. the V14 spec, notes, and implementation matrix agree on version-status interpretation,
 3. host, inference, proof, and parity surfaces are canonically specified rather than merely mentioned,
-4. earlier real source parity closures remain preserved,
-5. remaining doc lag is explicit and low-risk rather than hidden.
+4. exact-accounting and zero-credit settlement semantics are source-grounded and explicit,
+5. earlier real source parity closures remain preserved,
+6. remaining follow-up is low-risk and explicit rather than hidden.
 
 This condition is satisfied for the current pass.

@@ -346,6 +346,7 @@ export function buildPromptContract({
   template,
   contextInputs = [],
   outputFields = [],
+  outputSchema = [],
   downstreamArtifacts = [],
   nonRenderedContextFields = [],
   evidenceRefs = []
@@ -363,16 +364,26 @@ export function buildPromptContract({
     template,
     declaredContextFields,
     explicitNonRendered,
-    outputFields,
+    outputSchema,
     downstreamArtifacts
   };
-  const outputSchema = outputFields.map((field) => ({ field, type: 'string-or-array' }));
+  const exactOutputSchema = outputSchema.length
+    ? outputSchema.map((entry) => ({
+        field: entry.field,
+        type: entry.type,
+        required: entry.required !== false
+      }))
+    : outputFields.map((field) => ({
+        field,
+        type: field === 'task' ? 'string' : 'string[]',
+        required: true
+      }));
   return {
     promptId,
     templateVersion,
     templateHash: stableHashObject(template),
     contextSchemaHash: stableHashObject(declaredContextFields),
-    outputSchemaHash: stableHashObject(outputSchema),
+    outputSchemaHash: stableHashObject(exactOutputSchema),
     placeholderSet,
     declaredContextFields,
     nonRenderedContextFields: explicitNonRendered,
@@ -382,6 +393,13 @@ export function buildPromptContract({
     undeclaredNonRenderedContextFields,
     evidenceRefDigest: stableHashObject(summarizeStrings(evidenceRefs)),
     downstreamArtifactBindings: summarizeStrings(downstreamArtifacts),
+    expectedOutputSchema: exactOutputSchema,
+    parseContractId: `parse_contract_${sha256(`${promptId}:${templateVersion}`).slice(0, 12)}`,
+    parseMode: 'strict-json-object',
+    requiresExactTopLevelKeys: true,
+    allowsExtraneousText: false,
+    onParseFailure: 'reject-and-emit-telemetry',
+    onMissingRequiredField: 'fail-closed',
     completeness: {
       ok: missingPlaceholderBindings.length === 0
         && unusedContextFields.length === 0
@@ -2071,12 +2089,18 @@ function interpolateTemplate(template, values = {}) {
 
 function buildPromptSurface({ promptId, purpose, template, values, contextInputs = [], outputFields = [], downstreamArtifacts = [], evaluatorKind = 'inferred-evaluator', modelId = DEFAULT_MODEL_ID, standIn = true, nonRenderedContextFields = [] }) {
   const evidenceRefs = summarizeStrings(contextInputs.flatMap((input) => input.evidenceRefs || []));
+  const outputSchema = outputFields.map((field) => ({
+    field,
+    type: field === 'task' ? 'string' : 'string[]',
+    required: true
+  }));
   const promptContract = buildPromptContract({
     promptId,
     templateVersion: 'spec-v9-demo-prompt.v1',
     template,
     contextInputs,
     outputFields,
+    outputSchema,
     downstreamArtifacts,
     nonRenderedContextFields,
     evidenceRefs
@@ -2105,6 +2129,20 @@ function buildPromptSurface({ promptId, purpose, template, values, contextInputs
       downstreamArtifacts
     },
     promptContract,
+    parsableCompletionContract: {
+      contractId: promptContract.parseContractId,
+      evaluatorId: promptId,
+      payloadType: outputSchema.length === 1 ? outputSchema[0].type : 'object',
+      schemaHash: promptContract.outputSchemaHash,
+      ownedOutputFields: outputFields,
+      requiredTopLevelKeys: outputSchema.filter((entry) => entry.required).map((entry) => entry.field),
+      parseMode: promptContract.parseMode,
+      requiresExactTopLevelKeys: promptContract.requiresExactTopLevelKeys,
+      allowsExtraneousText: promptContract.allowsExtraneousText,
+      downstreamArtifacts,
+      onParseFailure: promptContract.onParseFailure,
+      onMissingRequiredField: promptContract.onMissingRequiredField
+    },
     evaluatorSurface: evaluatorSurface({
       evaluatorId: promptId,
       evaluatorKind,
@@ -5877,8 +5915,13 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
 }
 
 function buildProofWitnessManifest({
+  inferenceProofs,
+  promptSurfaces,
   promptContracts,
+  promptImplementationSurface,
   promptCompletenessProof,
+  assetPackLock,
+  selectedSourceMaterialManifest,
   codeAnalysisFactRegistry,
   staticHeuristicsRegistry,
   measurementReceipts,
@@ -5886,6 +5929,9 @@ function buildProofWitnessManifest({
   staticMeasurementProof,
   verificationReport,
   verificationReceiptsArtifact,
+  identityBindings,
+  authorizationDecisions,
+  sensitiveDataFlowRecords,
   selectionConsistencyProof,
   journalCompletenessProof,
   identityAuthorizationProof,
@@ -5897,17 +5943,24 @@ function buildProofWitnessManifest({
   settlementParticipationArtifact,
   accountingPrecisionReport,
   settlementProof,
+  journalDiff,
   redactionProof,
   disclosureProof,
   proofContract
 }) {
   const artifactDigests = [
+    { path: '.engi/prompt-surfaces.json', digest: stableHashObject(promptSurfaces || []), proofFamilies: ['inference-synthesis'] },
     { path: '.engi/prompt-contracts.json', digest: stableHashObject(promptContracts || []), proofFamilies: ['prompt-completeness'] },
     { path: '.engi/prompt-completeness-proof.json', digest: promptCompletenessProof.proofHash, proofFamilies: ['prompt-completeness'] },
+    { path: '.engi/asset-pack.lock.json', digest: stableHashObject(assetPackLock || {}), proofFamilies: ['selection-and-materialization', 'settlement-source-to-shares'] },
+    { path: '.engi/selected-source-material.json', digest: stableHashObject(selectedSourceMaterialManifest || {}), proofFamilies: ['selection-and-materialization'] },
     { path: '.engi/code-analysis-fact-registry.json', digest: stableHashObject(codeAnalysisFactRegistry || {}), proofFamilies: ['static-code-analysis'] },
     { path: '.engi/measurement-receipts.json', digest: stableHashObject(measurementReceipts || []), proofFamilies: ['static-code-analysis'] },
     { path: '.engi/static-measurement-report.json', digest: staticMeasurementReport.reportHash, proofFamilies: ['static-code-analysis'] },
     { path: '.engi/static-measurement-proof.json', digest: staticMeasurementProof.proofHash, proofFamilies: ['static-code-analysis'] },
+    { path: '.engi/identity-bindings.json', digest: stableHashObject(identityBindings || []), proofFamilies: ['authorization-and-sensitive-flow'] },
+    { path: '.engi/authorization-decisions.json', digest: stableHashObject(authorizationDecisions || []), proofFamilies: ['authorization-and-sensitive-flow'] },
+    { path: '.engi/sensitive-data-flow.json', digest: stableHashObject(sensitiveDataFlowRecords || []), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.engi/verification-report.json', digest: stableHashObject(verificationReport || {}), proofFamilies: ['verification-decisions'] },
     { path: '.engi/verification-receipts.json', digest: stableHashObject(verificationReceiptsArtifact || {}), proofFamilies: ['verification-decisions'] },
     { path: '.engi/materialization-proof.json', digest: materializationProof.proofHash, proofFamilies: ['selection-and-materialization'] },
@@ -5916,6 +5969,7 @@ function buildProofWitnessManifest({
     { path: '.engi/source-to-shares.json', digest: sourceToSharesArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/settlement-participation.json', digest: settlementParticipationArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/accounting-precision-report.json', digest: accountingPrecisionReport.reportHash, proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/journal-diff.json', digest: stableHashObject(journalDiff || {}), proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/projection-policy.json', digest: disclosureProof?.projectionPolicyRef || stableHashObject({ missing: 'projection-policy' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/bounded-public-proof.json', digest: redactionProof?.boundedPublicProofHash || stableHashObject({ missing: 'bounded-public-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/redaction-proof.json', digest: redactionProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
@@ -5929,6 +5983,14 @@ function buildProofWitnessManifest({
     artifactDigests,
     allProofRelevantArtifactsDigested: artifactDigests.every((entry) => !!entry.digest),
     proofFamilies: [
+      {
+        proofFamily: 'inference-synthesis',
+        witnessArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/prompt-contracts.json'],
+        witnessRefs: [
+          ...((inferenceProofs || []).map((proof) => `${proof.outputField}:${proof.promptOrEvaluatorId}`)),
+          stableHashObject(promptImplementationSurface || {})
+        ]
+      },
       {
         proofFamily: 'prompt-completeness',
         witnessArtifactPaths: ['.engi/prompt-contracts.json', '.engi/prompt-completeness-proof.json'],
@@ -5971,6 +6033,7 @@ function buildProofWitnessManifest({
       }
     ],
     proofHash: stableHashObject({
+      inferenceProofs: stableHashObject(inferenceProofs || []),
       promptCompletenessProof: promptCompletenessProof.proofHash,
       staticMeasurementProof: staticMeasurementProof.proofHash,
       verificationReceiptCount: verificationReceiptsArtifact?.verificationReceipts?.length || 0,
@@ -6267,6 +6330,8 @@ function buildPromptImplementationSurface(inferenceProofs, promptSurfaces = []) 
       templateHash: surface.promptContract?.templateHash,
       contextSchemaHash: surface.promptContract?.contextSchemaHash,
       outputSchemaHash: surface.promptContract?.outputSchemaHash,
+      parseContractId: surface.promptContract?.parseContractId,
+      expectedOutputSchema: surface.promptContract?.expectedOutputSchema || [],
       contextInputCount: surface.contextInputs.length,
       downstreamArtifacts: surface.lineage.downstreamArtifacts,
       completenessOk: surface.promptContract?.completeness?.ok ?? false
@@ -8139,8 +8204,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     branchMode
   });
   let proofWitnessManifest = buildProofWitnessManifest({
+    inferenceProofs,
+    promptSurfaces,
     promptContracts,
+    promptImplementationSurface,
     promptCompletenessProof,
+    assetPackLock,
+    selectedSourceMaterialManifest,
     codeAnalysisFactRegistry,
     staticHeuristicsRegistry,
     measurementReceipts,
@@ -8148,6 +8218,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     staticMeasurementProof,
     verificationReport,
     verificationReceiptsArtifact,
+    identityBindings,
+    authorizationDecisions,
+    sensitiveDataFlowRecords,
     selectionConsistencyProof,
     journalCompletenessProof,
     identityAuthorizationProof,
@@ -8159,6 +8232,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
     settlementProof,
+    journalDiff: settlement.journalDiff,
     redactionProof,
     disclosureProof,
     proofContract
@@ -8284,8 +8358,13 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     branchMode
   });
   proofWitnessManifest = buildProofWitnessManifest({
+    inferenceProofs,
+    promptSurfaces,
     promptContracts,
+    promptImplementationSurface,
     promptCompletenessProof,
+    assetPackLock,
+    selectedSourceMaterialManifest,
     codeAnalysisFactRegistry,
     staticHeuristicsRegistry,
     measurementReceipts,
@@ -8293,6 +8372,9 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     staticMeasurementProof,
     verificationReport,
     verificationReceiptsArtifact,
+    identityBindings,
+    authorizationDecisions,
+    sensitiveDataFlowRecords,
     selectionConsistencyProof,
     journalCompletenessProof,
     identityAuthorizationProof,
@@ -8304,6 +8386,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
     settlementProof,
+    journalDiff: settlement.journalDiff,
     redactionProof: finalizedRedactionProof,
     disclosureProof: finalizedDisclosureProof,
     proofContract

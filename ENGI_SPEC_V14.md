@@ -996,6 +996,7 @@ ENGI proof is the closure mechanism that binds:
 - and settlement accounting.
 
 The current proof architecture includes:
+- inference-synthesis proofs,
 - prompt completeness proof,
 - static measurement proof,
 - verification receipts artifact,
@@ -1005,6 +1006,9 @@ The current proof architecture includes:
 - sensitive-data-flow proof,
 - materialization proof,
 - materialization visibility proof,
+- source-to-shares artifact,
+- settlement participation artifact,
+- accounting precision report,
 - proof witness manifest,
 - system proof bundle,
 - bounded public proof,
@@ -1029,23 +1033,148 @@ It therefore MUST make explicit:
 - journal diff,
 - accounting precision report.
 
+## 11.2.1 Canonical settlement-set semantics
+
+V14 distinguishes four related but non-identical settlement sets:
+- selected assets
+  Assets admitted into the private branch path.
+- settlement-participating assets
+  Selected assets whose use tier permits settlement participation.
+- positively credited assets
+  Settlement participants that actually receive positive micro-unit credit.
+- zero-credit or zero-point participants
+  Settlement participants that remain explicit in the settlement set but receive `0` credited units because their replayed marginal contribution is non-positive after clipping and normalization.
+
+The current source names the last category with concrete artifact fields such as `zeroCreditParticipating` and `zeroCreditAssetIds`.
+V14 treats `zero-point` as the semantic idea and `zero-credit` as the current artifact label.
+
+The spec MUST therefore preserve the relations:
+- `creditedAssetIds ⊆ settlementParticipatingAssetIds`
+- `zeroCreditAssetIds ⊆ settlementParticipatingAssetIds`
+- `settlementParticipatingAssetIds ⊆ selectedAssetIds`
+
+No V14 settlement reading is honest if these sets are collapsed into one vague "settled assets" bucket.
+
 ## 11.3 Canonical settlement structures
 
 ```ts
+type SourceContributionEntry = {
+  assetId: string
+  title: string
+  contentRoot: string
+  selectedUnitRefs: string[]
+  fullBundleScoreUnits: string
+  bundleWithoutAssetScoreUnits: string
+  rawContributionUnits: string
+  clippedContributionUnits: string
+  clipped: boolean
+  clippingReceiptId: string
+  candidateRankingScoreUnits: string
+  coveredNeedEvidence: {
+    failureModes: string[]
+    constraints: string[]
+    touchedPaths: string[]
+  }
+  reasons: string[]
+  rawShareBp: number
+  normalizationRemainderUnits: string
+}
+
+type ClippingReceipt = {
+  receiptId: string
+  receiptKind: 'source-to-shares-clipping'
+  assetId: string
+  clipped: boolean
+  rawContributionUnits: string
+  clippedContributionUnits: string
+  reason: 'non-positive-marginal-contribution' | 'positive-marginal-contribution'
+  receiptHash: string
+}
+
+type RawShareEntry = {
+  assetId: string
+  shareBp: number
+  rawContributionUnits: string
+  clippedContributionUnits: string
+  normalizationRemainderUnits: string
+  reasons: string[]
+}
+
+type SettledShareEntry = {
+  assetId: string
+  rawShareBp: number
+  settledShareBp: number
+  settlementAdjustmentReasons: string[]
+}
+
+type SettlementAllocationEntry = {
+  assetId: string
+  settledShareBp: number
+  microUnits: string
+  floorMicroUnits: string
+  remainderUnits: string
+  extraMicroUnitsAwarded: string
+  tieBreakRank: number
+}
+
+type JournalEntry = {
+  entryId: string
+  account: string
+  delta: string
+  reason: string
+  eventId: string
+  bundleId: string
+  needId: string
+  assetId?: string
+  unitRefs?: string[]
+  receiptRef: string
+  explanation: string
+}
+
 type SourceToSharesArtifact = {
   needId: string
   conformanceProfile: string
   productionIntentProfile: string
-  scoreScale: number
+  scoreScale: string
   bundleShareScoreWeightsBp: Record<string, number>
   settlementCandidateAssetIds: string[]
-  bundleShareScore: Record<string, number>
-  sourceContributionEntries: object[]
-  clippingReceipts: object[]
+  bundleShareScore: {
+    bundleShareScoreUnits: string
+    bundleShareScore: string
+    componentShareScoreUnits: Record<string, string>
+    coveredNeedEvidence: {
+      failureModes: string[]
+      constraints: string[]
+      touchedPaths: string[]
+    }
+  }
+  sourceContributionEntries: SourceContributionEntry[]
+  clippingReceipts: ClippingReceipt[]
   basisPointNormalization: object
   normalizationLedger: object[]
-  rawShares: Record<string, string>
+  rawShares: RawShareEntry[]
   proofHash: string
+}
+
+type SettlementParticipationRecord = {
+  assetId: string
+  title: string
+  useTier: string
+  selected: boolean
+  settlementParticipating: boolean
+  positivelyCredited: boolean
+  zeroCreditParticipating: boolean
+  excludedFromSettlement: boolean
+  exclusionReason: string | null
+  rawContributionMass: string
+  clippedContributionMass: string
+  clippedMassReason: string | null
+  clippingReceiptId: string | null
+  rawShareBp: number
+  settledShareBp: number
+  creditedMicroUnits: string
+  selectedUnitRefs: string[]
+  contentRoot: string
 }
 
 type SettlementParticipationArtifact = {
@@ -1057,8 +1186,18 @@ type SettlementParticipationArtifact = {
   positivelyCreditedCount: number
   zeroCreditParticipatingCount: number
   excludedFromSettlementCount: number
-  records: object[]
+  records: SettlementParticipationRecord[]
   proofHash: string
+}
+
+type SettlementPreviewAllocation = {
+  assetId: string
+  title: string
+  useTier: string
+  rawShareBp: number
+  settledShareBp: number
+  creditedMicroUnits: string
+  rationale: string[]
 }
 
 type SettlementPreview = {
@@ -1068,18 +1207,48 @@ type SettlementPreview = {
   conformanceProfile: string
   productionIntentProfile: string
   selectedAssetIds: string[]
-  rawShares: Record<string, string>
-  settledShares: Record<string, string>
+  rawShares: RawShareEntry[]
+  settledShares: SettledShareEntry[]
   meteredMicroUnits: string
   settlementParticipatingAssetIds: string[]
   creditedAssetIds: string[]
   zeroCreditAssetIds: string[]
-  allocations: object[]
+  allocations: SettlementPreviewAllocation[]
   semanticsNote: string
   assetPackLockHash: string
   sourceToSharesRef: string
   settlementParticipationRef: string
   receipts: object[]
+}
+
+type JournalDiff = {
+  eventId: string
+  needId: string
+  bundleId: string
+  beforeRoot: string
+  afterRoot: string
+  debits: JournalEntry[]
+  credits: JournalEntry[]
+  beforeBalances: Record<string, string>
+  afterBalances: Record<string, string>
+  rawShares: RawShareEntry[]
+  settledShares: SettledShareEntry[]
+  receipts: object[]
+  invariants: {
+    debitsEqualCredits: boolean
+    allocationConserved: boolean
+    noNegativeBalances: boolean
+    rawSharesNormalized: boolean
+    settledSharesNormalized: boolean
+    receiptChainValid: boolean
+    refsClosed: boolean
+    settledEqualsRaw: boolean
+  }
+  totals: {
+    debited: string
+    credited: string
+    difference: string
+  }
 }
 
 type AccountingPrecisionReport = {
@@ -1089,19 +1258,45 @@ type AccountingPrecisionReport = {
   branchMode: 'context' | 'patch'
   conformanceProfile: string
   productionIntentProfile: string
-  scoreScale: number
+  scoreScale: string
   sourceToSharesRef: string
   settlementParticipationRef: string
-  contributionInputs: object
-  clippingDecisions: object[]
+  contributionInputs: Array<{
+    assetId: string
+    candidateRankingScoreUnits: string
+    fullBundleScoreUnits: string
+    bundleWithoutAssetScoreUnits: string
+    rawContributionUnits: string
+    clippedContributionUnits: string
+    clipped: boolean
+    clippingReceiptId: string
+    coveredNeedEvidence: {
+      failureModes: string[]
+      constraints: string[]
+      touchedPaths: string[]
+    }
+    rawShareBp: number
+  }>
+  clippingDecisions: ClippingReceipt[]
   basisPointNormalization: object
   microUnitAllocation: object
-  sourceMaterialToSharesClosure: object
+  sourceMaterialToSharesClosure: Array<{
+    assetId: string
+    selectedUnitRefs: string[]
+    rawContributionMass: string
+    clippedContributionMass: string
+    rawShareBp: number
+    settledShareBp: number
+    creditedMicroUnits: string
+    zeroCreditParticipating: boolean
+  }>
   exactAccountingInvariants: {
-    debitsEqualCredits: boolean
-    basisPointsSumTo10000: boolean
-    nonNegativeBalances: boolean
+    rawSharesNormalized: boolean
+    settledSharesNormalized: boolean
     allocationConserved: boolean
+    debitsEqualCredits: boolean
+    zeroCreditParticipationExplicit: boolean
+    clippedContributionDecisionsReceiptBacked: boolean
   }
   tieBreakExplanations: string[]
   reportHash: string
@@ -1113,12 +1308,13 @@ type AccountingPrecisionReport = {
 Proof and settlement invariants in V14:
 1. all proof-relevant artifacts MUST be digestible into the witness manifest,
 2. bounded public proof MUST be derivable from the private proof closure without leaking private artifacts,
-3. source-to-shares normalization MUST remain replayable,
-4. zero-credit participation MUST remain explicit rather than silently erased,
+3. source-to-shares normalization MUST remain replayable from source contribution through basis-point normalization,
+4. zero-credit participation MUST remain explicit rather than silently erased from settlement previews, participation artifacts, or journal reasoning,
 5. the asset-pack lock hash MUST bind settlement closure,
 6. debit/credit conservation MUST hold exactly,
 7. journal roots MUST remain integrity-bearing,
-8. settlement MUST remain explainable by profile shape.
+8. selected, settlement-participating, positively credited, and zero-credit sets MUST remain distinguishable,
+9. settlement MUST remain explainable by profile shape.
 
 ## 11.5 Theorem-level expectations
 
@@ -1128,7 +1324,9 @@ The current prototype and V14 canon both require theorem-style checks for at lea
 - debit/credit conservation,
 - non-negative balances,
 - reference closure,
-- state-root integrity.
+- state-root integrity,
+- selected/participating/credited set ordering,
+- zero-credit explicitness.
 
 These are expanded in Appendix C.
 
@@ -1568,7 +1766,7 @@ For the current repo:
 - proof-program execution is mostly upstream-evidence-only while proof assembly is local and real,
 - GitHub auth, workflow fetch, remote model execution, signer authority checks, proof publication, and settlement network effects remain remote-program boundaries,
 - native runtime/test and container runtime/test are the canonical execution configurations,
-- the current host capability adjunct docs still preserve useful execution truth even though they predate the V14/latest-target wording, and the implementation matrix tracks that label lag explicitly rather than hiding it.
+- the current host capability adjunct docs already preserve the V14/latest-target and V12/last-realized nuance, though some internal phrasing still reflects live source stage ids and narrow "V9 path" wording.
 
 ## 14.11 Current source references
 
@@ -1688,6 +1886,9 @@ Verification MUST remain distinct from ranking.
 Any system that collapses them back into one monolithic score is not V14-conformant.
 
 ## A.4 Projection, settlement, and validation schemas
+
+Canonical settlement/accounting schemas are the exact ones defined in section `11.3`.
+This appendix section preserves the cross-reference because projection, test coverage, and exact-accounting validation all depend on those structures.
 
 ```ts
 type ProjectionPolicy = {
@@ -1856,58 +2057,55 @@ Every evaluator-bearing or inference-bearing surface in V14 SHOULD be representa
 
 ## B.3 Canonical inference moments and evaluator moments
 
-The current source exposes the following canonical moments:
+The current source exposes two aligned but non-identical identifier layers:
+- concrete deterministic stage ids
+  The ids attached to receipt-producing local stages such as parser normalization, repo-context extraction, unit code analysis, asset code analysis, and verification checks.
+- evaluator or moment-family ids
+  The ids attached to prompt-bearing inference, hybrid ranking families, or measurement-trace surfaces that summarize a broader evaluator role.
 
-- `github-actions.benchmark-parser.v2`
+Both layers are canonical.
+V14 MUST NOT flatten them into one namespace when the source keeps both.
+
+The current source-grounded canonical moments are:
+
+- benchmark parser normalization
+  Concrete stage id: `github-actions.benchmark-parser.v9`
+  Family / trace id: `github-actions.benchmark-parser.v2`
   Owns canonical benchmark normalization and parser fail-closed behavior for need materialization.
-- `github.repo-context.extract.v2`
+- repo-context extraction
+  Concrete stage id: `github.repo-context.extract.v9`
+  Family / trace id: `github.repo-context.extract.v2`
   Owns repo-static context such as touched paths, symbols, config keys, and stack hints.
-- `content-unit.extract-static-code-analysis.v9`
-  Owns content-unit-local static facts and receipts.
-- `content-unit.embedding-standin.v8`
+- content-unit static analysis
+  Concrete stage id: `content-unit.extract-static-code-analysis.v9`
+  Owns content-unit-local static facts and receipt families.
+- asset-level static analysis
+  Concrete stage id: `asset.measurement.extract.v9`
+  Owns asset-level code-analysis facts and source-path/static fact closure.
+- stand-in embedding derivation
+  Moment id: `content-unit.embedding-standin.v8`
   Owns stand-in semantic vectors for task, failure-mode, and technical-context spaces.
-- `need-measurement.task.v2`
-  Owns the inferred `task` field of the need descriptor.
-- `need-measurement.failure-modes.v2`
-  Owns inferred `failureModes`.
-- `need-measurement.constraints.v2`
-  Owns inferred `constraints` and demonstrates declared non-rendered context via `repoPrivacy`.
-- `need-measurement.target-artifact-kinds.v2`
-  Owns inferred `targetArtifactKinds`.
-- `candidate-recall.hybrid.v2`
-  Owns hybrid recall assembly over semantic, lexical, symbol, path, config, and artifact-kind channels.
-- `ranking.recall-fusion.v2`
-  Owns fusion explanation over recall evidence.
-- `ranking.need-match.v2`
-  Owns hybrid need-match scoring over current need and candidate evidence.
-- `ranking.benchmark-impact.v2`
-  Owns hybrid benchmark-impact scoring.
-- `ranking.actionability.v2`
-  Owns hybrid actionability scoring.
-- `verification.determinisms.v2`
-  Owns issuance, provenance, sufficiency, and issuer-policy determinisms plus use-tier decision support.
+- prompt-bearing need measurement
+  Moment ids: `need-measurement.task.v2`, `need-measurement.failure-modes.v2`, `need-measurement.constraints.v2`, `need-measurement.target-artifact-kinds.v2`
+  Own inferred `task`, `failureModes`, `constraints`, and `targetArtifactKinds`.
+- hybrid recall and ranking
+  Moment ids: `candidate-recall.hybrid.v2`, `ranking.recall-fusion.v2`, `ranking.need-match.v2`, `ranking.benchmark-impact.v2`, `ranking.actionability.v2`
+  Own recall assembly, recall fusion, need-match scoring, benchmark-impact scoring, and actionability scoring.
+- verification determinisms
+  Concrete stage ids: `verification.issuance-checks.v9`, `verification.provenance-checks.v9`, `verification.sufficiency-checks.v9`, `verification.issuer-policy-checks.v9`
+  Family / trace id: `verification.determinisms.v2`
+  Own issuance, provenance, sufficiency, and issuer-policy determinisms plus use-tier decision support.
 
 V14 rule:
 Every inference-bearing or evaluator-bearing moment MUST have:
 1. a stable evaluator/program id,
-2. declared owned output fields or receipts,
-3. declared input/evidence expectations,
-4. declared downstream artifacts or consumers,
-5. explicit stand-in vs live boundary truth.
+2. a declared identity as a concrete stage id, family id, or both,
+3. declared owned output fields or receipts,
+4. declared input/evidence expectations,
+5. declared downstream artifacts or consumers,
+6. explicit stand-in vs live boundary truth.
 
-The current canonical moment families are:
-- parser and repo-context moments
-  `github-actions.benchmark-parser.v2`, `github.repo-context.extract.v2`
-- deterministic content analysis moments
-  `content-unit.extract-static-code-analysis.v9`, `content-unit.embedding-standin.v8`
-- prompt-bearing need-measurement moments
-  `need-measurement.task.v2`, `need-measurement.failure-modes.v2`, `need-measurement.constraints.v2`, `need-measurement.target-artifact-kinds.v2`
-- hybrid recall and ranking moments
-  `candidate-recall.hybrid.v2`, `ranking.recall-fusion.v2`, `ranking.need-match.v2`, `ranking.benchmark-impact.v2`, `ranking.actionability.v2`
-- deterministic verification moments
-  `verification.determinisms.v2`
-
-No V14 inference appendix is complete unless every field or receipt owned by these families can be traced back to one of the declared moments.
+No V14 inference appendix is complete unless every owned field or receipt can be traced back to the declared evaluator family and, where applicable, to the concrete deterministic stage that produced the receipt.
 
 ## B.4 Prompt surfaces, prompt contracts, and context injectables
 
@@ -2039,6 +2237,10 @@ V14 requires:
 6. deterministic stand-ins still emit the same prompt lineage and completeness surfaces as a live prompt path would require,
 7. the set of required rendered fields and allowed non-rendered fields be explicit per prompt family rather than inferred from prose.
 
+Current source reading:
+- `buildPromptContract(...)` now records exact `expectedOutputSchema` entries, `parseContractId`, and fail-closed parse policy alongside completeness and placeholder closure.
+- `buildPromptSurface(...)` now carries a `parsableCompletionContract` surface even though the deterministic stand-in path does not emit a separate parsed completion artifact instance.
+
 ## B.5 Output schemas and parsable completion contracts
 
 ```ts
@@ -2081,8 +2283,8 @@ If parsing fails, ENGI MUST:
 3. avoid silently falling back to free-form prose,
 4. avoid treating malformed completion output as static evidence.
 
-The current deterministic prototype models these completion obligations but does not yet emit a first-class parsed completion envelope artifact for stand-in prompt execution.
-That distinction belongs in the implementation matrix, not in hidden assumptions.
+The current deterministic prototype now carries exact output schemas and parsable-completion contracts on prompt surfaces, but it still does not emit a first-class parsed completion envelope artifact for stand-in prompt execution.
+That remaining distinction belongs in the implementation matrix, not in hidden assumptions.
 
 ## B.6 Recall channel contracts and fact lifecycle
 
@@ -2212,6 +2414,11 @@ The canonical V14 proof families are:
   Definition: the system proof bundle and proof contract bind the cross-cutting closure path end to end.
 
 No V14 proof appendix is complete unless the major subsystems can be mapped to explicit `ProofObligationDescriptor` entries and those entries can be substantiated by witness material.
+
+Current source reading:
+- `buildProofWitnessManifest(...)` now represents `inference-synthesis` as a first-class family,
+- digests prompt surfaces, asset-pack lock, selected source material, identity bindings, authorization decisions, sensitive-data-flow records, and journal diff alongside the earlier proof-bearing artifacts,
+- and uses stable family witness refs for aggregate bundle-carried surfaces such as prompt implementation closure.
 
 ## C.3 Canonical proof object structures
 
@@ -2428,7 +2635,8 @@ V14 requires:
 1. every proof family named by the spec be representable in the witness manifest,
 2. every proof-relevant artifact path emitted by the system be digestible or explicitly incorporated into a family witness structure,
 3. indirect reference through `system-proof-bundle.json` not be used to hide missing family-specific witness coverage,
-4. witness families and artifact digests stay mutually coherent.
+4. witness families and artifact digests stay mutually coherent,
+5. derived aggregate artifacts MAY be represented by explicit family witness refs rather than standalone digest rows only when separate digest closure would be circular, but that exception MUST be stated explicitly.
 
 If a proof-relevant artifact exists but is not digestible into the witness manifest, V14 parity is incomplete.
 
@@ -2694,6 +2902,14 @@ These are boundary truths, not V14 parity failures, so long as:
 - local stand-ins remain clearly marked,
 - and the spec does not pretend they are executed when they are only modeled.
 
+## G.6 Explicit current parity deltas
+
+The current repo/source parity is materially stronger after the V14 hardening pass, but the following nuances remain explicit:
+- prompt contracts and prompt surfaces now carry exact output schemas and parse-contract ids, but the deterministic stand-in path still does not emit a first-class parsed completion envelope artifact,
+- evaluator-family ids and deterministic stage ids intentionally coexist, so V14 parity requires the reader to keep both layers visible instead of forcing one naming layer to erase the other,
+- the proof witness manifest now covers inference-synthesis and the major proof-bearing artifacts directly, while aggregate bundle-carried surfaces are still represented through stable witness refs rather than separate digest rows when direct digest closure would be circular,
+- host capability adjunct docs are canon-aligned on V14/V12 status, but still preserve some current-source stage-id phrasing.
+
 ---
 
 # Final conclusion
@@ -2703,8 +2919,11 @@ V14 is now the canonical/latest ENGI target and the first spec that actually per
 - preserve the V12 design center and the last fully realized canon,
 - restore dense explicitness where it helps,
 - make host/runtime truth part of system canon,
-- make evaluator, proof, settlement, and disclosure structures formally recoverable,
+- make evaluator, proof, settlement, and disclosure structures formally recoverable and source-grounded,
 - make test coverage canonical,
 - and keep source, docs, UI, and validation traceable to one design truth.
 
-The remaining work after this pass should be ordinary realization and parity-closing against this canon, not another search for the right structure.
+The remaining work after this pass should be ordinary realization against an explicit canon:
+- parsed completion envelope artifacts if live or stand-in execution wants first-class parse receipts,
+- continued adjunct-doc wording cleanup where current source stage ids leak older phrasing,
+- and routine parity maintenance rather than another search for the right structure.

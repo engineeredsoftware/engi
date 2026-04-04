@@ -113,10 +113,31 @@ This correction path added or strengthened the following:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md` as the standalone drafting guide for future enriched specs,
 - explicit V14 alignment to that guide,
 - explicit `ENGI_SPEC.txt = V14` plus `V12 remains the last fully realized canon` wording across the V14 file family,
+- stronger implementation-matrix honesty rules in the template guide so partial closure is not mislabeled as full parity,
 - stronger host capability treatment covering role, category boundaries, bootstrap/furnishing, containerization, telemetry/safety, and measurement/execution truth,
-- stronger inference appendix completeness covering moment contracts, prompt templates, context injectables, output ownership, and parse contracts,
-- stronger proof appendix completeness covering proof-family definitions, subsystem obligations, witness structures, theorem catalog material, and witness-manifest closure,
+- stronger inference appendix completeness covering moment contracts, evaluator-family vs stage-id layering, prompt templates, context injectables, output ownership, and parse contracts,
+- stronger proof appendix completeness covering proof-family definitions, subsystem obligations, witness structures, theorem catalog material, witness-manifest closure, and aggregate-bundle witness handling,
+- stronger zero-credit / zero-point exact-accounting formalization covering source-to-shares, settlement participation, journal closure, and set relations between selected, participating, and positively credited assets,
+- source-side prompt contracts now carrying exact output schemas and parsable-completion contract metadata,
+- source-side proof witness manifests now representing inference-synthesis and digesting the major proof-bearing artifact surfaces directly,
 - stronger operator-experience parity treatment in test and parity appendices.
+
+## Newly discovered review findings in this pass
+
+This pass surfaced several truths that the previous matrix posture had not captured cleanly:
+- the host capability adjunct docs were already better aligned than the matrix claimed because they now preserve the V14 pointer and V12 last-realized nuance directly,
+- the evaluator/inference layer uses both concrete deterministic stage ids and higher-level evaluator-family ids, so V14 needed to document both instead of forcing one layer to erase the other,
+- prompt completeness alone was not enough for V14 inference parity; exact output schemas and parse-contract ids needed to be source-visible too,
+- proof-family naming alone was not enough for V14 proof parity; witness-manifest coverage had to include inference-synthesis and more of the proof-bearing artifact family directly,
+- zero-credit participation needed to be treated as a first-class settlement/accounting semantic rather than a side comment.
+
+## Resulting V14 posture after this pass
+
+The right post-pass reading is now:
+- the template guide is stronger because V14 drafting revealed where matrix language and exact-accounting rules were missing,
+- the V14 spec is stronger because it now describes source-grounded evaluator ids, witness closure, and zero-credit accounting semantics explicitly,
+- the implementation matrix must now be more careful about distinguishing real closure from low-risk residual follow-up,
+- and the remaining open items are ordinary parity maintenance details rather than missing major V14 recommendation families.
 
 ## Practical drafting reminder
 

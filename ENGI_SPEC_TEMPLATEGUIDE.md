@@ -92,6 +92,24 @@ It is the ledger that separates:
 - intentionally modeled boundaries,
 - and still-open repo/documentation lag.
 
+## 3.1 Matrix honesty and closure language
+
+The implementation matrix MUST be willing to describe partial closure precisely.
+
+Preferred judgment language includes:
+- `closed`
+- `spec closed; source gap`
+- `substantially advanced`
+- `adjunct-doc lag`
+- `accepted boundary`
+- `low-risk follow-up`
+
+Matrix-honesty rules:
+1. A row MUST NOT be marked `closed` merely because the spec now defines the topic well if the current source still lacks the named builder, artifact, receipt, or witness surface the spec relies on.
+2. If the spec is formally complete but source realization still trails, the matrix SHOULD say so explicitly rather than compressing everything into binary open/closed language.
+3. If adjunct docs are ahead or behind the matrix's previous assumption, the matrix MUST be corrected to the current repo truth rather than preserving stale review language.
+4. False closure is worse than explicit debt because it hides where the next realization work actually belongs.
+
 ---
 
 # 4. Executive summary drafting rules
@@ -287,6 +305,7 @@ Appendix rules:
 1. Appendices SHOULD be internally structured rather than dumped as loose notes.
 2. Appendix material SHOULD be exhaustive enough to support audit and implementation.
 3. Appendix claims that matter for parity SHOULD be reflected in the implementation matrix.
+4. When an appendix defines a stronger normative model than the current source fully emits, the file family SHOULD include an explicit current-implementation reading or parity-delta note rather than implying hidden closure.
 
 ---
 
@@ -396,6 +415,27 @@ Host-truth rules:
 4. Containerization MUST be described as an execution configuration, not as implied production readiness.
 5. Human-readable and structured host capability documents SHOULD stay aligned with the canonical spec status when they are referenced by the spec.
 
+## 11.7 Settlement and exact accounting closure
+
+For settlement/accounting material, a full enriched spec MUST define:
+- source-to-shares derivation inputs and scoring weights,
+- contribution entries and clipping decisions,
+- normalization method and tie-break policy,
+- raw shares and settled shares,
+- settlement participation versus positive credit,
+- zero-credit or zero-point participation semantics,
+- micro-unit allocation,
+- journal entries and journal diff structure,
+- exact accounting invariants,
+- and proof linkage between source-to-shares, participation, accounting precision, settlement proof, and journal closure.
+
+Settlement/accounting rules:
+1. The spec MUST distinguish selected assets, settlement-participating assets, positively credited assets, and zero-credit participants when those sets can differ.
+2. Zero-credit or zero-point participation MUST stay explicit rather than being erased from previews, participation artifacts, or journal reasoning.
+3. Clipping, normalization, and tie-break behavior MUST be replayable from declared receipts or deterministic traces.
+4. Debit/credit conservation and non-negative balance expectations MUST be stated as exact invariants, not vague accounting intent.
+5. If current source uses a concrete label such as `zero-credit` for a broader semantic idea such as zero-point participation, the spec SHOULD state that equivalence explicitly rather than forcing the reader to infer it.
+
 ---
 
 # 12. Drafting rules for preserving later design truth while restoring earlier explicitness
@@ -427,9 +467,11 @@ A future full enriched ENGI release is in good structural shape when all of the 
 9. test coverage expectations include browser e2e and operator-experience parity where canonical,
 10. spec-to-source references are deliberate and parity-bearing,
 11. host capability and execution-truth surfaces are explicit when relevant,
-12. notes and implementation matrix agree with the main spec,
-13. prior versions remain preserved,
-14. accepted boundaries are explicit rather than hidden.
+12. source-to-shares, zero-credit participation, journal invariants, and exact accounting closure are explicit when relevant,
+13. notes and implementation matrix agree with the main spec,
+14. prior versions remain preserved,
+15. accepted boundaries are explicit rather than hidden,
+16. the implementation matrix uses honest closure language rather than premature `closed` judgments.
 
 This guide is the cross-version drafting standard.
 Individual `_VN_` specs remain the product/system canon for their own release, but they SHOULD now be written against this guide rather than rediscovering the structure each time.
