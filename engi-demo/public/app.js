@@ -811,6 +811,859 @@ const EXPLAINERS = {
   }
 };
 
+const NEED_CAPSULE_REFERENCES = {
+  code: [
+    'public/app.js -> chipList()',
+    'public/app.js -> renderNeedVisual()',
+    'public/app.js -> renderScenarioCorpusVisual()'
+  ],
+  spec: ['V12 §6.2', 'V12 §7', 'V12 §11']
+};
+
+const ASSET_CAPSULE_REFERENCES = {
+  code: [
+    'public/app.js -> chipList()',
+    'public/app.js -> renderAssetVisual()',
+    'src/engi-demo.js -> makeCandidateAsset()'
+  ],
+  spec: ['V12 §6.1', 'V12 §9', 'V12 §10']
+};
+
+const EXTRA_EXPLAINERS = {
+  'run-count': {
+    kicker: 'History metric',
+    title: 'Runs',
+    summary: 'The total number of public run-history entries currently visible in the shell.',
+    detail: 'This is the replayable public projection count, not the count of private branch artifacts or one repo inventory selection.',
+    points: [
+      'Lets an operator gauge how much prior closure history the demo already carries',
+      'Pairs with settled runs to separate mere history from completed closure'
+    ],
+    references: {
+      code: ['public/app.js -> renderRunHistoryVisual()'],
+      spec: ['V12 §11', 'V12 §13']
+    }
+  },
+  'settled-runs': {
+    kicker: 'History metric',
+    title: 'Settled runs',
+    summary: 'The subset of run history that actually reached settled lifecycle closure.',
+    detail: 'This metric helps the operator separate staged or partial history from runs whose proof and settlement path already closed.',
+    points: [
+      'Counts closed economic outcomes, not just attempted runs',
+      'Useful for reading whether the demo has already demonstrated full closure'
+    ],
+    references: {
+      code: ['public/app.js -> renderRunHistoryVisual()'],
+      spec: ['V12 §11', 'V12 §13']
+    }
+  },
+  'pre-proof-surface': {
+    kicker: 'Closure staging',
+    title: 'Before proof',
+    summary: 'This surface is intentionally upstream of proof inspection.',
+    detail: 'V12 requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
+    points: [
+      'Makes the fit story obvious first',
+      'Keeps proof and settlement as downstream closure rather than upfront burden'
+    ],
+    references: {
+      code: ['public/app.js -> renderDepositingToNeedingVisual()'],
+      spec: ['V12 §6.3', 'V12 §8', 'V12 §11']
+    }
+  },
+  'closure-path-badge': {
+    kicker: 'Closure staging',
+    title: 'Branch -> proof -> settlement',
+    summary: 'The intended closure chain after fit becomes persuasive.',
+    detail: 'The branch carries the private artifact pack, proof closes the evidence story, and settlement turns that closed story into accounting consequences.',
+    points: [
+      'Explains the order of downstream surfaces',
+      'Connects fit intent to later branch, proof, and settlement artifacts'
+    ],
+    references: {
+      code: ['public/app.js -> renderDepositingToNeedingVisual()', 'public/app.js -> renderRepoToSettlementVisual()'],
+      spec: ['V12 §8', 'V12 §11']
+    }
+  },
+  'branch-intent': {
+    kicker: 'Fit-to-closure',
+    title: 'Branch intent',
+    summary: 'Why the current deposit-to-need fit should materialize a private remediation branch at all.',
+    detail: 'This is the forward-looking statement that turns a persuasive fit into a branch plan before any proof bundle or settlement report exists.',
+    points: [
+      'Upstream of proof closure',
+      'Should read as a consequence of fit, not as separate infrastructure trivia'
+    ],
+    references: {
+      code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/engi-demo.js -> buildDepositingToNeedingSurface()'],
+      spec: ['V12 §6.3', 'V12 §8', 'V12 §11']
+    }
+  },
+  'ref-commit': {
+    kicker: 'Addressing field',
+    title: 'Ref / commit',
+    summary: 'The exact source ref and commit ENGI is binding into the current address.',
+    detail: 'This is where the operator can see which branch, tag, or pinned commit the asset was taken from before later proofs hash it into roots.',
+    points: [
+      'Separates version identity from artifact title',
+      'Feeds the explicit repo address carried through later proofs'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §6.1', 'V12 §10']
+    }
+  },
+  'source-paths': {
+    kicker: 'Addressing field',
+    title: 'Source paths',
+    summary: 'The concrete repository paths ENGI believes this asset or deposit is drawing from.',
+    detail: 'Paths matter because V12 wants kind-native supply and exact addressing to stay legible before the operator opens raw content.',
+    points: [
+      'Useful for repo artifact bundles and mixed deposits',
+      'Complements repo/ref identity with file-level scope'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §6.1', 'V12 §9', 'V12 §10']
+    }
+  },
+  'content-root': {
+    kicker: 'Content binding',
+    title: 'Content root',
+    summary: 'The deterministic content hash over the current asset payload.',
+    detail: 'This is the compact content identity that lets ENGI keep previews, addressing, signing, and later proofs tied to the same payload.',
+    points: [
+      'Different from repo path or commit identity',
+      'Becomes useful whenever operators need to confirm payload sameness'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §6.1', 'V12 §10', 'V12 §11']
+    }
+  },
+  'upload-surfaces': {
+    kicker: 'Asset surface',
+    title: 'Upload surfaces',
+    summary: 'The distinct renderable or derived surfaces ENGI produced for the deposited asset.',
+    detail: 'A single asset can expose visual preview, raw content, selection metadata, and derived analysis surfaces without collapsing them into one generic blob.',
+    points: [
+      'Supports artifact-kind-native UX',
+      'Helps operators see what parts of the asset are available for inspection'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §9']
+    }
+  },
+  constraints: {
+    kicker: 'Need / asset guardrail',
+    title: 'Constraints',
+    summary: 'Hard rules the current asset or measured need expects ENGI to preserve while closing the scenario.',
+    detail: 'Constraints keep the demo from reading like “fix it however you want.” They state what must stay true while the branch, proof, and settlement path proceeds.',
+    points: [
+      'Can be declared on assets or on the measured need',
+      'Different from closure criteria, which describe what counts as closed'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'public/app.js -> renderNeedVisual()'],
+      spec: ['V12 §6.2', 'V12 §9', 'V12 §11']
+    }
+  },
+  'signing-algorithm': {
+    kicker: 'Signing field',
+    title: 'Algorithm',
+    summary: 'The signing algorithm used for the current attestation payload.',
+    detail: 'This tells the operator what cryptographic mechanism is supposed to stand behind the signer and payload hash without requiring them to inspect raw attestation blobs.',
+    points: [
+      'Separate from who signed',
+      'Separate from where the key material came from'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §10', 'V12 §11']
+    }
+  },
+  'key-source': {
+    kicker: 'Signing field',
+    title: 'Key source',
+    summary: 'Where the signer key material is modeled as coming from in this demo.',
+    detail: 'This is the provenance claim behind the signer, not the signer address itself and not the payload hash the signature covers.',
+    points: [
+      'Useful for demo honesty about signer provenance',
+      'Complements signer address and algorithm rather than replacing them'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §10', 'V12 §12']
+    }
+  },
+  'payload-hash': {
+    kicker: 'Signing field',
+    title: 'Payload hash',
+    summary: 'The hash over the payload the signer is attesting to.',
+    detail: 'This is the compact integrity handle that later proof surfaces can reference when they need to show the attested payload has not drifted.',
+    points: [
+      'Different from content root and different from auth payload hash',
+      'Lets later proofs bind back to one exact attested payload'
+    ],
+    references: {
+      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      spec: ['V12 §10', 'V12 §11']
+    }
+  },
+  'settlement-shape': {
+    kicker: 'Profile meaning',
+    title: 'Settlement shape',
+    summary: 'The characteristic economic closure pattern the active profile is supposed to produce.',
+    detail: 'V12 wants Profile A and Profile B to feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
+    points: [
+      'Profile A should read as concentrated and direct',
+      'Profile B should read as normalized and source-to-shares aware'
+    ],
+    references: {
+      code: ['public/app.js -> renderProfileCompositionVisual()', 'public/app.js -> renderNeedVisual()'],
+      spec: ['V12 §7', 'V12 §11']
+    }
+  },
+  'scenario-anchors': {
+    kicker: 'Profile meaning',
+    title: 'Scenario anchors',
+    summary: 'The seeded scenario families that best anchor what a profile is trying to demonstrate.',
+    detail: 'These anchors show which recurring need shapes in the corpus make a profile’s deposit, need, and closure posture easiest to understand.',
+    points: [
+      'Acts as corpus grounding for profile semantics',
+      'Useful when one profile spans several scenario families'
+    ],
+    references: {
+      code: ['public/app.js -> renderProfileCompositionVisual()', 'src/engi-demo.js -> buildProfileCompositions()'],
+      spec: ['V12 §7', 'V12 §13']
+    }
+  },
+  'profile-composition': {
+    kicker: 'Profile meaning',
+    title: 'Composition',
+    summary: 'The short list of characteristics that make the current profile operationally distinct.',
+    detail: 'Composition is the compact operator read of why a profile exists: deposit shape, need posture, proof burden, and settlement story.',
+    points: [
+      'Should make Profile A and Profile B feel different immediately',
+      'Keeps profile semantics readable without opening raw source fixtures'
+    ],
+    references: {
+      code: ['public/app.js -> renderProfileCompositionVisual()', 'src/engi-demo.js -> buildProfileCompositions()'],
+      spec: ['V12 §7', 'V12 §8']
+    }
+  },
+  'failing-cases': {
+    kicker: 'Need measurement',
+    title: 'Failing cases',
+    summary: 'The concrete benchmark or parser failure slices the active need still carries.',
+    detail: 'These chips are the exact visible failure names V12 wants operators to understand before they start reading branch artifacts.',
+    points: [
+      'Upstream of proof closure',
+      'One of the clearest ways needing stays consequential in the shell'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'weak-dimensions': {
+    kicker: 'Need measurement',
+    title: 'Weak dimensions',
+    summary: 'Cross-cutting quality dimensions where the current scenario remains weak even if one narrow failing case improves.',
+    detail: 'Weak dimensions keep the need from collapsing into a single bug label when the real closure burden still spans safety, auditability, or resilience concerns.',
+    points: [
+      'Usually broader than one failing case',
+      'Helpful for reading composite or normalization-heavy needs'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'field-derivations': {
+    kicker: 'Need lineage',
+    title: 'Field derivations',
+    summary: 'The source lineage for how the need object’s important fields were derived.',
+    detail: 'This is the explanation layer that keeps measured demand from feeling like opaque parser magic.',
+    points: [
+      'Shows which fields came from seeded inputs versus deterministic synthesis',
+      'Useful when validating why the need reads the way it does'
+    ],
+    references: {
+      code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()'],
+      spec: ['V12 §6.2', 'V12 §10']
+    }
+  },
+  'recall-channels': {
+    kicker: 'Need hand-off',
+    title: 'Recall channels + hand-offs',
+    summary: 'The search and retrieval contracts that move measured demand into candidate recall and later ranking.',
+    detail: 'These are the V8/V12 bridge surfaces that explain how the need becomes search queries, channel contributions, and downstream evidence use.',
+    points: [
+      'Connects need measurement to retrieval behavior',
+      'Useful for understanding why later ranking surfaces saw certain assets'
+    ],
+    references: {
+      code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()', 'src/engi-demo.js -> recallCandidates()'],
+      spec: ['V12 §6.2', 'V12 §8']
+    }
+  },
+  'modeled-local-stages': {
+    kicker: 'Boundary metric',
+    title: 'Modeled local stages',
+    summary: 'Stages the demo represents locally as deterministic models rather than executing as live external contracts.',
+    detail: 'This count helps the operator see where the prototype is honest about modeling an interface locally while still preserving the production boundary story.',
+    points: [
+      'Part of boundary honesty, not profile semantics',
+      'Different from executed-local stages'
+    ],
+    references: {
+      code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
+      spec: ['V12 §12']
+    }
+  },
+  'executed-local-stages': {
+    kicker: 'Boundary metric',
+    title: 'Executed local stages',
+    summary: 'Stages the demo actually executes here as deterministic local behavior.',
+    detail: 'This count is the strongest quick read of how much of the repo-to-settlement path already runs inside the local prototype.',
+    points: [
+      'Useful for understanding prototype strength',
+      'Still sits inside the explicit boundary reality surface'
+    ],
+    references: {
+      code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
+      spec: ['V12 §12']
+    }
+  },
+  auth: {
+    kicker: 'Capsule term',
+    title: 'Auth',
+    summary: 'Marks a scenario or asset as primarily about authorization, identity binding, installation-scoped access, or issuer/session correctness.',
+    detail: 'In the V12 corpus auth capsules usually sit close to session validity, issuer compatibility, rollback safety, and GitHub App authority surfaces.',
+    points: [
+      'A demand or asset domain tag',
+      'Often upstream of identity/auth spine and proof closure'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'session-validity': {
+    kicker: 'Capsule term',
+    title: 'Session validity',
+    summary: 'The requirement that remediation preserve correct session behavior while fixing the active failure.',
+    detail: 'This tag appears when rollback, issuer compatibility, or replay safety could break real sessions if handled carelessly.',
+    points: [
+      'Common in auth rollback scenarios',
+      'Often paired with rollback or issuer constraints'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  rollback: {
+    kicker: 'Capsule term',
+    title: 'Rollback',
+    summary: 'Marks remediation work that must remain reversible, correctly ordered, and safe to back out.',
+    detail: 'Rollback capsules matter because V12 wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
+    points: [
+      'Often paired with audit receipts or session-preservation constraints',
+      'Common in both auth and deployment scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  auditability: {
+    kicker: 'Capsule term',
+    title: 'Auditability',
+    summary: 'The requirement that remediation, proof, and settlement remain replayable and inspectable.',
+    detail: 'Auditability capsules usually imply receipts, policy traces, or proof artifacts that must stay bound to the remediation path.',
+    points: [
+      'Useful for both need constraints and asset tags',
+      'Often accompanies proof, policy, or receipt-binding surfaces'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  benchmark: {
+    kicker: 'Capsule term',
+    title: 'Benchmark',
+    summary: 'Marks evidence that comes from or must remain tied to benchmark execution and measured outputs.',
+    detail: 'Benchmark capsules keep the need grounded in observed failure or regression evidence instead of only narrative intent.',
+    points: [
+      'Central to measured needing',
+      'Often paired with workflow-artifact or proof surfaces'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'workflow-artifact': {
+    kicker: 'Capsule term',
+    title: 'Workflow artifact',
+    summary: 'Marks content that originated from or is bound to a workflow run artifact rather than only a repo file path.',
+    detail: 'This matters when the operator needs to trace proof or benchmark evidence back to one workflow execution context.',
+    points: [
+      'Common for proof logs and benchmark outputs',
+      'Often pairs with workflow-run addressing'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  'workflow-binding': {
+    kicker: 'Capsule term',
+    title: 'Workflow binding',
+    summary: 'Marks a requirement that the remediation or proof story stay explicitly bound to a workflow run or workflow-derived artifact.',
+    detail: 'This is stronger than just mentioning a workflow path. It says workflow identity matters for trust or closure.',
+    points: [
+      'Useful when receipts must link back to one run',
+      'Common in benchmark- and proof-heavy scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'receipt-binding': {
+    kicker: 'Capsule term',
+    title: 'Receipt binding',
+    summary: 'The requirement that evidence, remediation, or settlement stay attached to replayable receipts.',
+    detail: 'Receipt-binding capsules matter whenever the demo must prove not just what happened, but which receipt trail proves it happened.',
+    points: [
+      'Often paired with auditability and workflow binding',
+      'Can show up in both constraints and closure criteria'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  config: {
+    kicker: 'Capsule term',
+    title: 'Config',
+    summary: 'Marks configuration-bearing source material or a need whose closure depends on configuration correctness.',
+    detail: 'Config capsules usually point to policy files, environment declarations, or runtime settings that need to move in lockstep with code and proof.',
+    points: [
+      'Different from code patch semantics',
+      'Important when policy or deployment drift is in scope'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  'compatibility-window': {
+    kicker: 'Capsule term',
+    title: 'Compatibility window',
+    summary: 'A bounded time or nonce window in which compatibility, replay, or validator checks remain valid.',
+    detail: 'This capsule shows up when the scenario cares about stale actions, issuer windows, or replay-safe ordering.',
+    points: [
+      'Often paired with session-validity or replay-window concerns',
+      'Useful for validator- and auth-heavy flows'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  creusot: {
+    kicker: 'Capsule term',
+    title: 'Creusot',
+    summary: 'Marks proof-oriented Rust material tied to formal verification style workflows.',
+    detail: 'In the current corpus Creusot appears where validator or overflow scenarios lean on formal reasoning rather than only runtime tests.',
+    points: [
+      'A proof-heavy artifact signal',
+      'Usually paired with validator or formal-methods tags'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  polyglot: {
+    kicker: 'Capsule term',
+    title: 'Polyglot',
+    summary: 'Marks scenarios or assets that span several languages or runtime stacks at once.',
+    detail: 'Polyglot capsules are a signal that cross-language parity and broader normalization pressures may matter.',
+    points: [
+      'Often pairs with TypeScript, Python, and Rust tags',
+      'Useful for Profile B-style deposits'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  typescript: {
+    kicker: 'Stack tag',
+    title: 'TypeScript',
+    summary: 'Marks TypeScript-bearing source material in the active asset or scenario corpus.',
+    detail: 'In the polyglot scenarios this helps the operator see one language slice in a broader cross-language remediation story.',
+    points: [
+      'A stack lens, not a closure criterion by itself',
+      'Often paired with Python or Rust in the same deposit'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  python: {
+    kicker: 'Stack tag',
+    title: 'Python',
+    summary: 'Marks Python-bearing source material in the active asset or scenario corpus.',
+    detail: 'Python capsules usually appear when workflow tooling, replay checks, or polyglot service boundaries matter.',
+    points: [
+      'A stack lens, not a closure criterion by itself',
+      'Often paired with TypeScript or Rust in cross-language scenarios'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  rust: {
+    kicker: 'Stack tag',
+    title: 'Rust',
+    summary: 'Marks Rust-bearing source material in the active asset or scenario corpus.',
+    detail: 'Rust capsules are common in validator, formal-methods, or replay-safety scenarios where proof burden is heavier.',
+    points: [
+      'A stack lens, not a closure criterion by itself',
+      'Often paired with validator or proof-heavy tags'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  'cross-language': {
+    kicker: 'Capsule term',
+    title: 'Cross-language parity',
+    summary: 'Marks scenarios where several language or runtime slices have to stay aligned through the remediation.',
+    detail: 'This is one of the clearest signals that the need is composite and may push toward normalization-heavy closure.',
+    points: [
+      'Often implies broader proof or settlement burden',
+      'Common in Profile B demonstrations'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  deployment: {
+    kicker: 'Capsule term',
+    title: 'Deployment',
+    summary: 'Marks remediation work whose closure depends on deployment sequencing, release safety, or environment parity.',
+    detail: 'Deployment capsules matter because the demo has to show not only code changes, but safe rollout and rollback posture.',
+    points: [
+      'Often paired with infra, helm, terraform, or policy concerns',
+      'Can shift the scenario toward broader operational proof'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  infra: {
+    kicker: 'Capsule term',
+    title: 'Infrastructure',
+    summary: 'Marks scenarios or assets that depend on infrastructure state, provisioning, or deployment topology.',
+    detail: 'Infra capsules usually mean the remediation is broader than one code patch and must keep environmental state consistent too.',
+    points: [
+      'Often paired with deployment or config work',
+      'Common in rollout and parity scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  terraform: {
+    kicker: 'Stack tag',
+    title: 'Terraform',
+    summary: 'Marks Terraform-bearing infrastructure material in the current corpus.',
+    detail: 'Terraform tags usually show up where deployment drift or environment consistency matters.',
+    points: [
+      'A concrete infra artifact signal',
+      'Often paired with Helm or deployment tags'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  helm: {
+    kicker: 'Stack tag',
+    title: 'Helm',
+    summary: 'Marks Helm-bearing deployment or infrastructure material in the current corpus.',
+    detail: 'Helm tags usually matter when deployment parity or version drift needs to stay explicit in the demo.',
+    points: [
+      'A concrete deployment artifact signal',
+      'Often paired with Terraform or Kubernetes tags'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  kubernetes: {
+    kicker: 'Stack tag',
+    title: 'Kubernetes',
+    summary: 'Marks Kubernetes-bearing deployment material in the current corpus.',
+    detail: 'Kubernetes tags usually show up when environment topology or rollout safety is part of the need.',
+    points: [
+      'Signals live-system deployment context',
+      'Often paired with infra or policy controls'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  'source-to-shares-tag': {
+    kicker: 'Capsule term',
+    title: 'Source-to-shares',
+    summary: 'Marks scenarios or assets where contribution normalization into settlement shares is central.',
+    detail: 'This capsule means the operator should expect settlement explanation to stay explicit rather than collapsing to a single decisive winner story.',
+    points: [
+      'Common in Profile B flows',
+      'Directly connected to normalization pressure and settlement participation'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  normalization: {
+    kicker: 'Capsule term',
+    title: 'Normalization',
+    summary: 'Marks scenarios where several overlapping contributions must be normalized together instead of treated as one decisive asset.',
+    detail: 'Normalization capsules matter because they change the shape of proof and settlement even when the deposit still looks plausible at first glance.',
+    points: [
+      'Signals broader proof and settlement burden',
+      'Often paired with source-to-shares and many-asset semantics'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'many-asset': {
+    kicker: 'Capsule term',
+    title: 'Many-asset',
+    summary: 'Marks a scenario where several assets are expected to participate in closure rather than one narrow decisive asset.',
+    detail: 'This is one of the clearer signals that normalization-heavy settlement semantics may matter.',
+    points: [
+      'Common in Profile B flows',
+      'Often pairs with source-to-shares explanation'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  privacy: {
+    kicker: 'Capsule term',
+    title: 'Privacy',
+    summary: 'Marks scenarios or assets where disclosure boundaries and private artifact handling are first-class concerns.',
+    detail: 'Privacy capsules matter because V12 keeps branch/proof richness while still requiring bounded public disclosure.',
+    points: [
+      'Often pairs with redaction or disclosure tags',
+      'Lives close to bounded public proof surfaces'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'privacy-boundary': {
+    kicker: 'Capsule term',
+    title: 'Privacy boundary',
+    summary: 'Marks a scenario where the private/public split is central to closure quality.',
+    detail: 'This capsule means the operator should expect explicit redaction, disclosure, or bounded-public-proof semantics.',
+    points: [
+      'A stronger signal than generic privacy',
+      'Often paired with branch privacy and public proof boundaries'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  projection: {
+    kicker: 'Capsule term',
+    title: 'Projection',
+    summary: 'Marks public-facing projections derived from deeper private artifacts.',
+    detail: 'Projection capsules matter whenever the demo needs to show bounded public inspection without exposing the private branch payloads.',
+    points: [
+      'Closely tied to bounded public proof',
+      'Useful for privacy-boundary scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  redaction: {
+    kicker: 'Capsule term',
+    title: 'Redaction',
+    summary: 'Marks scenarios or assets where sensitive material must be withheld while still preserving a proof-bearing public story.',
+    detail: 'Redaction capsules typically sit beside privacy, disclosure, and bounded-proof requirements.',
+    points: [
+      'Useful for understanding public/private proof splits',
+      'Often paired with privacy-boundary tags'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  disclosure: {
+    kicker: 'Capsule term',
+    title: 'Disclosure',
+    summary: 'Marks what can or cannot be projected outward from the private remediation branch.',
+    detail: 'Disclosure capsules matter because V12 wants public proof to stay legible without leaking private artifacts.',
+    points: [
+      'Close to privacy and bounded-public-proof concerns',
+      'Useful in redaction-heavy scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  containment: {
+    kicker: 'Capsule term',
+    title: 'Containment',
+    summary: 'Marks a requirement to keep remediation effects bounded rather than letting them spill across unrelated artifacts or disclosures.',
+    detail: 'Containment capsules are especially useful in privacy or incident-response scenarios where scope discipline matters.',
+    points: [
+      'Signals bounded remediation scope',
+      'Often pairs with disclosure or incident controls'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  governance: {
+    kicker: 'Capsule term',
+    title: 'Governance',
+    summary: 'Marks policy, approval, or procedural control surfaces that the remediation path must respect.',
+    detail: 'Governance capsules keep the demo focused on operator-quality closure instead of treating process controls as optional garnish.',
+    points: [
+      'Often pairs with policy, review, or auditability',
+      'Can appear in both need constraints and asset metadata'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  issuer: {
+    kicker: 'Capsule term',
+    title: 'Issuer',
+    summary: 'Marks scenarios where issuer identity, compatibility, or authority binding is central to closure.',
+    detail: 'Issuer capsules usually show up with auth, session-validity, and rollback concerns in the current corpus.',
+    points: [
+      'A narrower auth-domain signal',
+      'Useful in compatibility and rollback scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  gateway: {
+    kicker: 'Capsule term',
+    title: 'Gateway',
+    summary: 'Marks gateway-facing code, infra, or policy material in the current corpus.',
+    detail: 'Gateway capsules matter when the remediation spans API edge behavior, policy enforcement, or cross-language routing.',
+    points: [
+      'Common in polyglot scenarios',
+      'Often pairs with config or deployment tags'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  'incident-response': {
+    kicker: 'Capsule term',
+    title: 'Incident response',
+    summary: 'Marks material or scenarios oriented around responding to an incident rather than only shipping a planned feature change.',
+    detail: 'Incident-response capsules usually imply stronger pressure on rollback safety, auditability, and bounded disclosure.',
+    points: [
+      'Useful for policy and privacy scenarios',
+      'Often paired with governance and proof concerns'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  'formal-methods': {
+    kicker: 'Capsule term',
+    title: 'Formal methods',
+    summary: 'Marks proof-heavy material that leans on formal reasoning rather than only runtime checks.',
+    detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may need to read theorem or validator surfaces.',
+    points: [
+      'Often paired with validator, Creusot, or Rust tags',
+      'Important in proof-heavy V12 demonstrations'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  policy: {
+    kicker: 'Capsule term',
+    title: 'Policy',
+    summary: 'Marks material or constraints whose closure depends on explicit policy behavior, precedence, or auditability.',
+    detail: 'Policy capsules matter because ENGI often has to prove not only that code changed, but that policy semantics now close correctly too.',
+    points: [
+      'Often paired with governance and config',
+      'Common in incident and deployment scenarios'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  patch: {
+    kicker: 'Capsule term',
+    title: 'Patch',
+    summary: 'Marks code-patch-bearing material or a need that expects code changes as part of closure.',
+    detail: 'Patch capsules help operators distinguish implementation-carrying assets from proof-only or runbook-only deposits.',
+    points: [
+      'One of the core artifact-kind-native signals',
+      'Can still require proof, policy, or deployment closure downstream'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  runbook: {
+    kicker: 'Capsule term',
+    title: 'Runbook',
+    summary: 'Marks operational documentation or procedural remediation guidance in the current corpus.',
+    detail: 'Runbook capsules matter when closure depends on operator execution steps, hand-offs, or governance discipline in addition to code changes.',
+    points: [
+      'Different from a code patch or proof log',
+      'Useful in deployment, incident, and review scenarios'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  security: {
+    kicker: 'Capsule term',
+    title: 'Security',
+    summary: 'Marks scenarios or assets where protection against unsafe behavior is part of the closure burden.',
+    detail: 'Security capsules usually sit beside auth, proof, validator, or patch-safety concerns in the current corpus.',
+    points: [
+      'A broad risk-domain signal',
+      'Often pairs with rollback or proof requirements'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  monorepo: {
+    kicker: 'Capsule term',
+    title: 'Monorepo',
+    summary: 'Marks a scenario whose supply or closure path spans one multi-surface repository.',
+    detail: 'Monorepo capsules matter because they often combine code, config, docs, and proofs inside one repo-bound deposit.',
+    points: [
+      'Useful for mixed-bundle demonstrations',
+      'Can increase artifact-kind diversity and normalization pressure'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  migration: {
+    kicker: 'Capsule term',
+    title: 'Migration',
+    summary: 'Marks scenarios or assets oriented around safe state transition rather than only steady-state correctness.',
+    detail: 'Migration capsules often imply rollback discipline, sequencing, and auditability requirements.',
+    points: [
+      'Common in auth and deployment scenarios',
+      'Usually paired with rollback or session-validity concerns'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  review: {
+    kicker: 'Capsule term',
+    title: 'Review',
+    summary: 'Marks review posture, approval requirements, or code-review-bound evidence in the current corpus.',
+    detail: 'Review capsules matter whenever ENGI needs to show why a change is allowed, explained, or justified before it closes.',
+    points: [
+      'Often pairs with governance or policy',
+      'Can show up in constraints, failing cases, or asset tags'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  escalation: {
+    kicker: 'Capsule term',
+    title: 'Escalation',
+    summary: 'Marks scenarios where operator escalation or hand-off posture is part of safe closure.',
+    detail: 'Escalation capsules typically indicate that code or proof alone is not the whole story; operator workflow still matters.',
+    points: [
+      'Useful in incident and governance-heavy flows',
+      'Can appear beside runbook or review material'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  drift: {
+    kicker: 'Capsule term',
+    title: 'Drift',
+    summary: 'Marks parity or configuration drift that the remediation path has to close.',
+    detail: 'Drift capsules matter when the need is about previously aligned surfaces falling out of sync across repos, stacks, or environments.',
+    points: [
+      'Often pairs with deployment, config, or cross-language signals',
+      'A common reason Profile B-style normalization becomes relevant'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  },
+  enterprise: {
+    kicker: 'Capsule term',
+    title: 'Enterprise',
+    summary: 'Marks material aimed at enterprise-facing operator concerns such as governance, proofability, and bounded disclosure.',
+    detail: 'Enterprise capsules are a reminder that V12 is trying to feel like the inevitable operating model for serious production use.',
+    points: [
+      'A product-context tag rather than one failure mode',
+      'Often appears alongside governance or proof-heavy material'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  yaml: {
+    kicker: 'Format tag',
+    title: 'YAML',
+    summary: 'Marks YAML-bearing source material in the current corpus.',
+    detail: 'YAML tags usually signal configuration, workflow, deployment, or policy material rather than direct implementation code.',
+    points: [
+      'A format signal, not an artifact kind by itself',
+      'Often paired with config, workflow, or policy tags'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  attestation: {
+    kicker: 'Capsule term',
+    title: 'Attestation',
+    summary: 'Marks material that binds a signer or authority claim to payload identity.',
+    detail: 'Attestation capsules are closely related to signing, auth roots, and later proof closure surfaces.',
+    points: [
+      'Useful for reading who stands behind a payload',
+      'Often paired with proof or issuer semantics'
+    ],
+    references: ASSET_CAPSULE_REFERENCES
+  },
+  'bounded-proof': {
+    kicker: 'Capsule term',
+    title: 'Bounded proof',
+    summary: 'Marks a proof posture that remains inspectable without exposing every private branch artifact.',
+    detail: 'This capsule usually means the operator should expect bounded public proof semantics rather than full private artifact disclosure.',
+    points: [
+      'Lives close to privacy-boundary and disclosure concerns',
+      'A useful tag for public inspection surfaces'
+    ],
+    references: NEED_CAPSULE_REFERENCES
+  }
+};
+
+Object.assign(EXPLAINERS, EXTRA_EXPLAINERS);
+
 const EXPLAINER_REFERENCE_GROUPS = {
   'repo-supply': ['repo-supply'],
   depositing: ['depositing'],
@@ -1211,6 +2064,86 @@ const TERM_EXPLAINER_KEYS = {
   'zero-credit participating': 'settlement-participation'
 };
 
+Object.assign(LABEL_EXPLAINER_KEYS, {
+  'Algorithm': 'signing-algorithm',
+  'Branch intent': 'branch-intent',
+  'Composition': 'profile-composition',
+  'Constraints': 'constraints',
+  'Content root': 'content-root',
+  'Executed local stages': 'executed-local-stages',
+  'Failing cases': 'failing-cases',
+  'Field derivations': 'field-derivations',
+  'Key source': 'key-source',
+  'Modeled local stages': 'modeled-local-stages',
+  'Payload hash': 'payload-hash',
+  'Recall channels + hand-offs': 'recall-channels',
+  'Ref / commit': 'ref-commit',
+  'Runs': 'run-count',
+  'Scenario anchors': 'scenario-anchors',
+  'Settlement shape': 'settlement-shape',
+  'Settled runs': 'settled-runs',
+  'Source paths': 'source-paths',
+  'Upload surfaces': 'upload-surfaces',
+  'Weak dimensions': 'weak-dimensions'
+});
+
+Object.assign(TERM_EXPLAINER_KEYS, {
+  'attestation': 'attestation',
+  'auth': 'auth',
+  'auditability': 'auditability',
+  'before proof': 'pre-proof-surface',
+  'benchmark': 'benchmark',
+  'bounded-proof': 'bounded-proof',
+  'branch -> proof -> settlement': 'closure-path-badge',
+  'code-review': 'review',
+  'compatibility-window': 'compatibility-window',
+  'config': 'config',
+  'containment': 'containment',
+  'cross-language': 'cross-language',
+  'creusot': 'creusot',
+  'deployment': 'deployment',
+  'disclosure': 'disclosure',
+  'drift': 'drift',
+  'enterprise': 'enterprise',
+  'escalation': 'escalation',
+  'formal-methods': 'formal-methods',
+  'gateway': 'gateway',
+  'governance': 'governance',
+  'helm': 'helm',
+  'incident': 'incident-response',
+  'incident-response': 'incident-response',
+  'issuer': 'issuer',
+  'kubernetes': 'kubernetes',
+  'lineage': 'field-derivations',
+  'many-asset': 'many-asset',
+  'migration': 'migration',
+  'monorepo': 'monorepo',
+  'normalization': 'normalization',
+  'patch': 'patch',
+  'policy': 'policy',
+  'polyglot': 'polyglot',
+  'privacy': 'privacy',
+  'privacy-boundary': 'privacy-boundary',
+  'projection': 'projection',
+  'python': 'python',
+  'receipt-binding': 'receipt-binding',
+  'redaction': 'redaction',
+  'review': 'review',
+  'rollback': 'rollback',
+  'runbook': 'runbook',
+  'rust': 'rust',
+  'safety': 'security',
+  'security': 'security',
+  'session-validity': 'session-validity',
+  'source-to-shares': 'source-to-shares-tag',
+  'terraform': 'terraform',
+  'typescript': 'typescript',
+  'v8 contracts': 'recall-channels',
+  'workflow-artifact': 'workflow-artifact',
+  'workflow-binding': 'workflow-binding',
+  'yaml': 'yaml'
+});
+
 function escapeHtml(value) {
   return String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -1266,19 +2199,132 @@ function normalizeExplainerLookup(value) {
   return String(value ?? '').trim().toLowerCase();
 }
 
+function normalizedExplainerPhrase(value) {
+  return normalizeExplainerLookup(value)
+    .replaceAll(/[_./:-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const DYNAMIC_TERM_DOMAIN_RULES = [
+  { key: 'receipt-binding', pattern: /\breceipt\b/ },
+  { key: 'workflow-binding', pattern: /\bworkflow\b/ },
+  { key: 'replay-window-term', pattern: /\breplay\b/ },
+  { key: 'rollback', pattern: /\brollback\b/ },
+  { key: 'session-validity', pattern: /\bsession\b/ },
+  { key: 'auth', pattern: /\bauth\b|\bissuer\b/ },
+  { key: 'review', pattern: /\breview\b|\bapproval\b/ },
+  { key: 'auditability', pattern: /\baudit\b|\bgovernance\b/ },
+  { key: 'policy', pattern: /\bpolicy\b|\bprecedence\b/ },
+  { key: 'validator-term', pattern: /\bvalidator\b|\boverflow\b|\bcreusot\b|\bformal\b/ },
+  { key: 'patch', pattern: /\bpatch\b/ },
+  { key: 'deployment', pattern: /\bdeployment\b|\bterraform\b|\bhelm\b|\bkubernetes\b|\brollout\b|\benv\b/ },
+  { key: 'config', pattern: /\bconfig\b/ },
+  { key: 'cross-language', pattern: /\bcross language\b|\bcross-language\b|\bpolyglot\b/ },
+  { key: 'typescript', pattern: /\btypescript\b/ },
+  { key: 'python', pattern: /\bpython\b/ },
+  { key: 'rust', pattern: /\brust\b/ },
+  { key: 'source-to-shares-tag', pattern: /\bsource to shares\b|\bsource-to-shares\b|\bnormalization\b|\bmany asset\b|\bmany-asset\b/ },
+  { key: 'privacy-boundary', pattern: /\bprivacy\b|\bredaction\b|\bdisclosure\b|\bprojection\b|\bpublic proof\b|\bprivate artifact leak\b|\bbounded metadata\b/ },
+  { key: 'benchmark', pattern: /\bbenchmark\b/ },
+  { key: 'security', pattern: /\bsecurity\b|\bsafety\b/ },
+  { key: 'monorepo', pattern: /\bmonorepo\b/ },
+  { key: 'incident-response', pattern: /\bincident\b/ },
+  { key: 'migration', pattern: /\bmigration\b/ },
+  { key: 'gateway', pattern: /\bgateway\b/ },
+  { key: 'drift', pattern: /\bdrift\b|\bmismatch\b|\bdivergence\b/ },
+  { key: 'proof-term', pattern: /\bproof\b/ }
+];
+
 function explainerFor(key) {
   return EXPLAINERS[key] || null;
 }
 
-function inferredExplainerKey(label = '', explainerKey = '') {
-  if (explainerKey) return explainerKey;
-  return LABEL_EXPLAINER_KEYS[String(label ?? '').trim()]
-    || TERM_EXPLAINER_KEYS[normalizeExplainerLookup(label)]
-    || '';
+function inferDynamicTermKey(value = '') {
+  const phrase = normalizedExplainerPhrase(value);
+  for (const rule of DYNAMIC_TERM_DOMAIN_RULES) {
+    if (rule.pattern.test(phrase)) return rule.key;
+  }
+  return '';
 }
 
-function inferredTermExplainerKey(value = '') {
-  return TERM_EXPLAINER_KEYS[normalizeExplainerLookup(value)] || '';
+function buildDynamicExplainer(label = '', domainKey = '') {
+  const base = explainerFor(domainKey);
+  if (!base) return null;
+
+  const normalized = normalizedExplainerPhrase(label);
+  const title = labelize(label);
+  const domainTitle = base.title || labelize(domainKey);
+  let kicker = base.kicker || 'Capsule term';
+  let summary = base.summary || '';
+  let detail = base.detail || '';
+
+  if (/^clear\b/.test(normalized)) {
+    kicker = 'Closure target';
+    summary = 'This capsule names an exact condition that must be satisfied before the active need counts as closed.';
+    detail = `${domainTitle} is the main domain behind this closure target, so ENGI keeps the phrase specific while still grounding it in the broader scenario semantics.`;
+  } else if (/^improve\b/.test(normalized)) {
+    kicker = 'Weak dimension';
+    summary = 'This capsule marks a quality dimension the remediation still has to improve before closure is convincing.';
+    detail = `${domainTitle} is the underlying domain, but the chip stays phrase-specific so the operator can see exactly what is weak right now.`;
+  } else if (/^(preserve|keep|require|block|emit|bind|rerun|restore|replay|no)\b/.test(normalized)) {
+    kicker = 'Need constraint';
+    summary = 'This capsule is a hard rule the remediation, proof, or settlement path must respect while the need closes.';
+    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because V12 wants constraints to read concretely instead of abstractly.`;
+  } else if (/\b(regression|gap|mismatch|bypass|drift|skip|divergence)\b/.test(normalized)) {
+    kicker = 'Failing case';
+    summary = 'This capsule names one concrete failing slice currently present in the measured need.';
+    detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the needing surface before deeper proof inspection.`;
+  } else if (normalized.includes('-')) {
+    kicker = 'Scenario / corpus capsule';
+    summary = 'This capsule is part of the seeded V12 corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
+    detail = `${domainTitle} is the closest domain anchor for this phrase in the current corpus.`;
+  }
+
+  return {
+    ...base,
+    kicker,
+    title,
+    summary,
+    detail,
+    points: [
+      'Phrase-specific capsule from seeded need, profile, or asset metadata',
+      `Domain focus: ${domainTitle}`
+    ],
+    references: base.references || {}
+  };
+}
+
+function resolveExplainer(label = '', explainerKey = '', options = {}) {
+  if (explainerKey) {
+    return {
+      key: explainerKey,
+      explainer: explainerFor(explainerKey)
+    };
+  }
+
+  const trimmed = String(label ?? '').trim();
+  const mappedLabelKey = LABEL_EXPLAINER_KEYS[trimmed] || '';
+  if (mappedLabelKey) {
+    return { key: mappedLabelKey, explainer: explainerFor(mappedLabelKey) };
+  }
+
+  const exactTermKey = TERM_EXPLAINER_KEYS[normalizeExplainerLookup(trimmed)] || '';
+  if (exactTermKey) {
+    return { key: exactTermKey, explainer: explainerFor(exactTermKey) };
+  }
+
+  if (options.allowDynamic) {
+    const dynamicTermKey = inferDynamicTermKey(trimmed);
+    if (dynamicTermKey) {
+      return {
+        key: dynamicTermKey,
+        explainer: buildDynamicExplainer(trimmed, dynamicTermKey)
+      };
+    }
+  }
+
+  return { key: '', explainer: null };
 }
 
 function renderExplainerReferenceGroup(label, refs = []) {
@@ -1304,8 +2350,12 @@ function renderExplainerFooter(key, explainer) {
   `;
 }
 
-function explainerBadge(key, options = {}) {
-  const explainer = explainerFor(key);
+function explainerBadge(resolved, options = {}) {
+  const descriptor = typeof resolved === 'string'
+    ? { key: resolved, explainer: explainerFor(resolved) }
+    : resolved;
+  const key = descriptor?.key || '';
+  const explainer = descriptor?.explainer || null;
   if (!explainer) return '';
   const tooltipId = `explainer-${++explainerCounter}`;
   const alignClass = options.align === 'center' ? ' align-center' : '';
@@ -1329,25 +2379,29 @@ function explainerBadge(key, options = {}) {
 }
 
 function labelWithExplainer(label, explainerKey, options = {}) {
-  const resolvedExplainerKey = inferredExplainerKey(label, explainerKey);
   const text = options.html ? label : escapeHtml(label);
-  if (!resolvedExplainerKey) return text;
+  const resolved = resolveExplainer(label, explainerKey, {
+    allowDynamic: options.allowDynamic === true
+  });
+  if (!resolved.explainer) return text;
   return `
     <span class="label-with-info ${escapeHtml(options.className || '')}">
       <span>${text}</span>
-      ${explainerBadge(resolvedExplainerKey, options.badgeOptions)}
+      ${explainerBadge(resolved, options.badgeOptions)}
     </span>
   `;
 }
 
 function badgeWithExplainer(value, options = {}) {
   const rendered = `<span class="badge ${escapeHtml(options.className || '')}">${escapeHtml(value || 'n/a')}</span>`;
-  const explainerKey = inferredExplainerKey(value, options.explainerKey || inferredTermExplainerKey(value));
-  if (!explainerKey) return rendered;
+  const resolved = resolveExplainer(value, options.explainerKey, {
+    allowDynamic: options.allowDynamic === true
+  });
+  if (!resolved.explainer) return rendered;
   return `
     <span class="badge-with-explainer">
       ${rendered}
-      ${explainerBadge(explainerKey, {
+      ${explainerBadge(resolved, {
         align: 'right',
         ariaLabel: options.ariaLabel || `Explain ${String(value || 'badge')}`
       })}
@@ -1720,9 +2774,12 @@ function summaryTile(label, value, explainerKey = '', options = {}) {
   return `<div class="summary-card"><span class="meta">${labelWithExplainer(label, explainerKey)}</span><strong>${rendered}</strong></div>`;
 }
 
-function chipList(items = [], badgeClass = '') {
+function chipList(items = [], badgeClass = '', options = {}) {
   if (!items.length) return '<span class="meta">None</span>';
-  return items.map((item) => badgeWithExplainer(item, { className: badgeClass })).join(' ');
+  return items.map((item) => badgeWithExplainer(item, {
+    className: badgeClass,
+    allowDynamic: options.allowDynamic === true
+  })).join(' ');
 }
 
 function scoreBar(value) {
@@ -2267,16 +3324,16 @@ function renderDepositingToNeedingVisual(surface) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Kind fit', 'deposit-fit')}</h4><span class="badge">Before proof</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Kind fit', 'deposit-fit')}</h4>${badgeWithExplainer('Before proof', { explainerKey: 'pre-proof-surface' })}</div>
           <div class="kv-grid">
             ${kvRow('Decisive kinds', formatList(surface?.decisiveKinds || []), { html: true, explainerKey: 'deposit-fit' })}
             ${kvRow('Overlap kinds', formatList(surface?.overlapKinds || []), { html: true, explainerKey: 'artifact-kind' })}
           </div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Closure path', 'proof-closure')}</h4><span class="badge">Branch -> proof -> settlement</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Closure path', 'proof-closure')}</h4>${badgeWithExplainer('Branch -> proof -> settlement', { explainerKey: 'closure-path-badge' })}</div>
           <div class="kv-grid">
-            ${kvRow('Branch intent', surface?.branchIntentSummary || '—')}
+            ${kvRow('Branch intent', surface?.branchIntentSummary || '—', { explainerKey: 'branch-intent' })}
             ${kvRow('Proof intent', surface?.proofIntentSummary || '—', { explainerKey: 'proof-closure' })}
             ${kvRow('Settlement intent', surface?.settlementIntentSummary || '—', { explainerKey: 'settlement' })}
           </div>
@@ -2331,27 +3388,27 @@ function renderNeedVisual(need) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Failing cases</h4><span class="badge">${(need.failingCases || []).length}</span></div>
-          <div class="badge-row">${chipList(need.failingCases || [], 'warn')}</div>
+          <div class="section-head"><h4>${labelWithExplainer('Failing cases', 'failing-cases')}</h4><span class="badge">${(need.failingCases || []).length}</span></div>
+          <div class="badge-row">${chipList(need.failingCases || [], 'warn', { allowDynamic: true })}</div>
         </div>
         <div class="section-card">
-          <div class="section-head"><h4>Weak dimensions</h4><span class="badge">${(need.weakDimensions || []).length}</span></div>
-          <div class="badge-row">${chipList(need.weakDimensions || [], 'warn')}</div>
+          <div class="section-head"><h4>${labelWithExplainer('Weak dimensions', 'weak-dimensions')}</h4><span class="badge">${(need.weakDimensions || []).length}</span></div>
+          <div class="badge-row">${chipList(need.weakDimensions || [], 'warn', { allowDynamic: true })}</div>
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Constraints</h4><span class="badge">Governance</span></div>
-          <div class="badge-row">${chipList(need.constraints || [])}</div>
+          <div class="section-head"><h4>${labelWithExplainer('Constraints', 'constraints')}</h4>${badgeWithExplainer('Governance', { explainerKey: 'constraints' })}</div>
+          <div class="badge-row">${chipList(need.constraints || [], '', { allowDynamic: true })}</div>
         </div>
         <div class="section-card">
           <div class="section-head"><h4>${labelWithExplainer('Closure criteria', 'closure-criteria')}</h4><span class="badge">Need closure</span></div>
-          <div class="badge-row">${chipList(need.closureCriteria || [])}</div>
+          <div class="badge-row">${chipList(need.closureCriteria || [], '', { allowDynamic: true })}</div>
         </div>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Field derivations</h4><span class="badge">Lineage</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Field derivations', 'field-derivations')}</h4>${badgeWithExplainer('Lineage', { explainerKey: 'field-derivations' })}</div>
           <div class="object-list nested">
             ${Object.entries(need.fieldDerivations || {}).slice(0, 6).map(([field, spec]) => `
               <div class="mini-card">
@@ -2364,7 +3421,7 @@ function renderNeedVisual(need) {
         </div>
       </div>
       <div class="section-card">
-        <div class="section-head"><h4>Recall channels + hand-offs</h4><span class="badge">V8 contracts</span></div>
+        <div class="section-head"><h4>${labelWithExplainer('Recall channels + hand-offs', 'recall-channels')}</h4>${badgeWithExplainer('V8 contracts', { explainerKey: 'recall-channels' })}</div>
         <div class="detail-table">
           ${(need.recallChannelContracts || []).map((channel) => `
             <div class="detail-row">
@@ -4215,7 +5272,8 @@ document.addEventListener('click', (event) => {
 
 document.getElementById('depositForm').addEventListener('submit', async (event) => {
   event.preventDefault();
-  const form = new FormData(event.currentTarget);
+  const formEl = event.currentTarget;
+  const form = new FormData(formEl);
   try {
     await api('/api/deposits', {
       method: 'POST',
@@ -4239,7 +5297,7 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
     selectedInventoryEntryIds = new Set();
     inventorySearchTerm = '';
     selectedInventoryKind = 'all';
-    event.currentTarget.reset();
+    formEl.reset();
     await refresh();
     setStatus('Candidate asset deposited into the V12 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
   } catch (error) {

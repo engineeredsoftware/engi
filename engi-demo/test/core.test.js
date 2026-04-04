@@ -61,6 +61,22 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.closureCriteria?.length >= 1));
 });
 
+test('publicState exposes V12 profile comparison guidance for the demo shell', () => {
+  const projected = publicState(buildInitialState());
+
+  assert.equal(projected.profileCompositions.distinctionBasis, 'deposit-and-need');
+  assert.deepEqual(projected.profileCompositions.comparisonAxes, [
+    'deposit mode',
+    'need mode',
+    'asset-pack shape',
+    'settlement shape',
+    'boundary hand-off'
+  ]);
+  assert.equal(projected.profileCompositions.demoOperatorGuidance.recommendedWalkthrough.length, 5);
+  assert.match(projected.profileCompositions.demoOperatorGuidance.recommendedWalkthrough[0], /repo supply/i);
+  assert.match(projected.profileCompositions.demoOperatorGuidance.boundaryTruthPlacement, /Boundary reality/i);
+});
+
 test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
   const state = buildInitialState();
   const need = buildNeedDescriptor(state.needScenarios[0]);
