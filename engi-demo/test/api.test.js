@@ -323,6 +323,10 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
     assert.ok(response.json.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
+    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.unit.entrypoint, 'test/core.test.js');
+    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.api.entrypoint, 'test/api.test.js');
+    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.browserE2E.entrypoint, 'test/e2e.test.js');
+    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.browserE2E.requiredForV14, true);
     assert.equal(response.json.latestRun.authorizationDecisions, undefined);
     assert.match(response.json.latestRun.branchArtifacts.publicFiles['.engi/bounded-public-proof.json'], new RegExp(response.json.latestRun.boundedPublicProof.bundleId));
   });

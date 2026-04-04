@@ -6862,6 +6862,13 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         dependsOn: ['need-measurement', 'benchmark-parser']
       },
       {
+        path: '.engi/need-measurement.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['need-measurement', 'prompt-lineage', 'static-measurement']
+      },
+      {
         path: '.engi/depositing-surface.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
@@ -6902,6 +6909,13 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         confidentialityClass: 'verification-evidence',
         potentiallyDisclosable: false,
         dependsOn: ['verification-determinisms', 'issuer-policy']
+      },
+      {
+        path: '.engi/eval-manifest.json',
+        useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['candidate-recall', 'ranking', 'verification-determinisms', 'prompt-lineage']
       },
       {
         path: '.engi/asset-pack.lock.json',
@@ -7100,6 +7114,13 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         dependsOn: ['journal-diff', 'asset-pack.lock']
       },
       {
+        path: '.engi/journal-diff.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['settlement', 'asset-pack.lock']
+      },
+      {
         path: '.engi/system-proof-bundle.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
@@ -7161,6 +7182,13 @@ function buildDeliverablesManifest({ branchName, need, benchmarkTarget, depositi
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['scenario-fixture-manifest', 'proof-bundle', 'settlement']
+      },
+      {
+        path: '.engi/deliverables.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['deliverables-manifest', 'branch-materialization']
       },
       {
         path: 'ENGI_NEED.md',
@@ -7272,6 +7300,37 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
       'source-to-shares precision stays replayable through journal settlement',
       'scenario corpus covers GitHub-shaped, privacy, issuer-policy, and deployment stress cases'
     ],
+    suiteCoverage: {
+      unit: {
+        entrypoint: 'test/core.test.js',
+        runner: 'node --test',
+        validates: [
+          'core surface contracts and deterministic invariants',
+          'asset-pack, proof, projection, and settlement consistency',
+          'deliverables and branch artifact completeness'
+        ]
+      },
+      api: {
+        entrypoint: 'test/api.test.js',
+        runner: 'node --test',
+        validates: [
+          'public and buyer projection route behavior',
+          'deposit validation, reset behavior, and persistence safety',
+          'static serving, malformed input handling, and path traversal blocking'
+        ]
+      },
+      browserE2E: {
+        entrypoint: 'test/e2e.test.js',
+        runner: 'node --test',
+        browserHarness: 'playwright/chromium',
+        requiredForV14: true,
+        validates: [
+          'canonical panel ordering from repo supply through settlement',
+          'repo-authenticated deposit flow to targeted settlement',
+          'normalization-heavy scenario switching and source-to-shares visibility'
+        ]
+      }
+    },
     adversarialCoverage: {
       malformedGithubArtifactFixturePresent: scenarioFixtureManifest.negativeFixtures.some((fixture) => fixture.fixtureId === 'malformed-canonical-benchmark-output'),
       privacyBoundaryScenarioPresent: state.needScenarios.some((scenario) => (scenario.coverageTags || []).includes('privacy-boundary') || scenario.scenarioFamily === 'privacy-boundary-stress'),
@@ -7792,6 +7851,7 @@ function buildProjectedLatestRun(latestRun, principal = DEFAULT_PROJECTION_PRINC
 function assertRequiredBranchArtifacts(branchArtifacts) {
   const requiredPaths = [
     '.engi/need.json',
+    '.engi/need-measurement.json',
     '.engi/depositing-surface.json',
     '.engi/needing-surface.json',
     '.engi/depositing-to-needing-surface.json',
@@ -7825,6 +7885,7 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
     '.engi/source-to-shares.json',
     '.engi/settlement-participation.json',
     '.engi/accounting-precision-report.json',
+    '.engi/journal-diff.json',
     '.engi/scenario-fixture-manifest.json',
     '.engi/test-coverage-report.json',
     '.engi/unit-catalog.json',
@@ -7833,6 +7894,7 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
     '.engi/bounded-public-proof.json',
     '.engi/redaction-proof.json',
     '.engi/disclosure-proof.json',
+    '.engi/deliverables.json',
     'ENGI_NEED.md'
   ];
   for (const requiredPath of requiredPaths) {

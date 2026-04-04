@@ -1,21 +1,27 @@
 # ENGI Demo Host Capabilities
 
 Last inspected: 2026-04-03 (America/Los_Angeles)
-Host scope: local machine capabilities relevant to the ENGI Spec V9 demo implementation in this repo.
+Host scope: local machine capabilities relevant to the ENGI Spec V14 canonical target over the current deterministic demo implementation in this repo.
+
+## Canon status
+
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V14`
+- Current canonical/latest target: `V14`
+- Last fully realized canon preserved in the demo source: `V12`
 
 ## Purpose
 
-This document records what the host actually needs to run the current V9 demo, what it can optionally support, what remains modeled instead of executed, and how the repo can be furnished natively or in a container without overclaiming production readiness.
+This document records what the host actually needs to run the current deterministic demo implementation, what it can optionally support, what remains modeled instead of executed, and how the repo can be furnished natively or in a container without overclaiming production readiness.
 
 The source of truth for this document is:
 
 - live host inspection commands run on 2026-04-03
 - the current repo implementation in `server.js`, `src/engi-demo.js`, `public/app.js`, and `test/`
-- the current V9 artifact and proof flow, not older V8 assumptions
+- the current V14-canonical / V12-realized artifact and proof flow, not older V8/V9 framing
 
 ## Program usage truth
 
-### Required for the current V9 demo
+### Required for the current demo implementation
 
 The repo needs only a local Node runtime plus filesystem access to execute its real control-plane behavior:
 
@@ -25,7 +31,7 @@ The repo needs only a local Node runtime plus filesystem access to execute its r
 - assemble proof/materialization/accounting artifacts
 - run the Node test suite
 
-In the current implementation, the following V9 stages are real local program usage, but they are all executed by deterministic in-process Node logic rather than external commands:
+In the current implementation, the following stages are real local program usage, but they are all executed by deterministic in-process Node logic rather than external commands:
 
 - benchmark parser normalization: `github-actions.benchmark-parser.v9`
 - repo code-analysis derivation: `github.repo-context.extract.v9`
@@ -51,7 +57,7 @@ These are useful for inspection, authoring, proof-log generation outside the cor
 
 ### Proof-program usage truth
 
-The current V9 demo does **not** execute external proof engines as part of the core flow.
+The current demo does **not** execute external proof engines as part of the core flow.
 
 Instead it:
 
@@ -72,7 +78,7 @@ Observed on this host:
 - `gh` is installed
 - `gh auth status` currently reports the default token as invalid for `garrettmaring`
 
-V9 interpretation:
+Current interpretation:
 
 - GitHub CLI presence is real
 - GitHub CLI authorization is **not** currently healthy
@@ -141,14 +147,14 @@ For this repo specifically, furnishing is simpler:
 
 ### `docker-runtime`
 
-- build command: `docker build -t engi-demo-v9 .`
-- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v9`
+- build command: `docker build -t engi-demo-v14 .`
+- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v14`
 - purpose: containerized local serving with no host Node requirement beyond Docker
 
 ### `docker-test`
 
-- build command: `docker build -t engi-demo-v9 .`
-- run command: `docker run --rm engi-demo-v9 npm test`
+- build command: `docker build -t engi-demo-v14 .`
+- run command: `docker run --rm engi-demo-v14 npm test`
 - purpose: containerized regression check using the same image contents
 
 ## Telemetry and safety

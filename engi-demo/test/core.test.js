@@ -701,6 +701,10 @@ test('buyer projection exposes richer artifacts without raw branch files or sour
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.privacyBoundaryScenarioPresent, true);
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.polyglotRepoScenarioPresent, true);
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.manyAssetNormalizationScenarioPresent, true);
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.unit.entrypoint, 'test/core.test.js');
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.api.entrypoint, 'test/api.test.js');
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.entrypoint, 'test/e2e.test.js');
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.requiredForV14, true);
   assert.ok(projected.latestRun.identityAuthSpineSurface.hops.length >= 6);
   assert.equal(projected.latestRun.branchArtifacts.files, undefined);
 });
@@ -722,13 +726,18 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   const state = buildInitialState();
   const { latestRun } = runMakeEngiBranch(state, {});
 
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/need-measurement.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/eval-manifest.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/settlement-proof.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/journal-diff.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/authorization-decisions.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/sensitive-data-flow.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/proof-witness-manifest.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-proof.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-exclusions.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/deliverables.json'));
+  assert.ok(latestRun.branchArtifacts.files['.engi/deliverables.json']);
   assert.equal(latestRun.journalDiff.receipts.length, 2);
   assert.ok(latestRun.journalDiff.credits.every((entry) => entry.unitRefs.length > 0));
   assert.equal(latestRun.systemProofBundle.settlementProof.theoremChecks.stateRootIntegrity, true);

@@ -1,6 +1,8 @@
 {
   "inspectedAt": "2026-04-03",
-  "specVersion": "ENGI Spec V9 deterministic local prototype",
+  "specVersion": "ENGI Spec V14 canonical target over the deterministic local prototype",
+  "canonicalPointerVersion": "V14",
+  "lastFullyRealizedCanonVersion": "V12",
   "repo": "engi-demo",
   "host": {
     "os": "Darwin 25.4.0",
@@ -84,7 +86,7 @@
     {
       "configurationId": "native-runtime",
       "command": "npm start",
-      "purpose": "Serve the local V9 demo UI and API"
+      "purpose": "Serve the local deterministic demo UI and API"
     },
     {
       "configurationId": "native-test",
@@ -93,14 +95,14 @@
     },
     {
       "configurationId": "docker-runtime",
-      "buildCommand": "docker build -t engi-demo-v9 .",
-      "runCommand": "docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v9",
+      "buildCommand": "docker build -t engi-demo-v14 .",
+      "runCommand": "docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v14",
       "purpose": "Serve the demo in a container"
     },
     {
       "configurationId": "docker-test",
-      "buildCommand": "docker build -t engi-demo-v9 .",
-      "runCommand": "docker run --rm engi-demo-v9 npm test",
+      "buildCommand": "docker build -t engi-demo-v14 .",
+      "runCommand": "docker run --rm engi-demo-v14 npm test",
       "purpose": "Run the regression suite in a container"
     }
   ],

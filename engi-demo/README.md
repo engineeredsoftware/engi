@@ -1,60 +1,59 @@
-# ENGI Demo — Spec V9 Deterministic Local Prototype
+# ENGI Demo - V14-canonical / V12-realized deterministic local prototype
 
-This demo now tracks the Spec V9 core flow closely:
+This demo is now governed by the V14 canonical spec while still remaining most fully realized against the preserved V12 design/demonstration baseline.
 
-1. parse mocked GitHub Actions evidence through a declared benchmark parser contract and build a `GitHubNeedDescriptor`,
-2. model hybrid candidate recall across task, failure-mode, technical-context, lexical, symbol, path, config, and artifact-kind channels,
-3. rank deposited candidate assets with explicit score groups, explainability traces, and penalties,
-4. apply separate verification determinisms, issuer policy, and downstream use-tier propagation,
-5. assemble a locked `AssetPack` plus selected source-material manifest,
-6. stage a private remediation branch artifact set with deliverable metadata, authorization decisions, and sensitive-data-flow records,
-7. compute raw + settled shares,
-8. settle exact micro-unit movement through a journal diff and proof bundle.
+Current spec/doc truth for this repo:
+- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V14`
+- V14 is the current canonical/latest target and governing spec
+- V12 remains the last fully realized canon implementation baseline preserved in the demo source
+- V13 established the spec-file structure/formality standard that V14 now realizes in full
 
-## What this prototype is
+## What this prototype demonstrates
 
-A deterministic, local, no-dependency Node app that models the V9 Profile A architecture faithfully enough to demo while explicitly labeling Profile B production intent:
+The local deterministic prototype models the ENGI operating chain as:
 
-- need measurement from GitHub-bound benchmark evidence,
-- parser fail-closed behavior and canonical run-evidence normalization,
-- canonical need-descriptor derivation closure with explicit field derivations,
-- content-unit semantics with explicit embedding/vector hand-off interfaces,
-- need-measurement provenance plus inference proof surfaces,
-- clean separation between static deterministic analysis and inferred evaluator surfaces,
-- hybrid candidate recall and fusion provenance,
-- ranking vs verification separation,
-- issuer policy / sufficiency / use-tier propagation,
-- branch materialization rules by use tier and branch mode,
-- authorization, identity binding, confidentiality, retention, revocation, and bounded-public-proof modeling,
-- structured pipeline telemetry and unit catalogs for live demo inspection,
-- private remediation branch artifacts under `.engi/`,
-- exact fixed-point settlement with asset-scoped pending claims and asset-pack-lock binding.
+1. repo supply and modeled GitHub App-authenticated inventory,
+2. depositing candidate supply against a measured need,
+3. needing as benchmark/parser/repo-derived demand,
+4. explicit deposit-to-need fit before deep proof inspection,
+5. ranked candidates plus separate verification and use-tiering,
+6. asset-pack assembly and private branch artifact materialization,
+7. proof closure, bounded public proof, and disclosure/redaction policy,
+8. exact source-to-shares settlement with journal diff conservation.
 
-## What it still is not
+The demo is intentionally centered on:
+- depositing,
+- needing,
+- fit,
+- identity/auth as spine,
+- repo-to-settlement closure,
+- proof and settlement as necessary consequences,
+- and explicit boundary honesty.
 
-This is still a local prototype. It does **not**:
+## What remains modeled rather than live
 
-- talk to live GitHub,
-- parse real workflow artifacts from the network,
-- create real branches or PRs,
-- generate actual remediation patches,
-- enforce real authz boundaries beyond modeled data structures,
-- run LLM evaluators.
+This repo does not:
+- mint live GitHub installation tokens,
+- fetch live workflow artifacts from the network,
+- push real remediation branches or PR updates,
+- run live LLM evaluators,
+- publish proof artifacts to an external system,
+- execute real networked settlement effects.
 
-All of those surfaces are represented deterministically in local state.
+Those surfaces are represented deterministically in local state and called out explicitly in the boundary surfaces.
 
-## Conformance profiles
+## Main implementation surfaces
 
-- `Profile A — local deterministic prototype`: what this repo implements and demos now.
-- `Profile B — production-boundary intent`: live GitHub binding, real branch/privacy/authz enforcement, real embeddings/evaluators/prompts, and external integrations still outside the local prototype boundary.
+Primary source files:
+- `src/engi-demo.js` - core state, need measurement, evaluation, proof, settlement, projection, and branch artifact builders
+- `server.js` - deterministic API and atomic local persistence
+- `public/app.js` - operator shell, visual/raw surfaces, explainers, and panel ordering
+- `public/index.html` - canonical shell structure for the demo
 
-## Advanced V9 interface notes
-
-- Content units now carry explicit semantic/embedding contracts so real embedding providers can replace deterministic stand-ins without changing downstream schemas.
-- Measurement provenance distinguishes static deterministic analysis from inferred evaluator surfaces.
-- Structured telemetry artifacts (`.engi/unit-catalog.json`, `.engi/pipeline-telemetry.json`) explain the live pipeline during demos.
-- Proof bundles now include prompt/evaluator implementation surfaces alongside the existing settlement / policy / identity proofs.
-- Every JSON-heavy demo surface now supports a reusable **Visual | Raw** presentation mode. Visual is the default for readability; Raw preserves the exact pretty-printed artifact JSON for inspection/debugging.
+Primary tests:
+- `test/core.test.js` - subsystem invariants and artifact consistency
+- `test/api.test.js` - route semantics, projection behavior, persistence safety
+- `test/e2e.test.js` - browser ordering and end-to-end operator flows
 
 ## Run
 
@@ -64,14 +63,6 @@ npm start
 ```
 
 Open <http://localhost:4318>.
-
-## Container run
-
-```bash
-cd /Users/garrettmaring/Developer/ENGI/engi-demo
-docker build -t engi-demo-v9 .
-docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v9
-```
 
 ## Test
 
@@ -87,43 +78,26 @@ npm test
 - `POST /api/make-engi-branch`
 - `POST /api/reset`
 
-## Main branch artifacts modeled in the latest run
+## Canonical branch artifact families
 
-- `.engi/need.json`
-- `.engi/need-measurement.json`
-- `.engi/benchmark-target.json`
-- `.engi/match-report.json`
-- `.engi/verification-report.json`
-- `.engi/eval-manifest.json`
-- `.engi/asset-pack.lock.json`
-- `.engi/selected-source-material.json`
-- `.engi/settlement-preview.json`
-- `.engi/settlement-proof.json`
-- `.engi/journal-diff.json`
-- `.engi/system-proof-bundle.json`
-- `.engi/authorization-decisions.json`
-- `.engi/sensitive-data-flow.json`
-- `.engi/policy-release.json`
-- `.engi/code-analysis-fact-registry.json`
-- `.engi/static-heuristics-registry.json`
-- `.engi/materialization-proof.json`
-- `.engi/materialization-exclusions.json`
-- `.engi/source-to-shares.json`
-- `.engi/settlement-participation.json`
-- `.engi/accounting-precision-report.json`
-- `.engi/scenario-fixture-manifest.json`
-- `.engi/test-coverage-report.json`
-- `.engi/unit-catalog.json`
-- `.engi/pipeline-telemetry.json`
-- `.engi/deliverables.json`
-- `.engi/source-material/*`
+The latest run emits branch-scoped artifacts under `.engi/`, including:
+- need and need-measurement artifacts
+- depositing, needing, and deposit-to-need fit surfaces
+- match, verification, and eval manifests
+- asset-pack lock and selected source material manifest
+- identity, policy, authz, and GitHub boundary artifacts
+- prompt, measurement, verification, and proof artifacts
+- materialization proof and exclusions
+- source-to-shares, settlement participation, accounting precision, settlement proof, and journal diff
+- scenario fixture manifest and test coverage report
+- projection policy, bounded public proof, redaction proof, and disclosure proof
+- deliverables manifest
 - `ENGI_NEED.md`
 
-## Repo docs added for this alignment pass
+## Repo documentation for the current pass
 
-- `ARCHITECTURE_MAP.md` — tight map of the original/current demo architecture baseline
-- `SPEC_V6_GAP_ANALYSIS.md` — earlier gap analysis and implementation guide used for the V6 refactor
-- `SPEC_V6_COVERAGE_MATRIX.md` — durable section-by-section coverage audit against the V6 spec
-- `SPEC_V7_COVERAGE_MATRIX.md` — preserved historical coverage audit for the V7 spec and V6→V7 deltas
-- `SPEC_V8_COVERAGE_MATRIX.md` — authoritative audit/design/closure plan for the current V8 demo
-- `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` — V9 host/runtime/bootstrap/containerization truth for this repo
+- `../ENGI_SPEC_V14.md` - full enriched canonical spec
+- `../ENGI_SPEC_V14_NOTES.md` - version-local drafting notes
+- `SPEC_V14_IMPLEMENTATION_MATRIX.md` - parity/debt ledger for the current demo
+- `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` - host/runtime/container truth
+- `ARCHITECTURE_MAP.md` - preserved architecture map

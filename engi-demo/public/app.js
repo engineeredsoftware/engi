@@ -817,7 +817,7 @@ const NEED_CAPSULE_REFERENCES = {
     'public/app.js -> renderNeedVisual()',
     'public/app.js -> renderScenarioCorpusVisual()'
   ],
-  spec: ['V12 §6.2', 'V12 §7', 'V12 §11']
+  spec: ['V14 §6.2', 'V14 §7', 'V14 §11']
 };
 
 const ASSET_CAPSULE_REFERENCES = {
@@ -826,7 +826,7 @@ const ASSET_CAPSULE_REFERENCES = {
     'public/app.js -> renderAssetVisual()',
     'src/engi-demo.js -> makeCandidateAsset()'
   ],
-  spec: ['V12 §6.1', 'V12 §9', 'V12 §10']
+  spec: ['V14 §6.1', 'V14 §9', 'V14 §10']
 };
 
 const EXTRA_EXPLAINERS = {
@@ -841,7 +841,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
-      spec: ['V12 §11', 'V12 §13']
+      spec: ['V14 §11', 'V14 §13']
     }
   },
   'settled-runs': {
@@ -855,7 +855,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
-      spec: ['V12 §11', 'V12 §13']
+      spec: ['V14 §11', 'V14 §13']
     }
   },
   'pre-proof-surface': {
@@ -869,7 +869,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()'],
-      spec: ['V12 §6.3', 'V12 §8', 'V12 §11']
+      spec: ['V14 §6.3', 'V14 §8', 'V14 §11']
     }
   },
   'closure-path-badge': {
@@ -883,7 +883,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()', 'public/app.js -> renderRepoToSettlementVisual()'],
-      spec: ['V12 §8', 'V12 §11']
+      spec: ['V14 §8', 'V14 §11']
     }
   },
   'branch-intent': {
@@ -897,7 +897,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/engi-demo.js -> buildDepositingToNeedingSurface()'],
-      spec: ['V12 §6.3', 'V12 §8', 'V12 §11']
+      spec: ['V14 §6.3', 'V14 §8', 'V14 §11']
     }
   },
   'ref-commit': {
@@ -911,7 +911,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §6.1', 'V12 §10']
+      spec: ['V14 §6.1', 'V14 §10']
     }
   },
   'source-paths': {
@@ -925,7 +925,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §6.1', 'V12 §9', 'V12 §10']
+      spec: ['V14 §6.1', 'V14 §9', 'V14 §10']
     }
   },
   'content-root': {
@@ -939,7 +939,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §6.1', 'V12 §10', 'V12 §11']
+      spec: ['V14 §6.1', 'V14 §10', 'V14 §11']
     }
   },
   'upload-surfaces': {
@@ -953,7 +953,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §9']
+      spec: ['V14 §9']
     }
   },
   constraints: {
@@ -967,7 +967,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V12 §6.2', 'V12 §9', 'V12 §11']
+      spec: ['V14 §6.2', 'V14 §9', 'V14 §11']
     }
   },
   'signing-algorithm': {
@@ -981,7 +981,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §10', 'V12 §11']
+      spec: ['V14 §10', 'V14 §11']
     }
   },
   'key-source': {
@@ -995,7 +995,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §10', 'V12 §12']
+      spec: ['V14 §10', 'V14 §12']
     }
   },
   'payload-hash': {
@@ -1009,7 +1009,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V12 §10', 'V12 §11']
+      spec: ['V14 §10', 'V14 §11']
     }
   },
   'settlement-shape': {
@@ -1023,7 +1023,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V12 §7', 'V12 §11']
+      spec: ['V14 §7', 'V14 §11']
     }
   },
   'scenario-anchors': {
@@ -1037,7 +1037,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'src/engi-demo.js -> buildProfileCompositions()'],
-      spec: ['V12 §7', 'V12 §13']
+      spec: ['V14 §7', 'V14 §13']
     }
   },
   'profile-composition': {
@@ -1051,7 +1051,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'src/engi-demo.js -> buildProfileCompositions()'],
-      spec: ['V12 §7', 'V12 §8']
+      spec: ['V14 §7', 'V14 §8']
     }
   },
   'failing-cases': {
@@ -1087,7 +1087,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()'],
-      spec: ['V12 §6.2', 'V12 §10']
+      spec: ['V14 §6.2', 'V14 §10']
     }
   },
   'recall-channels': {
@@ -1101,7 +1101,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()', 'src/engi-demo.js -> recallCandidates()'],
-      spec: ['V12 §6.2', 'V12 §8']
+      spec: ['V14 §6.2', 'V14 §8']
     }
   },
   'modeled-local-stages': {
@@ -1115,7 +1115,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
-      spec: ['V12 §12']
+      spec: ['V14 §12']
     }
   },
   'executed-local-stages': {
@@ -1129,7 +1129,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
-      spec: ['V12 §12']
+      spec: ['V14 §12']
     }
   },
   auth: {
@@ -1751,35 +1751,35 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderRepoSupplyVisual()',
       'src/engi-demo.js -> buildRepoSupplySurface()'
     ],
-    spec: ['V12 §8', 'V12 §9']
+    spec: ['V14 §8', 'V14 §9']
   },
   depositing: {
     code: [
       'public/app.js -> renderDepositingSurfaceVisual()',
       'src/engi-demo.js -> buildDepositingSurface()'
     ],
-    spec: ['V12 §6.1', 'V12 §8']
+    spec: ['V14 §6.1', 'V14 §8']
   },
   needing: {
     code: [
       'public/app.js -> renderNeedingSurfaceVisual()',
       'src/engi-demo.js -> buildNeedingSurface()'
     ],
-    spec: ['V12 §6.2', 'V12 §8']
+    spec: ['V14 §6.2', 'V14 §8']
   },
   fit: {
     code: [
       'public/app.js -> renderDepositingToNeedingVisual()',
       'src/engi-demo.js -> buildDepositingToNeedingSurface()'
     ],
-    spec: ['V12 §6.3', 'V12 §8']
+    spec: ['V14 §6.3', 'V14 §8']
   },
   profiles: {
     code: [
       'public/app.js -> renderProfileCompositionVisual()',
       'src/engi-demo.js -> buildProfileCompositions()'
     ],
-    spec: ['V12 §7.1', 'V12 §7.2']
+    spec: ['V14 §7.1', 'V14 §7.2']
   },
   'operating-picture': {
     code: [
@@ -1787,7 +1787,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderOperatingPicture()',
       'src/engi-demo.js -> buildRepoToSettlementSurface()'
     ],
-    spec: ['V12 §8', 'V12 §13']
+    spec: ['V14 §8', 'V14 §13']
   },
   identity: {
     code: [
@@ -1796,14 +1796,14 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildIdentityAuthSpineSurface()',
       'src/engi-demo.js -> buildGithubBoundarySurface()'
     ],
-    spec: ['V12 §10', 'V12 §12']
+    spec: ['V14 §10', 'V14 §12']
   },
   'artifact-kinds': {
     code: [
       'public/app.js -> renderAssetVisual()',
       'public/app.js -> renderRepoInventory()'
     ],
-    spec: ['V12 §9', 'V12 §6.3']
+    spec: ['V14 §9', 'V14 §6.3']
   },
   inventory: {
     code: [
@@ -1811,14 +1811,14 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderRepoInventory()',
       'public/app.js -> syncInventoryKindFilter()'
     ],
-    spec: ['V12 §6.1', 'V12 §9']
+    spec: ['V14 §6.1', 'V14 §9']
   },
   verification: {
     code: [
       'public/app.js -> renderVerificationReportVisual()',
       'public/app.js -> renderEvaluationVisual()'
     ],
-    spec: ['V12 §8', 'V12 §11']
+    spec: ['V14 §8', 'V14 §11']
   },
   branch: {
     code: [
@@ -1826,7 +1826,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> assembleAssetPack()',
       'src/engi-demo.js -> buildBranchArtifacts()'
     ],
-    spec: ['V12 §8', 'V12 §11']
+    spec: ['V14 §8', 'V14 §11']
   },
   'branch-materialization': {
     code: [
@@ -1836,7 +1836,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildMaterializationProof()',
       'src/engi-demo.js -> buildMaterializationVisibilityProof()'
     ],
-    spec: ['V12 §8', 'V12 §11']
+    spec: ['V14 §8', 'V14 §11']
   },
   proof: {
     code: [
@@ -1845,7 +1845,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildProofWitnessManifest()',
       'src/engi-demo.js -> buildBoundedPublicProofArtifact()'
     ],
-    spec: ['V12 §11', 'V12 §12']
+    spec: ['V14 §11', 'V14 §12']
   },
   settlement: {
     code: [
@@ -1854,7 +1854,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> settleNeedEvent()',
       'src/engi-demo.js -> buildSettlementParticipationArtifact()'
     ],
-    spec: ['V12 §11', 'V12 §8']
+    spec: ['V14 §11', 'V14 §8']
   },
   'source-to-shares': {
     code: [
@@ -1862,7 +1862,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildSourceToSharesArtifact()',
       'src/engi-demo.js -> buildAccountingPrecisionReport()'
     ],
-    spec: ['V12 §7.2', 'V12 §11']
+    spec: ['V14 §7.2', 'V14 §11']
   },
   'exact-accounting': {
     code: [
@@ -1871,7 +1871,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildAccountingPrecisionReport()',
       'src/engi-demo.js -> settleNeedEvent()'
     ],
-    spec: ['V12 §11', 'V12 §13']
+    spec: ['V14 §11', 'V14 §13']
   },
   ledger: {
     code: [
@@ -1879,7 +1879,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderLedgerAccountsVisual()',
       'src/engi-demo.js -> publicState()'
     ],
-    spec: ['V12 §11', 'V12 §12']
+    spec: ['V14 §11', 'V14 §12']
   },
   'run-history': {
     code: [
@@ -1887,7 +1887,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> runMakeEngiBranch()',
       'src/engi-demo.js -> publicState()'
     ],
-    spec: ['V12 §11', 'V12 §13']
+    spec: ['V14 §11', 'V14 §13']
   },
   boundary: {
     code: [
@@ -1895,7 +1895,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildBoundaryRealitySurface()',
       'src/engi-demo.js -> buildExternalBoundaryManifest()'
     ],
-    spec: ['V12 §12', 'V12 §13']
+    spec: ['V14 §12', 'V14 §13']
   },
   'candidate-asset': {
     code: [
@@ -1903,7 +1903,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderAssetVisual()',
       'src/engi-demo.js -> publicAsset()'
     ],
-    spec: ['V12 §6.1', 'V12 §9']
+    spec: ['V14 §6.1', 'V14 §9']
   },
   'scenario-preview': {
     code: [
@@ -1912,7 +1912,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> publicState()',
       'src/engi-demo.js -> buildNeedDescriptor()'
     ],
-    spec: ['V12 §6.2', 'V12 §7']
+    spec: ['V14 §6.2', 'V14 §7']
   },
   'detailed-need': {
     code: [
@@ -1920,7 +1920,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderNeedMeasurementVisual()',
       'src/engi-demo.js -> buildNeedDescriptor()'
     ],
-    spec: ['V12 §6.2', 'V12 §11']
+    spec: ['V14 §6.2', 'V14 §11']
   }
 };
 
@@ -2345,7 +2345,7 @@ function renderExplainerFooter(key, explainer) {
   return `
     <div class="explainer-footer">
       ${renderExplainerReferenceGroup('Current source', references.code)}
-      ${renderExplainerReferenceGroup('V12 spec', references.spec)}
+      ${renderExplainerReferenceGroup('V14 spec', references.spec)}
     </div>
   `;
 }
