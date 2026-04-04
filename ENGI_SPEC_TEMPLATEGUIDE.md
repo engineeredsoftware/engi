@@ -1,11 +1,12 @@
 # ENGI Spec Template Guide
 
 Status: canonical drafting guide for future ENGI `_VN_` spec releases
-Scope: file-family expectations, section schema patterns, density requirements, pedagogy requirements, appendix architecture, parity conventions, and version-status rules for full enriched ENGI specs
+Scope: system-vs-demo file-family expectations, section schema patterns, density requirements, pedagogy requirements, appendix architecture, parity conventions, and version-status rules for full enriched ENGI specs
 Applies to:
-- future canonical ENGI `_VN_` spec files,
+- future canonical ENGI `_VN_` system-spec files,
 - associated `_VN_` notes files,
-- associated implementation matrices,
+- associated system parity/debt matrices,
+- associated realization or demo spec files and realization matrices when a concrete demo family exists,
 - and any parity-bearing adjunct documents referenced as part of canon
 
 Baseline references:
@@ -24,13 +25,14 @@ Its job is not to redesign ENGI.
 Its job is to define how future versions should write ENGI canon so that:
 - whole-system understanding is recoverable from the docs,
 - source/spec parity is deliberate rather than accidental,
+- system canon stays separate from demonstration canon,
 - later design truth is preserved,
 - earlier useful explicitness is restored where needed,
 - and the canonical ENGI file family stays coherent across versions.
 
 The core guide rule is:
 
-> A full enriched ENGI spec release MUST be written so that an implementer, reviewer, operator, or auditor can recover the operating model, formal structures, artifact contracts, proof obligations, host/runtime truth, validation expectations, and parity boundaries without reverse-engineering the repository from source alone.
+> A full enriched ENGI spec release MUST be written so that an implementer, reviewer, operator, or auditor can recover the operating model, formal structures, artifact contracts, proof obligations, host/runtime truth, validation expectations, system-vs-demo layer boundaries, and parity boundaries without reverse-engineering the repository from source alone.
 
 ---
 
@@ -40,14 +42,16 @@ Every serious ENGI versioned spec release MUST distinguish:
 1. the current canonical/latest target,
 2. the last fully realized canon,
 3. the currently preserved structural drafting standard when that is relevant,
-4. and the current implementation target or baseline when source realization lags the newest formalization.
+4. the current system implementation target or realization baseline when source realization lags the newest formalization,
+5. and any separate demonstration realization family when one exists.
 
 The versioning rules are:
 1. `ENGI_SPEC.txt` is the only canonical pointer.
 2. A newer `_VN_` file does not become canonical merely because it exists.
 3. Prior versions MUST remain preserved.
-4. If the pointer target differs from the last fully realized canon, that split MUST be stated explicitly in the main spec, notes file, and implementation matrix.
+4. If the pointer target differs from the last fully realized canon, that split MUST be stated explicitly in the main spec, notes file, and system parity matrix.
 5. A spec MUST NOT imply that pointer status automatically means full source realization.
+6. A demonstration spec MUST NOT be treated as the authoritative system-spec merely because it is the most concrete current implementation surface.
 
 Required terminology:
 - `current canonical/latest target`
@@ -69,32 +73,48 @@ If a version preserves older semantic anchors for trace continuity, it MUST expl
 A full enriched ENGI release SHOULD normally include the following file family:
 
 1. `ENGI_SPEC_VN.md`
-   The canonical full spec.
+   The canonical full system spec.
 2. `ENGI_SPEC_VN_NOTES.md`
    The version-local drafting rationale, interpretation notes, numbering decisions, and clarification record.
-3. `engi-demo/SPEC_VN_IMPLEMENTATION_MATRIX.md`
-   The parity ledger between the versioned spec and current repository truth.
+3. `ENGI_SPEC_VN_SYSTEM_PARITY_MATRIX.md`
+   The primary parity/debt ledger between the system spec and current repository truth.
 4. `ENGI_SPEC_VN_INFORMATION_AUDIT.md`
    Required when a version is materially recovering lost density, parity, or conceptual coverage from earlier canon.
-5. optional parity-bearing adjunct files
+5. optional realization/demo family, for example:
+   - `engi-demo/ENGI_DEMO_SPEC_VN.md`
+   - `engi-demo/ENGI_DEMO_SPEC_VN_IMPLEMENTATION_MATRIX.md`
+6. optional parity-bearing adjunct files
    Examples include host capability documents, architecture maps, or other structured reference artifacts that the canonical spec relies on directly.
 
 File-family rules:
 1. The spec file is the authoritative product/system/design artifact.
 2. The notes file is where drafting posture, preserve/restore decisions, numbering choices, and version-local interpretation guidance live.
-3. The implementation matrix is where parity, accepted boundaries, and remaining lag are recorded plainly.
-4. If adjunct files are used as canonical parity surfaces, the spec MUST name them explicitly and the matrix MUST judge whether they are aligned.
-5. Notes and matrix MUST repeat the same pointer/latest-target vs last-fully-realized-canon interpretation as the main spec.
+3. The system parity matrix is where system-spec parity, accepted boundaries, and remaining lag are recorded plainly.
+4. A realization/demo spec, when present, defines one concrete realization family and MUST NOT override the system spec.
+5. A realization/demo implementation matrix records realization-local parity/debt and MUST NOT stand in for the system parity matrix.
+6. If adjunct files are used as canonical parity surfaces, the spec or relevant matrix MUST name them explicitly and judge whether they are aligned.
+7. Notes and the system parity matrix MUST repeat the same pointer/latest-target vs last-fully-realized-canon interpretation as the main spec.
 
-The implementation matrix is not optional bookkeeping for a serious release.
+The system parity matrix is not optional bookkeeping for a serious release.
 It is the ledger that separates:
 - true parity closure,
 - intentionally modeled boundaries,
 - and still-open repo/documentation lag.
 
-## 3.1 Matrix honesty and closure language
+## 3.1 System-vs-demo separation rule
 
-The implementation matrix MUST be willing to describe partial closure precisely.
+System specification, realization specification, and parity/debt tracking MUST be separate concerns.
+
+Separation rules:
+1. The system spec defines ENGI semantics, invariants, subsystem obligations, and canonical closure logic.
+2. A demo or realization spec defines the behavior, ordering, host truth, and validation story of one concrete realization family such as `engi-demo`.
+3. Demo-specific UI ordering, persistence details, and host/runtime adjunct docs MUST live in the realization file family unless they are explicitly promoted to universal system requirements.
+4. The most concrete current implementation MAY still live under a demo directory, but that location MUST NOT be treated as proof that system implementation expectations are inherently demo-scoped.
+5. A future non-demo system implementation family MUST be able to replace or complement the current demo realization without forcing a rewrite of core system canon.
+
+## 3.2 Matrix honesty and closure language
+
+The relevant parity matrix MUST be willing to describe partial closure precisely.
 
 Preferred judgment language includes:
 - `closed`
@@ -109,6 +129,7 @@ Matrix-honesty rules:
 2. If the spec is formally complete but source realization still trails, the matrix SHOULD say so explicitly rather than compressing everything into binary open/closed language.
 3. If adjunct docs are ahead or behind the matrix's previous assumption, the matrix MUST be corrected to the current repo truth rather than preserving stale review language.
 4. False closure is worse than explicit debt because it hides where the next realization work actually belongs.
+5. A demo-local matrix MUST NOT claim closure for system-canonical implementation expectations that are not actually satisfied outside the demo realization family.
 
 ---
 
@@ -167,7 +188,7 @@ Minimum whole-system coverage includes:
 3. repo supply and depositing,
 4. needing and measured demand,
 5. depositing-to-needing fit as a first-class relation,
-6. demonstration profiles and profile semantics,
+6. conformance or operating profiles and profile semantics,
 7. operator ordering, pedagogy, and explainer parity,
 8. artifact-kind-native interaction, recall, ranking, verification, and materialization,
 9. identity, authorization, signing, and authority transitions,
@@ -176,12 +197,14 @@ Minimum whole-system coverage includes:
 12. boundary realism, projection, disclosure, and redaction,
 13. telemetry, persistence, failure semantics, and validation,
 14. host capabilities, execution environments, containerization, and boundary-program truth,
-15. appendices that make the above material exhaustive enough to audit.
+15. system-vs-demo layering when a concrete demo realization exists,
+16. appendices that make the above material exhaustive enough to audit.
 
 Coverage rules:
 1. If a subsystem is intentionally modeled rather than executed, the spec MUST still cover it as boundary truth.
 2. If a subsystem is intentionally out of scope for the current profile, the spec MUST say so explicitly rather than omitting it silently.
 3. Whole-system coverage MAY still preserve a clear fast path, but the deep path MUST exist somewhere in the file family.
+4. System canon MUST NOT collapse a concrete demo shell into the default home for all future implementation expectations.
 
 ---
 
@@ -274,8 +297,9 @@ Reference rules:
 3. References SHOULD also help a reader locate the artifact-producing path and validating tests where relevant.
 4. UI and explainer surfaces MUST be referenced when operator correctness depends on them.
 5. Host capability and configuration adjunct docs SHOULD be referenced when the spec treats them as canonical execution-truth surfaces.
+6. When a reference is to a demo realization rather than a system-generic implementation surface, the surrounding prose SHOULD say so explicitly.
 
-A full enriched spec SHOULD include a dedicated spec-to-source parity appendix.
+A full enriched spec SHOULD include a dedicated system-to-realization parity appendix.
 
 ---
 
@@ -304,7 +328,7 @@ Each appendix SHOULD follow an internal pattern:
 Appendix rules:
 1. Appendices SHOULD be internally structured rather than dumped as loose notes.
 2. Appendix material SHOULD be exhaustive enough to support audit and implementation.
-3. Appendix claims that matter for parity SHOULD be reflected in the implementation matrix.
+3. Appendix claims that matter for parity SHOULD be reflected in the relevant system or realization matrix.
 4. When an appendix defines a stronger normative model than the current source fully emits, the file family SHOULD include an explicit current-implementation reading or parity-delta note rather than implying hidden closure.
 
 ---
@@ -367,14 +391,14 @@ For validation material, a full enriched spec MUST define:
 
 Browser e2e validation is canonical when the operator story depends on ordered UI understanding.
 
-## 11.4 Spec-to-source parity
+## 11.4 System-to-realization parity
 
 For parity material, a full enriched spec MUST define:
-- primary implementation files,
+- primary realization files,
 - builder/function maps,
 - artifact-producing paths,
 - validating test entrypoints,
-- UI parity surfaces,
+- UI parity surfaces when a demo realization exists,
 - accepted boundaries,
 - and any adjunct canonical documents that materially affect interpretation.
 
@@ -436,6 +460,21 @@ Settlement/accounting rules:
 4. Debit/credit conservation and non-negative balance expectations MUST be stated as exact invariants, not vague accounting intent.
 5. If current source uses a concrete label such as `zero-credit` for a broader semantic idea such as zero-point participation, the spec SHOULD state that equivalence explicitly rather than forcing the reader to infer it.
 
+## 11.8 System specification vs demonstration specification
+
+When a concrete demonstration or prototype family exists, a full enriched spec MUST define:
+- what belongs to system canon,
+- what belongs to demo/realization canon,
+- which files carry each layer,
+- how parity/debt is split between system and demo matrices,
+- and which demo surfaces are merely current realization details versus promoted system requirements.
+
+System-vs-demo rules:
+1. A demo spec MUST NOT silently redefine system terms, invariants, or closure conditions.
+2. A system spec MUST NOT quietly rely on demo-only persistence, panel ordering, or host details without naming them as realization-specific.
+3. If the current repo contains only a demo realization, the docs MUST still preserve the distinction between present realization truth and future system implementation expectations.
+4. Demo-local honesty is required, but demo-local closure is not the same thing as full system-implementation closure.
+
 ---
 
 # 12. Drafting rules for preserving later design truth while restoring earlier explicitness
@@ -465,13 +504,14 @@ A future full enriched ENGI release is in good structural shape when all of the 
 7. inference/evaluator contracts are explicit,
 8. proof families, subsystem obligations, witness structures, and theorem checks are explicit,
 9. test coverage expectations include browser e2e and operator-experience parity where canonical,
-10. spec-to-source references are deliberate and parity-bearing,
+10. system-to-realization references are deliberate and parity-bearing,
 11. host capability and execution-truth surfaces are explicit when relevant,
 12. source-to-shares, zero-credit participation, journal invariants, and exact accounting closure are explicit when relevant,
-13. notes and implementation matrix agree with the main spec,
+13. notes and the system parity matrix agree with the main spec,
 14. prior versions remain preserved,
-15. accepted boundaries are explicit rather than hidden,
-16. the implementation matrix uses honest closure language rather than premature `closed` judgments.
+15. if a demo or realization file family exists, it is separate from system canon and does not contradict it,
+16. accepted boundaries are explicit rather than hidden,
+17. the relevant parity matrices use honest closure language rather than premature `closed` judgments.
 
 This guide is the cross-version drafting standard.
 Individual `_VN_` specs remain the product/system canon for their own release, but they SHOULD now be written against this guide rather than rediscovering the structure each time.
