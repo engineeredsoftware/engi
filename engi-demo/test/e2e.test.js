@@ -6,69 +6,101 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 import { createServer } from '../server.js';
 
+/**
+ * @typedef {{ app: any, baseUrl: string, page: import('playwright').Page }} BrowserHarness
+ */
+
+/** @type {((name: string, fn: (t: any) => any) => any) & ((name: string, options: any, fn: (t: any) => any) => any)} */
+const testAny = test;
+const chromiumAny = /** @type {any} */ (chromium);
+const createServerAny = /** @type {any} */ (createServer);
+
+/**
+ * @param {any} t
+ * @param {(ctx: BrowserHarness) => Promise<any>} fn
+ * @returns {Promise<any>}
+ */
 async function withBrowserDemo(t, fn) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'engi-demo-e2e-'));
   const dataPath = path.join(tempDir, 'state.json');
   const publicDir = path.join(process.cwd(), 'public');
-  const { app, server } = await createServer({ dataPath, publicDir });
+  const { app, server } = await createServerAny({ dataPath, publicDir });
 
   app.ensureState();
 
   await new Promise((resolve, reject) => {
     server.once('error', reject);
-    server.listen(0, '127.0.0.1', resolve);
+    server.listen(0, '127.0.0.1', () => resolve(undefined));
   });
 
-  const address = server.address();
+  const address = /** @type {import('node:net').AddressInfo} */ (server.address());
   const baseUrl = `http://127.0.0.1:${address.port}`;
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromiumAny.launch({ headless: true });
   const page = await browser.newPage();
 
   t.after(async () => {
     await page.close();
     await browser.close();
-    await new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())));
+    await new Promise((resolve, reject) => server.close((/** @type {Error | undefined} */ error) => (error ? reject(error) : resolve(undefined))));
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
   return fn({ app, baseUrl, page });
 }
 
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} expectedText
+ * @returns {Promise<void>}
+ */
 async function waitForStatus(page, expectedText) {
-  await page.waitForFunction((text) => {
+  await page.waitForFunction((/** @type {string} */ text) => {
     const status = document.getElementById('status')?.textContent || '';
     return status.includes(text);
   }, expectedText);
 }
 
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} baseUrl
+ * @returns {Promise<void>}
+ */
 async function loadDemo(page, baseUrl) {
   await page.goto(baseUrl);
   await page.waitForLoadState('networkidle');
   await waitForStatus(page, 'Ready.');
 }
 
+/**
+ * @param {import('playwright').Page} page
+ * @returns {Promise<string[]>}
+ */
 async function readPanelHeadings(page) {
   return page.evaluate(() => Array.from(document.querySelectorAll('main .panel-head h2')).map((heading) => {
     const wrapped = heading.querySelector(':scope > .label-with-info');
-    if (wrapped?.firstElementChild) return wrapped.firstElementChild.textContent.trim();
-    const directText = Array.from(heading.childNodes).find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
-    return (directText?.textContent || heading.textContent).trim();
+    if (wrapped?.firstElementChild?.textContent) return wrapped.firstElementChild.textContent.trim();
+    const directText = Array.from(heading.childNodes).find((node) => node.nodeType === Node.TEXT_NODE && (node.textContent || '').trim());
+    return (directText?.textContent || heading.textContent || '').trim();
   }));
 }
 
+/**
+ * @param {import('playwright').Page} page
+ * @returns {Promise<Record<string, string>>}
+ */
 async function readSummary(page) {
   return page.evaluate(() => Object.fromEntries(Array.from(document.querySelectorAll('.summary-card')).map((card) => {
     const wrapped = card.querySelector('.meta > .label-with-info');
-    const label = wrapped?.firstElementChild?.textContent.trim() || card.querySelector('.meta')?.textContent.trim() || '';
-    return [label, card.querySelector(':scope > strong')?.textContent.trim() || ''];
+    const label = wrapped?.firstElementChild?.textContent?.trim() || card.querySelector('.meta')?.textContent?.trim() || '';
+    return [label, card.querySelector(':scope > strong')?.textContent?.trim() || ''];
   })));
 }
 
-test('browser flow keeps V15 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
+testAny('browser flow keeps V15 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
     const seededState = app.readState();
-    const authSession = seededState.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
-    const inventoryEntry = seededState.repoArtifactInventory.find((entry) => entry.repo === authSession.repo);
+    const authSession = seededState.githubAppSessions.find((/** @type {any} */ session) => session.repo === 'frontier/demo-auth');
+    const inventoryEntry = seededState.repoArtifactInventory.find((/** @type {any} */ entry) => entry.repo === authSession.repo);
 
     await loadDemo(page, baseUrl);
 
@@ -120,7 +152,7 @@ test('browser flow keeps V15 ordering and drives deposit to targeted settlement'
   });
 });
 
-test('browser flow can switch to normalization mode and surface source-to-shares behavior', { timeout: 120_000 }, async (t) => {
+testAny('browser flow can switch to normalization mode and surface source-to-shares behavior', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
 

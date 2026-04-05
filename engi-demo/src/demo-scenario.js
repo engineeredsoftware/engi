@@ -1,7 +1,11 @@
 import { telemetry } from './telemetry.js';
 
+/**
+ * @param {any} state
+ * @returns {any}
+ */
 export function buildDemoScenario(state) {
-  const defaultOrg = state.licenses.find((item) => item.orgId === 'demo-ai-lab') || state.licenses[0] || null;
+  const defaultOrg = state.licenses.find((/** @type {any} */ item) => item.orgId === 'demo-ai-lab') || state.licenses[0] || null;
   const objective = 'Demonstrate that the depot is openly writable, measurably readable, provable, and valuable for a buyer running a production auth incident.';
   const query = 'enterprise auth migration rollback for monorepo services with issuer mismatch';
 
@@ -36,7 +40,7 @@ export function buildDemoScenario(state) {
 
   telemetry('engi.buildDemoScenario', {
     defaultOrgId: scenario.defaultOrgId,
-    stageIds: scenario.stages.map((stage) => stage.id),
+    stageIds: scenario.stages.map((/** @type {any} */ stage) => stage.id),
     assetCount: state.assets?.length,
     licenseCount: state.licenses?.length
   });

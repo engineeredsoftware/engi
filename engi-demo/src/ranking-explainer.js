@@ -1,16 +1,22 @@
 import { clampBp } from './engi-core.js';
 import { telemetry, telemetrySpan } from './telemetry.js';
 
+/**
+ * @param {any} query
+ * @param {any[]} rankedChunks
+ * @param {any[]} assets
+ * @returns {any}
+ */
 export function explainRankedChunks(query, rankedChunks, assets) {
   return telemetrySpan('engi.explainRankedChunks', {
     query,
     rankedChunkCount: rankedChunks.length,
     assetCount: assets.length
   }, () => {
-    const assetMap = new Map(assets.map((asset) => [asset.assetId, asset]));
-    const totalScore = rankedChunks.reduce((sum, item) => sum + Number(item.scoreBp || 0), 0) || 1;
+    const assetMap = new Map(assets.map((/** @type {any} */ asset) => [asset.assetId, asset]));
+    const totalScore = rankedChunks.reduce((/** @type {any} */ sum, /** @type {any} */ item) => sum + Number(item.scoreBp || 0), 0) || 1;
 
-    return rankedChunks.map((item) => {
+    return rankedChunks.map((/** @type {any} */ item) => {
       const asset = assetMap.get(item.assetId);
       const assetMeasurementBp = asset?.measurement?.totalBp || 0;
       const lexicalBp = clampBp(Math.round((Number(item.scoreBp || 0) - (assetMeasurementBp * 0.45)) / 0.55));

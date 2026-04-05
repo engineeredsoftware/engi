@@ -1,22 +1,195 @@
+// @ts-check
+
+/**
+ * @typedef {import('./types.js').DepositingSurface} DepositingSurface
+ * @typedef {import('./types.js').NeedingSurface} NeedingSurface
+ * @typedef {import('./types.js').DepositingToNeedingSurface} DepositingToNeedingSurface
+ *
+ * @typedef {{
+ *   authSessionId: string,
+ *   repo?: string | undefined,
+ *   installationId?: string | number | undefined,
+ *   defaultRef?: string | undefined,
+ *   localBoundary?: string | undefined,
+ *   externalBoundary?: string | undefined,
+ *   profileABoundary?: string | undefined,
+ *   profileBBoundary?: string | undefined
+ * }} SessionShape
+ *
+ * @typedef {{
+ *   repo?: string | undefined,
+ *   artifactKind?: string | undefined,
+ *   originKind?: string | undefined,
+ *   declaredStacks?: string[] | undefined,
+ *   declaredConstraints?: string[] | undefined
+ * }} RepoArtifactInventoryEntryShape
+ *
+ * @typedef {{
+ *   scenarioId: string,
+ *   scenarioFamily?: string | undefined,
+ *   repo: string,
+ *   benchmarkRunId?: string | undefined,
+ *   benchmarkWorkflowPath?: string | undefined,
+ *   coverageTags?: string[] | undefined
+ * }} NeedScenarioShape
+ *
+ * @typedef {{
+ *   githubAppSessions?: SessionShape[] | undefined,
+ *   repoArtifactInventory?: RepoArtifactInventoryEntryShape[] | undefined,
+ *   needScenarios?: NeedScenarioShape[] | undefined
+ * }} RepoSupplyStateShape
+ *
+ * @typedef {{
+ *   repo?: string | undefined,
+ *   permissions?: Record<string, unknown> | undefined,
+ *   permissionsRoot?: string | undefined,
+ *   authSessionId?: string | undefined,
+ *   installationId?: string | number | undefined,
+ *   installationAccountLogin?: string | undefined,
+ *   installationAccountId?: string | number | undefined,
+ *   repositoryId?: string | number | undefined,
+ *   repositoryNodeId?: string | undefined,
+ *   tokenBoundary?: string | undefined,
+ *   authPayloadHash?: string | undefined
+ * }} GithubAppAuthSurface
+ *
+ * @typedef {{
+ *   addressingRoot?: string | undefined,
+ *   addressingScope?: string | undefined,
+ *   repo?: string | undefined
+ * }} AddressingSurface
+ *
+ * @typedef {{
+ *   payloadHash?: string | undefined
+ * }} SigningSurface
+ *
+ * @typedef {{
+ *   selectedInventoryRoot?: string | undefined,
+ *   selectedInventoryEntryIds?: string[] | undefined,
+ *   selectedInventoryEntries?: unknown[] | undefined,
+ *   selectionLabel?: string | undefined,
+ *   intakeMode?: string | undefined
+ * }} ArtifactSelectionSurface
+ *
+ * @typedef {{
+ *   artifactKind: string,
+ *   artifactSelectionSurface?: ArtifactSelectionSurface | undefined,
+ *   addressingSurface?: AddressingSurface | undefined,
+ *   signingSurface?: SigningSurface | undefined,
+ *   githubAppAuthSurface?: GithubAppAuthSurface | undefined,
+ *   githubBoundary?: Record<string, unknown> | undefined
+ * }} CandidateAssetShape
+ *
+ * @typedef {{
+ *   assetId: string,
+ *   useTier: string,
+ *   ranking: { finalRankingScore: number },
+ *   asset: CandidateAssetShape
+ * }} SelectedCandidateShape
+ *
+ * @typedef {{
+ *   assetPackId: string,
+ *   branchMode: string,
+ *   selectedAssets: string[]
+ * }} AssetPackShape
+ *
+ * @typedef {{
+ *   branchName?: string | undefined,
+ *   confidentiality?: string | undefined,
+ *   files?: Record<string, string> | undefined
+ * }} BranchArtifactsShape
+ *
+ * @typedef {{
+ *   proofHash?: string | undefined,
+ *   proofFamilies?: unknown[] | undefined
+ * }} ProofWitnessManifestShape
+ *
+ * @typedef {{
+ *   bundleId?: string | undefined,
+ *   redactionStatus?: string | undefined,
+ *   boundedPublicProofHash?: string | undefined
+ * }} BoundedPublicProofShape
+ *
+ * @typedef {{
+ *   bundleId?: string | undefined,
+ *   sourceToSharesRef?: string | undefined,
+ *   settlementParticipationRef?: string | undefined,
+ *   settlementParticipatingAssetIds?: string[] | undefined,
+ *   creditedAssetIds?: string[] | undefined,
+ *   zeroCreditAssetIds?: string[] | undefined
+ * }} SettlementPreviewShape
+ *
+ * @typedef {{
+ *   principalId: string,
+ *   principalClass?: string | undefined,
+ *   bindingRoot: string
+ * }} IdentityBindingShape
+ *
+ * @typedef {{
+ *   principalId: string,
+ *   decision: string,
+ *   action: string
+ * }} AuthorizationDecisionShape
+ *
+ * @typedef {{
+ *   buyerId: string,
+ *   repo: string,
+ *   buyerBranch?: string | undefined,
+ *   installationId?: string | number | undefined
+ * }} BuyerShape
+ *
+ * @typedef {{
+ *   needId: string,
+ *   benchmarkRunId?: string | undefined,
+ *   benchmarkWorkflowPath?: string | undefined,
+ *   task: string,
+ *   failureModes?: string[] | undefined,
+ *   targetArtifactKinds?: string[] | undefined,
+ *   closureCriteria?: string[] | undefined,
+ *   benchmarkParserContract?: { parserKind?: string | undefined } | undefined,
+ *   failingCases?: string[] | undefined,
+ *   constraints?: string[] | undefined,
+ *   realizationProfile?: import('./type-contracts.js').BuiltRealizationProfile | undefined
+ * }} NeedShape
+ */
+
 import crypto from 'node:crypto';
 import { ExecutionReality, NormalizationPressure, RealizationStage } from './enums.js';
 import { PROFILE_A, PROFILE_B, buildRealizationProfile } from '../realization-profile.js';
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  const record = /** @type {Record<string, unknown>} */ (value);
+  return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(',')}}`;
 }
 
+/**
+ * @param {readonly unknown[] | null | undefined} values
+ * @returns {string[]}
+ */
 function summarizeStrings(values) {
   return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
 }
 
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {Record<string, number>}
+ */
 function countValues(values = []) {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const value of values) {
     const key = String(value || '').trim();
@@ -26,6 +199,11 @@ function countValues(values = []) {
   return counts;
 }
 
+/**
+ * @param {Record<string, number>} [counts={}]
+ * @param {number} [limit=4]
+ * @returns {string[]}
+ */
 function topCountKeys(counts = {}, limit = 4) {
   return Object.entries(counts)
     .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
@@ -33,18 +211,32 @@ function topCountKeys(counts = {}, limit = 4) {
     .map(([key]) => key);
 }
 
+/**
+ * @param {readonly string[] | null | undefined} left
+ * @param {readonly string[] | null | undefined} right
+ * @returns {string[]}
+ */
 function intersection(left, right) {
   const a = new Set(left || []);
   return [...new Set((right || []).filter((item) => a.has(item)))];
 }
 
+/**
+ * @param {string} surfaceId
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string | null}
+ */
 function aggregateRootRef(surfaceId, values = []) {
   const roots = summarizeStrings(values);
   if (!roots.length) return null;
-  if (roots.length === 1) return roots[0];
+  if (roots.length === 1) return roots[0] || null;
   return `${surfaceId}_aggregate_${sha256(`${surfaceId}:${roots.join('|')}`).slice(0, 12)}`;
 }
 
+/**
+ * @param {string | undefined | null} localBoundary
+ * @param {string | undefined | null} externalBoundary
+ */
 function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   return {
     localBoundary,
@@ -54,6 +246,15 @@ function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   };
 }
 
+/**
+ * @param {{
+ *   stageId: string,
+ *   label: string,
+ *   localStatus: string,
+ *   localDescription: string,
+ *   externalRequirement: string
+ * }} input
+ */
 function buildBoundaryRealityStage({ stageId, label, localStatus, localDescription, externalRequirement }) {
   return {
     stageId,
@@ -67,6 +268,9 @@ function buildBoundaryRealityStage({ stageId, label, localStatus, localDescripti
   };
 }
 
+/**
+ * @param {string | null | undefined} repo
+ */
 function buildRepoIdentity(repo) {
   const [owner = 'unknown', name = 'repo'] = String(repo || '').split('/');
   return {
@@ -77,6 +281,9 @@ function buildRepoIdentity(repo) {
   };
 }
 
+/**
+ * @param {RepoSupplyStateShape} state
+ */
 function buildRepoSupplySurface(state) {
   const sessions = state.githubAppSessions || [];
   const inventory = state.repoArtifactInventory || [];
@@ -122,9 +329,21 @@ function buildRepoSupplySurface(state) {
   };
 }
 
+/**
+ * @param {{
+ *   buyer: BuyerShape,
+ *   need: NeedShape,
+ *   assetPack: AssetPackShape,
+ *   selectedCandidates: SelectedCandidateShape[]
+ * }} input
+ * @returns {DepositingSurface}
+ */
 function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }) {
   const realizationProfile = need.realizationProfile || buildRealizationProfile('A');
-  const selectedInventoryEntries = selectedCandidates.flatMap((candidate) => candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || []);
+  const selectedInventoryEntries = selectedCandidates.flatMap((candidate) =>
+    /** @type {Array<{ inventoryEntryId?: string | undefined, originKind?: string | undefined }>} */
+    (candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || [])
+  );
   const selectedInventoryRefs = summarizeStrings(selectedInventoryEntries.map((entry) => entry.inventoryEntryId));
   const selectedArtifactKindCounts = countValues(selectedCandidates.map((candidate) => candidate.asset.artifactKind));
   const selectedOriginKindCounts = countValues(
@@ -156,6 +375,10 @@ function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }) 
   };
 }
 
+/**
+ * @param {NeedShape} need
+ * @returns {NeedingSurface}
+ */
 function buildNeedingSurface(need) {
   const realizationProfile = need.realizationProfile || buildRealizationProfile('A');
   return {
@@ -175,6 +398,16 @@ function buildNeedingSurface(need) {
   };
 }
 
+/**
+ * @param {{
+ *   depositingSurface: DepositingSurface,
+ *   needingSurface: NeedingSurface,
+ *   selectedCandidates: SelectedCandidateShape[],
+ *   assetPack: AssetPackShape,
+ *   settlementPreview: SettlementPreviewShape | null | undefined
+ * }} input
+ * @returns {DepositingToNeedingSurface}
+ */
 function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, selectedCandidates, assetPack, settlementPreview }) {
   const selectedKinds = Object.keys(depositingSurface.selectedArtifactKindCounts || {});
   const overlapKinds = intersection(selectedKinds, needingSurface.targetArtifactKinds || []);
@@ -213,12 +446,31 @@ function buildDepositingToNeedingSurface({ depositingSurface, needingSurface, se
   };
 }
 
-function allowedActionsForPrincipal(authorizationDecisions = [], principalId) {
+/**
+ * @param {AuthorizationDecisionShape[]} [authorizationDecisions=[]]
+ * @param {string} principalId
+ * @returns {string[]}
+ */
+function allowedActionsForPrincipal(authorizationDecisions = [], principalId = '') {
   return authorizationDecisions
     .filter((decision) => decision.principalId === principalId && decision.decision === 'allow')
     .map((decision) => decision.action);
 }
 
+/**
+ * @param {{
+ *   scenarioId: string,
+ *   depositingSurface: DepositingSurface,
+ *   needingSurface: NeedingSurface,
+ *   depositingToNeedingSurface: DepositingToNeedingSurface,
+ *   assetPack: AssetPackShape,
+ *   branchArtifacts: BranchArtifactsShape | null | undefined,
+ *   selectedCandidates: SelectedCandidateShape[],
+ *   proofWitnessManifest: ProofWitnessManifestShape | null | undefined,
+ *   boundedPublicProof: BoundedPublicProofShape | null | undefined,
+ *   settlementPreview: SettlementPreviewShape | null | undefined
+ * }} input
+ */
 function buildRepoToSettlementSurface({
   scenarioId,
   depositingSurface,
@@ -352,6 +604,18 @@ function buildRepoToSettlementSurface({
   };
 }
 
+/**
+ * @param {{
+ *   buyer: BuyerShape,
+ *   branchName: string,
+ *   selectedCandidates: SelectedCandidateShape[],
+ *   identityBindings: IdentityBindingShape[],
+ *   authorizationDecisions: AuthorizationDecisionShape[],
+ *   githubBoundarySurface: { selectedAuthSessions?: Array<{ authSessionId?: string | undefined, authPayloadHash?: string | undefined, permissionsRoot?: string | undefined }> | undefined } | null | undefined,
+ *   proofWitnessManifest: ProofWitnessManifestShape | null | undefined,
+ *   settlementPreview: SettlementPreviewShape | null | undefined
+ * }} input
+ */
 function buildIdentityAuthSpineSurface({
   buyer,
   branchName,
@@ -445,6 +709,9 @@ function buildIdentityAuthSpineSurface({
   };
 }
 
+/**
+ * @returns {Record<string, unknown>}
+ */
 function buildBoundaryRealitySurface() {
   return {
     posture: 'honest-local-prototype',
@@ -490,22 +757,30 @@ function buildBoundaryRealitySurface() {
   };
 }
 
+/**
+ * @param {BuyerShape} buyer
+ * @param {NeedShape} need
+ * @param {SelectedCandidateShape[]} selectedCandidates
+ */
 function buildGithubBoundarySurface(buyer, need, selectedCandidates) {
   const selectedSessionBindings = [...new Map(
     selectedCandidates
-      .filter((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId)
-      .map((candidate) => [candidate.asset.githubAppAuthSurface.authSessionId, {
-        authSessionId: candidate.asset.githubAppAuthSurface.authSessionId,
-        repo: candidate.asset.addressingSurface?.repo,
-        installationId: candidate.asset.githubAppAuthSurface.installationId,
-        installationAccountLogin: candidate.asset.githubAppAuthSurface.installationAccountLogin,
-        installationAccountId: candidate.asset.githubAppAuthSurface.installationAccountId,
-        repositoryId: candidate.asset.githubAppAuthSurface.repositoryId,
-        repositoryNodeId: candidate.asset.githubAppAuthSurface.repositoryNodeId,
-        permissionsRoot: candidate.asset.githubAppAuthSurface.permissionsRoot,
-        authPayloadHash: candidate.asset.githubAppAuthSurface.authPayloadHash,
-        tokenBoundary: candidate.asset.githubAppAuthSurface.tokenBoundary
-      }])
+      .flatMap((candidate) => {
+        const authSurface = candidate.asset.githubAppAuthSurface;
+        if (!authSurface?.authSessionId) return [];
+        return [[authSurface.authSessionId, {
+          authSessionId: authSurface.authSessionId,
+          repo: candidate.asset.addressingSurface?.repo,
+          installationId: authSurface.installationId,
+          installationAccountLogin: authSurface.installationAccountLogin,
+          installationAccountId: authSurface.installationAccountId,
+          repositoryId: authSurface.repositoryId,
+          repositoryNodeId: authSurface.repositoryNodeId,
+          permissionsRoot: authSurface.permissionsRoot,
+          authPayloadHash: authSurface.authPayloadHash,
+          tokenBoundary: authSurface.tokenBoundary
+        }]];
+      })
   ).values()];
   return {
     conformanceProfile: PROFILE_A,

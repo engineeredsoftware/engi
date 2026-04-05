@@ -1,8 +1,12 @@
+/**
+ * @param {any} state
+ * @returns {any[]}
+ */
 export function buildProofLog(state) {
   return [...state.receipts]
     .slice()
     .reverse()
-    .map((receipt, index) => ({
+    .map((/** @type {any} */ receipt, index) => ({
       step: index + 1,
       type: receipt.type,
       receiptId: receipt.receiptId,
@@ -11,6 +15,10 @@ export function buildProofLog(state) {
     }));
 }
 
+/**
+ * @param {any} receipt
+ * @returns {string}
+ */
 function summarizeReceipt(receipt) {
   if (receipt.type === 'deposit') {
     return `Committed asset ${receipt.assetId} into the public depot surface.`;

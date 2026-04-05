@@ -1,25 +1,115 @@
+// @ts-check
+
+/**
+ * @typedef {import('./type-contracts.js').BuiltPromptSurface} BuiltPromptSurface
+ * @typedef {import('./type-contracts.js').ParsedCompletionEnvelope} ParsedCompletionEnvelope
+ *
+ * @typedef {{ artifactId: string, artifactHash: string, envelopeCount: number }} ParsedCompletionEnvelopeArtifact
+ * @typedef {{ outputField: string, evaluatorSurface: Record<string, unknown> }} InferenceProof
+ * @typedef {{ proofHash: string, proofFamilies?: unknown[] | undefined }} ProofWitnessManifestShape
+ * @typedef {{ reportHash: string }} ReportHashShape
+ * @typedef {{ proofHash: string }} ProofHashShape
+ * @typedef {{ proofHash: string, exclusions?: Array<{ assetId: string, exclusionClass?: string | undefined, exclusionReason?: string | undefined }> | undefined }} MaterializationExclusionsShape
+ * @typedef {{ bundleId: string, boundedPublicProofHash: string, redactionStatus?: string | undefined, projectionPolicyRef?: string | undefined }} BoundedPublicProofShape
+ * @typedef {{ releaseId: string }} PolicyReleaseShape
+ * @typedef {{ units: unknown[] }} UnitCatalogShape
+ * @typedef {{ selectedSourceMaterial: unknown[] }} SelectedSourceMaterialManifestShape
+ * @typedef {{ events: unknown[] }} PipelineTelemetryShape
+ * @typedef {{ uploads: unknown[] }} ArtifactUploadManifestShape
+ * @typedef {{ profiles: unknown[] }} ProfileCompositionSurfaceShape
+ * @typedef {{ interfaces: unknown[] }} ExternalBoundaryManifestShape
+ * @typedef {{ modeledBindings: { selectedAssetGithubBindings: unknown[] }, selectedAuthSessions?: Array<{ authSessionId?: string | undefined, authPayloadHash?: string | undefined, permissionsRoot?: string | undefined }> | undefined }} GithubBoundarySurfaceShape
+ * @typedef {{ records?: Array<{ zeroCreditParticipating?: boolean | undefined }> | undefined, settlementParticipatingCount?: number | undefined, zeroCreditParticipatingCount?: number | undefined }} SettlementParticipationArtifactShape
+ * @typedef {{ bundleId: string, creditedAssetIds?: string[] | undefined, settlementParticipatingAssetIds?: string[] | undefined, zeroCreditAssetIds?: string[] | undefined, sourceToSharesRef?: string | undefined, settlementParticipationRef?: string | undefined }} SettlementPreviewShape
+ * @typedef {{ rawShares: unknown, settledShares: unknown, totals: unknown }} JournalDiffShape
+ * @typedef {{
+ *   assetId: string,
+ *   asset: {
+ *     title: string,
+ *     artifactKind: string,
+ *     artifactType?: string | undefined,
+ *     contentUnits: unknown[],
+ *     uploadSurface?: unknown,
+ *     artifactSelectionSurface?: { selectedInventoryRoot?: string | undefined, selectedInventoryEntryIds?: string[] | undefined } | undefined,
+ *     addressingSurface?: { addressingRoot?: string | undefined } | undefined,
+ *     signingSurface?: { payloadHash?: string | undefined } | undefined,
+ *     githubAppAuthSurface?: { authPayloadHash?: string | undefined } | undefined,
+ *     githubBoundary?: unknown,
+ *     identitySurface?: unknown
+ *   },
+ *   recall: { recallScore: number, queryRepresentations: Record<string, string> },
+ *   ranking: { finalRankingScore: number, explainability?: { strongestScoreDrivers?: unknown } | undefined },
+ *   verification?: unknown
+ * }} EvaluatedCandidate
+ * @typedef {{ assetPackId: string, branchMode: string, acceptedUseTiers: string[], selectedAssets: string[] }} AssetPackShape
+ * @typedef {{ assetVerification: Array<{ assetId: string, useTier: string, rights: unknown, verificationSufficiency: { recommendedUseTier: string } }> }} VerificationReportShape
+ * @typedef {{ needId: string, fieldDerivations?: Record<string, unknown> | undefined, failingCases?: string[] | undefined, weakDimensions?: string[] | undefined }} NeedShape
+ * @typedef {{
+ *   scenarioId: string,
+ *   scenarioFamily?: string | undefined,
+ *   coverageTags?: string[] | undefined,
+ *   repo: string,
+ *   benchmarkRunId: string,
+ *   benchmarkWorkflowPath?: string | undefined,
+ *   benchmarkHarnessPath?: string | undefined,
+ *   repoContext?: { repoTree?: unknown[] | undefined, stackHints?: string[] | undefined } | undefined,
+ *   expectedTargetArtifactKinds?: string[] | undefined,
+ *   canonicalRunEvidence?: {
+ *     artifacts?: unknown[] | undefined,
+ *     checks?: unknown[] | undefined,
+ *     extractedOutputs?: {
+ *       parserKind?: string | undefined,
+ *       failingCases?: string[] | undefined,
+ *       weakDimensions?: string[] | undefined
+ *     } | undefined
+ *   } | undefined
+ * }} NeedScenarioShape
+ * @typedef {{ needScenarios: NeedScenarioShape[], assets: Array<{ assetId: string }> }} DemoStateShape
+ */
+
 import crypto from 'node:crypto';
 import { RealizationStage } from './enums.js';
 import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
+/**
+ * @returns {string}
+ */
 function nowIso() {
   return new Date().toISOString();
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  const record = /** @type {Record<string, unknown>} */ (value);
+  return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(',')}}`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
 }
 
+/**
+ * @param {string} stage
+ * @param {Record<string, unknown>} [payload={}]
+ * @returns {{ eventId: string, stage: string, createdAt: string, profile: string, payload: Record<string, unknown> }}
+ */
 function telemetryEvent(stage, payload = {}) {
   return {
     eventId: `evt_${sha256(`${stage}:${canonicalJson(payload)}`).slice(0, 12)}`,
@@ -30,6 +120,10 @@ function telemetryEvent(stage, payload = {}) {
   };
 }
 
+/**
+ * @param {string | undefined | null} localBoundary
+ * @param {string | undefined | null} externalBoundary
+ */
 function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   return {
     localBoundary,
@@ -39,7 +133,12 @@ function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   };
 }
 
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {Record<string, number>}
+ */
 function countValues(values = []) {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const value of values) {
     const key = String(value || '').trim();
@@ -49,6 +148,17 @@ function countValues(values = []) {
   return counts;
 }
 
+/**
+ * @param {{
+ *   need: NeedShape,
+ *   evaluatedCandidates: EvaluatedCandidate[],
+ *   assetPack: AssetPackShape,
+ *   selectedCandidates: EvaluatedCandidate[],
+ *   verificationReport: VerificationReportShape,
+ *   settlementPreview: SettlementPreviewShape,
+ *   journalDiff: JournalDiffShape
+ * }} input
+ */
 function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selectedCandidates, verificationReport, settlementPreview, journalDiff }) {
   return {
     conformanceProfile: PROFILE_A,
@@ -70,7 +180,7 @@ function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selected
           assetId: candidate.assetId,
           recallScore: candidate.recall.recallScore,
           finalRankingScore: Number(candidate.ranking.finalRankingScore.toFixed(4)),
-          strongestScoreDrivers: candidate.ranking.explainability.strongestScoreDrivers,
+          strongestScoreDrivers: candidate.ranking.explainability?.strongestScoreDrivers,
           queryRepresentations: candidate.recall.queryRepresentations
         }))
       }),
@@ -98,6 +208,12 @@ function buildPipelineTelemetry({ need, evaluatedCandidates, assetPack, selected
   };
 }
 
+/**
+ * @param {InferenceProof[]} inferenceProofs
+ * @param {BuiltPromptSurface[]} [promptSurfaces=[]]
+ * @param {ParsedCompletionEnvelope[]} [parsedCompletionEnvelopes=[]]
+ * @param {ParsedCompletionEnvelopeArtifact | null} [parsedCompletionEnvelopeArtifact=null]
+ */
 function buildPromptImplementationSurface(
   inferenceProofs,
   promptSurfaces = [],
@@ -138,16 +254,16 @@ function buildPromptImplementationSurface(
       envelopeId: envelope.envelopeId,
       parseContractId: envelope.parseContractId,
       promptId: envelope.promptId,
-      outputField: envelope.outputField,
+      ownedOutputFields: envelope.ownedOutputFields,
       payloadHash: envelope.payloadHash,
       envelopeHash: envelope.envelopeHash
     })),
     parsedCompletionEnvelopeArtifact: parsedCompletionEnvelopeArtifact
       ? {
-          artifactId: parsedCompletionEnvelopeArtifact.artifactId,
-          artifactHash: parsedCompletionEnvelopeArtifact.artifactHash,
-          envelopeCount: parsedCompletionEnvelopeArtifact.envelopeCount
-        }
+        artifactId: parsedCompletionEnvelopeArtifact.artifactId,
+        artifactHash: parsedCompletionEnvelopeArtifact.artifactHash,
+        envelopeCount: parsedCompletionEnvelopeArtifact.envelopeCount
+      }
       : null,
     ...buildBoundaryDescriptions(
       'Deterministic/local stand-ins emulate prompt/evaluator contracts and replayability metadata.',
@@ -156,6 +272,33 @@ function buildPromptImplementationSurface(
   };
 }
 
+/**
+ * @param {string} needId
+ * @param {string} assetPackId
+ * @param {InferenceProof[]} inferenceProofs
+ * @param {ParsedCompletionEnvelope[]} parsedCompletionEnvelopes
+ * @param {ParsedCompletionEnvelopeArtifact | null} parsedCompletionEnvelopeArtifact
+ * @param {unknown} assetMeasurementProofs
+ * @param {ProofHashShape} selectionConsistencyProof
+ * @param {ProofHashShape} journalCompletenessProof
+ * @param {ProofHashShape} identityAuthorizationProof
+ * @param {ProofHashShape} sensitiveDataFlowProof
+ * @param {ProofHashShape} settlementProof
+ * @param {Record<string, unknown>} promptImplementationSurface
+ * @param {Record<string, unknown>} promptCompletenessProof
+ * @param {ProofHashShape} staticMeasurementProof
+ * @param {ProofHashShape} materializationProof
+ * @param {MaterializationExclusionsShape} materializationExclusions
+ * @param {ProofHashShape} materializationVisibilityProof
+ * @param {unknown} verificationReceiptsArtifact
+ * @param {unknown} sourceToSharesArtifact
+ * @param {SettlementParticipationArtifactShape} settlementParticipationArtifact
+ * @param {ReportHashShape} accountingPrecisionReport
+ * @param {ProofHashShape} redactionProof
+ * @param {ProofHashShape} disclosureProof
+ * @param {ProofWitnessManifestShape} proofWitnessManifest
+ * @param {Record<string, unknown>} proofContract
+ */
 function buildSystemProofBundle(
   needId,
   assetPackId,
@@ -238,6 +381,9 @@ function buildSystemProofBundle(
   };
 }
 
+/**
+ * @param {EvaluatedCandidate[]} selectedCandidates
+ */
 function buildArtifactUploadManifest(selectedCandidates) {
   const uploads = selectedCandidates.map((candidate) => ({
     assetId: candidate.assetId,
@@ -265,6 +411,31 @@ function buildArtifactUploadManifest(selectedCandidates) {
   };
 }
 
+/**
+ * @param {{
+ *   branchName: string,
+ *   need: NeedShape,
+ *   benchmarkTarget: unknown,
+ *   depositingSurface: unknown,
+ *   needingSurface: unknown,
+ *   depositingToNeedingSurface: unknown,
+ *   assetPack: AssetPackShape,
+ *   assetPackLock: { assets: unknown[] },
+ *   settlementPreview: SettlementPreviewShape,
+ *   settlementProof: unknown,
+ *   selectedSourceMaterialManifest: SelectedSourceMaterialManifestShape,
+ *   policyRelease: PolicyReleaseShape,
+ *   unitCatalog: UnitCatalogShape,
+ *   pipelineTelemetry: PipelineTelemetryShape,
+ *   identityBindings: unknown[],
+ *   githubBoundarySurface: GithubBoundarySurfaceShape,
+ *   artifactUploadManifest: ArtifactUploadManifestShape,
+ *   profileCompositionSurface: ProfileCompositionSurfaceShape,
+ *   externalBoundaryManifest: ExternalBoundaryManifestShape,
+ *   promptSurfaces: BuiltPromptSurface[],
+ *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifact | null
+ * }} input
+ */
 function buildDeliverablesManifest({
   branchName,
   need,
@@ -666,6 +837,10 @@ function buildDeliverablesManifest({
   };
 }
 
+/**
+ * @param {DemoStateShape} state
+ * @param {string | null} [activeScenarioId=null]
+ */
 function buildScenarioFixtureManifest(state, activeScenarioId = null) {
   return {
     conformanceProfile: PROFILE_A,
@@ -735,6 +910,15 @@ function buildScenarioFixtureManifest(state, activeScenarioId = null) {
   };
 }
 
+/**
+ * @param {{
+ *   state: DemoStateShape,
+ *   scenarioFixtureManifest: ReturnType<typeof buildScenarioFixtureManifest>,
+ *   activeScenarioId: string | null,
+ *   selectedCandidates: EvaluatedCandidate[],
+ *   settlementParticipationArtifact: SettlementParticipationArtifactShape | null | undefined
+ * }} input
+ */
 function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenarioId, selectedCandidates, settlementParticipationArtifact }) {
   return {
     conformanceProfile: PROFILE_A,

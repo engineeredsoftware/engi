@@ -6,8 +6,20 @@ import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { createAppContext } from '../server.js';
 
+/**
+ * @typedef {{ app: any, dataPath: string }} AppHarness
+ */
+
+/** @type {((name: string, fn: (t: any) => any) => any) & ((name: string, options: any, fn: (t: any) => any) => any)} */
+const testAny = test;
+const createAppContextAny = /** @type {any} */ (createAppContext);
+
+/**
+ * @param {any} [input={}]
+ * @returns {any}
+ */
 function createMockReq({ method = 'GET', url = '/', headers = {}, body } = {}) {
-  const req = new EventEmitter();
+  const req = /** @type {any} */ (new EventEmitter());
   req.method = method;
   req.url = url;
   req.headers = headers;
@@ -19,17 +31,22 @@ function createMockReq({ method = 'GET', url = '/', headers = {}, body } = {}) {
   return req;
 }
 
+/**
+ * @returns {any}
+ */
 function createMockRes() {
+  /** @type {Buffer[]} */
   const chunks = [];
-  let resolved;
+  /** @type {(value: any) => void} */
+  let resolved = () => {};
   const done = new Promise((resolve) => {
-    resolved = resolve;
+    resolved = /** @type {(value: any) => void} */ (resolve);
   });
 
   return {
     statusCode: 200,
     headers: {},
-    writeHead(status, headers = {}) {
+    writeHead(/** @type {number} */ status, /** @type {Record<string, string>} */ headers = {}) {
       this.statusCode = status;
       this.headers = { ...this.headers, ...headers };
       return this;
@@ -46,6 +63,11 @@ function createMockRes() {
   };
 }
 
+/**
+ * @param {any} app
+ * @param {any} request
+ * @returns {Promise<any>}
+ */
 async function invoke(app, request) {
   const req = createMockReq(request);
   const res = createMockRes();
@@ -56,19 +78,33 @@ async function invoke(app, request) {
   return { ...response, json };
 }
 
+/**
+ * @param {any} t
+ * @param {(ctx: AppHarness) => Promise<any>} fn
+ * @returns {Promise<any>}
+ */
 async function withApp(t, fn) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'engi-demo-test-'));
   const dataPath = path.join(tempDir, 'state.json');
-  const app = createAppContext({ dataPath, publicDir: path.join(process.cwd(), 'public') });
+  const app = createAppContextAny({ dataPath, publicDir: path.join(process.cwd(), 'public') });
   app.ensureState();
   t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
   return fn({ app, dataPath });
 }
 
+/**
+ * @param {string} dataPath
+ * @returns {any}
+ */
 function readPersistedState(dataPath) {
   return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 }
 
+/**
+ * @param {string} dataPath
+ * @param {() => Promise<any>} fn
+ * @returns {Promise<any>}
+ */
 async function withCorruptingWriteFailure(dataPath, fn) {
   const originalWriteFileSync = fs.writeFileSync;
   let shouldFail = true;
@@ -89,7 +125,7 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-test('GET /api/state returns seeded Spec V15 public state', async (t) => {
+testAny('GET /api/state returns seeded Spec V15 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -107,14 +143,14 @@ test('GET /api/state returns seeded Spec V15 public state', async (t) => {
     assert.ok(response.json.repoArtifactInventory.length >= 1);
     assert.ok(response.json.repoSupplySurface.repoCount >= 1);
     assert.equal(response.json.boundaryRealitySurface.posture, 'honest-local-prototype');
-    assert.ok(response.json.githubAppSessions.every((session) => session.authPayloadHash));
-    assert.ok(response.json.repoArtifactInventory.every((entry) => entry.provenance?.provenanceHash));
+    assert.ok(response.json.githubAppSessions.every((/** @type {any} */ session) => session.authPayloadHash));
+    assert.ok(response.json.repoArtifactInventory.every((/** @type {any} */ entry) => entry.provenance?.provenanceHash));
     assert.ok(response.json.profileCompositions.profiles.length === 2);
     assert.equal(response.json.latestRun, null);
   });
 });
 
-test('GET / returns the app shell', async (t) => {
+testAny('GET / returns the app shell', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
@@ -129,7 +165,7 @@ test('GET / returns the app shell', async (t) => {
   });
 });
 
-test('GET /api/state exposes V15 profile labels, task seed, and needing surface before any run', async (t) => {
+testAny('GET /api/state exposes V15 profile labels, task seed, and needing surface before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -144,7 +180,7 @@ test('GET /api/state exposes V15 profile labels, task seed, and needing surface 
   });
 });
 
-test('HOST capability docs are present in repo', async () => {
+testAny('HOST capability docs are present in repo', async () => {
   const root = path.join(process.cwd(), 'HOST_CAPABILITIES.md');
   const json = path.join(process.cwd(), 'HOST_CAPABILITIES.json');
   const dockerfile = path.join(process.cwd(), 'Dockerfile');
@@ -155,7 +191,7 @@ test('HOST capability docs are present in repo', async () => {
   assert.equal(fs.existsSync(dockerignore), true);
 });
 
-test('GET /styles.css serves static css', async (t) => {
+testAny('GET /styles.css serves static css', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/styles.css' });
     assert.equal(response.statusCode, 200);
@@ -164,7 +200,7 @@ test('GET /styles.css serves static css', async (t) => {
   });
 });
 
-test('POST /api/deposits validates required fields', async (t) => {
+testAny('POST /api/deposits validates required fields', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -177,7 +213,7 @@ test('POST /api/deposits validates required fields', async (t) => {
   });
 });
 
-test('POST /api/deposits adds a candidate asset and ledger account', async (t) => {
+testAny('POST /api/deposits adds a candidate asset and ledger account', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -205,14 +241,14 @@ test('POST /api/deposits adds a candidate asset and ledger account', async (t) =
   });
 });
 
-test('POST /api/deposits accepts authenticated repo artifact selection without raw-only content', async (t) => {
+testAny('POST /api/deposits accepts authenticated repo artifact selection without raw-only content', async (t) => {
   await withApp(t, async ({ app }) => {
     const state = await invoke(app, { method: 'GET', url: '/api/state' });
-    const authSession = state.json.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
+    const authSession = state.json.githubAppSessions.find((/** @type {any} */ session) => session.repo === 'frontier/demo-auth');
     const inventoryEntryIds = state.json.repoArtifactInventory
-      .filter((entry) => entry.repo === 'frontier/demo-auth')
+      .filter((/** @type {any} */ entry) => entry.repo === 'frontier/demo-auth')
       .slice(0, 2)
-      .map((entry) => entry.inventoryEntryId);
+      .map((/** @type {any} */ entry) => entry.inventoryEntryId);
 
     const response = await invoke(app, {
       method: 'POST',
@@ -238,7 +274,7 @@ test('POST /api/deposits accepts authenticated repo artifact selection without r
   });
 });
 
-test('POST /api/deposits can create a revoked issuer candidate without crashing public state', async (t) => {
+testAny('POST /api/deposits can create a revoked issuer candidate without crashing public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -259,7 +295,7 @@ test('POST /api/deposits can create a revoked issuer candidate without crashing 
 });
 
 
-test('POST /api/deposits accepts V15 artifact precision and boundary fields', async (t) => {
+testAny('POST /api/deposits accepts V15 artifact precision and boundary fields', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -288,7 +324,7 @@ test('POST /api/deposits accepts V15 artifact precision and boundary fields', as
   });
 });
 
-test('POST /api/make-engi-branch defaults to bounded public projection', async (t) => {
+testAny('POST /api/make-engi-branch defaults to bounded public projection', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -309,7 +345,7 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
     assert.equal(response.json.latestRun.depositingToNeedingSurface.depositSessionId, response.json.latestRun.depositingSurface.depositSessionId);
     assert.ok(response.json.latestRun.assetPack.assetPackId);
     assert.deepEqual(
-      response.json.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((stage) => stage.stageId),
+      response.json.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((/** @type {any} */ stage) => stage.stageId),
       ['depositing', 'needing', 'deposit-to-need-fit']
     );
     assert.ok(response.json.latestRun.repoToSettlementSurface.stages.length === 7);
@@ -334,7 +370,7 @@ test('POST /api/make-engi-branch defaults to bounded public projection', async (
   });
 });
 
-test('POST /api/make-engi-branch can run a non-default seeded scenario', async (t) => {
+testAny('POST /api/make-engi-branch can run a non-default seeded scenario', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -346,12 +382,12 @@ test('POST /api/make-engi-branch can run a non-default seeded scenario', async (
     assert.equal(response.statusCode, 200);
     assert.equal(response.json.latestRun.scenarioId, 'infra-deployment-mismatch');
     assert.equal(response.json.latestRun.need.repo, 'frontier/deploy-orchestrator');
-    assert.ok(response.json.latestRun.settlementParticipationArtifact.records.some((entry) => entry.assetId === response.json.latestRun.assetPack.selectedAssets[0]));
+    assert.ok(response.json.latestRun.settlementParticipationArtifact.records.some((/** @type {any} */ entry) => entry.assetId === response.json.latestRun.assetPack.selectedAssets[0]));
     assert.equal(response.json.latestRun.accountingPrecisionReport.exactAccountingInvariants.debitsEqualCredits, true);
   });
 });
 
-test('POST /api/make-engi-branch supports buyer projection and context branch mode', async (t) => {
+testAny('POST /api/make-engi-branch supports buyer projection and context branch mode', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -364,7 +400,7 @@ test('POST /api/make-engi-branch supports buyer projection and context branch mo
     assert.equal(response.json.latestRun.projectionPrincipal, 'buyer');
     assert.equal(response.json.latestRun.branchMode, 'context');
     assert.equal(response.json.latestRun.assetPack.branchMode, 'context');
-    assert.ok(response.json.latestRun.verificationReport.assetVerification.some((entry) => entry.rights.branchMode === 'context'));
+    assert.ok(response.json.latestRun.verificationReport.assetVerification.some((/** @type {any} */ entry) => entry.rights.branchMode === 'context'));
     assert.ok(response.json.latestRun.promptContracts.length >= 4);
     assert.ok(response.json.latestRun.measurementReceipts.length >= 3);
     assert.ok(response.json.latestRun.verificationReceipts.verificationReceipts.length >= 4);
@@ -374,7 +410,7 @@ test('POST /api/make-engi-branch supports buyer projection and context branch mo
   });
 });
 
-test('GET /api/state supports buyer projection without raw branch files', async (t) => {
+testAny('GET /api/state supports buyer projection without raw branch files', async (t) => {
   await withApp(t, async ({ app }) => {
     await invoke(app, {
       method: 'POST',
@@ -395,7 +431,7 @@ test('GET /api/state supports buyer projection without raw branch files', async 
   });
 });
 
-test('POST /api/reset restores seeded state and clears latest run', async (t) => {
+testAny('POST /api/reset restores seeded state and clears latest run', async (t) => {
   await withApp(t, async ({ app, dataPath }) => {
     await invoke(app, { method: 'POST', url: '/api/make-engi-branch', headers: { 'Content-Type': 'application/json' }, body: '{}' });
     const reset = await invoke(app, { method: 'POST', url: '/api/reset', headers: { 'Content-Type': 'application/json' }, body: '{}' });
@@ -409,7 +445,7 @@ test('POST /api/reset restores seeded state and clears latest run', async (t) =>
   });
 });
 
-test('malformed JSON body returns 400 instead of 500', async (t) => {
+testAny('malformed JSON body returns 400 instead of 500', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',
@@ -423,7 +459,7 @@ test('malformed JSON body returns 400 instead of 500', async (t) => {
   });
 });
 
-test('static path traversal is blocked', async (t) => {
+testAny('static path traversal is blocked', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/../server.js' });
     assert.equal(response.statusCode, 404);
@@ -431,7 +467,7 @@ test('static path traversal is blocked', async (t) => {
   });
 });
 
-test('unknown api route returns JSON 404', async (t) => {
+testAny('unknown api route returns JSON 404', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/nope' });
     assert.equal(response.statusCode, 404);
@@ -439,7 +475,7 @@ test('unknown api route returns JSON 404', async (t) => {
   });
 });
 
-test('unsupported non-GET route returns JSON 404', async (t) => {
+testAny('unsupported non-GET route returns JSON 404', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'DELETE', url: '/api/state' });
     assert.equal(response.statusCode, 404);
@@ -447,7 +483,7 @@ test('unsupported non-GET route returns JSON 404', async (t) => {
   });
 });
 
-test('failed deposit write does not corrupt persisted demo state', async (t) => {
+testAny('failed deposit write does not corrupt persisted demo state', async (t) => {
   await withApp(t, async ({ app, dataPath }) => {
     const before = readPersistedState(dataPath);
 
@@ -469,7 +505,7 @@ test('failed deposit write does not corrupt persisted demo state', async (t) => 
   });
 });
 
-test('failed make-engi-branch write does not persist settlement state', async (t) => {
+testAny('failed make-engi-branch write does not persist settlement state', async (t) => {
   await withApp(t, async ({ app, dataPath }) => {
     const before = readPersistedState(dataPath);
 
@@ -491,10 +527,10 @@ test('failed make-engi-branch write does not persist settlement state', async (t
   });
 });
 
-test('bootstrap repairs incomplete on-disk state', async (t) => {
+testAny('bootstrap repairs incomplete on-disk state', async (t) => {
   await withApp(t, async ({ dataPath }) => {
     fs.writeFileSync(dataPath, JSON.stringify({ assets: [] }, null, 2));
-    const repaired = createAppContext({ dataPath, publicDir: path.join(process.cwd(), 'public') });
+    const repaired = createAppContextAny({ dataPath, publicDir: path.join(process.cwd(), 'public') });
     const result = repaired.ensureState();
     assert.equal(result.bootstrapped, true);
     const state = repaired.readState();

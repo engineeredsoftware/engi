@@ -1,19 +1,207 @@
-const summaryEl = document.getElementById('summary');
-const operatingPictureEl = document.getElementById('operatingPicture');
-const scenarioEl = document.getElementById('scenario');
-const assetsEl = document.getElementById('assets');
-const fitEl = document.getElementById('fit');
-const evaluationsEl = document.getElementById('evaluations');
-const branchArtifactsEl = document.getElementById('branchArtifacts');
-const settlementEl = document.getElementById('settlement');
-const ledgerEl = document.getElementById('ledger');
-const statusEl = document.getElementById('status');
-const scenarioPickerEl = document.getElementById('scenarioPicker');
-const authSessionPickerEl = document.getElementById('authSessionPicker');
-const inventorySearchInputEl = document.getElementById('inventorySearchInput');
-const inventoryKindFilterEl = document.getElementById('inventoryKindFilter');
-const repoInventoryListEl = document.getElementById('repoInventoryList');
-const inventorySelectionSummaryEl = document.getElementById('inventorySelectionSummary');
+// @ts-check
+
+/**
+ * @typedef {any} LooseRecord
+ * @typedef {any[]} LooseRecordArray
+ * @typedef {import('../src/demo-shell-state.js').AssetSummaryShape & LooseRecord} AssetSummaryShape
+ * @typedef {import('../src/demo-shell-state.js').NeedPreviewShape & {
+ *   realizationProfile?: { shortLabel?: string, label?: string, profileId?: string } | undefined,
+ *   targetArtifactKinds?: string[] | undefined,
+ *   parserKind?: string | undefined
+ * } & LooseRecord} NeedPreviewShape
+ * @typedef {import('../src/demo-shell-state.js').NeedScenarioShape & {
+ *   realizationProfile?: { shortLabel?: string, label?: string, profileId?: string } | undefined,
+ *   needingSurface?: NeedPreviewShape | null | undefined
+ * } & LooseRecord} ScenarioShape
+ * @typedef {import('../src/demo-shell-state.js').SessionShape & {
+ *   tokenBoundary?: {
+ *     mintingState?: string | undefined,
+ *     writableScopes?: string[] | undefined
+ *   } | undefined
+ * } & LooseRecord} SessionShape
+ * @typedef {import('../src/demo-shell-state.js').RepoArtifactInventoryEntryShape & {
+ *   addressing?: { addressingRoot?: string, addressingScope?: string } | undefined,
+ *   authBinding?: { authPayloadHash?: string } | undefined,
+ *   provenance?: { selectionLabel?: string } | undefined
+ * } & LooseRecord} InventoryEntryShape
+ * @typedef {import('../src/demo-shell-state.js').LatestRunCandidateShape} LatestRunCandidateShape
+ * @typedef {import('../src/demo-shell-state.js').LatestRunShape & {
+ *   buyer?: { installationId?: string | number | undefined, repo?: string | undefined } | undefined,
+  *   branchName?: string | undefined,
+ *   realizationProfile?: { shortLabel?: string, label?: string, profileId?: string } | undefined,
+ *   boundedPublicProof?: { bundleId?: string | undefined } | undefined,
+ *   journalDiff?: { bundleId?: string | undefined } | undefined,
+ *   needingSurface?: NeedPreviewShape | null | undefined,
+ *   evaluatedCandidates?: LatestRunCandidateShape[] | undefined
+ * } & LooseRecord} LatestRunShape
+ * @typedef {{
+ *   repos?: Array<{
+ *     repo?: string | undefined,
+ *     inventoryEntryCount?: number | undefined,
+ *     scenarioFamilies?: string[] | undefined,
+ *     realizationProfileCounts?: Record<string, number> | undefined,
+ *     artifactKindCounts?: Record<string, number> | undefined,
+ *     originKindCounts?: Record<string, number> | undefined
+ *   }> | undefined
+ * } & LooseRecord} RepoSupplySurfaceShape
+ * @typedef {{ profiles?: unknown[] | undefined }} ProfileCompositionShape
+ * @typedef {{
+ *   specVersion?: string | undefined,
+ *   projectionPrincipal?: string | undefined,
+ *   conformanceProfiles?: {
+ *     active?: string | undefined,
+ *     productionIntent?: string | undefined,
+ *     prototypeOnlyModeledControls?: boolean | undefined,
+ *     profileCompositions?: ProfileCompositionShape | undefined
+ *   } | undefined,
+ *   profileCompositions?: ProfileCompositionShape | undefined,
+ *   repoSupplySurface?: RepoSupplySurfaceShape | undefined,
+ *   boundaryRealitySurface?: { stages?: unknown[] | undefined } | undefined,
+ *   updatedAt?: string | undefined,
+ *   buyers?: unknown[] | undefined,
+ *   githubAppSessions?: SessionShape[] | undefined,
+ *   repoArtifactInventory?: InventoryEntryShape[] | undefined,
+ *   needScenarios?: ScenarioShape[] | undefined,
+ *   assets?: AssetSummaryShape[] | undefined,
+ *   ledger?: { accounts?: Record<string, string> | undefined, history?: unknown[] | undefined } | undefined,
+ *   latestRun?: LatestRunShape | null | undefined,
+ *   runHistory?: unknown[] | undefined
+ * }} AppState
+ * @typedef {{
+ *   depositSessionId: string,
+ *   depositProfile: string,
+ *   repoSupplyRef: string,
+ *   selectedInventoryRefs: string[],
+ *   selectedArtifactKindCounts: Record<string, number>,
+ *   selectedOriginKindCounts: Record<string, number>,
+ *   addressingRoot: string | null,
+ *   signingRoot: null,
+ *   authRoot: string | null,
+ *   depositIntentSummary: string
+ * }} PreviewDepositingSurfaceShape
+ * @typedef {{
+ *   relationId: string,
+ *   depositSessionId: string,
+ *   needId: string,
+ *   fitSummary: string,
+ *   decisiveKinds: string[],
+ *   overlapKinds: string[],
+ *   normalizationPressure: string,
+ *   branchIntentSummary: string,
+ *   proofIntentSummary: string,
+ *   settlementIntentSummary: string
+ * }} PreviewDepositingToNeedingSurfaceShape
+ * @typedef {{
+ *   code?: string[] | undefined,
+ *   spec?: string[] | undefined
+ * }} ExplainerReferences
+ * @typedef {{
+ *   kicker?: string | undefined,
+ *   title?: string | undefined,
+ *   summary?: string | undefined,
+ *   detail?: string | undefined,
+ *   points?: string[] | undefined,
+ *   references?: ExplainerReferences | undefined
+ * }} ExplainerShape
+ * @typedef {{ key: string, explainer: ExplainerShape | null }} ExplainerResolution
+ * @typedef {{ allowDynamic?: boolean | undefined }} ResolveExplainerOptions
+ * @typedef {{
+ *   align?: 'left' | 'right' | 'center' | undefined,
+ *   side?: 'top' | 'bottom' | undefined,
+ *   ariaLabel?: string | undefined,
+ *   label?: string | undefined
+ * }} ExplainerBadgeOptions
+ * @typedef {{
+ *   html?: boolean | undefined,
+ *   allowDynamic?: boolean | undefined,
+ *   className?: string | undefined,
+ *   badgeOptions?: ExplainerBadgeOptions | undefined
+ * }} LabelWithExplainerOptions
+ * @typedef {{
+ *   className?: string | undefined,
+ *   explainerKey?: string | undefined,
+ *   allowDynamic?: boolean | undefined,
+ *   ariaLabel?: string | undefined
+ * }} BadgeWithExplainerOptions
+ * @typedef {{
+ *   tone?: string | undefined,
+ *   title?: string | undefined,
+ *   badge?: string | undefined
+ * }} ExplainerCalloutOptions
+ * @typedef {{ html?: boolean | undefined, explainerKey?: string | undefined }} ValueRenderOptions
+ * @typedef {ValueRenderOptions & { className?: string | undefined }} MetricTileOptions
+ * @typedef {{ allowDynamic?: boolean | undefined }} ChipListOptions
+ * @typedef {{
+ *   title: string,
+ *   subtitle?: string | undefined,
+ *   eyebrow?: string | undefined,
+ *   eyebrowExplainerKey?: string | undefined,
+ *   help?: string | undefined,
+ *   explainerKey?: string | undefined,
+ *   data: any,
+ *   raw?: any,
+ *   visual?: ((data: any) => string) | undefined,
+ *   defaultMode?: string | undefined,
+ *   accent?: string | undefined
+ * }} JsonSurfaceOptions
+ */
+
+/**
+ * @template {HTMLElement} T
+ * @param {string} id
+ * @returns {T}
+ */
+function requireElement(id) {
+  const element = document.getElementById(id);
+  if (!element) {
+    throw new Error(`Missing required element: ${id}`);
+  }
+  return /** @type {T} */ (element);
+}
+
+/**
+ * @param {EventTarget | null} target
+ * @param {string} selector
+ * @returns {HTMLElement | null}
+ */
+function closestElement(target, selector) {
+  if (!(target instanceof Element)) return null;
+  const match = target.closest(selector);
+  return match instanceof HTMLElement ? match : null;
+}
+
+/**
+ * @param {unknown} error
+ * @returns {string}
+ */
+function errorMessage(error) {
+  return error instanceof Error ? error.message : String(error ?? 'Unknown error');
+}
+
+const summaryEl = requireElement('summary');
+const operatingPictureEl = requireElement('operatingPicture');
+const scenarioEl = requireElement('scenario');
+const assetsEl = requireElement('assets');
+const fitEl = requireElement('fit');
+const evaluationsEl = requireElement('evaluations');
+const branchArtifactsEl = requireElement('branchArtifacts');
+const settlementEl = requireElement('settlement');
+const ledgerEl = requireElement('ledger');
+const statusEl = requireElement('status');
+/** @type {HTMLSelectElement} */
+const scenarioPickerEl = requireElement('scenarioPicker');
+/** @type {HTMLSelectElement} */
+const authSessionPickerEl = requireElement('authSessionPicker');
+/** @type {HTMLInputElement} */
+const inventorySearchInputEl = requireElement('inventorySearchInput');
+/** @type {HTMLSelectElement} */
+const inventoryKindFilterEl = requireElement('inventoryKindFilter');
+const repoInventoryListEl = requireElement('repoInventoryList');
+const inventorySelectionSummaryEl = requireElement('inventorySelectionSummary');
+const makeBranchButtonEl = requireElement('makeBranchButton');
+const resetButtonEl = requireElement('resetButton');
+/** @type {HTMLFormElement} */
+const depositFormEl = requireElement('depositForm');
 
 const DEFAULT_SURFACE_MODE = 'visual';
 const EXPLAINER_PANEL_MAX_WIDTH = 360;
@@ -21,9 +209,11 @@ let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
 let selectedAuthSessionId = '';
+/** @type {Set<string>} */
 let selectedInventoryEntryIds = new Set();
 let inventorySearchTerm = '';
 let selectedInventoryKind = 'all';
+/** @type {AppState | null} */
 let lastLoadedState = null;
 
 const EXPLAINERS = {
@@ -1924,19 +2114,35 @@ const EXPLAINER_REFERENCE_LIBRARY = {
   }
 };
 
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string[]}
+ */
 function dedupeStrings(values = []) {
-  return [...new Set(values.filter(Boolean))];
+  return [...new Set(values.filter(Boolean).map((value) => String(value)))];
 }
 
+/**
+ * @param {string} key
+ * @param {ExplainerShape | null} [explainer=null]
+ * @returns {{ code: string[], spec: string[] }}
+ */
 function explainerReferences(key, explainer = null) {
-  const groups = EXPLAINER_REFERENCE_GROUPS[key] || [];
-  const merged = groups.reduce((acc, groupName) => {
-    const group = EXPLAINER_REFERENCE_LIBRARY[groupName];
+  const groupMap = /** @type {Record<string, string[]>} */ (EXPLAINER_REFERENCE_GROUPS);
+  const library = /** @type {Record<string, ExplainerReferences>} */ (EXPLAINER_REFERENCE_LIBRARY);
+  const groups = groupMap[key] || [];
+  const merged = groups.reduce(
+    /**
+     * @param {{ code: string[], spec: string[] }} acc
+     * @param {string} groupName
+     */
+    (acc, groupName) => {
+    const group = library[groupName];
     if (!group) return acc;
     acc.code.push(...(group.code || []));
     acc.spec.push(...(group.spec || []));
     return acc;
-  }, { code: [], spec: [] });
+  }, /** @type {{ code: string[], spec: string[] }} */ ({ code: [], spec: [] }));
   const overrides = explainer?.references || {};
   return {
     code: dedupeStrings([...merged.code, ...(overrides.code || [])]),
@@ -2144,6 +2350,10 @@ Object.assign(TERM_EXPLAINER_KEYS, {
   'yaml': 'yaml'
 });
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function escapeHtml(value) {
   return String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -2151,6 +2361,10 @@ function escapeHtml(value) {
     .replaceAll('>', '&gt;');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function labelize(value) {
   return String(value ?? '')
     .replaceAll(/([a-z0-9])([A-Z])/g, '$1 $2')
@@ -2166,28 +2380,60 @@ function labelize(value) {
     .replace(/^./, (char) => char.toUpperCase());
 }
 
+/**
+ * @param {unknown} value
+ * @param {number} [max=120]
+ * @returns {string}
+ */
 function truncate(value, max = 120) {
   const text = String(value ?? '');
   return text.length > max ? `${text.slice(0, max - 1)}…` : text;
 }
 
+/**
+ * @param {readonly unknown[]} [items=[]]
+ * @param {string} [fallback='None']
+ * @returns {string}
+ */
 function formatList(items = [], fallback = 'None') {
   return items.length ? items.map((item) => escapeHtml(item)).join(' • ') : `<span class="meta">${fallback}</span>`;
 }
 
+/**
+ * @param {number} count
+ * @param {string} singular
+ * @param {string} [plural=`${singular}s`]
+ * @returns {string}
+ */
 function formatCount(count, singular, plural = `${singular}s`) {
   return `${count} ${count === 1 ? singular : plural}`;
 }
 
+/**
+ * @param {readonly unknown[]} [items=[]]
+ * @returns {Record<string, number>}
+ */
 function countValues(items = []) {
-  return items.reduce((acc, item) => {
+  /** @type {Record<string, number>} */
+  const counts = items.reduce(
+    /**
+     * @param {Record<string, number>} acc
+     * @param {unknown} item
+     */
+    (acc, item) => {
     const key = String(item ?? '').trim();
     if (!key) return acc;
     acc[key] = (acc[key] || 0) + 1;
     return acc;
-  }, {});
+  }, /** @type {Record<string, number>} */ ({}));
+  return counts;
 }
 
+/**
+ * @param {Record<string, number>} [counts={}]
+ * @param {string} [fallback='None']
+ * @returns {string}
+ */
 function formatCountMap(counts = {}, fallback = 'None') {
   const entries = Object.entries(counts);
   return entries.length
@@ -2195,10 +2441,18 @@ function formatCountMap(counts = {}, fallback = 'None') {
     : `<span class="meta">${fallback}</span>`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function normalizeExplainerLookup(value) {
   return String(value ?? '').trim().toLowerCase();
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function normalizedExplainerPhrase(value) {
   return normalizeExplainerLookup(value)
     .replaceAll(/[_./:-]+/g, ' ')
@@ -2236,10 +2490,19 @@ const DYNAMIC_TERM_DOMAIN_RULES = [
   { key: 'proof-term', pattern: /\bproof\b/ }
 ];
 
+/**
+ * @param {string} key
+ * @returns {ExplainerShape | null}
+ */
 function explainerFor(key) {
-  return EXPLAINERS[key] || null;
+  const explainers = /** @type {Record<string, ExplainerShape>} */ (EXPLAINERS);
+  return explainers[key] || null;
 }
 
+/**
+ * @param {string} [value='']
+ * @returns {string}
+ */
 function inferDynamicTermKey(value = '') {
   const phrase = normalizedExplainerPhrase(value);
   for (const rule of DYNAMIC_TERM_DOMAIN_RULES) {
@@ -2248,6 +2511,11 @@ function inferDynamicTermKey(value = '') {
   return '';
 }
 
+/**
+ * @param {string} [label='']
+ * @param {string} [domainKey='']
+ * @returns {ExplainerShape | null}
+ */
 function buildDynamicExplainer(label = '', domainKey = '') {
   const base = explainerFor(domainKey);
   if (!base) return null;
@@ -2295,6 +2563,12 @@ function buildDynamicExplainer(label = '', domainKey = '') {
   };
 }
 
+/**
+ * @param {string} [label='']
+ * @param {string} [explainerKey='']
+ * @param {ResolveExplainerOptions} [options={}]
+ * @returns {ExplainerResolution}
+ */
 function resolveExplainer(label = '', explainerKey = '', options = {}) {
   if (explainerKey) {
     return {
@@ -2304,12 +2578,14 @@ function resolveExplainer(label = '', explainerKey = '', options = {}) {
   }
 
   const trimmed = String(label ?? '').trim();
-  const mappedLabelKey = LABEL_EXPLAINER_KEYS[trimmed] || '';
+  const labelKeys = /** @type {Record<string, string>} */ (LABEL_EXPLAINER_KEYS);
+  const termKeys = /** @type {Record<string, string>} */ (TERM_EXPLAINER_KEYS);
+  const mappedLabelKey = labelKeys[trimmed] || '';
   if (mappedLabelKey) {
     return { key: mappedLabelKey, explainer: explainerFor(mappedLabelKey) };
   }
 
-  const exactTermKey = TERM_EXPLAINER_KEYS[normalizeExplainerLookup(trimmed)] || '';
+  const exactTermKey = termKeys[normalizeExplainerLookup(trimmed)] || '';
   if (exactTermKey) {
     return { key: exactTermKey, explainer: explainerFor(exactTermKey) };
   }
@@ -2327,6 +2603,11 @@ function resolveExplainer(label = '', explainerKey = '', options = {}) {
   return { key: '', explainer: null };
 }
 
+/**
+ * @param {string} label
+ * @param {readonly string[]} [refs=[]]
+ * @returns {string}
+ */
 function renderExplainerReferenceGroup(label, refs = []) {
   if (!refs.length) return '';
   return `
@@ -2339,6 +2620,11 @@ function renderExplainerReferenceGroup(label, refs = []) {
   `;
 }
 
+/**
+ * @param {string} key
+ * @param {ExplainerShape | null} explainer
+ * @returns {string}
+ */
 function renderExplainerFooter(key, explainer) {
   const references = explainerReferences(key, explainer);
   if (!references.code.length && !references.spec.length) return '';
@@ -2350,6 +2636,11 @@ function renderExplainerFooter(key, explainer) {
   `;
 }
 
+/**
+ * @param {string | ExplainerResolution | null} resolved
+ * @param {ExplainerBadgeOptions} [options={}]
+ * @returns {string}
+ */
 function explainerBadge(resolved, options = {}) {
   const descriptor = typeof resolved === 'string'
     ? { key: resolved, explainer: explainerFor(resolved) }
@@ -2379,6 +2670,12 @@ function explainerBadge(resolved, options = {}) {
   `;
 }
 
+/**
+ * @param {string} label
+ * @param {string} [explainerKey='']
+ * @param {LabelWithExplainerOptions} [options={}]
+ * @returns {string}
+ */
 function labelWithExplainer(label, explainerKey, options = {}) {
   const text = options.html ? label : escapeHtml(label);
   const resolved = resolveExplainer(label, explainerKey, {
@@ -2393,9 +2690,14 @@ function labelWithExplainer(label, explainerKey, options = {}) {
   `;
 }
 
+/**
+ * @param {unknown} value
+ * @param {BadgeWithExplainerOptions} [options={}]
+ * @returns {string}
+ */
 function badgeWithExplainer(value, options = {}) {
   const rendered = `<span class="badge ${escapeHtml(options.className || '')}">${escapeHtml(value || 'n/a')}</span>`;
-  const resolved = resolveExplainer(value, options.explainerKey, {
+  const resolved = resolveExplainer(String(value ?? ''), options.explainerKey, {
     allowDynamic: options.allowDynamic === true
   });
   if (!resolved.explainer) return rendered;
@@ -2410,6 +2712,11 @@ function badgeWithExplainer(value, options = {}) {
   `;
 }
 
+/**
+ * @param {string} key
+ * @param {ExplainerCalloutOptions} [options={}]
+ * @returns {string}
+ */
 function explainerCallout(key, options = {}) {
   const explainer = explainerFor(key);
   if (!explainer) return '';
@@ -2426,6 +2733,10 @@ function explainerCallout(key, options = {}) {
   `;
 }
 
+/**
+ * @param {string | null | undefined} profileId
+ * @returns {{ profile: string, deposit: string, need: string }}
+ */
 function profileModeExplainers(profileId) {
   return String(profileId || '').toUpperCase() === 'B'
     ? { profile: 'profile-b', deposit: 'normalization-deposit', need: 'composite-need' }
@@ -2442,23 +2753,35 @@ const REPO_TO_SETTLEMENT_STAGE_EXPLAINERS = {
   settlement: 'exact-accounting'
 };
 
+/**
+ * @param {ParentNode} [root=document]
+ * @returns {void}
+ */
 function decorateStaticExplainers(root = document) {
   root.querySelectorAll('[data-explainer-key]').forEach((node) => {
-    if (node.dataset.explainerDecorated === 'true') return;
+    if (!(node instanceof HTMLElement)) return;
+    if (node.dataset['explainerDecorated'] === 'true') return;
+    const explainerKey = node.dataset['explainerKey'];
+    if (!explainerKey) return;
     node.classList.add('label-with-info');
-    node.insertAdjacentHTML('beforeend', explainerBadge(node.dataset.explainerKey, {
-      label: node.dataset.explainerLabel || 'i',
-      align: node.dataset.explainerAlign || 'right',
-      side: node.dataset.explainerSide || 'top',
-      ariaLabel: node.dataset.explainerAriaLabel || undefined
+    node.insertAdjacentHTML('beforeend', explainerBadge(explainerKey, {
+      label: node.dataset['explainerLabel'] || 'i',
+      align: /** @type {'left' | 'right' | 'center'} */ (node.dataset['explainerAlign'] || 'right'),
+      side: /** @type {'top' | 'bottom'} */ (node.dataset['explainerSide'] || 'top'),
+      ariaLabel: node.dataset['explainerAriaLabel'] || undefined
     }));
-    node.dataset.explainerDecorated = 'true';
+    node.dataset['explainerDecorated'] = 'true';
   });
 }
 
+/**
+ * @param {ParentNode} [root=document]
+ * @returns {void}
+ */
 function syncExplainerAlignment(root = document) {
   const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
   root.querySelectorAll('.explainer').forEach((node) => {
+    if (!(node instanceof HTMLElement)) return;
     node.classList.remove('align-left');
     if (node.classList.contains('align-center')) return;
     const rect = node.getBoundingClientRect();
@@ -2470,6 +2793,11 @@ function syncExplainerAlignment(root = document) {
   });
 }
 
+/**
+ * @param {string} path
+ * @param {RequestInit} [options={}]
+ * @returns {Promise<Record<string, unknown>>}
+ */
 function api(path, options = {}) {
   return fetch(path, {
     headers: { 'Content-Type': 'application/json' },
@@ -2481,10 +2809,15 @@ function api(path, options = {}) {
   });
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function syncScenarioPicker(state) {
   const scenarios = state.needScenarios || [];
-  if (!scenarios.length || !scenarioPickerEl) return;
-  const desiredScenarioId = state.latestRun?.scenarioId || selectedScenarioId || scenarios[0].scenarioId;
+  const firstScenario = scenarios[0];
+  if (!firstScenario) return;
+  const desiredScenarioId = state.latestRun?.scenarioId || selectedScenarioId || firstScenario.scenarioId;
   if (scenarioPickerEl.options.length !== scenarios.length) {
     scenarioPickerEl.innerHTML = scenarios.map((scenario) => `
       <option value="${escapeHtml(scenario.scenarioId)}">${escapeHtml([
@@ -2496,23 +2829,33 @@ function syncScenarioPicker(state) {
   }
   scenarioPickerEl.value = scenarios.some((scenario) => scenario.scenarioId === desiredScenarioId)
     ? desiredScenarioId
-    : scenarios[0].scenarioId;
+    : firstScenario.scenarioId;
   selectedScenarioId = scenarioPickerEl.value;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {ScenarioShape | null}
+ */
 function currentScenario(state) {
   const scenarios = state.needScenarios || [];
   return scenarios.find((scenario) => scenario.scenarioId === (selectedScenarioId || scenarioPickerEl?.value)) || scenarios[0] || null;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function syncAuthSessionPicker(state) {
   const sessions = state.githubAppSessions || [];
-  if (!authSessionPickerEl || !sessions.length) return;
+  const firstSession = sessions[0];
+  if (!firstSession) return;
   const scenario = currentScenario(state);
   const scenarioSession = sessions.find((session) => session.repo === scenario?.repo);
-  const desiredAuthSessionId = state.latestRun?.buyer?.installationId
-    ? sessions.find((session) => session.installationId === state.latestRun.buyer.installationId && session.repo === state.latestRun.buyer.repo)?.authSessionId
-    : selectedAuthSessionId || scenarioSession?.authSessionId || sessions[0].authSessionId;
+  const buyer = state.latestRun?.buyer;
+  const desiredAuthSessionId = buyer?.installationId
+    ? sessions.find((session) => session.installationId === buyer.installationId && session.repo === buyer.repo)?.authSessionId
+    : selectedAuthSessionId || scenarioSession?.authSessionId || firstSession.authSessionId;
   if (authSessionPickerEl.options.length !== sessions.length) {
     authSessionPickerEl.innerHTML = sessions.map((session) => `
       <option value="${escapeHtml(session.authSessionId)}">${escapeHtml(`${session.repo} · ${session.installationId}`)}</option>
@@ -2520,7 +2863,7 @@ function syncAuthSessionPicker(state) {
   }
   authSessionPickerEl.value = sessions.some((session) => session.authSessionId === desiredAuthSessionId)
     ? desiredAuthSessionId
-    : sessions[0].authSessionId;
+    : firstSession.authSessionId;
   selectedAuthSessionId = authSessionPickerEl.value;
   const activeSession = sessions.find((session) => session.authSessionId === selectedAuthSessionId);
   const validEntryIds = new Set((state.repoArtifactInventory || [])
@@ -2529,20 +2872,36 @@ function syncAuthSessionPicker(state) {
   selectedInventoryEntryIds = new Set([...selectedInventoryEntryIds].filter((entryId) => validEntryIds.has(entryId)));
 }
 
+/**
+ * @param {AppState} state
+ * @returns {SessionShape | null}
+ */
 function activeAuthSession(state) {
   const sessions = state.githubAppSessions || [];
   return sessions.find((session) => session.authSessionId === selectedAuthSessionId) || sessions[0] || null;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {InventoryEntryShape[]}
+ */
 function activeInventoryEntries(state) {
   const session = activeAuthSession(state);
   const entries = state.repoArtifactInventory || [];
   return session ? entries.filter((entry) => entry.repo === session.repo) : entries;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function syncInventoryKindFilter(state) {
-  if (!inventoryKindFilterEl) return;
-  const kinds = ['all', ...new Set(activeInventoryEntries(state).map((entry) => entry.artifactKind))];
+  const kinds = [
+    'all',
+    ...new Set(activeInventoryEntries(state)
+      .map((entry) => String(entry.artifactKind || '').trim())
+      .filter(Boolean))
+  ];
   if (inventoryKindFilterEl.options.length !== kinds.length) {
     inventoryKindFilterEl.innerHTML = kinds.map((kind) => `<option value="${escapeHtml(kind)}">${escapeHtml(kind === 'all' ? 'All artifact kinds' : labelize(kind))}</option>`).join('');
   }
@@ -2550,6 +2909,10 @@ function syncInventoryKindFilter(state) {
   selectedInventoryKind = inventoryKindFilterEl.value;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {InventoryEntryShape[]}
+ */
 function filteredInventoryEntries(state) {
   const search = inventorySearchTerm.trim().toLowerCase();
   return activeInventoryEntries(state).filter((entry) => {
@@ -2569,17 +2932,41 @@ function filteredInventoryEntries(state) {
   });
 }
 
+/**
+ * @param {string} surfaceId
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string | null}
+ */
 function previewAggregateRoot(surfaceId, values = []) {
   const roots = [...new Set(values.map((value) => String(value || '').trim()).filter(Boolean))];
   if (!roots.length) return null;
-  if (roots.length === 1) return roots[0];
+  if (roots.length === 1) return roots[0] || null;
   return `${surfaceId} preview aggregate (${roots.length} roots)`;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {InventoryEntryShape[]}
+ */
 function selectedInventoryEntries(state) {
   return activeInventoryEntries(state).filter((entry) => selectedInventoryEntryIds.has(entry.inventoryEntryId));
 }
 
+/**
+ * @param {AppState} state
+ * @returns {{
+ *   depositSessionId: string,
+ *   depositProfile: string,
+ *   repoSupplyRef: string,
+ *   selectedInventoryRefs: string[],
+ *   selectedArtifactKindCounts: Record<string, number>,
+ *   selectedOriginKindCounts: Record<string, number>,
+ *   addressingRoot: string | null,
+ *   signingRoot: null,
+ *   authRoot: string | null,
+ *   depositIntentSummary: string
+ * }}
+ */
 function buildPreviewDepositingSurface(state) {
   const scenario = currentScenario(state);
   const session = activeAuthSession(state);
@@ -2607,14 +2994,37 @@ function buildPreviewDepositingSurface(state) {
   };
 }
 
+/**
+ * @param {AppState} state
+ * @returns {NeedPreviewShape | null}
+ */
 function activeNeedingSurface(state) {
   return state.latestRun?.needingSurface || currentScenario(state)?.needingSurface || null;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {LatestRunShape['depositingSurface'] | ReturnType<typeof buildPreviewDepositingSurface>}
+ */
 function activeDepositingSurface(state) {
   return state.latestRun?.depositingSurface || buildPreviewDepositingSurface(state);
 }
 
+/**
+ * @param {AppState} state
+ * @returns {{
+ *   relationId: string,
+ *   depositSessionId: string,
+ *   needId: string,
+ *   fitSummary: string,
+ *   decisiveKinds: string[],
+ *   overlapKinds: string[],
+ *   normalizationPressure: string,
+ *   branchIntentSummary: string,
+ *   proofIntentSummary: string,
+ *   settlementIntentSummary: string
+ * } | null}
+ */
 function buildPreviewDepositingToNeedingSurface(state) {
   const depositingSurface = buildPreviewDepositingSurface(state);
   const needingSurface = activeNeedingSurface(state);
@@ -2649,14 +3059,21 @@ function buildPreviewDepositingToNeedingSurface(state) {
   };
 }
 
+/**
+ * @param {AppState} state
+ * @returns {LatestRunShape['depositingToNeedingSurface'] | ReturnType<typeof buildPreviewDepositingToNeedingSurface>}
+ */
 function activeDepositingToNeedingSurface(state) {
   return state.latestRun?.depositingToNeedingSurface || buildPreviewDepositingToNeedingSurface(state);
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderInventorySelectionSummary(state) {
-  if (!inventorySelectionSummaryEl) return;
   const session = activeAuthSession(state);
-  const repoSupply = (state.repoSupplySurface?.repos || []).find((entry) => entry.repo === session?.repo);
+  const repoSupply = (state.repoSupplySurface?.repos || []).find((/** @type {any} */ entry) => entry.repo === session?.repo);
   const selectedEntries = activeInventoryEntries(state).filter((entry) => selectedInventoryEntryIds.has(entry.inventoryEntryId));
   const artifactKindCounts = countValues(selectedEntries.map((entry) => entry.artifactKind));
   const originKindCounts = countValues(selectedEntries.map((entry) => entry.originKind));
@@ -2682,8 +3099,11 @@ function renderInventorySelectionSummary(state) {
   ` : '<span class="meta">No authenticated repo session available.</span>';
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderRepoInventory(state) {
-  if (!repoInventoryListEl) return;
   const entries = filteredInventoryEntries(state);
   if (!entries.length) {
     repoInventoryListEl.innerHTML = '<div class="card"><p class="meta">No repo artifacts match the current session/filter.</p></div>';
@@ -2710,7 +3130,7 @@ function renderRepoInventory(state) {
         </div>
         <div class="kv-grid">
           ${kvRow('Selection label', entry.provenance?.selectionLabel || '—')}
-          ${kvRow('Address', formatList([entry.sourcePath, ...(entry.sourcePaths || []).filter((path) => path !== entry.sourcePath), entry.artifactName, entry.workflowRunId].filter(Boolean)), { html: true, explainerKey: 'addressing' })}
+          ${kvRow('Address', formatList([entry.sourcePath, ...(entry.sourcePaths || []).filter((/** @type {string} */ path) => path !== entry.sourcePath), entry.artifactName, entry.workflowRunId].filter(Boolean)), { html: true, explainerKey: 'addressing' })}
           ${kvRow('Addressing scope', entry.addressing?.addressingScope || '—', { explainerKey: 'addressing' })}
           ${kvRow('Content root', entry.contentRoot || '—')}
           ${kvRow('Stacks', formatList(entry.declaredStacks || []), { html: true })}
@@ -2725,10 +3145,18 @@ function renderRepoInventory(state) {
   renderInventorySelectionSummary(state);
 }
 
+/**
+ * @param {unknown} text
+ * @returns {void}
+ */
 function setStatus(text) {
-  statusEl.textContent = text;
+  statusEl.textContent = String(text ?? '');
 }
 
+/**
+ * @param {unknown} tier
+ * @returns {string}
+ */
 function tierBadge(tier) {
   const klass = tier === 'settlement-eligible'
     ? 'private'
@@ -2740,10 +3168,20 @@ function tierBadge(tier) {
   return badgeWithExplainer(tier, { className: klass, explainerKey: 'verification-rights' });
 }
 
+/**
+ * @param {unknown} value
+ * @param {string} [yes='Yes']
+ * @param {string} [no='No']
+ * @returns {string}
+ */
 function boolBadge(value, yes = 'Yes', no = 'No') {
   return `<span class="badge ${value ? 'private' : 'warn'}">${value ? yes : no}</span>`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function statusBadge(value) {
   const normalized = String(value ?? '').toLowerCase();
   const klass = /(allow|active|settlement|pass|true|public|ready|traceable|replayable|satisfied)/.test(normalized)
@@ -2756,6 +3194,13 @@ function statusBadge(value) {
   return badgeWithExplainer(value || 'n/a', { className: klass });
 }
 
+/**
+ * @param {string} label
+ * @param {unknown} value
+ * @param {string} [tone='']
+ * @param {MetricTileOptions} [options={}]
+ * @returns {string}
+ */
 function metricTile(label, value, tone = '', options = {}) {
   const rendered = options.html ? value : escapeHtml(value);
   return `
@@ -2766,16 +3211,35 @@ function metricTile(label, value, tone = '', options = {}) {
   `;
 }
 
+/**
+ * @param {string} label
+ * @param {unknown} value
+ * @param {ValueRenderOptions} [options={}]
+ * @returns {string}
+ */
 function kvRow(label, value, options = {}) {
   const rendered = options.html ? value : escapeHtml(value ?? '—');
   return `<div class="kv-row"><span class="meta">${labelWithExplainer(label, options.explainerKey)}</span><span>${rendered}</span></div>`;
 }
 
+/**
+ * @param {string} label
+ * @param {unknown} value
+ * @param {string} [explainerKey='']
+ * @param {ValueRenderOptions} [options={}]
+ * @returns {string}
+ */
 function summaryTile(label, value, explainerKey = '', options = {}) {
   const rendered = options.html ? value : escapeHtml(value);
   return `<div class="summary-card"><span class="meta">${labelWithExplainer(label, explainerKey)}</span><strong>${rendered}</strong></div>`;
 }
 
+/**
+ * @param {readonly unknown[]} [items=[]]
+ * @param {string} [badgeClass='']
+ * @param {ChipListOptions} [options={}]
+ * @returns {string}
+ */
 function chipList(items = [], badgeClass = '', options = {}) {
   if (!items.length) return '<span class="meta">None</span>';
   return items.map((item) => badgeWithExplainer(item, {
@@ -2784,6 +3248,10 @@ function chipList(items = [], badgeClass = '', options = {}) {
   })).join(' ');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function scoreBar(value) {
   const numeric = Number(value || 0);
   const pct = Math.max(0, Math.min(100, Math.round(numeric * 100)));
@@ -2795,6 +3263,12 @@ function scoreBar(value) {
   `;
 }
 
+/**
+ * @param {string} title
+ * @param {string} body
+ * @param {boolean} [open=false]
+ * @returns {string}
+ */
 function detailsSection(title, body, open = false) {
   return `
     <details class="detail-block" ${open ? 'open' : ''}>
@@ -2804,6 +3278,10 @@ function detailsSection(title, body, open = false) {
   `;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {unknown | null}
+ */
 function tryParseJson(value) {
   if (typeof value !== 'string') return null;
   try {
@@ -2813,12 +3291,22 @@ function tryParseJson(value) {
   }
 }
 
+/**
+ * @param {unknown} data
+ * @param {unknown} raw
+ * @returns {string}
+ */
 function rawText(data, raw) {
   if (typeof raw === 'string') return raw;
   if (typeof data === 'string') return data;
   return JSON.stringify(data ?? null, null, 2);
 }
 
+/**
+ * @param {unknown} data
+ * @param {number} [depth=0]
+ * @returns {string}
+ */
 function surfaceVisualFallback(data, depth = 0) {
   if (data == null) return '<p class="meta">No data.</p>';
   if (typeof data === 'string') return `<pre>${escapeHtml(data)}</pre>`;
@@ -2837,7 +3325,7 @@ function surfaceVisualFallback(data, depth = 0) {
     `;
   }
 
-  const entries = Object.entries(data);
+  const entries = Object.entries(/** @type {Record<string, unknown>} */ (data));
   if (!entries.length) return '<p class="meta">Empty object.</p>';
 
   const primitives = entries.filter(([, value]) => value == null || typeof value !== 'object');
@@ -2854,6 +3342,10 @@ function surfaceVisualFallback(data, depth = 0) {
   `;
 }
 
+/**
+ * @param {JsonSurfaceOptions} options
+ * @returns {string}
+ */
 function renderJsonSurface({ title, subtitle = '', eyebrow = '', eyebrowExplainerKey = '', help = '', explainerKey = '', data, raw, visual, defaultMode = DEFAULT_SURFACE_MODE, accent = '' }) {
   const surfaceId = `surface-${++surfaceCounter}`;
   const rawContent = rawText(data, raw);
@@ -2883,6 +3375,10 @@ function renderJsonSurface({ title, subtitle = '', eyebrow = '', eyebrowExplaine
   `;
 }
 
+/**
+ * @param {any[]} [promptSurfaces=[]]
+ * @returns {string}
+ */
 function renderPromptSurfaceCollectionVisual(promptSurfaces = []) {
   return `
     <div class="visual-stack">
@@ -2909,7 +3405,7 @@ function renderPromptSurfaceCollectionVisual(promptSurfaces = []) {
               <div class="section-card">
                 <div class="section-head"><h4>Context lineage</h4><span class="badge">${(surface.contextInputs || []).length} inputs</span></div>
                 <div class="object-list nested">
-                  ${(surface.contextInputs || []).map((input) => `
+                  ${(surface.contextInputs || []).map((/** @type {any} */ input) => `
                     <div class="mini-card">
                       <strong>${escapeHtml(input.field || 'field')}</strong>
                       <p class="meta wrap-anywhere">${escapeHtml(input.source || 'source')}</p>
@@ -2935,18 +3431,22 @@ function renderPromptSurfaceCollectionVisual(promptSurfaces = []) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} manifest
+ * @returns {string}
+ */
 function renderExternalBoundaryManifestVisual(manifest) {
   const interfaces = manifest?.interfaces || [];
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Boundary interfaces', interfaces.length)}
-        ${metricTile('Modeled local', interfaces.filter((entry) => /modeled|local/i.test(entry.status || '')).length)}
-        ${metricTile('Stand-in local', interfaces.filter((entry) => /stand-in/i.test(entry.status || '')).length)}
-        ${metricTile('Live external required', interfaces.filter((entry) => (entry.externalBoundary || entry.profileB)?.requiredForLive).length)}
+        ${metricTile('Modeled local', interfaces.filter((/** @type {any} */ entry) => /modeled|local/i.test(entry.status || '')).length)}
+        ${metricTile('Stand-in local', interfaces.filter((/** @type {any} */ entry) => /stand-in/i.test(entry.status || '')).length)}
+        ${metricTile('Live external required', interfaces.filter((/** @type {any} */ entry) => (entry.externalBoundary || entry.profileB)?.requiredForLive).length)}
       </div>
       <div class="object-list">
-        ${interfaces.map((entry) => {
+        ${interfaces.map((/** @type {any} */ entry) => {
           const localPrototype = entry.localPrototype || entry.profileA || {};
           const externalBoundary = entry.externalBoundary || entry.profileB || {};
           return `
@@ -2982,6 +3482,10 @@ function renderExternalBoundaryManifestVisual(manifest) {
   `;
 }
 
+/**
+ * @param {any[]} [bindings=[]]
+ * @returns {string}
+ */
 function renderIdentityBindingsVisual(bindings = []) {
   const classCounts = countValues(bindings.map((binding) => binding.principalClass));
   return `
@@ -3014,6 +3518,10 @@ function renderIdentityBindingsVisual(bindings = []) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} surface
+ * @returns {string}
+ */
 function renderGitHubBoundaryVisual(surface) {
   const selectedAuthSessions = surface?.selectedAuthSessions || [];
   const selectedInventoryProofs = surface?.selectedInventoryProofs || [];
@@ -3045,7 +3553,7 @@ function renderGitHubBoundaryVisual(surface) {
         </div>
       </div>
       <div class="object-list">
-        ${selectedAuthSessions.map((session) => `
+        ${selectedAuthSessions.map((/** @type {any} */ session) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
@@ -3064,7 +3572,7 @@ function renderGitHubBoundaryVisual(surface) {
         `).join('')}
       </div>
       <div class="object-list">
-        ${selectedInventoryProofs.map((proof) => `
+        ${selectedInventoryProofs.map((/** @type {any} */ proof) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
@@ -3074,7 +3582,7 @@ function renderGitHubBoundaryVisual(surface) {
               <div class="badge-row"><span class="badge">${escapeHtml(proof.selectedInventoryRoot || '—')}</span></div>
             </div>
             <div class="kv-grid">
-              ${kvRow('Inventory refs', formatList((proof.selectedInventoryEntries || []).map((entry) => `${entry.inventoryEntryId}:${entry.primaryAddressRef}`)), { html: true })}
+              ${kvRow('Inventory refs', formatList((proof.selectedInventoryEntries || []).map((/** @type {any} */ entry) => `${entry.inventoryEntryId}:${entry.primaryAddressRef}`)), { html: true })}
               ${kvRow('Addressing root', proof.addressingRoot || '—', { explainerKey: 'addressing' })}
             </div>
           </div>
@@ -3084,22 +3592,26 @@ function renderGitHubBoundaryVisual(surface) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} manifest
+ * @returns {string}
+ */
 function renderArtifactUploadManifestVisual(manifest) {
   const uploads = manifest?.uploads || [];
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Uploads', manifest?.uploadCount ?? uploads.length)}
-        ${metricTile('Inventory-backed', manifest?.inventoryBackedUploadCount ?? uploads.filter((upload) => (upload.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0).length)}
+        ${metricTile('Inventory-backed', manifest?.inventoryBackedUploadCount ?? uploads.filter((/** @type {any} */ upload) => (upload.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0).length)}
         ${metricTile('Artifact kinds', Object.keys(manifest?.artifactKindCounts || {}).length)}
-        ${metricTile('Selection roots', uploads.filter((upload) => upload.selectionRoot).length)}
+        ${metricTile('Selection roots', uploads.filter((/** @type {any} */ upload) => upload.selectionRoot).length)}
       </div>
       <div class="callout">
         <strong>Artifact-kind coverage</strong>
         <span>${formatCountMap(manifest?.artifactKindCounts || {})}</span>
       </div>
       <div class="object-list">
-        ${uploads.map((upload) => `
+        ${uploads.map((/** @type {any} */ upload) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
@@ -3121,6 +3633,10 @@ function renderArtifactUploadManifestVisual(manifest) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} manifest
+ * @returns {string}
+ */
 function renderSelectedSourceMaterialManifestVisual(manifest) {
   const selectedSourceMaterial = manifest?.selectedSourceMaterial || [];
   return `
@@ -3128,11 +3644,11 @@ function renderSelectedSourceMaterialManifestVisual(manifest) {
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Selected assets', selectedSourceMaterial.length)}
         ${metricTile('Branch mode', manifest?.branchMode || '—')}
-        ${metricTile('Inventory-backed', selectedSourceMaterial.filter((entry) => (entry.selectedInventoryEntryIds || []).length > 0).length)}
-        ${metricTile('Units', selectedSourceMaterial.reduce((sum, entry) => sum + (entry.selectedUnits || []).length, 0))}
+        ${metricTile('Inventory-backed', selectedSourceMaterial.filter((/** @type {any} */ entry) => (entry.selectedInventoryEntryIds || []).length > 0).length)}
+        ${metricTile('Units', selectedSourceMaterial.reduce((/** @type {number} */ sum, /** @type {any} */ entry) => sum + (entry.selectedUnits || []).length, 0))}
       </div>
       <div class="object-list">
-        ${selectedSourceMaterial.map((entry) => `
+        ${selectedSourceMaterial.map((/** @type {any} */ entry) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
@@ -3155,6 +3671,10 @@ function renderSelectedSourceMaterialManifestVisual(manifest) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} profileState
+ * @returns {string}
+ */
 function renderProfileCompositionVisual(profileState) {
   const profiles = profileState?.profiles || profileState?.profileCompositions?.profiles || [];
   const guidance = profileState?.demoOperatorGuidance || {};
@@ -3181,7 +3701,7 @@ function renderProfileCompositionVisual(profileState) {
         </div>
       </div>
       <div class="mini-grid two-up">
-        ${profiles.map((profile) => `
+        ${profiles.map((/** @type {any} */ profile) => `
           ${(() => {
             const modeExplainers = profileModeExplainers(profile.profileId);
             return `
@@ -3211,6 +3731,11 @@ function renderProfileCompositionVisual(profileState) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} group
+ * @param {string} [tone='']
+ * @returns {string}
+ */
 function renderScoreGroupVisual(group, tone = '') {
   const accumulation = group?.accumulation || [];
   const sequence = group?.sequence || [];
@@ -3221,7 +3746,7 @@ function renderScoreGroupVisual(group, tone = '') {
         <div class="badge-row"><span class="badge">final ${escapeHtml(Number(group?.finalScore || 0).toFixed(3))}</span><span class="badge">${escapeHtml(formatCount(sequence.length, 'step'))}</span></div>
       </div>
       <div class="detail-table">
-        ${sequence.map((step) => `
+        ${sequence.map((/** @type {any} */ step) => `
           <div class="detail-row">
             <span class="meta">${escapeHtml(step.step)}</span>
             <strong>${escapeHtml(step.label)}</strong>
@@ -3230,12 +3755,16 @@ function renderScoreGroupVisual(group, tone = '') {
           </div>
         `).join('')}
       </div>
-      ${accumulation.length ? `<div class="detail-block"><summary>Accumulation</summary><div class="detail-table">${accumulation.map((step) => `<div class="detail-row"><span class="meta">${escapeHtml(step.label || step.code)}</span><strong>${escapeHtml(step.contribution ?? step.mass ?? '—')}</strong><span>cum ${escapeHtml(step.cumulative ?? '—')}</span><span class="meta">${escapeHtml(step.weight != null ? `weight ${step.weight}` : 'penalty')}</span></div>`).join('')}</div></div>` : ''}
+      ${accumulation.length ? `<div class="detail-block"><summary>Accumulation</summary><div class="detail-table">${accumulation.map((/** @type {any} */ step) => `<div class="detail-row"><span class="meta">${escapeHtml(step.label || step.code)}</span><strong>${escapeHtml(step.contribution ?? step.mass ?? '—')}</strong><span>cum ${escapeHtml(step.cumulative ?? '—')}</span><span class="meta">${escapeHtml(step.weight != null ? `weight ${step.weight}` : 'penalty')}</span></div>`).join('')}</div></div>` : ''}
       <div class="kv-grid">${Object.entries(group?.verifiedInputs || {}).slice(0, 6).map(([key, value]) => kvRow(labelize(key), Array.isArray(value) ? formatList(value.slice(0, 6), 'None') : value, { html: Array.isArray(value) })).join('')}</div>
     </div>
   `;
 }
 
+/**
+ * @param {LooseRecord | PreviewDepositingSurfaceShape | null | undefined} surface
+ * @returns {string}
+ */
 function renderDepositingSurfaceVisual(surface) {
   const selectedArtifactKindCounts = surface?.selectedArtifactKindCounts || {};
   const selectedOriginKindCounts = surface?.selectedOriginKindCounts || {};
@@ -3276,6 +3805,10 @@ function renderDepositingSurfaceVisual(surface) {
   `;
 }
 
+/**
+ * @param {NeedPreviewShape | null | undefined} surface
+ * @returns {string}
+ */
 function renderNeedingSurfaceVisual(surface) {
   return `
     <div class="visual-stack">
@@ -3309,6 +3842,10 @@ function renderNeedingSurfaceVisual(surface) {
   `;
 }
 
+/**
+ * @param {LooseRecord | PreviewDepositingToNeedingSurfaceShape | null | undefined} surface
+ * @returns {string}
+ */
 function renderDepositingToNeedingVisual(surface) {
   return `
     <div class="visual-stack">
@@ -3345,6 +3882,10 @@ function renderDepositingToNeedingVisual(surface) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} need
+ * @returns {string}
+ */
 function renderNeedVisual(need) {
   const parser = need.benchmarkParserContract || {};
   const parserFailure = parser.parserFailureContract || {};
@@ -3425,7 +3966,7 @@ function renderNeedVisual(need) {
       <div class="section-card">
         <div class="section-head"><h4>${labelWithExplainer('Recall channels + hand-offs', 'recall-channels')}</h4>${badgeWithExplainer('V8 contracts', { explainerKey: 'recall-channels' })}</div>
         <div class="detail-table">
-          ${(need.recallChannelContracts || []).map((channel) => `
+          ${(need.recallChannelContracts || []).map((/** @type {any} */ channel) => `
             <div class="detail-row">
               <strong>${escapeHtml(channel.channelId)}</strong>
               <span>${escapeHtml(channel.signalFamily)}</span>
@@ -3439,6 +3980,10 @@ function renderNeedVisual(need) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} payload
+ * @returns {string}
+ */
 function renderNeedMeasurementVisual(payload) {
   return `
     <div class="visual-stack">
@@ -3468,6 +4013,10 @@ function renderNeedMeasurementVisual(payload) {
   `;
 }
 
+/**
+ * @param {AssetSummaryShape} asset
+ * @returns {string}
+ */
 function renderAssetVisual(asset) {
   return `
     <div class="visual-stack">
@@ -3495,7 +4044,7 @@ function renderAssetVisual(asset) {
             ${kvRow('Stacks', formatList(asset.declaredStacks || []), { html: true })}
             ${kvRow('Constraints', formatList(asset.declaredConstraints || []), { html: true })}
             ${kvRow('Upload kind/type', `${escapeHtml(asset.uploadSurface?.artifactKind || asset.artifactKind)} / ${escapeHtml(asset.uploadSurface?.artifactType || asset.artifactType || '—')}`, { html: true, explainerKey: 'artifact-kind' })}
-            ${kvRow('Upload surfaces', formatList((asset.uploadSurface?.surfaces || []).map((surface) => `${surface.role}:${surface.surfaceId}`), 'None'), { html: true })}
+            ${kvRow('Upload surfaces', formatList((asset.uploadSurface?.surfaces || []).map((/** @type {any} */ surface) => `${surface.role}:${surface.surfaceId}`), 'None'), { html: true })}
           </div>
         </div>
       </div>
@@ -3560,6 +4109,10 @@ function renderAssetVisual(asset) {
   `;
 }
 
+/**
+ * @param {LooseRecord} item
+ * @returns {string}
+ */
 function renderEvaluationVisual(item) {
   const verification = item.verification || {};
   const sufficiency = verification.verificationSufficiency || {};
@@ -3594,10 +4147,10 @@ function renderEvaluationVisual(item) {
           <div class="kv-grid">
             ${kvRow('Recall score', item.recall?.recallScore ?? '—')}
             ${kvRow('Whole asset need score', item.ranking.wholeAssetNeedScore ?? '—')}
-            ${kvRow('Recall channels', formatList((item.recall?.fusion?.contributingChannels || []).map((entry) => entry.channelId || entry)), { html: true })}
+            ${kvRow('Recall channels', formatList((item.recall?.fusion?.contributingChannels || []).map((/** @type {any} */ entry) => entry.channelId || entry)), { html: true })}
             ${kvRow('Artifact type', item.uploadSurface?.artifactType || item.artifactType || '—')}
           </div>
-          <div class="badge-row">${strongestScoreDrivers.map((signal) => `<span class="badge">${escapeHtml(signal.label)} ${escapeHtml(signal.value)}</span>`).join(' ') || '<span class="meta">No strongest score drivers recorded.</span>'}</div>
+          <div class="badge-row">${strongestScoreDrivers.map((/** @type {any} */ signal) => `<span class="badge">${escapeHtml(signal.label)} ${escapeHtml(signal.value)}</span>`).join(' ') || '<span class="meta">No strongest score drivers recorded.</span>'}</div>
         </div>
         <div class="section-card">
           <div class="section-head"><h4>Verification + rights</h4><span class="badge">Use-tier gate</span></div>
@@ -3616,23 +4169,27 @@ function renderEvaluationVisual(item) {
         ${renderScoreGroupVisual(item.ranking.scoreGroups?.benchmarkImpact, 'accent-green')}
         ${renderScoreGroupVisual(item.ranking.scoreGroups?.penaltyMass, penalties.length ? 'accent-orange' : 'accent-slate')}
       </div>
-      ${penalties.length ? `<div class="callout warn"><strong>Penalty reasons</strong><div class="badge-row">${penalties.map((penalty) => `<span class="badge warn">${escapeHtml(penalty.code || penalty)}</span>`).join(' ')}</div></div>` : '<div class="callout"><strong>No ranking penalties</strong><span class="meta">This candidate kept a clean ranking path.</span></div>'}
+      ${penalties.length ? `<div class="callout warn"><strong>Penalty reasons</strong><div class="badge-row">${penalties.map((/** @type {any} */ penalty) => `<span class="badge warn">${escapeHtml(penalty.code || penalty)}</span>`).join(' ')}</div></div>` : '<div class="callout"><strong>No ranking penalties</strong><span class="meta">This candidate kept a clean ranking path.</span></div>'}
     </div>
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} report
+ * @returns {string}
+ */
 function renderVerificationReportVisual(report) {
   const entries = report.assetVerification || [];
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Verified assets', entries.length)}
-        ${metricTile('Settlement eligible', entries.filter((entry) => entry.useTier === 'settlement-eligible').length)}
-        ${metricTile('Context only', entries.filter((entry) => entry.useTier === 'context-only').length)}
-        ${metricTile('Rejected', entries.filter((entry) => entry.useTier === 'reject').length)}
+        ${metricTile('Settlement eligible', entries.filter((/** @type {any} */ entry) => entry.useTier === 'settlement-eligible').length)}
+        ${metricTile('Context only', entries.filter((/** @type {any} */ entry) => entry.useTier === 'context-only').length)}
+        ${metricTile('Rejected', entries.filter((/** @type {any} */ entry) => entry.useTier === 'reject').length)}
       </div>
       <div class="object-list">
-        ${entries.map((entry) => `
+        ${entries.map((/** @type {any} */ entry) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <strong>${escapeHtml(entry.title)}</strong>
@@ -3654,6 +4211,10 @@ function renderVerificationReportVisual(report) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} lock
+ * @returns {string}
+ */
 function renderAssetPackVisual(lock) {
   return `
     <div class="visual-stack">
@@ -3667,7 +4228,7 @@ function renderAssetPackVisual(lock) {
         <div class="section-card">
           <div class="section-head"><h4>${labelWithExplainer('Selected assets', 'asset-pack')}</h4><span class="badge">Locked for branch</span></div>
           <div class="object-list nested">
-            ${(lock.assets || []).map((asset) => `
+            ${(lock.assets || []).map((/** @type {any} */ asset) => `
               <div class="mini-card">
                 <div class="row"><strong>${escapeHtml(asset.title || asset.assetId)}</strong>${tierBadge(asset.useTier || 'selected')}</div>
                 <p class="meta">${escapeHtml(asset.assetId)}</p>
@@ -3690,6 +4251,10 @@ function renderAssetPackVisual(lock) {
   `;
 }
 
+/**
+ * @param {any[]} decisions
+ * @returns {string}
+ */
 function renderAuthorizationVisual(decisions) {
   const allowCount = decisions.filter((decision) => decision.decision === 'allow').length;
   const denyCount = decisions.filter((decision) => decision.decision !== 'allow').length;
@@ -3720,6 +4285,10 @@ function renderAuthorizationVisual(decisions) {
   `;
 }
 
+/**
+ * @param {any[]} records
+ * @returns {string}
+ */
 function renderSensitiveFlowVisual(records) {
   return `
     <div class="visual-stack">
@@ -3749,6 +4318,10 @@ function renderSensitiveFlowVisual(records) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} policy
+ * @returns {string}
+ */
 function renderPolicyReleaseVisual(policy) {
   return `
     <div class="visual-stack">
@@ -3768,7 +4341,7 @@ function renderPolicyReleaseVisual(policy) {
         <div class="section-card">
           <div class="section-head"><h4>Artifact classes</h4><span class="badge">Confidentiality map</span></div>
           <div class="object-list nested">
-            ${(policy.artifactClasses || []).map((entry) => `
+            ${(policy.artifactClasses || []).map((/** @type {any} */ entry) => `
               <div class="mini-card">
                 <strong>${escapeHtml(entry.path)}</strong>
                 <p class="meta">${escapeHtml(entry.sensitiveDataClass)}</p>
@@ -3784,7 +4357,7 @@ function renderPolicyReleaseVisual(policy) {
             ${kvRow('Delivery blocked on revoked issuer', boolBadge(policy.revocationRules?.revokedIssuerBlocksNewDelivery, 'Blocked', 'Open'), { html: true })}
           </div>
           <div class="object-list nested">
-            ${(policy.retentionRules || []).map((rule) => `
+            ${(policy.retentionRules || []).map((/** @type {any} */ rule) => `
               <div class="mini-card">
                 <strong>${escapeHtml(rule.retentionPolicyId)}</strong>
                 <p class="meta">TTL ${escapeHtml(rule.ttlDays)} days</p>
@@ -3798,17 +4371,21 @@ function renderPolicyReleaseVisual(policy) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} catalog
+ * @returns {string}
+ */
 function renderUnitCatalogVisual(catalog) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Units', (catalog.units || []).length)}
-        ${metricTile('Assets represented', new Set((catalog.units || []).map((unit) => unit.assetId)).size)}
+        ${metricTile('Assets represented', new Set((catalog.units || []).map((/** @type {any} */ unit) => unit.assetId)).size)}
         ${metricTile('Profiles', [catalog.conformanceProfile, catalog.productionIntentProfile].filter(Boolean).length)}
-        ${metricTile('Kinds', new Set((catalog.units || []).map((unit) => unit.unitKind)).size)}
+        ${metricTile('Kinds', new Set((catalog.units || []).map((/** @type {any} */ unit) => unit.unitKind)).size)}
       </div>
       <div class="object-list">
-        ${(catalog.units || []).map((unit) => `
+        ${(catalog.units || []).map((/** @type {any} */ unit) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <strong>${escapeHtml(unit.unitId)}</strong>
@@ -3827,17 +4404,21 @@ function renderUnitCatalogVisual(catalog) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} telemetry
+ * @returns {string}
+ */
 function renderTelemetryVisual(telemetry) {
   return `
     <div class="visual-stack">
       <div class="mini-grid four-up compact-metrics">
         ${metricTile('Telemetry events', (telemetry.events || []).length)}
-        ${metricTile('Stages', new Set((telemetry.events || []).map((event) => event.stage)).size)}
+        ${metricTile('Stages', new Set((telemetry.events || []).map((/** @type {any} */ event) => event.stage)).size)}
         ${metricTile('Primary profile', telemetry.conformanceProfile || '—')}
         ${metricTile('Contrast profile', telemetry.productionIntentProfile || '—')}
       </div>
       <div class="timeline">
-        ${(telemetry.events || []).map((event, index) => `
+        ${(telemetry.events || []).map((/** @type {any} */ event, /** @type {number} */ index) => `
           <div class="timeline-item">
             <div class="timeline-index">${index + 1}</div>
             <div class="timeline-card">
@@ -3855,6 +4436,10 @@ function renderTelemetryVisual(telemetry) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} preview
+ * @returns {string}
+ */
 function renderSettlementPreviewVisual(preview) {
   const selectedAssetIds = preview.selectedAssetIds || [];
   const participatingAssetIds = preview.settlementParticipatingAssetIds || [];
@@ -3900,7 +4485,7 @@ function renderSettlementPreviewVisual(preview) {
       <div class="section-card">
         <div class="section-head"><h4>${labelWithExplainer('Allocation preview', 'settlement')}</h4><span class="badge">Bundle shares</span></div>
         <div class="object-list nested">
-          ${allocations.map((allocation) => `
+          ${allocations.map((/** @type {any} */ allocation) => `
             <div class="mini-card">
               <div class="row wrap-gap">
                 <strong>${escapeHtml(allocation.title || allocation.assetId || 'Asset')}</strong>
@@ -3923,6 +4508,10 @@ function renderSettlementPreviewVisual(preview) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} sourceToShares
+ * @returns {string}
+ */
 function renderSourceToSharesVisual(sourceToShares) {
   const entries = sourceToShares?.sourceContributionEntries || [];
   const normalizationLedger = sourceToShares?.normalizationLedger || [];
@@ -3937,7 +4526,7 @@ function renderSourceToSharesVisual(sourceToShares) {
       <div class="section-card">
         <div class="section-head"><h4>${labelWithExplainer('Contribution basis', 'source-to-shares')}</h4><span class="badge">Source to shares</span></div>
         <div class="object-list nested">
-          ${entries.map((entry) => `
+          ${entries.map((/** @type {any} */ entry) => `
             <div class="mini-card">
               <div class="row wrap-gap">
                 <strong>${escapeHtml(entry.title || entry.assetId || 'Asset')}</strong>
@@ -3961,7 +4550,7 @@ function renderSourceToSharesVisual(sourceToShares) {
       <div class="section-card">
         <div class="section-head"><h4>${labelWithExplainer('Normalization ledger', 'source-to-shares')}</h4><span class="badge">Deterministic tie-break</span></div>
         <div class="object-list nested">
-          ${normalizationLedger.map((entry) => `
+          ${normalizationLedger.map((/** @type {any} */ entry) => `
             <div class="mini-card">
               <div class="row wrap-gap">
                 <strong>${escapeHtml(entry.assetId || 'Asset')}</strong>
@@ -3981,6 +4570,10 @@ function renderSourceToSharesVisual(sourceToShares) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} participation
+ * @returns {string}
+ */
 function renderSettlementParticipationVisual(participation) {
   const records = participation?.records || [];
   return `
@@ -3992,7 +4585,7 @@ function renderSettlementParticipationVisual(participation) {
         ${metricTile('Zero-credit', participation?.zeroCreditParticipatingCount || 0, (participation?.zeroCreditParticipatingCount || 0) ? 'warn' : '')}
       </div>
       <div class="object-list">
-        ${records.map((record) => `
+        ${records.map((/** @type {any} */ record) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
@@ -4018,6 +4611,10 @@ function renderSettlementParticipationVisual(participation) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} report
+ * @returns {string}
+ */
 function renderAccountingPrecisionVisual(report) {
   return `
     <div class="visual-stack">
@@ -4051,6 +4648,10 @@ function renderAccountingPrecisionVisual(report) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} proof
+ * @returns {string}
+ */
 function renderMaterializationProofVisual(proof) {
   return `
     <div class="visual-stack">
@@ -4069,6 +4670,10 @@ function renderMaterializationProofVisual(proof) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} proof
+ * @returns {string}
+ */
 function renderMaterializationVisibilityVisual(proof) {
   return `
     <div class="visual-stack">
@@ -4089,6 +4694,11 @@ function renderMaterializationVisibilityVisual(proof) {
   `;
 }
 
+/**
+ * @param {ScenarioShape[]} [scenarios=[]]
+ * @param {string} [activeScenarioId='']
+ * @returns {string}
+ */
 function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
   return `
     <div class="object-list">
@@ -4122,6 +4732,10 @@ function renderScenarioCorpusVisual(scenarios = [], activeScenarioId = '') {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} diff
+ * @returns {string}
+ */
 function renderJournalDiffVisual(diff) {
   const invariants = diff.invariants || {};
   return `
@@ -4152,6 +4766,10 @@ function renderJournalDiffVisual(diff) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} bundle
+ * @returns {string}
+ */
 function renderSystemProofBundleVisual(bundle) {
   const proofContract = bundle.proofContract || {};
   const theoremChecks = bundle.settlementProof?.theoremChecks || {};
@@ -4171,7 +4789,7 @@ function renderSystemProofBundleVisual(bundle) {
             ${kvRow('Theorem checks declared', formatList(proofContract.theoremChecks || []), { html: true })}
           </div>
           <div class="object-list nested">
-            ${(proofContract.evidenceChain || []).map((entry) => `
+            ${(proofContract.evidenceChain || []).map((/** @type {any} */ entry) => `
               <div class="mini-card">
                 <strong>${escapeHtml(entry.stage || 'stage')}</strong>
                 <p>${escapeHtml(entry.claim || '')}</p>
@@ -4200,6 +4818,10 @@ function renderSystemProofBundleVisual(bundle) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} proof
+ * @returns {string}
+ */
 function renderBoundedProofVisual(proof) {
   return `
     <div class="visual-stack">
@@ -4218,6 +4840,10 @@ function renderBoundedProofVisual(proof) {
   `;
 }
 
+/**
+ * @param {Record<string, unknown> | null | undefined} accounts
+ * @returns {string}
+ */
 function renderLedgerAccountsVisual(accounts) {
   const entries = Object.entries(accounts || {});
   return `
@@ -4240,6 +4866,10 @@ function renderLedgerAccountsVisual(accounts) {
   `;
 }
 
+/**
+ * @param {any[]} history
+ * @returns {string}
+ */
 function renderRunHistoryVisual(history) {
   return `
     <div class="visual-stack">
@@ -4267,6 +4897,10 @@ function renderRunHistoryVisual(history) {
   `;
 }
 
+/**
+ * @param {RepoSupplySurfaceShape | null | undefined} surface
+ * @returns {string}
+ */
 function renderRepoSupplyVisual(surface) {
   const repos = surface?.repos || [];
   return `
@@ -4284,7 +4918,7 @@ function renderRepoSupplyVisual(surface) {
         <span>Profile coverage: ${formatCountMap(surface?.realizationProfileCounts || {})}</span>
       </div>
       <div class="object-list">
-        ${repos.map((repo) => `
+        ${repos.map((/** @type {any} */ repo) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <div>
@@ -4309,6 +4943,10 @@ function renderRepoSupplyVisual(surface) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} surface
+ * @returns {string}
+ */
 function renderRepoToSettlementVisual(surface) {
   const stages = surface?.stages || [];
   const realizationProfile = surface?.realizationProfile || {};
@@ -4333,12 +4971,12 @@ function renderRepoToSettlementVisual(surface) {
         </div>
       </div>
       <div class="timeline">
-        ${stages.map((stage, index) => `
+        ${stages.map((/** @type {any} */ stage, /** @type {number} */ index) => `
           <div class="timeline-item">
             <div class="timeline-index">${index + 1}</div>
             <div class="timeline-card">
               <div class="row wrap-gap">
-                <strong>${labelWithExplainer(stage.label, REPO_TO_SETTLEMENT_STAGE_EXPLAINERS[stage.stageId] || '')}</strong>
+                <strong>${labelWithExplainer(stage.label, (/** @type {Record<string, string>} */ (REPO_TO_SETTLEMENT_STAGE_EXPLAINERS))[String(stage.stageId || '')] || '')}</strong>
                 <div class="badge-row">${statusBadge(stage.status)} ${statusBadge(stage.boundaryClass)}</div>
               </div>
               <p>${escapeHtml(stage.summary || '')}</p>
@@ -4354,6 +4992,10 @@ function renderRepoToSettlementVisual(surface) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} surface
+ * @returns {string}
+ */
 function renderIdentityAuthSpineVisual(surface) {
   const hops = surface?.hops || [];
   return `
@@ -4365,7 +5007,7 @@ function renderIdentityAuthSpineVisual(surface) {
         ${metricTile('Settlement bundle', surface?.settlementBundleId || '—')}
       </div>
       <div class="timeline">
-        ${hops.map((hop, index) => `
+        ${hops.map((/** @type {any} */ hop, /** @type {number} */ index) => `
           <div class="timeline-item">
             <div class="timeline-index">${index + 1}</div>
             <div class="timeline-card">
@@ -4387,17 +5029,21 @@ function renderIdentityAuthSpineVisual(surface) {
   `;
 }
 
+/**
+ * @param {LooseRecord | null | undefined} surface
+ * @returns {string}
+ */
 function renderBoundaryRealityVisual(surface) {
   const stages = surface?.stages || [];
   return `
     <div class="visual-stack">
       <div class="mini-grid three-up compact-metrics">
         ${metricTile('Boundary posture', surface?.posture || '—', '', { explainerKey: 'boundary-reality' })}
-        ${metricTile('Modeled local stages', stages.filter((stage) => (stage.localStatus || stage.profileAStatus) === 'modeled-local').length)}
-        ${metricTile('Executed local stages', stages.filter((stage) => (stage.localStatus || stage.profileAStatus) === 'executed-local').length)}
+        ${metricTile('Modeled local stages', stages.filter((/** @type {any} */ stage) => (stage.localStatus || stage.profileAStatus) === 'modeled-local').length)}
+        ${metricTile('Executed local stages', stages.filter((/** @type {any} */ stage) => (stage.localStatus || stage.profileAStatus) === 'executed-local').length)}
       </div>
       <div class="object-list">
-        ${stages.map((stage) => `
+        ${stages.map((/** @type {any} */ stage) => `
           <div class="section-card">
             <div class="row wrap-gap">
               <strong>${escapeHtml(stage.label)}</strong>
@@ -4414,6 +5060,10 @@ function renderBoundaryRealityVisual(surface) {
   `;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderOperatingPicture(state) {
   if (!operatingPictureEl) return;
   const surfaces = [];
@@ -4514,11 +5164,15 @@ function renderOperatingPicture(state) {
   operatingPictureEl.innerHTML = surfaces.join('');
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderSummary(state) {
   const latestRun = state.latestRun;
   const selected = latestRun?.assetPack?.selectedAssets?.length || 0;
   const settled = latestRun?.settlementPreview?.creditedAssetIds?.length
-    ?? latestRun?.journalDiff?.credits?.filter((entry) => entry.delta !== '0').length
+    ?? latestRun?.journalDiff?.credits?.filter((/** @type {any} */ entry) => entry.delta !== '0').length
     ?? 0;
   const repoCount = state.repoSupplySurface?.repoCount || 0;
   const supplyEntries = state.repoSupplySurface?.inventoryEntryCount || 0;
@@ -4534,8 +5188,8 @@ function renderSummary(state) {
     summaryTile('Authenticated repos', repoCount, 'repo-supply'),
     summaryTile('Repo supply entries', supplyEntries, 'repo-supply'),
     summaryTile('Active deposit profile', activeProfile?.shortLabel || activeProfile?.label || '—', activeProfile?.profileId === 'B' ? 'profile-b' : 'profile-a'),
-    summaryTile('Candidate assets', state.assets.length, 'candidate-asset'),
-    summaryTile('Need scenarios', state.needScenarios.length, 'needing'),
+    summaryTile('Candidate assets', state.assets?.length || 0, 'candidate-asset'),
+    summaryTile('Need scenarios', state.needScenarios?.length || 0, 'needing'),
     summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
     summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v15-scenario-preview'),
     summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
@@ -4547,11 +5201,16 @@ function renderSummary(state) {
   ].join('');
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderScenario(state) {
-  const activeScenarioId = selectedScenarioId || state.latestRun?.scenarioId || state.needScenarios[0]?.scenarioId;
-  const scenario = state.needScenarios.find((entry) => entry.scenarioId === activeScenarioId) || state.needScenarios[0];
+  const scenarios = state.needScenarios || [];
+  const activeScenarioId = selectedScenarioId || state.latestRun?.scenarioId || scenarios[0]?.scenarioId;
+  const scenario = scenarios.find((entry) => entry.scenarioId === activeScenarioId) || scenarios[0] || null;
   const latestNeed = state.latestRun?.need;
-  const source = latestNeed || scenario;
+  const source = /** @type {LooseRecord} */ (latestNeed || scenario || {});
   const needingSurface = activeNeedingSurface(state);
   const measurementPayload = state.latestRun?.needMeasurement ? {
     ...state.latestRun.needMeasurement,
@@ -4600,7 +5259,7 @@ function renderScenario(state) {
       subtitle: 'Seeded GitHub-shaped scenario families available in this demo',
       eyebrow: 'Corpus surface',
       help: 'The corpus now covers auth rollback, proof-heavy Rust, config policy, unsafe review, deployment drift, privacy-boundary proof export, a polyglot gateway rollback, and a normalization-heavy auth scenario for source-to-shares replay.',
-      data: state.needScenarios,
+      data: scenarios,
       visual: (scenarios) => renderScenarioCorpusVisual(scenarios, activeScenarioId),
       accent: 'accent-green'
     })}
@@ -4646,6 +5305,10 @@ function renderScenario(state) {
   `;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderAssets(state) {
   const depositingSurface = activeDepositingSurface(state);
   assetsEl.innerHTML = `
@@ -4659,7 +5322,7 @@ function renderAssets(state) {
       visual: renderDepositingSurfaceVisual,
       accent: 'accent-green'
     }) : ''}
-    ${state.assets.map((asset) => renderJsonSurface({
+    ${(state.assets || []).map((asset) => renderJsonSurface({
       title: asset.title,
       subtitle: `${asset.artifactKind} deposited by ${asset.author}`,
       eyebrow: 'Candidate asset',
@@ -4672,6 +5335,10 @@ function renderAssets(state) {
   `;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderFit(state) {
   if (!fitEl) return;
   const fitSurface = activeDepositingToNeedingSurface(state);
@@ -4719,6 +5386,10 @@ function renderFit(state) {
   fitEl.innerHTML = sections.join('');
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderEvaluations(state) {
   const items = state.latestRun?.evaluatedCandidates || [];
   if (!items.length) {
@@ -4738,7 +5409,7 @@ function renderEvaluations(state) {
       visual: renderVerificationReportVisual,
       accent: 'accent-green'
     }) : ''}
-    ${items.map((item) => renderJsonSurface({
+    ${items.map((/** @type {any} */ item) => renderJsonSurface({
       title: item.title,
       subtitle: `${item.assetId} · ${item.artifactKind}`,
       eyebrow: 'Evaluated candidate',
@@ -4749,6 +5420,10 @@ function renderEvaluations(state) {
   `;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderBranchArtifacts(state) {
   const run = state.latestRun;
   if (!run) {
@@ -4985,7 +5660,13 @@ function renderBranchArtifacts(state) {
       subtitle: 'Materialized artifact paths',
       data: Object.keys(branchFiles),
       raw: JSON.stringify(Object.keys(branchFiles), null, 2),
-      visual: (items) => `<div class="badge-row">${items.map((item) => `<span class="badge">${escapeHtml(item)}</span>`).join(' ')}</div>`
+      visual: (
+        /**
+         * @param {unknown[]} items
+         * @returns {string}
+         */
+        (items) => `<div class="badge-row">${items.map((item) => `<span class="badge">${escapeHtml(item)}</span>`).join(' ')}</div>`
+      )
     }
   ];
 
@@ -5020,6 +5701,10 @@ function renderBranchArtifacts(state) {
   `;
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderSettlement(state) {
   const run = state.latestRun;
   if (!run) {
@@ -5118,6 +5803,10 @@ function renderSettlement(state) {
   ].join('');
 }
 
+/**
+ * @param {AppState} state
+ * @returns {void}
+ */
 function renderLedger(state) {
   ledgerEl.innerHTML = `
     ${renderJsonSurface({
@@ -5125,7 +5814,7 @@ function renderLedger(state) {
       subtitle: 'Current balances after the latest settlement',
       eyebrow: 'Ledger surface',
       explainerKey: 'ledger-accounts',
-      data: state.ledger.accounts,
+      data: state.ledger?.accounts || {},
       visual: renderLedgerAccountsVisual,
       accent: 'accent-slate'
     })}
@@ -5134,16 +5823,19 @@ function renderLedger(state) {
       subtitle: 'Public projection of prior runs',
       eyebrow: 'History surface',
       explainerKey: 'run-history',
-      data: state.runHistory,
+      data: state.runHistory || [],
       visual: renderRunHistoryVisual,
       accent: 'accent-slate'
     })}
   `;
 }
 
+/**
+ * @returns {Promise<AppState>}
+ */
 async function refresh() {
   surfaceCounter = 0;
-  const state = await api('/api/state?principal=buyer');
+  const state = /** @type {AppState} */ (await api('/api/state?principal=buyer'));
   lastLoadedState = state;
   syncScenarioPicker(state);
   syncAuthSessionPicker(state);
@@ -5164,31 +5856,36 @@ async function refresh() {
 }
 
 document.addEventListener('click', (event) => {
-  const toggle = event.target.closest('.surface-mode-button');
+  const toggle = closestElement(event.target, '.surface-mode-button');
   if (!toggle) return;
-  const target = document.getElementById(toggle.dataset.surfaceTarget);
+  const surfaceTarget = toggle.dataset['surfaceTarget'];
+  if (!surfaceTarget) return;
+  const target = document.getElementById(surfaceTarget);
   if (!target) return;
-  const mode = toggle.dataset.mode;
-  target.dataset.mode = mode;
+  const mode = toggle.dataset['mode'];
+  if (!mode) return;
+  target.dataset['mode'] = mode;
   target.querySelectorAll('.surface-panel').forEach((panel) => {
     panel.classList.toggle('active', panel.classList.contains(`surface-panel-${mode}`));
   });
+  if (!(toggle.parentElement instanceof HTMLElement)) return;
   toggle.parentElement.querySelectorAll('.surface-mode-button').forEach((button) => {
     button.classList.toggle('active', button === toggle);
   });
 });
 
-document.getElementById('makeBranchButton').addEventListener('click', async () => {
+makeBranchButtonEl.addEventListener('click', async () => {
   try {
     setStatus('Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…');
-    const result = await api('/api/make-engi-branch', {
+    const result = /** @type {AppState} */ (await api('/api/make-engi-branch', {
       method: 'POST',
       body: JSON.stringify({ principal: 'buyer', scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
-    });
+    }));
+    const latestRun = result.latestRun;
     await refresh();
-    setStatus(`Created ${result.latestRun.branchName || result.latestRun.branchArtifacts?.branchName} in ${result.latestRun.realizationProfile?.shortLabel || 'the selected profile'} and settled bundle ${result.latestRun.boundedPublicProof?.bundleId || result.latestRun.journalDiff?.bundleId}.`);
+    setStatus(`Created ${latestRun?.branchName || latestRun?.branchArtifacts?.branchName} in ${latestRun?.realizationProfile?.shortLabel || 'the selected profile'} and settled bundle ${latestRun?.boundedPublicProof?.bundleId || latestRun?.journalDiff?.bundleId}.`);
   } catch (error) {
-    setStatus(error.message);
+    setStatus(errorMessage(error));
   }
 });
 
@@ -5243,21 +5940,21 @@ inventorySearchInputEl?.addEventListener('input', () => {
   }
 });
 
-document.getElementById('resetButton').addEventListener('click', async () => {
+resetButtonEl.addEventListener('click', async () => {
   try {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
     setStatus('Demo reset to the seeded Spec V15 scenario state.');
   } catch (error) {
-    setStatus(error.message);
+    setStatus(errorMessage(error));
   }
 });
 
 document.addEventListener('click', (event) => {
-  const inventoryCard = event.target.closest('[data-inventory-entry-id]');
+  const inventoryCard = closestElement(event.target, '[data-inventory-entry-id]');
   if (!inventoryCard) return;
-  const entryId = inventoryCard.dataset.inventoryEntryId;
+  const entryId = inventoryCard.dataset['inventoryEntryId'];
   if (!entryId) return;
   if (selectedInventoryEntryIds.has(entryId)) selectedInventoryEntryIds.delete(entryId);
   else selectedInventoryEntryIds.add(entryId);
@@ -5272,9 +5969,9 @@ document.addEventListener('click', (event) => {
   }
 });
 
-document.getElementById('depositForm').addEventListener('submit', async (event) => {
+depositFormEl.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const formEl = event.currentTarget;
+  const formEl = /** @type {HTMLFormElement} */ (event.currentTarget);
   const form = new FormData(formEl);
   try {
     await api('/api/deposits', {
@@ -5303,7 +6000,7 @@ document.getElementById('depositForm').addEventListener('submit', async (event) 
     await refresh();
     setStatus('Candidate asset deposited into the V15 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
   } catch (error) {
-    setStatus(error.message);
+    setStatus(errorMessage(error));
   }
 });
 

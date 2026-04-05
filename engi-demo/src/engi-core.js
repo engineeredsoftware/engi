@@ -4,24 +4,44 @@ import { telemetry, telemetrySpan } from './telemetry.js';
 export const BUNDLE_PRICE_UNITS = 100;
 const MAX_BPS = 10000;
 
+/**
+ * @param {any} value
+ * @returns {string}
+ */
 export function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
+/**
+ * @returns {string}
+ */
 export function nowIso() {
   return new Date().toISOString();
 }
 
+/**
+ * @param {any} value
+ * @returns {string}
+ */
 export function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((k) => `${JSON.stringify(k)}:${canonicalJson(value[k])}`).join(',')}}`;
+  const record = /** @type {Record<string, any>} */ (value);
+  return `{${Object.keys(record).sort().map((k) => `${JSON.stringify(k)}:${canonicalJson(record[k])}`).join(',')}}`;
 }
 
+/**
+ * @param {any} receipt
+ * @returns {string}
+ */
 export function receiptHash(receipt) {
   return sha256(canonicalJson(receipt));
 }
 
+/**
+ * @param {any} value
+ * @returns {string}
+ */
 export function toSlug(value) {
   return String(value || '')
     .toLowerCase()
@@ -30,6 +50,10 @@ export function toSlug(value) {
     .slice(0, 80) || 'item';
 }
 
+/**
+ * @param {any} text
+ * @returns {string[]}
+ */
 export function tokenize(text) {
   return String(text || '')
     .toLowerCase()
@@ -38,10 +62,18 @@ export function tokenize(text) {
     .filter(Boolean);
 }
 
+/**
+ * @param {any} text
+ * @returns {string[]}
+ */
 export function uniqueTokens(text) {
   return [...new Set(tokenize(text))];
 }
 
+/**
+ * @param {any} text
+ * @returns {any[]}
+ */
 export function chunkText(text) {
   const paragraphs = String(text || '')
     .split(/\n\s*\n/g)
@@ -57,6 +89,10 @@ export function chunkText(text) {
   }));
 }
 
+/**
+ * @param {any} input
+ * @returns {any}
+ */
 export function makeAssetCommitment(input) {
   const body = String(input.content || '').trim();
   const chunks = chunkText(body);
@@ -133,6 +169,10 @@ export function makeAssetCommitment(input) {
   return output;
 }
 
+/**
+ * @param {any} input
+ * @returns {{ quantityBp: number, qualityBp: number, valenceBp: number, totalBp: number }}
+ */
 export function normalizeMeasurement({ quantityBp, qualityBp, valenceBp }) {
   return {
     quantityBp: clampBp(quantityBp),
@@ -142,10 +182,18 @@ export function normalizeMeasurement({ quantityBp, qualityBp, valenceBp }) {
   };
 }
 
+/**
+ * @param {any} value
+ * @returns {number}
+ */
 export function clampBp(value) {
   return Math.max(0, Math.min(MAX_BPS, Math.round(Number(value) || 0)));
 }
 
+/**
+ * @param {any} input
+ * @returns {any}
+ */
 export function seedLicense({ orgId, orgName, units }) {
   return {
     licenseId: `lic_${toSlug(orgId)}_${sha256(`${orgId}:${orgName}`).slice(0, 8)}`,
@@ -158,11 +206,16 @@ export function seedLicense({ orgId, orgName, units }) {
   };
 }
 
+/**
+ * @param {any} query
+ * @param {any[]} assets
+ * @returns {any[]}
+ */
 export function rankChunksForQuery(query, assets) {
-  const result = telemetrySpan('engi.rankChunksForQuery', {
+  const result = /** @type {any} */ (telemetrySpan('engi.rankChunksForQuery', {
     query,
     assetCount: assets.length,
-    assetIds: assets.map((asset) => asset.assetId)
+    assetIds: assets.map((/** @type {any} */ asset) => asset.assetId)
   }, () => {
     const queryTerms = uniqueTokens(query);
     const results = [];
@@ -197,10 +250,14 @@ export function rankChunksForQuery(query, assets) {
       topChunkIds: ranked.map((item) => `${item.assetId}:${item.chunkId}`),
       rankedChunks: ranked
     };
-  });
+  }));
   return result.rankedChunks;
 }
 
+/**
+ * @param {any} input
+ * @returns {any}
+ */
 export function buildBundleIssuance({ orgId, orgName, query, license, rankedChunks }) {
   return telemetrySpan('engi.buildBundleIssuance', {
     orgId,
@@ -214,14 +271,14 @@ export function buildBundleIssuance({ orgId, orgName, query, license, rankedChun
     if (!rankedChunks.length) throw new Error('No matching chunks found for this query.');
 
     const bundleId = `bundle_${sha256(`${orgId}:${query}:${Date.now()}`).slice(0, 12)}`;
-    const bundleRoot = sha256(rankedChunks.map((item) => item.chunkHash).join(':'));
+    const bundleRoot = sha256(rankedChunks.map((/** @type {any} */ item) => item.chunkHash).join(':'));
     const meteredUnits = BUNDLE_PRICE_UNITS;
-    const totals = rankedChunks.reduce((sum, item) => sum + item.scoreBp, 0);
-    const weighted = rankedChunks.map((item) => ({
+    const totals = rankedChunks.reduce((/** @type {any} */ sum, /** @type {any} */ item) => sum + item.scoreBp, 0);
+    const weighted = rankedChunks.map((/** @type {any} */ item) => ({
       ...item,
       contributionBp: Math.floor((item.scoreBp * MAX_BPS) / totals)
     }));
-    let used = weighted.reduce((sum, item) => sum + item.contributionBp, 0);
+    let used = weighted.reduce((/** @type {any} */ sum, /** @type {any} */ item) => sum + item.contributionBp, 0);
     if (used < MAX_BPS) weighted[0].contributionBp += (MAX_BPS - used);
 
     telemetry('engi.buildBundleIssuance.weighted', {
@@ -231,7 +288,7 @@ export function buildBundleIssuance({ orgId, orgName, query, license, rankedChun
     });
 
     const allocations = allocateUnits(meteredUnits, weighted);
-    const publicReceipt = {
+    const publicReceipt = /** @type {any} */ ({
     type: 'bundle_issuance',
     receiptId: `rct_${sha256(bundleId).slice(0, 12)}`,
     bundleId,
@@ -241,37 +298,37 @@ export function buildBundleIssuance({ orgId, orgName, query, license, rankedChun
     orgName,
     queryHash: sha256(query),
     meteredUnits,
-    assetIds: [...new Set(weighted.map((item) => item.assetId))],
-    chunkRefs: weighted.map((item) => ({
+    assetIds: [...new Set(weighted.map((/** @type {any} */ item) => item.assetId))],
+    chunkRefs: weighted.map((/** @type {any} */ item) => ({
       assetId: item.assetId,
       chunkId: item.chunkId,
       chunkHash: item.chunkHash,
       scoreBp: item.scoreBp,
       contributionBp: item.contributionBp
     }))
-  };
+  });
   publicReceipt.receiptHash = receiptHash(publicReceipt);
 
-    const allocationReceipt = {
+    const allocationReceipt = /** @type {any} */ ({
       type: 'allocation',
       receiptId: `rct_${sha256(`${bundleId}:allocation`).slice(0, 12)}`,
       bundleId,
       issuedAt: nowIso(),
       totalUnits: meteredUnits,
-      allocations: allocations.map((item) => ({
+      allocations: allocations.map((/** @type {any} */ item) => ({
         assetId: item.assetId,
         author: item.author,
         units: item.units,
         contributionBp: item.contributionBp
       }))
-    };
+    });
     allocationReceipt.receiptHash = receiptHash(allocationReceipt);
 
     const privateBundle = {
       bundleId,
       query,
       bundleRoot,
-      chunks: weighted.map((item) => ({
+      chunks: weighted.map((/** @type {any} */ item) => ({
         assetId: item.assetId,
         title: item.title,
         author: item.author,
@@ -285,8 +342,13 @@ export function buildBundleIssuance({ orgId, orgName, query, license, rankedChun
   });
 }
 
+/**
+ * @param {any} totalUnits
+ * @param {any[]} weightedChunks
+ * @returns {any[]}
+ */
 export function allocateUnits(totalUnits, weightedChunks) {
-  return telemetrySpan('engi.allocateUnits', {
+  return /** @type {any[]} */ (telemetrySpan('engi.allocateUnits', {
     totalUnits,
     weightedChunkCount: weightedChunks.length,
     weightedChunks
@@ -310,9 +372,13 @@ export function allocateUnits(totalUnits, weightedChunks) {
     let allocated = allocations.reduce((sum, item) => sum + item.units, 0);
     if (allocated < totalUnits && allocations.length) allocations[0].units += (totalUnits - allocated);
     return allocations.sort((a, b) => b.units - a.units);
-  });
+  }));
 }
 
+/**
+ * @param {any} input
+ * @returns {any}
+ */
 export function utilityReceipt({ bundleId, benchmark, baselineBp, treatmentBp }) {
   return telemetrySpan('engi.utilityReceipt', {
     bundleId,
@@ -321,7 +387,7 @@ export function utilityReceipt({ bundleId, benchmark, baselineBp, treatmentBp })
     treatmentBp
   }, () => {
     const upliftBp = clampBp(treatmentBp - baselineBp);
-    const receipt = {
+    const receipt = /** @type {any} */ ({
       type: 'utility',
       receiptId: `rct_${sha256(`${bundleId}:${benchmark}`).slice(0, 12)}`,
       bundleId,
@@ -330,7 +396,7 @@ export function utilityReceipt({ bundleId, benchmark, baselineBp, treatmentBp })
       treatmentBp: clampBp(treatmentBp),
       upliftBp,
       issuedAt: nowIso()
-    };
+    });
     receipt.receiptHash = receiptHash(receipt);
     return receipt;
   });

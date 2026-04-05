@@ -1,3 +1,4 @@
+/** @type {Record<string, any>} */
 export const RECEIPT_SCHEMAS = {
   deposit: {
     predicateType: 'https://engi.software/receipt/deposit/v1',
@@ -21,6 +22,10 @@ export const RECEIPT_SCHEMAS = {
   }
 };
 
+/**
+ * @param {any} type
+ * @returns {any}
+ */
 export function schemaForReceipt(type) {
   return RECEIPT_SCHEMAS[type] || null;
 }

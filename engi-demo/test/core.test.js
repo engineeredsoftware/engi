@@ -17,6 +17,129 @@ import {
   METERED_MICRO_UNITS
 } from '../src/engi-demo.js';
 
+/**
+ * @typedef {{
+ *   assets: any[],
+ *   buyers: any[],
+ *   needScenarios: any[],
+ *   githubAppSessions: any[],
+ *   repoArtifactInventory: any[],
+ *   ledger: { accounts: Record<string, string> },
+ *   latestRun?: any,
+ *   runHistory?: any[]
+ * }} TestState
+ */
+
+/**
+ * @typedef {{
+ *   promptSurfaces: any[],
+ *   promptContracts: any[],
+ *   promptCompletenessProof: any,
+ *   staticExecutionReceipts: any[],
+ *   measurementProvenance: any[],
+ *   needDescriptor: { promptSurfaces: any[] }
+ * }} TestMeasurement
+ */
+
+/**
+ * @typedef {{
+ *   specVersion?: string,
+ *   repoSupplySurface: { repoCount?: number, inventoryEntryCount?: number, repos: any[] },
+ *   boundaryRealitySurface: { posture?: string, stages: any[] },
+ *   needScenarios: any[],
+ *   conformanceProfiles: any,
+ *   projectionPrincipal?: string,
+ *   githubAppSessions: any[],
+ *   repoArtifactInventory: any[],
+ *   profileCompositions: { distinctionBasis?: string, comparisonAxes?: any[], demoOperatorGuidance?: any, profiles: any[] },
+ *   runHistory: any[],
+ *   policyRelease: any,
+ *   assets: any[],
+ *   latestRun: any
+ * }} TestProjection
+ */
+
+/**
+ * @typedef {{
+ *   scenarioId?: string,
+ *   need?: any,
+ *   buyer?: any,
+ *   needLifecycle?: string,
+ *   conformanceProfile?: string,
+ *   branchMode?: string,
+ *   realizationProfile?: any,
+ *   depositingSurface?: any,
+ *   needingSurface?: any,
+ *   depositingToNeedingSurface?: any,
+ *   repoToSettlementSurface: { stages: any[] },
+ *   identityAuthSpineSurface: { hops: any[], buyerPrincipalId?: string },
+ *   evaluatedCandidates: any[],
+ *   branchArtifacts: { files: Record<string, string>, publicFiles?: Record<string, string> },
+ *   assetPack: { selectedAssets: any[], assetPackId?: string, branchMode?: string },
+ *   assetPackLock: { assets: any[], units: any[] },
+ *   promptSurfaces: any[],
+ *   externalBoundaryManifest: { interfaces: any[] },
+ *   proofContract: { evidenceChain: any[], contractId?: string },
+ *   systemProofBundle: any,
+ *   authorizationDecisions: any[],
+ *   identityBindings: any[],
+ *   sensitiveDataFlowRecords: any[],
+ *   policyRelease: { artifactClasses: any[], revocationRules?: any, confidentialityDefault?: string, conformanceProfile?: string, releaseId?: string },
+ *   githubBoundarySurface: { selectedAuthSessions: any[], selectedInventoryProofs: any[], externalBoundary?: string },
+ *   artifactUploadManifest: { uploads: any[] },
+ *   selectedSourceMaterialManifest: { selectedSourceMaterial: any[] },
+ *   evalManifest: { evaluatorInterfaces: any[], vectorSpaces: any[], evaluatorBoundaryNotes: any },
+ *   settlementPreview: { settlementParticipatingAssetIds: any[], selectedAssetIds: any[], creditedAssetIds: any[], zeroCreditAssetIds: any[], allocations: any[], assetPackLockHash?: string, meteredMicroUnits?: string },
+ *   journalDiff: { invariants: any, totals: any, rawShares: any[], settledShares: any[], debits: any[], credits: any[], receipts: any[] },
+ *   settlementParticipationArtifact: { records: any[], zeroCreditParticipatingCount: number, recordCountsByDisposition: any },
+ *   sourceToSharesArtifact: { rawShares: any[], sourceContributionEntries: any[], clippingReceipts: any[], contributionDispositionCounts: Record<string, number>, proofHash?: string, basisPointNormalization: any, normalizationLedger: any[] },
+ *   accountingPrecisionReport: { exactAccountingInvariants: any, microUnitAllocation: any, sourceMaterialToSharesClosure: any[], sourceToSharesRef?: string },
+ *   pipelineTelemetry: { events: any[] },
+ *   unitCatalog: { units: any[] },
+ *   boundedPublicProof?: any,
+ *   publicArtifacts?: Record<string, string>,
+ *   projectionPrincipal?: string,
+ *   promptContracts: any[],
+ *   measurementReceipts: any[],
+ *   verificationReport: { assetVerification: any[] },
+ *   verificationReceipts: { verificationReceipts: any[] },
+ *   materializationProof: any,
+ *   scenarioFixtureManifest: { scenarioFamilies: any[] },
+ *   testCoverageReport: any,
+ *   codeAnalysisFactRegistry: any,
+ *   staticHeuristicsRegistry: any,
+ *   needMeasurement: { measurementProvenance: any[] },
+ *   deliverablesManifest: { deliverables: any[] },
+ *   staticMeasurementReport: any,
+ *   staticMeasurementProof: any
+ * }} TestLatestRun
+ */
+
+/** @type {() => TestState} */
+const buildInitialStateTest = /** @type {any} */ (buildInitialState);
+/** @type {(subject: any) => any} */
+const buildNeedDescriptorTest = /** @type {any} */ (buildNeedDescriptor);
+/** @type {(subject: any) => any} */
+const buildRealizationProfileTest = /** @type {any} */ (buildRealizationProfile);
+/** @type {(subject: any) => any} */
+const buildPromptContractTest = /** @type {any} */ (buildPromptContract);
+/** @type {(contract: any) => void} */
+const assertPromptContractCompleteTest = /** @type {any} */ (assertPromptContractComplete);
+/** @type {(scenario: any) => TestMeasurement} */
+const measureNeedFromScenarioTest = /** @type {any} */ (measureNeedFromScenario);
+/** @type {(need: any, assets: any[]) => any[]} */
+const recallCandidatesTest = /** @type {any} */ (recallCandidates);
+/** @type {(need: any, assets: any[]) => any[]} */
+const evaluateCandidatesTest = /** @type {any} */ (evaluateCandidates);
+/** @type {(need: any, evaluated: any[], branchMode: any) => any} */
+const assembleAssetPackTest = /** @type {any} */ (assembleAssetPack);
+/** @type {(state: any, principal?: any) => TestProjection} */
+const publicStateTest = /** @type {any} */ (publicState);
+/** @type {(state: any, options: any) => { nextState: any, latestRun: TestLatestRun }} */
+const runMakeEngiBranchTest = /** @type {any} */ (runMakeEngiBranch);
+/** @type {(input: any) => any} */
+const makeCandidateAssetTest = /** @type {any} */ (makeCandidateAsset);
+
 test('canonicalJson is stable across key order', () => {
   const a = { b: 2, a: 1, c: { y: 2, x: 1 } };
   const b = { c: { x: 1, y: 2 }, a: 1, b: 2 };
@@ -24,7 +147,7 @@ test('canonicalJson is stable across key order', () => {
 });
 
 test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', () => {
-  const state = buildInitialState();
+  const state = buildInitialStateTest();
   assert.equal(state.assets.length, 11);
   assert.equal(state.buyers.length, 1);
   assert.equal(state.needScenarios.length, 8);
@@ -47,8 +170,8 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
 });
 
 test('publicState exposes repo supply and boundary reality before any run', () => {
-  const state = buildInitialState();
-  const projected = publicState(state);
+  const state = buildInitialStateTest();
+  const projected = publicStateTest(state);
 
   assert.equal(projected.specVersion, 'ENGI Spec V15 canonical local prototype');
   assert.equal(projected.repoSupplySurface.repoCount, state.githubAppSessions.length);
@@ -63,7 +186,7 @@ test('publicState exposes repo supply and boundary reality before any run', () =
 });
 
 test('publicState exposes V15 profile comparison guidance for the demo shell', () => {
-  const projected = publicState(buildInitialState());
+  const projected = publicStateTest(buildInitialStateTest());
 
   assert.equal(projected.profileCompositions.distinctionBasis, 'deposit-and-need');
   assert.deepEqual(projected.profileCompositions.comparisonAxes, [
@@ -79,8 +202,8 @@ test('publicState exposes V15 profile comparison guidance for the demo shell', (
 });
 
 test('buildRealizationProfile returns canonical realization descriptors', () => {
-  const targeted = buildRealizationProfile('A');
-  const normalization = buildRealizationProfile({ scenarioFamily: 'many-asset-settlement-normalization' });
+  const targeted = buildRealizationProfileTest('A');
+  const normalization = buildRealizationProfileTest({ scenarioFamily: 'many-asset-settlement-normalization' });
 
   assert.equal(targeted.profileKind, 'realization-profile');
   assert.equal(targeted.profileDiscriminant, 'realization-profile:A');
@@ -90,8 +213,8 @@ test('buildRealizationProfile returns canonical realization descriptors', () => 
 });
 
 test('buildNeedDescriptor carries canonical run evidence, parser failure contract, and derivation closure', () => {
-  const state = buildInitialState();
-  const need = buildNeedDescriptor(state.needScenarios[0]);
+  const state = buildInitialStateTest();
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
 
   assert.equal(need.canonicalRunEvidence.runId, 'gha_run_auth_001');
   assert.equal(need.benchmarkParserContract.parserKind, 'github-actions.auth-remediation.v3');
@@ -108,12 +231,12 @@ test('buildNeedDescriptor carries canonical run evidence, parser failure contrac
   assert.ok(need.closureCriteria.length >= 3);
   assert.ok(need.measurementProvenance.length >= 2);
   assert.ok(Array.isArray(need.recallChannelContracts));
-  assert.ok(need.recallChannelContracts.some((entry) => entry.channelId === 'lexicalSearch' && entry.signalFamily === 'lexical'));
+  assert.ok(need.recallChannelContracts.some((/** @type {any} */ entry) => entry.channelId === 'lexicalSearch' && entry.signalFamily === 'lexical'));
 });
 
 test('measureNeedFromScenario materializes prompt surfaces with interpolated lineage and downstream bindings', () => {
-  const state = buildInitialState();
-  const measurement = measureNeedFromScenario(state.needScenarios[0]);
+  const state = buildInitialStateTest();
+  const measurement = measureNeedFromScenarioTest(state.needScenarios[0]);
 
   assert.ok(measurement.promptSurfaces.length >= 4);
   assert.equal(measurement.needDescriptor.promptSurfaces.length, measurement.promptSurfaces.length);
@@ -136,9 +259,9 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
 });
 
 test('normalization-heavy scenarios resolve to Profile B', () => {
-  const state = buildInitialState();
+  const state = buildInitialStateTest();
   const scenario = state.needScenarios.find((entry) => entry.scenarioId === 'auth-many-asset-normalization');
-  const need = buildNeedDescriptor(scenario);
+  const need = buildNeedDescriptorTest(scenario);
 
   assert.equal(need.realizationProfile.profileId, 'B');
   assert.equal(need.realizationProfile.shortLabel, 'Normalization deposit');
@@ -146,7 +269,7 @@ test('normalization-heavy scenarios resolve to Profile B', () => {
 });
 
 test('measureNeedFromScenario fails closed when canonical benchmark outputs are malformed', () => {
-  const state = buildInitialState();
+  const state = buildInitialStateTest();
   const brokenScenario = {
     ...state.needScenarios[0],
     canonicalRunEvidence: {
@@ -159,11 +282,11 @@ test('measureNeedFromScenario fails closed when canonical benchmark outputs are 
     }
   };
 
-  assert.throws(() => measureNeedFromScenario(brokenScenario), /parser validation failed/i);
+  assert.throws(() => measureNeedFromScenarioTest(brokenScenario), /parser validation failed/i);
 });
 
 test('prompt contracts fail deterministically on missing placeholder bindings', () => {
-  const promptContract = buildPromptContract({
+  const promptContract = buildPromptContractTest({
     promptId: 'test.prompt.mismatch',
     templateVersion: 'spec-v15-demo-prompt.v1',
     template: 'Repo {{repo}} branch {{baseRef}}',
@@ -176,11 +299,11 @@ test('prompt contracts fail deterministically on missing placeholder bindings', 
 
   assert.equal(promptContract.completeness.ok, false);
   assert.deepEqual(promptContract.missingPlaceholderBindings, ['baseRef']);
-  assert.throws(() => assertPromptContractComplete(promptContract), /prompt completeness failed/i);
+  assert.throws(() => assertPromptContractCompleteTest(promptContract), /prompt completeness failed/i);
 });
 
 test('prompt contracts require non-rendered context to be declared explicitly', () => {
-  const promptContract = buildPromptContract({
+  const promptContract = buildPromptContractTest({
     promptId: 'test.prompt.nonrendered',
     templateVersion: 'spec-v15-demo-prompt.v1',
     template: 'Repo {{repo}}',
@@ -197,7 +320,7 @@ test('prompt contracts require non-rendered context to be declared explicitly', 
 });
 
 test('makeCandidateAsset creates spec-shaped candidate asset with content units', () => {
-  const asset = makeCandidateAsset({
+  const asset = makeCandidateAssetTest({
     title: 'Asset',
     author: 'Tester',
     artifactKind: 'runbook',
@@ -221,10 +344,10 @@ test('makeCandidateAsset creates spec-shaped candidate asset with content units'
 });
 
 test('inventory-backed candidate asset carries selection, addressing, signing, and GitHub App auth surfaces', () => {
-  const state = buildInitialState();
+  const state = buildInitialStateTest();
   const authSession = state.githubAppSessions.find((session) => session.repo === 'frontier/demo-auth');
   const inventoryEntries = state.repoArtifactInventory.filter((entry) => entry.repo === 'frontier/demo-auth').slice(0, 2);
-  const asset = makeCandidateAsset({
+  const asset = makeCandidateAssetTest({
     title: 'Inventory-backed auth bundle',
     author: authSession.operatorLogin,
     artifactKind: 'mixed',
@@ -250,7 +373,7 @@ test('inventory-backed candidate asset carries selection, addressing, signing, a
 });
 
 test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embedding specs', () => {
-  const asset = makeCandidateAsset({
+  const asset = makeCandidateAssetTest({
     title: 'Signal-rich asset',
     author: 'Tester',
     artifactKind: 'patch',
@@ -265,27 +388,27 @@ test('makeCandidateAsset extracts symbols, paths, config keys, stacks, and embed
   assert.ok(unit.codeAnalysisFacts.stackTags.includes('jwt'));
   assert.equal(unit.embeddings.taskVector.spec.vectorSpace, 'task-semantic-space.v8');
   assert.equal(unit.embeddings.taskVector.spec.standIn, true);
-  assert.ok(asset.uploadSurface.surfaces.some((surface) => surface.role === 'raw'));
+  assert.ok(asset.uploadSurface.surfaces.some((/** @type {any} */ surface) => surface.role === 'raw'));
 });
 
 test('recallCandidates emits weighted channel hits, fusion summary, and query vector contracts', () => {
-  const state = buildInitialState();
-  const need = buildNeedDescriptor(state.needScenarios[0]);
-  const recalled = recallCandidates(need, state.assets);
+  const state = buildInitialStateTest();
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const recalled = recallCandidatesTest(need, state.assets);
 
   assert.ok(recalled.length >= 3);
-  assert.ok(recalled[0].recallProvenance.some((entry) => entry.channelId === 'pathSearch'));
+  assert.ok(recalled[0].recallProvenance.some((/** @type {any} */ entry) => entry.channelId === 'pathSearch'));
   assert.ok(recalled[0].fusion.contributingChannels.length >= 2);
   assert.ok(recalled[0].recallScore > 0);
   assert.equal(recalled[0].queryRepresentations.task.vectorSpace, 'task-semantic-space.v8');
-  assert.ok(recalled[0].recallChannelContracts.some((entry) => entry.channelId === 'semanticTaskSearch'));
-  assert.ok(recalled[0].recallProvenance.every((entry) => entry.signalFamily));
+  assert.ok(recalled[0].recallChannelContracts.some((/** @type {any} */ entry) => entry.channelId === 'semanticTaskSearch'));
+  assert.ok(recalled[0].recallProvenance.every((/** @type {any} */ entry) => entry.signalFamily));
 });
 
 test('evaluateCandidates separates ranking from verification and produces use tiers', () => {
-  const state = buildInitialState();
-  const need = buildNeedDescriptor(state.needScenarios[0]);
-  const evaluated = evaluateCandidates(need, state.assets);
+  const state = buildInitialStateTest();
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const evaluated = evaluateCandidatesTest(need, state.assets);
 
   assert.ok(evaluated.length >= 3);
   assert.ok(evaluated[0].ranking.needMatch.finalScore > 0);
@@ -300,25 +423,25 @@ test('evaluateCandidates separates ranking from verification and produces use ti
 });
 
 test('restricted issuer remains non-settlement even if ranking is strong', () => {
-  const state = buildInitialState();
-  const need = buildNeedDescriptor(state.needScenarios[0]);
-  const restricted = evaluateCandidates(need, state.assets).find((candidate) => candidate.asset.metadata.issuerPolicyStatus === 'restricted');
+  const state = buildInitialStateTest();
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const restricted = evaluateCandidatesTest(need, state.assets).find((candidate) => candidate.asset.metadata.issuerPolicyStatus === 'restricted');
 
   assert.ok(restricted);
   assert.notEqual(restricted.useTier, 'settlement-eligible');
 });
 
 test('revoked issuer becomes rejected', () => {
-  const state = buildInitialState();
-  const revokedAsset = makeCandidateAsset({
+  const state = buildInitialStateTest();
+  const revokedAsset = makeCandidateAssetTest({
     title: 'Revoked issuer patch',
     author: 'Bad Actor',
     artifactKind: 'patch',
     issuerPolicyStatus: 'revoked',
     content: 'restoreLegacyVerifier for services/auth/rollback.ts'
   });
-  const need = buildNeedDescriptor(state.needScenarios[0]);
-  const evaluated = evaluateCandidates(need, [revokedAsset, ...state.assets]);
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const evaluated = evaluateCandidatesTest(need, [revokedAsset, ...state.assets]);
   const revoked = evaluated.find((candidate) => candidate.assetId === revokedAsset.assetId);
 
   assert.equal(revoked.verification.issuerPolicyStatus.status, 'revoked');
@@ -326,10 +449,10 @@ test('revoked issuer becomes rejected', () => {
 });
 
 test('assembleAssetPack selects allowed tiers and locks roots', () => {
-  const state = buildInitialState();
-  const need = buildNeedDescriptor(state.needScenarios[0]);
-  const evaluated = evaluateCandidates(need, state.assets);
-  const assetPack = assembleAssetPack(need, evaluated, 'patch');
+  const state = buildInitialStateTest();
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const evaluated = evaluateCandidatesTest(need, state.assets);
+  const assetPack = assembleAssetPackTest(need, evaluated, 'patch');
 
   assert.ok(assetPack.assetPackId.startsWith('asset_pack_'));
   assert.ok(assetPack.selectedAssets.length > 0);
@@ -338,10 +461,10 @@ test('assembleAssetPack selects allowed tiers and locks roots', () => {
 });
 
 test('seeded scenario corpus yields coherent repo-bound branches across families', () => {
-  const state = buildInitialState();
+  const state = buildInitialStateTest();
 
   for (const scenario of state.needScenarios) {
-    const { latestRun } = runMakeEngiBranch(state, { scenarioId: scenario.scenarioId });
+    const { latestRun } = runMakeEngiBranchTest(state, { scenarioId: scenario.scenarioId });
     assert.equal(latestRun.scenarioId, scenario.scenarioId);
     assert.equal(latestRun.need.repo, scenario.repo);
     assert.equal(latestRun.buyer.repo, scenario.repo);
@@ -352,8 +475,8 @@ test('seeded scenario corpus yields coherent repo-bound branches across families
 });
 
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {
-  const state = buildInitialState();
-  const lowEvidence = makeCandidateAsset({
+  const state = buildInitialStateTest();
+  const lowEvidence = makeCandidateAssetTest({
     title: 'Context incident notes',
     author: 'Tester',
     artifactKind: 'incident-note',
@@ -363,11 +486,11 @@ test('context-mode asset pack can admit context-only candidates while patch mode
     benchmarkRan: false,
     content: 'issuer mismatch breaks older services and audit receipts'
   });
-  const need = buildNeedDescriptor(state.needScenarios[0]);
-  const evaluated = evaluateCandidates(need, [lowEvidence]);
+  const need = buildNeedDescriptorTest(state.needScenarios[0]);
+  const evaluated = evaluateCandidatesTest(need, [lowEvidence]);
   const contextCandidate = evaluated.find((candidate) => candidate.assetId === lowEvidence.assetId);
-  const contextPack = assembleAssetPack(need, evaluated, 'context');
-  const patchPack = assembleAssetPack(need, evaluated, 'patch');
+  const contextPack = assembleAssetPackTest(need, evaluated, 'context');
+  const patchPack = assembleAssetPackTest(need, evaluated, 'patch');
 
   assert.equal(contextCandidate.useTier, 'context-only');
   assert.equal(contextPack.branchMode, 'context');
@@ -377,8 +500,8 @@ test('context-mode asset pack can admit context-only candidates while patch mode
 
 
 test('branch artifacts separate identity, GitHub boundary, uploads, and profile surfaces', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.evaluatedCandidates[0].ranking.scoreGroups.penaltyMass);
   assert.ok(latestRun.branchArtifacts.files['.engi/depositing-surface.json']);
@@ -391,8 +514,8 @@ test('branch artifacts separate identity, GitHub boundary, uploads, and profile 
 });
 
 test('latest run exposes V15 depositing, needing, fit, and identity spine surfaces', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.equal(latestRun.depositingSurface.depositProfile, latestRun.realizationProfile.label);
   assert.equal(latestRun.needingSurface.needId, latestRun.need.needId);
@@ -404,12 +527,12 @@ test('latest run exposes V15 depositing, needing, fit, and identity spine surfac
   assert.equal(latestRun.repoToSettlementSurface.stages.at(-1).stageId, 'settlement');
   assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'github-installation'));
   assert.ok(latestRun.identityAuthSpineSurface.hops.some((hop) => hop.hopId === 'settlement-authority'));
-  assert.equal(latestRun.identityAuthSpineSurface.buyerPrincipalId, `buyer:${state.buyers[0].buyerId}`);
+  assert.equal(latestRun.identityAuthSpineSurface.buyerPrincipalId, `buyer:${state.buyers[0]?.buyerId}`);
 });
 
 test('runMakeEngiBranch produces branch artifacts and exact journal settlement', () => {
-  const state = buildInitialState();
-  const { nextState, latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { nextState, latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.equal(latestRun.needLifecycle, 'settled');
   assert.ok(latestRun.branchArtifacts.files['.engi/need.json']);
@@ -428,8 +551,8 @@ test('runMakeEngiBranch produces branch artifacts and exact journal settlement',
 });
 
 test('journal diff raw and settled shares sum to 10000 basis points', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   const rawTotal = latestRun.journalDiff.rawShares.reduce((sum, item) => sum + item.shareBp, 0);
   const settledTotal = latestRun.journalDiff.settledShares.reduce((sum, item) => sum + item.settledShareBp, 0);
@@ -438,8 +561,8 @@ test('journal diff raw and settled shares sum to 10000 basis points', () => {
 });
 
 test('buyer debit equals total supplier credits exactly', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   const debit = BigInt(latestRun.journalDiff.debits[0].delta);
   const credits = latestRun.journalDiff.credits.reduce((sum, entry) => sum + BigInt(entry.delta), 0n);
@@ -448,8 +571,8 @@ test('buyer debit equals total supplier credits exactly', () => {
 });
 
 test('asset pack lock covers selected assets and unit hashes', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.deepEqual(
     latestRun.assetPackLock.assets.map((entry) => entry.assetId).sort(),
@@ -459,8 +582,8 @@ test('asset pack lock covers selected assets and unit hashes', () => {
 });
 
 test('runMakeEngiBranch materializes prompt surfaces, external boundary manifest, and proof contract', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.promptSurfaces.length >= 4);
   assert.ok(latestRun.externalBoundaryManifest.interfaces.length >= 6);
@@ -470,12 +593,12 @@ test('runMakeEngiBranch materializes prompt surfaces, external boundary manifest
 });
 
 test('system proof bundle includes prompt, measurement, verification, materialization, and settlement witnesses', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
   const proof = latestRun.systemProofBundle;
-  const proofFamilies = proof.proofWitnessManifest.proofFamilies.map((entry) => entry.proofFamily);
-  const artifactPaths = proof.proofWitnessManifest.artifactDigests.map((entry) => entry.path);
-  const inferenceSynthesisFamily = proof.proofWitnessManifest.proofFamilies.find((entry) => entry.proofFamily === 'inference-synthesis');
+  const proofFamilies = proof.proofWitnessManifest.proofFamilies.map((/** @type {any} */ entry) => entry.proofFamily);
+  const artifactPaths = proof.proofWitnessManifest.artifactDigests.map((/** @type {any} */ entry) => entry.path);
+  const inferenceSynthesisFamily = proof.proofWitnessManifest.proofFamilies.find((/** @type {any} */ entry) => entry.proofFamily === 'inference-synthesis');
 
   assert.ok(proof.assetMeasurementProofs.length >= 1);
   assert.equal(proof.promptCompletenessProof.allContractsComplete, true);
@@ -490,16 +613,16 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.ok(proof.verificationReceiptsArtifact.verificationReceipts.length >= 4);
   assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 7);
   assert.ok(proofFamilies.includes('inference-synthesis'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
   assert.ok(artifactPaths.includes('.engi/prompt-surfaces.json'));
   assert.ok(artifactPaths.includes('.engi/asset-pack.lock.json'));
   assert.ok(artifactPaths.includes('.engi/selected-source-material.json'));
   assert.ok(artifactPaths.includes('.engi/identity-bindings.json'));
   assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
   assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/source-to-shares.json'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/materialization-proof.json'));
-  assert.ok(proof.proofWitnessManifest.artifactDigests.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/source-to-shares.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/materialization-proof.json'));
+  assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/static-heuristics-registry.json'));
   assert.ok(artifactPaths.includes('.engi/journal-diff.json'));
   assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, [
     '.engi/prompt-surfaces.json',
@@ -511,13 +634,13 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.equal(proof.settlementProof.theoremChecks.debitsEqualCredits, true);
   assert.ok(proof.proofContract.contractId.startsWith('proof_contract_'));
   assert.ok(proof.promptImplementationSurface.promptLineage.length >= 1);
-  assert.ok(proof.promptImplementationSurface.promptTemplates.every((template) => template.parseContractId.startsWith('parse_contract_')));
-  assert.ok(proof.promptImplementationSurface.promptTemplates.every((template) => template.expectedOutputSchema.length === 1));
+  assert.ok(proof.promptImplementationSurface.promptTemplates.every((/** @type {any} */ template) => template.parseContractId.startsWith('parse_contract_')));
+  assert.ok(proof.promptImplementationSurface.promptTemplates.every((/** @type {any} */ template) => template.expectedOutputSchema.length === 1));
 });
 
 test('authorization decisions and policy release are persisted on latest run', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.authorizationDecisions.length >= 7);
   assert.ok(latestRun.identityBindings.some((binding) => binding.principalId === 'engi-system:proof-publisher'));
@@ -530,7 +653,7 @@ test('authorization decisions and policy release are persisted on latest run', (
   assert.equal(latestRun.policyRelease.confidentialityDefault, 'private-required');
   assert.equal(latestRun.policyRelease.conformanceProfile, 'Profile A — targeted deposit / bounded need');
   assert.equal(latestRun.policyRelease.revocationRules.revokedIssuerBlocksNewSettlement, true);
-  assert.ok(latestRun.githubBoundarySurface.externalBoundary.includes('GitHub App'));
+  assert.ok((latestRun.githubBoundarySurface.externalBoundary || '').includes('GitHub App'));
   assert.ok(latestRun.artifactUploadManifest.uploads.length >= 1);
   assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.githubAppInstallationBound, true);
   assert.equal(latestRun.systemProofBundle.identityAuthorizationProof.selectedAssetsSignedAgainstAddressing, true);
@@ -539,8 +662,8 @@ test('authorization decisions and policy release are persisted on latest run', (
 });
 
 test('selected source material manifest and upload manifest preserve inventory and auth roots', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.every((entry) => entry.selectionRoot));
   assert.ok(latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.every((entry) => entry.addressingRoot));
@@ -552,8 +675,8 @@ test('selected source material manifest and upload manifest preserve inventory a
 });
 
 test('policy release artifact classes cover verification, authz, and sensitive-data artifacts', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
   const artifactPaths = latestRun.policyRelease.artifactClasses.map((entry) => entry.path);
 
   assert.ok(artifactPaths.includes('.engi/verification-report.json'));
@@ -568,8 +691,8 @@ test('policy release artifact classes cover verification, authz, and sensitive-d
 });
 
 test('eval manifest codifies evaluator interfaces and stand-in boundaries', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.evalManifest.evaluatorInterfaces.length >= 3);
   assert.ok(latestRun.evalManifest.evaluatorInterfaces.some((entry) => entry.measurementClass === 'inferred-measurement'));
@@ -578,8 +701,8 @@ test('eval manifest codifies evaluator interfaces and stand-in boundaries', () =
 });
 
 test('sensitive data flow records cover all required V8 data classes', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
   const classes = new Set(latestRun.sensitiveDataFlowRecords.map((record) => record.dataClass));
 
   assert.ok(classes.has('repo-private-source'));
@@ -592,21 +715,21 @@ test('sensitive data flow records cover all required V8 data classes', () => {
 });
 
 test('branch artifacts materialize selected source material only with unit hashes bound', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
   const materializedPaths = Object.keys(latestRun.branchArtifacts.files).filter((file) => file.startsWith('.engi/source-material/'));
 
   assert.equal(materializedPaths.length, latestRun.assetPack.selectedAssets.length);
   for (const assetId of latestRun.assetPack.selectedAssets) {
     const path = materializedPaths.find((file) => file.includes(assetId));
     assert.ok(path);
-    assert.match(latestRun.branchArtifacts.files[path], /unitHash:/);
+    assert.match(String(latestRun.branchArtifacts.files[/** @type {string} */ (path)]), /unitHash:/);
   }
 });
 
 test('settlement preview records participating assets and asset-pack-lock binding', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.deepEqual(
     latestRun.settlementPreview.settlementParticipatingAssetIds.slice().sort(),
@@ -616,8 +739,8 @@ test('settlement preview records participating assets and asset-pack-lock bindin
 });
 
 test('seeded settlement explicitly distinguishes selected, participating, and credited assets', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.deepEqual(
     latestRun.settlementPreview.selectedAssetIds.slice().sort(),
@@ -637,14 +760,15 @@ test('seeded settlement explicitly distinguishes selected, participating, and cr
   );
   for (const assetId of latestRun.settlementPreview.zeroCreditAssetIds) {
     const zeroAllocation = latestRun.settlementPreview.allocations.find((entry) => entry.assetId === assetId);
+    assert.ok(zeroAllocation);
     assert.equal(zeroAllocation.creditedMicroUnits, '0');
     assert.match(zeroAllocation.rationale.join(' '), /marginal bundle contribution was non-positive/i);
   }
 });
 
 test('source-to-shares artifact, settlement participation, and accounting precision report stay aligned', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
   const sourceToShares = latestRun.sourceToSharesArtifact;
   const participation = latestRun.settlementParticipationArtifact;
   const precision = latestRun.accountingPrecisionReport;
@@ -676,8 +800,8 @@ test('source-to-shares artifact, settlement participation, and accounting precis
 });
 
 test('telemetry artifacts explain the pipeline and prompt implementation surface', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.pipelineTelemetry.events.some((event) => event.stage === 'content-unit-semantics'));
   assert.ok(latestRun.pipelineTelemetry.events.some((event) => event.stage === 'settlement-and-shares'));
@@ -688,9 +812,9 @@ test('telemetry artifacts explain the pipeline and prompt implementation surface
 });
 
 test('ENGI_NEED markdown includes parser contract, conformance profiles, and settlement preview summary', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
-  const markdown = latestRun.branchArtifacts.files['ENGI_NEED.md'];
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
+  const markdown = String(latestRun.branchArtifacts.files['ENGI_NEED.md']);
 
   assert.match(markdown, /Benchmark parser contract/);
   assert.match(markdown, /Conformance profiles/);
@@ -701,9 +825,9 @@ test('ENGI_NEED markdown includes parser contract, conformance profiles, and set
 });
 
 test('publicState returns public projection including bounded public proof and profile labels', () => {
-  const state = buildInitialState();
-  const { nextState } = runMakeEngiBranch(state, {});
-  const projected = publicState(nextState);
+  const state = buildInitialStateTest();
+  const { nextState } = runMakeEngiBranchTest(state, {});
+  const projected = publicStateTest(nextState);
 
   assert.equal(projected.assets.length, 11);
   assert.ok(projected.latestRun.need.needId);
@@ -721,7 +845,7 @@ test('publicState returns public projection including bounded public proof and p
   assert.ok(projected.latestRun.publicArtifacts['.engi/redaction-proof.json']);
   assert.ok(projected.latestRun.repoToSettlementSurface.stages.length === 7);
   assert.deepEqual(
-    projected.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((stage) => stage.stageId),
+    projected.latestRun.repoToSettlementSurface.stages.slice(0, 3).map((/** @type {any} */ stage) => stage.stageId),
     ['depositing', 'needing', 'deposit-to-need-fit']
   );
   assert.equal(projected.latestRun.realizationProfile.shortLabel, 'Targeted deposit');
@@ -735,13 +859,13 @@ test('publicState returns public projection including bounded public proof and p
   assert.ok(projected.githubAppSessions.length >= 1);
   assert.ok(projected.repoArtifactInventory.length >= 1);
   assert.ok(projected.profileCompositions.profiles.length === 2);
-  assert.ok(projected.runHistory.length, 1);
+  assert.equal(projected.runHistory.length, 1);
 });
 
 test('buyer projection exposes richer artifacts without raw branch files or source material', () => {
-  const state = buildInitialState();
-  const { nextState } = runMakeEngiBranch(state, {});
-  const projected = publicState(nextState, 'buyer');
+  const state = buildInitialStateTest();
+  const { nextState } = runMakeEngiBranchTest(state, {});
+  const projected = publicStateTest(nextState, 'buyer');
 
   assert.equal(projected.latestRun.projectionPrincipal, 'buyer');
   assert.ok(projected.latestRun.verificationReport.assetVerification.length >= 1);
@@ -767,21 +891,21 @@ test('buyer projection exposes richer artifacts without raw branch files or sour
 });
 
 test('measurement receipts and static report stay linked to provenance ids', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
   const receiptIds = new Set(latestRun.measurementReceipts.map((receipt) => receipt.receiptId));
 
   assert.ok(latestRun.measurementReceipts.length >= 3);
   assert.equal(latestRun.staticMeasurementReport.allReceiptRefsResolve, true);
   assert.equal(latestRun.staticMeasurementProof.allReceiptRefsResolve, true);
   assert.equal(latestRun.codeAnalysisFactRegistry.audit.allConsumedFactsRegistered, true);
-  assert.ok(latestRun.needMeasurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.every((receiptId) => receiptIds.has(receiptId))));
-  assert.ok(latestRun.evaluatedCandidates.some((candidate) => candidate.measurementProvenance.some((entry) => entry.receiptRefs.some((receiptId) => receiptIds.has(receiptId)))));
+  assert.ok(latestRun.needMeasurement.measurementProvenance.filter((/** @type {any} */ entry) => entry.mode === 'static').every((/** @type {any} */ entry) => entry.receiptRefs.every((/** @type {any} */ receiptId) => receiptIds.has(receiptId))));
+  assert.ok(latestRun.evaluatedCandidates.some((candidate) => candidate.measurementProvenance.some((/** @type {any} */ entry) => entry.receiptRefs.some((/** @type {any} */ receiptId) => receiptIds.has(receiptId)))));
 });
 
 test('deliverables manifest and journal receipts remain internally consistent', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, {});
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/need-measurement.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/eval-manifest.json'));
@@ -802,8 +926,8 @@ test('deliverables manifest and journal receipts remain internally consistent', 
 });
 
 test('verification report records branch-mode rights per use tier', () => {
-  const state = buildInitialState();
-  const { latestRun } = runMakeEngiBranch(state, { branchMode: 'patch' });
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, { branchMode: 'patch' });
   const contextOnly = latestRun.verificationReport.assetVerification.find((entry) => entry.useTier === 'context-only');
 
   assert.ok(contextOnly);
@@ -814,9 +938,9 @@ test('verification report records branch-mode rights per use tier', () => {
 });
 
 test('many-asset normalization scenario keeps source-to-shares replay traces deterministic', () => {
-  const state = buildInitialState();
-  const { latestRun: firstRun } = runMakeEngiBranch(state, { scenarioId: 'auth-many-asset-normalization' });
-  const { latestRun: secondRun } = runMakeEngiBranch(state, { scenarioId: 'auth-many-asset-normalization' });
+  const state = buildInitialStateTest();
+  const { latestRun: firstRun } = runMakeEngiBranchTest(state, { scenarioId: 'auth-many-asset-normalization' });
+  const { latestRun: secondRun } = runMakeEngiBranchTest(state, { scenarioId: 'auth-many-asset-normalization' });
 
   assert.equal(firstRun.scenarioId, 'auth-many-asset-normalization');
   assert.ok(firstRun.sourceToSharesArtifact.sourceContributionEntries.length >= 2);
@@ -829,10 +953,10 @@ test('many-asset normalization scenario keeps source-to-shares replay traces det
 });
 
 test('runMakeEngiBranch fails if no settlement-eligible assets exist', () => {
-  const state = buildInitialState();
+  const state = buildInitialStateTest();
   const downgradedState = {
     ...state,
-    assets: state.assets.map((asset) => makeCandidateAsset({
+    assets: state.assets.map((asset) => makeCandidateAssetTest({
       ...asset.metadata,
       title: asset.title,
       author: asset.metadata.author,
@@ -849,5 +973,5 @@ test('runMakeEngiBranch fails if no settlement-eligible assets exist', () => {
     }))
   };
 
-  assert.throws(() => runMakeEngiBranch(downgradedState, {}), /No candidates survived into the asset pack/);
+  assert.throws(() => runMakeEngiBranchTest(downgradedState, {}), /No candidates survived into the asset pack/);
 });

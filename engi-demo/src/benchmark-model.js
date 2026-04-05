@@ -1,6 +1,10 @@
 import { clampBp } from './engi-core.js';
 import { telemetrySpan } from './telemetry.js';
 
+/**
+ * @param {any} input
+ * @returns {any}
+ */
 export function buildBenchmarkComparison({ bundleId, benchmark, baselineBp, treatmentBp }) {
   return telemetrySpan('engi.buildBenchmarkComparison', {
     bundleId,

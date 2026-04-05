@@ -4,6 +4,7 @@
  * @typedef {import('./type-contracts.js').BuiltPromptSurface} BuiltPromptSurface
  * @typedef {import('./type-contracts.js').PromptContractShape} PromptContractShape
  * @typedef {import('./type-contracts.js').ParsedCompletionEnvelope} ParsedCompletionEnvelope
+ * @typedef {import('./type-contracts.js').BuiltRealizationProfile} BuiltRealizationProfile
  *
  * @typedef {{
  *   runId?: string | undefined,
@@ -69,17 +70,130 @@
  * }} RepoCodeAnalysis
  *
  * @typedef {{
- *   needDescriptor: Record<string, unknown>,
- *   benchmarkTarget: Record<string, unknown>,
+ *   conformanceProfile: string,
+ *   checkedPromptCount: number,
+ *   allContractsComplete: boolean,
+ *   promptChecks: Array<Record<string, unknown>>,
+ *   proofHash: string
+ * }} PromptCompletenessProofShape
+ *
+ * @typedef {{
+ *   conformanceProfile: string,
+ *   envelopeCount: number,
+ *   promptIds: string[],
+ *   allContractsResolved: boolean,
+ *   allPayloadsAdmissible: boolean,
+ *   executionModes: string[],
+ *   envelopes: ParsedCompletionEnvelope[],
+ *   artifactHash: string
+ * }} ParsedCompletionEnvelopeArtifactShape
+ *
+ * @typedef {{
+ *   harnessPath: string,
+ *   runId: string,
+ *   failingCases: string[],
+ *   weakDimensions: string[],
+ *   baselineMetrics: Record<string, unknown>
+ * }} BenchmarkTargetShape
+ *
+ * @typedef {{
+ *   parserKind: string,
+ *   parserVersion: string,
+ *   acceptedArtifactMediaTypes: string[],
+ *   parserFailureContract: {
+ *     failClosed: boolean,
+ *     onMissingCanonicalOutputs: string,
+ *     onMalformedOutputs: string
+ *   },
+ *   consumedInputs: ConsumedInputs
+ * }} BenchmarkParserContractShape
+ *
+ * @typedef {{
+ *   needId: string,
+ *   repo: string,
+ *   installationId?: string | number | null | undefined,
+ *   baseRef: string,
+ *   targetRef?: string | undefined,
+ *   prNumber?: number | null | undefined,
+ *   benchmarkHarnessPath: string,
+ *   benchmarkWorkflowPath?: string | undefined,
+ *   benchmarkRunId: string,
+ *   benchmarkRunUrl?: string | undefined,
+ *   canonicalRunEvidence?: CanonicalRunEvidence | null | undefined,
+ *   benchmarkParserContract: BenchmarkParserContractShape,
  *   canonicalBenchmarkOutputs: CanonicalBenchmarkOutputs,
- *   benchmarkParserContract: Record<string, unknown>,
+ *   task: string,
+ *   failureModes: string[],
+ *   constraints: string[],
+ *   targetArtifactKinds: string[],
+ *   closureCriteria: string[],
+ *   stackHints: string[],
+ *   touchedPaths: string[],
+ *   extractedSymbols: string[],
+ *   configKeys: string[],
+ *   failingCases: string[],
+ *   weakDimensions: string[],
+ *   baselineMetrics: Record<string, unknown>,
+ *   humanPrompt?: string | undefined,
+ *   conformanceProfile: string,
+ *   productionIntentProfile: string,
+ *   realizationProfile: BuiltRealizationProfile,
+ *   fieldDerivations: {
+ *     task: DerivationRecord,
+ *     failureModes: DerivationRecord,
+ *     constraints: DerivationRecord,
+ *     targetArtifactKinds: DerivationRecord,
+ *     closureCriteria: DerivationRecord,
+ *     stackHints: DerivationRecord,
+ *     touchedPaths: DerivationRecord,
+ *     extractedSymbols: DerivationRecord,
+ *     configKeys: DerivationRecord,
+ *     failingCases: DerivationRecord,
+ *     weakDimensions: DerivationRecord,
+ *     baselineMetrics: DerivationRecord
+ *   },
+ *   measurementProvenance: Array<Record<string, unknown>>,
+ *   measurementClassInventory: {
+ *     staticExecuted: string[],
+ *     inferredDerived: string[],
+ *     hybridComposed: string[]
+ *   },
+ *   staticMeasurements: {
+ *     touchedPaths: string[],
+ *     extractedSymbols: string[],
+ *     configKeys: string[],
+ *     failingCases: string[],
+ *     weakDimensions: string[]
+ *   },
+ *   inferredMeasurements: {
+ *     task: string,
+ *     failureModes: string[],
+ *     constraints: string[],
+ *     targetArtifactKinds: string[],
+ *     closureCriteria: string[]
+ *   },
+ *   recallChannelContracts: Array<Record<string, unknown>>,
+ *   promptSurfaces: BuiltPromptSurface[],
+ *   promptContracts: PromptContractShape[],
+ *   promptCompletenessProof: PromptCompletenessProofShape,
+ *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
+ *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifactShape,
+ *   analysisFactLifecycle: Record<string, unknown>,
+ *   profileCompositions: ReturnType<typeof buildProfileCompositions>
+ * }} NeedDescriptorShape
+ *
+ * @typedef {{
+ *   needDescriptor: NeedDescriptorShape,
+ *   benchmarkTarget: BenchmarkTargetShape,
+ *   canonicalBenchmarkOutputs: CanonicalBenchmarkOutputs,
+ *   benchmarkParserContract: BenchmarkParserContractShape,
  *   parserValidation: ParserValidation,
  *   inferenceProofs: Array<Record<string, unknown>>,
  *   promptSurfaces: BuiltPromptSurface[],
  *   promptContracts: PromptContractShape[],
- *   promptCompletenessProof: Record<string, unknown>,
+ *   promptCompletenessProof: PromptCompletenessProofShape,
  *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
- *   parsedCompletionEnvelopeArtifact: Record<string, unknown>,
+ *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifactShape,
  *   measurementProvenance: Array<Record<string, unknown>>,
  *   staticExecutionReceipts: StaticExecutionReceipt[]
  * }} NeedMeasurementResult
@@ -136,7 +250,7 @@ function requirePromptSurface(promptSurfaces, promptId) {
  *   measurementTrace: (mode: 'inferred' | 'static' | 'hybrid', toolOrPromptId: string, evidenceRefs: string[], options?: Record<string, unknown>) => Record<string, unknown>,
  *   buildRecallChannelContracts: () => Array<Record<string, unknown>>,
  *   measureNeedFromScenario: (scenario: NeedMeasurementScenario) => NeedMeasurementResult,
- *   buildNeedDescriptor: (scenario: NeedMeasurementScenario) => Record<string, unknown>
+ *   buildNeedDescriptor: (scenario: NeedMeasurementScenario) => NeedDescriptorShape
  * }}
  */
 export function createNeedMeasurementRuntime({
@@ -553,7 +667,7 @@ export function createNeedMeasurementRuntime({
 
   /**
    * @param {NeedMeasurementScenario} scenario
-   * @returns {Record<string, unknown>}
+   * @returns {NeedDescriptorShape}
    */
   function buildNeedDescriptor(scenario) {
     return measureNeedFromScenario(scenario).needDescriptor;

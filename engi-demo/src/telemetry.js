@@ -1,3 +1,8 @@
+/**
+ * @param {any} value
+ * @param {number} [depth=0]
+ * @returns {any}
+ */
 function summarize(value, depth = 0) {
   if (value == null) return value;
   if (depth > 2) return '[max-depth]';
@@ -9,6 +14,7 @@ function summarize(value, depth = 0) {
     };
   }
   if (typeof value === 'object') {
+    /** @type {Record<string, any>} */
     const out = {};
     for (const [key, entry] of Object.entries(value).slice(0, 12)) {
       if (typeof entry === 'string' && entry.length > 180) {
@@ -22,6 +28,12 @@ function summarize(value, depth = 0) {
   return value;
 }
 
+/**
+ * @param {string} level
+ * @param {string} event
+ * @param {Record<string, any>} [fields={}]
+ * @returns {void}
+ */
 function emit(level, event, fields = {}) {
   const payload = {
     ts: new Date().toISOString(),
@@ -34,10 +46,21 @@ function emit(level, event, fields = {}) {
   else console.log(line);
 }
 
+/**
+ * @param {string} event
+ * @param {Record<string, any>} [fields={}]
+ * @returns {void}
+ */
 export function telemetry(event, fields = {}) {
   emit('info', event, summarize(fields));
 }
 
+/**
+ * @param {string} event
+ * @param {any} error
+ * @param {Record<string, any>} [fields={}]
+ * @returns {void}
+ */
 export function telemetryError(event, error, fields = {}) {
   emit('error', event, {
     ...summarize(fields),
@@ -49,16 +72,22 @@ export function telemetryError(event, error, fields = {}) {
   });
 }
 
+/**
+ * @param {string} event
+ * @param {any} input
+ * @param {() => any} fn
+ * @returns {any}
+ */
 export function telemetrySpan(event, input, fn) {
   const startedAt = Date.now();
   telemetry(`${event}.start`, { input });
   try {
-    const output = fn();
+    const output = /** @type {any} */ (fn());
     if (output && typeof output.then === 'function') {
-      return output.then((resolved) => {
+      return output.then((/** @type {any} */ resolved) => {
         telemetry(`${event}.ok`, { input, output: resolved, durationMs: Date.now() - startedAt });
         return resolved;
-      }).catch((error) => {
+      }).catch((/** @type {any} */ error) => {
         telemetryError(`${event}.error`, error, { input, durationMs: Date.now() - startedAt });
         throw error;
       });

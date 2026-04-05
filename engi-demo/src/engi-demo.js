@@ -1,3 +1,55 @@
+/**
+ * @typedef {any} BuiltPromptSurface
+ * @typedef {any} PromptContractShape
+ * @typedef {any} ParsedCompletionEnvelope
+ * @typedef {any} BuiltRealizationProfile
+ *
+ * @typedef {any} NeedShape
+ * @typedef {any} AssetShape
+ * @typedef {any} EvaluatedCandidate
+ * @typedef {any} AssetPackShape
+ * @typedef {any} PolicyState
+ *
+ * @typedef {any} NeedMeasurementResult
+ * @typedef {any} NeedMeasurementScenario
+ *
+ * @typedef {any} InferenceProof
+ * @typedef {any} ParsedCompletionEnvelopeArtifact
+ * @typedef {any} ProofWitnessManifestShape
+ * @typedef {any} VerificationReportShape
+ * @typedef {any} ProfileCompositionSurfaceShape
+ * @typedef {any} SelectedSourceMaterialManifestShape
+ * @typedef {any} PipelineTelemetryShape
+ * @typedef {any} ArtifactUploadManifestShape
+ * @typedef {any} ExternalBoundaryManifestShape
+ * @typedef {any} GithubBoundarySurfaceShape
+ * @typedef {any} SettlementParticipationArtifactShape
+ * @typedef {any} SettlementPreviewShape
+ * @typedef {any} JournalDiffShape
+ * @typedef {any} PolicyReleaseShape
+ * @typedef {any} UnitCatalogShape
+ * @typedef {any} DemoStateShape
+ * @typedef {any} NeedScenarioShape
+ *
+ * @typedef {any} DepositingSurface
+ * @typedef {any} NeedingSurface
+ * @typedef {any} DepositingToNeedingSurface
+ * @typedef {any} PublicSessionShape
+ * @typedef {any} PublicRepoArtifactInventoryEntryShape
+ *
+ * @typedef {any} InternalSessionShape
+ * @typedef {any} InternalRepoArtifactInventoryEntryShape
+ * @typedef {any} StaticExecutionReceiptShape
+ * @typedef {any} StaticExecutionReceiptInput
+ * @typedef {any} BoundaryDescriptions
+ * @typedef {any} BoundaryRealityStageInput
+ * @typedef {any} ExternalBoundaryInterfaceInput
+ * @typedef {any} CodeAnalysisHints
+ * @typedef {any} CodeAnalysisFactsShape
+ * @typedef {any} InventoryAddressingInput
+ * @typedef {any} GitHubAppSessionInput
+ */
+
 import { ExecutionReality, NormalizationPressure } from './canonical/enums.js';
 import './canonical/types.js';
 import { buildRepoSupplySurface, buildDepositingSurface, buildNeedingSurface, buildDepositingToNeedingSurface, buildRepoToSettlementSurface, buildIdentityAuthSpineSurface, buildBoundaryRealitySurface, buildGithubBoundarySurface } from './canonical/surfaces.js';
@@ -28,6 +80,23 @@ import {
 
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B, buildRealizationProfile } from './realization-profile.js';
+
+const createNeedMeasurementRuntimeUnchecked = /** @type {any} */ (createNeedMeasurementRuntime);
+const createEvaluationMaterializationRuntimeUnchecked = /** @type {any} */ (createEvaluationMaterializationRuntime);
+const createSettlementRuntimeUnchecked = /** @type {any} */ (createSettlementRuntime);
+const evaluatorSurfaceUnchecked = /** @type {any} */ (evaluatorSurface);
+const buildPromptImplementationSurfaceUnchecked = /** @type {any} */ (buildPromptImplementationSurface);
+const buildSystemProofBundleUnchecked = /** @type {any} */ (buildSystemProofBundle);
+const buildSelectionConsistencyProofUnchecked = /** @type {any} */ (buildSelectionConsistencyProof);
+const buildMaterializationVisibilityProofUnchecked = /** @type {any} */ (buildMaterializationVisibilityProof);
+const buildMaterializationExclusionsUnchecked = /** @type {any} */ (buildMaterializationExclusions);
+const buildMaterializationProofUnchecked = /** @type {any} */ (buildMaterializationProof);
+const buildProofWitnessManifestUnchecked = /** @type {any} */ (buildProofWitnessManifest);
+const buildProjectionPolicyUnchecked = /** @type {any} */ (buildProjectionPolicy);
+const buildBoundedPublicProofArtifactUnchecked = /** @type {any} */ (buildBoundedPublicProofArtifact);
+const buildRedactionProofUnchecked = /** @type {any} */ (buildRedactionProof);
+const buildDisclosureProofUnchecked = /** @type {any} */ (buildDisclosureProof);
+const buildDemoPublicStateUnchecked = /** @type {any} */ (buildDemoPublicState);
 
 export const SPEC_VERSION = 'ENGI Spec V15 canonical local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
@@ -70,6 +139,11 @@ const REQUIRED_SENSITIVE_DATA_CLASSES = [
   'bounded-public-proof-metadata'
 ];
 
+/**
+ * @param {string | null | undefined} localBoundary
+ * @param {string | null | undefined} externalBoundary
+ * @returns {BoundaryDescriptions}
+ */
 function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   return {
     localBoundary,
@@ -79,6 +153,9 @@ function buildBoundaryDescriptions(localBoundary, externalBoundary) {
   };
 }
 
+/**
+ * @param {BoundaryRealityStageInput} input
+ */
 function buildBoundaryRealityStage({ stageId, label, localStatus, localDescription, externalRequirement }) {
   return {
     stageId,
@@ -92,6 +169,9 @@ function buildBoundaryRealityStage({ stageId, label, localStatus, localDescripti
   };
 }
 
+/**
+ * @param {ExternalBoundaryInterfaceInput} input
+ */
 function buildExternalBoundaryInterface({ interfaceId, label, status, localPrototype, externalBoundary }) {
   return {
     interfaceId,
@@ -170,20 +250,36 @@ const CODE_ANALYSIS_FACT_REGISTRY_SPECS = {
   'need.benchmarkRunId': { measurementClass: 'copied', gatheredFrom: ['scenario.benchmarkRunId'], storedOn: ['need.benchmarkRunId'], factClass: 'verification-context' }
 };
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function sha256(value) {
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
+/**
+ * @returns {string}
+ */
 export function nowIso() {
   return new Date().toISOString();
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function canonicalJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
-  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  const record = /** @type {Record<string, unknown>} */ (value);
+  return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(',')}}`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function toSlug(value) {
   return String(value || '')
     .toLowerCase()
@@ -192,6 +288,10 @@ export function toSlug(value) {
     .slice(0, 80) || 'item';
 }
 
+/**
+ * @param {unknown} text
+ * @returns {string[]}
+ */
 export function tokenize(text) {
   return String(text || '')
     .toLowerCase()
@@ -200,23 +300,45 @@ export function tokenize(text) {
     .filter(Boolean);
 }
 
+/**
+ * @param {unknown} text
+ * @returns {string[]}
+ */
 export function uniqueTokens(text) {
   return [...new Set(tokenize(text))];
 }
 
+/**
+ * @param {unknown} value
+ * @returns {number}
+ */
 function hashInt(value) {
   return parseInt(sha256(value).slice(0, 8), 16);
 }
 
+/**
+ * @param {unknown} value
+ * @returns {number}
+ */
 function clamp01(value) {
   return Math.max(0, Math.min(1, Number(value) || 0));
 }
 
-function ratio(intersection, total) {
+/**
+ * @param {number} intersectionCount
+ * @param {number} total
+ * @returns {number}
+ */
+function ratio(intersectionCount, total) {
   if (!total) return 0;
-  return clamp01(intersection / total);
+  return clamp01(intersectionCount / total);
 }
 
+/**
+ * @param {readonly unknown[] | string | null | undefined} left
+ * @param {readonly unknown[] | string | null | undefined} right
+ * @returns {number}
+ */
 function overlapScore(left, right) {
   const a = new Set(Array.isArray(left) ? left : uniqueTokens(left));
   const b = new Set(Array.isArray(right) ? right : uniqueTokens(right));
@@ -228,30 +350,58 @@ function overlapScore(left, right) {
   return ratio(hits, Math.max(a.size, b.size / 2));
 }
 
+/**
+ * @param {readonly string[] | null | undefined} left
+ * @param {readonly string[] | null | undefined} right
+ * @returns {string[]}
+ */
 function intersection(left, right) {
   const a = new Set(left || []);
   return [...new Set((right || []).filter((item) => a.has(item)))];
 }
 
+/**
+ * @param {readonly string[] | null | undefined} left
+ * @param {readonly string[] | null | undefined} right
+ * @returns {string[]}
+ */
 function union(left, right) {
   return [...new Set([...(left || []), ...(right || [])])];
 }
 
+/**
+ * @param {readonly string[] | null | undefined} left
+ * @param {readonly string[] | null | undefined} right
+ * @returns {number}
+ */
 function countOverlap(left, right) {
   return intersection(left, right).length;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
 }
 
+/**
+ * @param {string} surfaceId
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string | null}
+ */
 function aggregateRootRef(surfaceId, values = []) {
   const roots = summarizeStrings(values);
   if (!roots.length) return null;
-  if (roots.length === 1) return roots[0];
+  if (roots.length === 1) return roots[0] || null;
   return `${surfaceId}_aggregate_${sha256(`${surfaceId}:${roots.join('|')}`).slice(0, 12)}`;
 }
 
+/**
+ * @param {string} [principal=DEFAULT_PROJECTION_PRINCIPAL]
+ * @returns {string}
+ */
 function ensureProjectionPrincipal(principal = DEFAULT_PROJECTION_PRINCIPAL) {
   const normalized = String(principal || DEFAULT_PROJECTION_PRINCIPAL).trim().toLowerCase();
   if (!PROJECTION_PRINCIPALS.has(normalized)) {
@@ -260,6 +410,10 @@ function ensureProjectionPrincipal(principal = DEFAULT_PROJECTION_PRINCIPAL) {
   return normalized;
 }
 
+/**
+ * @param {StaticExecutionReceiptInput} input
+ * @returns {StaticExecutionReceiptShape & Record<string, unknown>}
+ */
 function buildStaticExecutionReceipt({
   receiptKind,
   stageId,
@@ -298,8 +452,17 @@ function buildStaticExecutionReceipt({
   };
 }
 
+/**
+ * @param {unknown[] | unknown} [values=[]]
+ * @returns {StaticExecutionReceiptShape[]}
+ */
 function collectStaticExecutionReceipts(values = []) {
+  /** @type {StaticExecutionReceiptShape[]} */
   const receipts = [];
+  /**
+   * @param {unknown} value
+   * @returns {void}
+   */
   const visit = (value) => {
     if (!value) return;
     if (Array.isArray(value)) {
@@ -307,17 +470,24 @@ function collectStaticExecutionReceipts(values = []) {
       return;
     }
     if (typeof value !== 'object') return;
-    if (typeof value.receiptId === 'string' && typeof value.stageId === 'string' && typeof value.outputHash === 'string') {
-      receipts.push(value);
+    const candidate = /** @type {any} */ (value);
+    if (typeof candidate.receiptId === 'string' && typeof candidate.stageId === 'string' && typeof candidate.outputHash === 'string') {
+      receipts.push(candidate);
       return;
     }
-    Object.values(value).forEach(visit);
+    Object.values(candidate).forEach(visit);
   };
   const queue = Array.isArray(values) ? values : [values];
   queue.forEach(visit);
   return receipts;
 }
 
+/**
+ * @param {StaticExecutionReceiptShape[]} [receipts=[]]
+ * @param {NeedMeasurementResult | null} [needMeasurement=null]
+ * @param {EvaluatedCandidate[]} [evaluatedCandidates=[]]
+ * @returns {Record<string, unknown>}
+ */
 function buildStaticMeasurementReport(receipts = [], needMeasurement = null, evaluatedCandidates = []) {
   const byStage = receipts.map((receipt) => ({
     receiptId: receipt.receiptId,
@@ -330,21 +500,27 @@ function buildStaticMeasurementReport(receipts = [], needMeasurement = null, eva
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     receiptCount: receipts.length,
-    needMeasurementReceiptIds: summarizeStrings((needMeasurement?.measurementProvenance || []).flatMap((entry) => entry.receiptRefs || [])),
-    verificationReceiptIds: summarizeStrings(evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((entry) => entry.receiptRefs || [])),
+    needMeasurementReceiptIds: summarizeStrings((needMeasurement?.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])),
+    verificationReceiptIds: summarizeStrings(evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])),
     byStage,
     allReceiptRefsResolve: summarizeStrings([
-      ...(needMeasurement?.measurementProvenance || []).flatMap((entry) => entry.receiptRefs || []),
-      ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((entry) => entry.receiptRefs || [])
+      ...(needMeasurement?.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
+      ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
     ]).every((receiptId) => receipts.some((receipt) => receipt.receiptId === receiptId)),
     reportHash: stableHashObject(byStage)
   };
 }
 
+/**
+ * @param {StaticExecutionReceiptShape[]} [receipts=[]]
+ * @param {NeedMeasurementResult | null} [needMeasurement=null]
+ * @param {EvaluatedCandidate[]} [evaluatedCandidates=[]]
+ * @returns {Record<string, unknown>}
+ */
 function buildStaticMeasurementProof(receipts = [], needMeasurement = null, evaluatedCandidates = []) {
   const expectedReceiptRefs = summarizeStrings([
-    ...(needMeasurement?.measurementProvenance || []).flatMap((entry) => entry.receiptRefs || []),
-    ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((entry) => entry.receiptRefs || [])
+    ...(needMeasurement?.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
+    ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
   ]);
   const receiptIds = new Set(receipts.map((receipt) => receipt.receiptId));
   return {
@@ -362,6 +538,12 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
   };
 }
 
+/**
+ * @param {string} factId
+ * @param {NeedMeasurementResult | NeedShape | null | undefined} need
+ * @param {AssetShape | null} [assetSample=null]
+ * @returns {unknown}
+ */
 function codeAnalysisFactSample(factId, need, assetSample = null) {
   switch (factId) {
     case 'need.task': return need?.task;
@@ -376,11 +558,11 @@ function codeAnalysisFactSample(factId, need, assetSample = null) {
     case 'need.weakDimensions': return need?.weakDimensions?.slice(0, 3);
     case 'need.lexicalNeedTerms': return uniqueTokens([need?.task, ...(need?.failureModes || []), ...(need?.constraints || []), ...(need?.weakDimensions || [])].join(' ')).slice(0, 8);
     case 'asset.contentUnits[].textTokens': return uniqueTokens(assetSample?.contentUnits?.[0]?.text || '').slice(0, 8);
-    case 'asset.contentUnits[].codeAnalysisFacts.symbols': return assetSample?.contentUnits?.flatMap((unit) => unit.codeAnalysisFacts.symbols).slice(0, 4);
-    case 'asset.contentUnits[].codeAnalysisFacts.paths': return assetSample?.contentUnits?.flatMap((unit) => unit.codeAnalysisFacts.paths).slice(0, 4);
-    case 'asset.contentUnits[].codeAnalysisFacts.configKeys': return assetSample?.contentUnits?.flatMap((unit) => unit.codeAnalysisFacts.configKeys).slice(0, 4);
-    case 'asset.contentUnits[].codeAnalysisFacts.stackTags': return assetSample?.contentUnits?.flatMap((unit) => unit.codeAnalysisFacts.stackTags).slice(0, 4);
-    case 'asset.contentUnits[].codeAnalysisFacts.constraints': return assetSample?.contentUnits?.flatMap((unit) => unit.codeAnalysisFacts.constraints).slice(0, 4);
+    case 'asset.contentUnits[].codeAnalysisFacts.symbols': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.symbols).slice(0, 4);
+    case 'asset.contentUnits[].codeAnalysisFacts.paths': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.paths).slice(0, 4);
+    case 'asset.contentUnits[].codeAnalysisFacts.configKeys': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.configKeys).slice(0, 4);
+    case 'asset.contentUnits[].codeAnalysisFacts.stackTags': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.stackTags).slice(0, 4);
+    case 'asset.contentUnits[].codeAnalysisFacts.constraints': return assetSample?.contentUnits?.flatMap((/** @type {any} */ unit) => unit.codeAnalysisFacts.constraints).slice(0, 4);
     case 'asset.contentUnits[].embeddings.taskVector': return assetSample?.contentUnits?.[0]?.embeddings?.taskVector?.spec?.vectorSpace;
     case 'asset.contentUnits[].embeddings.failureModeVector': return assetSample?.contentUnits?.[0]?.embeddings?.failureModeVector?.spec?.vectorSpace;
     case 'asset.metadata.sourcePaths': return assetSample?.metadata?.sourcePaths?.slice(0, 4);
@@ -399,12 +581,16 @@ function codeAnalysisFactSample(factId, need, assetSample = null) {
   }
 }
 
+/**
+ * @param {{ need: NeedMeasurementResult | NeedShape, evaluatedCandidates?: EvaluatedCandidate[] | undefined }} input
+ * @returns {Record<string, unknown>}
+ */
 function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
   const assetSample = evaluatedCandidates[0]?.asset || null;
   const consumedFactIds = summarizeStrings(Object.values(CODE_ANALYSIS_CONSUMERS).flat());
   const registeredFactIds = Object.keys(CODE_ANALYSIS_FACT_REGISTRY_SPECS);
   const registeredFacts = registeredFactIds.map((factId) => {
-    const spec = CODE_ANALYSIS_FACT_REGISTRY_SPECS[factId];
+    const spec = /** @type {Record<string, any>} */ (CODE_ANALYSIS_FACT_REGISTRY_SPECS)[factId];
     const consumedBy = Object.entries(CODE_ANALYSIS_CONSUMERS)
       .filter(([, factIds]) => factIds.includes(factId))
       .map(([consumerId]) => consumerId);
@@ -450,6 +636,10 @@ function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
   };
 }
 
+/**
+ * @param {Record<string, unknown>} codeAnalysisFactRegistry
+ * @returns {Record<string, unknown>}
+ */
 function buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry) {
   return {
     ...codeAnalysisFactRegistry,
@@ -458,6 +648,10 @@ function buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry) {
   };
 }
 
+/**
+ * @param {unknown} input
+ * @returns {number[]}
+ */
 function buildDeterministicVector(input) {
   const tokens = Array.isArray(input) ? input : uniqueTokens(input);
   const buckets = new Array(VECTOR_DIMENSIONS).fill(0);
@@ -472,6 +666,19 @@ function buildDeterministicVector(input) {
   return buckets.map((value) => Number((value / magnitude).toFixed(6)));
 }
 
+/**
+ * @param {string} vectorSpace
+ * @param {unknown} inputText
+ * @param {{
+ *   profile?: string | undefined,
+ *   standIn?: boolean | undefined,
+ *   provider?: string | undefined,
+ *   modelId?: string | undefined,
+ *   generationMethod?: string | undefined,
+ *   dimensions?: number | undefined
+ * }} [options={}]
+ * @returns {Record<string, unknown>}
+ */
 function buildEmbeddingSpec(vectorSpace, inputText, { profile = PROFILE_A, standIn = true, provider = 'engi-demo', modelId = DEFAULT_MODEL_ID, generationMethod = 'deterministic-stand-in', dimensions = VECTOR_DIMENSIONS } = {}) {
   return {
     vectorSpace,
@@ -485,6 +692,19 @@ function buildEmbeddingSpec(vectorSpace, inputText, { profile = PROFILE_A, stand
   };
 }
 
+/**
+ * @param {string} vectorSpace
+ * @param {unknown} inputText
+ * @param {{
+ *   profile?: string | undefined,
+ *   standIn?: boolean | undefined,
+ *   provider?: string | undefined,
+ *   modelId?: string | undefined,
+ *   generationMethod?: string | undefined,
+ *   dimensions?: number | undefined
+ * }} [options={}]
+ * @returns {any}
+ */
 function buildEmbeddingArtifact(vectorSpace, inputText, options = {}) {
   return {
     spec: buildEmbeddingSpec(vectorSpace, inputText, options),
@@ -492,6 +712,11 @@ function buildEmbeddingArtifact(vectorSpace, inputText, options = {}) {
   };
 }
 
+/**
+ * @param {string} stage
+ * @param {Record<string, unknown>} [payload={}]
+ * @returns {any}
+ */
 function telemetryEvent(stage, payload = {}) {
   return {
     eventId: `evt_${sha256(`${stage}:${canonicalJson(payload)}`).slice(0, 12)}`,
@@ -502,6 +727,10 @@ function telemetryEvent(stage, payload = {}) {
   };
 }
 
+/**
+ * @param {{ unitId: string, unitKind: string, unitHash: string, codeAnalysisFacts: CodeAnalysisFactsShape, embeddings?: Record<string, { spec: Record<string, unknown> }> | undefined }} unit
+ * @returns {any}
+ */
 function unitSemanticSummary(unit) {
   return {
     unitId: unit.unitId,
@@ -518,10 +747,19 @@ function unitSemanticSummary(unit) {
   };
 }
 
+/**
+ * @param {number[] | { values?: number[] | undefined } | null | undefined} vectorOrArtifact
+ * @returns {number[] | undefined}
+ */
 function vectorValues(vectorOrArtifact) {
   return Array.isArray(vectorOrArtifact) ? vectorOrArtifact : vectorOrArtifact?.values;
 }
 
+/**
+ * @param {number[] | { values?: number[] | undefined } | null | undefined} left
+ * @param {number[] | { values?: number[] | undefined } | null | undefined} right
+ * @returns {number}
+ */
 function cosineSimilarity(left, right) {
   left = vectorValues(left);
   right = vectorValues(right);
@@ -534,6 +772,11 @@ function cosineSimilarity(left, right) {
   return clamp01(total);
 }
 
+/**
+ * @param {string} name
+ * @param {unknown} value
+ * @returns {number}
+ */
 function enforceRange(name, value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric < 0 || numeric > 1) {
@@ -542,17 +785,40 @@ function enforceRange(name, value) {
   return numeric;
 }
 
+/**
+ * @param {unknown} score
+ * @returns {number}
+ */
 function summarizeScore(score) {
   return Number(enforceRange('score', score).toFixed(4));
 }
 
+/**
+ * @param {string} name
+ * @param {unknown} trace
+ * @returns {any}
+ */
 function enforceTelemetryTrace(name, trace) {
   if (!trace || typeof trace !== 'object') {
     throw new Error(`Spec V15 debug failure: missing telemetry trace for ${name}.`);
   }
-  return trace;
+  return /** @type {any} */ (trace);
 }
 
+/**
+ * @param {{
+ *   value: unknown,
+ *   mode: string,
+ *   toolOrPromptId: string,
+ *   evidenceRefs: string[],
+ *   explanation: string,
+ *   unitRefs?: string[] | undefined,
+ *   measurementClass?: string | undefined,
+ *   evaluatorKind?: string | undefined,
+ *   consumedCodeAnalysisFacts?: string[] | undefined
+ * }} input
+ * @returns {any}
+ */
 function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanation, unitRefs = [], measurementClass = mode === 'inferred' ? 'inferred-evaluation' : 'static-analysis', evaluatorKind = mode === 'inferred' ? 'inferred-evaluator' : 'deterministic-static-command', consumedCodeAnalysisFacts = [] }) {
   return {
     value: summarizeScore(value),
@@ -565,7 +831,7 @@ function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanat
     unitRefs,
     explanation,
     consumedCodeAnalysisFacts,
-    evaluatorSurface: evaluatorSurface({
+    evaluatorSurface: evaluatorSurfaceUnchecked({
       evaluatorId: toolOrPromptId,
       evaluatorKind,
       measurementClass,
@@ -577,6 +843,12 @@ function measurementDetail({ value, mode, toolOrPromptId, evidenceRefs, explanat
   };
 }
 
+/**
+ * @param {NeedMeasurementResult | NeedShape} need
+ * @param {AssetShape} asset
+ * @param {string[]} [extraRefs=[]]
+ * @returns {string[]}
+ */
 function rankingEvidenceRefs(need, asset, extraRefs = []) {
   return union(
     [
@@ -590,6 +862,10 @@ function rankingEvidenceRefs(need, asset, extraRefs = []) {
   );
 }
 
+/**
+ * @param {unknown} text
+ * @returns {string}
+ */
 function detectUnitKind(text) {
   const source = String(text || '');
   if (/```|fn |function |const |let |class |pub /i.test(source)) return 'code-block';
@@ -599,6 +875,11 @@ function detectUnitKind(text) {
   return 'text';
 }
 
+/**
+ * @param {unknown} text
+ * @param {CodeAnalysisHints} [hints={}]
+ * @returns {CodeAnalysisFactsShape}
+ */
 function extractStaticCodeAnalysisFacts(text, hints = {}) {
   const source = String(text || '');
   const symbols = new Set(hints.symbols || []);
@@ -636,6 +917,12 @@ function extractStaticCodeAnalysisFacts(text, hints = {}) {
   };
 }
 
+/**
+ * @param {string} assetId
+ * @param {unknown} content
+ * @param {CodeAnalysisHints} [hints={}]
+ * @returns {any[]}
+ */
 function splitContentUnits(assetId, content, hints = {}) {
   const blocks = String(content || '')
     .split(/\n\s*\n/g)
@@ -688,7 +975,7 @@ function splitContentUnits(assetId, content, hints = {}) {
       staticExecutionReceipts: [codeAnalysisReceipt],
       semanticSummary: {
         tokenCount: uniqueTokens(text).length,
-        embeddingSpaces: Object.values(embeddings).map((artifact) => artifact.spec.vectorSpace),
+        embeddingSpaces: Object.values(embeddings).map((artifact) => artifact.spec['vectorSpace']),
         codeAnalysisFactCounts: {
           symbols: codeAnalysisFacts.symbols.length,
           paths: codeAnalysisFacts.paths.length,
@@ -702,27 +989,48 @@ function splitContentUnits(assetId, content, hints = {}) {
   });
 }
 
+/**
+ * @param {any} mode
+ * @param {any} toolOrPromptId
+ * @param {any} evidenceRefs
+ * @param {any} [options={}]
+ * @returns {any}
+ */
 function measurementTrace(mode, toolOrPromptId, evidenceRefs, options = {}) {
   return needMeasurementRuntime.measurementTrace(mode, toolOrPromptId, evidenceRefs, options);
 }
 
+/**
+ * @param {readonly unknown[] | null | undefined} values
+ * @returns {string[]}
+ */
 function summarizeStrings(values) {
   return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
 }
 
+/**
+ * @param {string | null | undefined} kind
+ * @returns {string}
+ */
 function artifactTypeForKind(kind) {
-  const table = {
+  const normalizedKind = typeof kind === 'string' ? kind : '';
+  const table = /** @type {Record<string, string>} */ ({
     runbook: 'runbook/operator-playbook',
     patch: 'code/patch',
     config: 'config/policy-change',
     proof: 'proof/verification-log',
     'incident-note': 'notes/incident-retrospective',
     mixed: 'bundle/mixed'
-  };
-  return table[kind] || `${kind || 'unknown'}/unspecified`;
+  });
+  return table[normalizedKind] || `${normalizedKind || 'unknown'}/unspecified`;
 }
 
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {Record<string, number>}
+ */
 function countValues(values = []) {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const value of values) {
     const key = String(value || '').trim();
@@ -732,6 +1040,11 @@ function countValues(values = []) {
   return counts;
 }
 
+/**
+ * @param {Record<string, number>} [counts={}]
+ * @param {number} [limit=4]
+ * @returns {string[]}
+ */
 function topCountKeys(counts = {}, limit = 4) {
   return Object.entries(counts)
     .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
@@ -739,6 +1052,10 @@ function topCountKeys(counts = {}, limit = 4) {
     .map(([key]) => key);
 }
 
+/**
+ * @param {string | null | undefined} repo
+ * @returns {{ owner: string, name: string, repositoryId: string, repositoryNodeId: string }}
+ */
 function buildRepoIdentity(repo) {
   const [owner = 'unknown', name = 'repo'] = String(repo || '').split('/');
   return {
@@ -749,6 +1066,10 @@ function buildRepoIdentity(repo) {
   };
 }
 
+/**
+ * @param {string | null | undefined} login
+ * @returns {{ installationAccountId: string, installationAccountNodeId: string }}
+ */
 function buildAccountIdentity(login) {
   const normalized = String(login || 'unknown-account').trim() || 'unknown-account';
   return {
@@ -757,6 +1078,18 @@ function buildAccountIdentity(login) {
   };
 }
 
+/**
+ * @param {{
+ *   sourcePath?: string | undefined,
+ *   sourcePaths?: string[] | undefined,
+ *   artifactName?: string | undefined,
+ *   workflowRunId?: string | undefined,
+ *   checkSuiteId?: string | undefined,
+ *   sourceCommit?: string | undefined,
+ *   title?: string | undefined
+ * }} [entry={}]
+ * @returns {string}
+ */
 function inventoryAddressRef(entry = {}) {
   return entry.sourcePath
     || entry.sourcePaths?.[0]
@@ -768,6 +1101,10 @@ function inventoryAddressRef(entry = {}) {
     || 'repo-artifact';
 }
 
+/**
+ * @param {InventoryAddressingInput} [input={}]
+ * @returns {Record<string, unknown> & { addressingRoot: string, addressingScope: string, primaryAddressRef: string }}
+ */
 function buildInventoryAddressingSurface({
   repo,
   ref = null,
@@ -814,6 +1151,23 @@ function buildInventoryAddressingSurface({
   };
 }
 
+/**
+ * @param {{
+ *   inventoryEntryId?: string | undefined,
+ *   repo?: string | undefined,
+ *   repositoryId?: string | undefined,
+ *   repositoryNodeId?: string | undefined,
+ *   artifactKind?: string | undefined,
+ *   artifactType?: string | undefined,
+ *   originKind?: string | undefined,
+ *   title?: string | undefined,
+ *   authSessionId?: string | null | undefined,
+ *   installationId?: string | null | undefined,
+ *   contentRoot?: string | null | undefined,
+ *   addressing?: Record<string, unknown> | undefined
+ * } & InventoryAddressingInput} [entry={}]
+ * @returns {Record<string, unknown>}
+ */
 function inventorySelectionSnapshot(entry = {}) {
   const addressing = entry.addressing || buildInventoryAddressingSurface(entry);
   return {
@@ -834,6 +1188,10 @@ function inventorySelectionSnapshot(entry = {}) {
   };
 }
 
+/**
+ * @param {GitHubAppSessionInput} input
+ * @returns {InternalSessionShape}
+ */
 function buildGitHubAppSession({
   repo,
   installationId,
@@ -909,6 +1267,33 @@ function buildGitHubAppSession({
   };
 }
 
+/**
+ * @param {{
+ *   repo: string,
+ *   artifactKind: string,
+ *   artifactType?: string | undefined,
+ *   originKind: string,
+ *   title: string,
+ *   summary: string,
+ *   sourceCommit?: string | null | undefined,
+ *   ref?: string | null | undefined,
+ *   sourcePath?: string | null | undefined,
+ *   sourcePaths?: string[] | undefined,
+ *   workflowRunId?: string | null | undefined,
+ *   workflowPath?: string | null | undefined,
+ *   workflowJobName?: string | null | undefined,
+ *   checkSuiteId?: string | null | undefined,
+ *   artifactName?: string | null | undefined,
+ *   tags?: string[] | undefined,
+ *   declaredStacks?: string[] | undefined,
+ *   declaredConstraints?: string[] | undefined,
+ *   previewSurface?: string | undefined,
+ *   content: string,
+ *   signerAddress?: string | undefined,
+ *   authSession?: InternalSessionShape | null | undefined
+ * }} input
+ * @returns {InternalRepoArtifactInventoryEntryShape}
+ */
 function buildRepoArtifactInventoryEntry({
   repo,
   artifactKind,
@@ -1024,6 +1409,9 @@ function buildRepoArtifactInventoryEntry({
   };
 }
 
+/**
+ * @returns {InternalSessionShape[]}
+ */
 function buildSeedGitHubAppSessions() {
   return [
     buildGitHubAppSession({ repo: 'frontier/demo-auth', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-auth-issuer-rollback' }),
@@ -1036,8 +1424,17 @@ function buildSeedGitHubAppSessions() {
   ];
 }
 
+/**
+ * @param {InternalSessionShape[]} [sessions=buildSeedGitHubAppSessions()]
+ * @returns {InternalRepoArtifactInventoryEntryShape[]}
+ */
 function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSessions()) {
   const sessionByRepo = Object.fromEntries(sessions.map((session) => [session.repo, session]));
+  /**
+   * @param {string} repo
+   * @param {any} input
+   * @returns {InternalRepoArtifactInventoryEntryShape}
+   */
   const withSession = (repo, input) => buildRepoArtifactInventoryEntry({
     repo,
     authSession: sessionByRepo[repo] || null,
@@ -1423,6 +1820,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
   ];
 }
 
+/**
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @param {any[]} [fallbackPaths=[]]
+ * @returns {string[]}
+ */
 function inventorySourcePaths(selectedInventoryEntries = [], fallbackPaths = []) {
   return summarizeStrings([
     ...selectedInventoryEntries.flatMap((entry) => entry.sourcePaths || []),
@@ -1430,6 +1832,11 @@ function inventorySourcePaths(selectedInventoryEntries = [], fallbackPaths = [])
   ]);
 }
 
+/**
+ * @param {any} input
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @returns {boolean}
+ */
 function hasExplicitRawFallbackContent(input, selectedInventoryEntries = []) {
   if (typeof input.rawFallbackUsed === 'boolean') return input.rawFallbackUsed;
   if (input.rawFallbackContent !== undefined) return !!String(input.rawFallbackContent || '').trim();
@@ -1437,7 +1844,12 @@ function hasExplicitRawFallbackContent(input, selectedInventoryEntries = []) {
   return !!String(input.content || '').trim();
 }
 
-function resolveArtifactIntakeMode(input, selectedInventoryEntries) {
+/**
+ * @param {any} input
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @returns {string}
+ */
+function resolveArtifactIntakeMode(input, selectedInventoryEntries = []) {
   const hasInventorySelection = selectedInventoryEntries.length > 0;
   const hasRawFallback = hasExplicitRawFallbackContent(input, selectedInventoryEntries);
   const hasOperatorNote = !!String(input.operatorNote || '').trim();
@@ -1446,10 +1858,16 @@ function resolveArtifactIntakeMode(input, selectedInventoryEntries) {
   return 'raw-fallback';
 }
 
-function buildArtifactSelectionSurface(input, selectedInventoryEntries = [], artifactKind) {
+/**
+ * @param {any} input
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @param {any} artifactKind
+ * @returns {any}
+ */
+function buildArtifactSelectionSurface(input, selectedInventoryEntries = [], artifactKind = null) {
   const intakeMode = resolveArtifactIntakeMode(input, selectedInventoryEntries);
   const selectedInventoryEntriesSnapshot = selectedInventoryEntries.map(inventorySelectionSnapshot);
-  const selectedRepos = summarizeStrings(selectedInventoryEntriesSnapshot.map((entry) => entry.repo));
+  const selectedRepos = summarizeStrings(selectedInventoryEntriesSnapshot.map((entry) => entry['repo']));
   const selectedArtifactKinds = summarizeStrings(selectedInventoryEntries.map((entry) => entry.artifactKind).concat(artifactKind ? [artifactKind] : []));
   const selectedOriginKinds = summarizeStrings(selectedInventoryEntries.map((entry) => entry.originKind));
   const selectedArtifactKindCounts = countValues(selectedInventoryEntries.map((entry) => entry.artifactKind));
@@ -1460,8 +1878,8 @@ function buildArtifactSelectionSurface(input, selectedInventoryEntries = [], art
     intakeMode,
     authSessionId: input.authSession?.authSessionId || input.authSessionId || null,
     selectedRepo: selectedRepos[0] || input.sourceRepo || input.authSession?.repo || null,
-    selectedRepositoryId: input.authSession?.repositoryId || selectedInventoryEntriesSnapshot[0]?.repositoryId || null,
-    selectedInventoryEntryIds: selectedInventoryEntriesSnapshot.map((entry) => entry.inventoryEntryId),
+    selectedRepositoryId: input.authSession?.repositoryId || selectedInventoryEntriesSnapshot[0]?.['repositoryId'] || null,
+    selectedInventoryEntryIds: selectedInventoryEntriesSnapshot.map((entry) => entry['inventoryEntryId']),
     selectedInventoryEntries: selectedInventoryEntriesSnapshot,
     selectedInventoryRoot: stableHashObject(selectedInventoryEntriesSnapshot),
     selectedArtifactKinds,
@@ -1476,7 +1894,13 @@ function buildArtifactSelectionSurface(input, selectedInventoryEntries = [], art
   };
 }
 
-function buildAddressingSurface(input, selectedInventoryEntries = [], extracted) {
+/**
+ * @param {any} input
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @param {any} extracted
+ * @returns {any}
+ */
+function buildAddressingSurface(input, selectedInventoryEntries = [], extracted = {}) {
   const repo = input.sourceRepo || input.authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
   const repoIdentity = buildRepoIdentity(repo);
   const normalizedSourcePaths = inventorySourcePaths(selectedInventoryEntries, input.sourcePaths || extracted.paths);
@@ -1538,6 +1962,15 @@ function buildAddressingSurface(input, selectedInventoryEntries = [], extracted)
   };
 }
 
+/**
+ * @param {any} input
+ * @param {any} assetId
+ * @param {any} contentRoot
+ * @param {any} addressingSurface
+ * @param {any} artifactSelectionSurface
+ * @param {any} githubAppAuthSurface
+ * @returns {any}
+ */
 function buildSigningSurface(input, assetId, contentRoot, addressingSurface, artifactSelectionSurface, githubAppAuthSurface) {
   const signerAddress = input.signerAddress || input.authSession?.defaultSignerAddress || `did:key:${toSlug(input.author)}`;
   const signingAlgorithm = input.signingAlgorithm || input.authSession?.signingAlgorithm || 'ed25519';
@@ -1569,6 +2002,11 @@ function buildSigningSurface(input, assetId, contentRoot, addressingSurface, art
   };
 }
 
+/**
+ * @param {any} input
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @returns {any}
+ */
 function buildGitHubAppAuthSurface(input, selectedInventoryEntries = []) {
   const authSession = input.authSession || null;
   const repo = input.sourceRepo || authSession?.repo || selectedInventoryEntries[0]?.repo || 'frontier/demo-auth';
@@ -1647,6 +2085,15 @@ function buildGitHubAppAuthSurface(input, selectedInventoryEntries = []) {
   };
 }
 
+/**
+ * @param {any} input
+ * @param {any} content
+ * @param {any} extracted
+ * @param {any} artifactKind
+ * @param {any} artifactType
+ * @param {any[]} [selectedInventoryEntries=[]]
+ * @returns {any}
+ */
 function buildArtifactUploadSurface(input, content, extracted, artifactKind, artifactType, selectedInventoryEntries = []) {
   const visualPreview = String(input.visualPreview || input.summary || content.split(/\n\s*\n/g)[0] || content).slice(0, 320);
   const artifactSelectionSurface = buildArtifactSelectionSurface(input, selectedInventoryEntries, artifactKind);
@@ -1692,8 +2139,12 @@ function buildArtifactUploadSurface(input, content, extracted, artifactKind, art
   };
 }
 
+/**
+ * @param {any} __0
+ * @returns {any}
+ */
 function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetPack, settlementPreview }) {
-  const selectedGithubBindings = selectedCandidates.map((candidate) => ({
+  const selectedGithubBindings = selectedCandidates.map((/** @type {any} */ candidate) => ({
     assetId: candidate.assetId,
     sourceRepo: candidate.asset.githubBoundary?.sourceRepo,
     workflowRunId: candidate.asset.githubBoundary?.workflowRunId,
@@ -1765,14 +2216,27 @@ function buildRecallChannelContracts() {
   return needMeasurementRuntime.buildRecallChannelContracts();
 }
 
+/**
+ * @param {any} branchMode
+ * @returns {any}
+ */
 function allowedUseTiersForBranchMode(branchMode) {
   return evaluationMaterializationRuntime.allowedUseTiersForBranchMode(branchMode);
 }
 
+/**
+ * @param {any} useTier
+ * @param {any} branchMode
+ * @returns {any}
+ */
 function useTierRights(useTier, branchMode) {
   return evaluationMaterializationRuntime.useTierRights(useTier, branchMode);
 }
 
+/**
+ * @param {any} __0
+ * @returns {any}
+ */
 function derivationRecord({ field, source, policy = 'required', confidence = NormalizationPressure.HIGH, evidenceRefs = [], notes }) {
   return {
     field,
@@ -1784,14 +2248,29 @@ function derivationRecord({ field, source, policy = 'required', confidence = Nor
   };
 }
 
+/**
+ * @param {any} value
+ * @returns {string}
+ */
 function normalizeCaseId(value) {
   return toSlug(value).replace(/-/g, '-');
 }
 
+/**
+ * @param {any} value
+ * @returns {string}
+ */
 function normalizeWeakDimension(value) {
   return toSlug(value).replace(/-/g, '-');
 }
 
+/**
+ * @param {any} binding
+ * @param {any} action
+ * @param {any} resourceRef
+ * @param {any} policyState
+ * @returns {any}
+ */
 function makeAuthorizationDecision(binding, action, resourceRef, policyState) {
   if (!binding) {
     return {
@@ -1899,6 +2378,10 @@ function buildPolicyState() {
   };
 }
 
+/**
+ * @param {any} policyState
+ * @returns {any}
+ */
 function buildPolicyRelease(policyState) {
   return {
     releaseId: policyState.releaseId,
@@ -1917,10 +2400,17 @@ function buildPolicyRelease(policyState) {
   };
 }
 
+/**
+ * @returns {any}
+ */
 function buildGithubActionsBenchmarkParser() {
   return {
     parserKind: 'github-actions.auth-remediation.v3',
     parserVersion: '3.0.0',
+    /**
+     * @param {any} runEvidence
+     * @returns {any}
+     */
     parse(runEvidence) {
       const extracted = runEvidence?.extractedOutputs || {};
       return {
@@ -1933,13 +2423,17 @@ function buildGithubActionsBenchmarkParser() {
         parserKind: this.parserKind,
         parserVersion: this.parserVersion,
         consumedInputs: {
-          artifactNames: summarizeStrings((runEvidence?.artifacts || []).map((artifact) => artifact.name)),
-          checkNames: summarizeStrings((runEvidence?.checks || []).map((check) => check.name)),
+          artifactNames: summarizeStrings((runEvidence?.artifacts || []).map((/** @type {any} */ artifact) => artifact.name)),
+          checkNames: summarizeStrings((runEvidence?.checks || []).map((/** @type {any} */ check) => check.name)),
           workflowPath: runEvidence?.workflowPath || '',
           runId: runEvidence?.runId || ''
         }
       };
     },
+    /**
+     * @param {any} outputs
+     * @returns {{ ok: boolean, reasons: string[] }}
+     */
     validate(outputs) {
       const reasons = [];
       if (!outputs?.parserKind) reasons.push('parserKind missing');
@@ -1954,6 +2448,10 @@ function buildGithubActionsBenchmarkParser() {
   };
 }
 
+/**
+ * @param {any} input
+ * @returns {any}
+ */
 export function makeCandidateAsset(input) {
   const content = String(input.content || '').trim();
   const selectedInventoryEntries = Array.isArray(input.inventoryEntries) ? input.inventoryEntries : [];
@@ -1968,7 +2466,7 @@ export function makeCandidateAsset(input) {
     constraints: input.declaredConstraints
   });
   const contentUnits = splitContentUnits(assetId, content, codeAnalysisFacts);
-  const contentRoot = stableHashObject(contentUnits.map((unit) => unit.unitHash));
+  const contentRoot = stableHashObject(contentUnits.map((/** @type {any} */ unit) => unit['unitHash']));
   const attestationPayload = { assetId, title: input.title, contentRoot };
   const artifactSelectionSurface = buildArtifactSelectionSurface(input, selectedInventoryEntries, artifactKind);
   const addressingSurface = buildAddressingSurface(input, selectedInventoryEntries, codeAnalysisFacts);
@@ -1995,7 +2493,7 @@ export function makeCandidateAsset(input) {
       constraints: input.declaredConstraints || codeAnalysisFacts.constraints
     },
     evidenceRefs: [contentRoot, ...addressingSurface.sourcePaths],
-    replayInputClosure: [contentRoot, ...contentUnits.map((unit) => unit.unitHash)]
+    replayInputClosure: [contentRoot, ...contentUnits.map((/** @type {any} */ unit) => unit['unitHash'])]
   });
   const assetMeasurement = {
     assetId,
@@ -2006,7 +2504,7 @@ export function makeCandidateAsset(input) {
       stackTags: input.declaredStacks || codeAnalysisFacts.stackTags,
       constraints: input.declaredConstraints || codeAnalysisFacts.constraints
     },
-    contentUnitSemantics: contentUnits.map(unitSemanticSummary),
+    contentUnitSemantics: contentUnits.map((/** @type {any} */ unit) => unitSemanticSummary(unit)),
     vectorInterfaces: {
       taskVectorSpace: 'task-semantic-space.v8',
       failureModeVectorSpace: 'failure-mode-space.v8',
@@ -2016,7 +2514,7 @@ export function makeCandidateAsset(input) {
     },
     provenance: [
       measurementTrace('static', 'asset.measurement.extract.v15', [contentRoot, ...(input.sourcePaths || codeAnalysisFacts.paths)], { measurementClass: 'static-analysis', evaluatorKind: 'deterministic-static-command', standIn: false, receiptRefs: [assetCodeAnalysisReceipt.receiptId] }),
-      measurementTrace('hybrid', 'asset.measurement.semantic-hand-off.v8', [contentRoot, ...contentUnits.map((unit) => unit.unitHash)], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
+      measurementTrace('hybrid', 'asset.measurement.semantic-hand-off.v8', [contentRoot, ...contentUnits.map((/** @type {any} */ unit) => unit['unitHash'])], { measurementClass: 'embedding-derivation', evaluatorKind: 'embedding-generator', standIn: true })
     ],
     staticExecutionReceipts: [assetCodeAnalysisReceipt, ...collectStaticExecutionReceipts(contentUnits)]
   };
@@ -2104,9 +2602,9 @@ export function makeCandidateAsset(input) {
       sourceRepo: addressingSurface.repo,
       sourceCommit: addressingSurface.commit || `demo-${sha256(assetId).slice(0, 7)}`,
       sourcePaths: addressingSurface.sourcePaths,
-      tags: summarizeStrings([...(input.tags || []), ...selectedInventoryEntries.flatMap((entry) => entry.tags || [])]),
-      declaredStacks: summarizeStrings([...(input.declaredStacks || codeAnalysisFacts.stackTags), ...selectedInventoryEntries.flatMap((entry) => entry.declaredStacks || [])]),
-      declaredConstraints: summarizeStrings([...(input.declaredConstraints || codeAnalysisFacts.constraints), ...selectedInventoryEntries.flatMap((entry) => entry.declaredConstraints || [])]),
+      tags: summarizeStrings([...(input.tags || []), ...selectedInventoryEntries.flatMap((/** @type {any} */ entry) => entry.tags || [])]),
+      declaredStacks: summarizeStrings([...(input.declaredStacks || codeAnalysisFacts.stackTags), ...selectedInventoryEntries.flatMap((/** @type {any} */ entry) => entry.declaredStacks || [])]),
+      declaredConstraints: summarizeStrings([...(input.declaredConstraints || codeAnalysisFacts.constraints), ...selectedInventoryEntries.flatMap((/** @type {any} */ entry) => entry.declaredConstraints || [])]),
       summary: input.summary || content.slice(0, 220),
       privateContent: content,
       issuerPolicyStatus: input.issuerPolicyStatus || 'allowed'
@@ -2131,6 +2629,11 @@ export function buildInitialState() {
   const inventoryEntryByRepoTitle = new Map(
     repoArtifactInventory.map((entry) => [`${entry.repo}:${entry.title}`, entry])
   );
+  /**
+   * @param {any} input
+   * @param {any[]} [inventoryTitles=[]]
+   * @returns {any}
+   */
   const bindSeedRepoSelection = (input, inventoryTitles = []) => {
     const repo = input.sourceRepo || 'frontier/demo-auth';
     return {
@@ -2945,7 +3448,7 @@ export function buildInitialState() {
 
   const ledger = {
     accounts: {
-      'buyer:frontier-code-systems:license_pool': buyers[0].licensePoolMicroUnits,
+      'buyer:frontier-code-systems:license_pool': buyers[0]?.licensePoolMicroUnits || '0',
       ...Object.fromEntries(assets.map((asset) => [`supplier:${asset.assetId}:pending_claims`, '0']))
     },
     journalEvents: []
@@ -2972,10 +3475,19 @@ export function buildInitialState() {
   };
 }
 
+/**
+ * @param {any} asset
+ * @returns {string[]}
+ */
 function assetEvidenceRefs(asset) {
   return [asset.contentRoot, asset.provenanceBinding.commit, asset.verificationEvidence.benchmarkRunId].filter(Boolean);
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {string}
+ */
 function inferNeedTask(scenario, benchmarkOutputs) {
   if (scenario.expectedTask) return scenario.expectedTask;
   const priorityFailure = benchmarkOutputs.failingCases[0] || 'measured benchmark failure';
@@ -2983,15 +3495,25 @@ function inferNeedTask(scenario, benchmarkOutputs) {
   return `Resolve ${priorityFailure} while improving ${primaryDimension} in ${scenario.repo}.`;
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {string[]}
+ */
 function inferFailureModes(scenario, benchmarkOutputs) {
   if (scenario.expectedFailureModes?.length) return scenario.expectedFailureModes;
-  return benchmarkOutputs.failingCases.map((caseId) => caseId.replace(/-/g, ' '));
+  return benchmarkOutputs.failingCases.map((/** @type {any} */ caseId) => caseId.replace(/-/g, ' '));
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {string[]}
+ */
 function inferConstraints(scenario, benchmarkOutputs) {
   const constraints = union(
     scenario.expectedConstraints || [],
-    benchmarkOutputs.weakDimensions.map((dimension) => {
+    benchmarkOutputs.weakDimensions.map((/** @type {any} */ dimension) => {
       if (dimension === 'session-validity') return 'preserve session validity';
       if (dimension === 'auditability') return 'emit audit receipt';
       return `improve ${dimension}`;
@@ -3000,18 +3522,29 @@ function inferConstraints(scenario, benchmarkOutputs) {
   return summarizeStrings(union(constraints, ['keep remediation branch private until settlement completes']));
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {string[]}
+ */
 function inferTargetArtifactKinds(scenario, benchmarkOutputs) {
   if (scenario.expectedTargetArtifactKinds?.length) return scenario.expectedTargetArtifactKinds;
   const inferred = ['runbook', 'patch'];
   if (benchmarkOutputs.configKeys.length) inferred.push('config');
-  if (benchmarkOutputs.symbols.some((symbol) => /validator|prove|invariant/i.test(symbol))) inferred.push('proof');
+  if (benchmarkOutputs.symbols.some((/** @type {any} */ symbol) => /validator|prove|invariant/i.test(symbol))) inferred.push('proof');
   return summarizeStrings(inferred);
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @param {any[]} [targetArtifactKinds=[]]
+ * @returns {string[]}
+ */
 function inferClosureCriteria(scenario, benchmarkOutputs, targetArtifactKinds = []) {
   if (scenario.expectedClosureCriteria?.length) return summarizeStrings(scenario.expectedClosureCriteria);
   if (scenario.closureCriteria?.length) return summarizeStrings(scenario.closureCriteria);
-  const criteria = benchmarkOutputs.failingCases.slice(0, 2).map((caseId) => `clear ${caseId.replace(/-/g, ' ')}`);
+  const criteria = benchmarkOutputs.failingCases.slice(0, 2).map((/** @type {any} */ caseId) => `clear ${caseId.replace(/-/g, ' ')}`);
   for (const dimension of benchmarkOutputs.weakDimensions || []) {
     if (dimension === 'session-validity') criteria.push('preserve session validity during rollback');
     else if (dimension === 'auditability') criteria.push('restore audit receipt linkage to repo and commit');
@@ -3024,17 +3557,27 @@ function inferClosureCriteria(scenario, benchmarkOutputs, targetArtifactKinds = 
   return summarizeStrings(criteria).slice(0, 5);
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {string[]}
+ */
 function inferStackHints(scenario, benchmarkOutputs) {
   return summarizeStrings(union(scenario.repoContext?.stackHints || [], [
-    ...benchmarkOutputs.symbols.filter((symbol) => /validator/i.test(symbol)).map(() => 'rust'),
-    ...benchmarkOutputs.touchedPaths.filter((item) => item.endsWith('.ts')).map(() => 'typescript'),
-    ...benchmarkOutputs.configKeys.filter((item) => item.startsWith('auth.')).map(() => 'auth')
+    ...benchmarkOutputs.symbols.filter((/** @type {any} */ symbol) => /validator/i.test(symbol)).map(() => 'rust'),
+    ...benchmarkOutputs.touchedPaths.filter((/** @type {any} */ item) => item.endsWith('.ts')).map(() => 'typescript'),
+    ...benchmarkOutputs.configKeys.filter((/** @type {any} */ item) => item.startsWith('auth.')).map(() => 'auth')
   ]));
 }
 
+/**
+ * @param {any} scenario
+ * @param {any} benchmarkOutputs
+ * @returns {any}
+ */
 function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
   const normalizedOutputEnvelope = {
-    touchedPaths: summarizeStrings(union(benchmarkOutputs.touchedPaths, scenario.repoContext?.repoTree?.filter((item) => benchmarkOutputs.touchedPaths.includes(item)) || [])),
+    touchedPaths: summarizeStrings(union(benchmarkOutputs.touchedPaths, scenario.repoContext?.repoTree?.filter((/** @type {any} */ item) => benchmarkOutputs.touchedPaths.includes(item)) || [])),
     extractedSymbols: summarizeStrings(union(benchmarkOutputs.symbols, scenario.repoContext?.symbols || [])),
     configKeys: summarizeStrings(union(benchmarkOutputs.configKeys, scenario.repoContext?.configKeys || [])),
     stackHints: inferStackHints(scenario, benchmarkOutputs)
@@ -3058,7 +3601,7 @@ function buildRepoStaticCodeAnalysis(scenario, benchmarkOutputs) {
   };
 }
 
-const needMeasurementRuntime = createNeedMeasurementRuntime({
+const needMeasurementRuntime = createNeedMeasurementRuntimeUnchecked({
   RECALL_CHANNEL_SPECS,
   buildGithubActionsBenchmarkParser,
   buildStaticExecutionReceipt,
@@ -3075,15 +3618,23 @@ const needMeasurementRuntime = createNeedMeasurementRuntime({
   sha256
 });
 
+/**
+ * @param {any} scenario
+ * @returns {any}
+ */
 export function measureNeedFromScenario(scenario) {
   return needMeasurementRuntime.measureNeedFromScenario(scenario);
 }
 
+/**
+ * @param {any} scenario
+ * @returns {any}
+ */
 export function buildNeedDescriptor(scenario) {
   return needMeasurementRuntime.buildNeedDescriptor(scenario);
 }
 
-const evaluationMaterializationRuntime = createEvaluationMaterializationRuntime({
+const evaluationMaterializationRuntime = createEvaluationMaterializationRuntimeUnchecked({
   DEFAULT_BRANCH_MODE,
   DEFAULT_MODEL_ID,
   RECALL_CHANNEL_BUDGETS,
@@ -3108,43 +3659,94 @@ const evaluationMaterializationRuntime = createEvaluationMaterializationRuntime(
   stableHashObject
 });
 
+/**
+ * @param {any} need
+ * @param {any} assets
+ * @returns {any}
+ */
 export function recallCandidates(need, assets) {
   return evaluationMaterializationRuntime.recallCandidates(need, assets);
 }
 
+/**
+ * @param {any} need
+ * @param {any} assets
+ * @param {any} [policyState=buildPolicyState()]
+ * @returns {any}
+ */
 export function evaluateCandidates(need, assets, policyState = buildPolicyState()) {
   return evaluationMaterializationRuntime.evaluateCandidates(need, assets, policyState);
 }
 
+/**
+ * @param {any} need
+ * @param {any} evaluatedCandidates
+ * @param {any} [branchMode=DEFAULT_BRANCH_MODE]
+ * @returns {any}
+ */
 export function assembleAssetPack(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
   return evaluationMaterializationRuntime.assembleAssetPack(need, evaluatedCandidates, branchMode);
 }
 
+/**
+ * @param {any} need
+ * @param {any} evaluatedCandidates
+ * @param {any} assetPack
+ * @returns {any}
+ */
 function buildMatchReport(need, evaluatedCandidates, assetPack) {
   return evaluationMaterializationRuntime.buildMatchReport(need, evaluatedCandidates, assetPack);
 }
 
+/**
+ * @param {any} need
+ * @param {any} evaluatedCandidates
+ * @param {any} [branchMode=DEFAULT_BRANCH_MODE]
+ * @returns {any}
+ */
 function buildVerificationReport(need, evaluatedCandidates, branchMode = DEFAULT_BRANCH_MODE) {
   return evaluationMaterializationRuntime.buildVerificationReport(need, evaluatedCandidates, branchMode);
 }
 
+/**
+ * @param {any} need
+ * @param {any[]} [evaluatedCandidates=[]]
+ * @returns {any}
+ */
 function buildVerificationReceiptsArtifact(need, evaluatedCandidates = []) {
   return evaluationMaterializationRuntime.buildVerificationReceiptsArtifact(need, evaluatedCandidates);
 }
 
+/**
+ * @param {any} need
+ * @param {any} evaluatedCandidates
+ * @param {any[]} [promptSurfaces=[]]
+ * @param {any[]} [parsedCompletionEnvelopes=[]]
+ * @returns {any}
+ */
 function buildEvalManifest(need, evaluatedCandidates, promptSurfaces = [], parsedCompletionEnvelopes = []) {
   return evaluationMaterializationRuntime.buildEvalManifest(need, evaluatedCandidates, promptSurfaces, parsedCompletionEnvelopes);
 }
 
+/**
+ * @param {any} assetPack
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildAssetPackLock(assetPack, selectedCandidates) {
   return evaluationMaterializationRuntime.buildAssetPackLock(assetPack, selectedCandidates);
 }
 
+/**
+ * @param {any} assetPack
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildSelectedSourceMaterialManifest(assetPack, selectedCandidates) {
   return evaluationMaterializationRuntime.buildSelectedSourceMaterialManifest(assetPack, selectedCandidates);
 }
 
-const settlementRuntime = createSettlementRuntime({
+const settlementRuntime = createSettlementRuntimeUnchecked({
   METERED_MICRO_UNITS,
   MAX_BPS,
   MAX_BPS_BIGINT,
@@ -3154,15 +3756,25 @@ const settlementRuntime = createSettlementRuntime({
   sha256
 });
 
+/**
+ * @param {any} need
+ * @param {any} settlementCandidates
+ * @returns {any}
+ */
 function buildSourceToSharesArtifact(need, settlementCandidates) {
   return settlementRuntime.buildSourceToSharesArtifact(need, settlementCandidates);
 }
 
+/**
+ * @param {any} buyer
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildIdentityBindings(buyer, selectedCandidates) {
   const sessionBindings = [...new Map(
     selectedCandidates
-      .filter((candidate) => candidate.asset.githubAppAuthSurface?.authSessionId)
-      .map((candidate) => [candidate.asset.githubAppAuthSurface.authSessionId, {
+      .filter((/** @type {any} */ candidate) => candidate.asset.githubAppAuthSurface?.authSessionId)
+      .map((/** @type {any} */ candidate) => [candidate.asset.githubAppAuthSurface.authSessionId, {
         principalId: `github-app-session:${candidate.asset.githubAppAuthSurface.authSessionId}`,
         principalClass: 'github-app-session-principal',
         authSource: 'github-app-installation',
@@ -3229,7 +3841,7 @@ function buildIdentityBindings(buyer, selectedCandidates) {
       boundRefs: ['bounded-public-proof']
     },
     ...sessionBindings,
-    ...selectedCandidates.map((candidate) => ({
+    ...selectedCandidates.map((/** @type {any} */ candidate) => ({
       principalId: candidate.asset.attestations[0]?.signerAddress || `issuer:${candidate.assetId}`,
       principalClass: 'issuer-principal',
       authSource: 'attestation',
@@ -3266,22 +3878,38 @@ function buildIdentityBindings(buyer, selectedCandidates) {
   }));
 }
 
+/**
+ * @param {any} policyState
+ * @param {any} bindings
+ * @param {any} buyer
+ * @param {any} branchName
+ * @param {any} assetPack
+ * @returns {any}
+ */
 function buildAuthorizationDecisions(policyState, bindings, buyer, branchName, assetPack) {
   return [
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `github-app-installation:${buyer.installationId}`), 'read:repo-artifact-inventory', buyer.repo, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:branch-materializer'), 'write:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:settlement-engine'), 'settle:journal-event', assetPack.assetPackId, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'engi-system:proof-publisher'), 'derive:bounded-public-proof-metadata', `${branchName}#bounded-proof`, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'reviewer:security'), 'read:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === 'public:reader'), 'read:bounded-public-proof', `${branchName}#bounded-proof`, policyState),
-    makeAuthorizationDecision(bindings.find((binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'open:delivery', branchName, policyState)
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `github-app-installation:${buyer.installationId}`), 'read:repo-artifact-inventory', buyer.repo, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'engi-system:branch-materializer'), 'write:private-branch', branchName, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'engi-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.engi/source-material`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'engi-system:settlement-engine'), 'settle:journal-event', assetPack.assetPackId, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'engi-system:proof-publisher'), 'derive:bounded-public-proof-metadata', `${branchName}#bounded-proof`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'reviewer:security'), 'read:private-branch', branchName, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'public:reader'), 'read:bounded-public-proof', `${branchName}#bounded-proof`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'open:delivery', branchName, policyState)
   ];
 }
 
+/**
+ * @param {any} policyState
+ * @param {any} buyer
+ * @param {any} branchName
+ * @param {any} assetPack
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack, selectedCandidates) {
   return [
     {
@@ -3304,7 +3932,7 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       authorizedPrincipals: ['engi-system:need-measurement', 'engi-system:branch-materializer'],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
-      proofRefs: selectedCandidates.map((candidate) => candidate.assetId)
+      proofRefs: selectedCandidates.map((/** @type {any} */ candidate) => candidate.assetId)
     },
     {
       recordId: `flow_${sha256(`${branchName}:licensed-source`).slice(0, 10)}`,
@@ -3315,7 +3943,7 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       authorizedPrincipals: [`buyer:${buyer.buyerId}`, 'engi-system:branch-materializer'],
       retentionPolicyId: 'retention/private-remediation-30d',
       disclosurePolicyId: 'disclosure/private-only',
-      proofRefs: selectedCandidates.map((candidate) => candidate.assetId)
+      proofRefs: selectedCandidates.map((/** @type {any} */ candidate) => candidate.assetId)
     },
     {
       recordId: `flow_${sha256(`${branchName}:branch-artifacts`).slice(0, 10)}`,
@@ -3367,6 +3995,13 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
   }));
 }
 
+/**
+ * @param {any} policyState
+ * @param {any} branchName
+ * @param {any} assetPack
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates) {
   return {
     branchName,
@@ -3423,8 +4058,8 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       revokedIssuerBlocksNewDelivery: true,
       'previouslyIssuedArtifactsRemainHash-addressableOnly': true
     },
-    selectedAssets: selectedCandidates.map((candidate) => candidate.assetId),
-    selectedAssetBindings: selectedCandidates.map((candidate) => ({
+    selectedAssets: selectedCandidates.map((/** @type {any} */ candidate) => candidate.assetId),
+    selectedAssetBindings: selectedCandidates.map((/** @type {any} */ candidate) => ({
       assetId: candidate.assetId,
       useTier: candidate.useTier,
       sourceMaterialBinding: candidate.asset.sourceMaterialBinding
@@ -3432,41 +4067,53 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
   };
 }
 
+/**
+ * @param {any} eventId
+ * @param {any} journalDiff
+ * @returns {any}
+ */
 function buildJournalCompletenessProof(eventId, journalDiff) {
   return settlementRuntime.buildJournalCompletenessProof(eventId, journalDiff);
 }
 
+/**
+ * @param {any} branchName
+ * @param {any} authorizationDecisions
+ * @param {any} bindings
+ * @param {any[]} [selectedCandidates=[]]
+ * @returns {any}
+ */
 function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bindings, selectedCandidates = []) {
-  const inventoryBackedCandidates = selectedCandidates.filter((candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
+  const inventoryBackedCandidates = selectedCandidates.filter((/** @type {any} */ candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
   return {
     resourceRef: branchName,
-    allAccessBoundToKnownPrincipals: authorizationDecisions.every((decision) => bindings.some((binding) => binding.principalId === decision.principalId)),
-    allStateChangingActionsAuthorized: authorizationDecisions.filter((decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((decision) => decision.decision === 'allow'),
-    issuerIdentityBound: bindings.some((binding) => binding.principalClass === 'issuer-principal'),
-    buyerDeliveryPrincipalsBound: bindings.some((binding) => binding.principalClass === 'buyer-principal'),
-    githubAppInstallationBound: bindings.some((binding) => binding.principalClass === 'github-app-installation-principal'),
-    repoArtifactInventoryReadAuthorized: authorizationDecisions.some((decision) => decision.action === 'read:repo-artifact-inventory' && decision.decision === 'allow'),
-    selectedAssetsAddressed: selectedCandidates.every((candidate) => !!candidate.asset.addressingSurface?.repo),
-    selectedAssetsSigned: selectedCandidates.every((candidate) => !!candidate.asset.signingSurface?.signerAddress && !!candidate.asset.signingSurface?.attestationHash),
-    selectedAssetsSignedAgainstAddressing: selectedCandidates.every((candidate) => candidate.asset.signingSurface?.signedAddressingRoot === candidate.asset.addressingSurface?.addressingRoot),
-    selectedAssetsSignedAgainstInventorySelection: selectedCandidates.every((candidate) => candidate.asset.signingSurface?.signedSelectionRoot === candidate.asset.artifactSelectionSurface?.selectedInventoryRoot),
-    selectedAssetsSignedAgainstGitHubAppAuth: selectedCandidates.every((candidate) => candidate.asset.signingSurface?.signedGitHubAppAuthRoot === candidate.asset.githubAppAuthSurface?.authPayloadHash),
-    selectedAssetsHaveInstallationScopedAuthWhenInventoryBacked: selectedCandidates.every((candidate) => {
+    allAccessBoundToKnownPrincipals: authorizationDecisions.every((/** @type {any} */ decision) => bindings.some((/** @type {any} */ binding) => binding.principalId === decision.principalId)),
+    allStateChangingActionsAuthorized: authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((/** @type {any} */ decision) => decision.decision === 'allow'),
+    issuerIdentityBound: bindings.some((/** @type {any} */ binding) => binding.principalClass === 'issuer-principal'),
+    buyerDeliveryPrincipalsBound: bindings.some((/** @type {any} */ binding) => binding.principalClass === 'buyer-principal'),
+    githubAppInstallationBound: bindings.some((/** @type {any} */ binding) => binding.principalClass === 'github-app-installation-principal'),
+    repoArtifactInventoryReadAuthorized: authorizationDecisions.some((/** @type {any} */ decision) => decision.action === 'read:repo-artifact-inventory' && decision.decision === 'allow'),
+    selectedAssetsAddressed: selectedCandidates.every((/** @type {any} */ candidate) => !!candidate.asset.addressingSurface?.repo),
+    selectedAssetsSigned: selectedCandidates.every((/** @type {any} */ candidate) => !!candidate.asset.signingSurface?.signerAddress && !!candidate.asset.signingSurface?.attestationHash),
+    selectedAssetsSignedAgainstAddressing: selectedCandidates.every((/** @type {any} */ candidate) => candidate.asset.signingSurface?.signedAddressingRoot === candidate.asset.addressingSurface?.addressingRoot),
+    selectedAssetsSignedAgainstInventorySelection: selectedCandidates.every((/** @type {any} */ candidate) => candidate.asset.signingSurface?.signedSelectionRoot === candidate.asset.artifactSelectionSurface?.selectedInventoryRoot),
+    selectedAssetsSignedAgainstGitHubAppAuth: selectedCandidates.every((/** @type {any} */ candidate) => candidate.asset.signingSurface?.signedGitHubAppAuthRoot === candidate.asset.githubAppAuthSurface?.authPayloadHash),
+    selectedAssetsHaveInstallationScopedAuthWhenInventoryBacked: selectedCandidates.every((/** @type {any} */ candidate) => {
       const inventoryBacked = (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0;
       return !inventoryBacked || !!candidate.asset.githubAppAuthSurface?.installationId;
     }),
-    inventoryBackedAssetsPreserveSelectionSnapshots: inventoryBackedCandidates.every((candidate) => {
+    inventoryBackedAssetsPreserveSelectionSnapshots: inventoryBackedCandidates.every((/** @type {any} */ candidate) => {
       const selectedIds = candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || [];
       const selectedEntries = candidate.asset.artifactSelectionSurface?.selectedInventoryEntries || [];
       return selectedIds.length === selectedEntries.length;
     }),
-    installationScopedBindingsMatchRepo: inventoryBackedCandidates.every((candidate) =>
+    installationScopedBindingsMatchRepo: inventoryBackedCandidates.every((/** @type {any} */ candidate) =>
       candidate.asset.githubAppAuthSurface?.repositoryId === candidate.asset.addressingSurface?.repositoryId
     ),
     witnessRefs: {
-      principalIds: bindings.map((binding) => binding.principalId),
-      decisionIds: authorizationDecisions.map((decision) => `${decision.principalId}:${decision.action}`),
-      selectedAssetAddressRefs: selectedCandidates.map((candidate) => ({
+      principalIds: bindings.map((/** @type {any} */ binding) => binding.principalId),
+      decisionIds: authorizationDecisions.map((/** @type {any} */ decision) => `${decision.principalId}:${decision.action}`),
+      selectedAssetAddressRefs: selectedCandidates.map((/** @type {any} */ candidate) => ({
         assetId: candidate.assetId,
         repo: candidate.asset.addressingSurface?.repo,
         selectedInventoryEntryIds: candidate.asset.addressingSurface?.selectedInventoryEntryIds || [],
@@ -3479,9 +4126,9 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
     },
     proofHash: stableHashObject({
       branchName,
-      principalIds: bindings.map((binding) => binding.principalId),
-      decisionIds: authorizationDecisions.map((decision) => `${decision.principalId}:${decision.action}`),
-      selectedAssetAddressRefs: selectedCandidates.map((candidate) => ({
+      principalIds: bindings.map((/** @type {any} */ binding) => binding.principalId),
+      decisionIds: authorizationDecisions.map((/** @type {any} */ decision) => `${decision.principalId}:${decision.action}`),
+      selectedAssetAddressRefs: selectedCandidates.map((/** @type {any} */ candidate) => ({
         assetId: candidate.assetId,
         repo: candidate.asset.addressingSurface?.repo,
         selectedInventoryEntryIds: candidate.asset.addressingSurface?.selectedInventoryEntryIds || [],
@@ -3495,41 +4142,53 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
   };
 }
 
+/**
+ * @param {any} records
+ * @returns {any}
+ */
 function buildSensitiveDataFlowProof(records) {
-  const coveredClasses = new Set(records.map((record) => record.dataClass));
+  const coveredClasses = new Set(records.map((/** @type {any} */ record) => record.dataClass));
   return {
-    allPrivateArtifactsClassified: records.every((record) => !!record.dataClass),
+    allPrivateArtifactsClassified: records.every((/** @type {any} */ record) => !!record.dataClass),
     allFlowsRecorded: records.length > 0,
     requiredSensitiveClassesCovered: REQUIRED_SENSITIVE_DATA_CLASSES.every((dataClass) => coveredClasses.has(dataClass)),
-    noUnauthorizedPublicDisclosure: records.every((record) => !(PRIVATE_DATA_CLASSES.has(record.dataClass) && record.toSurface === 'public')),
-    retentionPoliciesAssigned: records.every((record) => !!record.retentionPolicyId),
-    revocationBehaviorDefined: records.every((record) => !!record.disclosurePolicyId),
+    noUnauthorizedPublicDisclosure: records.every((/** @type {any} */ record) => !(PRIVATE_DATA_CLASSES.has(record.dataClass) && record.toSurface === 'public')),
+    retentionPoliciesAssigned: records.every((/** @type {any} */ record) => !!record.retentionPolicyId),
+    revocationBehaviorDefined: records.every((/** @type {any} */ record) => !!record.disclosurePolicyId),
     witnessRefs: {
-      flowRecordIds: records.map((record) => record.recordId),
+      flowRecordIds: records.map((/** @type {any} */ record) => record.recordId),
       coveredDataClasses: [...coveredClasses]
     },
     proofHash: stableHashObject({
-      flowRecordIds: records.map((record) => record.recordId),
+      flowRecordIds: records.map((/** @type {any} */ record) => record.recordId),
       coveredDataClasses: [...coveredClasses]
     })
   };
 }
 
+/**
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildAssetMeasurementProofs(selectedCandidates) {
-  return selectedCandidates.map((candidate) => ({
+  return selectedCandidates.map((/** @type {any} */ candidate) => ({
     assetId: candidate.assetId,
     contentRoot: candidate.asset.contentRoot,
-    unitRefs: candidate.asset.contentUnits.map((unit) => unit.unitId),
+    unitRefs: candidate.asset.contentUnits.map((/** @type {any} */ unit) => unit.unitId),
     measurementsTraceableToUnits: candidate.asset.contentUnits.length > 0,
     measurementReplayable: (candidate.asset.assetMeasurement?.provenance || []).length > 0,
     measurementPolicySatisfied: !!candidate.asset.assetMeasurement && (candidate.asset.assetMeasurement.provenance || []).length > 0,
     witnessRefs: {
-      receiptRefs: (candidate.asset.assetMeasurement?.staticExecutionReceipts || []).map((receipt) => receipt.receiptId),
-      unitHashes: candidate.asset.contentUnits.map((unit) => unit.unitHash)
+      receiptRefs: (candidate.asset.assetMeasurement?.staticExecutionReceipts || []).map((/** @type {any} */ receipt) => receipt.receiptId),
+      unitHashes: candidate.asset.contentUnits.map((/** @type {any} */ unit) => unit.unitHash)
     }
   }));
 }
 
+/**
+ * @param {any} __0
+ * @returns {any}
+ */
 function buildProofContract({ needId, assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords }) {
   return {
     contractId: `proof_contract_${sha256(`${needId}:${assetPackId}:${branchName}`).slice(0, 12)}` ,
@@ -3552,17 +4211,26 @@ function buildProofContract({ needId, assetPackId, branchName, selectedCandidate
       'asset-pack lock binds settlement refs closed'
     ],
     artifactBindings: {
-      selectedAssets: selectedCandidates.map((candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
+      selectedAssets: selectedCandidates.map((/** @type {any} */ candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
       authorizationDecisionCount: authorizationDecisions.length,
       sensitiveFlowCount: sensitiveDataFlowRecords.length
     }
   };
 }
 
+/**
+ * @param {any} journalDiff
+ * @param {any} assetPackLock
+ * @returns {any}
+ */
 function buildSettlementProof(journalDiff, assetPackLock) {
   return settlementRuntime.buildSettlementProof(journalDiff, assetPackLock);
 }
 
+/**
+ * @param {any} __0
+ * @returns {any}
+ */
 function buildSettlementParticipationArtifact({ evaluatedCandidates, selectedCandidates, settlementCandidates, assetPackLock, sourceToSharesArtifact, settledShares, allocations, branchMode }) {
   return settlementRuntime.buildSettlementParticipationArtifact({
     evaluatedCandidates,
@@ -3576,11 +4244,15 @@ function buildSettlementParticipationArtifact({ evaluatedCandidates, selectedCan
   });
 }
 
+/**
+ * @param {any} selectedCandidates
+ * @returns {any}
+ */
 function buildUnitCatalog(selectedCandidates) {
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
-    units: selectedCandidates.flatMap((candidate) => candidate.asset.contentUnits.map((unit) => ({
+    units: selectedCandidates.flatMap((/** @type {any} */ candidate) => candidate.asset.contentUnits.map((/** @type {any} */ unit) => ({
       assetId: candidate.assetId,
       title: candidate.asset.title,
       useTier: candidate.useTier,
@@ -3592,6 +4264,11 @@ function buildUnitCatalog(selectedCandidates) {
   };
 }
 
+/**
+ * @param {any} state
+ * @param {any} __0
+ * @returns {any}
+ */
 export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
   return settlementRuntime.settleNeedEvent(state, {
     buyer,
@@ -3605,10 +4282,18 @@ export function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, 
   });
 }
 
+/**
+ * @param {any} branchArtifacts
+ * @returns {any}
+ */
 function assertRequiredBranchArtifacts(branchArtifacts) {
   return evaluationMaterializationRuntime.assertRequiredBranchArtifacts(branchArtifacts);
 }
 
+/**
+ * @param {any} __0
+ * @returns {any}
+ */
 function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, proofWitnessManifest, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
     need,
@@ -3668,9 +4353,15 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
   });
 }
 
-export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEFAULT_BRANCH_MODE } = {}) {
-  const buyer = state.buyers.find((entry) => entry.buyerId === (buyerId || state.buyers[0]?.buyerId));
-  const scenario = state.needScenarios.find((entry) => entry.scenarioId === (scenarioId || state.needScenarios[0]?.scenarioId));
+/**
+ * @param {any} state
+ * @param {any} [input={}]
+ * @returns {any}
+ */
+export function runMakeEngiBranch(state, input = {}) {
+  const { buyerId, scenarioId, branchMode = DEFAULT_BRANCH_MODE } = input;
+  const buyer = state.buyers.find((/** @type {any} */ entry) => entry.buyerId === (buyerId || state.buyers[0]?.buyerId));
+  const scenario = state.needScenarios.find((/** @type {any} */ entry) => entry.scenarioId === (scenarioId || state.needScenarios[0]?.scenarioId));
   if (!buyer) throw new Error('Buyer not found.');
   if (!scenario) throw new Error('Need scenario not found.');
   const scenarioBoundBuyer = {
@@ -3697,7 +4388,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   } = needMeasurement;
   const evaluatedCandidates = evaluateCandidates(need, state.assets, policyState);
   const assetPack = assembleAssetPack(need, evaluatedCandidates, branchMode);
-  const selectedCandidates = evaluatedCandidates.filter((candidate) => assetPack.selectedAssets.includes(candidate.assetId));
+  const selectedCandidates = evaluatedCandidates.filter((/** @type {any} */ candidate) => assetPack.selectedAssets.includes(candidate.assetId));
   if (!selectedCandidates.length) throw new Error('No candidates survived into the asset pack.');
   const depositingSurface = buildDepositingSurface({
     buyer: scenarioBoundBuyer,
@@ -3723,11 +4414,11 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     branchName,
     branchMode
   });
-  const selectionConsistencyProof = buildSelectionConsistencyProof({
+  const selectionConsistencyProof = buildSelectionConsistencyProofUnchecked({
     assetPack,
     assetPackLock,
     selectedCandidates,
-    settlementCandidates: selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible'),
+    settlementCandidates: selectedCandidates.filter((/** @type {any} */ candidate) => candidate.useTier === 'settlement-eligible'),
     selectedSourceMaterialManifest,
     branchMode
   });
@@ -3735,7 +4426,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
   const identityBindings = buildIdentityBindings(scenarioBoundBuyer, selectedCandidates);
   const githubBoundarySurface = buildGithubBoundarySurface(scenarioBoundBuyer, need, selectedCandidates);
   const artifactUploadManifest = buildArtifactUploadManifest(selectedCandidates);
-  const profileCompositionSurface = buildProfileCompositions();
+  const profileCompositionSurface = /** @type {any} */ (buildProfileCompositions());
   const externalBoundaryManifest = buildExternalBoundaryManifest({ buyer: scenarioBoundBuyer, need, selectedCandidates, assetPack, settlementPreview: settlement.settlementPreview });
   const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, scenarioBoundBuyer, branchName, assetPack);
   const sensitiveDataFlowRecords = buildSensitiveDataFlowRecords(policyState, scenarioBoundBuyer, branchName, assetPack, selectedCandidates);
@@ -3750,15 +4441,15 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     assetPack,
     settlementPreview: settlement.settlementPreview
   });
-  const promptImplementationSurface = buildPromptImplementationSurface(inferenceProofs, promptSurfaces, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact);
+  const promptImplementationSurface = buildPromptImplementationSurfaceUnchecked(inferenceProofs, promptSurfaces, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact);
   const proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates);
   const unitCatalog = buildUnitCatalog(selectedCandidates);
   const scenarioFixtureManifest = buildScenarioFixtureManifest(state, scenario.scenarioId);
   const measurementReceipts = collectStaticExecutionReceipts([
     needMeasurement.staticExecutionReceipts,
-    evaluatedCandidates.map((candidate) => candidate.staticExecutionReceipts),
-    state.assets.map((asset) => asset.assetMeasurement?.staticExecutionReceipts)
+    evaluatedCandidates.map((/** @type {any} */ candidate) => candidate.staticExecutionReceipts),
+    state.assets.map((/** @type {any} */ asset) => asset.assetMeasurement?.staticExecutionReceipts)
   ]);
   const codeAnalysisFactRegistry = buildCodeAnalysisFactRegistry({ need, evaluatedCandidates });
   const staticHeuristicsRegistry = buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry);
@@ -3804,7 +4495,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     promptSurfaces,
     parsedCompletionEnvelopeArtifact
   });
-  const provisionalBoundedPublicProof = buildBoundedPublicProofArtifact({
+  const provisionalBoundedPublicProof = buildBoundedPublicProofArtifactUnchecked({
     need,
     assetPack,
     settlement,
@@ -3819,31 +4510,31 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     confidentiality: 'private-required',
     files: {}
   };
-  const projectionPolicy = buildProjectionPolicy(policyRelease, provisionalBranchArtifacts, DEFAULT_PROJECTION_PRINCIPAL);
-  const redactionProof = buildRedactionProof({
+  const projectionPolicy = buildProjectionPolicyUnchecked(policyRelease, provisionalBranchArtifacts, DEFAULT_PROJECTION_PRINCIPAL);
+  const redactionProof = buildRedactionProofUnchecked({
     policyRelease,
     branchArtifacts: provisionalBranchArtifacts,
     projectionPolicy,
     boundedPublicProof: provisionalBoundedPublicProof
   });
-  const disclosureProof = buildDisclosureProof({
+  const disclosureProof = buildDisclosureProofUnchecked({
     policyRelease,
     projectionPolicy,
     boundedPublicProof: provisionalBoundedPublicProof
   });
-  const materializationVisibilityProof = buildMaterializationVisibilityProof({
+  const materializationVisibilityProof = buildMaterializationVisibilityProofUnchecked({
     assetPackLock,
     selectedSourceMaterialManifest,
     projectionPolicy,
     policyRelease
   });
-  let materializationExclusions = buildMaterializationExclusions({
+  let materializationExclusions = buildMaterializationExclusionsUnchecked({
     assetPack,
     evaluatedCandidates,
     selectedCandidates,
     branchMode
   });
-  let materializationProof = buildMaterializationProof({
+  let materializationProof = buildMaterializationProofUnchecked({
     assetPack,
     assetPackLock,
     selectedSourceMaterialManifest,
@@ -3851,7 +4542,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     materializationExclusions,
     branchMode
   });
-  let proofWitnessManifest = buildProofWitnessManifest({
+  let proofWitnessManifest = buildProofWitnessManifestUnchecked({
     inferenceProofs,
     promptSurfaces,
     promptContracts,
@@ -3887,7 +4578,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     disclosureProof,
     proofContract
   });
-  let systemProofBundle = buildSystemProofBundle(
+  let systemProofBundle = buildSystemProofBundleUnchecked(
     need.needId,
     assetPack.assetPackId,
     inferenceProofs,
@@ -3970,7 +4661,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     redactionProof,
     disclosureProof
   });
-  const boundedPublicProof = buildBoundedPublicProofArtifact({
+  const boundedPublicProof = buildBoundedPublicProofArtifactUnchecked({
     need,
     assetPack,
     settlement,
@@ -3979,31 +4670,31 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     promptCompletenessProof,
     staticMeasurementReport
   });
-  const finalizedProjectionPolicy = buildProjectionPolicy(policyRelease, branchArtifacts, DEFAULT_PROJECTION_PRINCIPAL);
-  const finalizedRedactionProof = buildRedactionProof({
+  const finalizedProjectionPolicy = buildProjectionPolicyUnchecked(policyRelease, branchArtifacts, DEFAULT_PROJECTION_PRINCIPAL);
+  const finalizedRedactionProof = buildRedactionProofUnchecked({
     policyRelease,
     branchArtifacts,
     projectionPolicy: finalizedProjectionPolicy,
     boundedPublicProof
   });
-  const finalizedDisclosureProof = buildDisclosureProof({
+  const finalizedDisclosureProof = buildDisclosureProofUnchecked({
     policyRelease,
     projectionPolicy: finalizedProjectionPolicy,
     boundedPublicProof
   });
-  const finalizedMaterializationVisibilityProof = buildMaterializationVisibilityProof({
+  const finalizedMaterializationVisibilityProof = buildMaterializationVisibilityProofUnchecked({
     assetPackLock,
     selectedSourceMaterialManifest,
     projectionPolicy: finalizedProjectionPolicy,
     policyRelease
   });
-  materializationExclusions = buildMaterializationExclusions({
+  materializationExclusions = buildMaterializationExclusionsUnchecked({
     assetPack,
     evaluatedCandidates,
     selectedCandidates,
     branchMode
   });
-  materializationProof = buildMaterializationProof({
+  materializationProof = buildMaterializationProofUnchecked({
     assetPack,
     assetPackLock,
     selectedSourceMaterialManifest,
@@ -4011,7 +4702,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     materializationExclusions,
     branchMode
   });
-  proofWitnessManifest = buildProofWitnessManifest({
+  proofWitnessManifest = buildProofWitnessManifestUnchecked({
     inferenceProofs,
     promptSurfaces,
     promptContracts,
@@ -4047,7 +4738,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     disclosureProof: finalizedDisclosureProof,
     proofContract
   });
-  systemProofBundle = buildSystemProofBundle(
+  systemProofBundle = buildSystemProofBundleUnchecked(
     need.needId,
     assetPack.assetPackId,
     inferenceProofs,
@@ -4179,7 +4870,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
     canonicalRunEvidence: scenario.canonicalRunEvidence,
-    evaluatedCandidates: evaluatedCandidates.map((candidate) => ({
+    evaluatedCandidates: evaluatedCandidates.map((/** @type {any} */ candidate) => ({
       assetId: candidate.assetId,
       title: candidate.asset.title,
       artifactKind: candidate.asset.artifactKind,
@@ -4187,7 +4878,7 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
       recall: candidate.recall,
       ranking: {
         ...candidate.ranking,
-        wholeAssetNeedScore: Number(candidate.ranking.wholeAssetNeedScore.toFixed(4)),
+        wholeAssetNeedScore: Number((/** @type {number} */ (candidate.ranking['wholeAssetNeedScore'])).toFixed(4)),
         finalRankingScore: Number(candidate.ranking.finalRankingScore.toFixed(4)),
         needMatch: {
           ...candidate.ranking.needMatch,
@@ -4220,11 +4911,6 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
     githubBoundarySurface,
     artifactUploadManifest,
     profileCompositionSurface,
-    promptSurfaces,
-    promptContracts,
-    promptCompletenessProof,
-    parsedCompletionEnvelopes,
-    parsedCompletionEnvelopeArtifact,
     externalBoundaryManifest,
     deliverablesManifest,
     unitCatalog,
@@ -4273,15 +4959,20 @@ export function runMakeEngiBranch(state, { buyerId, scenarioId, branchMode = DEF
       branchMode,
       selectedAssets: assetPack.selectedAssets,
       bundleId: settlement.bundleId,
-      redactionStatus: boundedPublicProof.redactionStatus
+      redactionStatus: boundedPublicProof['redactionStatus']
     }]
   };
 
   return { nextState, latestRun };
 }
 
+/**
+ * @param {any} state
+ * @param {string} [principal=DEFAULT_PROJECTION_PRINCIPAL]
+ * @returns {any}
+ */
 export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
-  return buildDemoPublicState(state, principal, {
+  return buildDemoPublicStateUnchecked(state, principal, {
     ensureProjectionPrincipal,
     buildRepoSupplySurface,
     buildBoundaryRealitySurface,
