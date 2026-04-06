@@ -51,7 +51,8 @@ Prompted or synthesized outputs become canonical only when their ownership, evid
 This pass now covers:
 - full first-pass V16 formalization for `prompt-completeness`,
 - first-pass closure design for the other eight V15 proof families,
-- and provisional member-coverage inventories across all nine families.
+- explicit member-coverage plus member-closure criteria across all nine families,
+- and initial theorem-binding plus proof-shape-realization direction across all nine families.
 
 The following are still intentionally deferred:
 - theorem-family expansion beyond the current family-first pass,
@@ -64,6 +65,38 @@ The correct reading is:
 - V16 is being drafted through proof-family-by-proof-family tightening,
 - `prompt-completeness` remains the most tightened family,
 - and the rest of the proof families are now opened deeply enough to support the next member and theorem passes.
+
+## Member-proof closure rule
+
+V16 treats family members as proof-bearing units rather than as inventory items.
+
+A family member is not closed merely because it is named.
+A family member is closed only when:
+- membership is explicit and non-ambiguous,
+- the member's primary truth surface is explicitly identified,
+- the member's proof verdict can fail on the obligations the family theorem claims,
+- the member is directly visible through artifacts, witnesses, and replay,
+- exclusions or non-membership are explicit rather than omitted,
+- and the member has a ratchetable implementation/test expectation.
+
+The family sections below specialize that rule.
+Their member-coverage inventories name the units.
+Their member-closure criteria state what each named unit must satisfy before V16 can treat that member as proven.
+
+## Family-theorem binding rule
+
+V16 also treats each proof family theorem as a proof-bearing interface rather than as explanatory prose.
+
+A family theorem is not materially closed merely because it sounds complete.
+A family theorem is materially closed only when:
+- each claimed obligation is bound to an explicit family verdict axis,
+- the realized family proof shape can fail on those exact axes,
+- member-level truths and family-level truths reconcile without silent substitution,
+- witness artifacts and replay steps expose theorem-bearing closure directly,
+- and implementation ratchets or tests fail when theorem language and proof-object strength drift apart.
+
+The family sections below specialize that rule as well.
+Their theorem-binding/proof-shape sections state what each family theorem must bind to before V16 can treat the family proof object as materially honest.
 
 ---
 
@@ -440,6 +473,44 @@ The current provisional member-coverage reading for `prompt-completeness` is:
    Currently classified as inferred need content but not realized as a prompt-completeness member and not yet explicitly excluded.
    Current debt: this is the family's strongest explicit omission and remains the canonical non-closure case until V16 resolves it one way or the other.
 
+### 6.2 Member closure criteria
+
+For `prompt-completeness`, a member is closed only when its prompt-owned output is fully represented in family registry truth, realized run truth, and family verdict truth.
+
+1. `task`
+   Closed only when `task` has one canonical prompt family member, one strict parse contract, one admissible parsed envelope, and a validated semantic consumer graph that includes every real need/report/operator consumer rather than a partial binding subset.
+
+2. `failureModes`
+   Closed only when `failureModes` has one canonical prompt family member, one strict parse contract, one admissible parsed envelope, and a validated consumer graph that distinguishes semantic consumers from lineage/proof-support surfaces rather than conflating them.
+
+3. `constraints`
+   Closed only when `constraints` has one canonical prompt family member, one strict parse contract, one admissible parsed envelope, and explicit non-rendered-context legality proving that hidden context use is authorized rather than incidental.
+
+4. `targetArtifactKinds`
+   Closed only when `targetArtifactKinds` has one canonical prompt family member, one strict parse contract, one admissible parsed envelope, and a validated semantic consumer graph that includes all artifact-planning and operator-facing consumers.
+
+5. `closureCriteria`
+   Closed only when V16 chooses one truthful path and makes it fail-closed:
+   - either `closureCriteria` becomes a full prompt-completeness member with contract, envelope, witnesses, replay, and tests,
+   - or it is explicitly reclassified out of prompt-completeness with a named replacement proof path and an explicit family exclusion rule.
+
+### Prompt-completeness theorem binding and proof-shape realization
+
+For V16, the `prompt-completeness` theorem must bind directly to:
+1. coverage totality, ghost-coverage exclusion, and explicit-exclusion truth,
+2. template/context/parse contract closure,
+3. parsed-envelope admissibility closure,
+4. downstream-consumer closure,
+5. provenance-truth closure,
+6. and witness/replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. expected member set, realized member set, and explicit exclusion set,
+2. per-member contract, admissibility, consumer, and provenance verdicts,
+3. family-level closure verdicts on each theorem axis rather than one aggregate boolean only,
+4. direct witness artifact paths and replay steps for omitted-member, parse, and consumer failures,
+5. and test ratchets that fail when a new prompt-owned field or downstream consumer appears without family-registry and family-proof updates.
+
 ---
 
 ## 7. Inference-synthesis initial V16 reading
@@ -765,7 +836,45 @@ The current provisional member-coverage reading for `inference-synthesis` is:
    Currently classified as inferred content but not realized through a field-level inference proof or a corresponding inference-synthesis witness path.
    Current debt: this remains the family's clearest coverage-totality failure.
 
-### 7.14 Current drafting boundary
+### 7.14 Member closure criteria
+
+For `inference-synthesis`, a member is closed only when one inferred field has one truthful evaluator/moment owner, one canonical evidence basis, one replayable field proof, and one explicit witness/replay path.
+
+1. `task`
+   Closed only when `task` has one canonical field proof whose evidence basis either directly enumerates or explicitly closes over the full prompt-driving evidence basis, and whose evaluator status agrees across field proof, eval manifest, prompt implementation, and boundary surfaces.
+
+2. `failureModes`
+   Closed only when `failureModes` has one canonical field proof with truthful evaluator status, one canonical evidence basis, and explicit closure between prompt context, derivation evidence, and field-proof evidence.
+
+3. `constraints`
+   Closed only when `constraints` has one canonical field proof with truthful evaluator status, one canonical evidence basis, and explicit closure showing that non-rendered or policy-bearing context is part of the declared inference basis rather than hidden runtime behavior.
+
+4. `targetArtifactKinds`
+   Closed only when `targetArtifactKinds` has one canonical field proof with truthful evaluator status, one canonical evidence basis, and explicit closure to downstream artifact-planning consumers.
+
+5. `closureCriteria`
+   Closed only when V16 chooses one truthful path and makes it fail-closed:
+   - either `closureCriteria` becomes a covered inferred field with a field proof, moment ownership, witnesses, replay, and tests,
+   - or it is explicitly reclassified out of the family's classified inferred-field set.
+
+### Inference-synthesis theorem binding and proof-shape realization
+
+For V16, the `inference-synthesis` theorem must bind directly to:
+1. inferred-field coverage totality,
+2. evaluator-status truth,
+3. evidence-basis closure,
+4. ownership and traceability closure,
+5. witness-materialization closure,
+6. and replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. expected inferred-field set, realized field-proof set, and explicit exclusions,
+2. moment-contract truth distinct from field-proof truth,
+3. per-member verdicts for evaluator-status agreement and evidence-basis closure,
+4. direct witness artifact paths for moment contracts, field proofs, parsed envelopes, and the family proof,
+5. and test ratchets that fail when a classified inferred field, evaluator mode, or evidence basis drifts without family-proof updates.
+
+### 7.15 Current drafting boundary
 
 This still does not complete inference-synthesis formalization.
 
@@ -1164,6 +1273,38 @@ The current provisional member-coverage reading for `static-code-analysis` is:
    Realized through asset-measurement receipts, static report, and static proof.
    Current debt: the report/proof domain still absorbs `verification.*` receipts, so measurement-stage closure is not yet family-pure.
 
+### 8.19 Member closure criteria
+
+For `static-code-analysis`, a member is closed only when its stage domain is explicit, static-only, replayable, and represented by the right registry/receipt/report/proof surfaces.
+
+1. deterministic parser
+   Closed only when parser provenance, parser receipts, and parser registry truth all agree through an explicit abstract-to-concrete stage mapping and the member does not depend on any out-of-family verification-stage receipt.
+
+2. repo-context
+   Closed only when repo-context provenance, receipts, and registry truth all agree through an explicit abstract-to-concrete stage mapping and the member remains inside a static-only family domain.
+
+3. content-unit
+   Closed only when content-unit extraction receipts, registry truth, and report/proof stage coverage all agree and remain inside the static family boundary rather than borrowing verification-stage closure.
+
+4. measurement stages
+   Closed only when asset-measurement receipts, static report, and static family proof agree on a purely static stage domain and exclude `verification.*` receipts from the member's own closure path.
+
+### Static-code-analysis theorem binding and proof-shape realization
+
+For V16, the `static-code-analysis` theorem must bind directly to:
+1. a static-only stage domain,
+2. explicit mapping from abstract family members to concrete receipt stages,
+3. registry-role closure,
+4. receipt/report/proof agreement,
+5. and witness/replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. member verdicts for deterministic parser, repo-context, content-unit, and measurement stages,
+2. an explicit stage-mapping surface between provenance ids and receipt-stage ids,
+3. family-domain exclusions that fail when `verification.*` receipts enter static closure,
+4. primary-versus-alias registry roles,
+5. and test ratchets that fail when a new static stage, registry, or receipt domain appears without theorem-bound family proof updates.
+
 ## 9. Verification-decisions initial V16 reading
 
 This is the next proof family opened after SCA.
@@ -1458,6 +1599,41 @@ The current provisional member-coverage reading for `verification-decisions` is:
    Realized in runtime through `verification.determinisms.v15`, `useTier`, `finalUseTier`, and downstream rights.
    Current debt: this family member remains undernamed in report vocabulary and underrepresented in witness/replay closure.
 
+### 9.15 Member closure criteria
+
+For `verification-decisions`, a member is closed only when one canonical decision member maps to one explicit stage/consequence path, one report/receipt role split, and one witness/replay path.
+
+1. `issuance`
+   Closed only when issuance-stage receipts, decision surfaces, and report entries all agree on the same issuance verdict and remain replay-visible beyond receipt-id-only witness closure.
+
+2. `provenance`
+   Closed only when provenance-stage receipts, decision surfaces, and report entries all agree on the same provenance verdict and remain replay-visible beyond receipt-id-only witness closure.
+
+3. `sufficiency`
+   Closed only when sufficiency-stage receipts, decision surfaces, and report entries all agree on the same sufficiency verdict and remain replay-visible beyond receipt-id-only witness closure.
+
+4. `issuer-policy`
+   Closed only when issuer-policy-stage receipts, decision surfaces, and report entries all agree on the same policy verdict and remain replay-visible beyond receipt-id-only witness closure.
+
+5. `use-tier-consequence`
+   Closed only when the family canonically names the stage or closure path that produces `useTier` and `finalUseTier`, keeps branch-mode rights visibly downstream of that family member, and makes the full consequence path replay-visible in both report and witness closure.
+
+### Verification-decisions theorem binding and proof-shape realization
+
+For V16, the `verification-decisions` theorem must bind directly to:
+1. issuance, provenance, sufficiency, and issuer-policy decision closure,
+2. use-tier consequence closure,
+3. receipt-versus-report role closure,
+4. witness-materialization closure,
+5. and replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. per-member verdicts for each decision member plus use-tier consequence,
+2. an explicit mapping from decision stages to family members and report consequences,
+3. direct witness artifact paths for raw receipts, decision report, and family proof,
+4. explicit failure surfaces for undernamed consequence truth,
+5. and test ratchets that fail when a new verification stage or consequence appears without family-member and theorem-binding updates.
+
 ## 10. Selection-and-materialization initial V16 reading
 
 This is the next proof family opened after VD.
@@ -1744,6 +1920,42 @@ The current provisional member-coverage reading for `selection-and-materializati
    Realized through `.engi/materialization-visibility-proof.json`.
    Current debt: replay still omits the visibility surface and the family has not yet made that omission fail closure directly.
 
+### 10.15 Member closure criteria
+
+For `selection-and-materialization`, a member is closed only when one canonical family surface owns it directly and the family replay path reconstructs that member without bundle-only substitution.
+
+1. selected assets
+   Closed only when the selected asset set is closed consistently across asset pack, selection-consistency proof, aggregate materialization proof, and later settlement-eligibility consequences.
+
+2. locked units
+   Closed only when the lock artifact is a first-class replay surface and every materialized or settlement-consumed unit closes exactly over that lock.
+
+3. materialized source
+   Closed only when selected-source-material entries agree with the lock, selected set, and rights model, and remain directly witnessable and replayable.
+
+4. exclusions
+   Closed only when every non-materialized or non-settlement-consumed asset has an explicit exclusion record with consequence truth that remains distinct from broader aggregate materialization summaries.
+
+5. visibility rules
+   Closed only when visibility-proof closure is first-class, replay-visible, and sufficient to prove that public/materialized boundaries do not leak private materialization state.
+
+### Selection-and-materialization theorem binding and proof-shape realization
+
+For V16, the `selection-and-materialization` theorem must bind directly to:
+1. selected-asset closure,
+2. lock closure,
+3. materialized-source closure,
+4. exclusion closure,
+5. visibility closure,
+6. and selection-consistency/materialization-proof closure.
+
+The realized family proof shape should therefore expose:
+1. per-member verdicts for selected assets, lock, source, exclusions, and visibility,
+2. explicit binding from those member verdicts to selection-consistency proof and aggregate materialization proof,
+3. direct witness artifact paths for lock, selected-source-material, exclusions, visibility proof, selection-consistency proof, and aggregate materialization proof,
+4. explicit settlement-consumption and branch-mode consequences,
+5. and test ratchets that fail when any selection-bearing artifact drifts outside theorem-bound replay.
+
 ## 11. Authorization-and-sensitive-flow initial V16 reading
 
 This is the next proof family opened after SAM.
@@ -1962,7 +2174,43 @@ The current provisional member-coverage reading is:
 5. sensitive-data flows
    Realized through `.engi/sensitive-data-flow.json` and `SensitiveDataFlowProof`.
 
-### 11.11 Current drafting boundary
+### 11.11 Member closure criteria
+
+For `authorization-and-sensitive-flow`, a member is closed only when one canonical primary artifact owns it directly and the family replay path reconstructs its policy-bearing truth without borrowing later disclosure closure.
+
+1. principals
+   Closed only when all relevant principal classes and authority bindings are explicitly materialized, first-class in witness closure, and sufficient to close identity-authorization proof without hidden binding surfaces.
+
+2. authorization decisions
+   Closed only when all state-changing and relevant access decisions are explicitly policy-backed, directly witnessable, and replay-visible as family-local authorization truth.
+
+3. confidentiality classes
+   Closed only when all private and required sensitive classes are explicitly assigned to artifacts or flows and family closure fails on any missing or misclassified class.
+
+4. retention/disclosure rules
+   Closed only when every sensitive-data-flow record carries explicit retention and disclosure-policy assignments and the family boundary to later disclosure-boundary proof remains explicit rather than blurred.
+
+5. sensitive-data flows
+   Closed only when all relevant flows are recorded, classification/policy assignments are attached to them, unauthorized public flow is impossible under family closure, and replay reconstructs that result directly.
+
+### Authorization-and-sensitive-flow theorem binding and proof-shape realization
+
+For V16, the `authorization-and-sensitive-flow` theorem must bind directly to:
+1. principal and authority closure,
+2. authorization-decision closure,
+3. confidentiality-class closure,
+4. retention/disclosure-rule closure,
+5. sensitive-flow closure,
+6. and witness/replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. per-member verdicts for principals, decisions, classes, rules, and flows,
+2. explicit separation between identity-authorization proof and sensitive-data-flow proof,
+3. direct witness artifact paths for authorization decisions, sensitive-data-flow, and family proofs,
+4. explicit failure surfaces when a new principal class, data class, or policy-bearing sink appears without family updates,
+5. and test ratchets that fail on hidden authority or hidden sensitive-flow drift.
+
+### 11.12 Current drafting boundary
 
 AASF is still not fully formalized.
 
@@ -2198,7 +2446,50 @@ The current provisional member-coverage reading is:
 7. settlement proof
    Realized through `.engi/settlement-proof.json` and `SettlementProof`.
 
-### 12.11 Current drafting boundary
+### 12.11 Member closure criteria
+
+For `settlement-source-to-shares`, a member is closed only when one canonical settlement surface owns it directly, exact replay reconstructs it, and theorem/journal closure do not silently substitute for one another.
+
+1. contribution
+   Closed only when source contribution entries cover every settlement candidate and marginal-contribution replay remains stable and auditable for each member.
+
+2. clipping
+   Closed only when each settlement candidate has an explicit clipping disposition and receipt, and clipped versus non-clipped outcomes remain replay-stable under the family's canonical tie-break and scoring rules.
+
+3. normalization
+   Closed only when basis-point normalization is explicit, totals exactly, and remains directly connected to later settlement theorem closure rather than floating as a side ledger only.
+
+4. participation
+   Closed only when settlement-participation records cover selected, participating, positively credited, zero-credit, and excluded states for every relevant asset.
+
+5. allocation
+   Closed only when exact micro-unit allocation is conserved, accounting precision agrees with the journal, and replay reproduces the same allocation domain exactly.
+
+6. journal
+   Closed only when journal-diff truth and journal-completeness closure are both explicit, witnessable, and replay-visible rather than left as an internal proof object only.
+
+7. settlement proof
+   Closed only when theorem-bearing settlement proof is directly witnessed and replay-visible, with no gap between the emitted settlement-proof artifact and the family's own witness closure.
+
+### Settlement-source-to-shares theorem binding and proof-shape realization
+
+For V16, the `settlement-source-to-shares` theorem must bind directly to:
+1. contribution closure,
+2. clipping closure,
+3. normalization closure,
+4. participation closure,
+5. exact allocation closure,
+6. journal closure,
+7. and theorem-bearing settlement-proof closure.
+
+The realized family proof shape should therefore expose:
+1. per-member verdicts for each settlement member,
+2. explicit distinction between journal-completeness closure and theorem-bearing settlement closure,
+3. arithmetic and conservation verdicts that remain directly tied to settlement proof rather than prose summary only,
+4. direct witness artifact paths for source-to-shares, participation, journal diff, journal completeness, accounting precision, and settlement proof,
+5. and test ratchets that fail when allocation, journal, or theorem closure drifts without exact replay failure.
+
+### 12.12 Current drafting boundary
 
 SSTS is still not fully formalized.
 
@@ -2409,7 +2700,39 @@ The current provisional member-coverage reading is:
 4. disclosure proof
    Realized through `.engi/disclosure-proof.json`.
 
-### 13.11 Current drafting boundary
+### 13.11 Member closure criteria
+
+For `disclosure-boundary`, a member is closed only when one canonical disclosure surface owns it directly, boundedness remains explicit, and replay reconstructs the full policy-to-disclosure path.
+
+1. projection policy
+   Closed only when principal visibility rules and artifact rules are explicit, first-class, and sufficient to determine allowed versus denied public artifact paths without borrowing later artifacts as substitutes.
+
+2. bounded-public proof
+   Closed only when the bounded-public artifact is first-class in witness and replay closure, remains metadata-bounded, and is not reduced to an indirect hash anchor under redaction/disclosure proof only.
+
+3. redaction proof
+   Closed only when redacted artifact paths, source-material paths, and latest-run field redactions agree with projection policy and bounded-public proof and remain directly replay-visible.
+
+4. disclosure proof
+   Closed only when allowed and denied public artifact paths, projection policy reference, and boundedness verdict all agree and can be reconstructed directly by family replay.
+
+### Disclosure-boundary theorem binding and proof-shape realization
+
+For V16, the `disclosure-boundary` theorem must bind directly to:
+1. projection-policy closure,
+2. bounded-public closure,
+3. redaction closure,
+4. disclosure closure,
+5. and witness/replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. per-member verdicts for policy, bounded-public, redaction, and disclosure members,
+2. explicit agreement surfaces showing that redaction and disclosure remain downstream of policy and bounded-public truth rather than substitutes for them,
+3. direct witness artifact paths for projection policy, bounded-public proof, redaction proof, and disclosure proof,
+4. explicit failure surfaces when a new public path or redaction rule appears without family updates,
+5. and test ratchets that fail on boundedness drift, policy drift, or allow/deny mismatch drift.
+
+### 13.12 Current drafting boundary
 
 Disclosure-boundary is still not fully formalized.
 
@@ -2618,7 +2941,43 @@ The current provisional member-coverage reading is:
 5. witness-manifest closure
    Realized through `.engi/proof-witness-manifest.json`.
 
-### 14.11 Current drafting boundary
+### 14.11 Member closure criteria
+
+For `proof-contract`, a member is closed only when one canonical proof-contract surface owns it directly, witness closure names it explicitly, and replay reconstructs it without bundle-only substitution.
+
+1. proof contract
+   Closed only when proof contract is emitted directly or represented by a sanctioned first-class equivalent surface and cannot disappear while the bundle remains green.
+
+2. evidence chain
+   Closed only when each evidence-chain stage and its artifact refs are explicit, family-coherent, and replay-visible as proof-contract-local closure rather than bundle prose only.
+
+3. theorem checks
+   Closed only when each theorem claim is bound to witness-bearing artifacts and replay-visible closure rather than remaining a string list without explicit proof bindings.
+
+4. system proof bundle
+   Closed only when the bundle remains an explicit aggregation artifact whose closure agrees with proof contract, witness manifest, and replay entrypoint truth.
+
+5. witness-manifest closure
+   Closed only when the witness manifest is a first-class proof-contract family surface and the family fails if witness-manifest closure drifts out of alignment with contract or bundle truth.
+
+### Proof-contract theorem binding and proof-shape realization
+
+For V16, the `proof-contract` theorem must bind directly to:
+1. proof-contract closure,
+2. evidence-chain closure,
+3. theorem-check closure,
+4. system-proof-bundle closure,
+5. witness-manifest closure,
+6. and replay/test closure.
+
+The realized family proof shape should therefore expose:
+1. role-distinguished primary surfaces for contract, evidence chain, theorem checks, bundle, and witness manifest,
+2. explicit theorem identities, scopes, and witness-bearing artifact paths,
+3. direct replay steps for evidence-chain closure and theorem closure rather than bundle prose only,
+4. explicit coherence verdicts between proof contract, bundle, and witness manifest,
+5. and test ratchets that fail when a new theorem, artifact binding, or cross-family stage claim appears without proof-contract updates.
+
+### 14.12 Current drafting boundary
 
 Proof-contract is still not fully formalized.
 

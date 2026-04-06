@@ -55,6 +55,34 @@ For this drafting pass:
 - `authorization-and-sensitive-flow`, `settlement-source-to-shares`, `disclosure-boundary`, and `proof-contract` are now also opened through full first-pass family closure design,
 - and all nine V15 proof families are now inside the active V16 family pass.
 
+## Member-tightening interpretation rule
+
+Member inventories in this matrix are not closure claims by themselves.
+
+For V16, a member-tightening row is only complete when it identifies:
+- what makes the member belong to the family,
+- which surface owns the member's primary truth,
+- which failure modes the member proof must be able to express,
+- which artifacts, witnesses, and replay steps must expose that truth,
+- what exclusions or alias rules must be explicit,
+- and which implementation ratchet or test should fail if the member drifts.
+
+The family-specific member coverage ledgers below name the members.
+The family-specific tightening signals below state the concrete parity work still required for each member.
+
+## Theorem-binding interpretation rule
+
+Theorem language in this matrix is not satisfied by descriptive strength alone.
+
+For V16, a family theorem is only treated as parity-aligned when:
+- each claimed family obligation is represented by an explicit family-proof verdict axis,
+- the family proof can fail on those axes directly,
+- member closure and family closure reconcile without hidden substitution,
+- witness artifacts and replay steps expose theorem-bearing closure,
+- and implementation ratchets or tests fail when theorem language gets ahead of proof-object strength.
+
+The family-specific sections below use that rule to identify theorem-binding debt and proof-shape debt separately from member-inventory debt.
+
 ## Audit basis
 
 This matrix is grounded in:
@@ -655,7 +683,35 @@ The current provisional family-member coverage reading is:
    Currently classified as inferred need content but not realized as a prompt-completeness member and not yet explicitly excluded.
    Current debt: this remains the family's strongest explicit omission and canonical non-closure case.
 
+### Prompt-Completeness member tightening signals
+
+1. `task`
+   Closed only when prompt contract, parsed envelope, semantic consumer graph, witness paths, replay, and tests all agree on the same `task` ownership and consumption story.
+
+2. `failureModes`
+   Closed only when prompt contract, parsed envelope, semantic consumer graph, witness paths, replay, and tests all agree on the same `failureModes` ownership and consumption story without lineage-only consumer leakage.
+
+3. `constraints`
+   Closed only when prompt contract, parsed envelope, non-rendered-context legality, consumer graph, witness paths, replay, and tests all agree on the same `constraints` closure story.
+
+4. `targetArtifactKinds`
+   Closed only when prompt contract, parsed envelope, artifact-planning consumer graph, witness paths, replay, and tests all agree on the same `targetArtifactKinds` closure story.
+
+5. `closureCriteria`
+   Closed only when V16 either promotes it into a full prompt member with contract/envelope/witness/replay/test closure or explicitly reclassifies it out of the family with a named replacement proof path.
+
 ---
+
+## Prompt-Completeness theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already names coverage totality, parse admissibility, downstream-consumer closure, and provenance truth, but the current proof object cannot fail on all of those axes directly.
+
+2. required proof-shape direction
+   V16 should require expected-member, realized-member, and explicit-exclusion sets plus per-member contract/admissibility/consumer/provenance verdicts and family-level closure verdicts on each theorem axis.
+
+3. implementation ratchet
+   A new prompt-owned field, parse obligation, or semantic downstream consumer must fail family closure unless registry truth, family proof, witnesses, replay, and tests are updated together.
 
 ## Current V16 closure reading
 
@@ -1319,7 +1375,35 @@ The current provisional family-member coverage reading is:
    Currently classified as inferred content but not realized through a field-level inference proof or a corresponding inference-synthesis witness path.
    Current debt: this remains the family's clearest coverage-totality failure.
 
+### Inference-Synthesis member tightening signals
+
+1. `task`
+   Closed only when one field proof, one evaluator-status story, one canonical evidence basis, one witness path, and one replay path all agree for `task`.
+
+2. `failureModes`
+   Closed only when one field proof, one evaluator-status story, one canonical evidence basis, one witness path, and one replay path all agree for `failureModes`.
+
+3. `constraints`
+   Closed only when one field proof, one evaluator-status story, one canonical evidence basis, one witness path, and one replay path all agree for `constraints`, including any hidden/policy-bearing context.
+
+4. `targetArtifactKinds`
+   Closed only when one field proof, one evaluator-status story, one canonical evidence basis, one witness path, and one replay path all agree for `targetArtifactKinds`.
+
+5. `closureCriteria`
+   Closed only when V16 either promotes it into the inferred-field set with a real field proof and witness/replay closure or explicitly removes it from the classified inferred-field set.
+
 ---
+
+### Inference-Synthesis theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem names inferred-field ownership, evaluator-status truth, evidence traceability, and replay closure, but the current family proof shape still underbinds coverage-totality, evaluator-status agreement, and evidence-basis closure.
+
+2. required proof-shape direction
+   V16 should require expected inferred-field set, realized field-proof set, explicit exclusions, distinct moment-contract versus field-proof truth, and per-member verdicts for evaluator-status agreement and evidence-basis closure.
+
+3. implementation ratchet
+   A newly classified inferred field, evaluator-mode change, or evidence-basis change must fail family closure unless field proofs, moment contracts, witnesses, replay, and tests are updated together.
 
 ## Static-Code-Analysis: initial V16 discovery ledger
 
@@ -1805,6 +1889,20 @@ The current provisional family-member coverage reading is:
    Realized through asset-measurement receipts, static report, and static proof.
    Current debt: the report/proof domain still absorbs `verification.*` receipts, so measurement-stage closure is not yet family-pure.
 
+### Static-Code-Analysis member tightening signals
+
+1. deterministic parser
+   Closed only when parser provenance, parser receipts, registry truth, witness paths, replay, and tests all agree on one static-only parser stage domain.
+
+2. repo-context
+   Closed only when repo-context provenance, repo-context receipts, registry truth, witness paths, replay, and tests all agree on one static-only repo-context stage domain.
+
+3. content-unit
+   Closed only when content-unit extraction receipts, registry truth, report/proof stage coverage, witness paths, replay, and tests all agree on one static-only content-unit stage domain.
+
+4. measurement stages
+   Closed only when asset-measurement receipts, static report, static proof, witness paths, replay, and tests all agree on one static-only measurement-stage domain with no `verification.*` leakage.
+
 #### Current preferred stopping point
 
 SCA is now complete enough in V16 drafting terms to move on because:
@@ -1816,6 +1914,17 @@ SCA is now complete enough in V16 drafting terms to move on because:
 5. and expected versus realized versus family closure ownership is now named.
 
 ---
+
+### Static-Code-Analysis theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem still risks overclaiming a static-only proof surface while the current report/proof domain can silently absorb `verification.*` receipts.
+
+2. required proof-shape direction
+   V16 should require explicit stage mapping from abstract family members to concrete receipt stages, member verdicts for parser/repo-context/content-unit/measurement, registry-role closure, and family-domain exclusions.
+
+3. implementation ratchet
+   A new static stage, provenance id, registry role, or receipt domain must fail family closure unless stage mapping, proof shape, replay, and tests are updated together.
 
 ## Verification-Decisions: initial V16 discovery ledger
 
@@ -2274,6 +2383,23 @@ The current provisional family-member coverage reading is:
    Realized in runtime through `verification.determinisms.v15`, `useTier`, `finalUseTier`, and downstream rights.
    Current debt: this family member remains undernamed in report vocabulary and underrepresented in witness/replay closure.
 
+### Verification-Decisions member tightening signals
+
+1. `issuance`
+   Closed only when issuance receipts, decision surfaces, report entries, witness paths, replay, and tests all agree on one issuance member story.
+
+2. `provenance`
+   Closed only when provenance receipts, decision surfaces, report entries, witness paths, replay, and tests all agree on one provenance member story.
+
+3. `sufficiency`
+   Closed only when sufficiency receipts, decision surfaces, report entries, witness paths, replay, and tests all agree on one sufficiency member story.
+
+4. `issuer-policy`
+   Closed only when issuer-policy receipts, decision surfaces, report entries, witness paths, replay, and tests all agree on one issuer-policy member story.
+
+5. `use-tier-consequence`
+   Closed only when the family canonically names the use-tier stage or consequence path, keeps rights downstream, and makes `useTier`/`finalUseTier` closure replay-visible in both report and witness surfaces.
+
 #### Current preferred stopping point
 
 VD is now complete enough in V16 drafting terms to continue later family work because:
@@ -2286,6 +2412,17 @@ VD is now complete enough in V16 drafting terms to continue later family work be
 6. and expected versus realized versus family closure ownership is now named.
 
 ---
+
+### Verification-Decisions theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already includes use-tier consequence, but the current proof/report vocabulary still undernames that consequence relative to the other decision members.
+
+2. required proof-shape direction
+   V16 should require per-member verdicts for issuance, provenance, sufficiency, issuer-policy, and use-tier consequence, plus explicit mapping from decision stages to report consequences and witness artifacts.
+
+3. implementation ratchet
+   A new verification stage, rights consequence, or report-facing consequence must fail family closure unless the family theorem binding, proof shape, replay, and tests are extended with it.
 
 ## Selection-And-Materialization: initial V16 discovery ledger
 
@@ -2764,6 +2901,23 @@ The current provisional family-member coverage reading is:
    Realized through `.engi/materialization-visibility-proof.json`.
    Current debt: replay still omits the visibility surface and the family has not yet made that omission fail closure directly.
 
+### Selection-And-Materialization member tightening signals
+
+1. selected assets
+   Closed only when asset-pack selection truth, selection-consistency proof, aggregate materialization proof, witness paths, replay, and tests all agree on one selected-asset set.
+
+2. locked units
+   Closed only when lock truth is first-class in witness/replay closure and every materialized or settlement-consumed unit closes exactly over that lock.
+
+3. materialized source
+   Closed only when selected-source-material entries, selection-consistency proof, materialization proof, witness paths, replay, and tests all agree on one materialized-source set.
+
+4. exclusions
+   Closed only when every excluded asset has an explicit exclusion/consequence record and exclusions remain replay-visible as a member rather than only as an aggregate proof side effect.
+
+5. visibility rules
+   Closed only when visibility-proof closure is first-class, replay-visible, and sufficient to prove no private materialization leakage into public or wrong-scope surfaces.
+
 #### Current preferred stopping point
 
 SAM is now complete enough in V16 drafting terms to continue later family work because:
@@ -2775,6 +2929,17 @@ SAM is now complete enough in V16 drafting terms to continue later family work b
 5. and expected versus realized versus family closure ownership is now named.
 
 ---
+
+### Selection-And-Materialization theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already depends on selected assets, lock, materialized source, exclusions, visibility, and selection consistency, but current replay and witness closure still omit several primary member surfaces.
+
+2. required proof-shape direction
+   V16 should require per-member verdicts for selected assets, lock, source, exclusions, and visibility, plus explicit binding from those verdicts into selection-consistency and aggregate materialization proof closure.
+
+3. implementation ratchet
+   A new selection-bearing artifact, exclusion consequence, or visibility rule must fail family closure unless the family proof, witnesses, replay, and tests are updated with that member truth.
 
 ## Authorization-And-Sensitive-Flow: initial V16 discovery ledger
 
@@ -3196,6 +3361,23 @@ The current provisional family-member coverage reading is:
    Realized through `.engi/sensitive-data-flow.json` and `SensitiveDataFlowProof`.
    Current debt: witness and replay closure are still too thin.
 
+### Authorization-And-Sensitive-Flow member tightening signals
+
+1. principals
+   Closed only when all principal classes and authority bindings are first-class in artifact, witness, replay, and test closure.
+
+2. authorization decisions
+   Closed only when all state-changing and relevant access decisions are explicitly policy-backed and replay-visible as family-local authorization truth.
+
+3. confidentiality classes
+   Closed only when all required sensitive classes are assigned explicitly and family closure fails on any missing or misclassified class.
+
+4. retention/disclosure rules
+   Closed only when every sensitive flow carries explicit retention and disclosure-policy assignments and the handoff to disclosure-boundary remains explicit.
+
+5. sensitive-data flows
+   Closed only when all relevant flows are recorded, classified, policy-bound, and replay-visible without unauthorized public flow.
+
 #### Current preferred stopping point
 
 AASF is now complete enough in V16 drafting terms to continue later family work because:
@@ -3208,6 +3390,17 @@ AASF is now complete enough in V16 drafting terms to continue later family work 
 6. and family-member coverage is now enumerated.
 
 ---
+
+### Authorization-And-Sensitive-Flow theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already spans principal binding, authorization truth, classification truth, policy assignment, and sensitive-flow closure, but the current proof shape still risks flattening identity and flow truth into one private-proof layer.
+
+2. required proof-shape direction
+   V16 should require per-member verdicts for principals, decisions, classes, rules, and flows, plus explicit separation between identity-authorization proof and sensitive-data-flow proof and direct family witness artifacts for both.
+
+3. implementation ratchet
+   A new principal class, authority-binding path, sensitive class, or policy-bearing sink must fail family closure unless the family theorem binding, proof shape, replay, and tests are updated with it.
 
 ## Settlement-Source-To-Shares: initial V16 discovery ledger
 
@@ -3625,6 +3818,29 @@ The current provisional family-member coverage reading is:
    Realized through `.engi/settlement-proof.json` and `SettlementProof`.
    Current debt: witness refs omit direct settlement-proof closure and replay omits the artifact.
 
+### Settlement-Source-To-Shares member tightening signals
+
+1. contribution
+   Closed only when every settlement candidate has explicit contribution truth and marginal-contribution replay remains stable.
+
+2. clipping
+   Closed only when every settlement candidate has explicit clipping disposition and clipping receipts remain replay-stable.
+
+3. normalization
+   Closed only when basis-point normalization totals exactly and remains directly tied to later theorem closure.
+
+4. participation
+   Closed only when participation records cover selected, participating, positively credited, zero-credit, and excluded states for every relevant asset.
+
+5. allocation
+   Closed only when exact allocation is conserved, accounting precision agrees with journal truth, and replay reproduces the same allocation domain exactly.
+
+6. journal
+   Closed only when journal-diff truth and journal-completeness closure are both explicit, witnessable, and replay-visible.
+
+7. settlement proof
+   Closed only when theorem-bearing settlement proof is directly witnessed and replay-visible with no gap between artifact, witness refs, and family replay.
+
 #### Current preferred stopping point
 
 SSTS is now complete enough in V16 drafting terms to continue later family work because:
@@ -3637,6 +3853,17 @@ SSTS is now complete enough in V16 drafting terms to continue later family work 
 6. and family-member coverage is now enumerated.
 
 ---
+
+### Settlement-Source-To-Shares theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already depends on exact settlement closure, but journal closure and theorem-bearing settlement closure can still collapse into one underdistinguished path in witness and replay space.
+
+2. required proof-shape direction
+   V16 should require per-member verdicts for contribution, clipping, normalization, participation, allocation, journal, and settlement proof, with explicit distinction between journal-completeness closure and theorem-bearing settlement closure.
+
+3. implementation ratchet
+   A new allocation rule, participation state, journal artifact, or theorem check must fail family closure unless exact replay, witness bindings, and family proof shape are extended with it.
 
 ## Disclosure-Boundary: initial V16 discovery ledger
 
@@ -4021,6 +4248,20 @@ The current provisional family-member coverage reading is:
    Realized through `.engi/disclosure-proof.json`.
    Current debt: disclosure verdict is present, but replay does not reconstruct the family path that yields it.
 
+### Disclosure-Boundary member tightening signals
+
+1. projection policy
+   Closed only when principal visibility rules and artifact rules are explicit, first-class, and sufficient to determine public versus denied paths directly.
+
+2. bounded-public proof
+   Closed only when bounded-public proof is first-class in artifact, witness, replay, and test closure and does not survive only as an indirect hash anchor.
+
+3. redaction proof
+   Closed only when redaction paths agree with policy and bounded-public proof and remain directly replay-visible.
+
+4. disclosure proof
+   Closed only when allowed/denied public paths, policy reference, boundedness verdict, witness paths, replay, and tests all agree on one disclosure outcome.
+
 #### Current preferred stopping point
 
 Disclosure-boundary is now complete enough in V16 drafting terms to continue later family work because:
@@ -4033,6 +4274,17 @@ Disclosure-boundary is now complete enough in V16 drafting terms to continue lat
 6. and family-member coverage is now enumerated.
 
 ---
+
+### Disclosure-Boundary theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already depends on projection policy and bounded-public truth, but redaction and disclosure surfaces still risk standing in for those primary members rather than remaining downstream of them.
+
+2. required proof-shape direction
+   V16 should require per-member verdicts for policy, bounded-public, redaction, and disclosure plus explicit agreement surfaces showing that policy and bounded-public truth stay primary.
+
+3. implementation ratchet
+   A new public artifact path, projection rule, or redaction rule must fail family closure unless policy truth, bounded-public truth, replay, and tests are updated with it.
 
 ## Proof-Contract: initial V16 discovery ledger
 
@@ -4428,6 +4680,34 @@ The current provisional family-member coverage reading is:
 5. witness-manifest closure
    Realized through `.engi/proof-witness-manifest.json`.
    Current debt: the family witness layer omits it even though V15 witness-manifest closure rules make it central.
+
+### Proof-Contract member tightening signals
+
+1. proof contract
+   Closed only when proof contract is first-class in artifact, witness, replay, and test closure and cannot disappear while bundle closure remains green.
+
+2. evidence chain
+   Closed only when every evidence-chain stage and artifact ref remains explicit, family-coherent, and replay-visible.
+
+3. theorem checks
+   Closed only when theorem claims are witness-bound and replay-visible rather than string presence only.
+
+4. system proof bundle
+   Closed only when bundle aggregation truth remains explicit and coherent with proof contract, witness manifest, and replay entrypoint truth.
+
+5. witness-manifest closure
+   Closed only when witness manifest is a first-class proof-contract family surface and any drift between manifest, contract, and bundle fails family closure.
+
+### Proof-Contract theorem-binding and proof-shape ratchets
+
+1. theorem-binding debt
+   The family theorem already spans contract, evidence chain, theorem checks, bundle, and witness-manifest closure, but the current replay/witness model still underbinds those roles and especially theorem closure.
+
+2. required proof-shape direction
+   V16 should require role-distinguished primary surfaces for contract, evidence chain, theorem checks, bundle, and witness manifest, plus explicit theorem identities, scopes, and witness-bearing artifact paths.
+
+3. implementation ratchet
+   A new theorem, artifact binding, or cross-family stage claim must fail family closure unless proof contract, bundle, witness manifest, replay, and tests all absorb that new theorem-bearing truth explicitly.
 
 #### Current preferred stopping point
 

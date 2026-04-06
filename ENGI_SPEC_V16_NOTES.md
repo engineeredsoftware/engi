@@ -42,14 +42,16 @@ That order matters because V16 should not solve the wrong problem.
 The point is not to write denser theory first.
 The point is to formalize the exact closure obligations that current source and current canon fail to align on.
 
-## Current V16 drafting posture for this family
+## Current V16 drafting posture
 
-This draft intentionally covers one family only.
+The draft no longer covers one family only.
+It now covers all nine V15 proof families through the same matrix-first and member-tightening method.
 
-That narrowness is deliberate:
-- it keeps the closure story auditable,
-- it keeps theorem language and proof-object language aligned,
-- and it establishes the method that later families should follow.
+That expansion is still deliberate rather than broad for its own sake:
+- it keeps each family closure story auditable,
+- it keeps theorem language and proof-object language aligned family by family,
+- it preserves `prompt-completeness` as the most tightened exemplar,
+- and it turns the first family's method into the default pattern for the rest.
 
 The intended development pattern is:
 - parity matrix first,
@@ -57,6 +59,17 @@ The intended development pattern is:
 - then notes clarifying interpretation and open questions,
 - then source implementation,
 - then proof execution and audit.
+
+The current state after the member-tightening pass is:
+- every V15 proof family is open in V16 drafting,
+- every family now has member inventory plus member-closure criteria,
+- and the next pass is no longer enumeration but theorem binding, proof-shape realization, and implementation ratchets.
+
+That next pass is now underway.
+The current theorem-binding reading is:
+- every family now has an initial theorem-binding direction in the spec,
+- the parity matrix now names theorem-binding debt separately from member debt,
+- and the next tightening step is to turn those theorem-binding directions into explicit theorem catalogs, per-axis family verdicts, and implementation ratchets.
 
 ## Prompt-completeness parity debt collection method
 
@@ -911,4 +924,5 @@ The current state after this member pass is:
 
 1. every V15 proof family now has an explicit member inventory in the spec or parity matrix,
 2. the first five families no longer lag the later four on member-by-member coverage drafting,
-3. and the next productive move is no longer to enumerate members, but to tighten each member from provisional coverage into closure criteria, proof-shape requirements, and implementation debt ratchets.
+3. every family member now also has an explicit closure-criteria direction in the spec and member-tightening signals in the parity matrix,
+4. and the next productive move is no longer to enumerate or first-tighten members, but to drive each family from member-closure criteria into theorem binding, proof-shape realization, and implementation debt ratchets.
