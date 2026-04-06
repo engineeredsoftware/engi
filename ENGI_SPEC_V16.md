@@ -1051,3 +1051,310 @@ What it now does have is:
 2. a second normalized case on artifact-role closure,
 3. a provisional artifact determination rule,
 4. and an initial witness-materialization and replay direction.
+
+### 8.17 Preferred expected/realized/family closure design
+
+SCA now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - the canonical static stage domain,
+   - abstract-to-concrete stage mappings,
+   - allowed receipt kinds,
+   - primary-versus-alias artifact roles.
+
+2. realized truth layer
+   Owns:
+   - the actual emitted registry surface,
+   - any alias/projection registry surfaces,
+   - the receipt log,
+   - the static report,
+   - and the family proof for the run.
+
+3. family closure layer
+   Owns:
+   - stage-domain closure,
+   - receipt-domain closure,
+   - registry-role closure,
+   - witness-materialization closure,
+   - replay closure,
+   - and test closure.
+
+This is the right current stopping point for SCA because it turns the family into a complete V16 drafting unit:
+- expected truth,
+- realized truth,
+- and family closure
+
+are now all named, even though implementation remains deferred.
+
+## 9. Verification-decisions initial V16 reading
+
+This is the next proof family opened after SCA.
+
+The first VD pass remains narrow on purpose.
+The immediate problem is not yet a full family rewrite.
+It is whether the family is complete and explicit about use-tier consequence.
+
+### 9.1 V15 family reading
+
+V15 defines `verification-decisions` as:
+- issuance,
+- provenance,
+- sufficiency,
+- issuer-policy,
+- and use-tier consequence
+
+surfaces being receipt-backed.
+
+V15 also separately requires:
+- use tiers remain downstream of verification rather than ad hoc labels,
+- and evaluator or inference outputs may support verification explanation but must not directly assign final use tier.
+
+That means the family is not only about four verification checks.
+It is also about the deterministic consequence path from those checks into use tier.
+
+### 9.2 First normalized case: use-tier consequence closure and family completeness
+
+The first case for VD is use-tier consequence closure.
+
+Current source already shows that:
+- `decideCandidateUseTier(...)` derives a candidate tier from verification outputs,
+- `upgradeToSettlementEligible(...)` refines that tier using verification outputs,
+- `buildVerificationDecisionReceipts(...)` records `finalUseTier`,
+- `buildVerificationReport(...)` records `useTier` and downstream `rights`,
+- and `buildVerificationReceiptsArtifact(...)` emits rich decision surfaces carrying `useTier` and `finalUseTier`.
+
+But current report vocabulary still lists only four verification families:
+- `issuance`
+- `provenance`
+- `sufficiency`
+- `issuer-policy`
+
+So the family already carries use-tier consequence truth without naming that fifth family member explicitly.
+
+### 9.3 Initial parity reading for this case
+
+For this case, the V16 parity reading is:
+
+1. use-tier consequence must be a first-class member of the family rather than an implied side-effect,
+
+2. verification-derived `useTier` must stay visibly downstream of the verification checks,
+
+3. branch-mode rights should be represented as downstream system consequence rather than silently merged into verification-family truth,
+
+4. and report-level consequence surfaces should be replay-visible, not just receipt-level checks.
+
+### 9.4 Early implementation implication
+
+Current source suggests that V16 will likely need to distinguish at least:
+
+1. verification-check truth
+   Issuance, provenance, sufficiency, and issuer-policy checks plus their receipts.
+
+2. verification-decision truth
+   The decision surface that combines claimed evidence, measured evidence, policy restrictions, receipt refs, and final use tier.
+
+3. consequence truth
+   The verification-derived `useTier` and any downstream branch-mode rights that are computed from it.
+
+4. family closure truth
+   Whether all required verification decision surfaces are represented, receipt-backed, replayable, and mutually coherent.
+
+Without that separation, the family can keep recording the right information while still undernaming its own closure surface.
+
+### 9.5 Provisional V16 canonical structures for this first case
+
+The first case already justifies a minimal provisional family shape.
+
+```ts
+type VerificationDecisionContractV16 = {
+  proofFamily: 'verification-decisions'
+  expectedDecisionFamilies: Array<
+    | 'issuance'
+    | 'provenance'
+    | 'sufficiency'
+    | 'issuer-policy'
+    | 'use-tier-consequence'
+  >
+}
+```
+
+```ts
+type VerificationDecisionCaseV16 = {
+  assetId: string
+  coveredDecisionFamilies: string[]
+  receiptStageIds: string[]
+  useTier: string
+  finalUseTier: string
+  useTierDerivedFromVerification: boolean
+  branchRightsDerivedDownstream: boolean
+  decisionSurfaceClosed: boolean
+  receiptClosureClosed: boolean
+}
+```
+
+```ts
+type VerificationDecisionsFamilyProofV16 = {
+  proofFamily: 'verification-decisions'
+  contract: VerificationDecisionContractV16
+  decisionCases: VerificationDecisionCaseV16[]
+  coveredDecisionFamilies: string[]
+  familyCoverageClosed: boolean
+  useTierConsequenceClosed: boolean
+  witnessMaterializationClosed: boolean
+  replayClosureClosed: boolean
+  testClosureClosed: boolean
+  allCasesPassed: boolean
+  proofHash: string
+}
+```
+
+These structures are still provisional.
+They are justified now because the family already needs a place to represent:
+- the fifth use-tier consequence member,
+- the distinction between verification-derived tier and downstream rights,
+- and family coverage beyond receipt ids only.
+
+### 9.6 Current drafting boundary
+
+This does not yet complete verification-decisions formalization.
+
+What it does complete is the first family-specific V16 question for this area:
+- whether VD explicitly owns the use-tier consequence surface it already carries in runtime truth,
+- or whether that fifth family member remains undernamed and underproved.
+
+### 9.7 Second normalized case: decision-stage mapping and artifact-role closure
+
+The next case for VD is decision-stage mapping and artifact-role closure.
+
+Current source already shows that the family emits two distinct family artifacts:
+- `.engi/verification-receipts.json`
+- `.engi/verification-report.json`
+
+and also realizes five concrete verification receipt stages:
+- `verification.determinisms.v15`
+- `verification.issuance-checks.v15`
+- `verification.provenance-checks.v15`
+- `verification.sufficiency-checks.v15`
+- `verification.issuer-policy-checks.v15`
+
+But the family does not yet make the mapping or role split canonical enough.
+
+In particular:
+- report vocabulary still names only four families,
+- the fifth use-tier-consequence member is likely embodied by `verification.determinisms.v15`,
+- receipts artifact owns raw receipts and decision surfaces,
+- report owns report-facing consequence summaries and rights,
+- and witness/replay layers still flatten much of that structure away.
+
+### 9.8 Initial parity reading for this second case
+
+For this case, the V16 parity reading is:
+
+1. the family's five decision members should map explicitly to concrete verification stages,
+
+2. the use-tier-consequence stage should be named canonically rather than remaining inferential,
+
+3. `verification-receipts.json` and `verification-report.json` should be role-distinguished rather than treated as redundant verification surfaces,
+
+4. and witness/replay closure should reflect those role differences.
+
+### 9.9 Early implementation implication
+
+Current source suggests that V16 will likely need at least the following role split:
+
+1. receipts artifact
+   Owns raw verification receipts and rich per-asset decision surfaces.
+
+2. report artifact
+   Owns report-facing per-asset summaries, top-level family summary vocabulary, `useTier`, and branch-mode consequence summaries.
+
+3. family closure object
+   Owns decision-family coverage, stage mapping, consequence closure, witness closure, and replay closure.
+
+Without that split, the family can keep emitting the right information while still underdescribing what each artifact proves.
+
+### 9.10 Provisional artifact direction
+
+Under the current first-pass reading, V16 should provisionally treat the family's artifact set as follows:
+
+1. primary receipt and decision-surface artifact
+   `.engi/verification-receipts.json`
+
+2. primary report and consequence-summary artifact
+   `.engi/verification-report.json`
+
+3. likely future first-class family artifacts when family closure becomes more explicit
+   - `.engi/verification-decisions-proof.json`
+   - `.engi/verification-decision-contract.json`
+
+This remains provisional.
+The important V16 move is not the final filename list.
+It is that the family stops treating:
+- receipt stages,
+- decision surfaces,
+- report summaries,
+- and consequence truth
+
+as though they were one undifferentiated verification layer.
+
+### 9.11 Provisional witness-materialization and replay direction
+
+The current family work now supports a first replay/witness direction as well.
+
+V16 should provisionally prefer the following posture:
+
+1. witness refs should not flatten the family to receipt ids only,
+2. replay artifacts should include both verification family artifacts,
+3. replay instructions should reconstruct:
+   - verification-stage closure,
+   - decision-surface closure,
+   - use-tier consequence closure,
+   - and report-level coherence,
+4. and verification-family replay should remain distinct from ranking logic and later branch-materialization consequences.
+
+### 9.12 Preferred expected/realized/family closure design
+
+VD now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - expected decision-family membership,
+   - decision-family to receipt-stage mapping,
+   - consequence ownership rules,
+   - report-versus-receipt artifact roles.
+
+2. realized truth layer
+   Owns:
+   - emitted receipt artifact,
+   - emitted report artifact,
+   - per-asset decision surfaces,
+   - concrete receipt stages,
+   - verification-derived `useTier`,
+   - downstream rights surfaces.
+
+3. family closure layer
+   Owns:
+   - family-membership closure,
+   - decision-stage mapping closure,
+   - use-tier consequence closure,
+   - artifact-role closure,
+   - witness-materialization closure,
+   - replay closure,
+   - test closure.
+
+### 9.13 Current drafting boundary
+
+VD is still not fully formalized.
+
+What it now does have is:
+
+1. a first normalized case on use-tier consequence closure,
+2. a second normalized case on decision-stage mapping and artifact-role closure,
+3. a provisional artifact direction,
+4. an initial witness-materialization and replay direction,
+5. and an expected/realized/family-closure split.

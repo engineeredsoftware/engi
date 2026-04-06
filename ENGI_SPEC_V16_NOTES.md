@@ -296,10 +296,10 @@ It is a proof-family drafting wedge into V16, with one family tighter than the n
 ## What remains out of scope for now
 
 This pass does not yet draft:
-- the remaining proof families beyond `prompt-completeness`, `inference-synthesis`, and initial `static-code-analysis`,
+- the remaining proof families beyond `prompt-completeness`, `inference-synthesis`, `static-code-analysis`, and `verification-decisions`,
 - the full V16 theorem catalog,
 - `_PROVEN_` appendix generation,
-- proof-program inventory outside these first three families,
+- proof-program inventory outside these first four families,
 - or the full V16 system spec rewrite.
 
 Those are deferred on purpose.
@@ -492,3 +492,120 @@ The current preferred direction is:
 
 This is still not the final family replay recipe.
 It is the first point where the family has enough normalized structure to demand one.
+
+## Why SCA is now complete enough to move on
+
+SCA is now in the same drafting state that is sufficient for moving to the next family.
+
+It now has:
+
+1. a first family-boundary case,
+2. a second artifact-role case,
+3. a provisional artifact determination,
+4. a first replay/witness direction,
+5. and an expected/realized/family-closure split.
+
+That does not mean SCA is finished in implementation.
+It means the family is now complete enough in V16 drafting terms that later source work would not be guessing at its canonical shape.
+
+So the next clean move is to open `verification-decisions` rather than keep elaborating SCA without a new failure class.
+
+## Why verification-decisions is the next family
+
+After SCA, the next adjacent family is `verification-decisions`.
+
+It is the right next move because:
+- SCA already feeds it receipt surfaces,
+- V15 gives it a sharply stated family claim,
+- and current runtime already materializes:
+  - verification receipts,
+  - verification decision surfaces,
+  - verification report entries,
+  - use tiers,
+  - and branch-mode rights.
+
+That means VD is already rich enough for the same matrix-first method.
+
+## Early verification-decisions findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. V15 names five family members, but current report vocabulary still names only four.
+   `verificationReport.verificationFamilies` lists:
+   - `issuance`
+   - `provenance`
+   - `sufficiency`
+   - `issuer-policy`
+
+   It omits use-tier consequence even though current runtime clearly carries that surface.
+
+2. `useTier` really is downstream of verification in code.
+   `decideCandidateUseTier(...)` and `upgradeToSettlementEligible(...)` derive it using verification outputs only.
+
+3. Current runtime already carries richer verification family truth than the witness grammar acknowledges.
+   Verification receipts artifact emits both:
+   - verification receipts,
+   - and verification decision surfaces with `useTier` and `finalUseTier`.
+
+4. The report layer already mixes family truth and downstream consequence truth.
+   `verification-report.json` includes `useTier` and branch-mode `rights`, but current replay and witness structure do not yet make that distinction canonical.
+
+5. Replay is currently thinner than the family artifact set.
+   Replay artifacts include `.engi/verification-receipts.json` but omit `.engi/verification-report.json`.
+
+## Why use-tier consequence closure is the first VD case
+
+The first VD case should be use-tier consequence closure and family completeness.
+
+That is the right first case because it asks whether the family is complete about its own stated scope before V16 expands anything else.
+
+It is stronger than starting with witness flattening alone because:
+- V15 already gives explicit family language,
+- current source already proves `useTier` is verification-derived,
+- and current artifacts already carry `useTier`, `finalUseTier`, and rights.
+
+So the first VD move is to stop treating the fifth family member as implicit runtime truth only.
+
+## Why decision-stage mapping and artifact-role closure are next for VD
+
+After use-tier consequence closure, the next useful VD question is not yet a final family proof type.
+It is the mapping and role question.
+
+This is the right next case because current source already shows:
+- five concrete `verification.*` stages,
+- two emitted family artifacts,
+- and richer decision-surface truth than current family summary vocabulary names.
+
+So V16 needs to answer:
+- which stage embodies use-tier consequence,
+- how the five family members map to concrete stages,
+- and what different truth `verification-receipts.json` and `verification-report.json` each own.
+
+## Current second-pass VD findings
+
+The second discovery pass already surfaced these concrete points:
+
+1. The likely fifth runtime stage is `verification.determinisms.v15`.
+   Current report entries include a fifth receipt ref beyond the four sub-check receipts, and that extra receipt is the determinisms stage.
+
+2. The two verification artifacts are not redundant.
+   `verification-receipts.json` owns raw receipts plus rich decision surfaces.
+   `verification-report.json` owns per-asset report summaries, `useTier`, rights, and top-level family summary vocabulary.
+
+3. Witness structure still flattens those differences away.
+   The witness manifest names both artifacts but still uses receipt ids only for the family witness refs.
+
+4. Replay is thinner than the emitted family surface.
+   Replay includes `.engi/verification-receipts.json` but not `.engi/verification-report.json`, and replay instructions still do not have a verification-family-specific step.
+
+## Current VD direction
+
+VD now has enough structure to follow the same pattern as the earlier families.
+
+The current direction is:
+
+1. make the five-member family-to-stage mapping explicit,
+2. distinguish receipt artifact truth from report artifact truth,
+3. treat use-tier consequence as a first-class family member,
+4. tighten witness and replay around both family artifacts rather than receipt ids only,
+5. and then defer further source changes until later implementation work.

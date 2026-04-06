@@ -23,6 +23,7 @@ The opening V16 focus is:
 - `prompt-completeness` closure,
 - `inference-synthesis` legitimacy and replay closure,
 - `static-code-analysis` family-boundary and receipt-domain closure,
+- `verification-decisions` family completeness and use-tier consequence closure,
 - prompt-owned inferred-measurement coverage,
 - parse-contract admissibility closure,
 - downstream artifact-binding closure,
@@ -42,7 +43,8 @@ It is not the demo-local implementation matrix.
 For this drafting pass:
 - `prompt-completeness` is the most tightened family,
 - `inference-synthesis` is opened and provisionally shaped,
-- `static-code-analysis` is now opened in first-pass discovery,
+- `static-code-analysis` is now opened through full first-pass family closure design,
+- `verification-decisions` is now opened in first-pass discovery,
 - and the remaining proof families are still intentionally out of scope.
 
 ## Audit basis
@@ -1695,3 +1697,490 @@ Witness-materialization and replay closure are closed for V16 only when:
 3. replay instructions are explicit about report recomputation, proof recomputation, and alias-role consistency,
 4. family replay no longer collapses static and verification receipt closure into one undifferentiated step,
 5. and tests fail if any of those family witness or replay surfaces disappear or drift.
+
+### Static-Code-Analysis preferred expected/realized/family closure split
+
+The family now has enough structure to use the same canonical precision grammar as the prior two families.
+
+#### Expected truth layer
+
+Should own:
+- static stage-domain contract,
+- abstract-to-concrete stage mappings,
+- allowed receipt kinds,
+- primary-versus-alias artifact roles.
+
+#### Realized truth layer
+
+Should own:
+- emitted primary registry surface,
+- emitted alias/projection registry surfaces,
+- receipt log,
+- static report,
+- static family proof.
+
+#### Family closure layer
+
+Should own:
+- stage-domain closure,
+- receipt-domain closure,
+- registry-role closure,
+- witness-materialization closure,
+- replay closure,
+- test closure.
+
+#### Current preferred stopping point
+
+SCA is now complete enough in V16 drafting terms to move on because:
+
+1. the family boundary issue is explicit,
+2. artifact roles are explicit,
+3. provisional artifact determination exists,
+4. replay/witness direction exists,
+5. and expected versus realized versus family closure ownership is now named.
+
+---
+
+## Verification-Decisions: initial V16 discovery ledger
+
+This is the fourth proof family opened in the V16 draft.
+
+The first VD pass starts with family completeness around use-tier consequence.
+
+That is the right entry point because current source already materializes:
+- verification receipts,
+- verification decision surfaces,
+- verification report entries,
+- use tiers,
+- and branch-mode rights,
+
+but current family vocabulary still mostly names only four verification subfamilies.
+
+### Verification-decisions parity debt collection approaches
+
+This family should be tightened through the following first-pass audits:
+
+1. Family-membership audit
+   Compare the V15 family-defined decision surfaces to what current report, receipt, and witness layers actually represent.
+
+2. Use-tier derivation audit
+   Confirm where `useTier` is derived, where it is recorded, and where branch-mode rights begin.
+
+3. Decision-surface audit
+   Compare verification receipts, decision surfaces, verification report entries, and use-tier/rights surfaces for closure and drift.
+
+4. Witness-and-replay audit
+   Compare emitted report and receipts artifacts to family witness refs and replay artifacts.
+
+5. Test-ratchet audit
+   Convert any confirmed omission or family-boundary drift into a failing test before calling VD closed.
+
+### Verification-decisions specific implementation debts
+
+The current first-pass debts are:
+
+1. V15 defines the family as issuance, provenance, sufficiency, issuer-policy, and use-tier consequence surfaces being receipt-backed, but current `verificationReport.verificationFamilies` lists only:
+   - `issuance`
+   - `provenance`
+   - `sufficiency`
+   - `issuer-policy`
+
+2. Current verification receipts include stage ids:
+   - `verification.determinisms.v15`
+   - `verification.issuance-checks.v15`
+   - `verification.provenance-checks.v15`
+   - `verification.sufficiency-checks.v15`
+   - `verification.issuer-policy-checks.v15`
+
+   but the family does not yet state clearly whether `verification.determinisms.v15` is the canonical use-tier-consequence stage or merely an implementation helper.
+
+3. `useTier` is in fact derived downstream of verification, but the family does not yet distinguish:
+   - verification-derived `useTier`,
+   - receipt-backed `finalUseTier`,
+   - and branch-mode rights that are consequences of `useTier` plus branch mode rather than verification alone.
+
+4. `verificationReceiptsArtifact` carries rich `verificationDecisionSurfaces`, but family witness refs still flatten to receipt ids only.
+
+5. `verification-report.json` is a family artifact, but current replay artifacts include `.engi/verification-receipts.json` only and omit `.engi/verification-report.json`.
+
+6. Current replay instructions do not explicitly reconstruct verification-family closure at all.
+
+### Verification-Decisions case drill-down: use-tier consequence closure and family completeness
+
+This is the first case because it tests whether the family is complete about its own stated decision surfaces before V16 expands the rest of the family.
+
+#### Case statement
+
+The current source says:
+- verification in V15 must include issuance, provenance, sufficiency, issuer-policy, and use-tier consequence surfaces,
+- use tiers must remain downstream of verification rather than ad hoc labels,
+- and current runtime records `useTier`, `finalUseTier`, and branch-mode rights,
+
+but current family vocabulary still mostly names only four verification families and compresses the richer decision surfaces into receipt-backed implementation detail.
+
+That makes use-tier consequence closure the cleanest first VD parity case.
+
+#### V15 specification precision and parity
+
+For this case, V15 already requires:
+
+1. `verification-decisions`
+   Issuance, provenance, sufficiency, issuer-policy, and use-tier consequence surfaces are receipt-backed.
+
+2. `B.7 Verification receipts, use tiers, and hand-off rules`
+   Use tiers must remain downstream of verification rather than ad hoc labels.
+
+3. inference/evaluator outputs may support verification explanation but must not directly assign final use tier or later system consequences.
+
+The V16 parity reading is:
+- VD must explicitly own use-tier consequence as part of the family rather than as an implied side-effect,
+- `useTier` must stay visibly downstream of the verification checks,
+- and branch-mode rights should be represented as downstream system consequences rather than silently merged into the verification decision itself.
+
+#### Current source implementation precision
+
+Current source exposes the following first-pass issues:
+
+1. `decideCandidateUseTier(...)` and `upgradeToSettlementEligible(...)`
+   derive `useTier` using only verification outputs:
+   - issuance verification,
+   - provenance verification,
+   - verification sufficiency,
+   - issuer policy status.
+
+2. `buildVerificationDecisionReceipts(...)`
+   records `decisionSurface.finalUseTier` and also writes `finalUseTier` into the policy receipt normalized output.
+
+3. `buildVerificationReport(...)`
+   records:
+   - `useTier`
+   - `rights`
+   - `verificationDecisionSurface`
+   - `claimedEvidence`
+   - `measuredEvidence`
+   - `policyRestrictions`
+   - `receiptRefs`
+
+   but its top-level `verificationFamilies` list still omits a fifth use-tier consequence family member.
+
+4. `buildVerificationReceiptsArtifact(...)`
+   emits:
+   - all `verification.*` receipts,
+   - and rich `verificationDecisionSurfaces`
+
+   including `useTier` and `finalUseTier`,
+   but family witness refs still flatten to receipt ids only.
+
+5. current replay artifacts include `.engi/verification-receipts.json` but omit `.engi/verification-report.json`,
+   so the family replay story is not yet report- and consequence-complete.
+
+#### Family-wide expectations forced by this case
+
+This one case already forces `verification-decisions` toward the following V16 rules:
+
+1. Use-tier consequence must be explicit
+   The family should name it as a first-class decision surface rather than leaving it implicit.
+
+2. Verification-derived tier must be separated from downstream rights
+   `useTier` is verification-family truth; branch-mode rights are downstream system consequence truth.
+
+3. Decision surfaces should not flatten to receipt ids only
+   Rich verification decision surfaces are part of the family's proof story.
+
+4. Replay must reconstruct consequence closure
+   Replay should be able to show how verification checks produced the final tier and how report-level consequences remain coherent.
+
+#### Concrete closure signals for this case
+
+Use-tier consequence closure is closed for V16 only when:
+
+1. the family explicitly includes use-tier consequence in its canonical family-membership set,
+2. verification-derived `useTier` is visibly closed to its receipt-backed verification checks,
+3. branch-mode rights are represented as downstream consequence rather than silently merged into verification-family truth,
+4. witness and replay surfaces include the report-level consequence path as well as the receipt-level path,
+5. and tests fail if the fifth family member disappears or drifts back into implication only.
+
+### Verification-Decisions case drill-down: decision-stage mapping and artifact-role closure
+
+The second case for VD is decision-stage mapping and artifact-role closure.
+
+This is the right next case because the family already emits:
+- verification receipts,
+- verification decision surfaces,
+- verification report entries,
+- and report-level consequence surfaces,
+
+but it does not yet make the role split or stage mapping canonical enough.
+
+#### Case statement
+
+The current source says:
+- there are four named verification families in report vocabulary,
+- there are five concrete `verification.*` receipt stages in runtime,
+- `verificationReceiptsArtifact` carries receipts plus decision surfaces,
+- and `verificationReport` carries decision summaries plus rights and receipt refs,
+
+but the family does not yet say:
+- whether `verification.determinisms.v15` is the canonical use-tier-consequence stage,
+- how the five decision members map to the five receipt-stage families,
+- or what distinct truth `verification-report.json` carries relative to `verification-receipts.json`.
+
+So the family currently has richer runtime structure than its proof grammar names.
+
+#### V15 specification precision and parity
+
+For this case, V15 already implies:
+
+1. verification receipts remain family-specific,
+2. use tiers remain derived from verification rather than ad hoc labels,
+3. rejected or downgraded assets remain explainable from witness-bearing evidence,
+4. and proof-relevant family artifacts must be represented coherently in witness structure.
+
+The V16 parity reading is:
+- if use-tier consequence is a family member, its receipt-stage mapping should be explicit,
+- if report and receipts artifacts both exist, the family should say what different truth each one owns,
+- and witness/replay layers should not flatten those differences away.
+
+#### Current source implementation precision
+
+Current source exposes the following second-pass issues:
+
+1. `verificationReceiptsArtifact.verificationReceipts`
+   currently includes five concrete stage ids:
+   - `verification.determinisms.v15`
+   - `verification.issuance-checks.v15`
+   - `verification.provenance-checks.v15`
+   - `verification.sufficiency-checks.v15`
+   - `verification.issuer-policy-checks.v15`
+
+2. `verificationReport.verificationFamilies`
+   still lists only:
+   - `issuance`
+   - `provenance`
+   - `sufficiency`
+   - `issuer-policy`
+
+   so the likely fifth family member is runtime-real but report-understated.
+
+3. `verificationDecisionSurface.receiptRefs`
+   currently names the four sub-check receipts only,
+   while `verificationReport.assetVerification[].receiptRefs`
+   adds the `verification.determinisms.v15` receipt as a fifth report-level receipt.
+
+4. `verificationReceiptsArtifact`
+   owns the raw receipts and detailed decision surfaces.
+
+5. `verificationReport`
+   owns:
+   - branch-mode-sensitive rights,
+   - report-visible `useTier`,
+   - per-asset report summaries,
+   - and the top-level family summary vocabulary.
+
+   So the two artifacts are not redundant even though both are verification-family artifacts.
+
+6. `buildProofWitnessManifest(...)`
+   currently names both artifact paths, but witness refs still flatten the family to receipt ids only.
+
+7. replay artifacts include `.engi/verification-receipts.json` only and omit `.engi/verification-report.json`.
+
+#### Family-wide expectations forced by this case
+
+This one case already forces `verification-decisions` toward the following V16 rules:
+
+1. Decision-family to receipt-stage mapping must be explicit
+   The family should say how its canonical decision members map to concrete stage ids.
+
+2. Use-tier consequence stage must be named
+   If `verification.determinisms.v15` is the runtime consequence stage, the family should say so explicitly.
+
+3. Report and receipt artifacts must be role-distinguished
+   Receipts artifact owns raw receipt and decision-surface truth; report owns consequence summary and report-facing coherence truth.
+
+4. Witness structure should follow role distinctions
+   Receipt ids alone are not enough to witness report-level family closure.
+
+5. Replay should include report-level family closure
+   Verification-family replay should reconstruct both receipt-backed decision truth and report-level consequence truth.
+
+#### Concrete closure signals for this case
+
+Decision-stage mapping and artifact-role closure are closed for V16 only when:
+
+1. the family's five decision members map explicitly to concrete verification stages,
+2. the use-tier consequence stage is named canonically,
+3. `verification-report.json` and `verification-receipts.json` are distinguished by what truth they uniquely carry,
+4. witness refs no longer imply that receipt ids alone close the family,
+5. replay includes report-level family closure as well as receipt-level closure,
+6. and tests fail if report/receipt role boundaries or the fifth stage mapping drift silently.
+
+### Verification-Decisions artifact-materialization determination guide
+
+The family now has enough evidence to make a provisional artifact determination.
+
+#### First-class artifact rule
+
+A verification-decisions surface should be a mandatory first-class family artifact when any of the following is true:
+
+1. it carries primary family decision or consequence truth,
+2. replay depends on it directly to reconstruct family closure,
+3. other family surfaces close back to it,
+4. it carries unique per-asset or per-family truth not preserved by another artifact,
+5. or its absence would materially weaken direct auditability of the family.
+
+#### Derived-surface rule
+
+A verification-decisions surface may remain derived or secondary only when all of the following are true:
+
+1. its underlying decision truth is already preserved by a primary family artifact,
+2. it adds presentation, compatibility, or summary structure rather than new proof truth,
+3. its derivation path is explicit,
+4. replay does not require it independently,
+5. and tests can prove that it remains role-consistent with its primary source artifacts.
+
+#### Provisional verification-decisions determinations
+
+Under the current first-pass reading, the provisional V16 determination is:
+
+1. Mandatory first-class family artifacts
+   - `.engi/verification-receipts.json`
+   - `.engi/verification-report.json`
+
+2. Future likely first-class family artifacts once V16 formalizes family closure further
+   - `.engi/verification-decisions-proof.json`
+   - `.engi/verification-decision-contract.json`
+
+#### Current preferred determination
+
+The current preferred V16 posture is:
+
+1. treat `.engi/verification-receipts.json` as the primary receipt and decision-surface artifact,
+2. treat `.engi/verification-report.json` as the primary report and consequence-summary artifact,
+3. make the five-member family-to-stage mapping explicit rather than implicit in runtime receipt stage ids,
+4. and stop letting witness refs imply that receipts alone substantiate the full family closure.
+
+### Verification-Decisions case drill-down: witness-materialization and replay closure
+
+The next case for VD is witness-materialization and replay closure.
+
+This follows directly from the first two cases because:
+- the family scope is richer than four receipt checks,
+- report and receipt artifacts are not role-equivalent,
+- and current replay is still thinner than the emitted family artifact set.
+
+#### Case statement
+
+The current source says:
+- the family emits both `.engi/verification-report.json` and `.engi/verification-receipts.json`,
+- the witness manifest names both paths,
+- and the system proof bundle offers replay artifacts,
+
+but current family witness and replay closure still flatten too much:
+- witness refs are receipt ids only,
+- replay includes `.engi/verification-receipts.json` but omits `.engi/verification-report.json`,
+- and replay instructions do not explicitly reconstruct verification-family closure at all.
+
+#### V15 specification precision and parity
+
+For this case, V15 already requires:
+
+1. verification receipts remain family-specific,
+2. rejected or downgraded assets remain explainable from witness-bearing evidence,
+3. proof-relevant artifacts and family witnesses remain coherent,
+4. and replayable family truth remains honest about what is being proven.
+
+The V16 parity reading is:
+- the report artifact cannot be family-relevant only in deliverables while absent from replay,
+- receipt ids alone cannot witness family consequence closure,
+- and VD replay should explicitly reconstruct both decision and consequence surfaces.
+
+#### Current source implementation precision
+
+Current source exposes the following witness/replay mismatch:
+
+1. `buildProofWitnessManifest(...)`
+   names:
+   - `.engi/verification-report.json`
+   - `.engi/verification-receipts.json`
+
+   but still uses receipt ids only for `witnessRefs`.
+
+2. `buildSystemProofBundle(...).verifierEntrypoint.replayArtifacts`
+   includes:
+   - `.engi/verification-receipts.json`
+
+   but omits:
+   - `.engi/verification-report.json`
+
+3. current replay instructions do not contain a verification-family-specific step.
+
+#### Family-wide expectations forced by this case
+
+This one case already forces `verification-decisions` toward the following V16 rules:
+
+1. Witness refs should represent report-level closure as well as receipt-level closure.
+
+2. Replay artifacts should include the report artifact as well as the receipts artifact.
+
+3. Replay instructions should reconstruct:
+   - verification-stage closure,
+   - decision-surface closure,
+   - use-tier consequence closure,
+   - and report-level consequence coherence.
+
+4. Family replay should remain distinct from ranking and branch-materialization consequence logic outside the family.
+
+#### Concrete closure signals for this case
+
+Witness-materialization and replay closure are closed for V16 only when:
+
+1. witness refs represent report and consequence closure as well as receipt closure,
+2. replay artifacts include both verification family artifacts,
+3. replay instructions explicitly reconstruct the family's own decision and consequence surfaces,
+4. report omission from replay is no longer possible without failing the family,
+5. and tests fail if verification-family replay or witness closure drifts back to receipt-only substantiation.
+
+### Verification-Decisions preferred expected/realized/family closure split
+
+VD now has enough structure to use the same canonical precision grammar as the prior families.
+
+#### Expected truth layer
+
+Should own:
+- expected decision-family membership,
+- decision-family to receipt-stage mapping,
+- consequence ownership rules,
+- report-versus-receipt artifact roles.
+
+#### Realized truth layer
+
+Should own:
+- emitted receipt artifact,
+- emitted report artifact,
+- per-asset decision surfaces,
+- per-asset report entries,
+- concrete receipt stages,
+- verification-derived `useTier`,
+- downstream rights surfaces.
+
+#### Family closure layer
+
+Should own:
+- family-membership closure,
+- decision-stage mapping closure,
+- use-tier consequence closure,
+- artifact-role closure,
+- witness-materialization closure,
+- replay closure,
+- test closure.
+
+#### Current preferred stopping point
+
+VD is now complete enough in V16 drafting terms to continue later family work because:
+
+1. the fifth family member is explicit,
+2. the runtime stage mapping problem is explicit,
+3. report-versus-receipt roles are explicit,
+4. provisional artifact determination exists,
+5. replay/witness direction exists,
+6. and expected versus realized versus family closure ownership is now named.
