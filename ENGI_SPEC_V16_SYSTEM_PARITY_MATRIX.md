@@ -21,11 +21,13 @@ Its first job is to record, precisely, where the current V15 proof families over
 
 The opening V16 focus is:
 - `prompt-completeness` closure,
+- `inference-synthesis` legitimacy and replay closure,
+- `static-code-analysis` family-boundary and receipt-domain closure,
 - prompt-owned inferred-measurement coverage,
 - parse-contract admissibility closure,
 - downstream artifact-binding closure,
 - source-annotation honesty for prompt-owned inferencing,
-- and prompt-completeness-specific closure tests.
+- and the first family-specific closure tests required to support later V16 proof execution.
 
 ## Interpretation rule
 
@@ -37,7 +39,11 @@ The correct V16 reading is:
 
 This is the root system ledger.
 It is not the demo-local implementation matrix.
-For this drafting pass, other proof families are intentionally out of scope in this matrix.
+For this drafting pass:
+- `prompt-completeness` is the most tightened family,
+- `inference-synthesis` is opened and provisionally shaped,
+- `static-code-analysis` is now opened in first-pass discovery,
+- and the remaining proof families are still intentionally out of scope.
 
 ## Audit basis
 
@@ -438,6 +444,182 @@ The prompt-completeness family should be implemented in V16 in this order:
    - false source annotations,
    - unresolved parse contracts,
    - inadmissible parsed payloads.
+
+---
+
+## Prompt-Completeness artifact-materialization determination guide
+
+The family should now use the same canonical precision pattern being applied to inference-synthesis:
+- expected truth objects,
+- realized truth objects,
+- family closure object,
+- and explicit artifact/witness/replay determination.
+
+### First-class artifact rule
+
+A surface should be a mandatory first-class prompt-completeness artifact when any of the following is true:
+
+1. it is a primary proof-bearing object rather than a summary,
+2. replay depends on it directly,
+3. multiple family surfaces need to close back to it,
+4. it carries unique expected-family or realized-run truth,
+5. its absence would force an auditor to reconstruct prompt-family closure from unrelated artifacts,
+6. or tests need to fail specifically on its disappearance or drift.
+
+### Explicit witness-structure rule
+
+A surface may remain an explicit witness structure rather than a mandatory standalone artifact only when all of the following are true:
+
+1. it is derivative or aggregate rather than primary,
+2. it is losslessly reconstructible from first-class prompt-completeness artifacts,
+3. its reconstruction path is named in replay instructions,
+4. its absence does not erase unique prompt-family truth,
+5. and witness refs remain concrete enough to audit the reconstructed object without ambiguity.
+
+### Provisional prompt-completeness determinations
+
+Under that rule, the current provisional V16 determination is:
+
+1. Mandatory first-class family artifacts
+   - `.engi/prompt-family-registry.json` or equivalent runtime registry surface
+   - `.engi/prompt-contracts.json`
+   - `.engi/prompt-surfaces.json`
+   - `.engi/parsed-completion-envelopes.json`
+   - `.engi/prompt-completeness-proof.json`
+
+2. Conditionally first-class; explicit witness structure acceptable only if reconstruction is exact and named
+   - prompt implementation surface
+
+3. Not acceptable as surrogate primary closure
+   - bundle-only carriage
+   - aggregate-hash-only witness substitution
+   - nearby family-adjacent artifacts standing in for missing prompt-family closure surfaces
+
+### Current preferred determination
+
+The current preferred V16 posture is:
+
+1. treat prompt family registry, prompt contracts, prompt surfaces, parsed envelopes, and family proof as first-class family artifacts,
+2. allow prompt implementation surface to remain an explicit witness structure only if it stays exactly reconstructible and replay-addressable,
+3. and stop relying on aggregate hashes or bundle-only carriage as substitutes for primary prompt-completeness closure surfaces.
+
+### Prompt-Completeness case drill-down: witness-materialization and replay closure
+
+This is the next prompt-completeness tightening move after artifact determination.
+
+It is the right next case because:
+- the family now has a provisional first-class artifact split,
+- current source already emits most of the relevant surfaces,
+- but witness paths and replay instructions still understate the full family closure story.
+
+#### Case statement
+
+The current source says:
+- prompt-completeness is a first-class proof family,
+- the family emits prompt surfaces, prompt contracts, parsed envelopes, and a family proof artifact,
+- and the system proof bundle is replayable,
+
+but the family's witness structure and replay instructions still describe a narrower closure path than the family actually needs.
+
+#### V15 specification precision and parity
+
+For this case, V15 already requires:
+- prompt-owned fields are backed by complete prompt contracts and admissible parse contracts,
+- proof-relevant artifacts are either digested into the witness manifest or explicitly represented by a family witness structure,
+- and the branch artifact family is dense enough for reviewers to understand what was emitted and why.
+
+The V16 parity reading is:
+- prompt-completeness replay and witness closure must cover expected family truth, realized run truth, and family verdict truth,
+- not only the prompt contracts plus parsed-envelope artifact subset.
+
+#### Current source implementation precision
+
+Current source exposes the following witness/replay posture:
+
+1. Prompt-completeness witness artifact paths are currently:
+   - `.engi/prompt-contracts.json`
+   - `.engi/prompt-completeness-proof.json`
+   - `.engi/parsed-completion-envelopes.json`
+
+2. `.engi/prompt-surfaces.json` is emitted and is clearly family-relevant, but it is not named as a prompt-completeness witness artifact.
+
+3. Replay artifacts currently include:
+   - `.engi/prompt-contracts.json`
+   - `.engi/parsed-completion-envelopes.json`
+   but not prompt surfaces or a prompt-family registry/equivalent expected-truth surface.
+
+4. Replay instructions currently say:
+   - recompute prompt completeness from prompt contracts and compare the proof hash,
+   - recompute parsed completion envelopes from prompt contracts and deterministic outputs, then compare the artifact hash.
+
+5. There is no explicit prompt-completeness replay instruction that says how to reconstruct:
+   - family membership coverage,
+   - prompt-family registry closure,
+   - downstream-consumer closure,
+   - witness closure,
+   - or omission-class failure detection.
+
+#### Current prompt-completeness family reality for this case
+
+For witness-materialization and replay closure, the family currently behaves as follows:
+
+1. primary family surfaces are mostly emitted,
+2. witness structure names only a subset of those emitted surfaces,
+3. replay can partially reconstruct parse-bearing closure,
+4. but replay does not yet reconstruct the full family case inventory or the expected-versus-realized prompt-family closure path.
+
+So the family result is not “prompt-completeness is fully replayable first-class witness closure.”
+The family result is “prompt-completeness is substantially materialized, but replay and witness closure remain narrower than the family's full target.”
+
+#### V16 per-case expectations
+
+V16 should require all of the following for this case:
+
+1. First-class witness closure
+   Prompt family registry/equivalent expected-truth surface, prompt contracts, prompt surfaces, parsed envelopes, and family proof must all be covered directly as first-class family witness artifacts or as explicit, exact witness structures.
+
+2. Replay completeness
+   Replay artifacts and replay instructions must explicitly cover:
+   - expected family membership and registry truth,
+   - realized prompt surfaces and contracts,
+   - parsed-envelope admissibility,
+   - downstream-consumer closure,
+   - and family-level prompt-completeness closure.
+
+3. No subset replay substitution
+   Replay over prompt contracts plus parsed envelopes alone is not enough if it cannot expose omitted prompt-family members or downstream-consumer failures.
+
+4. Deliverables visibility
+   The deliverables story must make the family-critical prompt artifacts visible as intentional proof surfaces.
+
+5. Family failure on replay/witness under-materialization
+   Prompt-completeness must fail if a family-critical surface disappears from witness or replay coverage without an explicit reconstructible replacement path.
+
+#### Family-wide expectations forced by this case
+
+This one case forces prompt-completeness to adopt at least these family-wide rules:
+
+1. Witness structure must match the family's actual closure model
+   If prompt surfaces and registry truth are required for closure, witness structure must say so.
+
+2. Replay must reconstruct case inventory, not just aggregate proof hashes
+   Aggregate recomputation is not enough if omission-class failures can remain hidden.
+
+3. Expected truth and realized truth both belong in replay
+   Prompt-family registry truth and realized prompt surfaces must both be replay-addressable.
+
+4. Bundle-only or nearby-surface substitution is not enough
+   Family-critical prompt-completeness surfaces need direct witness/replay treatment rather than indirect implication.
+
+#### Concrete closure signals for this case
+
+Witness-materialization and replay closure are closed for prompt-completeness only when:
+
+1. the family's critical surfaces are explicitly materialized or explicitly reconstructible,
+2. witness paths name those surfaces honestly,
+3. replay can reconstruct expected family truth, realized prompt truth, and family verdict truth,
+4. deliverables make those surfaces visible and intentional,
+5. and tests break if any of those witness or replay surfaces disappear or drift.
 
 ---
 
@@ -1078,3 +1260,438 @@ The current preferred V16 posture is:
 1. treat moment contracts, field proofs, family proof, eval manifest, prompt surfaces, and parsed envelopes as first-class family artifacts,
 2. allow prompt implementation surface to remain an explicit witness structure only if V16 decides it is purely reconstructible aggregate audit surface,
 3. and stop using prompt contracts as a surrogate witness artifact for inference-synthesis primary closure.
+
+---
+
+## Static-Code-Analysis: initial V16 discovery ledger
+
+This is the third proof family opened in the V16 draft.
+
+The first pass stays narrow on purpose.
+It is focused on family-boundary truth before proof-shape expansion.
+
+The first question for this family is not yet:
+- which new artifacts should exist,
+- or what the final V16 proof type names should be.
+
+The first question is:
+- whether the current family truthfully proves a static stage domain at all,
+- or whether it currently proves a mixed static-plus-verification receipt domain under a static family label.
+
+### Static-code-analysis parity debt collection approaches
+
+This family should be tightened through the following first-pass audits:
+
+1. Family-domain audit
+   Compare the V15 family-defined stage set to the stage ids actually covered by the family report, family proof, witness refs, and replay instructions.
+
+2. Stage-registry audit
+   Compare parser, repo-context, content-unit, and asset-measurement stage emitters to the abstract stage ids named by provenance and the concrete stage ids named by receipts.
+
+3. Artifact-role audit
+   Distinguish the role of:
+   - code-analysis fact registry,
+   - static heuristics registry,
+   - measurement receipts,
+   - static measurement report,
+   - and static measurement proof.
+
+   V16 should not assume these are all equivalent witness surfaces just because they are emitted together.
+
+4. Witness-and-replay audit
+   Compare emitted family artifacts to witness refs and replay instructions.
+   Family-specific replay should not collapse static and verification closure into one undifferentiated receipt pass.
+
+5. Test-ratchet audit
+   Convert any confirmed family-boundary impurity, stage-domain drift, or missing abstraction mapping into a failing test before calling the family closed.
+
+### Static-code-analysis specific implementation debts
+
+The current first-pass debts are:
+
+1. `buildStaticMeasurementProof(...)` proves receipt-ref resolution across both need and evaluated-candidate provenance, so its `coveredStageIds` currently include `verification.*` stages.
+
+2. `buildStaticMeasurementReport(...)` likewise carries `verificationReceiptIds`, so the family report boundary is not static-only either.
+
+3. The V15 family theorem names deterministic parser, repo-context, content-unit, and measurement stages, but the current family proof object does not prove stage-domain totality or family purity.
+   It proves only that the collected receipt refs resolve.
+
+4. The family emits five primary artifacts:
+   - `.engi/code-analysis-fact-registry.json`
+   - `.engi/static-heuristics-registry.json`
+   - `.engi/measurement-receipts.json`
+   - `.engi/static-measurement-report.json`
+   - `.engi/static-measurement-proof.json`
+
+   but the family witness refs still collapse those surfaces down to receipt ids only.
+
+5. Current replay instructions explicitly say to resolve all static and verification receipt refs together, so the family replay story is not family-specific yet.
+
+6. Need measurement static provenance uses abstract ids:
+   - `github-actions.benchmark-parser.v2`
+   - `github.repo-context.extract.v2`
+
+   while receipts prove concrete stage ids:
+   - `github-actions.benchmark-parser.v15`
+   - `github.repo-context.extract.v15`
+
+   and there is no explicit canonical mapping artifact that closes that abstraction boundary.
+
+7. Current tests assert receipt resolution and registry audit counts, but do not assert that `static-code-analysis` excludes verification-stage coverage or that the static stage domain closes exactly.
+
+### Static-Code-Analysis case drill-down: receipt-domain closure and family-boundary truth
+
+This is the first case because it tests whether the family is honest about what it proves before V16 expands the family further.
+
+#### Case statement
+
+The current source says:
+- `static-code-analysis` is a first-class proof family,
+- deterministic parser, repo-context, content-unit, and measurement stages are receipt-bearing and replayable,
+- and the family has its own report and proof surfaces,
+
+but the current family proof/report/witness/replay path still covers verification-stage receipts as part of the same domain.
+
+That means the first V16 question for this family is not only whether receipt refs resolve.
+It is whether the family boundary is even cleanly drawn.
+
+#### V15 specification precision and parity
+
+For this case, V15 already requires:
+
+1. `static-code-analysis`
+   Deterministic parser, repo-context, content-unit, and measurement stages are receipt-bearing and replayable.
+
+2. `verification-decisions`
+   Verification receipts remain family-specific.
+
+3. host/runtime and validation parity
+   Measurement receipts and proof receipts do not overclaim local execution.
+
+The V16 parity reading is:
+- a static-code-analysis family proof cannot silently borrow verification-stage coverage and remain family-specific,
+- verification receipt closure must remain available to the verification family rather than being absorbed into the static family,
+- and replayable stage closure for static analysis must identify a canonical static stage domain rather than a mixed receipt pool.
+
+#### Current source implementation precision
+
+Current source exposes the following first-pass issues:
+
+1. `buildStaticMeasurementReport(...)`
+   builds `needMeasurementReceiptIds`, `verificationReceiptIds`, and `allReceiptRefsResolve` from one mixed union of need and candidate provenance receipt refs.
+
+2. `buildStaticMeasurementProof(...)`
+   builds `expectedReceiptRefs` from the same mixed union and sets `coveredStageIds` from all collected receipts.
+   In current replay, those covered stage ids include:
+   - `github-actions.benchmark-parser.v15`
+   - `github.repo-context.extract.v15`
+   - `content-unit.extract-static-code-analysis.v15`
+   - `asset.measurement.extract.v15`
+   - `verification.determinisms.v15`
+   - `verification.issuance-checks.v15`
+   - `verification.provenance-checks.v15`
+   - `verification.sufficiency-checks.v15`
+   - `verification.issuer-policy-checks.v15`
+
+3. `buildProofWitnessManifest(...)`
+   gives the family the right artifact-path set, but its witness refs are only receipt ids.
+   The registries, report, and proof are therefore digested as artifacts but not directly represented as family-specific witness cases.
+
+4. `buildSystemProofBundle(...).verifierEntrypoint`
+   instructs replay to recompute code-analysis facts and static heuristics, then resolve all static and verification receipt refs against the receipt artifacts.
+   That again collapses two proof families into one replay step.
+
+5. `needMeasurement.measurementProvenance`
+   uses abstract static ids:
+   - `github-actions.benchmark-parser.v2`
+   - `github.repo-context.extract.v2`
+
+   while the receipts proving those stages use concrete `...v15` ids, and asset/unit static provenance uses concrete `...v15` ids directly.
+   The family therefore already has a stage-domain abstraction mismatch before V16 even starts expanding it.
+
+#### Family-wide expectations forced by this case
+
+This one case already forces `static-code-analysis` toward the following V16 rules:
+
+1. Family stage domain must be explicit
+   The family must be able to say which stage ids are in-family and which are out-of-family.
+
+2. Static proof must fail on out-of-family stage inclusion
+   Verification-stage receipts cannot silently appear under the static family and still count as closure.
+
+3. Abstract-to-concrete stage mapping must be explicit
+   If provenance uses abstract stage ids and receipts use concrete implementation stage ids, the mapping must be a canonical family surface.
+
+4. Witness closure cannot collapse to receipt ids only
+   Registries, report, and family proof each carry different truth and should not be treated as interchangeable just because receipts exist.
+
+5. Replay closure must be family-specific
+   Replay instructions should reconstruct static stage closure without collapsing into verification receipt closure.
+
+#### Concrete closure signals for this case
+
+Receipt-domain and family-boundary closure are closed for V16 only when:
+
+1. the family's canonical static stage domain is explicit,
+2. `coveredStageIds` for the family are a subset of that static domain,
+3. verification-stage receipt ids are no longer part of the static family proof/report domain,
+4. abstract provenance ids and concrete receipt stage ids are closed by an explicit canonical mapping rule or artifact,
+5. witness refs and replay instructions tell the same family-specific story as the emitted artifacts,
+6. and tests fail immediately if verification-stage coverage leaks back into the family.
+
+### Static-Code-Analysis case drill-down: artifact-role closure and alias truth
+
+The second case for this family is artifact-role closure.
+
+This is the right next case because the family already emits multiple distinct artifacts, but current witness/deliverable/public treatment still tends to flatten them.
+
+#### Case statement
+
+The current source says:
+- the family emits a code-analysis fact registry,
+- the family emits a static heuristics registry,
+- the family emits measurement receipts,
+- the family emits a static measurement report,
+- and the family emits a static measurement proof,
+
+but it does not yet make their roles canonical enough.
+
+In particular:
+- one registry is already declared to be an alias surface of the other,
+- report and proof carry different truth than receipts,
+- and witness refs still collapse the family mostly to receipt ids.
+
+So the family currently exposes more artifact structure than its proof grammar acknowledges.
+
+#### V15 specification precision and parity
+
+For this case, V15 already implies:
+
+1. proof-relevant artifact paths emitted by the system must be digested or explicitly incorporated into family witness structure,
+
+2. witness families and artifact digests must remain mutually coherent,
+
+3. indirect or surrogate representation should not hide missing family-specific witness coverage,
+
+4. and the deliverables manifest must enumerate emitted artifacts densely enough that a reviewer can tell what exists and what subsystem families it depends on.
+
+The V16 parity reading is:
+- if two artifacts are genuinely distinct proof objects, the family should say what different truth each one carries,
+- if one artifact is merely an alias or projection of another, the family should say so explicitly,
+- and witness, deliverable, projection, and replay layers should not imply five equally primary family artifacts when source semantics already distinguish them.
+
+#### Current source implementation precision
+
+Current source exposes the following role mismatch:
+
+1. `buildCodeAnalysisFactRegistry(...)`
+   emits the core registry and explicitly marks:
+   - `registrySemantics: 'code-analysis-fact-registry'`
+   - `specArtifactAliases: ['.engi/static-heuristics-registry.json']`
+
+2. `buildStaticHeuristicsRegistryArtifact(...)`
+   constructs the static heuristics registry by copying the fact registry and adding only:
+   - `artifactId: 'static-heuristics-registry.v15'`
+   - `artifactSemantics: 'specific code-analysis fact registry emitted as the local static heuristics registry surface'`
+
+   In current replay, the two registries have the same `registeredFacts`, the same `consumerMatrix`, and the same underlying `audit.registryHash`.
+
+3. `buildProofWitnessManifest(...)`
+   digests both registry paths separately and names both in `witnessArtifactPaths`, but the family's `witnessRefs` still contain receipt ids only.
+   That means the family knows the artifacts exist but does not yet represent their role distinctions in family witness structure.
+
+4. `buildDeliverablesManifest(...)`
+   lists both registries, the receipts, the report, and the proof as separate deliverables, but their `dependsOn` sets still blur static and verification truth.
+
+5. public projection also exposes:
+   - `.engi/code-analysis-fact-registry.json`
+   - `.engi/static-heuristics-registry.json`
+   - `.engi/static-measurement-report.json`
+   - `.engi/static-measurement-proof.json`
+
+   yet bounded-public proof summarizes only the report-level truth:
+   - `receiptCount`
+   - `allReceiptRefsResolve`
+
+   It does not summarize distinct registry-role or family-proof-role closure.
+
+#### Family-wide expectations forced by this case
+
+This one case already forces `static-code-analysis` toward the following V16 rules:
+
+1. Artifact roles must be canonical
+   The family should distinguish:
+   - registry truth,
+   - alias/projection truth,
+   - receipt truth,
+   - report truth,
+   - and family-proof truth.
+
+2. Alias surfaces must be explicit
+   If `.engi/static-heuristics-registry.json` is an alias or projection of `.engi/code-analysis-fact-registry.json`, the family should say so directly rather than leaving later layers to imply equal primacy.
+
+3. Witness structure should follow role distinctions
+   Receipt ids alone are not enough to witness registry-role or family-proof-role closure.
+
+4. Public and deliverable treatment should not overstate primacy
+   A family alias surface may still be materialized and public, but V16 should distinguish public availability from proof-object primacy.
+
+5. Replay should reconstruct role distinctions
+   Replay instructions should say whether the heuristics registry is recomputed as an alias of the fact registry or as an independent proof surface.
+
+#### Concrete closure signals for this case
+
+Artifact-role and alias closure are closed for V16 only when:
+
+1. the family explicitly identifies which artifact is the primary registry surface,
+2. any alias or projection surfaces are named as such,
+3. receipts, report, and family proof are each distinguished by what truth they uniquely carry,
+4. witness refs no longer flatten all family closure to receipt ids only,
+5. deliverables and public projection remain compatible with those role distinctions,
+6. and tests fail if alias-vs-primary or report-vs-proof role boundaries drift silently.
+
+### Static-Code-Analysis artifact-materialization determination guide
+
+The family now has enough first-pass evidence to make a provisional artifact determination.
+
+#### First-class artifact rule
+
+A static-code-analysis surface should be a mandatory first-class family artifact when any of the following is true:
+
+1. it carries primary family truth rather than naming-compatible alias truth,
+2. replay depends on it directly to reconstruct static stage closure,
+3. other family surfaces close back to it,
+4. it carries unique run-specific proof truth that is not preserved by another family surface,
+5. or its disappearance would materially weaken direct auditability of static stage closure.
+
+#### Alias/projection rule
+
+A static-code-analysis surface may remain a derived alias or projection surface only when all of the following are true:
+
+1. its underlying truth is already carried by a primary family artifact,
+2. it adds naming, compatibility, or public/operator ergonomics rather than new proof truth,
+3. its derivation path is explicit,
+4. replay does not require it as an independent closure surface,
+5. and tests can prove that it remains role-consistent with its primary source artifact.
+
+#### Provisional static-code-analysis determinations
+
+Under the current first-pass reading, the provisional V16 determination is:
+
+1. Mandatory first-class family artifacts
+   - `.engi/code-analysis-fact-registry.json`
+   - `.engi/measurement-receipts.json`
+   - `.engi/static-measurement-report.json`
+   - `.engi/static-measurement-proof.json`
+
+2. Conditionally first-class; alias/projection status acceptable only if derivation remains explicit and exact
+   - `.engi/static-heuristics-registry.json`
+
+3. Future likely first-class family artifact once V16 makes stage-domain truth explicit
+   - `.engi/static-stage-domain-contract.json`
+
+#### Current preferred determination
+
+The current preferred V16 posture is:
+
+1. treat `.engi/code-analysis-fact-registry.json` as the primary registry surface,
+2. treat `.engi/static-heuristics-registry.json` as an explicit alias/projection surface unless later family work finds genuinely independent truth there,
+3. keep `.engi/measurement-receipts.json` as the primary receipt-log surface,
+4. keep `.engi/static-measurement-report.json` and `.engi/static-measurement-proof.json` distinct because they carry different closure truth,
+5. and stop letting witness refs imply that receipt ids alone substantiate the full family artifact set.
+
+### Static-Code-Analysis case drill-down: witness-materialization and replay closure
+
+The next case for this family is witness-materialization and replay closure.
+
+This follows directly from the first two cases:
+- the family boundary is not clean enough yet,
+- and the family artifact roles are not yet canonical enough,
+- so the current witness and replay path should be tested against those same distinctions.
+
+#### Case statement
+
+The current source says:
+- the family emits five proof-relevant artifacts,
+- the witness manifest names all five artifact paths,
+- and the system proof bundle exposes replay artifacts and replay instructions,
+
+but the current family witness and replay story still flattens too much:
+- witness refs are receipt ids only,
+- replay artifacts omit the static report and static proof,
+- and replay instructions still collapse static and verification receipt resolution into one step.
+
+So the family currently has artifact digests without a correspondingly precise family replay and witness closure story.
+
+#### V15 specification precision and parity
+
+For this case, V15 already requires:
+
+1. proof-relevant artifacts be digested or explicitly incorporated into family witness structure,
+2. witness families and artifact digests remain mutually coherent,
+3. indirect or surrogate representation not hide missing family-specific witness coverage,
+4. and replayable family truth remain honest about what the current machine is actually proving.
+
+The V16 parity reading is:
+- if the family emits a report and a family proof, replay should be able to reconstruct them as family surfaces,
+- if witness paths name multiple family artifacts, witness refs should not imply that receipts alone close the whole family,
+- and static-family replay should not require an auditor to infer family closure from a mixed static-plus-verification replay step.
+
+#### Current source implementation precision
+
+Current source exposes the following witness/replay mismatch:
+
+1. `buildProofWitnessManifest(...)`
+   names:
+   - `.engi/code-analysis-fact-registry.json`
+   - `.engi/static-heuristics-registry.json`
+   - `.engi/measurement-receipts.json`
+   - `.engi/static-measurement-report.json`
+   - `.engi/static-measurement-proof.json`
+
+   but still uses `measurementReceipts[].receiptId` only for `witnessRefs`.
+
+2. `buildSystemProofBundle(...).verifierEntrypoint.replayArtifacts`
+   includes:
+   - `.engi/code-analysis-fact-registry.json`
+   - `.engi/static-heuristics-registry.json`
+   - `.engi/measurement-receipts.json`
+
+   but omits:
+   - `.engi/static-measurement-report.json`
+   - `.engi/static-measurement-proof.json`
+
+3. replay instructions say:
+   - recompute code-analysis facts and static heuristics from the registries,
+   - then resolve all static and verification receipt refs against the receipt artifacts.
+
+   They do not explicitly say how to:
+   - reconstruct report truth,
+   - reconstruct family-proof truth,
+   - or fail on alias/primary drift.
+
+#### Family-wide expectations forced by this case
+
+This one case already forces `static-code-analysis` toward the following V16 rules:
+
+1. Witness refs should represent more than receipt ids
+   Family witness structure should name registry/report/proof closure explicitly enough to audit those surfaces directly.
+
+2. Replay artifacts should include the family's own closure surfaces
+   Report and family proof should not disappear from replay just because receipts exist.
+
+3. Replay instructions should be family-specific
+   They should reconstruct static-family closure, not just shared receipt resolution.
+
+4. Alias-vs-primary closure should be replay-visible
+   Replay should be able to confirm that the heuristics registry remains a role-consistent derivative of the primary registry.
+
+#### Concrete closure signals for this case
+
+Witness-materialization and replay closure are closed for V16 only when:
+
+1. witness refs represent registry/report/proof closure as well as receipt closure,
+2. replay artifacts include the family surfaces required to reconstruct the static report and static family proof,
+3. replay instructions are explicit about report recomputation, proof recomputation, and alias-role consistency,
+4. family replay no longer collapses static and verification receipt closure into one undifferentiated step,
+5. and tests fail if any of those family witness or replay surfaces disappear or drift.

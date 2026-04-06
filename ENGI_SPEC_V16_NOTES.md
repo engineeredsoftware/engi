@@ -108,6 +108,41 @@ The prompt-completeness family is still carrying several decisions that V16 must
 4. How case-granular must witness refs be before the family is considered auditable enough?
 5. Should parsed-envelope admissibility be embedded directly into the prompt-completeness proof object, or should the family proof depend on a separately emitted artifact while still failing on its verdicts?
 
+## Why prompt-completeness now gets the same canonical precision treatment
+
+The inference-synthesis work clarified that artifact, witness, and replay determination cannot remain family-specific improvisation.
+It has to become part of the generic proof-family precision pattern.
+
+Prompt-completeness therefore now gets the same treatment:
+- expected truth objects,
+- realized truth objects,
+- family closure object,
+- artifact determination rule,
+- witness rule,
+- replay rule.
+
+This does not mean both families have identical artifacts.
+It means both families now use the same canonical precision grammar for deciding what must be emitted directly and what may remain reconstructible witness structure.
+
+For prompt-completeness, the current provisional split is:
+- first-class: prompt family registry or equivalent runtime registry, prompt contracts, prompt surfaces, parsed envelopes, family proof,
+- conditional witness structure only if exactly reconstructible: prompt implementation surface,
+- not acceptable as substitute: bundle-only carriage or aggregate-hash-only closure for the primary family surfaces.
+
+## Why prompt-completeness replay and witness closure now need the same explicitness
+
+After adding the generic artifact-determination rule to prompt-completeness, the next obvious question is whether the family's replay and witness story is equally precise.
+
+Current source already emits most of the relevant surfaces, but:
+- witness paths still name only a subset,
+- replay still centers on prompt contracts plus parsed envelopes,
+- and the family can still describe more closure in prose than its replay path directly reconstructs.
+
+So prompt-completeness needs the same explicit replay/witness treatment now for the same reason inference-synthesis did:
+- family closure should not outrun family audibility,
+- omission-class failures should be replay-visible,
+- and expected family truth plus realized prompt truth should both be part of the replay story.
+
 ## Why inference-synthesis is the next family
 
 Inference-synthesis is the right next step because it sits immediately underneath prompt-completeness.
@@ -261,11 +296,199 @@ It is a proof-family drafting wedge into V16, with one family tighter than the n
 ## What remains out of scope for now
 
 This pass does not yet draft:
-- the remaining proof families beyond `prompt-completeness` and initial `inference-synthesis`,
+- the remaining proof families beyond `prompt-completeness`, `inference-synthesis`, and initial `static-code-analysis`,
 - the full V16 theorem catalog,
 - `_PROVEN_` appendix generation,
-- proof-program inventory outside these first two families,
+- proof-program inventory outside these first three families,
 - or the full V16 system spec rewrite.
 
 Those are deferred on purpose.
-Prompt-completeness should be made precise first so the same drafting and parity pattern can be applied consistently to the remaining proof surface.
+Prompt-completeness was made precise first so the same drafting and parity pattern could be applied consistently to the remaining proof surface.
+
+## Why static-code-analysis is the next family
+
+After `prompt-completeness` and `inference-synthesis`, the next clean family is `static-code-analysis`.
+
+It is the right next move because:
+- it is one of the earliest proof-bearing deterministic families in the system,
+- it feeds both need measurement and asset evaluation,
+- it already emits multiple proof-bearing artifacts,
+- and it is already concrete enough that V16 can reason from real family surfaces rather than from abstractions alone.
+
+It is also a useful contrast case.
+`prompt-completeness` and `inference-synthesis` both center on prompt-owned or inferred truth.
+`static-code-analysis` centers on deterministic stage truth, receipt truth, and replay truth.
+
+That means it can test whether the V16 method still works when the family is not prompt-centered.
+
+## Early static-code-analysis findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. The current family proof/report domain is mixed rather than static-only.
+   `buildStaticMeasurementReport(...)` includes `verificationReceiptIds`, and `buildStaticMeasurementProof(...)` currently reports `coveredStageIds` that include multiple `verification.*` stages.
+
+2. The family theorem is currently stronger than the family proof object.
+   V15 says deterministic parser, repo-context, content-unit, and measurement stages are receipt-bearing and replayable.
+   Current family proof object only proves that collected receipt refs resolve.
+
+3. The family emits richer primary artifacts than its witness refs acknowledge.
+   The witness family has the right artifact-path set, but its witness refs still collapse the family down to receipt ids rather than naming registry/report/proof truth directly.
+
+4. Replay instructions are not family-specific enough yet.
+   Current replay collapses static and verification receipt resolution into one step rather than reconstructing a static-family closure path.
+
+5. Stage naming is already split across abstraction layers.
+   Need measurement provenance uses abstract ids such as `github-actions.benchmark-parser.v2` and `github.repo-context.extract.v2`, while receipts prove concrete `...v15` stage ids.
+
+## Why receipt-domain closure is the first static-code-analysis case
+
+The first static-code-analysis case should be receipt-domain closure and family-boundary truth.
+
+That is the right first case because it asks the cleanest question:
+- is the family currently proving the right domain at all?
+
+This comes before more detailed questions like:
+- how registries should be typed,
+- what final family artifact names should be,
+- or how static stage contracts should eventually be emitted.
+
+If the family is currently proving a mixed static-plus-verification receipt domain, V16 needs to fix that boundary first.
+Otherwise later refinements would only make the wrong proof surface more elaborate.
+
+## Current first-pass V16 direction for static-code-analysis
+
+The current drafting direction is:
+
+1. make the static stage domain explicit,
+2. separate static family receipt closure from verification-family receipt closure,
+3. make abstract-to-concrete stage mappings explicit where provenance ids and receipt stage ids differ,
+4. distinguish registry truth, receipt truth, report truth, and family-proof truth,
+5. and only then expand into fuller family proof shapes or artifact determinations.
+
+So unlike prompt-completeness and inference-synthesis, static-code-analysis is still at the first boundary-normalization stage.
+That asymmetry is intentional.
+
+## Why artifact-role closure is the second static-code-analysis case
+
+After family-boundary truth, the next useful question is not yet the final proof-shape question.
+It is artifact-role closure.
+
+This is the right second case because current source already encodes a role distinction:
+- `codeAnalysisFactRegistry` declares a spec artifact alias,
+- `staticHeuristicsRegistry` is built by copying the fact registry and adding artifact metadata only,
+- but the proof, deliverable, and projection layers still tend to treat both as equally primary family surfaces.
+
+That makes artifact-role closure a better next step than jumping straight to final artifact materialization rules.
+The family first needs to say:
+- which artifact is the canonical registry surface,
+- which artifacts are aliases or projections,
+- and which artifacts carry genuinely different proof truth.
+
+## Early static artifact-role findings
+
+The second discovery pass already surfaced these concrete points:
+
+1. The two registries currently share the same underlying registry truth.
+   In replay they have the same `registeredFacts`, the same `consumerMatrix`, and the same `audit.registryHash`.
+
+2. The heuristics registry is not currently an independently constructed proof surface.
+   It is a copied registry plus:
+   - `artifactId`
+   - `artifactSemantics`
+
+3. The family witness structure still collapses role distinctions.
+   Artifact digests name both registries, the receipts, the report, and the proof, but family `witnessRefs` still contain receipt ids only.
+
+4. Public and deliverable treatment exposes multiple family surfaces but does not yet make their role distinctions canonical.
+   Bounded-public proof currently summarizes only report-level truth: receipt count plus receipt-ref closure.
+
+## Current second-pass V16 direction for static-code-analysis
+
+The current direction is now:
+
+1. keep one canonical primary registry surface,
+2. make alias/projection status explicit for any derived registry surfaces,
+3. distinguish receipt-log truth from report truth and from family-proof truth,
+4. make witness structure follow those role distinctions rather than flattening to receipt ids only,
+5. and only after that decide the final first-class artifact determination for the family.
+
+So the family has now advanced from:
+- one boundary-normalization question,
+to
+- two concrete normalization questions:
+  - stage-domain purity,
+  - and artifact-role closure.
+
+## Why provisional artifact determination is now the next move
+
+After the first two cases, the family has enough evidence to move one step beyond discovery.
+
+It is now clear that:
+- one registry is primary,
+- one registry is at least provisionally an alias/projection surface,
+- receipts are not the same thing as a report,
+- and the report is not the same thing as the family proof.
+
+At that point the next useful move is not another generic case note.
+It is a provisional artifact determination rule.
+
+That matters because it gives the family a default posture for later work on:
+- witness refs,
+- replay instructions,
+- deliverables treatment,
+- and public projection treatment.
+
+## Current provisional static artifact determination
+
+The current preferred V16 determination is:
+
+1. primary registry surface
+   `.engi/code-analysis-fact-registry.json`
+
+2. alias/projection registry surface unless later work proves independent truth
+   `.engi/static-heuristics-registry.json`
+
+3. primary receipt-log surface
+   `.engi/measurement-receipts.json`
+
+4. report surface
+   `.engi/static-measurement-report.json`
+
+5. family-proof surface
+   `.engi/static-measurement-proof.json`
+
+6. likely future stage-domain contract surface
+   `.engi/static-stage-domain-contract.json`
+
+This is still provisional.
+The point is to stop the family from silently flattening all static artifacts into one witness bucket before replay and witness closure are tightened.
+
+## Why witness-materialization and replay closure are now next
+
+After provisional artifact determination, the next pressure point is immediate.
+
+Current source already:
+- digests the family artifacts,
+- names the family artifact paths,
+- and exposes replay artifacts plus replay instructions.
+
+But it still does not replay or witness the family at the same level of precision that the first two static cases now require.
+
+That makes witness-materialization and replay closure the right next move because it forces V16 to answer:
+- whether witness refs should remain receipt-only,
+- whether report and proof are replay-critical family surfaces,
+- and whether static-family replay is really distinct from verification-family receipt resolution.
+
+## Current first-pass replay/witness direction for static-code-analysis
+
+The current preferred direction is:
+
+1. witness refs should represent registry/report/proof closure as well as receipt closure,
+2. replay artifacts should include the report and family proof surfaces, not only registries and receipts,
+3. replay instructions should reconstruct alias-role consistency as well as receipt closure,
+4. static-family replay should stop depending on a mixed static-plus-verification receipt pass,
+5. and tests should fail if any of those replay-critical static surfaces disappear.
+
+This is still not the final family replay recipe.
+It is the first point where the family has enough normalized structure to demand one.
