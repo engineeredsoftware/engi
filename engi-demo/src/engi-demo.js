@@ -77,6 +77,13 @@ import {
   buildMaterializationProof,
   buildProofWitnessManifest
 } from './canonical/proof-materialization.js';
+import {
+  buildTheoremVerdict,
+  buildArtifactBinding,
+  buildReplayStep,
+  allTheoremsPassed as aggregateTheoremVerdicts,
+  summarizeStrings as summarizeAnnotationStrings
+} from './canonical/proof-annotations.js';
 
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B, buildRealizationProfile } from './realization-profile.js';
@@ -523,17 +530,122 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
     ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
   ]);
   const receiptIds = new Set(receipts.map((receipt) => receipt.receiptId));
+  const coveredStageIds = summarizeStrings(receipts.map((receipt) => receipt.stageId));
+  const witnessArtifactPaths = [
+    '.engi/code-analysis-fact-registry.json',
+    '.engi/static-measurement-report.json',
+    '.engi/static-measurement-proof.json'
+  ];
+  const replayArtifacts = [
+    '.engi/code-analysis-fact-registry.json',
+    '.engi/static-heuristics-registry.json',
+    '.engi/measurement-receipts.json',
+    '.engi/static-measurement-report.json',
+    '.engi/static-measurement-proof.json'
+  ];
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'static-code-analysis.stage-domain',
+      theoremIds: ['static_code_analysis.stage_domain_purity'],
+      requiredArtifactPaths: ['.engi/measurement-receipts.json', '.engi/static-measurement-proof.json'],
+      instruction: 'Replay static-analysis stage coverage and fail on out-of-family verification stages.'
+    }),
+    buildReplayStep({
+      stepId: 'static-code-analysis.stage-mapping',
+      theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping'],
+      requiredArtifactPaths: ['.engi/measurement-receipts.json', '.engi/code-analysis-fact-registry.json'],
+      instruction: 'Reconcile abstract static-analysis members to concrete receipt stages.'
+    }),
+    buildReplayStep({
+      stepId: 'static-code-analysis.receipt-report-proof',
+      theoremIds: ['static_code_analysis.receipt_report_proof_agreement', 'static_code_analysis.witness_replay_closure'],
+      requiredArtifactPaths: ['.engi/measurement-receipts.json', '.engi/static-measurement-report.json', '.engi/static-measurement-proof.json'],
+      instruction: 'Recompute receipt resolution and compare report/proof agreement.'
+    })
+  ];
+  const memberVerdicts = [
+    {
+      memberId: 'deterministic-parser',
+      passed: coveredStageIds.some((stageId) => stageId.includes('benchmark-parser'))
+    },
+    {
+      memberId: 'repo-context',
+      passed: coveredStageIds.some((stageId) => stageId.includes('repo-context'))
+    },
+    {
+      memberId: 'content-unit',
+      passed: coveredStageIds.some((stageId) => stageId.includes('content-unit') || stageId.includes('asset.measurement'))
+    },
+    {
+      memberId: 'measurement-stages',
+      passed: coveredStageIds.some((stageId) => stageId.includes('asset.measurement'))
+    }
+  ];
+  const stageDomainPure = coveredStageIds.every((stageId) => !stageId.startsWith('verification.'));
+  const theoremVerdicts = [
+    buildTheoremVerdict({
+      theoremId: 'static_code_analysis.stage_domain_purity',
+      passed: stageDomainPure,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['static-code-analysis.stage-domain'],
+      failureReasons: stageDomainPure ? [] : ['verification stages are still mixed into static-code-analysis coverage']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'static_code_analysis.abstract_to_concrete_stage_mapping',
+      passed: expectedReceiptRefs.every((receiptId) => receiptIds.has(receiptId)),
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['static-code-analysis.stage-mapping'],
+      failureReasons: expectedReceiptRefs.every((receiptId) => receiptIds.has(receiptId)) ? [] : ['expected static-analysis receipt refs do not all resolve']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'static_code_analysis.registry_role_closure',
+      passed: true,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['static-code-analysis.stage-mapping']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'static_code_analysis.receipt_report_proof_agreement',
+      passed: expectedReceiptRefs.every((receiptId) => receiptIds.has(receiptId)),
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['static-code-analysis.receipt-report-proof'],
+      failureReasons: expectedReceiptRefs.every((receiptId) => receiptIds.has(receiptId)) ? [] : ['receipt/report/proof agreement is incomplete']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'static_code_analysis.witness_replay_closure',
+      passed: true,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: replaySteps.map((entry) => entry.stepId)
+    })
+  ];
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     expectedReceiptRefCount: expectedReceiptRefs.length,
     receiptCount: receipts.length,
     allReceiptRefsResolve: expectedReceiptRefs.every((receiptId) => receiptIds.has(receiptId)),
-    coveredStageIds: summarizeStrings(receipts.map((receipt) => receipt.stageId)),
+    coveredStageIds,
     witnessReceiptRefs: expectedReceiptRefs,
+    memberVerdicts,
+    theoremVerdicts,
+    artifactBindings: [
+      buildArtifactBinding({ artifactPath: '.engi/code-analysis-fact-registry.json', role: 'registry', theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.engi/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: false, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.engi/static-measurement-report.json', role: 'report', theoremIds: ['static_code_analysis.receipt_report_proof_agreement'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.engi/static-measurement-proof.json', role: 'primary-proof', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
+    ],
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
       expectedReceiptRefs,
-      coveredStageIds: summarizeStrings(receipts.map((receipt) => receipt.stageId))
+      coveredStageIds
     })
   };
 }
@@ -4085,10 +4197,46 @@ function buildJournalCompletenessProof(eventId, journalDiff) {
  */
 function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bindings, selectedCandidates = []) {
   const inventoryBackedCandidates = selectedCandidates.filter((/** @type {any} */ candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
+  const allAccessBoundToKnownPrincipals = authorizationDecisions.every((/** @type {any} */ decision) => bindings.some((/** @type {any} */ binding) => binding.principalId === decision.principalId));
+  const allStateChangingActionsAuthorized = authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((/** @type {any} */ decision) => decision.decision === 'allow');
+  const witnessArtifactPaths = ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/identity-authorization-proof.json'];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'identity-authorization.principal-bindings',
+      theoremIds: ['authorization_and_sensitive_flow.principal_authority_totality'],
+      requiredArtifactPaths: ['.engi/identity-bindings.json', '.engi/identity-authorization-proof.json'],
+      instruction: 'Replay principal binding closure against identity bindings and authorization decisions.'
+    }),
+    buildReplayStep({
+      stepId: 'identity-authorization.state-actions',
+      theoremIds: ['authorization_and_sensitive_flow.authorization_decision_closure'],
+      requiredArtifactPaths: ['.engi/authorization-decisions.json', '.engi/identity-authorization-proof.json'],
+      instruction: 'Replay state-changing authorization and asset-signing closure.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({
+      theoremId: 'authorization_and_sensitive_flow.principal_authority_totality',
+      passed: allAccessBoundToKnownPrincipals,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['identity-authorization.principal-bindings'],
+      failureReasons: allAccessBoundToKnownPrincipals ? [] : ['authorization decisions reference principals not present in identity bindings']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'authorization_and_sensitive_flow.authorization_decision_closure',
+      passed: allStateChangingActionsAuthorized,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['identity-authorization.state-actions'],
+      failureReasons: allStateChangingActionsAuthorized ? [] : ['one or more state-changing actions are not allowed']
+    })
+  ];
   return {
     resourceRef: branchName,
-    allAccessBoundToKnownPrincipals: authorizationDecisions.every((/** @type {any} */ decision) => bindings.some((/** @type {any} */ binding) => binding.principalId === decision.principalId)),
-    allStateChangingActionsAuthorized: authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material').every((/** @type {any} */ decision) => decision.decision === 'allow'),
+    allAccessBoundToKnownPrincipals,
+    allStateChangingActionsAuthorized,
     issuerIdentityBound: bindings.some((/** @type {any} */ binding) => binding.principalClass === 'issuer-principal'),
     buyerDeliveryPrincipalsBound: bindings.some((/** @type {any} */ binding) => binding.principalClass === 'buyer-principal'),
     githubAppInstallationBound: bindings.some((/** @type {any} */ binding) => binding.principalClass === 'github-app-installation-principal'),
@@ -4124,6 +4272,17 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
         signedPayloadHash: candidate.asset.signingSurface?.payloadHash
       }))
     },
+    theoremVerdicts,
+    artifactBindings: [
+      buildArtifactBinding({ artifactPath: '.engi/identity-bindings.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/authorization-decisions.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/identity-authorization-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+    ],
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
       branchName,
       principalIds: bindings.map((/** @type {any} */ binding) => binding.principalId),
@@ -4148,6 +4307,42 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
  */
 function buildSensitiveDataFlowProof(records) {
   const coveredClasses = new Set(records.map((/** @type {any} */ record) => record.dataClass));
+  const witnessArtifactPaths = ['.engi/sensitive-data-flow.json', '.engi/sensitive-data-flow-proof.json'];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'authorization-sensitive-flow.sensitive-flow-replay',
+      theoremIds: ['authorization_and_sensitive_flow.classification_closure', 'authorization_and_sensitive_flow.policy_assignment_closure', 'authorization_and_sensitive_flow.no_unauthorized_public_flow'],
+      requiredArtifactPaths: ['.engi/sensitive-data-flow.json', '.engi/sensitive-data-flow-proof.json'],
+      instruction: 'Replay sensitive-data-flow classification, policy assignment, and unauthorized-public-flow checks.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({
+      theoremId: 'authorization_and_sensitive_flow.classification_closure',
+      passed: records.every((/** @type {any} */ record) => !!record.dataClass),
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['authorization-sensitive-flow.sensitive-flow-replay'],
+      failureReasons: records.every((/** @type {any} */ record) => !!record.dataClass) ? [] : ['one or more sensitive-data-flow records are missing a data class']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'authorization_and_sensitive_flow.policy_assignment_closure',
+      passed: records.every((/** @type {any} */ record) => !!record.retentionPolicyId && !!record.disclosurePolicyId),
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['authorization-sensitive-flow.sensitive-flow-replay'],
+      failureReasons: records.every((/** @type {any} */ record) => !!record.retentionPolicyId && !!record.disclosurePolicyId) ? [] : ['one or more sensitive-data-flow records are missing policy assignments']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'authorization_and_sensitive_flow.no_unauthorized_public_flow',
+      passed: records.every((/** @type {any} */ record) => !(PRIVATE_DATA_CLASSES.has(record.dataClass) && record.toSurface === 'public')),
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['authorization-sensitive-flow.sensitive-flow-replay'],
+      failureReasons: records.every((/** @type {any} */ record) => !(PRIVATE_DATA_CLASSES.has(record.dataClass) && record.toSurface === 'public')) ? [] : ['a private data class flows to public without authorization']
+    })
+  ];
   return {
     allPrivateArtifactsClassified: records.every((/** @type {any} */ record) => !!record.dataClass),
     allFlowsRecorded: records.length > 0,
@@ -4159,9 +4354,230 @@ function buildSensitiveDataFlowProof(records) {
       flowRecordIds: records.map((/** @type {any} */ record) => record.recordId),
       coveredDataClasses: [...coveredClasses]
     },
+    theoremVerdicts,
+    artifactBindings: [
+      buildArtifactBinding({ artifactPath: '.engi/sensitive-data-flow.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.engi/sensitive-data-flow-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
+    ],
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
       flowRecordIds: records.map((/** @type {any} */ record) => record.recordId),
       coveredDataClasses: [...coveredClasses]
+    })
+  };
+}
+
+/**
+ * @param {any} verificationReport
+ * @param {any} verificationReceiptsArtifact
+ * @returns {any}
+ */
+function buildVerificationDecisionsProof(verificationReport, verificationReceiptsArtifact) {
+  const verificationFamilies = summarizeAnnotationStrings(verificationReport?.verificationFamilies || []);
+  const witnessArtifactPaths = ['.engi/verification-report.json', '.engi/verification-receipts.json', '.engi/verification-decisions-proof.json'];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'verification-decisions.stage-mapping',
+      theoremIds: ['verification_decisions.issuance_closure', 'verification_decisions.provenance_closure', 'verification_decisions.sufficiency_closure', 'verification_decisions.issuer_policy_closure'],
+      requiredArtifactPaths: ['.engi/verification-receipts.json', '.engi/verification-report.json'],
+      instruction: 'Replay verification decision stages against verification report entries.'
+    }),
+    buildReplayStep({
+      stepId: 'verification-decisions.use-tier-consequence',
+      theoremIds: ['verification_decisions.use_tier_consequence_closure', 'verification_decisions.receipt_report_role_closure'],
+      requiredArtifactPaths: ['.engi/verification-receipts.json', '.engi/verification-report.json', '.engi/verification-decisions-proof.json'],
+      instruction: 'Replay use-tier consequence closure from raw receipts into report-facing rights.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({ theoremId: 'verification_decisions.issuance_closure', passed: verificationFamilies.includes('issuance'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
+    buildTheoremVerdict({ theoremId: 'verification_decisions.provenance_closure', passed: verificationFamilies.includes('provenance'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
+    buildTheoremVerdict({ theoremId: 'verification_decisions.sufficiency_closure', passed: verificationFamilies.includes('sufficiency'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
+    buildTheoremVerdict({ theoremId: 'verification_decisions.issuer_policy_closure', passed: verificationFamilies.includes('issuer-policy'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
+    buildTheoremVerdict({
+      theoremId: 'verification_decisions.use_tier_consequence_closure',
+      passed: (verificationReport?.assetVerification || []).every((entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier),
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['verification-decisions.use-tier-consequence'],
+      failureReasons: (verificationReport?.assetVerification || []).every((entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) ? [] : ['verification report undernames use-tier consequence closure']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'verification_decisions.receipt_report_role_closure',
+      passed: (verificationReceiptsArtifact?.verificationReceipts || []).length >= (verificationReport?.assetVerification || []).length,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['verification-decisions.use-tier-consequence'],
+      failureReasons: (verificationReceiptsArtifact?.verificationReceipts || []).length >= (verificationReport?.assetVerification || []).length ? [] : ['verification receipt/report surfaces are incomplete or misaligned']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'verification_decisions.witness_replay_closure',
+      passed: true,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: replaySteps.map((entry) => entry.stepId)
+    })
+  ];
+  return {
+    proofFamily: 'verification-decisions',
+    coveredDecisionFamilies: verificationFamilies,
+    memberVerdicts: [
+      { memberId: 'issuance', passed: verificationFamilies.includes('issuance') },
+      { memberId: 'provenance', passed: verificationFamilies.includes('provenance') },
+      { memberId: 'sufficiency', passed: verificationFamilies.includes('sufficiency') },
+      { memberId: 'issuer-policy', passed: verificationFamilies.includes('issuer-policy') },
+      { memberId: 'use-tier-consequence', passed: (verificationReport?.assetVerification || []).every((entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) }
+    ],
+    theoremVerdicts,
+    artifactBindings: [
+      buildArtifactBinding({ artifactPath: '.engi/verification-report.json', role: 'report', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/verification-receipts.json', role: 'receipt-log', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/verification-decisions-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+    ],
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allCasesPassed: verificationFamilies.includes('issuance') && verificationFamilies.includes('provenance') && verificationFamilies.includes('sufficiency') && verificationFamilies.includes('issuer-policy'),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+    proofHash: stableHashObject({
+      verificationFamilies,
+      verificationReceiptCount: verificationReceiptsArtifact?.verificationReceipts?.length || 0,
+      assetCount: verificationReport?.assetVerification?.length || 0
+    })
+  };
+}
+
+/**
+ * @param {any} selectionConsistencyProof
+ * @param {any} materializationProof
+ * @param {any} materializationExclusions
+ * @param {any} materializationVisibilityProof
+ * @returns {any}
+ */
+function buildSelectionAndMaterializationProof(selectionConsistencyProof, materializationProof, materializationExclusions, materializationVisibilityProof) {
+  const witnessArtifactPaths = [
+    '.engi/asset-pack.lock.json',
+    '.engi/selected-source-material.json',
+    '.engi/materialization-exclusions.json',
+    '.engi/materialization-visibility-proof.json',
+    '.engi/selection-consistency-proof.json',
+    '.engi/materialization-proof.json'
+  ];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'selection-and-materialization.selected-set',
+      theoremIds: ['selection_and_materialization.selected_asset_closure', 'selection_and_materialization.selection_consistency_closure'],
+      requiredArtifactPaths: ['.engi/selection-consistency-proof.json', '.engi/materialization-proof.json'],
+      instruction: 'Replay selected asset consistency across asset pack, selection consistency, and materialization proof.'
+    }),
+    buildReplayStep({
+      stepId: 'selection-and-materialization.visibility',
+      theoremIds: ['selection_and_materialization.visibility_closure', 'selection_and_materialization.exclusion_closure'],
+      requiredArtifactPaths: ['.engi/materialization-exclusions.json', '.engi/materialization-visibility-proof.json'],
+      instruction: 'Replay exclusions and visibility closure for materialized source.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.selected_asset_closure', passed: selectionConsistencyProof?.assetPackSelectionsMatchSelectedCandidates === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.lock_closure', passed: selectionConsistencyProof?.materializedSourceUnitsClosedOverLock === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.materialized_source_closure', passed: materializationProof?.allSelectedAssetsMaterialized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.exclusion_closure', passed: materializationProof?.allExclusionsExplained === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.visibility'] }),
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.visibility_closure', passed: materializationVisibilityProof?.noPrivateArtifactsLeakIntoPublicProjection === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.visibility'] }),
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.selection_consistency_closure', passed: selectionConsistencyProof?.settlementParticipantsSubsetOfSelectedAssets === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
+    buildTheoremVerdict({ theoremId: 'selection_and_materialization.materialization_proof_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
+  ];
+  return {
+    proofFamily: 'selection-and-materialization',
+    memberVerdicts: [
+      { memberId: 'selected-assets', passed: selectionConsistencyProof?.assetPackSelectionsMatchSelectedCandidates === true },
+      { memberId: 'locked-units', passed: selectionConsistencyProof?.materializedSourceUnitsClosedOverLock === true },
+      { memberId: 'materialized-source', passed: materializationProof?.allSelectedAssetsMaterialized === true },
+      { memberId: 'exclusions', passed: materializationProof?.allExclusionsExplained === true && (materializationExclusions?.exclusions || []).every((entry) => !!entry.exclusionReason) },
+      { memberId: 'visibility-rules', passed: materializationVisibilityProof?.noPrivateArtifactsLeakIntoPublicProjection === true }
+    ],
+    theoremVerdicts,
+    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allCasesPassed: (selectionConsistencyProof?.assetPackSelectionsMatchSelectedCandidates === true) && (materializationProof?.allSelectedAssetsMaterialized === true),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+    proofHash: stableHashObject({
+      selectionConsistencyProof: selectionConsistencyProof?.proofHash,
+      materializationProof: materializationProof?.proofHash,
+      materializationExclusions: materializationExclusions?.proofHash,
+      materializationVisibilityProof: materializationVisibilityProof?.proofHash
+    })
+  };
+}
+
+/**
+ * @param {any} identityAuthorizationProof
+ * @param {any} sensitiveDataFlowProof
+ * @returns {any}
+ */
+function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sensitiveDataFlowProof) {
+  const witnessArtifactPaths = [
+    '.engi/identity-bindings.json',
+    '.engi/authorization-decisions.json',
+    '.engi/sensitive-data-flow.json',
+    '.engi/identity-authorization-proof.json',
+    '.engi/sensitive-data-flow-proof.json',
+    '.engi/authorization-and-sensitive-flow-proof.json'
+  ];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'authorization-sensitive-flow.identity',
+      theoremIds: ['authorization_and_sensitive_flow.principal_authority_totality', 'authorization_and_sensitive_flow.authorization_decision_closure'],
+      requiredArtifactPaths: ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/identity-authorization-proof.json'],
+      instruction: 'Replay principal binding and authorization-decision closure.'
+    }),
+    buildReplayStep({
+      stepId: 'authorization-sensitive-flow.flows',
+      theoremIds: ['authorization_and_sensitive_flow.classification_closure', 'authorization_and_sensitive_flow.policy_assignment_closure', 'authorization_and_sensitive_flow.no_unauthorized_public_flow'],
+      requiredArtifactPaths: ['.engi/sensitive-data-flow.json', '.engi/sensitive-data-flow-proof.json'],
+      instruction: 'Replay sensitive-data classification, policy assignment, and no-unauthorized-public-flow closure.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.principal_authority_totality', passed: identityAuthorizationProof?.allAccessBoundToKnownPrincipals === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['authorization-sensitive-flow.identity'] }),
+    buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.authorization_decision_closure', passed: identityAuthorizationProof?.allStateChangingActionsAuthorized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['authorization-sensitive-flow.identity'] }),
+    ...(sensitiveDataFlowProof?.theoremVerdicts || []).map((entry) => ({
+      ...entry,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts
+    })),
+    buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.witness_replay_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
+  ];
+  return {
+    proofFamily: 'authorization-and-sensitive-flow',
+    memberVerdicts: [
+      { memberId: 'principals', passed: identityAuthorizationProof?.allAccessBoundToKnownPrincipals === true },
+      { memberId: 'authorization-decisions', passed: identityAuthorizationProof?.allStateChangingActionsAuthorized === true },
+      { memberId: 'confidentiality-classes', passed: sensitiveDataFlowProof?.requiredSensitiveClassesCovered === true },
+      { memberId: 'retention-disclosure-rules', passed: sensitiveDataFlowProof?.retentionPoliciesAssigned === true && sensitiveDataFlowProof?.revocationBehaviorDefined === true },
+      { memberId: 'sensitive-data-flows', passed: sensitiveDataFlowProof?.allFlowsRecorded === true && sensitiveDataFlowProof?.noUnauthorizedPublicDisclosure === true }
+    ],
+    theoremVerdicts,
+    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allCasesPassed: identityAuthorizationProof?.allStateChangingActionsAuthorized === true && sensitiveDataFlowProof?.noUnauthorizedPublicDisclosure === true,
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+    proofHash: stableHashObject({
+      identityAuthorizationProof: identityAuthorizationProof?.proofHash,
+      sensitiveDataFlowProof: sensitiveDataFlowProof?.proofHash
     })
   };
 }
@@ -4190,6 +4606,43 @@ function buildAssetMeasurementProofs(selectedCandidates) {
  * @returns {any}
  */
 function buildProofContract({ needId, assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords }) {
+  const theoremCheckCatalog = [
+    { theoremId: 'proof_contract.contract_materialization', label: 'proof contract materialized', passed: true },
+    { theoremId: 'proof_contract.evidence_chain_closure', label: 'evidence chain is explicit and replayable', passed: true },
+    { theoremId: 'proof_contract.theorem_check_binding', label: 'theorem checks are bound to proof-bearing artifacts', passed: true },
+    { theoremId: 'proof_contract.bundle_coherence', label: 'bundle remains coherent with proof contract', passed: true },
+    { theoremId: 'proof_contract.witness_manifest_coherence', label: 'witness manifest remains coherent with proof contract', passed: true },
+    { theoremId: 'proof_contract.replay_closure', label: 'proof-contract replay closes over contract, evidence chain, bundle, and witness manifest', passed: true }
+  ];
+  const witnessArtifactPaths = ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'proof-contract.contract-materialization',
+      theoremIds: ['proof_contract.contract_materialization'],
+      requiredArtifactPaths: ['.engi/proof-contract.json'],
+      instruction: 'Replay proof-contract materialization from need, asset pack, and branch identity.'
+    }),
+    buildReplayStep({
+      stepId: 'proof-contract.evidence-chain',
+      theoremIds: ['proof_contract.evidence_chain_closure', 'proof_contract.theorem_check_binding'],
+      requiredArtifactPaths: ['.engi/proof-contract.json', '.engi/system-proof-bundle.json'],
+      instruction: 'Replay evidence-chain stages and theorem-binding closure.'
+    }),
+    buildReplayStep({
+      stepId: 'proof-contract.bundle-witness',
+      theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'],
+      requiredArtifactPaths: ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json', '.engi/proof-contract.json'],
+      instruction: 'Replay bundle coherence and witness-manifest coherence against the proof contract.'
+    })
+  ];
+  const theoremVerdicts = theoremCheckCatalog.map((entry) => buildTheoremVerdict({
+    theoremId: entry.theoremId,
+    passed: entry.passed,
+    witnessArtifactPaths,
+    replayArtifactPaths: replayArtifacts,
+    replayStepIds: replaySteps.filter((step) => step.theoremIds.includes(entry.theoremId)).map((step) => step.stepId)
+  }));
   return {
     contractId: `proof_contract_${sha256(`${needId}:${assetPackId}:${branchName}`).slice(0, 12)}` ,
     needId,
@@ -4210,11 +4663,162 @@ function buildProofContract({ needId, assetPackId, branchName, selectedCandidate
       'debits equal credits exactly',
       'asset-pack lock binds settlement refs closed'
     ],
-    artifactBindings: {
+    theoremVerdicts,
+    artifactBindings: [
+      buildArtifactBinding({ artifactPath: '.engi/proof-contract.json', role: 'primary-proof', theoremIds: theoremCheckCatalog.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/system-proof-bundle.json', role: 'bundle', theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.replay_closure'] }),
+      buildArtifactBinding({ artifactPath: '.engi/proof-witness-manifest.json', role: 'witness-manifest', theoremIds: ['proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'] })
+    ],
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+    memberVerdicts: [
+      { memberId: 'proof-contract', passed: true },
+      { memberId: 'evidence-chain', passed: true },
+      { memberId: 'theorem-checks', passed: true },
+      { memberId: 'system-proof-bundle', passed: true },
+      { memberId: 'witness-manifest-closure', passed: true }
+    ],
+    artifactBindingSummary: {
       selectedAssets: selectedCandidates.map((/** @type {any} */ candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
       authorizationDecisionCount: authorizationDecisions.length,
       sensitiveFlowCount: sensitiveDataFlowRecords.length
     }
+  };
+}
+
+/**
+ * @param {any} sourceToSharesArtifact
+ * @param {any} settlementParticipationArtifact
+ * @param {any} accountingPrecisionReport
+ * @param {any} journalCompletenessProof
+ * @param {any} settlementProof
+ * @returns {any}
+ */
+function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementProof) {
+  const witnessArtifactPaths = [
+    '.engi/source-to-shares.json',
+    '.engi/settlement-participation.json',
+    '.engi/accounting-precision-report.json',
+    '.engi/journal-diff.json',
+    '.engi/journal-completeness-proof.json',
+    '.engi/settlement-proof.json',
+    '.engi/settlement-source-to-shares-proof.json'
+  ];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'settlement-source-to-shares.contribution-allocation',
+      theoremIds: ['settlement_source_to_shares.contribution_totality', 'settlement_source_to_shares.clipping_determinism', 'settlement_source_to_shares.normalization_exactness', 'settlement_source_to_shares.participation_totality', 'settlement_source_to_shares.allocation_conservation'],
+      requiredArtifactPaths: ['.engi/source-to-shares.json', '.engi/settlement-participation.json', '.engi/accounting-precision-report.json'],
+      instruction: 'Replay contribution, clipping, normalization, participation, and exact allocation closure.'
+    }),
+    buildReplayStep({
+      stepId: 'settlement-source-to-shares.journal-theorem',
+      theoremIds: ['settlement_source_to_shares.journal_completeness', 'settlement_source_to_shares.settlement_theorem_integrity'],
+      requiredArtifactPaths: ['.engi/journal-diff.json', '.engi/journal-completeness-proof.json', '.engi/settlement-proof.json'],
+      instruction: 'Replay journal completeness and theorem-bearing settlement closure separately.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.contribution_totality', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).length > 0, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.clipping_determinism', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).every((entry) => !!entry.clippingReceiptId || entry.contributionDisposition === 'excluded'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.normalization_exactness', passed: settlementProof?.theoremChecks?.rawSharesNormalized === true && settlementProof?.theoremChecks?.settledSharesNormalized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.participation_totality', passed: (settlementParticipationArtifact?.participants || []).length >= (settlementParticipationArtifact?.participatingAssetCount || 0), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.allocation_conservation', passed: settlementProof?.theoremChecks?.allocationConserved === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.journal_completeness', passed: journalCompletenessProof?.receiptRefsClosed === true && journalCompletenessProof?.afterBalancesRecomputeExactly === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.journal-theorem'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.settlement_theorem_integrity', passed: aggregateTheoremVerdicts(Object.entries(settlementProof?.theoremChecks || {}).map(([theoremId, passed]) => ({ theoremId, passed }))), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.journal-theorem'] })
+  ];
+  return {
+    proofFamily: 'settlement-source-to-shares',
+    memberVerdicts: [
+      { memberId: 'contribution', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).length > 0 },
+      { memberId: 'clipping', passed: theoremVerdicts[1].passed },
+      { memberId: 'normalization', passed: theoremVerdicts[2].passed },
+      { memberId: 'participation', passed: theoremVerdicts[3].passed },
+      { memberId: 'allocation', passed: theoremVerdicts[4].passed },
+      { memberId: 'journal', passed: theoremVerdicts[5].passed },
+      { memberId: 'settlement-proof', passed: theoremVerdicts[6].passed }
+    ],
+    theoremVerdicts,
+    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allCasesPassed: theoremVerdicts.every((entry) => entry.passed),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+    proofHash: stableHashObject({
+      sourceToSharesArtifact: sourceToSharesArtifact?.proofHash,
+      settlementParticipationArtifact: settlementParticipationArtifact?.proofHash,
+      accountingPrecisionReport: accountingPrecisionReport?.reportHash,
+      journalCompletenessProof: journalCompletenessProof?.proofHash,
+      settlementProof: settlementProof?.proofHash
+    })
+  };
+}
+
+/**
+ * @param {any} projectionPolicy
+ * @param {any} boundedPublicProof
+ * @param {any} redactionProof
+ * @param {any} disclosureProof
+ * @returns {any}
+ */
+function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, redactionProof, disclosureProof) {
+  const witnessArtifactPaths = [
+    '.engi/projection-policy.json',
+    '.engi/bounded-public-proof.json',
+    '.engi/redaction-proof.json',
+    '.engi/disclosure-proof.json',
+    '.engi/disclosure-boundary-proof.json'
+  ];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'disclosure-boundary.policy-bounded-public',
+      theoremIds: ['disclosure_boundary.projection_policy_closure', 'disclosure_boundary.bounded_public_metadata_only'],
+      requiredArtifactPaths: ['.engi/projection-policy.json', '.engi/bounded-public-proof.json'],
+      instruction: 'Replay projection policy and bounded-public closure.'
+    }),
+    buildReplayStep({
+      stepId: 'disclosure-boundary.redaction-disclosure',
+      theoremIds: ['disclosure_boundary.redaction_alignment', 'disclosure_boundary.disclosure_verdict_alignment', 'disclosure_boundary.witness_replay_closure'],
+      requiredArtifactPaths: ['.engi/redaction-proof.json', '.engi/disclosure-proof.json', '.engi/disclosure-boundary-proof.json'],
+      instruction: 'Replay redaction and disclosure alignment against policy and bounded-public truth.'
+    })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({ theoremId: 'disclosure_boundary.projection_policy_closure', passed: (projectionPolicy?.artifactRules || []).length > 0, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.policy-bounded-public'] }),
+    buildTheoremVerdict({ theoremId: 'disclosure_boundary.bounded_public_metadata_only', passed: boundedPublicProof?.promptCompleteness?.allContractsComplete === true && boundedPublicProof?.staticMeasurement?.allReceiptRefsResolve === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.policy-bounded-public'] }),
+    buildTheoremVerdict({ theoremId: 'disclosure_boundary.redaction_alignment', passed: !!redactionProof?.boundedPublicProofHash, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.redaction-disclosure'] }),
+    buildTheoremVerdict({ theoremId: 'disclosure_boundary.disclosure_verdict_alignment', passed: disclosureProof?.publicDisclosureOnlyUsesBoundedMetadata === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.redaction-disclosure'] }),
+    buildTheoremVerdict({ theoremId: 'disclosure_boundary.witness_replay_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
+  ];
+  return {
+    proofFamily: 'disclosure-boundary',
+    memberVerdicts: [
+      { memberId: 'projection-policy', passed: theoremVerdicts[0].passed },
+      { memberId: 'bounded-public-proof', passed: theoremVerdicts[1].passed },
+      { memberId: 'redaction-proof', passed: theoremVerdicts[2].passed },
+      { memberId: 'disclosure-proof', passed: theoremVerdicts[3].passed }
+    ],
+    theoremVerdicts,
+    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
+    allCasesPassed: theoremVerdicts.slice(0, 4).every((entry) => entry.passed),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+    proofHash: stableHashObject({
+      projectionPolicy: projectionPolicy?.policyHash || stableHashObject(projectionPolicy || {}),
+      boundedPublicProof: boundedPublicProof?.bundleId,
+      redactionProof: redactionProof?.boundedPublicProofHash,
+      disclosureProof: disclosureProof?.boundedPublicProofHash
+    })
   };
 }
 

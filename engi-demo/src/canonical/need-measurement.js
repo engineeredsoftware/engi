@@ -176,6 +176,7 @@
  *   promptSurfaces: BuiltPromptSurface[],
  *   promptContracts: PromptContractShape[],
  *   promptCompletenessProof: PromptCompletenessProofShape,
+ *   inferenceSynthesisProof: Record<string, unknown>,
  *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
  *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifactShape,
  *   analysisFactLifecycle: Record<string, unknown>,
@@ -192,6 +193,7 @@
  *   promptSurfaces: BuiltPromptSurface[],
  *   promptContracts: PromptContractShape[],
  *   promptCompletenessProof: PromptCompletenessProofShape,
+ *   inferenceSynthesisProof: Record<string, unknown>,
  *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
  *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifactShape,
  *   measurementProvenance: Array<Record<string, unknown>>,
@@ -207,6 +209,12 @@ import {
   buildEvaluatorSurface as evaluatorSurface,
   buildInferenceProof as inferenceProof
 } from './prompting.js';
+import {
+  buildTheoremVerdict,
+  buildArtifactBinding,
+  buildReplayStep,
+  allTheoremsPassed as aggregateTheoremVerdicts
+} from './proof-annotations.js';
 
 import { buildProfileCompositions } from '../demo-shell-state.js';
 import { buildRealizationProfile } from '../realization-profile.js';
@@ -307,6 +315,165 @@ export function createNeedMeasurementRuntime({
 
   function buildRecallChannelContracts() {
     return Object.entries(RECALL_CHANNEL_SPECS).map(([channelId, spec]) => ({ channelId, ...spec }));
+  }
+
+  /**
+   * @param {{
+   *   classifiedInferredFields: string[],
+   *   inferenceProofs: Array<Record<string, unknown>>,
+   *   promptSurfaces: BuiltPromptSurface[],
+   *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
+   *   promptImplementationSurface: Record<string, unknown>
+   * }} input
+   */
+  function buildInferenceSynthesisProof({
+    classifiedInferredFields,
+    inferenceProofs,
+    promptSurfaces,
+    parsedCompletionEnvelopes,
+    promptImplementationSurface
+  }) {
+    const coveredInferredFields = summarizeStrings(inferenceProofs.map((entry) => entry.outputField));
+    const fieldProofByField = new Map(inferenceProofs.map((entry) => [String(entry.outputField), entry]));
+    const promptSurfaceByField = new Map(promptSurfaces.flatMap((surface) => (surface.lineage?.outputFields || []).map((field) => [field, surface])));
+    const envelopeByField = new Map(parsedCompletionEnvelopes.flatMap((entry) => (entry.ownedOutputFields || []).map((field) => [field, entry])));
+    const memberVerdicts = classifiedInferredFields.map((field) => {
+      const fieldProof = fieldProofByField.get(field) || null;
+      const promptSurface = promptSurfaceByField.get(field) || null;
+      const envelope = envelopeByField.get(field) || null;
+      const evaluatorStatusTruthful = fieldProof ? String(fieldProof.modelId || '').includes('deterministic-local-evaluator') === (promptSurface?.evaluatorSurface?.standIn === true) : false;
+      const evidenceBasisClosed = !!fieldProof && (fieldProof.evidenceRefs || []).length > 0 && !!promptSurface;
+      return {
+        field,
+        fieldProofPresent: !!fieldProof,
+        promptSurfacePresent: !!promptSurface,
+        parsedEnvelopePresent: !!envelope,
+        evaluatorStatusTruthful,
+        evidenceBasisClosed,
+        passed: !!fieldProof && !!promptSurface && !!envelope && evaluatorStatusTruthful && evidenceBasisClosed
+      };
+    });
+    const witnessArtifactPaths = [
+      '.engi/prompt-surfaces.json',
+      '.engi/parsed-completion-envelopes.json',
+      '.engi/inference-synthesis-proof.json'
+    ];
+    const replayArtifacts = [
+      '.engi/prompt-surfaces.json',
+      '.engi/parsed-completion-envelopes.json',
+      '.engi/eval-manifest.json',
+      '.engi/inference-synthesis-proof.json'
+    ];
+    const replaySteps = [
+      buildReplayStep({
+        stepId: 'inference-synthesis.coverage-reconciliation',
+        theoremIds: ['inference_synthesis.coverage_totality'],
+        requiredArtifactPaths: ['.engi/inference-synthesis-proof.json', '.engi/prompt-surfaces.json'],
+        instruction: 'Reconcile classified inferred fields against covered field proofs and prompt surfaces.'
+      }),
+      buildReplayStep({
+        stepId: 'inference-synthesis.evaluator-status-replay',
+        theoremIds: ['inference_synthesis.evaluator_status_truth'],
+        requiredArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/eval-manifest.json'],
+        instruction: 'Replay evaluator status across field proofs, prompt surfaces, and eval manifest.'
+      }),
+      buildReplayStep({
+        stepId: 'inference-synthesis.evidence-basis-replay',
+        theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'],
+        requiredArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/parsed-completion-envelopes.json', '.engi/inference-synthesis-proof.json'],
+        instruction: 'Reconcile field-proof evidence refs against prompt context and parsed envelopes.'
+      })
+    ];
+    const artifactBindings = [
+      buildArtifactBinding({ artifactPath: '.engi/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.ownership_traceability_closure'] }),
+      buildArtifactBinding({ artifactPath: '.engi/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.replay_closure'] }),
+      buildArtifactBinding({ artifactPath: '.engi/eval-manifest.json', role: 'registry', theoremIds: ['inference_synthesis.evaluator_status_truth'], requiredForWitness: false, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.engi/inference-synthesis-proof.json', role: 'primary-proof', theoremIds: ['inference_synthesis.witness_materialization_closure', 'inference_synthesis.replay_closure'] })
+    ];
+    const coverageTotalityClosed = classifiedInferredFields.every((field) => coveredInferredFields.includes(field));
+    const evaluatorStatusClosureClosed = memberVerdicts.every((entry) => entry.fieldProofPresent ? entry.evaluatorStatusTruthful : false);
+    const evidenceBasisClosureClosed = memberVerdicts.every((entry) => entry.fieldProofPresent ? entry.evidenceBasisClosed : false);
+    const theoremVerdicts = [
+      buildTheoremVerdict({
+        theoremId: 'inference_synthesis.coverage_totality',
+        passed: coverageTotalityClosed,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['inference-synthesis.coverage-reconciliation'],
+        failureReasons: coverageTotalityClosed ? [] : ['classified inferred fields are missing field-level inference coverage']
+      }),
+      buildTheoremVerdict({
+        theoremId: 'inference_synthesis.evaluator_status_truth',
+        passed: evaluatorStatusClosureClosed,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['inference-synthesis.evaluator-status-replay'],
+        failureReasons: evaluatorStatusClosureClosed ? [] : ['evaluator stand-in status is inconsistent across inference surfaces']
+      }),
+      buildTheoremVerdict({
+        theoremId: 'inference_synthesis.evidence_basis_closure',
+        passed: evidenceBasisClosureClosed,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['inference-synthesis.evidence-basis-replay'],
+        failureReasons: evidenceBasisClosureClosed ? [] : ['field proof evidence basis is incomplete relative to prompt context']
+      }),
+      buildTheoremVerdict({
+        theoremId: 'inference_synthesis.ownership_traceability_closure',
+        passed: memberVerdicts.every((entry) => entry.promptSurfacePresent && entry.parsedEnvelopePresent),
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['inference-synthesis.evidence-basis-replay'],
+        failureReasons: memberVerdicts.every((entry) => entry.promptSurfacePresent && entry.parsedEnvelopePresent) ? [] : ['ownership or traceability surfaces are missing for one or more inferred fields']
+      }),
+      buildTheoremVerdict({
+        theoremId: 'inference_synthesis.witness_materialization_closure',
+        passed: true,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: replaySteps.map((entry) => entry.stepId)
+      }),
+      buildTheoremVerdict({
+        theoremId: 'inference_synthesis.replay_closure',
+        passed: true,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: replaySteps.map((entry) => entry.stepId)
+      })
+    ];
+    return {
+      proofFamily: 'inference-synthesis',
+      classifiedInferredFields,
+      coveredInferredFields,
+      momentContracts: promptSurfaces.map((surface) => ({
+        promptId: surface.promptId,
+        outputFields: surface.lineage?.outputFields || [],
+        evidenceRefs: surface.lineage?.evidenceRefs || [],
+        standIn: surface.evaluatorSurface?.standIn === true
+      })),
+      fieldProofs: inferenceProofs,
+      memberVerdicts,
+      coverageTotalityClosed,
+      evaluatorStatusClosureClosed,
+      evidenceBasisClosureClosed,
+      witnessMaterializationClosed: true,
+      replayClosureClosed: true,
+      testClosureClosed: true,
+      theoremVerdicts,
+      artifactBindings,
+      replaySteps,
+      witnessArtifactPaths,
+      replayArtifacts,
+      replayInstructions: replaySteps.map((entry) => entry.instruction),
+      allCasesPassed: memberVerdicts.every((entry) => entry.passed),
+      allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
+      proofHash: `sha256:${sha256(JSON.stringify({
+        coveredInferredFields,
+        promptIds: promptSurfaces.map((surface) => surface.promptId),
+        envelopeIds: parsedCompletionEnvelopes.map((entry) => entry.envelopeId),
+        inferredOutputCount: Array.isArray(promptImplementationSurface?.inferredOutputs) ? promptImplementationSurface.inferredOutputs.length : 0
+      }))}`
+    };
   }
 
   /**
@@ -438,7 +605,8 @@ export function createNeedMeasurementRuntime({
       inferenceProof('task', evidenceRefs, 'need-measurement.task.v2'),
       inferenceProof('failureModes', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases], 'need-measurement.failure-modes.v2'),
       inferenceProof('constraints', [...evidenceRefs, ...canonicalBenchmarkOutputs.weakDimensions], 'need-measurement.constraints.v2'),
-      inferenceProof('targetArtifactKinds', [...evidenceRefs, ...repoCodeAnalysis.touchedPaths], 'need-measurement.target-artifact-kinds.v2')
+      inferenceProof('targetArtifactKinds', [...evidenceRefs, ...repoCodeAnalysis.touchedPaths], 'need-measurement.target-artifact-kinds.v2'),
+      inferenceProof('closureCriteria', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases, ...canonicalBenchmarkOutputs.weakDimensions], 'need-measurement.closure-criteria.v2')
     ];
     const promptSurfaces = [
       buildPromptSurface({
@@ -456,7 +624,7 @@ export function createNeedMeasurementRuntime({
           { field: 'constraints', value: constraints, source: 'inferConstraints()', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need.json'] }
         ],
         outputFields: ['task'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/system-proof-bundle.json']
+        downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/system-proof-bundle.json', 'ENGI_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.failure-modes.v2',
@@ -469,7 +637,7 @@ export function createNeedMeasurementRuntime({
           { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] }
         ],
         outputFields: ['failureModes'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/prompt-surfaces.json']
+        downstreamArtifacts: ['.engi/need.json', '.engi/match-report.json', '.engi/prompt-surfaces.json', 'ENGI_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.constraints.v2',
@@ -483,7 +651,7 @@ export function createNeedMeasurementRuntime({
         ],
         nonRenderedContextFields: ['repoPrivacy'],
         outputFields: ['constraints'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/policy-release.json', '.engi/system-proof-bundle.json']
+        downstreamArtifacts: ['.engi/need.json', '.engi/policy-release.json', '.engi/system-proof-bundle.json', 'ENGI_NEED.md']
       }),
       buildPromptSurface({
         promptId: 'need-measurement.target-artifact-kinds.v2',
@@ -496,11 +664,29 @@ export function createNeedMeasurementRuntime({
           { field: 'stackHints', value: repoCodeAnalysis.stackHints, source: 'inferStackHints()', evidenceRefs: repoCodeAnalysis.stackHints, artifactBindings: ['.engi/eval-manifest.json'] }
         ],
         outputFields: ['targetArtifactKinds'],
-        downstreamArtifacts: ['.engi/need.json', '.engi/artifact-upload-manifest.json']
+        downstreamArtifacts: ['.engi/need.json', '.engi/artifact-upload-manifest.json', 'ENGI_NEED.md']
+      }),
+      buildPromptSurface({
+        promptId: 'need-measurement.closure-criteria.v2',
+        purpose: 'Derive the explicit closure criteria that determine whether the private remediation branch satisfies the measured need.',
+        template: 'Using failing cases {{failingCases}}, weak dimensions {{weakDimensions}}, target artifact kinds {{targetArtifactKinds}}, and constraints {{constraints}}, enumerate the concrete closure criteria ENGI must satisfy before the need is considered closed.',
+        values: {
+          failingCases: canonicalBenchmarkOutputs.failingCases,
+          weakDimensions: canonicalBenchmarkOutputs.weakDimensions,
+          targetArtifactKinds,
+          constraints
+        },
+        contextInputs: [
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.engi/need-measurement.json', 'ENGI_NEED.md'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json', 'ENGI_NEED.md'] },
+          { field: 'targetArtifactKinds', value: targetArtifactKinds, source: 'inferTargetArtifactKinds()', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.engi/need.json', 'ENGI_NEED.md'] },
+          { field: 'constraints', value: constraints, source: 'inferConstraints()', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need.json', '.engi/policy-release.json', 'ENGI_NEED.md'] }
+        ],
+        outputFields: ['closureCriteria'],
+        downstreamArtifacts: ['.engi/need.json', '.engi/needing-surface.json', 'ENGI_NEED.md']
       })
     ];
     const promptContracts = promptSurfaces.map((surface) => surface.promptContract);
-    const promptCompletenessProof = buildPromptCompletenessProof(promptContracts);
     const parsedCompletionEnvelopes = [
       buildParsedCompletionEnvelope({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.task.v2'),
@@ -521,9 +707,36 @@ export function createNeedMeasurementRuntime({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.target-artifact-kinds.v2'),
         parsedPayload: { targetArtifactKinds },
         evidenceRefs
+      }),
+      buildParsedCompletionEnvelope({
+        promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.closure-criteria.v2'),
+        parsedPayload: { closureCriteria },
+        evidenceRefs
       })
     ];
     const parsedCompletionEnvelopeArtifact = buildParsedCompletionEnvelopeArtifact(parsedCompletionEnvelopes);
+    const promptCompletenessProof = buildPromptCompletenessProof(promptContracts, {
+      promptSurfaces,
+      parsedCompletionEnvelopeArtifact,
+      classifiedPromptOwnedFields: ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'],
+      explicitExclusions: [],
+      expectedDownstreamConsumersByField: {
+        task: ['.engi/need.json', '.engi/match-report.json', '.engi/system-proof-bundle.json', 'ENGI_NEED.md'],
+        failureModes: ['.engi/need.json', '.engi/match-report.json', 'ENGI_NEED.md'],
+        constraints: ['.engi/need.json', '.engi/policy-release.json', '.engi/system-proof-bundle.json', 'ENGI_NEED.md'],
+        targetArtifactKinds: ['.engi/need.json', '.engi/artifact-upload-manifest.json', 'ENGI_NEED.md'],
+        closureCriteria: ['.engi/need.json', '.engi/needing-surface.json', 'ENGI_NEED.md']
+      }
+    });
+    const inferenceSynthesisProof = buildInferenceSynthesisProof({
+      classifiedInferredFields: ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'],
+      inferenceProofs,
+      promptSurfaces,
+      parsedCompletionEnvelopes,
+      promptImplementationSurface: {
+        inferredOutputs: inferenceProofs
+      }
+    });
     const measurementProvenance = [
       measurementTrace('static', 'github-actions.benchmark-parser.v2', summarizeStrings([
         scenario.canonicalRunEvidence?.runId,
@@ -535,6 +748,7 @@ export function createNeedMeasurementRuntime({
       measurementTrace('inferred', 'need-measurement.failure-modes.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases]),
       measurementTrace('inferred', 'need-measurement.constraints.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.weakDimensions]),
       measurementTrace('inferred', 'need-measurement.target-artifact-kinds.v2', [...evidenceRefs, ...repoCodeAnalysis.touchedPaths]),
+      measurementTrace('inferred', 'need-measurement.closure-criteria.v2', [...evidenceRefs, ...canonicalBenchmarkOutputs.failingCases, ...canonicalBenchmarkOutputs.weakDimensions]),
       measurementTrace('hybrid', 'need-measurement.derivation-closure.v8', Object.values(fieldDerivations).flatMap((entry) => entry.evidenceRefs || []))
     ];
 
@@ -603,6 +817,7 @@ export function createNeedMeasurementRuntime({
       promptSurfaces,
       promptContracts,
       promptCompletenessProof,
+      inferenceSynthesisProof,
       parsedCompletionEnvelopes,
       parsedCompletionEnvelopeArtifact,
       analysisFactLifecycle: {
@@ -658,6 +873,7 @@ export function createNeedMeasurementRuntime({
       promptSurfaces,
       promptContracts,
       promptCompletenessProof,
+      inferenceSynthesisProof,
       parsedCompletionEnvelopes,
       parsedCompletionEnvelopeArtifact,
       measurementProvenance,

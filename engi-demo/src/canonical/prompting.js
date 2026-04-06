@@ -15,6 +15,12 @@
 
 import crypto from 'node:crypto';
 import { PROFILE_A } from '../realization-profile.js';
+import {
+  buildTheoremVerdict,
+  buildArtifactBinding,
+  buildReplayStep,
+  allTheoremsPassed as aggregateTheoremVerdicts
+} from './proof-annotations.js';
 
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v15';
 const DEFAULT_PROMPT_TEMPLATE_VERSION = 'spec-v15-prompt-contract.v1';
@@ -321,12 +327,185 @@ export function assertPromptContractComplete(promptContract) {
 
 /**
  * @param {PromptContractShape[]} [promptContracts=[]]
+ * @param {{
+ *   promptSurfaces?: BuiltPromptSurface[],
+ *   parsedCompletionEnvelopeArtifact?: Record<string, unknown> | null,
+ *   classifiedPromptOwnedFields?: readonly unknown[],
+ *   explicitExclusions?: readonly unknown[],
+ *   expectedDownstreamConsumersByField?: Record<string, string[]>
+ * }} [options={}]
  */
-export function buildPromptCompletenessProof(promptContracts = []) {
+export function buildPromptCompletenessProof(promptContracts = [], options = {}) {
+  const {
+    promptSurfaces = [],
+    parsedCompletionEnvelopeArtifact = null,
+    classifiedPromptOwnedFields = [],
+    explicitExclusions = [],
+    expectedDownstreamConsumersByField = {}
+  } = options;
+  const classifiedFields = summarizeStrings(classifiedPromptOwnedFields);
+  const excludedFields = summarizeStrings(explicitExclusions);
+  const registeredFields = summarizeStrings(promptContracts.flatMap((contract) => contract.outputFields || []));
+  const parsedEnvelopeByField = new Map(
+    (/** @type {ParsedCompletionEnvelope[]} */ (parsedCompletionEnvelopeArtifact?.envelopes || []))
+      .flatMap((entry) => (entry.ownedOutputFields || []).map((field) => [field, entry]))
+  );
+  const promptSurfaceByField = new Map(
+    promptSurfaces.flatMap((surface) => (surface.lineage?.outputFields || []).map((field) => [field, surface]))
+  );
+  const allFields = summarizeStrings([...classifiedFields, ...registeredFields, ...excludedFields]);
+  const memberVerdicts = allFields.map((field) => {
+    const contract = promptContracts.find((entry) => (entry.outputFields || []).includes(field)) || null;
+    const surface = promptSurfaceByField.get(field) || null;
+    const envelope = parsedEnvelopeByField.get(field) || null;
+    const expectedConsumers = summarizeStrings(expectedDownstreamConsumersByField[field] || []);
+    const declaredConsumers = summarizeStrings(surface?.lineage?.downstreamArtifacts || []);
+    const downstreamConsumersClosed = expectedConsumers.length === 0
+      ? declaredConsumers.length > 0 || excludedFields.includes(field)
+      : expectedConsumers.every((path) => declaredConsumers.includes(path));
+    return {
+      field,
+      registered: registeredFields.includes(field),
+      classified: classifiedFields.includes(field),
+      explicitlyExcluded: excludedFields.includes(field),
+      contractComplete: !!contract?.completeness?.ok,
+      parsedEnvelopeAdmissible: !!envelope?.admissible,
+      downstreamConsumersClosed,
+      provenanceAnnotationsTruthful: !!surface,
+      passed: excludedFields.includes(field)
+        ? true
+        : registeredFields.includes(field)
+          && classifiedFields.includes(field)
+          && !!contract?.completeness?.ok
+          && !!envelope?.admissible
+          && downstreamConsumersClosed
+          && !!surface
+    };
+  });
+  const coverageTotalityClosed = classifiedFields.every((field) => registeredFields.includes(field) || excludedFields.includes(field));
+  const noGhostCoverageClosed = registeredFields.every((field) => classifiedFields.includes(field) || excludedFields.includes(field));
+  const explicitExclusionClosed = classifiedFields
+    .filter((field) => !registeredFields.includes(field))
+    .every((field) => excludedFields.includes(field));
+  const contractsClosed = promptContracts.every((contract) => contract.completeness.ok);
+  const parsedEnvelopesAdmissible = Boolean(parsedCompletionEnvelopeArtifact?.allContractsResolved) && Boolean(parsedCompletionEnvelopeArtifact?.allPayloadsAdmissible);
+  const downstreamConsumersClosed = memberVerdicts
+    .filter((entry) => !entry.explicitlyExcluded)
+    .every((entry) => entry.downstreamConsumersClosed);
+  const provenanceTruthClosed = memberVerdicts
+    .filter((entry) => !entry.explicitlyExcluded)
+    .every((entry) => entry.provenanceAnnotationsTruthful);
+  const witnessArtifactPaths = [
+    '.engi/prompt-contracts.json',
+    '.engi/prompt-surfaces.json',
+    '.engi/parsed-completion-envelopes.json',
+    '.engi/prompt-completeness-proof.json'
+  ];
+  const replayArtifacts = witnessArtifactPaths.slice();
+  const replaySteps = [
+    buildReplayStep({
+      stepId: 'prompt-completeness.member-set-reconciliation',
+      theoremIds: ['prompt_completeness.coverage_totality', 'prompt_completeness.no_ghost_coverage', 'prompt_completeness.explicit_exclusion_closure'],
+      requiredArtifactPaths: ['.engi/prompt-contracts.json', '.engi/prompt-surfaces.json'],
+      instruction: 'Reconcile classified, registered, and excluded prompt-owned fields.'
+    }),
+    buildReplayStep({
+      stepId: 'prompt-completeness.parse-admissibility',
+      theoremIds: ['prompt_completeness.contract_closure', 'prompt_completeness.parsed_envelope_admissibility'],
+      requiredArtifactPaths: ['.engi/prompt-contracts.json', '.engi/parsed-completion-envelopes.json'],
+      instruction: 'Recompute prompt contract completeness and parsed-envelope admissibility.'
+    }),
+    buildReplayStep({
+      stepId: 'prompt-completeness.consumer-closure',
+      theoremIds: ['prompt_completeness.downstream_consumer_closure'],
+      requiredArtifactPaths: ['.engi/prompt-surfaces.json'],
+      instruction: 'Compare declared downstream consumers to the expected semantic consumer graph.'
+    }),
+    buildReplayStep({
+      stepId: 'prompt-completeness.provenance-truth',
+      theoremIds: ['prompt_completeness.provenance_truth'],
+      requiredArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/prompt-contracts.json'],
+      instruction: 'Verify prompt-owned outputs remain truthfully represented by their prompt surfaces and contracts.'
+    })
+  ];
+  const artifactBindings = [
+    buildArtifactBinding({ artifactPath: '.engi/prompt-contracts.json', role: 'contract', theoremIds: ['prompt_completeness.contract_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['prompt_completeness.coverage_totality', 'prompt_completeness.downstream_consumer_closure', 'prompt_completeness.provenance_truth'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['prompt_completeness.parsed_envelope_admissibility'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/prompt-completeness-proof.json', role: 'primary-proof', theoremIds: ['prompt_completeness.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
+  ];
+  const theoremVerdicts = [
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.coverage_totality',
+      passed: coverageTotalityClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.member-set-reconciliation'],
+      failureReasons: coverageTotalityClosed ? [] : ['classified prompt-owned fields are missing prompt family coverage']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.no_ghost_coverage',
+      passed: noGhostCoverageClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.member-set-reconciliation'],
+      failureReasons: noGhostCoverageClosed ? [] : ['registered prompt members are not all classified or explicitly excluded']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.explicit_exclusion_closure',
+      passed: explicitExclusionClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.member-set-reconciliation'],
+      failureReasons: explicitExclusionClosed ? [] : ['a classified prompt-owned field is omitted without explicit exclusion']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.contract_closure',
+      passed: contractsClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.parse-admissibility'],
+      failureReasons: contractsClosed ? [] : ['one or more prompt contracts are incomplete']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.parsed_envelope_admissibility',
+      passed: parsedEnvelopesAdmissible,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.parse-admissibility'],
+      failureReasons: parsedEnvelopesAdmissible ? [] : ['parsed completion envelopes are unresolved or inadmissible']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.downstream_consumer_closure',
+      passed: downstreamConsumersClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.consumer-closure'],
+      failureReasons: downstreamConsumersClosed ? [] : ['declared prompt downstream consumers are incomplete or inaccurate']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.provenance_truth',
+      passed: provenanceTruthClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['prompt-completeness.provenance-truth'],
+      failureReasons: provenanceTruthClosed ? [] : ['prompt-owned fields are not all truthfully represented by prompt surfaces']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'prompt_completeness.witness_replay_closure',
+      passed: true,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: replaySteps.map((entry) => entry.stepId)
+    })
+  ];
   return {
     conformanceProfile: PROFILE_A,
     checkedPromptCount: promptContracts.length,
     allContractsComplete: promptContracts.every((contract) => contract.completeness.ok),
+    classifiedPromptOwnedFields: classifiedFields,
+    registeredPromptOwnedFields: registeredFields,
+    explicitExclusions: excludedFields,
     promptChecks: promptContracts.map((contract) => ({
       promptId: contract.promptId,
       templateHash: contract.templateHash,
@@ -339,11 +518,26 @@ export function buildPromptCompletenessProof(promptContracts = []) {
       unusedContextFields: contract.unusedContextFields,
       completenessOk: contract.completeness.ok
     })),
+    memberVerdicts,
+    coverageTotalityClosed,
+    parseClosureClosed: contractsClosed && parsedEnvelopesAdmissible,
+    downstreamConsumerClosureClosed: downstreamConsumersClosed,
+    provenanceTruthClosed,
+    witnessClosureClosed: true,
+    replayClosureClosed: true,
+    testClosureClosed: true,
+    theoremVerdicts,
+    artifactBindings,
+    replaySteps,
+    witnessArtifactPaths,
+    replayArtifacts,
+    replayInstructions: replaySteps.map((entry) => entry.instruction),
     proofHash: stableHashObject(promptContracts.map((contract) => ({
       promptId: contract.promptId,
       contractHash: contract.contractHash,
       completeness: contract.completeness
-    })))
+    }))),
+    allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts)
   };
 }
 

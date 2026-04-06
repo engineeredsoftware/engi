@@ -266,6 +266,7 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
  */
 function buildProofWitnessManifest({
   inferenceProofs,
+  inferenceSynthesisProof,
   promptSurfaces,
   promptContracts,
   promptImplementationSurface,
@@ -281,28 +282,36 @@ function buildProofWitnessManifest({
   staticMeasurementProof,
   verificationReport,
   verificationReceiptsArtifact,
+  verificationDecisionsProof,
   identityBindings,
   authorizationDecisions,
   sensitiveDataFlowRecords,
   selectionConsistencyProof,
+  selectionAndMaterializationProof,
   journalCompletenessProof,
   identityAuthorizationProof,
   sensitiveDataFlowProof,
+  authorizationAndSensitiveFlowProof,
   materializationProof,
   materializationExclusions,
   materializationVisibilityProof,
   sourceToSharesArtifact,
   settlementParticipationArtifact,
   accountingPrecisionReport,
+  settlementSourceToSharesProof,
   settlementProof,
   journalDiff,
+  projectionPolicy,
+  boundedPublicProof,
   redactionProof,
   disclosureProof,
+  disclosureBoundaryProof,
   proofContract
 }) {
   const artifactDigests = [
     { path: '.engi/prompt-surfaces.json', digest: stableHashObject(promptSurfaces || []), proofFamilies: ['inference-synthesis'] },
     { path: '.engi/prompt-contracts.json', digest: stableHashObject(promptContracts || []), proofFamilies: ['prompt-completeness'] },
+    { path: '.engi/inference-synthesis-proof.json', digest: inferenceSynthesisProof?.proofHash || stableHashObject({ missing: 'inference-synthesis-proof' }), proofFamilies: ['inference-synthesis'] },
     { path: '.engi/prompt-completeness-proof.json', digest: promptCompletenessProof.proofHash, proofFamilies: ['prompt-completeness'] },
     {
       path: '.engi/parsed-completion-envelopes.json',
@@ -320,19 +329,30 @@ function buildProofWitnessManifest({
     { path: '.engi/sensitive-data-flow.json', digest: stableHashObject(sensitiveDataFlowRecords || []), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.engi/verification-report.json', digest: stableHashObject(verificationReport || {}), proofFamilies: ['verification-decisions'] },
     { path: '.engi/verification-receipts.json', digest: stableHashObject(verificationReceiptsArtifact || {}), proofFamilies: ['verification-decisions'] },
+    { path: '.engi/verification-decisions-proof.json', digest: verificationDecisionsProof?.proofHash || stableHashObject({ missing: 'verification-decisions-proof' }), proofFamilies: ['verification-decisions'] },
+    { path: '.engi/selection-consistency-proof.json', digest: selectionConsistencyProof?.proofHash || stableHashObject({ missing: 'selection-consistency-proof' }), proofFamilies: ['selection-and-materialization'] },
     { path: '.engi/materialization-proof.json', digest: materializationProof.proofHash, proofFamilies: ['selection-and-materialization'] },
+    { path: '.engi/selection-and-materialization-proof.json', digest: selectionAndMaterializationProof?.proofHash || stableHashObject({ missing: 'selection-and-materialization-proof' }), proofFamilies: ['selection-and-materialization'] },
     { path: '.engi/materialization-exclusions.json', digest: materializationExclusions.proofHash, proofFamilies: ['selection-and-materialization'] },
     { path: '.engi/materialization-visibility-proof.json', digest: materializationVisibilityProof.proofHash, proofFamilies: ['selection-and-materialization'] },
+    { path: '.engi/identity-authorization-proof.json', digest: identityAuthorizationProof?.proofHash || stableHashObject({ missing: 'identity-authorization-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
+    { path: '.engi/sensitive-data-flow-proof.json', digest: sensitiveDataFlowProof?.proofHash || stableHashObject({ missing: 'sensitive-data-flow-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
+    { path: '.engi/authorization-and-sensitive-flow-proof.json', digest: authorizationAndSensitiveFlowProof?.proofHash || stableHashObject({ missing: 'authorization-and-sensitive-flow-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.engi/source-to-shares.json', digest: sourceToSharesArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/settlement-participation.json', digest: settlementParticipationArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/accounting-precision-report.json', digest: accountingPrecisionReport.reportHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/journal-diff.json', digest: stableHashObject(journalDiff || {}), proofFamilies: ['settlement-source-to-shares'] },
-    { path: '.engi/projection-policy.json', digest: disclosureProof?.projectionPolicyRef || stableHashObject({ missing: 'projection-policy' }), proofFamilies: ['disclosure-boundary'] },
-    { path: '.engi/bounded-public-proof.json', digest: redactionProof?.boundedPublicProofHash || stableHashObject({ missing: 'bounded-public-proof' }), proofFamilies: ['disclosure-boundary'] },
+    { path: '.engi/journal-completeness-proof.json', digest: journalCompletenessProof?.proofHash || stableHashObject({ missing: 'journal-completeness-proof' }), proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/settlement-proof.json', digest: settlementProof?.proofHash || stableHashObject(settlementProof || {}), proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/settlement-source-to-shares-proof.json', digest: settlementSourceToSharesProof?.proofHash || stableHashObject({ missing: 'settlement-source-to-shares-proof' }), proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/projection-policy.json', digest: projectionPolicy?.policyHash || disclosureProof?.projectionPolicyRef || stableHashObject(projectionPolicy || { missing: 'projection-policy' }), proofFamilies: ['disclosure-boundary'] },
+    { path: '.engi/bounded-public-proof.json', digest: boundedPublicProof?.boundedPublicProofHash || redactionProof?.boundedPublicProofHash || stableHashObject({ missing: 'bounded-public-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/redaction-proof.json', digest: redactionProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/disclosure-proof.json', digest: disclosureProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
+    { path: '.engi/disclosure-boundary-proof.json', digest: disclosureBoundaryProof?.proofHash || stableHashObject({ missing: 'disclosure-boundary-proof' }), proofFamilies: ['disclosure-boundary'] },
+    { path: '.engi/proof-contract.json', digest: stableHashObject(proofContract || {}), proofFamilies: ['proof-contract'] },
     { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] },
-    { path: '.engi/settlement-proof.json', digest: stableHashObject(settlementProof || {}), proofFamilies: ['settlement-source-to-shares'] }
+    { path: '.engi/system-proof-bundle.json', digest: stableHashObject({ pending: 'system-proof-bundle-built-later' }), proofFamilies: ['proof-contract'] }
   ];
   return {
     conformanceProfile: PROFILE_A,
@@ -342,16 +362,17 @@ function buildProofWitnessManifest({
     proofFamilies: [
       {
         proofFamily: 'inference-synthesis',
-        witnessArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/prompt-contracts.json', '.engi/parsed-completion-envelopes.json'],
+        witnessArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/parsed-completion-envelopes.json', '.engi/inference-synthesis-proof.json'],
         witnessRefs: [
           ...((inferenceProofs || []).map((proof) => `${proof.outputField}:${proof.promptOrEvaluatorId}`)),
           ...((parsedCompletionEnvelopes || []).map((envelope) => envelope.envelopeHash || envelope.envelopeId)),
-          stableHashObject(promptImplementationSurface || {})
+          stableHashObject(promptImplementationSurface || {}),
+          inferenceSynthesisProof?.proofHash
         ]
       },
       {
         proofFamily: 'prompt-completeness',
-        witnessArtifactPaths: ['.engi/prompt-contracts.json', '.engi/prompt-completeness-proof.json', '.engi/parsed-completion-envelopes.json'],
+        witnessArtifactPaths: ['.engi/prompt-contracts.json', '.engi/prompt-surfaces.json', '.engi/prompt-completeness-proof.json', '.engi/parsed-completion-envelopes.json'],
         witnessRefs: [
           promptCompletenessProof.proofHash,
           parsedCompletionEnvelopeArtifact?.artifactHash || stableHashObject(parsedCompletionEnvelopes || [])
@@ -364,44 +385,53 @@ function buildProofWitnessManifest({
       },
       {
         proofFamily: 'verification-decisions',
-        witnessArtifactPaths: ['.engi/verification-report.json', '.engi/verification-receipts.json'],
-        witnessRefs: (verificationReceiptsArtifact?.verificationReceipts || []).map((receipt) => receipt.receiptId)
+        witnessArtifactPaths: ['.engi/verification-report.json', '.engi/verification-receipts.json', '.engi/verification-decisions-proof.json'],
+        witnessRefs: [
+          ...(verificationReceiptsArtifact?.verificationReceipts || []).map((receipt) => receipt.receiptId),
+          verificationDecisionsProof?.proofHash
+        ]
       },
       {
         proofFamily: 'selection-and-materialization',
-        witnessArtifactPaths: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/materialization-proof.json', '.engi/materialization-exclusions.json', '.engi/materialization-visibility-proof.json'],
-        witnessRefs: [selectionConsistencyProof.proofHash, materializationProof.proofHash, materializationExclusions.proofHash, materializationVisibilityProof.proofHash]
+        witnessArtifactPaths: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/selection-consistency-proof.json', '.engi/materialization-proof.json', '.engi/materialization-exclusions.json', '.engi/materialization-visibility-proof.json', '.engi/selection-and-materialization-proof.json'],
+        witnessRefs: [selectionConsistencyProof.proofHash, materializationProof.proofHash, materializationExclusions.proofHash, materializationVisibilityProof.proofHash, selectionAndMaterializationProof?.proofHash]
       },
       {
         proofFamily: 'authorization-and-sensitive-flow',
-        witnessArtifactPaths: ['.engi/authorization-decisions.json', '.engi/sensitive-data-flow.json'],
-        witnessRefs: [identityAuthorizationProof.proofHash, sensitiveDataFlowProof.proofHash]
+        witnessArtifactPaths: ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/sensitive-data-flow.json', '.engi/identity-authorization-proof.json', '.engi/sensitive-data-flow-proof.json', '.engi/authorization-and-sensitive-flow-proof.json'],
+        witnessRefs: [identityAuthorizationProof.proofHash, sensitiveDataFlowProof.proofHash, authorizationAndSensitiveFlowProof?.proofHash]
       },
       {
         proofFamily: 'settlement-source-to-shares',
-        witnessArtifactPaths: ['.engi/source-to-shares.json', '.engi/settlement-participation.json', '.engi/accounting-precision-report.json', '.engi/settlement-proof.json', '.engi/journal-diff.json'],
-        witnessRefs: [sourceToSharesArtifact.proofHash, settlementParticipationArtifact.proofHash, accountingPrecisionReport.reportHash, journalCompletenessProof.proofHash]
+        witnessArtifactPaths: ['.engi/source-to-shares.json', '.engi/settlement-participation.json', '.engi/accounting-precision-report.json', '.engi/journal-diff.json', '.engi/journal-completeness-proof.json', '.engi/settlement-proof.json', '.engi/settlement-source-to-shares-proof.json'],
+        witnessRefs: [sourceToSharesArtifact.proofHash, settlementParticipationArtifact.proofHash, accountingPrecisionReport.reportHash, journalCompletenessProof.proofHash, settlementProof?.proofHash, settlementSourceToSharesProof?.proofHash]
       },
       {
         proofFamily: 'disclosure-boundary',
-        witnessArtifactPaths: ['.engi/projection-policy.json', '.engi/redaction-proof.json', '.engi/disclosure-proof.json'],
-        witnessRefs: [redactionProof.boundedPublicProofHash, disclosureProof.boundedPublicProofHash]
+        witnessArtifactPaths: ['.engi/projection-policy.json', '.engi/bounded-public-proof.json', '.engi/redaction-proof.json', '.engi/disclosure-proof.json', '.engi/disclosure-boundary-proof.json'],
+        witnessRefs: [boundedPublicProof?.boundedPublicProofHash || redactionProof.boundedPublicProofHash, redactionProof.boundedPublicProofHash, disclosureProof.boundedPublicProofHash, disclosureBoundaryProof?.proofHash]
       },
       {
         proofFamily: 'proof-contract',
-        witnessArtifactPaths: ['.engi/system-proof-bundle.json'],
-        witnessRefs: [proofContract.contractId, settlementProof.assetPackLockHash]
+        witnessArtifactPaths: ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'],
+        witnessRefs: [proofContract.contractId, settlementProof.assetPackLockHash, stableHashObject(proofContract || {})]
       }
     ],
     proofHash: stableHashObject({
       inferenceProofs: stableHashObject(inferenceProofs || []),
+      inferenceSynthesisProof: inferenceSynthesisProof?.proofHash,
       promptCompletenessProof: promptCompletenessProof.proofHash,
       parsedCompletionEnvelopeArtifact: parsedCompletionEnvelopeArtifact?.artifactHash || stableHashObject(parsedCompletionEnvelopes || []),
       staticMeasurementProof: staticMeasurementProof.proofHash,
       verificationReceiptCount: verificationReceiptsArtifact?.verificationReceipts?.length || 0,
+      verificationDecisionsProof: verificationDecisionsProof?.proofHash,
+      selectionAndMaterializationProof: selectionAndMaterializationProof?.proofHash,
+      authorizationAndSensitiveFlowProof: authorizationAndSensitiveFlowProof?.proofHash,
       materializationProof: materializationProof.proofHash,
       materializationVisibilityProof: materializationVisibilityProof.proofHash,
       sourceToSharesArtifact: sourceToSharesArtifact.proofHash,
+      settlementSourceToSharesProof: settlementSourceToSharesProof?.proofHash,
+      disclosureBoundaryProof: disclosureBoundaryProof?.proofHash,
       accountingPrecisionReport: accountingPrecisionReport.reportHash
     })
   };

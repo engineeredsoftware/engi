@@ -303,14 +303,18 @@ function buildSystemProofBundle(
   needId,
   assetPackId,
   inferenceProofs,
+  inferenceSynthesisProof,
   parsedCompletionEnvelopes,
   parsedCompletionEnvelopeArtifact,
   assetMeasurementProofs,
   selectionConsistencyProof,
+  selectionAndMaterializationProof,
   journalCompletenessProof,
   identityAuthorizationProof,
   sensitiveDataFlowProof,
+  authorizationAndSensitiveFlowProof,
   settlementProof,
+  settlementSourceToSharesProof,
   promptImplementationSurface,
   promptCompletenessProof,
   staticMeasurementProof,
@@ -318,11 +322,13 @@ function buildSystemProofBundle(
   materializationExclusions,
   materializationVisibilityProof,
   verificationReceiptsArtifact,
+  verificationDecisionsProof,
   sourceToSharesArtifact,
   settlementParticipationArtifact,
   accountingPrecisionReport,
   redactionProof,
   disclosureProof,
+  disclosureBoundaryProof,
   proofWitnessManifest,
   proofContract
 ) {
@@ -334,6 +340,7 @@ function buildSystemProofBundle(
     prototypeOnlyModeledControls: true,
     proofContract,
     inferenceProofs,
+    inferenceSynthesisProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
     assetMeasurementProofs,
@@ -341,41 +348,77 @@ function buildSystemProofBundle(
     promptCompletenessProof,
     staticMeasurementProof,
     selectionConsistencyProof,
+    selectionAndMaterializationProof,
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     sourceToSharesArtifact,
     settlementParticipationArtifact,
     accountingPrecisionReport,
     redactionProof,
     disclosureProof,
+    disclosureBoundaryProof,
     proofWitnessManifest,
     settlementProof,
+    settlementSourceToSharesProof,
     verifierEntrypoint: {
       replayArtifacts: [
+        '.engi/inference-synthesis-proof.json',
         '.engi/prompt-contracts.json',
+        '.engi/prompt-surfaces.json',
+        '.engi/prompt-completeness-proof.json',
         '.engi/parsed-completion-envelopes.json',
         '.engi/code-analysis-fact-registry.json',
         '.engi/static-heuristics-registry.json',
         '.engi/measurement-receipts.json',
+        '.engi/static-measurement-report.json',
+        '.engi/static-measurement-proof.json',
+        '.engi/verification-report.json',
         '.engi/verification-receipts.json',
+        '.engi/verification-decisions-proof.json',
+        '.engi/selection-consistency-proof.json',
         '.engi/materialization-proof.json',
         '.engi/materialization-exclusions.json',
+        '.engi/materialization-visibility-proof.json',
+        '.engi/selection-and-materialization-proof.json',
+        '.engi/identity-bindings.json',
+        '.engi/authorization-decisions.json',
+        '.engi/identity-authorization-proof.json',
+        '.engi/sensitive-data-flow.json',
+        '.engi/sensitive-data-flow-proof.json',
+        '.engi/authorization-and-sensitive-flow-proof.json',
         '.engi/source-to-shares.json',
         '.engi/settlement-participation.json',
         '.engi/accounting-precision-report.json',
-        '.engi/journal-diff.json'
+        '.engi/journal-diff.json',
+        '.engi/journal-completeness-proof.json',
+        '.engi/settlement-proof.json',
+        '.engi/settlement-source-to-shares-proof.json',
+        '.engi/projection-policy.json',
+        '.engi/bounded-public-proof.json',
+        '.engi/redaction-proof.json',
+        '.engi/disclosure-proof.json',
+        '.engi/disclosure-boundary-proof.json',
+        '.engi/proof-contract.json',
+        '.engi/proof-witness-manifest.json'
       ],
       replayInstructions: [
+        'Replay inference-synthesis from prompt surfaces, parsed envelopes, and evaluator manifest truth.',
         'Recompute prompt completeness from the prompt contracts and compare the proof hash.',
         'Recompute parsed completion envelopes from the prompt contracts and deterministic outputs, then compare the artifact hash.',
-        'Recompute code-analysis facts and static heuristics from the code-analysis registries, then resolve all static and verification receipt refs against the receipt artifacts.',
+        'Recompute code-analysis facts and static heuristics from the code-analysis registries, then resolve all static receipt refs against the receipt artifacts.',
+        'Replay verification decision closure from verification receipts into report-facing use-tier consequences.',
         'Recompute selected-vs-materialized-vs-excluded asset sets from the materialization artifacts and compare the proof hashes.',
-        'Replay source-to-shares marginal contribution clipping, basis-point normalization, and exact micro-unit allocation from the settlement artifacts.'
+        'Replay identity authorization and sensitive-data-flow closure from the authorization proof artifacts.',
+        'Replay source-to-shares marginal contribution clipping, basis-point normalization, journal completeness, and exact micro-unit allocation from the settlement artifacts.',
+        'Replay projection policy, bounded-public proof, redaction, and disclosure alignment.',
+        'Replay proof-contract closure across the proof contract, witness manifest, and system proof bundle.'
       ]
     }
   };
@@ -606,6 +649,13 @@ function buildDeliverablesManifest({
         dependsOn: ['prompt-lineage', 'prompt-completeness']
       },
       {
+        path: '.engi/inference-synthesis-proof.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['prompt-lineage', 'inference-synthesis']
+      },
+      {
         path: '.engi/prompt-completeness-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
@@ -669,11 +719,32 @@ function buildDeliverablesManifest({
         dependsOn: ['verification-determinisms', 'issuer-policy']
       },
       {
+        path: '.engi/verification-decisions-proof.json',
+        useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['verification-report', 'verification-receipts']
+      },
+      {
+        path: '.engi/selection-consistency-proof.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['asset-pack-assembly', 'selected-source-material']
+      },
+      {
         path: '.engi/materialization-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['asset-pack.lock', 'selected-source-material', 'materialization-visibility-proof']
+      },
+      {
+        path: '.engi/selection-and-materialization-proof.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['selection-consistency-proof', 'materialization-proof']
       },
       {
         path: '.engi/materialization-exclusions.json',
@@ -695,6 +766,27 @@ function buildDeliverablesManifest({
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['asset-pack.lock', 'selected-source-material', 'projection-policy']
+      },
+      {
+        path: '.engi/identity-authorization-proof.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['identity-bindings', 'authorization-decisions']
+      },
+      {
+        path: '.engi/sensitive-data-flow-proof.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['sensitive-data-flow', 'policy-release']
+      },
+      {
+        path: '.engi/authorization-and-sensitive-flow-proof.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['identity-authorization-proof', 'sensitive-data-flow-proof']
       },
       {
         path: '.engi/settlement-preview.json',
@@ -725,11 +817,25 @@ function buildDeliverablesManifest({
         dependsOn: ['source-to-shares', 'settlement-participation', 'journal-diff']
       },
       {
+        path: '.engi/journal-completeness-proof.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['journal-diff', RealizationStage.SETTLEMENT]
+      },
+      {
         path: '.engi/settlement-proof.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['journal-diff', 'asset-pack.lock']
+      },
+      {
+        path: '.engi/settlement-source-to-shares-proof.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['source-to-shares', 'settlement-participation', 'journal-completeness-proof', 'settlement-proof']
       },
       {
         path: '.engi/journal-diff.json',
@@ -786,6 +892,20 @@ function buildDeliverablesManifest({
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['projection-policy', 'bounded-public-proof']
+      },
+      {
+        path: '.engi/disclosure-boundary-proof.json',
+        useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['projection-policy', 'bounded-public-proof', 'redaction-proof', 'disclosure-proof']
+      },
+      {
+        path: '.engi/proof-contract.json',
+        useTiersContributed: ['settlement-eligible'],
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['proof-bundle', 'proof-witness-manifest']
       },
       {
         path: '.engi/scenario-fixture-manifest.json',

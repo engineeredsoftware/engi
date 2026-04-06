@@ -52,7 +52,9 @@ This pass now covers:
 - full first-pass V16 formalization for `prompt-completeness`,
 - first-pass closure design for the other eight V15 proof families,
 - explicit member-coverage plus member-closure criteria across all nine families,
-- and initial theorem-binding plus proof-shape-realization direction across all nine families.
+- initial theorem-binding plus proof-shape-realization direction across all nine families,
+- initial theorem catalogs plus family-verdict-schema direction across all nine families,
+- and initial realized proof-object field plus artifact/replay-binding direction across all nine families.
 
 The following are still intentionally deferred:
 - theorem-family expansion beyond the current family-first pass,
@@ -97,6 +99,20 @@ A family theorem is materially closed only when:
 
 The family sections below specialize that rule as well.
 Their theorem-binding/proof-shape sections state what each family theorem must bind to before V16 can treat the family proof object as materially honest.
+
+## Family verdict-schema rule
+
+V16 family proofs should converge toward explicit verdict schemas rather than opaque aggregate booleans.
+
+At minimum, a family verdict schema should eventually carry:
+- stable theorem identifiers for the family's named theorem units,
+- one verdict axis per theorem-bearing obligation,
+- member-level verdicts where family closure depends on member completeness,
+- witness artifact paths and replay steps bound to each theorem unit,
+- and one aggregate pass/fail summary derived from those explicit axes rather than replacing them.
+
+The family sections below do not finalize those schemas yet.
+They do define the initial theorem catalogs and the minimum verdict axes that later proof objects, artifacts, and tests must expose.
 
 ---
 
@@ -213,6 +229,45 @@ type PromptFamilyRegistryV16 = {
 ```
 
 ```ts
+type FamilyTheoremVerdictV16 = {
+  theoremId: string
+  passed: boolean
+  witnessArtifactPaths: string[]
+  replayArtifactPaths: string[]
+  replayStepIds: string[]
+  failureReasons: string[]
+}
+```
+
+```ts
+type FamilyArtifactBindingV16 = {
+  artifactPath: string
+  role:
+    | 'primary-proof'
+    | 'supporting-proof'
+    | 'registry'
+    | 'report'
+    | 'projection'
+    | 'receipt-log'
+    | 'contract'
+    | 'bundle'
+    | 'witness-manifest'
+  theoremIds: string[]
+  requiredForWitness: boolean
+  requiredForReplay: boolean
+}
+```
+
+```ts
+type FamilyReplayStepV16 = {
+  stepId: string
+  theoremIds: string[]
+  requiredArtifactPaths: string[]
+  instruction: string
+}
+```
+
+```ts
 type PromptCompletenessCaseResultV16 = {
   promptId: string
   ownedOutputField: string
@@ -246,10 +301,14 @@ type PromptCompletenessProofV16 = {
   witnessClosureClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   witnessArtifactPaths: string[]
   replayArtifacts: string[]
   replayInstructions: string[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -511,6 +570,54 @@ The realized family proof shape should therefore expose:
 4. direct witness artifact paths and replay steps for omitted-member, parse, and consumer failures,
 5. and test ratchets that fail when a new prompt-owned field or downstream consumer appears without family-registry and family-proof updates.
 
+### Prompt-completeness theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `prompt-completeness` should include:
+1. `prompt_completeness.coverage_totality`
+2. `prompt_completeness.no_ghost_coverage`
+3. `prompt_completeness.explicit_exclusion_closure`
+4. `prompt_completeness.contract_closure`
+5. `prompt_completeness.parsed_envelope_admissibility`
+6. `prompt_completeness.downstream_consumer_closure`
+7. `prompt_completeness.provenance_truth`
+8. `prompt_completeness.witness_replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `expectedMembersMatchRealizedMembers`
+2. `explicitExclusionsClosed`
+3. `contractsClosed`
+4. `parsedEnvelopesAdmissible`
+5. `downstreamConsumersClosed`
+6. `provenanceTruthClosed`
+7. `witnessReplayClosed`
+8. `memberVerdicts`
+9. `allTheoremsPassed`
+
+### Prompt-completeness realized proof-object field design and artifact/replay binding
+
+The current runtime object that should evolve into this family proof is `promptCompletenessProof`, with direct binding to parsed-envelope and prompt-surface artifacts rather than contract-hash closure only.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/prompt-contracts.json`
+2. `.engi/prompt-surfaces.json`
+3. `.engi/parsed-completion-envelopes.json`
+4. `.engi/prompt-completeness-proof.json`
+5. and, when realized, a first-class prompt family registry artifact.
+
+Its minimum replay steps should include:
+1. member-set reconciliation,
+2. parse-admissibility replay,
+3. downstream-consumer reconciliation,
+4. provenance-truth replay,
+5. and omission/exclusion replay.
+
 ---
 
 ## 7. Inference-synthesis initial V16 reading
@@ -691,10 +798,14 @@ type InferenceSynthesisFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   witnessArtifactPaths: string[]
   replayArtifacts: string[]
   replayInstructions: string[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -874,6 +985,52 @@ The realized family proof shape should therefore expose:
 4. direct witness artifact paths for moment contracts, field proofs, parsed envelopes, and the family proof,
 5. and test ratchets that fail when a classified inferred field, evaluator mode, or evidence basis drifts without family-proof updates.
 
+### Inference-synthesis theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `inference-synthesis` should include:
+1. `inference_synthesis.coverage_totality`
+2. `inference_synthesis.evaluator_status_truth`
+3. `inference_synthesis.evidence_basis_closure`
+4. `inference_synthesis.ownership_traceability_closure`
+5. `inference_synthesis.witness_materialization_closure`
+6. `inference_synthesis.replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `expectedInferredFieldsMatchRealizedFieldProofs`
+2. `evaluatorStatusTruthClosed`
+3. `evidenceBasisClosed`
+4. `ownershipTraceabilityClosed`
+5. `witnessMaterializationClosed`
+6. `replayClosed`
+7. `memberVerdicts`
+8. `allTheoremsPassed`
+
+### Inference-synthesis realized proof-object field design and artifact/replay binding
+
+The current runtime surfaces that should evolve into this family proof are the field-level inference proofs plus an aggregated family proof distinct from prompt-contract closure.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. moment-contract artifacts when realized,
+2. field-level inference-proof artifacts when realized,
+3. `.engi/eval-manifest.json`
+4. `.engi/prompt-surfaces.json`
+5. `.engi/parsed-completion-envelopes.json`
+6. and the family proof artifact itself.
+
+Its minimum replay steps should include:
+1. classified-field reconciliation,
+2. evaluator-status replay,
+3. evidence-basis reconciliation,
+4. ownership/traceability replay,
+5. and witness-materialization replay.
+
 ### 7.15 Current drafting boundary
 
 This still does not complete inference-synthesis formalization.
@@ -996,7 +1153,11 @@ type StaticCodeAnalysisFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -1305,6 +1466,49 @@ The realized family proof shape should therefore expose:
 4. primary-versus-alias registry roles,
 5. and test ratchets that fail when a new static stage, registry, or receipt domain appears without theorem-bound family proof updates.
 
+### Static-code-analysis theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `static-code-analysis` should include:
+1. `static_code_analysis.stage_domain_purity`
+2. `static_code_analysis.abstract_to_concrete_stage_mapping`
+3. `static_code_analysis.registry_role_closure`
+4. `static_code_analysis.receipt_report_proof_agreement`
+5. `static_code_analysis.witness_replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `stageDomainPure`
+2. `stageMappingsClosed`
+3. `registryRolesClosed`
+4. `receiptReportProofAgreementClosed`
+5. `witnessReplayClosed`
+6. `memberVerdicts`
+7. `allTheoremsPassed`
+
+### Static-code-analysis realized proof-object field design and artifact/replay binding
+
+The current runtime object that should evolve into this family proof is `staticMeasurementProof`, paired explicitly with `staticMeasurementReport` and the registry surfaces rather than receipt resolution alone.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/code-analysis-fact-registry.json`
+2. `.engi/static-heuristics-registry.json` when retained as a distinct surface
+3. `.engi/static-measurement-report.json`
+4. `.engi/static-measurement-proof.json`
+5. and the receipt-bearing provenance surface for the family.
+
+Its minimum replay steps should include:
+1. abstract-to-concrete stage mapping replay,
+2. stage-domain purity replay,
+3. registry-role replay,
+4. receipt/report/proof agreement replay,
+5. and out-of-family stage exclusion replay.
+
 ## 9. Verification-decisions initial V16 reading
 
 This is the next proof family opened after SCA.
@@ -1422,7 +1626,11 @@ type VerificationDecisionsFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -1634,6 +1842,51 @@ The realized family proof shape should therefore expose:
 4. explicit failure surfaces for undernamed consequence truth,
 5. and test ratchets that fail when a new verification stage or consequence appears without family-member and theorem-binding updates.
 
+### Verification-decisions theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `verification-decisions` should include:
+1. `verification_decisions.issuance_closure`
+2. `verification_decisions.provenance_closure`
+3. `verification_decisions.sufficiency_closure`
+4. `verification_decisions.issuer_policy_closure`
+5. `verification_decisions.use_tier_consequence_closure`
+6. `verification_decisions.receipt_report_role_closure`
+7. `verification_decisions.witness_replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `issuanceClosed`
+2. `provenanceClosed`
+3. `sufficiencyClosed`
+4. `issuerPolicyClosed`
+5. `useTierConsequenceClosed`
+6. `receiptReportRolesClosed`
+7. `witnessReplayClosed`
+8. `memberVerdicts`
+9. `allTheoremsPassed`
+
+### Verification-decisions realized proof-object field design and artifact/replay binding
+
+The current runtime surfaces that should evolve into this family proof are the verification receipts artifact plus `verificationReport`, with an explicit family proof layer that names use-tier consequence closure directly.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/verification-receipts.json`
+2. `.engi/verification-report.json`
+3. and a first-class verification-decisions family proof artifact when realized.
+
+Its minimum replay steps should include:
+1. decision-stage-to-member replay,
+2. report-consequence replay,
+3. use-tier consequence replay,
+4. receipt/report alignment replay,
+5. and witness-materialization replay.
+
 ## 10. Selection-and-materialization initial V16 reading
 
 This is the next proof family opened after VD.
@@ -1739,7 +1992,11 @@ type SelectionMaterializationFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -1956,6 +2213,54 @@ The realized family proof shape should therefore expose:
 4. explicit settlement-consumption and branch-mode consequences,
 5. and test ratchets that fail when any selection-bearing artifact drifts outside theorem-bound replay.
 
+### Selection-and-materialization theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `selection-and-materialization` should include:
+1. `selection_and_materialization.selected_asset_closure`
+2. `selection_and_materialization.lock_closure`
+3. `selection_and_materialization.materialized_source_closure`
+4. `selection_and_materialization.exclusion_closure`
+5. `selection_and_materialization.visibility_closure`
+6. `selection_and_materialization.selection_consistency_closure`
+7. `selection_and_materialization.materialization_proof_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `selectedAssetsClosed`
+2. `lockClosed`
+3. `materializedSourceClosed`
+4. `exclusionsClosed`
+5. `visibilityClosed`
+6. `selectionConsistencyClosed`
+7. `materializationProofClosed`
+8. `memberVerdicts`
+9. `allTheoremsPassed`
+
+### Selection-and-materialization realized proof-object field design and artifact/replay binding
+
+The current runtime surfaces that should evolve into this family proof are `selectionConsistencyProof` plus `materializationProof`, with direct family binding to lock, source, exclusion, and visibility artifacts.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/asset-pack.lock.json`
+2. `.engi/selected-source-material.json`
+3. `.engi/materialization-exclusions.json`
+4. `.engi/materialization-visibility-proof.json`
+5. a first-class selection-consistency artifact
+6. `.engi/materialization-proof.json`
+
+Its minimum replay steps should include:
+1. selected-set replay,
+2. lock/source closure replay,
+3. exclusions replay,
+4. visibility replay,
+5. and settlement-consumption replay.
+
 ## 11. Authorization-and-sensitive-flow initial V16 reading
 
 This is the next proof family opened after SAM.
@@ -2058,7 +2363,11 @@ type AuthorizationSensitiveFlowFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -2210,6 +2519,51 @@ The realized family proof shape should therefore expose:
 4. explicit failure surfaces when a new principal class, data class, or policy-bearing sink appears without family updates,
 5. and test ratchets that fail on hidden authority or hidden sensitive-flow drift.
 
+### Authorization-and-sensitive-flow theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `authorization-and-sensitive-flow` should include:
+1. `authorization_and_sensitive_flow.principal_authority_totality`
+2. `authorization_and_sensitive_flow.authorization_decision_closure`
+3. `authorization_and_sensitive_flow.classification_closure`
+4. `authorization_and_sensitive_flow.policy_assignment_closure`
+5. `authorization_and_sensitive_flow.no_unauthorized_public_flow`
+6. `authorization_and_sensitive_flow.witness_replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `principalAuthorityClosed`
+2. `authorizationDecisionsClosed`
+3. `classificationsClosed`
+4. `policyAssignmentsClosed`
+5. `noUnauthorizedPublicFlow`
+6. `witnessReplayClosed`
+7. `memberVerdicts`
+8. `allTheoremsPassed`
+
+### Authorization-and-sensitive-flow realized proof-object field design and artifact/replay binding
+
+The current runtime surfaces that should evolve into this family proof are `identityAuthorizationProof` plus `sensitiveDataFlowProof`, with direct family binding to identity bindings, authorization decisions, and sensitive-flow records.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/identity-bindings.json`
+2. `.engi/authorization-decisions.json`
+3. `.engi/sensitive-data-flow.json`
+4. a first-class identity-authorization proof artifact
+5. a first-class sensitive-data-flow proof artifact
+
+Its minimum replay steps should include:
+1. principal-binding replay,
+2. authorization-decision replay,
+3. classification and policy-assignment replay,
+4. sensitive-flow replay,
+5. and no-unauthorized-public-flow replay.
+
 ### 11.12 Current drafting boundary
 
 AASF is still not fully formalized.
@@ -2331,7 +2685,11 @@ type SettlementSourceToSharesFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -2489,6 +2847,54 @@ The realized family proof shape should therefore expose:
 4. direct witness artifact paths for source-to-shares, participation, journal diff, journal completeness, accounting precision, and settlement proof,
 5. and test ratchets that fail when allocation, journal, or theorem closure drifts without exact replay failure.
 
+### Settlement-source-to-shares theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `settlement-source-to-shares` should include:
+1. `settlement_source_to_shares.contribution_totality`
+2. `settlement_source_to_shares.clipping_determinism`
+3. `settlement_source_to_shares.normalization_exactness`
+4. `settlement_source_to_shares.participation_totality`
+5. `settlement_source_to_shares.allocation_conservation`
+6. `settlement_source_to_shares.journal_completeness`
+7. `settlement_source_to_shares.settlement_theorem_integrity`
+
+The initial family verdict schema should therefore expose at least:
+1. `contributionClosed`
+2. `clippingClosed`
+3. `normalizationClosed`
+4. `participationClosed`
+5. `allocationClosed`
+6. `journalClosed`
+7. `settlementTheorems`
+8. `memberVerdicts`
+9. `allTheoremsPassed`
+
+### Settlement-source-to-shares realized proof-object field design and artifact/replay binding
+
+The current runtime surfaces that should evolve into this family proof are `sourceToSharesArtifact`, `settlementParticipationArtifact`, `accountingPrecisionReport`, `journalCompletenessProof`, and `settlementProof`, with journal and theorem closure kept explicit and distinct.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/source-to-shares.json`
+2. `.engi/settlement-participation.json`
+3. `.engi/accounting-precision-report.json`
+4. `.engi/journal-diff.json`
+5. a first-class journal-completeness artifact
+6. `.engi/settlement-proof.json`
+
+Its minimum replay steps should include:
+1. contribution/clipping/normalization replay,
+2. participation replay,
+3. exact-allocation replay,
+4. journal-completeness replay,
+5. theorem-bearing settlement replay.
+
 ### 12.12 Current drafting boundary
 
 SSTS is still not fully formalized.
@@ -2602,7 +3008,11 @@ type DisclosureBoundaryFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -2732,6 +3142,49 @@ The realized family proof shape should therefore expose:
 4. explicit failure surfaces when a new public path or redaction rule appears without family updates,
 5. and test ratchets that fail on boundedness drift, policy drift, or allow/deny mismatch drift.
 
+### Disclosure-boundary theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `disclosure-boundary` should include:
+1. `disclosure_boundary.projection_policy_closure`
+2. `disclosure_boundary.bounded_public_metadata_only`
+3. `disclosure_boundary.redaction_alignment`
+4. `disclosure_boundary.disclosure_verdict_alignment`
+5. `disclosure_boundary.witness_replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `projectionPolicyClosed`
+2. `boundedPublicClosed`
+3. `redactionClosed`
+4. `disclosureClosed`
+5. `witnessReplayClosed`
+6. `memberVerdicts`
+7. `allTheoremsPassed`
+
+### Disclosure-boundary realized proof-object field design and artifact/replay binding
+
+The current runtime surfaces that should evolve into this family proof are `projectionPolicy`, `boundedPublicProof`, `redactionProof`, and `disclosureProof`, with a later family proof artifact binding them explicitly.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/projection-policy.json`
+2. `.engi/bounded-public-proof.json`
+3. `.engi/redaction-proof.json`
+4. `.engi/disclosure-proof.json`
+5. and a disclosure-boundary family proof artifact when realized.
+
+Its minimum replay steps should include:
+1. policy replay,
+2. bounded-public replay,
+3. redaction replay,
+4. disclosure replay,
+5. and policy-to-disclosure agreement replay.
+
 ### 13.12 Current drafting boundary
 
 Disclosure-boundary is still not fully formalized.
@@ -2840,7 +3293,11 @@ type ProofContractFamilyProofV16 = {
   witnessMaterializationClosed: boolean
   replayClosureClosed: boolean
   testClosureClosed: boolean
+  theoremVerdicts: FamilyTheoremVerdictV16[]
+  artifactBindings: FamilyArtifactBindingV16[]
+  replaySteps: FamilyReplayStepV16[]
   allCasesPassed: boolean
+  allTheoremsPassed: boolean
   proofHash: string
 }
 ```
@@ -2976,6 +3433,50 @@ The realized family proof shape should therefore expose:
 3. direct replay steps for evidence-chain closure and theorem closure rather than bundle prose only,
 4. explicit coherence verdicts between proof contract, bundle, and witness manifest,
 5. and test ratchets that fail when a new theorem, artifact binding, or cross-family stage claim appears without proof-contract updates.
+
+### Proof-contract theorem catalog and family verdict schema
+
+The initial V16 theorem catalog for `proof-contract` should include:
+1. `proof_contract.contract_materialization`
+2. `proof_contract.evidence_chain_closure`
+3. `proof_contract.theorem_check_binding`
+4. `proof_contract.bundle_coherence`
+5. `proof_contract.witness_manifest_coherence`
+6. `proof_contract.replay_closure`
+
+The initial family verdict schema should therefore expose at least:
+1. `contractMaterialized`
+2. `evidenceChainClosed`
+3. `theoremChecksBound`
+4. `bundleCoherent`
+5. `witnessManifestCoherent`
+6. `replayClosed`
+7. `memberVerdicts`
+8. `allTheoremsPassed`
+
+### Proof-contract realized proof-object field design and artifact/replay binding
+
+The current runtime surface that should evolve into this family proof is `proofContract`, with direct family binding to the system proof bundle and proof-witness manifest rather than bundle-only substitution.
+
+Its minimum V16 field growth should include:
+1. `theoremVerdicts`
+2. `artifactBindings`
+3. `replaySteps`
+4. `memberVerdicts`
+5. `allTheoremsPassed`
+
+Its minimum artifact/replay binding set should include:
+1. `.engi/proof-contract.json`
+2. `.engi/system-proof-bundle.json`
+3. `.engi/proof-witness-manifest.json`
+4. and any theorem-bearing family artifacts referenced by `proofContract.evidenceChain` and theorem bindings.
+
+Its minimum replay steps should include:
+1. contract-materialization replay,
+2. evidence-chain replay,
+3. theorem-binding replay,
+4. bundle-coherence replay,
+5. and witness-manifest coherence replay.
 
 ### 14.12 Current drafting boundary
 

@@ -69,7 +69,9 @@ That next pass is now underway.
 The current theorem-binding reading is:
 - every family now has an initial theorem-binding direction in the spec,
 - the parity matrix now names theorem-binding debt separately from member debt,
-- and the next tightening step is to turn those theorem-binding directions into explicit theorem catalogs, per-axis family verdicts, and implementation ratchets.
+- every family now has an initial theorem catalog and target verdict-schema direction,
+- every family now has initial realized proof-object field and artifact/replay-binding direction,
+- and the next tightening step is to turn those initial proof-object directions into source-realized proof fields, branch artifacts, replay entrypoints, and failing tests.
 
 ## Prompt-completeness parity debt collection method
 

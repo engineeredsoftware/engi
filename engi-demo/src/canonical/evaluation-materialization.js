@@ -1668,7 +1668,7 @@ export function createEvaluationMaterializationRuntime({
       branchMode,
       assetVerification,
       verificationReceiptCount: assetVerification.reduce((sum, entry) => sum + entry.receiptRefs.length, 0),
-      verificationFamilies: ['issuance', 'provenance', 'sufficiency', 'issuer-policy']
+      verificationFamilies: ['issuance', 'provenance', 'sufficiency', 'issuer-policy', 'use-tier-consequence']
     };
   }
 
@@ -1705,6 +1705,7 @@ export function createEvaluationMaterializationRuntime({
       evaluatorSurface({ evaluatorId: 'need-measurement.failure-modes.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.failure-modes.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
       evaluatorSurface({ evaluatorId: 'need-measurement.constraints.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.constraints.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
       evaluatorSurface({ evaluatorId: 'need-measurement.target-artifact-kinds.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.target-artifact-kinds.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
+      evaluatorSurface({ evaluatorId: 'need-measurement.closure-criteria.v2', evaluatorKind: 'inferred-evaluator', measurementClass: 'inferred-measurement', mode: 'inferred', promptId: 'need-measurement.closure-criteria.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
       evaluatorSurface({ evaluatorId: 'candidate-recall.hybrid.v2', evaluatorKind: 'hybrid-pipeline-stage', measurementClass: 'hybrid-evaluation', mode: 'hybrid', toolId: 'candidate-recall.hybrid.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: true }),
       evaluatorSurface({ evaluatorId: 'verification.determinisms.v2', evaluatorKind: 'deterministic-static-command', measurementClass: 'static-analysis', mode: 'static', toolId: 'verification.determinisms.v2', modelId: DEFAULT_MODEL_ID, evidenceRefs: [need.needId], standIn: false })
     ];
@@ -1841,6 +1842,7 @@ export function createEvaluationMaterializationRuntime({
     const creditedAssetCount = journalDiff.credits.filter((entry) => BigInt(entry.delta) > 0n).length;
     const zeroCreditAssetCount = journalDiff.credits.filter((entry) => BigInt(entry.delta) === 0n).length;
     return `# ENGI Need\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}\n- credited settlement asset count: ${creditedAssetCount}\n- zero-credit settlement asset count: ${zeroCreditAssetCount}`;
+    return `# ENGI Need\n\n## Conformance profiles\n- Active prototype: ${PROFILE_A}\n- Production intent: ${PROFILE_B}\n\n## Failing benchmark slices\n- ${need.failingCases.join('\n- ')}\n\n## Measured need\n${need.task}\n\n## Failure modes\n- ${need.failureModes.join('\n- ')}\n\n## Constraints\n- ${need.constraints.join('\n- ')}\n\n## Benchmark parser contract\n- parserKind: ${need.benchmarkParserContract.parserKind}\n- parserVersion: ${need.benchmarkParserContract.parserVersion}\n- failClosed: ${need.benchmarkParserContract.parserFailureContract.failClosed}\n\n## Target artifact kinds\n- ${need.targetArtifactKinds.join('\n- ')}\n\n## Closure criteria\n- ${(need.closureCriteria || []).join('\n- ')}\n\n## Selected assets and reasons\n${selectedList}\n\n## Verification / risk summary\n- Private remediation branch only; no public delivery before settlement.\n- Settlement consumes settlement-eligible assets only.\n- Restricted or weakly evidenced assets remain report-only or context-only.\n- Policy release: ${policyRelease.releaseId || policyRelease.releasePolicyId}\n\n## Expected touched files / areas\n- ${need.touchedPaths.join('\n- ')}\n\n## Validation / rerun instructions\n- Rerun ${need.benchmarkWorkflowPath}\n- Re-run failing cases: ${need.failingCases.join(', ')}\n- Recheck weak dimensions: ${need.weakDimensions.join(', ')}\n\n## Settlement preview summary\n- bundleId: ${journalDiff.bundleId}\n- debited micro-units: ${journalDiff.totals.debited}\n- credited micro-units: ${journalDiff.totals.credited}\n- raw share asset count: ${journalDiff.rawShares.length}\n- credited settlement asset count: ${creditedAssetCount}\n- zero-credit settlement asset count: ${zeroCreditAssetCount}`;
   }
 
   /**
@@ -1869,6 +1871,7 @@ export function createEvaluationMaterializationRuntime({
       '.engi/profile-composition.json',
       '.engi/prompt-surfaces.json',
       '.engi/prompt-contracts.json',
+      '.engi/inference-synthesis-proof.json',
       '.engi/prompt-completeness-proof.json',
       '.engi/parsed-completion-envelopes.json',
       '.engi/code-analysis-fact-registry.json',
@@ -1878,13 +1881,21 @@ export function createEvaluationMaterializationRuntime({
       '.engi/static-measurement-report.json',
       '.engi/static-measurement-proof.json',
       '.engi/verification-receipts.json',
+      '.engi/verification-decisions-proof.json',
       '.engi/materialization-proof.json',
+      '.engi/selection-consistency-proof.json',
+      '.engi/selection-and-materialization-proof.json',
       '.engi/materialization-exclusions.json',
       '.engi/proof-witness-manifest.json',
       '.engi/materialization-visibility-proof.json',
+      '.engi/identity-authorization-proof.json',
+      '.engi/sensitive-data-flow-proof.json',
+      '.engi/authorization-and-sensitive-flow-proof.json',
       '.engi/source-to-shares.json',
       '.engi/settlement-participation.json',
       '.engi/accounting-precision-report.json',
+      '.engi/journal-completeness-proof.json',
+      '.engi/settlement-source-to-shares-proof.json',
       '.engi/journal-diff.json',
       '.engi/scenario-fixture-manifest.json',
       '.engi/test-coverage-report.json',
@@ -1894,6 +1905,8 @@ export function createEvaluationMaterializationRuntime({
       '.engi/bounded-public-proof.json',
       '.engi/redaction-proof.json',
       '.engi/disclosure-proof.json',
+      '.engi/disclosure-boundary-proof.json',
+      '.engi/proof-contract.json',
       '.engi/deliverables.json',
       'ENGI_NEED.md'
     ];
@@ -1908,7 +1921,7 @@ export function createEvaluationMaterializationRuntime({
    * @param {BuildBranchArtifactsInput} input
    * @returns {{ branchName: string, branchMode: string, confidentiality: string, files: Record<string, string> }}
    */
-  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, proofWitnessManifest, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
+  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
     const files = {
       '.engi/need.json': JSON.stringify(need, null, 2),
       '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -1934,6 +1947,7 @@ export function createEvaluationMaterializationRuntime({
       '.engi/profile-composition.json': JSON.stringify(profileCompositionSurface, null, 2),
       '.engi/prompt-surfaces.json': JSON.stringify(promptSurfaces, null, 2),
       '.engi/prompt-contracts.json': JSON.stringify(promptContracts, null, 2),
+      '.engi/inference-synthesis-proof.json': JSON.stringify(inferenceSynthesisProof, null, 2),
       '.engi/prompt-completeness-proof.json': JSON.stringify(promptCompletenessProof, null, 2),
       '.engi/parsed-completion-envelopes.json': JSON.stringify(parsedCompletionEnvelopeArtifact || { envelopes: parsedCompletionEnvelopes || [] }, null, 2),
       '.engi/code-analysis-fact-registry.json': JSON.stringify(codeAnalysisFactRegistry, null, 2),
@@ -1943,6 +1957,12 @@ export function createEvaluationMaterializationRuntime({
       '.engi/static-measurement-report.json': JSON.stringify(staticMeasurementReport, null, 2),
       '.engi/static-measurement-proof.json': JSON.stringify(staticMeasurementProof, null, 2),
       '.engi/verification-receipts.json': JSON.stringify(verificationReceiptsArtifact, null, 2),
+      '.engi/verification-decisions-proof.json': JSON.stringify(verificationDecisionsProof, null, 2),
+      '.engi/selection-consistency-proof.json': JSON.stringify(selectionConsistencyProof, null, 2),
+      '.engi/selection-and-materialization-proof.json': JSON.stringify(selectionAndMaterializationProof, null, 2),
+      '.engi/identity-authorization-proof.json': JSON.stringify(identityAuthorizationProof, null, 2),
+      '.engi/sensitive-data-flow-proof.json': JSON.stringify(sensitiveDataFlowProof, null, 2),
+      '.engi/authorization-and-sensitive-flow-proof.json': JSON.stringify(authorizationAndSensitiveFlowProof, null, 2),
       '.engi/materialization-proof.json': JSON.stringify(materializationProof, null, 2),
       '.engi/materialization-exclusions.json': JSON.stringify(materializationExclusions, null, 2),
       '.engi/proof-witness-manifest.json': JSON.stringify(proofWitnessManifest, null, 2),
@@ -1950,6 +1970,8 @@ export function createEvaluationMaterializationRuntime({
       '.engi/source-to-shares.json': JSON.stringify(sourceToSharesArtifact, null, 2),
       '.engi/settlement-participation.json': JSON.stringify(settlementParticipationArtifact, null, 2),
       '.engi/accounting-precision-report.json': JSON.stringify(accountingPrecisionReport, null, 2),
+      '.engi/journal-completeness-proof.json': JSON.stringify(journalCompletenessProof, null, 2),
+      '.engi/settlement-source-to-shares-proof.json': JSON.stringify(settlementSourceToSharesProof, null, 2),
       '.engi/scenario-fixture-manifest.json': JSON.stringify(scenarioFixtureManifest, null, 2),
       '.engi/test-coverage-report.json': JSON.stringify(testCoverageReport, null, 2),
       '.engi/unit-catalog.json': JSON.stringify(unitCatalog, null, 2),
@@ -1958,6 +1980,8 @@ export function createEvaluationMaterializationRuntime({
       '.engi/bounded-public-proof.json': JSON.stringify(boundedPublicProof, null, 2),
       '.engi/redaction-proof.json': JSON.stringify(redactionProof, null, 2),
       '.engi/disclosure-proof.json': JSON.stringify(disclosureProof, null, 2),
+      '.engi/disclosure-boundary-proof.json': JSON.stringify(disclosureBoundaryProof, null, 2),
+      '.engi/proof-contract.json': JSON.stringify(proofContract, null, 2),
       '.engi/deliverables.json': JSON.stringify(deliverablesManifest, null, 2),
       'ENGI_NEED.md': buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease)
     };

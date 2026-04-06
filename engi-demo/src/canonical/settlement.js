@@ -65,6 +65,12 @@
  */
 
 import { buildAccountingPrecisionReport } from './proof-materialization.js';
+import {
+  allTheoremsPassed,
+  buildArtifactBinding,
+  buildReplayStep,
+  buildTheoremVerdict
+} from './proof-annotations.js';
 import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
 import {
   buildSettlementParticipationStruct,
@@ -559,25 +565,81 @@ export function createSettlementRuntime({
       recomputedBalances[entry.account] = (recomputedBalances[entry.account] || 0n) + BigInt(entry.delta);
     }
     const recomputedBalanceStrings = stringifyBigIntMap(recomputedBalances);
+    const witnessArtifactPaths = ['.engi/journal-diff.json', '.engi/journal-completeness-proof.json'];
+    const replayArtifacts = witnessArtifactPaths.slice();
+    const replaySteps = [
+      buildReplayStep({
+        stepId: 'settlement.journal-completeness',
+        theoremIds: [
+          'settlement_source_to_shares.reason_coverage',
+          'settlement_source_to_shares.receipt_refs_closed',
+          'settlement_source_to_shares.after_balance_recompute'
+        ],
+        requiredArtifactPaths: witnessArtifactPaths,
+        instruction: 'Replay journal reason coverage, receipt closure, and after-balance recomputation.'
+      })
+    ];
+    const allRequiredReasonsCovered = entries.every((entry) => !!entry.reason && !!entry.explanation);
+    const noUnclassifiedTransfers = entries.every((entry) => ['licensed_bundle_debit', 'contribution_credit'].includes(entry.reason));
+    const eventRefsConsistent = entries.every((entry) => entry.eventId === eventId);
+    const replayableJournal = stableHashObject(entries) === stableHashObject([...entries]);
+    const receiptRefsClosed = entries.every((entry) => receiptIds.has(entry.receiptRef));
+    const hasSingleIssuanceDebit = journalDiff.debits.length === 1;
+    const creditedEntryCountMatchesAllocations = journalDiff.credits.length === (journalDiff.settledShares || []).length;
+    const afterBalancesRecomputeExactly = stableHashObject(recomputedBalanceStrings) === stableHashObject(journalDiff.afterBalances);
+    const creditedAssetsMatchSettledShares = stableHashObject(
+      journalDiff.credits.map((entry) => entry.assetId).slice().sort()
+    ) === stableHashObject((journalDiff.settledShares || []).map((entry) => entry.assetId).slice().sort());
+    const theoremVerdicts = [
+      buildTheoremVerdict({
+        theoremId: 'settlement_source_to_shares.reason_coverage',
+        passed: allRequiredReasonsCovered && noUnclassifiedTransfers && eventRefsConsistent,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['settlement.journal-completeness']
+      }),
+      buildTheoremVerdict({
+        theoremId: 'settlement_source_to_shares.receipt_refs_closed',
+        passed: receiptRefsClosed && hasSingleIssuanceDebit && creditedEntryCountMatchesAllocations,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['settlement.journal-completeness']
+      }),
+      buildTheoremVerdict({
+        theoremId: 'settlement_source_to_shares.after_balance_recompute',
+        passed: afterBalancesRecomputeExactly && creditedAssetsMatchSettledShares && replayableJournal,
+        witnessArtifactPaths,
+        replayArtifactPaths: replayArtifacts,
+        replayStepIds: ['settlement.journal-completeness']
+      })
+    ];
     return {
       eventId,
-      allRequiredReasonsCovered: entries.every((entry) => !!entry.reason && !!entry.explanation),
-      noUnclassifiedTransfers: entries.every((entry) => ['licensed_bundle_debit', 'contribution_credit'].includes(entry.reason)),
-      eventRefsConsistent: entries.every((entry) => entry.eventId === eventId),
-      replayableJournal: stableHashObject(entries) === stableHashObject([...entries]),
-      receiptRefsClosed: entries.every((entry) => receiptIds.has(entry.receiptRef)),
-      hasSingleIssuanceDebit: journalDiff.debits.length === 1,
-      creditedEntryCountMatchesAllocations: journalDiff.credits.length === (journalDiff.settledShares || []).length,
-      afterBalancesRecomputeExactly: stableHashObject(recomputedBalanceStrings) === stableHashObject(journalDiff.afterBalances),
-      creditedAssetsMatchSettledShares: stableHashObject(
-        journalDiff.credits.map((entry) => entry.assetId).slice().sort()
-      ) === stableHashObject((journalDiff.settledShares || []).map((entry) => entry.assetId).slice().sort()),
+      allRequiredReasonsCovered,
+      noUnclassifiedTransfers,
+      eventRefsConsistent,
+      replayableJournal,
+      receiptRefsClosed,
+      hasSingleIssuanceDebit,
+      creditedEntryCountMatchesAllocations,
+      afterBalancesRecomputeExactly,
+      creditedAssetsMatchSettledShares,
       witnessRefs: {
         receiptIds: [...receiptIds],
         debitEntryIds: journalDiff.debits.map((entry) => entry.entryId),
         creditEntryIds: journalDiff.credits.map((entry) => entry.entryId),
         settledShareAssetIds: (journalDiff.settledShares || []).map((entry) => entry.assetId)
       },
+      theoremVerdicts,
+      artifactBindings: [
+        buildArtifactBinding({ artifactPath: '.engi/journal-diff.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+        buildArtifactBinding({ artifactPath: '.engi/journal-completeness-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
+      ],
+      replaySteps,
+      witnessArtifactPaths,
+      replayArtifacts,
+      replayInstructions: replaySteps.map((entry) => entry.instruction),
+      allTheoremsPassed: allTheoremsPassed(theoremVerdicts),
       proofHash: stableHashObject({
         eventId,
         receiptIds: [...receiptIds],
@@ -601,24 +663,53 @@ export function createSettlementRuntime({
    */
   function buildSettlementProof(journalDiff, assetPackLock) {
     const derivedAfterRoot = ledgerRoot(journalDiff.afterBalances);
+    const theoremChecks = {
+      rawSharesNormalized: journalDiff.invariants['rawSharesNormalized'],
+      settledSharesNormalized: journalDiff.invariants['settledSharesNormalized'],
+      allocationConserved: journalDiff.invariants['allocationConserved'],
+      debitsEqualCredits: journalDiff.invariants['debitsEqualCredits'],
+      noNegativeBalances: journalDiff.invariants['noNegativeBalances'],
+      refsClosed: journalDiff.invariants['refsClosed'],
+      stateRootIntegrity: journalDiff.afterRoot === derivedAfterRoot
+    };
+    const witnessArtifactPaths = ['.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/asset-pack.lock.json'];
+    const replayArtifacts = witnessArtifactPaths.slice();
+    const replaySteps = [
+      buildReplayStep({
+        stepId: 'settlement.core-theorems',
+        theoremIds: Object.keys(theoremChecks).map((key) => `settlement_source_to_shares.${key}`),
+        requiredArtifactPaths: witnessArtifactPaths,
+        instruction: 'Replay settlement invariants, journal root integrity, and asset-pack-lock binding.'
+      })
+    ];
+    const theoremVerdicts = Object.entries(theoremChecks).map(([theoremId, passed]) => buildTheoremVerdict({
+      theoremId: `settlement_source_to_shares.${theoremId}`,
+      passed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['settlement.core-theorems']
+    }));
     return {
-      theoremChecks: {
-        rawSharesNormalized: journalDiff.invariants['rawSharesNormalized'],
-        settledSharesNormalized: journalDiff.invariants['settledSharesNormalized'],
-        allocationConserved: journalDiff.invariants['allocationConserved'],
-        debitsEqualCredits: journalDiff.invariants['debitsEqualCredits'],
-        noNegativeBalances: journalDiff.invariants['noNegativeBalances'],
-        refsClosed: journalDiff.invariants['refsClosed'],
-        stateRootIntegrity: journalDiff.afterRoot === derivedAfterRoot
-      },
+      theoremChecks,
       beforeRoot: journalDiff.beforeRoot,
       afterRoot: journalDiff.afterRoot,
       journalHash: stableHashObject({ debits: journalDiff.debits, credits: journalDiff.credits }),
       assetPackLockHash: stableHashObject(assetPackLock),
+      theoremVerdicts,
+      artifactBindings: [
+        buildArtifactBinding({ artifactPath: '.engi/journal-diff.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+        buildArtifactBinding({ artifactPath: '.engi/asset-pack.lock.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+        buildArtifactBinding({ artifactPath: '.engi/settlement-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
+      ],
+      replaySteps,
+      witnessArtifactPaths,
+      replayArtifacts,
+      replayInstructions: replaySteps.map((entry) => entry.instruction),
+      allTheoremsPassed: allTheoremsPassed(theoremVerdicts),
       proofHash: stableHashObject({
         journalHash: stableHashObject({ debits: journalDiff.debits, credits: journalDiff.credits }),
         assetPackLockHash: stableHashObject(assetPackLock),
-        theoremChecks: journalDiff.invariants
+        theoremChecks
       })
     };
   }
