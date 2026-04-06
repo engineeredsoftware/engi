@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: current V16 draft fully tightens `prompt-completeness` and opens all nine V15 proof families through first-pass closure design plus member-coverage drafting
+- Scope: current V16 draft fully tightens `prompt-completeness` and carries all nine V15 proof families through member closure, theorem catalogs, and theorem-by-theorem closure drafting
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16_NOTES.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
@@ -52,9 +52,10 @@ This pass now covers:
 - full first-pass V16 formalization for `prompt-completeness`,
 - first-pass closure design for the other eight V15 proof families,
 - explicit member-coverage plus member-closure criteria across all nine families,
-- initial theorem-binding plus proof-shape-realization direction across all nine families,
-- initial theorem catalogs plus family-verdict-schema direction across all nine families,
-- and initial realized proof-object field plus artifact/replay-binding direction across all nine families.
+- theorem-binding plus proof-shape-realization direction across all nine families,
+- current realization-basis theorem catalogs plus family-verdict-schema direction across all nine families,
+- realized proof-object field plus artifact/replay-binding direction across all nine families,
+- and theorem-by-theorem closure readings across all nine families.
 
 The following are still intentionally deferred:
 - theorem-family expansion beyond the current family-first pass,
@@ -112,7 +113,7 @@ At minimum, a family verdict schema should eventually carry:
 - and one aggregate pass/fail summary derived from those explicit axes rather than replacing them.
 
 The family sections below do not finalize those schemas yet.
-They do define the initial theorem catalogs and the minimum verdict axes that later proof objects, artifacts, and tests must expose.
+They do bind to the current realization-basis theorem catalogs and define the minimum verdict axes that later proof objects, artifacts, and tests must expose.
 
 ---
 
@@ -572,7 +573,7 @@ The realized family proof shape should therefore expose:
 
 ### Prompt-completeness theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `prompt-completeness` should include:
+The current realization-basis theorem catalog for `prompt-completeness` is:
 1. `prompt_completeness.coverage_totality`
 2. `prompt_completeness.no_ghost_coverage`
 3. `prompt_completeness.explicit_exclusion_closure`
@@ -582,7 +583,25 @@ The initial V16 theorem catalog for `prompt-completeness` should include:
 7. `prompt_completeness.provenance_truth`
 8. `prompt_completeness.witness_replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `prompt_completeness.coverage_totality`
+   Registered prompt-owned members, classified prompt-owned members, prompt surfaces, and parsed envelopes must reconcile through `prompt-completeness.member-set-reconciliation`.
+2. `prompt_completeness.no_ghost_coverage`
+   No realized prompt-owned member may appear in contracts, surfaces, or parsed envelopes unless it belongs to the registered family member set and survives the same reconciliation step.
+3. `prompt_completeness.explicit_exclusion_closure`
+   Any non-member inside the prompt-owned neighborhood must be carried as an explicit exclusion with a named replacement proof path rather than omitted silently during member reconciliation.
+4. `prompt_completeness.contract_closure`
+   Template, context, and parse-contract obligations must close through `prompt-completeness.parse-admissibility` rather than through prompt-hash agreement alone.
+5. `prompt_completeness.parsed_envelope_admissibility`
+   Parsed completion envelopes must remain admissible against their declared parse contracts and replay through the same parse-admissibility step.
+6. `prompt_completeness.downstream_consumer_closure`
+   Declared downstream consumers must match actual semantic consumers through `prompt-completeness.consumer-closure`.
+7. `prompt_completeness.provenance_truth`
+   Prompt-owned provenance claims must remain truthful under `prompt-completeness.provenance-truth`, including annotated source precedence.
+8. `prompt_completeness.witness_replay_closure`
+   Witness artifacts and replay must cover member reconciliation, parse admissibility, consumer closure, and provenance truth directly rather than by bundle-only substitution.
+
+The stable family verdict schema should therefore expose at least:
 1. `expectedMembersMatchRealizedMembers`
 2. `explicitExclusionsClosed`
 3. `contractsClosed`
@@ -595,9 +614,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Prompt-completeness realized proof-object field design and artifact/replay binding
 
-The current runtime object that should evolve into this family proof is `promptCompletenessProof`, with direct binding to parsed-envelope and prompt-surface artifacts rather than contract-hash closure only.
+The current runtime object that realizes this family proof is `promptCompletenessProof`, with direct binding to parsed-envelope and prompt-surface artifacts rather than contract-hash closure only.
 
-Its minimum V16 field growth should include:
+It already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -987,7 +1008,7 @@ The realized family proof shape should therefore expose:
 
 ### Inference-synthesis theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `inference-synthesis` should include:
+The current realization-basis theorem catalog for `inference-synthesis` is:
 1. `inference_synthesis.coverage_totality`
 2. `inference_synthesis.evaluator_status_truth`
 3. `inference_synthesis.evidence_basis_closure`
@@ -995,7 +1016,21 @@ The initial V16 theorem catalog for `inference-synthesis` should include:
 5. `inference_synthesis.witness_materialization_closure`
 6. `inference_synthesis.replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `inference_synthesis.coverage_totality`
+   Classified inferred fields, covered field proofs, and moment contracts must reconcile through `inference-synthesis.coverage-reconciliation`.
+2. `inference_synthesis.evaluator_status_truth`
+   Stand-in versus non-stand-in evaluator status must stay consistent across field proofs, moment contracts, and eval manifest through `inference-synthesis.evaluator-status-replay`.
+3. `inference_synthesis.evidence_basis_closure`
+   Each inferred field must carry one canonical realized evidence basis that replays through `inference-synthesis.evidence-basis-replay`.
+4. `inference_synthesis.ownership_traceability_closure`
+   Field ownership, moment ownership, and evidence traceability must remain consistent with the same evidence-basis replay path rather than diverging into multiple provenance stories.
+5. `inference_synthesis.witness_materialization_closure`
+   Moment contracts, field proofs, prompt surfaces, parsed envelopes, and the family proof must all be present as witness-bearing surfaces for the family.
+6. `inference_synthesis.replay_closure`
+   Coverage reconciliation, evaluator-status replay, and evidence-basis replay must together reconstruct the family's theorem-bearing closure.
+
+The stable family verdict schema should therefore expose at least:
 1. `expectedInferredFieldsMatchRealizedFieldProofs`
 2. `evaluatorStatusTruthClosed`
 3. `evidenceBasisClosed`
@@ -1007,9 +1042,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Inference-synthesis realized proof-object field design and artifact/replay binding
 
-The current runtime surfaces that should evolve into this family proof are the field-level inference proofs plus an aggregated family proof distinct from prompt-contract closure.
+The current runtime surfaces that realize this family proof are the field-level inference proofs plus the aggregated `inferenceSynthesisProof`, distinct from prompt-contract closure.
 
-Its minimum V16 field growth should include:
+They already carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -1468,14 +1505,26 @@ The realized family proof shape should therefore expose:
 
 ### Static-code-analysis theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `static-code-analysis` should include:
+The current realization-basis theorem catalog for `static-code-analysis` is:
 1. `static_code_analysis.stage_domain_purity`
 2. `static_code_analysis.abstract_to_concrete_stage_mapping`
 3. `static_code_analysis.registry_role_closure`
 4. `static_code_analysis.receipt_report_proof_agreement`
 5. `static_code_analysis.witness_replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `static_code_analysis.stage_domain_purity`
+   The family may only close over static receipt stages, excluding `verification.*` contamination through `static-code-analysis.stage-domain`.
+2. `static_code_analysis.abstract_to_concrete_stage_mapping`
+   Deterministic parser, repo-context, content-unit, and measurement members must map explicitly to concrete covered stage ids through `static-code-analysis.stage-mapping`.
+3. `static_code_analysis.registry_role_closure`
+   Primary versus alias registry roles must remain explicit and replay through the same stage-mapping path.
+4. `static_code_analysis.receipt_report_proof_agreement`
+   Registry surfaces, static measurement report, and static measurement proof must agree on the same static receipt domain through `static-code-analysis.receipt-report-proof`.
+5. `static_code_analysis.witness_replay_closure`
+   Stage-domain, stage-mapping, and receipt-report-proof replay must reconstruct family closure directly.
+
+The stable family verdict schema should therefore expose at least:
 1. `stageDomainPure`
 2. `stageMappingsClosed`
 3. `registryRolesClosed`
@@ -1486,9 +1535,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Static-code-analysis realized proof-object field design and artifact/replay binding
 
-The current runtime object that should evolve into this family proof is `staticMeasurementProof`, paired explicitly with `staticMeasurementReport` and the registry surfaces rather than receipt resolution alone.
+The current runtime object that realizes this family proof is `staticMeasurementProof`, paired explicitly with `staticMeasurementReport` and the registry surfaces rather than receipt resolution alone.
 
-Its minimum V16 field growth should include:
+It already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -1844,7 +1895,7 @@ The realized family proof shape should therefore expose:
 
 ### Verification-decisions theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `verification-decisions` should include:
+The current realization-basis theorem catalog for `verification-decisions` is:
 1. `verification_decisions.issuance_closure`
 2. `verification_decisions.provenance_closure`
 3. `verification_decisions.sufficiency_closure`
@@ -1853,7 +1904,23 @@ The initial V16 theorem catalog for `verification-decisions` should include:
 6. `verification_decisions.receipt_report_role_closure`
 7. `verification_decisions.witness_replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `verification_decisions.issuance_closure`
+   Issuance decisions must remain explicit as a family member and replay through `verification-decisions.stage-mapping`.
+2. `verification_decisions.provenance_closure`
+   Provenance verification decisions must remain explicit and reconcile with the same stage-to-member mapping path.
+3. `verification_decisions.sufficiency_closure`
+   Sufficiency decisions must remain explicit and traceable through the stage-mapping replay path.
+4. `verification_decisions.issuer_policy_closure`
+   Issuer-policy decisions must remain explicit and traceable through the stage-mapping replay path.
+5. `verification_decisions.use_tier_consequence_closure`
+   Use-tier and final-use-tier consequence truth must remain first-class and replay through `verification-decisions.use-tier-consequence`.
+6. `verification_decisions.receipt_report_role_closure`
+   Raw receipts, report-facing consequences, and the family proof must preserve distinct roles while still agreeing on the same decision story.
+7. `verification_decisions.witness_replay_closure`
+   Stage-mapping and use-tier-consequence replay must together reconstruct theorem-bearing closure for the family.
+
+The stable family verdict schema should therefore expose at least:
 1. `issuanceClosed`
 2. `provenanceClosed`
 3. `sufficiencyClosed`
@@ -1866,9 +1933,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Verification-decisions realized proof-object field design and artifact/replay binding
 
-The current runtime surfaces that should evolve into this family proof are the verification receipts artifact plus `verificationReport`, with an explicit family proof layer that names use-tier consequence closure directly.
+The current runtime surfaces that realize this family proof are the verification receipts artifact, `verificationReport`, and `verificationDecisionsProof`, with use-tier consequence closure named directly.
 
-Its minimum V16 field growth should include:
+They already carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -2215,7 +2284,7 @@ The realized family proof shape should therefore expose:
 
 ### Selection-and-materialization theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `selection-and-materialization` should include:
+The current realization-basis theorem catalog for `selection-and-materialization` is:
 1. `selection_and_materialization.selected_asset_closure`
 2. `selection_and_materialization.lock_closure`
 3. `selection_and_materialization.materialized_source_closure`
@@ -2224,7 +2293,23 @@ The initial V16 theorem catalog for `selection-and-materialization` should inclu
 6. `selection_and_materialization.selection_consistency_closure`
 7. `selection_and_materialization.materialization_proof_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `selection_and_materialization.selected_asset_closure`
+   Selected candidates, selected assets, and selected-set replay must agree on the same chosen asset set.
+2. `selection_and_materialization.lock_closure`
+   Asset-pack lock truth must bind the selected set and replay with the same selected-set closure path.
+3. `selection_and_materialization.materialized_source_closure`
+   Selected-source-material must agree with selected assets and the selected-set replay path.
+4. `selection_and_materialization.exclusion_closure`
+   Materialization exclusions must be explicit, explained, and consistent with the visibility replay path.
+5. `selection_and_materialization.visibility_closure`
+   Visibility proof must agree with the selected-versus-excluded story through `selection-and-materialization.visibility`.
+6. `selection_and_materialization.selection_consistency_closure`
+   `selectionConsistencyProof` must remain the dedicated consistency closure for selected assets, lock, and materialized source.
+7. `selection_and_materialization.materialization_proof_closure`
+   `materializationProof` must close the family's aggregate selected-set and visibility story without replacing primary member surfaces.
+
+The stable family verdict schema should therefore expose at least:
 1. `selectedAssetsClosed`
 2. `lockClosed`
 3. `materializedSourceClosed`
@@ -2237,9 +2322,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Selection-and-materialization realized proof-object field design and artifact/replay binding
 
-The current runtime surfaces that should evolve into this family proof are `selectionConsistencyProof` plus `materializationProof`, with direct family binding to lock, source, exclusion, and visibility artifacts.
+The current runtime surfaces that realize this family proof are `selectionConsistencyProof`, `materializationProof`, and `selectionAndMaterializationProof`, with direct family binding to lock, source, exclusion, and visibility artifacts.
 
-Its minimum V16 field growth should include:
+They already carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -2521,7 +2608,7 @@ The realized family proof shape should therefore expose:
 
 ### Authorization-and-sensitive-flow theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `authorization-and-sensitive-flow` should include:
+The current realization-basis theorem catalog for `authorization-and-sensitive-flow` is:
 1. `authorization_and_sensitive_flow.principal_authority_totality`
 2. `authorization_and_sensitive_flow.authorization_decision_closure`
 3. `authorization_and_sensitive_flow.classification_closure`
@@ -2529,7 +2616,21 @@ The initial V16 theorem catalog for `authorization-and-sensitive-flow` should in
 5. `authorization_and_sensitive_flow.no_unauthorized_public_flow`
 6. `authorization_and_sensitive_flow.witness_replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `authorization_and_sensitive_flow.principal_authority_totality`
+   Identity bindings must enumerate the principals and authorities that can change state and replay through `authorization-sensitive-flow.identity`.
+2. `authorization_and_sensitive_flow.authorization_decision_closure`
+   Authorization decisions must close over the same identity-bearing actions rather than relying on implicit authority.
+3. `authorization_and_sensitive_flow.classification_closure`
+   Required sensitive classes must remain explicit across sensitive-flow records and replay through `authorization-sensitive-flow.sensitive-flow-replay`.
+4. `authorization_and_sensitive_flow.policy_assignment_closure`
+   Retention and disclosure policy assignments must remain explicit on sensitive flows rather than being implied only later by disclosure surfaces.
+5. `authorization_and_sensitive_flow.no_unauthorized_public_flow`
+   Sensitive-flow replay must prove that no unauthorized public sink exists for any classified flow.
+6. `authorization_and_sensitive_flow.witness_replay_closure`
+   Identity replay plus sensitive-flow replay must together reconstruct the family's theorem-bearing closure.
+
+The stable family verdict schema should therefore expose at least:
 1. `principalAuthorityClosed`
 2. `authorizationDecisionsClosed`
 3. `classificationsClosed`
@@ -2541,9 +2642,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Authorization-and-sensitive-flow realized proof-object field design and artifact/replay binding
 
-The current runtime surfaces that should evolve into this family proof are `identityAuthorizationProof` plus `sensitiveDataFlowProof`, with direct family binding to identity bindings, authorization decisions, and sensitive-flow records.
+The current runtime surfaces that realize this family proof are `identityAuthorizationProof`, `sensitiveDataFlowProof`, and `authorizationAndSensitiveFlowProof`, with direct family binding to identity bindings, authorization decisions, and sensitive-flow records.
 
-Its minimum V16 field growth should include:
+They already carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -2849,7 +2952,7 @@ The realized family proof shape should therefore expose:
 
 ### Settlement-source-to-shares theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `settlement-source-to-shares` should include:
+The current realization-basis theorem catalog for `settlement-source-to-shares` is:
 1. `settlement_source_to_shares.contribution_totality`
 2. `settlement_source_to_shares.clipping_determinism`
 3. `settlement_source_to_shares.normalization_exactness`
@@ -2858,7 +2961,23 @@ The initial V16 theorem catalog for `settlement-source-to-shares` should include
 6. `settlement_source_to_shares.journal_completeness`
 7. `settlement_source_to_shares.settlement_theorem_integrity`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `settlement_source_to_shares.contribution_totality`
+   Source-to-shares derivation must cover the full contribution basis and replay through `settlement-source-to-shares.contribution-allocation`.
+2. `settlement_source_to_shares.clipping_determinism`
+   Clipping and tie-break behavior must remain deterministic within the same contribution-allocation replay path.
+3. `settlement_source_to_shares.normalization_exactness`
+   Raw and settled shares must normalize exactly within the contribution-allocation replay path.
+4. `settlement_source_to_shares.participation_totality`
+   Settlement participation must remain total over all credited actors within the same contribution-allocation replay path.
+5. `settlement_source_to_shares.allocation_conservation`
+   Allocation and accounting precision must conserve value rather than merely approximating it.
+6. `settlement_source_to_shares.journal_completeness`
+   Journal completeness must replay through `settlement-source-to-shares.journal-theorem`, including closed refs and exact debit-credit balance.
+7. `settlement_source_to_shares.settlement_theorem_integrity`
+   The theorem-bearing settlement proof must keep the family's exactness checks stable and replayable through the same journal-theorem path.
+
+The stable family verdict schema should therefore expose at least:
 1. `contributionClosed`
 2. `clippingClosed`
 3. `normalizationClosed`
@@ -2871,9 +2990,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Settlement-source-to-shares realized proof-object field design and artifact/replay binding
 
-The current runtime surfaces that should evolve into this family proof are `sourceToSharesArtifact`, `settlementParticipationArtifact`, `accountingPrecisionReport`, `journalCompletenessProof`, and `settlementProof`, with journal and theorem closure kept explicit and distinct.
+The current runtime surfaces that realize this family proof are `sourceToSharesArtifact`, `settlementParticipationArtifact`, `accountingPrecisionReport`, `journalCompletenessProof`, `settlementProof`, and `settlementSourceToSharesProof`, with journal and theorem closure kept explicit and distinct.
 
-Its minimum V16 field growth should include:
+They already carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -3144,14 +3265,26 @@ The realized family proof shape should therefore expose:
 
 ### Disclosure-boundary theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `disclosure-boundary` should include:
+The current realization-basis theorem catalog for `disclosure-boundary` is:
 1. `disclosure_boundary.projection_policy_closure`
 2. `disclosure_boundary.bounded_public_metadata_only`
 3. `disclosure_boundary.redaction_alignment`
 4. `disclosure_boundary.disclosure_verdict_alignment`
 5. `disclosure_boundary.witness_replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `disclosure_boundary.projection_policy_closure`
+   Projection policy must remain the primary disclosure authority and replay through `disclosure-boundary.policy-bounded-public`.
+2. `disclosure_boundary.bounded_public_metadata_only`
+   Bounded-public proof must prove that public disclosure remains metadata-bounded and policy-constrained through the same policy-bounded-public replay path.
+3. `disclosure_boundary.redaction_alignment`
+   Redaction proof must agree with the projection-policy and bounded-public story through `disclosure-boundary.redaction-disclosure`.
+4. `disclosure_boundary.disclosure_verdict_alignment`
+   Disclosure proof must remain aligned with bounded-public and redaction truth rather than acting as a substitute for them.
+5. `disclosure_boundary.witness_replay_closure`
+   Policy-bounded-public replay plus redaction-disclosure replay must reconstruct the full family's theorem-bearing closure.
+
+The stable family verdict schema should therefore expose at least:
 1. `projectionPolicyClosed`
 2. `boundedPublicClosed`
 3. `redactionClosed`
@@ -3162,9 +3295,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Disclosure-boundary realized proof-object field design and artifact/replay binding
 
-The current runtime surfaces that should evolve into this family proof are `projectionPolicy`, `boundedPublicProof`, `redactionProof`, and `disclosureProof`, with a later family proof artifact binding them explicitly.
+The current runtime surfaces that realize this family proof are `projectionPolicy`, `boundedPublicProof`, `redactionProof`, `disclosureProof`, and `disclosureBoundaryProof`.
 
-Its minimum V16 field growth should include:
+They already carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`
@@ -3436,7 +3571,7 @@ The realized family proof shape should therefore expose:
 
 ### Proof-contract theorem catalog and family verdict schema
 
-The initial V16 theorem catalog for `proof-contract` should include:
+The current realization-basis theorem catalog for `proof-contract` is:
 1. `proof_contract.contract_materialization`
 2. `proof_contract.evidence_chain_closure`
 3. `proof_contract.theorem_check_binding`
@@ -3444,7 +3579,21 @@ The initial V16 theorem catalog for `proof-contract` should include:
 5. `proof_contract.witness_manifest_coherence`
 6. `proof_contract.replay_closure`
 
-The initial family verdict schema should therefore expose at least:
+The current theorem-by-theorem closure reading is:
+1. `proof_contract.contract_materialization`
+   `proofContract` must exist as a distinct proof-bearing surface and replay through `proof-contract.contract-materialization`.
+2. `proof_contract.evidence_chain_closure`
+   The cross-family evidence chain must remain explicit, ordered, and replayable through `proof-contract.evidence-chain`.
+3. `proof_contract.theorem_check_binding`
+   Theorem checks must remain stably identified and bound to their carried artifacts within the same evidence-chain replay path.
+4. `proof_contract.bundle_coherence`
+   System proof bundle content must remain coherent with proof-contract truth and replay through `proof-contract.bundle-witness`.
+5. `proof_contract.witness_manifest_coherence`
+   Proof witness manifest must remain coherent with proof contract, bundle, and family witness surfaces through the same bundle-witness replay path.
+6. `proof_contract.replay_closure`
+   Contract-materialization, evidence-chain, and bundle-witness replay must together reconstruct the family's theorem-bearing closure.
+
+The stable family verdict schema should therefore expose at least:
 1. `contractMaterialized`
 2. `evidenceChainClosed`
 3. `theoremChecksBound`
@@ -3456,9 +3605,11 @@ The initial family verdict schema should therefore expose at least:
 
 ### Proof-contract realized proof-object field design and artifact/replay binding
 
-The current runtime surface that should evolve into this family proof is `proofContract`, with direct family binding to the system proof bundle and proof-witness manifest rather than bundle-only substitution.
+The current runtime surface that realizes this family proof is `proofContract`, with direct family binding to the system proof bundle and proof-witness manifest rather than bundle-only substitution.
 
-Its minimum V16 field growth should include:
+It already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `witnessArtifactPaths`, with theorem-bearing support from `theoremChecks` and `artifactBindingSummary`.
+
+V16 should preserve and ratchet that shape through:
 1. `theoremVerdicts`
 2. `artifactBindings`
 3. `replaySteps`

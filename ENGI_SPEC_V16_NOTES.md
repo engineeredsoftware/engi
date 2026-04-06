@@ -60,18 +60,19 @@ The intended development pattern is:
 - then source implementation,
 - then proof execution and audit.
 
-The current state after the member-tightening pass is:
+The current state after the member-tightening and theorem-catalog pass is:
 - every V15 proof family is open in V16 drafting,
 - every family now has member inventory plus member-closure criteria,
-- and the next pass is no longer enumeration but theorem binding, proof-shape realization, and implementation ratchets.
+- every family now has a current realization-basis theorem catalog and theorem-by-theorem closure reading,
+- and the next pass is no longer enumeration but theorem tightening, proof execution, and later appendix generation.
 
-That next pass is now underway.
+That theorem-by-theorem pass is now present across the family layer.
 The current theorem-binding reading is:
-- every family now has an initial theorem-binding direction in the spec,
-- the parity matrix now names theorem-binding debt separately from member debt,
-- every family now has an initial theorem catalog and target verdict-schema direction,
-- every family now has initial realized proof-object field and artifact/replay-binding direction,
-- and the next tightening step is to turn those initial proof-object directions into source-realized proof fields, branch artifacts, replay entrypoints, and failing tests.
+- every family now has realized theorem identifiers in source,
+- the spec now binds each family to its current realization-basis theorem catalog,
+- the parity matrix now carries theorem-by-theorem closure readings rather than theorem debt only,
+- every family now has realized proof-object field and artifact/replay-binding direction,
+- and `_PROVEN_` generation remains intentionally deferred until the rest of V16 proving work is finished.
 
 ## Prompt-completeness parity debt collection method
 

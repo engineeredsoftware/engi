@@ -102,6 +102,16 @@ Each family must also converge on:
 - explicit artifact-path bindings for every theorem-bearing surface the family depends on,
 - and explicit replay steps that reconstruct theorem closure rather than only naming artifacts.
 
+## Theorem-by-theorem closure rule
+
+Once a family has realized theorem identifiers in source, the matrix should stop treating those theorems as abstract targets only.
+
+For V16, a theorem-by-theorem closure reading should identify:
+- the primary truth the theorem binds,
+- the replay step ids that reconstruct that theorem,
+- the witness-bearing artifacts that expose it,
+- and the concrete drift or omission that should fail the theorem if the family changes.
+
 ## Audit basis
 
 This matrix is grounded in:
@@ -724,7 +734,7 @@ The current provisional family-member coverage reading is:
 ## Prompt-Completeness theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already names coverage totality, parse admissibility, downstream-consumer closure, and provenance truth, but the current proof object cannot fail on all of those axes directly.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep member-set, contract, consumer, provenance, and witness semantics ratcheted together as the family evolves.
 
 2. required proof-shape direction
    V16 should require expected-member, realized-member, and explicit-exclusion sets plus per-member contract/admissibility/consumer/provenance verdicts and family-level closure verdicts on each theorem axis.
@@ -732,22 +742,32 @@ The current provisional family-member coverage reading is:
 3. implementation ratchet
    A new prompt-owned field, parse obligation, or semantic downstream consumer must fail family closure unless registry truth, family proof, witnesses, replay, and tests are updated together.
 
-4. minimum theorem-catalog target
-   `prompt_completeness.coverage_totality`, `prompt_completeness.no_ghost_coverage`, `prompt_completeness.explicit_exclusion_closure`, `prompt_completeness.contract_closure`, `prompt_completeness.parsed_envelope_admissibility`, `prompt_completeness.downstream_consumer_closure`, `prompt_completeness.provenance_truth`, and `prompt_completeness.witness_replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `prompt_completeness.coverage_totality`, `prompt_completeness.no_ghost_coverage`, `prompt_completeness.explicit_exclusion_closure`, `prompt_completeness.contract_closure`, `prompt_completeness.parsed_envelope_admissibility`, `prompt_completeness.downstream_consumer_closure`, `prompt_completeness.provenance_truth`, and `prompt_completeness.witness_replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed` rather than aggregate booleans only.
+5. theorem-by-theorem closure reading
+   - `prompt_completeness.coverage_totality`: registered, classified, and realized prompt-owned members must reconcile through `prompt-completeness.member-set-reconciliation`.
+   - `prompt_completeness.no_ghost_coverage`: no contract, surface, or parsed-envelope member may appear outside that reconciled family set.
+   - `prompt_completeness.explicit_exclusion_closure`: every non-member near prompt ownership must be carried as an explicit exclusion with a replacement proof path.
+   - `prompt_completeness.contract_closure`: template, context, and parse obligations must close through `prompt-completeness.parse-admissibility`.
+   - `prompt_completeness.parsed_envelope_admissibility`: parsed envelopes must remain admissible under the same parse-admissibility replay step.
+   - `prompt_completeness.downstream_consumer_closure`: declared and actual semantic consumers must reconcile through `prompt-completeness.consumer-closure`.
+   - `prompt_completeness.provenance_truth`: prompt-owned provenance claims must survive `prompt-completeness.provenance-truth`.
+   - `prompt_completeness.witness_replay_closure`: witness artifacts and replay must cover member reconciliation, parse admissibility, consumer closure, and provenance truth directly.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/prompt-completeness-proof.json`, and registry truth when realized, with replay steps for member-set, parse, consumer, provenance, and exclusion closure.
+6. current proof-object realization
+   `promptCompletenessProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, alongside family-specific closure booleans.
+
+7. current artifact/replay binding
+   The family now binds `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, and `.engi/prompt-completeness-proof.json`, with replay via `prompt-completeness.member-set-reconciliation`, `prompt-completeness.parse-admissibility`, `prompt-completeness.consumer-closure`, and `prompt-completeness.provenance-truth`.
 
 ## Current V16 closure reading
 
 For the present drafting pass:
-- V15 prompt completeness is useful but not closure-complete,
-- the `closureCriteria` omission is a first-order proof-coverage defect,
-- the current proof object overstates what it proves relative to the theorem language,
-- and downstream artifact binding plus inferencing provenance truth are both real implementation requirements, not cosmetic notes.
+- V15 prompt completeness was not closure-complete at the start of the pass,
+- the `closureCriteria` omission was the first-order proof-coverage defect that forced family tightening,
+- the current proof object now carries named theorem closure but still needs later audit ratchets and appendix integration,
+- and downstream artifact binding plus inferencing provenance truth remain real implementation requirements, not cosmetic notes.
 
 That is the starting point for the V16 proof-centered canon.
 
@@ -1425,7 +1445,7 @@ The current provisional family-member coverage reading is:
 ### Inference-Synthesis theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem names inferred-field ownership, evaluator-status truth, evidence traceability, and replay closure, but the current family proof shape still underbinds coverage-totality, evaluator-status agreement, and evidence-basis closure.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep coverage, evaluator-status, evidence-basis, and traceability semantics from drifting apart across moment contracts and field proofs.
 
 2. required proof-shape direction
    V16 should require expected inferred-field set, realized field-proof set, explicit exclusions, distinct moment-contract versus field-proof truth, and per-member verdicts for evaluator-status agreement and evidence-basis closure.
@@ -1433,14 +1453,22 @@ The current provisional family-member coverage reading is:
 3. implementation ratchet
    A newly classified inferred field, evaluator-mode change, or evidence-basis change must fail family closure unless field proofs, moment contracts, witnesses, replay, and tests are updated together.
 
-4. minimum theorem-catalog target
-   `inference_synthesis.coverage_totality`, `inference_synthesis.evaluator_status_truth`, `inference_synthesis.evidence_basis_closure`, `inference_synthesis.ownership_traceability_closure`, `inference_synthesis.witness_materialization_closure`, and `inference_synthesis.replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `inference_synthesis.coverage_totality`, `inference_synthesis.evaluator_status_truth`, `inference_synthesis.evidence_basis_closure`, `inference_synthesis.ownership_traceability_closure`, `inference_synthesis.witness_materialization_closure`, and `inference_synthesis.replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with moment-contract truth distinct from field-proof truth.
+5. theorem-by-theorem closure reading
+   - `inference_synthesis.coverage_totality`: classified inferred fields and covered field proofs must reconcile through `inference-synthesis.coverage-reconciliation`.
+   - `inference_synthesis.evaluator_status_truth`: stand-in versus non-stand-in evaluator status must reconcile through `inference-synthesis.evaluator-status-replay`.
+   - `inference_synthesis.evidence_basis_closure`: each inferred field must carry one canonical realized evidence basis through `inference-synthesis.evidence-basis-replay`.
+   - `inference_synthesis.ownership_traceability_closure`: field ownership, moment ownership, and evidence traceability must stay consistent with the same evidence-basis replay.
+   - `inference_synthesis.witness_materialization_closure`: moment contracts, field proofs, prompt surfaces, parsed envelopes, and the family proof must all exist as witness-bearing surfaces.
+   - `inference_synthesis.replay_closure`: coverage reconciliation, evaluator-status replay, and evidence-basis replay must reconstruct family closure directly.
 
-6. minimum artifact/replay binding target
-   The family should bind moment contracts, field proofs, `.engi/eval-manifest.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, and the family proof artifact, with replay steps for coverage, evaluator status, evidence basis, ownership traceability, and witness closure.
+6. current proof-object realization
+   `inferenceSynthesisProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with moment-contract truth distinct from field-proof truth.
+
+7. current artifact/replay binding
+   The family now binds field proofs, `.engi/eval-manifest.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, and `.engi/inference-synthesis-proof.json`, with replay via `inference-synthesis.coverage-reconciliation`, `inference-synthesis.evaluator-status-replay`, and `inference-synthesis.evidence-basis-replay`.
 
 ## Static-Code-Analysis: initial V16 discovery ledger
 
@@ -1955,7 +1983,7 @@ SCA is now complete enough in V16 drafting terms to move on because:
 ### Static-Code-Analysis theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem still risks overclaiming a static-only proof surface while the current report/proof domain can silently absorb `verification.*` receipts.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep the static-only boundary pure and to prevent later receipt/report drift from reintroducing `verification.*` into the family.
 
 2. required proof-shape direction
    V16 should require explicit stage mapping from abstract family members to concrete receipt stages, member verdicts for parser/repo-context/content-unit/measurement, registry-role closure, and family-domain exclusions.
@@ -1963,14 +1991,21 @@ SCA is now complete enough in V16 drafting terms to move on because:
 3. implementation ratchet
    A new static stage, provenance id, registry role, or receipt domain must fail family closure unless stage mapping, proof shape, replay, and tests are updated together.
 
-4. minimum theorem-catalog target
-   `static_code_analysis.stage_domain_purity`, `static_code_analysis.abstract_to_concrete_stage_mapping`, `static_code_analysis.registry_role_closure`, `static_code_analysis.receipt_report_proof_agreement`, and `static_code_analysis.witness_replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `static_code_analysis.stage_domain_purity`, `static_code_analysis.abstract_to_concrete_stage_mapping`, `static_code_analysis.registry_role_closure`, `static_code_analysis.receipt_report_proof_agreement`, and `static_code_analysis.witness_replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed` rather than only `allReceiptRefsResolve` plus family booleans.
+5. theorem-by-theorem closure reading
+   - `static_code_analysis.stage_domain_purity`: only static stages may participate in family closure, enforced through `static-code-analysis.stage-domain`.
+   - `static_code_analysis.abstract_to_concrete_stage_mapping`: abstract parser, repo-context, content-unit, and measurement members must map to concrete covered stages through `static-code-analysis.stage-mapping`.
+   - `static_code_analysis.registry_role_closure`: primary versus alias registry roles must stay explicit under the same stage-mapping replay.
+   - `static_code_analysis.receipt_report_proof_agreement`: registry truth, report truth, and family proof must agree through `static-code-analysis.receipt-report-proof`.
+   - `static_code_analysis.witness_replay_closure`: stage-domain, stage-mapping, and receipt-report-proof replay must reconstruct family closure directly.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/code-analysis-fact-registry.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json`, retained alias registries when real, and receipt-bearing provenance surfaces, with replay steps for stage mapping, domain purity, registry roles, and receipt/report/proof agreement.
+6. current proof-object realization
+   `staticMeasurementProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, in addition to receipt-resolution fields.
+
+7. current artifact/replay binding
+   The family now binds `.engi/code-analysis-fact-registry.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json`, and retained registry aliases when real, with replay via `static-code-analysis.stage-domain`, `static-code-analysis.stage-mapping`, and `static-code-analysis.receipt-report-proof`.
 
 ## Verification-Decisions: initial V16 discovery ledger
 
@@ -2462,7 +2497,7 @@ VD is now complete enough in V16 drafting terms to continue later family work be
 ### Verification-Decisions theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already includes use-tier consequence, but the current proof/report vocabulary still undernames that consequence relative to the other decision members.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep use-tier consequence and receipt/report role closure explicit as verification stages evolve.
 
 2. required proof-shape direction
    V16 should require per-member verdicts for issuance, provenance, sufficiency, issuer-policy, and use-tier consequence, plus explicit mapping from decision stages to report consequences and witness artifacts.
@@ -2470,14 +2505,23 @@ VD is now complete enough in V16 drafting terms to continue later family work be
 3. implementation ratchet
    A new verification stage, rights consequence, or report-facing consequence must fail family closure unless the family theorem binding, proof shape, replay, and tests are extended with it.
 
-4. minimum theorem-catalog target
-   `verification_decisions.issuance_closure`, `verification_decisions.provenance_closure`, `verification_decisions.sufficiency_closure`, `verification_decisions.issuer_policy_closure`, `verification_decisions.use_tier_consequence_closure`, `verification_decisions.receipt_report_role_closure`, and `verification_decisions.witness_replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `verification_decisions.issuance_closure`, `verification_decisions.provenance_closure`, `verification_decisions.sufficiency_closure`, `verification_decisions.issuer_policy_closure`, `verification_decisions.use_tier_consequence_closure`, `verification_decisions.receipt_report_role_closure`, and `verification_decisions.witness_replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with explicit stage-to-member and report-consequence closure.
+5. theorem-by-theorem closure reading
+   - `verification_decisions.issuance_closure`: issuance must remain a first-class decision family member through `verification-decisions.stage-mapping`.
+   - `verification_decisions.provenance_closure`: provenance decisions must reconcile through the same stage-mapping replay.
+   - `verification_decisions.sufficiency_closure`: sufficiency decisions must reconcile through the same stage-mapping replay.
+   - `verification_decisions.issuer_policy_closure`: issuer-policy decisions must reconcile through the same stage-mapping replay.
+   - `verification_decisions.use_tier_consequence_closure`: use-tier and final-use-tier consequence truth must replay through `verification-decisions.use-tier-consequence`.
+   - `verification_decisions.receipt_report_role_closure`: raw receipts, report-facing consequences, and family proof must stay role-distinct while agreeing on the same decisions.
+   - `verification_decisions.witness_replay_closure`: stage-mapping plus use-tier-consequence replay must reconstruct family closure directly.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/verification-receipts.json`, `.engi/verification-report.json`, and a realized family proof artifact, with replay steps for decision-stage mapping, report consequence closure, use-tier consequence closure, and receipt/report agreement.
+6. current proof-object realization
+   `verificationDecisionsProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+7. current artifact/replay binding
+   The family now binds `.engi/verification-receipts.json`, `.engi/verification-report.json`, and `.engi/verification-decisions-proof.json`, with replay via `verification-decisions.stage-mapping` and `verification-decisions.use-tier-consequence`.
 
 ## Selection-And-Materialization: initial V16 discovery ledger
 
@@ -2988,7 +3032,7 @@ SAM is now complete enough in V16 drafting terms to continue later family work b
 ### Selection-And-Materialization theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already depends on selected assets, lock, materialized source, exclusions, visibility, and selection consistency, but current replay and witness closure still omit several primary member surfaces.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep primary member surfaces, selection consistency, and aggregate materialization closure from collapsing into one opaque proof path.
 
 2. required proof-shape direction
    V16 should require per-member verdicts for selected assets, lock, source, exclusions, and visibility, plus explicit binding from those verdicts into selection-consistency and aggregate materialization proof closure.
@@ -2996,14 +3040,23 @@ SAM is now complete enough in V16 drafting terms to continue later family work b
 3. implementation ratchet
    A new selection-bearing artifact, exclusion consequence, or visibility rule must fail family closure unless the family proof, witnesses, replay, and tests are updated with that member truth.
 
-4. minimum theorem-catalog target
-   `selection_and_materialization.selected_asset_closure`, `selection_and_materialization.lock_closure`, `selection_and_materialization.materialized_source_closure`, `selection_and_materialization.exclusion_closure`, `selection_and_materialization.visibility_closure`, `selection_and_materialization.selection_consistency_closure`, and `selection_and_materialization.materialization_proof_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `selection_and_materialization.selected_asset_closure`, `selection_and_materialization.lock_closure`, `selection_and_materialization.materialized_source_closure`, `selection_and_materialization.exclusion_closure`, `selection_and_materialization.visibility_closure`, `selection_and_materialization.selection_consistency_closure`, and `selection_and_materialization.materialization_proof_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with explicit binding from member verdicts into selection-consistency and aggregate materialization closure.
+5. theorem-by-theorem closure reading
+   - `selection_and_materialization.selected_asset_closure`: selected candidates and selected assets must reconcile through `selection-and-materialization.selected-set`.
+   - `selection_and_materialization.lock_closure`: asset-pack lock truth must agree with the same selected-set replay.
+   - `selection_and_materialization.materialized_source_closure`: selected-source-material must agree with the same selected-set replay.
+   - `selection_and_materialization.exclusion_closure`: materialization exclusions must remain explicit and replay through `selection-and-materialization.visibility`.
+   - `selection_and_materialization.visibility_closure`: visibility proof must agree with the selected-versus-excluded story through `selection-and-materialization.visibility`.
+   - `selection_and_materialization.selection_consistency_closure`: `selectionConsistencyProof` must remain the dedicated consistency proof for selected assets, lock, and materialized source.
+   - `selection_and_materialization.materialization_proof_closure`: `materializationProof` must close the family's aggregate selected-set and visibility story without replacing primary member surfaces.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, a realized selection-consistency artifact, and `.engi/materialization-proof.json`, with replay steps for selected-set, lock/source, exclusions, visibility, and settlement-consumption closure.
+6. current proof-object realization
+   `selectionAndMaterializationProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+7. current artifact/replay binding
+   The family now binds `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-consistency-proof.json`, and `.engi/materialization-proof.json`, with replay via `selection-and-materialization.selected-set` and `selection-and-materialization.visibility`.
 
 ## Authorization-And-Sensitive-Flow: initial V16 discovery ledger
 
@@ -3458,7 +3511,7 @@ AASF is now complete enough in V16 drafting terms to continue later family work 
 ### Authorization-And-Sensitive-Flow theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already spans principal binding, authorization truth, classification truth, policy assignment, and sensitive-flow closure, but the current proof shape still risks flattening identity and flow truth into one private-proof layer.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep identity, authorization, classification, policy-assignment, and flow truth distinct as the family expands.
 
 2. required proof-shape direction
    V16 should require per-member verdicts for principals, decisions, classes, rules, and flows, plus explicit separation between identity-authorization proof and sensitive-data-flow proof and direct family witness artifacts for both.
@@ -3466,14 +3519,22 @@ AASF is now complete enough in V16 drafting terms to continue later family work 
 3. implementation ratchet
    A new principal class, authority-binding path, sensitive class, or policy-bearing sink must fail family closure unless the family theorem binding, proof shape, replay, and tests are updated with it.
 
-4. minimum theorem-catalog target
-   `authorization_and_sensitive_flow.principal_authority_totality`, `authorization_and_sensitive_flow.authorization_decision_closure`, `authorization_and_sensitive_flow.classification_closure`, `authorization_and_sensitive_flow.policy_assignment_closure`, `authorization_and_sensitive_flow.no_unauthorized_public_flow`, and `authorization_and_sensitive_flow.witness_replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `authorization_and_sensitive_flow.principal_authority_totality`, `authorization_and_sensitive_flow.authorization_decision_closure`, `authorization_and_sensitive_flow.classification_closure`, `authorization_and_sensitive_flow.policy_assignment_closure`, `authorization_and_sensitive_flow.no_unauthorized_public_flow`, and `authorization_and_sensitive_flow.witness_replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with identity-authorization and sensitive-data-flow truth kept explicitly distinct.
+5. theorem-by-theorem closure reading
+   - `authorization_and_sensitive_flow.principal_authority_totality`: identity bindings must enumerate the principals and authorities that can change state through `authorization-sensitive-flow.identity`.
+   - `authorization_and_sensitive_flow.authorization_decision_closure`: authorization decisions must close over those same actions rather than relying on implicit authority.
+   - `authorization_and_sensitive_flow.classification_closure`: required sensitive classes must remain explicit across sensitive-flow records through `authorization-sensitive-flow.sensitive-flow-replay`.
+   - `authorization_and_sensitive_flow.policy_assignment_closure`: retention and disclosure policy assignments must remain explicit on sensitive flows rather than being implied only later by disclosure surfaces.
+   - `authorization_and_sensitive_flow.no_unauthorized_public_flow`: sensitive-flow replay must prove that no unauthorized public sink exists for any classified flow.
+   - `authorization_and_sensitive_flow.witness_replay_closure`: identity replay plus sensitive-flow replay must together reconstruct family closure directly.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, a realized identity-authorization proof artifact, and a realized sensitive-data-flow proof artifact, with replay steps for principal, authorization, classification/policy assignment, flow, and unauthorized-public-flow closure.
+6. current proof-object realization
+   `authorizationAndSensitiveFlowProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with `identityAuthorizationProof` and `sensitiveDataFlowProof` kept explicit alongside it.
+
+7. current artifact/replay binding
+   The family now binds `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, and `.engi/authorization-and-sensitive-flow-proof.json`, with replay via `authorization-sensitive-flow.identity` and `authorization-sensitive-flow.flows`.
 
 ## Settlement-Source-To-Shares: initial V16 discovery ledger
 
@@ -3930,7 +3991,7 @@ SSTS is now complete enough in V16 drafting terms to continue later family work 
 ### Settlement-Source-To-Shares theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already depends on exact settlement closure, but journal closure and theorem-bearing settlement closure can still collapse into one underdistinguished path in witness and replay space.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep journal closure and theorem-bearing settlement closure distinct in witness and replay space.
 
 2. required proof-shape direction
    V16 should require per-member verdicts for contribution, clipping, normalization, participation, allocation, journal, and settlement proof, with explicit distinction between journal-completeness closure and theorem-bearing settlement closure.
@@ -3938,14 +3999,23 @@ SSTS is now complete enough in V16 drafting terms to continue later family work 
 3. implementation ratchet
    A new allocation rule, participation state, journal artifact, or theorem check must fail family closure unless exact replay, witness bindings, and family proof shape are extended with it.
 
-4. minimum theorem-catalog target
-   `settlement_source_to_shares.contribution_totality`, `settlement_source_to_shares.clipping_determinism`, `settlement_source_to_shares.normalization_exactness`, `settlement_source_to_shares.participation_totality`, `settlement_source_to_shares.allocation_conservation`, `settlement_source_to_shares.journal_completeness`, and `settlement_source_to_shares.settlement_theorem_integrity` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `settlement_source_to_shares.contribution_totality`, `settlement_source_to_shares.clipping_determinism`, `settlement_source_to_shares.normalization_exactness`, `settlement_source_to_shares.participation_totality`, `settlement_source_to_shares.allocation_conservation`, `settlement_source_to_shares.journal_completeness`, and `settlement_source_to_shares.settlement_theorem_integrity`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with journal closure and theorem-bearing settlement closure kept explicit and distinct.
+5. theorem-by-theorem closure reading
+   - `settlement_source_to_shares.contribution_totality`: source-to-shares derivation must cover the full contribution basis through `settlement-source-to-shares.contribution-allocation`.
+   - `settlement_source_to_shares.clipping_determinism`: clipping and tie-break behavior must remain deterministic within that same contribution-allocation replay path.
+   - `settlement_source_to_shares.normalization_exactness`: raw and settled shares must normalize exactly within the contribution-allocation replay path.
+   - `settlement_source_to_shares.participation_totality`: settlement participation must remain total over all credited actors within the same contribution-allocation replay path.
+   - `settlement_source_to_shares.allocation_conservation`: allocation and accounting precision must conserve value rather than merely approximating it.
+   - `settlement_source_to_shares.journal_completeness`: journal completeness must replay through `settlement-source-to-shares.journal-theorem`, including closed refs and exact debit-credit balance.
+   - `settlement_source_to_shares.settlement_theorem_integrity`: the theorem-bearing settlement proof must keep exactness checks stable and replayable through the same journal-theorem path.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, a realized journal-completeness artifact, and `.engi/settlement-proof.json`, with replay steps for contribution/clipping/normalization, participation, exact allocation, journal, and theorem closure.
+6. current proof-object realization
+   `settlementSourceToSharesProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with `journalCompletenessProof` and `settlementProof` kept distinct.
+
+7. current artifact/replay binding
+   The family now binds `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, and `.engi/settlement-source-to-shares-proof.json`, with replay via `settlement-source-to-shares.contribution-allocation` and `settlement-source-to-shares.journal-theorem`.
 
 ## Disclosure-Boundary: initial V16 discovery ledger
 
@@ -4360,7 +4430,7 @@ Disclosure-boundary is now complete enough in V16 drafting terms to continue lat
 ### Disclosure-Boundary theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already depends on projection policy and bounded-public truth, but redaction and disclosure surfaces still risk standing in for those primary members rather than remaining downstream of them.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep projection policy and bounded-public truth primary rather than letting later redaction or disclosure surfaces stand in for them.
 
 2. required proof-shape direction
    V16 should require per-member verdicts for policy, bounded-public, redaction, and disclosure plus explicit agreement surfaces showing that policy and bounded-public truth stay primary.
@@ -4368,14 +4438,21 @@ Disclosure-boundary is now complete enough in V16 drafting terms to continue lat
 3. implementation ratchet
    A new public artifact path, projection rule, or redaction rule must fail family closure unless policy truth, bounded-public truth, replay, and tests are updated with it.
 
-4. minimum theorem-catalog target
-   `disclosure_boundary.projection_policy_closure`, `disclosure_boundary.bounded_public_metadata_only`, `disclosure_boundary.redaction_alignment`, `disclosure_boundary.disclosure_verdict_alignment`, and `disclosure_boundary.witness_replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `disclosure_boundary.projection_policy_closure`, `disclosure_boundary.bounded_public_metadata_only`, `disclosure_boundary.redaction_alignment`, `disclosure_boundary.disclosure_verdict_alignment`, and `disclosure_boundary.witness_replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with policy and bounded-public truth remaining primary rather than implied by later artifacts.
+5. theorem-by-theorem closure reading
+   - `disclosure_boundary.projection_policy_closure`: projection policy must remain the primary disclosure authority through `disclosure-boundary.policy-bounded-public`.
+   - `disclosure_boundary.bounded_public_metadata_only`: bounded-public proof must prove that public disclosure remains metadata-bounded and policy-constrained through the same policy-bounded-public replay path.
+   - `disclosure_boundary.redaction_alignment`: redaction proof must agree with the projection-policy and bounded-public story through `disclosure-boundary.redaction-disclosure`.
+   - `disclosure_boundary.disclosure_verdict_alignment`: disclosure proof must remain aligned with bounded-public and redaction truth rather than acting as a substitute for them.
+   - `disclosure_boundary.witness_replay_closure`: policy-bounded-public replay plus redaction-disclosure replay must reconstruct the full family's theorem-bearing closure.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, and a realized family proof artifact, with replay steps for policy, bounded-public, redaction, disclosure, and policy-to-disclosure agreement.
+6. current proof-object realization
+   `disclosureBoundaryProof` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`.
+
+7. current artifact/replay binding
+   The family now binds `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, and `.engi/disclosure-boundary-proof.json`, with replay via `disclosure-boundary.policy-bounded-public` and `disclosure-boundary.redaction-disclosure`.
 
 ## Proof-Contract: initial V16 discovery ledger
 
@@ -4792,7 +4869,7 @@ The current provisional family-member coverage reading is:
 ### Proof-Contract theorem-binding and proof-shape ratchets
 
 1. theorem-binding debt
-   The family theorem already spans contract, evidence chain, theorem checks, bundle, and witness-manifest closure, but the current replay/witness model still underbinds those roles and especially theorem closure.
+   The family now carries named theorem ids and theorem verdicts; the remaining debt is to keep contract, evidence chain, theorem checks, bundle, and witness-manifest roles fully coherent as cross-family proof surfaces grow.
 
 2. required proof-shape direction
    V16 should require role-distinguished primary surfaces for contract, evidence chain, theorem checks, bundle, and witness manifest, plus explicit theorem identities, scopes, and witness-bearing artifact paths.
@@ -4800,14 +4877,22 @@ The current provisional family-member coverage reading is:
 3. implementation ratchet
    A new theorem, artifact binding, or cross-family stage claim must fail family closure unless proof contract, bundle, witness manifest, replay, and tests all absorb that new theorem-bearing truth explicitly.
 
-4. minimum theorem-catalog target
-   `proof_contract.contract_materialization`, `proof_contract.evidence_chain_closure`, `proof_contract.theorem_check_binding`, `proof_contract.bundle_coherence`, `proof_contract.witness_manifest_coherence`, and `proof_contract.replay_closure` should each map to explicit verdict axes.
+4. current realized theorem catalog
+   `proof_contract.contract_materialization`, `proof_contract.evidence_chain_closure`, `proof_contract.theorem_check_binding`, `proof_contract.bundle_coherence`, `proof_contract.witness_manifest_coherence`, and `proof_contract.replay_closure`.
 
-5. minimum proof-object field target
-   The family proof should carry `theoremVerdicts`, `artifactBindings`, `replaySteps`, `memberVerdicts`, and `allTheoremsPassed`, with role-distinguished truth for contract, evidence chain, theorem checks, bundle, and witness manifest.
+5. theorem-by-theorem closure reading
+   - `proof_contract.contract_materialization`: `proofContract` must exist as a distinct proof-bearing surface through `proof-contract.contract-materialization`.
+   - `proof_contract.evidence_chain_closure`: the cross-family evidence chain must remain explicit, ordered, and replayable through `proof-contract.evidence-chain`.
+   - `proof_contract.theorem_check_binding`: theorem checks must remain stably identified and bound to their carried artifacts within the same evidence-chain replay path.
+   - `proof_contract.bundle_coherence`: system proof bundle content must remain coherent with proof-contract truth through `proof-contract.bundle-witness`.
+   - `proof_contract.witness_manifest_coherence`: proof witness manifest must remain coherent with proof contract, bundle, and family witness surfaces through the same bundle-witness replay path.
+   - `proof_contract.replay_closure`: contract-materialization, evidence-chain, and bundle-witness replay must together reconstruct family closure directly.
 
-6. minimum artifact/replay binding target
-   The family should bind `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, and any theorem-bearing artifacts referenced by evidence-chain and theorem bindings, with replay steps for contract materialization, evidence chain, theorem binding, bundle coherence, and witness-manifest coherence.
+6. current proof-object realization
+   `proofContract` already carries `theoremVerdicts`, `artifactBindings`, `replaySteps`, and `memberVerdicts`, with theorem-bearing support from `theoremChecks`, `artifactBindingSummary`, and `witnessArtifactPaths`.
+
+7. current artifact/replay binding
+   The family now binds `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, and theorem-bearing family artifacts referenced by evidence-chain and theorem bindings, with replay via `proof-contract.contract-materialization`, `proof-contract.evidence-chain`, and `proof-contract.bundle-witness`.
 
 #### Current preferred stopping point
 
