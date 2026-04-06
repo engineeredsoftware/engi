@@ -1,0 +1,2 @@
+- Always first read fresh in the current (ENGI_SPEC.txt) canonical spec file(s) (_SPEC_VN_, _PROVEN_, NOTES_, etc. [for the canonical spec]). AND ONLY, read the files of the current canon and not other/previous/non-canonical specifications[' file(s)]. There is always ONLY ONE canonical system specification.
+- Do not consider any legacy code. All legacy code is located under `_legacy/`.
