@@ -20,14 +20,15 @@ The first family is `prompt-completeness`.
 That choice is not arbitrary.
 V15 already defines prompt-completeness canonically, but current source realization, witness closure, and tests do not yet satisfy the full family claim.
 
-That wedge has now been pushed across all nine V15 proof families at first-pass closure depth.
+That wedge has now been pushed across all nine V15 proof families through member closure, theorem catalogs, and theorem-by-theorem closure drafting.
 `prompt-completeness` remains the tightest family.
-The others are still first-pass rather than final V16 canon, but they now each have:
+The others are still not final V16 canon, but they now each have:
 - family cases,
-- provisional artifact direction,
+- realized or provisionally normalized artifact direction,
 - witness/replay direction,
 - expected/realized/family-closure splits,
-- and member-coverage inventories.
+- member-coverage inventories,
+- and theorem-by-theorem closure readings.
 
 This draft therefore still does not attempt a full-system V16 rewrite.
 Its purpose is to make the proof-family layer precise enough that:
@@ -49,8 +50,8 @@ Prompted or synthesized outputs become canonical only when their ownership, evid
 ## Current V16 drafting scope
 
 This pass now covers:
-- full first-pass V16 formalization for `prompt-completeness`,
-- first-pass closure design for the other eight V15 proof families,
+- the most complete current V16 family formalization for `prompt-completeness`,
+- family-closure drafting for the other eight V15 proof families,
 - explicit member-coverage plus member-closure criteria across all nine families,
 - theorem-binding plus proof-shape-realization direction across all nine families,
 - current realization-basis theorem catalogs plus family-verdict-schema direction across all nine families,
@@ -1947,7 +1948,7 @@ V16 should preserve and ratchet that shape through:
 Its minimum artifact/replay binding set should include:
 1. `.engi/verification-receipts.json`
 2. `.engi/verification-report.json`
-3. and a first-class verification-decisions family proof artifact when realized.
+3. `.engi/verification-decisions-proof.json`
 
 Its minimum replay steps should include:
 1. decision-stage-to-member replay,
@@ -2228,23 +2229,23 @@ The current provisional member-coverage reading for `selection-and-materializati
 
 1. selected assets
    Realized through asset-pack selection surfaces, selection-consistency proof, and aggregate materialization proof.
-   Current debt: selected-asset closure is still under-materialized because the primary selection-consistency proof lacks its own first-class artifact.
+   Current debt: selected-asset closure now has a first-class selection-consistency artifact, but selected-set truth still has to stay ratcheted across selection consistency, aggregate materialization, and later settlement-facing consequences.
 
 2. locked units
    Realized through `.engi/asset-pack.lock.json` plus visibility and selection-consistency closure.
-   Current debt: replay still omits the lock surface even though the family closes back to it directly.
+   Current debt: lock closure is now replay-visible, but the family still has to keep lock truth primary rather than allowing later aggregate materialization summaries to stand in for it.
 
 3. materialized source
    Realized through `.engi/selected-source-material.json` plus selection-consistency and materialization proof closure.
-   Current debt: source-manifest closure remains underreplayed and underwitnessed relative to its family importance.
+   Current debt: source-manifest closure is now witnessed and replayed directly, but it still has to remain role-distinct from lock and aggregate materialization closure.
 
 4. exclusions
    Realized through `.engi/materialization-exclusions.json`.
-   Current debt: exclusions remain explicit, but witness/replay closure still flattens them into broader materialization closure too often.
+   Current debt: exclusions are explicit and replay-visible, but they still have to remain role-distinct from broader aggregate materialization closure.
 
 5. visibility rules
    Realized through `.engi/materialization-visibility-proof.json`.
-   Current debt: replay still omits the visibility surface and the family has not yet made that omission fail closure directly.
+   Current debt: visibility proof is now replay-visible, but the family still has to keep visibility closure primary and ratcheted against selected-set and exclusion truth.
 
 ### 10.15 Member closure criteria
 
@@ -2338,7 +2339,7 @@ Its minimum artifact/replay binding set should include:
 2. `.engi/selected-source-material.json`
 3. `.engi/materialization-exclusions.json`
 4. `.engi/materialization-visibility-proof.json`
-5. a first-class selection-consistency artifact
+5. `.engi/selection-consistency-proof.json`
 6. `.engi/materialization-proof.json`
 
 Its minimum replay steps should include:
@@ -2492,8 +2493,7 @@ Under the current first-pass reading, V16 should provisionally treat the family'
    `.engi/sensitive-data-flow.json`
 
 4. likely future first-class family artifacts when family closure becomes more explicit
-   - `.engi/identity-authorization-proof.json`
-   - `.engi/sensitive-data-flow-proof.json`
+   - `.engi/authorization-and-sensitive-flow-proof.json`
 
 The important V16 move is not the final filename list.
 It is that the family stops treating:
@@ -2509,8 +2509,8 @@ The current family work now supports a first replay/witness direction as well.
 
 V16 should provisionally prefer the following posture:
 
-1. witness artifact paths should include all three primary family artifacts,
-2. replay artifacts should include all three primary family artifacts,
+1. witness artifact paths should include the three primary family member artifacts and the realized family proof artifacts,
+2. replay artifacts should include the three primary family member artifacts and the realized family proof artifacts,
 3. replay instructions should reconstruct:
    - principal-binding closure,
    - authorization-decision closure,
@@ -2657,8 +2657,9 @@ Its minimum artifact/replay binding set should include:
 1. `.engi/identity-bindings.json`
 2. `.engi/authorization-decisions.json`
 3. `.engi/sensitive-data-flow.json`
-4. a first-class identity-authorization proof artifact
-5. a first-class sensitive-data-flow proof artifact
+4. `.engi/identity-authorization-proof.json`
+5. `.engi/sensitive-data-flow-proof.json`
+6. `.engi/authorization-and-sensitive-flow-proof.json`
 
 Its minimum replay steps should include:
 1. principal-binding replay,
@@ -3006,8 +3007,9 @@ Its minimum artifact/replay binding set should include:
 2. `.engi/settlement-participation.json`
 3. `.engi/accounting-precision-report.json`
 4. `.engi/journal-diff.json`
-5. a first-class journal-completeness artifact
+5. `.engi/journal-completeness-proof.json`
 6. `.engi/settlement-proof.json`
+7. `.engi/settlement-source-to-shares-proof.json`
 
 Its minimum replay steps should include:
 1. contribution/clipping/normalization replay,
@@ -3167,7 +3169,7 @@ Under the current first-pass reading, V16 should provisionally treat the family'
    `.engi/disclosure-proof.json`
 
 5. likely future first-class family artifact when family closure becomes more explicit
-   - `.engi/disclosure-boundary-proof.json`
+   - none beyond the currently realized family proof unless V16 later adds a second disclosure-family aggregate surface
 
 ### 13.8 Provisional witness-materialization and replay direction
 
@@ -3175,8 +3177,8 @@ The current family work now supports a first replay/witness direction as well.
 
 V16 should provisionally prefer the following posture:
 
-1. witness artifact paths should include all four primary family artifacts,
-2. replay artifacts should include all four primary family artifacts,
+1. witness artifact paths should include all four primary family member artifacts plus the realized disclosure-boundary family proof,
+2. replay artifacts should include all four primary family member artifacts plus the realized disclosure-boundary family proof,
 3. replay instructions should reconstruct:
    - projection-policy closure,
    - bounded-public closure,
@@ -3311,7 +3313,7 @@ Its minimum artifact/replay binding set should include:
 2. `.engi/bounded-public-proof.json`
 3. `.engi/redaction-proof.json`
 4. `.engi/disclosure-proof.json`
-5. and a disclosure-boundary family proof artifact when realized.
+5. `.engi/disclosure-boundary-proof.json`
 
 Its minimum replay steps should include:
 1. policy replay,

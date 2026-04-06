@@ -300,19 +300,22 @@ This is the first point where the family has a concrete materialization rule rat
 
 ## Reading guidance for the current V16 file family
 
+Some family-specific sections below preserve the chronological discovery path.
+Where an early-findings subsection and the current V16 spec or parity matrix disagree, the later theorem-bearing sections in the spec and parity matrix are the current audit authority.
+
 For this pass:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16_SYSTEM_PARITY_MATRIX.md` is the debt ledger,
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16.md` now contains all nine V15 proof families at first-pass V16 closure depth,
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16.md` now contains all nine V15 proof families through member closure and theorem-by-theorem family drafting,
 - and this notes file explains why the families were opened in this order and what each one still needs.
 
 This means the V16 file family is intentionally asymmetrical right now.
 It is not a full replacement for V15 yet.
-It is a proof-family drafting wedge into V16, with some families tighter than others by design.
+It is a proof-family drafting wedge into V16, with some families tighter than others by design but all nine now carried past pure family opening into theorem-bearing closure language.
 
 ## What remains out of scope for now
 
 This pass still does not yet draft:
-- the full V16 theorem catalog,
+- the cross-family theorem catalog beyond the now-realized family theorem sets,
 - `_PROVEN_` appendix generation,
 - proof-program inventory beyond the family-first closure pass,
 - or the full V16 system spec rewrite.
@@ -912,20 +915,22 @@ The current direction is:
 
 ## Current family-pass state
 
-All nine V15 proof families are now opened in V16 drafting at the same broad closure depth:
-- first family-specific case,
-- second family-specific role case,
-- provisional artifact direction,
-- witness/replay direction,
+All nine V15 proof families are now opened in V16 drafting at the same broad closure level:
+- family-specific cases,
+- artifact and witness/replay direction,
 - expected versus realized versus family-closure split,
-- and member-coverage inventory.
+- member-coverage inventory,
+- member-closure criteria,
+- theorem-binding and proof-shape direction,
+- and theorem-by-theorem closure reading tied to realized source theorem ids.
 
 The next work after this family pass is not to open more families.
-It is to return family-by-family and tighten member closure criteria, proof-shape requirements, theorem bindings, and implementation debt ratchets, then move into proof appendix generation and proof-program inventory.
+It is to translate this audited family layer into source-side implementation completion and proof execution, then only after that move into `_PROVEN_` appendix generation and broader proof-program inventory.
 
-The current state after this member pass is:
+The current audit conclusion is:
 
-1. every V15 proof family now has an explicit member inventory in the spec or parity matrix,
-2. the first five families no longer lag the later four on member-by-member coverage drafting,
-3. every family member now also has an explicit closure-criteria direction in the spec and member-tightening signals in the parity matrix,
-4. and the next productive move is no longer to enumerate or first-tighten members, but to drive each family from member-closure criteria into theorem binding, proof-shape realization, and implementation debt ratchets.
+1. every V15 proof family now has an explicit member inventory in the spec and parity matrix,
+2. every family member now also has explicit closure criteria and ratchetable debt language,
+3. every family now has a realized theorem catalog and theorem-by-theorem closure reading aligned to current source,
+4. the spec, matrix, and notes now consistently defer `_PROVEN_` until the rest of proving closure is finished,
+5. and the next productive move is source-side implementation completion rather than further family-level drafting.

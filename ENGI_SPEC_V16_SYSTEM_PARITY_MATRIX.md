@@ -48,11 +48,9 @@ This is the root system ledger.
 It is not the demo-local implementation matrix.
 For this drafting pass:
 - `prompt-completeness` is the most tightened family,
-- `inference-synthesis` is opened and provisionally shaped,
-- `static-code-analysis` is now opened through full first-pass family closure design,
-- `verification-decisions` is now opened through full first-pass family closure design,
-- `selection-and-materialization` is now opened through full first-pass family closure design,
-- `authorization-and-sensitive-flow`, `settlement-source-to-shares`, `disclosure-boundary`, and `proof-contract` are now also opened through full first-pass family closure design,
+- `inference-synthesis` is opened and theorem-shaped,
+- `static-code-analysis`, `verification-decisions`, and `selection-and-materialization` are now carried through theorem-by-theorem closure drafting,
+- `authorization-and-sensitive-flow`, `settlement-source-to-shares`, `disclosure-boundary`, and `proof-contract` are now also carried through theorem-by-theorem closure drafting,
 - and all nine V15 proof families are now inside the active V16 family pass.
 
 ## Member-tightening interpretation rule
@@ -2982,23 +2980,23 @@ The current provisional family-member coverage reading is:
 
 1. selected assets
    Realized through asset-pack selection surfaces, selection-consistency proof, and aggregate materialization proof.
-   Current debt: selected-asset closure is still under-materialized because the primary selection-consistency proof lacks its own first-class artifact.
+   Current debt: selected-asset closure now has a first-class selection-consistency artifact, but selected-set truth still has to stay ratcheted across selection consistency, aggregate materialization, and settlement-facing consequences.
 
 2. locked units
    Realized through `.engi/asset-pack.lock.json` plus visibility and selection-consistency closure.
-   Current debt: replay still omits the lock surface even though the family closes back to it directly.
+   Current debt: lock closure is now replay-visible, but the family still has to keep lock truth primary rather than letting aggregate materialization closure stand in for it.
 
 3. materialized source
    Realized through `.engi/selected-source-material.json` plus selection-consistency and materialization proof closure.
-   Current debt: source-manifest closure remains underreplayed and underwitnessed relative to its family importance.
+   Current debt: source-manifest closure is now witnessed and replayed directly, but it still has to remain role-distinct from lock and aggregate materialization closure.
 
 4. exclusions
    Realized through `.engi/materialization-exclusions.json`.
-   Current debt: exclusions remain explicit, but witness/replay closure still flattens them into broader materialization closure too often.
+   Current debt: exclusions are explicit and replay-visible, but they still have to remain role-distinct from broader aggregate materialization closure.
 
 5. visibility rules
    Realized through `.engi/materialization-visibility-proof.json`.
-   Current debt: replay still omits the visibility surface and the family has not yet made that omission fail closure directly.
+   Current debt: visibility proof is now replay-visible, but the family still has to keep visibility closure primary and ratcheted against selected-set and exclusion truth.
 
 ### Selection-And-Materialization member tightening signals
 
@@ -3460,11 +3458,11 @@ The current provisional family-member coverage reading is:
 
 1. principals
    Realized through identity bindings and identity-authorization proof.
-   Current debt: witness artifact paths undername the principal-binding surface.
+   Current debt: principal-binding surfaces are now in witness and replay closure, but the family still has to keep authority truth distinct from later disclosure-boundary projection rules.
 
 2. authorization decisions
    Realized through `.engi/authorization-decisions.json` and identity-authorization proof.
-   Current debt: decision truth is present but not yet replayed as a family-specific path.
+   Current debt: authorization decisions are now replayed as family-specific truth, but they still have to remain explicitly policy-backed and distinct from identity-binding truth.
 
 3. confidentiality classes
    Realized through sensitive-data-flow records and policy-release classes.
@@ -3476,7 +3474,7 @@ The current provisional family-member coverage reading is:
 
 5. sensitive-data flows
    Realized through `.engi/sensitive-data-flow.json` and `SensitiveDataFlowProof`.
-   Current debt: witness and replay closure are still too thin.
+   Current debt: witness and replay closure are now direct, but the family still has to keep sensitive-flow truth explicit and distinct from later disclosure-boundary closure.
 
 ### Authorization-And-Sensitive-Flow member tightening signals
 
@@ -3946,11 +3944,11 @@ The current provisional family-member coverage reading is:
 
 6. journal
    Realized through `.engi/journal-diff.json` and `JournalCompletenessProof`.
-   Current debt: journal-completeness proof has no first-class artifact.
+   Current debt: journal-completeness proof is now a first-class artifact, but journal closure still has to remain role-distinct from theorem-bearing settlement closure.
 
 7. settlement proof
    Realized through `.engi/settlement-proof.json` and `SettlementProof`.
-   Current debt: witness refs omit direct settlement-proof closure and replay omits the artifact.
+   Current debt: settlement proof is now directly witnessed and replayed, but theorem-bearing settlement closure still has to stay explicit rather than collapsing into broader accounting summaries.
 
 ### Settlement-Source-To-Shares member tightening signals
 
@@ -4386,19 +4384,19 @@ The current provisional family-member coverage reading is:
 
 1. projection policy
    Realized through `.engi/projection-policy.json`.
-   Current debt: replay omits it entirely.
+   Current debt: projection policy is now replay-visible, but it still has to remain the primary disclosure authority rather than a secondary explanatory surface.
 
 2. bounded-public proof
    Realized through `.engi/bounded-public-proof.json`.
-   Current debt: witness artifact paths omit it even though the family definition names it explicitly.
+   Current debt: bounded-public proof is now directly witnessed, but it still has to remain primary rather than surviving only through later disclosure or redaction agreement.
 
 3. redaction proof
    Realized through `.engi/redaction-proof.json`.
-   Current debt: redaction is present, but family witness closure overrelies on bounded-public hashes only.
+   Current debt: redaction proof is now directly witnessed, but it still has to remain explicitly aligned to projection-policy and bounded-public truth.
 
 4. disclosure proof
    Realized through `.engi/disclosure-proof.json`.
-   Current debt: disclosure verdict is present, but replay does not reconstruct the family path that yields it.
+   Current debt: disclosure proof is now replay-visible, but it still has to remain downstream of policy and bounded-public truth rather than acting as a substitute for them.
 
 ### Disclosure-Boundary member tightening signals
 
@@ -4831,23 +4829,23 @@ The current provisional family-member coverage reading is:
 
 1. proof contract
    Realized in runtime as `proofContract`.
-   Current debt: it is not emitted as a first-class artifact.
+   Current debt: proof contract is now emitted as `.engi/proof-contract.json`, but the family still has to keep it primary rather than allowing bundle coherence alone to stand in for it.
 
 2. evidence chain
    Realized inside `proofContract.evidenceChain`.
-   Current debt: replay does not reconstruct it explicitly.
+   Current debt: evidence chain is now replay-visible, but it still has to remain explicit, ordered, and role-distinct as cross-family proof surfaces evolve.
 
 3. theorem checks
    Realized inside `proofContract.theoremChecks`.
-   Current debt: theorem closure is not yet a first-class replay-visible surface.
+   Current debt: theorem closure is now replay-visible through the proof-contract family path, but theorem checks still have to remain stably bound to witness-bearing artifacts rather than drifting into summary prose.
 
 4. system proof bundle
    Realized through `.engi/system-proof-bundle.json`.
-   Current debt: witness structure overrelies on the bundle while omitting adjacent family surfaces.
+   Current debt: the bundle now sits alongside contract and witness-manifest artifacts, but it still has to remain an aggregation surface rather than a silent substitute for those adjacent family surfaces.
 
 5. witness-manifest closure
    Realized through `.engi/proof-witness-manifest.json`.
-   Current debt: the family witness layer omits it even though V15 witness-manifest closure rules make it central.
+   Current debt: witness manifest is now part of family witness and replay closure, but it still has to remain visibly central as proof-family surfaces and theorem bindings expand.
 
 ### Proof-Contract member tightening signals
 
