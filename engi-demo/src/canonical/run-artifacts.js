@@ -276,14 +276,18 @@ function buildPromptImplementationSurface(
  * @param {string} needId
  * @param {string} assetPackId
  * @param {InferenceProof[]} inferenceProofs
+ * @param {Record<string, unknown>} inferenceSynthesisProof
  * @param {ParsedCompletionEnvelope[]} parsedCompletionEnvelopes
  * @param {ParsedCompletionEnvelopeArtifact | null} parsedCompletionEnvelopeArtifact
  * @param {unknown} assetMeasurementProofs
  * @param {ProofHashShape} selectionConsistencyProof
+ * @param {Record<string, unknown>} selectionAndMaterializationProof
  * @param {ProofHashShape} journalCompletenessProof
  * @param {ProofHashShape} identityAuthorizationProof
  * @param {ProofHashShape} sensitiveDataFlowProof
+ * @param {Record<string, unknown>} authorizationAndSensitiveFlowProof
  * @param {ProofHashShape} settlementProof
+ * @param {Record<string, unknown>} settlementSourceToSharesProof
  * @param {Record<string, unknown>} promptImplementationSurface
  * @param {Record<string, unknown>} promptCompletenessProof
  * @param {ProofHashShape} staticMeasurementProof
@@ -291,11 +295,13 @@ function buildPromptImplementationSurface(
  * @param {MaterializationExclusionsShape} materializationExclusions
  * @param {ProofHashShape} materializationVisibilityProof
  * @param {unknown} verificationReceiptsArtifact
+ * @param {Record<string, unknown>} verificationDecisionsProof
  * @param {unknown} sourceToSharesArtifact
  * @param {SettlementParticipationArtifactShape} settlementParticipationArtifact
  * @param {ReportHashShape} accountingPrecisionReport
  * @param {ProofHashShape} redactionProof
  * @param {ProofHashShape} disclosureProof
+ * @param {Record<string, unknown>} disclosureBoundaryProof
  * @param {ProofWitnessManifestShape} proofWitnessManifest
  * @param {Record<string, unknown>} proofContract
  */

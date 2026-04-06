@@ -243,23 +243,31 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
  *   staticMeasurementProof: { proofHash: string },
  *   verificationReport: unknown,
  *   verificationReceiptsArtifact?: { verificationReceipts?: Array<{ receiptId: string }> | undefined } | null,
+ *   verificationDecisionsProof?: { proofHash?: string | undefined } | undefined,
  *   identityBindings: unknown,
  *   authorizationDecisions: unknown,
  *   sensitiveDataFlowRecords: unknown,
+ *   inferenceSynthesisProof?: { proofHash?: string | undefined } | undefined,
  *   selectionConsistencyProof: { proofHash: string },
+ *   selectionAndMaterializationProof?: { proofHash?: string | undefined } | undefined,
  *   journalCompletenessProof: { proofHash: string },
  *   identityAuthorizationProof: { proofHash: string },
  *   sensitiveDataFlowProof: { proofHash: string },
+ *   authorizationAndSensitiveFlowProof?: { proofHash?: string | undefined } | undefined,
  *   materializationProof: { proofHash: string },
  *   materializationExclusions: { proofHash: string },
  *   materializationVisibilityProof: { proofHash: string },
- *   sourceToSharesArtifact: { proofHash: string },
- *   settlementParticipationArtifact: { proofHash: string },
- *   accountingPrecisionReport: { reportHash: string },
- *   settlementProof: { assetPackLockHash: string },
+  *   sourceToSharesArtifact: { proofHash: string },
+  *   settlementParticipationArtifact: { proofHash: string },
+  *   accountingPrecisionReport: { reportHash: string },
+ *   settlementSourceToSharesProof?: { proofHash?: string | undefined } | undefined,
+ *   settlementProof: { assetPackLockHash: string, proofHash?: string | undefined },
  *   journalDiff: unknown,
+ *   projectionPolicy?: { policyHash?: string | undefined } | undefined,
+ *   boundedPublicProof?: { boundedPublicProofHash?: string | undefined } | undefined,
  *   redactionProof: { boundedPublicProofHash: string },
- *   disclosureProof: { boundedPublicProofHash: string, projectionPolicyRef?: string | undefined },
+  *   disclosureProof: { boundedPublicProofHash: string, projectionPolicyRef?: string | undefined },
+ *   disclosureBoundaryProof?: { proofHash?: string | undefined } | undefined,
  *   proofContract: { contractId: string }
  * }} input
  * @returns {Record<string, unknown>}
@@ -351,8 +359,7 @@ function buildProofWitnessManifest({
     { path: '.engi/disclosure-proof.json', digest: disclosureProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/disclosure-boundary-proof.json', digest: disclosureBoundaryProof?.proofHash || stableHashObject({ missing: 'disclosure-boundary-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/proof-contract.json', digest: stableHashObject(proofContract || {}), proofFamilies: ['proof-contract'] },
-    { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] },
-    { path: '.engi/system-proof-bundle.json', digest: stableHashObject({ pending: 'system-proof-bundle-built-later' }), proofFamilies: ['proof-contract'] }
+    { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] }
   ];
   return {
     conformanceProfile: PROFILE_A,

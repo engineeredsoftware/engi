@@ -34,10 +34,11 @@ import {
  * @typedef {{
  *   promptSurfaces: any[],
  *   promptContracts: any[],
+ *   inferenceSynthesisProof?: any,
  *   promptCompletenessProof: any,
- *   staticExecutionReceipts: any[],
- *   measurementProvenance: any[],
- *   needDescriptor: { promptSurfaces: any[] }
+  *   staticExecutionReceipts: any[],
+  *   measurementProvenance: any[],
+  *   needDescriptor: { promptSurfaces: any[] }
  * }} TestMeasurement
  */
 
@@ -238,13 +239,16 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   const state = buildInitialStateTest();
   const measurement = measureNeedFromScenarioTest(state.needScenarios[0]);
 
-  assert.ok(measurement.promptSurfaces.length >= 4);
+  assert.ok(measurement.promptSurfaces.length >= 5);
   assert.equal(measurement.needDescriptor.promptSurfaces.length, measurement.promptSurfaces.length);
   assert.match(measurement.promptSurfaces[0].interpolatedPrompt, /frontier\/demo-auth/);
   assert.ok(measurement.promptSurfaces[0].contextInputs.length >= 3);
   assert.ok(measurement.promptSurfaces[0].lineage.downstreamArtifacts.includes('.engi/need.json'));
   assert.equal(measurement.promptCompletenessProof.allContractsComplete, true);
+  assert.equal(measurement.promptCompletenessProof.allTheoremsPassed, true);
+  assert.equal(measurement.inferenceSynthesisProof.allTheoremsPassed, true);
   assert.ok(measurement.promptContracts.every((contract) => contract.completeness.ok));
+  assert.ok(measurement.promptContracts.every((contract) => Array.isArray(contract.outputFields) && contract.outputFields.length >= 1));
   assert.ok(measurement.promptContracts.every((contract) => contract.parseContractId.startsWith('parse_contract_')));
   assert.ok(measurement.promptContracts.every((contract) => contract.expectedOutputSchema.length === 1));
   assert.ok(measurement.promptContracts.every((contract) => contract.requiresExactTopLevelKeys === true));
@@ -589,7 +593,9 @@ test('runMakeEngiBranch materializes prompt surfaces, external boundary manifest
   assert.ok(latestRun.externalBoundaryManifest.interfaces.length >= 6);
   assert.ok(latestRun.proofContract.evidenceChain.length >= 4);
   assert.ok(latestRun.branchArtifacts.files['.engi/prompt-surfaces.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/inference-synthesis-proof.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/external-boundary-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/proof-contract.json']);
 });
 
 test('system proof bundle includes prompt, measurement, verification, materialization, and settlement witnesses', () => {
@@ -601,33 +607,53 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   const inferenceSynthesisFamily = proof.proofWitnessManifest.proofFamilies.find((/** @type {any} */ entry) => entry.proofFamily === 'inference-synthesis');
 
   assert.ok(proof.assetMeasurementProofs.length >= 1);
+  assert.equal(proof.inferenceSynthesisProof.allTheoremsPassed, true);
   assert.equal(proof.promptCompletenessProof.allContractsComplete, true);
+  assert.equal(proof.promptCompletenessProof.allTheoremsPassed, true);
   assert.equal(proof.staticMeasurementProof.allReceiptRefsResolve, true);
+  assert.equal(proof.verificationDecisionsProof.allTheoremsPassed, true);
   assert.equal(proof.selectionConsistencyProof.allSelectedAssetsRespectUseTier, true);
+  assert.equal(proof.selectionAndMaterializationProof.allTheoremsPassed, true);
   assert.equal(proof.materializationProof.allSelectedAssetsMaterialized, true);
   assert.equal(proof.materializationVisibilityProof.allSelectedAssetsHaveMaterializedSourceBindings, true);
   assert.equal(proof.materializationVisibilityProof.noUnexpectedMaterializedSourceBindings, true);
   assert.equal(proof.identityAuthorizationProof.allStateChangingActionsAuthorized, true);
+  assert.equal(proof.authorizationAndSensitiveFlowProof.allTheoremsPassed, true);
   assert.equal(proof.sensitiveDataFlowProof.requiredSensitiveClassesCovered, true);
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
+  assert.equal(proof.settlementSourceToSharesProof.allTheoremsPassed, true);
+  assert.equal(proof.disclosureBoundaryProof.allTheoremsPassed, true);
   assert.ok(proof.verificationReceiptsArtifact.verificationReceipts.length >= 4);
-  assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 7);
+  assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 9);
   assert.ok(proofFamilies.includes('inference-synthesis'));
+  assert.ok(proofFamilies.includes('verification-decisions'));
+  assert.ok(proofFamilies.includes('selection-and-materialization'));
+  assert.ok(proofFamilies.includes('authorization-and-sensitive-flow'));
+  assert.ok(proofFamilies.includes('settlement-source-to-shares'));
+  assert.ok(proofFamilies.includes('disclosure-boundary'));
+  assert.ok(proofFamilies.includes('proof-contract'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
   assert.ok(artifactPaths.includes('.engi/prompt-surfaces.json'));
+  assert.ok(artifactPaths.includes('.engi/inference-synthesis-proof.json'));
   assert.ok(artifactPaths.includes('.engi/asset-pack.lock.json'));
   assert.ok(artifactPaths.includes('.engi/selected-source-material.json'));
   assert.ok(artifactPaths.includes('.engi/identity-bindings.json'));
   assert.ok(artifactPaths.includes('.engi/authorization-decisions.json'));
   assert.ok(artifactPaths.includes('.engi/sensitive-data-flow.json'));
+  assert.ok(artifactPaths.includes('.engi/verification-decisions-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/selection-and-materialization-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/authorization-and-sensitive-flow-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/settlement-source-to-shares-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/disclosure-boundary-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/proof-contract.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/source-to-shares.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/materialization-proof.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/static-heuristics-registry.json'));
   assert.ok(artifactPaths.includes('.engi/journal-diff.json'));
   assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, [
     '.engi/prompt-surfaces.json',
-    '.engi/prompt-contracts.json',
-    '.engi/parsed-completion-envelopes.json'
+    '.engi/parsed-completion-envelopes.json',
+    '.engi/inference-synthesis-proof.json'
   ]);
   assert.ok(inferenceSynthesisFamily?.witnessRefs.length >= proof.promptImplementationSurface.inferredOutputs.length);
   assert.ok(proof.sourceToSharesArtifact.sourceContributionEntries.length >= 1);
@@ -688,6 +714,13 @@ test('policy release artifact classes cover verification, authz, and sensitive-d
   assert.ok(artifactPaths.includes('.engi/materialization-proof.json'));
   assert.ok(artifactPaths.includes('.engi/materialization-exclusions.json'));
   assert.ok(artifactPaths.includes('.engi/static-measurement-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/inference-synthesis-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/verification-decisions-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/selection-and-materialization-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/authorization-and-sensitive-flow-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/settlement-source-to-shares-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/disclosure-boundary-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/proof-contract.json'));
 });
 
 test('eval manifest codifies evaluator interfaces and stand-in boundaries', () => {
@@ -898,9 +931,11 @@ test('measurement receipts and static report stay linked to provenance ids', () 
   assert.ok(latestRun.measurementReceipts.length >= 3);
   assert.equal(latestRun.staticMeasurementReport.allReceiptRefsResolve, true);
   assert.equal(latestRun.staticMeasurementProof.allReceiptRefsResolve, true);
+  assert.ok(latestRun.measurementReceipts.every((receipt) => !receipt.stageId.startsWith('verification.')));
+  assert.ok(latestRun.verificationReceipts.verificationReceipts.every((receipt) => receipt.stageId.startsWith('verification.')));
   assert.equal(latestRun.codeAnalysisFactRegistry.audit.allConsumedFactsRegistered, true);
   assert.ok(latestRun.needMeasurement.measurementProvenance.filter((/** @type {any} */ entry) => entry.mode === 'static').every((/** @type {any} */ entry) => entry.receiptRefs.every((/** @type {any} */ receiptId) => receiptIds.has(receiptId))));
-  assert.ok(latestRun.evaluatedCandidates.some((candidate) => candidate.measurementProvenance.some((/** @type {any} */ entry) => entry.receiptRefs.some((/** @type {any} */ receiptId) => receiptIds.has(receiptId)))));
+  assert.ok(latestRun.verificationReceipts.verificationReceipts.length >= latestRun.evaluatedCandidates.length);
 });
 
 test('deliverables manifest and journal receipts remain internally consistent', () => {

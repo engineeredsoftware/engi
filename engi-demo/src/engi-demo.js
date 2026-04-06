@@ -496,6 +496,12 @@ function collectStaticExecutionReceipts(values = []) {
  * @returns {Record<string, unknown>}
  */
 function buildStaticMeasurementReport(receipts = [], needMeasurement = null, evaluatedCandidates = []) {
+  const expectedStaticReceiptIds = summarizeStrings([
+    ...(needMeasurement?.measurementProvenance || [])
+      .filter((/** @type {any} */ entry) => entry.mode === 'static')
+      .flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
+    ...evaluatedCandidates.flatMap((candidate) => candidate.asset?.assetMeasurement?.staticExecutionReceipts || []).map((/** @type {any} */ receipt) => receipt.receiptId)
+  ]);
   const byStage = receipts.map((receipt) => ({
     receiptId: receipt.receiptId,
     stageId: receipt.stageId,
@@ -507,13 +513,14 @@ function buildStaticMeasurementReport(receipts = [], needMeasurement = null, eva
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     receiptCount: receipts.length,
-    needMeasurementReceiptIds: summarizeStrings((needMeasurement?.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])),
-    verificationReceiptIds: summarizeStrings(evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])),
+    needMeasurementReceiptIds: summarizeStrings(
+      (needMeasurement?.measurementProvenance || [])
+        .filter((/** @type {any} */ entry) => entry.mode === 'static')
+        .flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
+    ),
+    assetMeasurementReceiptIds: summarizeStrings(evaluatedCandidates.flatMap((candidate) => candidate.asset?.assetMeasurement?.staticExecutionReceipts || []).map((/** @type {any} */ receipt) => receipt.receiptId)),
     byStage,
-    allReceiptRefsResolve: summarizeStrings([
-      ...(needMeasurement?.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
-      ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
-    ]).every((receiptId) => receipts.some((receipt) => receipt.receiptId === receiptId)),
+    allReceiptRefsResolve: expectedStaticReceiptIds.every((receiptId) => receipts.some((receipt) => receipt.receiptId === receiptId)),
     reportHash: stableHashObject(byStage)
   };
 }
@@ -526,8 +533,10 @@ function buildStaticMeasurementReport(receipts = [], needMeasurement = null, eva
  */
 function buildStaticMeasurementProof(receipts = [], needMeasurement = null, evaluatedCandidates = []) {
   const expectedReceiptRefs = summarizeStrings([
-    ...(needMeasurement?.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
-    ...evaluatedCandidates.flatMap((candidate) => candidate.measurementProvenance || []).flatMap((/** @type {any} */ entry) => entry.receiptRefs || [])
+    ...(needMeasurement?.measurementProvenance || [])
+      .filter((/** @type {any} */ entry) => entry.mode === 'static')
+      .flatMap((/** @type {any} */ entry) => entry.receiptRefs || []),
+    ...evaluatedCandidates.flatMap((candidate) => candidate.asset?.assetMeasurement?.staticExecutionReceipts || []).map((/** @type {any} */ receipt) => receipt.receiptId)
   ]);
   const receiptIds = new Set(receipts.map((receipt) => receipt.receiptId));
   const coveredStageIds = summarizeStrings(receipts.map((receipt) => receipt.stageId));
@@ -4135,6 +4144,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/sensitive-data-flow.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/policy-release.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/prompt-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/inference-synthesis-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/prompt-completeness-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
@@ -4142,22 +4152,32 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/static-measurement-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-measurement-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/verification-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/verification-decisions-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/selection-consistency-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/selection-and-materialization-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/materialization-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/materialization-exclusions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/proof-witness-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/materialization-visibility-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/identity-authorization-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/sensitive-data-flow-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/authorization-and-sensitive-flow-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/projection-policy.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/bounded-public-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/redaction-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/disclosure-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/disclosure-boundary-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/source-to-shares.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/settlement-participation.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
       { path: '.engi/accounting-precision-report.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/journal-completeness-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/settlement-source-to-shares-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/scenario-fixture-manifest.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/test-coverage-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/source-material/', sensitiveDataClass: 'licensed-source-material', disclosable: false },
       { path: '.engi/settlement-preview.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
       { path: '.engi/settlement-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/proof-contract.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/system-proof-bundle.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: 'ENGI_NEED.md', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false }
     ],
@@ -4401,11 +4421,11 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
     buildTheoremVerdict({ theoremId: 'verification_decisions.issuer_policy_closure', passed: verificationFamilies.includes('issuer-policy'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
     buildTheoremVerdict({
       theoremId: 'verification_decisions.use_tier_consequence_closure',
-      passed: (verificationReport?.assetVerification || []).every((entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier),
+      passed: (verificationReport?.assetVerification || []).every((/** @type {any} */ entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier),
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts,
       replayStepIds: ['verification-decisions.use-tier-consequence'],
-      failureReasons: (verificationReport?.assetVerification || []).every((entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) ? [] : ['verification report undernames use-tier consequence closure']
+      failureReasons: (verificationReport?.assetVerification || []).every((/** @type {any} */ entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) ? [] : ['verification report undernames use-tier consequence closure']
     }),
     buildTheoremVerdict({
       theoremId: 'verification_decisions.receipt_report_role_closure',
@@ -4431,7 +4451,7 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
       { memberId: 'provenance', passed: verificationFamilies.includes('provenance') },
       { memberId: 'sufficiency', passed: verificationFamilies.includes('sufficiency') },
       { memberId: 'issuer-policy', passed: verificationFamilies.includes('issuer-policy') },
-      { memberId: 'use-tier-consequence', passed: (verificationReport?.assetVerification || []).every((entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) }
+      { memberId: 'use-tier-consequence', passed: (verificationReport?.assetVerification || []).every((/** @type {any} */ entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) }
     ],
     theoremVerdicts,
     artifactBindings: [
@@ -4499,7 +4519,7 @@ function buildSelectionAndMaterializationProof(selectionConsistencyProof, materi
       { memberId: 'selected-assets', passed: selectionConsistencyProof?.assetPackSelectionsMatchSelectedCandidates === true },
       { memberId: 'locked-units', passed: selectionConsistencyProof?.materializedSourceUnitsClosedOverLock === true },
       { memberId: 'materialized-source', passed: materializationProof?.allSelectedAssetsMaterialized === true },
-      { memberId: 'exclusions', passed: materializationProof?.allExclusionsExplained === true && (materializationExclusions?.exclusions || []).every((entry) => !!entry.exclusionReason) },
+      { memberId: 'exclusions', passed: materializationProof?.allExclusionsExplained === true && (materializationExclusions?.exclusions || []).every((/** @type {any} */ entry) => !!entry.exclusionReason) },
       { memberId: 'visibility-rules', passed: materializationVisibilityProof?.noPrivateArtifactsLeakIntoPublicProjection === true }
     ],
     theoremVerdicts,
@@ -4551,7 +4571,7 @@ function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sen
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.principal_authority_totality', passed: identityAuthorizationProof?.allAccessBoundToKnownPrincipals === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['authorization-sensitive-flow.identity'] }),
     buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.authorization_decision_closure', passed: identityAuthorizationProof?.allStateChangingActionsAuthorized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['authorization-sensitive-flow.identity'] }),
-    ...(sensitiveDataFlowProof?.theoremVerdicts || []).map((entry) => ({
+    ...(sensitiveDataFlowProof?.theoremVerdicts || []).map((/** @type {any} */ entry) => ({
       ...entry,
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts
@@ -4685,7 +4705,15 @@ function buildProofContract({ needId, assetPackId, branchName, selectedCandidate
       selectedAssets: selectedCandidates.map((/** @type {any} */ candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
       authorizationDecisionCount: authorizationDecisions.length,
       sensitiveFlowCount: sensitiveDataFlowRecords.length
-    }
+    },
+    proofHash: stableHashObject({
+      needId,
+      assetPackId,
+      branchName,
+      theoremChecks: theoremCheckCatalog,
+      evidenceChainLength: 5,
+      selectedAssetCount: selectedCandidates.length
+    })
   };
 }
 
@@ -4724,9 +4752,9 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
   ];
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.contribution_totality', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).length > 0, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
-    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.clipping_determinism', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).every((entry) => !!entry.clippingReceiptId || entry.contributionDisposition === 'excluded'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.clipping_determinism', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).every((/** @type {any} */ entry) => !!entry.clippingReceiptId || entry.clipped !== true), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.normalization_exactness', passed: settlementProof?.theoremChecks?.rawSharesNormalized === true && settlementProof?.theoremChecks?.settledSharesNormalized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
-    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.participation_totality', passed: (settlementParticipationArtifact?.participants || []).length >= (settlementParticipationArtifact?.participatingAssetCount || 0), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
+    buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.participation_totality', passed: (settlementParticipationArtifact?.records || []).filter((/** @type {any} */ entry) => entry.settlementParticipating).length === (settlementParticipationArtifact?.settlementParticipatingCount || 0), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.allocation_conservation', passed: settlementProof?.theoremChecks?.allocationConserved === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.contribution-allocation'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.journal_completeness', passed: journalCompletenessProof?.receiptRefsClosed === true && journalCompletenessProof?.afterBalancesRecomputeExactly === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.journal-theorem'] }),
     buildTheoremVerdict({ theoremId: 'settlement_source_to_shares.settlement_theorem_integrity', passed: aggregateTheoremVerdicts(Object.entries(settlementProof?.theoremChecks || {}).map(([theoremId, passed]) => ({ theoremId, passed }))), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['settlement-source-to-shares.journal-theorem'] })
@@ -4735,12 +4763,12 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
     proofFamily: 'settlement-source-to-shares',
     memberVerdicts: [
       { memberId: 'contribution', passed: (sourceToSharesArtifact?.sourceContributionEntries || []).length > 0 },
-      { memberId: 'clipping', passed: theoremVerdicts[1].passed },
-      { memberId: 'normalization', passed: theoremVerdicts[2].passed },
-      { memberId: 'participation', passed: theoremVerdicts[3].passed },
-      { memberId: 'allocation', passed: theoremVerdicts[4].passed },
-      { memberId: 'journal', passed: theoremVerdicts[5].passed },
-      { memberId: 'settlement-proof', passed: theoremVerdicts[6].passed }
+      { memberId: 'clipping', passed: Boolean(theoremVerdicts[1]?.passed) },
+      { memberId: 'normalization', passed: Boolean(theoremVerdicts[2]?.passed) },
+      { memberId: 'participation', passed: Boolean(theoremVerdicts[3]?.passed) },
+      { memberId: 'allocation', passed: Boolean(theoremVerdicts[4]?.passed) },
+      { memberId: 'journal', passed: Boolean(theoremVerdicts[5]?.passed) },
+      { memberId: 'settlement-proof', passed: Boolean(theoremVerdicts[6]?.passed) }
     ],
     theoremVerdicts,
     artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
@@ -4792,7 +4820,13 @@ function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, reda
   ];
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.projection_policy_closure', passed: (projectionPolicy?.artifactRules || []).length > 0, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.policy-bounded-public'] }),
-    buildTheoremVerdict({ theoremId: 'disclosure_boundary.bounded_public_metadata_only', passed: boundedPublicProof?.promptCompleteness?.allContractsComplete === true && boundedPublicProof?.staticMeasurement?.allReceiptRefsResolve === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.policy-bounded-public'] }),
+    buildTheoremVerdict({
+      theoremId: 'disclosure_boundary.bounded_public_metadata_only',
+      passed: boundedPublicProof?.promptCompletenessSummary?.allContractsComplete === true && boundedPublicProof?.staticMeasurementSummary?.allReceiptRefsResolve === true,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['disclosure-boundary.policy-bounded-public']
+    }),
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.redaction_alignment', passed: !!redactionProof?.boundedPublicProofHash, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.redaction-disclosure'] }),
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.disclosure_verdict_alignment', passed: disclosureProof?.publicDisclosureOnlyUsesBoundedMetadata === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.redaction-disclosure'] }),
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.witness_replay_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
@@ -4800,10 +4834,10 @@ function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, reda
   return {
     proofFamily: 'disclosure-boundary',
     memberVerdicts: [
-      { memberId: 'projection-policy', passed: theoremVerdicts[0].passed },
-      { memberId: 'bounded-public-proof', passed: theoremVerdicts[1].passed },
-      { memberId: 'redaction-proof', passed: theoremVerdicts[2].passed },
-      { memberId: 'disclosure-proof', passed: theoremVerdicts[3].passed }
+      { memberId: 'projection-policy', passed: Boolean(theoremVerdicts[0]?.passed) },
+      { memberId: 'bounded-public-proof', passed: Boolean(theoremVerdicts[1]?.passed) },
+      { memberId: 'redaction-proof', passed: Boolean(theoremVerdicts[2]?.passed) },
+      { memberId: 'disclosure-proof', passed: Boolean(theoremVerdicts[3]?.passed) }
     ],
     theoremVerdicts,
     artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
@@ -4898,7 +4932,7 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
  * @param {any} __0
  * @returns {any}
  */
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, proofWitnessManifest, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof }) {
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
     need,
     needMeasurement,
@@ -4931,6 +4965,7 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     profileCompositionSurface,
     promptSurfaces,
     promptContracts,
+    inferenceSynthesisProof,
     promptCompletenessProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
@@ -4941,19 +4976,29 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     codeAnalysisFactRegistry,
     staticHeuristicsRegistry,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     proofWitnessManifest,
+    selectionConsistencyProof,
+    selectionAndMaterializationProof,
+    identityAuthorizationProof,
+    sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof,
     sourceToSharesArtifact,
     settlementParticipationArtifact,
     accountingPrecisionReport,
+    journalCompletenessProof,
+    settlementSourceToSharesProof,
     scenarioFixtureManifest,
     testCoverageReport,
     projectionPolicy,
     boundedPublicProof,
     redactionProof,
-    disclosureProof
+    disclosureProof,
+    disclosureBoundaryProof,
+    proofContract
   });
 }
 
@@ -4984,6 +5029,7 @@ export function runMakeEngiBranch(state, input = {}) {
     canonicalBenchmarkOutputs,
     parserValidation,
     inferenceProofs,
+    inferenceSynthesisProof,
     promptSurfaces,
     promptContracts,
     promptCompletenessProof,
@@ -5054,12 +5100,13 @@ export function runMakeEngiBranch(state, input = {}) {
     needMeasurement.staticExecutionReceipts,
     evaluatedCandidates.map((/** @type {any} */ candidate) => candidate.staticExecutionReceipts),
     state.assets.map((/** @type {any} */ asset) => asset.assetMeasurement?.staticExecutionReceipts)
-  ]);
+  ]).filter((receipt) => !String(receipt.stageId || '').startsWith('verification.'));
   const codeAnalysisFactRegistry = buildCodeAnalysisFactRegistry({ need, evaluatedCandidates });
   const staticHeuristicsRegistry = buildStaticHeuristicsRegistryArtifact(codeAnalysisFactRegistry);
   const staticMeasurementReport = buildStaticMeasurementReport(measurementReceipts, needMeasurement, evaluatedCandidates);
   const staticMeasurementProof = buildStaticMeasurementProof(measurementReceipts, needMeasurement, evaluatedCandidates);
   const verificationReceiptsArtifact = buildVerificationReceiptsArtifact(need, evaluatedCandidates);
+  const verificationDecisionsProof = buildVerificationDecisionsProof(verificationReport, verificationReceiptsArtifact);
   const pipelineTelemetry = buildPipelineTelemetry({
     need,
     evaluatedCandidates,
@@ -5146,8 +5193,29 @@ export function runMakeEngiBranch(state, input = {}) {
     materializationExclusions,
     branchMode
   });
+  let selectionAndMaterializationProof = buildSelectionAndMaterializationProof(
+    selectionConsistencyProof,
+    materializationProof,
+    materializationExclusions,
+    materializationVisibilityProof
+  );
+  const authorizationAndSensitiveFlowProof = buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sensitiveDataFlowProof);
+  const settlementSourceToSharesProof = buildSettlementSourceToSharesProof(
+    settlement.sourceToSharesArtifact,
+    settlement.settlementParticipationArtifact,
+    settlement.accountingPrecisionReport,
+    journalCompletenessProof,
+    settlementProof
+  );
+  let disclosureBoundaryProof = buildDisclosureBoundaryProof(
+    projectionPolicy,
+    provisionalBoundedPublicProof,
+    redactionProof,
+    disclosureProof
+  );
   let proofWitnessManifest = buildProofWitnessManifestUnchecked({
     inferenceProofs,
+    inferenceSynthesisProof,
     promptSurfaces,
     promptContracts,
     promptImplementationSurface,
@@ -5163,37 +5231,48 @@ export function runMakeEngiBranch(state, input = {}) {
     staticMeasurementProof,
     verificationReport,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     identityBindings,
     authorizationDecisions,
     sensitiveDataFlowRecords,
     selectionConsistencyProof,
+    selectionAndMaterializationProof,
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
+    settlementSourceToSharesProof,
     settlementProof,
     journalDiff: settlement.journalDiff,
+    projectionPolicy,
+    boundedPublicProof: provisionalBoundedPublicProof,
     redactionProof,
     disclosureProof,
+    disclosureBoundaryProof,
     proofContract
   });
   let systemProofBundle = buildSystemProofBundleUnchecked(
     need.needId,
     assetPack.assetPackId,
     inferenceProofs,
+    inferenceSynthesisProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
     assetMeasurementProofs,
     selectionConsistencyProof,
+    selectionAndMaterializationProof,
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     settlementProof,
+    settlementSourceToSharesProof,
     promptImplementationSurface,
     promptCompletenessProof,
     staticMeasurementProof,
@@ -5201,11 +5280,13 @@ export function runMakeEngiBranch(state, input = {}) {
     materializationExclusions,
     materializationVisibilityProof,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     settlement.sourceToSharesArtifact,
     settlement.settlementParticipationArtifact,
     settlement.accountingPrecisionReport,
     redactionProof,
     disclosureProof,
+    disclosureBoundaryProof,
     proofWitnessManifest,
     proofContract
   );
@@ -5241,6 +5322,7 @@ export function runMakeEngiBranch(state, input = {}) {
     profileCompositionSurface,
     promptSurfaces,
     promptContracts,
+    inferenceSynthesisProof,
     promptCompletenessProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
@@ -5251,19 +5333,29 @@ export function runMakeEngiBranch(state, input = {}) {
     staticMeasurementReport,
     staticMeasurementProof,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     proofWitnessManifest,
+    selectionConsistencyProof,
+    selectionAndMaterializationProof,
+    identityAuthorizationProof,
+    sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
+    journalCompletenessProof,
+    settlementSourceToSharesProof,
     scenarioFixtureManifest,
     testCoverageReport,
     projectionPolicy,
     boundedPublicProof: provisionalBoundedPublicProof,
     redactionProof,
-    disclosureProof
+    disclosureProof,
+    disclosureBoundaryProof,
+    proofContract
   });
   const boundedPublicProof = buildBoundedPublicProofArtifactUnchecked({
     need,
@@ -5306,8 +5398,21 @@ export function runMakeEngiBranch(state, input = {}) {
     materializationExclusions,
     branchMode
   });
+  selectionAndMaterializationProof = buildSelectionAndMaterializationProof(
+    selectionConsistencyProof,
+    materializationProof,
+    materializationExclusions,
+    finalizedMaterializationVisibilityProof
+  );
+  disclosureBoundaryProof = buildDisclosureBoundaryProof(
+    finalizedProjectionPolicy,
+    boundedPublicProof,
+    finalizedRedactionProof,
+    finalizedDisclosureProof
+  );
   proofWitnessManifest = buildProofWitnessManifestUnchecked({
     inferenceProofs,
+    inferenceSynthesisProof,
     promptSurfaces,
     promptContracts,
     promptImplementationSurface,
@@ -5323,37 +5428,48 @@ export function runMakeEngiBranch(state, input = {}) {
     staticMeasurementProof,
     verificationReport,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     identityBindings,
     authorizationDecisions,
     sensitiveDataFlowRecords,
     selectionConsistencyProof,
+    selectionAndMaterializationProof,
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof: finalizedMaterializationVisibilityProof,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
+    settlementSourceToSharesProof,
     settlementProof,
     journalDiff: settlement.journalDiff,
+    projectionPolicy: finalizedProjectionPolicy,
+    boundedPublicProof,
     redactionProof: finalizedRedactionProof,
     disclosureProof: finalizedDisclosureProof,
+    disclosureBoundaryProof,
     proofContract
   });
   systemProofBundle = buildSystemProofBundleUnchecked(
     need.needId,
     assetPack.assetPackId,
     inferenceProofs,
+    inferenceSynthesisProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
     assetMeasurementProofs,
     selectionConsistencyProof,
+    selectionAndMaterializationProof,
     journalCompletenessProof,
     identityAuthorizationProof,
     sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     settlementProof,
+    settlementSourceToSharesProof,
     promptImplementationSurface,
     promptCompletenessProof,
     staticMeasurementProof,
@@ -5361,11 +5477,13 @@ export function runMakeEngiBranch(state, input = {}) {
     materializationExclusions,
     finalizedMaterializationVisibilityProof,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     settlement.sourceToSharesArtifact,
     settlement.settlementParticipationArtifact,
     settlement.accountingPrecisionReport,
     finalizedRedactionProof,
     finalizedDisclosureProof,
+    disclosureBoundaryProof,
     proofWitnessManifest,
     proofContract
   );
@@ -5401,6 +5519,7 @@ export function runMakeEngiBranch(state, input = {}) {
     profileCompositionSurface,
     promptSurfaces,
     promptContracts,
+    inferenceSynthesisProof,
     promptCompletenessProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
@@ -5411,19 +5530,29 @@ export function runMakeEngiBranch(state, input = {}) {
     staticMeasurementReport,
     staticMeasurementProof,
     verificationReceiptsArtifact,
+    verificationDecisionsProof,
     proofWitnessManifest,
+    selectionConsistencyProof,
+    selectionAndMaterializationProof,
+    identityAuthorizationProof,
+    sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof: finalizedMaterializationVisibilityProof,
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
+    journalCompletenessProof,
+    settlementSourceToSharesProof,
     scenarioFixtureManifest,
     testCoverageReport,
     projectionPolicy: finalizedProjectionPolicy,
     boundedPublicProof,
     redactionProof: finalizedRedactionProof,
-    disclosureProof: finalizedDisclosureProof
+    disclosureProof: finalizedDisclosureProof,
+    disclosureBoundaryProof,
+    proofContract
   });
   assertRequiredBranchArtifacts(branchArtifacts);
   const repoToSettlementSurface = buildRepoToSettlementSurface({
@@ -5468,6 +5597,7 @@ export function runMakeEngiBranch(state, input = {}) {
     canonicalBenchmarkOutputs,
     parserValidation,
     inferenceProofs,
+    inferenceSynthesisProof,
     promptSurfaces,
     promptContracts,
     promptCompletenessProof,
@@ -5524,6 +5654,13 @@ export function runMakeEngiBranch(state, input = {}) {
     verificationReceipts: verificationReceiptsArtifact,
     staticMeasurementReport,
     staticMeasurementProof,
+    verificationDecisionsProof,
+    selectionConsistencyProof,
+    selectionAndMaterializationProof,
+    journalCompletenessProof,
+    identityAuthorizationProof,
+    sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof,
     materializationProof,
     materializationExclusions,
     materializationVisibilityProof: finalizedMaterializationVisibilityProof,
@@ -5533,6 +5670,7 @@ export function runMakeEngiBranch(state, input = {}) {
     sourceToSharesArtifact: settlement.sourceToSharesArtifact,
     settlementParticipationArtifact: settlement.settlementParticipationArtifact,
     accountingPrecisionReport: settlement.accountingPrecisionReport,
+    settlementSourceToSharesProof,
     scenarioFixtureManifest,
     testCoverageReport,
     settlementPreview: settlement.settlementPreview,
@@ -5544,7 +5682,8 @@ export function runMakeEngiBranch(state, input = {}) {
     projectionPolicy: finalizedProjectionPolicy,
     boundedPublicProof,
     redactionProof: finalizedRedactionProof,
-    disclosureProof: finalizedDisclosureProof
+    disclosureProof: finalizedDisclosureProof,
+    disclosureBoundaryProof
   };
 
   const nextState = {

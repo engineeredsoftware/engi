@@ -141,6 +141,7 @@ export interface PromptContractCompleteness {
 export interface PromptContractShape {
   readonly promptId: string;
   readonly templateVersion: string;
+  readonly outputFields: string[];
   readonly templateHash: string;
   readonly contextSchemaHash: string;
   readonly outputSchemaHash: string;

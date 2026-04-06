@@ -684,7 +684,7 @@ export function createSettlementRuntime({
     ];
     const theoremVerdicts = Object.entries(theoremChecks).map(([theoremId, passed]) => buildTheoremVerdict({
       theoremId: `settlement_source_to_shares.${theoremId}`,
-      passed,
+      passed: Boolean(passed),
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts,
       replayStepIds: ['settlement.core-theorems']

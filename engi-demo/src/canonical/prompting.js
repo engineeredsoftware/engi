@@ -279,6 +279,7 @@ export function buildPromptContract({
   return {
     promptId,
     templateVersion,
+    outputFields: exactOutputSchema.map((entry) => entry.field),
     templateHash: stableHashObject(template),
     contextSchemaHash: stableHashObject(declaredContextFields),
     outputSchemaHash: stableHashObject(exactOutputSchema),
@@ -347,7 +348,7 @@ export function buildPromptCompletenessProof(promptContracts = [], options = {})
   const excludedFields = summarizeStrings(explicitExclusions);
   const registeredFields = summarizeStrings(promptContracts.flatMap((contract) => contract.outputFields || []));
   const parsedEnvelopeByField = new Map(
-    (/** @type {ParsedCompletionEnvelope[]} */ (parsedCompletionEnvelopeArtifact?.envelopes || []))
+    (/** @type {ParsedCompletionEnvelope[]} */ ((/** @type {any} */ (parsedCompletionEnvelopeArtifact))?.['envelopes'] || []))
       .flatMap((entry) => (entry.ownedOutputFields || []).map((field) => [field, entry]))
   );
   const promptSurfaceByField = new Map(
@@ -388,7 +389,7 @@ export function buildPromptCompletenessProof(promptContracts = [], options = {})
     .filter((field) => !registeredFields.includes(field))
     .every((field) => excludedFields.includes(field));
   const contractsClosed = promptContracts.every((contract) => contract.completeness.ok);
-  const parsedEnvelopesAdmissible = Boolean(parsedCompletionEnvelopeArtifact?.allContractsResolved) && Boolean(parsedCompletionEnvelopeArtifact?.allPayloadsAdmissible);
+  const parsedEnvelopesAdmissible = Boolean((/** @type {any} */ (parsedCompletionEnvelopeArtifact))?.['allContractsResolved']) && Boolean((/** @type {any} */ (parsedCompletionEnvelopeArtifact))?.['allPayloadsAdmissible']);
   const downstreamConsumersClosed = memberVerdicts
     .filter((entry) => !entry.explicitlyExcluded)
     .every((entry) => entry.downstreamConsumersClosed);

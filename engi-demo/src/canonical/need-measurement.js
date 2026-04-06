@@ -333,16 +333,16 @@ export function createNeedMeasurementRuntime({
     parsedCompletionEnvelopes,
     promptImplementationSurface
   }) {
-    const coveredInferredFields = summarizeStrings(inferenceProofs.map((entry) => entry.outputField));
-    const fieldProofByField = new Map(inferenceProofs.map((entry) => [String(entry.outputField), entry]));
+    const coveredInferredFields = summarizeStrings(inferenceProofs.map((entry) => String(entry['outputField'])));
+    const fieldProofByField = new Map(inferenceProofs.map((entry) => [String(entry['outputField']), entry]));
     const promptSurfaceByField = new Map(promptSurfaces.flatMap((surface) => (surface.lineage?.outputFields || []).map((field) => [field, surface])));
     const envelopeByField = new Map(parsedCompletionEnvelopes.flatMap((entry) => (entry.ownedOutputFields || []).map((field) => [field, entry])));
     const memberVerdicts = classifiedInferredFields.map((field) => {
       const fieldProof = fieldProofByField.get(field) || null;
       const promptSurface = promptSurfaceByField.get(field) || null;
       const envelope = envelopeByField.get(field) || null;
-      const evaluatorStatusTruthful = fieldProof ? String(fieldProof.modelId || '').includes('deterministic-local-evaluator') === (promptSurface?.evaluatorSurface?.standIn === true) : false;
-      const evidenceBasisClosed = !!fieldProof && (fieldProof.evidenceRefs || []).length > 0 && !!promptSurface;
+      const evaluatorStatusTruthful = fieldProof ? String(fieldProof['modelId'] || '').includes('deterministic-local-evaluator') === (promptSurface?.evaluatorSurface?.standIn === true) : false;
+      const evidenceBasisClosed = !!fieldProof && Array.isArray(fieldProof['evidenceRefs']) && fieldProof['evidenceRefs'].length > 0 && !!promptSurface;
       return {
         field,
         fieldProofPresent: !!fieldProof,
@@ -471,7 +471,7 @@ export function createNeedMeasurementRuntime({
         coveredInferredFields,
         promptIds: promptSurfaces.map((surface) => surface.promptId),
         envelopeIds: parsedCompletionEnvelopes.map((entry) => entry.envelopeId),
-        inferredOutputCount: Array.isArray(promptImplementationSurface?.inferredOutputs) ? promptImplementationSurface.inferredOutputs.length : 0
+        inferredOutputCount: Array.isArray((/** @type {any} */ (promptImplementationSurface))?.['inferredOutputs']) ? (/** @type {any} */ (promptImplementationSurface))['inferredOutputs'].length : 0
       }))}`
     };
   }
