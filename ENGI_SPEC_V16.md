@@ -60,15 +60,14 @@ This pass now covers:
 
 The following are still intentionally deferred:
 - theorem-family expansion beyond the current family-first pass,
-- proof appendix generation,
-- proof execution/audit orchestration,
-- and `_PROVEN_` file generation requirements.
+- and proof execution/audit orchestration beyond the now-implemented family appendix generation path.
 
 The correct reading is:
 - V15 remains active canon,
 - V16 is being drafted through proof-family-by-proof-family tightening,
 - `prompt-completeness` remains the most tightened family,
-- and the rest of the proof families are now opened deeply enough to support the next member and theorem passes.
+- the rest of the proof families are now opened deeply enough to support the next member and theorem passes,
+- and `_PROVEN_` generation is now part of the V16 canon contract with a realized generator path.
 
 ## Member-proof closure rule
 
@@ -3643,3 +3642,142 @@ What it now does have is:
 4. an initial witness-materialization and replay direction,
 5. an expected/realized/family-closure split,
 6. and a provisional member-coverage inventory.
+
+## 15. Generated `_PROVEN_` Appendix
+
+### 15.1 Canonical artifact identity
+
+V16 introduces a generated canonical proof appendix artifact:
+
+1. `ENGI_SPEC_VN_PROVEN.md`
+
+Where:
+
+1. `VN` is the canonical spec version being committed,
+2. the file is versioned alongside the canonical spec,
+3. and the appendix is part of canon rather than an optional report.
+
+### 15.2 Generated-only rule
+
+`ENGI_SPEC_VN_PROVEN.md` is not a hand-authored notes file.
+
+It must:
+
+1. be generated from proof-bearing source surfaces,
+2. be reproducible from the canonical commit being designated,
+3. never be edited manually,
+4. fail validation if its content diverges from the generator output for that commit,
+5. and be treated as invalid canon if it is hand-mutated after generation.
+
+The canonical intent is:
+
+1. spec prose defines what `_PROVEN_` must contain,
+2. source-side proof execution produces the proof surfaces,
+3. the `_PROVEN_` generator renders those surfaces into markdown,
+4. and the committed file is only the generated rendering of that proof state.
+
+### 15.3 Canonical regeneration rule
+
+`ENGI_SPEC_VN_PROVEN.md` must only be regenerated on canonical version commits.
+
+A canonical version commit is any commit that:
+
+1. introduces a new canonical spec version artifact,
+2. advances the canonical pointer to a new version,
+3. or otherwise declares a new canonical version as depended-on ENGI truth.
+
+For such a commit:
+
+1. `_PROVEN_` must be regenerated from that commit's proof surfaces,
+2. the regenerated `_PROVEN_` file must be included in the same commit,
+3. and a canonical version commit lacking the regenerated `_PROVEN_` file is invalid.
+
+For non-canonical commits:
+
+1. `_PROVEN_` should not be manually refreshed for incidental edits,
+2. and partial or speculative `_PROVEN_` updates are forbidden.
+
+### 15.4 Minimum proof inputs
+
+The `_PROVEN_` generator must consume proof-bearing runtime surfaces rather than prose summaries.
+
+Its minimum proof inputs must include:
+
+1. proof-family proof objects,
+2. theorem verdict catalogs,
+3. member verdict catalogs,
+4. artifact bindings,
+5. replay steps,
+6. system proof bundle proof-family catalog,
+7. system proof bundle verifier entrypoint replay catalog,
+8. proof witness manifest artifact digests,
+9. proof witness manifest keyed artifact and family indexes,
+10. deliverables manifest,
+11. policy release artifact classifications,
+12. and any canonical scenario/run matrix required to state what was actually executed.
+
+At minimum, the generator must be able to read:
+
+1. `.engi/system-proof-bundle.json`,
+2. `.engi/proof-witness-manifest.json`,
+3. each family-specific proof artifact named by the proof-family catalog,
+4. and the canonical spec/version metadata for the commit being rendered.
+
+### 15.5 Minimum rendered contents
+
+`ENGI_SPEC_VN_PROVEN.md` must be singularly reliable as the stable proof appendix for the committed canonical version.
+
+It must render at least:
+
+1. canonical version and canonical commit id,
+2. generator identity and generation timestamp,
+3. proof-family inventory,
+4. per-family member inventory,
+5. per-family theorem inventory,
+6. per-family theorem verdicts,
+7. family witness artifact paths,
+8. family replay artifact paths and replay step ids,
+9. keyed artifact digest inventory,
+10. disclosure classification relevant to proof artifacts,
+11. any scenario/run matrix needed to interpret proof execution coverage,
+12. all failing or incomplete verdicts if any exist,
+13. and an aggregate statement of whether the canonical version is fully proven under the current V16 proof contract.
+
+The appendix must prefer exact ids, hashes, paths, counts, and verdicts over prose paraphrase.
+
+### 15.6 Reliability rule
+
+`_PROVEN_` is only reliable when:
+
+1. every carried proof family is represented directly from the runtime proof-family catalog,
+2. theorem verdicts are rendered from proof objects rather than re-inferred by the markdown renderer,
+3. witness and replay sections are rendered from the declared artifact/replay bindings,
+4. keyed artifact digest data comes from the witness manifest rather than from filesystem inference,
+5. and the canonical commit id in `_PROVEN_` matches the commit whose proof surfaces were rendered.
+
+The generator must fail closed when:
+
+1. a required proof artifact is missing,
+2. a named family in the bundle lacks a proof object,
+3. the witness manifest is missing a keyed digest for a required artifact,
+4. replay catalogs disagree about required artifact paths,
+5. or canonical version metadata and rendered proof state do not match.
+
+### 15.7 Commit and templateguide ratchet
+
+V16 requires templateguide and canonical release process language to ratchet this behavior.
+
+The release ratchet is:
+
+1. when creating a new canonical version commit, regenerate `ENGI_SPEC_VN_PROVEN.md`,
+2. include the regenerated file in that same canonical commit,
+3. reject canonical commits where `_PROVEN_` is stale, missing, or manually edited,
+4. and treat `_PROVEN_` regeneration as part of canonical version materialization rather than post-hoc documentation.
+
+Example canonical-version commits that would require regeneration include commits such as:
+
+1. `8b1ccbc2481f80bc63d31a33901a463f3ea7028a`
+2. `c021b9e48d6387f2aad9aab804c836736ef8437b`
+
+The relevant rule is not those specific hashes.
+The relevant rule is that any commit taking on canonical-version authority must also carry the regenerated `_PROVEN_` appendix for that version.

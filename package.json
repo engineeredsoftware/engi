@@ -30,6 +30,8 @@
   "scripts": {
     "docs:refresh": "npm --prefix packages/executions-mcp/src/mcp-server run docs:generate && npm --prefix packages/executions-mcp/src/mcp-server run docs:openapi",
     "verify:ui": "node scripts/verify-ui-ssot.mjs",
+    "generate:proven": "node scripts/generate-engi-proven.mjs",
+    "check:proven": "node scripts/generate-engi-proven.mjs --check",
     "prelint": "pnpm run build:eslint-plugin",
     "count-lines": "bash scripts/count_codebase_lines.sh",
     "audit:stories": "node scripts/audit_stories.js",

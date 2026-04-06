@@ -1,0 +1,744 @@
+// @ts-check
+
+import { buildInitialState, runMakeEngiBranch } from '../engi-demo.js';
+
+export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
+export const PROVEN_GENERATOR_ID = 'engi-demo.proven-generator.v1';
+const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
+
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
+function stableStringify(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
+  const record = /** @type {Record<string, unknown>} */ (value);
+  return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(record[key])}`).join(',')}}`;
+}
+
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string[]}
+ */
+function summarizeStrings(values = []) {
+  return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+}
+
+/**
+ * @param {boolean} condition
+ * @param {string} message
+ */
+function invariant(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+/**
+ * @param {Record<string, string>} files
+ * @param {string} artifactPath
+ * @returns {any}
+ */
+function parseArtifactJson(files, artifactPath) {
+  const serialized = files[artifactPath];
+  invariant(typeof serialized === 'string' && serialized.length > 0, `Missing required artifact ${artifactPath}.`);
+  try {
+    return JSON.parse(/** @type {string} */ (serialized));
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`Artifact ${artifactPath} is not valid JSON: ${detail}`);
+  }
+}
+
+/**
+ * @param {readonly unknown[]} values
+ * @returns {string}
+ */
+function stableListSignature(values) {
+  return stableStringify(values);
+}
+
+/**
+ * @param {any} replayStep
+ * @returns {{ stepId: string, theoremIds: string[], requiredArtifactPaths: string[] }}
+ */
+function normalizeReplayStep(replayStep) {
+  return {
+    stepId: String(replayStep?.stepId || ''),
+    theoremIds: summarizeStrings(replayStep?.theoremIds || []),
+    requiredArtifactPaths: summarizeStrings(replayStep?.requiredArtifactPaths || [])
+  };
+}
+
+/**
+ * @param {any} theoremVerdict
+ * @returns {{ theoremId: string, passed: boolean, witnessArtifactPaths: string[], replayArtifactPaths: string[], replayStepIds: string[], failureReasons: string[] }}
+ */
+function normalizeTheoremVerdict(theoremVerdict) {
+  return {
+    theoremId: String(theoremVerdict?.theoremId || ''),
+    passed: theoremVerdict?.passed === true,
+    witnessArtifactPaths: summarizeStrings(theoremVerdict?.witnessArtifactPaths || []),
+    replayArtifactPaths: summarizeStrings(theoremVerdict?.replayArtifactPaths || []),
+    replayStepIds: summarizeStrings(theoremVerdict?.replayStepIds || []),
+    failureReasons: summarizeStrings(theoremVerdict?.failureReasons || [])
+  };
+}
+
+/**
+ * @param {any} memberVerdict
+ * @param {number} index
+ * @returns {string}
+ */
+function memberIdentifier(memberVerdict, index) {
+  return String(memberVerdict?.memberId || memberVerdict?.field || `member-${index + 1}`);
+}
+
+/**
+ * @param {any[]} memberVerdicts
+ * @returns {string[]}
+ */
+function collectMemberIds(memberVerdicts) {
+  return memberVerdicts.map((entry, index) => memberIdentifier(entry, index));
+}
+
+/**
+ * @param {any} familyCatalogEntry
+ * @returns {{
+ *   proofFamily: string,
+ *   proofArtifactPath: string,
+ *   memberIds: string[],
+ *   theoremIds: string[],
+ *   witnessArtifactPaths: string[],
+ *   replayArtifacts: string[],
+ *   replaySteps: Array<{ stepId: string, theoremIds: string[], requiredArtifactPaths: string[] }>
+ * }}
+ */
+function normalizeFamilyCatalogEntry(familyCatalogEntry) {
+  return {
+    proofFamily: String(familyCatalogEntry?.proofFamily || ''),
+    proofArtifactPath: String(familyCatalogEntry?.proofArtifactPath || ''),
+    memberIds: summarizeStrings(familyCatalogEntry?.memberIds || []),
+    theoremIds: summarizeStrings(familyCatalogEntry?.theoremIds || []),
+    witnessArtifactPaths: summarizeStrings(familyCatalogEntry?.witnessArtifactPaths || []),
+    replayArtifacts: summarizeStrings(familyCatalogEntry?.replayArtifacts || []),
+    replaySteps: (familyCatalogEntry?.replaySteps || []).map(normalizeReplayStep)
+  };
+}
+
+/**
+ * @param {string} version
+ * @returns {string}
+ */
+export function defaultProvenOutputPath(version) {
+  return `ENGI_SPEC_${version}_PROVEN.md`;
+}
+
+/**
+ * @param {{
+ *   buildInitialStateFn?: typeof buildInitialState,
+ *   runMakeEngiBranchFn?: typeof runMakeEngiBranch,
+ *   scenarioIds?: string[],
+ *   branchModes?: string[]
+ * }} [input={}]
+ */
+export function collectCanonicalProvenRuns({
+  buildInitialStateFn = buildInitialState,
+  runMakeEngiBranchFn = runMakeEngiBranch,
+  scenarioIds,
+  branchModes = DEFAULT_PROVEN_BRANCH_MODES
+} = {}) {
+  const seededState = buildInitialStateFn();
+  const availableScenarioIds = seededState.needScenarios.map((/** @type {any} */ scenario) => String(scenario.scenarioId));
+  const requestedScenarioIds = scenarioIds?.length ? scenarioIds : availableScenarioIds;
+  for (const scenarioId of requestedScenarioIds) {
+    invariant(availableScenarioIds.includes(scenarioId), `Unknown scenario id ${scenarioId}.`);
+  }
+
+  /** @type {any[]} */
+  const runs = [];
+  for (const scenarioId of requestedScenarioIds) {
+    for (const branchMode of branchModes) {
+      const { latestRun } = runMakeEngiBranchFn(buildInitialStateFn(), { scenarioId, branchMode });
+      invariant(latestRun?.branchArtifacts?.files, `Run ${scenarioId}/${branchMode} did not produce branch artifacts.`);
+      const files = /** @type {Record<string, string>} */ (latestRun.branchArtifacts.files);
+      const bundle = parseArtifactJson(files, '.engi/system-proof-bundle.json');
+      const witnessManifest = parseArtifactJson(files, '.engi/proof-witness-manifest.json');
+      const deliverablesManifest = parseArtifactJson(files, '.engi/deliverables.json');
+      const policyRelease = parseArtifactJson(files, '.engi/policy-release.json');
+      const need = parseArtifactJson(files, '.engi/need.json');
+
+      /** @type {Record<string, any>} */
+      const familyProofsByName = {};
+      for (const familyCatalogEntry of bundle.proofFamilies || []) {
+        const proofFamily = String(familyCatalogEntry?.proofFamily || '');
+        const proofArtifactPath = String(familyCatalogEntry?.proofArtifactPath || '');
+        invariant(Boolean(proofFamily), `Run ${scenarioId}/${branchMode} contains a proof family entry without proofFamily.`);
+        invariant(Boolean(proofArtifactPath), `Run ${scenarioId}/${branchMode} family ${proofFamily} is missing proofArtifactPath.`);
+        familyProofsByName[proofFamily] = parseArtifactJson(files, proofArtifactPath);
+      }
+
+      runs.push({
+        scenarioId,
+        branchMode,
+        branchName: String(deliverablesManifest?.branchName || latestRun?.branchName || ''),
+        needId: String(bundle?.needId || need?.needId || ''),
+        assetPackId: String(bundle?.assetPackId || latestRun?.assetPack?.assetPackId || ''),
+        branchArtifacts: files,
+        systemProofBundle: bundle,
+        proofWitnessManifest: witnessManifest,
+        deliverablesManifest,
+        policyRelease,
+        familyProofsByName
+      });
+    }
+  }
+
+  return {
+    scenarioIds: requestedScenarioIds,
+    branchModes: summarizeStrings(branchModes),
+    runs
+  };
+}
+
+/**
+ * @param {Record<string, any>} deliverablesByPath
+ * @param {Record<string, any>} classificationsByPath
+ * @param {string} artifactPath
+ * @param {string} contextLabel
+ */
+function assertArtifactMetadata(deliverablesByPath, classificationsByPath, artifactPath, contextLabel) {
+  invariant(!!deliverablesByPath[artifactPath], `${contextLabel} is missing deliverables metadata for ${artifactPath}.`);
+  invariant(!!classificationsByPath[artifactPath], `${contextLabel} is missing policy-release classification for ${artifactPath}.`);
+}
+
+/**
+ * @param {any} run
+ * @returns {any}
+ */
+function validateAndNormalizeRun(run) {
+  const runLabel = `${run.scenarioId}/${run.branchMode}`;
+  const bundle = run.systemProofBundle;
+  const witnessManifest = run.proofWitnessManifest;
+  const deliverablesByPath = Object.fromEntries((run.deliverablesManifest?.deliverables || []).map((/** @type {any} */ entry) => [String(entry?.path || ''), entry]));
+  const classificationsByPath = Object.fromEntries((run.policyRelease?.artifactClasses || []).map((/** @type {any} */ entry) => [String(entry?.path || ''), entry]));
+  const artifactDigestByPath = /** @type {Record<string, any>} */ (witnessManifest?.artifactDigestByPath || {});
+  const proofFamiliesByName = /** @type {Record<string, any>} */ (witnessManifest?.proofFamiliesByName || {});
+  const replayCatalogByName = Object.fromEntries((bundle?.verifierEntrypoint?.proofFamilyReplayCatalog || []).map((/** @type {any} */ entry) => [String(entry?.proofFamily || ''), entry]));
+  const requiredArtifactPaths = summarizeStrings(bundle?.verifierEntrypoint?.requiredArtifactPaths || []);
+
+  invariant(Array.isArray(bundle?.proofFamilies) && bundle.proofFamilies.length > 0, `Run ${runLabel} is missing a proof-family catalog.`);
+  invariant(Array.isArray(bundle?.verifierEntrypoint?.proofFamilyReplayCatalog), `Run ${runLabel} is missing a verifier replay catalog.`);
+  invariant(Array.isArray(witnessManifest?.artifactDigests), `Run ${runLabel} is missing witness-manifest artifact digests.`);
+  invariant(typeof witnessManifest?.artifactDigestByPath === 'object' && witnessManifest?.artifactDigestByPath !== null, `Run ${runLabel} is missing witness-manifest keyed artifact digests.`);
+  invariant(typeof witnessManifest?.proofFamiliesByName === 'object' && witnessManifest?.proofFamiliesByName !== null, `Run ${runLabel} is missing witness-manifest keyed proof families.`);
+
+  const normalizedFamilies = /** @type {any[]} */ ((bundle.proofFamilies || []).map((/** @type {any} */ familyCatalogEntry) => {
+    const catalog = normalizeFamilyCatalogEntry(familyCatalogEntry);
+    const proof = run.familyProofsByName[catalog.proofFamily];
+    const replayCatalogEntry = replayCatalogByName[catalog.proofFamily];
+    const witnessFamilyIndex = proofFamiliesByName[catalog.proofFamily];
+    const theoremVerdicts = (proof?.theoremVerdicts || []).map(normalizeTheoremVerdict);
+    const memberVerdicts = proof?.memberVerdicts || [];
+    const proofMemberIds = collectMemberIds(memberVerdicts);
+    const proofReplaySteps = (proof?.replaySteps || []).map(normalizeReplayStep);
+    const proofTheoremIds = theoremVerdicts.map((/** @type {any} */ entry) => entry.theoremId);
+    const proofWitnessArtifactPaths = summarizeStrings(proof?.witnessArtifactPaths || []);
+    const proofReplayArtifacts = summarizeStrings(proof?.replayArtifacts || []);
+
+    invariant(!!proof, `Run ${runLabel} is missing proof object for family ${catalog.proofFamily}.`);
+    invariant(typeof proof?.proofHash === 'string' && proof.proofHash.length > 0, `Run ${runLabel} family ${catalog.proofFamily} is missing proofHash.`);
+    invariant(proof.proofHash === familyCatalogEntry?.proofHash, `Run ${runLabel} family ${catalog.proofFamily} proofHash does not match the proof-family catalog.`);
+    invariant(stableListSignature(catalog.theoremIds) === stableListSignature(proofTheoremIds), `Run ${runLabel} family ${catalog.proofFamily} theorem ids do not match the proof object.`);
+    invariant(stableListSignature(catalog.memberIds) === stableListSignature(proofMemberIds), `Run ${runLabel} family ${catalog.proofFamily} member ids do not match the proof object.`);
+    invariant(stableListSignature(catalog.witnessArtifactPaths) === stableListSignature(proofWitnessArtifactPaths), `Run ${runLabel} family ${catalog.proofFamily} witness artifact paths do not match the proof object.`);
+    invariant(stableListSignature(catalog.replayArtifacts) === stableListSignature(proofReplayArtifacts), `Run ${runLabel} family ${catalog.proofFamily} replay artifact paths do not match the proof object.`);
+    invariant(stableListSignature(catalog.replaySteps) === stableListSignature(proofReplaySteps), `Run ${runLabel} family ${catalog.proofFamily} replay steps do not match the proof object.`);
+
+    invariant(!!replayCatalogEntry, `Run ${runLabel} family ${catalog.proofFamily} is missing a verifier replay catalog entry.`);
+    invariant(stableListSignature(catalog.theoremIds) === stableListSignature(replayCatalogEntry?.theoremIds || []), `Run ${runLabel} family ${catalog.proofFamily} theorem ids do not match the verifier replay catalog.`);
+    invariant(stableListSignature(catalog.replayArtifacts) === stableListSignature(replayCatalogEntry?.replayArtifacts || []), `Run ${runLabel} family ${catalog.proofFamily} replay artifacts do not match the verifier replay catalog.`);
+    invariant(stableListSignature(catalog.replaySteps) === stableListSignature((replayCatalogEntry?.replaySteps || []).map(normalizeReplayStep)), `Run ${runLabel} family ${catalog.proofFamily} replay steps do not match the verifier replay catalog.`);
+
+    invariant(!!witnessFamilyIndex, `Run ${runLabel} family ${catalog.proofFamily} is missing from the witness-manifest family index.`);
+    const witnessFamilyPaths = summarizeStrings(witnessFamilyIndex?.witnessArtifactPaths || []);
+    invariant(proofWitnessArtifactPaths.every((artifactPath) => witnessFamilyPaths.includes(artifactPath)), `Run ${runLabel} family ${catalog.proofFamily} witness-manifest family index does not include all catalog witness artifacts.`);
+
+    for (const artifactPath of catalog.witnessArtifactPaths) {
+      invariant(!!run.branchArtifacts[artifactPath], `Run ${runLabel} family ${catalog.proofFamily} is missing witness artifact ${artifactPath}.`);
+      invariant(
+        NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS.includes(artifactPath) || !!artifactDigestByPath[artifactPath],
+        `Run ${runLabel} family ${catalog.proofFamily} is missing witness digest for ${artifactPath}.`
+      );
+      assertArtifactMetadata(deliverablesByPath, classificationsByPath, artifactPath, `Run ${runLabel} family ${catalog.proofFamily}`);
+    }
+
+    invariant(!!run.branchArtifacts[catalog.proofArtifactPath], `Run ${runLabel} family ${catalog.proofFamily} is missing its proof artifact ${catalog.proofArtifactPath}.`);
+    assertArtifactMetadata(deliverablesByPath, classificationsByPath, catalog.proofArtifactPath, `Run ${runLabel} family ${catalog.proofFamily}`);
+
+    for (const artifactPath of catalog.replayArtifacts) {
+      invariant(!!run.branchArtifacts[artifactPath], `Run ${runLabel} family ${catalog.proofFamily} is missing replay artifact ${artifactPath}.`);
+    }
+    for (const replayStep of catalog.replaySteps) {
+      for (const artifactPath of replayStep.requiredArtifactPaths) {
+        invariant(requiredArtifactPaths.includes(artifactPath), `Run ${runLabel} family ${catalog.proofFamily} replay step ${replayStep.stepId} requires ${artifactPath}, but the verifier entrypoint does not.`);
+        invariant(!!run.branchArtifacts[artifactPath], `Run ${runLabel} family ${catalog.proofFamily} replay step ${replayStep.stepId} is missing ${artifactPath}.`);
+      }
+    }
+
+    return {
+      proofFamily: catalog.proofFamily,
+      proofArtifactPath: catalog.proofArtifactPath,
+      proofHash: String(proof.proofHash),
+      allTheoremsPassed: proof.allTheoremsPassed === true,
+      memberIds: catalog.memberIds,
+      memberVerdicts: memberVerdicts.map((/** @type {any} */ entry, /** @type {number} */ index) => ({
+        id: memberIdentifier(entry, index),
+        fields: Object.keys(entry || {}).sort(),
+        payload: entry,
+        passed: entry?.passed === true
+      })),
+      theoremIds: catalog.theoremIds,
+      theoremVerdicts,
+      witnessArtifactPaths: catalog.witnessArtifactPaths,
+      replayArtifacts: catalog.replayArtifacts,
+      replaySteps: catalog.replaySteps
+    };
+  }));
+
+  const proofArtifactPaths = summarizeStrings(normalizedFamilies.flatMap((family) => [family.proofArtifactPath, ...family.witnessArtifactPaths]));
+  for (const artifactPath of proofArtifactPaths) {
+    assertArtifactMetadata(deliverablesByPath, classificationsByPath, artifactPath, `Run ${runLabel}`);
+  }
+
+  return {
+    scenarioId: run.scenarioId,
+    branchMode: run.branchMode,
+    branchName: run.branchName,
+    needId: run.needId,
+    assetPackId: run.assetPackId,
+    bundleProofHash: String(bundle?.proofContract?.proofHash || bundle?.proofHash || ''),
+    proofContractHash: String(run.familyProofsByName['proof-contract']?.proofHash || ''),
+    proofContractPassed: run.familyProofsByName['proof-contract']?.allTheoremsPassed === true,
+    familyCount: normalizedFamilies.length,
+    allFamiliesPassed: normalizedFamilies.every((/** @type {any} */ family) => family.allTheoremsPassed),
+    requiredArtifactPaths,
+    artifactDigestEntries: /** @type {any[]} */ (witnessManifest.artifactDigests || []).map((entry) => ({
+      path: String(entry?.path || ''),
+      digest: String(entry?.digest || ''),
+      proofFamilies: summarizeStrings(entry?.proofFamilies || []),
+      classification: classificationsByPath[String(entry?.path || '')] || null,
+      deliverable: deliverablesByPath[String(entry?.path || '')] || null
+    })),
+    proofArtifacts: proofArtifactPaths.map((artifactPath) => ({
+      path: artifactPath,
+      classification: classificationsByPath[artifactPath] || null,
+      deliverable: deliverablesByPath[artifactPath] || null
+    })),
+    families: normalizedFamilies
+  };
+}
+
+/**
+ * @param {ReturnType<typeof collectCanonicalProvenRuns>} collected
+ * @param {{
+ *   version: string,
+ *   canonicalCommit: string,
+ *   canonicalCommitRecordedAt?: string | null,
+ *   generatedAt: string,
+ *   worktreeState?: string,
+ *   generatorId?: string
+ * }} input
+ */
+export function buildCanonicalProvenData(collected, {
+  version,
+  canonicalCommit,
+  canonicalCommitRecordedAt = null,
+  generatedAt,
+  worktreeState = 'clean',
+  generatorId = PROVEN_GENERATOR_ID
+}) {
+  invariant(/^V\d+$/.test(version), `Canonical version must look like VN. Received ${version}.`);
+  invariant(typeof canonicalCommit === 'string' && canonicalCommit.trim().length > 0, 'Canonical commit is required.');
+  invariant(typeof generatedAt === 'string' && generatedAt.trim().length > 0, 'generatedAt is required.');
+
+  const normalizedRuns = collected.runs.map(validateAndNormalizeRun);
+  invariant(normalizedRuns.length > 0, 'At least one proof run is required to build _PROVEN_.');
+
+  const baseline = normalizedRuns[0];
+  const baselineFamilySignatures = Object.fromEntries(baseline.families.map((/** @type {any} */ family) => [
+    family.proofFamily,
+    stableStringify({
+      proofFamily: family.proofFamily,
+      proofArtifactPath: family.proofArtifactPath,
+      memberIds: family.memberIds,
+      theoremIds: family.theoremIds,
+      witnessArtifactPaths: family.witnessArtifactPaths,
+      replayArtifacts: family.replayArtifacts,
+      replaySteps: family.replaySteps
+    })
+  ]));
+
+  for (const run of normalizedRuns.slice(1)) {
+    invariant(baseline.familyCount === run.familyCount, `Run ${run.scenarioId}/${run.branchMode} proof-family count differs from the baseline.`);
+    for (const family of run.families) {
+      const baselineSignature = baselineFamilySignatures[family.proofFamily];
+      invariant(!!baselineSignature, `Run ${run.scenarioId}/${run.branchMode} introduced unexpected proof family ${family.proofFamily}.`);
+      const runSignature = stableStringify({
+        proofFamily: family.proofFamily,
+        proofArtifactPath: family.proofArtifactPath,
+        memberIds: family.memberIds,
+        theoremIds: family.theoremIds,
+        witnessArtifactPaths: family.witnessArtifactPaths,
+        replayArtifacts: family.replayArtifacts,
+        replaySteps: family.replaySteps
+      });
+      invariant(baselineSignature === runSignature, `Run ${run.scenarioId}/${run.branchMode} changed the structural catalog for ${family.proofFamily}.`);
+    }
+    invariant(stableListSignature(baseline.requiredArtifactPaths) === stableListSignature(run.requiredArtifactPaths), `Run ${run.scenarioId}/${run.branchMode} changed verifier required artifact paths.`);
+  }
+
+  const familySummaries = baseline.families.map((/** @type {any} */ baselineFamily) => {
+    const perRunFamily = normalizedRuns.map((/** @type {any} */ run) => run.families.find((/** @type {any} */ family) => family.proofFamily === baselineFamily.proofFamily));
+    const theoremSummaries = baselineFamily.theoremIds.map((/** @type {string} */ theoremId) => {
+      const theoremRuns = perRunFamily.map((/** @type {any} */ family, /** @type {number} */ index) => {
+        const verdict = family?.theoremVerdicts.find((/** @type {any} */ entry) => entry.theoremId === theoremId);
+        invariant(!!verdict, `Run ${normalizedRuns[index].scenarioId}/${normalizedRuns[index].branchMode} is missing theorem ${theoremId} for ${baselineFamily.proofFamily}.`);
+        return {
+          run: normalizedRuns[index],
+          verdict
+        };
+      });
+      return {
+        theoremId,
+        passedRuns: theoremRuns.filter((/** @type {any} */ entry) => entry.verdict.passed).length,
+        totalRuns: theoremRuns.length,
+        failingRuns: theoremRuns.filter((/** @type {any} */ entry) => !entry.verdict.passed).map((/** @type {any} */ entry) => `${entry.run.scenarioId}/${entry.run.branchMode}`),
+        replayStepIds: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.replayStepIds)),
+        witnessArtifactPaths: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.witnessArtifactPaths)),
+        replayArtifactPaths: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.replayArtifactPaths)),
+        failureReasons: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.failureReasons))
+      };
+    });
+    const memberSummaries = baselineFamily.memberIds.map((/** @type {string} */ memberId) => {
+      const memberRuns = perRunFamily.map((/** @type {any} */ family, /** @type {number} */ index) => {
+        const verdict = family?.memberVerdicts.find((/** @type {any} */ entry) => entry.id === memberId);
+        invariant(!!verdict, `Run ${normalizedRuns[index].scenarioId}/${normalizedRuns[index].branchMode} is missing member ${memberId} for ${baselineFamily.proofFamily}.`);
+        return {
+          run: normalizedRuns[index],
+          verdict
+        };
+      });
+      return {
+        memberId,
+        passedRuns: memberRuns.filter((/** @type {any} */ entry) => entry.verdict.passed).length,
+        totalRuns: memberRuns.length,
+        failingRuns: memberRuns.filter((/** @type {any} */ entry) => !entry.verdict.passed).map((/** @type {any} */ entry) => `${entry.run.scenarioId}/${entry.run.branchMode}`),
+        fieldShape: summarizeStrings(memberRuns.flatMap((/** @type {any} */ entry) => entry.verdict.fields))
+      };
+    });
+    return {
+      proofFamily: baselineFamily.proofFamily,
+      proofArtifactPath: baselineFamily.proofArtifactPath,
+      theoremIds: baselineFamily.theoremIds,
+      memberIds: baselineFamily.memberIds,
+      witnessArtifactPaths: baselineFamily.witnessArtifactPaths,
+      replayArtifacts: baselineFamily.replayArtifacts,
+      replaySteps: baselineFamily.replaySteps,
+      theoremSummaries,
+      memberSummaries
+    };
+  });
+
+  const runMatrix = normalizedRuns.map((run) => ({
+    scenarioId: run.scenarioId,
+    branchMode: run.branchMode,
+    branchName: run.branchName,
+    needId: run.needId,
+    assetPackId: run.assetPackId,
+    familyCount: run.familyCount,
+    allFamiliesPassed: run.allFamiliesPassed,
+    proofContractPassed: run.proofContractPassed,
+    requiredArtifactPathCount: run.requiredArtifactPaths.length,
+    artifactDigestCount: run.artifactDigestEntries.length,
+    fullyProven: run.allFamiliesPassed && run.proofContractPassed,
+    familyProofHashes: Object.fromEntries(run.families.map((/** @type {any} */ family) => [family.proofFamily, family.proofHash]))
+  }));
+
+  const incompleteVerdicts = [
+    ...familySummaries.flatMap((/** @type {any} */ family) => family.theoremSummaries.filter((/** @type {any} */ entry) => entry.passedRuns !== entry.totalRuns).map((/** @type {any} */ entry) => ({
+      scope: 'theorem',
+      proofFamily: family.proofFamily,
+      id: entry.theoremId,
+      failingRuns: entry.failingRuns,
+      failureReasons: entry.failureReasons
+    }))),
+    ...familySummaries.flatMap((/** @type {any} */ family) => family.memberSummaries.filter((/** @type {any} */ entry) => entry.passedRuns !== entry.totalRuns).map((/** @type {any} */ entry) => ({
+      scope: 'member',
+      proofFamily: family.proofFamily,
+      id: entry.memberId,
+      failingRuns: entry.failingRuns,
+      failureReasons: []
+    })))
+  ];
+
+  return {
+    version,
+    outputPath: defaultProvenOutputPath(version),
+    canonicalCommit,
+    canonicalCommitRecordedAt,
+    worktreeState,
+    generatorId,
+    generatedAt,
+    scenarioIds: collected.scenarioIds,
+    branchModes: collected.branchModes,
+    familySummaries,
+    runMatrix,
+    runDetails: normalizedRuns,
+    aggregate: {
+      fullyProven: incompleteVerdicts.length === 0 && runMatrix.every((entry) => entry.fullyProven),
+      runCount: normalizedRuns.length,
+      familyCount: familySummaries.length,
+      theoremCount: familySummaries.reduce((/** @type {number} */ sum, /** @type {any} */ family) => sum + family.theoremIds.length, 0),
+      memberCount: familySummaries.reduce((/** @type {number} */ sum, /** @type {any} */ family) => sum + family.memberIds.length, 0),
+      artifactDigestCount: normalizedRuns.reduce((/** @type {number} */ sum, /** @type {any} */ run) => sum + run.artifactDigestEntries.length, 0)
+    },
+    incompleteVerdicts
+  };
+}
+
+/**
+ * @param {string} value
+ * @returns {string}
+ */
+function markdownCode(value) {
+  return `\`${String(value || '')}\``;
+}
+
+/**
+ * @param {string[]} headers
+ * @param {Array<Array<string | number | boolean>>} rows
+ * @returns {string}
+ */
+function renderMarkdownTable(headers, rows) {
+  /** @param {string | number | boolean} value */
+  const escapeCell = (value) => String(value).replace(/\|/g, '\\|').replace(/\n/g, '<br>');
+  const headerRow = `| ${headers.map(escapeCell).join(' | ')} |`;
+  const separatorRow = `| ${headers.map(() => '---').join(' | ')} |`;
+  const bodyRows = rows.map((row) => `| ${row.map(escapeCell).join(' | ')} |`);
+  return [headerRow, separatorRow, ...bodyRows].join('\n');
+}
+
+/**
+ * @param {ReturnType<typeof buildCanonicalProvenData>} data
+ * @returns {string}
+ */
+export function renderCanonicalProvenMarkdown(data) {
+  const lines = [];
+  lines.push(`# ENGI Spec ${data.version} Proven`);
+  lines.push('');
+  lines.push(`- canonicalVersion: ${markdownCode(data.version)}`);
+  lines.push(`- canonicalCommit: ${markdownCode(data.canonicalCommit)}`);
+  lines.push(`- canonicalCommitRecordedAt: ${markdownCode(data.canonicalCommitRecordedAt || 'unknown')}`);
+  lines.push(`- worktreeState: ${markdownCode(data.worktreeState)}`);
+  lines.push(`- generatorId: ${markdownCode(data.generatorId)}`);
+  lines.push(`- generatedAt: ${markdownCode(data.generatedAt)}`);
+  lines.push(`- outputPath: ${markdownCode(data.outputPath)}`);
+  lines.push(`- scenarioIds: ${data.scenarioIds.map(markdownCode).join(', ')}`);
+  lines.push(`- branchModes: ${data.branchModes.map(markdownCode).join(', ')}`);
+  lines.push('');
+  lines.push('## Aggregate Verdict');
+  lines.push('');
+  lines.push(`- fullyProven: ${markdownCode(String(data.aggregate.fullyProven))}`);
+  lines.push(`- runCount: ${markdownCode(String(data.aggregate.runCount))}`);
+  lines.push(`- familyCount: ${markdownCode(String(data.aggregate.familyCount))}`);
+  lines.push(`- theoremCount: ${markdownCode(String(data.aggregate.theoremCount))}`);
+  lines.push(`- memberCount: ${markdownCode(String(data.aggregate.memberCount))}`);
+  lines.push(`- artifactDigestCount: ${markdownCode(String(data.aggregate.artifactDigestCount))}`);
+  lines.push('');
+  lines.push('## Proof Family Inventory');
+  lines.push('');
+  lines.push(renderMarkdownTable(
+    ['proofFamily', 'proofArtifactPath', 'memberCount', 'theoremCount', 'witnessArtifactCount', 'replayArtifactCount', 'replayStepCount'],
+    data.familySummaries.map((/** @type {any} */ family) => [
+      markdownCode(family.proofFamily),
+      markdownCode(family.proofArtifactPath),
+      family.memberIds.length,
+      family.theoremIds.length,
+      family.witnessArtifactPaths.length,
+      family.replayArtifacts.length,
+      family.replaySteps.length
+    ])
+  ));
+  lines.push('');
+  lines.push('## Family Details');
+  for (const family of data.familySummaries) {
+    lines.push('');
+    lines.push(`### ${family.proofFamily}`);
+    lines.push('');
+    lines.push(`- proofArtifactPath: ${markdownCode(family.proofArtifactPath)}`);
+    lines.push(`- witnessArtifactPaths: ${family.witnessArtifactPaths.map(markdownCode).join(', ')}`);
+    lines.push(`- replayArtifacts: ${family.replayArtifacts.map(markdownCode).join(', ')}`);
+    lines.push(`- replayStepIds: ${family.replaySteps.map((/** @type {any} */ entry) => markdownCode(entry.stepId)).join(', ')}`);
+    lines.push('');
+    lines.push('#### Members');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['memberId', 'passedRuns', 'totalRuns', 'fieldShape', 'failingRuns'],
+      family.memberSummaries.map((/** @type {any} */ member) => [
+        markdownCode(member.memberId),
+        member.passedRuns,
+        member.totalRuns,
+        member.fieldShape.map(markdownCode).join(', '),
+        member.failingRuns.length ? member.failingRuns.map(markdownCode).join(', ') : markdownCode('none')
+      ])
+    ));
+    lines.push('');
+    lines.push('#### Theorems');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['theoremId', 'passedRuns', 'totalRuns', 'replayStepIds', 'failureReasons', 'failingRuns'],
+      family.theoremSummaries.map((/** @type {any} */ theorem) => [
+        markdownCode(theorem.theoremId),
+        theorem.passedRuns,
+        theorem.totalRuns,
+        theorem.replayStepIds.map(markdownCode).join(', '),
+        theorem.failureReasons.length ? theorem.failureReasons.map(markdownCode).join(', ') : markdownCode('none'),
+        theorem.failingRuns.length ? theorem.failingRuns.map(markdownCode).join(', ') : markdownCode('none')
+      ])
+    ));
+    lines.push('');
+    lines.push('#### Replay Steps');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['stepId', 'theoremIds', 'requiredArtifactPaths'],
+      family.replaySteps.map((/** @type {any} */ step) => [
+        markdownCode(step.stepId),
+        step.theoremIds.map(markdownCode).join(', '),
+        step.requiredArtifactPaths.map(markdownCode).join(', ')
+      ])
+    ));
+  }
+  lines.push('');
+  lines.push('## Scenario and Run Matrix');
+  lines.push('');
+  lines.push(renderMarkdownTable(
+    ['scenarioId', 'branchMode', 'needId', 'branchName', 'assetPackId', 'familyCount', 'allFamiliesPassed', 'proofContractPassed', 'requiredArtifactPathCount', 'artifactDigestCount', 'fullyProven'],
+    data.runMatrix.map((run) => [
+      markdownCode(run.scenarioId),
+      markdownCode(run.branchMode),
+      markdownCode(run.needId),
+      markdownCode(run.branchName),
+      markdownCode(run.assetPackId),
+      run.familyCount,
+      markdownCode(String(run.allFamiliesPassed)),
+      markdownCode(String(run.proofContractPassed)),
+      run.requiredArtifactPathCount,
+      run.artifactDigestCount,
+      markdownCode(String(run.fullyProven))
+    ])
+  ));
+  lines.push('');
+  lines.push('## Incomplete Verdicts');
+  lines.push('');
+  if (!data.incompleteVerdicts.length) {
+    lines.push('- none');
+  } else {
+    for (const verdict of data.incompleteVerdicts) {
+      lines.push(`- scope=${markdownCode(verdict.scope)} family=${markdownCode(verdict.proofFamily)} id=${markdownCode(verdict.id)} failingRuns=${verdict.failingRuns.map(markdownCode).join(', ') || markdownCode('none')} failureReasons=${verdict.failureReasons.map(markdownCode).join(', ') || markdownCode('none')}`);
+    }
+  }
+  lines.push('');
+  lines.push('## Run Details');
+  for (const run of data.runDetails) {
+    lines.push('');
+    lines.push(`### ${run.scenarioId} / ${run.branchMode}`);
+    lines.push('');
+    lines.push(`- branchName: ${markdownCode(run.branchName)}`);
+    lines.push(`- needId: ${markdownCode(run.needId)}`);
+    lines.push(`- assetPackId: ${markdownCode(run.assetPackId)}`);
+    lines.push(`- proofContractHash: ${markdownCode(run.proofContractHash)}`);
+    lines.push(`- allFamiliesPassed: ${markdownCode(String(run.allFamiliesPassed))}`);
+    lines.push(`- proofContractPassed: ${markdownCode(String(run.proofContractPassed))}`);
+    lines.push('');
+    lines.push('#### Family Proof Hashes');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['proofFamily', 'proofHash', 'proofArtifactPath'],
+      run.families.map((/** @type {any} */ family) => [markdownCode(family.proofFamily), markdownCode(family.proofHash), markdownCode(family.proofArtifactPath)])
+    ));
+    lines.push('');
+    lines.push('#### Proof Artifact Disclosure Classification');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['path', 'sensitiveDataClass', 'disclosable', 'deliverableConfidentiality', 'potentiallyDisclosable'],
+      run.proofArtifacts.map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.path),
+        markdownCode(String(artifact.classification?.sensitiveDataClass || 'missing')),
+        markdownCode(String(artifact.classification?.disclosable === true)),
+        markdownCode(String(artifact.deliverable?.confidentialityClass || 'missing')),
+        markdownCode(String(artifact.deliverable?.potentiallyDisclosable === true))
+      ])
+    ));
+    lines.push('');
+    lines.push('#### Witness Artifact Digest Inventory');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['path', 'digest', 'proofFamilies', 'sensitiveDataClass', 'disclosable'],
+      run.artifactDigestEntries.map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.path),
+        markdownCode(artifact.digest),
+        artifact.proofFamilies.map(markdownCode).join(', '),
+        markdownCode(String(artifact.classification?.sensitiveDataClass || 'missing')),
+        markdownCode(String(artifact.classification?.disclosable === true))
+      ])
+    ));
+  }
+  lines.push('');
+  return `${lines.join('\n')}\n`;
+}
+
+/**
+ * @param {{
+ *   version: string,
+ *   canonicalCommit: string,
+ *   canonicalCommitRecordedAt?: string | null,
+ *   generatedAt?: string,
+ *   worktreeState?: string,
+ *   generatorId?: string,
+ *   scenarioIds?: string[],
+ *   branchModes?: string[],
+ *   buildInitialStateFn?: typeof buildInitialState,
+ *   runMakeEngiBranchFn?: typeof runMakeEngiBranch
+ * }} input
+ */
+export function generateCanonicalProvenMarkdown({
+  version,
+  canonicalCommit,
+  canonicalCommitRecordedAt = null,
+  generatedAt = canonicalCommitRecordedAt || new Date().toISOString(),
+  worktreeState = 'clean',
+  generatorId = PROVEN_GENERATOR_ID,
+  scenarioIds,
+  branchModes = DEFAULT_PROVEN_BRANCH_MODES,
+  buildInitialStateFn = buildInitialState,
+  runMakeEngiBranchFn = runMakeEngiBranch
+}) {
+  const collected = collectCanonicalProvenRuns({
+    buildInitialStateFn,
+    runMakeEngiBranchFn,
+    branchModes,
+    ...(scenarioIds ? { scenarioIds } : {})
+  });
+  const data = buildCanonicalProvenData(collected, {
+    version,
+    canonicalCommit,
+    canonicalCommitRecordedAt,
+    generatedAt,
+    worktreeState,
+    generatorId
+  });
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data)
+  };
+}

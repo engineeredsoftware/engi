@@ -34,11 +34,14 @@ import {
  * @typedef {{
  *   promptSurfaces: any[],
  *   promptContracts: any[],
+ *   promptFamilyRegistry?: any,
+ *   inferenceMomentContracts?: any[],
+ *   inferenceProofs?: any[],
  *   inferenceSynthesisProof?: any,
  *   promptCompletenessProof: any,
   *   staticExecutionReceipts: any[],
   *   measurementProvenance: any[],
-  *   needDescriptor: { promptSurfaces: any[] }
+  *   needDescriptor: any
  * }} TestMeasurement
  */
 
@@ -79,6 +82,9 @@ import {
  *   assetPack: { selectedAssets: any[], assetPackId?: string, branchMode?: string },
  *   assetPackLock: { assets: any[], units: any[] },
  *   promptSurfaces: any[],
+ *   promptFamilyRegistry?: any,
+ *   inferenceMomentContracts?: any[],
+ *   promptImplementationSurface?: any,
  *   externalBoundaryManifest: { interfaces: any[] },
  *   proofContract: { evidenceChain: any[], contractId?: string },
  *   systemProofBundle: any,
@@ -247,6 +253,14 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.equal(measurement.promptCompletenessProof.allContractsComplete, true);
   assert.equal(measurement.promptCompletenessProof.allTheoremsPassed, true);
   assert.equal(measurement.inferenceSynthesisProof.allTheoremsPassed, true);
+  assert.equal(measurement.promptFamilyRegistry.promptMembers.length, 5);
+  assert.ok(measurement.promptFamilyRegistry.contextInjectableExpectations.length >= 5);
+  assert.ok(measurement.inferenceMomentContracts);
+  assert.ok(measurement.inferenceProofs);
+  assert.ok(measurement.inferenceMomentContracts.length >= 5);
+  assert.ok(measurement.inferenceProofs.every((/** @type {any} */ proof) => proof.fieldProofId.startsWith('inference_proof_')));
+  assert.ok(measurement.inferenceProofs.every((/** @type {any} */ proof) => proof.momentContractId));
+  assert.ok(measurement.inferenceProofs.every((/** @type {any} */ proof) => proof.evidenceBasisClosedToMoment === true));
   assert.ok(measurement.promptContracts.every((contract) => contract.completeness.ok));
   assert.ok(measurement.promptContracts.every((contract) => Array.isArray(contract.outputFields) && contract.outputFields.length >= 1));
   assert.ok(measurement.promptContracts.every((contract) => contract.parseContractId.startsWith('parse_contract_')));
@@ -260,6 +274,30 @@ test('measureNeedFromScenario materializes prompt surfaces with interpolated lin
   assert.ok(measurement.promptSurfaces.every((surface) => surface.parsableCompletionContract.allowsExtraneousText === false));
   assert.ok(measurement.staticExecutionReceipts.length >= 2);
   assert.ok(measurement.measurementProvenance.filter((entry) => entry.mode === 'static').every((entry) => entry.receiptRefs.length >= 1));
+});
+
+test('measureNeedFromScenario makes prompt-owned source precedence truthful when scenario values are provided', () => {
+  const state = buildInitialStateTest();
+  const scenario = {
+    ...state.needScenarios[0],
+    task: 'Use scenario task precedence.',
+    failureModes: ['scenario failure mode'],
+    constraints: ['scenario constraint'],
+    targetArtifactKinds: ['scenario-artifact'],
+    closureCriteria: ['scenario closure criterion']
+  };
+  const measurement = measureNeedFromScenarioTest(scenario);
+
+  assert.equal(measurement.needDescriptor.task, 'Use scenario task precedence.');
+  assert.deepEqual(measurement.needDescriptor.failureModes, ['scenario failure mode']);
+  assert.deepEqual(measurement.needDescriptor.constraints, ['scenario constraint', 'keep remediation branch private until settlement completes']);
+  assert.deepEqual(measurement.needDescriptor.targetArtifactKinds, ['scenario-artifact']);
+  assert.deepEqual(measurement.needDescriptor.closureCriteria, ['scenario closure criterion']);
+  assert.equal(measurement.needDescriptor.fieldDerivations.task.source, 'scenario.task');
+  assert.equal(measurement.needDescriptor.fieldDerivations.failureModes.source, 'scenario.failureModes');
+  assert.equal(measurement.needDescriptor.fieldDerivations.constraints.source, 'scenario.constraints');
+  assert.equal(measurement.needDescriptor.fieldDerivations.targetArtifactKinds.source, 'scenario.targetArtifactKinds');
+  assert.equal(measurement.needDescriptor.fieldDerivations.closureCriteria.source, 'scenario.closureCriteria');
 });
 
 test('normalization-heavy scenarios resolve to Profile B', () => {
@@ -590,10 +628,17 @@ test('runMakeEngiBranch materializes prompt surfaces, external boundary manifest
   const { latestRun } = runMakeEngiBranchTest(state, {});
 
   assert.ok(latestRun.promptSurfaces.length >= 4);
+  assert.ok(latestRun.promptFamilyRegistry.promptMembers.length >= 5);
+  assert.ok(latestRun.inferenceMomentContracts);
+  assert.ok(latestRun.inferenceMomentContracts.length >= 5);
   assert.ok(latestRun.externalBoundaryManifest.interfaces.length >= 6);
   assert.ok(latestRun.proofContract.evidenceChain.length >= 4);
+  assert.ok(latestRun.branchArtifacts.files['.engi/prompt-family-registry.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/prompt-surfaces.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/inference-moment-contracts.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/inference-proofs.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/inference-synthesis-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/prompt-implementation-surface.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/external-boundary-manifest.json']);
   assert.ok(latestRun.branchArtifacts.files['.engi/proof-contract.json']);
 });
@@ -605,6 +650,7 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   const proofFamilies = proof.proofWitnessManifest.proofFamilies.map((/** @type {any} */ entry) => entry.proofFamily);
   const artifactPaths = proof.proofWitnessManifest.artifactDigests.map((/** @type {any} */ entry) => entry.path);
   const inferenceSynthesisFamily = proof.proofWitnessManifest.proofFamilies.find((/** @type {any} */ entry) => entry.proofFamily === 'inference-synthesis');
+  const proofFamilyCatalog = proof.proofFamilies || [];
 
   assert.ok(proof.assetMeasurementProofs.length >= 1);
   assert.equal(proof.inferenceSynthesisProof.allTheoremsPassed, true);
@@ -623,8 +669,11 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.equal(proof.sensitiveDataFlowProof.noUnauthorizedPublicDisclosure, true);
   assert.equal(proof.settlementSourceToSharesProof.allTheoremsPassed, true);
   assert.equal(proof.disclosureBoundaryProof.allTheoremsPassed, true);
+  assert.equal(proof.proofContract.allTheoremsPassed, true);
   assert.ok(proof.verificationReceiptsArtifact.verificationReceipts.length >= 4);
   assert.ok(proof.proofWitnessManifest.proofFamilies.length >= 9);
+  assert.equal(proofFamilyCatalog.length, 9);
+  assert.ok(proofFamilyCatalog.every((/** @type {any} */ entry) => entry.allTheoremsPassed === true));
   assert.ok(proofFamilies.includes('inference-synthesis'));
   assert.ok(proofFamilies.includes('verification-decisions'));
   assert.ok(proofFamilies.includes('selection-and-materialization'));
@@ -633,7 +682,11 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.ok(proofFamilies.includes('disclosure-boundary'));
   assert.ok(proofFamilies.includes('proof-contract'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/code-analysis-fact-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/prompt-family-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/inference-moment-contracts.json'));
+  assert.ok(artifactPaths.includes('.engi/inference-proofs.json'));
   assert.ok(artifactPaths.includes('.engi/prompt-surfaces.json'));
+  assert.ok(artifactPaths.includes('.engi/prompt-implementation-surface.json'));
   assert.ok(artifactPaths.includes('.engi/inference-synthesis-proof.json'));
   assert.ok(artifactPaths.includes('.engi/asset-pack.lock.json'));
   assert.ok(artifactPaths.includes('.engi/selected-source-material.json'));
@@ -646,11 +699,28 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.ok(artifactPaths.includes('.engi/settlement-source-to-shares-proof.json'));
   assert.ok(artifactPaths.includes('.engi/disclosure-boundary-proof.json'));
   assert.ok(artifactPaths.includes('.engi/proof-contract.json'));
+  assert.ok(proof.verifierEntrypoint.requiredArtifactPaths.includes('.engi/inference-moment-contracts.json'));
+  assert.ok(proof.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-contract.json'));
+  assert.ok(proof.verifierEntrypoint.proofFamilyReplayCatalog.some((/** @type {any} */ entry) => entry.proofFamily === 'prompt-completeness'));
+  assert.equal(proof.proofFamilies.every((/** @type {any} */ entry) => typeof entry.proofArtifactPath === 'string' && entry.proofArtifactPath.endsWith('.json')), true);
+  assert.equal(proof.proofFamilies.every((/** @type {any} */ entry) => Array.isArray(entry.memberIds) && entry.memberIds.length >= 1), true);
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/source-to-shares.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/materialization-proof.json'));
   assert.ok(proof.proofWitnessManifest.artifactDigests.some((/** @type {any} */ entry) => entry.path === '.engi/static-heuristics-registry.json'));
+  assert.equal(proof.proofWitnessManifest.artifactDigestByPath['.engi/prompt-family-registry.json'].proofFamilies.includes('prompt-completeness'), true);
+  assert.deepEqual(proof.proofWitnessManifest.proofFamiliesByName['inference-synthesis'].witnessArtifactPaths, [
+    '.engi/inference-moment-contracts.json',
+    '.engi/inference-proofs.json',
+    '.engi/prompt-implementation-surface.json',
+    '.engi/prompt-surfaces.json',
+    '.engi/parsed-completion-envelopes.json',
+    '.engi/inference-synthesis-proof.json'
+  ]);
   assert.ok(artifactPaths.includes('.engi/journal-diff.json'));
   assert.deepEqual(inferenceSynthesisFamily?.witnessArtifactPaths, [
+    '.engi/inference-moment-contracts.json',
+    '.engi/inference-proofs.json',
+    '.engi/prompt-implementation-surface.json',
     '.engi/prompt-surfaces.json',
     '.engi/parsed-completion-envelopes.json',
     '.engi/inference-synthesis-proof.json'
@@ -714,6 +784,10 @@ test('policy release artifact classes cover verification, authz, and sensitive-d
   assert.ok(artifactPaths.includes('.engi/materialization-proof.json'));
   assert.ok(artifactPaths.includes('.engi/materialization-exclusions.json'));
   assert.ok(artifactPaths.includes('.engi/static-measurement-proof.json'));
+  assert.ok(artifactPaths.includes('.engi/prompt-family-registry.json'));
+  assert.ok(artifactPaths.includes('.engi/inference-moment-contracts.json'));
+  assert.ok(artifactPaths.includes('.engi/inference-proofs.json'));
+  assert.ok(artifactPaths.includes('.engi/prompt-implementation-surface.json'));
   assert.ok(artifactPaths.includes('.engi/inference-synthesis-proof.json'));
   assert.ok(artifactPaths.includes('.engi/verification-decisions-proof.json'));
   assert.ok(artifactPaths.includes('.engi/selection-and-materialization-proof.json'));
@@ -950,6 +1024,10 @@ test('deliverables manifest and journal receipts remain internally consistent', 
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/sensitive-data-flow.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/proof-witness-manifest.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/static-heuristics-registry.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/prompt-family-registry.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/inference-moment-contracts.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/inference-proofs.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/prompt-implementation-surface.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-proof.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/materialization-exclusions.json'));
   assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/deliverables.json'));

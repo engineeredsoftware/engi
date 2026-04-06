@@ -82,7 +82,8 @@ import {
   buildArtifactBinding,
   buildReplayStep,
   allTheoremsPassed as aggregateTheoremVerdicts,
-  summarizeStrings as summarizeAnnotationStrings
+  summarizeStrings as summarizeAnnotationStrings,
+  computeProofClosure
 } from './canonical/proof-annotations.js';
 
 import crypto from 'node:crypto';
@@ -540,6 +541,12 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
   ]);
   const receiptIds = new Set(receipts.map((receipt) => receipt.receiptId));
   const coveredStageIds = summarizeStrings(receipts.map((receipt) => receipt.stageId));
+  const memberStageMap = {
+    'deterministic-parser': summarizeStrings(coveredStageIds.filter((stageId) => stageId.includes('benchmark-parser'))),
+    'repo-context': summarizeStrings(coveredStageIds.filter((stageId) => stageId.includes('repo-context'))),
+    'content-unit': summarizeStrings(coveredStageIds.filter((stageId) => stageId.includes('content-unit') || stageId.includes('asset.measurement.extract'))),
+    'measurement-stages': summarizeStrings(coveredStageIds.filter((stageId) => stageId.includes('asset.measurement')))
+  };
   const witnessArtifactPaths = [
     '.engi/code-analysis-fact-registry.json',
     '.engi/static-measurement-report.json',
@@ -561,8 +568,8 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
     }),
     buildReplayStep({
       stepId: 'static-code-analysis.stage-mapping',
-      theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping'],
-      requiredArtifactPaths: ['.engi/measurement-receipts.json', '.engi/code-analysis-fact-registry.json'],
+      theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'],
+      requiredArtifactPaths: ['.engi/measurement-receipts.json', '.engi/code-analysis-fact-registry.json', '.engi/static-heuristics-registry.json'],
       instruction: 'Reconcile abstract static-analysis members to concrete receipt stages.'
     }),
     buildReplayStep({
@@ -575,22 +582,50 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
   const memberVerdicts = [
     {
       memberId: 'deterministic-parser',
-      passed: coveredStageIds.some((stageId) => stageId.includes('benchmark-parser'))
+      stageIds: memberStageMap['deterministic-parser'],
+      passed: memberStageMap['deterministic-parser'].length > 0
     },
     {
       memberId: 'repo-context',
-      passed: coveredStageIds.some((stageId) => stageId.includes('repo-context'))
+      stageIds: memberStageMap['repo-context'],
+      passed: memberStageMap['repo-context'].length > 0
     },
     {
       memberId: 'content-unit',
-      passed: coveredStageIds.some((stageId) => stageId.includes('content-unit') || stageId.includes('asset.measurement'))
+      stageIds: memberStageMap['content-unit'],
+      passed: memberStageMap['content-unit'].length > 0
     },
     {
       memberId: 'measurement-stages',
-      passed: coveredStageIds.some((stageId) => stageId.includes('asset.measurement'))
+      stageIds: memberStageMap['measurement-stages'],
+      passed: memberStageMap['measurement-stages'].length > 0
     }
   ];
   const stageDomainPure = coveredStageIds.every((stageId) => !stageId.startsWith('verification.'));
+  const theoremIds = [
+    'static_code_analysis.stage_domain_purity',
+    'static_code_analysis.abstract_to_concrete_stage_mapping',
+    'static_code_analysis.registry_role_closure',
+    'static_code_analysis.receipt_report_proof_agreement',
+    'static_code_analysis.witness_replay_closure'
+  ];
+  const artifactBindings = [
+    buildArtifactBinding({ artifactPath: '.engi/code-analysis-fact-registry.json', role: 'registry', theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: false, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/static-measurement-report.json', role: 'report', theoremIds: ['static_code_analysis.receipt_report_proof_agreement'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/static-measurement-proof.json', role: 'primary-proof', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
+  ];
+  const registryRoleClosed =
+    artifactBindings.some((binding) => binding.artifactPath === '.engi/code-analysis-fact-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
+    && artifactBindings.some((binding) => binding.artifactPath === '.engi/static-heuristics-registry.json' && binding.role === 'registry' && binding.requiredForWitness === false && binding.requiredForReplay === true);
+  const proofClosure = computeProofClosure({
+    artifactBindings,
+    witnessArtifactPaths,
+    replayArtifactPaths: replayArtifacts,
+    replaySteps,
+    theoremIds,
+    excludeTheoremIds: ['static_code_analysis.witness_replay_closure']
+  });
   const theoremVerdicts = [
     buildTheoremVerdict({
       theoremId: 'static_code_analysis.stage_domain_purity',
@@ -610,10 +645,11 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
     }),
     buildTheoremVerdict({
       theoremId: 'static_code_analysis.registry_role_closure',
-      passed: true,
+      passed: registryRoleClosed,
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts,
-      replayStepIds: ['static-code-analysis.stage-mapping']
+      replayStepIds: ['static-code-analysis.stage-mapping'],
+      failureReasons: registryRoleClosed ? [] : ['static-analysis registry roles are incomplete or incorrectly classified']
     }),
     buildTheoremVerdict({
       theoremId: 'static_code_analysis.receipt_report_proof_agreement',
@@ -625,10 +661,11 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
     }),
     buildTheoremVerdict({
       theoremId: 'static_code_analysis.witness_replay_closure',
-      passed: true,
+      passed: proofClosure.allClosed,
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts,
-      replayStepIds: replaySteps.map((entry) => entry.stepId)
+      replayStepIds: replaySteps.map((entry) => entry.stepId),
+      failureReasons: proofClosure.allClosed ? [] : ['static-code-analysis witness/replay closure is incomplete']
     })
   ];
   return {
@@ -638,23 +675,22 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
     receiptCount: receipts.length,
     allReceiptRefsResolve: expectedReceiptRefs.every((receiptId) => receiptIds.has(receiptId)),
     coveredStageIds,
+    memberStageMap,
     witnessReceiptRefs: expectedReceiptRefs,
     memberVerdicts,
     theoremVerdicts,
-    artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.engi/code-analysis-fact-registry.json', role: 'registry', theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: false, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/static-measurement-report.json', role: 'report', theoremIds: ['static_code_analysis.receipt_report_proof_agreement'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.engi/static-measurement-proof.json', role: 'primary-proof', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
-    ],
+    artifactBindings,
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
+    witnessClosureClosed: proofClosure.witnessBindingsClosed,
+    replayClosureClosed: proofClosure.replayBindingsClosed && proofClosure.replayStepArtifactCoverageClosed && proofClosure.theoremReplayCoverageClosed,
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
       expectedReceiptRefs,
-      coveredStageIds
+      coveredStageIds,
+      memberStageMap
     })
   };
 }
@@ -3610,6 +3646,7 @@ function assetEvidenceRefs(asset) {
  * @returns {string}
  */
 function inferNeedTask(scenario, benchmarkOutputs) {
+  if (scenario.task) return scenario.task;
   if (scenario.expectedTask) return scenario.expectedTask;
   const priorityFailure = benchmarkOutputs.failingCases[0] || 'measured benchmark failure';
   const primaryDimension = benchmarkOutputs.weakDimensions[0] || 'engineering reliability';
@@ -3622,6 +3659,7 @@ function inferNeedTask(scenario, benchmarkOutputs) {
  * @returns {string[]}
  */
 function inferFailureModes(scenario, benchmarkOutputs) {
+  if (scenario.failureModes?.length) return summarizeStrings(scenario.failureModes);
   if (scenario.expectedFailureModes?.length) return scenario.expectedFailureModes;
   return benchmarkOutputs.failingCases.map((/** @type {any} */ caseId) => caseId.replace(/-/g, ' '));
 }
@@ -3632,6 +3670,9 @@ function inferFailureModes(scenario, benchmarkOutputs) {
  * @returns {string[]}
  */
 function inferConstraints(scenario, benchmarkOutputs) {
+  if (scenario.constraints?.length) {
+    return summarizeStrings(union(scenario.constraints, ['keep remediation branch private until settlement completes']));
+  }
   const constraints = union(
     scenario.expectedConstraints || [],
     benchmarkOutputs.weakDimensions.map((/** @type {any} */ dimension) => {
@@ -3649,6 +3690,7 @@ function inferConstraints(scenario, benchmarkOutputs) {
  * @returns {string[]}
  */
 function inferTargetArtifactKinds(scenario, benchmarkOutputs) {
+  if (scenario.targetArtifactKinds?.length) return summarizeStrings(scenario.targetArtifactKinds);
   if (scenario.expectedTargetArtifactKinds?.length) return scenario.expectedTargetArtifactKinds;
   const inferred = ['runbook', 'patch'];
   if (benchmarkOutputs.configKeys.length) inferred.push('config');
@@ -4143,9 +4185,18 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/authorization-decisions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/sensitive-data-flow.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/policy-release.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/identity-bindings.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/asset-pack.lock.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/selected-source-material.json', sensitiveDataClass: 'licensed-source-material', disclosable: false },
+      { path: '.engi/prompt-family-registry.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/prompt-surfaces.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/prompt-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/inference-moment-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/inference-proofs.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/inference-synthesis-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/prompt-implementation-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/prompt-completeness-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/parsed-completion-envelopes.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/measurement-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
@@ -4170,6 +4221,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/source-to-shares.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/settlement-participation.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
       { path: '.engi/accounting-precision-report.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/journal-diff.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/journal-completeness-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/settlement-source-to-shares-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/scenario-fixture-manifest.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
@@ -4398,6 +4450,20 @@ function buildSensitiveDataFlowProof(records) {
  */
 function buildVerificationDecisionsProof(verificationReport, verificationReceiptsArtifact) {
   const verificationFamilies = summarizeAnnotationStrings(verificationReport?.verificationFamilies || []);
+  const memberStageMap = {
+    issuance: ['verification.issuance-checks.v15'],
+    provenance: ['verification.provenance-checks.v15'],
+    sufficiency: ['verification.sufficiency-checks.v15'],
+    'issuer-policy': ['verification.issuer-policy-checks.v15'],
+    'use-tier-consequence': ['verification.determinisms.v15']
+  };
+  const memberVerdicts = [
+    { memberId: 'issuance', stageIds: memberStageMap.issuance, passed: verificationFamilies.includes('issuance') },
+    { memberId: 'provenance', stageIds: memberStageMap.provenance, passed: verificationFamilies.includes('provenance') },
+    { memberId: 'sufficiency', stageIds: memberStageMap.sufficiency, passed: verificationFamilies.includes('sufficiency') },
+    { memberId: 'issuer-policy', stageIds: memberStageMap['issuer-policy'], passed: verificationFamilies.includes('issuer-policy') },
+    { memberId: 'use-tier-consequence', stageIds: memberStageMap['use-tier-consequence'], passed: (verificationReport?.assetVerification || []).every((/** @type {any} */ entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) }
+  ];
   const witnessArtifactPaths = ['.engi/verification-report.json', '.engi/verification-receipts.json', '.engi/verification-decisions-proof.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
@@ -4414,6 +4480,28 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
       instruction: 'Replay use-tier consequence closure from raw receipts into report-facing rights.'
     })
   ];
+  const theoremIds = [
+    'verification_decisions.issuance_closure',
+    'verification_decisions.provenance_closure',
+    'verification_decisions.sufficiency_closure',
+    'verification_decisions.issuer_policy_closure',
+    'verification_decisions.use_tier_consequence_closure',
+    'verification_decisions.receipt_report_role_closure',
+    'verification_decisions.witness_replay_closure'
+  ];
+  const artifactBindings = [
+    buildArtifactBinding({ artifactPath: '.engi/verification-report.json', role: 'report', theoremIds }),
+    buildArtifactBinding({ artifactPath: '.engi/verification-receipts.json', role: 'receipt-log', theoremIds }),
+    buildArtifactBinding({ artifactPath: '.engi/verification-decisions-proof.json', role: 'primary-proof', theoremIds })
+  ];
+  const proofClosure = computeProofClosure({
+    artifactBindings,
+    witnessArtifactPaths,
+    replayArtifactPaths: replayArtifacts,
+    replaySteps,
+    theoremIds,
+    excludeTheoremIds: ['verification_decisions.witness_replay_closure']
+  });
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'verification_decisions.issuance_closure', passed: verificationFamilies.includes('issuance'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
     buildTheoremVerdict({ theoremId: 'verification_decisions.provenance_closure', passed: verificationFamilies.includes('provenance'), witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['verification-decisions.stage-mapping'] }),
@@ -4437,36 +4525,31 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
     }),
     buildTheoremVerdict({
       theoremId: 'verification_decisions.witness_replay_closure',
-      passed: true,
+      passed: proofClosure.allClosed,
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts,
-      replayStepIds: replaySteps.map((entry) => entry.stepId)
+      replayStepIds: replaySteps.map((entry) => entry.stepId),
+      failureReasons: proofClosure.allClosed ? [] : ['verification-decisions witness/replay closure is incomplete']
     })
   ];
   return {
     proofFamily: 'verification-decisions',
     coveredDecisionFamilies: verificationFamilies,
-    memberVerdicts: [
-      { memberId: 'issuance', passed: verificationFamilies.includes('issuance') },
-      { memberId: 'provenance', passed: verificationFamilies.includes('provenance') },
-      { memberId: 'sufficiency', passed: verificationFamilies.includes('sufficiency') },
-      { memberId: 'issuer-policy', passed: verificationFamilies.includes('issuer-policy') },
-      { memberId: 'use-tier-consequence', passed: (verificationReport?.assetVerification || []).every((/** @type {any} */ entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) }
-    ],
+    memberStageMap,
+    memberVerdicts,
     theoremVerdicts,
-    artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.engi/verification-report.json', role: 'report', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/verification-receipts.json', role: 'receipt-log', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/verification-decisions-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
-    ],
+    artifactBindings,
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
-    allCasesPassed: verificationFamilies.includes('issuance') && verificationFamilies.includes('provenance') && verificationFamilies.includes('sufficiency') && verificationFamilies.includes('issuer-policy'),
+    witnessClosureClosed: proofClosure.witnessBindingsClosed,
+    replayClosureClosed: proofClosure.replayBindingsClosed && proofClosure.replayStepArtifactCoverageClosed && proofClosure.theoremReplayCoverageClosed,
+    allCasesPassed: memberVerdicts.every((entry) => entry.passed),
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
       verificationFamilies,
+      memberStageMap,
       verificationReceiptCount: verificationReceiptsArtifact?.verificationReceipts?.length || 0,
       assetCount: verificationReport?.assetVerification?.length || 0
     })
@@ -4487,14 +4570,15 @@ function buildSelectionAndMaterializationProof(selectionConsistencyProof, materi
     '.engi/materialization-exclusions.json',
     '.engi/materialization-visibility-proof.json',
     '.engi/selection-consistency-proof.json',
-    '.engi/materialization-proof.json'
+    '.engi/materialization-proof.json',
+    '.engi/selection-and-materialization-proof.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'selection-and-materialization.selected-set',
-      theoremIds: ['selection_and_materialization.selected_asset_closure', 'selection_and_materialization.selection_consistency_closure'],
-      requiredArtifactPaths: ['.engi/selection-consistency-proof.json', '.engi/materialization-proof.json'],
+      theoremIds: ['selection_and_materialization.selected_asset_closure', 'selection_and_materialization.lock_closure', 'selection_and_materialization.materialized_source_closure', 'selection_and_materialization.selection_consistency_closure'],
+      requiredArtifactPaths: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/selection-consistency-proof.json', '.engi/materialization-proof.json'],
       instruction: 'Replay selected asset consistency across asset pack, selection consistency, and materialization proof.'
     }),
     buildReplayStep({
@@ -4504,6 +4588,30 @@ function buildSelectionAndMaterializationProof(selectionConsistencyProof, materi
       instruction: 'Replay exclusions and visibility closure for materialized source.'
     })
   ];
+  const theoremIds = [
+    'selection_and_materialization.selected_asset_closure',
+    'selection_and_materialization.lock_closure',
+    'selection_and_materialization.materialized_source_closure',
+    'selection_and_materialization.exclusion_closure',
+    'selection_and_materialization.visibility_closure',
+    'selection_and_materialization.selection_consistency_closure',
+    'selection_and_materialization.materialization_proof_closure'
+  ];
+  const artifactBindings = witnessArtifactPaths.map((artifactPath) =>
+    buildArtifactBinding({
+      artifactPath,
+      role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof',
+      theoremIds
+    })
+  );
+  const proofClosure = computeProofClosure({
+    artifactBindings,
+    witnessArtifactPaths,
+    replayArtifactPaths: replayArtifacts,
+    replaySteps,
+    theoremIds,
+    excludeTheoremIds: ['selection_and_materialization.materialization_proof_closure']
+  });
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'selection_and_materialization.selected_asset_closure', passed: selectionConsistencyProof?.assetPackSelectionsMatchSelectedCandidates === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
     buildTheoremVerdict({ theoremId: 'selection_and_materialization.lock_closure', passed: selectionConsistencyProof?.materializedSourceUnitsClosedOverLock === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
@@ -4511,7 +4619,14 @@ function buildSelectionAndMaterializationProof(selectionConsistencyProof, materi
     buildTheoremVerdict({ theoremId: 'selection_and_materialization.exclusion_closure', passed: materializationProof?.allExclusionsExplained === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.visibility'] }),
     buildTheoremVerdict({ theoremId: 'selection_and_materialization.visibility_closure', passed: materializationVisibilityProof?.noPrivateArtifactsLeakIntoPublicProjection === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.visibility'] }),
     buildTheoremVerdict({ theoremId: 'selection_and_materialization.selection_consistency_closure', passed: selectionConsistencyProof?.settlementParticipantsSubsetOfSelectedAssets === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['selection-and-materialization.selected-set'] }),
-    buildTheoremVerdict({ theoremId: 'selection_and_materialization.materialization_proof_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
+    buildTheoremVerdict({
+      theoremId: 'selection_and_materialization.materialization_proof_closure',
+      passed: proofClosure.allClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: replaySteps.map((entry) => entry.stepId),
+      failureReasons: proofClosure.allClosed ? [] : ['selection-and-materialization witness/replay closure is incomplete']
+    })
   ];
   return {
     proofFamily: 'selection-and-materialization',
@@ -4523,11 +4638,13 @@ function buildSelectionAndMaterializationProof(selectionConsistencyProof, materi
       { memberId: 'visibility-rules', passed: materializationVisibilityProof?.noPrivateArtifactsLeakIntoPublicProjection === true }
     ],
     theoremVerdicts,
-    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    artifactBindings,
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
+    witnessClosureClosed: proofClosure.witnessBindingsClosed,
+    replayClosureClosed: proofClosure.replayBindingsClosed && proofClosure.replayStepArtifactCoverageClosed && proofClosure.theoremReplayCoverageClosed,
     allCasesPassed: (selectionConsistencyProof?.assetPackSelectionsMatchSelectedCandidates === true) && (materializationProof?.allSelectedAssetsMaterialized === true),
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
@@ -4568,6 +4685,27 @@ function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sen
       instruction: 'Replay sensitive-data classification, policy assignment, and no-unauthorized-public-flow closure.'
     })
   ];
+  const theoremIds = [
+    'authorization_and_sensitive_flow.principal_authority_totality',
+    'authorization_and_sensitive_flow.authorization_decision_closure',
+    ...((sensitiveDataFlowProof?.theoremVerdicts || []).map((/** @type {any} */ entry) => entry.theoremId)),
+    'authorization_and_sensitive_flow.witness_replay_closure'
+  ];
+  const artifactBindings = witnessArtifactPaths.map((artifactPath) =>
+    buildArtifactBinding({
+      artifactPath,
+      role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof',
+      theoremIds
+    })
+  );
+  const proofClosure = computeProofClosure({
+    artifactBindings,
+    witnessArtifactPaths,
+    replayArtifactPaths: replayArtifacts,
+    replaySteps,
+    theoremIds,
+    excludeTheoremIds: ['authorization_and_sensitive_flow.witness_replay_closure']
+  });
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.principal_authority_totality', passed: identityAuthorizationProof?.allAccessBoundToKnownPrincipals === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['authorization-sensitive-flow.identity'] }),
     buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.authorization_decision_closure', passed: identityAuthorizationProof?.allStateChangingActionsAuthorized === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['authorization-sensitive-flow.identity'] }),
@@ -4576,7 +4714,14 @@ function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sen
       witnessArtifactPaths,
       replayArtifactPaths: replayArtifacts
     })),
-    buildTheoremVerdict({ theoremId: 'authorization_and_sensitive_flow.witness_replay_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
+    buildTheoremVerdict({
+      theoremId: 'authorization_and_sensitive_flow.witness_replay_closure',
+      passed: proofClosure.allClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: replaySteps.map((entry) => entry.stepId),
+      failureReasons: proofClosure.allClosed ? [] : ['authorization-and-sensitive-flow witness/replay closure is incomplete']
+    })
   ];
   return {
     proofFamily: 'authorization-and-sensitive-flow',
@@ -4588,11 +4733,13 @@ function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sen
       { memberId: 'sensitive-data-flows', passed: sensitiveDataFlowProof?.allFlowsRecorded === true && sensitiveDataFlowProof?.noUnauthorizedPublicDisclosure === true }
     ],
     theoremVerdicts,
-    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    artifactBindings,
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
+    witnessClosureClosed: proofClosure.witnessBindingsClosed,
+    replayClosureClosed: proofClosure.replayBindingsClosed && proofClosure.replayStepArtifactCoverageClosed && proofClosure.theoremReplayCoverageClosed,
     allCasesPassed: identityAuthorizationProof?.allStateChangingActionsAuthorized === true && sensitiveDataFlowProof?.noUnauthorizedPublicDisclosure === true,
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
@@ -4625,14 +4772,41 @@ function buildAssetMeasurementProofs(selectedCandidates) {
  * @param {any} __0
  * @returns {any}
  */
-function buildProofContract({ needId, assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords }) {
-  const theoremCheckCatalog = [
-    { theoremId: 'proof_contract.contract_materialization', label: 'proof contract materialized', passed: true },
-    { theoremId: 'proof_contract.evidence_chain_closure', label: 'evidence chain is explicit and replayable', passed: true },
-    { theoremId: 'proof_contract.theorem_check_binding', label: 'theorem checks are bound to proof-bearing artifacts', passed: true },
-    { theoremId: 'proof_contract.bundle_coherence', label: 'bundle remains coherent with proof contract', passed: true },
-    { theoremId: 'proof_contract.witness_manifest_coherence', label: 'witness manifest remains coherent with proof contract', passed: true },
-    { theoremId: 'proof_contract.replay_closure', label: 'proof-contract replay closes over contract, evidence chain, bundle, and witness manifest', passed: true }
+function buildProofContract({
+  needId,
+  assetPackId,
+  branchName,
+  selectedCandidates,
+  authorizationDecisions,
+  sensitiveDataFlowRecords,
+  systemProofBundleSummary = null,
+  proofWitnessManifestSummary = null
+}) {
+  const expectedProofFamilies = [
+    'inference-synthesis',
+    'prompt-completeness',
+    'static-code-analysis',
+    'verification-decisions',
+    'selection-and-materialization',
+    'authorization-and-sensitive-flow',
+    'settlement-source-to-shares',
+    'disclosure-boundary',
+    'proof-contract'
+  ];
+  const evidenceChain = [
+    { stage: 'need-measurement', artifactRefs: ['.engi/need.json', '.engi/need-measurement.json', '.engi/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence.' },
+    { stage: 'ranking-and-verification', artifactRefs: ['.engi/match-report.json', '.engi/verification-report.json', '.engi/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
+    { stage: 'identity-and-boundaries', artifactRefs: ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/github-boundary.json', '.engi/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
+    { stage: 'materialization', artifactRefs: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/materialization-visibility-proof.json', 'ENGI_NEED.md'], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
+    { stage: 'settlement-and-proof', artifactRefs: ['.engi/settlement-preview.json', '.engi/source-to-shares.json', '.engi/settlement-participation.json', '.engi/accounting-precision-report.json', '.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable from source contribution to journal entry.' }
+  ];
+  const theoremChecks = [
+    'selected assets respect branch-mode use tiers',
+    'all state-changing actions are authorized',
+    'no unauthorized public disclosure occurs',
+    'source-to-shares clipping and tie-breaks are replayable',
+    'debits equal credits exactly',
+    'asset-pack lock binds settlement refs closed'
   ];
   const witnessArtifactPaths = ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
@@ -4656,63 +4830,132 @@ function buildProofContract({ needId, assetPackId, branchName, selectedCandidate
       instruction: 'Replay bundle coherence and witness-manifest coherence against the proof contract.'
     })
   ];
-  const theoremVerdicts = theoremCheckCatalog.map((entry) => buildTheoremVerdict({
-    theoremId: entry.theoremId,
-    passed: entry.passed,
+  const theoremIds = [
+    'proof_contract.contract_materialization',
+    'proof_contract.evidence_chain_closure',
+    'proof_contract.theorem_check_binding',
+    'proof_contract.bundle_coherence',
+    'proof_contract.witness_manifest_coherence',
+    'proof_contract.replay_closure'
+  ];
+  const artifactBindings = [
+    buildArtifactBinding({ artifactPath: '.engi/proof-contract.json', role: 'primary-proof', theoremIds }),
+    buildArtifactBinding({ artifactPath: '.engi/system-proof-bundle.json', role: 'bundle', theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.replay_closure'] }),
+    buildArtifactBinding({ artifactPath: '.engi/proof-witness-manifest.json', role: 'witness-manifest', theoremIds: ['proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'] })
+  ];
+  const contractMaterializationClosed = !!needId && !!assetPackId && !!branchName;
+  const evidenceChainClosed = evidenceChain.length === 5 && evidenceChain.every((entry) => (entry.artifactRefs || []).length > 0 && !!entry.claim);
+  const theoremCheckBindingClosed = theoremChecks.length >= 6
+    && artifactBindings.some((binding) => binding.artifactPath === '.engi/proof-contract.json' && binding.role === 'primary-proof')
+    && artifactBindings.some((binding) => binding.artifactPath === '.engi/system-proof-bundle.json' && binding.role === 'bundle')
+    && artifactBindings.some((binding) => binding.artifactPath === '.engi/proof-witness-manifest.json' && binding.role === 'witness-manifest');
+  const bundleProofFamilies = summarizeAnnotationStrings(systemProofBundleSummary?.proofFamilies || []);
+  const witnessProofFamilies = summarizeAnnotationStrings(proofWitnessManifestSummary?.proofFamilies || []);
+  const bundleCoherenceClosed = !!systemProofBundleSummary
+    && expectedProofFamilies.every((proofFamily) => bundleProofFamilies.includes(proofFamily))
+    && Number(systemProofBundleSummary?.replayArtifactCount || 0) > 0
+    && Number(systemProofBundleSummary?.requiredArtifactCount || 0) > 0;
+  const witnessManifestCoherenceClosed = !!proofWitnessManifestSummary
+    && expectedProofFamilies.every((proofFamily) => witnessProofFamilies.includes(proofFamily))
+    && proofWitnessManifestSummary?.allProofRelevantArtifactsDigested === true
+    && Number(proofWitnessManifestSummary?.digestedArtifactCount || 0) > 0;
+  const proofClosure = computeProofClosure({
+    artifactBindings,
     witnessArtifactPaths,
     replayArtifactPaths: replayArtifacts,
-    replayStepIds: replaySteps.filter((step) => step.theoremIds.includes(entry.theoremId)).map((step) => step.stepId)
-  }));
+    replaySteps,
+    theoremIds,
+    excludeTheoremIds: ['proof_contract.replay_closure']
+  });
+  const theoremVerdicts = [
+    buildTheoremVerdict({
+      theoremId: 'proof_contract.contract_materialization',
+      passed: contractMaterializationClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['proof-contract.contract-materialization'],
+      failureReasons: contractMaterializationClosed ? [] : ['proof contract identity fields are incomplete']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'proof_contract.evidence_chain_closure',
+      passed: evidenceChainClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['proof-contract.evidence-chain'],
+      failureReasons: evidenceChainClosed ? [] : ['proof contract evidence chain is incomplete']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'proof_contract.theorem_check_binding',
+      passed: theoremCheckBindingClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['proof-contract.evidence-chain'],
+      failureReasons: theoremCheckBindingClosed ? [] : ['proof contract theorem checks are not bound to the required artifacts']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'proof_contract.bundle_coherence',
+      passed: bundleCoherenceClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['proof-contract.bundle-witness'],
+      failureReasons: bundleCoherenceClosed ? [] : ['system proof bundle summary is not coherent with the proof contract']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'proof_contract.witness_manifest_coherence',
+      passed: witnessManifestCoherenceClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['proof-contract.bundle-witness'],
+      failureReasons: witnessManifestCoherenceClosed ? [] : ['proof witness manifest summary is not coherent with the proof contract']
+    }),
+    buildTheoremVerdict({
+      theoremId: 'proof_contract.replay_closure',
+      passed: proofClosure.allClosed && bundleCoherenceClosed && witnessManifestCoherenceClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['proof-contract.bundle-witness'],
+      failureReasons: (proofClosure.allClosed && bundleCoherenceClosed && witnessManifestCoherenceClosed) ? [] : ['proof-contract replay closure is incomplete']
+    })
+  ];
   return {
     contractId: `proof_contract_${sha256(`${needId}:${assetPackId}:${branchName}`).slice(0, 12)}` ,
     needId,
     assetPackId,
     branchName,
-    evidenceChain: [
-      { stage: 'need-measurement', artifactRefs: ['.engi/need.json', '.engi/need-measurement.json', '.engi/benchmark-target.json'], claim: 'The engineering need is derived fail-closed from canonical benchmark evidence.' },
-      { stage: 'ranking-and-verification', artifactRefs: ['.engi/match-report.json', '.engi/verification-report.json', '.engi/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
-      { stage: 'identity-and-boundaries', artifactRefs: ['.engi/identity-bindings.json', '.engi/authorization-decisions.json', '.engi/github-boundary.json', '.engi/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
-      { stage: 'materialization', artifactRefs: ['.engi/asset-pack.lock.json', '.engi/selected-source-material.json', '.engi/materialization-visibility-proof.json', 'ENGI_NEED.md'], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
-      { stage: 'settlement-and-proof', artifactRefs: ['.engi/settlement-preview.json', '.engi/source-to-shares.json', '.engi/settlement-participation.json', '.engi/accounting-precision-report.json', '.engi/settlement-proof.json', '.engi/journal-diff.json', '.engi/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable from source contribution to journal entry.' }
-    ],
-    theoremChecks: [
-      'selected assets respect branch-mode use tiers',
-      'all state-changing actions are authorized',
-      'no unauthorized public disclosure occurs',
-      'source-to-shares clipping and tie-breaks are replayable',
-      'debits equal credits exactly',
-      'asset-pack lock binds settlement refs closed'
-    ],
+    evidenceChain,
+    theoremChecks,
     theoremVerdicts,
-    artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.engi/proof-contract.json', role: 'primary-proof', theoremIds: theoremCheckCatalog.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.engi/system-proof-bundle.json', role: 'bundle', theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.replay_closure'] }),
-      buildArtifactBinding({ artifactPath: '.engi/proof-witness-manifest.json', role: 'witness-manifest', theoremIds: ['proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'] })
-    ],
+    artifactBindings,
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     memberVerdicts: [
-      { memberId: 'proof-contract', passed: true },
-      { memberId: 'evidence-chain', passed: true },
-      { memberId: 'theorem-checks', passed: true },
-      { memberId: 'system-proof-bundle', passed: true },
-      { memberId: 'witness-manifest-closure', passed: true }
+      { memberId: 'proof-contract', passed: contractMaterializationClosed },
+      { memberId: 'evidence-chain', passed: evidenceChainClosed },
+      { memberId: 'theorem-checks', passed: theoremCheckBindingClosed },
+      { memberId: 'system-proof-bundle', passed: bundleCoherenceClosed },
+      { memberId: 'witness-manifest-closure', passed: witnessManifestCoherenceClosed }
     ],
+    witnessClosureClosed: proofClosure.witnessBindingsClosed,
+    replayClosureClosed: proofClosure.replayBindingsClosed && proofClosure.replayStepArtifactCoverageClosed && proofClosure.theoremReplayCoverageClosed,
     artifactBindingSummary: {
       selectedAssets: selectedCandidates.map((/** @type {any} */ candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
       authorizationDecisionCount: authorizationDecisions.length,
-      sensitiveFlowCount: sensitiveDataFlowRecords.length
+      sensitiveFlowCount: sensitiveDataFlowRecords.length,
+      systemProofBundleSummary,
+      proofWitnessManifestSummary
     },
     proofHash: stableHashObject({
       needId,
       assetPackId,
       branchName,
-      theoremChecks: theoremCheckCatalog,
-      evidenceChainLength: 5,
-      selectedAssetCount: selectedCandidates.length
+      theoremChecks,
+      evidenceChainLength: evidenceChain.length,
+      selectedAssetCount: selectedCandidates.length,
+      systemProofBundleSummary,
+      proofWitnessManifestSummary
     })
   };
 }
@@ -4818,6 +5061,28 @@ function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, reda
       instruction: 'Replay redaction and disclosure alignment against policy and bounded-public truth.'
     })
   ];
+  const theoremIds = [
+    'disclosure_boundary.projection_policy_closure',
+    'disclosure_boundary.bounded_public_metadata_only',
+    'disclosure_boundary.redaction_alignment',
+    'disclosure_boundary.disclosure_verdict_alignment',
+    'disclosure_boundary.witness_replay_closure'
+  ];
+  const artifactBindings = witnessArtifactPaths.map((artifactPath) =>
+    buildArtifactBinding({
+      artifactPath,
+      role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof',
+      theoremIds
+    })
+  );
+  const proofClosure = computeProofClosure({
+    artifactBindings,
+    witnessArtifactPaths,
+    replayArtifactPaths: replayArtifacts,
+    replaySteps,
+    theoremIds,
+    excludeTheoremIds: ['disclosure_boundary.witness_replay_closure']
+  });
   const theoremVerdicts = [
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.projection_policy_closure', passed: (projectionPolicy?.artifactRules || []).length > 0, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.policy-bounded-public'] }),
     buildTheoremVerdict({
@@ -4829,7 +5094,14 @@ function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, reda
     }),
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.redaction_alignment', passed: !!redactionProof?.boundedPublicProofHash, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.redaction-disclosure'] }),
     buildTheoremVerdict({ theoremId: 'disclosure_boundary.disclosure_verdict_alignment', passed: disclosureProof?.publicDisclosureOnlyUsesBoundedMetadata === true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: ['disclosure-boundary.redaction-disclosure'] }),
-    buildTheoremVerdict({ theoremId: 'disclosure_boundary.witness_replay_closure', passed: true, witnessArtifactPaths, replayArtifactPaths: replayArtifacts, replayStepIds: replaySteps.map((entry) => entry.stepId) })
+    buildTheoremVerdict({
+      theoremId: 'disclosure_boundary.witness_replay_closure',
+      passed: proofClosure.allClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: replaySteps.map((entry) => entry.stepId),
+      failureReasons: proofClosure.allClosed ? [] : ['disclosure-boundary witness/replay closure is incomplete']
+    })
   ];
   return {
     proofFamily: 'disclosure-boundary',
@@ -4840,11 +5112,13 @@ function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, reda
       { memberId: 'disclosure-proof', passed: Boolean(theoremVerdicts[3]?.passed) }
     ],
     theoremVerdicts,
-    artifactBindings: witnessArtifactPaths.map((artifactPath) => buildArtifactBinding({ artifactPath, role: artifactPath.endsWith('-proof.json') ? 'primary-proof' : 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })),
+    artifactBindings,
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
+    witnessClosureClosed: proofClosure.witnessBindingsClosed,
+    replayClosureClosed: proofClosure.replayBindingsClosed && proofClosure.replayStepArtifactCoverageClosed && proofClosure.theoremReplayCoverageClosed,
     allCasesPassed: theoremVerdicts.slice(0, 4).every((entry) => entry.passed),
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
@@ -4932,7 +5206,7 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
  * @param {any} __0
  * @returns {any}
  */
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
     need,
     needMeasurement,
@@ -4963,8 +5237,12 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     githubBoundarySurface,
     artifactUploadManifest,
     profileCompositionSurface,
+    promptFamilyRegistry,
     promptSurfaces,
     promptContracts,
+    inferenceProofs,
+    inferenceMomentContracts,
+    promptImplementationSurface,
     inferenceSynthesisProof,
     promptCompletenessProof,
     parsedCompletionEnvelopes,
@@ -5032,7 +5310,9 @@ export function runMakeEngiBranch(state, input = {}) {
     inferenceSynthesisProof,
     promptSurfaces,
     promptContracts,
+    promptFamilyRegistry,
     promptCompletenessProof,
+    inferenceMomentContracts,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact
   } = needMeasurement;
@@ -5092,7 +5372,7 @@ export function runMakeEngiBranch(state, input = {}) {
     settlementPreview: settlement.settlementPreview
   });
   const promptImplementationSurface = buildPromptImplementationSurfaceUnchecked(inferenceProofs, promptSurfaces, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact);
-  const proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
+  let proofContract = buildProofContract({ needId: need.needId, assetPackId: assetPack.assetPackId, branchName, selectedCandidates, authorizationDecisions, sensitiveDataFlowRecords });
   const policyRelease = buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates);
   const unitCatalog = buildUnitCatalog(selectedCandidates);
   const scenarioFixtureManifest = buildScenarioFixtureManifest(state, scenario.scenarioId);
@@ -5143,6 +5423,10 @@ export function runMakeEngiBranch(state, input = {}) {
     artifactUploadManifest,
     profileCompositionSurface,
     externalBoundaryManifest,
+    promptFamilyRegistry,
+    inferenceMomentContracts,
+    inferenceProofs,
+    promptImplementationSurface,
     promptSurfaces,
     parsedCompletionEnvelopeArtifact
   });
@@ -5216,6 +5500,8 @@ export function runMakeEngiBranch(state, input = {}) {
   let proofWitnessManifest = buildProofWitnessManifestUnchecked({
     inferenceProofs,
     inferenceSynthesisProof,
+    promptFamilyRegistry,
+    inferenceMomentContracts,
     promptSurfaces,
     promptContracts,
     promptImplementationSurface,
@@ -5261,6 +5547,8 @@ export function runMakeEngiBranch(state, input = {}) {
     need.needId,
     assetPack.assetPackId,
     inferenceProofs,
+    promptFamilyRegistry,
+    inferenceMomentContracts,
     inferenceSynthesisProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
@@ -5320,8 +5608,12 @@ export function runMakeEngiBranch(state, input = {}) {
     githubBoundarySurface,
     artifactUploadManifest,
     profileCompositionSurface,
+    promptFamilyRegistry,
     promptSurfaces,
     promptContracts,
+    inferenceProofs,
+    inferenceMomentContracts,
+    promptImplementationSurface,
     inferenceSynthesisProof,
     promptCompletenessProof,
     parsedCompletionEnvelopes,
@@ -5410,9 +5702,29 @@ export function runMakeEngiBranch(state, input = {}) {
     finalizedRedactionProof,
     finalizedDisclosureProof
   );
+  proofContract = buildProofContract({
+    needId: need.needId,
+    assetPackId: assetPack.assetPackId,
+    branchName,
+    selectedCandidates,
+    authorizationDecisions,
+    sensitiveDataFlowRecords,
+    systemProofBundleSummary: {
+      proofFamilies: (systemProofBundle?.proofFamilies || []).map((/** @type {any} */ entry) => entry.proofFamily),
+      replayArtifactCount: (systemProofBundle?.verifierEntrypoint?.replayArtifacts || []).length,
+      requiredArtifactCount: (systemProofBundle?.verifierEntrypoint?.requiredArtifactPaths || []).length
+    },
+    proofWitnessManifestSummary: {
+      proofFamilies: (proofWitnessManifest?.proofFamilies || []).map((/** @type {any} */ entry) => entry.proofFamily),
+      digestedArtifactCount: (proofWitnessManifest?.artifactDigests || []).length,
+      allProofRelevantArtifactsDigested: proofWitnessManifest?.allProofRelevantArtifactsDigested === true
+    }
+  });
   proofWitnessManifest = buildProofWitnessManifestUnchecked({
     inferenceProofs,
     inferenceSynthesisProof,
+    promptFamilyRegistry,
+    inferenceMomentContracts,
     promptSurfaces,
     promptContracts,
     promptImplementationSurface,
@@ -5458,6 +5770,8 @@ export function runMakeEngiBranch(state, input = {}) {
     need.needId,
     assetPack.assetPackId,
     inferenceProofs,
+    promptFamilyRegistry,
+    inferenceMomentContracts,
     inferenceSynthesisProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
@@ -5517,8 +5831,12 @@ export function runMakeEngiBranch(state, input = {}) {
     githubBoundarySurface,
     artifactUploadManifest,
     profileCompositionSurface,
+    promptFamilyRegistry,
     promptSurfaces,
     promptContracts,
+    inferenceProofs,
+    inferenceMomentContracts,
+    promptImplementationSurface,
     inferenceSynthesisProof,
     promptCompletenessProof,
     parsedCompletionEnvelopes,
@@ -5600,9 +5918,12 @@ export function runMakeEngiBranch(state, input = {}) {
     inferenceSynthesisProof,
     promptSurfaces,
     promptContracts,
+    promptFamilyRegistry,
     promptCompletenessProof,
+    inferenceMomentContracts,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
+    promptImplementationSurface,
     canonicalRunEvidence: scenario.canonicalRunEvidence,
     evaluatedCandidates: evaluatedCandidates.map((/** @type {any} */ candidate) => ({
       assetId: candidate.assetId,

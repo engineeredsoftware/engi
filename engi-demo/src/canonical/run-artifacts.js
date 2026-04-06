@@ -5,7 +5,7 @@
  * @typedef {import('./type-contracts.js').ParsedCompletionEnvelope} ParsedCompletionEnvelope
  *
  * @typedef {{ artifactId: string, artifactHash: string, envelopeCount: number }} ParsedCompletionEnvelopeArtifact
- * @typedef {{ outputField: string, evaluatorSurface: Record<string, unknown> }} InferenceProof
+ * @typedef {{ outputField: string, evaluatorSurface: Record<string, unknown>, fieldProofId?: string | undefined, momentContractId?: string | undefined, evidenceRefs?: string[] | undefined }} InferenceProof
  * @typedef {{ proofHash: string, proofFamilies?: unknown[] | undefined }} ProofWitnessManifestShape
  * @typedef {{ reportHash: string }} ReportHashShape
  * @typedef {{ proofHash: string }} ProofHashShape
@@ -103,6 +103,49 @@ function canonicalJson(value) {
  */
 function stableHashObject(value) {
   return `sha256:${sha256(canonicalJson(value))}`;
+}
+
+/**
+ * @param {readonly unknown[]} [values=[]]
+ * @returns {string[]}
+ */
+function summarizeStrings(values = []) {
+  return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+}
+
+/**
+ * @param {string} proofFamily
+ * @param {string} proofArtifactPath
+ * @param {Record<string, unknown> | null | undefined} proof
+ * @returns {{
+ *   proofFamily: string,
+ *   proofArtifactPath: string,
+ *   proofHash: string | null,
+ *   allTheoremsPassed: boolean,
+ *   memberIds: string[],
+ *   theoremIds: string[],
+ *   witnessArtifactPaths: string[],
+ *   replayArtifacts: string[],
+ *   replaySteps: Array<{ stepId: string, theoremIds: string[], requiredArtifactPaths: string[] }>
+ * }}
+ */
+function buildProofFamilyCatalogEntry(proofFamily, proofArtifactPath, proof) {
+  const normalizedProof = /** @type {any} */ (proof || {});
+  return {
+    proofFamily,
+    proofArtifactPath,
+    proofHash: normalizedProof['proofHash'] || null,
+    allTheoremsPassed: normalizedProof['allTheoremsPassed'] === true,
+    memberIds: summarizeStrings((normalizedProof['memberVerdicts'] || []).map((/** @type {any} */ entry, /** @type {number} */ index) => entry?.memberId || entry?.field || `member-${index + 1}`)),
+    theoremIds: summarizeStrings((normalizedProof['theoremVerdicts'] || []).map((/** @type {any} */ entry) => entry?.theoremId)),
+    witnessArtifactPaths: summarizeStrings(normalizedProof['witnessArtifactPaths'] || []),
+    replayArtifacts: summarizeStrings(normalizedProof['replayArtifacts'] || []),
+    replaySteps: (normalizedProof['replaySteps'] || []).map((/** @type {any} */ step) => ({
+      stepId: String(step?.stepId || ''),
+      theoremIds: summarizeStrings(step?.theoremIds || []),
+      requiredArtifactPaths: summarizeStrings(step?.requiredArtifactPaths || [])
+    }))
+  };
 }
 
 /**
@@ -248,6 +291,9 @@ function buildPromptImplementationSurface(
     })),
     inferredOutputs: inferenceProofs.map((proof) => ({
       outputField: proof.outputField,
+      fieldProofId: proof.fieldProofId || null,
+      momentContractId: proof.momentContractId || null,
+      evidenceRefs: proof.evidenceRefs || [],
       evaluatorSurface: proof.evaluatorSurface
     })),
     parsedCompletionEnvelopes: parsedCompletionEnvelopes.map((envelope) => ({
@@ -276,6 +322,8 @@ function buildPromptImplementationSurface(
  * @param {string} needId
  * @param {string} assetPackId
  * @param {InferenceProof[]} inferenceProofs
+ * @param {Record<string, unknown>} promptFamilyRegistry
+ * @param {unknown[]} inferenceMomentContracts
  * @param {Record<string, unknown>} inferenceSynthesisProof
  * @param {ParsedCompletionEnvelope[]} parsedCompletionEnvelopes
  * @param {ParsedCompletionEnvelopeArtifact | null} parsedCompletionEnvelopeArtifact
@@ -309,6 +357,8 @@ function buildSystemProofBundle(
   needId,
   assetPackId,
   inferenceProofs,
+  promptFamilyRegistry,
+  inferenceMomentContracts,
   inferenceSynthesisProof,
   parsedCompletionEnvelopes,
   parsedCompletionEnvelopeArtifact,
@@ -338,6 +388,19 @@ function buildSystemProofBundle(
   proofWitnessManifest,
   proofContract
 ) {
+  const proofFamilies = [
+    buildProofFamilyCatalogEntry('inference-synthesis', '.engi/inference-synthesis-proof.json', /** @type {any} */ (inferenceSynthesisProof)),
+    buildProofFamilyCatalogEntry('prompt-completeness', '.engi/prompt-completeness-proof.json', /** @type {any} */ (promptCompletenessProof)),
+    buildProofFamilyCatalogEntry('static-code-analysis', '.engi/static-measurement-proof.json', /** @type {any} */ (staticMeasurementProof)),
+    buildProofFamilyCatalogEntry('verification-decisions', '.engi/verification-decisions-proof.json', /** @type {any} */ (verificationDecisionsProof)),
+    buildProofFamilyCatalogEntry('selection-and-materialization', '.engi/selection-and-materialization-proof.json', /** @type {any} */ (selectionAndMaterializationProof)),
+    buildProofFamilyCatalogEntry('authorization-and-sensitive-flow', '.engi/authorization-and-sensitive-flow-proof.json', /** @type {any} */ (authorizationAndSensitiveFlowProof)),
+    buildProofFamilyCatalogEntry('settlement-source-to-shares', '.engi/settlement-source-to-shares-proof.json', /** @type {any} */ (settlementSourceToSharesProof)),
+    buildProofFamilyCatalogEntry('disclosure-boundary', '.engi/disclosure-boundary-proof.json', /** @type {any} */ (disclosureBoundaryProof)),
+    buildProofFamilyCatalogEntry('proof-contract', '.engi/proof-contract.json', /** @type {any} */ (proofContract))
+  ];
+  const verifierReplayArtifacts = summarizeStrings(proofFamilies.flatMap((entry) => entry.replayArtifacts || []));
+  const verifierRequiredArtifactPaths = summarizeStrings(proofFamilies.flatMap((entry) => (entry.replaySteps || []).flatMap((step) => step.requiredArtifactPaths || [])));
   return {
     needId,
     assetPackId,
@@ -346,6 +409,8 @@ function buildSystemProofBundle(
     prototypeOnlyModeledControls: true,
     proofContract,
     inferenceProofs,
+    promptFamilyRegistry,
+    inferenceMomentContracts,
     inferenceSynthesisProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
@@ -373,50 +438,19 @@ function buildSystemProofBundle(
     proofWitnessManifest,
     settlementProof,
     settlementSourceToSharesProof,
+    proofFamilies,
     verifierEntrypoint: {
-      replayArtifacts: [
-        '.engi/inference-synthesis-proof.json',
-        '.engi/prompt-contracts.json',
-        '.engi/prompt-surfaces.json',
-        '.engi/prompt-completeness-proof.json',
-        '.engi/parsed-completion-envelopes.json',
-        '.engi/code-analysis-fact-registry.json',
-        '.engi/static-heuristics-registry.json',
-        '.engi/measurement-receipts.json',
-        '.engi/static-measurement-report.json',
-        '.engi/static-measurement-proof.json',
-        '.engi/verification-report.json',
-        '.engi/verification-receipts.json',
-        '.engi/verification-decisions-proof.json',
-        '.engi/selection-consistency-proof.json',
-        '.engi/materialization-proof.json',
-        '.engi/materialization-exclusions.json',
-        '.engi/materialization-visibility-proof.json',
-        '.engi/selection-and-materialization-proof.json',
-        '.engi/identity-bindings.json',
-        '.engi/authorization-decisions.json',
-        '.engi/identity-authorization-proof.json',
-        '.engi/sensitive-data-flow.json',
-        '.engi/sensitive-data-flow-proof.json',
-        '.engi/authorization-and-sensitive-flow-proof.json',
-        '.engi/source-to-shares.json',
-        '.engi/settlement-participation.json',
-        '.engi/accounting-precision-report.json',
-        '.engi/journal-diff.json',
-        '.engi/journal-completeness-proof.json',
-        '.engi/settlement-proof.json',
-        '.engi/settlement-source-to-shares-proof.json',
-        '.engi/projection-policy.json',
-        '.engi/bounded-public-proof.json',
-        '.engi/redaction-proof.json',
-        '.engi/disclosure-proof.json',
-        '.engi/disclosure-boundary-proof.json',
-        '.engi/proof-contract.json',
-        '.engi/proof-witness-manifest.json'
-      ],
+      replayArtifacts: verifierReplayArtifacts,
+      requiredArtifactPaths: verifierRequiredArtifactPaths,
+      proofFamilyReplayCatalog: proofFamilies.map((entry) => ({
+        proofFamily: entry.proofFamily,
+        theoremIds: entry.theoremIds,
+        replayArtifacts: entry.replayArtifacts,
+        replaySteps: entry.replaySteps
+      })),
       replayInstructions: [
-        'Replay inference-synthesis from prompt surfaces, parsed envelopes, and evaluator manifest truth.',
-        'Recompute prompt completeness from the prompt contracts and compare the proof hash.',
+        'Replay inference-synthesis from moment contracts, field proofs, prompt implementation, prompt surfaces, parsed envelopes, and evaluator manifest truth.',
+        'Recompute prompt completeness from the prompt family registry, prompt contracts, and parsed envelopes, then compare the proof hash.',
         'Recompute parsed completion envelopes from the prompt contracts and deterministic outputs, then compare the artifact hash.',
         'Recompute code-analysis facts and static heuristics from the code-analysis registries, then resolve all static receipt refs against the receipt artifacts.',
         'Replay verification decision closure from verification receipts into report-facing use-tier consequences.',
@@ -481,6 +515,10 @@ function buildArtifactUploadManifest(selectedCandidates) {
  *   artifactUploadManifest: ArtifactUploadManifestShape,
  *   profileCompositionSurface: ProfileCompositionSurfaceShape,
  *   externalBoundaryManifest: ExternalBoundaryManifestShape,
+ *   promptFamilyRegistry: Record<string, unknown>,
+ *   inferenceMomentContracts: unknown[],
+ *   inferenceProofs: InferenceProof[],
+ *   promptImplementationSurface: Record<string, unknown>,
  *   promptSurfaces: BuiltPromptSurface[],
  *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifact | null
  * }} input
@@ -505,6 +543,10 @@ function buildDeliverablesManifest({
   artifactUploadManifest,
   profileCompositionSurface,
   externalBoundaryManifest,
+  promptFamilyRegistry,
+  inferenceMomentContracts,
+  inferenceProofs,
+  promptImplementationSurface,
   promptSurfaces,
   parsedCompletionEnvelopeArtifact
 }) {
@@ -641,6 +683,13 @@ function buildDeliverablesManifest({
         dependsOn: ['profile-semantics']
       },
       {
+        path: '.engi/prompt-family-registry.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['prompt-lineage', 'prompt-completeness']
+      },
+      {
         path: '.engi/prompt-surfaces.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
@@ -655,11 +704,32 @@ function buildDeliverablesManifest({
         dependsOn: ['prompt-lineage', 'prompt-completeness']
       },
       {
+        path: '.engi/inference-moment-contracts.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['prompt-lineage', 'inference-synthesis']
+      },
+      {
+        path: '.engi/inference-proofs.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['prompt-lineage', 'inference-synthesis']
+      },
+      {
         path: '.engi/inference-synthesis-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'inference-synthesis']
+      },
+      {
+        path: '.engi/prompt-implementation-surface.json',
+        useTiersContributed: assetPack.acceptedUseTiers,
+        confidentialityClass: 'private-proof-artifact',
+        potentiallyDisclosable: false,
+        dependsOn: ['prompt-lineage', 'inference-synthesis', 'prompt-completeness']
       },
       {
         path: '.engi/prompt-completeness-proof.json',
@@ -956,7 +1026,11 @@ function buildDeliverablesManifest({
       uploadCount: artifactUploadManifest.uploads.length,
       githubBindingCount: githubBoundarySurface.modeledBindings.selectedAssetGithubBindings.length,
       profileCount: profileCompositionSurface.profiles.length,
+      promptFamilyMemberCount: Array.isArray((/** @type {any} */ (promptFamilyRegistry))?.['promptMembers']) ? (/** @type {any} */ (promptFamilyRegistry))['promptMembers'].length : 0,
+      inferenceMomentContractCount: inferenceMomentContracts.length,
+      inferenceProofCount: inferenceProofs.length,
       promptSurfaceCount: promptSurfaces.length,
+      promptImplementationPromptCount: Array.isArray((/** @type {any} */ (promptImplementationSurface))?.['promptTemplates']) ? (/** @type {any} */ (promptImplementationSurface))['promptTemplates'].length : 0,
       parsedCompletionEnvelopeCount: parsedCompletionEnvelopeArtifact?.envelopeCount || 0,
       externalBoundaryInterfaceCount: externalBoundaryManifest.interfaces.length
     }

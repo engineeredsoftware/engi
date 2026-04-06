@@ -390,8 +390,12 @@
  *   githubBoundarySurface: unknown,
  *   artifactUploadManifest: unknown,
  *   profileCompositionSurface: unknown,
+ *   promptFamilyRegistry: unknown,
  *   promptSurfaces: BuiltPromptSurface[],
  *   promptContracts: unknown,
+ *   inferenceProofs?: unknown,
+ *   inferenceMomentContracts?: unknown,
+ *   promptImplementationSurface?: unknown,
  *   inferenceSynthesisProof?: unknown,
  *   promptCompletenessProof: unknown,
  *   parsedCompletionEnvelopes: ParsedCompletionEnvelope[],
@@ -1881,9 +1885,13 @@ export function createEvaluationMaterializationRuntime({
       '.engi/github-boundary.json',
       '.engi/artifact-upload-manifest.json',
       '.engi/profile-composition.json',
+      '.engi/prompt-family-registry.json',
       '.engi/prompt-surfaces.json',
       '.engi/prompt-contracts.json',
+      '.engi/inference-moment-contracts.json',
+      '.engi/inference-proofs.json',
       '.engi/inference-synthesis-proof.json',
+      '.engi/prompt-implementation-surface.json',
       '.engi/prompt-completeness-proof.json',
       '.engi/parsed-completion-envelopes.json',
       '.engi/code-analysis-fact-registry.json',
@@ -1933,7 +1941,7 @@ export function createEvaluationMaterializationRuntime({
    * @param {BuildBranchArtifactsInput} input
    * @returns {{ branchName: string, branchMode: string, confidentiality: string, files: Record<string, string> }}
    */
-  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptSurfaces, promptContracts, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
+  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
     const files = {
       '.engi/need.json': JSON.stringify(need, null, 2),
       '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -1957,9 +1965,13 @@ export function createEvaluationMaterializationRuntime({
       '.engi/github-boundary.json': JSON.stringify(githubBoundarySurface, null, 2),
       '.engi/artifact-upload-manifest.json': JSON.stringify(artifactUploadManifest, null, 2),
       '.engi/profile-composition.json': JSON.stringify(profileCompositionSurface, null, 2),
+      '.engi/prompt-family-registry.json': JSON.stringify(promptFamilyRegistry, null, 2),
       '.engi/prompt-surfaces.json': JSON.stringify(promptSurfaces, null, 2),
       '.engi/prompt-contracts.json': JSON.stringify(promptContracts, null, 2),
+      '.engi/inference-moment-contracts.json': JSON.stringify(inferenceMomentContracts, null, 2),
+      '.engi/inference-proofs.json': JSON.stringify(inferenceProofs || [], null, 2),
       '.engi/inference-synthesis-proof.json': JSON.stringify(inferenceSynthesisProof, null, 2),
+      '.engi/prompt-implementation-surface.json': JSON.stringify(promptImplementationSurface, null, 2),
       '.engi/prompt-completeness-proof.json': JSON.stringify(promptCompletenessProof, null, 2),
       '.engi/parsed-completion-envelopes.json': JSON.stringify(parsedCompletionEnvelopeArtifact || { envelopes: parsedCompletionEnvelopes || [] }, null, 2),
       '.engi/code-analysis-fact-registry.json': JSON.stringify(codeAnalysisFactRegistry, null, 2),

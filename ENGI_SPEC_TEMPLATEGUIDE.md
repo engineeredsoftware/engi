@@ -78,12 +78,14 @@ A full enriched ENGI release SHOULD normally include the following file family:
    The version-local drafting rationale, interpretation notes, numbering decisions, and clarification record.
 3. `ENGI_SPEC_VN_SYSTEM_PARITY_MATRIX.md`
    The primary parity/debt ledger between the system spec and current repository truth.
-4. `ENGI_SPEC_VN_INFORMATION_AUDIT.md`
+4. `ENGI_SPEC_VN_PROVEN.md`
+   The generated-only canonical proof appendix for the committed canonical version. This file MUST never be edited manually and MUST be regenerated as part of any canonical version commit.
+5. `ENGI_SPEC_VN_INFORMATION_AUDIT.md`
    Required when a version is materially recovering lost density, parity, or conceptual coverage from earlier canon.
-5. optional realization/demo family, for example:
+6. optional realization/demo family, for example:
    - `engi-demo/ENGI_DEMO_SPEC_VN.md`
    - `engi-demo/SPEC_VN_IMPLEMENTATION_MATRIX.md`
-6. optional parity-bearing adjunct files
+7. optional parity-bearing adjunct files
    Examples include host capability documents, architecture maps, or other structured reference artifacts that the canonical spec relies on directly.
 
 File-family rules:
@@ -95,6 +97,8 @@ File-family rules:
 6. If adjunct files are used as canonical parity surfaces, the spec or relevant matrix MUST name them explicitly and judge whether they are aligned.
 7. Notes and the system parity matrix MUST repeat the same pointer/latest-target vs last-fully-realized-canon interpretation as the main spec.
 8. When a realization/demo implementation matrix exists, its preferred filename under the realization root SHOULD be `SPEC_VN_IMPLEMENTATION_MATRIX.md`; longer demo-prefixed aliases MAY exist temporarily for compatibility but MUST NOT become the primary maintained path.
+9. When proof-family canon is part of the release, `ENGI_SPEC_VN_PROVEN.md` MUST be generated from proof-bearing runtime surfaces, not authored or edited as prose.
+10. A canonical version commit that advances `ENGI_SPEC.txt` or otherwise takes on canonical-version authority MUST include the regenerated `ENGI_SPEC_VN_PROVEN.md` file in that same commit.
 
 The system parity matrix is not optional bookkeeping for a serious release.
 It is the ledger that separates:

@@ -64,7 +64,7 @@ The current state after the member-tightening and theorem-catalog pass is:
 - every V15 proof family is open in V16 drafting,
 - every family now has member inventory plus member-closure criteria,
 - every family now has a current realization-basis theorem catalog and theorem-by-theorem closure reading,
-- and the next pass is no longer enumeration but theorem tightening, proof execution, and later appendix generation.
+- and the next pass is no longer enumeration but theorem tightening, proof execution, and then generated appendix formalization.
 
 That theorem-by-theorem pass is now present across the family layer.
 The current theorem-binding reading is:
@@ -72,7 +72,7 @@ The current theorem-binding reading is:
 - the spec now binds each family to its current realization-basis theorem catalog,
 - the parity matrix now carries theorem-by-theorem closure readings rather than theorem debt only,
 - every family now has realized proof-object field and artifact/replay-binding direction,
-- and `_PROVEN_` generation remains intentionally deferred until the rest of V16 proving work is finished.
+- and `_PROVEN_` generation is now ready to be formalized because the rest of the V16 proving layer has been tightened far enough to support it.
 
 ## Prompt-completeness parity debt collection method
 
@@ -314,14 +314,12 @@ It is a proof-family drafting wedge into V16, with some families tighter than ot
 
 ## What remains out of scope for now
 
-This pass still does not yet draft:
-- the cross-family theorem catalog beyond the now-realized family theorem sets,
-- `_PROVEN_` appendix generation,
+This pass still does not yet complete:
 - proof-program inventory beyond the family-first closure pass,
 - or the full V16 system spec rewrite.
 
-Those are still deferred on purpose.
-The proof families now come first so the same drafting and parity pattern can be pushed through every family before theorem and appendix work begins.
+The cross-family family theorem layer is now materially in place.
+That is why `_PROVEN_` is no longer deferred as a concept and is now backed by a realized generator path.
 
 ## Why static-code-analysis is the next family
 
@@ -925,12 +923,29 @@ All nine V15 proof families are now opened in V16 drafting at the same broad clo
 - and theorem-by-theorem closure reading tied to realized source theorem ids.
 
 The next work after this family pass is not to open more families.
-It is to translate this audited family layer into source-side implementation completion and proof execution, then only after that move into `_PROVEN_` appendix generation and broader proof-program inventory.
+It is to translate this audited family layer into source-side implementation completion and proof execution, and then use that tightened runtime surface to implement `_PROVEN_` appendix generation and broader proof-program inventory.
 
 The current audit conclusion is:
 
 1. every V15 proof family now has an explicit member inventory in the spec and parity matrix,
 2. every family member now also has explicit closure criteria and ratchetable debt language,
 3. every family now has a realized theorem catalog and theorem-by-theorem closure reading aligned to current source,
-4. the spec, matrix, and notes now consistently defer `_PROVEN_` until the rest of proving closure is finished,
-5. and the next productive move is source-side implementation completion rather than further family-level drafting.
+4. source-side theorem/proof execution tightening is now strong enough to support generated appendix work,
+5. `_PROVEN_` can now be specified as a generated-only canonical artifact rather than a deferred concept,
+6. and the generator plus canonical-commit regeneration ratchet can now be treated as realized source/process behavior rather than as a next-step note.
+
+## `_PROVEN_` interpretation
+
+The correct V16 reading for `_PROVEN_` is now:
+
+1. `_PROVEN_` is a canonical generated appendix, not a hand-maintained markdown note,
+2. it must render directly from proof-bearing runtime surfaces,
+3. it must never be edited manually,
+4. it must be regenerated when a commit takes on canonical-version authority,
+5. and the regenerated file must be committed in the same canonical version commit.
+
+The important operational consequence is:
+
+1. `_PROVEN_` is not part of everyday drift churn,
+2. `_PROVEN_` is part of canonical version materialization,
+3. and a canonical version commit without regenerated `_PROVEN_` should be treated as incomplete.

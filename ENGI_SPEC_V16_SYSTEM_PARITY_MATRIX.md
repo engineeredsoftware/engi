@@ -36,6 +36,8 @@ The opening V16 focus is:
 - family-member coverage within each proof family,
 - and the first family-specific closure tests required to support later V16 proof execution.
 
+That family-tightening and theorem-execution work is now far enough along that `_PROVEN_` generation can be treated as a concrete parity target rather than a deferred placeholder.
+
 ## Interpretation rule
 
 The correct V16 reading is:
@@ -51,7 +53,8 @@ For this drafting pass:
 - `inference-synthesis` is opened and theorem-shaped,
 - `static-code-analysis`, `verification-decisions`, and `selection-and-materialization` are now carried through theorem-by-theorem closure drafting,
 - `authorization-and-sensitive-flow`, `settlement-source-to-shares`, `disclosure-boundary`, and `proof-contract` are now also carried through theorem-by-theorem closure drafting,
-- and all nine V15 proof families are now inside the active V16 family pass.
+- all nine V15 proof families are now inside the active V16 family pass,
+- and `_PROVEN_` is now a valid implementation target for the next V16 canonical-output step.
 
 ## Member-tightening interpretation rule
 
@@ -4902,3 +4905,47 @@ Proof-contract is now complete enough in V16 drafting terms to continue later fa
 4. replay/witness direction exists,
 5. expected versus realized versus family closure ownership is now named,
 6. and family-member coverage is now enumerated.
+
+## `_PROVEN_` parity target
+
+### Canonical-output rule
+
+V16 now treats `ENGI_SPEC_VN_PROVEN.md` as a generated canonical-output target.
+
+Its parity requirement is:
+
+1. the appendix must be renderable from source-realized proof surfaces,
+2. it must not require hand-maintained family or theorem interpretation,
+3. and it must be strict enough that canonical commits can regenerate it deterministically.
+
+### Minimum source-side prerequisites
+
+The matrix now considers the following prerequisites materially required for `_PROVEN_` generation:
+
+1. every proof family emits theorem-bearing proof objects,
+2. every proof family exposes witness artifact paths and replay artifact paths,
+3. every proof family exposes replay steps with required artifact paths,
+4. the system proof bundle exposes a normalized proof-family catalog,
+5. the system proof bundle exposes a normalized verifier replay catalog and required-artifact set,
+6. the proof witness manifest exposes keyed artifact digests by path,
+7. the proof witness manifest exposes keyed proof families by family name,
+8. and proof-contract closure remains strong enough to summarize bundle and witness coherence rather than only naming them.
+
+### Canonical-commit regeneration rule
+
+The parity target for release process is:
+
+1. `_PROVEN_` is never edited manually,
+2. `_PROVEN_` is regenerated only when a commit takes on canonical-version authority,
+3. the regenerated `_PROVEN_` file is included in that same canonical commit,
+4. and a canonical version commit without regenerated `_PROVEN_` is parity-incomplete.
+
+### Current implementation reading
+
+The current implementation now satisfies the minimum proof-surface preconditions for that next step:
+
+1. proof-family theorem verdicts are no longer carried by unconditional `passed: true` placeholders,
+2. witness/replay closure is derived from artifact bindings and replay-step coverage,
+3. proof-contract is finalized against bundle and witness summaries,
+4. the system proof bundle carries a proof-family catalog plus verifier replay catalog,
+5. and the proof witness manifest carries keyed artifact and family indexes.

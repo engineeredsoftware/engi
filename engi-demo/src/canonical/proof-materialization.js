@@ -227,7 +227,9 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
 
 /**
  * @param {{
- *   inferenceProofs?: Array<{ outputField: string, promptOrEvaluatorId: string }> | undefined,
+ *   inferenceProofs?: Array<{ outputField: string, promptOrEvaluatorId: string, proofHash?: string | undefined, fieldProofId?: string | undefined }> | undefined,
+ *   promptFamilyRegistry?: { registryHash?: string | undefined } | undefined,
+ *   inferenceMomentContracts?: Array<{ momentContractId?: string | undefined, contractHash?: string | undefined }> | undefined,
  *   promptSurfaces?: BuiltPromptSurface[] | undefined,
  *   promptContracts?: PromptContractShape[] | undefined,
  *   promptImplementationSurface: unknown,
@@ -275,6 +277,8 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
 function buildProofWitnessManifest({
   inferenceProofs,
   inferenceSynthesisProof,
+  promptFamilyRegistry,
+  inferenceMomentContracts,
   promptSurfaces,
   promptContracts,
   promptImplementationSurface,
@@ -317,6 +321,10 @@ function buildProofWitnessManifest({
   proofContract
 }) {
   const artifactDigests = [
+    { path: '.engi/prompt-family-registry.json', digest: promptFamilyRegistry?.registryHash || stableHashObject(promptFamilyRegistry || {}), proofFamilies: ['prompt-completeness'] },
+    { path: '.engi/inference-moment-contracts.json', digest: stableHashObject(inferenceMomentContracts || []), proofFamilies: ['inference-synthesis'] },
+    { path: '.engi/inference-proofs.json', digest: stableHashObject(inferenceProofs || []), proofFamilies: ['inference-synthesis'] },
+    { path: '.engi/prompt-implementation-surface.json', digest: stableHashObject(promptImplementationSurface || {}), proofFamilies: ['inference-synthesis'] },
     { path: '.engi/prompt-surfaces.json', digest: stableHashObject(promptSurfaces || []), proofFamilies: ['inference-synthesis'] },
     { path: '.engi/prompt-contracts.json', digest: stableHashObject(promptContracts || []), proofFamilies: ['prompt-completeness'] },
     { path: '.engi/inference-synthesis-proof.json', digest: inferenceSynthesisProof?.proofHash || stableHashObject({ missing: 'inference-synthesis-proof' }), proofFamilies: ['inference-synthesis'] },
@@ -361,17 +369,16 @@ function buildProofWitnessManifest({
     { path: '.engi/proof-contract.json', digest: stableHashObject(proofContract || {}), proofFamilies: ['proof-contract'] },
     { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] }
   ];
-  return {
-    conformanceProfile: PROFILE_A,
-    productionIntentProfile: PROFILE_B,
-    artifactDigests,
-    allProofRelevantArtifactsDigested: artifactDigests.every((entry) => !!entry.digest),
-    proofFamilies: [
+  const artifactDigestByPath = Object.fromEntries(
+    artifactDigests.map((entry) => [entry.path, { digest: entry.digest, proofFamilies: entry.proofFamilies }])
+  );
+  const proofFamilies = [
       {
         proofFamily: 'inference-synthesis',
-        witnessArtifactPaths: ['.engi/prompt-surfaces.json', '.engi/parsed-completion-envelopes.json', '.engi/inference-synthesis-proof.json'],
+        witnessArtifactPaths: ['.engi/inference-moment-contracts.json', '.engi/inference-proofs.json', '.engi/prompt-implementation-surface.json', '.engi/prompt-surfaces.json', '.engi/parsed-completion-envelopes.json', '.engi/inference-synthesis-proof.json'],
         witnessRefs: [
-          ...((inferenceProofs || []).map((proof) => `${proof.outputField}:${proof.promptOrEvaluatorId}`)),
+          ...((inferenceMomentContracts || []).map((contract) => (/** @type {any} */ (contract)).contractHash || (/** @type {any} */ (contract)).momentContractId)),
+          ...((inferenceProofs || []).map((proof) => proof.proofHash || proof.fieldProofId || `${proof.outputField}:${proof.promptOrEvaluatorId}`)),
           ...((parsedCompletionEnvelopes || []).map((envelope) => envelope.envelopeHash || envelope.envelopeId)),
           stableHashObject(promptImplementationSurface || {}),
           inferenceSynthesisProof?.proofHash
@@ -379,8 +386,9 @@ function buildProofWitnessManifest({
       },
       {
         proofFamily: 'prompt-completeness',
-        witnessArtifactPaths: ['.engi/prompt-contracts.json', '.engi/prompt-surfaces.json', '.engi/prompt-completeness-proof.json', '.engi/parsed-completion-envelopes.json'],
+        witnessArtifactPaths: ['.engi/prompt-family-registry.json', '.engi/prompt-contracts.json', '.engi/prompt-surfaces.json', '.engi/prompt-completeness-proof.json', '.engi/parsed-completion-envelopes.json'],
         witnessRefs: [
+          promptFamilyRegistry?.registryHash || stableHashObject(promptFamilyRegistry || {}),
           promptCompletenessProof.proofHash,
           parsedCompletionEnvelopeArtifact?.artifactHash || stableHashObject(parsedCompletionEnvelopes || [])
         ]
@@ -423,9 +431,22 @@ function buildProofWitnessManifest({
         witnessArtifactPaths: ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'],
         witnessRefs: [proofContract.contractId, settlementProof.assetPackLockHash, stableHashObject(proofContract || {})]
       }
-    ],
+    ];
+  const proofFamiliesByName = Object.fromEntries(
+    proofFamilies.map((entry) => [entry.proofFamily, entry])
+  );
+  return {
+    conformanceProfile: PROFILE_A,
+    productionIntentProfile: PROFILE_B,
+    artifactDigests,
+    artifactDigestByPath,
+    allProofRelevantArtifactsDigested: artifactDigests.every((entry) => !!entry.digest),
+    proofFamilies,
+    proofFamiliesByName,
     proofHash: stableHashObject({
       inferenceProofs: stableHashObject(inferenceProofs || []),
+      promptFamilyRegistry: promptFamilyRegistry?.registryHash || stableHashObject(promptFamilyRegistry || {}),
+      inferenceMomentContracts: stableHashObject(inferenceMomentContracts || []),
       inferenceSynthesisProof: inferenceSynthesisProof?.proofHash,
       promptCompletenessProof: promptCompletenessProof.proofHash,
       parsedCompletionEnvelopeArtifact: parsedCompletionEnvelopeArtifact?.artifactHash || stableHashObject(parsedCompletionEnvelopes || []),
