@@ -631,6 +631,30 @@ Witness-materialization and replay closure are closed for prompt-completeness on
 4. deliverables make those surfaces visible and intentional,
 5. and tests break if any of those witness or replay surfaces disappear or drift.
 
+### Prompt-Completeness member coverage ledger
+
+The current provisional family-member coverage reading is:
+
+1. `task`
+   Realized through `need-measurement.task.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: downstream-consumer closure is incomplete because current bindings understate real consumers such as `ENGI_NEED.md`.
+
+2. `failureModes`
+   Realized through `need-measurement.failure-modes.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: downstream-consumer semantics are not clean enough because some declared consumers appear lineage-oriented rather than semantic consumers.
+
+3. `constraints`
+   Realized through `need-measurement.constraints.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: non-rendered-context legality and parse-admissibility closure are still sidecar facts rather than full family verdict inputs.
+
+4. `targetArtifactKinds`
+   Realized through `need-measurement.target-artifact-kinds.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: downstream-consumer closure is incomplete because current bindings understate real consumers such as `ENGI_NEED.md`.
+
+5. `closureCriteria`
+   Currently classified as inferred need content but not realized as a prompt-completeness member and not yet explicitly excluded.
+   Current debt: this remains the family's strongest explicit omission and canonical non-closure case.
+
 ---
 
 ## Current V16 closure reading
@@ -1271,6 +1295,30 @@ The current preferred V16 posture is:
 2. allow prompt implementation surface to remain an explicit witness structure only if V16 decides it is purely reconstructible aggregate audit surface,
 3. and stop using prompt contracts as a surrogate witness artifact for inference-synthesis primary closure.
 
+### Inference-Synthesis member coverage ledger
+
+The current provisional family-member coverage reading is:
+
+1. `task`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: the field-level evidence basis remains narrower than the full prompt-driving evidence basis.
+
+2. `failureModes`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: evaluator-status truth is contradictory across family surfaces and evidence-basis closure is not yet canonical.
+
+3. `constraints`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: evaluator-status truth is contradictory across family surfaces and realized evidence closure is still partial.
+
+4. `targetArtifactKinds`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: evaluator-status truth is contradictory across family surfaces and realized evidence closure is still partial.
+
+5. `closureCriteria`
+   Currently classified as inferred content but not realized through a field-level inference proof or a corresponding inference-synthesis witness path.
+   Current debt: this remains the family's clearest coverage-totality failure.
+
 ---
 
 ## Static-Code-Analysis: initial V16 discovery ledger
@@ -1737,6 +1785,26 @@ Should own:
 - replay closure,
 - test closure.
 
+### Static-Code-Analysis member coverage ledger
+
+The current provisional family-member coverage reading is:
+
+1. deterministic parser
+   Realized through benchmark-parser provenance, receipts, and registry surfaces.
+   Current debt: abstract provenance ids and concrete receipt stage ids are not yet closed by an explicit canonical mapping surface.
+
+2. repo-context
+   Realized through repo-context extraction provenance, receipts, and registry surfaces.
+   Current debt: abstract provenance ids and concrete receipt stage ids are not yet closed by an explicit canonical mapping surface.
+
+3. content-unit
+   Realized through content-unit extraction receipts and registry surfaces.
+   Current debt: the family still does not isolate content-unit closure inside a clean static-only stage domain.
+
+4. measurement stages
+   Realized through asset-measurement receipts, static report, and static proof.
+   Current debt: the report/proof domain still absorbs `verification.*` receipts, so measurement-stage closure is not yet family-pure.
+
 #### Current preferred stopping point
 
 SCA is now complete enough in V16 drafting terms to move on because:
@@ -2181,6 +2249,30 @@ Should own:
 - witness-materialization closure,
 - replay closure,
 - test closure.
+
+### Verification-Decisions member coverage ledger
+
+The current provisional family-member coverage reading is:
+
+1. `issuance`
+   Realized through issuance-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+2. `provenance`
+   Realized through provenance-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+3. `sufficiency`
+   Realized through sufficiency-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+4. `issuer-policy`
+   Realized through issuer-policy-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+5. `use-tier-consequence`
+   Realized in runtime through `verification.determinisms.v15`, `useTier`, `finalUseTier`, and downstream rights.
+   Current debt: this family member remains undernamed in report vocabulary and underrepresented in witness/replay closure.
 
 #### Current preferred stopping point
 
@@ -2647,6 +2739,30 @@ Should own:
 - witness-materialization closure,
 - replay closure,
 - test closure.
+
+### Selection-And-Materialization member coverage ledger
+
+The current provisional family-member coverage reading is:
+
+1. selected assets
+   Realized through asset-pack selection surfaces, selection-consistency proof, and aggregate materialization proof.
+   Current debt: selected-asset closure is still under-materialized because the primary selection-consistency proof lacks its own first-class artifact.
+
+2. locked units
+   Realized through `.engi/asset-pack.lock.json` plus visibility and selection-consistency closure.
+   Current debt: replay still omits the lock surface even though the family closes back to it directly.
+
+3. materialized source
+   Realized through `.engi/selected-source-material.json` plus selection-consistency and materialization proof closure.
+   Current debt: source-manifest closure remains underreplayed and underwitnessed relative to its family importance.
+
+4. exclusions
+   Realized through `.engi/materialization-exclusions.json`.
+   Current debt: exclusions remain explicit, but witness/replay closure still flattens them into broader materialization closure too often.
+
+5. visibility rules
+   Realized through `.engi/materialization-visibility-proof.json`.
+   Current debt: replay still omits the visibility surface and the family has not yet made that omission fail closure directly.
 
 #### Current preferred stopping point
 

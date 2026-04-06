@@ -905,4 +905,10 @@ All nine V15 proof families are now opened in V16 drafting at the same broad clo
 - and member-coverage inventory.
 
 The next work after this family pass is not to open more families.
-It is to return family-by-family and tighten member coverage, then theorem closure, then proof appendix generation and proof-program inventory.
+It is to return family-by-family and tighten member closure criteria, proof-shape requirements, theorem bindings, and implementation debt ratchets, then move into proof appendix generation and proof-program inventory.
+
+The current state after this member pass is:
+
+1. every V15 proof family now has an explicit member inventory in the spec or parity matrix,
+2. the first five families no longer lag the later four on member-by-member coverage drafting,
+3. and the next productive move is no longer to enumerate members, but to tighten each member from provisional coverage into closure criteria, proof-shape requirements, and implementation debt ratchets.

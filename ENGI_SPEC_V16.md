@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: current V16 draft fully formalizes `prompt-completeness` and begins first-pass discovery for `inference-synthesis`
+- Scope: current V16 draft fully tightens `prompt-completeness` and opens all nine V15 proof families through first-pass closure design plus member-coverage drafting
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16_NOTES.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
@@ -20,11 +20,17 @@ The first family is `prompt-completeness`.
 That choice is not arbitrary.
 V15 already defines prompt-completeness canonically, but current source realization, witness closure, and tests do not yet satisfy the full family claim.
 
-The second family now opened in this draft is `inference-synthesis`.
-That family is still in focused discovery rather than full closure formalization.
+That wedge has now been pushed across all nine V15 proof families at first-pass closure depth.
+`prompt-completeness` remains the tightest family.
+The others are still first-pass rather than final V16 canon, but they now each have:
+- family cases,
+- provisional artifact direction,
+- witness/replay direction,
+- expected/realized/family-closure splits,
+- and member-coverage inventories.
 
-This draft therefore does not yet attempt a full-system V16 rewrite.
-Its purpose is to make one family precise enough that:
+This draft therefore still does not attempt a full-system V16 rewrite.
+Its purpose is to make the proof-family layer precise enough that:
 - the family theorem,
 - the family runtime surfaces,
 - the family artifacts,
@@ -44,11 +50,11 @@ Prompted or synthesized outputs become canonical only when their ownership, evid
 
 This pass now covers:
 - full first-pass V16 formalization for `prompt-completeness`,
-- and initial V16 discovery for `inference-synthesis`.
+- first-pass closure design for the other eight V15 proof families,
+- and provisional member-coverage inventories across all nine families.
 
-The following are intentionally deferred until `prompt-completeness` and `inference-synthesis` are specified and parity-audited more completely:
-- the remaining proof families,
-- theorem-family expansion outside prompt-completeness,
+The following are still intentionally deferred:
+- theorem-family expansion beyond the current family-first pass,
 - proof appendix generation,
 - proof execution/audit orchestration,
 - and `_PROVEN_` file generation requirements.
@@ -56,7 +62,8 @@ The following are intentionally deferred until `prompt-completeness` and `infere
 The correct reading is:
 - V15 remains active canon,
 - V16 is being drafted through proof-family-by-proof-family tightening,
-- and this file currently formalizes the target shape for prompt-completeness only.
+- `prompt-completeness` remains the most tightened family,
+- and the rest of the proof families are now opened deeply enough to support the next member and theorem passes.
 
 ---
 
@@ -409,6 +416,30 @@ Until then, the correct V16 reading is:
 - the implementation debts are identifiable,
 - and prompt-completeness remains an open proof-closure program rather than a finished surface.
 
+### 6.1 Provisional member coverage
+
+The current provisional member-coverage reading for `prompt-completeness` is:
+
+1. `task`
+   Realized through `need-measurement.task.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: downstream-consumer closure is incomplete because current bindings understate real consumers such as `ENGI_NEED.md`.
+
+2. `failureModes`
+   Realized through `need-measurement.failure-modes.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: downstream-consumer semantics are not clean enough because some declared consumers appear lineage-oriented rather than semantic consumers.
+
+3. `constraints`
+   Realized through `need-measurement.constraints.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: non-rendered-context legality and parse-admissibility closure are still sidecar facts rather than full family verdict inputs.
+
+4. `targetArtifactKinds`
+   Realized through `need-measurement.target-artifact-kinds.v2` prompt contracts, prompt surfaces, parsed envelopes, and prompt-completeness coverage.
+   Current debt: downstream-consumer closure is incomplete because current bindings understate real consumers such as `ENGI_NEED.md`.
+
+5. `closureCriteria`
+   Currently classified as inferred need content but not realized as a prompt-completeness member and not yet explicitly excluded.
+   Current debt: this is the family's strongest explicit omission and remains the canonical non-closure case until V16 resolves it one way or the other.
+
 ---
 
 ## 7. Inference-synthesis initial V16 reading
@@ -710,7 +741,31 @@ Under the current provisional determination:
 
 3. prompt contracts remain important supporting material, but they should not continue to stand in for the family's primary witness closure.
 
-### 7.13 Current drafting boundary
+### 7.13 Provisional member coverage
+
+The current provisional member-coverage reading for `inference-synthesis` is:
+
+1. `task`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: the field-level evidence basis remains narrower than the full prompt-driving evidence basis.
+
+2. `failureModes`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: evaluator-status truth is contradictory across family surfaces and evidence-basis closure is not yet canonical.
+
+3. `constraints`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: evaluator-status truth is contradictory across family surfaces and realized evidence closure is still partial.
+
+4. `targetArtifactKinds`
+   Realized through a field-level inference proof, prompt-bearing evaluator surface, parsed envelope, and prompt implementation trace.
+   Current debt: evaluator-status truth is contradictory across family surfaces and realized evidence closure is still partial.
+
+5. `closureCriteria`
+   Currently classified as inferred content but not realized through a field-level inference proof or a corresponding inference-synthesis witness path.
+   Current debt: this remains the family's clearest coverage-totality failure.
+
+### 7.14 Current drafting boundary
 
 This still does not complete inference-synthesis formalization.
 
@@ -1089,6 +1144,26 @@ This is the right current stopping point for SCA because it turns the family int
 
 are now all named, even though implementation remains deferred.
 
+### 8.18 Provisional member coverage
+
+The current provisional member-coverage reading for `static-code-analysis` is:
+
+1. deterministic parser
+   Realized through benchmark-parser provenance, receipts, and registry surfaces.
+   Current debt: abstract provenance ids and concrete receipt stage ids are not yet closed by an explicit canonical mapping surface.
+
+2. repo-context
+   Realized through repo-context extraction provenance, receipts, and registry surfaces.
+   Current debt: abstract provenance ids and concrete receipt stage ids are not yet closed by an explicit canonical mapping surface.
+
+3. content-unit
+   Realized through content-unit extraction receipts and registry surfaces.
+   Current debt: the family still does not isolate content-unit closure inside a clean static-only stage domain.
+
+4. measurement stages
+   Realized through asset-measurement receipts, static report, and static proof.
+   Current debt: the report/proof domain still absorbs `verification.*` receipts, so measurement-stage closure is not yet family-pure.
+
 ## 9. Verification-decisions initial V16 reading
 
 This is the next proof family opened after SCA.
@@ -1359,6 +1434,30 @@ What it now does have is:
 4. an initial witness-materialization and replay direction,
 5. and an expected/realized/family-closure split.
 
+### 9.14 Provisional member coverage
+
+The current provisional member-coverage reading for `verification-decisions` is:
+
+1. `issuance`
+   Realized through issuance-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+2. `provenance`
+   Realized through provenance-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+3. `sufficiency`
+   Realized through sufficiency-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+4. `issuer-policy`
+   Realized through issuer-policy-stage receipts, decision surfaces, and report entries.
+   Current debt: family-stage mapping and witness/replay closure are still too receipt-flattened.
+
+5. `use-tier-consequence`
+   Realized in runtime through `verification.determinisms.v15`, `useTier`, `finalUseTier`, and downstream rights.
+   Current debt: this family member remains undernamed in report vocabulary and underrepresented in witness/replay closure.
+
 ## 10. Selection-and-materialization initial V16 reading
 
 This is the next proof family opened after VD.
@@ -1620,6 +1719,30 @@ What it now does have is:
 3. a provisional artifact direction,
 4. an initial witness-materialization and replay direction,
 5. and an expected/realized/family-closure split.
+
+### 10.14 Provisional member coverage
+
+The current provisional member-coverage reading for `selection-and-materialization` is:
+
+1. selected assets
+   Realized through asset-pack selection surfaces, selection-consistency proof, and aggregate materialization proof.
+   Current debt: selected-asset closure is still under-materialized because the primary selection-consistency proof lacks its own first-class artifact.
+
+2. locked units
+   Realized through `.engi/asset-pack.lock.json` plus visibility and selection-consistency closure.
+   Current debt: replay still omits the lock surface even though the family closes back to it directly.
+
+3. materialized source
+   Realized through `.engi/selected-source-material.json` plus selection-consistency and materialization proof closure.
+   Current debt: source-manifest closure remains underreplayed and underwitnessed relative to its family importance.
+
+4. exclusions
+   Realized through `.engi/materialization-exclusions.json`.
+   Current debt: exclusions remain explicit, but witness/replay closure still flattens them into broader materialization closure too often.
+
+5. visibility rules
+   Realized through `.engi/materialization-visibility-proof.json`.
+   Current debt: replay still omits the visibility surface and the family has not yet made that omission fail closure directly.
 
 ## 11. Authorization-and-sensitive-flow initial V16 reading
 
