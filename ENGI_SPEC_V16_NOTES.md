@@ -286,24 +286,23 @@ This is the first point where the family has a concrete materialization rule rat
 
 For this pass:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16_SYSTEM_PARITY_MATRIX.md` is the debt ledger,
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16.md` now contains a formal `prompt-completeness` section plus an initial `inference-synthesis` discovery section,
-- and this notes file explains why prompt-completeness came first and why inference-synthesis is the next family opened.
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16.md` now contains all nine V15 proof families at first-pass V16 closure depth,
+- and this notes file explains why the families were opened in this order and what each one still needs.
 
 This means the V16 file family is intentionally asymmetrical right now.
 It is not a full replacement for V15 yet.
-It is a proof-family drafting wedge into V16, with one family tighter than the next by design.
+It is a proof-family drafting wedge into V16, with some families tighter than others by design.
 
 ## What remains out of scope for now
 
-This pass does not yet draft:
-- the remaining proof families beyond `prompt-completeness`, `inference-synthesis`, `static-code-analysis`, and `verification-decisions`,
+This pass still does not yet draft:
 - the full V16 theorem catalog,
 - `_PROVEN_` appendix generation,
-- proof-program inventory outside these first four families,
+- proof-program inventory beyond the family-first closure pass,
 - or the full V16 system spec rewrite.
 
-Those are deferred on purpose.
-Prompt-completeness was made precise first so the same drafting and parity pattern could be applied consistently to the remaining proof surface.
+Those are still deferred on purpose.
+The proof families now come first so the same drafting and parity pattern can be pushed through every family before theorem and appendix work begins.
 
 ## Why static-code-analysis is the next family
 
@@ -609,3 +608,301 @@ The current direction is:
 3. treat use-tier consequence as a first-class family member,
 4. tighten witness and replay around both family artifacts rather than receipt ids only,
 5. and then defer further source changes until later implementation work.
+
+## Why selection-and-materialization is the next family
+
+After VD, the next adjacent family is `selection-and-materialization`.
+
+It is the right next move because:
+- it is where verification and ranking consequences become material branch state,
+- it already has multiple proof-bearing artifacts,
+- V15 already gives it a first-class `SelectionConsistencyProof`,
+- and it sits directly on the boundary between selected assets, source material, visibility, and later settlement consumption.
+
+That makes it a strong next family for the same matrix-first method.
+
+## Early selection-and-materialization findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. The family's primary proof object is under-materialized.
+   `SelectionConsistencyProof` exists in V15 and current runtime, but there is no dedicated branch artifact path or deliverable for it.
+
+2. Witness and replay treatment are thinner than the family surface.
+   Witness refs include the selection-consistency proof hash, but witness artifact paths do not include a dedicated artifact, and replay omits lock, selected-source-material, visibility, and selection-consistency surfaces.
+
+3. The family already emits several non-redundant surfaces with different truth:
+   - lock,
+   - selected source material,
+   - exclusions,
+   - visibility proof,
+   - aggregate materialization proof,
+   - selection consistency proof.
+
+4. The family already carries branch-mode and settlement consequences explicitly.
+   The proofs and manifests already encode:
+   - selected assets respecting use tiers,
+   - excluded assets with `materializationAllowed` and `settlementAllowed`,
+   - settlement participants being a subset of selected assets,
+   - and settlement consuming only settlement-eligible assets.
+
+## Why selection-consistency proof materialization is the first SAM case
+
+The first SAM case should be selection-consistency proof materialization and family completeness.
+
+That is the right first case because it asks whether the family is materializing its own most explicit canonical proof object directly enough.
+
+It is stronger than starting with generic artifact-role discussion because:
+- V15 already gives the proof object a concrete structure,
+- current runtime already computes it,
+- and the current gap is a direct mismatch between canonical precision and artifact/replay reality.
+
+So the first SAM move is to stop leaving the primary consistency proof mostly in bundle-and-hash space only.
+
+## Current SAM direction
+
+SAM now has enough structure to follow the same pattern as the earlier families.
+
+The current direction is:
+
+1. materialize the primary consistency proof as a first-class family surface,
+2. distinguish lock/source/exclusion/visibility/materialization/selection-consistency roles explicitly,
+3. tighten witness and replay around those primary family surfaces,
+4. keep branch-mode and settlement consequences explicit inside the family,
+5. and then defer source-side realization until later implementation work.
+
+## Why authorization-and-sensitive-flow is the next family
+
+After SAM, the next adjacent family is `authorization-and-sensitive-flow`.
+
+It is the right next move because:
+- it sits directly on the identity, principal, signer, and policy boundary,
+- current runtime already materializes bindings, decisions, and sensitive-data-flow records separately,
+- and current witness closure already shows a concrete omission against that richer family surface.
+
+That makes it a strong next family for the same matrix-first method.
+
+## Early authorization-and-sensitive-flow findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. The family's primary binding surface is undernamed in witness structure.
+   `.engi/identity-bindings.json` is a required branch artifact and is digested by the witness manifest, but the family witness artifact paths omit it.
+
+2. Current runtime already models two distinct proof objects inside the family.
+   `IdentityAuthorizationProof` and `SensitiveDataFlowProof` carry different truth and should not be treated as one undifferentiated private-proof layer.
+
+3. The family already spans two policy-bearing subpaths.
+   One subpath is identity, principal, authorization, signer, and asset-auth-root closure.
+   The other is data classification, retention/disclosure-policy assignment, and sensitive-data-flow closure.
+
+4. Replay is thinner than the family artifact set.
+   Current replay omits `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, and `.engi/sensitive-data-flow.json`.
+
+## Why identity-bindings materialization is the first AASF case
+
+The first AASF case should be identity-bindings materialization and family completeness.
+
+That is the right first case because it asks whether the family is naming its own principal-binding surface directly enough before V16 tries to refine the policy and flow side.
+
+It is stronger than starting with generic role discussion because:
+- V15 already explicitly names principals,
+- current runtime already computes identity-authorization proof from bindings,
+- and the current gap is a direct mismatch between emitted family surfaces and witness-family naming.
+
+So the first AASF move is to stop letting principal/binding truth remain undernamed in family witness closure.
+
+## Current AASF direction
+
+AASF now has enough structure to follow the same pattern as the earlier families.
+
+The current direction is:
+
+1. make identity bindings a first-class named family surface,
+2. distinguish principal/binding truth from authorization-decision truth,
+3. distinguish both of those from sensitive-data-flow policy truth,
+4. tighten witness and replay around all three primary family artifacts,
+5. and then defer source-side realization until later implementation work.
+
+## Why settlement-source-to-shares is the next family
+
+After AASF, the next adjacent family is `settlement-source-to-shares`.
+
+It is the right next move because:
+- it is the first theorem-heavy proof family after the earlier proof-surface families,
+- current runtime already materializes multiple exactness-bearing artifacts,
+- and the witness/replay story already shows a concrete mismatch between settlement-proof and journal-completeness closure.
+
+That makes it a strong next family for the same matrix-first method.
+
+## Early settlement-source-to-shares findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. The family carries two distinct proof-bearing closure objects that are not yet represented cleanly together.
+   `JournalCompletenessProof` and `SettlementProof` own different truth.
+
+2. Family witness closure currently mismatches its own artifact set.
+   Witness artifact paths include `.engi/settlement-proof.json`, but witness refs omit `settlementProof.proofHash`.
+
+3. Journal-completeness proof is still under-materialized.
+   It exists as a runtime proof object but has no dedicated branch artifact.
+
+4. Replay is thinner than the family surface.
+   Current replay mentions source-to-shares clipping, normalization, and allocation, but omits explicit settlement-proof and journal-completeness replay steps.
+
+5. The family already emits several non-redundant artifacts:
+   - source-to-shares,
+   - settlement participation,
+   - accounting precision,
+   - journal diff,
+   - settlement proof.
+
+## Why settlement-proof versus journal-completeness is the first SSTS case
+
+The first SSTS case should be settlement-proof versus journal-completeness witness closure.
+
+That is the right first case because it asks whether the family materially distinguishes its two strongest proof-bearing subpaths before V16 refines the rest of settlement role closure.
+
+It is stronger than starting with generic artifact-role discussion because:
+- V15 already names both journal and settlement proof surfaces,
+- current runtime already computes both proof objects,
+- and the current gap is a direct mismatch between witness refs, witness paths, and emitted artifacts.
+
+So the first SSTS move is to stop letting journal closure and theorem closure remain only partially aligned in witness and replay space.
+
+## Current SSTS direction
+
+SSTS now has enough structure to follow the same pattern as the earlier families.
+
+The current direction is:
+
+1. make journal closure and settlement theorem closure explicit subpaths,
+2. distinguish source-to-shares, participation, accounting precision, journal, and theorem roles explicitly,
+3. tighten witness and replay around all primary family artifacts,
+4. keep zero-credit participation and exact allocation explicit inside the family,
+5. and then defer source-side realization until later implementation work.
+
+## Why disclosure-boundary is the next family
+
+After SSTS, the next adjacent family is `disclosure-boundary`.
+
+It is the right next move because:
+- it is the canonical public/private proof boundary family,
+- current runtime already emits all four named family artifacts,
+- and the witness layer already shows a concrete omission against that explicit family membership.
+
+That makes it a strong next family for the same matrix-first method.
+
+## Early disclosure-boundary findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. The family's bounded-public member is undernamed in witness structure.
+   `.engi/bounded-public-proof.json` is required, emitted, and digested, but the family witness artifact paths omit it.
+
+2. Current runtime already emits four non-redundant disclosure-family artifacts.
+   Projection policy, bounded-public proof, redaction proof, and disclosure proof each own different truth.
+
+3. Witness refs currently flatten the family to bounded-public hashes only.
+   That obscures the role split the runtime already models.
+
+4. Replay is thinner than the family surface.
+   Current replay omits all disclosure-family artifacts and has no disclosure-family-specific replay step.
+
+## Why bounded-public-proof materialization is the first disclosure case
+
+The first disclosure case should be bounded-public-proof materialization and family completeness.
+
+That is the right first case because it asks whether the family names its own most distinctive bounded-public member directly enough before V16 refines the rest of the disclosure role split.
+
+It is stronger than starting with generic artifact-role discussion because:
+- V15 already names bounded-public proof explicitly,
+- current runtime already emits the artifact,
+- and the current gap is a direct mismatch between family definition and family witness naming.
+
+So the first disclosure move is to stop letting bounded-public proof remain only an indirect hash anchor in family witness closure.
+
+## Current disclosure direction
+
+Disclosure-boundary now has enough structure to follow the same pattern as the earlier families.
+
+The current direction is:
+
+1. make bounded-public proof a first-class named family surface in witness and replay closure,
+2. distinguish projection policy, bounded-public proof, redaction proof, and disclosure proof explicitly,
+3. tighten witness and replay around all four primary family artifacts,
+4. keep disclosure-boundary distinct from authorization-family policy assignment,
+5. and then defer source-side realization until later implementation work.
+
+## Why proof-contract is the next family
+
+After disclosure-boundary, the next adjacent family is `proof-contract`.
+
+It is the right next move because:
+- it is the cross-family closure family,
+- current runtime already computes a distinct proof contract plus a system proof bundle and witness manifest,
+- and the family grammar currently undernames all of that except the bundle.
+
+That makes it the right last family for the same matrix-first method before theorem and appendix work.
+
+## Early proof-contract findings
+
+The initial discovery pass already surfaced several strong issues:
+
+1. The proof contract itself is under-materialized.
+   Current runtime computes `proofContract`, but there is no dedicated `.engi/proof-contract.json` artifact.
+
+2. The family witness layer is far too thin for what the family claims to bind.
+   Witness artifact paths name only `.engi/system-proof-bundle.json`, and witness refs are only `proofContract.contractId` plus `settlementProof.assetPackLockHash`.
+
+3. The witness manifest is adjacent but not yet visibly inside family closure.
+   `.engi/proof-witness-manifest.json` is required and emitted, but the family witness artifact paths omit it.
+
+4. Replay is thinner than the family's own closure artifacts.
+   Current replay omits the system proof bundle, proof-witness-manifest, and any proof-contract artifact.
+
+5. The family already spans several non-redundant closure surfaces:
+   - proof contract,
+   - evidence chain,
+   - theorem checks,
+   - system proof bundle,
+   - witness-manifest closure.
+
+## Why proof-contract materialization is the first proof-contract case
+
+The first proof-contract case should be proof-contract materialization and bundle-only carriage.
+
+That is the right first case because it asks whether the family names its own contract surface directly enough before V16 refines the rest of cross-family closure structure.
+
+It is stronger than starting with theorem catalog discussion because:
+- V15 already names proof contract explicitly,
+- current runtime already computes the object,
+- and the current gap is a direct mismatch between family definition and artifact/witness reality.
+
+So the first proof-contract move is to stop leaving the proof contract in bundle-only carriage.
+
+## Current proof-contract direction
+
+Proof-contract now has enough structure to follow the same pattern as the earlier families.
+
+The current direction is:
+
+1. make proof contract a first-class family surface rather than bundle-only carriage,
+2. distinguish proof contract, evidence chain, theorem checks, system proof bundle, and witness-manifest closure explicitly,
+3. tighten witness and replay around those primary family surfaces,
+4. keep proof-contract family replay distinct from any one underlying proof family,
+5. and then defer source-side realization until later implementation work.
+
+## Current family-pass state
+
+All nine V15 proof families are now opened in V16 drafting at the same broad closure depth:
+- first family-specific case,
+- second family-specific role case,
+- provisional artifact direction,
+- witness/replay direction,
+- expected versus realized versus family-closure split,
+- and member-coverage inventory.
+
+The next work after this family pass is not to open more families.
+It is to return family-by-family and tighten member coverage, then theorem closure, then proof appendix generation and proof-program inventory.

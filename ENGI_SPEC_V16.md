@@ -1358,3 +1358,1152 @@ What it now does have is:
 3. a provisional artifact direction,
 4. an initial witness-materialization and replay direction,
 5. and an expected/realized/family-closure split.
+
+## 10. Selection-and-materialization initial V16 reading
+
+This is the next proof family opened after VD.
+
+The first SAM pass remains narrow on purpose.
+The immediate problem is not yet a full family rewrite.
+It is whether the family is materializing and replaying its own primary consistency proof directly enough.
+
+### 10.1 V15 family reading
+
+V15 defines `selection-and-materialization` as:
+- selected assets,
+- locked units,
+- materialized source,
+- exclusions,
+- and visibility rules
+
+being mutually consistent.
+
+V15 also separately gives `SelectionConsistencyProof` a first-class canonical structure.
+
+That means the family is not only about a collection of related artifacts.
+It is also about a primary proof object that closes selected assets, lock closure, materialized source closure, and settlement-eligibility consequences together.
+
+### 10.2 First normalized case: selection-consistency proof materialization and family completeness
+
+The first case for SAM is selection-consistency proof materialization.
+
+Current source already shows that:
+- `buildSelectionConsistencyProof(...)` computes a distinct proof object with its own `proofHash`,
+- witness refs include that proof hash,
+- the system proof bundle carries the full object,
+- but branch artifacts do not emit a dedicated selection-consistency proof path,
+- deliverables do not enumerate one,
+- and replay does not include one.
+
+So the family already has a primary proof object that remains under-materialized relative to V15 precision.
+
+### 10.3 Initial parity reading for this case
+
+For this case, the V16 parity reading is:
+
+1. if V15 already gives `SelectionConsistencyProof` a first-class structure, the family should not keep it as a mostly bundle-only surface,
+
+2. witness paths should name the primary family proof surface directly rather than only carrying its hash,
+
+3. replay should include the direct surfaces needed to reconstruct that proof,
+
+4. and deliverables should reflect the same family shape as witness and replay layers.
+
+### 10.4 Early implementation implication
+
+Current source suggests that V16 will likely need to distinguish at least:
+
+1. primary consistency-proof truth
+   The family proof that closes selected assets, lock, materialized source, and settlement-consumption consequences.
+
+2. direct input truth
+   The lock artifact and the selected-source-material artifact that the primary proof closes over.
+
+3. supporting proof truth
+   Exclusions, visibility, and aggregate materialization proofs.
+
+4. family closure truth
+   Whether all of those surfaces are emitted, coherent, replayable, and test-ratcheted.
+
+Without that separation, the family can keep looking materially complete while still hiding its primary proof object inside the bundle layer.
+
+### 10.5 Provisional V16 canonical structures for this first case
+
+The first case already justifies a minimal provisional family shape.
+
+```ts
+type SelectionMaterializationContractV16 = {
+  proofFamily: 'selection-and-materialization'
+  requiredPrimaryArtifacts: string[]
+  requiredSupportingArtifacts: string[]
+}
+```
+
+```ts
+type SelectionMaterializationCaseV16 = {
+  assetPackId: string
+  branchMode: 'context' | 'patch'
+  selectionConsistencyArtifactPresent: boolean
+  lockSourceClosureClosed: boolean
+  exclusionsClosureClosed: boolean
+  visibilityClosureClosed: boolean
+  settlementConsumptionClosed: boolean
+  witnessClosureClosed: boolean
+  replayClosureClosed: boolean
+}
+```
+
+```ts
+type SelectionMaterializationFamilyProofV16 = {
+  proofFamily: 'selection-and-materialization'
+  contract: SelectionMaterializationContractV16
+  cases: SelectionMaterializationCaseV16[]
+  familyCoverageClosed: boolean
+  primaryProofMaterializationClosed: boolean
+  artifactRoleClosureClosed: boolean
+  witnessMaterializationClosed: boolean
+  replayClosureClosed: boolean
+  testClosureClosed: boolean
+  allCasesPassed: boolean
+  proofHash: string
+}
+```
+
+These structures are still provisional.
+They are justified now because the family already needs a place to represent:
+- the missing dedicated selection-consistency artifact,
+- the direct family inputs it closes over,
+- and the family-level closure verdict around those surfaces.
+
+### 10.6 Current drafting boundary
+
+This does not yet complete selection-and-materialization formalization.
+
+What it does complete is the first family-specific V16 question for this area:
+- whether the family's primary consistency proof is treated as a first-class family surface,
+- or whether it remains under-materialized relative to V15 precision.
+
+### 10.7 Second normalized case: lock/source/exclusion/visibility role closure
+
+The next case for SAM is role closure across the family's major surfaces.
+
+Current source already shows that the family emits multiple non-redundant surfaces:
+- `.engi/asset-pack.lock.json`
+- `.engi/selected-source-material.json`
+- `.engi/materialization-exclusions.json`
+- `.engi/materialization-visibility-proof.json`
+- `.engi/materialization-proof.json`
+- and the current bundle-only `selectionConsistencyProof`
+
+The family therefore needs a canonical rule for what each of those surfaces is for.
+
+### 10.8 Initial parity reading for this second case
+
+For this case, the V16 parity reading is:
+
+1. lock truth, realized selected-source-material truth, exclusion truth, visibility truth, aggregate materialization truth, and selection-consistency truth should be treated as distinct family roles,
+
+2. branch-mode and settlement consequences should be explicit rather than implicit,
+
+3. aggregate proofs should not erase the primacy of lock and selected-source-material surfaces,
+
+4. and witness/replay closure should preserve those role distinctions.
+
+### 10.9 Early implementation implication
+
+Current source suggests that V16 will likely need at least the following role split:
+
+1. lock artifact
+   Owns locked assets, locked units, accepted use tiers, and source-selection roots.
+
+2. selected-source-material artifact
+   Owns realized source-material entries, selected units, and selected-asset rights in branch context.
+
+3. exclusions artifact
+   Owns excluded assets, exclusion classes, exclusion reasons, and excluded-asset consequences.
+
+4. visibility-proof artifact
+   Owns selected/materialized set closure and no-private-leak-into-public-projection closure.
+
+5. materialization-proof artifact
+   Owns aggregate materialization closure and refs to visibility/exclusion surfaces.
+
+6. selection-consistency proof artifact
+   Owns selected-vs-lock-vs-settlement closure.
+
+### 10.10 Provisional artifact direction
+
+Under the current first-pass reading, V16 should provisionally treat the family's artifact set as follows:
+
+1. primary family artifacts
+   - `.engi/asset-pack.lock.json`
+   - `.engi/selected-source-material.json`
+   - `.engi/materialization-proof.json`
+   - `.engi/materialization-exclusions.json`
+   - `.engi/materialization-visibility-proof.json`
+   - `.engi/selection-consistency-proof.json`
+
+2. family-adjacent but not family-defining
+   - `.engi/match-report.json`
+
+This remains provisional.
+The important V16 move is that the family stops treating:
+- lock,
+- selected-source-material,
+- exclusions,
+- visibility,
+- aggregate materialization,
+- and selection-consistency
+
+as though they were one undifferentiated materialization layer.
+
+### 10.11 Provisional witness-materialization and replay direction
+
+The current family work now supports a first replay/witness direction as well.
+
+V16 should provisionally prefer the following posture:
+
+1. witness artifact paths should include all primary family surfaces,
+2. replay artifacts should include lock, selected-source-material, exclusions, visibility, aggregate materialization, and selection-consistency surfaces,
+3. replay instructions should reconstruct:
+   - selection-consistency closure,
+   - lock/source closure,
+   - exclusion closure,
+   - visibility closure,
+   - and settlement/materialization consequence closure,
+4. and family replay should remain distinct from later settlement proof even where both touch the lock.
+
+### 10.12 Preferred expected/realized/family closure design
+
+SAM now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - required primary family surfaces,
+   - artifact-role definitions,
+   - branch-mode consequence rules,
+   - settlement-consumption rules,
+   - visibility-boundary rules.
+
+2. realized truth layer
+   Owns:
+   - emitted lock artifact,
+   - emitted selected-source-material artifact,
+   - emitted exclusions artifact,
+   - emitted visibility proof,
+   - emitted aggregate materialization proof,
+   - emitted selection-consistency proof,
+   - concrete selected/excluded/settlement-participant consequences.
+
+3. family closure layer
+   Owns:
+   - selection-consistency closure,
+   - lock/source closure,
+   - exclusion closure,
+   - visibility closure,
+   - branch-mode consequence closure,
+   - settlement-consumption closure,
+   - witness-materialization closure,
+   - replay closure,
+   - test closure.
+
+### 10.13 Current drafting boundary
+
+SAM is still not fully formalized.
+
+What it now does have is:
+
+1. a first normalized case on primary proof materialization,
+2. a second normalized case on lock/source/exclusion/visibility role closure,
+3. a provisional artifact direction,
+4. an initial witness-materialization and replay direction,
+5. and an expected/realized/family-closure split.
+
+## 11. Authorization-and-sensitive-flow initial V16 reading
+
+This is the next proof family opened after SAM.
+
+The first AASF pass remains narrow on purpose.
+The immediate problem is not yet a full family rewrite.
+It is whether the family is materially complete about principal binding, authorization, and sensitive-data-flow closure.
+
+### 11.1 V15 family reading
+
+V15 defines `authorization-and-sensitive-flow` as:
+- principals,
+- authorization decisions,
+- confidentiality classes,
+- retention/disclosure rules,
+- and sensitive-data flows
+
+being explicit and policy-backed.
+
+V15 also separately requires:
+- buyer principal, GitHub installation/session bindings, signer bindings, and branch/proof/settlement authorities are explicit,
+- authorization decisions are policy-backed,
+- and classification/retention/disclosure-policy truth remains explicit before later disclosure-boundary proves public boundedness.
+
+That means the family is not only about authorization decisions.
+It is also about principal/binding truth and sensitive-data-flow policy truth.
+
+### 11.2 First normalized case: identity-bindings materialization and family completeness
+
+The first case for AASF is identity-bindings materialization and family completeness.
+
+Current source already shows that:
+- `buildIdentityAuthorizationProof(...)` is computed directly from `bindings` and `authorizationDecisions`,
+- `.engi/identity-bindings.json` is a required branch artifact and deliverable,
+- `.engi/authorization-decisions.json` and `.engi/sensitive-data-flow.json` are also required branch artifacts,
+- and the witness manifest digests all three family surfaces,
+
+but current family witness artifact paths still omit `.engi/identity-bindings.json`.
+
+### 11.3 Initial parity reading for this case
+
+For this case, the V16 parity reading is:
+
+1. principal/binding truth must be a first-class family surface rather than an implied proof input,
+2. family completeness must fail if identity bindings disappear while authorization decisions remain,
+3. proof hashes must not stand in for missing binding surfaces,
+4. and replay must reconstruct principal-binding closure directly.
+
+### 11.4 Early implementation implication
+
+Current source suggests that V16 will likely need to distinguish at least:
+
+1. principal and binding truth
+   Buyer, issuer, GitHub installation, signer, and related binding surfaces.
+
+2. authorization-decision truth
+   State-changing and access decision surfaces plus policy-backed allow/deny truth.
+
+3. sensitive-data-flow truth
+   Data classification, retention policy, disclosure policy, and flow-record closure.
+
+4. family closure truth
+   Whether all required family surfaces are represented, role-distinguished, replayable, and mutually coherent.
+
+Without that separation, the family can keep recording the right information while still undernaming its own closure path.
+
+### 11.5 Provisional V16 canonical structures for this family
+
+```ts
+type AuthorizationSensitiveFlowContractV16 = {
+  proofFamily: 'authorization-and-sensitive-flow'
+  expectedMembers: Array<
+    | 'principals'
+    | 'authorization-decisions'
+    | 'confidentiality-classes'
+    | 'retention-disclosure-rules'
+    | 'sensitive-data-flows'
+  >
+}
+```
+
+```ts
+type AuthorizationSensitiveFlowCaseV16 = {
+  memberId: string
+  primaryArtifactPaths: string[]
+  roleKind: 'identity-binding' | 'authorization' | 'sensitive-flow-policy'
+  witnessClosed: boolean
+  replayClosed: boolean
+  notes?: string
+}
+```
+
+```ts
+type AuthorizationSensitiveFlowFamilyProofV16 = {
+  proofFamily: 'authorization-and-sensitive-flow'
+  contract: AuthorizationSensitiveFlowContractV16
+  memberCases: AuthorizationSensitiveFlowCaseV16[]
+  familyCoverageClosed: boolean
+  roleClosureClosed: boolean
+  witnessMaterializationClosed: boolean
+  replayClosureClosed: boolean
+  testClosureClosed: boolean
+  allCasesPassed: boolean
+  proofHash: string
+}
+```
+
+These structures are still provisional.
+They are justified now because the family already needs a place to represent:
+- principal-binding completeness,
+- authorization-decision completeness,
+- sensitive-data-flow policy completeness,
+- and family coverage beyond two proof hashes only.
+
+### 11.6 Second normalized case: identity/authorization versus sensitive-flow role closure
+
+The next case for AASF is role closure between identity/authorization truth and sensitive-data-flow truth.
+
+Current source already shows that:
+- `IdentityAuthorizationProof` owns principal binding, authorization, addressing, signing, and auth-root closure,
+- `SensitiveDataFlowProof` owns classification, retention/disclosure-policy assignment, and public-disclosure denial,
+- `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, and `.engi/sensitive-data-flow.json` are separate artifacts,
+- and later disclosure-boundary carries public projection boundedness rather than this family's internal policy-assignment truth.
+
+So the family already carries multiple distinct policy surfaces and needs to say so canonically.
+
+### 11.7 Provisional artifact direction
+
+Under the current first-pass reading, V16 should provisionally treat the family's artifact set as follows:
+
+1. primary principal and binding artifact
+   `.engi/identity-bindings.json`
+
+2. primary authorization-decision artifact
+   `.engi/authorization-decisions.json`
+
+3. primary sensitive-data-flow artifact
+   `.engi/sensitive-data-flow.json`
+
+4. likely future first-class family artifacts when family closure becomes more explicit
+   - `.engi/identity-authorization-proof.json`
+   - `.engi/sensitive-data-flow-proof.json`
+
+The important V16 move is not the final filename list.
+It is that the family stops treating:
+- principal bindings,
+- authorization decisions,
+- and sensitive-data-flow policy truth
+
+as though they were one undifferentiated private-proof layer.
+
+### 11.8 Provisional witness-materialization and replay direction
+
+The current family work now supports a first replay/witness direction as well.
+
+V16 should provisionally prefer the following posture:
+
+1. witness artifact paths should include all three primary family artifacts,
+2. replay artifacts should include all three primary family artifacts,
+3. replay instructions should reconstruct:
+   - principal-binding closure,
+   - authorization-decision closure,
+   - classification/retention/disclosure-policy closure,
+   - and sensitive-data-flow closure,
+4. and family replay should remain distinct from later disclosure-boundary closure.
+
+### 11.9 Preferred expected/realized/family closure design
+
+AASF now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - expected principal and binding surfaces,
+   - authorization-decision ownership rules,
+   - classification/retention/disclosure-policy ownership rules,
+   - family versus disclosure-boundary handoff rules.
+
+2. realized truth layer
+   Owns:
+   - emitted identity-bindings artifact,
+   - emitted authorization-decisions artifact,
+   - emitted sensitive-data-flow artifact,
+   - computed identity-authorization proof,
+   - computed sensitive-data-flow proof.
+
+3. family closure layer
+   Owns:
+   - principal-binding closure,
+   - authorization-decision closure,
+   - classification closure,
+   - retention/disclosure-policy assignment closure,
+   - sensitive-data-flow closure,
+   - artifact-role closure,
+   - witness-materialization closure,
+   - replay closure,
+   - test closure.
+
+### 11.10 Provisional member coverage
+
+The current provisional member-coverage reading is:
+
+1. principals
+   Realized through identity bindings and identity-authorization proof.
+
+2. authorization decisions
+   Realized through `.engi/authorization-decisions.json` and identity-authorization proof.
+
+3. confidentiality classes
+   Realized through sensitive-data-flow records and policy release classification surfaces.
+
+4. retention/disclosure rules
+   Realized through retention-policy and disclosure-policy ids on sensitive-data-flow records.
+
+5. sensitive-data flows
+   Realized through `.engi/sensitive-data-flow.json` and `SensitiveDataFlowProof`.
+
+### 11.11 Current drafting boundary
+
+AASF is still not fully formalized.
+
+What it now does have is:
+
+1. a first normalized case on identity-binding materialization,
+2. a second normalized case on identity-versus-sensitive-flow role closure,
+3. a provisional artifact direction,
+4. an initial witness-materialization and replay direction,
+5. an expected/realized/family-closure split,
+6. and a provisional member-coverage inventory.
+
+## 12. Settlement-source-to-shares initial V16 reading
+
+This is the next proof family opened after AASF.
+
+The first SSTS pass remains narrow on purpose.
+The immediate problem is not yet a full settlement rewrite.
+It is whether the family is materially complete about journal closure, theorem closure, and the rest of the settlement artifact role split.
+
+### 12.1 V15 family reading
+
+V15 defines `settlement-source-to-shares` as:
+- contribution,
+- clipping,
+- normalization,
+- participation,
+- allocation,
+- journal,
+- and settlement proof
+
+surfaces closing exactly.
+
+V15 also separately requires:
+- source-to-shares derivation is replayable,
+- clipping and tie-breaks are stable,
+- allocation is conserved,
+- debits equal credits,
+- state roots remain coherent,
+- and zero-credit participants are explicit where present.
+
+That means the family is not only about one settlement proof artifact.
+It is about the full path from marginal contribution through exact journal and theorem closure.
+
+### 12.2 First normalized case: settlement-proof versus journal-completeness witness closure
+
+The first case for SSTS is settlement-proof versus journal-completeness witness closure.
+
+Current source already shows that:
+- `JournalCompletenessProof` proves journal reason coverage, receipt closure, event consistency, and exact after-balance recomputation,
+- `SettlementProof` proves theorem checks such as normalization, allocation conservation, debit-credit equality, non-negative balances, reference closure, and state-root integrity,
+- `.engi/settlement-proof.json` is a required branch artifact,
+- but there is no dedicated branch artifact for journal completeness and family witness refs still omit `settlementProof.proofHash`.
+
+### 12.3 Initial parity reading for this case
+
+For this case, the V16 parity reading is:
+
+1. journal closure and settlement theorem closure must be explicit family subpaths,
+2. witness refs should align with named witness artifacts,
+3. journal-completeness materialization should become explicit by artifact or sanctioned witness structure,
+4. and replay must reconstruct journal closure and theorem closure separately.
+
+### 12.4 Early implementation implication
+
+Current source suggests that V16 will likely need to distinguish at least:
+
+1. source-to-shares truth
+   Contribution, clipping, normalization, and raw-share replay surfaces.
+
+2. participation truth
+   Selected, settlement-participating, credited, zero-credit, and excluded-from-settlement surfaces.
+
+3. exact-allocation and journal truth
+   Accounting precision and ledger-entry/balance surfaces.
+
+4. settlement theorem truth
+   The theorem-bearing settlement proof path.
+
+5. family closure truth
+   Whether all required settlement surfaces are role-distinguished, replayable, and mutually coherent.
+
+### 12.5 Provisional V16 canonical structures for this family
+
+```ts
+type SettlementSourceToSharesContractV16 = {
+  proofFamily: 'settlement-source-to-shares'
+  expectedMembers: Array<
+    | 'contribution'
+    | 'clipping'
+    | 'normalization'
+    | 'participation'
+    | 'allocation'
+    | 'journal'
+    | 'settlement-proof'
+  >
+}
+```
+
+```ts
+type SettlementSourceToSharesCaseV16 = {
+  memberId: string
+  primaryArtifactPaths: string[]
+  roleKind: 'source-to-shares' | 'participation' | 'allocation-journal' | 'theorem-proof'
+  witnessClosed: boolean
+  replayClosed: boolean
+  notes?: string
+}
+```
+
+```ts
+type SettlementSourceToSharesFamilyProofV16 = {
+  proofFamily: 'settlement-source-to-shares'
+  contract: SettlementSourceToSharesContractV16
+  memberCases: SettlementSourceToSharesCaseV16[]
+  familyCoverageClosed: boolean
+  roleClosureClosed: boolean
+  witnessMaterializationClosed: boolean
+  replayClosureClosed: boolean
+  testClosureClosed: boolean
+  allCasesPassed: boolean
+  proofHash: string
+}
+```
+
+### 12.6 Second normalized case: source-to-shares/participation/accounting/journal role closure
+
+The next case for SSTS is artifact-role closure across the rest of the family.
+
+Current source already shows that:
+- `.engi/source-to-shares.json` owns contribution, clipping receipts, normalization trace, and raw shares,
+- `.engi/settlement-participation.json` owns selected-versus-participating-versus-credited records,
+- `.engi/accounting-precision-report.json` owns exact-allocation precision summaries,
+- `.engi/journal-diff.json` owns ledger entries and balances,
+- `.engi/settlement-proof.json` owns theorem closure.
+
+So the family already materializes non-redundant settlement surfaces and needs to say so canonically.
+
+### 12.7 Provisional artifact direction
+
+Under the current first-pass reading, V16 should provisionally treat the family's artifact set as follows:
+
+1. primary contribution/clipping/normalization artifact
+   `.engi/source-to-shares.json`
+
+2. primary participation artifact
+   `.engi/settlement-participation.json`
+
+3. primary exact-allocation and journal artifacts
+   - `.engi/accounting-precision-report.json`
+   - `.engi/journal-diff.json`
+
+4. primary theorem-bearing artifact
+   `.engi/settlement-proof.json`
+
+5. likely future first-class family artifacts when family closure becomes more explicit
+   - `.engi/journal-completeness-proof.json`
+   - `.engi/settlement-source-to-shares-proof.json`
+
+### 12.8 Provisional witness-materialization and replay direction
+
+The current family work now supports a first replay/witness direction as well.
+
+V16 should provisionally prefer the following posture:
+
+1. witness refs should represent settlement-theorem closure as well as journal closure,
+2. replay artifacts should include all primary family artifacts,
+3. replay instructions should reconstruct:
+   - contribution/clipping/normalization closure,
+   - participation closure,
+   - exact-allocation closure,
+   - journal closure,
+   - and settlement theorem closure,
+4. and family replay should remain distinct from later proof-contract bundle closure.
+
+### 12.9 Preferred expected/realized/family closure design
+
+SSTS now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - expected contribution/clipping/normalization surfaces,
+   - participation rules,
+   - exact-allocation and journal rules,
+   - theorem-bearing settlement proof rules,
+   - artifact-role definitions.
+
+2. realized truth layer
+   Owns:
+   - emitted source-to-shares artifact,
+   - emitted settlement-participation artifact,
+   - emitted accounting-precision artifact,
+   - emitted journal-diff artifact,
+   - emitted settlement-proof artifact,
+   - computed journal-completeness proof.
+
+3. family closure layer
+   Owns:
+   - contribution/clipping/normalization closure,
+   - participation closure,
+   - exact-allocation closure,
+   - journal closure,
+   - settlement theorem closure,
+   - artifact-role closure,
+   - witness-materialization closure,
+   - replay closure,
+   - test closure.
+
+### 12.10 Provisional member coverage
+
+The current provisional member-coverage reading is:
+
+1. contribution
+   Realized through source contribution entries in `.engi/source-to-shares.json`.
+
+2. clipping
+   Realized through clipping receipts and marginal-contribution replay structures.
+
+3. normalization
+   Realized through basis-point normalization and raw shares in `.engi/source-to-shares.json`.
+
+4. participation
+   Realized through `.engi/settlement-participation.json`.
+
+5. allocation
+   Realized through exact micro-unit allocation in accounting precision plus journal diff.
+
+6. journal
+   Realized through `.engi/journal-diff.json` and `JournalCompletenessProof`.
+
+7. settlement proof
+   Realized through `.engi/settlement-proof.json` and `SettlementProof`.
+
+### 12.11 Current drafting boundary
+
+SSTS is still not fully formalized.
+
+What it now does have is:
+
+1. a first normalized case on settlement-proof versus journal-completeness closure,
+2. a second normalized case on the rest of the settlement role split,
+3. a provisional artifact direction,
+4. an initial witness-materialization and replay direction,
+5. an expected/realized/family-closure split,
+6. and a provisional member-coverage inventory.
+
+## 13. Disclosure-boundary initial V16 reading
+
+This is the next proof family opened after SSTS.
+
+The first disclosure pass remains narrow on purpose.
+The immediate problem is not yet a full disclosure rewrite.
+It is whether the family is materially complete about bounded-public proof and the rest of the disclosure role split.
+
+### 13.1 V15 family reading
+
+V15 defines `disclosure-boundary` as:
+- projection policy,
+- bounded-public proof,
+- redaction proof,
+- and disclosure proof
+
+agreeing and remaining bounded.
+
+V15 also separately requires:
+- only allowed artifacts are public,
+- private artifacts do not leak into public projection,
+- bounded public proof is metadata-bounded,
+- and redaction/disclosure proofs agree with policy release.
+
+That means the family is not only about the final disclosure verdict.
+It is also about policy, bounded public proof, and proof-of-application closure.
+
+### 13.2 First normalized case: bounded-public-proof materialization and family completeness
+
+The first case for disclosure-boundary is bounded-public-proof materialization and family completeness.
+
+Current source already shows that:
+- `.engi/bounded-public-proof.json` is a required branch artifact and deliverable,
+- redaction proof and disclosure proof both hash back to the bounded-public proof,
+- projection policy is a separate emitted artifact,
+- but family witness artifact paths still omit `.engi/bounded-public-proof.json`.
+
+### 13.3 Initial parity reading for this case
+
+For this case, the V16 parity reading is:
+
+1. bounded-public proof must be a first-class family member rather than an indirect hash anchor only,
+2. family completeness must fail if bounded-public proof disappears while redaction/disclosure remain,
+3. witness artifact paths should reflect explicit family membership,
+4. and replay must reconstruct bounded-public closure directly.
+
+### 13.4 Early implementation implication
+
+Current source suggests that V16 will likely need to distinguish at least:
+
+1. projection-policy truth
+   Principal visibility rules and public/private artifact rules.
+
+2. bounded-public proof truth
+   The metadata-bounded public proof surface.
+
+3. redaction truth
+   Redacted artifacts, source-material paths, and bounded-public-proof binding.
+
+4. disclosure-proof truth
+   Allowed/denied public paths and boundedness verdict.
+
+5. family closure truth
+   Whether all four member surfaces are represented, replayable, and mutually coherent.
+
+### 13.5 Provisional V16 canonical structures for this family
+
+```ts
+type DisclosureBoundaryContractV16 = {
+  proofFamily: 'disclosure-boundary'
+  expectedMembers: Array<
+    | 'projection-policy'
+    | 'bounded-public-proof'
+    | 'redaction-proof'
+    | 'disclosure-proof'
+  >
+}
+```
+
+```ts
+type DisclosureBoundaryCaseV16 = {
+  memberId: string
+  primaryArtifactPaths: string[]
+  roleKind: 'policy' | 'bounded-public' | 'redaction' | 'disclosure'
+  witnessClosed: boolean
+  replayClosed: boolean
+  notes?: string
+}
+```
+
+```ts
+type DisclosureBoundaryFamilyProofV16 = {
+  proofFamily: 'disclosure-boundary'
+  contract: DisclosureBoundaryContractV16
+  memberCases: DisclosureBoundaryCaseV16[]
+  familyCoverageClosed: boolean
+  roleClosureClosed: boolean
+  witnessMaterializationClosed: boolean
+  replayClosureClosed: boolean
+  testClosureClosed: boolean
+  allCasesPassed: boolean
+  proofHash: string
+}
+```
+
+### 13.6 Second normalized case: projection/bounded-public/redaction/disclosure role closure
+
+The next case for disclosure-boundary is role closure across the four family members.
+
+Current source already shows that:
+- `projection-policy.json` owns principals and artifact rules,
+- `bounded-public-proof.json` owns metadata-bounded proof summaries,
+- `redaction-proof.json` owns redacted artifact/source/latest-run fields,
+- `disclosure-proof.json` owns allowed/denied public artifact paths and boundedness confirmation.
+
+So the family already materializes non-redundant disclosure surfaces and needs to say so canonically.
+
+### 13.7 Provisional artifact direction
+
+Under the current first-pass reading, V16 should provisionally treat the family's artifact set as follows:
+
+1. primary policy artifact
+   `.engi/projection-policy.json`
+
+2. primary bounded-public artifact
+   `.engi/bounded-public-proof.json`
+
+3. primary redaction-application artifact
+   `.engi/redaction-proof.json`
+
+4. primary disclosure-verdict artifact
+   `.engi/disclosure-proof.json`
+
+5. likely future first-class family artifact when family closure becomes more explicit
+   - `.engi/disclosure-boundary-proof.json`
+
+### 13.8 Provisional witness-materialization and replay direction
+
+The current family work now supports a first replay/witness direction as well.
+
+V16 should provisionally prefer the following posture:
+
+1. witness artifact paths should include all four primary family artifacts,
+2. replay artifacts should include all four primary family artifacts,
+3. replay instructions should reconstruct:
+   - projection-policy closure,
+   - bounded-public closure,
+   - redaction closure,
+   - and disclosure closure,
+4. and family replay should remain distinct from earlier authorization-family policy-assignment closure.
+
+### 13.9 Preferred expected/realized/family closure design
+
+Disclosure-boundary now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - expected policy, bounded-public, redaction, and disclosure surfaces,
+   - artifact-role definitions,
+   - boundedness rules,
+   - family versus authorization-family handoff rules.
+
+2. realized truth layer
+   Owns:
+   - emitted projection-policy artifact,
+   - emitted bounded-public-proof artifact,
+   - emitted redaction-proof artifact,
+   - emitted disclosure-proof artifact.
+
+3. family closure layer
+   Owns:
+   - policy closure,
+   - bounded-public closure,
+   - redaction closure,
+   - disclosure closure,
+   - artifact-role closure,
+   - witness-materialization closure,
+   - replay closure,
+   - test closure.
+
+### 13.10 Provisional member coverage
+
+The current provisional member-coverage reading is:
+
+1. projection policy
+   Realized through `.engi/projection-policy.json`.
+
+2. bounded-public proof
+   Realized through `.engi/bounded-public-proof.json`.
+
+3. redaction proof
+   Realized through `.engi/redaction-proof.json`.
+
+4. disclosure proof
+   Realized through `.engi/disclosure-proof.json`.
+
+### 13.11 Current drafting boundary
+
+Disclosure-boundary is still not fully formalized.
+
+What it now does have is:
+
+1. a first normalized case on bounded-public-proof materialization,
+2. a second normalized case on the rest of the disclosure role split,
+3. a provisional artifact direction,
+4. an initial witness-materialization and replay direction,
+5. an expected/realized/family-closure split,
+6. and a provisional member-coverage inventory.
+
+## 14. Proof-contract initial V16 reading
+
+This is the next proof family opened after disclosure-boundary.
+
+The first proof-contract pass remains narrow on purpose.
+The immediate problem is not yet a complete theorem or appendix rewrite.
+It is whether the family materially closes its own contract, bundle, and witness surfaces before V16 goes deeper.
+
+### 14.1 V15 family reading
+
+V15 defines `proof-contract` as:
+- the system proof bundle,
+- and the proof contract
+
+binding the cross-cutting closure path end to end.
+
+V15 also separately requires:
+- theorem-style checks have stable identities and witness bindings,
+- the witness manifest answers which proof-relevant artifacts existed and how proof families were represented,
+- and indirect reference through `system-proof-bundle.json` not be used to hide missing family-specific witness coverage.
+
+That means the family is not only about a bundle artifact.
+It is also about proof contract, evidence-chain, theorem, and witness closure.
+
+### 14.2 First normalized case: proof-contract materialization and bundle-only carriage
+
+The first case for proof-contract is proof-contract materialization and bundle-only carriage.
+
+Current source already shows that:
+- `buildProofContract(...)` computes a distinct runtime object with contract id, evidence chain, theorem checks, and artifact bindings,
+- `buildSystemProofBundle(...)` embeds `proofContract`,
+- `.engi/system-proof-bundle.json` is a required branch artifact,
+- but there is no dedicated `.engi/proof-contract.json` artifact and family witness artifact paths name only the bundle.
+
+### 14.3 Initial parity reading for this case
+
+For this case, the V16 parity reading is:
+
+1. proof contract must be a first-class family member rather than a bundle field only,
+2. family completeness must fail if the proof contract disappears while the bundle remains,
+3. witness artifact paths should represent both contract and bundle truth,
+4. and replay must reconstruct proof-contract closure directly.
+
+### 14.4 Early implementation implication
+
+Current source suggests that V16 will likely need to distinguish at least:
+
+1. proof-contract truth
+   Contract id, evidence-chain stages, theorem checks, and artifact bindings.
+
+2. system-proof-bundle truth
+   Cross-family proof aggregation and replay entrypoint truth.
+
+3. witness-manifest truth
+   Artifact digests and family witness closure truth.
+
+4. family closure truth
+   Whether contract, bundle, witness manifest, evidence chain, and theorem claims remain mutually coherent.
+
+### 14.5 Provisional V16 canonical structures for this family
+
+```ts
+type ProofContractContractV16 = {
+  proofFamily: 'proof-contract'
+  expectedMembers: Array<
+    | 'proof-contract'
+    | 'evidence-chain'
+    | 'theorem-checks'
+    | 'system-proof-bundle'
+    | 'witness-manifest-closure'
+  >
+}
+```
+
+```ts
+type ProofContractCaseV16 = {
+  memberId: string
+  primaryArtifactPaths: string[]
+  roleKind: 'contract' | 'bundle' | 'witness-manifest' | 'evidence-chain' | 'theorem'
+  witnessClosed: boolean
+  replayClosed: boolean
+  notes?: string
+}
+```
+
+```ts
+type ProofContractFamilyProofV16 = {
+  proofFamily: 'proof-contract'
+  contract: ProofContractContractV16
+  memberCases: ProofContractCaseV16[]
+  familyCoverageClosed: boolean
+  roleClosureClosed: boolean
+  witnessMaterializationClosed: boolean
+  replayClosureClosed: boolean
+  testClosureClosed: boolean
+  allCasesPassed: boolean
+  proofHash: string
+}
+```
+
+### 14.6 Second normalized case: bundle/witness-manifest/evidence-chain role closure
+
+The next case for proof-contract is role closure across the bundle, witness manifest, evidence chain, and theorem checks.
+
+Current source already shows that:
+- `proofContract` owns evidence-chain stage claims and theorem checks,
+- `systemProofBundle` owns cross-family aggregation plus replay entrypoint,
+- `proofWitnessManifest` is a separate required branch artifact,
+- but family witness and replay layers still undername those distinctions.
+
+### 14.7 Provisional artifact direction
+
+Under the current first-pass reading, V16 should provisionally treat the family's artifact set as follows:
+
+1. primary aggregation artifact
+   `.engi/system-proof-bundle.json`
+
+2. primary witness-closure artifact
+   `.engi/proof-witness-manifest.json`
+
+3. mandatory first-class family surface, currently under-materialized
+   `.engi/proof-contract.json`
+
+4. likely future first-class family artifact when family closure becomes more explicit
+   - `.engi/proof-contract-proof.json`
+
+### 14.8 Provisional witness-materialization and replay direction
+
+The current family work now supports a first replay/witness direction as well.
+
+V16 should provisionally prefer the following posture:
+
+1. witness artifact paths should include the bundle, witness manifest, and proof-contract surface,
+2. replay artifacts should include the bundle, witness manifest, and proof-contract surface,
+3. replay instructions should reconstruct:
+   - proof-contract closure,
+   - evidence-chain closure,
+   - theorem closure,
+   - witness-manifest closure,
+   - and bundle coherence closure,
+4. and family replay should remain distinct from any one underlying proof family's replay.
+
+### 14.9 Preferred expected/realized/family closure design
+
+Proof-contract now has enough structure to adopt the same canonical precision grammar as the prior families.
+
+V16 should provisionally distinguish three object layers:
+
+1. expected truth layer
+   Owns:
+   - expected proof-contract surface,
+   - expected system-proof-bundle surface,
+   - expected witness-manifest surface,
+   - evidence-chain rules,
+   - theorem-binding rules,
+   - artifact-role definitions.
+
+2. realized truth layer
+   Owns:
+   - realized proof-contract surface,
+   - emitted system-proof-bundle artifact,
+   - emitted proof-witness-manifest artifact,
+   - realized evidence-chain stages,
+   - realized theorem checks.
+
+3. family closure layer
+   Owns:
+   - proof-contract closure,
+   - bundle coherence closure,
+   - witness-manifest closure,
+   - evidence-chain closure,
+   - theorem-binding closure,
+   - artifact-role closure,
+   - witness-materialization closure,
+   - replay closure,
+   - test closure.
+
+### 14.10 Provisional member coverage
+
+The current provisional member-coverage reading is:
+
+1. proof contract
+   Realized in runtime as `proofContract`.
+
+2. evidence chain
+   Realized inside `proofContract.evidenceChain`.
+
+3. theorem checks
+   Realized inside `proofContract.theoremChecks`.
+
+4. system proof bundle
+   Realized through `.engi/system-proof-bundle.json`.
+
+5. witness-manifest closure
+   Realized through `.engi/proof-witness-manifest.json`.
+
+### 14.11 Current drafting boundary
+
+Proof-contract is still not fully formalized.
+
+What it now does have is:
+
+1. a first normalized case on proof-contract under-materialization,
+2. a second normalized case on bundle versus witness/evidence/theorem role closure,
+3. a provisional artifact direction,
+4. an initial witness-materialization and replay direction,
+5. an expected/realized/family-closure split,
+6. and a provisional member-coverage inventory.
