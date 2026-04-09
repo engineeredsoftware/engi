@@ -1,0 +1,4403 @@
+{
+  "acceptedExclusions": [],
+  "cellCount": 200,
+  "cells": [
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-issuer-rollback",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "rust-validator-proof-gap",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "config-policy-precedence-incident",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "unsafe-patch-review-recovery",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "infra-deployment-mismatch",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "privacy-boundary-proof-export",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "polyglot-gateway-benchmark-remediation",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-issuer-rollback",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "rust-validator-proof-gap",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "config-policy-precedence-incident",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "infra-deployment-mismatch",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch:first",
+        "make-engi-branch:second"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "two-run-history-latest-second",
+      "failureReason": "",
+      "matrixGroup": "repeated-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.repeated-run.latest-run-history-proof-coherence",
+      "previousScenarioId": "auth-many-asset-normalization",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "allFamiliesPassed": true,
+        "latestScenarioId": "auth-many-asset-normalization",
+        "runHistoryLength": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "latestScenarioId": "auth-issuer-rollback",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "latestScenarioId": "rust-validator-proof-gap",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "latestScenarioId": "config-policy-precedence-incident",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "latestScenarioId": "unsafe-patch-review-recovery",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "latestScenarioId": "infra-deployment-mismatch",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "latestScenarioId": "privacy-boundary-proof-export",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "latestScenarioId": "polyglot-gateway-benchmark-remediation",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "make-engi-branch",
+        "reset",
+        "make-engi-branch"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "seeded-state-restored-and-branchable",
+      "failureReason": "",
+      "matrixGroup": "reset-after-run",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.reset-after-run.seeded-state-restoration",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "latestScenarioId": "auth-many-asset-normalization",
+        "postResetRunHistoryLength": 1,
+        "resetRunHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-auth-issuer-rollback_4c46e77f45",
+        "repoAssetId": "asset_v18-repo-backed-auth-issuer-rollback_cecca9c18d",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 3
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-rust-validator-proof-gap_75f1c77908",
+        "repoAssetId": "asset_v18-repo-backed-rust-validator-proof-gap_052ed39819",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-config-policy-precedence-incident_a7c090392c",
+        "repoAssetId": "asset_v18-repo-backed-config-policy-precedence-incident_022bc5122c",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-unsafe-patch-review-recovery_09d759758c",
+        "repoAssetId": "asset_v18-repo-backed-unsafe-patch-review-recovery_256dc882c5",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-infra-deployment-mismatch_513e9ee1f9",
+        "repoAssetId": "asset_v18-repo-backed-infra-deployment-mismatch_f45ceca050",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-privacy-boundary-proof-export_c27ec7edb6",
+        "repoAssetId": "asset_v18-repo-backed-privacy-boundary-proof-export_813b0145b3",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-polyglot-gateway-benchmark-remediation_1058f7eb76",
+        "repoAssetId": "asset_v18-repo-backed-polyglot-gateway-benchmark-remediation_1702caf34b",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 1
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "internal",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "internal",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "reviewer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "reviewer",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "buyer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "buyer",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "deposit:repo-backed",
+        "deposit:raw",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "mixed-deposits-evaluated-and-branch-realized",
+      "failureReason": "",
+      "matrixGroup": "mixed-deposit",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.mixed-deposit.evaluation-projection-proof-coherence",
+      "principal": "public",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "projectionPrincipal": "public",
+        "rawAssetId": "asset_v18-raw-auth-many-asset-normalization_943bcee7b1",
+        "repoAssetId": "asset_v18-repo-backed-auth-many-asset-normalization_475c537611",
+        "runHistoryLength": 1,
+        "selectedAssetCount": 2
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "auth-issuer-rollback",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "rust-validator-proof-gap",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "config-policy-precedence-incident",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "unsafe-patch-review-recovery",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "infra-deployment-mismatch",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "privacy-boundary-proof-export",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "polyglot-gateway-benchmark-remediation",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "patch",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "internal",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "internal",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "reviewer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "reviewer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "buyer",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "buyer",
+        "runHistoryLength": 0
+      }
+    },
+    {
+      "actionSequence": [
+        "empty-assets",
+        "make-engi-branch",
+        "project-state"
+      ],
+      "branchMode": "context",
+      "expectedTerminalState": "request-caused-conflict-with-state-preserved",
+      "failureReason": "",
+      "matrixGroup": "no-survivor",
+      "matrixId": "v19-state-machine-matrix",
+      "passed": true,
+      "predicateId": "state-machine.no-survivor.conflict-state-preservation",
+      "principal": "public",
+      "scenarioId": "auth-many-asset-normalization",
+      "terminalInvariants": {
+        "errorMessage": "No candidates survived into the asset pack.",
+        "latestRunPresent": false,
+        "projectedPrincipal": "public",
+        "runHistoryLength": 0
+      }
+    }
+  ],
+  "failedCells": [],
+  "generatedAt": "2026-04-09T18:54:45-03:00",
+  "inheritedFromMatrixId": "v18-state-machine-matrix",
+  "matrixGroups": [
+    "repeated-run",
+    "reset-after-run",
+    "mixed-deposit",
+    "no-survivor"
+  ],
+  "matrixId": "v19-state-machine-matrix",
+  "passedCellCount": 200,
+  "sourceRunCount": 16,
+  "version": "V19"
+}

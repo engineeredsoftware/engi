@@ -2,12 +2,14 @@
 
 ## Status
 
-- Scope: accepted V19 first-gate draft notes for reproducible canon after V18 generated proof closure
+- Scope: accepted V19 first-gate notes for reproducible canon after V18 generated proof closure
 - Prior canonical target: `V18`
+- Current canonical/latest target: `V19`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
-- Current V19 state: first-gate source implementation is present in draft; canonical generated V19 appendix/artifacts and pointer advancement remain pending canonical promotion
-- Draft spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19.md`
-- Draft parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_SYSTEM_PARITY_MATRIX.md`
+- Current generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_PROVEN.md`
+- Current V19 state: canonical promotion prep is complete; source implementation, generated appendix/artifacts, check mode, full verification, and pointer advancement are aligned for the V19 canonical commit
+- Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19.md`
+- Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_SYSTEM_PARITY_MATRIX.md`
 
 ## Recommended V19 center
 
@@ -106,3 +108,5 @@ Excluded from the first gate:
 ## V19 success condition
 
 V19 is complete when canonical promotion is reproducible, generated proof output is byte-stable, mutation coverage proves fail-closed behavior, and contractual deltas are generated rather than inferred from manual review.
+
+Completion recorded for this pass: `npm run promote:canon -- --version V19 --commit HEAD` resolved proof-source commit `221e718ea34c904e3d4413dfc470feab38fca673`, ran the full gate set, generated `ENGI_SPEC_V19_PROVEN.md`, generated all seven `.engi/v19-*` structured artifacts, checked the generated appendix, and advanced `ENGI_SPEC.txt` to `V19` for the canonical V19 commit.

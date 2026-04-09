@@ -1,0 +1,109 @@
+{
+  "acceptedBoundaryDeltas": [
+    {
+      "boundary": "full mutation cross-product deferred",
+      "reopenCondition": "representative mutation escapes or has run-specific behavior"
+    },
+    {
+      "boundary": "source-level projection security inherited from V17 browser matrix",
+      "reopenCondition": "projection policy source changes or projection bug escapes"
+    },
+    {
+      "boundary": "UX quality deferred beyond V19",
+      "reopenCondition": "V19 implementation creates operator-usability regression"
+    }
+  ],
+  "artifactDeltas": [
+    {
+      "artifactPath": ".engi/v19-proof-member-semantic-matrix.json",
+      "changeType": "added-generated-artifact"
+    },
+    {
+      "artifactPath": ".engi/v19-theorem-evidence-matrix.json",
+      "changeType": "added-generated-artifact"
+    },
+    {
+      "artifactPath": ".engi/v19-state-machine-matrix.json",
+      "changeType": "added-generated-artifact"
+    },
+    {
+      "artifactPath": ".engi/v19-negative-proof-mutation-matrix.json",
+      "changeType": "added-generated-artifact"
+    },
+    {
+      "artifactPath": ".engi/v19-deterministic-replay-report.json",
+      "changeType": "added-generated-artifact"
+    },
+    {
+      "artifactPath": ".engi/v19-volatility-inventory.json",
+      "changeType": "added-generated-artifact"
+    },
+    {
+      "artifactPath": ".engi/v19-contract-change-ledger.json",
+      "changeType": "added-generated-artifact"
+    }
+  ],
+  "fromVersion": "V18",
+  "generatedAt": "2026-04-09T18:54:45-03:00",
+  "ledgerId": "v19-contract-change-ledger",
+  "matrixDeltas": [
+    {
+      "cellCount": 720,
+      "changeType": "renamed-materialized-artifact",
+      "fromMatrixId": "v18-proof-member-semantic-matrix",
+      "toMatrixId": "v19-proof-member-semantic-matrix"
+    },
+    {
+      "cellCount": 912,
+      "changeType": "renamed-materialized-artifact",
+      "fromMatrixId": "v18-theorem-evidence-matrix",
+      "toMatrixId": "v19-theorem-evidence-matrix"
+    },
+    {
+      "cellCount": 200,
+      "changeType": "renamed-materialized-artifact",
+      "fromMatrixId": "v18-state-machine-matrix",
+      "toMatrixId": "v19-state-machine-matrix"
+    },
+    {
+      "cellCount": 10,
+      "changeType": "added-negative-proof-coverage",
+      "fromMatrixId": "none",
+      "toMatrixId": "v19-negative-proof-mutation-matrix"
+    }
+  ],
+  "passed": true,
+  "promotionContractDeltas": [
+    {
+      "changeType": "added-canonical-entrypoint",
+      "command": "npm run promote:canon -- --version V19 --commit <proof-source-commit>"
+    },
+    {
+      "changeType": "added-deterministic-replay-gate",
+      "reportId": "v19-deterministic-replay-report"
+    },
+    {
+      "blockingFindingCount": 0,
+      "changeType": "added-volatility-gate",
+      "inventoryId": "v19-volatility-inventory"
+    }
+  ],
+  "proofCatalogDelta": {
+    "memberCount": 45,
+    "proofFamilyIds": [
+      "inference-synthesis",
+      "prompt-completeness",
+      "static-code-analysis",
+      "verification-decisions",
+      "selection-and-materialization",
+      "authorization-and-sensitive-flow",
+      "settlement-source-to-shares",
+      "disclosure-boundary",
+      "proof-contract"
+    ],
+    "runCount": 16,
+    "status": "unchanged-inherited-positive-baseline",
+    "theoremCount": 57
+  },
+  "toVersion": "V19"
+}

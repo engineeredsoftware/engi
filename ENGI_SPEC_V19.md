@@ -2,26 +2,27 @@
 
 ## Status
 
-- Scope: V19 accepted first-gate draft specification for reproducible canon, deterministic replay, canonical promotion hardening, and negative proof mutation coverage after V18 generated proof closure
+- Scope: V19 accepted first-gate specification for reproducible canon, deterministic replay, canonical promotion hardening, and negative proof mutation coverage after V18 generated proof closure
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_NOTES.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
-- Current canonical/latest target: `V18`
-- Last fully realized canonical target preserved in source: `V18`
-- V19 state: first-gate source implementation is present in draft; canonical generated V19 appendix/artifacts and `ENGI_SPEC.txt` pointer advancement remain pending canonical promotion
+- Current generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_PROVEN.md`
+- Current canonical/latest target: `V19`
+- Last fully realized canonical target preserved in source: `V19`
+- V19 state: canonical promotion prep is complete; source implementation, generated V19 appendix/artifacts, generator check mode, full verification, and `ENGI_SPEC.txt` pointer advancement are aligned for the V19 canonical commit
 - Current realization basis for this pass: `engi-demo`
 
 ## Drafting and acceptance state
 
-V19 has enough accepted first-gate precision to begin source implementation.
+V19 first-gate specification and source implementation are complete for canonical promotion prep.
 
 The word `draft` in this file family means the combined specification and source implementation are still work in progress until canonical promotion.
 Specification drafting and implementation remain co-located because implementation can reveal missing precision, infeasible contracts, or stronger canonical wording.
 Those discoveries must update this spec, notes, and parity matrix before source closure is claimed.
 
-Draft status does not weaken the accepted first-gate decisions.
-It means any implementation-revealed change must be explicit parity movement, not silent source/spec drift.
+This file is no longer in that draft state for V19 first-gate scope.
+The generated proof appendix and structured artifacts were produced by the canonical promotion workflow from proof-source commit `221e718ea34c904e3d4413dfc470feab38fca673`.
 
 ## Version executive summary
 
@@ -62,8 +63,9 @@ It changes the release and replay standard required before a canonical bump can 
 V19 inherits V18 as a closed positive-proof base.
 
 That means:
-- `ENGI_SPEC.txt` remains `V18` until V19 source implementation and generated appendix promotion are complete,
-- `ENGI_SPEC_V18_PROVEN.md` remains the latest generated proof appendix,
+- `ENGI_SPEC.txt` advances to `V19` only after V19 source implementation and generated appendix promotion are complete,
+- `ENGI_SPEC_V18_PROVEN.md` remains the prior generated proof appendix,
+- `ENGI_SPEC_V19_PROVEN.md` is the current generated proof appendix for V19 canonical promotion prep,
 - V18's `1832` generated matrix cells are accepted as the positive-proof baseline,
 - V19 mutation matrices are negative-proof coverage and do not increase the V18 positive matrix count,
 - V19 should not add proof families unless determinism, promotion, or mutation checks reveal a missing contract category,
@@ -402,3 +404,5 @@ V19 is complete when:
 9. `_PROVEN_` rendering includes V19 deterministic replay, mutation, materialization, and ledger summaries derived from executable data.
 10. `ENGI_SPEC_V19_PROVEN.md` is regenerated, not manually edited, as part of the canonical V19 commit.
 11. `ENGI_SPEC.txt` is advanced to `V19` only in the same canonical commit that includes the regenerated V19 proof appendix.
+
+Completion recorded for this pass: the canonical promotion workflow generated `ENGI_SPEC_V19_PROVEN.md`, generated all seven `.engi/v19-*` structured artifacts, checked the appendix, and advanced `ENGI_SPEC.txt` to `V19` for the V19 canonical commit.

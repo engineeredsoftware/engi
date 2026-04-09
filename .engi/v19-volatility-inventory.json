@@ -1,0 +1,164 @@
+{
+  "blockingFindings": [],
+  "classificationCounts": {
+    "blocking-volatile": 0,
+    "canonical-stable": 16,
+    "context-bound": 5,
+    "preview-volatile": 0
+  },
+  "findingCount": 21,
+  "findings": [
+    {
+      "artifactPath": "_proven-data",
+      "classification": "context-bound",
+      "fieldPath": "canonicalCommitRecordedAt",
+      "reason": "canonical commit timestamp is fixed by proof-source commit",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": ".engi/v19-proof-member-semantic-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": ".engi/v19-theorem-evidence-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": ".engi/v19-state-machine-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-issuer-rollback.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-issuer-rollback.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.rust-validator-proof-gap.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.rust-validator-proof-gap.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.config-policy-precedence-incident.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.config-policy-precedence-incident.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.unsafe-patch-review-recovery.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.unsafe-patch-review-recovery.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.infra-deployment-mismatch.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.infra-deployment-mismatch.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.privacy-boundary-proof-export.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.privacy-boundary-proof-export.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.polyglot-gateway-benchmark-remediation.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.polyglot-gateway-benchmark-remediation.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-many-asset-normalization.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-many-asset-normalization.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    }
+  ],
+  "generatedAt": "2026-04-09T18:54:45-03:00",
+  "inventoryId": "v19-volatility-inventory",
+  "passed": true,
+  "scannedArtifactCount": 4,
+  "version": "V19"
+}

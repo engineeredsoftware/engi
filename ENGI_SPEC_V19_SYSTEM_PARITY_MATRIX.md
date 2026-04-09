@@ -2,15 +2,16 @@
 
 ## Status
 
-- Scope: V19 accepted first-gate draft reproducible-canon source parity ledger
+- Scope: V19 accepted first-gate reproducible-canon source parity ledger
 - Specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_NOTES.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18.md`
 - Prior parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_SYSTEM_PARITY_MATRIX.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
-- Current canonical/latest target: `V18`
-- Last fully realized canonical target preserved in source: `V18`
-- V19 state: first-gate source implementation is present in draft; canonical generated V19 appendix/artifacts and `ENGI_SPEC.txt` pointer advancement remain pending canonical promotion
+- Current generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_PROVEN.md`
+- Current canonical/latest target: `V19`
+- Last fully realized canonical target preserved in source: `V19`
+- V19 state: canonical promotion prep is complete; source implementation, generated V19 appendix/artifacts, generator check mode, full verification, and `ENGI_SPEC.txt` pointer advancement are aligned for the V19 canonical commit
 - Primary implementation surface to audit for this pass: `engi-demo`
 
 ## Purpose
@@ -30,10 +31,10 @@ V19 starts from the release-hardening debt that remains after proof matrices exi
 ## Interpretation rule
 
 The correct V19 reading is:
-- `V18` remains the active canonical/latest target,
-- V19 is the next draft implementation target,
+- `V19` is the active canonical/latest target in the prepared canonical commit,
+- V18 remains the prior canonical anchor,
 - V18's `1832` generated positive proof cells remain accepted,
-- V19 source implementation must concentrate on reproducible generation and fail-closed mutation behavior,
+- V19 source implementation concentrated on reproducible generation and fail-closed mutation behavior,
 - and generated `_PROVEN_` output remains a canonical-promotion artifact, not a manually authored draft file.
 
 ## Audit basis
@@ -45,8 +46,11 @@ This matrix is grounded in:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_PROVEN.md`
 - `/Users/garrettmaring/Developer/ENGI/scripts/generate-engi-proven.mjs`
+- `/Users/garrettmaring/Developer/ENGI/scripts/promote-engi-canon.mjs`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/proven-generator.js`
+- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/v19-canon.js`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/v18-matrices.js`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/need-measurement.js`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/test/proven-generator.test.js`
@@ -60,22 +64,22 @@ This matrix is grounded in:
 
 | Area | Current source truth | V19 implementation expectation | Closure signal | Judgment |
 |---|---|---|---|---|
-| Root canon posture | `ENGI_SPEC.txt` points to `V18`; V18 docs and generated appendix are present | V19 must remain a draft implementation target until replay, mutation, promotion, ledger, and generated appendix work is complete | V19 docs state V18 remains current canon and no V19 pointer advancement has occurred | closed for draft posture |
+| Root canon posture | `ENGI_SPEC.txt` points to `V19`; V19 docs, generated appendix, and generated artifacts are present in canonical promotion prep | V19 must advance the root pointer only after replay, mutation, promotion, ledger, and generated appendix work is complete | Promotion generated and checked V19 output, then advanced `ENGI_SPEC.txt` to `V19` | closed |
 | V18 positive proof baseline | V18 generated `720` member cells, `912` theorem cells, and `200` state-machine cells; V18 `_PROVEN_` records all as passing | V19 must inherit those as the positive-proof base and avoid reopening proof families without concrete evidence | V19 spec and notes cite `1832` as inherited baseline | closed for draft posture |
-| `_PROVEN_` generated-only rule | `scripts/generate-engi-proven.mjs` writes/checks generated appendices and refuses dirty worktrees unless `--allow-dirty` is provided | V19 must preserve generated-only appendices and add replay/promotion gates around generation | Generator owns V19 markdown plus artifacts; canonical files are written only by generator/promotion | source closed; canonical output pending |
+| `_PROVEN_` generated-only rule | `scripts/generate-engi-proven.mjs` writes/checks generated appendices and refuses dirty worktrees unless `--allow-dirty` is provided | V19 must preserve generated-only appendices and add replay/promotion gates around generation | Generator owns V19 markdown plus artifacts; canonical files are written only by generator/promotion | closed |
 | Generated timestamp source | CLI defaults `generatedAt` to the canonical commit recorded-at timestamp; preview overrides are allowed | V19 must make replay context explicit and prevent preview volatility from entering canonical output | Replay report records fixed `generatedAt`, proof-source commit, commit recorded-at, and worktree state | closed |
 | Parsed completion timestamp stability | Parsed completion envelopes use a deterministic fixed timestamp in `need-measurement.js` after V18 hardening | V19 must generalize this lesson into a scanner/inventory rather than relying on one patched field | Volatility scanner reports parsed envelope timestamps as `context-bound` or `canonical-stable` | closed |
 | Artifact inventory ordering | V18 proof data preserved witness digest inventory order from runtime artifact emission | V19 must normalize digest inventories by path before volatility scanning, replay comparison, and generated artifact materialization | Canonical proof data emits path-sorted artifact digest inventories and scanner records them as `canonical-stable` | closed |
 | Deterministic replay test | Generator check mode compares one generated output against an existing file; there is no explicit two-run byte equality test | V19 must generate twice from the same replay context and compare bytes before promotion | `test:deterministic-replay` emits a passing replay report and verifies full output/artifact byte equality | closed |
 | Volatile field inventory | No structured scanner inventories generated output fields for wall-clock, environment, order, path, or random drift | V19 must inventory canonical proof and matrix artifacts and classify volatility | `test:volatility` passes with zero canonical blocking findings and fails closed on timestamp/random fixtures | closed |
-| Promotion command | Current promotion is manually sequenced through typecheck, matrix tests, full tests, generator write/check, and diff hygiene | V19 must provide one canonical promotion entrypoint with dry-run/check behavior and commit-body output | `promote:canon` exists and dry-run test verifies the required gate plan and commit-body output | source closed; canonical execution pending |
-| Full matrix JSON materialization | V18 matrix builders return JSON-compatible data and `_PROVEN_` renders summaries; full matrix JSON files are not committed as canonical artifacts | V19 must commit generated structured artifacts for inherited positive matrices plus replay, volatility, mutation, and contract ledger reports | Generator returns deterministic JSON artifact contents for all seven V19 artifact paths; files are committed only during canonical promotion | source closed; canonical output pending |
+| Promotion command | Current promotion is handled by one scriptable workflow instead of manual sequencing | V19 must provide one canonical promotion entrypoint with dry-run/check behavior and commit-body output | `promote:canon` ran typecheck, targeted tests, full tests, generator write/check, and diff hygiene successfully | closed |
+| Full matrix JSON materialization | V18 matrix builders return JSON-compatible data and `_PROVEN_` renders summaries; full matrix JSON files were not committed as canonical artifacts | V19 must commit generated structured artifacts for inherited positive matrices plus replay, volatility, mutation, and contract ledger reports | Generator wrote all seven deterministic `.engi/v19-*` artifact paths during canonical promotion prep | closed |
 | Negative mutation coverage | `proven-generator.test.js` has targeted fail-closed tests for proof-family catalog drift and missing witness digest | V19 must add a generated mutation matrix covering accepted mutation classes with classified expected failures | `test:negative-mutation-matrix` reports 10 rejected representative cells and zero unexpected passes/errors | closed |
 | Mutation cross-product totality | No current mutation matrix defines axes or omitted permutations | V19 accepts representative first-gate mutation coverage with an explicit omitted-cross-product ledger | Mutation matrix records `coverageMode=representative-first-gate`, generated required cells, omitted full cross-products, and reopen conditions | closed |
 | Contract-change ledger | V18-to-V19 changes are currently inferable from docs and diffs only | V19 must generate a structured ledger for proof families, members, theorems, replay steps, witness paths, matrices, counts, and boundaries | `test:contract-ledger` verifies generated V18-to-V19 matrix/artifact/promotion deltas | closed |
 | Source-level projection security matrix | V17 browser matrix covers every scenario, branch mode, and projection principal; V18 accepted no source duplication | V19 excludes a full source-level projection matrix unless implementation changes projection policy; changed-projection-policy mutation remains narrower proof/disclosure alignment coverage | V19 parity records inherited V17 browser proof and no projection-policy source change, or promotes a source matrix if projection policy changes | accepted boundary |
 | UX quality canon | Visual, accessibility, and performance gates remain deferred from V18 | V19 excludes UX quality gates unless implementation creates an operator-usability regression | UX quality remains a V20+ candidate with no V19 blocking gate | accepted boundary |
-| `_PROVEN_` V19 rendering | Generator renders V18 matrix summaries only when version is `V18` | V19 must render replay, volatility, mutation, materialization, and ledger summaries from executable data before V19 promotion | Generator smoke check renders V19 `_PROVEN_` with replay, volatility, mutation, artifact, and ledger sections; canonical file is pending promotion | source closed; canonical output pending |
+| `_PROVEN_` V19 rendering | Generator renders V19 replay, volatility, mutation, materialization, and ledger summaries from executable data | V19 must render replay, volatility, mutation, materialization, and ledger summaries from executable data before V19 promotion | `ENGI_SPEC_V19_PROVEN.md` was generated and immediate check mode passed | closed |
 
 ---
 
@@ -99,12 +103,12 @@ The first gate excludes full source projection security, UX budgets, and full mu
 
 | Workstream | Required artifact or command | Current status | Required V19 judgment |
 |---|---|---|---|
-| Deterministic replay | `v19-deterministic-replay-report` | source implemented; canonical artifact pending promotion | required |
-| Volatility scan | `v19-volatility-inventory` or equivalent report section | source implemented; canonical artifact pending promotion | required |
-| Canonical promotion | one documented command/script with dry-run/check mode | source implemented; canonical execution pending promotion | required |
-| Matrix materialization | committed generated JSON artifacts for positive matrices and V19 reports | source implemented; committed files pending promotion | required |
-| Negative mutation matrix | `v19-negative-proof-mutation-matrix` | source implemented; canonical artifact pending promotion | required |
-| Contract-change ledger | `v19-contract-change-ledger` | source implemented; canonical artifact pending promotion | required |
+| Deterministic replay | `v19-deterministic-replay-report` | generated and checked | required |
+| Volatility scan | `v19-volatility-inventory` or equivalent report section | generated and checked | required |
+| Canonical promotion | one documented command/script with dry-run/check mode | executed successfully for V19 canonical promotion prep | required |
+| Matrix materialization | committed generated JSON artifacts for positive matrices and V19 reports | generated and ready for canonical commit | required |
+| Negative mutation matrix | `v19-negative-proof-mutation-matrix` | generated and checked | required |
+| Contract-change ledger | `v19-contract-change-ledger` | generated and checked | required |
 | Source projection security | inherited V17 browser proof plus no V19 projection-policy source change, or promoted source matrix if policy changes | inherited browser proof present | accepted boundary |
 | UX quality | no V19 quality gate; preserve as V20+ work | absent | accepted boundary |
 
@@ -265,3 +269,5 @@ The V19 pass is complete when:
 8. V19 `_PROVEN_` rendering summarizes replay, volatility, mutation, materialization, and ledger proof from executable data,
 9. full verification is green,
 10. and `ENGI_SPEC_V19_PROVEN.md` is generated as part of canonical V19 promotion prep.
+
+Completion recorded for this pass: `npm run promote:canon -- --version V19 --commit HEAD` resolved proof-source commit `221e718ea34c904e3d4413dfc470feab38fca673`, ran every required gate, generated and checked `ENGI_SPEC_V19_PROVEN.md`, generated all seven `.engi/v19-*` structured artifacts, and advanced `ENGI_SPEC.txt` to `V19`.

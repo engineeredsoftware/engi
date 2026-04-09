@@ -1,0 +1,210 @@
+{
+  "artifactComparisons": [
+    {
+      "artifactPath": ".engi/v19-contract-change-ledger.json",
+      "byteEqual": true,
+      "byteLength": 3290,
+      "firstDigest": "sha256:d5b38d719d91520489be025e3b57f642f87306564d21b7dcfcadc2a08d908afa",
+      "secondDigest": "sha256:d5b38d719d91520489be025e3b57f642f87306564d21b7dcfcadc2a08d908afa"
+    },
+    {
+      "artifactPath": ".engi/v19-negative-proof-mutation-matrix.json",
+      "byteEqual": true,
+      "byteLength": 8049,
+      "firstDigest": "sha256:be5b69cf4169b6d8dff43b7ff5e5120fda95dfce72e0ecdf927e5ac8d4189025",
+      "secondDigest": "sha256:be5b69cf4169b6d8dff43b7ff5e5120fda95dfce72e0ecdf927e5ac8d4189025"
+    },
+    {
+      "artifactPath": ".engi/v19-proof-member-semantic-matrix.json",
+      "byteEqual": true,
+      "byteLength": 1682034,
+      "firstDigest": "sha256:a47d0cf1dcde5cb60c76fb2a5c68976f33704df222cce27a75829c82bcf6056b",
+      "secondDigest": "sha256:a47d0cf1dcde5cb60c76fb2a5c68976f33704df222cce27a75829c82bcf6056b"
+    },
+    {
+      "artifactPath": ".engi/v19-state-machine-matrix.json",
+      "byteEqual": true,
+      "byteLength": 154149,
+      "firstDigest": "sha256:80509940bdce15f31d7b8a7cb5148093213e5fe483d5ab6abbfb9ee56d0df722",
+      "secondDigest": "sha256:80509940bdce15f31d7b8a7cb5148093213e5fe483d5ab6abbfb9ee56d0df722"
+    },
+    {
+      "artifactPath": ".engi/v19-theorem-evidence-matrix.json",
+      "byteEqual": true,
+      "byteLength": 2246792,
+      "firstDigest": "sha256:715dec2e01857d30474ba0af8abc611f24d3cc3225079c75e34d914c93924d33",
+      "secondDigest": "sha256:715dec2e01857d30474ba0af8abc611f24d3cc3225079c75e34d914c93924d33"
+    },
+    {
+      "artifactPath": ".engi/v19-volatility-inventory.json",
+      "byteEqual": true,
+      "byteLength": 6197,
+      "firstDigest": "sha256:93375ec01c7275f2f161b3b0f06016e96e69272a32b0f7f8a01fcda1edc991de",
+      "secondDigest": "sha256:93375ec01c7275f2f161b3b0f06016e96e69272a32b0f7f8a01fcda1edc991de"
+    },
+    {
+      "artifactPath": "ENGI_SPEC_V19_PROVEN.md",
+      "byteEqual": true,
+      "byteLength": 288041,
+      "firstDigest": "sha256:448be61ccb691a95fd86bb45f7ed7efeec472bb4904e30980bd380ea7f71101f",
+      "secondDigest": "sha256:448be61ccb691a95fd86bb45f7ed7efeec472bb4904e30980bd380ea7f71101f"
+    }
+  ],
+  "failureReason": "",
+  "generatedAt": "2026-04-09T18:54:45-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "passed": true,
+  "proofSourceCommit": "221e718ea34c904e3d4413dfc470feab38fca673",
+  "reportId": "v19-deterministic-replay-report",
+  "runCount": 2,
+  "version": "V19",
+  "volatileFieldFindings": [
+    {
+      "artifactPath": "_proven-data",
+      "classification": "context-bound",
+      "fieldPath": "canonicalCommitRecordedAt",
+      "reason": "canonical commit timestamp is fixed by proof-source commit",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": ".engi/v19-proof-member-semantic-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": ".engi/v19-theorem-evidence-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": ".engi/v19-state-machine-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by replay context",
+      "value": "2026-04-09T18:54:45-03:00"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-issuer-rollback.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-issuer-rollback.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.rust-validator-proof-gap.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.rust-validator-proof-gap.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.config-policy-precedence-incident.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.config-policy-precedence-incident.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.unsafe-patch-review-recovery.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.unsafe-patch-review-recovery.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.infra-deployment-mismatch.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.infra-deployment-mismatch.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.privacy-boundary-proof-export.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.privacy-boundary-proof-export.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.polyglot-gateway-benchmark-remediation.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.polyglot-gateway-benchmark-remediation.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-many-asset-normalization.patch.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    },
+    {
+      "artifactPath": "_proven-data",
+      "classification": "canonical-stable",
+      "fieldPath": "runDetails.auth-many-asset-normalization.context.artifactDigestEntries",
+      "reason": "artifact digest inventory is deterministic by path order",
+      "value": "sorted"
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "acceptedExclusions": [],
+  "cellCount": 10,
+  "cells": [
+    {
+      "actualErrorClass": "missing-digest",
+      "artifactPath": ".engi/inference-moment-contracts.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "missing-digest",
+      "failureReason": "missing digest for .engi/inference-moment-contracts.json",
+      "memberId": "task",
+      "mutationClass": "missing-digest",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "catalog-drift",
+      "artifactPath": ".engi/inference-synthesis-proof.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "catalog-drift",
+      "failureReason": "proof-family catalog accepted a drifted member id",
+      "memberId": "task",
+      "mutationClass": "proof-family-catalog-drift",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "corrupted-replay-step",
+      "artifactPath": ".engi/inference-synthesis-proof.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "corrupted-replay-step",
+      "failureReason": "replay step inference-synthesis.coverage-reconciliation-drifted is not declared",
+      "memberId": "task",
+      "mutationClass": "corrupted-replay-step",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "missing-theorem-verdict",
+      "artifactPath": ".engi/inference-synthesis-proof.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "missing-theorem-verdict",
+      "failureReason": "missing theorem verdict inference_synthesis.coverage_totality",
+      "memberId": "task",
+      "mutationClass": "dropped-theorem-verdict",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "member-predicate-failed",
+      "artifactPath": ".engi/inference-synthesis-proof.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "member-predicate-failed",
+      "failureReason": "member task failed its semantic predicate",
+      "memberId": "task",
+      "mutationClass": "mutated-member-payload",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "projection-policy-mismatch",
+      "artifactPath": ".engi/accounting-precision-report.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "projection-policy-mismatch",
+      "failureReason": "projection policy mismatch for .engi/accounting-precision-report.json",
+      "memberId": "task",
+      "mutationClass": "changed-projection-policy",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "missing-witness-path",
+      "artifactPath": ".engi/inference-moment-contracts.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "missing-witness-path",
+      "failureReason": "missing witness path .engi/inference-moment-contracts.json",
+      "memberId": "task",
+      "mutationClass": "missing-witness-path",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "changed-matrix-axis",
+      "artifactPath": ".engi/v19-proof-member-semantic-matrix.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "changed-matrix-axis",
+      "failureReason": "unexpected branch mode drifted-branch-mode",
+      "memberId": "task",
+      "mutationClass": "changed-matrix-axis",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "unsorted-artifact-inventory",
+      "artifactPath": "_proven-data",
+      "branchMode": "patch",
+      "expectedErrorClass": "unsorted-artifact-inventory",
+      "failureReason": "artifact digest entries are not path-sorted",
+      "memberId": "task",
+      "mutationClass": "unsorted-artifact-inventory",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    },
+    {
+      "actualErrorClass": "volatile-timestamp",
+      "artifactPath": ".engi/v19-volatility-inventory.json",
+      "branchMode": "patch",
+      "expectedErrorClass": "volatile-timestamp",
+      "failureReason": "volatile timestamp fixture was rejected by volatility inventory",
+      "memberId": "task",
+      "mutationClass": "volatile-timestamp",
+      "passed": true,
+      "proofFamily": "inference-synthesis",
+      "rejectedAsExpected": true,
+      "scenarioId": "auth-issuer-rollback",
+      "theoremId": "inference_synthesis.coverage_totality"
+    }
+  ],
+  "coverageMode": "representative-first-gate",
+  "generatedAt": "2026-04-09T18:54:45-03:00",
+  "matrixId": "v19-negative-proof-mutation-matrix",
+  "mutationClassCount": 10,
+  "mutationClasses": [
+    "missing-digest",
+    "proof-family-catalog-drift",
+    "corrupted-replay-step",
+    "dropped-theorem-verdict",
+    "mutated-member-payload",
+    "changed-projection-policy",
+    "missing-witness-path",
+    "changed-matrix-axis",
+    "unsorted-artifact-inventory",
+    "volatile-timestamp"
+  ],
+  "omittedCrossProducts": [
+    {
+      "omittedPermutation": "every mutation class across every proof family member",
+      "reason": "representative fail-closed class coverage is the V19 target",
+      "reopenCondition": "a member-payload mutation passes unexpectedly or failure classification varies by member class"
+    },
+    {
+      "omittedPermutation": "every mutation class across every theorem id",
+      "reason": "V18 theorem evidence matrix already proves positive theorem coverage",
+      "reopenCondition": "a theorem mutation passes unexpectedly or replay-step validation varies by theorem group"
+    },
+    {
+      "omittedPermutation": "every mutation class across every artifact path",
+      "reason": "digest, path, and inventory classes are sampled by required artifact category",
+      "reopenCondition": "missing-path, missing-digest, or artifact-inventory mutation has path-specific behavior"
+    },
+    {
+      "omittedPermutation": "every mutation class across every scenario and branch mode",
+      "reason": "required only where mutation target varies by run",
+      "reopenCondition": "a mutation result differs by scenario or branch mode"
+    },
+    {
+      "omittedPermutation": "projection mutation across every principal",
+      "reason": "full projection behavior is inherited from V17 browser proof",
+      "reopenCondition": "projection policy source changes or visibility changes"
+    },
+    {
+      "omittedPermutation": "mutation under every materialization mode",
+      "reason": "V19 accepts committed generated artifacts as the only canonical mode",
+      "reopenCondition": "a side-artifact or preview-only materialization mode is introduced"
+    }
+  ],
+  "rejectedCellCount": 10,
+  "sourceRunCount": 16,
+  "unexpectedErrorCells": [],
+  "unexpectedPassCells": [],
+  "version": "V19"
+}
