@@ -2,14 +2,14 @@
 
 ## Status
 
-- Scope: V18 accepted pre-implementation spec for generated/formal proof exhaustiveness after V17 demo-canon closure
+- Scope: V18 accepted source implementation spec for generated/formal proof exhaustiveness after V17 demo-canon closure
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_NOTES.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_PROVEN.md`
 - Current canonical/latest target: `V17`
-- Last fully realized canon preserved in source: `V17`
-- V18 state: pre-implementation specification complete; source-side implementation not yet begun for this version
+- Last fully realized canonical target preserved in source: `V17`
+- V18 state: source-side generated matrix implementation complete in draft; canonical promotion and `ENGI_SPEC_V18_PROVEN.md` regeneration remain pending
 - Current realization basis for this pass: `engi-demo`
 
 ## Version executive summary
@@ -74,7 +74,7 @@ Where a catalog is needed, it must be derived from:
 
 ## V18 accepted scope decisions
 
-V18 accepts the following decisions before implementation begins:
+V18 accepts the following implementation decisions:
 
 1. V18 is a generated/formal exhaustiveness pass, not a new proof-family design pass.
 2. New proof families are out of scope unless generated matrices expose a concrete missing proof category.
@@ -229,10 +229,9 @@ It must cover workflow transitions that V17 proved only through representative c
 - repeated run after previous run,
 - reset after run,
 - mixed repo-backed/raw deposit before branch creation,
-- invalid-to-valid recovery,
-- no-survivor conflict and recovery,
-- projection change after run,
-- and branch-mode change before run.
+- and no-survivor conflict with state preservation across branch mode and projection principal.
+
+Invalid-to-valid recovery, projection switching after run, and branch-mode switching remain accepted V17 browser/integration coverage unless a future change reopens them as generated source matrices.
 
 V18 must keep these as source/integration checks unless a state-machine path exposes UI-specific behavior.
 The browser suite must remain focused on the V17 operator matrix and new UI regressions.

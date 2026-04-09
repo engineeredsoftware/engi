@@ -466,7 +466,7 @@ testAny('GET /api/state supports reviewer and internal projection differences', 
     assert.equal(reviewer.statusCode, 200);
     assert.equal(internal.statusCode, 200);
     assert.equal(reviewer.json.latestRun.projectionPrincipal, 'reviewer');
-    assert.equal(internal.json.latestRun.projectionPrincipal, undefined);
+    assert.equal(internal.json.latestRun.projectionPrincipal, 'internal');
     assert.ok(reviewer.json.latestRun.proofWitnessManifest.proofFamilies.length === 9);
     assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
     assert.equal(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);

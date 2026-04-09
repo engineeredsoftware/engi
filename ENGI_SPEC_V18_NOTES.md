@@ -2,13 +2,13 @@
 
 ## Status
 
-- Scope: accepted pre-implementation generated/formal exhaustiveness and robustness pass after V17 demo-canon closure
+- Scope: accepted generated/formal exhaustiveness and robustness source pass after V17 demo-canon closure
 - Draft spec: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18.md`
 - Draft parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_PROVEN.md`
 - Current canonical/latest target: `V17`
-- V18 state: pre-implementation specification complete; no V18 source implementation yet
+- V18 state: source implementation complete for generated proof-member, theorem-evidence, and state-machine matrices; canonical promotion and `ENGI_SPEC_V18_PROVEN.md` regeneration remain pending
 
 ## Why V18 starts from generated matrices
 
@@ -139,7 +139,7 @@ The accepted source-side path is:
 8. Extend `renderCanonicalProvenMarkdown(...)` for V18 matrix summaries.
 9. Generate `ENGI_SPEC_V18_PROVEN.md` only at canonical promotion.
 
-## Final pre-implementation answers
+## Final source implementation answers
 
 Generated matrix artifacts must be runtime-visible or generated as stable JSON, not trapped in test stdout.
 The accepted artifact names are:
@@ -156,11 +156,15 @@ V17's browser matrix already proves exact operator-visible projection inventorie
 Visual regression, accessibility, and performance budgets are not first-gate blockers.
 They can be picked up after generated proof exhaustiveness is implemented and green.
 
-## Pre-implementation finish line
+## Source implementation finish line
 
-The specification-side V18 pre-implementation work is complete when:
-- the main spec names V18's accepted scope,
-- the notes record the accepted decisions and final answers,
-- the parity matrix lists concrete source gaps and implementation phases,
-- no V18 document implies canonical promotion before source implementation,
-- and `ENGI_SPEC.txt` remains on `V17`.
+The source-side V18 implementation work is complete when:
+- the main spec names V18's accepted source scope,
+- the notes record accepted decisions and implementation results,
+- the parity matrix records generated matrix closure rather than open source gaps,
+- `test:proof-member-matrix` executes `720` passing cells,
+- `test:theorem-evidence-matrix` executes `912` passing cells,
+- `test:state-machine` executes `200` passing cells,
+- full `npm test` remains green,
+- no V18 document implies canonical promotion before `_PROVEN_` regeneration,
+- and `ENGI_SPEC.txt` remains on `V17` until the canonical V18 commit.

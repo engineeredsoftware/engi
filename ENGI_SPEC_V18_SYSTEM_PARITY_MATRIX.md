@@ -2,20 +2,20 @@
 
 ## Status
 
-- Scope: V18 accepted pre-implementation generated/formal proof-exhaustiveness parity ledger
+- Scope: V18 accepted generated/formal proof-exhaustiveness source parity ledger
 - Draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_NOTES.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17.md`
 - Prior parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_SYSTEM_PARITY_MATRIX.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_PROVEN.md`
 - Current canonical/latest target: `V17`
-- Last fully realized canon preserved in source: `V17`
-- V18 state: pre-implementation specification complete; source-side matrix generators not yet implemented
+- Last fully realized canonical target preserved in source: `V17`
+- V18 state: source-side matrix generators and tests implemented in draft; canonical promotion and `ENGI_SPEC_V18_PROVEN.md` regeneration remain pending
 - Primary implementation surface to audit for this pass: `engi-demo`
 
 ## Purpose
 
-This file records the initial V18 parity ledger.
+This file records the V18 parity ledger and the source implementation closure state.
 
 V17 closed operator-facing demonstration parity.
 V18 starts from the remaining generated/formal proof exhaustiveness debt.
@@ -59,20 +59,20 @@ This matrix is grounded in:
 |---|---|---|---|---|
 | Root canon posture | `ENGI_SPEC.txt` points to `V17`; V17 canonical commit and V17 `_PROVEN_` are present | V18 must remain draft until matrix implementation and V18 `_PROVEN_` regeneration are complete | V18 docs state V17 as current canon and do not advance the pointer prematurely | closed for draft posture |
 | V17 proof appendix input | `ENGI_SPEC_V17_PROVEN.md` records 16 runs, 9 families, 45 members, 57 theorems, and 688 artifact digests | V18 must use this as the arithmetic and audit seed for generated matrix work | V18 spec/notes/matrix cite those counts and derive required matrix sizes from them | closed for draft posture |
-| Proven generator structural checks | `buildCanonicalProvenData(...)` validates family catalog stability, member/theorem presence, replay catalog agreement, witness paths, required artifacts, metadata, and digest presence | V18 must extend beyond structural checks into generated semantic/evidence matrices | New matrix builders consume the normalized proven data rather than re-parsing branch artifacts independently | source gap |
-| Hand-maintained proof catalog expectations | `workflow.integration.test.js` contains an explicit proof-family/member/theorem expectation table | V18 must replace or subordinate this with generated/imported catalog truth to reduce drift | Tests import generated catalog data or assert against normalized proven data instead of a separate manually maintained table | source gap |
-| Proof-member semantic matrix | V17 checks member identity and high-risk member semantics through targeted tests; `_PROVEN_` summarizes member field shapes and pass counts | V18 must generate and execute `45 x 8 x 2 = 720` member semantic cells | A generated matrix reports every member cell with predicate id, evidence paths, pass/fail, and failure reason | required V18 work |
-| Theorem evidence matrix | V17 checks theorem identity, passed verdicts, replay-step ids, and required artifact availability; `_PROVEN_` summarizes theorem pass counts | V18 must generate and execute `57 x 8 x 2 = 912` theorem evidence cells | A generated matrix reports every theorem cell with replay step ids, required artifact paths, evidence digest refs, pass/fail, and failure reason | required V18 work |
-| Repeated-run state matrix | V17 covers one representative repeated-run ordered pair in browser/integration | V18 must generate all `8 x 8 = 64` ordered scenario pair checks | Matrix confirms latest-run truth, run-history order, and proof/artifact coherence for every ordered pair | source gap |
-| Reset state matrix | V17 covers one representative reset-after-run path | V18 must generate all `8` reset-after-run scenario checks | Matrix confirms reset returns to seeded branchable state after every scenario | source gap |
-| Mixed-deposit state matrix | V17 covers one representative mixed repo-backed/raw deposit workflow | V18 must generate all `8 x 2 x 4 = 64` mixed-deposit cells | Matrix confirms mixed deposits compose across scenario, branch mode, and projection principal without projection drift | source gap |
-| No-survivor state matrix | V17 covers representative no-survivor API/browser/integration paths and `409` conflict classification | V18 must generate all `8 x 2 x 4 = 64` no-survivor cells | Matrix confirms conflict classification, state preservation, and reset recovery across the full cross-product | source gap |
+| Proven generator structural checks | `buildCanonicalProvenData(...)` validates family catalog stability, member/theorem presence, replay catalog agreement, witness paths, required artifacts, metadata, and digest presence | V18 must extend beyond structural checks into generated semantic/evidence matrices | `buildV18Matrices(...)` consumes normalized proven data and adds proof-member/theorem/state summaries for V18 `_PROVEN_` rendering | closed |
+| Hand-maintained proof catalog expectations | `workflow.integration.test.js` formerly contained a literal proof-family/member/theorem expectation table | V18 must replace or subordinate this with generated/imported catalog truth to reduce drift | Workflow integration derives expected proof-family catalog from `collectCanonicalProvenRuns(...)` and `buildCanonicalProvenData(...)` | closed |
+| Proof-member semantic matrix | V17 checks member identity and high-risk member semantics through targeted tests; `_PROVEN_` summarizes member field shapes and pass counts | V18 must generate and execute `45 x 8 x 2 = 720` member semantic cells | `test:proof-member-matrix` reports `720 / 720` passing cells with no accepted exclusions | closed |
+| Theorem evidence matrix | V17 checks theorem identity, passed verdicts, replay-step ids, and required artifact availability; `_PROVEN_` summarizes theorem pass counts | V18 must generate and execute `57 x 8 x 2 = 912` theorem evidence cells | `test:theorem-evidence-matrix` reports `912 / 912` passing cells with no accepted exclusions | closed |
+| Repeated-run state matrix | V17 covers one representative repeated-run ordered pair in browser/integration | V18 must generate all `8 x 8 = 64` ordered scenario pair checks | `test:state-machine` reports all repeated-run ordered pairs passing | closed |
+| Reset state matrix | V17 covers one representative reset-after-run path | V18 must generate all `8` reset-after-run scenario checks | `test:state-machine` reports all reset-after-run cells passing | closed |
+| Mixed-deposit state matrix | V17 covers one representative mixed repo-backed/raw deposit workflow | V18 must generate all `8 x 2 x 4 = 64` mixed-deposit cells | `test:state-machine` reports all mixed-deposit cells passing across scenario, branch mode, and projection principal | closed |
+| No-survivor state matrix | V17 covers representative no-survivor API/browser/integration paths and `409` conflict classification | V18 must generate all `8 x 2 x 4 = 64` no-survivor cells | `test:state-machine` reports all no-survivor cells passing with conflict classification and state preservation | closed |
 | Projection duplication | V17 browser matrix already checks exact visible artifact inventories for all scenario/branch/principal cells | V18 does not duplicate non-public projection artifact inventories in the first gate unless projection policy generation changes or stricter non-browser proof is promoted | Decision remains recorded as an accepted boundary or a generated matrix is added after reopen | accepted boundary |
 | Browser matrix | V17 E2E covers all `8 x 2 x 4 = 64` operator cells | V18 must keep browser coverage stable and avoid expanding it into proof-member/theorem cross-products | Browser tests remain green; new generated matrices live below the browser unless UI-specific gaps appear | accepted boundary |
-| Matrix artifact emission | Current branch artifacts do not include V18 matrix summaries | V18 must emit or otherwise generate structured matrix JSON consumable by `_PROVEN_` | `.engi/v18-proof-member-semantic-matrix.json`, `.engi/v18-theorem-evidence-matrix.json`, and `.engi/v18-state-machine-matrix.json` or equivalent generated outputs exist | source gap |
-| Runtime coverage report | V17 `testCoverageReport` names unit/integration/e2e and major V17 validations | V18 must add generated matrix coverage honestly without inflating browser claims | Runtime report names generated proof-member, theorem-evidence, and state-machine matrices with cell counts | source gap |
-| `_PROVEN_` rendering | V17 `_PROVEN_` renders aggregate verdict, proof-family inventory, member summaries, theorem summaries, replay steps, run matrix, and run details | V18 `_PROVEN_` must add generated matrix summaries and accepted exclusions | Renderer includes V18 matrix totals, failed-cell tables, predicate ids, and evidence summary sections | source gap |
-| Verification commands | V17 canonical verification used typecheck, full tests, generator write, generator check, and diff hygiene | V18 must preserve that stack and add targeted matrix scripts when implemented | V18 canonical commit body can list typecheck, layered tests, matrix tests, full tests, V18 generator write/check, and `git diff --check` | pending |
+| Matrix artifact emission | Branch artifacts remain per-run; V18 matrices are generated from canonical proven data plus state-machine fixtures | V18 must emit or otherwise generate structured matrix JSON consumable by `_PROVEN_` | `buildV18Matrices(...)` returns JSON-compatible generated outputs for proof-member, theorem-evidence, and state-machine matrices; canonical files remain promotion-time outputs if written | closed |
+| Runtime coverage report | V17 `testCoverageReport` names unit/integration/e2e and major V17 validations | V18 must add generated matrix coverage honestly without inflating browser claims | Runtime report names generated proof-member, theorem-evidence, and state-machine matrices with cell counts totaling `1832` | closed |
+| `_PROVEN_` rendering | V17 `_PROVEN_` renders aggregate verdict, proof-family inventory, member summaries, theorem summaries, replay steps, run matrix, and run details | V18 `_PROVEN_` must add generated matrix summaries and accepted exclusions | Renderer includes V18 matrix totals, failed-cell tables, state-machine group counts, and aggregate matrix proof status | closed for generator; canonical file pending promotion |
+| Verification commands | V17 canonical verification used typecheck, full tests, generator write, generator check, and diff hygiene | V18 must preserve that stack and add targeted matrix scripts when implemented | Typecheck, targeted matrix tests, workflow integration, and full `npm test` pass; V18 generator write/check remains canonical-promotion-only | closed for source implementation |
 
 ---
 

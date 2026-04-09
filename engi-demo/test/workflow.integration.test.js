@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { createAppContext } from '../server.js';
+import { buildCanonicalProvenData, collectCanonicalProvenRuns } from '../src/canonical/proven-generator.js';
 
 /**
  * @typedef {{ app: any, dataPath: string }} AppHarness
@@ -14,119 +15,20 @@ import { createAppContext } from '../server.js';
 const testAny = test;
 const createAppContextAny = /** @type {any} */ (createAppContext);
 
-const EXPECTED_PROOF_FAMILY_CATALOG = {
-  'inference-synthesis': {
-    proofArtifactPath: '.engi/inference-synthesis-proof.json',
-    memberIds: ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'],
-    theoremIds: [
-      'inference_synthesis.coverage_totality',
-      'inference_synthesis.evaluator_status_truth',
-      'inference_synthesis.evidence_basis_closure',
-      'inference_synthesis.ownership_traceability_closure',
-      'inference_synthesis.witness_materialization_closure',
-      'inference_synthesis.replay_closure'
-    ]
-  },
-  'prompt-completeness': {
-    proofArtifactPath: '.engi/prompt-completeness-proof.json',
-    memberIds: ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'],
-    theoremIds: [
-      'prompt_completeness.coverage_totality',
-      'prompt_completeness.no_ghost_coverage',
-      'prompt_completeness.explicit_exclusion_closure',
-      'prompt_completeness.contract_closure',
-      'prompt_completeness.parsed_envelope_admissibility',
-      'prompt_completeness.downstream_consumer_closure',
-      'prompt_completeness.provenance_truth',
-      'prompt_completeness.witness_replay_closure'
-    ]
-  },
-  'static-code-analysis': {
-    proofArtifactPath: '.engi/static-measurement-proof.json',
-    memberIds: ['deterministic-parser', 'repo-context', 'content-unit', 'measurement-stages'],
-    theoremIds: [
-      'static_code_analysis.stage_domain_purity',
-      'static_code_analysis.abstract_to_concrete_stage_mapping',
-      'static_code_analysis.registry_role_closure',
-      'static_code_analysis.receipt_report_proof_agreement',
-      'static_code_analysis.witness_replay_closure'
-    ]
-  },
-  'verification-decisions': {
-    proofArtifactPath: '.engi/verification-decisions-proof.json',
-    memberIds: ['issuance', 'provenance', 'sufficiency', 'issuer-policy', 'use-tier-consequence'],
-    theoremIds: [
-      'verification_decisions.issuance_closure',
-      'verification_decisions.provenance_closure',
-      'verification_decisions.sufficiency_closure',
-      'verification_decisions.issuer_policy_closure',
-      'verification_decisions.use_tier_consequence_closure',
-      'verification_decisions.receipt_report_role_closure',
-      'verification_decisions.witness_replay_closure'
-    ]
-  },
-  'selection-and-materialization': {
-    proofArtifactPath: '.engi/selection-and-materialization-proof.json',
-    memberIds: ['selected-assets', 'locked-units', 'materialized-source', 'exclusions', 'visibility-rules'],
-    theoremIds: [
-      'selection_and_materialization.selected_asset_closure',
-      'selection_and_materialization.lock_closure',
-      'selection_and_materialization.materialized_source_closure',
-      'selection_and_materialization.exclusion_closure',
-      'selection_and_materialization.visibility_closure',
-      'selection_and_materialization.selection_consistency_closure',
-      'selection_and_materialization.materialization_proof_closure'
-    ]
-  },
-  'authorization-and-sensitive-flow': {
-    proofArtifactPath: '.engi/authorization-and-sensitive-flow-proof.json',
-    memberIds: ['principals', 'authorization-decisions', 'confidentiality-classes', 'retention-disclosure-rules', 'sensitive-data-flows'],
-    theoremIds: [
-      'authorization_and_sensitive_flow.principal_authority_totality',
-      'authorization_and_sensitive_flow.authorization_decision_closure',
-      'authorization_and_sensitive_flow.classification_closure',
-      'authorization_and_sensitive_flow.policy_assignment_closure',
-      'authorization_and_sensitive_flow.no_unauthorized_public_flow',
-      'authorization_and_sensitive_flow.witness_replay_closure'
-    ]
-  },
-  'settlement-source-to-shares': {
-    proofArtifactPath: '.engi/settlement-source-to-shares-proof.json',
-    memberIds: ['contribution', 'clipping', 'normalization', 'participation', 'allocation', 'journal', 'settlement-proof'],
-    theoremIds: [
-      'settlement_source_to_shares.contribution_totality',
-      'settlement_source_to_shares.clipping_determinism',
-      'settlement_source_to_shares.normalization_exactness',
-      'settlement_source_to_shares.participation_totality',
-      'settlement_source_to_shares.allocation_conservation',
-      'settlement_source_to_shares.journal_completeness',
-      'settlement_source_to_shares.settlement_theorem_integrity'
-    ]
-  },
-  'disclosure-boundary': {
-    proofArtifactPath: '.engi/disclosure-boundary-proof.json',
-    memberIds: ['projection-policy', 'bounded-public-proof', 'redaction-proof', 'disclosure-proof'],
-    theoremIds: [
-      'disclosure_boundary.projection_policy_closure',
-      'disclosure_boundary.bounded_public_metadata_only',
-      'disclosure_boundary.redaction_alignment',
-      'disclosure_boundary.disclosure_verdict_alignment',
-      'disclosure_boundary.witness_replay_closure'
-    ]
-  },
-  'proof-contract': {
-    proofArtifactPath: '.engi/proof-contract.json',
-    memberIds: ['proof-contract', 'evidence-chain', 'theorem-checks', 'system-proof-bundle', 'witness-manifest-closure'],
-    theoremIds: [
-      'proof_contract.contract_materialization',
-      'proof_contract.evidence_chain_closure',
-      'proof_contract.theorem_check_binding',
-      'proof_contract.bundle_coherence',
-      'proof_contract.witness_manifest_coherence',
-      'proof_contract.replay_closure'
-    ]
-  }
-};
+const EXPECTED_PROOF_FAMILY_CATALOG = Object.fromEntries(
+  buildCanonicalProvenData(collectCanonicalProvenRuns(), {
+    version: 'V18',
+    canonicalCommit: 'workflow-integration-generated-catalog',
+    generatedAt: '2026-04-09T00:00:00.000Z'
+  }).familySummaries.map((/** @type {any} */ family) => [
+    family.proofFamily,
+    {
+      proofArtifactPath: family.proofArtifactPath,
+      memberIds: family.memberIds,
+      theoremIds: family.theoremIds
+    }
+  ])
+);
 
 /**
  * @param {any} [input={}]

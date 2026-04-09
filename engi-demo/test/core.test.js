@@ -797,7 +797,8 @@ test('projection principals preserve intended visibility boundaries for the late
   const buyer = buildProjectedLatestRunTest(nextState.latestRun, 'buyer');
   const projectedPublic = buildProjectedLatestRunTest(nextState.latestRun, 'public');
 
-  assert.equal(internal, nextState.latestRun);
+  assert.notEqual(internal, nextState.latestRun);
+  assert.equal(internal.projectionPrincipal, 'internal');
   assert.ok(internal.branchArtifacts.files['.engi/proof-contract.json']);
   assert.ok(Object.keys(internal.branchArtifacts.files).some((path) => path.startsWith('.engi/source-material/')));
 
