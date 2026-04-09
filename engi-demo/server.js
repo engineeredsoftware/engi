@@ -497,6 +497,9 @@ export function createAppContext({
       return sendJson(res, 404, { error: 'Not found.' });
     } catch (error) {
       const resolvedError = /** @type {StatusError} */ (error instanceof Error ? error : new Error('Unknown error.'));
+      if (!resolvedError.statusCode && /No candidates survived into the asset pack/i.test(resolvedError.message || '')) {
+        resolvedError.statusCode = 409;
+      }
       return sendJson(res, resolvedError.statusCode || 500, { error: resolvedError.message || 'Unknown error.' });
     }
   }

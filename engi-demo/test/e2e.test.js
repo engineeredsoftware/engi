@@ -318,6 +318,33 @@ testAny('browser flow surfaces deposit validation failures without mutating seed
   });
 });
 
+testAny('browser flow recovers from an invalid deposit into a valid raw deposit and branch run', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await waitForStatus(page, 'Raw content or repo artifact selection is required.');
+    assert.equal((await readSummary(page))['Candidate assets'], '11');
+
+    await page.fill('input[name="title"]', 'Recovered browser raw deposit');
+    await page.fill('input[name="author"]', 'V17 Browser');
+    await page.fill('textarea[name="content"]', 'Manual recovery evidence for a browser-visible invalid-to-valid deposit path.');
+    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await waitForStatus(page, 'Candidate asset deposited into the canonical V16 repo-authenticated flow.');
+
+    const depositedSummary = await readSummary(page);
+    assert.equal(depositedSummary['Candidate assets'], '12');
+    assert.ok(await page.locator('#assets').getByText('Recovered browser raw deposit').count() >= 1);
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-');
+
+    const runSummary = await readSummary(page);
+    assert.notEqual(runSummary['Latest bundle'], 'No run yet');
+    assert.ok(Number(runSummary['Selected assets in latest pack']) >= 1);
+  });
+});
+
 testAny('browser flow can reset back to the seeded state after a realized run', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
@@ -333,6 +360,33 @@ testAny('browser flow can reset back to the seeded state after a realized run', 
     assert.equal(resetSummary['Candidate assets'], '11');
     assert.equal(resetSummary['Selected deposit refs'], '0');
     assert.equal(resetSummary['Latest bundle'], 'No run yet');
+  });
+});
+
+testAny('browser flow surfaces no-survivor branch conflicts and recovers after reset', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
+    const state = app.readState();
+    app.writeState({ ...state, assets: [] });
+
+    await loadDemo(page, baseUrl);
+    const emptySummary = await readSummary(page);
+    assert.equal(emptySummary['Candidate assets'], '0');
+    assert.equal(emptySummary['Latest bundle'], 'No run yet');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'No candidates survived into the asset pack');
+    assert.equal((await readSummary(page))['Latest bundle'], 'No run yet');
+
+    await page.getByRole('button', { name: 'Reset demo' }).click();
+    await waitForStatus(page, 'Demo reset to the seeded canonical V16 scenario state.');
+    assert.equal((await readSummary(page))['Candidate assets'], '11');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-');
+
+    const recoveredSummary = await readSummary(page);
+    assert.notEqual(recoveredSummary['Latest bundle'], 'No run yet');
+    assert.ok(Number(recoveredSummary['Selected assets in latest pack']) >= 1);
   });
 });
 
@@ -367,6 +421,30 @@ testAny('browser flow surfaces projection visibility and proof-family catalog fo
     assert.ok(Number(publicSummary['Visible branch artifacts']) < Number(reviewerSummary['Visible branch artifacts']));
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Projection visibility summary') >= 1);
     assert.equal(await sectionSurfaceTitleCount(page, 'settlement', 'Proof family catalog'), 0);
+  });
+});
+
+testAny('browser flow can run a second scenario without reset and refresh latest operator truth', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_auth-issuer-rollback');
+
+    const firstSummary = await readSummary(page);
+    assert.equal(firstSummary['Active scenario'], 'monorepo-auth-rollback');
+    assert.notEqual(firstSummary['Latest bundle'], 'No run yet');
+
+    await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
+    await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
+
+    const secondSummary = await readSummary(page);
+    assert.equal(secondSummary['Active scenario'], 'privacy-boundary-stress');
+    assert.notEqual(secondSummary['Latest bundle'], 'No run yet');
+    assert.notEqual(secondSummary['Latest bundle'], firstSummary['Latest bundle']);
+    assert.ok(await page.locator('#settlement').getByText('private proof artifacts stay private').count() >= 1);
   });
 });
 

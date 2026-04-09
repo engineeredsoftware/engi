@@ -702,6 +702,159 @@ testAny('normalization settlement workflow keeps zero-credit participation, allo
   });
 });
 
+testAny('stateful workflow can run multiple branches without reset while preserving latest-run truth and history', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const firstRun = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'auth-issuer-rollback',
+        principal: 'buyer'
+      })
+    });
+
+    assert.equal(firstRun.statusCode, 200);
+    assert.equal(firstRun.json.runHistory.length, 1);
+    assert.equal(firstRun.json.runHistory[0].scenarioId, 'auth-issuer-rollback');
+
+    const secondRun = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'privacy-boundary-proof-export',
+        principal: 'reviewer'
+      })
+    });
+
+    assert.equal(secondRun.statusCode, 200);
+    assert.equal(secondRun.json.runHistory.length, 2);
+    assert.equal(secondRun.json.runHistory[0].scenarioId, 'auth-issuer-rollback');
+    assert.equal(secondRun.json.runHistory[1].scenarioId, 'privacy-boundary-proof-export');
+    assert.equal(secondRun.json.latestRun.scenarioId, 'privacy-boundary-proof-export');
+    assert.equal(secondRun.json.latestRun.branchArtifacts.branchName, secondRun.json.runHistory[1].branchName);
+    assert.notEqual(secondRun.json.runHistory[0].branchName, secondRun.json.runHistory[1].branchName);
+
+    const projected = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+    assert.equal(projected.statusCode, 200);
+    assert.equal(projected.json.runHistory.length, 2);
+    assert.equal(projected.json.latestRun.scenarioId, 'privacy-boundary-proof-export');
+    assert.equal(projected.json.latestRun.branchArtifacts.branchName, secondRun.json.runHistory[1].branchName);
+    assert.ok(projected.json.latestRun.systemProofBundle.proofFamilies.length === 9);
+  });
+});
+
+testAny('mixed repo-backed and raw deposits compose before branch creation without losing selection or proof surfaces', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const initialState = await invoke(app, { method: 'GET', url: '/api/state' });
+    const authSession = initialState.json.githubAppSessions.find((/** @type {any} */ session) => session.repo === 'frontier/demo-auth');
+    const inventoryEntry = initialState.json.repoArtifactInventory.find((/** @type {any} */ entry) => entry.repo === authSession.repo);
+
+    const repoBackedDeposit = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        authSessionId: authSession.authSessionId,
+        inventoryEntryIds: [inventoryEntry.inventoryEntryId],
+        artifactKind: 'patch',
+        artifactType: 'code/patch',
+        title: 'Mixed workflow repo-backed artifact',
+        author: 'V17 Integration',
+        operatorNote: 'Exercise repo-backed selection before a raw operator note.',
+        content: 'repo-backed remediation patch evidence'
+      })
+    });
+
+    const rawDeposit = await invoke(app, {
+      method: 'POST',
+      url: '/api/deposits',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        artifactKind: 'runbook',
+        artifactType: 'operator/note',
+        title: 'Mixed workflow raw operator note',
+        author: 'V17 Integration',
+        content: 'Manual reproduction note for mixed deposit branch composition.'
+      })
+    });
+
+    assert.equal(repoBackedDeposit.statusCode, 200);
+    assert.equal(rawDeposit.statusCode, 200);
+    assert.equal(repoBackedDeposit.json.asset.artifactSelectionSurface.authSessionId, authSession.authSessionId);
+    assert.deepEqual(repoBackedDeposit.json.asset.artifactSelectionSurface.selectedInventoryEntryIds, [inventoryEntry.inventoryEntryId]);
+
+    const beforeRun = await invoke(app, { method: 'GET', url: '/api/state?principal=buyer' });
+    assert.equal(beforeRun.statusCode, 200);
+    assert.equal(beforeRun.json.assets.length, 13);
+
+    const run = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'auth-issuer-rollback',
+        principal: 'buyer'
+      })
+    });
+
+    assert.equal(run.statusCode, 200);
+    assert.equal(run.json.latestRun.scenarioId, 'auth-issuer-rollback');
+    assert.equal(run.json.runHistory.length, 1);
+    assert.equal(run.json.latestRun.githubBoundarySurface.selectedAuthSessions.length >= 1, true);
+    assert.ok(run.json.latestRun.depositingSurface.selectedInventoryRefs.includes(inventoryEntry.inventoryEntryId));
+    assert.ok(run.json.latestRun.artifactUploadManifest.uploads.some((/** @type {any} */ upload) => upload.assetId === repoBackedDeposit.json.asset.assetId));
+    assert.ok(run.json.latestRun.evaluatedCandidates.some((/** @type {any} */ candidate) => candidate.assetId === rawDeposit.json.asset.assetId));
+    assert.equal(run.json.latestRun.systemProofBundle.proofFamilies.length, 9);
+  });
+});
+
+testAny('no-survivor workflow conflict preserves state and reset restores a branchable seeded workflow', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const state = app.readState();
+    app.writeState({ ...state, assets: [] });
+
+    const conflict = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'auth-issuer-rollback',
+        principal: 'buyer'
+      })
+    });
+
+    assert.equal(conflict.statusCode, 409);
+    assert.match(conflict.json.error, /No candidates survived into the asset pack/i);
+
+    const conflictedState = await invoke(app, { method: 'GET', url: '/api/state?principal=buyer' });
+    assert.equal(conflictedState.statusCode, 200);
+    assert.equal(conflictedState.json.assets.length, 0);
+    assert.equal(conflictedState.json.latestRun, null);
+    assert.equal(conflictedState.json.runHistory.length, 0);
+
+    const reset = await invoke(app, { method: 'POST', url: '/api/reset' });
+    assert.equal(reset.statusCode, 200);
+    assert.equal(reset.json.state.assets.length, 11);
+    assert.equal(reset.json.state.latestRun, null);
+
+    const recoveredRun = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'auth-issuer-rollback',
+        principal: 'buyer'
+      })
+    });
+
+    assert.equal(recoveredRun.statusCode, 200);
+    assert.equal(recoveredRun.json.runHistory.length, 1);
+    assert.equal(recoveredRun.json.latestRun.assetPack.selectedAssets.length >= 1, true);
+  });
+});
+
 testAny('seeded scenario corpus remains family/member/projection coherent through HTTP workflows', async (t) => {
   await withApp(t, async ({ app }) => {
     const initialState = await invoke(app, { method: 'GET', url: '/api/state' });
@@ -765,33 +918,61 @@ testAny('seeded scenario corpus remains family/member/projection coherent throug
           }
         }
 
+        const internalState = await invoke(app, { method: 'GET', url: '/api/state?principal=internal' });
         const reviewerState = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
         const buyerState = await invoke(app, { method: 'GET', url: '/api/state?principal=buyer' });
         const publicState = await invoke(app, { method: 'GET', url: '/api/state?principal=public' });
 
+        assert.equal(internalState.statusCode, 200, `${scenarioId}/${branchMode} internal state failed`);
         assert.equal(reviewerState.statusCode, 200, `${scenarioId}/${branchMode} reviewer state failed`);
         assert.equal(buyerState.statusCode, 200, `${scenarioId}/${branchMode} buyer state failed`);
         assert.equal(publicState.statusCode, 200, `${scenarioId}/${branchMode} public state failed`);
 
+        const internalBranchFiles = internalState.json.latestRun.branchArtifacts.files || {};
         const reviewerVisibleArtifacts = new Set(reviewerState.json.latestRun.branchArtifacts.visibleFileInventory || []);
+        const buyerVisibleArtifacts = new Set(buyerState.json.latestRun.branchArtifacts.visibleFileInventory || []);
+        const publicArtifacts = new Set(Object.keys(publicState.json.latestRun.publicArtifacts || {}));
+        const publicFiles = new Set(Object.keys(publicState.json.latestRun.branchArtifacts.publicFiles || {}));
+        const policyPublicArtifacts = new Set(publicState.json.latestRun.projectionPolicy.publicArtifactPaths || []);
+        const policyPrivateArtifacts = new Set(publicState.json.latestRun.projectionPolicy.privateArtifactPaths || []);
 
+        assert.equal(internalState.json.projectionPrincipal, 'internal');
         assert.equal(reviewerState.json.latestRun.projectionPrincipal, 'reviewer');
         assert.equal(buyerState.json.latestRun.projectionPrincipal, 'buyer');
         assert.equal(publicState.json.latestRun.projectionPrincipal, 'public');
+        assert.ok(Object.keys(internalBranchFiles).some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), `${scenarioId}/${branchMode} internal state lost source material`);
+        assert.ok(internalState.json.latestRun.authorizationDecisions.length >= 1, `${scenarioId}/${branchMode} internal state lost authorization decisions`);
+        assert.ok(internalState.json.latestRun.selectedSourceMaterialManifest.selectedSourceMaterial.length >= 1, `${scenarioId}/${branchMode} internal state lost selected source material`);
         assert.equal(reviewerState.json.latestRun.branchArtifacts.files, undefined);
         assert.equal(buyerState.json.latestRun.branchArtifacts.files, undefined);
         assert.equal(publicState.json.latestRun.branchArtifacts.files, undefined);
         assert.equal(reviewerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false, `${scenarioId}/${branchMode} reviewer leaked source material`);
         assert.equal(buyerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false, `${scenarioId}/${branchMode} buyer leaked source material`);
+        assert.ok(reviewerState.json.latestRun.systemProofBundle.proofFamilies.length === 9, `${scenarioId}/${branchMode} reviewer lost system proof bundle`);
+        assert.ok(reviewerState.json.latestRun.proofWitnessManifest.proofFamilies.length === 9, `${scenarioId}/${branchMode} reviewer lost proof witness manifest`);
+        assert.ok(buyerState.json.latestRun.authorizationDecisions.length >= 1, `${scenarioId}/${branchMode} buyer lost authorization decisions`);
+        assert.ok(buyerState.json.latestRun.promptFamilyRegistry.promptMembers.length >= 5, `${scenarioId}/${branchMode} buyer lost prompt family registry`);
+        assert.ok(Array.isArray(buyerState.json.latestRun.inferenceProofs) && buyerState.json.latestRun.inferenceProofs.length >= 5, `${scenarioId}/${branchMode} buyer lost inference proofs`);
+        assert.ok(buyerVisibleArtifacts.size >= policyPublicArtifacts.size, `${scenarioId}/${branchMode} buyer lost visible artifact inventory`);
         assert.equal(publicState.json.latestRun.systemProofBundle, undefined, `${scenarioId}/${branchMode} public leaked system proof bundle`);
         assert.equal(publicState.json.latestRun.proofWitnessManifest, undefined, `${scenarioId}/${branchMode} public leaked proof witness manifest`);
+        assert.equal(publicState.json.latestRun.authorizationDecisions, undefined, `${scenarioId}/${branchMode} public leaked authorization decisions`);
+        assert.equal(publicState.json.latestRun.inferenceProofs, undefined, `${scenarioId}/${branchMode} public leaked inference proofs`);
 
         for (const artifactPath of latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths || []) {
           assert.ok(reviewerVisibleArtifacts.has(artifactPath), `${scenarioId}/${branchMode} reviewer lost replay artifact ${artifactPath}`);
         }
 
-        assert.ok(buyerState.json.latestRun.promptFamilyRegistry.promptMembers.length >= 5, `${scenarioId}/${branchMode} buyer lost prompt family registry`);
-        assert.ok(Array.isArray(buyerState.json.latestRun.inferenceProofs) && buyerState.json.latestRun.inferenceProofs.length >= 5, `${scenarioId}/${branchMode} buyer lost inference proofs`);
+        for (const artifactPath of policyPublicArtifacts) {
+          assert.equal(publicArtifacts.has(artifactPath), true, `${scenarioId}/${branchMode} public projection omitted public artifact ${artifactPath}`);
+          assert.equal(publicFiles.has(artifactPath), true, `${scenarioId}/${branchMode} public files omitted public artifact ${artifactPath}`);
+        }
+
+        for (const artifactPath of policyPrivateArtifacts) {
+          assert.equal(publicArtifacts.has(artifactPath), false, `${scenarioId}/${branchMode} public projection leaked private artifact ${artifactPath}`);
+          assert.equal(publicFiles.has(artifactPath), false, `${scenarioId}/${branchMode} public files leaked private artifact ${artifactPath}`);
+        }
+
         assert.deepEqual(
           Object.keys(publicState.json.latestRun.publicArtifacts).sort(),
           publicState.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort(),

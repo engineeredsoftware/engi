@@ -8,7 +8,7 @@
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16.md`
 - Current canonical/latest target: `V16`
 - Last fully realized canon preserved in source: `V16`
-- V17 state: drafting; not yet the canonical pointer target
+- V17 state: advanced draft implementation/audit exhaustion; not yet the canonical pointer target
 - Current realization basis for this pass: `engi-demo`
 
 ## Version executive summary
@@ -201,9 +201,10 @@ For `engi-demo`, V17 should converge on:
 - dedicated integration workflow test entrypoints,
 - runtime test-coverage reporting that names the layered stack honestly,
 - a growing distinction between endpoint validation tests and multi-step workflow tests,
-- and an audit loop where V16 family/system parity claims can be checked through demonstrable workflows.
+- an audit loop where V16 family/system parity claims can be checked through demonstrable workflows,
+- and a clear `_PROVEN_` regeneration rule that keeps generated appendices out of draft edits and reserves them for canonical version-promotion commits.
 
-The current opening source state now includes:
+The current source state now includes:
 - explicit `test:unit`, `test:integration`, and `test:e2e` scripts,
 - runtime `testCoverageReport` taxonomy updated to `unit` / `integration` / `e2e`,
 - a dedicated `engi-demo/test/workflow.integration.test.js` suite,
@@ -220,8 +221,13 @@ The current opening source state now includes:
   - privacy-boundary disclosure versus proof-replay visibility,
   - restrictive unsafe-patch verification/materialization exclusion closure,
   - reviewer versus internal projection differences,
+  - all four projection principals across the full seeded HTTP scenario corpus,
   - full seeded scenario-corpus workflow closure across both `patch` and `context`,
   - exact proof-family catalog, member-id, and theorem-id closure across that seeded corpus,
+  - mixed repo-backed and raw deposit workflow composition before branch realization,
+  - repeated branch runs without reset while preserving latest-run truth and run-history order,
+  - no-survivor branch creation classified as a `409` workflow conflict,
+  - no-survivor state preservation and reset recovery back to a branchable seeded state,
   - prompt/inference workflow closure across prompt-owned fields, moment contracts, inference proofs, parsed envelopes, and declared downstream consumers,
   - static-vs-verification receipt-domain and proof-binding separation,
   - selection/materialization plus authorization/sensitive-flow private-source visibility closure,
@@ -235,10 +241,25 @@ The current opening source state now includes:
   - browser-visible internal versus reviewer source-material visibility boundaries,
   - browser-visible raw verification/materialization/proof inspection, including proof-family member ids and theorem ids,
   - browser-visible deposit validation failures,
+  - browser-visible invalid-to-valid deposit recovery,
+  - browser-visible no-survivor conflict recovery,
   - browser-visible reset after a realized run,
+  - browser-visible repeated scenario runs without reset,
   - and deeper unit replay-catalog closure over proof families, witness paths, and emitted branch artifacts.
 
 The current V17 audit also exposed and fixed a source-side documentation/runtime seam: `ENGI_NEED.md` was still returning an older markdown body before the V16 prompt-completeness additions. It now renders failure modes, constraints, target artifact kinds, and closure criteria from the same prompt/inference surfaces that prove those fields.
+
+## V17 `_PROVEN_` regeneration posture
+
+V17 should not generate or edit `ENGI_SPEC_V17_PROVEN.md` while it is still a draft audit pass.
+
+The V16-generated appendix remains the canonical model for proof appendix production:
+- `_PROVEN_` output is generated, not manually edited,
+- regeneration belongs to canonical version-promotion commits,
+- the regenerated file should be included in the canonical bump commit,
+- and V17 should run that generation only after implementation parity and proof/demo closure are accepted for canonical promotion.
+
+This pass therefore specifies the V17 `_PROVEN_` rule but intentionally does not create a draft generated appendix.
 
 Current verification state for this pass is:
 - `npm run typecheck`
@@ -247,7 +268,7 @@ Current verification state for this pass is:
 - `npm run test:e2e`
 - `npm test`
 
-All are green in the current worktree, with `104/104` tests passing in the full suite after the latest audit ratchets.
+All are green in the current worktree, with `111/111` tests passing in the full suite after the latest audit ratchets.
 
 ## V17 opening success condition
 

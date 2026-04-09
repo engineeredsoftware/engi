@@ -110,22 +110,24 @@ V17 starts from:
 
 ## Initial V17 debts in view
 
-The current opening debts are:
+The current debts after this pass are:
 
-1. The V16 audit guide is now materially reused, but not yet exhausted scenario-family by scenario-family.
-2. Integration workflows are first-class now, but `api.test.js` still carries some workflow-adjacent checks.
-3. Runtime-emitted coverage metadata is now honest, but the demo/test stack still needs more family/member-specific demonstrations.
-4. E2E flows are materially broader now, but they still do not cover every high-risk operator workflow or failure mode.
-5. Projection differences are now exercised all the way into the browser shell, but not every proof/artifact surface has been demonstrated across every principal.
-6. Demo-driven bug discovery is now strong enough to surface real seams, and the next V17 passes should keep pushing on those seams rather than reverting to abstract review.
+1. V16 audit inheritance is materially executable, but not yet generated as every possible family/member/scenario/principal/operator cross-product assertion.
+2. Integration workflows are first-class now, but `api.test.js` still carries limited workflow smoke checks that can migrate if a pure endpoint-boundary suite becomes required.
+3. Runtime-emitted coverage metadata is honest again after the latest ratchets, but it must continue changing whenever the suite taxonomy changes.
+4. E2E flows cover the highest-risk happy, projection, proof-inspection, failure, recovery, and repeated-run paths, but not every seeded scenario and proof/artifact surface.
+5. Projection differences are exercised across the full seeded HTTP corpus and representative browser surfaces, but not every proof/artifact UI surface has been demonstrated across every principal.
+6. V17 `_PROVEN_` generation remains deferred until canonical promotion; draft edits should only specify and test the generation rule.
 
-## Immediate V17 target
+## Initial V17 target
 
-The first clean V17 move is:
+The first clean V17 move was:
 - formalize the layered test stack in spec/notes/parity docs,
 - explicitly inherit V16 spec/parity as the first V17 audit guide,
 - reflect that taxonomy in source-side test scripts and runtime coverage reporting,
-- and add at least one explicit closer-to-real workflow integration path so the integration layer is not only a naming change.
+- and add explicit closer-to-real workflow integration paths so the integration layer is not only a naming change.
+
+That target is now satisfied for the opening V17 posture. The remaining question is whether V17 acceptance requires cross-product generation beyond the current high-risk exhaustive surfaces.
 
 ## Current implemented V17 state
 
@@ -148,7 +150,9 @@ The repo now has:
 - and corrected static/demo serving for favicon and SVG typing,
 - and first V16-guided audit ratchets around:
   - full seeded scenario-matrix closure across both `patch` and `context` branch modes,
+  - all four projection principals across that seeded HTTP scenario corpus,
   - repo-authenticated workflow composition,
+  - mixed repo-backed and raw deposit workflow composition,
   - normalization/projection workflow composition,
   - privacy-boundary public disclosure boundedness,
   - reviewer-visible proof replay surfaces,
@@ -158,6 +162,9 @@ The repo now has:
   - selection/materialization visibility and authorization/sensitive-flow closure,
   - normalization settlement zero-credit participation and accounting exactness,
   - restrictive unsafe-patch verification/materialization exclusion behavior,
+  - repeated branch runs without reset while preserving latest-run truth and run history,
+  - no-survivor workflow conflicts classified as `409`,
+  - no-survivor state preservation and reset recovery,
   - browser-visible identity/auth plus proof/disclosure panels,
   - browser-visible projection visibility and proof-family catalog inspection,
   - browser-visible prompt/inference audit artifact inspection,
@@ -167,7 +174,10 @@ The repo now has:
   - reviewer versus internal projection differences,
   - API-side client-error handling for unsupported principals / branch modes / scenarios,
   - browser-visible invalid-deposit handling,
+  - browser-visible invalid-to-valid deposit recovery,
+  - browser-visible no-survivor conflict recovery,
   - browser-visible reset-after-run behavior,
+  - browser-visible repeated scenario runs without reset,
   - and unit replay-catalog closure across proof families, witness artifacts, and verifier-required artifact paths.
 
 This is the right shape for the beginning of V17 because it is already doing what the version is supposed to do:
@@ -182,6 +192,8 @@ The current verification state is also materially stronger than the opening pass
 - `npm run test:unit` is green,
 - `npm run test:integration` is green,
 - `npm run test:e2e` is green,
-- and `npm test` is green at `104/104`.
+- and `npm test` is green at `111/111`.
 
-That does not mean V17 is finished. It means the version has moved from “opening posture established” to “advanced, demonstrable, and now ready to keep exhausting the remaining V16 audit surface through more workflow-driven ratchets.”
+V17 `_PROVEN_` generation is intentionally not performed in this draft state. The V16 generated appendix remains the model, and V17 should regenerate `ENGI_SPEC_V17_PROVEN.md` only on the eventual canonical version-promotion commit after implementation/parity closure is accepted.
+
+That does not mean V17 is finished. It means the version has moved from “opening posture established” to “advanced, demonstrable, and now ready to decide whether the remaining work is cross-product exhaustiveness, browser-level proof-surface completeness, or canonical promotion preparation.”

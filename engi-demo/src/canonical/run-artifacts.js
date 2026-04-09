@@ -1153,7 +1153,9 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
         validates: [
           'HTTP boundary behavior, malformed input handling, and persistence safety',
           'repo-authenticated deposit to branch-realization workflow composition',
-          'projection-sensitive and normalization-heavy multi-step run behavior'
+          'mixed raw/repo-backed deposit composition before branch realization',
+          'projection-sensitive and normalization-heavy multi-step run behavior',
+          'stateful repeated runs, no-survivor conflicts, reset recovery, and full principal projection-matrix behavior'
         ]
       },
       e2e: {
@@ -1164,7 +1166,8 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
         validates: [
           'canonical panel ordering from repo supply through settlement',
           'repo-authenticated deposit flow to targeted settlement',
-          'normalization-heavy scenario switching and source-to-shares visibility'
+          'normalization-heavy scenario switching and source-to-shares visibility',
+          'browser-visible invalid deposit recovery, no-survivor conflict recovery, repeated-run refresh, and projection-bounded proof visibility'
         ]
       }
     },

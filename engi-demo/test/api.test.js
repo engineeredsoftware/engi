@@ -518,6 +518,28 @@ testAny('POST /api/make-engi-branch rejects unsupported principal, branch mode, 
   });
 });
 
+testAny('POST /api/make-engi-branch classifies no-survivor branch creation as a workflow conflict', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const state = app.readState();
+    app.writeState({ ...state, assets: [] });
+
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scenarioId: 'auth-issuer-rollback' })
+    });
+
+    assert.equal(response.statusCode, 409);
+    assert.match(response.json.error, /No candidates survived into the asset pack/i);
+
+    const projectedState = await invoke(app, { method: 'GET', url: '/api/state' });
+    assert.equal(projectedState.statusCode, 200);
+    assert.equal(projectedState.json.latestRun, null);
+    assert.equal(projectedState.json.runHistory.length, 0);
+  });
+});
+
 testAny('POST /api/reset restores seeded state and clears latest run', async (t) => {
   await withApp(t, async ({ app, dataPath }) => {
     await invoke(app, { method: 'POST', url: '/api/make-engi-branch', headers: { 'Content-Type': 'application/json' }, body: '{}' });
