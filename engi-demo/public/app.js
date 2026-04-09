@@ -195,6 +195,9 @@ function hasSurfaceContent(data, raw) {
   return (data !== undefined && data !== null) || (raw !== undefined && raw !== null);
 }
 
+const CANON_VERSION_LABEL = 'V16';
+const CANON_OPERATOR_LABEL = 'canonical V16';
+
 const summaryEl = requireElement('summary');
 const operatingPictureEl = requireElement('operatingPicture');
 const scenarioEl = requireElement('scenario');
@@ -338,10 +341,10 @@ const EXPLAINERS = {
     ]
   },
   'operating-picture': {
-    kicker: 'V15 shell',
+    kicker: 'Canonical shell',
     title: 'Operating picture',
     summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
-    detail: 'This panel is not a separate feature. It is the high-level operator map for how the V15 demo is supposed to read end to end.',
+    detail: 'This panel is not a separate feature. It is the high-level operator map for how the canonical demo is supposed to read end to end.',
     points: [
       'Keeps the thesis legible before deep artifacts',
       'Lets an operator place every later section in one chain'
@@ -640,10 +643,10 @@ const EXPLAINERS = {
     ]
   },
   'supporting-surfaces': {
-    kicker: 'V15 shell',
+    kicker: 'Canonical shell',
     title: 'Supporting surfaces',
     summary: 'Secondary boundary, policy, or lineage surfaces that support the main operator story without becoming the headline.',
-    detail: 'V15 keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
+    detail: 'The canonical shell keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
     points: [
       'Important for honesty and depth',
       'Intentionally downstream of the main deposit-to-need read'
@@ -793,7 +796,7 @@ const EXPLAINERS = {
     kicker: 'Branch stack',
     title: 'Asset pack and branch artifacts',
     summary: 'The exact private artifact stack materialized behind the high-level deposit/need/fit story.',
-    detail: 'This is where V15 keeps the dense manifests, proofs, policy surfaces, and deterministic files that justify the run.',
+    detail: 'This is where the canonical demo keeps the dense manifests, proofs, policy surfaces, and deterministic files that justify the run.',
     points: [
       'Materialized locally in this demo',
       'Carries the evidence behind branch, proof, and settlement'
@@ -881,7 +884,7 @@ const EXPLAINERS = {
   },
   'v15-scenario-preview': {
     kicker: 'Scenario surface',
-    title: 'V15 scenario preview',
+    title: 'Scenario preview',
     summary: 'The preview read of the active seeded scenario before a run materializes deeper branch, proof, and settlement artifacts.',
     detail: 'This preview is meant to make the demand surface and profile semantics consequential before the operator reads private branch artifacts.',
     points: [
@@ -891,7 +894,7 @@ const EXPLAINERS = {
   },
   'v15-detailed-need-surface': {
     kicker: 'Need surface',
-    title: 'V15 detailed need surface',
+    title: 'Detailed need surface',
     summary: 'The full need and measurement read that expands the compact needing surface into task, parser, failure, derivation, and closure detail.',
     detail: 'This is the deeper need-facing artifact for operators who want to inspect exactly how the active demand was measured.',
     points: [
@@ -1610,7 +1613,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Privacy',
     summary: 'Marks scenarios or assets where disclosure boundaries and private artifact handling are first-class concerns.',
-    detail: 'Privacy capsules matter because V15 keeps branch/proof richness while still requiring bounded public disclosure.',
+    detail: 'Privacy capsules matter because the canonical system keeps branch/proof richness while still requiring bounded public disclosure.',
     points: [
       'Often pairs with redaction or disclosure tags',
       'Lives close to bounded public proof surfaces'
@@ -2241,8 +2244,8 @@ const LABEL_EXPLAINER_KEYS = {
   'Supplier pending claims': 'ledger-accounts',
   'Tie-break order': 'source-to-shares',
   'Unique bundles': 'run-history',
-  'V15 detailed need surface': 'v15-detailed-need-surface',
-  'V15 scenario preview': 'v15-scenario-preview',
+  'Detailed need surface': 'v15-detailed-need-surface',
+  'Scenario preview': 'v15-scenario-preview',
   'Proof logs': 'proof-logs',
   'Workflow': 'benchmark-workflow',
   'Workflow path': 'benchmark-workflow',
@@ -4839,6 +4842,150 @@ function renderSystemProofBundleVisual(bundle) {
 }
 
 /**
+ * @param {LooseRecord | null | undefined} bundle
+ * @returns {LooseRecord}
+ */
+function buildProofFamilyCatalogSummary(bundle) {
+  if (!bundle) return null;
+  const proofFamilies = /** @type {LooseRecordArray} */ (bundle?.proofFamilies || []);
+  const verifierEntrypoint = /** @type {LooseRecord} */ (bundle?.verifierEntrypoint || {});
+  return {
+    proofFamilyCount: proofFamilies.length,
+    replayArtifactCount: (verifierEntrypoint.replayArtifacts || []).length,
+    requiredArtifactCount: (verifierEntrypoint.requiredArtifactPaths || []).length,
+    proofFamilies: proofFamilies.map((entry) => ({
+      proofFamily: entry.proofFamily,
+      proofArtifactPath: entry.proofArtifactPath,
+      allTheoremsPassed: entry.allTheoremsPassed === true,
+      memberCount: Array.isArray(entry.memberIds) ? entry.memberIds.length : 0,
+      theoremCount: Array.isArray(entry.theoremIds) ? entry.theoremIds.length : 0,
+      witnessArtifactCount: Array.isArray(entry.witnessArtifactPaths) ? entry.witnessArtifactPaths.length : 0,
+      replayArtifactCount: Array.isArray(entry.replayArtifacts) ? entry.replayArtifacts.length : 0,
+      replayStepCount: Array.isArray(entry.replaySteps) ? entry.replaySteps.length : 0
+    })),
+    proofFamilyReplayCatalog: verifierEntrypoint.proofFamilyReplayCatalog || []
+  };
+}
+
+/**
+ * @param {LooseRecord | null | undefined} catalog
+ * @returns {string}
+ */
+function renderProofFamilyCatalogVisual(catalog) {
+  const proofFamilies = /** @type {LooseRecordArray} */ (catalog?.proofFamilies || []);
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Proof families', catalog?.proofFamilyCount || 0, '', { explainerKey: 'proof-closure' })}
+        ${metricTile('Replay artifacts', catalog?.replayArtifactCount || 0)}
+        ${metricTile('Required artifacts', catalog?.requiredArtifactCount || 0)}
+        ${metricTile('All theorem-closed', proofFamilies.every((entry) => entry.allTheoremsPassed === true) ? 'yes' : 'no')}
+      </div>
+      <div class="object-list nested">
+        ${proofFamilies.map((entry) => `
+          <div class="mini-card">
+            <div class="row wrap-gap">
+              <strong>${escapeHtml(entry.proofFamily || 'proof-family')}</strong>
+              <span class="badge ${entry.allTheoremsPassed ? 'private' : 'bad'}">${escapeHtml(entry.allTheoremsPassed ? 'theorems passed' : 'theorem drift')}</span>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Proof artifact', entry.proofArtifactPath || '—')}
+              ${kvRow('Members', entry.memberCount || 0)}
+              ${kvRow('Theorems', entry.theoremCount || 0)}
+              ${kvRow('Witness artifacts', entry.witnessArtifactCount || 0)}
+              ${kvRow('Replay artifacts', entry.replayArtifactCount || 0)}
+              ${kvRow('Replay steps', entry.replayStepCount || 0)}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * @param {AppState} state
+ * @returns {LooseRecord}
+ */
+function buildProjectionVisibilitySummary(state) {
+  const run = state.latestRun || {};
+  const rawFiles = /** @type {Record<string, string>} */ (run.branchArtifacts?.files || {});
+  const publicFiles = /** @type {Record<string, string>} */ (run.branchArtifacts?.publicFiles || {});
+  const projectionPrincipal = activeProjectionPrincipal(state);
+  const visibleArtifactPaths = /** @type {string[]} */ (run.branchArtifacts?.files
+    ? Object.keys(rawFiles)
+    : run.branchArtifacts?.visibleFileInventory || Object.keys(publicFiles));
+  const publicArtifactPaths = /** @type {string[]} */ (run.projectionPolicy?.publicArtifactPaths || []);
+  const privateArtifactPaths = /** @type {string[]} */ (run.projectionPolicy?.privateArtifactPaths || []);
+  const visiblePathSet = new Set(visibleArtifactPaths);
+  const hiddenPrivateArtifactPaths = privateArtifactPaths.filter((/** @type {string} */ path) => !visiblePathSet.has(path));
+  const hiddenSourceMaterialPathCount = hiddenPrivateArtifactPaths.filter((/** @type {string} */ path) => path.startsWith('.engi/source-material/')).length;
+  const exposedHiddenPrivateArtifactPaths = projectionPrincipal === 'internal'
+    ? hiddenPrivateArtifactPaths
+    : hiddenPrivateArtifactPaths.filter((/** @type {string} */ path) => !path.startsWith('.engi/source-material/'));
+  return {
+    projectionPrincipal,
+    visibleArtifactPathCount: visibleArtifactPaths.length,
+    publicArtifactPathCount: publicArtifactPaths.length,
+    privateArtifactPathCount: privateArtifactPaths.length,
+    hiddenPrivateArtifactCount: hiddenPrivateArtifactPaths.length,
+    hiddenSourceMaterialPathCount,
+    sourceMaterialVisible: visibleArtifactPaths.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')),
+    rawBranchFilesAvailable: Boolean(run.branchArtifacts?.files),
+    proofFamilyCount: (run.systemProofBundle?.proofFamilies || []).length,
+    replayArtifactCount: (run.systemProofBundle?.verifierEntrypoint?.replayArtifacts || []).length,
+    visibleArtifactPaths,
+    publicArtifactPaths,
+    hiddenPrivateArtifactPaths: exposedHiddenPrivateArtifactPaths
+  };
+}
+
+/**
+ * @param {LooseRecord | null | undefined} summary
+ * @returns {string}
+ */
+function renderProjectionVisibilityVisual(summary) {
+  const visibleArtifactPaths = /** @type {string[]} */ (summary?.visibleArtifactPaths || []);
+  const hiddenPrivateArtifactPaths = /** @type {string[]} */ (summary?.hiddenPrivateArtifactPaths || []);
+  const canEnumerateHiddenPaths = summary?.projectionPrincipal && summary.projectionPrincipal !== 'public';
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Projection', summary?.projectionPrincipal || '—', '', { explainerKey: 'projection' })}
+        ${metricTile('Visible artifact paths', summary?.visibleArtifactPathCount || 0, '', { explainerKey: 'branch-artifacts' })}
+        ${metricTile('Hidden private artifacts', summary?.hiddenPrivateArtifactCount || 0, '', { explainerKey: 'bounded-public-proof' })}
+        ${metricTile('Visible proof families', summary?.proofFamilyCount || 0, '', { explainerKey: 'proof-closure' })}
+      </div>
+      <div class="badge-row">
+        ${statusBadge(summary?.rawBranchFilesAvailable ? 'raw branch files available' : 'bounded projection only')}
+        ${statusBadge(summary?.sourceMaterialVisible ? 'source material visible' : 'source material hidden')}
+        ${statusBadge(`replay artifacts: ${summary?.replayArtifactCount || 0}`)}
+      </div>
+      <div class="split">
+        <div class="section-card">
+          <div class="section-head"><h4>${labelWithExplainer('Visible artifact paths', 'branch-artifacts')}</h4><span class="badge">${escapeHtml(summary?.visibleArtifactPathCount || 0)}</span></div>
+          <div class="badge-row">
+            ${visibleArtifactPaths.map((/** @type {string} */ path) => `<span class="badge">${escapeHtml(path)}</span>`).join(' ')}
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-head"><h4>${labelWithExplainer('Hidden private paths', 'bounded-public-proof')}</h4><span class="badge">${escapeHtml(summary?.hiddenPrivateArtifactCount || 0)}</span></div>
+          ${canEnumerateHiddenPaths
+            ? `
+              <div class="badge-row">
+                ${hiddenPrivateArtifactPaths.slice(0, 18).map((/** @type {string} */ path) => `<span class="badge warn">${escapeHtml(path)}</span>`).join(' ')}
+                ${hiddenPrivateArtifactPaths.length > 18 ? `<span class="badge">+${escapeHtml(hiddenPrivateArtifactPaths.length - 18)} more</span>` : ''}
+                ${summary?.hiddenSourceMaterialPathCount > 0 ? `<span class="badge">+${escapeHtml(summary.hiddenSourceMaterialPathCount)} source-material paths suppressed</span>` : ''}
+              </div>
+            `
+            : `<p class="meta">Public projection exposes bounded counts only; hidden private artifact paths are not enumerated here.</p>`}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
  * @param {LooseRecord | null | undefined} proof
  * @returns {string}
  */
@@ -5094,8 +5241,8 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Repo supply',
     subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-    eyebrow: 'V15 shell surface',
-    help: 'V15 starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+    eyebrow: 'Canonical shell surface',
+    help: 'The canonical shell starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
     explainerKey: 'repo-supply',
     data: state.repoSupplySurface,
     visual: renderRepoSupplyVisual,
@@ -5105,8 +5252,8 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Depositing surface',
       subtitle: 'The active repo-authenticated deposit, before branch/proof/settlement detail',
-      eyebrow: state.latestRun?.depositingSurface ? 'V15 run surface' : 'V15 shell preview',
-      help: 'This is the opening operator action in V15: what was deposited, from where, and with which bound roots.',
+      eyebrow: state.latestRun?.depositingSurface ? 'Run surface' : 'Shell preview',
+      help: 'This is the opening operator action in the canonical system: what was deposited, from where, and with which bound roots.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -5117,7 +5264,7 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Needing surface',
       subtitle: 'The active measured demand surface',
-      eyebrow: state.latestRun?.needingSurface ? 'V15 run surface' : 'V15 scenario preview',
+      eyebrow: state.latestRun?.needingSurface ? 'Run surface' : 'Scenario preview',
       help: 'This is the measured need that the deposit has to justify before proof and settlement carry the story forward.',
       explainerKey: 'needing',
       data: needingSurface,
@@ -5129,8 +5276,8 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Depositing-to-needing surface',
       subtitle: 'Why this deposit fits this need before deeper closure inspection',
-      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V15 run surface' : 'V15 shell preview',
-      help: 'V15 makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
+      help: 'The canonical system makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
@@ -5141,7 +5288,7 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Repo-to-settlement path',
       subtitle: 'Depositing to settlement as one staged operating path',
-      eyebrow: 'V15 run surface',
+      eyebrow: 'Run surface',
       help: 'Once deposit, need, and fit are legible, this surface walks the closure path through asset pack, branch, proof, and settlement.',
       explainerKey: 'repo-to-settlement',
       data: state.latestRun.repoToSettlementSurface,
@@ -5163,7 +5310,7 @@ function renderOperatingPicture(state) {
     surfaces.push(renderJsonSurface({
       title: 'Identity and auth spine',
       subtitle: 'Repo auth, signer authority, branch authority, proof authority, and settlement authority',
-      eyebrow: 'V15 support surface',
+      eyebrow: 'Support surface',
       help: 'This surface turns the existing auth artifacts into one legible authority chain.',
       explainerKey: 'identity-auth-spine',
       data: state.latestRun.identityAuthSpineSurface,
@@ -5174,7 +5321,7 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Boundary reality',
     subtitle: 'What is modeled here, what executes here, and what remains external',
-    eyebrow: 'V15 support surface',
+    eyebrow: 'Support surface',
     help: 'Boundary truth stays explicit here so the primary story can stay centered on depositing, needing, and their fit.',
     explainerKey: 'boundary-reality',
     data: state.boundaryRealitySurface,
@@ -5194,6 +5341,10 @@ function renderSummary(state) {
   const settled = latestRun?.settlementPreview?.creditedAssetIds?.length
     ?? latestRun?.journalDiff?.credits?.filter((/** @type {any} */ entry) => entry.delta !== '0').length
     ?? 0;
+  const visibleArtifacts = latestRun?.branchArtifacts?.files
+    ? Object.keys(latestRun.branchArtifacts.files).length
+    : latestRun?.branchArtifacts?.visibleFileInventory?.length || Object.keys(latestRun?.branchArtifacts?.publicFiles || {}).length;
+  const proofFamilies = latestRun?.systemProofBundle?.proofFamilies?.length || 0;
   const repoCount = state.repoSupplySurface?.repoCount || 0;
   const supplyEntries = state.repoSupplySurface?.inventoryEntryCount || 0;
   const depositSurface = activeDepositingSurface(state);
@@ -5215,6 +5366,8 @@ function renderSummary(state) {
     summaryTile('Projection', activeProjectionPrincipal(state), 'projection'),
     summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
     summaryTile('Fit pressure', fitSurface?.normalizationPressure || 'pending', 'normalization-pressure'),
+    summaryTile('Visible branch artifacts', visibleArtifacts || 0, 'branch-artifacts'),
+    summaryTile('Visible proof families', proofFamilies || 0, 'proof-closure'),
     summaryTile('Selected assets in latest pack', selected, 'asset-pack'),
     summaryTile('Settlement-credited assets', settled, 'settlement'),
     summaryTile('Latest bundle', bundleId, 'settlement'),
@@ -5251,14 +5404,14 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">V15 foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
+      <p class="meta">${escapeHtml(CANON_OPERATOR_LABEL)} foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
     ${needingSurface ? renderJsonSurface({
       title: 'Needing surface',
       subtitle: 'Measured demand before deeper proof and settlement inspection',
-      eyebrow: state.latestRun?.needingSurface ? 'V15 run surface' : 'V15 scenario preview',
+      eyebrow: state.latestRun?.needingSurface ? 'Run surface' : 'Scenario preview',
       eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'v15-scenario-preview',
-      help: 'This is the compact V15 read of what is needed, why it matters, and what closure should look like.',
+      help: 'This is the compact canonical read of what is needed, why it matters, and what closure should look like.',
       explainerKey: 'needing',
       data: needingSurface,
       visual: renderNeedingSurfaceVisual,
@@ -5267,7 +5420,7 @@ function renderScenario(state) {
     ${renderJsonSurface({
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
-      eyebrow: 'V15 detailed need surface',
+      eyebrow: 'Detailed need surface',
       eyebrowExplainerKey: 'v15-detailed-need-surface',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       explainerKey: 'needing',
@@ -5287,7 +5440,7 @@ function renderScenario(state) {
     ${renderJsonSurface({
       title: 'Operational profiles + demo semantics',
       subtitle: 'Targeted deposit versus normalization deposit',
-      eyebrow: 'V15 profile surface',
+      eyebrow: 'Profile surface',
       help: 'The profile distinction is about how ENGI deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
       explainerKey: source.realizationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: {
@@ -5301,7 +5454,7 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'V15 keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
+      help: 'The canonical system keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
@@ -5336,8 +5489,8 @@ function renderAssets(state) {
     ${depositingSurface ? renderJsonSurface({
       title: 'Depositing surface',
       subtitle: 'What the operator has deposited or is previewing right now',
-      eyebrow: state.latestRun?.depositingSurface ? 'V15 run surface' : 'V15 shell preview',
-      help: 'V15 treats depositing as the beginning of the operator story, not as a side form.',
+      eyebrow: state.latestRun?.depositingSurface ? 'Run surface' : 'Shell preview',
+      help: 'The canonical system treats depositing as the beginning of the operator story, not as a side form.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -5372,8 +5525,8 @@ function renderFit(state) {
     renderJsonSurface({
       title: 'Depositing-to-needing surface',
       subtitle: 'Why the active deposit fits the active need before deeper proof/settlement sections',
-      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'V15 run surface' : 'V15 shell preview',
-      help: 'This is the primary V15 relation surface. It should answer why the selected deposit is right for the measured need.',
+      eyebrow: state.latestRun?.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
+      help: 'This is the primary deposit-to-need relation surface. It should answer why the selected deposit is right for the measured need.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
@@ -5424,7 +5577,7 @@ function renderEvaluations(state) {
     ${verificationReport ? renderJsonSurface({
       title: 'Verification report',
       subtitle: 'Ranking is separate from verification and rights propagation',
-      eyebrow: 'V15 support surface',
+      eyebrow: 'Support surface',
       help: 'Visual mode emphasizes allowed downstream use rather than making you read a wall of nested booleans.',
       data: verificationReport,
       visual: renderVerificationReportVisual,
@@ -5453,10 +5606,20 @@ function renderBranchArtifacts(state) {
   }
 
   const branchFiles = run.branchArtifacts?.files || run.branchArtifacts?.publicFiles || {};
+  const projectionVisibilitySummary = buildProjectionVisibilitySummary(state);
   const visibleFileInventory = run.branchArtifacts?.files
     ? Object.keys(run.branchArtifacts.files)
     : run.branchArtifacts?.visibleFileInventory || Object.keys(run.branchArtifacts?.publicFiles || {});
   const artifactDefs = [
+    {
+      title: 'Projection visibility summary',
+      subtitle: 'Derived from projection policy and visible artifact inventory',
+      explainerKey: 'bounded-public-proof',
+      data: projectionVisibilitySummary,
+      raw: JSON.stringify(projectionVisibilitySummary, null, 2),
+      visual: renderProjectionVisibilityVisual,
+      accent: 'accent-slate'
+    },
     {
       title: 'Depositing surface',
       subtitle: '.engi/depositing-surface.json',
@@ -5701,10 +5864,11 @@ function renderBranchArtifacts(state) {
         <div class="badge-row">
           ${statusBadge(run.branchMode)}
           ${statusBadge(run.needLifecycle)}
+          ${statusBadge(`projection ${activeProjectionPrincipal(state)}`)}
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V15 demo. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the ${escapeHtml(CANON_OPERATOR_LABEL)} demo. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
     </div>
     ${artifactDefs.filter((artifact) => hasSurfaceContent(artifact.data, artifact.raw)).map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -5737,6 +5901,7 @@ function renderSettlement(state) {
   }
 
   const branchFiles = run.branchArtifacts?.files || run.branchArtifacts?.publicFiles || {};
+  const proofFamilyCatalog = run.systemProofBundle ? buildProofFamilyCatalogSummary(run.systemProofBundle) : null;
   const settlementSurfaces = [
     {
       title: 'Settlement preview',
@@ -5786,7 +5951,7 @@ function renderSettlement(state) {
       title: 'Accounting precision report',
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
-      help: 'V15 keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
+      help: 'The canonical system keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
       explainerKey: 'exact-accounting',
       data: run.accountingPrecisionReport,
       raw: branchFiles['.engi/accounting-precision-report.json'],
@@ -5800,6 +5965,26 @@ function renderSettlement(state) {
       explainerKey: 'proof-closure',
       data: tryParseJson(branchFiles['.engi/settlement-proof.json']) || run.systemProofBundle?.settlementProof || {},
       raw: branchFiles['.engi/settlement-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Proof family catalog',
+      subtitle: 'Proof-family closure, witness, and replay inventory',
+      eyebrow: 'Proof bundle',
+      explainerKey: 'proof-closure',
+      data: proofFamilyCatalog,
+      raw: proofFamilyCatalog ? JSON.stringify(proofFamilyCatalog, null, 2) : null,
+      visual: renderProofFamilyCatalogVisual,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Proof contract',
+      subtitle: '.engi/proof-contract.json',
+      eyebrow: 'Proof artifact',
+      explainerKey: 'proof-closure',
+      data: run.proofContract,
+      raw: branchFiles['.engi/proof-contract.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
@@ -5985,7 +6170,7 @@ resetButtonEl.addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus('Demo reset to the seeded Spec V15 scenario state.');
+    setStatus(`Demo reset to the seeded ${CANON_OPERATOR_LABEL} scenario state.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -6038,7 +6223,7 @@ depositFormEl.addEventListener('submit', async (event) => {
     selectedInventoryKind = 'all';
     formEl.reset();
     await refresh();
-    setStatus('Candidate asset deposited into the V15 repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
+    setStatus(`Candidate asset deposited into the ${CANON_OPERATOR_LABEL} repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -6050,7 +6235,7 @@ window.addEventListener('resize', () => syncExplainerAlignment());
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the Spec V15 deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
+  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the ${CANON_OPERATOR_LABEL} deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

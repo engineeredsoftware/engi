@@ -506,7 +506,10 @@ function buildReviewerProjection(latestRun) {
       branchName: latestRun.branchArtifacts?.branchName,
       branchMode: latestRun.branchArtifacts?.branchMode,
       confidentiality: latestRun.branchArtifacts?.confidentiality,
-      visibleFileInventory: latestRun.projectionPolicy?.privateArtifactPaths?.filter((path) => !path.startsWith('.engi/source-material/')) || []
+      visibleFileInventory: [...new Set([
+        ...(latestRun.projectionPolicy?.publicArtifactPaths || []),
+        ...(latestRun.projectionPolicy?.privateArtifactPaths || [])
+      ])].filter((path) => !path.startsWith('.engi/source-material/'))
     }
   };
 }

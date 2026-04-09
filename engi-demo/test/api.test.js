@@ -125,11 +125,11 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-testAny('GET /api/state returns seeded Spec V15 public state', async (t) => {
+testAny('GET /api/state returns seeded canonical V16 public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
-    assert.equal(response.json.specVersion, 'ENGI Spec V15 canonical local prototype');
+    assert.equal(response.json.specVersion, 'ENGI Spec V16 canonical local prototype');
     assert.equal(response.json.assets.length, 11);
     assert.equal(response.json.needScenarios.length, 8);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
@@ -155,7 +155,7 @@ testAny('GET / returns the app shell', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /Operate ENGI from repo supply to settlement/);
-    assert.match(response.text, /Spec V15/);
+    assert.match(response.text, /Canonical V16/);
     assert.match(response.text, /depositing, needing, and their fit/i);
     assert.match(response.text, /Depositing \+ candidate assets/);
     assert.match(response.text, /Needing \+ measured demand/);
@@ -165,7 +165,7 @@ testAny('GET / returns the app shell', async (t) => {
   });
 });
 
-testAny('GET /api/state exposes V15 profile labels, task seed, and needing surface before any run', async (t) => {
+testAny('GET /api/state exposes canonical profile labels, task seed, and needing surface before any run', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
@@ -197,6 +197,15 @@ testAny('GET /styles.css serves static css', async (t) => {
     assert.equal(response.statusCode, 200);
     assert.match(String(response.headers['Content-Type']), /text\/css/);
     assert.match(response.text, /--accent/);
+  });
+});
+
+testAny('GET /favicon.svg serves the demo icon', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/favicon.svg' });
+    assert.equal(response.statusCode, 200);
+    assert.match(String(response.headers['Content-Type']), /image\/svg\+xml/);
+    assert.match(response.text, /ENGI/);
   });
 });
 

@@ -207,6 +207,11 @@ The current opening source state now includes:
 - explicit `test:unit`, `test:integration`, and `test:e2e` scripts,
 - runtime `testCoverageReport` taxonomy updated to `unit` / `integration` / `e2e`,
 - a dedicated `engi-demo/test/workflow.integration.test.js` suite,
+- a browser shell aligned to the canonical V16 operator posture rather than the older V15-facing labeling,
+- projection visibility and proof-family catalog surfaces in the demo UI,
+- public suppression of hidden private source-material path enumeration while retaining bounded visibility counts,
+- reviewer-visible replay/proof surfaces without raw source-material exposure,
+- and static-serving/UI polish fixes required for a credible demo surface, including the demo favicon and correct SVG content typing,
 - and initial V16-guided workflow audits for:
   - full seeded scenario-matrix family/projection closure across both `patch` and `context`,
   - repo-authenticated deposit to targeted branch closure,
@@ -214,20 +219,35 @@ The current opening source state now includes:
   - privacy-boundary disclosure versus proof-replay visibility,
   - restrictive unsafe-patch verification/materialization exclusion closure,
   - reviewer versus internal projection differences,
+  - full seeded scenario-corpus workflow closure across both `patch` and `context`,
+  - reviewer versus public proof-family and replay-artifact visibility closure,
   - API failure semantics for unsupported principals, branch modes, and scenarios,
   - browser-visible projection switching across operator principals,
+  - browser-visible projection visibility summary and proof-family catalog inspection,
+  - browser-visible internal versus reviewer source-material visibility boundaries,
   - browser-visible raw verification/materialization/proof inspection,
   - browser-visible deposit validation failures,
   - browser-visible reset after a realized run,
   - and deeper unit replay-catalog closure over proof families, witness paths, and emitted branch artifacts.
 
+Current verification state for this pass is:
+- `npm run typecheck`
+- `npm run test:unit`
+- `npm run test:integration`
+- `npm run test:e2e`
+- `npm test`
+
+All are green in the current worktree, with `98/98` tests passing in the full suite.
+
 ## V17 opening success condition
 
-The opening V17 pass is in good shape when:
+The current V17 pass is in good shape when:
 
 1. the root V17 draft states the demo-driven and test-layered posture explicitly,
 2. the notes explain why V17 starts from demonstration instead of more proof-family invention,
 3. the parity matrix names the current test/demo gaps concretely,
 4. source begins to reflect an explicit unit/integration/e2e taxonomy,
 5. at least one closer-to-real workflow integration surface exists beyond general endpoint checks,
-6. and V16 proof closure remains the base system contract while V17 begins surfacing bugs through actual workflows.
+6. the seeded scenario corpus is exercised through realistic HTTP workflows across both `patch` and `context`,
+7. the browser shell truthfully demonstrates canonical V16 proof, projection, and settlement surfaces,
+8. and V16 proof closure remains the base system contract while V17 keeps surfacing bugs through actual workflows rather than speculative review alone.

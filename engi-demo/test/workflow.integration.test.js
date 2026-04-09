@@ -336,3 +336,145 @@ testAny('restrictive unsafe-patch workflow keeps rejected assets visible in veri
     }
   });
 });
+
+testAny('reviewer projection retains proof-family artifacts and replay-required artifacts while public stays bounded', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const reviewerRun = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'privacy-boundary-proof-export',
+        principal: 'reviewer'
+      })
+    });
+
+    assert.equal(reviewerRun.statusCode, 200);
+
+    const reviewerVisibleArtifacts = new Set(reviewerRun.json.latestRun.branchArtifacts.visibleFileInventory || []);
+    const proofArtifactPaths = reviewerRun.json.latestRun.systemProofBundle.proofFamilies.map((/** @type {any} */ entry) => entry.proofArtifactPath);
+    const replayRequiredArtifacts = reviewerRun.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths;
+    const privateArtifactPaths = new Set(reviewerRun.json.latestRun.projectionPolicy.privateArtifactPaths || []);
+    const publicArtifactPolicyPaths = new Set(reviewerRun.json.latestRun.projectionPolicy.publicArtifactPaths || []);
+
+    assert.equal(reviewerRun.json.latestRun.systemProofBundle.proofFamilies.length, 9);
+    for (const artifactPath of proofArtifactPaths) {
+      assert.ok(reviewerVisibleArtifacts.has(artifactPath), `missing reviewer proof artifact ${artifactPath}`);
+    }
+    for (const artifactPath of replayRequiredArtifacts) {
+      assert.ok(reviewerVisibleArtifacts.has(artifactPath), `missing reviewer replay artifact ${artifactPath}`);
+    }
+
+    const projectedPublic = await invoke(app, { method: 'GET', url: '/api/state?principal=public' });
+    const publicArtifactPaths = new Set(Object.keys(projectedPublic.json.latestRun.branchArtifacts.publicFiles || {}));
+
+    assert.equal(projectedPublic.statusCode, 200);
+    assert.equal(projectedPublic.json.latestRun.systemProofBundle, undefined);
+    assert.ok(reviewerVisibleArtifacts.size > publicArtifactPaths.size);
+    for (const artifactPath of proofArtifactPaths) {
+      if (privateArtifactPaths.has(artifactPath)) {
+        assert.equal(publicArtifactPaths.has(artifactPath), false, `public projection leaked private proof artifact ${artifactPath}`);
+      }
+      if (publicArtifactPolicyPaths.has(artifactPath)) {
+        assert.equal(publicArtifactPaths.has(artifactPath), true, `public projection omitted bounded-public proof artifact ${artifactPath}`);
+      }
+    }
+    assert.equal(projectedPublic.json.latestRun.proofWitnessManifest, undefined);
+    assert.equal(projectedPublic.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json'] !== undefined, true);
+  });
+});
+
+testAny('seeded scenario corpus remains family/member/projection coherent through HTTP workflows', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const initialState = await invoke(app, { method: 'GET', url: '/api/state' });
+    const scenarioIds = initialState.json.needScenarios.map((/** @type {any} */ scenario) => scenario.scenarioId);
+
+    for (const scenarioId of scenarioIds) {
+      for (const branchMode of ['patch', 'context']) {
+        const reset = await invoke(app, { method: 'POST', url: '/api/reset' });
+        assert.equal(reset.statusCode, 200, `${scenarioId}/${branchMode} reset failed`);
+
+        const internalRun = await invoke(app, {
+          method: 'POST',
+          url: '/api/make-engi-branch',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            scenarioId,
+            branchMode,
+            principal: 'internal'
+          })
+        });
+
+        assert.equal(internalRun.statusCode, 200, `${scenarioId}/${branchMode} internal run failed`);
+
+        const latestRun = internalRun.json.latestRun;
+        const branchFiles = latestRun.branchArtifacts.files || {};
+        const proofFamilies = latestRun.systemProofBundle.proofFamilies || [];
+
+        assert.equal(latestRun.systemProofBundle.proofFamilies.length, 9, `${scenarioId}/${branchMode} proof family count drift`);
+        assert.equal(latestRun.proofWitnessManifest.proofFamilies.length, 9, `${scenarioId}/${branchMode} witness family count drift`);
+        assert.ok(Object.keys(branchFiles).some((path) => path.startsWith('.engi/source-material/')), `${scenarioId}/${branchMode} lost internal source material`);
+
+        for (const family of proofFamilies) {
+          assert.equal(family.allTheoremsPassed, true, `${scenarioId}/${branchMode} ${family.proofFamily} theorem drift`);
+          assert.ok(Array.isArray(family.memberIds) && family.memberIds.length >= 1, `${scenarioId}/${branchMode} ${family.proofFamily} lost members`);
+          assert.ok(Array.isArray(family.theoremIds) && family.theoremIds.length >= 1, `${scenarioId}/${branchMode} ${family.proofFamily} lost theorems`);
+          assert.ok(branchFiles[family.proofArtifactPath], `${scenarioId}/${branchMode} missing proof artifact ${family.proofArtifactPath}`);
+
+          for (const artifactPath of family.witnessArtifactPaths || []) {
+            assert.ok(branchFiles[artifactPath], `${scenarioId}/${branchMode} missing witness artifact ${artifactPath}`);
+          }
+
+          for (const artifactPath of family.replayArtifacts || []) {
+            assert.ok(branchFiles[artifactPath], `${scenarioId}/${branchMode} missing replay artifact ${artifactPath}`);
+          }
+
+          for (const replayStep of family.replaySteps || []) {
+            assert.ok(replayStep.requiredArtifactPaths.length >= 1, `${scenarioId}/${branchMode} ${family.proofFamily} replay step lost artifacts`);
+            for (const artifactPath of replayStep.requiredArtifactPaths || []) {
+              assert.ok(branchFiles[artifactPath], `${scenarioId}/${branchMode} replay step missing artifact ${artifactPath}`);
+            }
+          }
+        }
+
+        const reviewerState = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+        const buyerState = await invoke(app, { method: 'GET', url: '/api/state?principal=buyer' });
+        const publicState = await invoke(app, { method: 'GET', url: '/api/state?principal=public' });
+
+        assert.equal(reviewerState.statusCode, 200, `${scenarioId}/${branchMode} reviewer state failed`);
+        assert.equal(buyerState.statusCode, 200, `${scenarioId}/${branchMode} buyer state failed`);
+        assert.equal(publicState.statusCode, 200, `${scenarioId}/${branchMode} public state failed`);
+
+        const reviewerVisibleArtifacts = new Set(reviewerState.json.latestRun.branchArtifacts.visibleFileInventory || []);
+
+        assert.equal(reviewerState.json.latestRun.projectionPrincipal, 'reviewer');
+        assert.equal(buyerState.json.latestRun.projectionPrincipal, 'buyer');
+        assert.equal(publicState.json.latestRun.projectionPrincipal, 'public');
+        assert.equal(reviewerState.json.latestRun.branchArtifacts.files, undefined);
+        assert.equal(buyerState.json.latestRun.branchArtifacts.files, undefined);
+        assert.equal(publicState.json.latestRun.branchArtifacts.files, undefined);
+        assert.equal(reviewerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false, `${scenarioId}/${branchMode} reviewer leaked source material`);
+        assert.equal(buyerState.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false, `${scenarioId}/${branchMode} buyer leaked source material`);
+        assert.equal(publicState.json.latestRun.systemProofBundle, undefined, `${scenarioId}/${branchMode} public leaked system proof bundle`);
+        assert.equal(publicState.json.latestRun.proofWitnessManifest, undefined, `${scenarioId}/${branchMode} public leaked proof witness manifest`);
+
+        for (const artifactPath of latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths || []) {
+          assert.ok(reviewerVisibleArtifacts.has(artifactPath), `${scenarioId}/${branchMode} reviewer lost replay artifact ${artifactPath}`);
+        }
+
+        assert.ok(buyerState.json.latestRun.promptFamilyRegistry.promptMembers.length >= 5, `${scenarioId}/${branchMode} buyer lost prompt family registry`);
+        assert.ok(Array.isArray(buyerState.json.latestRun.inferenceProofs) && buyerState.json.latestRun.inferenceProofs.length >= 5, `${scenarioId}/${branchMode} buyer lost inference proofs`);
+        assert.deepEqual(
+          Object.keys(publicState.json.latestRun.publicArtifacts).sort(),
+          publicState.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort(),
+          `${scenarioId}/${branchMode} public artifact projection drift`
+        );
+        assert.deepEqual(
+          Object.keys(publicState.json.latestRun.branchArtifacts.publicFiles).sort(),
+          publicState.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort(),
+          `${scenarioId}/${branchMode} public file projection drift`
+        );
+      }
+    }
+  });
+});

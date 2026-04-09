@@ -106,7 +106,7 @@ const buildRedactionProofUnchecked = /** @type {any} */ (buildRedactionProof);
 const buildDisclosureProofUnchecked = /** @type {any} */ (buildDisclosureProof);
 const buildDemoPublicStateUnchecked = /** @type {any} */ (buildDemoPublicState);
 
-export const SPEC_VERSION = 'ENGI Spec V15 canonical local prototype';
+export const SPEC_VERSION = 'ENGI Spec V16 canonical local prototype';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
@@ -117,7 +117,7 @@ const MAX_BPS_BIGINT = 10000n;
 const SOURCE_TO_SHARES_SCALE = 1000000n;
 const VECTOR_DIMENSIONS = 16;
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v15';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v15-canonical/2026-04-04';
+const DEFAULT_POLICY_REF = 'policy://engi/spec-v16-canonical/2026-04-09';
 const PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
@@ -4203,6 +4203,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/parsed-completion-envelopes.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.engi/eval-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/measurement-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/static-measurement-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-measurement-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },

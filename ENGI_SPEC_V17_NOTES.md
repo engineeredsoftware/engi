@@ -65,23 +65,25 @@ Practically, V17 should use them to ask:
 - which proof/artifact/operator seams are still only lightly tested,
 - and where a bug would currently hide because there is no integration or e2e ratchet on the seam.
 
-## Current V17 opening observations
+## Current V17 observations after the opening pass
 
-The first audit pass shows:
+The current audit pass shows:
 
-1. There is already strong subsystem coverage in `engi-demo/test/core.test.js`, but it is not yet framed as the canonical unit layer.
-2. `engi-demo/test/api.test.js` mixes endpoint validation with multi-step workflow behavior.
-3. `engi-demo/test/e2e.test.js` covers two important flows, but still only a narrow slice of production-like operator behavior.
-4. Runtime `testCoverageReport` still encodes the older `unit` / `api` / `browserE2E` vocabulary rather than an explicit V17 `unit` / `integration` / `e2e` stack.
-5. The demo already has realistic ingredients for integration testing:
+1. There is now strong subsystem coverage in `engi-demo/test/core.test.js`, and it is materially operating as the canonical unit layer.
+2. `engi-demo/test/api.test.js` is better separated from workflow integration than it was at the opening pass, though it still carries some workflow-adjacent coverage.
+3. `engi-demo/test/e2e.test.js` now covers a materially broader set of operator flows, including projection visibility, raw proof inspection, failure feedback, and reset behavior.
+4. Runtime `testCoverageReport` now encodes the explicit V17 `unit` / `integration` / `e2e` stack honestly.
+5. The demo already has realistic ingredients for integration and E2E testing:
    - authenticated repo artifact selection,
    - buyer/public projections,
    - normalization scenarios,
    - state persistence,
-   - and failure-safe writes.
-6. The V16 spec and parity matrix already identify strong candidate audit areas, so V17 can start from those guided seams rather than from generic test expansion.
+   - failure-safe writes,
+   - reviewer/internal replay differences,
+   - and bounded-public versus replay-capable proof visibility.
+6. The V16 spec and parity matrix already identify strong candidate audit areas, and V17 is now materially converting those guided seams into executable ratchets rather than leaving them as review-only guidance.
 
-This means V17 can start source-side immediately rather than staying speculative.
+This means V17 is no longer only “ready to start source-side.” It is already in the stage where the remaining work is to keep exhausting the inherited V16 audit surface through more scenario/principal/workflow depth.
 
 ## V17 drafting posture
 
@@ -125,22 +127,32 @@ The first clean V17 move is:
 - reflect that taxonomy in source-side test scripts and runtime coverage reporting,
 - and add at least one explicit closer-to-real workflow integration path so the integration layer is not only a naming change.
 
-## Current implemented V17 starting state
+## Current implemented V17 state
 
-That opening move is now materially started in source.
+That opening move is now materially advanced in source.
 
 The repo now has:
 - explicit `test:unit`, `test:integration`, and `test:e2e` scripts,
 - runtime coverage metadata updated to `unit` / `integration` / `e2e`,
 - a dedicated `workflow.integration.test.js` suite,
+- a demo shell aligned to canonical V16 rather than older V15-facing operator labeling,
+- a browser-visible projection visibility summary and proof-family catalog,
+- public suppression of hidden source-material path enumeration while still surfacing bounded counts,
+- reviewer-visible replay/proof artifacts without raw source-material exposure,
+- a full seeded scenario-corpus HTTP workflow audit across both `patch` and `context` branch modes,
+- principal-bounded projection checks across `internal` / `reviewer` / `buyer` / `public` over that corpus,
+- and a browser-visible internal-versus-reviewer source-material visibility seam,
+- and corrected static/demo serving for favicon and SVG typing,
 - and first V16-guided audit ratchets around:
   - full seeded scenario-matrix closure across both `patch` and `context` branch modes,
   - repo-authenticated workflow composition,
   - normalization/projection workflow composition,
   - privacy-boundary public disclosure boundedness,
   - reviewer-visible proof replay surfaces,
+  - reviewer-visible proof-family and replay-artifact closure versus public boundedness,
   - restrictive unsafe-patch verification/materialization exclusion behavior,
   - browser-visible identity/auth plus proof/disclosure panels,
+  - browser-visible projection visibility and proof-family catalog inspection,
   - browser-visible raw verification/materialization/proof inspection,
   - browser-visible projection switching across `buyer` / `reviewer` / `public` / `internal`,
   - reviewer versus internal projection differences,
@@ -153,3 +165,12 @@ This is the right shape for the beginning of V17 because it is already doing wha
 - use V16 as the audit inheritance guide,
 - surface real workflow assumptions,
 - and tighten the system by making those assumptions executable.
+
+The current verification state is also materially stronger than the opening pass:
+- `npm run typecheck` is green,
+- `npm run test:unit` is green,
+- `npm run test:integration` is green,
+- `npm run test:e2e` is green,
+- and `npm test` is green at `98/98`.
+
+That does not mean V17 is finished. It means the version has moved from “opening posture established” to “advanced, demonstrable, and now ready to keep exhausting the remaining V16 audit surface through more workflow-driven ratchets.”

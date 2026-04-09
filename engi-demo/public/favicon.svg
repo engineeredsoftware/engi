@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ENGI">
+  <defs>
+    <linearGradient id="engi-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8ab4ff" />
+      <stop offset="100%" stop-color="#68d391" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#09101f" stroke="#2a3a66" stroke-width="4" />
+  <path d="M19 18h26v8H27v7h15v8H27v5h18v8H19z" fill="url(#engi-gradient)" />
+</svg>

@@ -287,8 +287,15 @@ export function createAppContext({
       return;
     }
     const ext = path.extname(safePath);
-    const contentType = ext === '.html' ? 'text/html' : ext === '.css' ? 'text/css' : 'application/javascript';
-    res.writeHead(200, { 'Content-Type': `${contentType}; charset=utf-8` });
+    const contentType = ext === '.html'
+      ? 'text/html'
+      : ext === '.css'
+        ? 'text/css'
+        : ext === '.svg'
+          ? 'image/svg+xml'
+          : 'application/javascript';
+    const shouldAppendCharset = contentType.startsWith('text/') || contentType === 'application/javascript';
+    res.writeHead(200, { 'Content-Type': shouldAppendCharset ? `${contentType}; charset=utf-8` : contentType });
     res.end(fs.readFileSync(safePath));
   }
 

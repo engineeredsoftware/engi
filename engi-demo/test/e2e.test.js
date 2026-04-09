@@ -102,9 +102,72 @@ async function readSummary(page) {
  * @returns {Promise<import('playwright').Locator>}
  */
 async function surfaceByTitle(page, surfaceTitle) {
-  const surface = page.locator('article.json-surface').filter({ hasText: surfaceTitle }).first();
+  const surfaces = page.locator('article.json-surface');
+  const index = await surfaces.evaluateAll((articles, title) => articles.findIndex((article) => {
+    const heading = article.querySelector('h3');
+    if (!heading) return false;
+    const label = heading.querySelector('.label-with-info > span:first-child');
+    const text = (label?.textContent || heading.childNodes[0]?.textContent || heading.textContent || '').trim();
+    return text === title;
+  }), surfaceTitle);
+  if (index < 0) {
+    throw new Error(`Could not find surface with title ${surfaceTitle}`);
+  }
+  const surface = surfaces.nth(index);
   await surface.waitFor();
   return surface;
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} panelId
+ * @param {string} surfaceTitle
+ * @returns {Promise<import('playwright').Locator>}
+ */
+async function surfaceByTitleInSection(page, panelId, surfaceTitle) {
+  const surfaces = page.locator(`#${panelId} article.json-surface`);
+  const index = await surfaces.evaluateAll((articles, title) => articles.findIndex((article) => {
+    const heading = article.querySelector('h3');
+    if (!heading) return false;
+    const label = heading.querySelector('.label-with-info > span:first-child');
+    const text = (label?.textContent || heading.childNodes[0]?.textContent || heading.textContent || '').trim();
+    return text === title;
+  }), surfaceTitle);
+  if (index < 0) {
+    throw new Error(`Could not find surface with title ${surfaceTitle} in #${panelId}`);
+  }
+  const surface = surfaces.nth(index);
+  await surface.waitFor();
+  return surface;
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} panelId
+ * @param {string} subtitle
+ * @returns {Promise<import('playwright').Locator>}
+ */
+async function surfaceBySubtitleInSection(page, panelId, subtitle) {
+  const surfaces = page.locator(`#${panelId} article.json-surface`);
+  const index = await surfaces.evaluateAll((articles, subtitleText) => articles.findIndex((article) => {
+    const meta = article.querySelector('.json-surface-head > div > p.meta');
+    const text = meta?.textContent?.trim() || '';
+    return text === subtitleText;
+  }), subtitle);
+  if (index < 0) {
+    throw new Error(`Could not find surface with subtitle ${subtitle} in #${panelId}`);
+  }
+  const surface = surfaces.nth(index);
+  await surface.waitFor();
+  return surface;
+}
+
+/**
+ * @param {string} value
+ * @returns {string}
+ */
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**
@@ -122,6 +185,7 @@ testAny('browser flow keeps V15 ordering and drives deposit to targeted settleme
     const inventoryEntry = seededState.repoArtifactInventory.find((/** @type {any} */ entry) => entry.repo === authSession.repo);
 
     await loadDemo(page, baseUrl);
+    await page.waitForFunction(() => document.title.includes('Canonical V16'));
 
     assert.deepEqual(await readPanelHeadings(page), [
       '0. Operating picture',
@@ -149,7 +213,7 @@ testAny('browser flow keeps V15 ordering and drives deposit to targeted settleme
     await page.fill('input[name="title"]', 'Browser-selected auth bundle');
     await page.fill('textarea[name="operatorNote"]', 'Browser verification deposit.');
     await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
-    await waitForStatus(page, 'Candidate asset deposited into the V15 repo-authenticated flow.');
+    await waitForStatus(page, 'Candidate asset deposited into the canonical V16 repo-authenticated flow.');
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
@@ -170,6 +234,22 @@ testAny('browser flow keeps V15 ordering and drives deposit to targeted settleme
     assert.ok(await page.locator('#settlement').getByText('Journal diff').count() >= 1);
   });
 });
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} panelId
+ * @param {string} title
+ * @returns {Promise<number>}
+ */
+async function sectionSurfaceTitleCount(page, panelId, title) {
+  return page.locator(`#${panelId} article.json-surface`).evaluateAll((articles, headingTitle) => articles.filter((article) => {
+    const heading = article.querySelector('h3');
+    if (!heading) return false;
+    const label = heading.querySelector('.label-with-info > span:first-child');
+    const text = (label?.textContent || heading.childNodes[0]?.textContent || heading.textContent || '').trim();
+    return text === headingTitle;
+  }).length, title);
+}
 
 testAny('browser flow can switch to normalization mode and surface source-to-shares behavior', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
@@ -247,7 +327,7 @@ testAny('browser flow can reset back to the seeded state after a realized run', 
     assert.notEqual((await readSummary(page))['Latest bundle'], 'No run yet');
 
     await page.getByRole('button', { name: 'Reset demo' }).click();
-    await waitForStatus(page, 'Demo reset to the seeded Spec V15 scenario state.');
+    await waitForStatus(page, 'Demo reset to the seeded canonical V16 scenario state.');
 
     const resetSummary = await readSummary(page);
     assert.equal(resetSummary['Candidate assets'], '11');
@@ -256,31 +336,67 @@ testAny('browser flow can reset back to the seeded state after a realized run', 
   });
 });
 
+testAny('browser flow surfaces projection visibility and proof-family catalog for reviewer versus public', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.selectOption('#projectionPicker', 'reviewer');
+    await waitForStatus(page, 'Viewing reviewer projection.');
+    await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
+    await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
+
+    const reviewerSummary = await readSummary(page);
+    assert.equal(reviewerSummary['Projection'], 'reviewer');
+    assert.equal(reviewerSummary['Visible proof families'], '9');
+    assert.ok(Number(reviewerSummary['Visible branch artifacts']) > 0);
+
+    assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Projection visibility summary') >= 1);
+    assert.ok(await sectionSurfaceTitleCount(page, 'settlement', 'Proof family catalog') >= 1);
+    assert.ok(await page.locator('#settlement').getByText('prompt-completeness').count() >= 1);
+    assert.ok(await page.locator('#settlement').getByText('proof-contract').count() >= 1);
+
+    await page.selectOption('#projectionPicker', 'public');
+    await waitForStatus(page, 'Viewing public projection.');
+
+    const publicSummary = await readSummary(page);
+    assert.equal(publicSummary['Projection'], 'public');
+    assert.equal(publicSummary['Visible proof families'], '0');
+    assert.ok(Number(publicSummary['Visible branch artifacts']) < Number(reviewerSummary['Visible branch artifacts']));
+    assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Projection visibility summary') >= 1);
+    assert.equal(await sectionSurfaceTitleCount(page, 'settlement', 'Proof family catalog'), 0);
+  });
+});
+
 testAny('browser flow can inspect raw verification and proof JSON for a restrictive workflow', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
 
+    await page.selectOption('#projectionPicker', 'reviewer');
+    await waitForStatus(page, 'Viewing reviewer projection.');
     await page.selectOption('#scenarioPicker', 'unsafe-patch-review-recovery');
     await waitForStatus(page, 'Selected scenario unsafe-patch-review-recovery (Targeted deposit).');
 
     await page.getByRole('button', { name: 'Make ENGI branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_unsafe-patch-review-recovery');
 
-    const verificationSurface = await surfaceByTitle(page, 'Verification report');
+    const verificationSurface = await surfaceByTitleInSection(page, 'evaluations', 'Verification report');
     await verificationSurface.getByRole('button', { name: 'Raw' }).click();
     await activeRawPanelPre(verificationSurface).waitFor();
     const verificationRawText = await activeRawPanelPre(verificationSurface).textContent();
     assert.match(String(verificationRawText), /"useTier": "reject"/);
     assert.match(String(verificationRawText), /"policyRestrictions"/);
 
-    const exclusionsSurface = await surfaceByTitle(page, 'Materialization exclusions');
+    const exclusionsSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/materialization-exclusions.json');
     await exclusionsSurface.getByRole('button', { name: 'Raw' }).click();
     await activeRawPanelPre(exclusionsSurface).waitFor();
     const exclusionsRawText = await activeRawPanelPre(exclusionsSurface).textContent();
     assert.match(String(exclusionsRawText), /"exclusionClass"/);
     assert.match(String(exclusionsRawText), /Use tier reject does not authorize patch branch materialization/);
 
-    const proofSurface = await surfaceByTitle(page, 'System proof bundle');
+    const proofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/system-proof-bundle.json');
     await proofSurface.getByRole('button', { name: 'Raw' }).click();
     await activeRawPanelPre(proofSurface).waitFor();
     const proofRawText = await activeRawPanelPre(proofSurface).textContent();
@@ -312,9 +428,41 @@ testAny('browser flow can switch projections and keep proof visibility bounded b
 
     const publicSummary = await readSummary(page);
     assert.equal(publicSummary['Projection'], 'public');
-    assert.equal(await page.locator('#branchArtifacts article.json-surface h3').filter({ hasText: 'Proof witness manifest' }).count(), 0);
-    assert.equal(await page.locator('#settlement article.json-surface h3').filter({ hasText: 'System proof bundle' }).count(), 0);
-    assert.ok(await page.locator('#settlement article.json-surface h3').filter({ hasText: 'Bounded public proof' }).count() >= 1);
-    assert.equal(await page.locator('#branchArtifacts').getByText('.engi/proof-contract.json').count(), 0);
+    assert.equal(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Proof witness manifest'), 0);
+    assert.equal(await sectionSurfaceTitleCount(page, 'settlement', 'System proof bundle'), 0);
+    assert.ok(await sectionSurfaceTitleCount(page, 'settlement', 'Bounded public proof') >= 1);
+    assert.equal(await sectionSurfaceTitleCount(page, 'settlement', 'Proof contract'), 0);
+  });
+});
+
+testAny('browser flow can switch between internal and reviewer visibility without leaking raw source material', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.selectOption('#projectionPicker', 'internal');
+    await waitForStatus(page, 'Viewing internal projection.');
+    await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
+    await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
+
+    const internalSummary = await readSummary(page);
+    assert.equal(internalSummary['Projection'], 'internal');
+    assert.equal(internalSummary['Visible proof families'], '9');
+    assert.ok(Number(internalSummary['Visible branch artifacts']) > 0);
+    assert.ok(await page.locator('#branchArtifacts').getByText('raw branch files available').count() >= 1);
+    assert.ok(await page.locator('#branchArtifacts').getByText('.engi/source-material/').count() >= 1);
+
+    await page.selectOption('#projectionPicker', 'reviewer');
+    await waitForStatus(page, 'Viewing reviewer projection.');
+
+    const reviewerSummary = await readSummary(page);
+    assert.equal(reviewerSummary['Projection'], 'reviewer');
+    assert.equal(reviewerSummary['Visible proof families'], '9');
+    assert.ok(Number(reviewerSummary['Visible branch artifacts']) < Number(internalSummary['Visible branch artifacts']));
+    assert.ok(await page.locator('#branchArtifacts').getByText('bounded projection only').count() >= 1);
+    assert.equal(await page.locator('#branchArtifacts').getByText('.engi/source-material/').count(), 0);
+    assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Proof witness manifest') >= 1);
   });
 });
