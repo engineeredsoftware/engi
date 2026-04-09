@@ -498,6 +498,210 @@ testAny('reviewer projection retains proof-family artifacts and replay-required 
   });
 });
 
+testAny('prompt and inference workflow keeps prompt-owned fields, moment contracts, envelopes, and markdown consumers aligned', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const run = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'auth-issuer-rollback',
+        principal: 'internal'
+      })
+    });
+
+    assert.equal(run.statusCode, 200);
+
+    const latestRun = run.json.latestRun;
+    const branchFiles = latestRun.branchArtifacts.files || {};
+    const expectedFields = EXPECTED_PROOF_FAMILY_CATALOG['prompt-completeness'].memberIds;
+    const promptMembers = latestRun.promptFamilyRegistry.promptMembers || [];
+    const momentByField = new Map(latestRun.inferenceMomentContracts.flatMap((/** @type {any} */ contract) => (contract.outputFields || []).map((/** @type {string} */ field) => [field, contract])));
+    const proofByField = new Map(latestRun.inferenceProofs.map((/** @type {any} */ proof) => [proof.outputField, proof]));
+    const envelopeByField = new Map(latestRun.parsedCompletionEnvelopes.flatMap((/** @type {any} */ envelope) => (envelope.ownedOutputFields || []).map((/** @type {string} */ field) => [field, envelope])));
+
+    assert.deepEqual(latestRun.promptFamilyRegistry.registeredPromptOwnedFields, expectedFields);
+    assert.deepEqual(promptMembers.map((/** @type {any} */ member) => member.memberId), expectedFields);
+    assert.equal(latestRun.promptCompletenessProof.allTheoremsPassed, true);
+    assert.equal(latestRun.inferenceSynthesisProof.allTheoremsPassed, true);
+    assert.equal(latestRun.parsedCompletionEnvelopeArtifact.allContractsResolved, true);
+    assert.equal(latestRun.parsedCompletionEnvelopeArtifact.allPayloadsAdmissible, true);
+
+    for (const member of promptMembers) {
+      const moment = momentByField.get(member.memberId);
+      const proof = proofByField.get(member.memberId);
+      const envelope = envelopeByField.get(member.memberId);
+
+      assert.equal(member.completenessOk, true, `${member.memberId} prompt completeness drift`);
+      assert.match(String(member.parseContractId), /^parse_contract_/);
+      assert.ok(member.downstreamArtifacts.length >= 1, `${member.memberId} lost downstream consumers`);
+      assert.ok(moment, `${member.memberId} missing moment contract`);
+      assert.ok(proof, `${member.memberId} missing inference proof`);
+      assert.ok(envelope, `${member.memberId} missing parsed envelope`);
+      assert.equal(proof.momentContractId, moment.momentContractId, `${member.memberId} moment contract mismatch`);
+      assert.equal(proof.evidenceBasisClosedToMoment, true, `${member.memberId} evidence basis drift`);
+      assert.equal(proof.evaluatorStatusClosedToMoment, true, `${member.memberId} evaluator status drift`);
+      assert.equal(envelope.admissible, true, `${member.memberId} parsed envelope drift`);
+      assert.equal(moment.parseContractId, member.parseContractId, `${member.memberId} parse contract drift`);
+
+      for (const artifactPath of member.downstreamArtifacts) {
+        assert.ok(branchFiles[artifactPath], `${member.memberId} missing downstream artifact ${artifactPath}`);
+      }
+    }
+
+    assert.match(String(branchFiles['ENGI_NEED.md'] || ''), /## Closure criteria/);
+    assert.match(String(branchFiles['ENGI_NEED.md'] || ''), /## Target artifact kinds/);
+  });
+});
+
+testAny('static and verification workflow keeps receipt domains, report families, and proof bindings separated', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const run = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'polyglot-gateway-benchmark-remediation',
+        principal: 'internal'
+      })
+    });
+
+    assert.equal(run.statusCode, 200);
+
+    const latestRun = run.json.latestRun;
+    const branchFiles = latestRun.branchArtifacts.files || {};
+    const measurementReceiptIds = new Set(latestRun.measurementReceipts.map((/** @type {any} */ receipt) => receipt.receiptId));
+    const verificationReceiptIds = new Set(latestRun.verificationReceipts.verificationReceipts.map((/** @type {any} */ receipt) => receipt.receiptId));
+    const staticFamily = latestRun.systemProofBundle.proofFamilies.find((/** @type {any} */ family) => family.proofFamily === 'static-code-analysis');
+    const verificationFamily = latestRun.systemProofBundle.proofFamilies.find((/** @type {any} */ family) => family.proofFamily === 'verification-decisions');
+
+    assert.ok(latestRun.measurementReceipts.length >= 3);
+    assert.ok(latestRun.verificationReceipts.verificationReceipts.length >= latestRun.evaluatedCandidates.length);
+    assert.equal(latestRun.staticMeasurementReport.receiptCount, latestRun.measurementReceipts.length);
+    assert.equal(latestRun.staticMeasurementReport.allReceiptRefsResolve, true);
+    assert.equal(latestRun.staticMeasurementProof.allTheoremsPassed, true);
+    assert.equal(latestRun.verificationDecisionsProof.allTheoremsPassed, true);
+    assert.deepEqual(latestRun.verificationReport.verificationFamilies, EXPECTED_PROOF_FAMILY_CATALOG['verification-decisions'].memberIds);
+    assert.deepEqual(staticFamily?.memberIds, EXPECTED_PROOF_FAMILY_CATALOG['static-code-analysis'].memberIds);
+    assert.deepEqual(verificationFamily?.memberIds, EXPECTED_PROOF_FAMILY_CATALOG['verification-decisions'].memberIds);
+    assert.ok(latestRun.measurementReceipts.every((/** @type {any} */ receipt) => !String(receipt.stageId || '').startsWith('verification.')));
+    assert.ok(latestRun.verificationReceipts.verificationReceipts.every((/** @type {any} */ receipt) => String(receipt.stageId || '').startsWith('verification.')));
+
+    for (const receiptId of measurementReceiptIds) {
+      assert.equal(verificationReceiptIds.has(receiptId), false, `receipt domain overlap detected for ${receiptId}`);
+    }
+
+    assert.ok(branchFiles['.engi/measurement-receipts.json']);
+    assert.ok(branchFiles['.engi/static-measurement-report.json']);
+    assert.ok(branchFiles['.engi/static-measurement-proof.json']);
+    assert.ok(branchFiles['.engi/verification-report.json']);
+    assert.ok(branchFiles['.engi/verification-receipts.json']);
+    assert.ok(branchFiles['.engi/verification-decisions-proof.json']);
+  });
+});
+
+testAny('selection, authorization, and disclosure workflow keeps source material private while reviewer replay stays proof-capable', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const run = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'privacy-boundary-proof-export',
+        principal: 'internal'
+      })
+    });
+
+    assert.equal(run.statusCode, 200);
+
+    const latestRun = run.json.latestRun;
+    const selectedAssetIds = new Set(latestRun.assetPack.selectedAssets || []);
+    const materializedAssetIds = new Set((latestRun.selectedSourceMaterialManifest.selectedSourceMaterial || []).map((/** @type {any} */ entry) => entry.assetId));
+    const dataClasses = new Set((latestRun.sensitiveDataFlowRecords || []).map((/** @type {any} */ record) => record.dataClass));
+
+    assert.equal(latestRun.selectionAndMaterializationProof.allTheoremsPassed, true);
+    assert.equal(latestRun.materializationVisibilityProof.noPrivateArtifactsLeakIntoPublicProjection, true);
+    assert.equal(latestRun.authorizationAndSensitiveFlowProof.allTheoremsPassed, true);
+    assert.equal(latestRun.identityAuthorizationProof.allStateChangingActionsAuthorized, true);
+    assert.ok(latestRun.authorizationDecisions.some((/** @type {any} */ decision) => decision.action === 'materialize:selected-source-material' && decision.decision === 'allow'));
+    assert.ok(latestRun.authorizationDecisions.some((/** @type {any} */ decision) => decision.action === 'derive:bounded-public-proof-metadata' && decision.decision === 'allow'));
+    assert.ok(dataClasses.has('licensed-source-material'));
+    assert.ok(dataClasses.has('private-proof-artifact'));
+    assert.ok(dataClasses.has('bounded-public-proof-metadata'));
+
+    for (const assetId of selectedAssetIds) {
+      assert.equal(materializedAssetIds.has(assetId), true, `selected asset ${assetId} lost materialized source`);
+    }
+
+    const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+    const projectedPublic = await invoke(app, { method: 'GET', url: '/api/state?principal=public' });
+
+    assert.equal(reviewer.statusCode, 200);
+    assert.equal(projectedPublic.statusCode, 200);
+    assert.equal(reviewer.json.latestRun.selectedSourceMaterialManifest, undefined);
+    assert.equal(reviewer.json.latestRun.authorizationDecisions, undefined);
+    assert.equal(reviewer.json.latestRun.sensitiveDataFlowRecords, undefined);
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/selection-and-materialization-proof.json'));
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/authorization-and-sensitive-flow-proof.json'));
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/disclosure-proof.json'));
+    assert.equal(projectedPublic.json.latestRun.selectedSourceMaterialManifest, undefined);
+    assert.equal(projectedPublic.json.latestRun.authorizationDecisions, undefined);
+    assert.equal(projectedPublic.json.latestRun.sensitiveDataFlowRecords, undefined);
+    assert.ok(projectedPublic.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
+    assert.equal('.engi/selected-source-material.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+    assert.equal('.engi/authorization-decisions.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+    assert.equal('.engi/sensitive-data-flow.json' in projectedPublic.json.latestRun.publicArtifacts, false);
+  });
+});
+
+testAny('normalization settlement workflow keeps zero-credit participation, allocation, and accounting exactness aligned', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const run = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        scenarioId: 'auth-many-asset-normalization',
+        branchMode: 'context',
+        principal: 'internal'
+      })
+    });
+
+    assert.equal(run.statusCode, 200);
+
+    const latestRun = run.json.latestRun;
+    const branchFiles = latestRun.branchArtifacts.files || {};
+    const zeroCreditAssetIds = [...(latestRun.settlementPreview.zeroCreditAssetIds || [])].sort();
+    const zeroCreditParticipatingAssetIds = latestRun.settlementParticipationArtifact.records
+      .filter((/** @type {any} */ record) => record.zeroCreditParticipating)
+      .map((/** @type {any} */ record) => record.assetId)
+      .sort();
+    const settlementParticipatingAssetIds = latestRun.settlementParticipationArtifact.records
+      .filter((/** @type {any} */ record) => record.settlementParticipating)
+      .map((/** @type {any} */ record) => record.assetId)
+      .sort();
+    const totalCredits = latestRun.journalDiff.credits.reduce(
+      (/** @type {bigint} */ sum, /** @type {any} */ entry) => sum + BigInt(entry.delta),
+      0n
+    );
+
+    assert.equal(latestRun.branchMode, 'context');
+    assert.equal(latestRun.settlementSourceToSharesProof.allTheoremsPassed, true);
+    assert.equal(latestRun.accountingPrecisionReport.exactAccountingInvariants.allocationConserved, true);
+    assert.equal(latestRun.accountingPrecisionReport.exactAccountingInvariants.zeroCreditParticipationExplicit, true);
+    assert.ok(latestRun.sourceToSharesArtifact.sourceContributionEntries.length >= 2);
+    assert.ok(latestRun.sourceToSharesArtifact.normalizationLedger.length >= 2);
+    assert.ok(latestRun.settlementParticipationArtifact.zeroCreditParticipatingCount >= 1);
+    assert.deepEqual(zeroCreditParticipatingAssetIds, zeroCreditAssetIds);
+    assert.deepEqual(settlementParticipatingAssetIds, [...(latestRun.settlementPreview.settlementParticipatingAssetIds || [])].sort());
+    assert.equal(String(totalCredits), latestRun.journalDiff.totals.credited);
+    assert.ok(branchFiles['.engi/source-to-shares.json']);
+    assert.ok(branchFiles['.engi/settlement-participation.json']);
+    assert.ok(branchFiles['.engi/accounting-precision-report.json']);
+    assert.ok(branchFiles['.engi/settlement-source-to-shares-proof.json']);
+  });
+});
+
 testAny('seeded scenario corpus remains family/member/projection coherent through HTTP workflows', async (t) => {
   await withApp(t, async ({ app }) => {
     const initialState = await invoke(app, { method: 'GET', url: '/api/state' });

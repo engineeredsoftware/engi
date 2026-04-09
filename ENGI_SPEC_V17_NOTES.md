@@ -137,10 +137,12 @@ The repo now has:
 - a dedicated `workflow.integration.test.js` suite,
 - a demo shell aligned to canonical V16 rather than older V15-facing operator labeling,
 - a browser-visible projection visibility summary and proof-family catalog,
+- browser-visible first-class audit surfaces for prompt-family registry, prompt contracts, inference moment contracts, inference proofs, parsed completion envelopes, prompt/inference family proofs, static measurement report/proof, verification decisions proof, selection/materialization proofs, authorization/sensitive-flow proof, projection policy, redaction/disclosure proofs, and settlement/disclosure family proofs,
 - public suppression of hidden source-material path enumeration while still surfacing bounded counts,
 - reviewer-visible replay/proof artifacts without raw source-material exposure,
 - a full seeded scenario-corpus HTTP workflow audit across both `patch` and `context` branch modes,
 - exact proof-family catalog, member-id, and theorem-id verification across that seeded HTTP corpus,
+- family-specific workflow ratchets for prompt/inference closure, static-vs-verification receipt-domain separation, selection/auth/disclosure private-source closure, and normalization settlement exactness,
 - principal-bounded projection checks across `internal` / `reviewer` / `buyer` / `public` over that corpus,
 - and a browser-visible internal-versus-reviewer source-material visibility seam,
 - and corrected static/demo serving for favicon and SVG typing,
@@ -151,9 +153,15 @@ The repo now has:
   - privacy-boundary public disclosure boundedness,
   - reviewer-visible proof replay surfaces,
   - reviewer-visible proof-family and replay-artifact closure versus public boundedness,
+  - prompt/inference prompt-owned field, moment-contract, parsed-envelope, and downstream consumer closure,
+  - static code-analysis versus verification decision receipt-domain separation,
+  - selection/materialization visibility and authorization/sensitive-flow closure,
+  - normalization settlement zero-credit participation and accounting exactness,
   - restrictive unsafe-patch verification/materialization exclusion behavior,
   - browser-visible identity/auth plus proof/disclosure panels,
   - browser-visible projection visibility and proof-family catalog inspection,
+  - browser-visible prompt/inference audit artifact inspection,
+  - browser-visible static, authorization, and settlement family proof inspection,
   - browser-visible raw verification/materialization/proof inspection, including proof-family member/theorem surfaces,
   - browser-visible projection switching across `buyer` / `reviewer` / `public` / `internal`,
   - reviewer versus internal projection differences,
@@ -167,11 +175,13 @@ This is the right shape for the beginning of V17 because it is already doing wha
 - surface real workflow assumptions,
 - and tighten the system by making those assumptions executable.
 
+This pass also found a real source-side proof/documentation seam: `ENGI_NEED.md` was still returning an older markdown body before the V16 prompt-completeness fields. The audit ratchet forced the artifact to render failure modes, constraints, target artifact kinds, and closure criteria from the same proved prompt/inference family surfaces.
+
 The current verification state is also materially stronger than the opening pass:
 - `npm run typecheck` is green,
 - `npm run test:unit` is green,
 - `npm run test:integration` is green,
 - `npm run test:e2e` is green,
-- and `npm test` is green at `98/98`.
+- and `npm test` is green at `104/104`.
 
 That does not mean V17 is finished. It means the version has moved from “opening posture established” to “advanced, demonstrable, and now ready to keep exhausting the remaining V16 audit surface through more workflow-driven ratchets.”

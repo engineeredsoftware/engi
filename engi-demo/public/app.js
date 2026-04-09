@@ -5726,10 +5726,91 @@ function renderBranchArtifacts(state) {
       accent: 'accent-purple'
     },
     {
+      title: 'Prompt family registry',
+      subtitle: '.engi/prompt-family-registry.json',
+      explainerKey: 'proof-closure',
+      data: run.promptFamilyRegistry,
+      raw: branchFiles['.engi/prompt-family-registry.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Prompt contracts',
+      subtitle: '.engi/prompt-contracts.json',
+      explainerKey: 'proof-closure',
+      data: run.promptContracts,
+      raw: branchFiles['.engi/prompt-contracts.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Inference moment contracts',
+      subtitle: '.engi/inference-moment-contracts.json',
+      explainerKey: 'proof-closure',
+      data: run.inferenceMomentContracts,
+      raw: branchFiles['.engi/inference-moment-contracts.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Inference proofs',
+      subtitle: '.engi/inference-proofs.json',
+      explainerKey: 'proof-closure',
+      data: run.inferenceProofs,
+      raw: branchFiles['.engi/inference-proofs.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Parsed completion envelopes',
+      subtitle: '.engi/parsed-completion-envelopes.json',
+      explainerKey: 'proof-closure',
+      data: run.parsedCompletionEnvelopeArtifact || run.parsedCompletionEnvelopes,
+      raw: branchFiles['.engi/parsed-completion-envelopes.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Prompt implementation surface',
+      subtitle: '.engi/prompt-implementation-surface.json',
+      explainerKey: 'proof-closure',
+      data: run.promptImplementationSurface,
+      raw: branchFiles['.engi/prompt-implementation-surface.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Prompt completeness family proof',
+      subtitle: '.engi/prompt-completeness-proof.json',
+      explainerKey: 'proof-closure',
+      data: run.promptCompletenessProof,
+      raw: branchFiles['.engi/prompt-completeness-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Inference synthesis family proof',
+      subtitle: '.engi/inference-synthesis-proof.json',
+      explainerKey: 'proof-closure',
+      data: run.inferenceSynthesisProof,
+      raw: branchFiles['.engi/inference-synthesis-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
       title: 'Code analysis / static heuristics registry',
       subtitle: '.engi/static-heuristics-registry.json',
       data: run.staticHeuristicsRegistry || run.codeAnalysisFactRegistry,
       raw: branchFiles['.engi/static-heuristics-registry.json'] || branchFiles['.engi/code-analysis-fact-registry.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-blue'
+    },
+    {
+      title: 'Static measurement report',
+      subtitle: '.engi/static-measurement-report.json',
+      explainerKey: 'proof-closure',
+      data: run.staticMeasurementReport,
+      raw: branchFiles['.engi/static-measurement-report.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-blue'
     },
@@ -5746,6 +5827,15 @@ function renderBranchArtifacts(state) {
       subtitle: '.engi/static-measurement-proof.json',
       data: run.staticMeasurementProof,
       raw: branchFiles['.engi/static-measurement-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Verification decisions family proof',
+      subtitle: '.engi/verification-decisions-proof.json',
+      explainerKey: 'proof-closure',
+      data: run.verificationDecisionsProof,
+      raw: branchFiles['.engi/verification-decisions-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
@@ -5768,11 +5858,47 @@ function renderBranchArtifacts(state) {
       accent: 'accent-purple'
     },
     {
+      title: 'Selection consistency proof',
+      subtitle: '.engi/selection-consistency-proof.json',
+      explainerKey: 'branch-materialization',
+      data: run.selectionConsistencyProof,
+      raw: branchFiles['.engi/selection-consistency-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
       title: 'Materialization exclusions',
       subtitle: '.engi/materialization-exclusions.json',
       explainerKey: 'branch-materialization',
       data: run.materializationExclusions,
       raw: branchFiles['.engi/materialization-exclusions.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-slate'
+    },
+    {
+      title: 'Selection and materialization family proof',
+      subtitle: '.engi/selection-and-materialization-proof.json',
+      explainerKey: 'proof-closure',
+      data: run.selectionAndMaterializationProof,
+      raw: branchFiles['.engi/selection-and-materialization-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Authorization and sensitive-flow family proof',
+      subtitle: '.engi/authorization-and-sensitive-flow-proof.json',
+      explainerKey: 'proof-closure',
+      data: run.authorizationAndSensitiveFlowProof,
+      raw: branchFiles['.engi/authorization-and-sensitive-flow-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Projection policy',
+      subtitle: '.engi/projection-policy.json',
+      explainerKey: 'projection',
+      data: run.projectionPolicy,
+      raw: branchFiles['.engi/projection-policy.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-slate'
     },
@@ -6007,6 +6133,46 @@ function renderSettlement(state) {
       data: run.boundedPublicProof,
       visual: renderBoundedProofVisual,
       accent: 'accent-slate'
+    },
+    {
+      title: 'Redaction proof',
+      subtitle: '.engi/redaction-proof.json',
+      eyebrow: 'Proof artifact',
+      explainerKey: 'bounded-public-proof',
+      data: run.redactionProof,
+      raw: branchFiles['.engi/redaction-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Disclosure proof',
+      subtitle: '.engi/disclosure-proof.json',
+      eyebrow: 'Proof artifact',
+      explainerKey: 'bounded-public-proof',
+      data: run.disclosureProof,
+      raw: branchFiles['.engi/disclosure-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Settlement source-to-shares family proof',
+      subtitle: '.engi/settlement-source-to-shares-proof.json',
+      eyebrow: 'Proof artifact',
+      explainerKey: 'proof-closure',
+      data: run.settlementSourceToSharesProof,
+      raw: branchFiles['.engi/settlement-source-to-shares-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
+    },
+    {
+      title: 'Disclosure boundary family proof',
+      subtitle: '.engi/disclosure-boundary-proof.json',
+      eyebrow: 'Proof artifact',
+      explainerKey: 'proof-closure',
+      data: run.disclosureBoundaryProof,
+      raw: branchFiles['.engi/disclosure-boundary-proof.json'],
+      visual: surfaceVisualFallback,
+      accent: 'accent-purple'
     }
   ];
 

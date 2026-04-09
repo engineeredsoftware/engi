@@ -209,6 +209,7 @@ The current opening source state now includes:
 - a dedicated `engi-demo/test/workflow.integration.test.js` suite,
 - a browser shell aligned to the canonical V16 operator posture rather than the older V15-facing labeling,
 - projection visibility and proof-family catalog surfaces in the demo UI,
+- direct browser-visible audit surfaces for prompt-family registry, prompt contracts, inference moment contracts, inference proofs, parsed completion envelopes, prompt/inference family proofs, static reports, verification/selection/auth/disclosure family proofs, and settlement source-to-shares proof,
 - public suppression of hidden private source-material path enumeration while retaining bounded visibility counts,
 - reviewer-visible replay/proof surfaces without raw source-material exposure,
 - and static-serving/UI polish fixes required for a credible demo surface, including the demo favicon and correct SVG content typing,
@@ -221,15 +222,23 @@ The current opening source state now includes:
   - reviewer versus internal projection differences,
   - full seeded scenario-corpus workflow closure across both `patch` and `context`,
   - exact proof-family catalog, member-id, and theorem-id closure across that seeded corpus,
+  - prompt/inference workflow closure across prompt-owned fields, moment contracts, inference proofs, parsed envelopes, and declared downstream consumers,
+  - static-vs-verification receipt-domain and proof-binding separation,
+  - selection/materialization plus authorization/sensitive-flow private-source visibility closure,
+  - normalization settlement exactness including zero-credit participation and source-to-shares replay artifacts,
   - reviewer versus public proof-family and replay-artifact visibility closure,
   - API failure semantics for unsupported principals, branch modes, and scenarios,
   - browser-visible projection switching across operator principals,
   - browser-visible projection visibility summary and proof-family catalog inspection,
+  - browser-visible prompt/inference audit artifact inspection,
+  - browser-visible static, authorization, and settlement family proof inspection,
   - browser-visible internal versus reviewer source-material visibility boundaries,
   - browser-visible raw verification/materialization/proof inspection, including proof-family member ids and theorem ids,
   - browser-visible deposit validation failures,
   - browser-visible reset after a realized run,
   - and deeper unit replay-catalog closure over proof families, witness paths, and emitted branch artifacts.
+
+The current V17 audit also exposed and fixed a source-side documentation/runtime seam: `ENGI_NEED.md` was still returning an older markdown body before the V16 prompt-completeness additions. It now renders failure modes, constraints, target artifact kinds, and closure criteria from the same prompt/inference surfaces that prove those fields.
 
 Current verification state for this pass is:
 - `npm run typecheck`
@@ -238,7 +247,7 @@ Current verification state for this pass is:
 - `npm run test:e2e`
 - `npm test`
 
-All are green in the current worktree, with `98/98` tests passing in the full suite.
+All are green in the current worktree, with `104/104` tests passing in the full suite after the latest audit ratchets.
 
 ## V17 opening success condition
 
