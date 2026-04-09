@@ -187,6 +187,14 @@ function activeProjectionPrincipal(state) {
 }
 
 /**
+ * @param {AppState | null | undefined} state
+ * @returns {string}
+ */
+function activeBranchMode(state) {
+  return selectedBranchMode || state?.latestRun?.branchMode || 'patch';
+}
+
+/**
  * @param {unknown} data
  * @param {unknown} raw
  * @returns {boolean}
@@ -213,6 +221,8 @@ const scenarioPickerEl = requireElement('scenarioPicker');
 /** @type {HTMLSelectElement} */
 const projectionPickerEl = requireElement('projectionPicker');
 /** @type {HTMLSelectElement} */
+const branchModePickerEl = requireElement('branchModePicker');
+/** @type {HTMLSelectElement} */
 const authSessionPickerEl = requireElement('authSessionPicker');
 /** @type {HTMLInputElement} */
 const inventorySearchInputEl = requireElement('inventorySearchInput');
@@ -231,6 +241,7 @@ let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
 let selectedProjectionPrincipal = 'buyer';
+let selectedBranchMode = 'patch';
 let selectedAuthSessionId = '';
 /** @type {Set<string>} */
 let selectedInventoryEntryIds = new Set();
@@ -2858,6 +2869,16 @@ function syncScenarioPicker(state) {
 
 /**
  * @param {AppState} state
+ * @returns {void}
+ */
+function syncBranchModePicker(state) {
+  const desiredBranchMode = activeBranchMode(state);
+  branchModePickerEl.value = ['patch', 'context'].includes(desiredBranchMode) ? desiredBranchMode : 'patch';
+  selectedBranchMode = branchModePickerEl.value;
+}
+
+/**
+ * @param {AppState} state
  * @returns {ScenarioShape | null}
  */
 function currentScenario(state) {
@@ -5351,7 +5372,10 @@ function renderSummary(state) {
   const needingSurface = activeNeedingSurface(state);
   const fitSurface = activeDepositingToNeedingSurface(state);
   const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
-  const bundleId = latestRun?.settlementPreview?.bundleId || 'No run yet';
+  const bundleId = latestRun?.settlementPreview?.bundleId
+    || latestRun?.boundedPublicProof?.bundleId
+    || latestRun?.journalDiff?.bundleId
+    || 'No run yet';
   const activeScenario = currentScenario(state);
   const activeProfile = latestRun?.realizationProfile || activeScenario?.realizationProfile;
 
@@ -5363,6 +5387,7 @@ function renderSummary(state) {
     summaryTile('Need scenarios', state.needScenarios?.length || 0, 'needing'),
     summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
     summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v15-scenario-preview'),
+    summaryTile('Branch mode', activeBranchMode(state), 'branch-artifacts'),
     summaryTile('Projection', activeProjectionPrincipal(state), 'projection'),
     summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
     summaryTile('Fit pressure', fitSurface?.normalizationPressure || 'pending', 'normalization-pressure'),
@@ -6219,6 +6244,7 @@ async function refresh() {
   projectionPickerEl.value = activeProjectionPrincipal(state);
   lastLoadedState = state;
   syncScenarioPicker(state);
+  syncBranchModePicker(state);
   syncAuthSessionPicker(state);
   syncInventoryKindFilter(state);
   renderRepoInventory(state);
@@ -6260,7 +6286,11 @@ makeBranchButtonEl.addEventListener('click', async () => {
     setStatus('Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…');
     const result = /** @type {AppState} */ (await api('/api/make-engi-branch', {
       method: 'POST',
-      body: JSON.stringify({ principal: activeProjectionPrincipal(lastLoadedState), scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
+      body: JSON.stringify({
+        principal: activeProjectionPrincipal(lastLoadedState),
+        scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined,
+        branchMode: activeBranchMode(lastLoadedState)
+      })
     }));
     const latestRun = result.latestRun;
     await refresh();
@@ -6278,6 +6308,18 @@ projectionPickerEl?.addEventListener('change', async () => {
   } catch (error) {
     setStatus(errorMessage(error));
   }
+});
+
+branchModePickerEl?.addEventListener('change', () => {
+  selectedBranchMode = branchModePickerEl.value || 'patch';
+  if (lastLoadedState) {
+    renderSummary(lastLoadedState);
+    renderOperatingPicture(lastLoadedState);
+    renderFit(lastLoadedState);
+    decorateStaticExplainers();
+    syncExplainerAlignment();
+  }
+  setStatus(`Selected branch mode ${selectedBranchMode}.`);
 });
 
 scenarioPickerEl?.addEventListener('change', () => {

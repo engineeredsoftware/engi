@@ -1167,6 +1167,8 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
           'canonical panel ordering from repo supply through settlement',
           'repo-authenticated deposit flow to targeted settlement',
           'normalization-heavy scenario switching and source-to-shares visibility',
+          'full 8 scenario x 2 branch mode x 4 projection-principal operator matrix',
+          'exact browser-visible projection artifact inventories from the projection policy',
           'browser-visible invalid deposit recovery, no-survivor conflict recovery, repeated-run refresh, and projection-bounded proof visibility'
         ]
       }

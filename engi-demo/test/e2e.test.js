@@ -178,6 +178,140 @@ function activeRawPanelPre(surface) {
   return surface.locator('.surface-panel-raw.active pre').first();
 }
 
+/**
+ * @param {string[]} values
+ * @returns {string[]}
+ */
+function sortedStrings(values) {
+  return [...values].sort((a, b) => a.localeCompare(b));
+}
+
+/**
+ * @param {string[] | undefined} actual
+ * @param {string[]} expected
+ * @param {string} message
+ * @returns {void}
+ */
+function assertSameStrings(actual, expected, message) {
+  assert.deepEqual(sortedStrings(actual || []), sortedStrings(expected), message);
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} label
+ * @param {string} expectedValue
+ * @returns {Promise<void>}
+ */
+async function waitForSummaryValue(page, label, expectedValue) {
+  await page.waitForFunction(({ summaryLabel, value }) => {
+    const cards = Array.from(document.querySelectorAll('.summary-card'));
+    return cards.some((card) => {
+      const wrapped = card.querySelector('.meta > .label-with-info');
+      const currentLabel = wrapped?.firstElementChild?.textContent?.trim() || card.querySelector('.meta')?.textContent?.trim() || '';
+      const currentValue = card.querySelector(':scope > strong')?.textContent?.trim() || '';
+      return currentLabel === summaryLabel && currentValue === value;
+    });
+  }, { summaryLabel: label, value: expectedValue });
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} principal
+ * @returns {Promise<any>}
+ */
+async function fetchProjectedState(page, principal) {
+  return page.evaluate(async (projectionPrincipal) => {
+    const response = await fetch(`/api/state?principal=${encodeURIComponent(projectionPrincipal)}`);
+    const json = await response.json();
+    if (!response.ok) throw new Error(json.error || `Failed to fetch ${projectionPrincipal} projection`);
+    return json;
+  }, principal);
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @returns {Promise<any>}
+ */
+async function readProjectionVisibilitySummary(page) {
+  const surface = await surfaceByTitleInSection(page, 'branchArtifacts', 'Projection visibility summary');
+  await surface.getByRole('button', { name: 'Raw' }).click();
+  await activeRawPanelPre(surface).waitFor();
+  return JSON.parse(String(await activeRawPanelPre(surface).textContent() || '{}'));
+}
+
+/**
+ * @param {{
+ *   page: import('playwright').Page,
+ *   principal: string,
+ *   scenarioId: string,
+ *   branchMode: string,
+ *   cellLabel: string
+ * }} input
+ * @returns {Promise<void>}
+ */
+async function assertOperatorProjectionCell({ page, principal, scenarioId, branchMode, cellLabel }) {
+  const projected = await fetchProjectedState(page, principal);
+  const internal = await fetchProjectedState(page, 'internal');
+  const projectedRun = projected.latestRun;
+  const internalRun = internal.latestRun;
+  const projectionSummary = await readProjectionVisibilitySummary(page);
+  const publicArtifactPaths = projectedRun.projectionPolicy.publicArtifactPaths || [];
+  const privateArtifactPaths = projectedRun.projectionPolicy.privateArtifactPaths || [];
+  const policyVisibleNonSourcePaths = [...new Set([...publicArtifactPaths, ...privateArtifactPaths])]
+    .filter((artifactPath) => !artifactPath.startsWith('.engi/source-material/'));
+  const internalRawPaths = Object.keys(internalRun.branchArtifacts.files || {});
+  const nonSourceRawPaths = internalRawPaths.filter((artifactPath) => !artifactPath.startsWith('.engi/source-material/'));
+
+  assert.equal(projected.projectionPrincipal, principal, `${cellLabel} projected principal drift`);
+  assert.equal(projectedRun.scenarioId, scenarioId, `${cellLabel} projected scenario drift`);
+  assert.equal(projectedRun.branchMode, branchMode, `${cellLabel} projected branch-mode drift`);
+  assert.equal(internalRun.scenarioId, scenarioId, `${cellLabel} internal scenario drift`);
+  assert.equal(internalRun.branchMode, branchMode, `${cellLabel} internal branch-mode drift`);
+  assert.equal(projectionSummary.projectionPrincipal, principal, `${cellLabel} projection summary principal drift`);
+  assert.equal(projectionSummary.sourceMaterialVisible, principal === 'internal', `${cellLabel} source-material visibility drift`);
+  assert.equal(projectionSummary.rawBranchFilesAvailable, principal === 'internal', `${cellLabel} raw-file availability drift`);
+
+  if (principal === 'public') {
+    assert.equal(projectedRun.systemProofBundle, undefined, `${cellLabel} public leaked system proof bundle`);
+    assert.equal(projectedRun.proofWitnessManifest, undefined, `${cellLabel} public leaked proof witness manifest`);
+    assert.equal(projectedRun.authorizationDecisions, undefined, `${cellLabel} public leaked authorization decisions`);
+    assert.equal(projectedRun.inferenceProofs, undefined, `${cellLabel} public leaked inference proofs`);
+    assertSameStrings(Object.keys(projectedRun.publicArtifacts || {}), publicArtifactPaths, `${cellLabel} public artifact exactness drift`);
+    assertSameStrings(Object.keys(projectedRun.branchArtifacts.publicFiles || {}), publicArtifactPaths, `${cellLabel} public file exactness drift`);
+    assertSameStrings(projectionSummary.visibleArtifactPaths, publicArtifactPaths, `${cellLabel} public visible path drift`);
+    for (const artifactPath of privateArtifactPaths) {
+      assert.equal(artifactPath in (projectedRun.publicArtifacts || {}), false, `${cellLabel} public leaked private artifact ${artifactPath}`);
+      assert.equal(artifactPath in (projectedRun.branchArtifacts.publicFiles || {}), false, `${cellLabel} public file leaked private artifact ${artifactPath}`);
+    }
+    assert.equal(projectionSummary.proofFamilyCount, 0, `${cellLabel} public proof-family visibility drift`);
+    return;
+  }
+
+  assert.equal(projectedRun.systemProofBundle.proofFamilies.length, 9, `${cellLabel} lost proof families`);
+  assert.ok((projectedRun.branchArtifacts.visibleFileInventory || internalRawPaths).length > publicArtifactPaths.length, `${cellLabel} did not expose richer-than-public artifacts`);
+
+  if (principal === 'reviewer') {
+    assert.equal(projectedRun.authorizationDecisions, undefined, `${cellLabel} reviewer leaked authorization decisions`);
+    assert.equal(projectedRun.branchArtifacts.files, undefined, `${cellLabel} reviewer leaked raw files`);
+    assertSameStrings(projectedRun.branchArtifacts.visibleFileInventory, policyVisibleNonSourcePaths, `${cellLabel} reviewer visible inventory exactness drift`);
+    assertSameStrings(projectionSummary.visibleArtifactPaths, policyVisibleNonSourcePaths, `${cellLabel} reviewer summary visible path drift`);
+    return;
+  }
+
+  if (principal === 'buyer') {
+    assert.ok(projectedRun.authorizationDecisions.length >= 1, `${cellLabel} buyer lost authorization decisions`);
+    assert.equal(projectedRun.branchArtifacts.files, undefined, `${cellLabel} buyer leaked raw files`);
+    assertSameStrings(projectedRun.branchArtifacts.visibleFileInventory, nonSourceRawPaths, `${cellLabel} buyer visible inventory exactness drift`);
+    assertSameStrings(projectionSummary.visibleArtifactPaths, nonSourceRawPaths, `${cellLabel} buyer summary visible path drift`);
+    return;
+  }
+
+  assert.ok(internalRawPaths.some((artifactPath) => artifactPath.startsWith('.engi/source-material/')), `${cellLabel} internal lost source material`);
+  assert.ok(projectedRun.authorizationDecisions.length >= 1, `${cellLabel} internal lost authorization decisions`);
+  assertSameStrings(Object.keys(projectedRun.branchArtifacts.files || {}), internalRawPaths, `${cellLabel} internal raw file exactness drift`);
+  assertSameStrings(projectionSummary.visibleArtifactPaths, internalRawPaths, `${cellLabel} internal summary visible path drift`);
+}
+
 testAny('browser flow keeps V15 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
     const seededState = app.readState();
@@ -250,6 +384,80 @@ async function sectionSurfaceTitleCount(page, panelId, title) {
     return text === headingTitle;
   }).length, title);
 }
+
+testAny('browser operator matrix covers every scenario, branch mode, and projection cell', { timeout: 360_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
+    const seededState = app.readState();
+    const scenarios = seededState.needScenarios.map((/** @type {any} */ scenario) => ({
+      scenarioId: scenario.scenarioId,
+      scenarioFamily: scenario.scenarioFamily
+    }));
+    const branchModes = ['patch', 'context'];
+    const principals = ['internal', 'reviewer', 'buyer', 'public'];
+    /** @type {string[]} */
+    const consoleErrors = [];
+    /** @type {string[]} */
+    const pageErrors = [];
+
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text());
+    });
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+
+    await loadDemo(page, baseUrl);
+    assert.equal(consoleErrors.length, 0, 'initial demo load emitted console errors');
+    assert.equal(pageErrors.length, 0, 'initial demo load emitted page errors');
+
+    let coveredCells = 0;
+    for (const scenario of scenarios) {
+      for (const branchMode of branchModes) {
+        for (const principal of principals) {
+          const cellLabel = `${scenario.scenarioId}/${branchMode}/${principal}`;
+          /** @type {number} */
+          const consoleErrorStart = consoleErrors.length;
+          /** @type {number} */
+          const pageErrorStart = pageErrors.length;
+
+          await page.getByRole('button', { name: 'Reset demo' }).click();
+          await waitForStatus(page, 'Demo reset to the seeded canonical V16 scenario state.');
+
+          await page.selectOption('#projectionPicker', principal);
+          await waitForSummaryValue(page, 'Projection', principal);
+          await page.selectOption('#branchModePicker', branchMode);
+          await waitForSummaryValue(page, 'Branch mode', branchMode);
+          await page.selectOption('#scenarioPicker', scenario.scenarioId);
+          await waitForSummaryValue(page, 'Active scenario', scenario.scenarioFamily);
+
+          await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+          await waitForStatus(page, `Created engi/remediation-need_${scenario.scenarioId}`);
+
+          const summary = await readSummary(page);
+          assert.equal(summary['Projection'], principal, `${cellLabel} summary projection drift`);
+          assert.equal(summary['Branch mode'], branchMode, `${cellLabel} summary branch-mode drift`);
+          assert.equal(summary['Active scenario'], scenario.scenarioFamily, `${cellLabel} summary scenario drift`);
+          assert.notEqual(summary['Latest bundle'], 'No run yet', `${cellLabel} stale latest bundle`);
+          assert.ok(Number(summary['Visible branch artifacts']) > 0, `${cellLabel} lost visible artifacts`);
+          assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Projection visibility summary') >= 1, `${cellLabel} lost projection visibility UI surface`);
+          assert.ok(await page.locator('#settlement').getByText('Bounded public proof').count() >= 1, `${cellLabel} lost bounded public proof surface`);
+
+          await assertOperatorProjectionCell({
+            page,
+            principal,
+            scenarioId: scenario.scenarioId,
+            branchMode,
+            cellLabel
+          });
+
+          assert.deepEqual(consoleErrors.slice(consoleErrorStart), [], `${cellLabel} emitted console errors`);
+          assert.deepEqual(pageErrors.slice(pageErrorStart), [], `${cellLabel} emitted page errors`);
+          coveredCells += 1;
+        }
+      }
+    }
+
+    assert.equal(coveredCells, 64);
+  });
+});
 
 testAny('browser flow can switch to normalization mode and surface source-to-shares behavior', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ baseUrl, page }) => {

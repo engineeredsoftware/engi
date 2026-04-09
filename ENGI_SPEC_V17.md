@@ -8,7 +8,7 @@
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V16.md`
 - Current canonical/latest target: `V16`
 - Last fully realized canon preserved in source: `V16`
-- V17 state: advanced draft implementation/audit exhaustion; not yet the canonical pointer target
+- V17 state: implementation-complete demo-canon draft; pending canonical promotion and `_PROVEN_` regeneration
 - Current realization basis for this pass: `engi-demo`
 
 ## Version executive summary
@@ -64,24 +64,24 @@ but also:
 - do the sub-systems compose in realistic operator workflows,
 - and do tests fail at the same seams where demo truth breaks.
 
-## Current V17 drafting scope
+## Current V17 implementation scope
 
-This pass begins with:
+This pass is grounded in:
 - a canonical test-stack model for ENGI,
 - a demo-driven implementation posture for `engi-demo`,
 - explicit layering between subsystem unit tests, workflow integration tests, and fully interfaced browser E2E tests,
 - identification of the current gaps between V16 proof closure and V16 demonstrability,
-- and the first implementation ratchets needed to make that layered posture real in source.
+- and the implementation ratchets needed to make that layered posture real in source.
 
-The following are intentionally out of scope for the opening V17 pass:
+The following remain intentionally out of scope for V17:
 - introducing a new proof-family canon distinct from V16,
 - replacing the V16 proof appendix model,
 - or broadly rewriting the root system model before demonstration gaps are surfaced by tests.
 
 The correct reading is:
 - V16 remains active canon,
-- V17 starts as the next canon draft,
-- and the first V17 job is to make V16 demonstrable and test-ratcheted enough that new gaps appear through real execution rather than speculation.
+- V17 is the next canon draft,
+- and the V17 job is to make V16 demonstrable and test-ratcheted enough that new gaps appear through real execution rather than speculation.
 
 ## V17 test-stack rule
 
@@ -209,6 +209,7 @@ The current source state now includes:
 - runtime `testCoverageReport` taxonomy updated to `unit` / `integration` / `e2e`,
 - a dedicated `engi-demo/test/workflow.integration.test.js` suite,
 - a browser shell aligned to the canonical V16 operator posture rather than the older V15-facing labeling,
+- a browser branch-mode selector so operator runs can exercise both `patch` and `context`,
 - projection visibility and proof-family catalog surfaces in the demo UI,
 - direct browser-visible audit surfaces for prompt-family registry, prompt contracts, inference moment contracts, inference proofs, parsed completion envelopes, prompt/inference family proofs, static reports, verification/selection/auth/disclosure family proofs, and settlement source-to-shares proof,
 - public suppression of hidden private source-material path enumeration while retaining bounded visibility counts,
@@ -245,6 +246,8 @@ The current source state now includes:
   - browser-visible no-survivor conflict recovery,
   - browser-visible reset after a realized run,
   - browser-visible repeated scenario runs without reset,
+  - full browser operator-facing cross-product coverage across `8` scenarios, `2` branch modes, and `4` projection principals,
+  - exact browser-visible projection artifact inventory checks from `projectionPolicy` across that `64`-cell matrix,
   - and deeper unit replay-catalog closure over proof families, witness paths, and emitted branch artifacts.
 
 The current V17 audit also exposed and fixed a source-side documentation/runtime seam: `ENGI_NEED.md` was still returning an older markdown body before the V16 prompt-completeness additions. It now renders failure modes, constraints, target artifact kinds, and closure criteria from the same prompt/inference surfaces that prove those fields.
@@ -261,6 +264,27 @@ The V16-generated appendix remains the canonical model for proof appendix produc
 
 This pass therefore specifies the V17 `_PROVEN_` rule but intentionally does not create a draft generated appendix.
 
+## V17 cross-product exhaustion rule
+
+V17 should make its remaining exhaustiveness explicit through named assertion matrices rather than through open-ended "more coverage" language.
+
+The accepted V17 source/runtime and operator-facing finish line is:
+- `8` seeded scenarios x `2` branch modes = `16` source branchability cells,
+- `8` seeded scenarios x `2` branch modes x `4` principals = `64` HTTP projection cells,
+- `9` proof families x `8` seeded scenarios x `2` branch modes = `144` proof-family structural cells,
+- `45` proof-family members x `8` seeded scenarios x `2` branch modes = `720` member identity/passing cells,
+- `57` proof-family theorems x `8` seeded scenarios x `2` branch modes = `912` theorem identity/passing cells,
+- `57` projection-policy artifact paths x `8` seeded scenarios x `2` branch modes = `912` public projection exactness cells,
+- and `8` seeded scenarios x `2` branch modes x `4` principals = `64` browser operator cells with exact visible artifact inventory assertions.
+
+The remaining generated/formal cross-products are deferred to V18:
+- `720` member semantic payload cells,
+- `912` theorem-specific evidence cells,
+- generated non-public projection source/integration matrices beyond the accepted browser exactness,
+- and stateful workflow cross-products for repeated-run pairs, reset-after-run scenarios, mixed-deposit cells, and no-survivor conflict cells.
+
+The system parity matrix is the canonical location for the detailed arithmetic and the concrete remaining permutation list.
+
 Current verification state for this pass is:
 - `npm run typecheck`
 - `npm run test:unit`
@@ -268,11 +292,11 @@ Current verification state for this pass is:
 - `npm run test:e2e`
 - `npm test`
 
-All are green in the current worktree, with `111/111` tests passing in the full suite after the latest audit ratchets.
+All are green in the current worktree, with `112/112` tests passing in the full suite after the latest audit ratchets.
 
-## V17 opening success condition
+## V17 completion condition
 
-The current V17 pass is in good shape when:
+The current V17 pass is complete when:
 
 1. the root V17 draft states the demo-driven and test-layered posture explicitly,
 2. the notes explain why V17 starts from demonstration instead of more proof-family invention,
@@ -282,4 +306,5 @@ The current V17 pass is in good shape when:
 6. the seeded scenario corpus is exercised through realistic HTTP workflows across both `patch` and `context`,
 7. exact proof-family names, proof artifact paths, member ids, and theorem ids stay stable through that workflow layer,
 8. the browser shell truthfully demonstrates canonical V16 proof, projection, and settlement surfaces,
-9. and V16 proof closure remains the base system contract while V17 keeps surfacing bugs through actual workflows rather than speculative review alone.
+9. the browser operator matrix covers all `64` scenario/branch/principal cells with exact projection visibility checks,
+10. and V16 proof closure remains the base system contract while V17 keeps surfacing bugs through actual workflows rather than speculative review alone.

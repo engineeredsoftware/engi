@@ -65,13 +65,13 @@ Practically, V17 should use them to ask:
 - which proof/artifact/operator seams are still only lightly tested,
 - and where a bug would currently hide because there is no integration or e2e ratchet on the seam.
 
-## Current V17 observations after the opening pass
+## Current V17 observations after completion pass
 
 The current audit pass shows:
 
 1. There is now strong subsystem coverage in `engi-demo/test/core.test.js`, and it is materially operating as the canonical unit layer.
 2. `engi-demo/test/api.test.js` is better separated from workflow integration than it was at the opening pass, though it still carries some workflow-adjacent coverage.
-3. `engi-demo/test/e2e.test.js` now covers a materially broader set of operator flows, including projection visibility, raw proof inspection, failure feedback, and reset behavior.
+3. `engi-demo/test/e2e.test.js` now covers a materially broader set of operator flows, including projection visibility, raw proof inspection, failure feedback, reset behavior, branch-mode switching, and the full `64`-cell operator matrix.
 4. Runtime `testCoverageReport` now encodes the explicit V17 `unit` / `integration` / `e2e` stack honestly.
 5. The demo already has realistic ingredients for integration and E2E testing:
    - authenticated repo artifact selection,
@@ -83,7 +83,7 @@ The current audit pass shows:
    - and bounded-public versus replay-capable proof visibility.
 6. The V16 spec and parity matrix already identify strong candidate audit areas, and V17 is now materially converting those guided seams into executable ratchets rather than leaving them as review-only guidance.
 
-This means V17 is no longer only “ready to start source-side.” It is already in the stage where the remaining work is to keep exhausting the inherited V16 audit surface through more scenario/principal/workflow depth.
+This means V17 is no longer only “ready to start source-side.” It is implementation-complete as a demo-canon draft, with generated/formal and state-machine exhaustiveness intentionally deferred to V18.
 
 ## V17 drafting posture
 
@@ -110,14 +110,14 @@ V17 starts from:
 
 ## Initial V17 debts in view
 
-The current debts after this pass are:
+The current debts after this pass are deferred to V18:
 
-1. V16 audit inheritance is materially executable, but not yet generated as every possible family/member/scenario/principal/operator cross-product assertion.
-2. Integration workflows are first-class now, but `api.test.js` still carries limited workflow smoke checks that can migrate if a pure endpoint-boundary suite becomes required.
-3. Runtime-emitted coverage metadata is honest again after the latest ratchets, but it must continue changing whenever the suite taxonomy changes.
-4. E2E flows cover the highest-risk happy, projection, proof-inspection, failure, recovery, and repeated-run paths, but not every seeded scenario and proof/artifact surface.
-5. Projection differences are exercised across the full seeded HTTP corpus and representative browser surfaces, but not every proof/artifact UI surface has been demonstrated across every principal.
-6. V17 `_PROVEN_` generation remains deferred until canonical promotion; draft edits should only specify and test the generation rule.
+1. Generated proof-member semantic payload assertions.
+2. Generated theorem-specific evidence assertions.
+3. Full state-machine cross-products for repeated runs, reset, mixed deposits, and no-survivor conflicts.
+4. Optional endpoint/API suite purity cleanup.
+5. Optional visual regression, accessibility, and browser performance budgets.
+6. V17 `_PROVEN_` generation, which remains deferred until canonical promotion.
 
 ## Initial V17 target
 
@@ -127,7 +127,28 @@ The first clean V17 move was:
 - reflect that taxonomy in source-side test scripts and runtime coverage reporting,
 - and add explicit closer-to-real workflow integration paths so the integration layer is not only a naming change.
 
-That target is now satisfied for the opening V17 posture. The remaining question is whether V17 acceptance requires cross-product generation beyond the current high-risk exhaustive surfaces.
+That target is now satisfied for V17. V17 accepts full operator-facing cross-product coverage as canon and defers generated/formal proof/state-machine expansion to V18.
+
+## Cross-product matrix notes
+
+The parity matrix now details the exact V17 exhaustion arithmetic.
+
+The important distinction is:
+- source/runtime matrices are closed for V17,
+- browser matrices are now full cross-product for V17 operator canon,
+- stateful matrices are representative and intentionally not every scenario pair,
+- and proof-family matrices are structurally closed while full member/theorem semantic payload equality is deferred as a generated-expansion target.
+
+The main remaining permutation groups are:
+- `720` proof-member semantic payload cells,
+- `912` theorem-specific evidence cells,
+- generated source/integration duplication of non-public projection artifact visibility cells if V18 wants them outside browser,
+- `63` repeated-run ordered scenario pairs,
+- `7` reset-after-run scenario cells,
+- `63` mixed-deposit scenario/branch/principal cells,
+- and `62` no-survivor scenario/branch/principal cells.
+
+Those are not V17 blockers. They are listed so V18 can make a deliberate acceptance decision rather than treating "exhaustion" as unbounded.
 
 ## Current implemented V17 state
 
@@ -139,7 +160,10 @@ The repo now has:
 - a dedicated `workflow.integration.test.js` suite,
 - a demo shell aligned to canonical V16 rather than older V15-facing operator labeling,
 - a browser-visible projection visibility summary and proof-family catalog,
+- a browser-visible branch-mode selector for `patch` and `context`,
 - browser-visible first-class audit surfaces for prompt-family registry, prompt contracts, inference moment contracts, inference proofs, parsed completion envelopes, prompt/inference family proofs, static measurement report/proof, verification decisions proof, selection/materialization proofs, authorization/sensitive-flow proof, projection policy, redaction/disclosure proofs, and settlement/disclosure family proofs,
+- a full `8 x 2 x 4 = 64` browser operator matrix over every seeded scenario, branch mode, and projection principal,
+- exact browser-visible projection artifact inventory assertions from the active projection policy across that matrix,
 - public suppression of hidden source-material path enumeration while still surfacing bounded counts,
 - reviewer-visible replay/proof artifacts without raw source-material exposure,
 - a full seeded scenario-corpus HTTP workflow audit across both `patch` and `context` branch modes,
@@ -177,7 +201,9 @@ The repo now has:
   - browser-visible invalid-to-valid deposit recovery,
   - browser-visible no-survivor conflict recovery,
   - browser-visible reset-after-run behavior,
-  - browser-visible repeated scenario runs without reset,
+- browser-visible repeated scenario runs without reset,
+  - browser-visible branch-mode switching,
+  - browser-visible all-scenario/all-branch/all-principal operator matrix coverage,
   - and unit replay-catalog closure across proof families, witness artifacts, and verifier-required artifact paths.
 
 This is the right shape for the beginning of V17 because it is already doing what the version is supposed to do:
@@ -192,8 +218,8 @@ The current verification state is also materially stronger than the opening pass
 - `npm run test:unit` is green,
 - `npm run test:integration` is green,
 - `npm run test:e2e` is green,
-- and `npm test` is green at `111/111`.
+- and `npm test` is green at `112/112`.
 
 V17 `_PROVEN_` generation is intentionally not performed in this draft state. The V16 generated appendix remains the model, and V17 should regenerate `ENGI_SPEC_V17_PROVEN.md` only on the eventual canonical version-promotion commit after implementation/parity closure is accepted.
 
-That does not mean V17 is finished. It means the version has moved from “opening posture established” to “advanced, demonstrable, and now ready to decide whether the remaining work is cross-product exhaustiveness, browser-level proof-surface completeness, or canonical promotion preparation.”
+V17 is implementation-complete as a demo-canon draft. The remaining work is canonical promotion mechanics, including regenerated `_PROVEN_`; V18 carries the next generated/formal exhaustiveness ideas.
