@@ -400,7 +400,10 @@ function buildSystemProofBundle(
     buildProofFamilyCatalogEntry('proof-contract', '.engi/proof-contract.json', /** @type {any} */ (proofContract))
   ];
   const verifierReplayArtifacts = summarizeStrings(proofFamilies.flatMap((entry) => entry.replayArtifacts || []));
-  const verifierRequiredArtifactPaths = summarizeStrings(proofFamilies.flatMap((entry) => (entry.replaySteps || []).flatMap((step) => step.requiredArtifactPaths || [])));
+  const verifierRequiredArtifactPaths = summarizeStrings(proofFamilies.flatMap((entry) => [
+    ...(entry.replayArtifacts || []),
+    ...((entry.replaySteps || []).flatMap((step) => step.requiredArtifactPaths || []))
+  ]));
   return {
     needId,
     assetPackId,
@@ -1125,6 +1128,7 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
     productionIntentProfile: PROFILE_B,
     activeScenarioId,
     declaredCoverageTargets: [
+      'layered unit, integration, and e2e validation stays explicit in emitted runtime coverage',
       'prompt completeness mismatches fail closed',
       'static code analysis and verification receipts resolve',
       'projection policy enforces bounded public proof surfaces',
@@ -1134,28 +1138,29 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
     ],
     suiteCoverage: {
       unit: {
-        entrypoint: 'test/core.test.js',
+        entrypoints: ['test/core.test.js', 'test/proven-generator.test.js'],
         runner: 'node --test',
         validates: [
           'core surface contracts and deterministic invariants',
           'asset-pack, proof, projection, and settlement consistency',
+          'canonical appendix generator and proof-family catalog stability',
           'deliverables and branch artifact completeness'
         ]
       },
-      api: {
-        entrypoint: 'test/api.test.js',
+      integration: {
+        entrypoints: ['test/api.test.js', 'test/workflow.integration.test.js'],
         runner: 'node --test',
         validates: [
-          'public and buyer projection route behavior',
-          'deposit validation, reset behavior, and persistence safety',
-          'static serving, malformed input handling, and path traversal blocking'
+          'HTTP boundary behavior, malformed input handling, and persistence safety',
+          'repo-authenticated deposit to branch-realization workflow composition',
+          'projection-sensitive and normalization-heavy multi-step run behavior'
         ]
       },
-      browserE2E: {
+      e2e: {
         entrypoint: 'test/e2e.test.js',
         runner: 'node --test',
         browserHarness: 'playwright/chromium',
-        requiredForV15: true,
+        requiredForDemoCanon: true,
         validates: [
           'canonical panel ordering from repo supply through settlement',
           'repo-authenticated deposit flow to targeted settlement',

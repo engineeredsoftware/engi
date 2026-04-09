@@ -96,6 +96,25 @@ async function readSummary(page) {
   })));
 }
 
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} surfaceTitle
+ * @returns {Promise<import('playwright').Locator>}
+ */
+async function surfaceByTitle(page, surfaceTitle) {
+  const surface = page.locator('article.json-surface').filter({ hasText: surfaceTitle }).first();
+  await surface.waitFor();
+  return surface;
+}
+
+/**
+ * @param {import('playwright').Locator} surface
+ * @returns {import('playwright').Locator}
+ */
+function activeRawPanelPre(surface) {
+  return surface.locator('.surface-panel-raw.active pre').first();
+}
+
 testAny('browser flow keeps V15 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
     const seededState = app.readState();
@@ -178,5 +197,124 @@ testAny('browser flow can switch to normalization mode and surface source-to-sha
     assert.ok(await page.locator('#settlement').getByText('Source-to-shares chain').count() >= 1);
     assert.ok(await page.locator('#settlement').getByText('Settlement participation').count() >= 1);
     assert.ok(await page.locator('#settlement').getByText(/zero-credit participating/i).count() >= 1);
+  });
+});
+
+testAny('browser flow surfaces identity/auth and proof/disclosure panels for privacy-boundary review', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
+    await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
+
+    const settledSummary = await readSummary(page);
+    assert.equal(settledSummary['Active scenario'], 'privacy-boundary-stress');
+    assert.equal(settledSummary['Active deposit profile'], 'Targeted deposit');
+    assert.ok(Number(settledSummary['Selected assets in latest pack']) >= 1);
+
+    assert.ok(await page.locator('#operatingPicture').getByText('Identity and auth spine').count() >= 1);
+    assert.ok(await page.locator('#settlement').getByText('System proof bundle').count() >= 1);
+    assert.ok(await page.locator('#settlement').getByText('Proof contract + evidence chain').count() >= 1);
+    assert.ok(await page.locator('#settlement').getByText('Theorem / invariant checks').count() >= 1);
+    assert.ok(await page.locator('#settlement').getByText('Bounded public proof').count() >= 1);
+    assert.ok(await page.locator('#settlement').getByText('private proof artifacts stay private').count() >= 1);
+  });
+});
+
+testAny('browser flow surfaces deposit validation failures without mutating seeded state', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await waitForStatus(page, 'Raw content or repo artifact selection is required.');
+
+    const summary = await readSummary(page);
+    assert.equal(summary['Candidate assets'], '11');
+    assert.equal(summary['Selected deposit refs'], '0');
+    assert.equal(summary['Latest bundle'], 'No run yet');
+  });
+});
+
+testAny('browser flow can reset back to the seeded state after a realized run', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-');
+    assert.notEqual((await readSummary(page))['Latest bundle'], 'No run yet');
+
+    await page.getByRole('button', { name: 'Reset demo' }).click();
+    await waitForStatus(page, 'Demo reset to the seeded Spec V15 scenario state.');
+
+    const resetSummary = await readSummary(page);
+    assert.equal(resetSummary['Candidate assets'], '11');
+    assert.equal(resetSummary['Selected deposit refs'], '0');
+    assert.equal(resetSummary['Latest bundle'], 'No run yet');
+  });
+});
+
+testAny('browser flow can inspect raw verification and proof JSON for a restrictive workflow', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.selectOption('#scenarioPicker', 'unsafe-patch-review-recovery');
+    await waitForStatus(page, 'Selected scenario unsafe-patch-review-recovery (Targeted deposit).');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_unsafe-patch-review-recovery');
+
+    const verificationSurface = await surfaceByTitle(page, 'Verification report');
+    await verificationSurface.getByRole('button', { name: 'Raw' }).click();
+    await activeRawPanelPre(verificationSurface).waitFor();
+    const verificationRawText = await activeRawPanelPre(verificationSurface).textContent();
+    assert.match(String(verificationRawText), /"useTier": "reject"/);
+    assert.match(String(verificationRawText), /"policyRestrictions"/);
+
+    const exclusionsSurface = await surfaceByTitle(page, 'Materialization exclusions');
+    await exclusionsSurface.getByRole('button', { name: 'Raw' }).click();
+    await activeRawPanelPre(exclusionsSurface).waitFor();
+    const exclusionsRawText = await activeRawPanelPre(exclusionsSurface).textContent();
+    assert.match(String(exclusionsRawText), /"exclusionClass"/);
+    assert.match(String(exclusionsRawText), /Use tier reject does not authorize patch branch materialization/);
+
+    const proofSurface = await surfaceByTitle(page, 'System proof bundle');
+    await proofSurface.getByRole('button', { name: 'Raw' }).click();
+    await activeRawPanelPre(proofSurface).waitFor();
+    const proofRawText = await activeRawPanelPre(proofSurface).textContent();
+    assert.match(String(proofRawText), /"proofFamilies"/);
+    assert.match(String(proofRawText), /"verifierEntrypoint"/);
+  });
+});
+
+testAny('browser flow can switch projections and keep proof visibility bounded by principal', { timeout: 120_000 }, async (t) => {
+  await withBrowserDemo(t, async ({ baseUrl, page }) => {
+    await loadDemo(page, baseUrl);
+
+    await page.selectOption('#projectionPicker', 'reviewer');
+    await waitForStatus(page, 'Viewing reviewer projection.');
+    await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
+    await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
+
+    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
+
+    const reviewerSummary = await readSummary(page);
+    assert.equal(reviewerSummary['Projection'], 'reviewer');
+    assert.ok(await page.locator('#branchArtifacts').getByText('Proof witness manifest').count() >= 1);
+    assert.ok(await page.locator('#branchArtifacts').getByText('.engi/proof-contract.json').count() >= 1);
+    assert.equal(await page.locator('#branchArtifacts').getByText('.engi/source-material/').count(), 0);
+
+    await page.selectOption('#projectionPicker', 'public');
+    await waitForStatus(page, 'Viewing public projection.');
+
+    const publicSummary = await readSummary(page);
+    assert.equal(publicSummary['Projection'], 'public');
+    assert.equal(await page.locator('#branchArtifacts article.json-surface h3').filter({ hasText: 'Proof witness manifest' }).count(), 0);
+    assert.equal(await page.locator('#settlement article.json-surface h3').filter({ hasText: 'System proof bundle' }).count(), 0);
+    assert.ok(await page.locator('#settlement article.json-surface h3').filter({ hasText: 'Bounded public proof' }).count() >= 1);
+    assert.equal(await page.locator('#branchArtifacts').getByText('.engi/proof-contract.json').count(), 0);
   });
 });

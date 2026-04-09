@@ -549,6 +549,8 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
   };
   const witnessArtifactPaths = [
     '.engi/code-analysis-fact-registry.json',
+    '.engi/static-heuristics-registry.json',
+    '.engi/measurement-receipts.json',
     '.engi/static-measurement-report.json',
     '.engi/static-measurement-proof.json'
   ];
@@ -611,13 +613,15 @@ function buildStaticMeasurementProof(receipts = [], needMeasurement = null, eval
   ];
   const artifactBindings = [
     buildArtifactBinding({ artifactPath: '.engi/code-analysis-fact-registry.json', role: 'registry', theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.engi/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: false, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.engi/measurement-receipts.json', role: 'receipt-log', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.receipt_report_proof_agreement', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true }),
     buildArtifactBinding({ artifactPath: '.engi/static-measurement-report.json', role: 'report', theoremIds: ['static_code_analysis.receipt_report_proof_agreement'], requiredForWitness: true, requiredForReplay: true }),
     buildArtifactBinding({ artifactPath: '.engi/static-measurement-proof.json', role: 'primary-proof', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
   ];
   const registryRoleClosed =
     artifactBindings.some((binding) => binding.artifactPath === '.engi/code-analysis-fact-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
-    && artifactBindings.some((binding) => binding.artifactPath === '.engi/static-heuristics-registry.json' && binding.role === 'registry' && binding.requiredForWitness === false && binding.requiredForReplay === true);
+    && artifactBindings.some((binding) => binding.artifactPath === '.engi/static-heuristics-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
+    && artifactBindings.some((binding) => binding.artifactPath === '.engi/measurement-receipts.json' && binding.role === 'receipt-log' && binding.requiredForWitness === true && binding.requiredForReplay === true);
   const proofClosure = computeProofClosure({
     artifactBindings,
     witnessArtifactPaths,

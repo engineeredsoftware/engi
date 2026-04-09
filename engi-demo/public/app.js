@@ -178,6 +178,23 @@ function errorMessage(error) {
   return error instanceof Error ? error.message : String(error ?? 'Unknown error');
 }
 
+/**
+ * @param {AppState | null | undefined} state
+ * @returns {string}
+ */
+function activeProjectionPrincipal(state) {
+  return selectedProjectionPrincipal || state?.projectionPrincipal || 'buyer';
+}
+
+/**
+ * @param {unknown} data
+ * @param {unknown} raw
+ * @returns {boolean}
+ */
+function hasSurfaceContent(data, raw) {
+  return (data !== undefined && data !== null) || (raw !== undefined && raw !== null);
+}
+
 const summaryEl = requireElement('summary');
 const operatingPictureEl = requireElement('operatingPicture');
 const scenarioEl = requireElement('scenario');
@@ -190,6 +207,8 @@ const ledgerEl = requireElement('ledger');
 const statusEl = requireElement('status');
 /** @type {HTMLSelectElement} */
 const scenarioPickerEl = requireElement('scenarioPicker');
+/** @type {HTMLSelectElement} */
+const projectionPickerEl = requireElement('projectionPicker');
 /** @type {HTMLSelectElement} */
 const authSessionPickerEl = requireElement('authSessionPicker');
 /** @type {HTMLInputElement} */
@@ -208,6 +227,7 @@ const EXPLAINER_PANEL_MAX_WIDTH = 360;
 let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
+let selectedProjectionPrincipal = 'buyer';
 let selectedAuthSessionId = '';
 /** @type {Set<string>} */
 let selectedInventoryEntryIds = new Set();
@@ -5192,6 +5212,7 @@ function renderSummary(state) {
     summaryTile('Need scenarios', state.needScenarios?.length || 0, 'needing'),
     summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
     summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v15-scenario-preview'),
+    summaryTile('Projection', activeProjectionPrincipal(state), 'projection'),
     summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
     summaryTile('Fit pressure', fitSurface?.normalizationPressure || 'pending', 'normalization-pressure'),
     summaryTile('Selected assets in latest pack', selected, 'asset-pack'),
@@ -5431,7 +5452,10 @@ function renderBranchArtifacts(state) {
     return;
   }
 
-  const branchFiles = run.branchArtifacts?.files || {};
+  const branchFiles = run.branchArtifacts?.files || run.branchArtifacts?.publicFiles || {};
+  const visibleFileInventory = run.branchArtifacts?.files
+    ? Object.keys(run.branchArtifacts.files)
+    : run.branchArtifacts?.visibleFileInventory || Object.keys(run.branchArtifacts?.publicFiles || {});
   const artifactDefs = [
     {
       title: 'Depositing surface',
@@ -5658,8 +5682,8 @@ function renderBranchArtifacts(state) {
     {
       title: 'Branch file inventory',
       subtitle: 'Materialized artifact paths',
-      data: Object.keys(branchFiles),
-      raw: JSON.stringify(Object.keys(branchFiles), null, 2),
+      data: visibleFileInventory,
+      raw: JSON.stringify(visibleFileInventory, null, 2),
       visual: (
         /**
          * @param {unknown[]} items
@@ -5680,9 +5704,9 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the V15 demo. The operating surfaces tell the story first, and this branch stack still carries the exact private artifacts behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the V15 demo. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
     </div>
-    ${artifactDefs.map((artifact) => renderJsonSurface({
+    ${artifactDefs.filter((artifact) => hasSurfaceContent(artifact.data, artifact.raw)).map((artifact) => renderJsonSurface({
       title: artifact.title,
       subtitle: artifact.subtitle,
       eyebrow: 'Branch artifact',
@@ -5693,11 +5717,11 @@ function renderBranchArtifacts(state) {
       visual: artifact.visual,
       accent: artifact.accent || ''
     })).join('')}
-    <div class="card">
+    ${(branchFiles['ENGI_NEED.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.engi/source-material/'))) ? `<div class="card">
       <div class="section-head"><h3>Materialized markdown artifacts</h3><span class="badge">Non-JSON reference</span></div>
       ${detailsSection('ENGI_NEED.md', `<pre>${escapeHtml(branchFiles['ENGI_NEED.md'] || '')}</pre>`, true)}
       ${Object.entries(branchFiles).filter(([path]) => path.startsWith('.engi/source-material/')).map(([path, content]) => detailsSection(path, `<pre>${escapeHtml(content)}</pre>`)).join('')}
-    </div>
+    </div>` : ''}
   `;
 }
 
@@ -5712,10 +5736,9 @@ function renderSettlement(state) {
     return;
   }
 
-  const branchFiles = run.branchArtifacts?.files || {};
-
-  settlementEl.innerHTML = [
-    renderJsonSurface({
+  const branchFiles = run.branchArtifacts?.files || run.branchArtifacts?.publicFiles || {};
+  const settlementSurfaces = [
+    {
       title: 'Settlement preview',
       subtitle: '.engi/settlement-preview.json',
       eyebrow: 'Settlement artifact',
@@ -5725,8 +5748,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/settlement-preview.json'],
       visual: renderSettlementPreviewVisual,
       accent: 'accent-green'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'Source-to-shares chain',
       subtitle: '.engi/source-to-shares.json',
       eyebrow: 'Accounting artifact',
@@ -5736,8 +5759,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/source-to-shares.json'],
       visual: renderSourceToSharesVisual,
       accent: 'accent-green'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'Settlement participation',
       subtitle: '.engi/settlement-participation.json',
       eyebrow: 'Accounting artifact',
@@ -5747,8 +5770,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/settlement-participation.json'],
       visual: renderSettlementParticipationVisual,
       accent: 'accent-green'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'Journal diff',
       subtitle: '.engi/journal-diff.json',
       eyebrow: 'Accounting artifact',
@@ -5758,8 +5781,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/journal-diff.json'],
       visual: renderJournalDiffVisual,
       accent: 'accent-green'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'Accounting precision report',
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
@@ -5769,8 +5792,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/accounting-precision-report.json'],
       visual: renderAccountingPrecisionVisual,
       accent: 'accent-purple'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'Settlement proof',
       subtitle: '.engi/settlement-proof.json',
       eyebrow: 'Proof artifact',
@@ -5779,8 +5802,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/settlement-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'System proof bundle',
       subtitle: '.engi/system-proof-bundle.json',
       eyebrow: 'Proof bundle',
@@ -5790,8 +5813,8 @@ function renderSettlement(state) {
       raw: branchFiles['.engi/system-proof-bundle.json'],
       visual: renderSystemProofBundleVisual,
       accent: 'accent-purple'
-    }),
-    renderJsonSurface({
+    },
+    {
       title: 'Bounded public proof',
       subtitle: 'Redacted proof surface',
       eyebrow: 'Public proof metadata',
@@ -5799,8 +5822,13 @@ function renderSettlement(state) {
       data: run.boundedPublicProof,
       visual: renderBoundedProofVisual,
       accent: 'accent-slate'
-    })
-  ].join('');
+    }
+  ];
+
+  settlementEl.innerHTML = settlementSurfaces
+    .filter((surface) => hasSurfaceContent(surface.data, surface.raw))
+    .map((surface) => renderJsonSurface(surface))
+    .join('');
 }
 
 /**
@@ -5835,7 +5863,9 @@ function renderLedger(state) {
  */
 async function refresh() {
   surfaceCounter = 0;
-  const state = /** @type {AppState} */ (await api('/api/state?principal=buyer'));
+  const principal = encodeURIComponent(activeProjectionPrincipal(lastLoadedState));
+  const state = /** @type {AppState} */ (await api(`/api/state?principal=${principal}`));
+  projectionPickerEl.value = activeProjectionPrincipal(state);
   lastLoadedState = state;
   syncScenarioPicker(state);
   syncAuthSessionPicker(state);
@@ -5879,11 +5909,21 @@ makeBranchButtonEl.addEventListener('click', async () => {
     setStatus('Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…');
     const result = /** @type {AppState} */ (await api('/api/make-engi-branch', {
       method: 'POST',
-      body: JSON.stringify({ principal: 'buyer', scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
+      body: JSON.stringify({ principal: activeProjectionPrincipal(lastLoadedState), scenarioId: selectedScenarioId || scenarioPickerEl?.value || undefined })
     }));
     const latestRun = result.latestRun;
     await refresh();
     setStatus(`Created ${latestRun?.branchName || latestRun?.branchArtifacts?.branchName} in ${latestRun?.realizationProfile?.shortLabel || 'the selected profile'} and settled bundle ${latestRun?.boundedPublicProof?.bundleId || latestRun?.journalDiff?.bundleId}.`);
+  } catch (error) {
+    setStatus(errorMessage(error));
+  }
+});
+
+projectionPickerEl?.addEventListener('change', async () => {
+  selectedProjectionPrincipal = projectionPickerEl.value || 'buyer';
+  try {
+    await refresh();
+    setStatus(`Viewing ${selectedProjectionPrincipal} projection.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }

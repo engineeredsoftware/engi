@@ -122,6 +122,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DATA_PATH = path.join(__dirname, 'data', 'state.json');
 const DEFAULT_PUBLIC_DIR = path.join(__dirname, 'public');
 const DEFAULT_PORT = Number(process.env['PORT'] || 4318);
+const ALLOWED_PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
+const ALLOWED_BRANCH_MODES = new Set(['patch', 'context']);
 
 /**
  * @param {string} targetPath
@@ -152,11 +154,48 @@ export function createAppContext({
   publicDir = process.env['ENGI_DEMO_PUBLIC_DIR'] || DEFAULT_PUBLIC_DIR
 } = {}) {
   /**
+   * @param {string} message
+   * @returns {StatusError}
+   */
+  function badRequest(message) {
+    /** @type {StatusError} */
+    const error = new Error(message);
+    error.statusCode = 400;
+    return error;
+  }
+
+  /**
    * @param {readonly unknown[]} [values=[]]
    * @returns {string[]}
    */
   function uniqueStrings(values = []) {
     return [...new Set((values || []).map((value) => String(value || '').trim()).filter(Boolean))];
+  }
+
+  /**
+   * @param {unknown} principal
+   * @returns {string | undefined}
+   */
+  function normalizePrincipal(principal) {
+    const normalized = String(principal || '').trim().toLowerCase();
+    if (!normalized) return undefined;
+    if (!ALLOWED_PROJECTION_PRINCIPALS.has(normalized)) {
+      throw badRequest(`Unsupported projection principal: ${principal}`);
+    }
+    return normalized;
+  }
+
+  /**
+   * @param {unknown} branchMode
+   * @returns {string | undefined}
+   */
+  function normalizeBranchMode(branchMode) {
+    const normalized = String(branchMode || '').trim().toLowerCase();
+    if (!normalized) return undefined;
+    if (!ALLOWED_BRANCH_MODES.has(normalized)) {
+      throw badRequest(`Unsupported branch mode: ${branchMode}`);
+    }
+    return normalized;
   }
 
   /**
@@ -389,7 +428,7 @@ export function createAppContext({
     try {
       if (req.method === 'GET' && req.url?.startsWith('/api/state')) {
         const url = new URL(req.url, 'http://127.0.0.1');
-        const principal = url.searchParams.get('principal') || undefined;
+        const principal = normalizePrincipal(url.searchParams.get('principal') || undefined);
         return sendJson(res, 200, buildPublicState(readState(), principal));
       }
 
@@ -407,14 +446,23 @@ export function createAppContext({
       if (req.method === 'POST' && req.url === '/api/make-engi-branch') {
         const body = await readBody(req);
         const state = readState();
+        const principal = normalizePrincipal(body.principal || undefined);
+        const branchMode = normalizeBranchMode(body.branchMode);
+        const scenarioId = String(body.scenarioId || '').trim() || undefined;
+        const buyerId = String(body.buyerId || '').trim() || undefined;
+        if (buyerId && !state.buyers.some((buyer) => String(/** @type {any} */ (buyer)?.buyerId || '') === buyerId)) {
+          throw badRequest('Buyer not found.');
+        }
+        if (scenarioId && !state.needScenarios?.some((scenario) => String(/** @type {any} */ (scenario)?.scenarioId || '') === scenarioId)) {
+          throw badRequest('Need scenario not found.');
+        }
         const branchRequest = {
-          buyerId: body.buyerId,
-          scenarioId: body.scenarioId,
-          branchMode: body.branchMode
+          buyerId,
+          scenarioId,
+          branchMode
         };
         const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
         writeState(nextState);
-        const principal = body.principal || undefined;
         const projectedState = buildPublicState({ ...nextState, latestRun }, principal);
         return sendJson(res, 200, {
           ok: true,

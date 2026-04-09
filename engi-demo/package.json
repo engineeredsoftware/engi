@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --test",
+    "test:unit": "node --test test/core.test.js test/proven-generator.test.js",
+    "test:integration": "node --test test/api.test.js test/workflow.integration.test.js",
+    "test:e2e": "node --test test/e2e.test.js",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {

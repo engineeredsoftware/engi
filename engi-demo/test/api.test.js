@@ -353,6 +353,7 @@ testAny('POST /api/make-engi-branch defaults to bounded public projection', asyn
     assert.ok(response.json.latestRun.publicArtifacts['.engi/bounded-public-proof.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/needing-surface.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/depositing-to-needing-surface.json']);
+    assert.ok(response.json.latestRun.publicArtifacts['.engi/match-report.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/code-analysis-fact-registry.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/static-heuristics-registry.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/static-measurement-report.json']);
@@ -361,11 +362,21 @@ testAny('POST /api/make-engi-branch defaults to bounded public projection', asyn
     assert.ok(response.json.latestRun.publicArtifacts['.engi/materialization-visibility-proof.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/scenario-fixture-manifest.json']);
     assert.ok(response.json.latestRun.publicArtifacts['.engi/test-coverage-report.json']);
-    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.unit.entrypoint, 'test/core.test.js');
-    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.api.entrypoint, 'test/api.test.js');
-    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.browserE2E.entrypoint, 'test/e2e.test.js');
-    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.browserE2E.requiredForV15, true);
+    assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.unit.entrypoints.includes('test/core.test.js'));
+    assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.unit.entrypoints.includes('test/proven-generator.test.js'));
+    assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.integration.entrypoints.includes('test/api.test.js'));
+    assert.ok(response.json.latestRun.testCoverageReport.suiteCoverage.integration.entrypoints.includes('test/workflow.integration.test.js'));
+    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.e2e.entrypoint, 'test/e2e.test.js');
+    assert.equal(response.json.latestRun.testCoverageReport.suiteCoverage.e2e.requiredForDemoCanon, true);
     assert.equal(response.json.latestRun.authorizationDecisions, undefined);
+    assert.deepEqual(
+      Object.keys(response.json.latestRun.publicArtifacts).sort(),
+      response.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort()
+    );
+    assert.deepEqual(
+      Object.keys(response.json.latestRun.branchArtifacts.publicFiles).sort(),
+      response.json.latestRun.projectionPolicy.publicArtifactPaths.slice().sort()
+    );
     assert.match(response.json.latestRun.branchArtifacts.publicFiles['.engi/bounded-public-proof.json'], new RegExp(response.json.latestRun.boundedPublicProof.bundleId));
   });
 });
@@ -428,6 +439,73 @@ testAny('GET /api/state supports buyer projection without raw branch files', asy
     assert.ok(response.json.latestRun.staticHeuristicsRegistry.registeredFactCount >= 10);
     assert.ok(response.json.latestRun.accountingPrecisionReport.microUnitAllocation.allocations.length >= 1);
     assert.equal(response.json.latestRun.branchArtifacts.files, undefined);
+  });
+});
+
+testAny('GET /api/state supports reviewer and internal projection differences', async (t) => {
+  await withApp(t, async ({ app }) => {
+    await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scenarioId: 'privacy-boundary-proof-export', principal: 'reviewer' })
+    });
+
+    const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+    const internal = await invoke(app, { method: 'GET', url: '/api/state?principal=internal' });
+
+    assert.equal(reviewer.statusCode, 200);
+    assert.equal(internal.statusCode, 200);
+    assert.equal(reviewer.json.latestRun.projectionPrincipal, 'reviewer');
+    assert.equal(internal.json.latestRun.projectionPrincipal, undefined);
+    assert.ok(reviewer.json.latestRun.proofWitnessManifest.proofFamilies.length === 9);
+    assert.ok(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
+    assert.equal(reviewer.json.latestRun.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+    assert.equal(reviewer.json.latestRun.authorizationDecisions, undefined);
+    assert.equal(reviewer.json.latestRun.branchArtifacts.files, undefined);
+    assert.ok(internal.json.latestRun.branchArtifacts.files['.engi/proof-contract.json']);
+    assert.ok(Object.keys(internal.json.latestRun.branchArtifacts.files).some((path) => path.startsWith('.engi/source-material/')));
+    assert.ok(internal.json.latestRun.authorizationDecisions.length >= 1);
+    assert.ok(internal.json.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+  });
+});
+
+testAny('GET /api/state rejects unsupported projection principal as a client error', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/api/state?principal=operator' });
+    assert.equal(response.statusCode, 400);
+    assert.match(response.json.error, /Unsupported projection principal/i);
+  });
+});
+
+testAny('POST /api/make-engi-branch rejects unsupported principal, branch mode, and scenario as client errors', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const badPrincipal = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ principal: 'operator' })
+    });
+    assert.equal(badPrincipal.statusCode, 400);
+    assert.match(badPrincipal.json.error, /Unsupported projection principal/i);
+
+    const badBranchMode = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ branchMode: 'full' })
+    });
+    assert.equal(badBranchMode.statusCode, 400);
+    assert.match(badBranchMode.json.error, /Unsupported branch mode/i);
+
+    const badScenario = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scenarioId: 'missing-scenario' })
+    });
+    assert.equal(badScenario.statusCode, 400);
+    assert.match(badScenario.json.error, /Need scenario not found/i);
   });
 });
 

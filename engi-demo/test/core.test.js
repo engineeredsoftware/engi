@@ -16,6 +16,7 @@ import {
   makeCandidateAsset,
   METERED_MICRO_UNITS
 } from '../src/engi-demo.js';
+import { buildProjectedLatestRun } from '../src/demo-shell-state.js';
 
 /**
  * @typedef {{
@@ -78,15 +79,22 @@ import {
  *   repoToSettlementSurface: { stages: any[] },
  *   identityAuthSpineSurface: { hops: any[], buyerPrincipalId?: string },
  *   evaluatedCandidates: any[],
- *   branchArtifacts: { files: Record<string, string>, publicFiles?: Record<string, string> },
+ *   branchArtifacts: { files: Record<string, string>, publicFiles?: Record<string, string>, visibleFileInventory?: string[] },
  *   assetPack: { selectedAssets: any[], assetPackId?: string, branchMode?: string },
  *   assetPackLock: { assets: any[], units: any[] },
  *   promptSurfaces: any[],
  *   promptFamilyRegistry?: any,
  *   inferenceMomentContracts?: any[],
+ *   inferenceSynthesisProof?: any,
+ *   promptCompletenessProof?: any,
+ *   verificationDecisionsProof?: any,
+ *   selectionAndMaterializationProof?: any,
+ *   authorizationAndSensitiveFlowProof?: any,
+ *   settlementSourceToSharesProof?: any,
+ *   disclosureBoundaryProof?: any,
  *   promptImplementationSurface?: any,
  *   externalBoundaryManifest: { interfaces: any[] },
- *   proofContract: { evidenceChain: any[], contractId?: string },
+ *   proofContract: { evidenceChain: any[], contractId?: string, allTheoremsPassed?: boolean },
  *   systemProofBundle: any,
  *   authorizationDecisions: any[],
  *   identityBindings: any[],
@@ -118,7 +126,8 @@ import {
  *   needMeasurement: { measurementProvenance: any[] },
  *   deliverablesManifest: { deliverables: any[] },
  *   staticMeasurementReport: any,
- *   staticMeasurementProof: any
+ *   staticMeasurementProof: any,
+ *   proofWitnessManifest?: any
  * }} TestLatestRun
  */
 
@@ -146,6 +155,8 @@ const publicStateTest = /** @type {any} */ (publicState);
 const runMakeEngiBranchTest = /** @type {any} */ (runMakeEngiBranch);
 /** @type {(input: any) => any} */
 const makeCandidateAssetTest = /** @type {any} */ (makeCandidateAsset);
+/** @type {(latestRun: any, principal?: any, options?: any) => any} */
+const buildProjectedLatestRunTest = /** @type {any} */ (buildProjectedLatestRun);
 
 test('canonicalJson is stable across key order', () => {
   const a = { b: 2, a: 1, c: { y: 2, x: 1 } };
@@ -516,6 +527,50 @@ test('seeded scenario corpus yields coherent repo-bound branches across families
   }
 });
 
+test('seeded scenario matrix preserves family closure and projection exactness across both branch modes', () => {
+  const branchModes = ['patch', 'context'];
+
+  for (const scenario of buildInitialStateTest().needScenarios) {
+    for (const branchMode of branchModes) {
+      const { latestRun } = runMakeEngiBranchTest(buildInitialStateTest(), { scenarioId: scenario.scenarioId, branchMode });
+      const projectedPublic = buildProjectedLatestRunTest(latestRun, 'public');
+      const reviewer = buildProjectedLatestRunTest(latestRun, 'reviewer');
+      const buyer = buildProjectedLatestRunTest(latestRun, 'buyer');
+
+      assert.equal(latestRun.branchMode, branchMode);
+      assert.equal(latestRun.systemProofBundle.proofFamilies.length, 9);
+      assert.equal(latestRun.proofContract.allTheoremsPassed, true);
+      assert.equal(latestRun.promptCompletenessProof.allTheoremsPassed, true);
+      assert.equal(latestRun.inferenceSynthesisProof.allTheoremsPassed, true);
+      assert.equal(latestRun.staticMeasurementProof.allTheoremsPassed, true);
+      assert.equal(latestRun.verificationDecisionsProof.allTheoremsPassed, true);
+      assert.equal(latestRun.selectionAndMaterializationProof.allTheoremsPassed, true);
+      assert.equal(latestRun.authorizationAndSensitiveFlowProof.allTheoremsPassed, true);
+      assert.equal(latestRun.settlementSourceToSharesProof.allTheoremsPassed, true);
+      assert.equal(latestRun.disclosureBoundaryProof.allTheoremsPassed, true);
+
+      assert.deepEqual(
+        Object.keys(projectedPublic.publicArtifacts).sort(),
+        projectedPublic.projectionPolicy.publicArtifactPaths.slice().sort()
+      );
+      assert.deepEqual(
+        Object.keys(projectedPublic.branchArtifacts.publicFiles).sort(),
+        projectedPublic.projectionPolicy.publicArtifactPaths.slice().sort()
+      );
+
+      assert.ok(reviewer.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
+      assert.equal(reviewer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+      assert.equal(reviewer.branchArtifacts.files, undefined);
+      assert.ok(reviewer.proofWitnessManifest.proofFamilies.length === 9);
+
+      assert.equal(buyer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+      assert.equal(buyer.branchArtifacts.files, undefined);
+      assert.ok(buyer.authorizationDecisions.length >= 1);
+      assert.ok(buyer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+    }
+  }
+});
+
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {
   const state = buildInitialStateTest();
   const lowEvidence = makeCandidateAssetTest({
@@ -732,6 +787,126 @@ test('system proof bundle includes prompt, measurement, verification, materializ
   assert.ok(proof.promptImplementationSurface.promptLineage.length >= 1);
   assert.ok(proof.promptImplementationSurface.promptTemplates.every((/** @type {any} */ template) => template.parseContractId.startsWith('parse_contract_')));
   assert.ok(proof.promptImplementationSurface.promptTemplates.every((/** @type {any} */ template) => template.expectedOutputSchema.length === 1));
+});
+
+test('projection principals preserve intended visibility boundaries for the latest run', () => {
+  const state = buildInitialStateTest();
+  const { nextState } = runMakeEngiBranchTest(state, { scenarioId: 'privacy-boundary-proof-export' });
+  const internal = buildProjectedLatestRunTest(nextState.latestRun, 'internal');
+  const reviewer = buildProjectedLatestRunTest(nextState.latestRun, 'reviewer');
+  const buyer = buildProjectedLatestRunTest(nextState.latestRun, 'buyer');
+  const projectedPublic = buildProjectedLatestRunTest(nextState.latestRun, 'public');
+
+  assert.equal(internal, nextState.latestRun);
+  assert.ok(internal.branchArtifacts.files['.engi/proof-contract.json']);
+  assert.ok(Object.keys(internal.branchArtifacts.files).some((path) => path.startsWith('.engi/source-material/')));
+
+  assert.equal(reviewer.projectionPrincipal, 'reviewer');
+  assert.ok(reviewer.proofWitnessManifest.proofFamilies.length === 9);
+  assert.ok(reviewer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
+  assert.equal(reviewer.authorizationDecisions, undefined);
+  assert.equal(reviewer.sourceToSharesArtifact, undefined);
+  assert.equal(reviewer.branchArtifacts.files, undefined);
+  assert.equal(reviewer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+  assert.ok(reviewer.branchArtifacts.visibleFileInventory.includes('.engi/proof-contract.json'));
+
+  assert.equal(buyer.projectionPrincipal, 'buyer');
+  assert.ok(buyer.authorizationDecisions.length >= 1);
+  assert.equal(buyer.branchArtifacts.files, undefined);
+  assert.equal(buyer.branchArtifacts.visibleFileInventory.some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+
+  assert.equal(projectedPublic.projectionPrincipal, 'public');
+  assert.equal(projectedPublic.proofWitnessManifest, undefined);
+  assert.equal(projectedPublic.systemProofBundle, undefined);
+  assert.ok(projectedPublic.publicArtifacts['.engi/bounded-public-proof.json']);
+  assert.ok(projectedPublic.publicArtifacts['.engi/match-report.json']);
+  assert.equal('.engi/proof-contract.json' in projectedPublic.publicArtifacts, false);
+  assert.equal(Object.keys(projectedPublic.branchArtifacts.publicFiles).some((/** @type {string} */ path) => path.startsWith('.engi/source-material/')), false);
+});
+
+test('projection policy public artifact paths match surfaced public artifacts and public files exactly', () => {
+  const state = buildInitialStateTest();
+  const { nextState } = runMakeEngiBranchTest(state, { scenarioId: 'privacy-boundary-proof-export' });
+  const projectedPublic = buildProjectedLatestRunTest(nextState.latestRun, 'public');
+  const declaredPublicArtifactPaths = [...projectedPublic.projectionPolicy.publicArtifactPaths].sort();
+  const surfacedPublicArtifacts = Object.keys(projectedPublic.publicArtifacts).sort();
+  const surfacedPublicFiles = Object.keys(projectedPublic.branchArtifacts.publicFiles).sort();
+
+  assert.deepEqual(surfacedPublicArtifacts, declaredPublicArtifactPaths);
+  assert.deepEqual(surfacedPublicFiles, declaredPublicArtifactPaths);
+});
+
+test('family proof objects expose member verdicts, theorem verdicts, and replay closure fields', () => {
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {});
+  const proofObjects = [
+    latestRun.inferenceSynthesisProof,
+    latestRun.promptCompletenessProof,
+    latestRun.staticMeasurementProof,
+    latestRun.systemProofBundle.verificationDecisionsProof,
+    latestRun.systemProofBundle.selectionAndMaterializationProof,
+    latestRun.systemProofBundle.authorizationAndSensitiveFlowProof,
+    latestRun.systemProofBundle.settlementSourceToSharesProof,
+    latestRun.systemProofBundle.disclosureBoundaryProof,
+    latestRun.systemProofBundle.proofContract
+  ];
+
+  for (const proof of proofObjects) {
+    assert.ok(Array.isArray(proof.memberVerdicts) && proof.memberVerdicts.length >= 1);
+    assert.ok(proof.memberVerdicts.every((/** @type {any} */ entry) => (typeof entry.memberId === 'string' || typeof entry.field === 'string') && typeof entry.passed === 'boolean'));
+    assert.ok(Array.isArray(proof.theoremVerdicts) && proof.theoremVerdicts.length >= 1);
+    assert.ok(proof.theoremVerdicts.every((/** @type {any} */ entry) => typeof entry.theoremId === 'string' && typeof entry.passed === 'boolean'));
+    assert.ok(Array.isArray(proof.artifactBindings) && proof.artifactBindings.length >= 1);
+    assert.ok(Array.isArray(proof.replaySteps) && proof.replaySteps.length >= 1);
+    assert.ok(Array.isArray(proof.replayArtifacts) && proof.replayArtifacts.length >= 1);
+    assert.ok(Array.isArray(proof.witnessArtifactPaths) && proof.witnessArtifactPaths.length >= 1);
+    assert.equal(proof.allTheoremsPassed, true);
+    if ('witnessClosureClosed' in proof) assert.equal(proof.witnessClosureClosed, true);
+    if ('replayClosureClosed' in proof) assert.equal(proof.replayClosureClosed, true);
+  }
+});
+
+test('system proof bundle replay catalog closes over proof families, witness paths, and branch artifacts', () => {
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, { scenarioId: 'privacy-boundary-proof-export' });
+  const branchArtifactPaths = new Set(Object.keys(latestRun.branchArtifacts.files));
+  const requiredArtifactPaths = new Set(latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths);
+  const replayCatalogByName = Object.fromEntries(
+    latestRun.systemProofBundle.verifierEntrypoint.proofFamilyReplayCatalog.map((/** @type {any} */ entry) => [entry.proofFamily, entry])
+  );
+
+  for (const proofFamily of latestRun.systemProofBundle.proofFamilies) {
+    const replayCatalog = replayCatalogByName[proofFamily.proofFamily];
+    const witnessFamily = latestRun.proofWitnessManifest.proofFamiliesByName[proofFamily.proofFamily];
+
+    assert.ok(replayCatalog);
+    assert.deepEqual(replayCatalog.theoremIds, proofFamily.theoremIds);
+    assert.deepEqual([...replayCatalog.replayArtifacts].sort(), [...proofFamily.replayArtifacts].sort());
+    assert.deepEqual(replayCatalog.replaySteps, proofFamily.replaySteps);
+    assert.ok(witnessFamily);
+    assert.deepEqual([...witnessFamily.witnessArtifactPaths].sort(), [...proofFamily.witnessArtifactPaths].sort());
+    assert.ok(branchArtifactPaths.has(proofFamily.proofArtifactPath));
+    assert.ok(latestRun.proofWitnessManifest.artifactDigestByPath[proofFamily.proofArtifactPath]);
+
+    for (const artifactPath of proofFamily.witnessArtifactPaths) {
+      assert.ok(branchArtifactPaths.has(artifactPath));
+      if (artifactPath !== '.engi/system-proof-bundle.json' && artifactPath !== '.engi/proof-witness-manifest.json') {
+        assert.ok(latestRun.proofWitnessManifest.artifactDigestByPath[artifactPath]);
+      }
+    }
+    for (const artifactPath of proofFamily.replayArtifacts) {
+      assert.ok(branchArtifactPaths.has(artifactPath));
+      assert.ok(requiredArtifactPaths.has(artifactPath));
+    }
+    for (const replayStep of proofFamily.replaySteps) {
+      assert.ok(replayStep.theoremIds.length >= 1);
+      assert.ok(replayStep.requiredArtifactPaths.length >= 1);
+      for (const artifactPath of replayStep.requiredArtifactPaths) {
+        assert.ok(branchArtifactPaths.has(artifactPath));
+        assert.ok(requiredArtifactPaths.has(artifactPath));
+      }
+    }
+  }
 });
 
 test('authorization decisions and policy release are persisted on latest run', () => {
@@ -989,10 +1164,12 @@ test('buyer projection exposes richer artifacts without raw branch files or sour
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.privacyBoundaryScenarioPresent, true);
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.polyglotRepoScenarioPresent, true);
   assert.equal(projected.latestRun.testCoverageReport.adversarialCoverage.manyAssetNormalizationScenarioPresent, true);
-  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.unit.entrypoint, 'test/core.test.js');
-  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.api.entrypoint, 'test/api.test.js');
-  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.entrypoint, 'test/e2e.test.js');
-  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.browserE2E.requiredForV15, true);
+  assert.ok(projected.latestRun.testCoverageReport.suiteCoverage.unit.entrypoints.includes('test/core.test.js'));
+  assert.ok(projected.latestRun.testCoverageReport.suiteCoverage.unit.entrypoints.includes('test/proven-generator.test.js'));
+  assert.ok(projected.latestRun.testCoverageReport.suiteCoverage.integration.entrypoints.includes('test/api.test.js'));
+  assert.ok(projected.latestRun.testCoverageReport.suiteCoverage.integration.entrypoints.includes('test/workflow.integration.test.js'));
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.e2e.entrypoint, 'test/e2e.test.js');
+  assert.equal(projected.latestRun.testCoverageReport.suiteCoverage.e2e.requiredForDemoCanon, true);
   assert.ok(projected.latestRun.identityAuthSpineSurface.hops.length >= 6);
   assert.equal(projected.latestRun.branchArtifacts.files, undefined);
 });
