@@ -4717,7 +4717,8 @@ function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sen
     ...(sensitiveDataFlowProof?.theoremVerdicts || []).map((/** @type {any} */ entry) => ({
       ...entry,
       witnessArtifactPaths,
-      replayArtifactPaths: replayArtifacts
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['authorization-sensitive-flow.flows']
     })),
     buildTheoremVerdict({
       theoremId: 'authorization_and_sensitive_flow.witness_replay_closure',
@@ -5513,6 +5514,7 @@ export function runMakeEngiBranch(state, input = {}) {
     promptCompletenessProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
+    evalManifest,
     assetPackLock,
     selectedSourceMaterialManifest,
     codeAnalysisFactRegistry,
@@ -5736,6 +5738,7 @@ export function runMakeEngiBranch(state, input = {}) {
     promptCompletenessProof,
     parsedCompletionEnvelopes,
     parsedCompletionEnvelopeArtifact,
+    evalManifest,
     assetPackLock,
     selectedSourceMaterialManifest,
     codeAnalysisFactRegistry,

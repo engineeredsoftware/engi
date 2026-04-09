@@ -1,6 +1,7 @@
 // @ts-check
 
 import { buildInitialState, runMakeEngiBranch } from '../engi-demo.js';
+import { buildV18Matrices, summarizeV18Matrix } from './v18-matrices.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const PROVEN_GENERATOR_ID = 'engi-demo.proven-generator.v1';
@@ -533,6 +534,7 @@ function renderMarkdownTable(headers, rows) {
  * @returns {string}
  */
 export function renderCanonicalProvenMarkdown(data) {
+  const v18Matrices = /** @type {any} */ (data).v18Matrices || null;
   const lines = [];
   lines.push(`# ENGI Spec ${data.version} Proven`);
   lines.push('');
@@ -554,7 +556,51 @@ export function renderCanonicalProvenMarkdown(data) {
   lines.push(`- theoremCount: ${markdownCode(String(data.aggregate.theoremCount))}`);
   lines.push(`- memberCount: ${markdownCode(String(data.aggregate.memberCount))}`);
   lines.push(`- artifactDigestCount: ${markdownCode(String(data.aggregate.artifactDigestCount))}`);
+  if (v18Matrices) {
+    lines.push(`- v18MatrixCount: ${markdownCode(String(v18Matrices.summaries.length))}`);
+    lines.push(`- v18MatrixCellCount: ${markdownCode(String(v18Matrices.summaries.reduce((/** @type {number} */ sum, /** @type {any} */ summary) => sum + summary.cellCount, 0)))}`);
+    lines.push(`- v18MatricesFullyProven: ${markdownCode(String(v18Matrices.fullyProven))}`);
+  }
   lines.push('');
+  if (v18Matrices) {
+    lines.push('## V18 Generated Matrix Summaries');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['matrixId', 'sourceRunCount', 'cellCount', 'passedCellCount', 'failedCellCount', 'acceptedExclusionCount'],
+      v18Matrices.summaries.map((/** @type {any} */ summary) => [
+        markdownCode(summary.matrixId),
+        summary.sourceRunCount,
+        summary.cellCount,
+        summary.passedCellCount,
+        summary.failedCellCount,
+        summary.acceptedExclusionCount
+      ])
+    ));
+    lines.push('');
+    lines.push('### V18 State-Machine Group Counts');
+    lines.push('');
+    const stateSummary = summarizeV18Matrix(v18Matrices.stateMachineMatrix);
+    lines.push(renderMarkdownTable(
+      ['matrixGroup', 'cellCount'],
+      Object.entries(stateSummary.groupCounts).map(([group, count]) => [markdownCode(group), /** @type {number} */ (count)])
+    ));
+    lines.push('');
+    lines.push('### V18 Matrix Failures');
+    lines.push('');
+    const failedCells = [
+      ...v18Matrices.proofMemberSemanticMatrix.failedCells,
+      ...v18Matrices.theoremEvidenceMatrix.failedCells,
+      ...v18Matrices.stateMachineMatrix.failedCells
+    ];
+    if (!failedCells.length) {
+      lines.push('- none');
+    } else {
+      for (const cell of failedCells) {
+        lines.push(`- matrix=${markdownCode(cell.matrixId || 'unknown')} scenario=${markdownCode(cell.scenarioId)} branchMode=${markdownCode(cell.branchMode || 'none')} predicate=${markdownCode(cell.predicateId || cell.evidencePredicateId || 'unknown')} failure=${markdownCode(cell.failureReason || 'unknown')}`);
+      }
+    }
+    lines.push('');
+  }
   lines.push('## Proof Family Inventory');
   lines.push('');
   lines.push(renderMarkdownTable(
@@ -729,7 +775,7 @@ export function generateCanonicalProvenMarkdown({
     branchModes,
     ...(scenarioIds ? { scenarioIds } : {})
   });
-  const data = buildCanonicalProvenData(collected, {
+  const baseData = buildCanonicalProvenData(collected, {
     version,
     canonicalCommit,
     canonicalCommitRecordedAt,
@@ -737,6 +783,24 @@ export function generateCanonicalProvenMarkdown({
     worktreeState,
     generatorId
   });
+  const v18Matrices = version === 'V18'
+    ? buildV18Matrices(baseData, {
+        version,
+        generatedAt,
+        buildInitialStateFn,
+        runMakeEngiBranchFn
+      })
+    : null;
+  const data = v18Matrices
+    ? {
+        ...baseData,
+        v18Matrices,
+        aggregate: {
+          ...baseData.aggregate,
+          fullyProven: baseData.aggregate.fullyProven && v18Matrices.fullyProven
+        }
+      }
+    : baseData;
   return {
     data,
     markdown: renderCanonicalProvenMarkdown(data)

@@ -1134,7 +1134,8 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
       'projection policy enforces bounded public proof surfaces',
       'proof witness manifest digests proof-relevant artifacts',
       'source-to-shares precision stays replayable through journal settlement',
-      'scenario corpus covers GitHub-shaped, privacy, issuer-policy, and deployment stress cases'
+      'scenario corpus covers GitHub-shaped, privacy, issuer-policy, and deployment stress cases',
+      'V18 generated proof-member, theorem-evidence, and state-machine matrices execute as source/integration proof exhaustiveness'
     ],
     suiteCoverage: {
       unit: {
@@ -1148,7 +1149,7 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
         ]
       },
       integration: {
-        entrypoints: ['test/api.test.js', 'test/workflow.integration.test.js'],
+        entrypoints: ['test/api.test.js', 'test/workflow.integration.test.js', 'test/state-machine.integration.test.js'],
         runner: 'node --test',
         validates: [
           'HTTP boundary behavior, malformed input handling, and persistence safety',
@@ -1157,6 +1158,27 @@ function buildTestCoverageReport({ state, scenarioFixtureManifest, activeScenari
           'projection-sensitive and normalization-heavy multi-step run behavior',
           'stateful repeated runs, no-survivor conflicts, reset recovery, and full principal projection-matrix behavior'
         ]
+      },
+      generatedMatrices: {
+        entrypoints: [
+          'test/proof-member-matrix.test.js',
+          'test/theorem-evidence-matrix.test.js',
+          'test/state-machine.integration.test.js'
+        ],
+        runner: 'node --test',
+        requiredForV18Canon: true,
+        validates: [
+          'V18 proof-member semantic matrix: 45 members x 8 scenarios x 2 branch modes = 720 cells',
+          'V18 theorem evidence matrix: 57 theorems x 8 scenarios x 2 branch modes = 912 cells',
+          'V18 state-machine matrix: repeated-run, reset-after-run, mixed-deposit, and no-survivor workflow cells = 200 cells',
+          'generated matrix artifacts expose predicate ids, evidence paths, evidence digest refs, pass/fail, and failure reasons'
+        ],
+        matrixCellCounts: {
+          proofMemberSemantic: 720,
+          theoremEvidence: 912,
+          stateMachine: 200,
+          total: 1832
+        }
       },
       e2e: {
         entrypoint: 'test/e2e.test.js',

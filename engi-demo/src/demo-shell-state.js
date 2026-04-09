@@ -622,7 +622,7 @@ export function buildPublicAssetSummary(asset) {
 export function buildProjectedLatestRun(latestRun, principal = 'public', { ensureProjectionPrincipal } = {}) {
   const resolvedPrincipal = ensureProjectionPrincipal ? ensureProjectionPrincipal(principal) : principal;
   if (!latestRun) return null;
-  if (resolvedPrincipal === 'internal') return latestRun;
+  if (resolvedPrincipal === 'internal') return { ...latestRun, projectionPrincipal: 'internal' };
   if (resolvedPrincipal === 'buyer') return buildBuyerProjection(latestRun);
   if (resolvedPrincipal === 'reviewer') return buildReviewerProjection(latestRun);
   return buildPublicProjection(latestRun);

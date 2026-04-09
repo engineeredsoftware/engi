@@ -7,8 +7,11 @@
     "start": "node server.js",
     "test": "node --test",
     "test:unit": "node --test test/core.test.js test/proven-generator.test.js",
-    "test:integration": "node --test test/api.test.js test/workflow.integration.test.js",
+    "test:integration": "node --test test/api.test.js test/workflow.integration.test.js test/state-machine.integration.test.js",
     "test:e2e": "node --test test/e2e.test.js",
+    "test:proof-member-matrix": "node --test test/proof-member-matrix.test.js",
+    "test:theorem-evidence-matrix": "node --test test/theorem-evidence-matrix.test.js",
+    "test:state-machine": "node --test test/state-machine.integration.test.js",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
