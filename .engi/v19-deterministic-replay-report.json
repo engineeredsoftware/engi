@@ -45,9 +45,9 @@
     {
       "artifactPath": "ENGI_SPEC_V19_PROVEN.md",
       "byteEqual": true,
-      "byteLength": 288041,
-      "firstDigest": "sha256:448be61ccb691a95fd86bb45f7ed7efeec472bb4904e30980bd380ea7f71101f",
-      "secondDigest": "sha256:448be61ccb691a95fd86bb45f7ed7efeec472bb4904e30980bd380ea7f71101f"
+      "byteLength": 288033,
+      "firstDigest": "sha256:fabeb0ea5ada1e811b885ee87e748fbbba94411b3c67e36424bfd0ae4a24aab2",
+      "secondDigest": "sha256:fabeb0ea5ada1e811b885ee87e748fbbba94411b3c67e36424bfd0ae4a24aab2"
     }
   ],
   "failureReason": "",

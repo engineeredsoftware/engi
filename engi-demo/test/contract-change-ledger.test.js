@@ -72,5 +72,6 @@ test('V19 promotion command exposes the accepted first-gate plan in dry-run mode
   assert.match(output, /npm --prefix engi-demo run test:deterministic-replay/);
   assert.match(output, /npm --prefix engi-demo run test:negative-mutation-matrix/);
   assert.match(output, /node scripts\/generate-engi-proven\.mjs --version V19/);
+  assert.match(output, /--worktree-state clean/);
   assert.match(output, /Canonical commit message body:/);
 });

@@ -80,8 +80,8 @@ function buildCommandPlan(version, commit) {
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:negative-mutation-matrix']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:contract-ledger']],
     ['npm', ['--prefix', 'engi-demo', 'test']],
-    ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-    ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+    ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
+    ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
     ['git', ['diff', '--check']]
   ];
 }

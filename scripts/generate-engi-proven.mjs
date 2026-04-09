@@ -22,6 +22,7 @@ function parseArgs(argv) {
    *   version?: string,
    *   commit?: string,
    *   generatedAt?: string,
+   *   worktreeState?: string,
    *   output?: string,
    *   check?: boolean,
    *   allowDirty?: boolean,
@@ -35,6 +36,7 @@ function parseArgs(argv) {
     if (arg === '--version') args.version = argv[++index];
     else if (arg === '--commit') args.commit = argv[++index];
     else if (arg === '--generated-at') args.generatedAt = argv[++index];
+    else if (arg === '--worktree-state') args.worktreeState = argv[++index];
     else if (arg === '--output') args.output = argv[++index];
     else if (arg === '--check') args.check = true;
     else if (arg === '--allow-dirty') args.allowDirty = true;
@@ -55,6 +57,7 @@ function printHelp() {
       '  --version <VN>         Override canonical version. Defaults to ENGI_SPEC.txt.',
       '  --commit <sha>         Canonical commit to render. Defaults to HEAD.',
       '  --generated-at <iso>   Override generation timestamp. Defaults to commit recorded-at time.',
+      '  --worktree-state <s>   Override recorded replay worktree state. Defaults to live git state.',
       '  --output <path>        Output markdown path. Defaults to ENGI_SPEC_VN_PROVEN.md.',
       '  --check                Fail if the target file differs from generator output.',
       '  --allow-dirty          Allow generation from a dirty worktree for preview use.',
@@ -86,7 +89,11 @@ async function main() {
   if (dirty && !args.allowDirty) {
     throw new Error('Refusing to generate _PROVEN_ from a dirty worktree. Use --allow-dirty for preview generation, or regenerate from a clean canonical commit.');
   }
-  const worktreeState = dirty ? 'dirty-preview' : 'clean';
+  const liveWorktreeState = dirty ? 'dirty-preview' : 'clean';
+  const worktreeState = args.worktreeState || liveWorktreeState;
+  if (!['clean', 'dirty-preview'].includes(worktreeState)) {
+    throw new Error(`Unsupported worktree state ${worktreeState}. Expected clean or dirty-preview.`);
+  }
 
   const version = (args.version || (await fs.readFile(path.join(repoRoot, 'ENGI_SPEC.txt'), 'utf8')).trim());
   if (!/^V\d+$/.test(version)) {

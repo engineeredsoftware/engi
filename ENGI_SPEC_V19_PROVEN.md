@@ -3,7 +3,7 @@
 - canonicalVersion: `V19`
 - canonicalCommit: `221e718ea34c904e3d4413dfc470feab38fca673`
 - canonicalCommitRecordedAt: `2026-04-09T18:54:45-03:00`
-- worktreeState: `dirty-preview`
+- worktreeState: `clean`
 - generatorId: `engi-demo.proven-generator.v1`
 - generatedAt: `2026-04-09T18:54:45-03:00`
 - outputPath: `ENGI_SPEC_V19_PROVEN.md`
@@ -32,7 +32,7 @@
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
 | `.engi/v19-contract-change-ledger.json` | `sha256:d5b38d719d91520489be025e3b57f642f87306564d21b7dcfcadc2a08d908afa` | 3290 |
-| `.engi/v19-deterministic-replay-report.json` | `sha256:00dba27860aea25cf9913b153a700c5cf85e67fc46cae813518cc659e4eadf97` | 8426 |
+| `.engi/v19-deterministic-replay-report.json` | `sha256:afa10cecc7b9bb76228aa1042ff1f352d7de23a75bf38498f14556c11891608e` | 8426 |
 | `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:be5b69cf4169b6d8dff43b7ff5e5120fda95dfce72e0ecdf927e5ac8d4189025` | 8049 |
 | `.engi/v19-proof-member-semantic-matrix.json` | `sha256:a47d0cf1dcde5cb60c76fb2a5c68976f33704df222cce27a75829c82bcf6056b` | 1682034 |
 | `.engi/v19-state-machine-matrix.json` | `sha256:80509940bdce15f31d7b8a7cb5148093213e5fe483d5ab6abbfb9ee56d0df722` | 154149 |
@@ -62,7 +62,7 @@
 | `.engi/v19-state-machine-matrix.json` | `sha256:80509940bdce15f31d7b8a7cb5148093213e5fe483d5ab6abbfb9ee56d0df722` | `sha256:80509940bdce15f31d7b8a7cb5148093213e5fe483d5ab6abbfb9ee56d0df722` | `true` |
 | `.engi/v19-theorem-evidence-matrix.json` | `sha256:715dec2e01857d30474ba0af8abc611f24d3cc3225079c75e34d914c93924d33` | `sha256:715dec2e01857d30474ba0af8abc611f24d3cc3225079c75e34d914c93924d33` | `true` |
 | `.engi/v19-volatility-inventory.json` | `sha256:93375ec01c7275f2f161b3b0f06016e96e69272a32b0f7f8a01fcda1edc991de` | `sha256:93375ec01c7275f2f161b3b0f06016e96e69272a32b0f7f8a01fcda1edc991de` | `true` |
-| `ENGI_SPEC_V19_PROVEN.md` | `sha256:448be61ccb691a95fd86bb45f7ed7efeec472bb4904e30980bd380ea7f71101f` | `sha256:448be61ccb691a95fd86bb45f7ed7efeec472bb4904e30980bd380ea7f71101f` | `true` |
+| `ENGI_SPEC_V19_PROVEN.md` | `sha256:fabeb0ea5ada1e811b885ee87e748fbbba94411b3c67e36424bfd0ae4a24aab2` | `sha256:fabeb0ea5ada1e811b885ee87e748fbbba94411b3c67e36424bfd0ae4a24aab2` | `true` |
 
 ### V19 Volatility Inventory
 
