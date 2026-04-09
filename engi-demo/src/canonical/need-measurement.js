@@ -849,30 +849,36 @@ export function createNeedMeasurementRuntime({
         }))}`
       };
     });
+    const deterministicParsedAt = '2026-04-09T00:00:00.000Z';
     const parsedCompletionEnvelopes = [
       buildParsedCompletionEnvelope({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.task.v2'),
         parsedPayload: { task },
+        parsedAt: deterministicParsedAt,
         evidenceRefs
       }),
       buildParsedCompletionEnvelope({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.failure-modes.v2'),
         parsedPayload: { failureModes },
+        parsedAt: deterministicParsedAt,
         evidenceRefs
       }),
       buildParsedCompletionEnvelope({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.constraints.v2'),
         parsedPayload: { constraints },
+        parsedAt: deterministicParsedAt,
         evidenceRefs
       }),
       buildParsedCompletionEnvelope({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.target-artifact-kinds.v2'),
         parsedPayload: { targetArtifactKinds },
+        parsedAt: deterministicParsedAt,
         evidenceRefs
       }),
       buildParsedCompletionEnvelope({
         promptSurface: requirePromptSurface(promptSurfaces, 'need-measurement.closure-criteria.v2'),
         parsedPayload: { closureCriteria },
+        parsedAt: deterministicParsedAt,
         evidenceRefs
       })
     ];

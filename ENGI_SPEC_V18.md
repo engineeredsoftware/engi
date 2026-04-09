@@ -7,9 +7,10 @@
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_PROVEN.md`
-- Current canonical/latest target: `V17`
-- Last fully realized canonical target preserved in source: `V17`
-- V18 state: source-side generated matrix implementation complete in draft; canonical promotion and `ENGI_SPEC_V18_PROVEN.md` regeneration remain pending
+- Current generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
+- Current canonical/latest target: `V18`
+- Last fully realized canonical target preserved in source: `V18`
+- V18 state: source-side generated matrix implementation complete; `ENGI_SPEC.txt` points to `V18`; `ENGI_SPEC_V18_PROVEN.md` is generated from proof-source commit `c675116`
 - Current realization basis for this pass: `engi-demo`
 
 ## Version executive summary

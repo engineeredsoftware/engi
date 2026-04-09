@@ -8,9 +8,10 @@
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17.md`
 - Prior parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_SYSTEM_PARITY_MATRIX.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_PROVEN.md`
-- Current canonical/latest target: `V17`
-- Last fully realized canonical target preserved in source: `V17`
-- V18 state: source-side matrix generators and tests implemented in draft; canonical promotion and `ENGI_SPEC_V18_PROVEN.md` regeneration remain pending
+- Current generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
+- Current canonical/latest target: `V18`
+- Last fully realized canonical target preserved in source: `V18`
+- V18 state: source-side matrix generators and tests implemented; `ENGI_SPEC_V18_PROVEN.md` is generated from proof-source commit `c675116`
 - Primary implementation surface to audit for this pass: `engi-demo`
 
 ## Purpose
@@ -57,7 +58,7 @@ This matrix is grounded in:
 
 | Area | Current source truth | V18 implementation expectation | Closure signal | Judgment |
 |---|---|---|---|---|
-| Root canon posture | `ENGI_SPEC.txt` points to `V17`; V17 canonical commit and V17 `_PROVEN_` are present | V18 must remain draft until matrix implementation and V18 `_PROVEN_` regeneration are complete | V18 docs state V17 as current canon and do not advance the pointer prematurely | closed for draft posture |
+| Root canon posture | `ENGI_SPEC.txt` points to `V18`; V17 canonical commit and V17 `_PROVEN_` remain present as prior canon | V18 promotion prep must advance the pointer only after matrix implementation and V18 `_PROVEN_` regeneration are complete | V18 docs state V18 as current target and record the generated appendix | closed |
 | V17 proof appendix input | `ENGI_SPEC_V17_PROVEN.md` records 16 runs, 9 families, 45 members, 57 theorems, and 688 artifact digests | V18 must use this as the arithmetic and audit seed for generated matrix work | V18 spec/notes/matrix cite those counts and derive required matrix sizes from them | closed for draft posture |
 | Proven generator structural checks | `buildCanonicalProvenData(...)` validates family catalog stability, member/theorem presence, replay catalog agreement, witness paths, required artifacts, metadata, and digest presence | V18 must extend beyond structural checks into generated semantic/evidence matrices | `buildV18Matrices(...)` consumes normalized proven data and adds proof-member/theorem/state summaries for V18 `_PROVEN_` rendering | closed |
 | Hand-maintained proof catalog expectations | `workflow.integration.test.js` formerly contained a literal proof-family/member/theorem expectation table | V18 must replace or subordinate this with generated/imported catalog truth to reduce drift | Workflow integration derives expected proof-family catalog from `collectCanonicalProvenRuns(...)` and `buildCanonicalProvenData(...)` | closed |
@@ -71,8 +72,8 @@ This matrix is grounded in:
 | Browser matrix | V17 E2E covers all `8 x 2 x 4 = 64` operator cells | V18 must keep browser coverage stable and avoid expanding it into proof-member/theorem cross-products | Browser tests remain green; new generated matrices live below the browser unless UI-specific gaps appear | accepted boundary |
 | Matrix artifact emission | Branch artifacts remain per-run; V18 matrices are generated from canonical proven data plus state-machine fixtures | V18 must emit or otherwise generate structured matrix JSON consumable by `_PROVEN_` | `buildV18Matrices(...)` returns JSON-compatible generated outputs for proof-member, theorem-evidence, and state-machine matrices; canonical files remain promotion-time outputs if written | closed |
 | Runtime coverage report | V17 `testCoverageReport` names unit/integration/e2e and major V17 validations | V18 must add generated matrix coverage honestly without inflating browser claims | Runtime report names generated proof-member, theorem-evidence, and state-machine matrices with cell counts totaling `1832` | closed |
-| `_PROVEN_` rendering | V17 `_PROVEN_` renders aggregate verdict, proof-family inventory, member summaries, theorem summaries, replay steps, run matrix, and run details | V18 `_PROVEN_` must add generated matrix summaries and accepted exclusions | Renderer includes V18 matrix totals, failed-cell tables, state-machine group counts, and aggregate matrix proof status | closed for generator; canonical file pending promotion |
-| Verification commands | V17 canonical verification used typecheck, full tests, generator write, generator check, and diff hygiene | V18 must preserve that stack and add targeted matrix scripts when implemented | Typecheck, targeted matrix tests, workflow integration, and full `npm test` pass; V18 generator write/check remains canonical-promotion-only | closed for source implementation |
+| `_PROVEN_` rendering | V17 `_PROVEN_` renders aggregate verdict, proof-family inventory, member summaries, theorem summaries, replay steps, run matrix, and run details | V18 `_PROVEN_` must add generated matrix summaries and accepted exclusions | `ENGI_SPEC_V18_PROVEN.md` includes V18 matrix totals, failed-cell tables, state-machine group counts, and aggregate matrix proof status | closed |
+| Verification commands | V17 canonical verification used typecheck, full tests, generator write, generator check, and diff hygiene | V18 must preserve that stack and add targeted matrix scripts when implemented | Typecheck, targeted matrix tests, workflow integration, full `npm test`, generator write, and generator check pass | closed |
 
 ---
 
@@ -195,4 +196,4 @@ The V18 pass is complete when:
 6. runtime coverage reporting includes V18 matrix counts,
 7. `_PROVEN_` rendering includes V18 matrix summaries,
 8. full verification is green,
-9. and `ENGI_SPEC_V18_PROVEN.md` is generated only as part of canonical V18 promotion.
+9. and `ENGI_SPEC_V18_PROVEN.md` is generated as part of canonical V18 promotion prep.

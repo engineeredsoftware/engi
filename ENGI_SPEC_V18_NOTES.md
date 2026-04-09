@@ -7,8 +7,9 @@
 - Draft parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_SYSTEM_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V17_PROVEN.md`
-- Current canonical/latest target: `V17`
-- V18 state: source implementation complete for generated proof-member, theorem-evidence, and state-machine matrices; canonical promotion and `ENGI_SPEC_V18_PROVEN.md` regeneration remain pending
+- Current generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
+- Current canonical/latest target: `V18`
+- V18 state: source implementation complete for generated proof-member, theorem-evidence, and state-machine matrices; `ENGI_SPEC_V18_PROVEN.md` is generated from proof-source commit `c675116`
 
 ## Why V18 starts from generated matrices
 
@@ -44,6 +45,8 @@ Those facts define the starting V18 arithmetic:
 - `8` reset-after-run cells,
 - `8 x 2 x 4 = 64` mixed-deposit cells,
 - `8 x 2 x 4 = 64` no-survivor cells.
+
+The V18 generated appendix reports `artifactDigestCount=704` because V18 closes the `.engi/eval-manifest.json` digest gap for each of the 16 canonical proof runs.
 
 V18 must treat those as named matrices, not as vague "more tests."
 
@@ -137,7 +140,7 @@ The accepted source-side path is:
 6. Add matrix test entrypoints and package scripts only after the generated builders are stable.
 7. Add matrix summaries to `testCoverageReport`.
 8. Extend `renderCanonicalProvenMarkdown(...)` for V18 matrix summaries.
-9. Generate `ENGI_SPEC_V18_PROVEN.md` only at canonical promotion.
+9. Generate `ENGI_SPEC_V18_PROVEN.md` only at canonical promotion, from the proof-source commit convention used by V16/V17.
 
 ## Final source implementation answers
 
@@ -167,4 +170,5 @@ The source-side V18 implementation work is complete when:
 - `test:state-machine` executes `200` passing cells,
 - full `npm test` remains green,
 - no V18 document implies canonical promotion before `_PROVEN_` regeneration,
-- and `ENGI_SPEC.txt` remains on `V17` until the canonical V18 commit.
+- `ENGI_SPEC.txt` points to `V18`,
+- and `ENGI_SPEC_V18_PROVEN.md` check mode passes against the recorded proof-source commit.
