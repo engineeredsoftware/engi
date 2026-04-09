@@ -402,6 +402,12 @@ testAny('browser flow can inspect raw verification and proof JSON for a restrict
     const proofRawText = await activeRawPanelPre(proofSurface).textContent();
     assert.match(String(proofRawText), /"proofFamilies"/);
     assert.match(String(proofRawText), /"verifierEntrypoint"/);
+    assert.match(String(proofRawText), /"memberIds"/);
+    assert.match(String(proofRawText), /"theoremIds"/);
+    assert.match(String(proofRawText), /"verification-decisions"/);
+    assert.match(String(proofRawText), /"use-tier-consequence"/);
+    assert.match(String(proofRawText), /verification_decisions\.use_tier_consequence_closure/);
+    assert.match(String(proofRawText), /selection_and_materialization\.exclusion_closure/);
   });
 });
 

@@ -220,12 +220,13 @@ The current opening source state now includes:
   - restrictive unsafe-patch verification/materialization exclusion closure,
   - reviewer versus internal projection differences,
   - full seeded scenario-corpus workflow closure across both `patch` and `context`,
+  - exact proof-family catalog, member-id, and theorem-id closure across that seeded corpus,
   - reviewer versus public proof-family and replay-artifact visibility closure,
   - API failure semantics for unsupported principals, branch modes, and scenarios,
   - browser-visible projection switching across operator principals,
   - browser-visible projection visibility summary and proof-family catalog inspection,
   - browser-visible internal versus reviewer source-material visibility boundaries,
-  - browser-visible raw verification/materialization/proof inspection,
+  - browser-visible raw verification/materialization/proof inspection, including proof-family member ids and theorem ids,
   - browser-visible deposit validation failures,
   - browser-visible reset after a realized run,
   - and deeper unit replay-catalog closure over proof families, witness paths, and emitted branch artifacts.
@@ -249,5 +250,6 @@ The current V17 pass is in good shape when:
 4. source begins to reflect an explicit unit/integration/e2e taxonomy,
 5. at least one closer-to-real workflow integration surface exists beyond general endpoint checks,
 6. the seeded scenario corpus is exercised through realistic HTTP workflows across both `patch` and `context`,
-7. the browser shell truthfully demonstrates canonical V16 proof, projection, and settlement surfaces,
-8. and V16 proof closure remains the base system contract while V17 keeps surfacing bugs through actual workflows rather than speculative review alone.
+7. exact proof-family names, proof artifact paths, member ids, and theorem ids stay stable through that workflow layer,
+8. the browser shell truthfully demonstrates canonical V16 proof, projection, and settlement surfaces,
+9. and V16 proof closure remains the base system contract while V17 keeps surfacing bugs through actual workflows rather than speculative review alone.
