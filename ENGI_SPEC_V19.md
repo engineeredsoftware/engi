@@ -9,7 +9,7 @@
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
 - Current canonical/latest target: `V18`
 - Last fully realized canonical target preserved in source: `V18`
-- V19 state: first-gate acceptance baseline specified; specification and source implementation remain co-located draft work until canonical promotion; no source-side V19 implementation, generated V19 appendix, or `ENGI_SPEC.txt` pointer advancement yet
+- V19 state: first-gate source implementation is present in draft; canonical generated V19 appendix/artifacts and `ENGI_SPEC.txt` pointer advancement remain pending canonical promotion
 - Current realization basis for this pass: `engi-demo`
 
 ## Drafting and acceptance state
@@ -274,6 +274,7 @@ Initial required mutation classes:
 | Mutation class | Contract being proven |
 |---|---|
 | `missing-digest` | Witness-manifest digest references are required for keyed artifacts. |
+| `proof-family-catalog-drift` | Family, member, theorem, and replay catalogs must not drift across canonical runs. |
 | `corrupted-replay-step` | Theorem replay steps must match the replay catalog and evidence payload. |
 | `dropped-theorem-verdict` | Every canonical theorem must have a verdict for every run. |
 | `mutated-member-payload` | Proof-family member payloads must preserve family-specific predicates. |
@@ -366,13 +367,14 @@ The required V19 implementation sequence is:
 
 1. Add deterministic replay context construction and remove remaining implicit canonical generation inputs.
 2. Add a volatility inventory/scanner over generated proof and matrix artifacts.
-3. Add a deterministic replay test or script that compares two generation attempts byte-for-byte.
-4. Add a canonical promotion command or script with explicit dry-run/check behavior.
-5. Implement committed generated matrix artifact materialization.
-6. Add negative proof mutation matrix builders and fail-closed tests.
-7. Add a generated contract-change ledger between V18 and V19.
-8. Wire new V19 reports into `_PROVEN_` rendering only after the reports are generated from executable data.
-9. Regenerate `ENGI_SPEC_V19_PROVEN.md` only during canonical V19 promotion.
+3. Normalize canonical proof inventory ordering before volatility scanning and artifact digesting.
+4. Add a deterministic replay test or script that compares two generation attempts byte-for-byte.
+5. Add a canonical promotion command or script with explicit dry-run/check behavior.
+6. Implement committed generated matrix artifact materialization.
+7. Add negative proof mutation matrix builders and fail-closed tests.
+8. Add a generated contract-change ledger between V18 and V19.
+9. Wire new V19 reports into `_PROVEN_` rendering only after the reports are generated from executable data.
+10. Regenerate `ENGI_SPEC_V19_PROVEN.md` only during canonical V19 promotion.
 
 ## V19 non-goals
 
@@ -390,7 +392,7 @@ V19 should not:
 V19 is complete when:
 
 1. V19 docs define reproducible canon as the version focus.
-2. The system parity matrix records every V19 implementation requirement, accepted boundary, and source gap.
+2. The system parity matrix records every V19 implementation requirement, accepted boundary, source status, and canonical promotion boundary.
 3. Deterministic replay generates byte-identical proof and accepted matrix artifacts from the same proof-source commit.
 4. The volatility scanner finds no blocking canonical volatility.
 5. The canonical promotion command runs the complete promotion sequence and fails closed on omitted gates.

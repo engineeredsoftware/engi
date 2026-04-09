@@ -98,7 +98,7 @@ async function main() {
   const generatedAt = args.generatedAt || canonicalCommitRecordedAt;
   const outputPath = path.resolve(repoRoot, args.output || defaultProvenOutputPath(version));
 
-  const { data, markdown } = generateCanonicalProvenMarkdown({
+  const { data, markdown, artifacts = {} } = generateCanonicalProvenMarkdown({
     version,
     canonicalCommit,
     canonicalCommitRecordedAt,
@@ -117,13 +117,28 @@ async function main() {
     if (existing !== markdown) {
       throw new Error(`_PROVEN_ is stale at ${outputPath}. Regenerate it for ${version} @ ${canonicalCommit}.`);
     }
+    for (const [artifactPath, content] of Object.entries(artifacts)) {
+      const resolvedArtifactPath = path.resolve(repoRoot, artifactPath);
+      const existingArtifact = await fs.readFile(resolvedArtifactPath, 'utf8');
+      if (existingArtifact !== content) {
+        throw new Error(`Generated artifact is stale at ${resolvedArtifactPath}. Regenerate it for ${version} @ ${canonicalCommit}.`);
+      }
+    }
     process.stdout.write(`_PROVEN_ is current: ${path.relative(repoRoot, outputPath)}\n`);
-    process.stdout.write(`generator=${data.generatorId} commit=${data.canonicalCommit} runs=${data.aggregate.runCount}\n`);
+    process.stdout.write(`generator=${data.generatorId} commit=${data.canonicalCommit} runs=${data.aggregate.runCount} artifacts=${Object.keys(artifacts).length}\n`);
     return;
   }
 
   await fs.writeFile(outputPath, markdown, 'utf8');
+  for (const [artifactPath, content] of Object.entries(artifacts)) {
+    const resolvedArtifactPath = path.resolve(repoRoot, artifactPath);
+    await fs.mkdir(path.dirname(resolvedArtifactPath), { recursive: true });
+    await fs.writeFile(resolvedArtifactPath, content, 'utf8');
+  }
   process.stdout.write(`Wrote ${path.relative(repoRoot, outputPath)}\n`);
+  if (Object.keys(artifacts).length) {
+    process.stdout.write(`Wrote ${Object.keys(artifacts).length} generated artifacts\n`);
+  }
   process.stdout.write(`generator=${data.generatorId} commit=${data.canonicalCommit} runs=${data.aggregate.runCount} fullyProven=${data.aggregate.fullyProven}\n`);
 }
 

@@ -5,7 +5,7 @@
 - Scope: accepted V19 first-gate draft notes for reproducible canon after V18 generated proof closure
 - Prior canonical target: `V18`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V18_PROVEN.md`
-- Current V19 state: first-gate acceptance baseline specified; specification and source implementation remain co-located draft work until canonical promotion; no V19 canonical pointer, generated appendix, or source implementation yet
+- Current V19 state: first-gate source implementation is present in draft; canonical generated V19 appendix/artifacts and pointer advancement remain pending canonical promotion
 - Draft spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19.md`
 - Draft parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_SYSTEM_PARITY_MATRIX.md`
 
@@ -37,7 +37,7 @@ Can ENGI prove that the same source, same canonical inputs, and same proof-sourc
 
 4. Negative proof mutation matrices
    V19 should add generated fail-closed tests that mutate proof inputs and require deterministic rejection.
-   Initial mutation classes must include missing digest, corrupted replay step, dropped theorem verdict, mutated member payload, changed projection policy, missing witness path, changed matrix axis, unsorted artifact inventory, and volatile timestamp.
+   Initial mutation classes must include missing digest, proof-family catalog drift, corrupted replay step, dropped theorem verdict, mutated member payload, changed projection policy, missing witness path, changed matrix axis, unsorted artifact inventory, and volatile timestamp.
 
 5. Source-level projection security matrix
    V17 proved projection behavior through browser operator coverage.
@@ -97,10 +97,11 @@ Excluded from the first gate:
 1. Inventory all volatile fields in canonical proof artifacts.
 2. Add a deterministic replay test that runs `_PROVEN_` generation twice and requires byte-identical output.
 3. Add a proof-artifact volatility scanner for timestamps, random-looking ids, unsorted collections, and environment-derived values.
-4. Add a promotion command or script that executes the canonical bump sequence.
-5. Add negative mutation matrix builders after replay determinism is green.
-6. Add committed generated matrix JSON artifacts for inherited positive matrices and V19 replay/volatility/mutation/ledger reports.
-7. Preserve source-level projection-security and UX quality as accepted boundaries unless implementation changes reopen them.
+4. Normalize proof artifact and digest inventory ordering before canonical scanning and artifact materialization.
+5. Add a promotion command or script that executes the canonical bump sequence.
+6. Add negative mutation matrix builders after replay determinism is green.
+7. Add committed generated matrix JSON artifacts for inherited positive matrices and V19 replay/volatility/mutation/ledger reports.
+8. Preserve source-level projection-security and UX quality as accepted boundaries unless implementation changes reopen them.
 
 ## V19 success condition
 

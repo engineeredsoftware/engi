@@ -12,6 +12,10 @@
     "test:proof-member-matrix": "node --test test/proof-member-matrix.test.js",
     "test:theorem-evidence-matrix": "node --test test/theorem-evidence-matrix.test.js",
     "test:state-machine": "node --test test/state-machine.integration.test.js",
+    "test:deterministic-replay": "node --test test/deterministic-replay.test.js",
+    "test:volatility": "node --test test/volatility-inventory.test.js",
+    "test:negative-mutation-matrix": "node --test test/negative-proof-mutation-matrix.test.js",
+    "test:contract-ledger": "node --test test/contract-change-ledger.test.js",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
