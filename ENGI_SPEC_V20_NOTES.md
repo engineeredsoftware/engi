@@ -6,7 +6,7 @@
 - Prior canonical target: `V19`
 - Current canonical/latest target: `V19`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V19_PROVEN.md`
-- Current V20 state: draft specification in progress; source implementation, generated quality artifacts, generated appendix, and pointer advancement are pending
+- Current V20 state: draft implementation pass in progress; source implementation and generator support are implemented, generated quality artifacts plus generated appendix are pending canonical promotion output, and pointer advancement remains pending
 - Draft spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20.md`
 - Draft parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_SYSTEM_PARITY_MATRIX.md`
 
@@ -125,6 +125,17 @@ Excluded from the first gate:
 10. Wire V20 reports into `_PROVEN_` generation.
 11. Generalize `promote:canon` to V20.
 12. Regenerate V20 docs/parity if implementation reveals budget or report-shape adjustments.
+
+## Implementation pass results
+
+- V20 report builders are implemented in `engi-demo/src/canonical/v20-quality.js`.
+- V20 generated artifacts are `.engi/v20-operator-acceptance-transcript.json`, `.engi/v20-visual-regression-report.json`, `.engi/v20-accessibility-report.json`, `.engi/v20-performance-budget-report.json`, `.engi/v20-projection-quality-smoke-matrix.json`, and `.engi/v20-quality-summary.json`.
+- V20 quality reports use fixed replay context fields and deterministic normalized timing classes; they do not store raw elapsed milliseconds.
+- V20 visual regression currently uses deterministic DOM/geometry signatures, with screenshot comparison explicitly deferred until local CI screenshot stability is pinned.
+- Browser posture is corrected to `V19 active canon / V20 operator-quality draft` and exposes generated appendix/report references.
+- V20 `_PROVEN_` generation renders inherited V19 proof closure plus V20 quality report sections and emits only `.engi/v20-*` artifacts for V20.
+- `promote:canon` accepts `--version V20` and exposes the inherited V19 gates, six V20 quality gates, full test suite, generated write/check, and diff check.
+- The `npm --prefix engi-demo run test:e2e` gate owns browser listener coverage; `npm --prefix engi-demo test` runs the serial non-E2E suite so canonical promotion does not duplicate localhost listener setup through test discovery.
 
 ## V20 success condition
 

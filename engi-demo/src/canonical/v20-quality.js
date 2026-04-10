@@ -358,6 +358,8 @@ export function buildV20OperatorAcceptanceTranscript(data, context) {
     missingFlowIds,
     flowCount: summarizeStrings(steps.map((step) => step.flowId)).length,
     stepCount: steps.length,
+    blockingFailureCount: failures.length,
+    acceptedExclusionCount: 0,
     blockingFailures: failures,
     acceptedExclusions: [],
     passed: failures.length === 0 && missingFlowIds.length === 0,
@@ -445,6 +447,8 @@ export function buildV20VisualRegressionReport(data, context) {
       stateId: state.stateId,
       signatureDigest: state.signatureDigest
     })),
+    blockingFailureCount: failures.length,
+    acceptedExclusionCount: 0,
     blockingFailures: failures,
     acceptedExclusions: [],
     passed: failures.length === 0 && missingStateIds.length === 0,
@@ -500,6 +504,8 @@ export function buildV20AccessibilityReport(data, context) {
     requiredCheckIds: REQUIRED_ACCESSIBILITY_CHECK_IDS,
     missingCheckIds,
     checkCount: checks.length,
+    blockingFailureCount: failures.length,
+    acceptedExclusionCount: 0,
     blockingFailures: failures,
     acceptedExclusions: [],
     passed: failures.length === 0 && missingCheckIds.length === 0,
@@ -529,6 +535,8 @@ export function buildV20PerformanceBudgetReport(data, context) {
     measurementMode: 'live-test-hard-gate-with-canonical-normalized-class',
     normalizedElapsedClasses: ['within-budget', 'over-budget', 'telemetry-only'],
     operationCount: operations.length,
+    blockingFailureCount: failures.length,
+    acceptedExclusionCount: 1,
     blockingFailures: failures,
     acceptedExclusions: [
       {
@@ -626,6 +634,8 @@ export function buildV20ProjectionQualitySmokeMatrix(data, context) {
       branchModeCount: summarizeStrings(data.branchModes).length,
       principalCount: V20_PROJECTION_PRINCIPALS.length
     },
+    blockingFailureCount: failures.length,
+    acceptedExclusionCount: 0,
     passed: failures.length === 0 && missingPrincipals.length === 0,
     cells
   };
@@ -711,6 +721,8 @@ export function buildV20QualitySummary({
         reopenCondition: 'DOM signatures cannot catch required visual regressions'
       }
     ],
+    blockingFailureCount: qualityFailureCount,
+    acceptedExclusionCount: 0,
     blockingFailures: reportSummaries.filter((report) => !report.passed || report.blockingFailureCount > 0),
     acceptedExclusions: [],
     passed: reportPassed

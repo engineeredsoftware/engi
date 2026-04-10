@@ -179,6 +179,14 @@ function activeRawPanelPre(surface) {
 }
 
 /**
+ * @param {import('playwright').Locator} surface
+ * @returns {Promise<void>}
+ */
+async function switchSurfaceToRaw(surface) {
+  await surface.locator('.surface-mode-button[data-mode="raw"]').click();
+}
+
+/**
  * @param {string[]} values
  * @returns {string[]}
  */
@@ -234,7 +242,7 @@ async function fetchProjectedState(page, principal) {
  */
 async function readProjectionVisibilitySummary(page) {
   const surface = await surfaceByTitleInSection(page, 'branchArtifacts', 'Projection visibility summary');
-  await surface.getByRole('button', { name: 'Raw' }).click();
+  await switchSurfaceToRaw(surface);
   await activeRawPanelPre(surface).waitFor();
   return JSON.parse(String(await activeRawPanelPre(surface).textContent() || '{}'));
 }
@@ -669,21 +677,21 @@ testAny('browser flow can inspect raw verification and proof JSON for a restrict
     await waitForStatus(page, 'Created engi/remediation-need_unsafe-patch-review-recovery');
 
     const verificationSurface = await surfaceByTitleInSection(page, 'evaluations', 'Verification report');
-    await verificationSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(verificationSurface);
     await activeRawPanelPre(verificationSurface).waitFor();
     const verificationRawText = await activeRawPanelPre(verificationSurface).textContent();
     assert.match(String(verificationRawText), /"useTier": "reject"/);
     assert.match(String(verificationRawText), /"policyRestrictions"/);
 
     const exclusionsSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/materialization-exclusions.json');
-    await exclusionsSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(exclusionsSurface);
     await activeRawPanelPre(exclusionsSurface).waitFor();
     const exclusionsRawText = await activeRawPanelPre(exclusionsSurface).textContent();
     assert.match(String(exclusionsRawText), /"exclusionClass"/);
     assert.match(String(exclusionsRawText), /Use tier reject does not authorize patch branch materialization/);
 
     const proofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/system-proof-bundle.json');
-    await proofSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(proofSurface);
     await activeRawPanelPre(proofSurface).waitFor();
     const proofRawText = await activeRawPanelPre(proofSurface).textContent();
     assert.match(String(proofRawText), /"proofFamilies"/);
@@ -715,14 +723,14 @@ testAny('browser flow surfaces prompt and inference audit artifacts for internal
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Inference synthesis family proof') >= 1);
 
     const registrySurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/prompt-family-registry.json');
-    await registrySurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(registrySurface);
     await activeRawPanelPre(registrySurface).waitFor();
     const registryRawText = await activeRawPanelPre(registrySurface).textContent();
     assert.match(String(registryRawText), /"closureCriteria"/);
     assert.match(String(registryRawText), /"ENGI_NEED\.md"/);
 
     const inferenceSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/inference-proofs.json');
-    await inferenceSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(inferenceSurface);
     await activeRawPanelPre(inferenceSurface).waitFor();
     const inferenceRawText = await activeRawPanelPre(inferenceSurface).textContent();
     assert.match(String(inferenceRawText), /"momentContractId"/);
@@ -749,27 +757,27 @@ testAny('browser flow surfaces static, authorization, and settlement family proo
     assert.ok(await sectionSurfaceTitleCount(page, 'settlement', 'Settlement source-to-shares family proof') >= 1);
 
     const staticProofSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/static-measurement-proof.json');
-    await staticProofSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(staticProofSurface);
     await activeRawPanelPre(staticProofSurface).waitFor();
     const staticRawText = await activeRawPanelPre(staticProofSurface).textContent();
     assert.match(String(staticRawText), /static_code_analysis\.stage_domain_purity/);
     assert.match(String(staticRawText), /"allTheoremsPassed": true/);
 
     const authProofSurface = await surfaceBySubtitleInSection(page, 'branchArtifacts', '.engi/authorization-and-sensitive-flow-proof.json');
-    await authProofSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(authProofSurface);
     await activeRawPanelPre(authProofSurface).waitFor();
     const authRawText = await activeRawPanelPre(authProofSurface).textContent();
     assert.match(String(authRawText), /authorization_and_sensitive_flow\.policy_assignment_closure/);
     assert.match(String(authRawText), /authorization_and_sensitive_flow\.no_unauthorized_public_flow/);
 
     const settlementParticipationSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/settlement-participation.json');
-    await settlementParticipationSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(settlementParticipationSurface);
     await activeRawPanelPre(settlementParticipationSurface).waitFor();
     const settlementParticipationRawText = await activeRawPanelPre(settlementParticipationSurface).textContent();
     assert.match(String(settlementParticipationRawText), /"zero-credit-participating"/);
 
     const settlementProofSurface = await surfaceBySubtitleInSection(page, 'settlement', '.engi/settlement-source-to-shares-proof.json');
-    await settlementProofSurface.getByRole('button', { name: 'Raw' }).click();
+    await switchSurfaceToRaw(settlementProofSurface);
     await activeRawPanelPre(settlementProofSurface).waitFor();
     const settlementRawText = await activeRawPanelPre(settlementProofSurface).textContent();
     assert.match(String(settlementRawText), /settlement_source_to_shares\.normalization_exactness/);
