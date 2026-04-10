@@ -1,0 +1,582 @@
+{
+  "acceptedExclusionCount": 0,
+  "acceptedExclusions": [],
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "branchModes": [
+    "patch",
+    "context"
+  ],
+  "browserContext": {
+    "engine": "chromium",
+    "execution": "deterministic-local-browser",
+    "network": "loopback-only",
+    "variancePolicy": "canonical-artifacts-use-normalized-classes"
+  },
+  "colorScheme": "dark",
+  "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+  "generatedAt": "2026-04-09T23:08:15-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "locale": "en-US",
+  "missingStateIds": [],
+  "passed": true,
+  "projectionPrincipals": [
+    "public",
+    "reviewer",
+    "buyer",
+    "internal"
+  ],
+  "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+  "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+  "reducedMotion": "reduce",
+  "replayContext": {
+    "browserContext": {
+      "engine": "chromium",
+      "execution": "deterministic-local-browser",
+      "network": "loopback-only",
+      "variancePolicy": "canonical-artifacts-use-normalized-classes"
+    },
+    "colorScheme": "dark",
+    "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+    "generatedAt": "2026-04-09T23:08:15-03:00",
+    "generatorId": "engi-demo.proven-generator.v1",
+    "locale": "en-US",
+    "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+    "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+    "reducedMotion": "reduce",
+    "timezone": "UTC",
+    "version": "V20",
+    "viewport": {
+      "height": 1200,
+      "width": 1440
+    },
+    "worktreeState": "clean"
+  },
+  "reportId": "v20-visual-regression-report",
+  "requiredStateIds": [
+    "initial-seeded-shell",
+    "targeted-branch-run",
+    "normalization-branch-run",
+    "public-privacy-boundary-projection",
+    "reviewer-privacy-boundary-projection",
+    "buyer-targeted-projection",
+    "internal-privacy-boundary-projection",
+    "invalid-deposit-error",
+    "no-survivor-conflict",
+    "generated-appendix-report-reference"
+  ],
+  "scenarioIds": [
+    "auth-issuer-rollback",
+    "rust-validator-proof-gap",
+    "config-policy-precedence-incident",
+    "unsafe-patch-review-recovery",
+    "infra-deployment-mismatch",
+    "privacy-boundary-proof-export",
+    "polyglot-gateway-benchmark-remediation",
+    "auth-many-asset-normalization"
+  ],
+  "screenshotMode": "deferred-until-local-ci-screenshot-stability",
+  "signatureDigestInventory": [
+    {
+      "signatureDigest": "sha256:7acdcda56edcd47ff60f02b56468e1e40b4ccadd262489a7095d171945ae9397",
+      "stateId": "initial-seeded-shell"
+    },
+    {
+      "signatureDigest": "sha256:e6c99825bca1d3d77375980f0844f587bc66e4dc4a59efecf5efb08ebd730a54",
+      "stateId": "targeted-branch-run"
+    },
+    {
+      "signatureDigest": "sha256:c5cdc1c77580bfd5fe52c9c7e7b1ff12fa587f4243391453528536d099d3356c",
+      "stateId": "normalization-branch-run"
+    },
+    {
+      "signatureDigest": "sha256:198109c8a12c4b3f233c3cc63050e070e38fd692a41745fa7dd6a01631cd435b",
+      "stateId": "public-privacy-boundary-projection"
+    },
+    {
+      "signatureDigest": "sha256:c8c80891738ef574be4b40df9bd031b492e239ae8080495a514c5d819ca7c1b7",
+      "stateId": "reviewer-privacy-boundary-projection"
+    },
+    {
+      "signatureDigest": "sha256:82e412ed325abcf268884044a9008789d7a6b15bd123a3d6cfbf96b3d37a72b6",
+      "stateId": "buyer-targeted-projection"
+    },
+    {
+      "signatureDigest": "sha256:b08bba09a18d449588a740c30e5ad03f0a44beafccd27e43bf3b93ecbb701566",
+      "stateId": "internal-privacy-boundary-projection"
+    },
+    {
+      "signatureDigest": "sha256:72ad75353450466448d7f0ba1653ebd4d68aeb48e0db60fbc96959955de6b528",
+      "stateId": "invalid-deposit-error"
+    },
+    {
+      "signatureDigest": "sha256:371e58e134198fec97b9c1a6b2944927e9a4a6ef542d63451c440c68496c1b26",
+      "stateId": "no-survivor-conflict"
+    },
+    {
+      "signatureDigest": "sha256:ab789625eed7492b2e7b9231413b532488b51ed3df55a16414536692135ae643",
+      "stateId": "generated-appendix-report-reference"
+    }
+  ],
+  "signatureMode": "deterministic-dom-geometry-signature",
+  "stateCount": 10,
+  "states": [
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "header.hero",
+          "#summary",
+          "#scenarioPicker",
+          "#projectionPicker",
+          "#branchModePicker",
+          "main.grid"
+        ],
+        "stateId": "initial-seeded-shell"
+      },
+      "signatureDigest": "sha256:7acdcda56edcd47ff60f02b56468e1e40b4ccadd262489a7095d171945ae9397",
+      "stateId": "initial-seeded-shell"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "#assets",
+          "#scenario",
+          "#fit",
+          "#evaluations",
+          "#branchArtifacts",
+          "#settlement",
+          "#ledger"
+        ],
+        "stateId": "targeted-branch-run"
+      },
+      "signatureDigest": "sha256:e6c99825bca1d3d77375980f0844f587bc66e4dc4a59efecf5efb08ebd730a54",
+      "stateId": "targeted-branch-run"
+    },
+    {
+      "branchMode": "context",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-many-asset-normalization",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "#branchArtifacts",
+          "#settlement",
+          "text=Profile composition surface",
+          "text=zero-credit participating"
+        ],
+        "stateId": "normalization-branch-run"
+      },
+      "signatureDigest": "sha256:c5cdc1c77580bfd5fe52c9c7e7b1ff12fa587f4243391453528536d099d3356c",
+      "stateId": "normalization-branch-run"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "public",
+      "scenarioId": "privacy-boundary-proof-export",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [
+          "raw branch files",
+          "authorization decisions",
+          "system proof bundle"
+        ],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "text=Projection visibility summary",
+          "text=Bounded public proof"
+        ],
+        "stateId": "public-privacy-boundary-projection"
+      },
+      "signatureDigest": "sha256:198109c8a12c4b3f233c3cc63050e070e38fd692a41745fa7dd6a01631cd435b",
+      "stateId": "public-privacy-boundary-projection"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "reviewer",
+      "scenarioId": "privacy-boundary-proof-export",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [
+          "raw branch files",
+          "authorization decisions"
+        ],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "text=Proof family catalog",
+          "text=prompt-completeness"
+        ],
+        "stateId": "reviewer-privacy-boundary-projection"
+      },
+      "signatureDigest": "sha256:c8c80891738ef574be4b40df9bd031b492e239ae8080495a514c5d819ca7c1b7",
+      "stateId": "reviewer-privacy-boundary-projection"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [
+          "raw branch files"
+        ],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "text=Authorization decisions",
+          "text=Selected asset pack"
+        ],
+        "stateId": "buyer-targeted-projection"
+      },
+      "signatureDigest": "sha256:82e412ed325abcf268884044a9008789d7a6b15bd123a3d6cfbf96b3d37a72b6",
+      "stateId": "buyer-targeted-projection"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "internal",
+      "scenarioId": "privacy-boundary-proof-export",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "text=Selected source material manifest",
+          "text=Authorization decisions"
+        ],
+        "stateId": "internal-privacy-boundary-projection"
+      },
+      "signatureDigest": "sha256:b08bba09a18d449588a740c30e5ad03f0a44beafccd27e43bf3b93ecbb701566",
+      "stateId": "internal-privacy-boundary-projection"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "#status",
+          "text=Raw content or repo artifact selection is required"
+        ],
+        "stateId": "invalid-deposit-error"
+      },
+      "signatureDigest": "sha256:72ad75353450466448d7f0ba1653ebd4d68aeb48e0db60fbc96959955de6b528",
+      "stateId": "invalid-deposit-error"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "#status",
+          "text=No candidates survived into the asset pack"
+        ],
+        "stateId": "no-survivor-conflict"
+      },
+      "signatureDigest": "sha256:371e58e134198fec97b9c1a6b2944927e9a4a6ef542d63451c440c68496c1b26",
+      "stateId": "no-survivor-conflict"
+    },
+    {
+      "branchMode": "patch",
+      "failureReason": "",
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "scenarioId": "auth-issuer-rollback",
+      "signature": {
+        "layoutSignature": {
+          "artifactSurfaces": "visual-default-raw-toggle",
+          "hero": "top",
+          "panels": "ordered-grid",
+          "summary": "after-hero"
+        },
+        "requiredAbsentPrivateSurfaces": [],
+        "requiredPanelOrder": [
+          "0. Operating picture",
+          "1. Depositing + candidate assets",
+          "2. Needing + measured demand",
+          "3. Depositing-to-needing fit",
+          "4. Ranked candidates + verification determinisms",
+          "5. Asset pack + branch artifacts",
+          "6. Settlement + journal diff",
+          "7. Ledger + policy surfaces"
+        ],
+        "requiredSummaryLabels": [
+          "Projection",
+          "Branch mode",
+          "Active scenario",
+          "Candidate assets",
+          "Latest bundle",
+          "Visible branch artifacts",
+          "Visible proof families",
+          "Settlement-credited assets"
+        ],
+        "requiredVisibleSelectors": [
+          "text=ENGI_SPEC_V20_PROVEN.md",
+          "text=v20-quality-summary"
+        ],
+        "stateId": "generated-appendix-report-reference"
+      },
+      "signatureDigest": "sha256:ab789625eed7492b2e7b9231413b532488b51ed3df55a16414536692135ae643",
+      "stateId": "generated-appendix-report-reference"
+    }
+  ],
+  "timezone": "UTC",
+  "version": "V20",
+  "viewport": {
+    "height": 1200,
+    "width": 1440
+  },
+  "worktreeState": "clean"
+}

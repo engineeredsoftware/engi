@@ -1,0 +1,327 @@
+{
+  "acceptedExclusionCount": 0,
+  "acceptedExclusions": [],
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "branchModes": [
+    "patch",
+    "context"
+  ],
+  "browserContext": {
+    "engine": "chromium",
+    "execution": "deterministic-local-browser",
+    "network": "loopback-only",
+    "variancePolicy": "canonical-artifacts-use-normalized-classes"
+  },
+  "colorScheme": "dark",
+  "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+  "flowCount": 10,
+  "generatedAt": "2026-04-09T23:08:15-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "locale": "en-US",
+  "missingFlowIds": [],
+  "passed": true,
+  "projectionPrincipals": [
+    "public",
+    "reviewer",
+    "buyer",
+    "internal"
+  ],
+  "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+  "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+  "reducedMotion": "reduce",
+  "replayContext": {
+    "browserContext": {
+      "engine": "chromium",
+      "execution": "deterministic-local-browser",
+      "network": "loopback-only",
+      "variancePolicy": "canonical-artifacts-use-normalized-classes"
+    },
+    "colorScheme": "dark",
+    "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+    "generatedAt": "2026-04-09T23:08:15-03:00",
+    "generatorId": "engi-demo.proven-generator.v1",
+    "locale": "en-US",
+    "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+    "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+    "reducedMotion": "reduce",
+    "timezone": "UTC",
+    "version": "V20",
+    "viewport": {
+      "height": 1200,
+      "width": 1440
+    },
+    "worktreeState": "clean"
+  },
+  "reportId": "v20-operator-acceptance-transcript",
+  "requiredFlowIds": [
+    "seeded-shell-posture",
+    "targeted-branch-run",
+    "normalization-branch-run",
+    "public-privacy-boundary-projection",
+    "reviewer-privacy-boundary-projection",
+    "buyer-targeted-projection",
+    "internal-privacy-boundary-projection",
+    "invalid-deposit-error",
+    "no-survivor-conflict-reset",
+    "generated-appendix-report-discovery"
+  ],
+  "scenarioIds": [
+    "auth-issuer-rollback",
+    "rust-validator-proof-gap",
+    "config-policy-precedence-incident",
+    "unsafe-patch-review-recovery",
+    "infra-deployment-mismatch",
+    "privacy-boundary-proof-export",
+    "polyglot-gateway-benchmark-remediation",
+    "auth-many-asset-normalization"
+  ],
+  "stepCount": 10,
+  "steps": [
+    {
+      "action": "load operator shell",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "seeded-shell-posture",
+      "generatedEvidenceRefs": [
+        ".engi/v20-operator-acceptance-transcript.json"
+      ],
+      "order": 1,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "V17 browser workflow matrix",
+        "V19 generated proof appendix"
+      ],
+      "scenarioId": "auth-issuer-rollback",
+      "stepId": "seeded-shell-visible",
+      "visibleTruths": [
+        "active canon V19 is visible",
+        "draft target V20 is visible",
+        "scenario, projection, and branch-mode controls are visible",
+        "eight ordered operator panels are visible"
+      ]
+    },
+    {
+      "action": "select authenticated repo supply, deposit candidate asset, and make ENGI branch",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "targeted-branch-run",
+      "generatedEvidenceRefs": [
+        ".engi/v20-operator-acceptance-transcript.json"
+      ],
+      "order": 2,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "proof-contract",
+        "settlement-source-to-shares",
+        "journaling-accounting"
+      ],
+      "scenarioId": "auth-issuer-rollback",
+      "stepId": "targeted-deposit-to-settlement",
+      "visibleTruths": [
+        "candidate asset count increases after deposit",
+        "selected asset pack is visible",
+        "settlement preview is visible",
+        "source-to-shares chain is visible"
+      ]
+    },
+    {
+      "action": "switch to normalization scenario and create context branch",
+      "branchMode": "context",
+      "failureReason": "",
+      "flowId": "normalization-branch-run",
+      "generatedEvidenceRefs": [
+        ".engi/v20-operator-acceptance-transcript.json"
+      ],
+      "order": 3,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "realization-profile-parity",
+        "settlement-source-to-shares"
+      ],
+      "scenarioId": "auth-many-asset-normalization",
+      "stepId": "normalization-source-to-shares",
+      "visibleTruths": [
+        "normalization deposit profile is visible",
+        "profile composition surface is visible",
+        "settlement participation is visible",
+        "zero-credit participation is visible"
+      ]
+    },
+    {
+      "action": "switch to public projection after representative branch run",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "public-privacy-boundary-projection",
+      "generatedEvidenceRefs": [
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "order": 4,
+      "passed": true,
+      "projectionPrincipal": "public",
+      "proofDependencies": [
+        "V17 projection browser matrix",
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "scenarioId": "privacy-boundary-proof-export",
+      "stepId": "public-projection-quality-visible",
+      "visibleTruths": [
+        "public projection label is visible",
+        "public projection excludes private proof and source artifacts",
+        "raw branch files are not required for this quality check"
+      ]
+    },
+    {
+      "action": "switch to reviewer projection after representative branch run",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "reviewer-privacy-boundary-projection",
+      "generatedEvidenceRefs": [
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "order": 5,
+      "passed": true,
+      "projectionPrincipal": "reviewer",
+      "proofDependencies": [
+        "V17 projection browser matrix",
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "scenarioId": "privacy-boundary-proof-export",
+      "stepId": "reviewer-projection-quality-visible",
+      "visibleTruths": [
+        "reviewer projection label is visible",
+        "proof-family review surface remains visible when authorized",
+        "raw branch files are not required for this quality check"
+      ]
+    },
+    {
+      "action": "switch to buyer projection after representative branch run",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "buyer-targeted-projection",
+      "generatedEvidenceRefs": [
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "order": 6,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "V17 projection browser matrix",
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "scenarioId": "auth-issuer-rollback",
+      "stepId": "buyer-projection-quality-visible",
+      "visibleTruths": [
+        "buyer projection label is visible",
+        "proof-family review surface remains visible when authorized",
+        "raw branch files are not required for this quality check"
+      ]
+    },
+    {
+      "action": "switch to internal projection after representative branch run",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "internal-privacy-boundary-projection",
+      "generatedEvidenceRefs": [
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "order": 7,
+      "passed": true,
+      "projectionPrincipal": "internal",
+      "proofDependencies": [
+        "V17 projection browser matrix",
+        ".engi/v20-projection-quality-smoke-matrix.json"
+      ],
+      "scenarioId": "privacy-boundary-proof-export",
+      "stepId": "internal-projection-quality-visible",
+      "visibleTruths": [
+        "internal projection label is visible",
+        "proof-family review surface remains visible when authorized",
+        "internal raw branch files are visible"
+      ]
+    },
+    {
+      "action": "submit empty deposit form",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "invalid-deposit-error",
+      "generatedEvidenceRefs": [
+        ".engi/v20-operator-acceptance-transcript.json"
+      ],
+      "order": 8,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "demo state-machine integration"
+      ],
+      "scenarioId": "auth-issuer-rollback",
+      "stepId": "invalid-deposit-fails-without-state-mutation",
+      "visibleTruths": [
+        "required raw content or repo selection error is visible",
+        "candidate asset count remains seeded",
+        "latest bundle remains empty"
+      ]
+    },
+    {
+      "action": "run branch with no candidates, reset, and rerun seeded state",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "no-survivor-conflict-reset",
+      "generatedEvidenceRefs": [
+        ".engi/v20-operator-acceptance-transcript.json"
+      ],
+      "order": 9,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "state-machine canonical matrix"
+      ],
+      "scenarioId": "auth-issuer-rollback",
+      "stepId": "no-survivor-conflict-recovers-after-reset",
+      "visibleTruths": [
+        "no-survivor conflict status is visible",
+        "reset returns seeded candidate count",
+        "subsequent branch run succeeds"
+      ]
+    },
+    {
+      "action": "inspect report references in V20 quality summary and generated appendix",
+      "branchMode": "patch",
+      "failureReason": "",
+      "flowId": "generated-appendix-report-discovery",
+      "generatedEvidenceRefs": [
+        ".engi/v20-operator-acceptance-transcript.json",
+        ".engi/v20-visual-regression-report.json",
+        ".engi/v20-accessibility-report.json",
+        ".engi/v20-performance-budget-report.json",
+        ".engi/v20-projection-quality-smoke-matrix.json",
+        ".engi/v20-quality-summary.json"
+      ],
+      "order": 10,
+      "passed": true,
+      "projectionPrincipal": "buyer",
+      "proofDependencies": [
+        "V20 generated quality summary",
+        "V19 reproducible canon reports"
+      ],
+      "scenarioId": "auth-issuer-rollback",
+      "stepId": "generated-proof-and-quality-report-reference-visible",
+      "visibleTruths": [
+        "ENGI_SPEC_V20_PROVEN.md is the generated appendix target",
+        "all six V20 quality artifacts are referenced",
+        "V19 inherited proof closure remains linked"
+      ]
+    }
+  ],
+  "timezone": "UTC",
+  "transcriptMode": "executable-browser-workflow-summary",
+  "version": "V20",
+  "viewport": {
+    "height": 1200,
+    "width": 1440
+  },
+  "worktreeState": "clean"
+}

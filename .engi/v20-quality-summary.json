@@ -1,0 +1,136 @@
+{
+  "acceptedBoundaries": [
+    {
+      "boundaryId": "full-source-projection-security-matrix-deferred",
+      "reason": "V20 does not change projection policy and inherits V17 projection matrix coverage.",
+      "reopenCondition": "projection policy source changes or quality checks reveal projection leak behavior"
+    },
+    {
+      "boundaryId": "full-mutation-cross-product-deferred",
+      "reason": "V20 is quality canon and inherits V19 representative mutation fail-closed coverage.",
+      "reopenCondition": "quality report mutation or generator behavior varies by member, theorem, scenario, branch, principal, or artifact path"
+    },
+    {
+      "boundaryId": "screenshot-stability-deferred",
+      "reason": "First gate accepts deterministic DOM/geometry signatures until local CI screenshot stability is pinned.",
+      "reopenCondition": "DOM signatures cannot catch required visual regressions"
+    }
+  ],
+  "acceptedExclusionCount": 0,
+  "acceptedExclusions": [],
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "branchModes": [
+    "patch",
+    "context"
+  ],
+  "browserContext": {
+    "engine": "chromium",
+    "execution": "deterministic-local-browser",
+    "network": "loopback-only",
+    "variancePolicy": "canonical-artifacts-use-normalized-classes"
+  },
+  "colorScheme": "dark",
+  "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+  "generatedArtifactCount": 6,
+  "generatedAt": "2026-04-09T23:08:15-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "inheritedProofClosure": {
+    "contractLedgerPassed": true,
+    "deterministicReplayPassed": true,
+    "fromVersion": "V19",
+    "negativeMutationCellCount": 10,
+    "positiveMatrixCellCount": 1832,
+    "volatilityBlockingFindings": 0
+  },
+  "locale": "en-US",
+  "passed": true,
+  "projectionPrincipals": [
+    "public",
+    "reviewer",
+    "buyer",
+    "internal"
+  ],
+  "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+  "qualityReportCount": 5,
+  "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+  "reducedMotion": "reduce",
+  "replayContext": {
+    "browserContext": {
+      "engine": "chromium",
+      "execution": "deterministic-local-browser",
+      "network": "loopback-only",
+      "variancePolicy": "canonical-artifacts-use-normalized-classes"
+    },
+    "colorScheme": "dark",
+    "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+    "generatedAt": "2026-04-09T23:08:15-03:00",
+    "generatorId": "engi-demo.proven-generator.v1",
+    "locale": "en-US",
+    "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+    "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+    "reducedMotion": "reduce",
+    "timezone": "UTC",
+    "version": "V20",
+    "viewport": {
+      "height": 1200,
+      "width": 1440
+    },
+    "worktreeState": "clean"
+  },
+  "reportId": "v20-quality-summary",
+  "reportSummaries": [
+    {
+      "acceptedExclusionCount": 0,
+      "artifactPath": ".engi/v20-operator-acceptance-transcript.json",
+      "blockingFailureCount": 0,
+      "passed": true,
+      "reportId": "v20-operator-acceptance-transcript"
+    },
+    {
+      "acceptedExclusionCount": 0,
+      "artifactPath": ".engi/v20-visual-regression-report.json",
+      "blockingFailureCount": 0,
+      "passed": true,
+      "reportId": "v20-visual-regression-report"
+    },
+    {
+      "acceptedExclusionCount": 0,
+      "artifactPath": ".engi/v20-accessibility-report.json",
+      "blockingFailureCount": 0,
+      "passed": true,
+      "reportId": "v20-accessibility-report"
+    },
+    {
+      "acceptedExclusionCount": 1,
+      "artifactPath": ".engi/v20-performance-budget-report.json",
+      "blockingFailureCount": 0,
+      "passed": true,
+      "reportId": "v20-performance-budget-report"
+    },
+    {
+      "acceptedExclusionCount": 0,
+      "artifactPath": ".engi/v20-projection-quality-smoke-matrix.json",
+      "blockingFailureCount": 0,
+      "passed": true,
+      "reportId": "v20-projection-quality-smoke-matrix"
+    }
+  ],
+  "scenarioIds": [
+    "auth-issuer-rollback",
+    "rust-validator-proof-gap",
+    "config-policy-precedence-incident",
+    "unsafe-patch-review-recovery",
+    "infra-deployment-mismatch",
+    "privacy-boundary-proof-export",
+    "polyglot-gateway-benchmark-remediation",
+    "auth-many-asset-normalization"
+  ],
+  "timezone": "UTC",
+  "version": "V20",
+  "viewport": {
+    "height": 1200,
+    "width": 1440
+  },
+  "worktreeState": "clean"
+}

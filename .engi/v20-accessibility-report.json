@@ -1,0 +1,291 @@
+{
+  "acceptedExclusionCount": 0,
+  "acceptedExclusions": [],
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "branchModes": [
+    "patch",
+    "context"
+  ],
+  "browserContext": {
+    "engine": "chromium",
+    "execution": "deterministic-local-browser",
+    "network": "loopback-only",
+    "variancePolicy": "canonical-artifacts-use-normalized-classes"
+  },
+  "checkCount": 11,
+  "checks": [
+    {
+      "assertions": [
+        "button-name",
+        "select-name",
+        "input-name",
+        "mode-toggle-name"
+      ],
+      "checkId": "control-names",
+      "concern": "Buttons, selects, inputs, textareas, info badges, and mode toggles expose names.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "label-wrapped-controls",
+        "placeholder-not-sole-contract"
+      ],
+      "checkId": "form-labeling",
+      "concern": "Each form control has a visible label or equivalent programmatic label.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "tab-order-controls",
+        "enter-space-buttons",
+        "select-keyboard-change"
+      ],
+      "checkId": "keyboard-operation",
+      "concern": "Keyboard path can select scenario, projection, branch mode, run branch, switch surface mode, and reset.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "0. Operating picture",
+        "1. Depositing + candidate assets",
+        "2. Needing + measured demand",
+        "3. Depositing-to-needing fit",
+        "4. Ranked candidates + verification determinisms",
+        "5. Asset pack + branch artifacts",
+        "6. Settlement + journal diff",
+        "7. Ledger + policy surfaces"
+      ],
+      "checkId": "focus-order",
+      "concern": "Focus order follows the operator workflow order.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "button:focus-visible",
+        "input:focus-visible",
+        "select:focus-visible",
+        "textarea:focus-visible",
+        ".surface-mode-button:focus-visible"
+      ],
+      "checkId": "focus-visibility",
+      "concern": "Interactive controls expose focus-visible styling.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "#status[role=status]",
+        "aria-live=polite",
+        "aria-atomic=true"
+      ],
+      "checkId": "status-announcements",
+      "concern": "Status changes are announced through a polite status live region.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "header.hero",
+        "main.grid",
+        "section.panel",
+        ".panel-head h2"
+      ],
+      "checkId": "landmarks-and-sections",
+      "concern": "Header, main, summary, and major panels are navigable.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "role=tablist",
+        "aria-selected=true",
+        "aria-controls"
+      ],
+      "checkId": "toggle-state",
+      "concern": "Visual/raw surface toggles expose selected state.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "normal-text>=4.5",
+        "large-text>=3",
+        "non-text-ui>=3",
+        "focus-indicator>=3"
+      ],
+      "checkId": "contrast",
+      "concern": "Text and actionable controls meet the accepted local WCAG AA thresholds.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "prefers-reduced-motion: reduce"
+      ],
+      "checkId": "reduced-motion",
+      "concern": "Nonessential transitions are bounded under reduced-motion preference.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    },
+    {
+      "assertions": [
+        "public-no-private-required",
+        "reviewer-no-raw-required",
+        "buyer-no-raw-required"
+      ],
+      "checkId": "projection-safety",
+      "concern": "Accessibility checks do not require private artifacts in lower-privilege projections.",
+      "failureReason": "",
+      "passed": true,
+      "statesCovered": [
+        "initial-seeded-shell",
+        "targeted-branch-run",
+        "normalization-branch-run",
+        "projection-quality-smoke"
+      ]
+    }
+  ],
+  "colorScheme": "dark",
+  "contrastThresholds": {
+    "focusIndicatorRatio": 3,
+    "largeTextRatio": 3,
+    "nonTextUiRatio": 3,
+    "normalTextRatio": 4.5
+  },
+  "disabledControlExemption": "only-controls-not-required-to-complete-accepted-operator-flow",
+  "engine": "deterministic-dom-accessibility-contract",
+  "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+  "generatedAt": "2026-04-09T23:08:15-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "locale": "en-US",
+  "missingCheckIds": [],
+  "passed": true,
+  "projectionPrincipals": [
+    "public",
+    "reviewer",
+    "buyer",
+    "internal"
+  ],
+  "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+  "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+  "reducedMotion": "reduce",
+  "replayContext": {
+    "browserContext": {
+      "engine": "chromium",
+      "execution": "deterministic-local-browser",
+      "network": "loopback-only",
+      "variancePolicy": "canonical-artifacts-use-normalized-classes"
+    },
+    "colorScheme": "dark",
+    "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+    "generatedAt": "2026-04-09T23:08:15-03:00",
+    "generatorId": "engi-demo.proven-generator.v1",
+    "locale": "en-US",
+    "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+    "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+    "reducedMotion": "reduce",
+    "timezone": "UTC",
+    "version": "V20",
+    "viewport": {
+      "height": 1200,
+      "width": 1440
+    },
+    "worktreeState": "clean"
+  },
+  "reportId": "v20-accessibility-report",
+  "requiredCheckIds": [
+    "control-names",
+    "form-labeling",
+    "keyboard-operation",
+    "focus-order",
+    "focus-visibility",
+    "status-announcements",
+    "landmarks-and-sections",
+    "toggle-state",
+    "contrast",
+    "reduced-motion",
+    "projection-safety"
+  ],
+  "scenarioIds": [
+    "auth-issuer-rollback",
+    "rust-validator-proof-gap",
+    "config-policy-precedence-incident",
+    "unsafe-patch-review-recovery",
+    "infra-deployment-mismatch",
+    "privacy-boundary-proof-export",
+    "polyglot-gateway-benchmark-remediation",
+    "auth-many-asset-normalization"
+  ],
+  "timezone": "UTC",
+  "version": "V20",
+  "viewport": {
+    "height": 1200,
+    "width": 1440
+  },
+  "worktreeState": "clean"
+}

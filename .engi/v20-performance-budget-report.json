@@ -1,0 +1,168 @@
+{
+  "acceptedExclusionCount": 1,
+  "acceptedExclusions": [
+    {
+      "exclusionId": "full-quality-suite-duration-report-only",
+      "reason": "Suite duration remains telemetry-only until a stable local baseline is accepted.",
+      "reopenCondition": "canonical promotion starts timing out or suite duration becomes operator-facing"
+    }
+  ],
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "branchModes": [
+    "patch",
+    "context"
+  ],
+  "browserContext": {
+    "engine": "chromium",
+    "execution": "deterministic-local-browser",
+    "network": "loopback-only",
+    "variancePolicy": "canonical-artifacts-use-normalized-classes"
+  },
+  "colorScheme": "dark",
+  "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+  "generatedAt": "2026-04-09T23:08:15-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "locale": "en-US",
+  "measurementMode": "live-test-hard-gate-with-canonical-normalized-class",
+  "normalizedElapsedClasses": [
+    "within-budget",
+    "over-budget",
+    "telemetry-only"
+  ],
+  "operationCount": 9,
+  "operations": [
+    {
+      "budgetMs": 1500,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "initial-seeded-shell-ready",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 500,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "scenario-switch-summary-update",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 500,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "projection-switch-summary-update",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 5000,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "targeted-branch-creation",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 7000,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "normalization-branch-creation",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 1000,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "proof-family-catalog-render-after-branch",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 250,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "raw-visual-surface-mode-toggle",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": 1500,
+      "failureReason": "",
+      "hardGate": true,
+      "normalizedElapsedClass": "within-budget",
+      "operationId": "reset-to-ready-state",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    },
+    {
+      "budgetMs": null,
+      "failureReason": "",
+      "hardGate": false,
+      "normalizedElapsedClass": "telemetry-only",
+      "operationId": "full-quality-suite-duration",
+      "passed": true,
+      "rawTimingPolicy": "not-recorded-in-canonical-artifact"
+    }
+  ],
+  "passed": true,
+  "projectionPrincipals": [
+    "public",
+    "reviewer",
+    "buyer",
+    "internal"
+  ],
+  "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+  "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+  "reducedMotion": "reduce",
+  "replayContext": {
+    "browserContext": {
+      "engine": "chromium",
+      "execution": "deterministic-local-browser",
+      "network": "loopback-only",
+      "variancePolicy": "canonical-artifacts-use-normalized-classes"
+    },
+    "colorScheme": "dark",
+    "fixtureSeed": "engi-demo-v20-quality-fixture-v1",
+    "generatedAt": "2026-04-09T23:08:15-03:00",
+    "generatorId": "engi-demo.proven-generator.v1",
+    "locale": "en-US",
+    "proofSourceCommit": "2f3fb17983223d6951c257be9bfa663419bdfd7e",
+    "qualityRunnerId": "engi-demo.v20-quality-runner.v1",
+    "reducedMotion": "reduce",
+    "timezone": "UTC",
+    "version": "V20",
+    "viewport": {
+      "height": 1200,
+      "width": 1440
+    },
+    "worktreeState": "clean"
+  },
+  "reportId": "v20-performance-budget-report",
+  "scenarioIds": [
+    "auth-issuer-rollback",
+    "rust-validator-proof-gap",
+    "config-policy-precedence-incident",
+    "unsafe-patch-review-recovery",
+    "infra-deployment-mismatch",
+    "privacy-boundary-proof-export",
+    "polyglot-gateway-benchmark-remediation",
+    "auth-many-asset-normalization"
+  ],
+  "timezone": "UTC",
+  "version": "V20",
+  "viewport": {
+    "height": 1200,
+    "width": 1440
+  },
+  "worktreeState": "clean"
+}
