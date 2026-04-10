@@ -9,6 +9,10 @@ import {
   buildV19Reports,
   summarizeArtifactContents
 } from './v19-canon.js';
+import {
+  buildV20GeneratedArtifactContents,
+  buildV20QualityReports
+} from './v20-quality.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const PROVEN_GENERATOR_ID = 'engi-demo.proven-generator.v1';
@@ -545,6 +549,7 @@ function renderMarkdownTable(headers, rows) {
 export function renderCanonicalProvenMarkdown(data) {
   const v18Matrices = /** @type {any} */ (data).v18Matrices || null;
   const v19 = /** @type {any} */ (data).v19 || null;
+  const v20 = /** @type {any} */ (data).v20 || null;
   const lines = [];
   lines.push(`# ENGI Spec ${data.version} Proven`);
   lines.push('');
@@ -578,6 +583,13 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v19VolatilityBlockingFindings: ${markdownCode(String(v19.volatilityInventory.blockingFindings.length))}`);
     lines.push(`- v19ReplayDeterministic: ${markdownCode(String(v19.deterministicReplayReport?.passed === true))}`);
     lines.push(`- v19ContractLedgerPassed: ${markdownCode(String(v19.contractChangeLedger.passed === true))}`);
+  }
+  if (v20) {
+    lines.push(`- v20QualityPassed: ${markdownCode(String(v20.qualitySummary.passed === true))}`);
+    lines.push(`- v20QualityReportCount: ${markdownCode(String(v20.qualitySummary.qualityReportCount))}`);
+    lines.push(`- v20GeneratedQualityArtifactCount: ${markdownCode(String(v20.qualitySummary.generatedArtifactCount))}`);
+    lines.push(`- v20QualityBlockingFailures: ${markdownCode(String(v20.qualitySummary.blockingFailures.length))}`);
+    lines.push(`- v20ProjectionSmokeCells: ${markdownCode(String(v20.projectionQualitySmokeMatrix.cellCount))}`);
   }
   lines.push('');
   if (v18Matrices) {
@@ -731,6 +743,139 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(delta.fromMatrixId),
         markdownCode(delta.toMatrixId),
         delta.cellCount
+      ])
+    ));
+    lines.push('');
+  }
+  if (v20) {
+    lines.push('## V20 Operator Quality Reports');
+    lines.push('');
+    lines.push('### V20 Generated Quality Artifact Inventory');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v20.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+    lines.push('### V20 Quality Summary');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v20.qualitySummary.reportId)}`);
+    lines.push(`- passed: ${markdownCode(String(v20.qualitySummary.passed))}`);
+    lines.push(`- qualityReportCount: ${markdownCode(String(v20.qualitySummary.qualityReportCount))}`);
+    lines.push(`- generatedArtifactCount: ${markdownCode(String(v20.qualitySummary.generatedArtifactCount))}`);
+    lines.push(`- inheritedPositiveMatrixCellCount: ${markdownCode(String(v20.qualitySummary.inheritedProofClosure.positiveMatrixCellCount))}`);
+    lines.push(`- inheritedNegativeMutationCellCount: ${markdownCode(String(v20.qualitySummary.inheritedProofClosure.negativeMutationCellCount))}`);
+    lines.push(`- inheritedDeterministicReplayPassed: ${markdownCode(String(v20.qualitySummary.inheritedProofClosure.deterministicReplayPassed))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['reportId', 'artifactPath', 'passed', 'blockingFailures', 'acceptedExclusions'],
+      v20.qualitySummary.reportSummaries.map((/** @type {any} */ report) => [
+        markdownCode(report.reportId),
+        markdownCode(report.artifactPath),
+        markdownCode(String(report.passed)),
+        report.blockingFailureCount,
+        report.acceptedExclusionCount
+      ])
+    ));
+    lines.push('');
+    lines.push('### V20 Operator Acceptance Transcript');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v20.operatorAcceptanceTranscript.reportId)}`);
+    lines.push(`- transcriptMode: ${markdownCode(v20.operatorAcceptanceTranscript.transcriptMode)}`);
+    lines.push(`- flowCount: ${markdownCode(String(v20.operatorAcceptanceTranscript.flowCount))}`);
+    lines.push(`- stepCount: ${markdownCode(String(v20.operatorAcceptanceTranscript.stepCount))}`);
+    lines.push(`- passed: ${markdownCode(String(v20.operatorAcceptanceTranscript.passed))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['flowId', 'stepId', 'scenarioId', 'branchMode', 'principal', 'passed'],
+      v20.operatorAcceptanceTranscript.steps.map((/** @type {any} */ step) => [
+        markdownCode(step.flowId),
+        markdownCode(step.stepId),
+        markdownCode(step.scenarioId),
+        markdownCode(step.branchMode),
+        markdownCode(step.projectionPrincipal),
+        markdownCode(String(step.passed))
+      ])
+    ));
+    lines.push('');
+    lines.push('### V20 Visual Regression Budget');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v20.visualRegressionReport.reportId)}`);
+    lines.push(`- signatureMode: ${markdownCode(v20.visualRegressionReport.signatureMode)}`);
+    lines.push(`- screenshotMode: ${markdownCode(v20.visualRegressionReport.screenshotMode)}`);
+    lines.push(`- stateCount: ${markdownCode(String(v20.visualRegressionReport.stateCount))}`);
+    lines.push(`- passed: ${markdownCode(String(v20.visualRegressionReport.passed))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['stateId', 'scenarioId', 'branchMode', 'principal', 'signatureDigest', 'passed'],
+      v20.visualRegressionReport.states.map((/** @type {any} */ state) => [
+        markdownCode(state.stateId),
+        markdownCode(state.scenarioId),
+        markdownCode(state.branchMode),
+        markdownCode(state.projectionPrincipal),
+        markdownCode(state.signatureDigest),
+        markdownCode(String(state.passed))
+      ])
+    ));
+    lines.push('');
+    lines.push('### V20 Accessibility Budget');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v20.accessibilityReport.reportId)}`);
+    lines.push(`- engine: ${markdownCode(v20.accessibilityReport.engine)}`);
+    lines.push(`- checkCount: ${markdownCode(String(v20.accessibilityReport.checkCount))}`);
+    lines.push(`- normalTextContrast: ${markdownCode(String(v20.accessibilityReport.contrastThresholds.normalTextRatio))}`);
+    lines.push(`- nonTextUiContrast: ${markdownCode(String(v20.accessibilityReport.contrastThresholds.nonTextUiRatio))}`);
+    lines.push(`- passed: ${markdownCode(String(v20.accessibilityReport.passed))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'assertionCount'],
+      v20.accessibilityReport.checks.map((/** @type {any} */ check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.assertions.length
+      ])
+    ));
+    lines.push('');
+    lines.push('### V20 Performance Budget');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v20.performanceBudgetReport.reportId)}`);
+    lines.push(`- measurementMode: ${markdownCode(v20.performanceBudgetReport.measurementMode)}`);
+    lines.push(`- operationCount: ${markdownCode(String(v20.performanceBudgetReport.operationCount))}`);
+    lines.push(`- passed: ${markdownCode(String(v20.performanceBudgetReport.passed))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['operationId', 'budgetMs', 'hardGate', 'normalizedElapsedClass', 'passed'],
+      v20.performanceBudgetReport.operations.map((/** @type {any} */ operation) => [
+        markdownCode(operation.operationId),
+        operation.budgetMs === null ? markdownCode('report-only') : operation.budgetMs,
+        markdownCode(String(operation.hardGate)),
+        markdownCode(operation.normalizedElapsedClass),
+        markdownCode(String(operation.passed))
+      ])
+    ));
+    lines.push('');
+    lines.push('### V20 Projection Quality Smoke Matrix');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v20.projectionQualitySmokeMatrix.reportId)}`);
+    lines.push(`- matrixMode: ${markdownCode(v20.projectionQualitySmokeMatrix.matrixMode)}`);
+    lines.push(`- cellCount: ${markdownCode(String(v20.projectionQualitySmokeMatrix.cellCount))}`);
+    lines.push(`- inheritedBrowserMatrixCells: ${markdownCode(String(v20.projectionQualitySmokeMatrix.inheritedBrowserMatrix.cellCount))}`);
+    lines.push(`- passed: ${markdownCode(String(v20.projectionQualitySmokeMatrix.passed))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['principal', 'scenarioId', 'rawFiles', 'sourceVisible', 'authVisible', 'qualityRequiresForbidden', 'passed'],
+      v20.projectionQualitySmokeMatrix.cells.map((/** @type {any} */ cell) => [
+        markdownCode(cell.principal),
+        markdownCode(cell.scenarioId),
+        markdownCode(String(cell.rawBranchFilesAvailable)),
+        markdownCode(String(cell.sourceMaterialVisible)),
+        markdownCode(String(cell.authorizationDecisionsVisible)),
+        markdownCode(String(cell.qualityChecksDependOnForbiddenSurface)),
+        markdownCode(String(cell.passed))
       ])
     ));
     lines.push('');
@@ -982,6 +1127,131 @@ function buildV19ProvenPackage(baseData, {
 }
 
 /**
+ * @param {ReturnType<typeof buildCanonicalProvenData>} baseData
+ * @param {{
+ *   version: string,
+ *   canonicalCommit: string,
+ *   canonicalCommitRecordedAt?: string | null,
+ *   generatedAt: string,
+ *   worktreeState?: string,
+ *   generatorId?: string,
+ *   scenarioIds?: string[],
+ *   branchModes?: string[],
+ *   buildInitialStateFn?: typeof buildInitialState,
+ *   runMakeEngiBranchFn?: typeof runMakeEngiBranch
+ * }} input
+ * @returns {{ data: any, markdown: string, artifacts: Record<string, string> }}
+ */
+function buildV19DeterministicProvenPackage(baseData, {
+  version,
+  canonicalCommit,
+  canonicalCommitRecordedAt = null,
+  generatedAt,
+  worktreeState = 'clean',
+  generatorId = PROVEN_GENERATOR_ID,
+  scenarioIds,
+  branchModes = DEFAULT_PROVEN_BRANCH_MODES,
+  buildInitialStateFn = buildInitialState,
+  runMakeEngiBranchFn = runMakeEngiBranch
+}) {
+  const firstPackage = buildV19ProvenPackage(baseData, {
+    version,
+    generatedAt,
+    buildInitialStateFn,
+    runMakeEngiBranchFn
+  });
+  const secondBaseData = buildBaseCanonicalProvenData({
+    version,
+    canonicalCommit,
+    canonicalCommitRecordedAt,
+    generatedAt,
+    worktreeState,
+    generatorId,
+    branchModes,
+    buildInitialStateFn,
+    runMakeEngiBranchFn,
+    ...(scenarioIds ? { scenarioIds } : {})
+  });
+  const secondPackage = buildV19ProvenPackage(secondBaseData, {
+    version,
+    generatedAt,
+    buildInitialStateFn,
+    runMakeEngiBranchFn
+  });
+  const firstReplayArtifacts = {
+    [baseData.outputPath]: firstPackage.markdown,
+    ...firstPackage.artifacts
+  };
+  const secondReplayArtifacts = {
+    [secondBaseData.outputPath]: secondPackage.markdown,
+    ...secondPackage.artifacts
+  };
+  const deterministicReplayReport = buildV19DeterministicReplayReport({
+    version,
+    proofSourceCommit: canonicalCommit,
+    generatorId,
+    generatedAt,
+    firstArtifacts: firstReplayArtifacts,
+    secondArtifacts: secondReplayArtifacts,
+    volatileFieldFindings: firstPackage.data.v19.volatilityInventory.findings
+  });
+  return buildV19ProvenPackage(baseData, {
+    version,
+    generatedAt,
+    buildInitialStateFn,
+    runMakeEngiBranchFn,
+    deterministicReplayReport
+  });
+}
+
+/**
+ * @param {ReturnType<typeof buildCanonicalProvenData>} baseData
+ * @param {{
+ *   version: string,
+ *   generatedAt: string,
+ *   inheritedV19: any
+ * }} input
+ * @returns {{ data: any, markdown: string, artifacts: Record<string, string> }}
+ */
+function buildV20ProvenPackage(baseData, {
+  version,
+  generatedAt,
+  inheritedV19
+}) {
+  const qualityReports = buildV20QualityReports({
+    data: baseData,
+    version,
+    generatedAt,
+    proofSourceCommit: baseData.canonicalCommit,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    inheritedV19
+  });
+  const artifactSummaries = summarizeArtifactContents(buildV20GeneratedArtifactContents(qualityReports));
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: {
+      ...qualityReports,
+      artifactSummaries
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && qualityReports.qualitySummary.passed === true
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts: buildV20GeneratedArtifactContents(data.v20)
+  };
+}
+
+/**
  * @param {{
  *   version: string,
  *   canonicalCommit: string,
@@ -1020,13 +1290,7 @@ export function generateCanonicalProvenMarkdown({
     ...(scenarioIds ? { scenarioIds } : {})
   });
   if (version === 'V19') {
-    const firstPackage = buildV19ProvenPackage(baseData, {
-      version,
-      generatedAt,
-      buildInitialStateFn,
-      runMakeEngiBranchFn
-    });
-    const secondBaseData = buildBaseCanonicalProvenData({
+    return buildV19DeterministicProvenPackage(baseData, {
       version,
       canonicalCommit,
       canonicalCommitRecordedAt,
@@ -1038,35 +1302,36 @@ export function generateCanonicalProvenMarkdown({
       runMakeEngiBranchFn,
       ...(scenarioIds ? { scenarioIds } : {})
     });
-    const secondPackage = buildV19ProvenPackage(secondBaseData, {
-      version,
+  }
+  if (version === 'V20') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
       generatedAt,
-      buildInitialStateFn,
-      runMakeEngiBranchFn
-    });
-    const firstReplayArtifacts = {
-      [baseData.outputPath]: firstPackage.markdown,
-      ...firstPackage.artifacts
-    };
-    const secondReplayArtifacts = {
-      [secondBaseData.outputPath]: secondPackage.markdown,
-      ...secondPackage.artifacts
-    };
-    const deterministicReplayReport = buildV19DeterministicReplayReport({
-      version,
-      proofSourceCommit: canonicalCommit,
+      worktreeState,
       generatorId,
-      generatedAt,
-      firstArtifacts: firstReplayArtifacts,
-      secondArtifacts: secondReplayArtifacts,
-      volatileFieldFindings: firstPackage.data.v19.volatilityInventory.findings
-    });
-    return buildV19ProvenPackage(baseData, {
-      version,
-      generatedAt,
+      branchModes,
       buildInitialStateFn,
       runMakeEngiBranchFn,
-      deterministicReplayReport
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    return buildV20ProvenPackage(baseData, {
+      version,
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19
     });
   }
   const v18Matrices = version === 'V18'

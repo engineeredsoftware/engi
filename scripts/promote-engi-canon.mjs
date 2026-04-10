@@ -30,10 +30,10 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: npm run promote:canon -- --version V19 --commit <proof-source-commit> [--dry-run]',
+      'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. V19 is the current accepted target.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -67,7 +67,7 @@ function renderCommand(file, args) {
  * @param {string} commit
  */
 function buildCommandPlan(version, commit) {
-  return [
+  const inheritedProofCommands = [
     ['npm', ['--prefix', 'engi-demo', 'run', 'typecheck']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:unit']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:integration']],
@@ -78,12 +78,37 @@ function buildCommandPlan(version, commit) {
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:deterministic-replay']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:volatility']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:negative-mutation-matrix']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:contract-ledger']],
-    ['npm', ['--prefix', 'engi-demo', 'test']],
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:contract-ledger']]
+  ];
+  const v20QualityCommands = [
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-operator-transcript']],
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-accessibility']],
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-visual']],
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-performance']],
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-projection-quality']],
+    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-quality-summary']]
+  ];
+  const generatedCommands = [
     ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
     ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
     ['git', ['diff', '--check']]
   ];
+  if (version === 'V19') {
+    return [
+      ...inheritedProofCommands,
+      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ...generatedCommands
+    ];
+  }
+  if (version === 'V20') {
+    return [
+      ...inheritedProofCommands,
+      ...v20QualityCommands,
+      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ...generatedCommands
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19 or V20.`);
 }
 
 /**
@@ -91,20 +116,40 @@ function buildCommandPlan(version, commit) {
  * @param {string} commit
  */
 function buildCommitMessageBody(version, commit) {
-  return [
-    `Promotes ${version} as reproducible canonical proof output for ENGI.`,
-    '',
-    `Proof-source commit: ${commit}`,
-    '',
-    'The promotion closes the V19 first gate:',
-    '- deterministic replay report generation and byte equality checking',
-    '- volatility inventory for canonical proof artifacts',
-    '- committed generated positive matrix artifacts under V19 names',
-    '- representative negative proof mutation matrix with omitted cross-products',
-    '- generated V18-to-V19 contract-change ledger',
-    '- generated-only V19 _PROVEN_ appendix with immediate check mode',
-    '- canonical promotion command sequencing for future version bumps'
-  ].join('\n');
+  if (version === 'V19') {
+    return [
+      `Promotes ${version} as reproducible canonical proof output for ENGI.`,
+      '',
+      `Proof-source commit: ${commit}`,
+      '',
+      'The promotion closes the V19 first gate:',
+      '- deterministic replay report generation and byte equality checking',
+      '- volatility inventory for canonical proof artifacts',
+      '- committed generated positive matrix artifacts under V19 names',
+      '- representative negative proof mutation matrix with omitted cross-products',
+      '- generated V18-to-V19 contract-change ledger',
+      '- generated-only V19 _PROVEN_ appendix with immediate check mode',
+      '- canonical promotion command sequencing for future version bumps'
+    ].join('\n');
+  }
+  if (version === 'V20') {
+    return [
+      `Promotes ${version} as operator-quality canon for ENGI.`,
+      '',
+      `Proof-source commit: ${commit}`,
+      '',
+      'The promotion closes the V20 first gate:',
+      '- truthful browser posture for V19 active canon, V20 draft target, and inherited V16/V17/V18/V19 surfaces',
+      '- generated operator acceptance transcript over required proof-bearing workflows',
+      '- deterministic DOM/geometry visual regression signatures for required operator states',
+      '- deterministic accessibility budget covering labels, focus, keyboard operation, live status, landmarks, toggles, contrast, reduced motion, and projection safety',
+      '- normalized local performance budget report without raw wall-clock samples in canonical bytes',
+      '- projection-quality smoke matrix for public, reviewer, buyer, and internal principals',
+      '- generated V20 quality summary and generated-only V20 _PROVEN_ appendix',
+      '- inherited V19 reproducible proof closure and promotion gates preserved before pointer advancement'
+    ].join('\n');
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19 or V20.`);
 }
 
 async function main() {
@@ -115,8 +160,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (version !== 'V19') {
-    throw new Error(`V19 promotion command currently accepts --version V19. Received ${version || 'none'}.`);
+  if (!['V19', 'V20'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19 or V20. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {
@@ -130,7 +175,7 @@ async function main() {
   }
 
   const commands = buildCommandPlan(version, resolvedCommit);
-  process.stdout.write(`V19 canonical promotion plan for ${resolvedCommit}\n`);
+  process.stdout.write(`${version} canonical promotion plan for ${resolvedCommit}\n`);
   for (const [file, commandArgs] of commands) {
     process.stdout.write(`- ${renderCommand(file, commandArgs)}\n`);
   }
@@ -140,11 +185,16 @@ async function main() {
 
   if (args.dryRun) return;
 
-  for (const [file, commandArgs] of commands.slice(0, 12)) {
+  const generatedCommandIndex = commands.findIndex(([file, commandArgs]) => file === 'node' && commandArgs[0] === 'scripts/generate-engi-proven.mjs');
+  if (generatedCommandIndex < 0) {
+    throw new Error('Promotion command plan does not contain a generated appendix command.');
+  }
+
+  for (const [file, commandArgs] of commands.slice(0, generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }
   await fs.writeFile(path.join(repoRoot, 'ENGI_SPEC.txt'), `${version}\n`, 'utf8');
-  for (const [file, commandArgs] of commands.slice(12)) {
+  for (const [file, commandArgs] of commands.slice(generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }
 }

@@ -203,8 +203,10 @@ function hasSurfaceContent(data, raw) {
   return (data !== undefined && data !== null) || (raw !== undefined && raw !== null);
 }
 
-const CANON_VERSION_LABEL = 'V16';
-const CANON_OPERATOR_LABEL = 'canonical V16';
+const ACTIVE_CANON_VERSION_LABEL = 'V19';
+const DRAFT_TARGET_VERSION_LABEL = 'V20';
+const INHERITED_CANON_SURFACE_LABEL = 'V16/V17/V18/V19';
+const CANON_OPERATOR_LABEL = `${ACTIVE_CANON_VERSION_LABEL} active canon / ${DRAFT_TARGET_VERSION_LABEL} operator-quality draft`;
 
 const summaryEl = requireElement('summary');
 const operatingPictureEl = requireElement('operatingPicture');
@@ -3406,8 +3408,8 @@ function renderJsonSurface({ title, subtitle = '', eyebrow = '', eyebrowExplaine
           ${subtitle ? `<p class="meta">${escapeHtml(subtitle)}</p>` : ''}
         </div>
         <div class="surface-mode-toggle" role="tablist" aria-label="Toggle ${escapeHtml(title)} view">
-          <button type="button" class="surface-mode-button ${defaultMode === 'visual' ? 'active' : ''}" data-surface-target="${surfaceId}" data-mode="visual">Visual</button>
-          <button type="button" class="surface-mode-button ${defaultMode === 'raw' ? 'active' : ''}" data-surface-target="${surfaceId}" data-mode="raw">Raw</button>
+          <button type="button" role="tab" aria-selected="${defaultMode === 'visual'}" aria-controls="${surfaceId}" class="surface-mode-button ${defaultMode === 'visual' ? 'active' : ''}" data-surface-target="${surfaceId}" data-mode="visual">Visual</button>
+          <button type="button" role="tab" aria-selected="${defaultMode === 'raw'}" aria-controls="${surfaceId}" class="surface-mode-button ${defaultMode === 'raw' ? 'active' : ''}" data-surface-target="${surfaceId}" data-mode="raw">Raw</button>
         </div>
       </div>
       ${help ? `<p class="surface-help">${escapeHtml(help)}</p>` : ''}
@@ -6277,7 +6279,9 @@ document.addEventListener('click', (event) => {
   });
   if (!(toggle.parentElement instanceof HTMLElement)) return;
   toggle.parentElement.querySelectorAll('.surface-mode-button').forEach((button) => {
-    button.classList.toggle('active', button === toggle);
+    const selected = button === toggle;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-selected', String(selected));
   });
 });
 
@@ -6443,7 +6447,7 @@ window.addEventListener('resize', () => syncExplainerAlignment());
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the ${CANON_OPERATOR_LABEL} deposit-to-need closure path. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
+  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the ${CANON_OPERATOR_LABEL} deposit-to-need closure path. Inherited surfaces: ${INHERITED_CANON_SURFACE_LABEL}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

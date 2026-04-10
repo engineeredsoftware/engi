@@ -125,11 +125,11 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-testAny('GET /api/state returns seeded canonical V16 public state', async (t) => {
+testAny('GET /api/state returns seeded active-canon and V20-draft public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
-    assert.equal(response.json.specVersion, 'ENGI Spec V16 canonical local prototype');
+    assert.equal(response.json.specVersion, 'ENGI Spec V19 active canon / V20 operator-quality draft');
     assert.equal(response.json.assets.length, 11);
     assert.equal(response.json.needScenarios.length, 8);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
@@ -155,7 +155,9 @@ testAny('GET / returns the app shell', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
     assert.match(response.text, /Operate ENGI from repo supply to settlement/);
-    assert.match(response.text, /Canonical V16/);
+    assert.match(response.text, /V19 canon \/ V20 quality draft/);
+    assert.match(response.text, /ENGI_SPEC_V20_PROVEN\.md/);
+    assert.match(response.text, /v20-quality-summary\.json/);
     assert.match(response.text, /depositing, needing, and their fit/i);
     assert.match(response.text, /Depositing \+ candidate assets/);
     assert.match(response.text, /Needing \+ measured demand/);

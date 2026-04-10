@@ -106,7 +106,7 @@ const buildRedactionProofUnchecked = /** @type {any} */ (buildRedactionProof);
 const buildDisclosureProofUnchecked = /** @type {any} */ (buildDisclosureProof);
 const buildDemoPublicStateUnchecked = /** @type {any} */ (buildDemoPublicState);
 
-export const SPEC_VERSION = 'ENGI Spec V16 canonical local prototype';
+export const SPEC_VERSION = 'ENGI Spec V19 active canon / V20 operator-quality draft';
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
@@ -117,7 +117,7 @@ const MAX_BPS_BIGINT = 10000n;
 const SOURCE_TO_SHARES_SCALE = 1000000n;
 const VECTOR_DIMENSIONS = 16;
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v15';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v16-canonical/2026-04-09';
+const DEFAULT_POLICY_REF = 'policy://engi/spec-v19-active-v20-draft/2026-04-09';
 const PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,

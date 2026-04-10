@@ -16,6 +16,12 @@
     "test:volatility": "node --test test/volatility-inventory.test.js",
     "test:negative-mutation-matrix": "node --test test/negative-proof-mutation-matrix.test.js",
     "test:contract-ledger": "node --test test/contract-change-ledger.test.js",
+    "test:v20-operator-transcript": "node --test test/v20-operator-transcript.test.js",
+    "test:v20-accessibility": "node --test test/v20-accessibility.test.js",
+    "test:v20-visual": "node --test test/v20-visual-regression.test.js",
+    "test:v20-performance": "node --test test/v20-performance-budget.test.js",
+    "test:v20-projection-quality": "node --test test/v20-projection-quality.test.js",
+    "test:v20-quality-summary": "node --test test/v20-quality-summary.test.js",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {

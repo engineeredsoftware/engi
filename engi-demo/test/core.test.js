@@ -191,7 +191,7 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   const state = buildInitialStateTest();
   const projected = publicStateTest(state);
 
-  assert.equal(projected.specVersion, 'ENGI Spec V16 canonical local prototype');
+  assert.equal(projected.specVersion, 'ENGI Spec V19 active canon / V20 operator-quality draft');
   assert.equal(projected.repoSupplySurface.repoCount, state.githubAppSessions.length);
   assert.equal(projected.repoSupplySurface.inventoryEntryCount, state.repoArtifactInventory.length);
   assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.artifactKindCounts));
