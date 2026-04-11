@@ -1252,6 +1252,38 @@ function buildV20ProvenPackage(baseData, {
 }
 
 /**
+ * @param {ReturnType<typeof buildCanonicalProvenData>} baseData
+ * @param {{
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ * @returns {{ data: any, markdown: string, artifacts: Record<string, string> }}
+ */
+function buildV21ProvenPackage(baseData, {
+  inheritedV19,
+  inheritedV20
+}) {
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts: {}
+  };
+}
+
+/**
  * @param {{
  *   version: string,
  *   canonicalCommit: string,
@@ -1332,6 +1364,53 @@ export function generateCanonicalProvenMarkdown({
       version,
       generatedAt,
       inheritedV19: inheritedV19Package.data.v19
+    });
+  }
+  if (version === 'V21') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19
+    });
+    return buildV21ProvenPackage(baseData, {
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
     });
   }
   const v18Matrices = version === 'V18'

@@ -4,6 +4,7 @@ import { buildInitialState } from '../src/engi-demo.js';
 import {
   buildCanonicalProvenData,
   collectCanonicalProvenRuns,
+  generateCanonicalProvenMarkdown,
   renderCanonicalProvenMarkdown
 } from '../src/canonical/proven-generator.js';
 
@@ -80,4 +81,23 @@ test('canonical proven generator fails closed when a keyed witness digest is mis
     () => buildTestProvenData(mutated),
     /missing witness digest for \.engi\/prompt-family-registry\.json/
   );
+});
+
+test('V21 proven generator renders a V21 appendix while inheriting V20 and V19 generated closure', () => {
+  const generated = generateCanonicalProvenMarkdown({
+    version: 'V21',
+    canonicalCommit: 'draft-v21',
+    canonicalCommitRecordedAt: '2026-04-11T00:00:00.000Z',
+    generatedAt: '2026-04-11T00:00:00.000Z'
+  });
+
+  assert.equal(generated.data.version, 'V21');
+  assert.equal(generated.data.aggregate.fullyProven, true);
+  assert.equal(generated.data.v19.deterministicReplayReport.passed, true);
+  assert.equal(generated.data.v20.qualitySummary.passed, true);
+  assert.deepEqual(generated.artifacts, {});
+  assert.ok(generated.markdown.includes('# ENGI Spec V21 Proven'));
+  assert.ok(generated.markdown.includes('## V19 Reproducible Canon Reports'));
+  assert.ok(generated.markdown.includes('## V20 Operator Quality Reports'));
+  assert.ok(generated.markdown.includes('ENGI_SPEC_V21_PROVEN.md'));
 });

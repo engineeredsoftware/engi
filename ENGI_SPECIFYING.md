@@ -23,7 +23,7 @@ ENGI specifying exists so a correct implementation, audit, generated proof appen
 
 The central rule is:
 
-> A promoted `ENGI_SPEC_VN.md` must be complete and precise enough that an implementer, reviewer, operator, or auditor can derive the current ENGI system behavior, contracts, artifacts, proofs, tests, promotion gates, accepted boundaries, and generated canon requirements from that version's canonical file family alone.
+> A promoted `ENGI_SPEC_VN.md` must itself be a full-system, full-reimplementability, full-auditability specification. An implementer, reviewer, operator, or auditor must be able to derive the current ENGI system behavior, contracts, artifacts, proofs, tests, promotion gates, accepted boundaries, and generated canon requirements from that version's canonical file family alone, without using older specs, source code, parity ledgers, or generated artifacts to recover missing whole-system meaning omitted from `SPEC`.
 
 This standard defines how to write that family.
 It does not define ENGI product semantics by itself.
@@ -41,6 +41,20 @@ The priority order for specifying truth is:
 
 Older versioned specs are historical.
 They may be cited for provenance, but the active `SPEC` must not require them for current semantic recovery.
+
+## 1.1 Drafting Input Rule
+
+When drafting a new version, the minimum canonical input set is:
+1. the current pointed `SPEC`,
+2. the current generated `_PROVEN_`,
+3. the current parity matrix,
+4. the current canonical structured `.engi/vN-*` artifacts,
+5. and any canon-named realization or adjunct documents required by the active spec family.
+
+Optional notes may still be useful for local working context, but they are not required canonical inputs and must not override canonical files.
+
+This rule exists because ENGI canon is no longer carried only by hand-authored prose.
+Generated appendices, generated structured artifacts, and parity ledgers are now part of the depended-on canonical input surface for future version drafting.
 
 ---
 
@@ -65,7 +79,32 @@ A reader should be able to derive:
 
 from the active spec family.
 
-## 2.1 Derivability Requirements
+`SPEC` is the primary bearer of that derivability.
+`SPEC_DELTA`, `SPEC_PARITY_MATRIX`, `_PROVEN_`, and generated `.engi/vN-*` artifacts are required canonical supports, but they do not excuse a main spec that omits whole-system meaning.
+
+## 2.1 `SPEC`-Alone Completeness
+
+`SPEC` must stand on its own as the complete description of the current ENGI system.
+
+That means `SPEC` itself must be:
+- full-system,
+- full re-implementability,
+- full auditability,
+- full operator-truth,
+- full proof-obligation,
+- full generated-canon,
+- and full promotion-derivability.
+
+The supporting canonical family then adds:
+- `SPEC_DELTA` for version-local decisions and refinements,
+- `SPEC_PARITY_MATRIX` for source/generated/test/promotion truth,
+- `_PROVEN_` for generated proof rendering,
+- and `.engi/vN-*` for generated structured evidence.
+
+Those supporting files may sharpen, evidence, or operationalize canon.
+They must not be required to supply omitted system semantics that the main `SPEC` failed to restate.
+
+## 2.2 Derivability Requirements
 
 Each normative system claim must answer, directly or by a nearby table:
 1. What object, behavior, invariant, or artifact is required?
@@ -81,7 +120,31 @@ Each normative system claim must answer, directly or by a nearby table:
 
 If a section cannot answer those questions, it is not implementation-derivable enough.
 
-## 2.2 No Silent Inheritance
+## 2.3 No Silent Outsourcing
+
+`SPEC` must not outsource whole-system meaning to:
+- `SPEC_DELTA`,
+- `SPEC_PARITY_MATRIX`,
+- generated `_PROVEN_`,
+- generated `.engi/vN-*` artifacts,
+- source code,
+- test files,
+- earlier specs,
+- or conversation history.
+
+Those surfaces may confirm, materialize, or validate the spec.
+They may not be the only place where current canonical behavior is defined.
+
+If a current rule is only recoverable by inspecting:
+- a parity row,
+- a generated JSON report,
+- a proof appendix section,
+- a test assertion,
+- or an older version file,
+
+then the current `SPEC` is incomplete.
+
+## 2.4 No Silent Inheritance
 
 A promoted `SPEC` may inherit prior canon as history, but not as an implementation dependency.
 
@@ -97,7 +160,7 @@ Not allowed:
 
 If a rule matters for current canon, it belongs in the current `SPEC`.
 
-## 2.3 Precision Over Compression
+## 2.5 Precision Over Compression
 
 Short specs are acceptable only when the system is actually small or the version's full current canon is otherwise fully captured.
 For ENGI, a full canon spec will usually be large.
@@ -113,6 +176,43 @@ Compression is not a virtue when it removes:
 - or implementation references.
 
 The spec may use appendices to keep the top-level path readable, but the full derivable material must still exist in the file.
+
+## 2.6 Totality Requires Named Coverage Carriers
+
+Full-system totality is not satisfied by having the right high-level section names.
+
+A promoted `SPEC` must make omission visible through named, appendix-grade coverage carriers.
+At minimum, the main `SPEC` must contain, directly or through appendices:
+- a canonical type and surface catalog,
+- a subsystem totality and derivability matrix,
+- a proof family closure catalog,
+- a generated artifact contract catalog,
+- a validation and checking gate catalog,
+- a current canonical source map,
+- and an accepted boundary ledger.
+
+Those carriers are not optional density improvements.
+They are how the spec proves that it has not silently dropped part of the system.
+
+If a current subsystem, artifact family, proof family, gate, principal class, branch mode, scenario class, or source-bearing implementation surface exists in canon but has no row or inventory entry in the current `SPEC`, the current `SPEC` is incomplete.
+
+## 2.7 Total Precision Requires Exhaustive Enumerability
+
+Total precision means that the major canonical sets are enumerable from the spec rather than inferred from repo memory.
+
+At minimum, the current `SPEC` must enumerate where applicable:
+- subsystem coverage items,
+- canonical objects and emitted artifacts,
+- proof families, members, and theorem ids,
+- generated artifact families and stable paths,
+- validation commands and what each command proves,
+- current source-bearing implementation paths,
+- projection principals,
+- branch modes,
+- scenario ids or scenario classes,
+- and accepted boundaries.
+
+If a reviewer would need to open source or generated JSON just to discover what is in one of those current canonical sets, the spec is not yet precise enough.
 
 ---
 
@@ -263,6 +363,9 @@ Stale status language is a canonical defect.
 The `SPEC` is the complete current canon.
 It is not release notes.
 
+`SPEC_DELTA`, `SPEC_PARITY_MATRIX`, generated `_PROVEN_`, and generated `.engi/vN-*` artifacts are required companion surfaces, but they do not lower the main-spec responsibility.
+If the whole system cannot be re-implemented or audited from `SPEC`, the version is structurally incomplete even when the companion files are strong.
+
 Required top-level structure:
 
 1. Status
@@ -283,6 +386,10 @@ Required top-level structure:
 16. Appendices
 
 The exact heading names may vary, but every promoted full spec must cover these responsibilities.
+The appendices are required totality carriers, not optional overflow.
+
+V21+ source-side spec-family checkers are expected to validate this structure at least coarsely.
+If a promoted `SPEC` is missing whole-system sections such as architecture, domain model, subsystem canon, proof canon, generated canon, validation canon, promotion canon, or accepted boundaries, the checker should be allowed to fail the version before promotion.
 
 ## 5.1 Version Executive Summary
 
@@ -350,6 +457,23 @@ The spec must describe the full ENGI chain in order:
 12. present operator/reviewer/buyer/public surfaces.
 
 If any step is modeled rather than executed, the spec must say so explicitly.
+
+## 5.5 Totality Carrier Requirement
+
+The top-level sections make the reading path clear.
+They do not by themselves satisfy full-system totality.
+
+Every promoted `SPEC` must also contain explicit appendix-grade carriers that let an auditor check for omission.
+For V21+ those carriers must, at minimum, cover:
+- canonical type and surface inventory,
+- subsystem totality and derivability,
+- proof family closure,
+- generated artifact contracts,
+- validation gates,
+- current canonical source surfaces,
+- and accepted boundaries.
+
+Source-side structural checkers may validate the presence of those carriers and of required family or artifact subsections inside them.
 
 ---
 
@@ -419,6 +543,22 @@ Unacceptable forms:
 - unowned ids,
 - field names only found in source,
 - or generated artifact shapes only visible by opening committed JSON.
+
+## 6.3 Subsystem Totality Matrix
+
+Every full `SPEC` must contain a subsystem totality and derivability matrix, either as its own section or as an appendix-grade equivalent.
+
+Each row must identify:
+- subsystem or concern,
+- canonical objects, contracts, or emitted artifacts,
+- proof-family or closure basis,
+- generated or runtime evidence surfaces,
+- validating tests or commands,
+- current source-bearing implementation paths,
+- and accepted boundary or reopen condition if applicable.
+
+This matrix exists so omission is mechanically visible.
+If one of the minimum subsystem coverage items in Section 6 has no row, the `SPEC` is structurally incomplete.
 
 ---
 
@@ -570,6 +710,12 @@ The spec must define whether an artifact is:
 - promotion report,
 - or other canonical generated output.
 
+The spec should normally define generated artifacts at two levels:
+1. shared common fields across the artifact family,
+2. and artifact-specific fields, counts, cells, steps, checks, summaries, or inventories.
+
+If generated artifacts share common fields in runtime truth but the spec only names them generically, the artifact family is underspecified.
+
 ## 8.3 Volatility Policy
 
 Canonical generated artifacts must not include:
@@ -700,6 +846,14 @@ A promotion workflow must:
 16. run `git diff --check`,
 17. emit canonical commit message body,
 18. and fail closed before pointer mutation if preconditions fail.
+
+The preconditions are not limited to filenames.
+Promotion-time checks may and should validate:
+- required full-spec sections in `SPEC`,
+- required decision/change sections in `DELTA`,
+- required parity sections in `PARITY_MATRIX`,
+- consistent status truth across the hand-authored family,
+- and absence of stale promoted-status language.
 
 If pointer mutation must occur before generation because the generator reads `ENGI_SPEC.txt`, the promotion command must fail closed and immediately check generated output after mutation.
 
@@ -875,21 +1029,26 @@ Required organization principles:
 
 # 17. Appendix Architecture
 
-A full `SPEC` should normally include appendices or appendix-equivalent sections for:
-- canonical type/schema catalog,
-- inference and evaluator contracts,
-- proof family obligations,
+A full `SPEC` must include appendices or appendix-equivalent sections for:
+- canonical type and surface catalog,
+- subsystem totality and derivability matrix,
+- proof family closure catalog,
+- generated artifact contract catalog,
+- validation and checking gate catalog,
+- current canonical source map,
+- accepted boundaries or an accepted-boundary ledger.
+
+Depending on the version, it should also include:
+- inference and evaluator contract detail,
 - member and theorem catalogs,
 - artifact and deliverable contracts,
-- generated artifact contracts,
 - scenario and workflow matrices,
-- test coverage,
-- promotion checklist,
-- spec-to-source map,
-- accepted boundaries.
+- test coverage expansions,
+- and promotion checklists.
 
 Appendices are canonical.
 They are not loose notes.
+They must contain current inventories and matrices, not placeholder prose about future appendices.
 
 ---
 
@@ -899,17 +1058,19 @@ A full ENGI `SPEC` is structurally complete only when:
 1. the current system can be understood without reading older specs,
 2. implementation contracts are precise enough to build from,
 3. generated artifacts are named and shaped,
-4. proof families, members, and theorems are closed or explicitly bounded,
-5. test gates are named,
-6. promotion gates are named,
-7. source references are parity-bearing,
-8. operator surfaces are specified where canonical,
-9. accepted boundaries have reopen conditions,
-10. `DELTA` contains version-local decisions only,
-11. `PARITY_MATRIX` honestly records source/generated/test/promotion truth,
-12. `_PROVEN_` is generated and checkable when promoted,
-13. `.engi/vN-*` artifacts are generated and checkable when required,
-14. stale draft language is absent after promotion,
-15. and `ENGI_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
+4. subsystem totality is carried by explicit coverage matrices or catalogs,
+5. proof families, members, and theorems are closed or explicitly bounded,
+6. test gates are named,
+7. promotion gates are named,
+8. source references are parity-bearing,
+9. operator surfaces are specified where canonical,
+10. accepted boundaries have reopen conditions,
+11. `DELTA` contains version-local decisions only,
+12. `PARITY_MATRIX` honestly records source/generated/test/promotion truth,
+13. `_PROVEN_` is generated and checkable when promoted,
+14. `.engi/vN-*` artifacts are generated and checkable when required,
+15. stale draft language is absent after promotion,
+16. required appendix-grade coverage carriers exist and are populated with current canon,
+17. and `ENGI_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
 
 If any item fails, the version may still be a useful draft, but it is not a complete canonical system specification.
