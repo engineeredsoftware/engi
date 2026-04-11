@@ -6,10 +6,12 @@
 - Current canonical/latest target: `V20`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports and `.engi/v20-*` operator-quality reports; V21 generation now defines `.engi/v21-spec-family-report.json` and `.engi/v21-canonical-input-report.json` for draft-time specifying closure and later promotion
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_NOTES.md`
-- V21 state: full-spec drafting and source-side specifying implementation are in progress; structural/density checking, canonical-input validation, V21 appendix generation support, and V21 promotion support with file-family-derived commit-body generation now exist, while canonical promotion closure remains unfinished
+- Source parity state: V21 source-side specifying implementation now covers spec-family checking, canonical-input validation, promotion-time hand-authored status preparation, V21 appendix/specifying-artifact generation, and V21 promotion dry-run sequencing; actual pointer advancement remains unexecuted
+- V21 state: full-spec drafting and source-side specifying implementation are in progress; structural/density checking, canonical-input validation, promotion-time hand-authored status preparation, V21 appendix generation plus `.engi/v21-*` specifying artifacts, and V21 promotion support with file-family-derived commit-body generation now exist, while canonical promotion closure remains unfinished
 
 ## Why V21 exists
 
@@ -94,14 +96,21 @@ The current accepted V21 drafting decisions are:
 9. Canonical promotion must gain a stale-status gate and a file-family gate.
 10. Canonical commit message bodies must be derivable from the version's canonical file family and generated outputs.
 11. Full-canon totality requires named appendix-grade inventories and derivability matrices rather than only major section presence.
+12. V21 defines a minimal version-local generated artifact family: `.engi/v21-spec-family-report.json` and `.engi/v21-canonical-input-report.json`.
+13. V21 promotion must validate the newly pointed canonical input family after generation, not only the inherited pre-mutation input family.
+14. V21 hardens total precision further by requiring exact proof-family and generated-artifact inventory carriers inside the main `SPEC`, not only high-level appendix headings.
+15. V21 also restores a V16-style per-family derivability block in Appendix B so each proof family states what it proves, how closure is carried, current verdict shape, theorem/replay grouping, generated/test bindings, and fail-closed conditions.
+16. V21 extends subsystem sections beyond behavioral bullets by restating the current subsystem objects/artifacts, invariants, and fail-closed conditions inline.
+17. V21 now treats scenario/profile/branch/principal/workflow cross-products as mandatory explicit canon rather than recoverable context.
+18. V21 now requires a fail-closed contract/error-posture matrix so blocking semantics are visible without source excavation.
+19. V21 now requires a source-bearing deliverable/artifact catalog so emitted branch/proof/spec artifacts are implementation-derivable from `SPEC` alone.
 
 ## Explicitly deferred or unresolved items
 
 Still open in V21 pre-implementation drafting:
 - whether V21 promotion should reject compatibility-named files outright or allow aliases temporarily,
 - whether active V20 hand-authored docs should be corrected directly or only used as the motivating defect for future promotion checks,
-- whether a separate generated promotion report should be added in V21 or left to a later version,
-- and whether V21 canonical promotion should generate a dedicated V21 artifact family or inherit V20 generated artifacts unchanged.
+- and whether a separate generated promotion report should be added in V21 or left to a later version.
 
 ## Implementation already landed in this pass
 
@@ -111,22 +120,29 @@ The first V21 source-side specifying rule is now implemented:
 Current covered checks:
 1. V21+ hand-authored file-family presence,
 2. singular specifying-authority support files,
-3. consistent `Current canonical/latest target` status lines,
+3. required status-block truth including `Current canonical/latest target`, prior-anchor/provenance lines, generated-artifact inventory, and source-parity state,
 4. required whole-system sections in the main `SPEC`,
 5. required appendix-grade totality carriers and proof-family coverage headings in the main `SPEC`,
-6. required structural sections in `DELTA` and `PARITY_MATRIX`,
-7. and promoted-mode rejection of draft/pending status language.
+6. required scenario/workflow cross-product appendix content, fail-closed posture content, and deliverable/artifact catalog content in the main `SPEC`,
+7. required structural sections in `DELTA` and `PARITY_MATRIX`,
+8. promoted-mode rejection of draft/pending status language,
+9. and promoted-mode rejection of transitional parity judgments such as `drafted`, `implemented; promotion pending`, and `spec closed; source gap`.
 
 Current validating test basis:
 - `engi-demo/test/v21-specifying.test.js`
 - `npm --prefix engi-demo run test:unit`
 
 Additional V21 source-side support now implemented:
-- `engi-demo/src/canonical/proven-generator.js` supports `V21` appendix generation,
+- `engi-demo/src/canonical/proven-generator.js` supports `V21` appendix generation plus `.engi/v21-spec-family-report.json` and `.engi/v21-canonical-input-report.json`,
 - `scripts/promote-engi-canon.mjs` supports `--version V21`,
 - `scripts/check-engi-canonical-inputs.mjs` validates the current pointed canon's hand-authored and generated input family,
-- the V21 promotion path now includes pre-mutation spec-family checks, canonical-input validation, and post-mutation promoted checks in both dry-run planning and non-dry-run execution,
+- `scripts/prepare-engi-spec-family-promotion.mjs` now rewrites the hand-authored V21 status truth into promoted posture immediately before pointer advancement,
+- the V21 promotion path now includes pre-mutation spec-family checks, pre-mutation canonical-input validation, promotion-time hand-authored status preparation, post-generation active-canon validation for `V21`, and post-mutation promoted checks in both dry-run planning and non-dry-run execution,
 - and `scripts/promote-engi-canon.mjs` now derives the V21 canonical commit-message body from the V21 canonical file family instead of using hard-coded V21 summary prose.
+
+Current promoted-mode preflight result:
+- the remaining blockers are the hand-authored V21 status truth lines themselves (`Current canonical/latest target: V20` plus draft/pending `V21 state` text),
+- not missing gate/support implementation.
 
 ## Pre-Implementation Sequence
 
@@ -141,8 +157,11 @@ The accepted pre-implementation sequence is:
 7. use the stronger appendix-grade density requirements to make omission visible,
 8. wire file-family and stale-status promotion checks into the promotion path,
 9. add canonical-input validation over the active pointed canon,
-10. decide whether V21 should preserve inherited V20 generated artifacts exactly or add any small V21-specific generated support artifact,
-11. and only then decide whether V21 is ready for canonical promotion.
+10. align the V21 hand-authored family with the now-implemented V21 specifying artifact pair,
+11. add post-generation active-canon validation for the newly pointed V21 family,
+12. align V21 parity judgments with promoted-mode closure requirements,
+13. finish density closure for scenario/workflow cross-products, fail-closed posture, and source-bearing deliverables,
+14. and only then decide whether V21 is ready for canonical promotion.
 
 ## Commit-Body Direction
 
@@ -151,7 +170,13 @@ When V21 later reaches canonical promotion, the commit body should be derived fr
 - the renamed/spec-disciplined file family,
 - the strengthened `SPEC`-alone full-system rule,
 - the appendix-grade totality-carrier rule,
+- the explicit scenario/workflow/principal/branch cross-product rule,
+- the explicit fail-closed posture matrix,
+- the explicit source-bearing deliverable/artifact catalog,
 - the first implemented structural spec-family checker,
 - the generated-canon input rule,
+- the minimal V21 specifying artifact family,
+- the post-generation active-canon validation rule,
+- promoted-mode parity-judgment closure,
 - the stale-status and file-family promotion gates,
 - and any implemented V21 source-side specifying checks.

@@ -1,12 +1,6 @@
 #!/usr/bin/env node
 
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const defaultRepoRoot = path.resolve(__dirname, '..');
+import { buildV21CanonicalInputReport } from '../engi-demo/src/canonical/v21-specifying.js';
 
 /**
  * @param {string[]} argv
@@ -39,113 +33,22 @@ function printHelp() {
   );
 }
 
-/**
- * @param {string} value
- */
-function assertVersion(value) {
-  if (!/^V\d+$/.test(value)) {
-    throw new Error(`Version must look like VN. Received ${value || 'none'}.`);
-  }
-}
-
-/**
- * @param {string} repoRoot
- * @param {string} currentTarget
- */
-function buildRequiredArtifacts(repoRoot, currentTarget) {
-  /** @type {string[]} */
-  const paths = [];
-  if (currentTarget === 'V19') {
-    paths.push(
-      '.engi/v19-contract-change-ledger.json',
-      '.engi/v19-deterministic-replay-report.json',
-      '.engi/v19-negative-proof-mutation-matrix.json',
-      '.engi/v19-proof-member-semantic-matrix.json',
-      '.engi/v19-state-machine-matrix.json',
-      '.engi/v19-theorem-evidence-matrix.json',
-      '.engi/v19-volatility-inventory.json'
-    );
-  }
-  if (currentTarget === 'V20') {
-    paths.push(
-      '.engi/v20-operator-acceptance-transcript.json',
-      '.engi/v20-visual-regression-report.json',
-      '.engi/v20-accessibility-report.json',
-      '.engi/v20-performance-budget-report.json',
-      '.engi/v20-projection-quality-smoke-matrix.json',
-      '.engi/v20-quality-summary.json'
-    );
-  }
-  return paths.map((relativePath) => path.join(repoRoot, relativePath));
-}
-
-async function main() {
+function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
     printHelp();
     return;
   }
 
-  const repoRoot = path.resolve(args.repoRoot || defaultRepoRoot);
-  const pointerPath = path.join(repoRoot, 'ENGI_SPEC.txt');
-  const pointerVersion = (await fs.readFile(pointerPath, 'utf8')).trim();
-  const currentTarget = args.currentTarget || pointerVersion;
-  assertVersion(currentTarget);
+  const report = buildV21CanonicalInputReport({
+    ...(args.currentTarget ? { currentTarget: args.currentTarget } : {}),
+    ...(args.repoRoot ? { repoRoot: args.repoRoot } : {}),
+    ...(args.skipPointerCheck ? { skipPointerCheck: true } : {})
+  });
 
-  /** @type {string[]} */
-  const failures = [];
-  if (!args.skipPointerCheck && pointerVersion !== currentTarget) {
-    failures.push(`ENGI_SPEC.txt points to ${pointerVersion || 'none'} but expected ${currentTarget}.`);
-  }
-
-  const requiredFiles = [
-    path.join(repoRoot, `ENGI_SPEC_${currentTarget}.md`),
-    path.join(repoRoot, `ENGI_SPEC_${currentTarget}_PROVEN.md`)
-  ];
-
-  const parityCandidates = [
-    path.join(repoRoot, `ENGI_SPEC_${currentTarget}_PARITY_MATRIX.md`)
-  ];
-  if (Number(currentTarget.slice(1)) < 21) {
-    parityCandidates.push(path.join(repoRoot, `ENGI_SPEC_${currentTarget}_SYSTEM_PARITY_MATRIX.md`));
-  }
-
-  for (const filePath of requiredFiles) {
-    try {
-      await fs.access(filePath);
-    } catch {
-      failures.push(`Missing canonical input file: ${path.relative(repoRoot, filePath)}`);
-    }
-  }
-
-  let resolvedParityPath = '';
-  for (const candidate of parityCandidates) {
-    try {
-      await fs.access(candidate);
-      resolvedParityPath = candidate;
-      break;
-    } catch {
-      // continue
-    }
-  }
-  if (!resolvedParityPath) {
-    failures.push(
-      `Missing canonical parity input for ${currentTarget}; expected one of ${parityCandidates.map((candidate) => path.relative(repoRoot, candidate)).join(', ')}`
-    );
-  }
-
-  const requiredArtifacts = buildRequiredArtifacts(repoRoot, currentTarget);
-  for (const artifactPath of requiredArtifacts) {
-    try {
-      await fs.access(artifactPath);
-    } catch {
-      failures.push(`Missing canonical generated artifact: ${path.relative(repoRoot, artifactPath)}`);
-    }
-  }
-
-  if (failures.length) {
-    process.stderr.write(`ENGI canonical input check failed for ${currentTarget}\n`);
-    for (const failure of failures) {
+  if (!report.passed) {
+    process.stderr.write(`ENGI canonical input check failed for ${report.checkedTargetVersion}\n`);
+    for (const failure of report.failures) {
       process.stderr.write(`- ${failure}\n`);
     }
     process.exitCode = 1;
@@ -154,17 +57,19 @@ async function main() {
 
   process.stdout.write(
     [
-      `ENGI canonical inputs ok for ${currentTarget}`,
-      `pointer=${pointerVersion}`,
-      `parity=${path.relative(repoRoot, resolvedParityPath)}`,
-      `artifacts=${requiredArtifacts.length}`
+      `ENGI canonical inputs ok for ${report.checkedTargetVersion}`,
+      `pointer=${report.pointerVersion}`,
+      `parity=${report.parityPath}`,
+      `artifacts=${report.requiredGeneratedArtifactCount}`
     ].join(' ')
   );
   process.stdout.write('\n');
 }
 
-main().catch((error) => {
+try {
+  main();
+} catch (error) {
   const detail = error instanceof Error ? error.message : String(error);
   process.stderr.write(`${detail}\n`);
   process.exitCode = 1;
-});
+}

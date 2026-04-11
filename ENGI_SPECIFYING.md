@@ -187,6 +187,7 @@ At minimum, the main `SPEC` must contain, directly or through appendices:
 - a subsystem totality and derivability matrix,
 - a proof family closure catalog,
 - a generated artifact contract catalog,
+- a current-version generated artifact family inventory or an explicit no-new-family statement,
 - a validation and checking gate catalog,
 - a current canonical source map,
 - and an accepted boundary ledger.
@@ -204,7 +205,10 @@ At minimum, the current `SPEC` must enumerate where applicable:
 - subsystem coverage items,
 - canonical objects and emitted artifacts,
 - proof families, members, and theorem ids,
+- proof-family proof artifact paths, replay step ids, witness artifact paths, and current source-bearing generators,
 - generated artifact families and stable paths,
+- the active version's own generated artifact paths, ids, and generators when that version emits them,
+- generated-artifact check commands or validating gates for each current canonical artifact family,
 - validation commands and what each command proves,
 - current source-bearing implementation paths,
 - projection principals,
@@ -312,6 +316,11 @@ Generated files must have:
 - artifact inventory,
 - and check mode.
 
+If the active version introduces a new generated artifact family, promotion must:
+- generate it,
+- check it,
+- and validate it again as part of the newly pointed canonical input family before promotion is considered complete.
+
 ---
 
 # 4. Canonical Status and Versioning
@@ -342,6 +351,16 @@ Every `ENGI_SPEC_VN.md` must begin with a status block that states:
 - and accepted realization/demo basis.
 
 The companion `DELTA` and `PARITY_MATRIX` must repeat the same status truth.
+
+For V21+, those status lines should use stable literal labels so source-side checks can validate them mechanically.
+At minimum, the hand-authored canonical file family should expose:
+- `Current canonical/latest target`,
+- `Canonical proof-source commit` when the version is promoted,
+- `Prior canonical anchor`,
+- `Prior generated proof appendix` where one exists,
+- `Generated structured artifact inventory`,
+- `Source parity state`,
+- and `Vn state`.
 
 ## 4.2 Draft Language Rule
 
@@ -468,10 +487,16 @@ For V21+ those carriers must, at minimum, cover:
 - canonical type and surface inventory,
 - subsystem totality and derivability,
 - proof family closure,
+- an exact proof-family inventory matrix,
 - generated artifact contracts,
+- an exact generated-artifact inventory matrix,
 - validation gates,
 - current canonical source surfaces,
 - and accepted boundaries.
+
+When the version is changing specifying, promotion, or operator-quality canon directly, the appendix-grade carriers must also include:
+- a canonical file-family and promotion contract catalog,
+- and an operator surface and quality contract catalog.
 
 Source-side structural checkers may validate the presence of those carriers and of required family or artifact subsections inside them.
 
@@ -560,6 +585,20 @@ Each row must identify:
 This matrix exists so omission is mechanically visible.
 If one of the minimum subsystem coverage items in Section 6 has no row, the `SPEC` is structurally incomplete.
 
+## 6.4 Cross-Product, Fail-Closed, and Deliverable Coverage
+
+Whole-system derivability also requires explicit coverage of the system's current cross-products, fail-closed posture, and emitted deliverables.
+
+Every full `SPEC` must therefore make the following visible in appendix-grade carriers or section-equivalent matrices:
+- realization profiles to scenario-family coverage,
+- current scenario ids to branch-mode coverage where branch mode changes proof, settlement, visibility, or operator meaning,
+- projection principals to disclosure/projection coverage,
+- operator workflow stages to surfaced truths and emitted evidence,
+- fail-closed contract and error postures across the major subsystems,
+- and current source-bearing deliverables/artifacts plus their generators, consumers, and fail-closed meaning.
+
+If the current system depends on one of those cross-products or deliverables and the `SPEC` does not enumerate it explicitly, the `SPEC` is still density-incomplete even if its top-level sections look whole.
+
 ---
 
 # 7. Proof-Family Spec Pattern
@@ -589,6 +628,15 @@ Each proof family section must include:
 19. accepted boundaries,
 20. completion condition.
 
+In addition to per-family prose, the appendix-grade proof carrier must include an exact inventory matrix whose rows enumerate:
+- proof family id,
+- proof artifact path,
+- member ids,
+- theorem ids,
+- replay step ids,
+- witness artifact paths,
+- and current source-bearing implementation basis.
+
 ## 7.1 Family Questions
 
 Every proof-family section must answer:
@@ -603,6 +651,14 @@ Every proof-family section must answer:
 - What replay steps make the proof auditable?
 - What generated outputs summarize or materialize the proof?
 - What tests fail when the family drifts?
+
+The normalized minimum per-family detail block should therefore make the following directly recoverable in the main `SPEC`:
+- what the family proves,
+- how current closure is carried in source and artifacts,
+- the current member verdict shape,
+- the current theorem-to-replay-step grouping,
+- the generated-artifact and validating-test bindings,
+- and the fail-closed conditions that would reopen the family.
 
 ## 7.2 Member Closure
 
@@ -641,6 +697,8 @@ Examples:
 - contract-change ledgers,
 - operator quality summaries,
 - `_PROVEN_` sections.
+
+Those bindings are not complete unless the current `SPEC` makes the exact family-to-artifact relationship recoverable without opening generated JSON or older specs.
 
 ---
 
@@ -715,6 +773,22 @@ The spec should normally define generated artifacts at two levels:
 2. and artifact-specific fields, counts, cells, steps, checks, summaries, or inventories.
 
 If generated artifacts share common fields in runtime truth but the spec only names them generically, the artifact family is underspecified.
+
+The spec must also distinguish clearly between:
+- inherited generated artifact families still depended on by current canon,
+- and the current version's own generated artifact family, if any.
+
+If the current version emits version-local generated artifacts, `SPEC` must enumerate their stable paths, ids, roles, and source-bearing generators.
+If it intentionally emits none, `SPEC` must say that explicitly rather than leaving the current-version artifact posture implicit.
+
+The generated-artifact appendix must also include an exact inventory matrix whose rows enumerate:
+- stable artifact path,
+- stable id,
+- artifact-family classification,
+- canonical role,
+- source-bearing generator or emitting entrypoint,
+- primary validating command or check mode,
+- and promotion-time inclusion posture.
 
 ## 8.3 Volatility Policy
 
@@ -792,6 +866,9 @@ Recommended layer labels:
 ## 10.1 Judgment Language
 
 Allowed judgments:
+- `drafted`,
+- `implemented`,
+- `substantially advanced`,
 - `closed`,
 - `implemented; promotion pending`,
 - `spec closed; source gap`,
@@ -808,6 +885,21 @@ Forbidden judgments:
 - `closed` when promotion status is stale,
 - or ambiguous "done enough" language.
 
+`drafted`, `implemented; promotion pending`, and `substantially advanced` are draft-phase judgments.
+They are useful before canonical promotion, but they are not acceptable closure language for a promoted required row.
+
+For promoted versions, required parity rows must no longer use transitional judgments such as:
+- `drafted`,
+- `implemented; promotion pending`,
+- `spec closed; source gap`,
+- `generated artifact pending`,
+- `blocked`,
+- `reopened`,
+- or `substantially advanced`.
+
+Those are draft-phase or reopening judgments.
+A promoted parity matrix must either record `closed`, `accepted boundary`, `deprecated`, or `historical only` as appropriate.
+
 ## 10.2 Promotion Status Rows
 
 The parity matrix must include rows for:
@@ -820,6 +912,8 @@ The parity matrix must include rows for:
 - promotion command,
 - canonical commit message body,
 - and accepted boundaries.
+
+For promoted-mode repository checks, the parity matrix should also expose a machine-readable implementation checklist table so status closure is not inferred only from prose.
 
 ---
 
@@ -839,13 +933,15 @@ A promotion workflow must:
 9. run version-specific gates,
 10. check file-family completeness,
 11. check stale status language,
-12. advance `ENGI_SPEC.txt`,
-13. generate `ENGI_SPEC_VN_PROVEN.md`,
-14. generate required `.engi/vN-*` artifacts,
-15. run generated check mode,
-16. run `git diff --check`,
-17. emit canonical commit message body,
-18. and fail closed before pointer mutation if preconditions fail.
+12. prepare the hand-authored file family for promoted status truth,
+13. advance `ENGI_SPEC.txt`,
+14. generate `ENGI_SPEC_VN_PROVEN.md`,
+15. generate required `.engi/vN-*` artifacts,
+16. run generated check mode,
+17. validate the newly pointed canonical input family after generation,
+18. run `git diff --check`,
+19. emit canonical commit message body,
+20. and fail closed before pointer mutation if preconditions fail.
 
 The preconditions are not limited to filenames.
 Promotion-time checks may and should validate:
@@ -856,6 +952,9 @@ Promotion-time checks may and should validate:
 - and absence of stale promoted-status language.
 
 If pointer mutation must occur before generation because the generator reads `ENGI_SPEC.txt`, the promotion command must fail closed and immediately check generated output after mutation.
+That post-mutation validation must include any new current-version generated artifact family.
+
+If the hand-authored family still truthfully points at the prior canonical target during draft mode, the promotion workflow must include a dedicated preparation step that rewrites the hand-authored status truth to the promoted posture before post-mutation validation runs.
 
 ## 11.1 Commit Message Body
 
@@ -1036,6 +1135,9 @@ A full `SPEC` must include appendices or appendix-equivalent sections for:
 - generated artifact contract catalog,
 - validation and checking gate catalog,
 - current canonical source map,
+- scenario, workflow, and cross-product contract catalog,
+- fail-closed contract and error posture matrix,
+- source-bearing deliverable and artifact contract catalog,
 - accepted boundaries or an accepted-boundary ledger.
 
 Depending on the version, it should also include:
@@ -1045,6 +1147,19 @@ Depending on the version, it should also include:
 - scenario and workflow matrices,
 - test coverage expansions,
 - and promotion checklists.
+
+When specifying/promotion canon is a direct version focus, appendices should additionally carry:
+- exact file-family responsibility matrices,
+- status-truth schema tables,
+- promotion phase matrices,
+- and canonical commit-body derivation inputs.
+
+When operator-quality canon is active or inherited as depended-on current truth, appendices should additionally carry:
+- operator transcript flow inventories,
+- visual state inventories,
+- accessibility check inventories,
+- performance operation inventories,
+- and projection-quality principal matrices or equivalent inventories.
 
 Appendices are canonical.
 They are not loose notes.
@@ -1071,6 +1186,9 @@ A full ENGI `SPEC` is structurally complete only when:
 14. `.engi/vN-*` artifacts are generated and checkable when required,
 15. stale draft language is absent after promotion,
 16. required appendix-grade coverage carriers exist and are populated with current canon,
-17. and `ENGI_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
+17. scenario/workflow/principal/branch cross-products are explicit where current canon depends on them,
+18. fail-closed contract posture is cataloged rather than implied,
+19. source-bearing deliverables and artifacts are enumerated with generators and consumers,
+20. and `ENGI_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
 
 If any item fails, the version may still be a useful draft, but it is not a complete canonical system specification.

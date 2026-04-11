@@ -1,0 +1,193 @@
+#!/usr/bin/env node
+
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const repoRoot = path.resolve(__dirname, '..');
+
+/**
+ * @param {string[]} argv
+ */
+function parseArgs(argv) {
+  /** @type {{ version?: string, commit?: string, repoRoot?: string, help?: boolean }} */
+  const args = {};
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--version') args.version = argv[++index];
+    else if (arg === '--commit') args.commit = argv[++index];
+    else if (arg === '--repo-root') args.repoRoot = argv[++index];
+    else if (arg === '--help' || arg === '-h') args.help = true;
+    else throw new Error(`Unknown argument ${arg}`);
+  }
+  return args;
+}
+
+function printHelp() {
+  process.stdout.write(
+    [
+      'Usage: node scripts/prepare-engi-spec-family-promotion.mjs --version V21 --commit <sha> [--repo-root <path>]',
+      '',
+      'Rewrites the hand-authored spec family status truth for canonical promotion.',
+      'Currently implemented for V21.'
+    ].join('\n')
+  );
+}
+
+/**
+ * @param {string} content
+ */
+function extractStatusSection(content) {
+  const match = content.match(/(^## Status\s*\n)([\s\S]*?)(?=^##\s)/m);
+  if (!match) {
+    throw new Error('File is missing a top-level "## Status" section.');
+  }
+  return {
+    prefix: match[1],
+    body: match[2],
+    start: match.index,
+    end: match.index + match[0].length
+  };
+}
+
+/**
+ * @param {string} body
+ * @param {string} label
+ * @param {string} value
+ * @param {{ afterLabel?: string }} [options]
+ */
+function upsertStatusValue(body, label, value, options = {}) {
+  const line = `- ${label}: ${value}`;
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const matcher = new RegExp(`^- ${escaped}: .*$`, 'm');
+  if (matcher.test(body)) {
+    return body.replace(matcher, line);
+  }
+  const lines = body.split('\n');
+  if (options.afterLabel) {
+    const afterPrefix = `- ${options.afterLabel}:`;
+    const index = lines.findIndex((entry) => entry.startsWith(afterPrefix));
+    if (index >= 0) {
+      lines.splice(index + 1, 0, line);
+      return lines.join('\n');
+    }
+  }
+  const insertIndex = lines.findLastIndex((entry) => entry.startsWith('- '));
+  if (insertIndex >= 0) {
+    lines.splice(insertIndex + 1, 0, line);
+    return lines.join('\n');
+  }
+  lines.push(line);
+  return lines.join('\n');
+}
+
+/**
+ * @param {string} content
+ * @param {Record<string, string>} values
+ */
+function rewriteStatusValues(content, values) {
+  const section = extractStatusSection(content);
+  let body = section.body;
+  for (const [label, value] of Object.entries(values)) {
+    const afterLabel = label === 'Canonical proof-source commit' ? 'Current canonical/latest target' : undefined;
+    body = upsertStatusValue(body, label, value, afterLabel ? { afterLabel } : {});
+  }
+  return `${content.slice(0, section.start)}${section.prefix}${body}${content.slice(section.end)}`;
+}
+
+/**
+ * @param {string} version
+ * @param {string} commit
+ * @param {string} content
+ * @param {'spec' | 'delta' | 'parity'} kind
+ */
+function rewritePromotionStatus(version, commit, content, kind) {
+  if (version !== 'V21') {
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21 only. Received ${version}.`);
+  }
+  const sharedInventory = 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21';
+  const sharedValues = {
+    Scope:
+      kind === 'spec'
+        ? 'V21 canonical specification for specifying-canon hardening after V20 operator-quality canon'
+        : kind === 'delta'
+          ? 'V21 canonical delta for specifying-canon hardening after V20 operator-quality canon'
+          : 'V21 canonical parity ledger for specifying-canon hardening',
+    'Current canonical/latest target': '`V21`',
+    'Canonical proof-source commit': `\`${commit}\``,
+    'Generated structured artifact inventory': sharedInventory
+  };
+
+  /** @type {Record<string, string>} */
+  const kindSpecificValues = {
+    ...(kind !== 'delta'
+      ? { 'Last fully realized canonical target preserved in source': '`V21`' }
+      : {}),
+    ...(kind === 'spec'
+      ? {
+          'Source parity state':
+            'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized in the promoted V21 file family',
+          'V21 state':
+            'canonical promotion complete; V21 is the active specifying-canon baseline and the V21 hand-authored plus generated canon are aligned'
+        }
+      : kind === 'delta'
+        ? {
+            'Source parity state':
+              'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; this delta records the V20-to-V21 closure',
+            'V21 state':
+              'canonical promotion complete; V21 specifying canon is active and this delta records the promoted closure set'
+          }
+        : {
+            'Source parity state':
+              'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; parity truth is aligned with the promoted V21 file family',
+            'V21 state':
+              'canonical promotion complete; parity truth, generated canon, and hand-authored V21 status are aligned'
+          })
+  };
+
+  return rewriteStatusValues(content, {
+    ...sharedValues,
+    ...kindSpecificValues
+  });
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    printHelp();
+    return;
+  }
+
+  const version = args.version || '';
+  const commit = args.commit || '';
+  if (!version) throw new Error('A --version is required.');
+  if (!commit) throw new Error('A --commit is required.');
+
+  const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
+  const files = [
+    ['spec', path.join(resolvedRepoRoot, `ENGI_SPEC_${version}.md`)],
+    ['delta', path.join(resolvedRepoRoot, `ENGI_SPEC_${version}_DELTA.md`)],
+    ['parity', path.join(resolvedRepoRoot, `ENGI_SPEC_${version}_PARITY_MATRIX.md`)]
+  ];
+
+  for (const [kind, filePath] of files) {
+    const original = await fs.readFile(filePath, 'utf8');
+    const rewritten = rewritePromotionStatus(
+      version,
+      commit,
+      original,
+      /** @type {'spec' | 'delta' | 'parity'} */ (kind)
+    );
+    await fs.writeFile(filePath, rewritten, 'utf8');
+  }
+
+  process.stdout.write(`Prepared ${version} hand-authored spec family for promotion with proof-source commit ${commit}\n`);
+}
+
+main().catch((error) => {
+  const detail = error instanceof Error ? error.message : String(error);
+  process.stderr.write(`${detail}\n`);
+  process.exitCode = 1;
+});

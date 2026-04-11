@@ -239,6 +239,8 @@ async function readSpecFamily(version) {
 function buildCommandPlan(version, commit) {
   const v21DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V21', '--mode', 'draft', '--current-target', 'V20']];
   const v21CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V20']];
+  const v21PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V21', '--commit', commit]];
+  const v21PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V21']];
   const v21PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V21', '--mode', 'promoted']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'engi-demo', 'run', 'typecheck']],
@@ -288,8 +290,10 @@ function buildCommandPlan(version, commit) {
       ...inheritedProofCommands,
       ...v20QualityCommands,
       ['npm', ['--prefix', 'engi-demo', 'test']],
+      v21PreparePromotionSpecFamilyCommand,
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      v21PromotedCanonicalInputCheckCommand,
       v21PromotedSpecCheckCommand,
       ['git', ['diff', '--check']]
     ];
@@ -329,6 +333,7 @@ async function buildDerivedV21CommitMessageBody(commit) {
     'Canonical-input validator',
     'Structural spec-family checker',
     'V21 appendix generation support',
+    'Post-generation active-canon validation',
     'File-family promotion gate',
     'Commit-message derivation rule',
     'V21 promotion support'
@@ -350,7 +355,7 @@ async function buildDerivedV21CommitMessageBody(commit) {
     `Proof-source commit: ${commit}`,
     '',
     'The promotion carries:',
-    ...bullets.slice(0, 7).map((bullet) => `- ${bullet}`)
+    ...bullets.slice(0, 8).map((bullet) => `- ${bullet}`)
   ].join('\n');
 }
 
