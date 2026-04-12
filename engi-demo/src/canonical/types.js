@@ -1,5 +1,5 @@
 /**
- * V15 canonical JSDoc typedefs.
+ * ENGI canonical JSDoc typedefs.
  *
  * These do not yet replace a full TypeScript migration, but they give the
  * codebase a stronger typed vocabulary and a clearer target for later

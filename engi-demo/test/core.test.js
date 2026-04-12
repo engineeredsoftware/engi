@@ -16,6 +16,7 @@ import {
   makeCandidateAsset,
   METERED_MICRO_UNITS
 } from '../src/engi-demo.js';
+import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 import { buildProjectedLatestRun } from '../src/demo-shell-state.js';
 
 /**
@@ -49,6 +50,7 @@ import { buildProjectedLatestRun } from '../src/demo-shell-state.js';
 /**
  * @typedef {{
  *   specVersion?: string,
+ *   canonPosture?: Record<string, string>,
  *   repoSupplySurface: { repoCount?: number, inventoryEntryCount?: number, repos: any[] },
  *   boundaryRealitySurface: { posture?: string, stages: any[] },
  *   needScenarios: any[],
@@ -190,8 +192,11 @@ test('buildInitialState seeds buyers, scenarios, assets, and ledger accounts', (
 test('publicState exposes repo supply and boundary reality before any run', () => {
   const state = buildInitialStateTest();
   const projected = publicStateTest(state);
+  const posture = projected.canonPosture || {};
 
-  assert.equal(projected.specVersion, 'ENGI Spec V19 active canon / V20 operator-quality draft');
+  assert.equal(projected.specVersion, CURRENT_CANON_POSTURE.specVersionLabel);
+  assert.equal(posture['activeCanonVersion'], CURRENT_CANON_POSTURE.activeCanonVersion);
+  assert.equal(posture['draftTargetVersion'], CURRENT_CANON_POSTURE.draftTargetVersion);
   assert.equal(projected.repoSupplySurface.repoCount, state.githubAppSessions.length);
   assert.equal(projected.repoSupplySurface.inventoryEntryCount, state.repoArtifactInventory.length);
   assert.ok(projected.repoSupplySurface.repos.every((repo) => repo.artifactKindCounts));
@@ -203,7 +208,7 @@ test('publicState exposes repo supply and boundary reality before any run', () =
   assert.ok(projected.needScenarios.every((scenario) => scenario.needingSurface?.closureCriteria?.length >= 1));
 });
 
-test('publicState exposes V15 profile comparison guidance for the demo shell', () => {
+test('publicState exposes current profile comparison guidance for the demo shell', () => {
   const projected = publicStateTest(buildInitialStateTest());
 
   assert.equal(projected.profileCompositions.distinctionBasis, 'deposit-and-need');
@@ -215,6 +220,7 @@ test('publicState exposes V15 profile comparison guidance for the demo shell', (
     'boundary hand-off'
   ]);
   assert.equal(projected.profileCompositions.demoOperatorGuidance.recommendedWalkthrough.length, 5);
+  assert.match(projected.profileCompositions.demoOperatorGuidance.audienceMeaning, /current realization profiles/i);
   assert.match(projected.profileCompositions.demoOperatorGuidance.recommendedWalkthrough[0], /repo supply/i);
   assert.match(projected.profileCompositions.demoOperatorGuidance.boundaryTruthPlacement, /Boundary reality/i);
 });
@@ -610,7 +616,7 @@ test('branch artifacts separate identity, GitHub boundary, uploads, and profile 
   assert.ok(latestRun.branchArtifacts.files['.engi/profile-composition.json']);
 });
 
-test('latest run exposes V15 depositing, needing, fit, and identity spine surfaces', () => {
+test('latest run exposes depositing, needing, fit, and identity spine surfaces', () => {
   const state = buildInitialStateTest();
   const { latestRun } = runMakeEngiBranchTest(state, {});
 

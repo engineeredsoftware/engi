@@ -232,7 +232,7 @@ import { buildRealizationProfile } from '../realization-profile.js';
 function requirePromptSurface(promptSurfaces, promptId) {
   const promptSurface = promptSurfaces.find((surface) => surface.promptId === promptId);
   if (!promptSurface) {
-    throw new Error(`Spec V15 prompt surface missing for ${promptId}.`);
+    throw new Error(`ENGI prompt surface missing for ${promptId}.`);
   }
   return promptSurface;
 }
@@ -627,7 +627,7 @@ export function createNeedMeasurementRuntime({
     const canonicalBenchmarkOutputs = parser.parse(scenario.canonicalRunEvidence);
     const parserValidation = parser.validate(canonicalBenchmarkOutputs);
     if (!parserValidation.ok) {
-      throw new Error(`Spec V15 parser validation failed: ${parserValidation.reasons.join('; ')}`);
+      throw new Error(`ENGI parser validation failed: ${parserValidation.reasons.join('; ')}`);
     }
     const parserReceipt = buildStaticExecutionReceipt({
       receiptKind: 'benchmark-parser-normalization',

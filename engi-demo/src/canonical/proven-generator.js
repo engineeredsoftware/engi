@@ -1331,11 +1331,11 @@ function buildV21ProvenPackage(baseData, {
 }) {
   const specFamilyReport = buildV21SpecFamilyReport({
     version: 'V21',
-    mode: 'draft',
-    currentTarget: 'V20'
+    mode: 'promoted',
+    currentTarget: 'V21'
   });
   const canonicalInputReport = buildV21CanonicalInputReport({
-    currentTarget: 'V20'
+    currentTarget: 'V21'
   });
   const artifacts = buildV21GeneratedArtifactContents({
     version: 'V21',

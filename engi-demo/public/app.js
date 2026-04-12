@@ -47,6 +47,7 @@
  * @typedef {{ profiles?: unknown[] | undefined }} ProfileCompositionShape
  * @typedef {{
  *   specVersion?: string | undefined,
+ *   canonPosture?: Record<string, string> | undefined,
  *   projectionPrincipal?: string | undefined,
  *   conformanceProfiles?: {
  *     active?: string | undefined,
@@ -195,6 +196,53 @@ function activeBranchMode(state) {
 }
 
 /**
+ * @param {AppState | null | undefined} state
+ * @returns {Record<string, string>}
+ */
+function canonPosture(state) {
+  const posture = state?.canonPosture;
+  if (posture && typeof posture === 'object') {
+    return /** @type {Record<string, string>} */ (posture);
+  }
+  return {
+    operatorLabel: state?.specVersion || 'current canon posture',
+    documentTitle: 'ENGI Demo',
+    inheritedCanonSurfaceLabel: 'current inherited canon',
+    heroEyebrow: 'ENGI deterministic local prototype',
+    heroLede: 'Current canon posture is loading.',
+    heroTip: 'Current generated appendix and report posture is loading.'
+  };
+}
+
+/**
+ * @param {AppState | null | undefined} state
+ * @returns {string}
+ */
+function canonOperatorLabel(state) {
+  return canonPosture(state)['operatorLabel'] || state?.specVersion || 'current canon posture';
+}
+
+/**
+ * @param {AppState | null | undefined} state
+ * @returns {string}
+ */
+function inheritedCanonSurfaceLabel(state) {
+  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'current inherited canon';
+}
+
+/**
+ * @param {AppState | null | undefined} state
+ * @returns {void}
+ */
+function renderCanonPosture(state) {
+  const posture = canonPosture(state);
+  document.title = posture['documentTitle'] || `ENGI Demo — ${canonOperatorLabel(state)}`;
+  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'ENGI deterministic local prototype';
+  heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
+  heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
+}
+
+/**
  * @param {unknown} data
  * @param {unknown} raw
  * @returns {boolean}
@@ -203,11 +251,9 @@ function hasSurfaceContent(data, raw) {
   return (data !== undefined && data !== null) || (raw !== undefined && raw !== null);
 }
 
-const ACTIVE_CANON_VERSION_LABEL = 'V19';
-const DRAFT_TARGET_VERSION_LABEL = 'V20';
-const INHERITED_CANON_SURFACE_LABEL = 'V16/V17/V18/V19';
-const CANON_OPERATOR_LABEL = `${ACTIVE_CANON_VERSION_LABEL} active canon / ${DRAFT_TARGET_VERSION_LABEL} operator-quality draft`;
-
+const heroEyebrowEl = requireElement('heroEyebrow');
+const heroLedeEl = requireElement('heroLede');
+const heroTipEl = requireElement('heroTip');
 const summaryEl = requireElement('summary');
 const operatingPictureEl = requireElement('operatingPicture');
 const scenarioEl = requireElement('scenario');
@@ -591,7 +637,7 @@ const EXPLAINERS = {
     summary: 'The GitHub App installation bound to the repo session.',
     detail: 'Permissions, token-boundary facts, and live GitHub exchange semantics hang off this installation, not off a generic user token.',
     points: [
-      'Installation-scoped authority is central to V15 GitHub auth',
+      'Installation-scoped authority is central to current ENGI GitHub auth',
       'Used to distinguish repo-bound app sessions from manual/unbound intake'
     ]
   },
@@ -799,7 +845,7 @@ const EXPLAINERS = {
     kicker: 'Ranking support',
     title: 'Verification and rights',
     summary: 'The downstream-use gate that sits beside ranking rather than inside it.',
-    detail: 'V15 separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
+    detail: 'ENGI separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
     points: [
       'Explains recommended tier and policy caps',
       'Makes branch and settlement rights explicit'
@@ -819,7 +865,7 @@ const EXPLAINERS = {
     kicker: 'Branch capsule',
     title: 'Private remediation branch',
     summary: 'The run materializes its working artifacts on a private remediation branch before any bounded public proof is projected outward.',
-    detail: 'In V15 the branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
+    detail: 'In the current canon the branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
     points: [
       'Carries the exact branch artifact stack behind the higher-level story',
       'Separates private remediation work from bounded public proof'
@@ -895,7 +941,7 @@ const EXPLAINERS = {
       'May end up selected, context-only, or excluded depending on later steps'
     ]
   },
-  'v15-scenario-preview': {
+  'scenario-preview': {
     kicker: 'Scenario surface',
     title: 'Scenario preview',
     summary: 'The preview read of the active seeded scenario before a run materializes deeper branch, proof, and settlement artifacts.',
@@ -905,7 +951,7 @@ const EXPLAINERS = {
       'Keeps scenario meaning legible even without a latest run'
     ]
   },
-  'v15-detailed-need-surface': {
+  'detailed-need-surface': {
     kicker: 'Need surface',
     title: 'Detailed need surface',
     summary: 'The full need and measurement read that expands the compact needing surface into task, parser, failure, derivation, and closure detail.',
@@ -982,7 +1028,7 @@ const EXPLAINERS = {
     detail: 'The validator scenarios explicitly target replay-window regressions and the proofs required to show they are fixed.',
     points: [
       'Tightly linked to validator overflow and nonce-bound checks',
-      'A narrow but important failure domain in the V15 corpus'
+      'A narrow but important failure domain in the current corpus'
     ]
   },
   'awaiting-run': {
@@ -1043,7 +1089,7 @@ const NEED_CAPSULE_REFERENCES = {
     'public/app.js -> renderNeedVisual()',
     'public/app.js -> renderScenarioCorpusVisual()'
   ],
-  spec: ['V15 §6.2', 'V15 §7', 'V15 §11']
+  spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Generated proof, branch, and settlement artifacts']
 };
 
 const ASSET_CAPSULE_REFERENCES = {
@@ -1052,7 +1098,7 @@ const ASSET_CAPSULE_REFERENCES = {
     'public/app.js -> renderAssetVisual()',
     'src/engi-demo.js -> makeCandidateAsset()'
   ],
-  spec: ['V15 §6.1', 'V15 §9', 'V15 §10']
+  spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Identity, authority, signing, and addressing']
 };
 
 const EXTRA_EXPLAINERS = {
@@ -1067,7 +1113,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
-      spec: ['V15 §11', 'V15 §13']
+      spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
     }
   },
   'settled-runs': {
@@ -1081,21 +1127,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
-      spec: ['V15 §11', 'V15 §13']
+      spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
     }
   },
   'pre-proof-surface': {
     kicker: 'Closure staging',
     title: 'Before proof',
     summary: 'This surface is intentionally upstream of proof inspection.',
-    detail: 'V15 requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
+    detail: 'ENGI requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
     points: [
       'Makes the fit story obvious first',
       'Keeps proof and settlement as downstream closure rather than upfront burden'
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()'],
-      spec: ['V15 §6.3', 'V15 §8', 'V15 §11']
+      spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'closure-path-badge': {
@@ -1109,7 +1155,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()', 'public/app.js -> renderRepoToSettlementVisual()'],
-      spec: ['V15 §8', 'V15 §11']
+      spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'branch-intent': {
@@ -1123,7 +1169,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/engi-demo.js -> buildDepositingToNeedingSurface()'],
-      spec: ['V15 §6.3', 'V15 §8', 'V15 §11']
+      spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'ref-commit': {
@@ -1137,21 +1183,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §6.1', 'V15 §10']
+      spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
   'source-paths': {
     kicker: 'Addressing field',
     title: 'Source paths',
     summary: 'The concrete repository paths ENGI believes this asset or deposit is drawing from.',
-    detail: 'Paths matter because V15 wants kind-native supply and exact addressing to stay legible before the operator opens raw content.',
+    detail: 'Paths matter because ENGI keeps kind-native supply and exact addressing legible before the operator opens raw content.',
     points: [
       'Useful for repo artifact bundles and mixed deposits',
       'Complements repo/ref identity with file-level scope'
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §6.1', 'V15 §9', 'V15 §10']
+      spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
   'content-root': {
@@ -1165,7 +1211,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §6.1', 'V15 §10', 'V15 §11']
+      spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'upload-surfaces': {
@@ -1179,7 +1225,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §9']
+      spec: ['V21 canon -> Artifact kinds, inventory supply, and depositing overrides']
     }
   },
   constraints: {
@@ -1193,7 +1239,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V15 §6.2', 'V15 §9', 'V15 §11']
+      spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'signing-algorithm': {
@@ -1207,7 +1253,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §10', 'V15 §11']
+      spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'key-source': {
@@ -1221,7 +1267,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §10', 'V15 §12']
+      spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Disclosure, projection, and boundary reality']
     }
   },
   'payload-hash': {
@@ -1235,21 +1281,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
-      spec: ['V15 §10', 'V15 §11']
+      spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'settlement-shape': {
     kicker: 'Profile meaning',
     title: 'Settlement shape',
     summary: 'The characteristic economic closure pattern the active profile is supposed to produce.',
-    detail: 'V15 wants Profile A and Profile B to feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
+    detail: 'The current canon wants Profile A and Profile B to feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
     points: [
       'Profile A should read as concentrated and direct',
       'Profile B should read as normalized and source-to-shares aware'
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'public/app.js -> renderNeedVisual()'],
-      spec: ['V15 §7', 'V15 §11']
+      spec: ['V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
   'scenario-anchors': {
@@ -1263,7 +1309,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'src/demo-shell-state.js -> buildProfileCompositions()'],
-      spec: ['V15 §7', 'V15 §13']
+      spec: ['V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Validation, operator review, and canonical promotion']
     }
   },
   'profile-composition': {
@@ -1277,14 +1323,14 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderProfileCompositionVisual()', 'src/demo-shell-state.js -> buildProfileCompositions()'],
-      spec: ['V15 §7', 'V15 §8']
+      spec: ['V21 canon -> Realization profiles and settlement shape', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
     }
   },
   'failing-cases': {
     kicker: 'Need measurement',
     title: 'Failing cases',
     summary: 'The concrete benchmark or parser failure slices the active need still carries.',
-    detail: 'These chips are the exact visible failure names V15 wants operators to understand before they start reading branch artifacts.',
+    detail: 'These chips are the exact visible failure names ENGI wants operators to understand before they start reading branch artifacts.',
     points: [
       'Upstream of proof closure',
       'One of the clearest ways needing stays consequential in the shell'
@@ -1313,21 +1359,21 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()'],
-      spec: ['V15 §6.2', 'V15 §10']
+      spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
   'recall-channels': {
     kicker: 'Need hand-off',
     title: 'Recall channels + hand-offs',
     summary: 'The search and retrieval contracts that move measured demand into candidate recall and later ranking.',
-    detail: 'These are the V8/V15 bridge surfaces that explain how the need becomes search queries, channel contributions, and downstream evidence use.',
+    detail: 'These are the current need-to-recall bridge surfaces that explain how the need becomes search queries, channel contributions, and downstream evidence use.',
     points: [
       'Connects need measurement to retrieval behavior',
       'Useful for understanding why later ranking surfaces saw certain assets'
     ],
     references: {
       code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()', 'src/engi-demo.js -> recallCandidates()'],
-      spec: ['V15 §6.2', 'V15 §8']
+      spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
     }
   },
   'modeled-local-stages': {
@@ -1341,7 +1387,7 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
-      spec: ['V15 §12']
+      spec: ['V21 canon -> Disclosure, projection, and boundary reality']
     }
   },
   'executed-local-stages': {
@@ -1355,14 +1401,14 @@ const EXTRA_EXPLAINERS = {
     ],
     references: {
       code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
-      spec: ['V15 §12']
+      spec: ['V21 canon -> Disclosure, projection, and boundary reality']
     }
   },
   auth: {
     kicker: 'Capsule term',
     title: 'Auth',
     summary: 'Marks a scenario or asset as primarily about authorization, identity binding, installation-scoped access, or issuer/session correctness.',
-    detail: 'In the V15 corpus auth capsules usually sit close to session validity, issuer compatibility, rollback safety, and GitHub App authority surfaces.',
+    detail: 'In the current corpus auth capsules usually sit close to session validity, issuer compatibility, rollback safety, and GitHub App authority surfaces.',
     points: [
       'A demand or asset domain tag',
       'Often upstream of identity/auth spine and proof closure'
@@ -1384,7 +1430,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Rollback',
     summary: 'Marks remediation work that must remain reversible, correctly ordered, and safe to back out.',
-    detail: 'Rollback capsules matter because V15 wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
+    detail: 'Rollback capsules matter because ENGI wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
     points: [
       'Often paired with audit receipts or session-preservation constraints',
       'Common in both auth and deployment scenarios'
@@ -1670,7 +1716,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Disclosure',
     summary: 'Marks what can or cannot be projected outward from the private remediation branch.',
-    detail: 'Disclosure capsules matter because V15 wants public proof to stay legible without leaking private artifacts.',
+    detail: 'Disclosure capsules matter because ENGI wants public proof to stay legible without leaking private artifacts.',
     points: [
       'Close to privacy and bounded-public-proof concerns',
       'Useful in redaction-heavy scenarios'
@@ -1739,7 +1785,7 @@ const EXTRA_EXPLAINERS = {
     detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may need to read theorem or validator surfaces.',
     points: [
       'Often paired with validator, Creusot, or Rust tags',
-      'Important in proof-heavy V15 demonstrations'
+      'Important in proof-heavy ENGI demonstrations'
     ],
     references: ASSET_CAPSULE_REFERENCES
   },
@@ -1846,7 +1892,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Enterprise',
     summary: 'Marks material aimed at enterprise-facing operator concerns such as governance, proofability, and bounded disclosure.',
-    detail: 'Enterprise capsules are a reminder that V15 is trying to feel like the inevitable operating model for serious production use.',
+    detail: 'Enterprise capsules are a reminder that ENGI is trying to feel like the inevitable operating model for serious production use.',
     points: [
       'A product-context tag rather than one failure mode',
       'Often appears alongside governance or proof-heavy material'
@@ -1955,8 +2001,8 @@ const EXPLAINER_REFERENCE_GROUPS = {
   'ledger-accounts': ['ledger'],
   'run-history': ['run-history', 'ledger'],
   'candidate-asset': ['candidate-asset'],
-  'v15-scenario-preview': ['scenario-preview'],
-  'v15-detailed-need-surface': ['detailed-need'],
+  'scenario-preview': ['scenario-preview'],
+  'detailed-need-surface': ['detailed-need'],
   'settlement-participation': ['settlement', 'exact-accounting'],
   'journal-diff': ['exact-accounting'],
   'exact-accounting': ['exact-accounting'],
@@ -1977,35 +2023,35 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderRepoSupplyVisual()',
       'src/engi-demo.js -> buildRepoSupplySurface()'
     ],
-    spec: ['V15 §8', 'V15 §9']
+    spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides']
   },
   depositing: {
     code: [
       'public/app.js -> renderDepositingSurfaceVisual()',
       'src/engi-demo.js -> buildDepositingSurface()'
     ],
-    spec: ['V15 §6.1', 'V15 §8']
+    spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   needing: {
     code: [
       'public/app.js -> renderNeedingSurfaceVisual()',
       'src/engi-demo.js -> buildNeedingSurface()'
     ],
-    spec: ['V15 §6.2', 'V15 §8']
+    spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   fit: {
     code: [
       'public/app.js -> renderDepositingToNeedingVisual()',
       'src/engi-demo.js -> buildDepositingToNeedingSurface()'
     ],
-    spec: ['V15 §6.3', 'V15 §8']
+    spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   profiles: {
     code: [
       'public/app.js -> renderProfileCompositionVisual()',
       'src/demo-shell-state.js -> buildProfileCompositions()'
     ],
-    spec: ['V15 §7.1', 'V15 §7.2']
+    spec: ['V21 canon -> Profile A and targeted deposit semantics', 'V21 canon -> Profile B and source-to-shares semantics']
   },
   'operating-picture': {
     code: [
@@ -2013,7 +2059,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderOperatingPicture()',
       'src/engi-demo.js -> buildRepoToSettlementSurface()'
     ],
-    spec: ['V15 §8', 'V15 §13']
+    spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
   identity: {
     code: [
@@ -2022,14 +2068,14 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildIdentityAuthSpineSurface()',
       'src/engi-demo.js -> buildGithubBoundarySurface()'
     ],
-    spec: ['V15 §10', 'V15 §12']
+    spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Disclosure, projection, and boundary reality']
   },
   'artifact-kinds': {
     code: [
       'public/app.js -> renderAssetVisual()',
       'public/app.js -> renderRepoInventory()'
     ],
-    spec: ['V15 §9', 'V15 §6.3']
+    spec: ['V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Fit, recall, ranking, and verification']
   },
   inventory: {
     code: [
@@ -2037,14 +2083,14 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderRepoInventory()',
       'public/app.js -> syncInventoryKindFilter()'
     ],
-    spec: ['V15 §6.1', 'V15 §9']
+    spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides']
   },
   verification: {
     code: [
       'public/app.js -> renderVerificationReportVisual()',
       'public/app.js -> renderEvaluationVisual()'
     ],
-    spec: ['V15 §8', 'V15 §11']
+    spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
   branch: {
     code: [
@@ -2052,7 +2098,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> assembleAssetPack()',
       'src/engi-demo.js -> buildBranchArtifacts()'
     ],
-    spec: ['V15 §8', 'V15 §11']
+    spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
   'branch-materialization': {
     code: [
@@ -2062,7 +2108,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildMaterializationProof()',
       'src/engi-demo.js -> buildMaterializationVisibilityProof()'
     ],
-    spec: ['V15 §8', 'V15 §11']
+    spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
   proof: {
     code: [
@@ -2071,7 +2117,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildProofWitnessManifest()',
       'src/engi-demo.js -> buildBoundedPublicProofArtifact()'
     ],
-    spec: ['V15 §11', 'V15 §12']
+    spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Disclosure, projection, and boundary reality']
   },
   settlement: {
     code: [
@@ -2080,7 +2126,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> settleNeedEvent()',
       'src/engi-demo.js -> buildSettlementParticipationArtifact()'
     ],
-    spec: ['V15 §11', 'V15 §8']
+    spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   'source-to-shares': {
     code: [
@@ -2088,7 +2134,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildSourceToSharesArtifact()',
       'src/engi-demo.js -> buildAccountingPrecisionReport()'
     ],
-    spec: ['V15 §7.2', 'V15 §11']
+    spec: ['V21 canon -> Profile B and source-to-shares semantics', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
   'exact-accounting': {
     code: [
@@ -2097,7 +2143,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildAccountingPrecisionReport()',
       'src/engi-demo.js -> settleNeedEvent()'
     ],
-    spec: ['V15 §11', 'V15 §13']
+    spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
   ledger: {
     code: [
@@ -2105,7 +2151,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderLedgerAccountsVisual()',
       'src/engi-demo.js -> publicState()'
     ],
-    spec: ['V15 §11', 'V15 §12']
+    spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Disclosure, projection, and boundary reality']
   },
   'run-history': {
     code: [
@@ -2113,7 +2159,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> runMakeEngiBranch()',
       'src/engi-demo.js -> publicState()'
     ],
-    spec: ['V15 §11', 'V15 §13']
+    spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
   boundary: {
     code: [
@@ -2121,7 +2167,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> buildBoundaryRealitySurface()',
       'src/engi-demo.js -> buildExternalBoundaryManifest()'
     ],
-    spec: ['V15 §12', 'V15 §13']
+    spec: ['V21 canon -> Disclosure, projection, and boundary reality', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
   'candidate-asset': {
     code: [
@@ -2129,7 +2175,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderAssetVisual()',
       'src/demo-shell-state.js -> buildPublicAssetSummary()'
     ],
-    spec: ['V15 §6.1', 'V15 §9']
+    spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides']
   },
   'scenario-preview': {
     code: [
@@ -2138,7 +2184,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'src/engi-demo.js -> publicState()',
       'src/engi-demo.js -> buildNeedDescriptor()'
     ],
-    spec: ['V15 §6.2', 'V15 §7']
+    spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape']
   },
   'detailed-need': {
     code: [
@@ -2146,7 +2192,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
       'public/app.js -> renderNeedMeasurementVisual()',
       'src/engi-demo.js -> buildNeedDescriptor()'
     ],
-    spec: ['V15 §6.2', 'V15 §11']
+    spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   }
 };
 
@@ -2257,8 +2303,8 @@ const LABEL_EXPLAINER_KEYS = {
   'Supplier pending claims': 'ledger-accounts',
   'Tie-break order': 'source-to-shares',
   'Unique bundles': 'run-history',
-  'Detailed need surface': 'v15-detailed-need-surface',
-  'Scenario preview': 'v15-scenario-preview',
+  'Detailed need surface': 'detailed-need-surface',
+  'Scenario preview': 'scenario-preview',
   'Proof logs': 'proof-logs',
   'Workflow': 'benchmark-workflow',
   'Workflow path': 'benchmark-workflow',
@@ -2574,14 +2620,14 @@ function buildDynamicExplainer(label = '', domainKey = '') {
   } else if (/^(preserve|keep|require|block|emit|bind|rerun|restore|replay|no)\b/.test(normalized)) {
     kicker = 'Need constraint';
     summary = 'This capsule is a hard rule the remediation, proof, or settlement path must respect while the need closes.';
-    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because V15 wants constraints to read concretely instead of abstractly.`;
+    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because ENGI wants constraints to read concretely instead of abstractly.`;
   } else if (/\b(regression|gap|mismatch|bypass|drift|skip|divergence)\b/.test(normalized)) {
     kicker = 'Failing case';
     summary = 'This capsule names one concrete failing slice currently present in the measured need.';
     detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the needing surface before deeper proof inspection.`;
   } else if (normalized.includes('-')) {
     kicker = 'Scenario / corpus capsule';
-    summary = 'This capsule is part of the seeded V15 corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
+    summary = 'This capsule is part of the seeded ENGI corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
     detail = `${domainTitle} is the closest domain anchor for this phrase in the current corpus.`;
   }
 
@@ -2667,7 +2713,7 @@ function renderExplainerFooter(key, explainer) {
   return `
     <div class="explainer-footer">
       ${renderExplainerReferenceGroup('Current source', references.code)}
-      ${renderExplainerReferenceGroup('V15 spec', references.spec)}
+      ${renderExplainerReferenceGroup('Current canon', references.spec)}
     </div>
   `;
 }
@@ -4096,7 +4142,7 @@ function renderAssetVisual(asset) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>${labelWithExplainer('Artifact selection', 'depositing')}</h4><span class="badge">V15 deposit source</span></div>
+          <div class="section-head"><h4>${labelWithExplainer('Artifact selection', 'depositing')}</h4><span class="badge">Current deposit source</span></div>
           <div class="kv-grid">
             ${kvRow('Intake mode', asset.artifactSelectionSurface?.intakeMode || '—')}
             ${kvRow('Selection label', asset.artifactSelectionSurface?.selectionLabel || '—')}
@@ -5388,7 +5434,7 @@ function renderSummary(state) {
     summaryTile('Candidate assets', state.assets?.length || 0, 'candidate-asset'),
     summaryTile('Need scenarios', state.needScenarios?.length || 0, 'needing'),
     summaryTile('Need parser', needingSurface?.parserKind || '—', 'needing'),
-    summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'v15-scenario-preview'),
+    summaryTile('Active scenario', activeScenario?.scenarioFamily || '—', 'scenario-preview'),
     summaryTile('Branch mode', activeBranchMode(state), 'branch-artifacts'),
     summaryTile('Projection', activeProjectionPrincipal(state), 'projection'),
     summaryTile('Selected deposit refs', depositSurface?.selectedInventoryRefs?.length || 0, 'depositing'),
@@ -5425,19 +5471,19 @@ function renderScenario(state) {
     <div class="card intro-card">
       <div class="row wrap-gap">
         <strong>${escapeHtml(source.repo)}</strong>
-        <div class="badge-row">
+      <div class="badge-row">
           ${statusBadge(source.realizationProfile?.shortLabel || source.conformanceProfile || source.profileAStatus)}
           ${source.benchmarkRunId ? `<span class="badge">${escapeHtml(source.benchmarkRunId)}</span>` : ''}
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">${escapeHtml(CANON_OPERATOR_LABEL)} foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
+      <p class="meta">${escapeHtml(canonOperatorLabel(state))} foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
     ${needingSurface ? renderJsonSurface({
       title: 'Needing surface',
       subtitle: 'Measured demand before deeper proof and settlement inspection',
       eyebrow: state.latestRun?.needingSurface ? 'Run surface' : 'Scenario preview',
-      eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'v15-scenario-preview',
+      eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'scenario-preview',
       help: 'This is the compact canonical read of what is needed, why it matters, and what closure should look like.',
       explainerKey: 'needing',
       data: needingSurface,
@@ -5448,7 +5494,7 @@ function renderScenario(state) {
       title: latestNeed ? 'Measured need' : 'Seed need scenario',
       subtitle: 'Need / measurement / benchmark target surface',
       eyebrow: 'Detailed need surface',
-      eyebrowExplainerKey: 'v15-detailed-need-surface',
+      eyebrowExplainerKey: 'detailed-need-surface',
       help: 'Visual groups the GitHub-bound need into task, parser, failure-mode, and derivation sections. Raw shows the exact pretty-printed object.',
       explainerKey: 'needing',
       data: source,
@@ -6021,7 +6067,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the ${escapeHtml(CANON_OPERATOR_LABEL)} demo. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the ${escapeHtml(canonOperatorLabel(state))} demo. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
     </div>
     ${artifactDefs.filter((artifact) => hasSurfaceContent(artifact.data, artifact.raw)).map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -6245,6 +6291,7 @@ async function refresh() {
   const state = /** @type {AppState} */ (await api(`/api/state?principal=${principal}`));
   projectionPickerEl.value = activeProjectionPrincipal(state);
   lastLoadedState = state;
+  renderCanonPosture(state);
   syncScenarioPicker(state);
   syncBranchModePicker(state);
   syncAuthSessionPicker(state);
@@ -6382,7 +6429,7 @@ resetButtonEl.addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus(`Demo reset to the seeded ${CANON_OPERATOR_LABEL} scenario state.`);
+    setStatus(`Demo reset to the seeded ${canonOperatorLabel(lastLoadedState)} scenario state.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -6435,7 +6482,7 @@ depositFormEl.addEventListener('submit', async (event) => {
     selectedInventoryKind = 'all';
     formEl.reset();
     await refresh();
-    setStatus(`Candidate asset deposited into the ${CANON_OPERATOR_LABEL} repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.`);
+    setStatus(`Candidate asset deposited into the ${canonOperatorLabel(lastLoadedState)} repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -6447,7 +6494,7 @@ window.addEventListener('resize', () => syncExplainerAlignment());
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the ${CANON_OPERATOR_LABEL} deposit-to-need closure path. Inherited surfaces: ${INHERITED_CANON_SURFACE_LABEL}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
+  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the ${canonOperatorLabel(lastLoadedState)} deposit-to-need closure path. Inherited surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

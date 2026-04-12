@@ -1492,7 +1492,7 @@ export function createEvaluationMaterializationRuntime({
       .map((asset) => {
         const recall = recallByAssetId.get(asset.assetId);
         if (!recall) {
-          throw new Error(`Spec V15 recall closure failed for ${asset.assetId}.`);
+          throw new Error(`ENGI recall closure failed for ${asset.assetId}.`);
         }
         const needMatch = computeNeedMatch(need, asset, recall);
         const benchmarkImpact = computeBenchmarkImpact(need, asset, needMatch, recall);
@@ -1931,7 +1931,7 @@ export function createEvaluationMaterializationRuntime({
     ];
     for (const requiredPath of requiredPaths) {
       if (!branchArtifacts.files[requiredPath]) {
-        throw new Error(`Spec V15 branch artifact contract failed: missing ${requiredPath}.`);
+        throw new Error(`ENGI branch artifact contract failed: missing ${requiredPath}.`);
       }
     }
   }

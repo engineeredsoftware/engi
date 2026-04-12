@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { createServer } from '../server.js';
+import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 
 /**
  * @typedef {{ app: any, baseUrl: string, page: import('playwright').Page }} BrowserHarness
@@ -320,14 +321,14 @@ async function assertOperatorProjectionCell({ page, principal, scenarioId, branc
   assertSameStrings(projectionSummary.visibleArtifactPaths, internalRawPaths, `${cellLabel} internal summary visible path drift`);
 }
 
-testAny('browser flow keeps V15 ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
+testAny('browser flow keeps operator ordering and drives deposit to targeted settlement', { timeout: 120_000 }, async (t) => {
   await withBrowserDemo(t, async ({ app, baseUrl, page }) => {
     const seededState = app.readState();
     const authSession = seededState.githubAppSessions.find((/** @type {any} */ session) => session.repo === 'frontier/demo-auth');
     const inventoryEntry = seededState.repoArtifactInventory.find((/** @type {any} */ entry) => entry.repo === authSession.repo);
 
     await loadDemo(page, baseUrl);
-    await page.waitForFunction(() => document.title.includes('V19 canon / V20 quality draft'));
+    await page.waitForFunction((title) => document.title.includes(title), CURRENT_CANON_POSTURE.documentTitle);
 
     assert.deepEqual(await readPanelHeadings(page), [
       '0. Operating picture',
@@ -355,7 +356,7 @@ testAny('browser flow keeps V15 ordering and drives deposit to targeted settleme
     await page.fill('input[name="title"]', 'Browser-selected auth bundle');
     await page.fill('textarea[name="operatorNote"]', 'Browser verification deposit.');
     await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
-    await waitForStatus(page, 'Candidate asset deposited into the V19 active canon / V20 operator-quality draft repo-authenticated flow.');
+    await waitForStatus(page, `Candidate asset deposited into the ${CURRENT_CANON_POSTURE.operatorLabel} repo-authenticated flow.`);
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
@@ -427,7 +428,7 @@ testAny('browser operator matrix covers every scenario, branch mode, and project
           const pageErrorStart = pageErrors.length;
 
           await page.getByRole('button', { name: 'Reset demo' }).click();
-          await waitForStatus(page, 'Demo reset to the seeded V19 active canon / V20 operator-quality draft scenario state.');
+          await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
 
           await page.selectOption('#projectionPicker', principal);
           await waitForSummaryValue(page, 'Projection', principal);
@@ -546,7 +547,7 @@ testAny('browser flow recovers from an invalid deposit into a valid raw deposit 
     await page.fill('input[name="author"]', 'V17 Browser');
     await page.fill('textarea[name="content"]', 'Manual recovery evidence for a browser-visible invalid-to-valid deposit path.');
     await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
-    await waitForStatus(page, 'Candidate asset deposited into the V19 active canon / V20 operator-quality draft repo-authenticated flow.');
+    await waitForStatus(page, `Candidate asset deposited into the ${CURRENT_CANON_POSTURE.operatorLabel} repo-authenticated flow.`);
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
@@ -570,7 +571,7 @@ testAny('browser flow can reset back to the seeded state after a realized run', 
     assert.notEqual((await readSummary(page))['Latest bundle'], 'No run yet');
 
     await page.getByRole('button', { name: 'Reset demo' }).click();
-    await waitForStatus(page, 'Demo reset to the seeded V19 active canon / V20 operator-quality draft scenario state.');
+    await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
 
     const resetSummary = await readSummary(page);
     assert.equal(resetSummary['Candidate assets'], '11');
@@ -594,7 +595,7 @@ testAny('browser flow surfaces no-survivor branch conflicts and recovers after r
     assert.equal((await readSummary(page))['Latest bundle'], 'No run yet');
 
     await page.getByRole('button', { name: 'Reset demo' }).click();
-    await waitForStatus(page, 'Demo reset to the seeded V19 active canon / V20 operator-quality draft scenario state.');
+    await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
     assert.equal((await readSummary(page))['Candidate assets'], '11');
 
     await page.getByRole('button', { name: 'Make ENGI branch' }).click();

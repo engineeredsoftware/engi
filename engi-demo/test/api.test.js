@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { createAppContext } from '../server.js';
+import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 
 /**
  * @typedef {{ app: any, dataPath: string }} AppHarness
@@ -125,11 +126,13 @@ async function withCorruptingWriteFailure(dataPath, fn) {
   }
 }
 
-testAny('GET /api/state returns seeded active-canon and V20-draft public state', async (t) => {
+testAny('GET /api/state returns seeded active-canon public state', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/state' });
     assert.equal(response.statusCode, 200);
-    assert.equal(response.json.specVersion, 'ENGI Spec V19 active canon / V20 operator-quality draft');
+    assert.equal(response.json.specVersion, CURRENT_CANON_POSTURE.specVersionLabel);
+    assert.equal(response.json.canonPosture.activeCanonVersion, CURRENT_CANON_POSTURE.activeCanonVersion);
+    assert.equal(response.json.canonPosture.draftTargetVersion, CURRENT_CANON_POSTURE.draftTargetVersion);
     assert.equal(response.json.assets.length, 11);
     assert.equal(response.json.needScenarios.length, 8);
     assert.equal(response.json.needScenarios[0].scenarioId, 'auth-issuer-rollback');
@@ -154,11 +157,13 @@ testAny('GET / returns the app shell', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
+    assert.match(response.text, /<title>ENGI Demo<\/title>/);
     assert.match(response.text, /Operate ENGI from repo supply to settlement/);
-    assert.match(response.text, /V19 canon \/ V20 quality draft/);
-    assert.match(response.text, /ENGI_SPEC_V20_PROVEN\.md/);
-    assert.match(response.text, /v20-quality-summary\.json/);
-    assert.match(response.text, /depositing, needing, and their fit/i);
+    assert.match(response.text, /id="heroLede"/);
+    assert.match(response.text, /id="heroTip"/);
+    assert.match(response.text, /ENGI deterministic local prototype/);
+    assert.match(response.text, /Loading current canon posture/i);
+    assert.match(response.text, /Loading current generated appendix and report posture/i);
     assert.match(response.text, /Depositing \+ candidate assets/);
     assert.match(response.text, /Needing \+ measured demand/);
     assert.match(response.text, /Depositing-to-needing fit/);
@@ -306,7 +311,7 @@ testAny('POST /api/deposits can create a revoked issuer candidate without crashi
 });
 
 
-testAny('POST /api/deposits accepts V15 artifact precision and boundary fields', async (t) => {
+testAny('POST /api/deposits accepts artifact precision and boundary fields', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
       method: 'POST',

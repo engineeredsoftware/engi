@@ -1,8 +1,8 @@
 /**
- * Canonical V15 enum-like constants for closed-case subsystem values.
+ * Canonical ENGI enum-like constants for closed-case subsystem values.
  *
  * These are kept runtime-safe in JavaScript today while shaping the codebase
- * toward the richer TypeScript/discriminated-union target described in V15.
+ * toward the richer TypeScript/discriminated-union target described in current canon.
  */
 
 export const RealizationProfile = Object.freeze({

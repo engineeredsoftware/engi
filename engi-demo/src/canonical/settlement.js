@@ -833,7 +833,7 @@ export function createSettlementRuntime({
   function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
     const settlementCandidates = selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible');
     if (!settlementCandidates.length) {
-      throw new Error('No settlement-eligible assets available for Spec V15 settlement.');
+      throw new Error('No settlement-eligible assets available for ENGI settlement.');
     }
 
     const sourceToSharesArtifact = buildSourceToSharesArtifact(need, settlementCandidates);

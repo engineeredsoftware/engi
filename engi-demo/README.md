@@ -1,13 +1,13 @@
-# ENGI Demo - V15 canonical deterministic local prototype
+# ENGI Demo - V21 canonical deterministic local prototype
 
-This demo is now governed by the active V15 canonical spec and serves as the current reference realization for the V15 operating chain.
+This demo is governed by the active V21 canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V22 drafts the next system-facing implementation pass.
 
 Current spec/doc truth for this repo:
-- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V15`
-- V15 is the current canonical/latest target and governing spec
-- V15 is the current realized canon implementation baseline preserved in the demo source
-- V13 established the spec-file structure/formality standard that V15 now realizes in full
-- Demo-local parity is tracked at `SPEC_V15_IMPLEMENTATION_MATRIX.md`
+- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V21`
+- V21 is the current canonical/latest target and governing full-system spec
+- `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix
+- `ENGI_SPEC_V22.md`, `ENGI_SPEC_V22_DELTA.md`, and `ENGI_SPEC_V22_PARITY_MATRIX.md` are the current next-version drafting surfaces
+- `ENGI_SPEC_V22_NOTES.md` is non-canonical working notes only
 
 ## What this prototype demonstrates
 
@@ -102,12 +102,15 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 
 ## Repo documentation for the current pass
 
-- `../ENGI_SPEC_V15.md` - full enriched canonical spec
-- `../ENGI_SPEC_V15_NOTES.md` - version-local drafting notes
-- `../ENGI_SPEC_V15.md` - drafted next system-spec target with explicit system-vs-demo separation
-- `../ENGI_SPEC_V15_NOTES.md` - V15 drafting rationale and refactor posture
-- `../ENGI_SPEC_V15_INFORMATION_AUDIT.md` - latest prior-state to V15 information audit
-- `SPEC_V15_IMPLEMENTATION_MATRIX.md` - canonical V15 demo parity/debt ledger for this repo
-- `SPEC_V15_IMPLEMENTATION_MATRIX.md` - parity/debt ledger for the current demo
+- `../ENGI_SPEC_V21.md` - active full-system canonical spec
+- `../ENGI_SPEC_V21_DELTA.md` - V21 version-local delta
+- `../ENGI_SPEC_V21_PARITY_MATRIX.md` - V21 parity ledger
+- `../ENGI_SPEC_V21_PROVEN.md` - active generated proof appendix
+- `../ENGI_SPEC_V22.md` - current next-version full-canon draft
+- `../ENGI_SPEC_V22_DELTA.md` - V22 version-local delta draft
+- `../ENGI_SPEC_V22_PARITY_MATRIX.md` - V22 parity ledger draft
+- `../ENGI_SPEC_V22_NOTES.md` - non-canonical V22 notes
+- `../ENGI_SPEC_V20_PROPER.md` - historical full-canon reconstruction validation surface
+- `../ENGI_SPECIFYING.md` - current specifying standard
 - `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` - host/runtime/container truth
 - `ARCHITECTURE_MAP.md` - preserved architecture map

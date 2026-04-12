@@ -88,6 +88,11 @@ import {
 
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B, buildRealizationProfile } from './realization-profile.js';
+import {
+  CURRENT_CANON_POSTURE,
+  CURRENT_POLICY_REF,
+  CURRENT_SPEC_VERSION_LABEL
+} from './canon-posture.js';
 
 const createNeedMeasurementRuntimeUnchecked = /** @type {any} */ (createNeedMeasurementRuntime);
 const createEvaluationMaterializationRuntimeUnchecked = /** @type {any} */ (createEvaluationMaterializationRuntime);
@@ -106,7 +111,7 @@ const buildRedactionProofUnchecked = /** @type {any} */ (buildRedactionProof);
 const buildDisclosureProofUnchecked = /** @type {any} */ (buildDisclosureProof);
 const buildDemoPublicStateUnchecked = /** @type {any} */ (buildDemoPublicState);
 
-export const SPEC_VERSION = 'ENGI Spec V19 active canon / V20 operator-quality draft';
+export const SPEC_VERSION = CURRENT_SPEC_VERSION_LABEL;
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
@@ -117,7 +122,7 @@ const MAX_BPS_BIGINT = 10000n;
 const SOURCE_TO_SHARES_SCALE = 1000000n;
 const VECTOR_DIMENSIONS = 16;
 const DEFAULT_MODEL_ID = 'deterministic-local-evaluator.v15';
-const DEFAULT_POLICY_REF = 'policy://engi/spec-v19-active-v20-draft/2026-04-09';
+const DEFAULT_POLICY_REF = CURRENT_POLICY_REF;
 const PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
 const RECALL_CHANNEL_BUDGETS = {
   semanticTaskSearch: 50,
@@ -771,7 +776,7 @@ function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
     .map((entry) => entry.factId);
   const unregisteredConsumedFactIds = consumedFactIds.filter((factId) => !registeredFactIds.includes(factId));
   if (unregisteredConsumedFactIds.length) {
-    throw new Error(`Spec V15 code-analysis registry failed: unregistered consumed facts [${unregisteredConsumedFactIds.join(', ')}].`);
+    throw new Error(`ENGI code-analysis registry failed: unregistered consumed facts [${unregisteredConsumedFactIds.join(', ')}].`);
   }
   return {
     conformanceProfile: PROFILE_A,
@@ -941,7 +946,7 @@ function cosineSimilarity(left, right) {
 function enforceRange(name, value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric < 0 || numeric > 1) {
-    throw new Error(`Spec V15 debug failure: ${name} out of range (${value}).`);
+    throw new Error(`ENGI debug failure: ${name} out of range (${value}).`);
   }
   return numeric;
 }
@@ -961,7 +966,7 @@ function summarizeScore(score) {
  */
 function enforceTelemetryTrace(name, trace) {
   if (!trace || typeof trace !== 'object') {
-    throw new Error(`Spec V15 debug failure: missing telemetry trace for ${name}.`);
+    throw new Error(`ENGI debug failure: missing telemetry trace for ${name}.`);
   }
   return /** @type {any} */ (trace);
 }
@@ -3618,6 +3623,7 @@ export function buildInitialState() {
   return {
     version: 3,
     specVersion: SPEC_VERSION,
+    canonPosture: CURRENT_CANON_POSTURE,
     conformanceProfiles: {
       active: PROFILE_A,
       productionIntent: PROFILE_B,

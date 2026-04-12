@@ -199,6 +199,7 @@
  *
  * @typedef {{
  *   specVersion?: string | undefined,
+ *   canonPosture?: Record<string, unknown> | undefined,
  *   buyers: unknown[],
  *   githubAppSessions?: SessionShape[] | undefined,
  *   repoArtifactInventory?: RepoArtifactInventoryEntryShape[] | undefined,
@@ -228,6 +229,7 @@
  */
 
 import { PROFILE_A, PROFILE_B, buildRealizationProfile } from './realization-profile.js';
+import { CURRENT_CANON_POSTURE } from './canon-posture.js';
 
 /**
  * @param {string | undefined} localBoundary
@@ -266,7 +268,7 @@ export function buildProfileCompositions() {
     activeProfile: 'A',
     distinctionBasis: 'deposit-and-need',
     demoOperatorGuidance: {
-      audienceMeaning: 'The V15 profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.',
+      audienceMeaning: 'The current realization profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.',
       boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode, need mode, and fit first.',
       recommendedWalkthrough: [
         'Start with repo supply and pick a targeted-deposit scenario to show a bounded need.',
@@ -668,7 +670,8 @@ export function buildPublicState(
       };
 
   return {
-    specVersion: state.specVersion,
+    specVersion: state.specVersion || CURRENT_CANON_POSTURE.specVersionLabel,
+    canonPosture: state.canonPosture || CURRENT_CANON_POSTURE,
     projectionPrincipal: resolvedPrincipal,
     conformanceProfiles,
     profileCompositions,
