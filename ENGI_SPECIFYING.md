@@ -505,8 +505,14 @@ For V21+ those carriers must, at minimum, cover:
 - subsystem totality and derivability,
 - proof family closure,
 - an exact proof-family inventory matrix,
+- exact per-family member inventories,
+- exact per-family theorem inventories,
+- exact theorem-to-replay-step groupings,
+- current proof-object field carriers for each proof family,
 - generated artifact contracts,
 - an exact generated-artifact inventory matrix,
+- generated appendix rendered-content contract,
+- generated appendix regeneration and fail-closed posture,
 - validation gates,
 - current canonical source surfaces,
 - and accepted boundaries.
@@ -669,6 +675,22 @@ In addition to per-family prose, the appendix-grade proof carrier must include a
 - witness artifact paths,
 - and current source-bearing implementation basis.
 
+The normalized minimum per-family detail block must make the following exact carriers directly recoverable from the main `SPEC`:
+- `proofArtifactPath`,
+- current source-bearing implementation basis,
+- exact member ids,
+- exact theorem ids,
+- exact replay step ids,
+- exact witness artifact paths,
+- current member closure criteria,
+- current member verdict shape,
+- current theorem-by-theorem closure reading,
+- current theorem-to-replay-step grouping,
+- minimum artifact/replay binding set,
+- current proof-object fields,
+- generated-artifact and validating-test bindings,
+- and fail-closed conditions.
+
 ## 7.1 Family Questions
 
 Every proof-family section must answer:
@@ -687,8 +709,12 @@ Every proof-family section must answer:
 The normalized minimum per-family detail block should therefore make the following directly recoverable in the main `SPEC`:
 - what the family proves,
 - how current closure is carried in source and artifacts,
+- the current member closure criteria,
 - the current member verdict shape,
+- the current theorem-by-theorem closure reading,
 - the current theorem-to-replay-step grouping,
+- the minimum artifact/replay binding set,
+- the current proof-object fields that carry theorem/member/replay truth,
 - the generated-artifact and validating-test bindings,
 - and the fail-closed conditions that would reopen the family.
 
@@ -774,6 +800,38 @@ It must render:
 - and any version-specific generated reports.
 
 It must fail check mode when stale.
+
+## 8.1.1 Minimum Generated Appendix Rendered Contents
+
+For a current full canon, `_PROVEN_` is not complete when it only carries aggregate counts.
+
+Its minimum rendered contents must make the following exact surfaces recoverable:
+- aggregate proof verdict,
+- exact proof-family inventory,
+- exact per-family member inventory,
+- exact per-family theorem inventory,
+- exact replay-step inventories and theorem bindings,
+- witness artifact inventories,
+- generated artifact inventories,
+- scenario and run coverage matrices,
+- run-detail truth needed to interpret proof execution,
+- disclosure classification relevant to proof artifacts,
+- and incomplete or failing verdicts when any exist.
+
+## 8.1.2 Canonical Regeneration And Fail-Closed Posture
+
+The generated appendix contract must also define:
+- which canonical promotion step regenerates `_PROVEN_`,
+- which check step proves the committed appendix is current,
+- which generated and proof-bearing surfaces the appendix materially depends on,
+- and which mismatch classes block promotion.
+
+At minimum, the generator or its checker must fail closed when:
+- a required proof family is missing,
+- a required member/theorem/replay inventory cannot be rendered exactly,
+- a required witness or generated artifact inventory is missing,
+- the proof-source commit does not match the rendered appendix,
+- or the committed appendix diverges from generator output in check mode.
 
 ## 8.2 Structured `.engi` Artifacts
 

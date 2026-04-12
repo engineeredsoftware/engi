@@ -639,89 +639,188 @@ Current V20 proof closure facts:
 
 #### B.0 Exact proof-family inventory matrix
 
-| proofFamily | proofArtifactPath | memberCount | theoremCount | replayStepIds | witnessArtifactPaths |
-| --- | --- | --- | --- | --- | --- |
-| `inference-synthesis` | `.engi/inference-synthesis-proof.json` | 5 | 6 | `inference-synthesis.coverage-reconciliation`, `inference-synthesis.evaluator-status-replay`, `inference-synthesis.evidence-basis-replay` | `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json` |
-| `prompt-completeness` | `.engi/prompt-completeness-proof.json` | 5 | 8 | `prompt-completeness.member-set-reconciliation`, `prompt-completeness.parse-admissibility`, `prompt-completeness.consumer-closure`, `prompt-completeness.provenance-truth` | `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/prompt-completeness-proof.json` |
-| `static-code-analysis` | `.engi/static-measurement-proof.json` | 4 | 5 | `static-code-analysis.stage-domain`, `static-code-analysis.stage-mapping`, `static-code-analysis.receipt-report-proof` | `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json` |
-| `verification-decisions` | `.engi/verification-decisions-proof.json` | 5 | 7 | `verification-decisions.stage-mapping`, `verification-decisions.use-tier-consequence` | `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json` |
-| `selection-and-materialization` | `.engi/selection-and-materialization-proof.json` | 5 | 7 | `selection-and-materialization.selected-set`, `selection-and-materialization.visibility` | `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/selection-and-materialization-proof.json` |
-| `authorization-and-sensitive-flow` | `.engi/authorization-and-sensitive-flow-proof.json` | 5 | 6 | `authorization-sensitive-flow.identity`, `authorization-sensitive-flow.flows` | `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json` |
-| `settlement-source-to-shares` | `.engi/settlement-source-to-shares-proof.json` | 7 | 7 | `settlement-source-to-shares.contribution-allocation`, `settlement-source-to-shares.journal-theorem` | `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json` |
-| `disclosure-boundary` | `.engi/disclosure-boundary-proof.json` | 4 | 5 | `disclosure-boundary.policy-bounded-public`, `disclosure-boundary.redaction-disclosure` | `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json` |
-| `proof-contract` | `.engi/proof-contract.json` | 5 | 6 | `proof-contract.contract-materialization`, `proof-contract.evidence-chain`, `proof-contract.bundle-witness` | `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json` |
+| proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
+| --- | --- | --- | --- | --- | --- | --- |
+| `inference-synthesis` | `.engi/inference-synthesis-proof.json` | `task`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria` | `inference_synthesis.coverage_totality`, `inference_synthesis.evaluator_status_truth`, `inference_synthesis.evidence_basis_closure`, `inference_synthesis.ownership_traceability_closure`, `inference_synthesis.witness_materialization_closure`, `inference_synthesis.replay_closure` | `inference-synthesis.coverage-reconciliation`, `inference-synthesis.evaluator-status-replay`, `inference-synthesis.evidence-basis-replay` | `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json` | `engi-demo/src/canonical/need-measurement.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `prompt-completeness` | `.engi/prompt-completeness-proof.json` | `task`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria` | `prompt_completeness.coverage_totality`, `prompt_completeness.no_ghost_coverage`, `prompt_completeness.explicit_exclusion_closure`, `prompt_completeness.contract_closure`, `prompt_completeness.parsed_envelope_admissibility`, `prompt_completeness.downstream_consumer_closure`, `prompt_completeness.provenance_truth`, `prompt_completeness.witness_replay_closure` | `prompt-completeness.member-set-reconciliation`, `prompt-completeness.parse-admissibility`, `prompt-completeness.consumer-closure`, `prompt-completeness.provenance-truth` | `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/prompt-completeness-proof.json` | `engi-demo/src/canonical/prompting.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `static-code-analysis` | `.engi/static-measurement-proof.json` | `deterministic-parser`, `repo-context`, `content-unit`, `measurement-stages` | `static_code_analysis.stage_domain_purity`, `static_code_analysis.abstract_to_concrete_stage_mapping`, `static_code_analysis.registry_role_closure`, `static_code_analysis.receipt_report_proof_agreement`, `static_code_analysis.witness_replay_closure` | `static-code-analysis.stage-domain`, `static-code-analysis.stage-mapping`, `static-code-analysis.receipt-report-proof` | `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `verification-decisions` | `.engi/verification-decisions-proof.json` | `issuance`, `provenance`, `sufficiency`, `issuer-policy`, `use-tier-consequence` | `verification_decisions.issuance_closure`, `verification_decisions.provenance_closure`, `verification_decisions.sufficiency_closure`, `verification_decisions.issuer_policy_closure`, `verification_decisions.use_tier_consequence_closure`, `verification_decisions.receipt_report_role_closure`, `verification_decisions.witness_replay_closure` | `verification-decisions.stage-mapping`, `verification-decisions.use-tier-consequence` | `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `selection-and-materialization` | `.engi/selection-and-materialization-proof.json` | `selected-assets`, `locked-units`, `materialized-source`, `exclusions`, `visibility-rules` | `selection_and_materialization.selected_asset_closure`, `selection_and_materialization.lock_closure`, `selection_and_materialization.materialized_source_closure`, `selection_and_materialization.exclusion_closure`, `selection_and_materialization.visibility_closure`, `selection_and_materialization.selection_consistency_closure`, `selection_and_materialization.materialization_proof_closure` | `selection-and-materialization.selected-set`, `selection-and-materialization.visibility` | `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/selection-and-materialization-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `authorization-and-sensitive-flow` | `.engi/authorization-and-sensitive-flow-proof.json` | `principals`, `authorization-decisions`, `confidentiality-classes`, `retention-disclosure-rules`, `sensitive-data-flows` | `authorization_and_sensitive_flow.principal_authority_totality`, `authorization_and_sensitive_flow.authorization_decision_closure`, `authorization_and_sensitive_flow.classification_closure`, `authorization_and_sensitive_flow.policy_assignment_closure`, `authorization_and_sensitive_flow.no_unauthorized_public_flow`, `authorization_and_sensitive_flow.witness_replay_closure` | `authorization-sensitive-flow.identity`, `authorization-sensitive-flow.flows` | `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json` | `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `settlement-source-to-shares` | `.engi/settlement-source-to-shares-proof.json` | `contribution`, `clipping`, `normalization`, `participation`, `allocation`, `journal`, `settlement-proof` | `settlement_source_to_shares.contribution_totality`, `settlement_source_to_shares.clipping_determinism`, `settlement_source_to_shares.normalization_exactness`, `settlement_source_to_shares.participation_totality`, `settlement_source_to_shares.allocation_conservation`, `settlement_source_to_shares.journal_completeness`, `settlement_source_to_shares.settlement_theorem_integrity` | `settlement-source-to-shares.contribution-allocation`, `settlement-source-to-shares.journal-theorem` | `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json` | `engi-demo/src/canonical/settlement.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `disclosure-boundary` | `.engi/disclosure-boundary-proof.json` | `projection-policy`, `bounded-public-proof`, `redaction-proof`, `disclosure-proof` | `disclosure_boundary.projection_policy_closure`, `disclosure_boundary.bounded_public_metadata_only`, `disclosure_boundary.redaction_alignment`, `disclosure_boundary.disclosure_verdict_alignment`, `disclosure_boundary.witness_replay_closure` | `disclosure-boundary.policy-bounded-public`, `disclosure-boundary.redaction-disclosure` | `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json` | `engi-demo/src/canonical/projections.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
+| `proof-contract` | `.engi/proof-contract.json` | `proof-contract`, `evidence-chain`, `theorem-checks`, `system-proof-bundle`, `witness-manifest-closure` | `proof_contract.contract_materialization`, `proof_contract.evidence_chain_closure`, `proof_contract.theorem_check_binding`, `proof_contract.bundle_coherence`, `proof_contract.witness_manifest_coherence`, `proof_contract.replay_closure` | `proof-contract.contract-materialization`, `proof-contract.evidence-chain`, `proof-contract.bundle-witness` | `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json` | `engi-demo/src/canonical/proof-annotations.js`, `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js` |
 
 #### B.1 Inference-synthesis
 
-- what it proves: inferred need fields are covered exactly once with truthful evaluator status and closed evidence basis
-- how current closure is carried: moment contracts, field proofs, prompt surfaces, parsed envelopes, and evaluator evidence
-- what things become proven: task, failure modes, constraints, target artifact kinds, closure criteria
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, deterministic replay, negative mutation
-- fail-closed conditions: missing moment contracts, evaluator drift, prompt-surface drift, parsed-envelope omission
+- proofArtifactPath: `.engi/inference-synthesis-proof.json`
+- current source basis: `engi-demo/src/canonical/need-measurement.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `task`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria`
+- theoremIds: `inference_synthesis.coverage_totality`, `inference_synthesis.evaluator_status_truth`, `inference_synthesis.evidence_basis_closure`, `inference_synthesis.ownership_traceability_closure`, `inference_synthesis.witness_materialization_closure`, `inference_synthesis.replay_closure`
+- replayStepIds: `inference-synthesis.coverage-reconciliation`, `inference-synthesis.evaluator-status-replay`, `inference-synthesis.evidence-basis-replay`
+- witnessArtifactPaths: `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json`
+- what it proves: inferred need fields are covered exactly once with truthful evaluator status and closed evidence basis.
+- how current closure is carried: moment contracts, field proofs, prompt surfaces, parsed envelopes, and evaluator evidence.
+- current member closure criteria: each inferred field is closed only when one truthful moment contract, one field proof, one parsed envelope, one prompt-bearing surface, and one replayable evidence basis remain mutually consistent.
+- current member verdict shape: `field`, `passed`, `fieldProofPresent`, `momentContractPresent`, `parsedEnvelopePresent`, `promptSurfacePresent`, `evaluatorStatusTruthful`, `evidenceBasisClosed`
+- current theorem-by-theorem closure reading: `coverage_totality` reconciles classified fields against realized field proofs and exclusions; `evaluator_status_truth` closes only when stand-in/runtime posture agrees across proofs and manifests; `evidence_basis_closure` closes only when the realized evidence basis is singular and replayable; `ownership_traceability_closure` closes only when field ownership and evidence provenance agree; `witness_materialization_closure` closes only when witness surfaces are emitted directly; `replay_closure` closes only when the named replay steps reconstruct the same family verdicts.
+- current theorem-to-replay grouping: `coverage_totality` binds to `coverage-reconciliation`; `evaluator_status_truth` binds to `evaluator-status-replay`; `evidence_basis_closure` and `ownership_traceability_closure` bind to `evidence-basis-replay`; witness/replay closure spans all replay steps.
+- minimum artifact/replay binding set: `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json`, and replay over coverage reconciliation, evaluator-status replay, and evidence-basis replay.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 proof-member/theorem matrices, deterministic replay, and fail-closed mutation coverage.
+- fail-closed conditions: missing moment contracts, evaluator drift, prompt-surface drift, parsed-envelope omission, or replay-step drift.
 
 #### B.2 Prompt-completeness
 
-- what it proves: prompt-owned fields are classified, registered, contract-complete, parse-admissible, and downstream-closed
-- how current closure is carried: prompt family registry, prompt contracts, prompt surfaces, parsed envelopes, proof object
-- what things become proven: task, failure modes, constraints, target artifact kinds, closure criteria
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, deterministic replay, negative mutation
-- fail-closed conditions: ghost coverage, missing exclusions, incomplete contracts, false provenance, inadmissible parsed envelopes
+- proofArtifactPath: `.engi/prompt-completeness-proof.json`
+- current source basis: `engi-demo/src/canonical/prompting.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `task`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria`
+- theoremIds: `prompt_completeness.coverage_totality`, `prompt_completeness.no_ghost_coverage`, `prompt_completeness.explicit_exclusion_closure`, `prompt_completeness.contract_closure`, `prompt_completeness.parsed_envelope_admissibility`, `prompt_completeness.downstream_consumer_closure`, `prompt_completeness.provenance_truth`, `prompt_completeness.witness_replay_closure`
+- replayStepIds: `prompt-completeness.member-set-reconciliation`, `prompt-completeness.parse-admissibility`, `prompt-completeness.consumer-closure`, `prompt-completeness.provenance-truth`
+- witnessArtifactPaths: `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/prompt-completeness-proof.json`
+- what it proves: prompt-owned fields are classified, registered, contract-complete, parse-admissible, and downstream-closed.
+- how current closure is carried: prompt family registry, prompt contracts, prompt surfaces, parsed envelopes, and the family proof object.
+- current member closure criteria: a prompt-owned field is closed only when it is classified or explicitly excluded, registered in the declared family, contract-complete, parse-admissible, provenance-truthful, and closed to every declared downstream consumer.
+- current member verdict shape: `classified`, `contractComplete`, `downstreamConsumersClosed`, `explicitlyExcluded`, `field`, `inDeclaredFamilyRegistry`, `parsedEnvelopeAdmissible`, `passed`, `provenanceAnnotationsTruthful`, `registered`
+- current theorem-by-theorem closure reading: `coverage_totality` reconciles classified fields against realized prompt members; `no_ghost_coverage` rejects undeclared registered fields; `explicit_exclusion_closure` closes only when every omission is explicit; `contract_closure` closes only when prompt contracts bind all required fields; `parsed_envelope_admissibility` closes only when parsed outputs stay schema-admissible; `downstream_consumer_closure` closes only when every consumer is declared; `provenance_truth` closes only when annotations match actual prompt ownership; `witness_replay_closure` closes only when registry, contract, surface, and parsed-envelope artifacts replay the same family verdicts.
+- current theorem-to-replay grouping: coverage, no-ghost, and explicit-exclusion closure bind to `member-set-reconciliation`; contract closure and parsed-envelope admissibility bind to `parse-admissibility`; downstream-consumer closure binds to `consumer-closure`; provenance truth binds to `provenance-truth`; witness/replay closure spans all four steps.
+- minimum artifact/replay binding set: `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/parsed-completion-envelopes.json`, `.engi/prompt-completeness-proof.json`, and replay over member-set reconciliation, parse admissibility, consumer closure, and provenance truth.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 proof-member/theorem matrices, deterministic replay, and fail-closed mutation coverage.
+- fail-closed conditions: ghost coverage, missing exclusions, incomplete contracts, false provenance, inadmissible parsed envelopes, or undeclared downstream consumers.
 
 #### B.3 Static-code-analysis
 
-- what it proves: analysis stages remain domain-pure, mapped, registry-backed, and report/proof aligned
-- how current closure is carried: fact registry, heuristic registry, receipts, report, proof object
-- what things become proven: deterministic parser, repo context, content unit, measurement stages
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices
-- fail-closed conditions: stage-domain drift, registry-role drift, receipt/report disagreement
+- proofArtifactPath: `.engi/static-measurement-proof.json`
+- current source basis: `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `deterministic-parser`, `repo-context`, `content-unit`, `measurement-stages`
+- theoremIds: `static_code_analysis.stage_domain_purity`, `static_code_analysis.abstract_to_concrete_stage_mapping`, `static_code_analysis.registry_role_closure`, `static_code_analysis.receipt_report_proof_agreement`, `static_code_analysis.witness_replay_closure`
+- replayStepIds: `static-code-analysis.stage-domain`, `static-code-analysis.stage-mapping`, `static-code-analysis.receipt-report-proof`
+- witnessArtifactPaths: `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json`
+- what it proves: analysis stages remain domain-pure, mapped, registry-backed, and report/proof aligned.
+- how current closure is carried: fact registry, heuristic registry, receipts, report, and the family proof object.
+- current member closure criteria: each measurement member is closed only when its stage ids are stable, the stage domain is explicit, registry roles are coherent, and receipts/report/proof surfaces agree on emitted facts.
+- current member verdict shape: `memberId`, `passed`, `stageIds`
+- current theorem-by-theorem closure reading: `stage_domain_purity` closes only when stages stay in the static domain; `abstract_to_concrete_stage_mapping` closes only when every abstract stage maps to emitted concrete stages; `registry_role_closure` closes only when fact and heuristic registries keep non-overlapping roles; `receipt_report_proof_agreement` closes only when receipts, report, and proof carry the same totals; `witness_replay_closure` closes only when the named witness artifacts replay those agreements.
+- current theorem-to-replay grouping: stage-domain purity binds to `stage-domain`; stage mapping and registry-role closure bind to `stage-mapping`; receipt/report/proof agreement and witness/replay closure bind to `receipt-report-proof`.
+- minimum artifact/replay binding set: `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json`, and replay over stage-domain, stage-mapping, and receipt-report-proof.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md` and inherited V19 proof-member/theorem matrices.
+- fail-closed conditions: stage-domain drift, registry-role drift, receipt/report disagreement, or replay/witness disagreement.
 
 #### B.4 Verification-decisions
 
-- what it proves: issuance, provenance, sufficiency, issuer policy, and use-tier consequences remain explicit
-- how current closure is carried: verification report, receipts, proof object
-- what things become proven: issuance, provenance, sufficiency, issuer policy, use-tier consequence
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices
-- fail-closed conditions: receipt/report disagreement, use-tier consequence drift, theorem grouping drift
+- proofArtifactPath: `.engi/verification-decisions-proof.json`
+- current source basis: `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `issuance`, `provenance`, `sufficiency`, `issuer-policy`, `use-tier-consequence`
+- theoremIds: `verification_decisions.issuance_closure`, `verification_decisions.provenance_closure`, `verification_decisions.sufficiency_closure`, `verification_decisions.issuer_policy_closure`, `verification_decisions.use_tier_consequence_closure`, `verification_decisions.receipt_report_role_closure`, `verification_decisions.witness_replay_closure`
+- replayStepIds: `verification-decisions.stage-mapping`, `verification-decisions.use-tier-consequence`
+- witnessArtifactPaths: `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json`
+- what it proves: issuance, provenance, sufficiency, issuer policy, and use-tier consequences remain explicit.
+- how current closure is carried: verification report, receipts, and the family proof object.
+- current member closure criteria: each verification member is closed only when receipt-stage truth, report truth, theorem grouping, and downstream use-tier consequences remain aligned without silent promotion.
+- current member verdict shape: `memberId`, `passed`, `stageIds`
+- current theorem-by-theorem closure reading: `issuance_closure`, `provenance_closure`, `sufficiency_closure`, and `issuer_policy_closure` close only when receipt and report stages agree; `use_tier_consequence_closure` closes only when branch behavior matches use-tier truth; `receipt_report_role_closure` closes only when receipts and reports preserve distinct roles; `witness_replay_closure` closes only when the named replay steps reconstruct that same decision surface.
+- current theorem-to-replay grouping: issuance, provenance, sufficiency, and issuer-policy closure bind to `stage-mapping`; use-tier consequence and receipt/report role closure bind to `use-tier-consequence`; witness/replay closure spans both steps.
+- minimum artifact/replay binding set: `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json`, and replay over stage-mapping plus use-tier-consequence.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md` and inherited V19 theorem-evidence coverage.
+- fail-closed conditions: receipt/report disagreement, use-tier consequence drift, theorem grouping drift, or missing replay evidence.
 
 #### B.5 Selection-and-materialization
 
-- what it proves: selected assets, locks, materialized source, exclusions, and visibility rules remain coherent
-- how current closure is carried: lock, selected-source manifest, exclusion manifest, visibility proof, materialization proof
-- what things become proven: selected assets, locked units, materialized source, exclusions, visibility rules
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, operator transcript
-- fail-closed conditions: selected-set drift, exclusion drift, missing selected-source artifact, visibility-rule mismatch
+- proofArtifactPath: `.engi/selection-and-materialization-proof.json`
+- current source basis: `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `selected-assets`, `locked-units`, `materialized-source`, `exclusions`, `visibility-rules`
+- theoremIds: `selection_and_materialization.selected_asset_closure`, `selection_and_materialization.lock_closure`, `selection_and_materialization.materialized_source_closure`, `selection_and_materialization.exclusion_closure`, `selection_and_materialization.visibility_closure`, `selection_and_materialization.selection_consistency_closure`, `selection_and_materialization.materialization_proof_closure`
+- replayStepIds: `selection-and-materialization.selected-set`, `selection-and-materialization.visibility`
+- witnessArtifactPaths: `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/selection-and-materialization-proof.json`
+- what it proves: selected assets, locks, materialized source, exclusions, and visibility rules remain coherent.
+- how current closure is carried: lock, selected-source manifest, exclusion manifest, visibility proof, materialization proof, and the family proof object.
+- current member closure criteria: each selection/materialization member is closed only when the selected set, lock, selected-source material, explicit exclusions, and visibility posture agree on the same branch materialization truth.
+- current member verdict shape: `memberId`, `passed`
+- current theorem-by-theorem closure reading: `selected_asset_closure`, `lock_closure`, `materialized_source_closure`, and `selection_consistency_closure` close only when the selected-set replay reconstructs the same assets and lock; `exclusion_closure` and `visibility_closure` close only when every omission and visibility rule is explicit; `materialization_proof_closure` closes only when both replay steps reconstruct the same emitted materialization artifacts.
+- current theorem-to-replay grouping: selected-asset, lock, materialized-source, and selection-consistency closure bind to `selected-set`; exclusion and visibility closure bind to `visibility`; materialization-proof closure depends on both steps.
+- minimum artifact/replay binding set: `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/materialization-proof.json`, `.engi/selection-and-materialization-proof.json`, and replay over selected-set plus visibility.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 matrices, and V20 operator transcript closure.
+- fail-closed conditions: selected-set drift, exclusion drift, missing selected-source artifact, visibility-rule mismatch, or replay-step drift.
 
 #### B.6 Authorization-and-sensitive-flow
 
-- what it proves: principal authority, authorization decisions, confidentiality classes, and sensitive-data flows remain bounded
-- how current closure is carried: identity bindings, authorization decisions, sensitive-data flow, family proof
-- what things become proven: principals, authorization decisions, confidentiality classes, retention/disclosure rules, sensitive-data flows
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, V20 projection-quality smoke
-- fail-closed conditions: authorization denial mismatch, unauthorized public flow, classification drift
+- proofArtifactPath: `.engi/authorization-and-sensitive-flow-proof.json`
+- current source basis: `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `principals`, `authorization-decisions`, `confidentiality-classes`, `retention-disclosure-rules`, `sensitive-data-flows`
+- theoremIds: `authorization_and_sensitive_flow.principal_authority_totality`, `authorization_and_sensitive_flow.authorization_decision_closure`, `authorization_and_sensitive_flow.classification_closure`, `authorization_and_sensitive_flow.policy_assignment_closure`, `authorization_and_sensitive_flow.no_unauthorized_public_flow`, `authorization_and_sensitive_flow.witness_replay_closure`
+- replayStepIds: `authorization-sensitive-flow.identity`, `authorization-sensitive-flow.flows`
+- witnessArtifactPaths: `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json`
+- what it proves: principal authority, authorization decisions, confidentiality classes, and sensitive-data flows remain bounded.
+- how current closure is carried: identity bindings, authorization decisions, sensitive-data flow, and the family proof object.
+- current member closure criteria: each identity/authorization/sensitive-flow member is closed only when principal bindings, authorization decisions, classification/policy assignment, and emitted sensitive-data flow records agree on the same bounded disclosure posture.
+- current member verdict shape: `memberId`, `passed`
+- current theorem-by-theorem closure reading: `principal_authority_totality` closes only when every acting principal has one declared authority surface; `authorization_decision_closure` closes only when policy decisions are explicit; `classification_closure` and `policy_assignment_closure` close only when sensitive classes and retention/disclosure rules are bound to the same flows; `no_unauthorized_public_flow` closes only when lower-privilege projections omit forbidden material; `witness_replay_closure` closes only when identity and flow replay reconstruct the same bounded result.
+- current theorem-to-replay grouping: principal-authority and authorization-decision closure bind to `identity`; classification, policy assignment, and no-unauthorized-public-flow bind to `flows`; witness/replay closure spans both steps.
+- minimum artifact/replay binding set: `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json`, and replay over identity plus flows.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 matrices, and V20 projection-quality smoke.
+- fail-closed conditions: authorization denial mismatch, unauthorized public flow, classification drift, or replay/witness disagreement.
 
 #### B.7 Settlement-source-to-shares
 
-- what it proves: contribution, clipping, normalization, participation, allocation, and journal exactness remain conserved
-- how current closure is carried: source-to-shares, settlement participation, accounting precision report, journal diff, settlement proofs
-- what things become proven: contribution, clipping, normalization, participation, allocation, journal, settlement theorem
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, operator transcript
-- fail-closed conditions: conservation drift, journal incompleteness, settlement theorem mismatch
+- proofArtifactPath: `.engi/settlement-source-to-shares-proof.json`
+- current source basis: `engi-demo/src/canonical/settlement.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `contribution`, `clipping`, `normalization`, `participation`, `allocation`, `journal`, `settlement-proof`
+- theoremIds: `settlement_source_to_shares.contribution_totality`, `settlement_source_to_shares.clipping_determinism`, `settlement_source_to_shares.normalization_exactness`, `settlement_source_to_shares.participation_totality`, `settlement_source_to_shares.allocation_conservation`, `settlement_source_to_shares.journal_completeness`, `settlement_source_to_shares.settlement_theorem_integrity`
+- replayStepIds: `settlement-source-to-shares.contribution-allocation`, `settlement-source-to-shares.journal-theorem`
+- witnessArtifactPaths: `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json`
+- what it proves: contribution, clipping, normalization, participation, allocation, and journal exactness remain conserved.
+- how current closure is carried: source-to-shares, settlement participation, accounting precision report, journal diff, settlement proofs, and the family proof object.
+- current member closure criteria: each settlement member is closed only when contribution inputs, clipping and normalization, participation/allocation, journal completeness, and settlement proof all conserve exactly and bind to the same accounting state.
+- current member verdict shape: `memberId`, `passed`
+- current theorem-by-theorem closure reading: `contribution_totality`, `clipping_determinism`, `normalization_exactness`, `participation_totality`, and `allocation_conservation` close only when contribution-allocation replay reconstructs exact participation and allocation math; `journal_completeness` closes only when every settlement delta lands in the journal; `settlement_theorem_integrity` closes only when journal and settlement proof remain coherent under replay.
+- current theorem-to-replay grouping: contribution, clipping, normalization, participation, and allocation closure bind to `contribution-allocation`; journal completeness and settlement theorem integrity bind to `journal-theorem`.
+- minimum artifact/replay binding set: `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json`, and replay over contribution-allocation plus journal-theorem.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allCasesPassed`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 matrices, and V20 operator transcript closure.
+- fail-closed conditions: conservation drift, journal incompleteness, settlement theorem mismatch, or missing settlement witness artifacts.
 
 #### B.8 Disclosure-boundary
 
-- what it proves: projection policy, bounded public metadata, redaction, and disclosure verdicts remain aligned
-- how current closure is carried: projection policy, bounded public proof, redaction proof, disclosure proof, family proof
-- what things become proven: projection policy, bounded public proof, redaction proof, disclosure proof
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, V20 projection-quality smoke
-- fail-closed conditions: public projection overexposure, redaction/disclosure disagreement, policy drift
+- proofArtifactPath: `.engi/disclosure-boundary-proof.json`
+- current source basis: `engi-demo/src/canonical/projections.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `projection-policy`, `bounded-public-proof`, `redaction-proof`, `disclosure-proof`
+- theoremIds: `disclosure_boundary.projection_policy_closure`, `disclosure_boundary.bounded_public_metadata_only`, `disclosure_boundary.redaction_alignment`, `disclosure_boundary.disclosure_verdict_alignment`, `disclosure_boundary.witness_replay_closure`
+- replayStepIds: `disclosure-boundary.policy-bounded-public`, `disclosure-boundary.redaction-disclosure`
+- witnessArtifactPaths: `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json`
+- what it proves: projection policy, bounded public metadata, redaction, and disclosure verdicts remain aligned.
+- how current closure is carried: projection policy, bounded public proof, redaction proof, disclosure proof, and the family proof object.
+- current member closure criteria: each disclosure member is closed only when projection policy, bounded-public proofs, redaction surfaces, and emitted disclosure verdicts agree on the same principal-bounded view.
+- current member verdict shape: `memberId`, `passed`
+- current theorem-by-theorem closure reading: `projection_policy_closure` closes only when policy ids match emitted projections; `bounded_public_metadata_only` closes only when public surfaces expose bounded metadata only; `redaction_alignment` closes only when redacted outputs match disclosure policy; `disclosure_verdict_alignment` closes only when explicit disclosure verdicts match emitted artifacts; `witness_replay_closure` closes only when policy-bounded-public and redaction-disclosure replay reconstruct the same boundary.
+- current theorem-to-replay grouping: projection-policy closure and bounded-public metadata-only bind to `policy-bounded-public`; redaction alignment, disclosure-verdict alignment, and witness/replay closure bind to `redaction-disclosure`.
+- minimum artifact/replay binding set: `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json`, and replay over policy-bounded-public plus redaction-disclosure.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allCasesPassed`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 matrices, and V20 projection-quality smoke.
+- fail-closed conditions: public projection overexposure, redaction/disclosure disagreement, policy drift, or replay-step drift.
 
 #### B.9 Proof-contract
 
-- what it proves: system proof bundle, theorem binding, witness manifest, and replay surfaces remain coherent
-- how current closure is carried: proof contract, system-proof bundle, witness manifest
-- what things become proven: proof contract, evidence chain, theorem checks, system proof bundle, witness-manifest closure
-- current generated/test bindings: `_PROVEN_`, inherited V19 matrices, deterministic replay, negative mutation, contract ledger
-- fail-closed conditions: missing witness artifact paths, bundle incoherence, replay-step drift
+- proofArtifactPath: `.engi/proof-contract.json`
+- current source basis: `engi-demo/src/canonical/proof-annotations.js`, `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proven-generator.js`
+- members: `proof-contract`, `evidence-chain`, `theorem-checks`, `system-proof-bundle`, `witness-manifest-closure`
+- theoremIds: `proof_contract.contract_materialization`, `proof_contract.evidence_chain_closure`, `proof_contract.theorem_check_binding`, `proof_contract.bundle_coherence`, `proof_contract.witness_manifest_coherence`, `proof_contract.replay_closure`
+- replayStepIds: `proof-contract.contract-materialization`, `proof-contract.evidence-chain`, `proof-contract.bundle-witness`
+- witnessArtifactPaths: `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`
+- what it proves: system proof bundle, theorem binding, witness manifest, and replay surfaces remain coherent.
+- how current closure is carried: proof contract, system-proof bundle, witness manifest, and the family proof object.
+- current member closure criteria: each proof-contract member is closed only when theorem ids, artifact bindings, evidence chains, bundle contents, and witness-manifest paths agree on the same system proof surface.
+- current member verdict shape: `memberId`, `passed`
+- current theorem-by-theorem closure reading: `contract_materialization` closes only when proof-contract fields are emitted as specified; `evidence_chain_closure` closes only when theorem evidence remains reachable; `theorem_check_binding` closes only when theorem ids and check ids stay aligned; `bundle_coherence` closes only when the system bundle matches family artifacts; `witness_manifest_coherence` closes only when manifest paths cover required witnesses; `replay_closure` closes only when contract-materialization, evidence-chain, and bundle-witness replay reconstruct the same system-proof verdict.
+- current theorem-to-replay grouping: contract materialization binds to `contract-materialization`; evidence-chain closure and theorem-check binding bind to `evidence-chain`; bundle coherence, witness-manifest coherence, and replay closure bind to `bundle-witness`.
+- minimum artifact/replay binding set: `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, and replay over contract-materialization, evidence-chain, and bundle-witness.
+- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`
+- generated-artifact and test bindings: `ENGI_SPEC_V20_PROVEN.md`, inherited V19 matrices, deterministic replay, negative mutation, and the contract-change ledger.
+- fail-closed conditions: missing witness artifact paths, bundle incoherence, replay-step drift, or contract/bundle/witness disagreement.
 
 ### Appendix C. Generated artifact contract catalog
 
@@ -811,6 +910,39 @@ Its canonical facts include:
 - `memberCount = 45`
 - `artifactDigestCount = 704`
 - `v20QualityPassed = true`
+
+#### C.7 Minimum generated appendix rendered contents
+
+The reconstructed V20 appendix contract must preserve the exact rendered carriers V20 actually committed.
+
+At minimum, `ENGI_SPEC_V20_PROVEN.md` renders:
+- aggregate proof verdict,
+- V19 generated artifact inventory and reproducible-canon report summaries,
+- V20 generated quality artifact inventory and quality summary,
+- exact proof-family inventory,
+- exact per-family member inventory,
+- exact per-family theorem inventory,
+- exact replay-step inventories and theorem bindings,
+- witness artifact inventories,
+- generated artifact inventories,
+- scenario and run coverage matrices,
+- run-detail truth for each executed scenario/branch-mode pair,
+- proof artifact disclosure classifications,
+- and an explicit incomplete-verdict section.
+
+#### C.8 Canonical regeneration and fail-closed posture
+
+The reconstructed V20 generation contract is:
+- `ENGI_SPEC_V20_PROVEN.md` is generated-only and not manually authored evidence,
+- canonical V20 promotion regenerates it and then re-checks it before pointer advancement,
+- V20 promotion blocks if the appendix is stale against generator output,
+- and fail-closed checking must reject promotion when required proof or quality artifacts needed by the appendix are missing or inconsistent.
+
+Current fail closed when examples include:
+- a required proof family cannot be rendered exactly,
+- a required witness artifact inventory is missing,
+- a required generated artifact inventory is missing,
+- or check mode finds the committed appendix stale against generator output.
 
 ### Appendix D. Validation and checking gate catalog
 

@@ -2,16 +2,17 @@
 
 ## Status
 
-- Scope: V21 draft delta for specifying-canon hardening after V20 operator-quality canon
-- Current canonical/latest target: `V20`
+- Scope: V21 canonical delta for specifying-canon hardening after V20 operator-quality canon
+- Current canonical/latest target: `V21`
+- Canonical proof-source commit: `33f3a75734fd6c0213c95b48f2e373c72fb1b735`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports and `.engi/v20-*` operator-quality reports; V21 generation now defines `.engi/v21-spec-family-report.json` and `.engi/v21-canonical-input-report.json` for draft-time specifying closure and later promotion
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_NOTES.md`
-- Source parity state: V21 source-side specifying implementation now covers spec-family checking, canonical-input validation, promotion-time hand-authored status preparation, V21 appendix/specifying-artifact generation, and V21 promotion dry-run sequencing; actual pointer advancement remains unexecuted
-- V21 state: full-spec drafting and source-side specifying implementation are in progress; structural/density checking, canonical-input validation, promotion-time hand-authored status preparation, V21 appendix generation plus `.engi/v21-*` specifying artifacts, and V21 promotion support with file-family-derived commit-body generation now exist, while canonical promotion closure remains unfinished
+- Source parity state: V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; this delta records the V20-to-V21 closure
+- V21 state: canonical promotion complete; V21 specifying canon is active and this delta records the promoted closure set
 
 ## Why V21 exists
 
@@ -99,7 +100,7 @@ The current accepted V21 drafting decisions are:
 12. V21 defines a minimal version-local generated artifact family: `.engi/v21-spec-family-report.json` and `.engi/v21-canonical-input-report.json`.
 13. V21 promotion must validate the newly pointed canonical input family after generation, not only the inherited pre-mutation input family.
 14. V21 hardens total precision further by requiring exact proof-family and generated-artifact inventory carriers inside the main `SPEC`, not only high-level appendix headings.
-15. V21 also restores a V16-style per-family derivability block in Appendix B so each proof family states what it proves, how closure is carried, current verdict shape, theorem/replay grouping, generated/test bindings, and fail-closed conditions.
+15. V21 also restores a V16-style per-family derivability block in Appendix B so each proof family states what it proves, how closure is carried, exact member-closure criteria, exact theorem-by-theorem closure reading, exact minimum artifact/replay binding set, current verdict shape, theorem/replay grouping, generated/test bindings, and fail-closed conditions.
 16. V21 extends subsystem sections beyond behavioral bullets by restating the current subsystem objects/artifacts, invariants, and fail-closed conditions inline.
 17. V21 now treats scenario/profile/branch/principal/workflow cross-products as mandatory explicit canon rather than recoverable context.
 18. V21 now requires a fail-closed contract/error-posture matrix so blocking semantics are visible without source excavation.
@@ -107,6 +108,11 @@ The current accepted V21 drafting decisions are:
 20. V21 now normalizes subsystem sections further so each major subsystem carries algorithms/derivation rules, proof obligations, source-bearing implementation basis, validating commands/parity basis, and accepted-boundary truth rather than only behavior/object summaries.
 21. V21 now requires specifying hardening to validate against at least one historical full-canon reconstruction family rather than only the active V21 family.
 22. The first historical reconstruction family is `V20_PROPER`, a non-canonical V20-only restatement used to validate full-canon structure and future-truth rejection.
+23. V21 first-gate acceptance is based on exact derivability carriers and executable gate closure, not line-count parity with V16.
+24. V21 remains a specifying-canon hardening release rather than a new runtime/operator-semantics release.
+25. V21 does not retroactively rewrite V20 hand-authored canon in this pass.
+26. The V21 version-local generated artifact family is limited to `ENGI_SPEC_V21_PROVEN.md`, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`.
+27. V21 first-gate promotion must exercise both `V20` pre-mutation canon and `V21` post-generation canon as executable gate targets.
 
 ## Explicitly deferred or unresolved items
 
@@ -128,9 +134,10 @@ Current covered checks:
 5. required appendix-grade totality carriers and proof-family coverage headings in the main `SPEC`,
 6. required scenario/workflow cross-product appendix content, fail-closed posture content, and deliverable/artifact catalog content in the main `SPEC`,
 7. normalized per-subsystem detail labels/content in the main `SPEC`,
-8. required structural sections in `DELTA` and `PARITY_MATRIX`,
-9. promoted-mode rejection of draft/pending status language,
-10. and promoted-mode rejection of transitional parity judgments such as `drafted`, `implemented; promotion pending`, and `spec closed; source gap`.
+8. exact per-family member-closure, theorem-by-theorem, and artifact/replay binding carriers in the main `SPEC`,
+9. required structural sections in `DELTA` and `PARITY_MATRIX`,
+10. promoted-mode rejection of draft/pending status language,
+11. and promoted-mode rejection of transitional parity judgments such as `drafted`, `implemented; promotion pending`, and `spec closed; source gap`.
 
 Current validating test basis:
 - `engi-demo/test/v21-specifying.test.js`
@@ -168,7 +175,8 @@ The accepted pre-implementation sequence is:
 13. finish density closure for scenario/workflow cross-products, fail-closed posture, and source-bearing deliverables,
 14. normalize per-subsystem detail blocks against the stronger specifying schema,
 15. validate `V20_PROPER` as a second full-canon family against the generalized checker,
-16. and only then decide whether V21 is ready for canonical promotion.
+16. record the accepted first-gate boundaries for density, generated-artifact scope, and historical reconstruction posture,
+17. and only then run canonical promotion using both `V20` pre-mutation and `V21` post-generation gate validation.
 
 ## Commit-Body Direction
 

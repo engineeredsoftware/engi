@@ -41,6 +41,8 @@ export const COMMON_REQUIRED_SPEC_APPENDIX_SECTIONS = [
   'Appendix B. Proof family closure catalog',
   'Exact proof-family inventory matrix',
   'Appendix C. Generated artifact contract catalog',
+  'Minimum generated appendix rendered contents',
+  'Canonical regeneration and fail-closed posture',
   'Appendix D. Validation and checking gate catalog',
   'Appendix E. Current canonical source map',
   'Appendix F. Subsystem totality and derivability matrix',
@@ -61,6 +63,32 @@ export const COMMON_REQUIRED_PROOF_FAMILY_SECTIONS = [
   'Settlement-source-to-shares',
   'Disclosure-boundary',
   'Proof-contract'
+];
+
+export const COMMON_REQUIRED_PROOF_FAMILY_DETAIL_LABELS = [
+  'proofArtifactPath:',
+  'members:',
+  'theoremIds:',
+  'replayStepIds:',
+  'witnessArtifactPaths:',
+  'current member closure criteria:',
+  'current member verdict shape:',
+  'current theorem-by-theorem closure reading:',
+  'current theorem-to-replay grouping:',
+  'minimum artifact/replay binding set:',
+  'current proof-object fields:',
+  'generated-artifact and test bindings:',
+  'fail-closed conditions:'
+];
+
+export const COMMON_REQUIRED_PROOF_FAMILY_MATRIX_HEADERS = [
+  'proofFamily',
+  'proofArtifactPath',
+  'memberIds',
+  'theoremIds',
+  'replayStepIds',
+  'witnessArtifactPaths',
+  'Current source basis'
 ];
 
 export const COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES = [
@@ -135,6 +163,19 @@ export const COMMON_REQUIRED_FAIL_CLOSED_APPENDIX_PHRASES = [
   'stale promoted status truth'
 ];
 
+export const COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES = [
+  'aggregate proof verdict',
+  'exact proof-family inventory',
+  'exact per-family member inventory',
+  'exact per-family theorem inventory',
+  'exact replay-step inventories and theorem bindings',
+  'witness artifact inventories',
+  'generated artifact inventories',
+  'scenario and run coverage matrices',
+  'proof-source commit',
+  'fail closed when'
+];
+
 const COMMON_ALLOWED_PARITY_JUDGMENTS = new Set([
   'drafted',
   'implemented',
@@ -163,6 +204,8 @@ function buildV21LikeProfile(version) {
     requiredSpecSections: COMMON_REQUIRED_SPEC_SECTIONS,
     requiredSpecAppendixSections: COMMON_REQUIRED_SPEC_APPENDIX_SECTIONS,
     requiredProofFamilySections: COMMON_REQUIRED_PROOF_FAMILY_SECTIONS,
+    requiredProofFamilyDetailLabels: COMMON_REQUIRED_PROOF_FAMILY_DETAIL_LABELS,
+    requiredProofFamilyMatrixHeaders: COMMON_REQUIRED_PROOF_FAMILY_MATRIX_HEADERS,
     requiredGeneratedArtifactCatalogSections: [
       'Inherited V19 reproducible-canon artifacts',
       'Inherited V20 operator-quality artifacts',
@@ -170,8 +213,11 @@ function buildV21LikeProfile(version) {
       `${version} specifying generated artifacts`,
       'Shared generated-artifact fields',
       'Artifact-specific generated payload fields',
-      'Artifact confidentiality and disclosability taxonomy'
+      'Artifact confidentiality and disclosability taxonomy',
+      'Minimum generated appendix rendered contents',
+      'Canonical regeneration and fail-closed posture'
     ],
+    requiredGeneratedAppendixContractPhrases: COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
     requiredGeneratedArtifactPaths: [
       `.engi/${versionLower}-spec-family-report.json`,
       `.engi/${versionLower}-canonical-input-report.json`
@@ -222,6 +268,8 @@ function buildV20ProperProfile() {
     requiredSpecSections: COMMON_REQUIRED_SPEC_SECTIONS,
     requiredSpecAppendixSections: COMMON_REQUIRED_SPEC_APPENDIX_SECTIONS,
     requiredProofFamilySections: COMMON_REQUIRED_PROOF_FAMILY_SECTIONS,
+    requiredProofFamilyDetailLabels: COMMON_REQUIRED_PROOF_FAMILY_DETAIL_LABELS,
+    requiredProofFamilyMatrixHeaders: COMMON_REQUIRED_PROOF_FAMILY_MATRIX_HEADERS,
     requiredGeneratedArtifactCatalogSections: [
       'Inherited V19 reproducible-canon artifacts',
       'V20 operator-quality artifacts',
@@ -229,8 +277,11 @@ function buildV20ProperProfile() {
       'Shared generated-artifact fields',
       'Artifact-specific generated payload fields',
       'Artifact confidentiality and disclosability taxonomy',
-      'V20 generated appendix posture'
+      'V20 generated appendix posture',
+      'Minimum generated appendix rendered contents',
+      'Canonical regeneration and fail-closed posture'
     ],
+    requiredGeneratedAppendixContractPhrases: COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
     requiredGeneratedArtifactPaths: [
       '.engi/v19-contract-change-ledger.json',
       '.engi/v19-negative-proof-mutation-matrix.json',
@@ -335,7 +386,8 @@ function resolveSpecFamilyProfile(version) {
 function extractStatusValue(content, label) {
   const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const match = content.match(new RegExp(`^- ${escaped}: (.+)$`, 'm'));
-  return match ? match[1].trim() : null;
+  const value = match?.[1];
+  return typeof value === 'string' ? value.trim() : null;
 }
 
 /**
@@ -383,20 +435,29 @@ function extractSection(content, phrase) {
   let start = -1;
   let level = 0;
   for (let index = 0; index < lines.length; index += 1) {
-    const match = lines[index].match(/^(#{2,6})\s+(.+)$/);
+    const line = lines[index];
+    if (typeof line !== 'string') continue;
+    const match = line.match(/^(#{2,6})\s+(.+)$/);
     if (!match) continue;
-    if (normalize(match[2]).includes(normalizedPhrase)) {
+    const heading = match[2];
+    const markers = match[1];
+    if (typeof heading !== 'string' || typeof markers !== 'string') continue;
+    if (normalize(heading).includes(normalizedPhrase)) {
       start = index + 1;
-      level = match[1].length;
+      level = markers.length;
       break;
     }
   }
   if (start < 0) return '';
   let end = lines.length;
   for (let index = start; index < lines.length; index += 1) {
-    const match = lines[index].match(/^(#{2,6})\s+(.+)$/);
+    const line = lines[index];
+    if (typeof line !== 'string') continue;
+    const match = line.match(/^(#{2,6})\s+(.+)$/);
     if (!match) continue;
-    if (match[1].length <= level) {
+    const markers = match[1];
+    if (typeof markers !== 'string') continue;
+    if (markers.length <= level) {
       end = index;
       break;
     }
@@ -413,7 +474,9 @@ function parseMarkdownTable(section) {
     .map((line) => line.trim())
     .filter((line) => line.startsWith('|'));
   if (lines.length < 3) return [];
-  const headers = lines[0]
+  const headerLine = lines[0];
+  if (typeof headerLine !== 'string') return [];
+  const headers = headerLine
     .split('|')
     .slice(1, -1)
     .map((cell) => cell.trim());
@@ -424,6 +487,23 @@ function parseMarkdownTable(section) {
       .map((cell) => cell.trim());
     return Object.fromEntries(headers.map((header, index) => [header, cells[index] || '']));
   });
+}
+
+/**
+ * @param {string} section
+ */
+function parseMarkdownTableHeaders(section) {
+  const lines = section
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('|'));
+  if (lines.length < 2) return [];
+  const headerLine = lines[0];
+  if (typeof headerLine !== 'string') return [];
+  return headerLine
+    .split('|')
+    .slice(1, -1)
+    .map((cell) => cell.trim());
 }
 
 /**
@@ -556,7 +636,7 @@ export function buildV21SpecFamilyReport({
     }
   }
 
-  const specContent = contents.spec || '';
+  const specContent = contents['spec'] || '';
   for (const phrase of profile.requiredSpecSections) {
     recordFailure(failures, hasSection(specContent, phrase), `spec is missing required section containing "${phrase}".`);
   }
@@ -566,8 +646,34 @@ export function buildV21SpecFamilyReport({
   for (const phrase of profile.requiredProofFamilySections) {
     recordFailure(failures, hasSection(specContent, phrase), `spec proof-family catalog is missing "${phrase}".`);
   }
+  const proofFamilyInventorySection = extractSection(specContent, 'Exact proof-family inventory matrix');
+  const proofFamilyInventoryHeaders = parseMarkdownTableHeaders(proofFamilyInventorySection);
+  for (const header of profile.requiredProofFamilyMatrixHeaders || []) {
+    recordFailure(
+      failures,
+      proofFamilyInventoryHeaders.includes(header),
+      `spec proof-family inventory matrix is missing required header "${header}".`
+    );
+  }
+  for (const familyHeading of profile.requiredProofFamilySections) {
+    const familySection = extractSection(specContent, familyHeading);
+    for (const detailLabel of profile.requiredProofFamilyDetailLabels || []) {
+      recordFailure(
+        failures,
+        containsPhrase(familySection, detailLabel),
+        `spec proof-family section "${familyHeading}" is missing "${detailLabel}".`
+      );
+    }
+  }
   for (const phrase of profile.requiredGeneratedArtifactCatalogSections) {
     recordFailure(failures, hasSection(specContent, phrase), `spec generated-artifact catalog is missing "${phrase}".`);
+  }
+  for (const phrase of profile.requiredGeneratedAppendixContractPhrases || []) {
+    recordFailure(
+      failures,
+      containsPhrase(specContent, phrase),
+      `spec generated-appendix contract is missing "${phrase}".`
+    );
   }
   for (const phrase of profile.requiredGeneratedArtifactPaths) {
     recordFailure(failures, containsPhrase(specContent, phrase), `spec generated-artifact catalog is missing "${phrase}".`);
@@ -620,20 +726,20 @@ export function buildV21SpecFamilyReport({
     }
   }
 
-  const deltaContent = contents.delta || '';
+  const deltaContent = contents['delta'] || '';
   for (const phrase of profile.requiredDeltaSections) {
     recordFailure(failures, hasSection(deltaContent, phrase), `delta is missing required section containing "${phrase}".`);
   }
 
-  const parityContent = contents.parity || '';
+  const parityContent = contents['parity'] || '';
   for (const phrase of profile.requiredParitySections) {
     recordFailure(failures, hasSection(parityContent, phrase), `parity is missing required section containing "${phrase}".`);
   }
   const implementationMatrixRows = parseMarkdownTable(extractSection(parityContent, `${version} implementation matrix`));
   const implementationChecklistRows = parseMarkdownTable(extractSection(parityContent, `${version} implementation checklist`));
   for (const row of [...implementationMatrixRows, ...implementationChecklistRows]) {
-    const rowLabel = row.Area || row.area || row['Required V21 result'] || row['required v21 result'] || 'unknown row';
-    const judgment = row.Judgment || row.judgment || row['Current judgment'] || row['current judgment'] || '';
+    const rowLabel = row['Area'] || row['area'] || row['Required V21 result'] || row['required v21 result'] || 'unknown row';
+    const judgment = row['Judgment'] || row['judgment'] || row['Current judgment'] || row['current judgment'] || '';
     recordFailure(
       failures,
       COMMON_ALLOWED_PARITY_JUDGMENTS.has(judgment),
@@ -653,8 +759,8 @@ export function buildV21SpecFamilyReport({
     );
     const forbiddenPromotedJudgment = /\bdrafted\b|\bpromotion pending\b|substantially advanced|source gap|generated artifact pending|blocked|reopened/i;
     for (const row of [...implementationMatrixRows, ...implementationChecklistRows]) {
-      const rowLabel = row.Area || row.area || row['Required V21 result'] || row['required v21 result'] || 'unknown row';
-      const judgment = row.Judgment || row.judgment || row['Current judgment'] || row['current judgment'] || '';
+      const rowLabel = row['Area'] || row['area'] || row['Required V21 result'] || row['required v21 result'] || 'unknown row';
+      const judgment = row['Judgment'] || row['judgment'] || row['Current judgment'] || row['current judgment'] || '';
       recordFailure(
         failures,
         !forbiddenPromotedJudgment.test(judgment),
@@ -680,7 +786,10 @@ export function buildV21SpecFamilyReport({
     requiredSpecSectionCount: profile.requiredSpecSections.length,
     requiredAppendixSectionCount: profile.requiredSpecAppendixSections.length,
     requiredProofFamilyCount: profile.requiredProofFamilySections.length,
+    requiredProofFamilyDetailLabelCount: (profile.requiredProofFamilyDetailLabels || []).length,
+    requiredProofFamilyMatrixHeaderCount: (profile.requiredProofFamilyMatrixHeaders || []).length,
     requiredGeneratedArtifactCatalogSectionCount: profile.requiredGeneratedArtifactCatalogSections.length,
+    requiredGeneratedAppendixContractPhraseCount: (profile.requiredGeneratedAppendixContractPhrases || []).length,
     requiredGeneratedArtifactPathCount: profile.requiredGeneratedArtifactPaths.length,
     requiredSubsystemCoverageCount: profile.requiredSubsystemCoveragePhrases.length,
     requiredSubsystemSectionCount: profile.requiredSubsystemSectionHeadings.length,

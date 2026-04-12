@@ -1318,6 +1318,7 @@ function buildV20ProvenPackage(baseData, {
 /**
  * @param {ReturnType<typeof buildCanonicalProvenData>} baseData
  * @param {{
+ *   generatedAt: string,
  *   inheritedV19: any,
  *   inheritedV20: any
  * }} input

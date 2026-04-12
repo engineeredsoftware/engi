@@ -29,6 +29,7 @@ The reconstruction exists to answer one question:
 4. `V20_PROPER` must carry the same omission-visible appendix families required of a modern full `SPEC`.
 5. `V20_PROPER` must not import V21-specific generated artifacts, V21 promotion semantics, or later specifying-only claims as if V20 already depended on them.
 6. `V20_PROPER` should be strict enough that `scripts/check-engi-spec-family.mjs` can validate it as a second full-canon family beside V21.
+7. `V20_PROPER` must restate exact proof-family member ids, theorem ids, replay-step groupings, theorem-by-theorem closure readings, member-closure criteria, minimum artifact/replay binding sets, verdict-shape carriers, and generated-appendix rendered contents wherever those are already materially visible in V20 canon.
 
 ## Explicitly excluded future truth
 

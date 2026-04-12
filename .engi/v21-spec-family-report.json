@@ -1,0 +1,37 @@
+{
+  "reportId": "v21-spec-family-report",
+  "version": "V21",
+  "proofSourceCommit": "33f3a75734fd6c0213c95b48f2e373c72fb1b735",
+  "generatedAt": "2026-04-12T11:23:06-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedVersion": "V21",
+  "mode": "draft",
+  "currentTarget": "V20",
+  "pointerVersion": "V21",
+  "passed": false,
+  "failureCount": 4,
+  "failures": [
+    "ENGI_SPEC.txt points to V21 but expected V20.",
+    "spec status block must declare Current canonical/latest target as V20.",
+    "delta status block must declare Current canonical/latest target as V20.",
+    "parity status block must declare Current canonical/latest target as V20."
+  ],
+  "requiredFiles": [
+    "ENGI_SPEC_V21.md",
+    "ENGI_SPEC_V21_DELTA.md",
+    "ENGI_SPEC_V21_PARITY_MATRIX.md"
+  ],
+  "supportFiles": [
+    "ENGI_SPECIFYING.md",
+    "ENGI_SPEC_TEMPLATEGUIDE.md"
+  ],
+  "requiredStatusLabelCount": 4,
+  "requiredPromotedStatusLabelCount": 1,
+  "requiredSpecSectionCount": 18,
+  "requiredAppendixSectionCount": 14,
+  "requiredProofFamilyCount": 9,
+  "requiredGeneratedArtifactCatalogSectionCount": 9,
+  "requiredGeneratedArtifactPathCount": 2,
+  "requiredSubsystemCoverageCount": 18
+}

@@ -1,0 +1,27 @@
+{
+  "reportId": "v21-canonical-input-report",
+  "version": "V21",
+  "proofSourceCommit": "33f3a75734fd6c0213c95b48f2e373c72fb1b735",
+  "generatedAt": "2026-04-12T11:23:06-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedTargetVersion": "V20",
+  "pointerVersion": "V21",
+  "passed": false,
+  "failureCount": 1,
+  "failures": [
+    "ENGI_SPEC.txt points to V21 but expected V20."
+  ],
+  "specPath": "ENGI_SPEC_V20.md",
+  "provenPath": "ENGI_SPEC_V20_PROVEN.md",
+  "parityPath": "ENGI_SPEC_V20_SYSTEM_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [
+    ".engi/v20-operator-acceptance-transcript.json",
+    ".engi/v20-visual-regression-report.json",
+    ".engi/v20-accessibility-report.json",
+    ".engi/v20-performance-budget-report.json",
+    ".engi/v20-projection-quality-smoke-matrix.json",
+    ".engi/v20-quality-summary.json"
+  ],
+  "requiredGeneratedArtifactCount": 6
+}

@@ -50,8 +50,8 @@ This matrix is grounded in:
 | Non-canonical reconstruction posture | `ENGI_SPEC.txt` remains pointed at `V20` and no `V20_PROPER` promotion path exists | `V20_PROPER` must stay explicitly non-canonical | status blocks and delta text state non-canonical reconstruction posture | closed |
 | V20-only source discipline | V20 hand-authored canon plus V20/V19 generated canon exist as reconstruction inputs | `V20_PROPER` must derive only from those inputs | no V21 generated artifact names or V21 appendix names appear in the family | substantially advanced |
 | Full-system restatement | original V20 hand-authored `SPEC` is focus-shaped and incomplete | `V20_PROPER` must restate V20 as a whole system | `V20_PROPER` now contains whole-system sections and appendices A-K | implemented |
-| Proof-family closure carrier | V20 `_PROVEN_` already contains the authoritative nine-family inventory | `V20_PROPER` must restate that inventory in the main `SPEC` | Appendix B carries exact proof-family inventory and family detail | implemented |
-| Generated-artifact closure carrier | V20 generated canon is split across `_PROVEN_` and `.engi/v19-*`/`.engi/v20-*` | `V20_PROPER` must restate artifact family inventory, shared fields, and artifact-specific fields | Appendix C carries the exact generated-artifact inventory and contracts | implemented |
+| Proof-family closure carrier | V20 `_PROVEN_` already contains the authoritative nine-family inventory | `V20_PROPER` must restate that inventory in the main `SPEC` | Appendix B carries exact proof-family inventory plus exact member ids, theorem ids, replay-step groupings, theorem-by-theorem closure readings, member-closure criteria, minimum artifact/replay binding sets, verdict-shape carriers, and fail-closed conditions | implemented |
+| Generated-artifact closure carrier | V20 generated canon is split across `_PROVEN_` and `.engi/v19-*`/`.engi/v20-*` | `V20_PROPER` must restate artifact family inventory, shared fields, artifact-specific fields, and generated-appendix rendered-content/fail-closed posture | Appendix C carries the exact generated-artifact inventory and generated appendix contract | implemented |
 | Scenario/workflow cross-product carrier | V20 transcript, visual, and run matrix surfaces already define current cross-products | `V20_PROPER` must restate those axes explicitly | Appendix I carries scenario inventory, flow inventory, and required cross-products | implemented |
 | Fail-closed posture carrier | V20 canon already materially depends on invalid deposit, no-survivor, projection, and settlement failure semantics | `V20_PROPER` must restate those postures directly | Appendix J carries explicit fail-closed rows | implemented |
 | Source-bearing deliverable/artifact carrier | V20 canon depends on branch/proof/runtime artifacts but original prose scatters them | `V20_PROPER` must restate deliverables and emitted artifacts in one place | Appendix K carries branch/runtime and promotion artifacts | implemented |
@@ -67,7 +67,7 @@ This matrix is grounded in:
 | V20-only artifact inventory | V19/V20 generated artifacts are restated directly | implemented |
 | Future-truth exclusion | no V21 generated artifact names are imported | implemented |
 | Generalized checker | spec-family checker accepts `V20_PROPER` | implemented |
-| Canonical-input dependence | reconstruction visibly depends on real V20 canon inputs | substantially advanced |
+| Canonical-input dependence | reconstruction visibly depends on real V20 canon inputs | implemented |
 
 ## V20_PROPER accepted boundaries
 

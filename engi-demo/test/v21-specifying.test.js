@@ -73,6 +73,32 @@ function runPreparePromotion(args, cwd) {
 }
 
 /**
+ * @param {string} heading
+ * @param {string} proofArtifactPath
+ */
+function buildProofFamilyDetailBlock(heading, proofArtifactPath) {
+  return [
+    heading,
+    `- proofArtifactPath: \`${proofArtifactPath}\``,
+    '- members: `a`, `b`',
+    '- theoremIds: `theorem.one`, `theorem.two`',
+    '- replayStepIds: `replay.one`, `replay.two`',
+    `- witnessArtifactPaths: \`${proofArtifactPath}\`, \`.engi/supporting-artifact.json\``,
+    '- what it proves: x',
+    '- how current closure is carried: x',
+    '- current member closure criteria: `a` is closed only when artifact and replay truth are explicit; `b` is closed only when theorem evidence remains bounded and replayable',
+    '- current member verdict shape: `memberId`, `passed`',
+    '- current theorem-by-theorem closure reading: `theorem.one` closes through `replay.one`; `theorem.two` closes through `replay.two`',
+    '- current theorem-to-replay grouping: `theorem.one` binds to `replay.one`; `theorem.two` binds to `replay.two`',
+    '- minimum artifact/replay binding set: proof artifact, supporting artifact, `replay.one`, `replay.two`',
+    '- current proof-object fields: `memberVerdicts`, `theoremVerdicts`, `artifactBindings`, `replaySteps`, `allTheoremsPassed`',
+    '- generated-artifact and test bindings: `_PROVEN_`, matrices, tests',
+    '- fail-closed conditions: x',
+    ''
+  ];
+}
+
+/**
  * @param {{
  *   version?: string,
  *   pointerVersion?: string,
@@ -91,6 +117,8 @@ function runPreparePromotion(args, cwd) {
  *   includeCrossProductDetails?: boolean,
  *   includeFailClosedDetails?: boolean,
  *   includeDeliverableDetails?: boolean,
+ *   includeProofFamilyDetailLabels?: boolean,
+ *   includeGeneratedAppendixContract?: boolean,
  *   parityJudgment?: string
  * }} [options]
  */
@@ -112,6 +140,8 @@ async function writeFixture(options = {}) {
   const includeCrossProductDetails = options.includeCrossProductDetails !== false;
   const includeFailClosedDetails = options.includeFailClosedDetails !== false;
   const includeDeliverableDetails = options.includeDeliverableDetails !== false;
+  const includeProofFamilyDetailLabels = options.includeProofFamilyDetailLabels !== false;
+  const includeGeneratedAppendixContract = options.includeGeneratedAppendixContract !== false;
   const parityJudgment = options.parityJudgment || (state.includes('canonical promotion complete') ? 'closed' : 'drafted');
 
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'engi-spec-family-'));
@@ -247,37 +277,63 @@ async function writeFixture(options = {}) {
     'x',
     '',
     '#### B.0 Exact proof-family inventory matrix',
-    'x',
-    '',
-    '#### B.1 Inference-synthesis',
-    'x',
+    '| proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |',
+    '| --- | --- | --- | --- | --- | --- | --- |',
+    '| `inference-synthesis` | `.engi/inference-synthesis-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/inference-synthesis-proof.json` | `engi-demo/src/canonical/need-measurement.js` |',
+    '| `prompt-completeness` | `.engi/prompt-completeness-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/prompt-completeness-proof.json` | `engi-demo/src/canonical/prompting.js` |',
+    '| `static-code-analysis` | `.engi/static-measurement-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/static-measurement-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js` |',
+    '| `verification-decisions` | `.engi/verification-decisions-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/verification-decisions-proof.json` | `engi-demo/src/canonical/evaluation-materialization.js` |',
+    '| `selection-and-materialization` | `.engi/selection-and-materialization-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/selection-and-materialization-proof.json` | `engi-demo/src/canonical/proof-materialization.js` |',
+    '| `authorization-and-sensitive-flow` | `.engi/authorization-and-sensitive-flow-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/authorization-and-sensitive-flow-proof.json` | `engi-demo/src/canonical/proof-materialization.js` |',
+    '| `settlement-source-to-shares` | `.engi/settlement-source-to-shares-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/settlement-source-to-shares-proof.json` | `engi-demo/src/canonical/settlement.js` |',
+    '| `disclosure-boundary` | `.engi/disclosure-boundary-proof.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/disclosure-boundary-proof.json` | `engi-demo/src/canonical/projections.js` |',
+    '| `proof-contract` | `.engi/proof-contract.json` | `a`, `b` | `theorem.one`, `theorem.two` | `replay.one`, `replay.two` | `.engi/proof-contract.json` | `engi-demo/src/canonical/proof-annotations.js` |',
     ''
   );
-  if (includePromptCompletenessFamily) {
-    spec.push('#### B.2 Prompt-completeness', 'x', '');
+  if (includeProofFamilyDetailLabels) {
+    spec.push(...buildProofFamilyDetailBlock('#### B.1 Inference-synthesis', '.engi/inference-synthesis-proof.json'));
+    if (includePromptCompletenessFamily) {
+      spec.push(...buildProofFamilyDetailBlock('#### B.2 Prompt-completeness', '.engi/prompt-completeness-proof.json'));
+    }
+    spec.push(
+      ...buildProofFamilyDetailBlock('#### B.3 Static-code-analysis', '.engi/static-measurement-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.4 Verification-decisions', '.engi/verification-decisions-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.5 Selection-and-materialization', '.engi/selection-and-materialization-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.6 Authorization-and-sensitive-flow', '.engi/authorization-and-sensitive-flow-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.7 Settlement-source-to-shares', '.engi/settlement-source-to-shares-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.8 Disclosure-boundary', '.engi/disclosure-boundary-proof.json'),
+      ...buildProofFamilyDetailBlock('#### B.9 Proof-contract', '.engi/proof-contract.json')
+    );
+  } else {
+    spec.push('#### B.1 Inference-synthesis', 'x', '');
+    if (includePromptCompletenessFamily) {
+      spec.push('#### B.2 Prompt-completeness', 'x', '');
+    }
+    spec.push(
+      '#### B.3 Static-code-analysis',
+      'x',
+      '',
+      '#### B.4 Verification-decisions',
+      'x',
+      '',
+      '#### B.5 Selection-and-materialization',
+      'x',
+      '',
+      '#### B.6 Authorization-and-sensitive-flow',
+      'x',
+      '',
+      '#### B.7 Settlement-source-to-shares',
+      'x',
+      '',
+      '#### B.8 Disclosure-boundary',
+      'x',
+      '',
+      '#### B.9 Proof-contract',
+      'x',
+      ''
+    );
   }
   spec.push(
-    '#### B.3 Static-code-analysis',
-    'x',
-    '',
-    '#### B.4 Verification-decisions',
-    'x',
-    '',
-    '#### B.5 Selection-and-materialization',
-    'x',
-    '',
-    '#### B.6 Authorization-and-sensitive-flow',
-    'x',
-    '',
-    '#### B.7 Settlement-source-to-shares',
-    'x',
-    '',
-    '#### B.8 Disclosure-boundary',
-    'x',
-    '',
-    '#### B.9 Proof-contract',
-    'x',
-    '',
     '### Appendix C. Generated artifact contract catalog',
     'x',
     '',
@@ -314,6 +370,26 @@ async function writeFixture(options = {}) {
     '#### C.7 V21 generated appendix posture',
     'x',
     '',
+  );
+  if (includeGeneratedAppendixContract) {
+    spec.push(
+      '#### C.8 Minimum generated appendix rendered contents',
+      '- aggregate proof verdict',
+      '- exact proof-family inventory',
+      '- exact per-family member inventory',
+      '- exact per-family theorem inventory',
+      '- exact replay-step inventories and theorem bindings',
+      '- witness artifact inventories',
+      '- generated artifact inventories',
+      '- scenario and run coverage matrices',
+      '',
+      '#### C.9 Canonical regeneration and fail-closed posture',
+      '- proof-source commit',
+      '- fail closed when required proof family is missing',
+      ''
+    );
+  }
+  spec.push(
     '### Appendix D. Validation and checking gate catalog',
     'x',
     '',
@@ -684,6 +760,22 @@ test('structural checking fails when the deliverable appendix lacks required art
   assert.match(stderr, /deliverable\/artifact appendix is missing "\.engi\/asset-pack\.lock\.json"/i);
 });
 
+test('structural checking fails when proof-family sections omit exact detail labels', async () => {
+  const fixtureRoot = await writeFixture({
+    includeProofFamilyDetailLabels: false
+  });
+  const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
+  assert.match(stderr, /proof-family section "Inference-synthesis" is missing "proofArtifactPath:"/i);
+});
+
+test('structural checking fails when generated appendix contract carriers are omitted', async () => {
+  const fixtureRoot = await writeFixture({
+    includeGeneratedAppendixContract: false
+  });
+  const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
+  assert.match(stderr, /generated-appendix contract is missing "aggregate proof verdict"/i);
+});
+
 test('structural checking fails when the V21 generated-artifact catalog omits the version-local artifact paths', async () => {
   const fixtureRoot = await writeFixture({
     includeV21ArtifactPaths: false
@@ -782,8 +874,11 @@ test('V21 promotion preparation rewrites hand-authored status truth for promoted
     assert.match(content, /Current canonical\/latest target: `V21`/);
     assert.match(content, /Canonical proof-source commit: `deadbeef`/);
     const versionStateLine = content.match(/^- V21 state: (.+)$/m);
-    assert.ok(versionStateLine);
-    assert.doesNotMatch(versionStateLine[1], /draft|pending|in progress/i);
+    const stateValue = versionStateLine?.[1];
+    if (typeof stateValue !== 'string') {
+      throw new Error(`Missing V21 state line in ${relativePath}`);
+    }
+    assert.doesNotMatch(stateValue, /draft|pending|in progress/i);
   }
 
   const promotedOutput = runCheck(
