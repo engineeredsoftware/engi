@@ -44,6 +44,9 @@ This matrix is grounded in:
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_NOTES.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_SYSTEM_PARITY_MATRIX.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROVEN.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROPER.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROPER_DELTA.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md`
 - `/Users/garrettmaring/Developer/ENGI/.engi/v20-operator-acceptance-transcript.json`
 - `/Users/garrettmaring/Developer/ENGI/.engi/v20-visual-regression-report.json`
 - `/Users/garrettmaring/Developer/ENGI/.engi/v20-accessibility-report.json`
@@ -68,10 +71,12 @@ This matrix is grounded in:
 | Exact proof-family inventory carrier | Earlier V21 appendix work still allowed proof-family canon to be summarized without one row-wise exact inventory carrier | V21 must require an explicit matrix that enumerates family id, proof artifact path, member ids, theorem ids, replay step ids, witness artifact paths, and source basis | `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and `scripts/check-engi-spec-family.mjs` now require the exact proof-family inventory matrix carrier | implemented |
 | Per-family derivability detail | Earlier V21 Appendix B still summarized families mostly as ids and paths without enough current semantic closure detail to rival V16's family pattern | V21 must restate what each family proves, how current closure is carried, member verdict shape, theorem-to-replay grouping, generated/test bindings, and fail-closed conditions | `ENGI_SPECIFYING.md` now requires the normalized per-family detail block and `ENGI_SPEC_V21.md` now carries it for all nine proof families | closed |
 | Per-subsystem derivability detail | Earlier V21 subsystem sections named required behaviors but still left objects, emitted artifacts, invariants, and fail-closed conditions too compressed | V21 must restate the current subsystem objects/artifacts plus the core invariants and fail-closed conditions for each major subsystem slice | `ENGI_SPEC_V21.md` now extends each subsystem surface section with canonical objects/artifacts and invariants/fail-closed conditions | closed |
+| Normalized per-subsystem detail block | Earlier V21 subsystem sections still lacked explicit algorithms/derivation rules, proof obligations, source-bearing implementation basis, validating commands/parity basis, and accepted-boundary truth | V21 must normalize subsystem sections so they carry operationally derivable meaning instead of only object/behavior summaries | `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and `engi-demo/src/canonical/v21-specifying.js` now require those subsystem detail carriers | implemented |
 | Exact generated-artifact inventory carrier | Earlier V21 artifact cataloging still allowed generated-canon shape to be split across prose and per-family tables without one exact inventory carrier | V21 must require an explicit matrix that enumerates path, id, family, role, generator, and validating command for current generated canon | `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and `scripts/check-engi-spec-family.mjs` now require the exact generated-artifact inventory matrix carrier | implemented |
 | Scenario/workflow cross-product carrier | Earlier V21 still allowed current scenario ids, realization profiles, branch modes, principals, and operator workflow stages to be inferred from source and inherited artifacts instead of restated canonically | V21 must require an explicit scenario/workflow/cross-product catalog so current coverage axes are mechanically visible | `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and `scripts/check-engi-spec-family.mjs` now require Appendix I plus current scenario/profile/branch/principal/workflow content | implemented |
 | Fail-closed posture carrier | Earlier V21 still relied too much on source/tests to recover the blocking semantics of invalid deposit, parsed-envelope rejection, no-survivor selection, public overexposure, conservation drift, and stale promotion truth | V21 must require an explicit fail-closed contract/error-posture matrix | `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and `scripts/check-engi-spec-family.mjs` now require Appendix J with current fail-closed postures | implemented |
 | Source-bearing deliverable/artifact carrier | Earlier V21 named many emitted artifacts across subsystem/proof/generated sections but did not force one explicit catalog of source-bearing deliverables and their generators/consumers | V21 must require an explicit deliverable/artifact catalog | `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and `scripts/check-engi-spec-family.mjs` now require Appendix K with current branch/runtime/proof/spec artifacts | implemented |
+| Historical full-canon reconstruction validation | Earlier V21 hardening still validated full-canon structure primarily against the active V21 family itself | V21 must validate specifying against at least one historical full-canon reconstruction family built only from prior canon | `ENGI_SPEC_V20_PROPER.md`, `ENGI_SPEC_V20_PROPER_DELTA.md`, `ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md`, and the generalized checker now provide a second strict validation surface | implemented |
 | Optional non-canonical notes | `ENGI_SPEC_V21_NOTES.md` exists and states its non-canonical role | V21 must allow iterative notes without letting them become shadow canon | Notes rule is explicit in both guide and notes | closed |
 | Required hand-authored canonical file family | V21 draft now includes `ENGI_SPEC_V21.md`, `ENGI_SPEC_V21_DELTA.md`, and `ENGI_SPEC_V21_PARITY_MATRIX.md` | V21 must define and enforce `SPEC`, `SPEC_DELTA`, and `SPEC_PARITY_MATRIX` for V21+ | The V21 file family exists, agrees on direction, and is enforced by `scripts/check-engi-spec-family.mjs` | implemented |
 | Status-block precision | Earlier V21 checking only enforced current-target and version-state truth even though the guide already required richer status inventories | V21 must treat generated-artifact inventory and source-parity status lines as checked canonical contract fields across the hand-authored family | `ENGI_SPECIFYING.md` now names stable literal V21+ status labels and `scripts/check-engi-spec-family.mjs` now fails when `Prior canonical anchor`, `Prior generated proof appendix`, `Generated structured artifact inventory`, or `Source parity state` is missing | implemented |
@@ -109,6 +114,7 @@ This matrix is grounded in:
 | Exact proof-family inventory | V21 `SPEC` contains a row-wise exact proof-family inventory carrier rather than only per-family summary prose | implemented |
 | Per-family proof semantics | V21 `SPEC` carries normalized per-family derivability detail rather than only family inventory bullets | closed |
 | Per-subsystem semantics | V21 `SPEC` carries canonical objects/artifacts plus invariants/fail-closed conditions for each major subsystem slice | closed |
+| Normalized subsystem detail schema | V21 `SPEC` carries algorithms, proof obligations, source-bearing basis, validating commands/parity basis, and accepted-boundary truth for each major subsystem | implemented |
 | Exact generated-artifact inventory | V21 `SPEC` contains a row-wise exact generated-artifact inventory carrier rather than only per-family tables and prose | implemented |
 | Scenario/workflow cross-products | V21 `SPEC` carries the current scenario/profile/branch/principal/workflow coverage axes explicitly | implemented |
 | Fail-closed posture | V21 `SPEC` carries current blocking/error posture explicitly rather than only by implication from tests or source | implemented |
@@ -127,6 +133,7 @@ This matrix is grounded in:
 | File-family gate | V21 promotion path includes draft and promoted file-family checks in real execution and dry-run output | implemented |
 | Commit-body derivation | V21 docs specify canonical commit-body derivation inputs and source now implements them for V21 | implemented |
 | V21 promotion support | V21 source-side promotion path exists in dry-run and non-dry-run command sequencing; remaining blockers are the hand-authored draft target/state lines | implemented |
+| Historical proper family | A non-canonical V20-only full-canon reconstruction exists and passes the generalized checker | implemented |
 
 ## V21 accepted boundaries
 
@@ -150,4 +157,5 @@ This V21 pass is ready to continue deeper source implementation when:
 9. canonical-input validation exists over the active pointed canon,
 10. post-generation active-canon validation exists for the newly pointed V21 family,
 11. promoted-mode parity-judgment closure exists for required tables,
-12. and the parity matrix records which items are implemented versus still source gaps.
+12. a historical `V20_PROPER` family exists as a second strict validation surface,
+13. and the parity matrix records which items are implemented versus still source gaps.

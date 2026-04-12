@@ -93,6 +93,9 @@ Current WIP sequence:
 17. Add promotion-time hand-authored status preparation for V21 before pointer advancement.
 18. Continue tightening V21 density toward a fuller canonical ENGI specification, especially exact proof-family and generated-artifact inventory carriers.
 19. Convert remaining density gaps into required carriers: scenario/workflow cross-products, fail-closed posture, and source-bearing deliverables/artifacts.
+20. Normalize subsystem sections against the stronger specifying schema so each one carries algorithms, proof obligations, source-bearing basis, validating commands/parity basis, and accepted-boundary truth.
+21. Validate the stronger specifying standard against a second strict family by reconstructing `V20_PROPER` from V20 canon only.
+22. Use `V20_PROPER` failures to tighten `ENGI_SPECIFYING.md`, `ENGI_SPEC_V21.md`, and the generalized checker rather than treating the reconstruction as a side document.
 
 ## Early Risks
 
@@ -108,6 +111,8 @@ Current WIP sequence:
 - V21 still needed explicit scenario/profile/branch/principal/workflow cross-product canon so current coverage axes were recoverable without reading runtime source.
 - V21 still needed an explicit fail-closed posture matrix so blocking semantics did not stay trapped in tests and implementation branches.
 - V21 still needed an explicit source-bearing deliverable/artifact catalog so emitted branch/runtime/proof/spec artifacts were derivable in one place.
+- V21 subsystem sections also still needed a normalized detail block; otherwise subsystem derivability stayed weaker than the new guide already required.
+- V21 also needed a second strict validation family; otherwise specifying hardening risked becoming self-validating against only the V21 draft family.
 - Promoted-mode preflight now shows the remaining blockers cleanly: the hand-authored V21 target/state lines still describe draft posture, while the gate/support rows themselves are already implemented.
 
 ## Working Success Condition
@@ -118,4 +123,5 @@ V21 pre-implementation specifying work is ready when:
 - the planned V21 `SPEC`, `SPEC_DELTA`, and `SPEC_PARITY_MATRIX` responsibilities are unambiguous,
 - the next source-side checks can be derived from those documents rather than from ad hoc release habits,
 - the first source-side checker can already fail on structural incompleteness in the V21+ hand-authored file family,
+- the `V20_PROPER` reconstruction exists as a second strict validation family,
 - and V21 promotion-path support, V21 appendix generation, V21 specifying artifact generation, file-family-derived V21 commit-body generation, and active-canon input validation now exist as the next implementation base.

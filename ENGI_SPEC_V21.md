@@ -391,16 +391,36 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `DepositingSurface`, `RepoSupplyStateShape`, `RepoArtifactInventoryEntryShape`, `ArtifactSelectionSurface`, `CandidateAssetShape`, branch-candidate inventories, and selected-source traceability surfaces.
 
+Current algorithms and derivation rules:
+- deposit intake must first distinguish raw versus repo-backed supply,
+- candidate asset shaping must preserve selection, addressing, signing, and GitHub authorization surfaces,
+- repo inventory and benchmark/scenario context must remain available as input to later fit/recall/selection steps,
+- and emitted branch/runtime artifacts must remain derivable back to deposited asset identity.
+
 Current invariants and fail-closed conditions:
 - raw and repo-backed intake must remain distinguishable,
 - selected/materialized assets must stay traceable back to deposited asset ids and content-unit identity,
 - and asset intake must fail closed if issuer, authorization, addressing, or signing roots required by the selected surface are absent.
 
-Current implementation reading remains concentrated in:
+Current proof obligations:
+- deposited asset identity must survive into selection/materialization and proof-contract closure,
+- repo-authenticated supply must not silently collapse into raw-only supply,
+- and later proof, settlement, and projection artifacts must be able to cite deposit-origin evidence explicitly.
+
+Current source-bearing implementation basis:
 - `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/surfaces.js`
+- `engi-demo/src/canonical/evaluation-materialization.js`
+- `engi-demo/src/demo-shell-state.js`
+
+Current validating commands and parity basis:
 - `engi-demo/test/core.test.js`
-- `engi-demo/test/api.test.js`
 - `engi-demo/test/e2e.test.js`
+- parity basis: `Per-subsystem semantics`, `Subsystem totality matrix`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond current global V21 boundaries,
+- reopen if deposit intake, repo-auth surfaces, or traceability roots change shape without the main `SPEC` restating them.
 
 ### Needing and prompt/inference ownership
 
@@ -414,12 +434,37 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `NeedingSurface`, `NeedShape`, prompt surfaces, prompt contracts, parsed completion envelopes, inference moment contracts, inference proofs, and need-measurement runtime state.
 
+Current algorithms and derivation rules:
+- need measurement derives task, failure modes, constraints, target artifact kinds, and closure criteria from benchmark/scenario evidence plus prompt-owned inference fields,
+- prompt surfaces must materialize ordered context inputs, lineage, contract hashes, and parsable completion contracts before outputs become admissible,
+- and deterministic/static measurements must remain separate from prompt/evaluator-derived fields.
+
 Current invariants and fail-closed conditions:
 - every prompt-owned or inferred field must retain explicit ownership,
 - prompt and evaluator outputs must remain separable from deterministic/static measurements,
 - and malformed, unresolved, or insufficient prompt/evaluator outputs must not pass into need canon without family failure.
 
-Current proof closure lives through:
+Current proof obligations:
+- prompt-owned fields must be contract-complete and parse-admissible,
+- inference-owned fields must remain traceable to evaluator/prompt surfaces and evidence refs,
+- and downstream consumers of prompt/inference outputs must remain declared.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/prompting.js`
+- `engi-demo/src/canonical/need-measurement.js`
+- `engi-demo/src/canonical/run-artifacts.js`
+
+Current validating commands and parity basis:
+- `engi-demo/test/core.test.js`
+- `npm --prefix engi-demo run test:unit`
+- parity basis: `Per-family proof semantics`, `Per-subsystem semantics`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond current global V21 boundaries,
+- reopen if prompt/evaluator ownership, parsed-envelope admissibility, or downstream-consumer closure changes shape.
+
+Current proof obligations live through:
 - `prompt-completeness`
 - `inference-synthesis`
 
@@ -435,12 +480,37 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `DepositingToNeedingSurface`, recall summaries, ranking/fusion surfaces, verification receipts, verification report, evaluated candidate summaries, and use-tier assignments.
 
+Current algorithms and derivation rules:
+- depositing-to-needing fit must be derived as its own relation before ranking and verification outcomes are interpreted,
+- recall/ranking must produce candidate strength without erasing verification-stage meaning,
+- and verification must classify issuance, provenance, sufficiency, issuer-policy, and use-tier consequence as explicit stage-distinct outputs.
+
 Current invariants and fail-closed conditions:
 - fit must stay visible as a distinct relation,
 - ranking and verification must remain stage-distinct,
 - and no candidate may become patch- or settlement-eligible solely because ranking was high while verification or issuer policy remained insufficient.
 
-Current proof closure lives through:
+Current proof obligations:
+- receipt/report/proof agreement over static and verification stages must remain replayable,
+- use-tier consequences must remain materially bound to verification outcomes,
+- and ranking explanations must never override issuer-policy or provenance insufficiency.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/evaluation-materialization.js`
+- `engi-demo/src/canonical/run-artifacts.js`
+- `engi-demo/src/demo-shell-state.js`
+
+Current validating commands and parity basis:
+- `engi-demo/test/core.test.js`
+- `npm --prefix engi-demo run test:unit`
+- parity basis: `Per-subsystem semantics`, `Per-family proof semantics`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond current global V21 boundaries,
+- reopen if fit/ranking/verification stage separation changes or if use-tier consequences gain new canonical classes.
+
+Current proof obligations live through:
 - `static-code-analysis`
 - `verification-decisions`
 
@@ -456,12 +526,37 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `AssetPackShape`, `AssetPackLockShape`, `SelectedCandidateShape`, `SelectedSourceMaterialManifest`, materialization exclusions, materialization visibility proof, selection-consistency proof, and branch artifacts.
 
+Current algorithms and derivation rules:
+- selection assembles an asset pack under branch-mode-dependent admissibility,
+- materialization emits selected-source manifests, exclusions, visibility proof, and branch artifacts from the selected set,
+- and branch artifacts must remain derivable from lock/manifests rather than ad hoc operator summaries.
+
 Current invariants and fail-closed conditions:
 - selected assets, lock entries, and materialized source units must stay mutually closed,
 - exclusions must stay explicit and reasoned,
 - and visibility posture must fail closed if branch artifacts, materialized source, or proof surfaces disagree about what lower-privilege principals may observe.
 
-Current proof closure lives through:
+Current proof obligations:
+- selected assets, excluded assets, and context-only assets must remain distinguishable,
+- materialization proof must bind back to selected-source and lock artifacts,
+- and lower-privilege visibility rules must never be inferred from UI convenience alone.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/evaluation-materialization.js`
+- `engi-demo/src/canonical/proof-materialization.js`
+- `engi-demo/src/demo-shell-state.js`
+
+Current validating commands and parity basis:
+- `engi-demo/test/core.test.js`
+- `engi-demo/test/e2e.test.js`
+- parity basis: `Per-subsystem semantics`, `Source-bearing deliverables`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond current global V21 boundaries,
+- reopen if branch-mode admissibility or visibility proof shape changes.
+
+Current proof obligations live through:
 - `selection-and-materialization`
 
 ### Identity, authorization, and sensitive flow
@@ -476,12 +571,37 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `IdentityBindingShape`, `AuthorizationDecisionShape`, identity bindings, authorization decisions, sensitive-data flow records, identity-authorization proof, and sensitive-data-flow proof.
 
+Current algorithms and derivation rules:
+- principal bindings must be materialized before authorization decisions are interpreted,
+- authorization decisions must be derived against explicit policy/action pairs,
+- and sensitive-data flow records must bind confidentiality classes to retention/disclosure consequences.
+
 Current invariants and fail-closed conditions:
 - principal identity and authority must remain explicit rather than inferred from projection outcome,
 - confidentiality classes must stay tied to retention/disclosure rules,
 - and any unauthorized public-flow evidence must fail the family rather than being treated as a lower-severity quality issue.
 
-Current proof closure lives through:
+Current proof obligations:
+- every authorization decision must bind to a known principal,
+- class-to-policy assignment must remain explicit for sensitive flows,
+- and no unauthorized public-flow evidence may be normalized by projection or quality artifacts.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/proof-materialization.js`
+- `engi-demo/src/canonical/projections.js`
+- `engi-demo/src/demo-shell-state.js`
+
+Current validating commands and parity basis:
+- `engi-demo/test/core.test.js`
+- `npm --prefix engi-demo run test:unit`
+- parity basis: `Per-subsystem semantics`, `Fail-closed posture`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond current global V21 boundaries,
+- reopen if principal classes, policy actions, or sensitive-data classes are extended.
+
+Current proof obligations live through:
 - `authorization-and-sensitive-flow`
 
 ### Disclosure and projection
@@ -497,12 +617,38 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `ProjectionPolicyShape`, `ProjectionArtifactRule`, bounded-public proof, redaction proof, disclosure proof, public artifact inventory, and principal-bounded operator projections.
 
+Current algorithms and derivation rules:
+- projection policy derives principal-bounded visibility from artifact rules and default principal posture,
+- bounded-public proof must be built strictly from bounded metadata,
+- and redaction/disclosure proofs must reconcile policy rules against public/private artifact inventories and projected latest-run surfaces.
+
 Current invariants and fail-closed conditions:
 - bounded-public proof must remain metadata-only,
 - reviewer and buyer views must remain richer than public while still bounded away from raw source,
 - and quality or operator surfaces must fail closed if they require internal-only artifacts to validate lower-privilege projections.
 
-Current proof closure lives through:
+Current proof obligations:
+- principal-bounded artifact visibility must stay explicit,
+- bounded-public proof, redaction proof, and disclosure proof must remain mutually aligned,
+- and public/operator review must not require internal-only artifacts to appear correct.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/canonical/projections.js`
+- `engi-demo/src/demo-shell-state.js`
+- `engi-demo/src/canonical/v20-quality.js`
+- `engi-demo/src/engi-demo.js`
+
+Current validating commands and parity basis:
+- `engi-demo/test/core.test.js`
+- `npm --prefix engi-demo run test:v20-projection-quality`
+- `npm --prefix engi-demo run test:v20-accessibility`
+- parity basis: `Scenario/workflow cross-products`, `Fail-closed posture`
+
+Current accepted boundaries:
+- operator-quality remains representative-smoke at inherited V20 first-gate depth,
+- reopen if projection canon expands beyond current public/buyer/reviewer/internal surfaces or if screenshot-backed closure becomes canonical.
+
+Current proof obligations live through:
 - `disclosure-boundary`
 
 ### Settlement and exact accounting
@@ -517,12 +663,37 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - `SettlementPreviewShape`, `SettlementParticipationStruct`, source-to-shares artifact, settlement participation artifact, accounting-precision report, journal diff, journal-completeness proof, and settlement proof.
 
+Current algorithms and derivation rules:
+- settlement derives contribution, clipping, normalization, participation, and allocation before journal and theorem closure are rendered,
+- selected, participating, credited, and zero-credit assets must remain distinct throughout preview and proof surfaces,
+- and journal/settlement artifacts must materialize exact accounting state rather than only summarizing it.
+
 Current invariants and fail-closed conditions:
 - debit/credit conservation must remain exact,
 - selected, participating, credited, and zero-credit assets must remain distinguishable,
 - and settlement must fail closed if accounting precision, journal completeness, or settlement-proof bindings drift apart.
 
-Current proof closure lives through:
+Current proof obligations:
+- contribution-to-allocation conservation must remain exact,
+- journal completeness must remain derivable from emitted artifacts,
+- and source-to-shares replay must remain sufficient to explain settlement consequences for all participating assets, including zero-credit ones.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/canonical/settlement.js`
+- `engi-demo/src/settlement-structs.js`
+- `engi-demo/src/engi-demo.js`
+- `engi-demo/src/canonical/run-artifacts.js`
+
+Current validating commands and parity basis:
+- `engi-demo/test/core.test.js`
+- `npm --prefix engi-demo run test:unit`
+- parity basis: `Per-subsystem semantics`, `Fail-closed posture`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond current global V21 boundaries,
+- reopen if settlement dispositions, accounting invariants, or journal artifact roles change.
+
+Current proof obligations live through:
 - `settlement-source-to-shares`
 
 ### Proof contract, witnesses, and replay
@@ -539,13 +710,38 @@ Current canon requires:
 Current canonical objects and emitted artifacts:
 - proof contract artifact, theorem verdicts, artifact bindings, replay steps, system proof bundle, witness manifest, generated `_PROVEN_`, and inherited matrix/replay/quality artifact families.
 
+Current algorithms and derivation rules:
+- proof contract materialization binds theorem ids, evidence chains, required artifact paths, and replay steps into one whole-system contract,
+- witness manifests and proof bundles are generated from shared family/member/theorem/artifact state,
+- and `_PROVEN_` plus matrix/report artifacts summarize that state without becoming an alternate semantic source.
+
 Current invariants and fail-closed conditions:
 - theorem ids must stay bound to replay steps and required artifact paths,
 - witness manifests and proof bundles must agree on proof-family membership and artifact coverage,
 - and generated appendices or matrices must fail closed on catalog drift, missing digests, or stale generated output.
 
-Current proof closure lives through:
-- `proof-contract`
+Current proof obligations:
+- every family, member, and theorem must remain represented in the whole-system proof surface,
+- generated proof artifacts must remain derivable from the proof-source commit and current source basis,
+- and replay/report artifacts must fail if catalog or digest truth drifts.
+
+Current source-bearing implementation basis:
+- `engi-demo/src/canonical/proof-annotations.js`
+- `engi-demo/src/canonical/proof-materialization.js`
+- `engi-demo/src/canonical/run-artifacts.js`
+- `engi-demo/src/canonical/proven-generator.js`
+- `scripts/generate-engi-proven.mjs`
+
+Current validating commands and parity basis:
+- `engi-demo/test/proven-generator.test.js`
+- `npm --prefix engi-demo run test:proof-member-matrix`
+- `npm --prefix engi-demo run test:theorem-evidence-matrix`
+- `npm --prefix engi-demo run test:deterministic-replay`
+- parity basis: `Per-family proof semantics`, `Exact generated-artifact inventory`
+
+Current accepted boundaries:
+- no subsystem-local accepted boundary beyond inherited representative mutation/operator-quality boundaries already recorded in current canon,
+- reopen if proof families, theorem catalogs, or generated proof/report families expand.
 
 ## V21 accepted boundaries and reopen conditions
 
@@ -718,6 +914,9 @@ The current validation stack is inherited from V17 through V20 and should now be
 7. Operator-quality reports
    Prove transcript, visual, accessibility, performance, and projection-quality closure.
 
+8. Historical full-canon reconstruction
+   Proves the specifying standard can restate an already-promoted version as a full canon without importing future truth.
+
 ### Current canonical gate inventory
 
 The current promoted gate family includes:
@@ -739,6 +938,7 @@ The current promoted gate family includes:
 - `npm --prefix engi-demo run test:v20-projection-quality`
 - `npm --prefix engi-demo run test:v20-quality-summary`
 - `npm --prefix engi-demo test`
+- `node scripts/check-engi-spec-family.mjs --version V20_PROPER --mode draft --current-target V20`
 - `node scripts/check-engi-canonical-inputs.mjs --current-target V21`
 
 V21 does not change those gates in this pre-implementation drafting pass.
@@ -764,6 +964,24 @@ The current accepted first-gate operator-quality counts are:
 - quality summary `qualityReportCount = 5`
 
 These counts are current-canon runtime facts and should not drift silently.
+
+## V21 historical full-canon reconstruction validation
+
+V21 is no longer allowed to validate specifying only against the V21 family itself.
+
+The current second validation surface is:
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROPER.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROPER_DELTA.md`
+- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md`
+
+The purpose of that family is:
+- restate V20 as a full-system canon,
+- use only V20 canonical inputs,
+- reject V21-specific generated artifact imports,
+- and prove that the V21 specifying rules are reusable against an already-promoted version.
+
+This makes V21 harder than a self-referential metaspec pass.
+If `V20_PROPER` cannot satisfy a supposed full-canon rule, either the rule is too V21-specific or the rule is not yet precise enough.
 
 ## V21 full-canon rule
 
@@ -1596,6 +1814,19 @@ Each row names a required subsystem coverage item, its current canonical contrac
 | `.engi/v21-spec-family-report.json` | executable structural/density verdict over the hand-authored V21 family | `engi-demo/src/canonical/v21-specifying.js`, `scripts/check-engi-spec-family.mjs` | promotion preflight and postflight, canonical-input family |
 | `.engi/v21-canonical-input-report.json` | executable verdict over the active pointed canonical input set | `engi-demo/src/canonical/v21-specifying.js`, `scripts/check-engi-canonical-inputs.mjs` | promotion preflight/post-generation validation, future drafting inputs |
 
+### Appendix L. Historical full-canon reconstruction validation
+
+| Validation surface | Current role | Current contract meaning |
+| --- | --- | --- |
+| `ENGI_SPEC_V20_PROPER.md` | non-canonical historical full-canon reconstruction of V20 | proves the full-spec structure is reusable against an already-promoted version |
+| `ENGI_SPEC_V20_PROPER_DELTA.md` | reconstruction-local decisions and exclusions | proves historical reconstruction discipline can be version-local and explicit |
+| `ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md` | reconstruction-local parity truth | proves the checker can validate a second strict family without future-truth import |
+
+Current V20-only reconstruction rules:
+- reconstruct from `ENGI_SPEC_V20.md`, `ENGI_SPEC_V20_NOTES.md`, `ENGI_SPEC_V20_SYSTEM_PARITY_MATRIX.md`, `ENGI_SPEC_V20_PROVEN.md`, and active `.engi/v19-*`/`.engi/v20-*`,
+- do not import `.engi/v21-spec-family-report.json`, `.engi/v21-canonical-input-report.json`, or `ENGI_SPEC_V21_PROVEN.md`,
+- and use the generalized `check-engi-spec-family` profile for `V20_PROPER` as the executable hardening surface.
+
 ## V21 completion condition
 
 V21 is complete only when:
@@ -1618,4 +1849,7 @@ V21 is complete only when:
 17. optional `NOTES` are clearly defined as non-canonical,
 18. the V21 current-version generated artifact family is specified directly in the main `SPEC`,
 19. post-generation active-canon validation is named as part of promotion closure,
-20. and the next source-side implementation pass can be executed directly from the V21 spec family without needing new metaspecing improvisation.
+20. the historical `V20_PROPER` family exists as a second full-canon validation surface,
+21. the V20 historical reconstruction remains free of V21-specific artifact imports,
+22. the generalized checker validates both `V21` and `V20_PROPER`,
+23. and the next source-side implementation pass can be executed directly from the V21 spec family without needing new metaspecing improvisation.

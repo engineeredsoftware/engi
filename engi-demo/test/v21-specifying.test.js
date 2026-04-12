@@ -84,6 +84,7 @@ function runPreparePromotion(args, cwd) {
  *   includeV21ArtifactPaths?: boolean,
  *   includeGeneratedArtifactInventory?: boolean,
  *   includeCanonicalProofSourceCommit?: boolean,
+ *   includeSubsystemDetailLabels?: boolean,
  *   includeCrossProductAppendix?: boolean,
  *   includeFailClosedAppendix?: boolean,
  *   includeDeliverableAppendix?: boolean,
@@ -104,6 +105,7 @@ async function writeFixture(options = {}) {
   const includeV21ArtifactPaths = options.includeV21ArtifactPaths !== false;
   const includeGeneratedArtifactInventory = options.includeGeneratedArtifactInventory !== false;
   const includeCanonicalProofSourceCommit = options.includeCanonicalProofSourceCommit === true;
+  const includeSubsystemDetailLabels = options.includeSubsystemDetailLabels !== false;
   const includeCrossProductAppendix = options.includeCrossProductAppendix !== false;
   const includeFailClosedAppendix = options.includeFailClosedAppendix !== false;
   const includeDeliverableAppendix = options.includeDeliverableAppendix !== false;
@@ -176,8 +178,50 @@ async function writeFixture(options = {}) {
     'x',
     '',
     '## V21 canonical subsystem surfaces',
-    'x',
-    '',
+  );
+  const subsystemBlocks = [
+    '### Depositing and asset supply',
+    '### Needing and prompt/inference ownership',
+    '### Fit, recall, ranking, and verification',
+    '### Selection and materialization',
+    '### Identity, authorization, and sensitive flow',
+    '### Disclosure and projection',
+    '### Settlement and exact accounting',
+    '### Proof contract, witnesses, and replay'
+  ];
+  for (const heading of subsystemBlocks) {
+    spec.push(heading, 'Current canon requires:', 'x', '');
+    spec.push('Current canonical objects and emitted artifacts:', 'x', '');
+    if (includeSubsystemDetailLabels) {
+      spec.push(
+        'Current algorithms and derivation rules:',
+        'x',
+        '',
+        'Current invariants and fail-closed conditions:',
+        'x',
+        '',
+        'Current proof obligations:',
+        'x',
+        '',
+        'Current source-bearing implementation basis:',
+        'x',
+        '',
+        'Current validating commands and parity basis:',
+        'x',
+        '',
+        'Current accepted boundaries:',
+        'x',
+        ''
+      );
+    } else {
+      spec.push(
+        'Current invariants and fail-closed conditions:',
+        'x',
+        ''
+      );
+    }
+  }
+  spec.push(
     '## V21 proof-family canon',
     'x',
     '',
@@ -504,9 +548,43 @@ async function writeCanonicalInputFixture(options = {}) {
   return root;
 }
 
+/**
+ * @param {{ futurePhrase?: string }} [options]
+ */
+async function writeProperFixture(options = {}) {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'engi-proper-family-'));
+  await fs.writeFile(path.join(root, 'ENGI_SPEC.txt'), 'V20\n', 'utf8');
+
+  const filesToCopy = [
+    'ENGI_SPECIFYING.md',
+    'ENGI_SPEC_TEMPLATEGUIDE.md',
+    'ENGI_SPEC_V20_PROPER.md',
+    'ENGI_SPEC_V20_PROPER_DELTA.md',
+    'ENGI_SPEC_V20_PROPER_PARITY_MATRIX.md'
+  ];
+  for (const relativePath of filesToCopy) {
+    const content = await fs.readFile(path.join(repoRoot, relativePath), 'utf8');
+    await fs.writeFile(path.join(root, relativePath), content, 'utf8');
+  }
+
+  if (options.futurePhrase) {
+    const deltaPath = path.join(root, 'ENGI_SPEC_V20_PROPER_DELTA.md');
+    const deltaContent = await fs.readFile(deltaPath, 'utf8');
+    await fs.writeFile(deltaPath, `${deltaContent}\n\nFuture import drift: ${options.futurePhrase}\n`, 'utf8');
+  }
+
+  return root;
+}
+
 test('real V21 draft spec family passes structural draft-mode checking', () => {
   const output = runCheck(['--version', 'V21', '--mode', 'draft', '--current-target', 'V20'], repoRoot);
   assert.match(output, /ENGI spec family ok for V21/);
+  assert.match(output, /mode=draft/);
+});
+
+test('real V20_PROPER draft spec family passes structural draft-mode checking', () => {
+  const output = runCheck(['--version', 'V20_PROPER', '--mode', 'draft', '--current-target', 'V20'], repoRoot);
+  assert.match(output, /ENGI spec family ok for V20_PROPER/);
   assert.match(output, /mode=draft/);
 });
 
@@ -548,6 +626,14 @@ test('structural checking fails when the proof-family catalog omits a required f
   });
   const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
   assert.match(stderr, /proof-family catalog is missing "Prompt-completeness"/i);
+});
+
+test('structural checking fails when subsystem sections omit normalized detail labels', async () => {
+  const fixtureRoot = await writeFixture({
+    includeSubsystemDetailLabels: false
+  });
+  const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
+  assert.match(stderr, /subsystem section "Depositing and asset supply" is missing "Current algorithms and derivation rules"/i);
 });
 
 test('structural checking fails when the scenario and cross-product appendix is omitted', async () => {
@@ -620,6 +706,14 @@ test('structural checking fails when parity tables use unsupported judgment voca
   });
   const stderr = runCheckFailure(['--version', 'V21', '--mode', 'draft', '--repo-root', fixtureRoot], fixtureRoot);
   assert.match(stderr, /uses unsupported judgment vocabulary/i);
+});
+
+test('V20_PROPER checking fails when future-version generated artifact phrases are imported', async () => {
+  const fixtureRoot = await writeProperFixture({
+    futurePhrase: '.engi/v21-spec-family-report.json'
+  });
+  const stderr = runCheckFailure(['--version', 'V20_PROPER', '--mode', 'draft', '--repo-root', fixtureRoot, '--current-target', 'V20'], fixtureRoot);
+  assert.match(stderr, /must not import future\/non-canonical phrase "\.engi\/v21-spec-family-report\.json"/i);
 });
 
 test('canonical input checking fails when the active proven appendix is missing', async () => {

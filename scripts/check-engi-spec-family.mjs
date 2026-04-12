@@ -34,7 +34,7 @@ function printHelp() {
       'Usage: node scripts/check-engi-spec-family.mjs --version V21 [options]',
       '',
       'Options:',
-      '  --version <VN>          Version to validate. V21+ currently supported.',
+      '  --version <VN>          Version to validate. Supported: V21+, V20_PROPER.',
       '  --mode <draft|promoted> Validation mode. Defaults to draft.',
       '  --current-target <VN>   Expected `Current canonical/latest target` line. Defaults to ENGI_SPEC.txt in draft mode and the version in promoted mode.',
       '  --repo-root <path>      Override repo root for fixture testing.',

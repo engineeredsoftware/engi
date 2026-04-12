@@ -104,6 +104,9 @@ The current accepted V21 drafting decisions are:
 17. V21 now treats scenario/profile/branch/principal/workflow cross-products as mandatory explicit canon rather than recoverable context.
 18. V21 now requires a fail-closed contract/error-posture matrix so blocking semantics are visible without source excavation.
 19. V21 now requires a source-bearing deliverable/artifact catalog so emitted branch/proof/spec artifacts are implementation-derivable from `SPEC` alone.
+20. V21 now normalizes subsystem sections further so each major subsystem carries algorithms/derivation rules, proof obligations, source-bearing implementation basis, validating commands/parity basis, and accepted-boundary truth rather than only behavior/object summaries.
+21. V21 now requires specifying hardening to validate against at least one historical full-canon reconstruction family rather than only the active V21 family.
+22. The first historical reconstruction family is `V20_PROPER`, a non-canonical V20-only restatement used to validate full-canon structure and future-truth rejection.
 
 ## Explicitly deferred or unresolved items
 
@@ -124,9 +127,10 @@ Current covered checks:
 4. required whole-system sections in the main `SPEC`,
 5. required appendix-grade totality carriers and proof-family coverage headings in the main `SPEC`,
 6. required scenario/workflow cross-product appendix content, fail-closed posture content, and deliverable/artifact catalog content in the main `SPEC`,
-7. required structural sections in `DELTA` and `PARITY_MATRIX`,
-8. promoted-mode rejection of draft/pending status language,
-9. and promoted-mode rejection of transitional parity judgments such as `drafted`, `implemented; promotion pending`, and `spec closed; source gap`.
+7. normalized per-subsystem detail labels/content in the main `SPEC`,
+8. required structural sections in `DELTA` and `PARITY_MATRIX`,
+9. promoted-mode rejection of draft/pending status language,
+10. and promoted-mode rejection of transitional parity judgments such as `drafted`, `implemented; promotion pending`, and `spec closed; source gap`.
 
 Current validating test basis:
 - `engi-demo/test/v21-specifying.test.js`
@@ -134,6 +138,7 @@ Current validating test basis:
 
 Additional V21 source-side support now implemented:
 - `engi-demo/src/canonical/proven-generator.js` supports `V21` appendix generation plus `.engi/v21-spec-family-report.json` and `.engi/v21-canonical-input-report.json`,
+- `scripts/check-engi-spec-family.mjs` now also supports `V20_PROPER` as a second strict validation profile for historical full-canon reconstruction,
 - `scripts/promote-engi-canon.mjs` supports `--version V21`,
 - `scripts/check-engi-canonical-inputs.mjs` validates the current pointed canon's hand-authored and generated input family,
 - `scripts/prepare-engi-spec-family-promotion.mjs` now rewrites the hand-authored V21 status truth into promoted posture immediately before pointer advancement,
@@ -161,7 +166,9 @@ The accepted pre-implementation sequence is:
 11. add post-generation active-canon validation for the newly pointed V21 family,
 12. align V21 parity judgments with promoted-mode closure requirements,
 13. finish density closure for scenario/workflow cross-products, fail-closed posture, and source-bearing deliverables,
-14. and only then decide whether V21 is ready for canonical promotion.
+14. normalize per-subsystem detail blocks against the stronger specifying schema,
+15. validate `V20_PROPER` as a second full-canon family against the generalized checker,
+16. and only then decide whether V21 is ready for canonical promotion.
 
 ## Commit-Body Direction
 
@@ -174,6 +181,7 @@ When V21 later reaches canonical promotion, the commit body should be derived fr
 - the explicit fail-closed posture matrix,
 - the explicit source-bearing deliverable/artifact catalog,
 - the first implemented structural spec-family checker,
+- the `V20_PROPER` historical reconstruction validation track,
 - the generated-canon input rule,
 - the minimal V21 specifying artifact family,
 - the post-generation active-canon validation rule,

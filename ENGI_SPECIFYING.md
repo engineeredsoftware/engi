@@ -261,6 +261,7 @@ Compatibility stubs may remain at old paths, but they must not contain a second 
 
 Optional adjunct files may exist when justified:
 - `ENGI_SPEC_VN_NOTES.md` for non-canonical iterative working notes during drafting and implementation,
+- `ENGI_SPEC_VN_PROPER.md`, `ENGI_SPEC_VN_PROPER_DELTA.md`, and `ENGI_SPEC_VN_PROPER_PARITY_MATRIX.md` for non-canonical historical full-canon reconstructions used to validate specifying against an already-promoted version,
 - `ENGI_SPEC_VN_INFORMATION_AUDIT.md` for density recovery or historical coverage audits,
 - realization or demo specs under their realization roots,
 - realization implementation matrices,
@@ -271,6 +272,22 @@ Optional adjunct files may exist when justified:
 
 Optional files must be named by the active spec family if they are parity-bearing.
 Unreferenced adjunct docs are not canonical.
+
+### Historical Proper Reconstructions
+
+A `PROPER` family is a non-canonical historical reconstruction of an already-promoted version.
+
+Its purpose is not to create a second canon.
+Its purpose is to validate whether the current specifying standard can restate an already-promoted version as a full-system, full-auditability, full-reimplementability spec.
+
+Rules:
+- a `PROPER` family must never be pointed to by `ENGI_SPEC.txt`,
+- a `PROPER` family must declare the historical canonical target it reconstructs,
+- a `PROPER` family must derive only from that version's canonical inputs,
+- a `PROPER` family must not import future-version generated artifacts or later semantic closure as if they were already present in the historical target,
+- and a `PROPER` family should be structurally strict enough to run through the same spec-family checker profile class as the active version, with only target-specific differences.
+
+When a version is hardening specifying itself, a historical `PROPER` family is a preferred validation surface because it prevents the metaspec from being tested only against the file family that authored it.
 
 ## 3.3 Optional Non-Canonical Notes
 
@@ -546,6 +563,21 @@ Each major subsystem section must include:
 - accepted boundaries.
 
 Sections may group related items, but none of those responsibilities may disappear.
+
+## 6.1.1 Normalized Subsystem Detail Block
+
+To keep subsystem density mechanically checkable rather than editorial, every major subsystem section should expose a normalized minimum detail block.
+
+At minimum, the main `SPEC` should make the following directly recoverable for each major subsystem:
+- current canonical objects and emitted artifacts,
+- current algorithms and derivation rules,
+- current invariants and fail-closed conditions,
+- current proof obligations,
+- current source-bearing implementation basis,
+- current validating commands and parity basis,
+- and current accepted boundaries or explicit statement that none are subsystem-local.
+
+Those labels do not need to be word-for-word identical across all future versions, but the information itself must be explicit enough that a checker or auditor can confirm that each subsystem section is carrying operational meaning rather than only naming the subsystem.
 
 ## 6.2 Canonical Structures
 
@@ -993,6 +1025,12 @@ The spec must state:
 - which artifacts it emits,
 - and which accepted boundaries remain.
 
+When the active version is changing specifying, promotion, or full-canon structure directly, validation should include two families:
+1. the active draft or promoted family being authored now,
+2. and at least one historical `PROPER` reconstruction family derived only from an already-promoted target.
+
+This dual-family validation is the preferred way to detect a specifying rule that accidentally encodes the quirks of the current draft rather than a reusable full-canon standard.
+
 ---
 
 # 13. Operator and Pedagogy Requirements
@@ -1190,5 +1228,10 @@ A full ENGI `SPEC` is structurally complete only when:
 18. fail-closed contract posture is cataloged rather than implied,
 19. source-bearing deliverables and artifacts are enumerated with generators and consumers,
 20. and `ENGI_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
+
+When the version is changing specifying itself, completion should also include:
+21. at least one historical `PROPER` family or equivalent full-canon reconstruction validates the new specifying rules against an already-promoted target,
+22. the historical reconstruction remains free of future-version truth imports,
+23. and any failure exposed by that reconstruction has been pushed back into `SPECIFYING`, the active `SPEC`, or the active parity matrix.
 
 If any item fails, the version may still be a useful draft, but it is not a complete canonical system specification.
