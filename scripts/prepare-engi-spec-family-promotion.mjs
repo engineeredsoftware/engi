@@ -28,10 +28,10 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-engi-spec-family-promotion.mjs --version V21 --commit <sha> [--repo-root <path>]',
+      'Usage: node scripts/prepare-engi-spec-family-promotion.mjs --version V22 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21.'
+      'Currently implemented for V21 and V22.'
     ].join('\n')
   );
 }
@@ -104,48 +104,82 @@ function rewriteStatusValues(content, values) {
  * @param {'spec' | 'delta' | 'parity'} kind
  */
 function rewritePromotionStatus(version, commit, content, kind) {
-  if (version !== 'V21') {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21 only. Received ${version}.`);
+  if (!['V21', 'V22'].includes(version)) {
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21 and V22. Received ${version}.`);
   }
-  const sharedInventory = 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21';
+  const sharedInventory = version === 'V21'
+    ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'
+    : 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v22-spec-family-report.json`, `.engi/v22-canonical-input-report.json`, and `.engi/v22-canon-posture-drift-report.json`; `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix for V22';
   const sharedValues = {
     Scope:
-      kind === 'spec'
-        ? 'V21 canonical specification for specifying-canon hardening after V20 operator-quality canon'
-        : kind === 'delta'
-          ? 'V21 canonical delta for specifying-canon hardening after V20 operator-quality canon'
-          : 'V21 canonical parity ledger for specifying-canon hardening',
-    'Current canonical/latest target': '`V21`',
+      version === 'V21'
+        ? kind === 'spec'
+          ? 'V21 canonical specification for specifying-canon hardening after V20 operator-quality canon'
+          : kind === 'delta'
+            ? 'V21 canonical delta for specifying-canon hardening after V20 operator-quality canon'
+            : 'V21 canonical parity ledger for specifying-canon hardening'
+        : kind === 'spec'
+          ? 'V22 canonical system specification for runtime/operator drift-detection hardening after V21 specifying canon'
+          : kind === 'delta'
+            ? 'V22 canonical delta for runtime/operator drift-detection hardening after V21 specifying canon'
+            : 'V22 canonical parity ledger for runtime/operator drift-detection hardening',
+    'Current canonical/latest target': `\`${version}\``,
     'Canonical proof-source commit': `\`${commit}\``,
     'Generated structured artifact inventory': sharedInventory
   };
 
   /** @type {Record<string, string>} */
-  const kindSpecificValues = {
-    ...(kind !== 'delta'
-      ? { 'Last fully realized canonical target preserved in source': '`V21`' }
-      : {}),
-    ...(kind === 'spec'
-      ? {
-          'Source parity state':
-            'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized in the promoted V21 file family',
-          'V21 state':
-            'canonical promotion complete; V21 is the active specifying-canon baseline and the V21 hand-authored plus generated canon are aligned'
-        }
-      : kind === 'delta'
-        ? {
-            'Source parity state':
-              'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; this delta records the V20-to-V21 closure',
-            'V21 state':
-              'canonical promotion complete; V21 specifying canon is active and this delta records the promoted closure set'
-          }
-        : {
-            'Source parity state':
-              'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; parity truth is aligned with the promoted V21 file family',
-            'V21 state':
-              'canonical promotion complete; parity truth, generated canon, and hand-authored V21 status are aligned'
-          })
-  };
+  const kindSpecificValues = version === 'V21'
+    ? {
+        ...(kind !== 'delta'
+          ? { 'Last fully realized canonical target preserved in source': '`V21`' }
+          : {}),
+        ...(kind === 'spec'
+          ? {
+              'Source parity state':
+                'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized in the promoted V21 file family',
+              'V21 state':
+                'canonical promotion complete; V21 is the active specifying-canon baseline and the V21 hand-authored plus generated canon are aligned'
+            }
+          : kind === 'delta'
+            ? {
+                'Source parity state':
+                  'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; this delta records the V20-to-V21 closure',
+                'V21 state':
+                  'canonical promotion complete; V21 specifying canon is active and this delta records the promoted closure set'
+              }
+            : {
+                'Source parity state':
+                  'V21 source-side specifying implementation, appendix generation, specifying artifacts, and promotion sequencing are canonicalized; parity truth is aligned with the promoted V21 file family',
+                'V21 state':
+                  'canonical promotion complete; parity truth, generated canon, and hand-authored V21 status are aligned'
+              })
+      }
+    : {
+        ...(kind !== 'delta'
+          ? { 'Last fully realized canonical target preserved in source': '`V22`' }
+          : {}),
+        ...(kind === 'spec'
+          ? {
+              'Source parity state':
+                'V22 source-side runtime/demo canon-posture drift detection, generated drift artifacts, promotion-time runtime preparation, and inherited proof/operator closure are canonicalized in the promoted V22 file family',
+              'V22 state':
+                'canonical promotion complete; V22 is the active system-facing canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned'
+            }
+          : kind === 'delta'
+            ? {
+                'Source parity state':
+                  'V22 source-side runtime/demo canon-posture drift detection, generated drift artifacts, promotion-time runtime preparation, and inherited proof/operator closure are canonicalized; this delta records the V21-to-V22 closure',
+                'V22 state':
+                  'canonical promotion complete; V22 system-facing canon is active and this delta records the promoted drift-detection closure set'
+              }
+            : {
+                'Source parity state':
+                  'V22 source-side runtime/demo canon-posture drift detection, generated drift artifacts, promotion-time runtime preparation, and inherited proof/operator closure are canonicalized; parity truth is aligned with the promoted V22 file family',
+                'V22 state':
+                  'canonical promotion complete; parity truth, runtime posture truth, and generated canon are aligned for V22'
+              })
+      };
 
   return rewriteStatusValues(content, {
     ...sharedValues,

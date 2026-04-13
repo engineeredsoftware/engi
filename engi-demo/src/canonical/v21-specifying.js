@@ -259,6 +259,39 @@ function buildV21LikeProfile(version) {
   };
 }
 
+function buildV22Profile() {
+  const base = buildV21LikeProfile('V22');
+  return {
+    ...base,
+    requiredGeneratedArtifactCatalogSections: [
+      'Inherited V19 reproducible-canon artifacts',
+      'Inherited V20 operator-quality artifacts',
+      'Exact generated-artifact inventory matrix',
+      'V22 specifying generated artifacts',
+      'V22 canon-posture drift detection artifact',
+      'Shared generated-artifact fields',
+      'Artifact-specific generated payload fields',
+      'Artifact confidentiality and disclosability taxonomy',
+      'Minimum generated appendix rendered contents',
+      'Canonical regeneration and fail-closed posture'
+    ],
+    requiredGeneratedAppendixContractPhrases: [
+      ...COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
+      'canon posture drift report',
+      'runtime/api/browser/readme/test alignment',
+      'promotion-time runtime posture rewrite'
+    ],
+    requiredGeneratedArtifactPaths: [
+      ...base.requiredGeneratedArtifactPaths,
+      '.engi/v22-canon-posture-drift-report.json'
+    ],
+    requiredDeliverableAppendixPhrases: [
+      ...base.requiredDeliverableAppendixPhrases,
+      '.engi/v22-canon-posture-drift-report.json'
+    ]
+  };
+}
+
 function buildV20ProperProfile() {
   return {
     reportId: 'v20-proper-spec-family-report',
@@ -368,6 +401,9 @@ function buildV20ProperProfile() {
 function resolveSpecFamilyProfile(version) {
   if (version === 'V20_PROPER') {
     return buildV20ProperProfile();
+  }
+  if (version === 'V22') {
+    return buildV22Profile();
   }
   if (!/^V\d+$/.test(version)) {
     throw new Error(`Version must look like VN or match a supported reconstruction family. Received ${version || 'none'}.`);
@@ -831,6 +867,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   if (currentTarget === 'V21') {
     artifacts.push(...buildV21LikeProfile('V21').requiredGeneratedArtifactPaths);
   }
+  if (currentTarget === 'V22') {
+    artifacts.push(...buildV22Profile().requiredGeneratedArtifactPaths);
+  }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }
 
@@ -838,18 +877,33 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
  * @param {{
  *   repoRoot?: string,
  *   currentTarget?: string,
+ *   reportVersion?: string,
+ *   assumeExistingRelativePaths?: string[],
  *   skipPointerCheck?: boolean
  * }} [input={}]
  */
 export function buildV21CanonicalInputReport({
   repoRoot = DEFAULT_V21_SPECIFYING_REPO_ROOT,
   currentTarget,
+  reportVersion,
+  assumeExistingRelativePaths = [],
   skipPointerCheck = false
 } = {}) {
   const resolvedRepoRoot = path.resolve(repoRoot);
   const pointerPath = path.join(resolvedRepoRoot, 'ENGI_SPEC.txt');
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const checkedTarget = currentTarget || pointerVersion;
+  const resolvedReportVersion = reportVersion || (checkedTarget === 'V22' ? 'V22' : 'V21');
+  const assumedExistingPaths = new Set(
+    assumeExistingRelativePaths.map((relativePath) => path.resolve(resolvedRepoRoot, relativePath))
+  );
+
+  /**
+   * @param {string} filePath
+   */
+  function existsOrAssumed(filePath) {
+    return assumedExistingPaths.has(path.resolve(filePath)) || fileExists(filePath);
+  }
 
   /** @type {string[]} */
   const failures = [];
@@ -865,10 +919,10 @@ export function buildV21CanonicalInputReport({
       ? [path.join(resolvedRepoRoot, `ENGI_SPEC_${checkedTarget}_SYSTEM_PARITY_MATRIX.md`)]
       : [])
   ];
-  const parityPath = parityCandidates.find((candidate) => fileExists(candidate)) || null;
+  const parityPath = parityCandidates.find((candidate) => existsOrAssumed(candidate)) || null;
 
   for (const filePath of [specPath, provenPath]) {
-    if (!fileExists(filePath)) failures.push(`Missing canonical input file: ${path.relative(resolvedRepoRoot, filePath)}`);
+    if (!existsOrAssumed(filePath)) failures.push(`Missing canonical input file: ${path.relative(resolvedRepoRoot, filePath)}`);
   }
   if (!parityPath) {
     failures.push(`Missing canonical parity input for ${checkedTarget}; expected one of ${parityCandidates.map((candidate) => path.relative(resolvedRepoRoot, candidate)).join(', ')}`);
@@ -876,11 +930,11 @@ export function buildV21CanonicalInputReport({
 
   const artifactPaths = buildRequiredCanonicalArtifacts(resolvedRepoRoot, checkedTarget);
   for (const artifactPath of artifactPaths) {
-    if (!fileExists(artifactPath)) failures.push(`Missing canonical generated artifact: ${path.relative(resolvedRepoRoot, artifactPath)}`);
+    if (!existsOrAssumed(artifactPath)) failures.push(`Missing canonical generated artifact: ${path.relative(resolvedRepoRoot, artifactPath)}`);
   }
 
   return {
-    reportId: 'v21-canonical-input-report',
+    reportId: `${resolvedReportVersion.toLowerCase()}-canonical-input-report`,
     checkedTargetVersion: checkedTarget,
     pointerVersion,
     repoRoot: resolvedRepoRoot,
@@ -915,6 +969,7 @@ export function buildV21GeneratedArtifactContents({
   specFamilyReport,
   canonicalInputReport
 }) {
+  const versionLower = version.toLowerCase();
   const baseMetadata = {
     version,
     proofSourceCommit,
@@ -961,7 +1016,7 @@ export function buildV21GeneratedArtifactContents({
   };
 
   return {
-    '.engi/v21-spec-family-report.json': `${JSON.stringify(specFamilyArtifact, null, 2)}\n`,
-    '.engi/v21-canonical-input-report.json': `${JSON.stringify(canonicalInputArtifact, null, 2)}\n`
+    [`.engi/${versionLower}-spec-family-report.json`]: `${JSON.stringify(specFamilyArtifact, null, 2)}\n`,
+    [`.engi/${versionLower}-canonical-input-report.json`]: `${JSON.stringify(canonicalInputArtifact, null, 2)}\n`
   };
 }

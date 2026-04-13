@@ -33,6 +33,7 @@
     "generate:proven": "node scripts/generate-engi-proven.mjs",
     "promote:canon": "node scripts/promote-engi-canon.mjs",
     "check:canonical-inputs": "node scripts/check-engi-canonical-inputs.mjs",
+    "check:canon-posture-drift": "node scripts/check-engi-canon-posture-drift.mjs",
     "check:spec-family": "node scripts/check-engi-spec-family.mjs",
     "check:proven": "node scripts/generate-engi-proven.mjs --check",
     "prelint": "pnpm run build:eslint-plugin",

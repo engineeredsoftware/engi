@@ -18,6 +18,10 @@ import {
   buildV21GeneratedArtifactContents,
   buildV21SpecFamilyReport
 } from './v21-specifying.js';
+import {
+  buildV22CanonPostureDriftReport,
+  buildV22GeneratedArtifactContents
+} from './v22-canon-posture.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const PROVEN_GENERATOR_ID = 'engi-demo.proven-generator.v1';
@@ -556,6 +560,7 @@ export function renderCanonicalProvenMarkdown(data) {
   const v19 = /** @type {any} */ (data).v19 || null;
   const v20 = /** @type {any} */ (data).v20 || null;
   const v21 = /** @type {any} */ (data).v21 || null;
+  const v22 = /** @type {any} */ (data).v22 || null;
   const lines = [];
   lines.push(`# ENGI Spec ${data.version} Proven`);
   lines.push('');
@@ -601,6 +606,12 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v21SpecFamilyPassed: ${markdownCode(String(v21.specFamilyReport.passed === true))}`);
     lines.push(`- v21CanonicalInputsPassed: ${markdownCode(String(v21.canonicalInputReport.passed === true))}`);
     lines.push(`- v21GeneratedArtifactCount: ${markdownCode(String((v21.artifactSummaries || []).length))}`);
+  }
+  if (v22) {
+    lines.push(`- v22SpecFamilyPassed: ${markdownCode(String(v22.specFamilyReport.passed === true))}`);
+    lines.push(`- v22CanonicalInputsPassed: ${markdownCode(String(v22.canonicalInputReport.passed === true))}`);
+    lines.push(`- v22CanonPostureDriftPassed: ${markdownCode(String(v22.canonPostureDriftReport.passed === true))}`);
+    lines.push(`- v22GeneratedArtifactCount: ${markdownCode(String((v22.artifactSummaries || []).length))}`);
   }
   lines.push('');
   if (v18Matrices) {
@@ -941,6 +952,75 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(v21.canonicalInputReport.provenPath),
         v21.canonicalInputReport.requiredGeneratedArtifactPaths.map(markdownCode).join(', ')
       ]]
+    ));
+    lines.push('');
+  }
+  if (v22) {
+    lines.push('## V22 Drift-Detection and Specifying Reports');
+    lines.push('');
+    lines.push('### V22 Generated Artifact Inventory');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v22.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+    lines.push('### V22 Spec-Family Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v22.specFamilyReport.reportId)}`);
+    lines.push(`- mode: ${markdownCode(v22.specFamilyReport.mode)}`);
+    lines.push(`- currentTarget: ${markdownCode(v22.specFamilyReport.currentTarget)}`);
+    lines.push(`- passed: ${markdownCode(String(v22.specFamilyReport.passed))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v22.specFamilyReport.failureCount))}`);
+    lines.push(`- requiredSpecSectionCount: ${markdownCode(String(v22.specFamilyReport.requiredSpecSectionCount))}`);
+    lines.push(`- requiredGeneratedArtifactPathCount: ${markdownCode(String(v22.specFamilyReport.requiredGeneratedArtifactPathCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['requiredFile', 'supportFile'],
+      v22.specFamilyReport.requiredFiles.map((/** @type {string} */ file, /** @type {number} */ index) => [
+        markdownCode(file),
+        markdownCode(v22.specFamilyReport.supportFiles[index] || 'none')
+      ])
+    ));
+    lines.push('');
+    lines.push('### V22 Canonical-Input Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v22.canonicalInputReport.reportId)}`);
+    lines.push(`- checkedTargetVersion: ${markdownCode(v22.canonicalInputReport.checkedTargetVersion)}`);
+    lines.push(`- parityPath: ${markdownCode(String(v22.canonicalInputReport.parityPath || 'missing'))}`);
+    lines.push(`- passed: ${markdownCode(String(v22.canonicalInputReport.passed))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v22.canonicalInputReport.failureCount))}`);
+    lines.push(`- requiredGeneratedArtifactCount: ${markdownCode(String(v22.canonicalInputReport.requiredGeneratedArtifactCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['specPath', 'provenPath', 'requiredGeneratedArtifactPaths'],
+      [[
+        markdownCode(v22.canonicalInputReport.specPath),
+        markdownCode(v22.canonicalInputReport.provenPath),
+        v22.canonicalInputReport.requiredGeneratedArtifactPaths.map(markdownCode).join(', ')
+      ]]
+    ));
+    lines.push('');
+    lines.push('### V22 Canon-Posture Drift Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v22.canonPostureDriftReport.reportId)}`);
+    lines.push(`- checkedActiveCanonVersion: ${markdownCode(v22.canonPostureDriftReport.checkedActiveCanonVersion)}`);
+    lines.push(`- checkedDraftTargetVersion: ${markdownCode(v22.canonPostureDriftReport.checkedDraftTargetVersion)}`);
+    lines.push(`- passed: ${markdownCode(String(v22.canonPostureDriftReport.passed))}`);
+    lines.push(`- checkCount: ${markdownCode(String(v22.canonPostureDriftReport.checkCount))}`);
+    lines.push(`- blockingFailureCount: ${markdownCode(String(v22.canonPostureDriftReport.blockingFailureCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v22.canonPostureDriftReport.checks.map((/** @type {any} */ check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
     ));
     lines.push('');
   }
@@ -1335,7 +1415,12 @@ function buildV21ProvenPackage(baseData, {
     currentTarget: 'V21'
   });
   const canonicalInputReport = buildV21CanonicalInputReport({
-    currentTarget: 'V21'
+    currentTarget: 'V21',
+    assumeExistingRelativePaths: [
+      'ENGI_SPEC_V21_PROVEN.md',
+      '.engi/v21-spec-family-report.json',
+      '.engi/v21-canonical-input-report.json'
+    ]
   });
   const artifacts = buildV21GeneratedArtifactContents({
     version: 'V21',
@@ -1365,6 +1450,84 @@ function buildV21ProvenPackage(baseData, {
         && inheritedV20?.qualitySummary?.passed === true
         && specFamilyReport.passed === true
         && canonicalInputReport.passed === true
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
+ * @param {ReturnType<typeof buildCanonicalProvenData>} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ * @returns {{ data: any, markdown: string, artifacts: Record<string, string> }}
+ */
+function buildV22ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V22',
+    mode: 'promoted',
+    currentTarget: 'V22'
+  });
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V22',
+    reportVersion: 'V22',
+    assumeExistingRelativePaths: [
+      'ENGI_SPEC_V22_PROVEN.md',
+      '.engi/v22-spec-family-report.json',
+      '.engi/v22-canonical-input-report.json',
+      '.engi/v22-canon-posture-drift-report.json'
+    ]
+  });
+  const canonPostureDriftReport = buildV22CanonPostureDriftReport({
+    version: 'V22',
+    activeCanonVersion: 'V22',
+    draftTargetVersion: 'V23',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const artifacts = buildV22GeneratedArtifactContents({
+    version: 'V22',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    specFamilyReport,
+    canonicalInputReport,
+    canonPostureDriftReport
+  });
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v22: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      artifactSummaries
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && specFamilyReport.passed === true
+        && canonicalInputReport.passed === true
+        && canonPostureDriftReport.passed === true
     }
   };
   return {
@@ -1500,6 +1663,54 @@ export function generateCanonicalProvenMarkdown({
       inheritedV19: inheritedV19Package.data.v19
     });
     return buildV21ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+  }
+  if (version === 'V22') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19
+    });
+    return buildV22ProvenPackage(baseData, {
       generatedAt,
       inheritedV19: inheritedV19Package.data.v19,
       inheritedV20: inheritedV20Package.data.v20

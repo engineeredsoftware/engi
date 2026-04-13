@@ -1,13 +1,13 @@
-# ENGI Demo - V21 canonical deterministic local prototype
+# ENGI Demo - V22 canonical deterministic local prototype
 
-This demo is governed by the active V21 canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V22 drafts the next system-facing implementation pass.
+This demo is governed by the active V22 canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V23 drafts the next system-facing implementation pass.
 
 Current spec/doc truth for this repo:
-- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V21`
-- V21 is the current canonical/latest target and governing full-system spec
-- `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix
-- `ENGI_SPEC_V22.md`, `ENGI_SPEC_V22_DELTA.md`, and `ENGI_SPEC_V22_PARITY_MATRIX.md` are the current next-version drafting surfaces
-- `ENGI_SPEC_V22_NOTES.md` is non-canonical working notes only
+- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V22`
+- V22 is the current canonical/latest target and governing full-system spec
+- `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix
+- the next-version draft family opens in the matching `ENGI_SPEC_VN.md`, `ENGI_SPEC_VN_DELTA.md`, and `ENGI_SPEC_VN_PARITY_MATRIX.md` files when that work begins
+- optional `ENGI_SPEC_VN_NOTES.md` files are non-canonical working notes only
 
 ## What this prototype demonstrates
 
@@ -102,15 +102,13 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 
 ## Repo documentation for the current pass
 
+- `../ENGI_SPEC.txt` - pointer to the active canonical version
 - `../ENGI_SPEC_V21.md` - active full-system canonical spec
-- `../ENGI_SPEC_V21_DELTA.md` - V21 version-local delta
-- `../ENGI_SPEC_V21_PARITY_MATRIX.md` - V21 parity ledger
+- `../ENGI_SPEC_V21_DELTA.md` - active version-local delta
+- `../ENGI_SPEC_V21_PARITY_MATRIX.md` - active parity ledger
 - `../ENGI_SPEC_V21_PROVEN.md` - active generated proof appendix
-- `../ENGI_SPEC_V22.md` - current next-version full-canon draft
-- `../ENGI_SPEC_V22_DELTA.md` - V22 version-local delta draft
-- `../ENGI_SPEC_V22_PARITY_MATRIX.md` - V22 parity ledger draft
-- `../ENGI_SPEC_V22_NOTES.md` - non-canonical V22 notes
 - `../ENGI_SPEC_V20_PROPER.md` - historical full-canon reconstruction validation surface
 - `../ENGI_SPECIFYING.md` - current specifying standard
+- next-version draft work, when opened, lives in the matching `../ENGI_SPEC_VN*.md` family plus optional `../ENGI_SPEC_VN_NOTES.md`
 - `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` - host/runtime/container truth
 - `ARCHITECTURE_MAP.md` - preserved architecture map

@@ -1,0 +1,77 @@
+{
+  "reportId": "v22-canon-posture-drift-report",
+  "version": "V22",
+  "checkedActiveCanonVersion": "V22",
+  "checkedDraftTargetVersion": "V23",
+  "pointerVersion": "V22",
+  "proofSourceCommit": "5c3410df386022bb3f7c9c102c60724be46fe1c1",
+  "generatedAt": "2026-04-12T19:33:14-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "checkCount": 10,
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "runtimeSpecVersion": "ENGI Spec V22 active canon / V23 system draft",
+  "publicSpecVersion": "ENGI Spec V22 active canon / V23 system draft",
+  "activeProvenAppendixPath": "ENGI_SPEC_V22_PROVEN.md",
+  "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
+  "checkedFiles": [
+    "engi-demo/README.md",
+    "engi-demo/public/index.html",
+    "engi-demo/public/app.js",
+    "engi-demo/server.js"
+  ],
+  "checks": [
+    {
+      "checkId": "pointer-active-canon-alignment",
+      "passed": true,
+      "detail": "ENGI_SPEC.txt points to V22 while runtime expects V22."
+    },
+    {
+      "checkId": "canon-posture-constant-alignment",
+      "passed": true,
+      "detail": "canon-posture constants resolve V22/V23 with operator label V22 active canon / V23 system draft."
+    },
+    {
+      "checkId": "proven-appendix-alignment",
+      "passed": true,
+      "detail": "active generated appendix path is ENGI_SPEC_V22_PROVEN.md."
+    },
+    {
+      "checkId": "policy-ref-alignment",
+      "passed": true,
+      "detail": "policy reference is policy://engi/spec-v22-active-v23-system-draft/current."
+    },
+    {
+      "checkId": "runtime-state-alignment",
+      "passed": true,
+      "detail": "buildInitialState() reports ENGI Spec V22 active canon / V23 system draft with canon posture V22/V23."
+    },
+    {
+      "checkId": "public-state-alignment",
+      "passed": true,
+      "detail": "publicState() reports ENGI Spec V22 active canon / V23 system draft with canon posture V22/V23."
+    },
+    {
+      "checkId": "server-api-alignment",
+      "passed": true,
+      "detail": "server.js keeps API posture sourced from SPEC_VERSION and buildPublicState(...)."
+    },
+    {
+      "checkId": "browser-shell-placeholder-alignment",
+      "passed": true,
+      "detail": "public/index.html exposes canon-posture placeholders and no stale hardcoded hero posture."
+    },
+    {
+      "checkId": "browser-shell-render-alignment",
+      "passed": true,
+      "detail": "public/app.js renders canon posture from runtime state and omits stale V15 explainer keys."
+    },
+    {
+      "checkId": "readme-alignment",
+      "passed": true,
+      "detail": "README states V22 active canon and ENGI_SPEC_V22_PROVEN.md as the current generated appendix."
+    }
+  ]
+}

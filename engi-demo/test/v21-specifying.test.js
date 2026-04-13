@@ -652,9 +652,9 @@ async function writeProperFixture(options = {}) {
   return root;
 }
 
-test('real V21 promoted spec family passes structural promoted-mode checking', () => {
-  const output = runCheck(['--version', 'V21', '--mode', 'promoted'], repoRoot);
-  assert.match(output, /ENGI spec family ok for V21/);
+test('real V22 promoted spec family passes structural promoted-mode checking', () => {
+  const output = runCheck(['--version', 'V22', '--mode', 'promoted'], repoRoot);
+  assert.match(output, /ENGI spec family ok for V22/);
   assert.match(output, /mode=promoted/);
 });
 
@@ -664,10 +664,10 @@ test('real V20_PROPER draft spec family passes historical draft-mode checking', 
   assert.match(output, /mode=draft/);
 });
 
-test('real canonical input set for active V21 canon passes input checking', () => {
-  const output = runCanonicalInputCheck(['--current-target', 'V21'], repoRoot);
-  assert.match(output, /ENGI canonical inputs ok for V21/);
-  assert.match(output, /artifacts=2/);
+test('real canonical input set for active V22 canon passes input checking', () => {
+  const output = runCanonicalInputCheck(['--current-target', 'V22'], repoRoot);
+  assert.match(output, /ENGI canonical inputs ok for V22/);
+  assert.match(output, /artifacts=3/);
 });
 
 test('real canonical input set for historical V20 canon passes input checking with pointer bypass', () => {

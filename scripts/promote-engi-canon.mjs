@@ -33,7 +33,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -189,6 +189,10 @@ function deriveScopeFocus(scope) {
   const stripped = stripMarkdown(scope || '');
   const match = stripped.match(/^V\d+\s+draft\s+specification\s+for\s+(.+?)(?:\s+after\s+.+)?$/i);
   if (match) return trimTrailingPeriod(match[1]);
+  const canonicalDraftMatch = stripped.match(/^V\d+\s+canonical\s+(?:system\s+)?(?:specification|delta|parity ledger)\s+draft\s+for\s+(.+?)(?:\s+after\s+.+)?$/i);
+  if (canonicalDraftMatch) return trimTrailingPeriod(canonicalDraftMatch[1]);
+  const canonicalMatch = stripped.match(/^V\d+\s+canonical\s+(?:system\s+)?(?:specification|delta|parity ledger)\s+for\s+(.+?)(?:\s+after\s+.+)?$/i);
+  if (canonicalMatch) return trimTrailingPeriod(canonicalMatch[1]);
   return 'specifying-canon hardening';
 }
 
@@ -242,6 +246,14 @@ function buildCommandPlan(version, commit) {
   const v21PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V21', '--commit', commit]];
   const v21PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V21']];
   const v21PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V21', '--mode', 'promoted']];
+  const v22DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V22', '--mode', 'draft', '--current-target', 'V21']];
+  const v22CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V21']];
+  const v22DraftCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V21', '--draft-target', 'V22']];
+  const v22PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V22', '--commit', commit]];
+  const v22PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-engi-runtime-canon-promotion.mjs', '--version', 'V22', '--next-draft', 'V23']];
+  const v22PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V22']];
+  const v22PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V22', '--mode', 'promoted']];
+  const v22PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V22', '--draft-target', 'V23']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'engi-demo', 'run', 'typecheck']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:unit']],
@@ -298,7 +310,25 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, or V21.`);
+  if (version === 'V22') {
+    return [
+      v22DraftSpecCheckCommand,
+      v22CanonicalInputCheckCommand,
+      v22DraftCanonPostureDriftCommand,
+      ...inheritedProofCommands,
+      ...v20QualityCommands,
+      ['npm', ['--prefix', 'engi-demo', 'test']],
+      v22PreparePromotionSpecFamilyCommand,
+      v22PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
+      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      v22PromotedCanonicalInputCheckCommand,
+      v22PromotedSpecCheckCommand,
+      v22PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']]
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, or V22.`);
 }
 
 /**
@@ -360,6 +390,54 @@ async function buildDerivedV21CommitMessageBody(commit) {
 }
 
 /**
+ * @param {string} commit
+ * @returns {Promise<string>}
+ */
+async function buildDerivedV22CommitMessageBody(commit) {
+  const { spec, delta, parity } = await readSpecFamily('V22');
+  const scope = extractStatusValue(spec, 'Scope') || 'V22 canonical system specification for runtime/operator drift-detection hardening after V21 specifying canon';
+  const focus = deriveScopeFocus(scope);
+  const decisionSection = extractSection(delta, 'Accepted V22 decisions');
+  const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
+  const parityRows = parseMarkdownTable(extractSection(parity, 'V22 implementation matrix'));
+
+  /** @type {string[]} */
+  const bullets = [];
+
+  const driftDecision = acceptedDecisions.find((item) => normalize(item).includes('single runtime-owned canon posture surface'));
+  if (driftDecision) bullets.push(trimTrailingPeriod(driftDecision));
+
+  const alignmentDecision = acceptedDecisions.find((item) => normalize(item).includes('api specversion, browser title/copy, operator status text, readme/demo docs, and test expectations should derive from the same canon posture source'));
+  if (alignmentDecision) bullets.push(trimTrailingPeriod(alignmentDecision));
+
+  const prioritizedAreas = [
+    'Active canon posture in runtime',
+    'Browser title and hero posture',
+    'API posture',
+    'Test posture',
+    'Demo README posture',
+    'Canon-truth coupling to promotion',
+    'Second-pass proof/operator decision'
+  ];
+  for (const area of prioritizedAreas) {
+    const row = findParityRow(parityRows, area);
+    if (!row) continue;
+    const closureSignal = trimTrailingPeriod(stripMarkdown(row['Closure signal'] || ''));
+    if (!closureSignal) continue;
+    bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
+  }
+
+  return [
+    `Promotes V22 as ${focus} for ENGI.`,
+    '',
+    `Proof-source commit: ${commit}`,
+    '',
+    'The promotion carries:',
+    ...bullets.slice(0, 8).map((bullet) => `- ${bullet}`)
+  ].join('\n');
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @returns {Promise<string>}
@@ -401,7 +479,10 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V21') {
     return buildDerivedV21CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, or V21.`);
+  if (version === 'V22') {
+    return buildDerivedV22CommitMessageBody(commit);
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, or V22.`);
 }
 
 async function main() {
@@ -412,8 +493,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, or V21. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19, V20, V21, or V22. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {

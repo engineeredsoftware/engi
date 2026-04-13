@@ -7,7 +7,7 @@
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_PROVEN.md`
 - Current specifying standard: `/Users/garrettmaring/Developer/ENGI/ENGI_SPECIFYING.md`
-- V22 state: initial non-canonical notes opened after V21 first-gate canonical promotion
+- V22 state: first-gate drift-detection closure is implemented; these notes now track post-first-gate follow-on work only
 
 ## Non-Canonical Notes Rule
 
@@ -71,16 +71,15 @@ The last six system specs now read as a coherent ladder into V22:
 
 ### Current source reality
 
-The current runtime and operator shell still lag the active canonical truth:
-- `engi-demo/src/engi-demo.js` still exports `SPEC_VERSION = 'ENGI Spec V19 active canon / V20 operator-quality draft'`.
-- `engi-demo/src/engi-demo.js` still uses `DEFAULT_POLICY_REF = 'policy://engi/spec-v19-active-v20-draft/2026-04-09'`.
-- `engi-demo/public/index.html` still titles the browser shell as `V19 canon / V20 quality draft`.
-- `engi-demo/public/app.js` still presents the operator shell as `V19 active canon / V20 operator-quality draft`.
-- `engi-demo/test/api.test.js`, `engi-demo/test/core.test.js`, and `engi-demo/test/e2e.test.js` still assert the stale V19/V20 posture.
-- `engi-demo/README.md` is materially stale and still describes the demo as a V15-governed prototype.
+The original V22 source drift has now been closed into first-gate implementation:
+- `engi-demo/src/canon-posture.js` is the executable posture source,
+- runtime state, public state, browser shell, README, and posture-sensitive tests derive from it,
+- `scripts/check-engi-canon-posture-drift.mjs` executes runtime/API/browser/README drift detection,
+- `.engi/v22-canon-posture-drift-report.json` is the version-local first-gate drift artifact,
+- and `scripts/prepare-engi-runtime-canon-promotion.mjs` prepares runtime/demo posture for promoted active-canon truth.
 
-This is not cosmetic only.
-It means ENGI's running system, operator shell, public API posture, tests, and repo-facing demo docs no longer derive canon truth from one executable source.
+This means the remaining V22 work is no longer “find and remove stale posture.”
+It is now “keep drift detection foundational and decide what, if anything, follows it in a later version.”
 
 ### Current runtime/system strength
 
@@ -131,22 +130,24 @@ Likely consequences:
 
 ### 3. Promotion/runtime coupling hardening
 
-Candidate requirement:
+Implemented requirement:
 - runtime/demo canon posture should be coupled to the canonical pointer and promotion outputs strongly enough that future promotions do not leave the operator shell behind.
 
-Likely consequences:
-- promotion may need to emit or update a runtime-readable canon posture artifact,
-- or runtime posture should be derived directly from the canonical pointer plus a maintained local posture module,
-- and tests should fail if runtime/browser/API posture drifts from the promoted canon.
+Implemented consequences:
+- promotion now has a runtime-readable posture source plus a generated drift artifact,
+- runtime posture is maintained through `engi-demo/src/canon-posture.js`,
+- tests and drift checks fail when runtime/browser/API/README posture drifts from the intended canon pair,
+- and promotion now has a dedicated runtime/demo preparation step instead of leaving that rewrite implicit.
 
 ### 4. Next proof/operator closures inherited from V20 accepted boundaries
 
-V20 left three explicit accepted boundaries that now become realistic V22 candidates:
+V20 left three explicit accepted boundaries that remain realistic post-V22 candidates:
 - `full-source-projection-security-matrix-deferred`
 - `full-mutation-cross-product-deferred`
 - `screenshot-stability-deferred`
 
-These are now more implementation-derivable because V21 made the current system, generated artifacts, and validation surfaces more enumerable.
+These remain more implementation-derivable because V21 made the current system, generated artifacts, and validation surfaces more enumerable.
+V22 first gate now explicitly defers all three so the canonical center stays drift-detection closure rather than scope creep.
 
 ### 5. Operator/system derivability refinement
 
@@ -162,12 +163,12 @@ The first runtime/demo truth-alignment pass is now landed:
 - `engi-demo/src/canon-posture.js` is the executable posture source,
 - runtime state, public state, browser title/hero copy, README, and posture-sensitive tests now derive from it,
 - visible explainer prose no longer teaches stale V15/V19/V20 posture,
-- and current-canon explainer footer chips are now sourced from current topical canon references rather than legacy V15 section anchors.
+- current-canon explainer footer chips are now sourced from current topical canon references rather than legacy V15 section anchors,
+- and V22 now includes generated drift detection plus promotion-time runtime posture preparation.
 
 This narrows the remaining V22 operator work:
 - deeper explainer/reference precision if we want stronger topical grouping or stronger V22-specific pedagogical structure,
-- any additional promotion/runtime coupling beyond pointer-backed posture tests,
-- and then the next accepted deferred proof/operator closure from V20.
+- and then the next accepted deferred proof/operator closure in a later version.
 
 ## Initial V22 Non-Goals
 

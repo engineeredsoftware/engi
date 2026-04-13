@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test --test-concurrency=1 test/api.test.js test/canon-posture.test.js test/contract-change-ledger.test.js test/core.test.js test/deterministic-replay.test.js test/negative-proof-mutation-matrix.test.js test/proof-member-matrix.test.js test/proven-generator.test.js test/state-machine.integration.test.js test/theorem-evidence-matrix.test.js test/volatility-inventory.test.js test/workflow.integration.test.js test/v20-accessibility.test.js test/v20-operator-transcript.test.js test/v20-performance-budget.test.js test/v20-projection-quality.test.js test/v20-quality-summary.test.js test/v20-visual-regression.test.js test/v21-specifying.test.js",
-    "test:unit": "node --test test/canon-posture.test.js test/core.test.js test/proven-generator.test.js test/v21-specifying.test.js",
+    "test": "node --test --test-concurrency=1 test/api.test.js test/canon-posture.test.js test/contract-change-ledger.test.js test/core.test.js test/deterministic-replay.test.js test/negative-proof-mutation-matrix.test.js test/proof-member-matrix.test.js test/proven-generator.test.js test/state-machine.integration.test.js test/theorem-evidence-matrix.test.js test/volatility-inventory.test.js test/workflow.integration.test.js test/v20-accessibility.test.js test/v20-operator-transcript.test.js test/v20-performance-budget.test.js test/v20-projection-quality.test.js test/v20-quality-summary.test.js test/v20-visual-regression.test.js test/v21-specifying.test.js test/v22-canon-drift.test.js",
+    "test:unit": "node --test test/canon-posture.test.js test/core.test.js test/proven-generator.test.js test/v21-specifying.test.js test/v22-canon-drift.test.js",
     "test:integration": "node --test test/api.test.js test/workflow.integration.test.js test/state-machine.integration.test.js",
     "test:e2e": "node --test test/e2e.test.js",
     "test:proof-member-matrix": "node --test test/proof-member-matrix.test.js",
@@ -22,6 +22,7 @@
     "test:v20-performance": "node --test test/v20-performance-budget.test.js",
     "test:v20-projection-quality": "node --test test/v20-projection-quality.test.js",
     "test:v20-quality-summary": "node --test test/v20-quality-summary.test.js",
+    "test:v22-canon-drift": "node --test test/v22-canon-drift.test.js",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {

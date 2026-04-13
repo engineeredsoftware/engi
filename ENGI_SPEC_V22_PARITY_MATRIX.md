@@ -2,17 +2,18 @@
 
 ## Status
 
-- Scope: V22 canonical parity ledger for post-V21 ENGI runtime/proof/operator realignment
+- Scope: V22 canonical parity ledger for runtime/operator drift-detection hardening
 - Specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_DELTA.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_NOTES.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`
-- Current canonical/latest target: `V21`
-- Last fully realized canonical target preserved in source: `V21`
-- Source parity state: V22 first-pass runtime/demo canon-posture implementation is landed; deeper operator-pedagogy cleanup and deferred proof/operator closure remain open
-- V22 state: draft implementation underway; no V22 promotion claim is made here
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v22-spec-family-report.json`, `.engi/v22-canonical-input-report.json`, and `.engi/v22-canon-posture-drift-report.json`; `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix for V22
+- Current canonical/latest target: `V22`
+- Canonical proof-source commit: `5c3410df386022bb3f7c9c102c60724be46fe1c1`
+- Last fully realized canonical target preserved in source: `V22`
+- Source parity state: V22 source-side runtime/demo canon-posture drift detection, generated drift artifacts, promotion-time runtime preparation, and inherited proof/operator closure are canonicalized; parity truth is aligned with the promoted V22 file family
+- V22 state: canonical promotion complete; parity truth, runtime posture truth, and generated canon are aligned for V22
 - Primary implementation surfaces to audit for this pass: `engi-demo/src/engi-demo.js`, `engi-demo/src/demo-shell-state.js`, `engi-demo/server.js`, `engi-demo/public/index.html`, `engi-demo/public/app.js`, `engi-demo/README.md`, current test stack, and current V19/V20/V21 generated artifacts
 
 ## Purpose
@@ -60,12 +61,12 @@ This matrix is grounded in:
 | Test posture | `canon-posture`, `core`, `api`, and `e2e` tests now derive/assert current canon posture rather than stale V19/V20 strings | V22 requires tests to fail on canon-truth drift | tests derive/assert the new canon posture surface | implemented |
 | Demo README posture | `engi-demo/README.md` now describes the demo as V21 active canon / V22 system draft | V22 requires demo-local docs to reflect current ENGI truth | README is aligned with active canon and current demo/runtime capabilities | implemented |
 | Operator explainer vocabulary | `engi-demo/public/app.js` no longer presents visible V15 posture language and no longer carries legacy `V15 §...` explainer anchors in source | V22 should remove stale operator pedagogy language that contradicts active canon | visible explainer prose uses current ENGI/current canon language and current-canon footer chips are sourced from current topical canon references | implemented |
-| Runtime/system richness | Current runtime already materializes deposit -> need -> fit -> verification -> branch -> proof -> settlement -> projection | V22 should preserve current system richness rather than redesigning it in the first pass | V22 scope stays aligned to truth/closure work rather than subsystem reinvention | drafted |
-| Operator shell surface breadth | `public/app.js` already renders broad branch/proof/settlement/policy artifacts and operating surfaces | V22 should build on this shell rather than replace it | shell remains current architecture while posture and grouping improve | drafted |
-| Canon-truth coupling to promotion | runtime/demo posture now couples to the active pointer through `engi-demo/src/canon-posture.js` plus pointer-backed tests, but no V22-specific promotion artifact family exists yet | V22 must make runtime/demo drift fail closed at least through executable validation | future promotions fail or tests fail when runtime/browser/API posture drifts from active canon | implemented |
-| V20 deferred projection matrix | Active canon still records `full-source-projection-security-matrix-deferred` as an accepted boundary | V22 should decide whether to close or continue deferring this boundary | V22 explicitly accepts or implements the projection-matrix expansion | drafted |
-| V20 deferred mutation cross-product | Active canon still records `full-mutation-cross-product-deferred` as an accepted boundary | V22 should decide whether to expand mutation coverage beyond representative samples | V22 explicitly accepts or implements expanded mutation closure | drafted |
-| V20 deferred screenshot stability | Active canon still records `screenshot-stability-deferred` as an accepted boundary | V22 should decide whether screenshot-backed visual closure is now practical | V22 explicitly accepts or implements screenshot stability closure | drafted |
+| Runtime/system richness | Current runtime already materializes deposit -> need -> fit -> verification -> branch -> proof -> settlement -> projection | V22 should preserve current system richness rather than redesigning it in the first pass | V22 first gate accepts the current runtime/system richness as baseline and confines change to canon-truth drift closure rather than subsystem reinvention | accepted boundary |
+| Operator shell surface breadth | `public/app.js` already renders broad branch/proof/settlement/policy artifacts and operating surfaces | V22 should build on this shell rather than replace it | V22 first gate accepts the current operator shell breadth as baseline while posture and grouping are hardened for current-canon truth | accepted boundary |
+| Canon-truth coupling to promotion | runtime/demo posture now couples to the active pointer through `engi-demo/src/canon-posture.js`, `scripts/check-engi-canon-posture-drift.mjs`, `.engi/v22-canon-posture-drift-report.json`, and `scripts/prepare-engi-runtime-canon-promotion.mjs` | V22 must make runtime/demo drift fail closed through executable validation and promotion-time preparation | pre-promotion drift check, promotion-time runtime preparation, generated drift artifact, and post-promotion drift check are all implemented in source | implemented |
+| V20 deferred projection matrix | Active canon still records `full-source-projection-security-matrix-deferred` as an accepted boundary | V22 first gate must explicitly defer or close this boundary | V22 first gate explicitly defers projection-matrix expansion beyond current representative smoke | accepted boundary |
+| V20 deferred mutation cross-product | Active canon still records `full-mutation-cross-product-deferred` as an accepted boundary | V22 first gate must explicitly defer or close this boundary | V22 first gate explicitly defers mutation-cross-product expansion beyond current representative mutation coverage | accepted boundary |
+| V20 deferred screenshot stability | Active canon still records `screenshot-stability-deferred` as an accepted boundary | V22 first gate must explicitly defer or close this boundary | V22 first gate explicitly defers screenshot-backed visual closure beyond current deterministic DOM/geometry signatures | accepted boundary |
 | V21 specifying inheritance | V21 now provides strong full-canon/spec-family rules and should not be reopened without cause | V22 must inherit V21 specifying as baseline, not re-center on metaspecing | V22 implementation centers on system work; specifying changes only if blocked by concrete contradiction | accepted boundary |
 | Historical validation surfaces | `V20_PROPER` exists as a non-canonical full-canon reconstruction and active `V21` canon exists | V22 should continue using both surfaces where V21-era specifying validation remains relevant | V22 drafts and later promotion checks still keep both surfaces available where needed | accepted boundary |
 
@@ -82,7 +83,9 @@ This matrix is grounded in:
 | Promotion/runtime drift guard | future canonical promotions cannot leave runtime/demo posture behind silently | implemented |
 | Operator pedagogy truth-alignment | visible explainer prose and current-canon footer chips stop narrating stale V15 posture | implemented |
 | First-pass system preservation | V22 preserves current deposit/need/fit/proof/settlement/projection semantics while fixing truth drift | closed |
-| Second-pass proof/operator decision | V22 explicitly decides which deferred V20 boundary closures are in-scope | drafted |
+| Drift-detection artifact family | V22 emits and validates a version-local canon-posture drift report in addition to inherited specifying artifacts | implemented |
+| Runtime promotion preparation | V22 promotion rewrites runtime/demo posture before post-promotion validation | implemented |
+| Second-pass proof/operator decision | V22 explicitly defers the inherited V20 projection/mutation/screenshot boundaries beyond this version's first gate | closed |
 
 ## Accepted boundaries
 
@@ -90,13 +93,15 @@ This matrix is grounded in:
 |---|---|---|
 | No V22 metaspec recentering | V21 already completed first-gate specifying work; V22 should spend its first pass on ENGI itself | Reopen only if current implementation exposes a concrete blocker in `ENGI_SPECIFYING.md` or V21 spec structure |
 | No first-pass subsystem redesign | current runtime and shell already carry the whole ENGI chain; the more urgent defect is canon-truth drift | Reopen if runtime truth-alignment work exposes a deeper structural subsystem contradiction |
-| V20 deferred boundaries remain undecided at this point | projection matrix, mutation cross-products, and screenshot stability are implementation-derivable but not yet accepted into V22 | Reopen when V22 chooses second-pass proof/operator work |
+| V20 deferred boundaries remain deferred beyond V22 first gate | projection matrix, mutation cross-products, and screenshot stability stay explicit accepted boundaries after V22 drift closure | Reopen when a later version chooses second-pass proof/operator work |
 
 ## completion condition
 
-This parity file is pre-implementation complete for the first V22 drafting pass only when:
-1. every stale canon-posture row remains explicitly recorded as `spec closed; source gap` or becomes implemented,
+This parity file is first-gate complete for V22 only when:
+1. every canon-posture row is implemented or explicitly accepted as a bounded non-V22 concern,
 2. the executable canon posture source is chosen and recorded,
-3. README/runtime/API/browser/test drift is either implemented or intentionally deferred with a bounded rationale,
-4. the V20 deferred proof/operator boundaries are explicitly accepted or deferred for V22,
-5. and the V22 `SPEC` is dense enough to satisfy the current full-canon checker contract.
+3. README/runtime/API/browser/test drift is implemented and checked,
+4. `.engi/v22-canon-posture-drift-report.json` is part of the V22 generated artifact family,
+5. promotion-time runtime posture preparation is implemented,
+6. the V20 deferred proof/operator boundaries are explicitly deferred beyond V22 first gate,
+7. and the V22 `SPEC` is dense enough to satisfy the current full-canon checker contract.

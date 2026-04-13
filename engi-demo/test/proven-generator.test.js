@@ -83,29 +83,32 @@ test('canonical proven generator fails closed when a keyed witness digest is mis
   );
 });
 
-test('V21 proven generator renders a V21 appendix while inheriting V20 and V19 generated closure', () => {
+test('V22 proven generator renders a V22 appendix while inheriting V20 and V19 generated closure', () => {
   const generated = generateCanonicalProvenMarkdown({
-    version: 'V21',
-    canonicalCommit: 'draft-v21',
-    canonicalCommitRecordedAt: '2026-04-11T00:00:00.000Z',
-    generatedAt: '2026-04-11T00:00:00.000Z'
+    version: 'V22',
+    canonicalCommit: 'draft-v22',
+    canonicalCommitRecordedAt: '2026-04-12T00:00:00.000Z',
+    generatedAt: '2026-04-12T00:00:00.000Z'
   });
 
-  assert.equal(generated.data.version, 'V21');
+  assert.equal(generated.data.version, 'V22');
   assert.equal(generated.data.aggregate.fullyProven, true);
   assert.equal(generated.data.v19.deterministicReplayReport.passed, true);
   assert.equal(generated.data.v20.qualitySummary.passed, true);
-  assert.equal(generated.data.v21.specFamilyReport.passed, true);
-  assert.equal(generated.data.v21.canonicalInputReport.passed, true);
+  assert.equal(generated.data.v22.specFamilyReport.passed, true);
+  assert.equal(generated.data.v22.canonicalInputReport.passed, true);
+  assert.equal(generated.data.v22.canonPostureDriftReport.passed, true);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
-    '.engi/v21-canonical-input-report.json',
-    '.engi/v21-spec-family-report.json'
+    '.engi/v22-canon-posture-drift-report.json',
+    '.engi/v22-canonical-input-report.json',
+    '.engi/v22-spec-family-report.json'
   ]);
-  assert.ok(generated.markdown.includes('# ENGI Spec V21 Proven'));
+  assert.ok(generated.markdown.includes('# ENGI Spec V22 Proven'));
   assert.ok(generated.markdown.includes('## V19 Reproducible Canon Reports'));
   assert.ok(generated.markdown.includes('## V20 Operator Quality Reports'));
-  assert.ok(generated.markdown.includes('## V21 Specifying Reports'));
-  assert.ok(generated.markdown.includes('.engi/v21-spec-family-report.json'));
-  assert.ok(generated.markdown.includes('.engi/v21-canonical-input-report.json'));
-  assert.ok(generated.markdown.includes('ENGI_SPEC_V21_PROVEN.md'));
+  assert.ok(generated.markdown.includes('## V22 Drift-Detection and Specifying Reports'));
+  assert.ok(generated.markdown.includes('.engi/v22-spec-family-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v22-canonical-input-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v22-canon-posture-drift-report.json'));
+  assert.ok(generated.markdown.includes('ENGI_SPEC_V22_PROVEN.md'));
 });

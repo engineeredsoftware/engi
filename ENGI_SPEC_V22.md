@@ -2,17 +2,18 @@
 
 ## Status
 
-- Scope: V22 canonical system specification draft for post-V21 runtime, proof, operator, and promotion realignment
+- Scope: V22 canonical system specification for runtime/operator drift-detection hardening after V21 specifying canon
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_NOTES.md`
 - Companion delta file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_DELTA.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PARITY_MATRIX.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V21_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix
-- Current canonical/latest target: `V21`
-- Last fully realized canonical target preserved in source: `V21`
-- Source parity state: V22 is in pre-implementation drafting; recent audit is grounded in promoted V21 canon, current `engi-demo` core/runtime source, current demo operator shell, and current test stack
-- V22 state: full-system V22 drafting has started; V22 is not yet canonical and does not yet claim source closure
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v22-spec-family-report.json`, `.engi/v22-canonical-input-report.json`, and `.engi/v22-canon-posture-drift-report.json`; `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix for V22
+- Current canonical/latest target: `V22`
+- Canonical proof-source commit: `5c3410df386022bb3f7c9c102c60724be46fe1c1`
+- Last fully realized canonical target preserved in source: `V22`
+- Source parity state: V22 source-side runtime/demo canon-posture drift detection, generated drift artifacts, promotion-time runtime preparation, and inherited proof/operator closure are canonicalized in the promoted V22 file family
+- V22 state: canonical promotion complete; V22 is the active system-facing canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned
 - Current realization basis for this pass: promoted V21 full canon, V16-V21 version ladder, current `engi-demo/src`, current `engi-demo/public`, current `engi-demo/test`, and current demo-local docs
 
 ## Drafting and acceptance state
@@ -31,10 +32,11 @@ Its first job is to identify what system work is now implementation-derivable fr
 
 Current V22 drafting facts:
 - the active canon pointer is `V21`,
-- the runtime and operator shell still encode stale `V19` / `V20 draft` posture in multiple places,
-- demo-local README truth is materially stale and still refers to V15 as active,
+- the runtime and operator shell no longer depend on scattered stale `V19` / `V20 draft` posture literals,
+- demo-local README truth is now aligned to the active canon rather than a stale V15 narrative,
 - the core runtime and demo shell already carry a much richer system than those stale labels imply,
-- and V20's explicitly accepted proof/operator boundaries remain available as the next deeper closure candidates once canon-truth alignment lands.
+- V22 now has a version-local drift-detection artifact and promotion-time runtime-preparation path,
+- and V20's explicitly accepted proof/operator boundaries remain available as the next deeper closure candidates after V22 first-gate drift closure.
 
 ## Version executive summary
 
@@ -97,11 +99,14 @@ The stale runtime/demo posture that existed at V22 start has now been partially 
 - `engi-demo/src/engi-demo.js` and `engi-demo/src/demo-shell-state.js` now derive API posture from that source,
 - `engi-demo/public/index.html` and `engi-demo/public/app.js` now derive title, hero posture, and status-facing shell copy from that source,
 - `engi-demo/test/canon-posture.test.js`, `engi-demo/test/core.test.js`, `engi-demo/test/api.test.js`, and `engi-demo/test/e2e.test.js` now assert the current posture rather than stale V19/V20 literals,
-- and `engi-demo/README.md` now states the current V21 canon / V22 draft posture.
+- `engi-demo/README.md` now states the current V21 canon / V22 draft posture,
+- `scripts/check-engi-canon-posture-drift.mjs` now executes a repo-aware runtime/API/browser/README drift audit,
+- `.engi/v22-canon-posture-drift-report.json` is now the V22 first-gate generated drift artifact,
+- and `scripts/prepare-engi-runtime-canon-promotion.mjs` now prepares runtime/demo posture for pointer advancement instead of leaving promotion-time drift unresolved.
 
 This closes the first-order drift defect:
 canon posture is now owned by one executable source inside the running system.
-The remaining V22 operator truth work is now narrower: deeper explainer/pedagogy cleanup and any further promotion/runtime coupling we choose to add.
+The remaining V22 operator truth work is now narrower: deeper explainer/pedagogy refinement after first-gate closure and any future non-first-gate operator expansion.
 
 ### 2. The current runtime is richer than its earlier posture and the first alignment pass preserves that richness
 
@@ -115,13 +120,14 @@ V22 therefore should align truth without flattening the current operator/runtime
 
 ### 3. V20's accepted boundaries are now the next obvious deeper closures
 
-The current active canon already records three deferred closures that now become realistic V22 candidates:
+The current active canon already records three deferred closures that remain realistic post-V22 candidates:
 - full source/projection security matrix closure,
 - full mutation cross-product closure,
 - and screenshot-backed visual stability closure if deterministic DOM signatures are no longer sufficient.
 
 Those are not speculative future ideas.
 They are already enumerated, bounded, and reopenable in current canon.
+V22 first gate now explicitly keeps them deferred by decision rather than by omission.
 
 ## V22 accepted initial scope decisions
 
@@ -135,8 +141,9 @@ V22 accepts the following initial drafting decisions:
 6. The stale V15/V19/V20 posture in runtime/demo source is a V22 implementation defect, not an accepted boundary; the first posture/alignment pass is closed and any remaining operator work is now refinement rather than stale-canon removal.
 7. V22 should keep using both active `V21` canon and historical `V20_PROPER` as specification-validation surfaces where V21-era specifying checks still matter.
 8. The next proof/operator closures under active consideration are the three V20 deferred boundaries: projection matrix expansion, mutation cross-product expansion, and screenshot stability promotion.
-9. V22 should not invent a new proof family before current canon truth and current deferred proof/operator closures are aligned.
-10. V22 should treat current demo/operator docs as part of the implementation truth that must be updated alongside runtime and test posture.
+9. V22 first gate explicitly defers those three V20 boundary closures beyond this version's canonical promotion and records that deferral as an accepted boundary rather than as hidden unfinished work.
+10. V22 should not invent a new proof family before current canon truth and current deferred proof/operator closures are aligned.
+11. V22 should treat current demo/operator docs as part of the implementation truth that must be updated alongside runtime and test posture.
 
 ## V22 source-of-truth hierarchy
 
@@ -292,7 +299,8 @@ Current consequences:
 - policy references no longer drift from the active canon posture source,
 - API `specVersion` is derived from runtime-owned posture,
 - browser title and hero posture now reflect current canon posture,
-- and tests assert the runtime-owned canon posture rather than frozen historical literals.
+- tests assert the runtime-owned canon posture rather than frozen historical literals,
+- and the V22 drift report now audits runtime/API/browser/README alignment as one generated first-gate object.
 
 ### 2. Demo/operator shell truth realignment
 
@@ -311,14 +319,15 @@ This is operator work because version posture, artifact posture, and policy post
 ### 3. Promotion/runtime coupling
 
 V22 should make it harder for future canon promotion to update specs and generated artifacts without updating the runtime/demo posture.
-The current first pass closes this partially through pointer-backed runtime tests; it does not yet add a new V22-specific promotion artifact family.
+This is now implemented as a first-gate closure rather than as a future idea.
 
-Likely options:
-- derive runtime posture from a maintained source module that is explicitly updated during version work,
-- derive runtime posture from the canonical pointer plus a checked posture manifest,
-- or extend promotion validation so runtime/browser/API posture is checked against the active pointed canon.
+Current implementation:
+- runtime posture is owned by `engi-demo/src/canon-posture.js`,
+- `scripts/check-engi-canon-posture-drift.mjs` executes runtime/API/browser/README drift detection,
+- `.engi/v22-canon-posture-drift-report.json` materializes that drift check in generated canon,
+- and `scripts/prepare-engi-runtime-canon-promotion.mjs` prepares runtime/demo posture for promoted active-canon truth before V22 appendix generation/check runs.
 
-The preferred V22 outcome remains fail-closed posture drift detection, and the current pointer-backed canon-posture tests are the first implemented mechanism toward that outcome.
+The preferred V22 outcome was fail-closed posture drift detection, and V22 first gate now makes that outcome explicit in source, generated artifacts, and promotion sequencing.
 
 ### 4. Deferred proof/operator closures
 
@@ -327,7 +336,7 @@ Once canon-truth alignment lands, the next implementation-derivable proof/operat
 - expand mutation coverage beyond representative mutation,
 - and decide whether screenshot-backed visual closure can replace or supplement DOM/geometry signatures.
 
-These should be treated as V22 candidate second-pass closures rather than as unbounded future brainstorming.
+These are now explicitly deferred beyond V22 first gate rather than left undecided.
 
 ### 5. Operator/system legibility refinement
 
@@ -691,10 +700,11 @@ The active generated canon inherited into V22 drafting is:
 - V21 specifying reports,
 - and `ENGI_SPEC_V21_PROVEN.md`.
 
-V22 should not assume it needs a new runtime/proof/operator artifact family yet.
-Whether V22 emits new version-local generated artifacts should depend on the chosen implementation path:
-- if executable canon posture is implemented as runtime/source truth only, V22 may not need a new generated family,
-- if promotion/runtime coupling adds checked posture artifacts or new proof/operator matrices, then V22 may require a version-local generated family.
+V22 now adds a version-local first-gate generated family:
+- `.engi/v22-spec-family-report.json`,
+- `.engi/v22-canonical-input-report.json`,
+- `.engi/v22-canon-posture-drift-report.json`,
+- and `ENGI_SPEC_V22_PROVEN.md` once promotion executes.
 
 ## V22 validation canon
 
@@ -711,6 +721,11 @@ That means V22 can focus its first implementation pass on:
 - canon-truth runtime drift checks,
 - browser/API/README/test alignment checks,
 - and then any newly activated proof/operator closures.
+
+V22-specific first-gate additions are now:
+- `npm --prefix engi-demo run test:v22-canon-drift`,
+- `node scripts/check-engi-canon-posture-drift.mjs --active-canon V21 --draft-target V22`,
+- and the promoted-mode `V22` drift check after runtime posture preparation and pointer advancement.
 
 ## V22 promotion canon
 
@@ -730,6 +745,11 @@ V22 therefore likely needs at least one of:
 - a generated or checked runtime posture artifact,
 - or promotion-time validation that compares runtime/browser/API truth against the pointed canon.
 
+V22 first gate now implements all three:
+- the runtime-owned posture module is `engi-demo/src/canon-posture.js`,
+- the generated drift artifact is `.engi/v22-canon-posture-drift-report.json`,
+- and promotion sequencing now includes runtime posture preparation plus pre/post drift checks.
+
 ## V22 accepted boundaries and reopen conditions
 
 1. V22 does not reopen V21 specifying as its primary center.
@@ -738,8 +758,8 @@ V22 therefore likely needs at least one of:
 2. V22 does not begin with a subsystem redesign.
    Reopen condition: canon-truth alignment work exposes a deeper mismatch in current runtime architecture.
 
-3. The V20 deferred boundaries remain open but not yet accepted into V22 first-pass implementation.
-   Reopen condition: V22 explicitly accepts projection-matrix expansion, mutation-cross-product expansion, or screenshot stability as in-version closure work.
+3. The V20 deferred boundaries remain deferred beyond V22 first gate by explicit decision.
+   Reopen condition: a later version explicitly accepts projection-matrix expansion, mutation-cross-product expansion, or screenshot stability as in-version closure work.
 
 ## V22 appendices and canonical supporting material
 
@@ -985,6 +1005,7 @@ Current proof-run basis:
 | `.engi/v21-canonical-input-report.json` | inherited V21 specifying canon | proves pointed-canon input completeness |
 | `.engi/v22-spec-family-report.json` | V22 specifying generated artifacts | will prove structural and density closure over the V22 family |
 | `.engi/v22-canonical-input-report.json` | V22 specifying generated artifacts | will prove pointed-canon input completeness for V22 promotion |
+| `.engi/v22-canon-posture-drift-report.json` | V22 canon-posture drift detection artifact | proves runtime/API/browser/README/test alignment against the intended canon posture |
 
 #### C.1 Inherited V19 reproducible-canon artifacts
 
@@ -1013,7 +1034,30 @@ V22 keeps the version-local specifying pair because V21 specifying remains activ
 
 Their draft-time role is to ensure that V22 can become a full canon without regressing the V21 file-family, density, and active-input guarantees.
 
-#### C.4 Shared generated-artifact fields
+#### C.4 V22 canon-posture drift detection artifact
+
+`.engi/v22-canon-posture-drift-report.json` is the first V22 system-facing generated artifact.
+
+It exists to prove:
+- canon posture drift report closure over runtime/API/browser/README/test alignment,
+- runtime/API/browser/README/test alignment against the intended active/draft canon posture pair,
+- and promotion-time runtime posture rewrite closure before post-promotion checks run.
+
+Its minimum carrier fields are:
+- `reportId`
+- `checkedActiveCanonVersion`
+- `checkedDraftTargetVersion`
+- `pointerVersion`
+- `proofSourceCommit`
+- `generatedAt`
+- `generatorId`
+- `worktreeState`
+- `passed`
+- `checkCount`
+- `blockingFailureCount`
+- and exact `checks` rows with `checkId`, `passed`, and `detail`
+
+#### C.5 Shared generated-artifact fields
 
 At minimum, current generated artifact families should be specified with the following common-field concepts where applicable:
 - `version`
@@ -1030,7 +1074,7 @@ At minimum, current generated artifact families should be specified with the fol
 - `projectionPrincipals`
 - and `replayContext`
 
-#### C.5 Artifact-specific generated payload fields
+#### C.6 Artifact-specific generated payload fields
 
 Current examples include:
 - operator transcript `flowCount` and `stepCount`,
@@ -1040,9 +1084,10 @@ Current examples include:
 - quality summary `qualityReportCount`,
 - visual regression `stateCount`, `signatureMode`, and `screenshotMode`,
 - spec-family report missing-section and verdict rows,
-- and canonical-input report artifact-presence, pointer, and appendix-verdict rows.
+- canonical-input report artifact-presence, pointer, and appendix-verdict rows,
+- and canon posture drift report runtime/api/browser/readme/test alignment checks.
 
-#### C.6 Artifact confidentiality and disclosability taxonomy
+#### C.7 Artifact confidentiality and disclosability taxonomy
 
 Current canonical classes visible in generated artifacts include:
 - `private-proof-artifact`
@@ -1053,7 +1098,7 @@ Current canonical classes visible in generated artifacts include:
 
 These classes determine whether a generated artifact may surface publicly, only internally, or only in bounded proof form.
 
-#### C.7 Minimum generated appendix rendered contents
+#### C.8 Minimum generated appendix rendered contents
 
 At minimum, `ENGI_SPEC_V22_PROVEN.md` must render:
 - aggregate proof verdict,
@@ -1068,11 +1113,12 @@ At minimum, `ENGI_SPEC_V22_PROVEN.md` must render:
 - inherited V19 reproducible-canon report summaries,
 - inherited V20 operator-quality report summaries,
 - inherited and current specifying-report summaries,
+- canon posture drift report summary,
 - run-detail truth for each executed scenario/branch-mode pair,
 - proof artifact disclosure classifications,
 - and an explicit incomplete-verdict section whenever closure is not total.
 
-#### C.8 Canonical regeneration and fail-closed posture
+#### C.9 Canonical regeneration and fail-closed posture
 
 The V22 generation contract is:
 - `ENGI_SPEC_V22_PROVEN.md` is generated-only and not manually authored evidence,
@@ -1084,6 +1130,7 @@ Current fail closed when examples include:
 - a required proof family cannot be rendered exactly,
 - a required witness artifact inventory is missing,
 - a required generated artifact inventory is missing,
+- runtime/API/browser/README/test alignment drifts from the intended canon posture,
 - the proof-source commit is absent or inconsistent,
 - or check mode finds the committed appendix stale against generator output.
 
@@ -1107,22 +1154,25 @@ Current fail closed when examples include:
 | `npm --prefix engi-demo run test:v20-visual` | visual closure |
 | `npm --prefix engi-demo run test:v20-performance` | performance closure |
 | `npm --prefix engi-demo run test:v20-projection-quality` | projection-quality smoke closure |
+| `npm --prefix engi-demo run test:v22-canon-drift` | runtime/demo canon-posture drift detection over source and promotion surfaces |
 | `npm --prefix engi-demo test` | aggregate non-E2E suite |
 | `node scripts/check-engi-spec-family.mjs --version V20_PROPER --mode draft --current-target V20` | historical full-canon reconstruction validation |
 | `node scripts/check-engi-canonical-inputs.mjs --current-target V21` | active pointed-canon input completeness |
+| `node scripts/check-engi-canon-posture-drift.mjs --active-canon V21 --draft-target V22` | draft-state runtime/demo canon-posture drift closure |
 | `node scripts/check-engi-spec-family.mjs --version V22 --mode draft --current-target V21` | V22 hand-authored structural and density closure |
 
 ### Appendix E. Current canonical source map
 
 | Source-bearing surface | Current role in V22 drafting |
 | --- | --- |
-| `engi-demo/src/engi-demo.js` | seeded runtime state, scenario selection, proof-bearing latest-run surfaces, and currently stale version posture |
+| `engi-demo/src/canon-posture.js` | executable active-canon and draft-target posture source for runtime/demo surfaces |
+| `engi-demo/src/engi-demo.js` | seeded runtime state, scenario selection, proof-bearing latest-run surfaces, and runtime-owned spec posture |
 | `engi-demo/src/demo-shell-state.js` | projection shaping and operator-facing latest-run view-model composition |
 | `engi-demo/server.js` | `/api/state` exposure of runtime posture and latest-run state |
-| `engi-demo/public/index.html` | operator shell document skeleton and title posture |
-| `engi-demo/public/app.js` | operator shell behavior, summary panels, and currently stale active-canon copy |
+| `engi-demo/public/index.html` | operator shell document skeleton and canon-posture placeholders |
+| `engi-demo/public/app.js` | operator shell behavior, summary panels, explainers, and canon-posture rendering |
 | `engi-demo/public/styles.css` | operator-quality layout, visibility, and focus styling |
-| `engi-demo/README.md` | demo-local narrative and getting-started posture |
+| `engi-demo/README.md` | demo-local narrative and canon-posture-aligned getting-started posture |
 | `engi-demo/src/canonical/need-measurement.js` | inference-synthesis materialization |
 | `engi-demo/src/canonical/prompting.js` | prompt contracts, prompt surfaces, parsed envelopes |
 | `engi-demo/src/canonical/evaluation-materialization.js` | evaluation, selection, static measurement, verification, and branch materialization |
@@ -1131,8 +1181,11 @@ Current fail closed when examples include:
 | `engi-demo/src/canonical/settlement.js` | source-to-shares, journal, settlement proofs, and accounting precision |
 | `engi-demo/src/canonical/proven-generator.js` | `_PROVEN_` appendix materialization |
 | `engi-demo/src/canonical/v21-specifying.js` | full-canon spec-family and active-input validation profiles |
+| `engi-demo/src/canonical/v22-canon-posture.js` | V22 drift-detection report builder and V22 generated artifact family builder |
 | `scripts/check-engi-spec-family.mjs` | versioned hand-authored file-family enforcement |
 | `scripts/check-engi-canonical-inputs.mjs` | active pointed-canon input enforcement |
+| `scripts/check-engi-canon-posture-drift.mjs` | runtime/demo canon-posture drift enforcement |
+| `scripts/prepare-engi-runtime-canon-promotion.mjs` | promotion-time runtime/demo posture preparation |
 | `scripts/promote-engi-canon.mjs` | canonical promotion sequence |
 | `scripts/generate-engi-proven.mjs` | generated appendix emission/check |
 
@@ -1173,7 +1226,7 @@ Current fail closed when examples include:
 | `.engi/v19-*` | inherited reproducible-canon evidence |
 | `.engi/v20-*` | inherited operator-quality evidence |
 | `.engi/v21-*` | inherited specifying evidence |
-| `.engi/v22-*` | version-local specifying and future V22 promotion evidence |
+| `.engi/v22-*` | version-local specifying and canon-posture drift evidence |
 | `ENGI_SPEC.txt` | active canonical pointer |
 
 #### G.2 Status-truth schema matrix
@@ -1196,10 +1249,12 @@ Current fail closed when examples include:
 | active-canon preflight | `ENGI_SPEC.txt = V21` | none | `check-engi-canonical-inputs --current-target V21` | prevents promotion from starting when current canon inputs are incomplete |
 | inherited proof/quality/specifying gates | `ENGI_SPEC.txt = V21` | generated preview outputs only | inherited test/gate suite plus V22 family draft validation | prevents V22 promotion from skipping depended-on V19/V20/V21 canon |
 | hand-authored promotion preparation | `ENGI_SPEC.txt = V21` | V22 `SPEC`, `DELTA`, `PARITY_MATRIX` status blocks | promotion-time status rewrite | prevents promoted-mode checks from failing only because truthful draft status was never rewritten |
+| runtime/demo posture preparation | `ENGI_SPEC.txt = V21` | `engi-demo/src/canon-posture.js`, `engi-demo/README.md` | promotion-time runtime posture rewrite | prevents promotion from advancing specs while runtime/demo truth remains on the old active canon |
 | pointer advancement | mutate to `V22` | `ENGI_SPEC.txt` | pointer write only after preconditions pass | prevents premature pointer mutation |
 | generated appendix and artifact emission | `ENGI_SPEC.txt = V22` | `ENGI_SPEC_V22_PROVEN.md`, `.engi/v22-*` | generate appendix and V22 generated artifacts | prevents stale or missing generated canon |
 | newly pointed canon validation | `ENGI_SPEC.txt = V22` | none | `check-engi-canonical-inputs --current-target V22` | prevents pointing at a version whose generated inputs are incomplete |
 | promoted family validation | `ENGI_SPEC.txt = V22` | none | `check-engi-spec-family --mode promoted` | prevents stale promoted status or transitional parity judgments |
+| promoted runtime/demo drift validation | `ENGI_SPEC.txt = V22` | none | `check-engi-canon-posture-drift --active-canon V22 --draft-target V23` | prevents the newly pointed canon from leaving runtime/API/browser/docs on stale posture |
 | final repository hygiene | `ENGI_SPEC.txt = V22` | none | `git diff --check` and commit-body derivation | prevents malformed diff or unsupported closure claim |
 
 ### Appendix H. Operator surface and quality contract catalog
@@ -1355,14 +1410,18 @@ Current fail closed when examples include:
 | `ENGI_SPEC_V22_PROVEN.md` | generated V22 proof appendix over inherited proof/quality/specifying canon plus V22 system changes | `scripts/generate-engi-proven.mjs`, `engi-demo/src/canonical/proven-generator.js` | canonical readers, promotion validation, future drafting inputs |
 | `.engi/v22-spec-family-report.json` | executable structural and density verdict over the hand-authored V22 family | `engi-demo/src/canonical/v21-specifying.js`, `scripts/check-engi-spec-family.mjs` | promotion preflight and postflight, canonical-input family |
 | `.engi/v22-canonical-input-report.json` | executable verdict over the active pointed canonical input set during V22 promotion | `engi-demo/src/canonical/v21-specifying.js`, `scripts/check-engi-canonical-inputs.mjs` | promotion preflight/post-generation validation, future drafting inputs |
+| `.engi/v22-canon-posture-drift-report.json` | executable verdict over runtime/API/browser/README/test canon-posture alignment during V22 promotion | `engi-demo/src/canonical/v22-canon-posture.js`, `scripts/check-engi-canon-posture-drift.mjs` | runtime/demo drift preflight, post-promotion drift validation, future drafting inputs |
 
 ## V22 completion condition
 
-V22 first-pass completion should mean:
+V22 first-gate completion should mean:
 1. active canon truth is executable inside ENGI runtime and demo shell,
 2. API, browser, README, and tests are aligned to the same canon posture source,
 3. stale V15, V19, and V20-draft runtime/demo posture is removed from runtime/API/browser/README and from the operator explainer corpus,
-4. V22 explicitly decides which of the V20 deferred proof/operator boundaries it will close in-version,
-5. `ENGI_SPEC_V22.md` is dense enough to re-derive the current system without depending on omitted earlier-version semantics,
-6. the V22 file family satisfies the V21-era full-canon checker contract in draft mode,
-7. and V22 is then ready to move from pre-implementation into concrete source execution.
+4. V22 emits and validates `.engi/v22-canon-posture-drift-report.json` as a generated first-gate artifact,
+5. promotion-time runtime posture preparation exists so pointer advancement cannot silently leave runtime/demo truth behind,
+6. V22 explicitly defers the V20 projection-matrix, mutation-cross-product, and screenshot-stability boundaries beyond V22 first gate rather than leaving them undecided,
+7. `ENGI_SPEC_V22.md` is dense enough to re-derive the current system without depending on omitted earlier-version semantics,
+8. the V22 file family satisfies the V21-era full-canon checker contract in draft mode,
+9. the V22 promotion plan can prepare hand-authored status truth, prepare runtime/demo posture, generate/check `ENGI_SPEC_V22_PROVEN.md`, and pass post-promotion drift validation,
+10. and V22 is then ready for its canonical completing commit.
