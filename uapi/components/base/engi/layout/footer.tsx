@@ -15,6 +15,29 @@ import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@engi/supabase/ssr/client';
 import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
 
+const DEFAULT_DEMO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
+const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
+const CURRENT_SPEC_CANON = 'V22';
+const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V22.md';
+
+function resolveFooterDemoUrl() {
+  if (typeof window === 'undefined') {
+    return DEFAULT_DEMO_URL;
+  }
+
+  const configuredUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim();
+  if (configuredUrl) {
+    return configuredUrl;
+  }
+
+  const localHostnames = new Set(['localhost', '127.0.0.1', 'host.docker.internal']);
+  if (localHostnames.has(window.location.hostname)) {
+    return `${window.location.protocol}//${window.location.hostname}:4318`;
+  }
+
+  return DEFAULT_DEMO_URL;
+}
+
 const footerNavs = [
   {
     label: "Product",
@@ -75,37 +98,6 @@ const footerNavs = [
   //},
 ];
 
-const footerSocials = [
-  {
-    name: 'Bluesky',
-    label: (
-      <>
-        <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-          $ENGI
-        </span>
-        <span>&apos;s Social Media</span>
-      </>
-    ),
-    href: 'https://bsky.app/profile/engicomms.bsky.social',
-    icon: (
-      <span
-        className="inline-flex items-center justify-center"
-        style={{
-          filter: 'drop-shadow(0 0 6px rgba(61,131,246,0.66)) drop-shadow(0 0 15px rgba(61,131,246,0.33))',
-        }}
-      >
-        <Image
-          src="/Bluesky_butterfly-logo.svg"
-          alt=""
-          width={14}
-          height={14}
-          className="h-[14px] w-[14px]"
-        />
-      </span>
-    ),
-  },
-];
-
 interface FooterProps {
   showPrimaryContent?: boolean;
   className?: string;
@@ -115,6 +107,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   // Supabase client and user state for authentication CTA
   const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<import('@supabase/supabase-js').User | null>(null);
+  const [demoUrl, setDemoUrl] = useState(DEFAULT_DEMO_URL);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -126,7 +119,110 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       listener.subscription.unsubscribe();
     };
   }, [supabase]);
+  useEffect(() => {
+    setDemoUrl(resolveFooterDemoUrl());
+  }, []);
   const text = user ? 'Subscribe' : 'Use';
+  const footerLinks = useMemo(() => [
+    {
+      name: 'Demo mini app',
+      label: (
+        <>
+          <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
+            $ENGI
+          </span>
+          <span>&apos;s Demonstration Mini App</span>
+        </>
+      ),
+      href: demoUrl,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(16,185,129,0.66)) drop-shadow(0 0 15px rgba(16,185,129,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-emerald-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" />
+            <path d="M8 9h8" />
+            <path d="M8 13h5" />
+            <circle cx="16.5" cy="13.5" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      name: 'Demo video',
+      label: (
+        <>
+          <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
+            $ENGI
+          </span>
+          <span>&apos;s Demonstration Video</span>
+        </>
+      ),
+      href: DEFAULT_DEMO_VIDEO_URL,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(251,146,60,0.66)) drop-shadow(0 0 15px rgba(251,146,60,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-orange-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="8.5" />
+            <path d="M10 8.8v6.4l5-3.2-5-3.2Z" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      name: 'Bluesky',
+      label: (
+        <>
+          <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
+            $ENGI
+          </span>
+          <span>&apos;s Social Media</span>
+        </>
+      ),
+      href: 'https://bsky.app/profile/engicomms.bsky.social',
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(61,131,246,0.66)) drop-shadow(0 0 15px rgba(61,131,246,0.33))',
+          }}
+        >
+          <Image
+            src="/Bluesky_butterfly-logo.svg"
+            alt=""
+            width={14}
+            height={14}
+            className="h-[14px] w-[14px]"
+          />
+        </span>
+      ),
+    },
+  ], [demoUrl]);
 
   return (
     <>
@@ -251,8 +347,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
 
           <div className={`${showPrimaryContent ? 'border-t' : ''} w-full py-4`}>
             <div className="flex w-full items-center justify-between gap-4">
-              <div className="flex items-center space-x-5">
-                {footerSocials.map((social) => (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                {footerLinks.map((social) => (
                   <a
                     key={social.name}
                     href={social.href}
@@ -294,21 +390,33 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   Advanced Engineered Software, Inc. <span className="font-light">{new Date().getFullYear()}</span>
                 </span>
               </span>
-              {process.env.NEXT_PUBLIC_APP_VERSION && (
-                <span className="text-[10px] text-gray-400/70 select-none">
-                  v{process.env.NEXT_PUBLIC_APP_VERSION}
-                  {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
-                    <>
-                      {" "}
-                      ({new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(undefined, {
-                        year: '2-digit',
-                        month: 'short',
-                        day: 'numeric',
-                      })})
-                    </>
-                  )}
-                </span>
-              )}
+              <span className="inline-flex items-center gap-1.5 text-[10px] text-gray-400/70">
+                {process.env.NEXT_PUBLIC_APP_VERSION && (
+                  <span className="select-none">
+                    v{process.env.NEXT_PUBLIC_APP_VERSION}
+                    {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
+                      <>
+                        {" "}
+                        ({new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(undefined, {
+                          year: '2-digit',
+                          month: 'short',
+                          day: 'numeric',
+                        })})
+                      </>
+                    )}
+                  </span>
+                )}
+                {process.env.NEXT_PUBLIC_APP_VERSION && <span aria-hidden="true">•</span>}
+                <a
+                  href={CURRENT_SPEC_CANON_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300/90 transition-colors hover:text-white"
+                  title={`Current canonical spec ${CURRENT_SPEC_CANON}`}
+                >
+                  {CURRENT_SPEC_CANON}
+                </a>
+              </span>
             </div>
           </div>
         </div>

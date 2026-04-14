@@ -1,6 +1,22 @@
 {
   "version": 3,
-  "specVersion": "ENGI Spec V15 canonical local prototype",
+  "specVersion": "ENGI Spec V22 active canon / V23 system draft",
+  "canonPosture": {
+    "activeCanonVersion": "V22",
+    "draftTargetVersion": "V23",
+    "operatorLabel": "V22 active canon / V23 system draft",
+    "specVersionLabel": "ENGI Spec V22 active canon / V23 system draft",
+    "documentTitle": "ENGI Demo — V22 canon / V23 system draft",
+    "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
+    "activeProvenAppendixPath": "ENGI_SPEC_V22_PROVEN.md",
+    "draftSpecPath": "ENGI_SPEC_V23.md",
+    "draftDeltaPath": "ENGI_SPEC_V23_DELTA.md",
+    "draftParityPath": "ENGI_SPEC_V23_PARITY_MATRIX.md",
+    "inheritedCanonSurfaceLabel": "V16/V17/V18/V19/V20/V21",
+    "heroEyebrow": "ENGI deterministic local prototype",
+    "heroLede": "Active canon is V22: full-system current canon, generated-only proof appendix discipline, exact proof-family inventories, and executable promotion truth. V23 is the current system draft target, and runtime, API, browser shell, tests, and demo-local docs must stay aligned to this posture source so canon drift fails closed.",
+    "heroTip": "Hover or focus the info badges beside core ENGI terms to get plain-language explainers. The active generated appendix target is ENGI_SPEC_V22_PROVEN.md; current posture checks fail closed when runtime, API, browser shell, tests, or demo-local docs drift from the pointed canon."
+  },
   "conformanceProfiles": {
     "active": "Profile A — targeted deposit / bounded need",
     "productionIntent": "Profile B — normalization deposit / composite need",
@@ -9,7 +25,7 @@
       "activeProfile": "A",
       "distinctionBasis": "deposit-and-need",
       "demoOperatorGuidance": {
-        "audienceMeaning": "The V15 profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.",
+        "audienceMeaning": "The current realization profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.",
         "boundaryTruthPlacement": "Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode, need mode, and fit first.",
         "recommendedWalkthrough": [
           "Start with repo supply and pick a targeted-deposit scenario to show a bounded need.",
@@ -114,7 +130,7 @@
   "assets": [
     {
       "assetId": "asset_enterprise-auth-migration-rollback-playbook_794b656c6c",
-      "depositedAt": "2026-04-04T20:39:00.182Z",
+      "depositedAt": "2026-04-14T00:34:39.018Z",
       "title": "Enterprise auth migration rollback playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -2704,7 +2720,7 @@
     },
     {
       "assetId": "asset_proof-carrying-session-validator-patch-kit_535567adae",
-      "depositedAt": "2026-04-04T20:39:00.185Z",
+      "depositedAt": "2026-04-14T00:34:39.020Z",
       "title": "Proof-carrying session validator patch kit",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -5236,7 +5252,7 @@
     },
     {
       "assetId": "asset_formal-replay-window-validator-proof-bundle_ebe682fd49",
-      "depositedAt": "2026-04-04T20:39:00.186Z",
+      "depositedAt": "2026-04-14T00:34:39.021Z",
       "title": "Formal replay-window validator proof bundle",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -7364,7 +7380,7 @@
     },
     {
       "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
-      "depositedAt": "2026-04-04T20:39:00.186Z",
+      "depositedAt": "2026-04-14T00:34:39.022Z",
       "title": "Token issuer incident escalation notes",
       "artifactKind": "incident-note",
       "artifactType": "notes/incident-retrospective",
@@ -9201,7 +9217,7 @@
     },
     {
       "assetId": "asset_policy-precedence-incident-governor-fixpack_24fd6bb39b",
-      "depositedAt": "2026-04-04T20:39:00.187Z",
+      "depositedAt": "2026-04-14T00:34:39.023Z",
       "title": "Policy precedence incident governor fixpack",
       "artifactKind": "config",
       "artifactType": "config/policy-change",
@@ -11275,7 +11291,7 @@
     },
     {
       "assetId": "asset_unsafe-patch-review-containment-checklist_d755cefe57",
-      "depositedAt": "2026-04-04T20:39:00.188Z",
+      "depositedAt": "2026-04-14T00:34:39.024Z",
       "title": "Unsafe patch review containment checklist",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -13397,7 +13413,7 @@
     },
     {
       "assetId": "asset_deployment-drift-rollback-release-playbook_06609384ae",
-      "depositedAt": "2026-04-04T20:39:00.188Z",
+      "depositedAt": "2026-04-14T00:34:39.025Z",
       "title": "Deployment drift rollback release playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -15516,7 +15532,7 @@
     },
     {
       "assetId": "asset_projection-safe-bounded-proof-export-notes_a74e682378",
-      "depositedAt": "2026-04-04T20:39:00.189Z",
+      "depositedAt": "2026-04-14T00:34:39.026Z",
       "title": "Projection-safe bounded proof export notes",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -17187,7 +17203,7 @@
     },
     {
       "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
-      "depositedAt": "2026-04-04T20:39:00.190Z",
+      "depositedAt": "2026-04-14T00:34:39.027Z",
       "title": "Session validator compatibility witness dossier",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -19481,7 +19497,7 @@
     },
     {
       "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
-      "depositedAt": "2026-04-04T20:39:00.191Z",
+      "depositedAt": "2026-04-14T00:34:39.028Z",
       "title": "Auth audit receipt reconciliation patchset",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -21589,7 +21605,7 @@
     },
     {
       "assetId": "asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7",
-      "depositedAt": "2026-04-04T20:39:00.192Z",
+      "depositedAt": "2026-04-14T00:34:39.029Z",
       "title": "Polyglot gateway rollback coordination playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -28349,7 +28365,7 @@
     }
   ],
   "policyState": {
-    "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+    "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
     "releaseId": "policy-release-engi-v11-demo-2026-04-03",
     "retentionPolicies": {
       "retention/private-remediation-30d": {
@@ -28414,42 +28430,42 @@
       "buyer-principal": {
         "read:private-branch": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Buyer principal may inspect private remediation delivery."
           ]
         },
         "materialize:selected-source-material": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Buyer event authorizes licensed source material to be staged into the private branch."
           ]
         },
         "settle:journal-event": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Buyer principal may authorize the fixed local settlement event."
           ]
         },
         "derive:bounded-public-proof-metadata": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Buyer principals do not publish bounded public proof metadata directly."
           ]
         },
         "read:bounded-public-proof": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Buyer may inspect bounded public proof metadata."
           ]
         },
         "open:delivery": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Delivery-open is blocked in the deterministic local prototype."
           ]
@@ -28458,42 +28474,42 @@
       "engi-system-principal": {
         "read:private-branch": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "ENGI system principal materializes private artifacts."
           ]
         },
         "materialize:selected-source-material": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "ENGI branch materializer may stage selected source material under .engi/source-material/."
           ]
         },
         "settle:journal-event": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "ENGI settlement engine executes deterministic journal settlement."
           ]
         },
         "write:private-branch": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "ENGI system principal stages remediation artifacts."
           ]
         },
         "derive:bounded-public-proof-metadata": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "ENGI proof publisher may derive bounded proof metadata from the private proof surface."
           ]
         },
         "read:bounded-public-proof": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "ENGI system principal may inspect bounded proof metadata."
           ]
@@ -28502,28 +28518,28 @@
       "github-app-installation-principal": {
         "read:repo-artifact-inventory": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Installation-scoped GitHub App session may enumerate repository artifact inventory."
           ]
         },
         "read:private-branch": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "GitHub App installation sessions do not gain private branch read by default in the local demo."
           ]
         },
         "write:private-branch": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "GitHub App installation sessions are modeled as intake auth, not branch writers."
           ]
         },
         "settle:journal-event": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "GitHub App installation sessions cannot trigger settlement."
           ]
@@ -28532,14 +28548,14 @@
       "authorized-reviewer": {
         "read:private-branch": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Authorized reviewer access is allowed under private review policy."
           ]
         },
         "settle:journal-event": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Authorized reviewers may not trigger settlement."
           ]
@@ -28548,14 +28564,14 @@
       "issuer-principal": {
         "read:private-branch": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Issuers do not gain read access by default."
           ]
         },
         "settle:journal-event": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Issuers cannot self-settle the buyer event."
           ]
@@ -28564,14 +28580,14 @@
       "public-reader": {
         "read:bounded-public-proof": {
           "allow": true,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Only bounded public proof metadata may be public."
           ]
         },
         "read:private-branch": {
           "allow": false,
-          "policyRef": "policy://engi/spec-v15-canonical/2026-04-04",
+          "policyRef": "policy://engi/spec-v22-active-v23-system-draft/current",
           "reasons": [
             "Private remediation material is never public by default."
           ]

@@ -279,12 +279,23 @@ const inventoryKindFilterEl = requireElement('inventoryKindFilter');
 const repoInventoryListEl = requireElement('repoInventoryList');
 const inventorySelectionSummaryEl = requireElement('inventorySelectionSummary');
 const makeBranchButtonEl = requireElement('makeBranchButton');
+const tutorialToggleButtonEl = requireElement('tutorialToggleButton');
 const resetButtonEl = requireElement('resetButton');
 /** @type {HTMLFormElement} */
 const depositFormEl = requireElement('depositForm');
+const tutorialLayerEl = requireElement('tutorialLayer');
+const tutorialStepCounterEl = requireElement('tutorialStepCounter');
+const tutorialKickerEl = requireElement('tutorialKicker');
+const tutorialTitleEl = requireElement('tutorialTitle');
+const tutorialBodyEl = requireElement('tutorialBody');
+const tutorialTargetHintEl = requireElement('tutorialTargetHint');
+const tutorialPrevButtonEl = requireElement('tutorialPrevButton');
+const tutorialNextButtonEl = requireElement('tutorialNextButton');
+const tutorialCloseButtonEl = requireElement('tutorialCloseButton');
 
 const DEFAULT_SURFACE_MODE = 'visual';
 const EXPLAINER_PANEL_MAX_WIDTH = 360;
+const TUTORIAL_STORAGE_KEY = 'engi-demo:tutorial-overlay-dismissed:v22';
 let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
@@ -297,6 +308,16 @@ let inventorySearchTerm = '';
 let selectedInventoryKind = 'all';
 /** @type {AppState | null} */
 let lastLoadedState = null;
+let tutorialStepIndex = 0;
+let tutorialOpen = true;
+/** @type {HTMLElement | null} */
+let tutorialHighlightedEl = null;
+
+try {
+  tutorialOpen = window.localStorage.getItem(TUTORIAL_STORAGE_KEY) !== '1';
+} catch {
+  tutorialOpen = true;
+}
 
 const EXPLAINERS = {
   'repo-supply': {
@@ -3243,6 +3264,208 @@ function renderRepoInventory(state) {
  */
 function setStatus(text) {
   statusEl.textContent = String(text ?? '');
+}
+
+/**
+ * @param {boolean} dismissed
+ * @returns {void}
+ */
+function persistTutorialDismissal(dismissed) {
+  try {
+    window.localStorage.setItem(TUTORIAL_STORAGE_KEY, dismissed ? '1' : '0');
+  } catch {
+    // Tutorial persistence is best-effort only.
+  }
+}
+
+/**
+ * @param {AppState | null | undefined} state
+ * @returns {Array<{ selector: string, kicker: string, title: string, body: string, targetHint: string }>}
+ */
+function tutorialSteps(state) {
+  const scenario = currentScenario(state);
+  const latestRun = state?.latestRun;
+  const profileLabel = latestRun?.realizationProfile?.shortLabel || scenario?.realizationProfile?.shortLabel || 'Targeted deposit';
+  const projectionLabel = activeProjectionPrincipal(state);
+  const branchModeLabel = activeBranchMode(state);
+  const bundleId = latestRun?.boundedPublicProof?.bundleId || latestRun?.journalDiff?.bundleId || null;
+  const branchUnlocked = !!latestRun;
+
+  return [
+    {
+      selector: '#hero',
+      kicker: 'Step 1',
+      title: 'Start from the active canon posture',
+      body: `${canonOperatorLabel(state)} opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask ENGI to realize anything. Right now the shell is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
+      targetHint: 'Use the top controls to set the walkthrough context before you deposit or branch.'
+    },
+    {
+      selector: '#summary',
+      kicker: 'Step 2',
+      title: 'Read the shell at a glance',
+      body: bundleId
+        ? `The summary cards tell you that the shell has already crossed into a realized run. The current bundle is ${bundleId}, so this row is your fastest “where are we now?” check.`
+        : 'The summary row tells you whether you are still in preview or have crossed into a realized run. Before branching, treat it as the shell-wide instrument panel.',
+      targetHint: 'Watch candidate count, selected deposit refs, visible proof families, and latest bundle as the shell advances.'
+    },
+    {
+      selector: '#panelOperatingPicture',
+      kicker: 'Step 3',
+      title: 'Orient the operator story',
+      body: 'This panel is the compressed V22 operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole ENGI path before you dive into any one artifact family.',
+      targetHint: 'If someone is lost, come back here first and then continue stepwise.'
+    },
+    {
+      selector: '#panelDepositing',
+      kicker: 'Step 4',
+      title: 'Bind supply into a deposit',
+      body: 'The tutorial becomes real here. Choose an authenticated repo session, select inventory artifacts, add any operator note or raw fallback material, and deposit a candidate asset into the flow.',
+      targetHint: 'This panel answers: what did we present to ENGI, from which repo/auth boundary, and in what artifact shape?'
+    },
+    {
+      selector: '#panelNeeding',
+      kicker: 'Step 5',
+      title: 'Measure the need before proving anything',
+      body: 'Need comes before proof. This panel is the measured demand surface: task, failure modes, closure criteria, parser contract, and scenario corpus.',
+      targetHint: 'Use this step to explain why the problem is bounded or composite before you justify any candidate asset.'
+    },
+    {
+      selector: '#panelFit',
+      kicker: 'Step 6',
+      title: 'Make deposit-to-need fit explicit',
+      body: 'This is the first decisive checkpoint. ENGI should say why the active deposit matters for the active need before ranking, proof, or settlement start carrying weight.',
+      targetHint: 'The fit panel should answer “why these artifacts for this need?” in one readable pass.'
+    },
+    {
+      selector: '#panelEvaluations',
+      kicker: 'Step 7',
+      title: 'Separate ranking from verification',
+      body: 'Here ENGI turns candidate recall into evaluated candidates, then separately binds use tiers and rights. Ranking strength alone is not enough to materialize or settle an asset.',
+      targetHint: 'Use this panel to show why a high-signal candidate can still be context-only, patch-eligible, or fully rejected.'
+    },
+    {
+      selector: '#panelBranchArtifacts',
+      kicker: 'Step 8',
+      title: 'Inspect the realized branch stack',
+      body: branchUnlocked
+        ? 'The branch panel is the artifact-heavy core of the demo: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and deliverables.'
+        : 'This panel stays intentionally thin until you run “Make ENGI branch”. Once realized, it becomes the artifact-heavy core of the demo.',
+      targetHint: 'After a run, this is where you inspect the private remediation branch as a structured artifact system rather than a vague “output”.'
+    },
+    {
+      selector: '#panelSettlement',
+      kicker: 'Step 9',
+      title: 'Close the value path',
+      body: branchUnlocked
+        ? 'Settlement is where ENGI explains contribution with exact accounting: source-to-shares, zero-credit participants, journal diff, bounded proof, and proof-family closure.'
+        : 'Settlement is the payoff surface, but it only becomes meaningful after a realized run materializes bundle, proof, and accounting artifacts.',
+      targetHint: 'Use this panel when you want to show that ENGI is not just selecting assets, but proving and accounting for them.'
+    },
+    {
+      selector: '#panelLedger',
+      kicker: 'Step 10',
+      title: 'End on balances, policy, and history',
+      body: 'Finish the tutorial here. Ledger and policy surfaces let you show account consequences, bounded metadata, and run history after the branch and settlement story is complete.',
+      targetHint: 'This is the closing step: what changed, what remained bounded, and what prior runs are now part of the visible canon path?'
+    }
+  ];
+}
+
+/**
+ * @returns {void}
+ */
+function clearTutorialHighlight() {
+  if (tutorialHighlightedEl) {
+    tutorialHighlightedEl.classList.remove('tutorial-focus-ring');
+    tutorialHighlightedEl = null;
+  }
+}
+
+/**
+ * @param {{ selector: string }} step
+ * @returns {HTMLElement | null}
+ */
+function resolveTutorialTarget(step) {
+  const target = document.querySelector(step.selector);
+  return target instanceof HTMLElement ? target : null;
+}
+
+/**
+ * @param {HTMLElement | null} target
+ * @param {boolean} [scrollTarget=false]
+ * @returns {void}
+ */
+function highlightTutorialTarget(target, scrollTarget = false) {
+  clearTutorialHighlight();
+  if (!target) return;
+  tutorialHighlightedEl = target;
+  tutorialHighlightedEl.classList.add('tutorial-focus-ring');
+  if (scrollTarget) {
+    tutorialHighlightedEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+/**
+ * @returns {void}
+ */
+function updateTutorialToggleButton() {
+  tutorialToggleButtonEl.textContent = tutorialOpen ? 'Hide tutorial' : 'Show tutorial';
+}
+
+/**
+ * @param {AppState | null | undefined} state
+ * @param {{ scrollTarget?: boolean | undefined }} [options={}]
+ * @returns {void}
+ */
+function renderTutorialOverlay(state, options = {}) {
+  updateTutorialToggleButton();
+  if (!state || !tutorialOpen) {
+    tutorialLayerEl.hidden = true;
+    clearTutorialHighlight();
+    return;
+  }
+
+  const steps = tutorialSteps(state);
+  if (!steps.length) {
+    tutorialLayerEl.hidden = true;
+    clearTutorialHighlight();
+    return;
+  }
+
+  tutorialStepIndex = Math.max(0, Math.min(tutorialStepIndex, steps.length - 1));
+  const step = steps[tutorialStepIndex];
+  const target = resolveTutorialTarget(step);
+
+  tutorialLayerEl.hidden = false;
+  tutorialStepCounterEl.textContent = `Step ${tutorialStepIndex + 1} of ${steps.length}`;
+  tutorialKickerEl.textContent = step.kicker;
+  tutorialTitleEl.textContent = step.title;
+  tutorialBodyEl.textContent = step.body;
+  tutorialTargetHintEl.textContent = step.targetHint;
+  tutorialPrevButtonEl.disabled = tutorialStepIndex === 0;
+  tutorialNextButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Finish tutorial' : 'Next step';
+  tutorialCloseButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Close' : 'Dismiss';
+  highlightTutorialTarget(target, options.scrollTarget === true);
+}
+
+/**
+ * @param {{ reset?: boolean | undefined, scrollTarget?: boolean | undefined }} [options={}]
+ * @returns {void}
+ */
+function openTutorial(options = {}) {
+  tutorialOpen = true;
+  if (options.reset) tutorialStepIndex = 0;
+  persistTutorialDismissal(false);
+  renderTutorialOverlay(lastLoadedState, { scrollTarget: options.scrollTarget === true });
+}
+
+/**
+ * @returns {void}
+ */
+function closeTutorial() {
+  tutorialOpen = false;
+  persistTutorialDismissal(true);
+  renderTutorialOverlay(lastLoadedState);
 }
 
 /**
@@ -6308,6 +6531,7 @@ async function refresh() {
   renderLedger(state);
   decorateStaticExplainers();
   syncExplainerAlignment();
+  renderTutorialOverlay(state);
   return state;
 }
 
@@ -6369,6 +6593,7 @@ branchModePickerEl?.addEventListener('change', () => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
+    renderTutorialOverlay(lastLoadedState);
   }
   setStatus(`Selected branch mode ${selectedBranchMode}.`);
 });
@@ -6386,6 +6611,7 @@ scenarioPickerEl?.addEventListener('change', () => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
+    renderTutorialOverlay(lastLoadedState);
   }
   const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
   setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.realizationProfile?.shortLabel || 'profile pending'}).`);
@@ -6402,6 +6628,7 @@ authSessionPickerEl?.addEventListener('change', () => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
+    renderTutorialOverlay(lastLoadedState);
   }
   setStatus(`Bound intake to authenticated repo session ${selectedAuthSessionId}.`);
 });
@@ -6412,6 +6639,7 @@ inventoryKindFilterEl?.addEventListener('change', () => {
     renderRepoInventory(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
+    renderTutorialOverlay(lastLoadedState);
   }
 });
 
@@ -6421,6 +6649,7 @@ inventorySearchInputEl?.addEventListener('input', () => {
     renderRepoInventory(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
+    renderTutorialOverlay(lastLoadedState);
   }
 });
 
@@ -6450,6 +6679,53 @@ document.addEventListener('click', (event) => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
+    renderTutorialOverlay(lastLoadedState);
+  }
+});
+
+tutorialToggleButtonEl.addEventListener('click', () => {
+  if (tutorialOpen) closeTutorial();
+  else openTutorial({ scrollTarget: true });
+});
+
+tutorialPrevButtonEl.addEventListener('click', () => {
+  if (!tutorialOpen || tutorialStepIndex === 0) return;
+  tutorialStepIndex -= 1;
+  renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+});
+
+tutorialNextButtonEl.addEventListener('click', () => {
+  if (!tutorialOpen || !lastLoadedState) return;
+  const steps = tutorialSteps(lastLoadedState);
+  if (tutorialStepIndex >= steps.length - 1) {
+    closeTutorial();
+    return;
+  }
+  tutorialStepIndex += 1;
+  renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+});
+
+tutorialCloseButtonEl.addEventListener('click', () => closeTutorial());
+
+document.addEventListener('keydown', (event) => {
+  if (!tutorialOpen) return;
+  if (event.key === 'Escape') {
+    closeTutorial();
+    return;
+  }
+  if (event.key === 'ArrowLeft' && tutorialStepIndex > 0) {
+    tutorialStepIndex -= 1;
+    renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+    return;
+  }
+  if (event.key === 'ArrowRight') {
+    const steps = tutorialSteps(lastLoadedState);
+    if (tutorialStepIndex >= steps.length - 1) {
+      closeTutorial();
+      return;
+    }
+    tutorialStepIndex += 1;
+    renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
   }
 });
 
@@ -6490,7 +6766,10 @@ depositFormEl.addEventListener('submit', async (event) => {
 
 decorateStaticExplainers();
 syncExplainerAlignment();
-window.addEventListener('resize', () => syncExplainerAlignment());
+window.addEventListener('resize', () => {
+  syncExplainerAlignment();
+  renderTutorialOverlay(lastLoadedState);
+});
 
 refresh().then(() => {
   syncExplainerAlignment();
