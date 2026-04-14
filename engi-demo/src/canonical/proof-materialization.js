@@ -320,7 +320,17 @@ function buildProofWitnessManifest({
   redactionProof,
   disclosureProof,
   disclosureBoundaryProof,
-  proofContract
+  proofContract,
+  computeRealityManifest = null,
+  storageRealityManifest = null,
+  bitcoinCommitmentManifest = null,
+  bitcoinTreasuryPolicy = null,
+  bitcoinAnchor = null,
+  bitcoinBoundedPublicAnchor = null,
+  bitcoinSettlementIntent = null,
+  bitcoinSettlementObservation = null,
+  bitcoinAuditAnchorProof = null,
+  bitcoinSettlementInterfaceProof = null
 }) {
   const artifactDigests = [
     { path: '.engi/prompt-family-registry.json', digest: promptFamilyRegistry?.registryHash || stableHashObject(promptFamilyRegistry || {}), proofFamilies: ['prompt-completeness'] },
@@ -370,7 +380,17 @@ function buildProofWitnessManifest({
     { path: '.engi/disclosure-proof.json', digest: disclosureProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/disclosure-boundary-proof.json', digest: disclosureBoundaryProof?.proofHash || stableHashObject({ missing: 'disclosure-boundary-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/proof-contract.json', digest: stableHashObject(proofContract || {}), proofFamilies: ['proof-contract'] },
-    { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] }
+    { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] },
+    ...(computeRealityManifest ? [{ path: '.engi/compute-reality-manifest.json', digest: stableHashObject(computeRealityManifest || {}), proofFamilies: ['bitcoin-settlement-interface'] }] : []),
+    ...(storageRealityManifest ? [{ path: '.engi/storage-reality-manifest.json', digest: stableHashObject(storageRealityManifest || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
+    ...(bitcoinCommitmentManifest ? [{ path: '.engi/bitcoin-commitment-manifest.json', digest: stableHashObject(bitcoinCommitmentManifest || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
+    ...(bitcoinTreasuryPolicy ? [{ path: '.engi/bitcoin-treasury-policy.json', digest: stableHashObject(bitcoinTreasuryPolicy || {}), proofFamilies: ['bitcoin-audit-anchor', 'bitcoin-settlement-interface'] }] : []),
+    ...(bitcoinAnchor ? [{ path: '.engi/bitcoin-anchor.json', digest: stableHashObject(bitcoinAnchor || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
+    ...(bitcoinBoundedPublicAnchor ? [{ path: '.engi/bitcoin-bounded-public-anchor.json', digest: stableHashObject(bitcoinBoundedPublicAnchor || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
+    ...(bitcoinSettlementIntent ? [{ path: '.engi/bitcoin-settlement-intent.json', digest: stableHashObject(bitcoinSettlementIntent || {}), proofFamilies: ['bitcoin-settlement-interface'] }] : []),
+    ...(bitcoinSettlementObservation ? [{ path: '.engi/bitcoin-settlement-observation.json', digest: stableHashObject(bitcoinSettlementObservation || {}), proofFamilies: ['bitcoin-settlement-interface'] }] : []),
+    ...(bitcoinAuditAnchorProof ? [{ path: '.engi/bitcoin-audit-anchor-proof.json', digest: bitcoinAuditAnchorProof?.proofHash || stableHashObject(bitcoinAuditAnchorProof || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
+    ...(bitcoinSettlementInterfaceProof ? [{ path: '.engi/bitcoin-settlement-interface-proof.json', digest: bitcoinSettlementInterfaceProof?.proofHash || stableHashObject(bitcoinSettlementInterfaceProof || {}), proofFamilies: ['bitcoin-settlement-interface'] }] : [])
   ];
   const artifactDigestByPath = Object.fromEntries(
     artifactDigests.map((entry) => [entry.path, { digest: entry.digest, proofFamilies: entry.proofFamilies }])
@@ -433,7 +453,17 @@ function buildProofWitnessManifest({
         proofFamily: 'proof-contract',
         witnessArtifactPaths: ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'],
         witnessRefs: [proofContract.contractId, settlementProof.assetPackLockHash, stableHashObject(proofContract || {})]
-      }
+      },
+      ...(bitcoinAuditAnchorProof ? [{
+        proofFamily: 'bitcoin-audit-anchor',
+        witnessArtifactPaths: ['.engi/storage-reality-manifest.json', '.engi/bitcoin-commitment-manifest.json', '.engi/bitcoin-treasury-policy.json', '.engi/bitcoin-anchor.json', '.engi/bitcoin-bounded-public-anchor.json', '.engi/bitcoin-audit-anchor-proof.json'],
+        witnessRefs: [storageRealityManifest?.realityId, bitcoinCommitmentManifest?.publicRoot, bitcoinAnchor?.anchorId, bitcoinAuditAnchorProof?.proofHash]
+      }] : []),
+      ...(bitcoinSettlementInterfaceProof ? [{
+        proofFamily: 'bitcoin-settlement-interface',
+        witnessArtifactPaths: ['.engi/compute-reality-manifest.json', '.engi/bitcoin-settlement-intent.json', '.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-treasury-policy.json', '.engi/bitcoin-settlement-interface-proof.json'],
+        witnessRefs: [computeRealityManifest?.realityId, bitcoinSettlementIntent?.intentId, bitcoinSettlementObservation?.observationId, bitcoinSettlementInterfaceProof?.proofHash]
+      }] : [])
     ];
   const proofFamiliesByName = Object.fromEntries(
     proofFamilies.map((entry) => [entry.proofFamily, entry])
@@ -463,7 +493,16 @@ function buildProofWitnessManifest({
       sourceToSharesArtifact: sourceToSharesArtifact.proofHash,
       settlementSourceToSharesProof: settlementSourceToSharesProof?.proofHash,
       disclosureBoundaryProof: disclosureBoundaryProof?.proofHash,
-      accountingPrecisionReport: accountingPrecisionReport.reportHash
+      accountingPrecisionReport: accountingPrecisionReport.reportHash,
+      ...(computeRealityManifest ? { computeRealityManifest: stableHashObject(computeRealityManifest || {}) } : {}),
+      ...(storageRealityManifest ? { storageRealityManifest: stableHashObject(storageRealityManifest || {}) } : {}),
+      ...(bitcoinCommitmentManifest ? { bitcoinCommitmentManifest: stableHashObject(bitcoinCommitmentManifest || {}) } : {}),
+      ...(bitcoinTreasuryPolicy ? { bitcoinTreasuryPolicy: stableHashObject(bitcoinTreasuryPolicy || {}) } : {}),
+      ...(bitcoinAnchor ? { bitcoinAnchor: stableHashObject(bitcoinAnchor || {}) } : {}),
+      ...(bitcoinSettlementIntent ? { bitcoinSettlementIntent: stableHashObject(bitcoinSettlementIntent || {}) } : {}),
+      ...(bitcoinSettlementObservation ? { bitcoinSettlementObservation: stableHashObject(bitcoinSettlementObservation || {}) } : {}),
+      ...(bitcoinAuditAnchorProof ? { bitcoinAuditAnchorProof: bitcoinAuditAnchorProof?.proofHash } : {}),
+      ...(bitcoinSettlementInterfaceProof ? { bitcoinSettlementInterfaceProof: bitcoinSettlementInterfaceProof?.proofHash } : {})
     })
   };
 }

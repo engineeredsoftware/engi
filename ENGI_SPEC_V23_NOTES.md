@@ -42,7 +42,10 @@ The inherited baseline for V23 is:
 
 The strongest V23 center from the current audit is:
 - define Bitcoin as ENGI's next public audit and spend interface layer,
+- keep a sidechain connection point in first-gate scope so the bridge is not mainchain-only,
 - keep proof computation and bulk private artifact storage off-chain,
+- clarify that NGI is the share and settlement denomination while ENGI names the system,
+- require prototype-demonstration compute and storage reality surfaces so deployed posture is explicit,
 - derive bounded-public and private commitment scopes from current artifact classifications,
 - bind buyer payment intent and network observation to exact ENGI bundle and settlement surfaces,
 - and preserve the repo's current honesty about modeled versus live boundaries.
@@ -76,6 +79,17 @@ Likely consequences:
 
 First-gate drafting choice:
 - add `.engi/bitcoin-treasury-policy.json` as the policy carrier for anchor mode, payment mode, signer policy, and journal finalization policy.
+- include sidechain bridge policy in that same treasury-policy surface.
+
+### 2.5. Compute and storage reality surfaces
+
+Candidate requirement:
+- add prototype-demonstration manifests for off-chain compute reality and content-addressed storage reality.
+
+Likely consequences:
+- new `.engi/compute-reality-manifest.json`,
+- new `.engi/storage-reality-manifest.json`,
+- and explicit audit-visible closure over how deployed compute and storage bind to ENGI ledgered artifacts.
 
 ### 3. Settlement intent and observation surfaces
 
@@ -84,6 +98,7 @@ Candidate requirement:
 
 Likely consequences:
 - larger purchases and repeated read-like purchases use different modes,
+- sidechain bridge mode remains a first-gate connection point,
 - but the same closure rules still apply,
 - and journal or settlement effects do not become network-implicit.
 

@@ -103,6 +103,7 @@
  *   buyerId?: string | undefined,
  *   scenarioId?: string | undefined,
  *   branchMode?: string | undefined,
+ *   paymentMode?: string | undefined,
  *   principal?: string | undefined
  * }} RequestBodyShape
  */
@@ -124,6 +125,11 @@ const DEFAULT_PUBLIC_DIR = path.join(__dirname, 'public');
 const DEFAULT_PORT = Number(process.env['PORT'] || 4318);
 const ALLOWED_PROJECTION_PRINCIPALS = new Set(['public', 'buyer', 'reviewer', 'internal']);
 const ALLOWED_BRANCH_MODES = new Set(['patch', 'context']);
+const ALLOWED_PAYMENT_MODES = new Set([
+  'audited-base-layer-purchase',
+  'repeated-read-payment',
+  'checkpointed-sidechain-bridge'
+]);
 
 /**
  * @param {string} targetPath
@@ -194,6 +200,19 @@ export function createAppContext({
     if (!normalized) return undefined;
     if (!ALLOWED_BRANCH_MODES.has(normalized)) {
       throw badRequest(`Unsupported branch mode: ${branchMode}`);
+    }
+    return normalized;
+  }
+
+  /**
+   * @param {unknown} paymentMode
+   * @returns {string | undefined}
+   */
+  function normalizePaymentMode(paymentMode) {
+    const normalized = String(paymentMode || '').trim().toLowerCase();
+    if (!normalized) return undefined;
+    if (!ALLOWED_PAYMENT_MODES.has(normalized)) {
+      throw badRequest(`Unsupported payment mode: ${paymentMode}`);
     }
     return normalized;
   }
@@ -455,6 +474,7 @@ export function createAppContext({
         const state = readState();
         const principal = normalizePrincipal(body.principal || undefined);
         const branchMode = normalizeBranchMode(body.branchMode);
+        const paymentMode = normalizePaymentMode(body.paymentMode);
         const scenarioId = String(body.scenarioId || '').trim() || undefined;
         const buyerId = String(body.buyerId || '').trim() || undefined;
         if (buyerId && !state.buyers.some((buyer) => String(/** @type {any} */ (buyer)?.buyerId || '') === buyerId)) {
@@ -466,7 +486,8 @@ export function createAppContext({
         const branchRequest = {
           buyerId,
           scenarioId,
-          branchMode
+          branchMode,
+          paymentMode
         };
         const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
         writeState(nextState);

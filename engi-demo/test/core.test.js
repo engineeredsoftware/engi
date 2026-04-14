@@ -108,6 +108,17 @@ import { buildProjectedLatestRun } from '../src/demo-shell-state.js';
  *   evalManifest: { evaluatorInterfaces: any[], vectorSpaces: any[], evaluatorBoundaryNotes: any },
  *   settlementPreview: { settlementParticipatingAssetIds: any[], selectedAssetIds: any[], creditedAssetIds: any[], zeroCreditAssetIds: any[], allocations: any[], assetPackLockHash?: string, meteredMicroUnits?: string },
  *   journalDiff: { invariants: any, totals: any, rawShares: any[], settledShares: any[], debits: any[], credits: any[], receipts: any[] },
+ *   paymentMode?: string | null,
+ *   computeRealityManifest?: any,
+ *   storageRealityManifest?: any,
+ *   bitcoinCommitmentManifest?: any,
+ *   bitcoinTreasuryPolicy?: any,
+ *   bitcoinAnchor?: any,
+ *   bitcoinBoundedPublicAnchor?: any,
+ *   bitcoinSettlementIntent?: any,
+ *   bitcoinSettlementObservation?: any,
+ *   bitcoinAuditAnchorProof?: any,
+ *   bitcoinSettlementInterfaceProof?: any,
  *   settlementParticipationArtifact: { records: any[], zeroCreditParticipatingCount: number, recordCountsByDisposition: any },
  *   sourceToSharesArtifact: { rawShares: any[], sourceContributionEntries: any[], clippingReceipts: any[], contributionDispositionCounts: Record<string, number>, proofHash?: string, basisPointNormalization: any, normalizationLedger: any[] },
  *   accountingPrecisionReport: { exactAccountingInvariants: any, microUnitAllocation: any, sourceMaterialToSharesClosure: any[], sourceToSharesRef?: string },
@@ -575,6 +586,75 @@ test('seeded scenario matrix preserves family closure and projection exactness a
       assert.ok(buyer.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/proof-witness-manifest.json'));
     }
   }
+});
+
+test('runMakeEngiBranch emits V23 bitcoin and sidechain surfaces when payment mode is supplied', () => {
+  const { latestRun } = runMakeEngiBranchTest(buildInitialStateTest(), {
+    paymentMode: 'audited-base-layer-purchase'
+  });
+  const proofFamilies = latestRun.systemProofBundle.proofFamilies.map((/** @type {any} */ entry) => entry.proofFamily);
+  const witnessFamilies = latestRun.proofWitnessManifest.proofFamilies.map((/** @type {any} */ entry) => entry.proofFamily);
+
+  assert.equal(latestRun.paymentMode, 'audited-base-layer-purchase');
+  assert.equal(latestRun.computeRealityManifest.executionMode, 'off-chain-deterministic-runtime');
+  assert.equal(latestRun.storageRealityManifest.storageMode, 'content-addressed-local-branch-artifacts');
+  assert.equal(latestRun.bitcoinTreasuryPolicy.unitDenomination, 'NGI');
+  assert.equal(latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
+  assert.equal(latestRun.bitcoinSettlementObservation.networkState, 'confirmed-onchain');
+  assert.equal(latestRun.bitcoinSettlementObservation.journalBindingState, 'finalizable');
+  assert.ok(proofFamilies.includes('bitcoin-audit-anchor'));
+  assert.ok(proofFamilies.includes('bitcoin-settlement-interface'));
+  assert.ok(witnessFamilies.includes('bitcoin-audit-anchor'));
+  assert.ok(witnessFamilies.includes('bitcoin-settlement-interface'));
+  assert.equal(latestRun.systemProofBundle.proofFamilies.length, 11);
+  assert.equal(latestRun.proofWitnessManifest.proofFamilies.length, 11);
+  assert.equal(latestRun.bitcoinAuditAnchorProof.allTheoremsPassed, true);
+  assert.equal(latestRun.bitcoinSettlementInterfaceProof.allTheoremsPassed, true);
+  assert.ok(latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-payment-observation'));
+  assert.ok(latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-anchor-publication'));
+  assert.ok(latestRun.proofContract.evidenceChain.some((/** @type {any} */ entry) => entry.stage === 'deployment-and-anchor'));
+  assert.ok(latestRun.branchArtifacts.files['.engi/compute-reality-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/storage-reality-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-commitment-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-treasury-policy.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-anchor.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-bounded-public-anchor.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-settlement-intent.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-settlement-observation.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-audit-anchor-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-settlement-interface-proof.json']);
+});
+
+test('V23 payment modes preserve mode-specific observation policy and projection boundaries', () => {
+  const baseLayer = runMakeEngiBranchTest(buildInitialStateTest(), {
+    paymentMode: 'audited-base-layer-purchase'
+  }).latestRun;
+  const repeatedRead = runMakeEngiBranchTest(buildInitialStateTest(), {
+    paymentMode: 'repeated-read-payment'
+  }).latestRun;
+  const sidechain = runMakeEngiBranchTest(buildInitialStateTest(), {
+    paymentMode: 'checkpointed-sidechain-bridge'
+  }).latestRun;
+  const publicProjection = buildProjectedLatestRunTest(sidechain, 'public');
+  const reviewerProjection = buildProjectedLatestRunTest(sidechain, 'reviewer');
+  const buyerProjection = buildProjectedLatestRunTest(sidechain, 'buyer');
+
+  assert.equal(baseLayer.bitcoinSettlementObservation.networkState, 'confirmed-onchain');
+  assert.equal(baseLayer.bitcoinSettlementObservation.journalBindingState, 'finalizable');
+  assert.equal(repeatedRead.bitcoinSettlementObservation.networkState, 'accepted-offchain');
+  assert.equal(repeatedRead.bitcoinSettlementObservation.journalBindingState, 'anchor-required');
+  assert.equal(sidechain.bitcoinSettlementObservation.networkState, 'checkpointed-sidechain');
+  assert.equal(sidechain.bitcoinSettlementObservation.journalBindingState, 'anchor-required');
+  assert.ok(sidechain.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
+
+  assert.ok(publicProjection.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
+  assert.equal('.engi/bitcoin-anchor.json' in publicProjection.publicArtifacts, false);
+  assert.equal(publicProjection.bitcoinAnchor, undefined);
+  assert.equal(reviewerProjection.bitcoinSettlementIntent, undefined);
+  assert.equal(reviewerProjection.bitcoinBoundedPublicAnchor.anchorId, sidechain.bitcoinBoundedPublicAnchor.anchorId);
+  assert.equal(buyerProjection.bitcoinSettlementIntent.intentId, sidechain.bitcoinSettlementIntent.intentId);
+  assert.equal(buyerProjection.bitcoinSettlementObservation.observationId, sidechain.bitcoinSettlementObservation.observationId);
+  assert.equal(buyerProjection.bitcoinAnchor.anchorId, sidechain.bitcoinAnchor.anchorId);
 });
 
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {

@@ -49,18 +49,21 @@ This matrix is grounded in:
 | Deliverables confidentiality classification | `run-artifacts.js` already classifies deliverables by `confidentialityClass` and `potentiallyDisclosable` | V23 public commitment scope must derive only from disclosable artifacts | public-root inclusion rule is derived from deliverables classification and projection policy | implemented prerequisite |
 | Manifest-root derivation contract | current source has stable hashing but no BTC-specific root contract | V23 requires replayable manifest-root derivation rather than an implicit or ad hoc root algorithm | `publicRoot` and `privateRoot` are derived from sorted scope entries under a fixed `v23.manifest-root.v1` contract | implemented in docs |
 | BTC enum vocabulary | current source has no BTC-specific enum set | V23 requires fixed enum values for anchor, payment, publication, confirmation, network, and journal-binding states | enum vocabulary is declared in spec and used consistently across artifact definitions | implemented in docs |
+| Compute-reality surface | current source exposes model execution as a boundary but has no compute-reality manifest | V23 requires a prototype-demonstration compute-reality artifact that binds off-chain execution to replayable proof and settlement surfaces | `.engi/compute-reality-manifest.json` is emitted, classified, and test-covered | not yet implemented |
+| Storage-reality surface | current source exposes artifact uploads and deliverables but has no storage-reality manifest | V23 requires a prototype-demonstration storage-reality artifact that binds commitment scopes to content-addressed retrieval posture | `.engi/storage-reality-manifest.json` is emitted, classified, and test-covered | not yet implemented |
 | Exact settlement event size | `engi-demo/src/engi-demo.js` exports `METERED_MICRO_UNITS = '100000000'`; `settlement.js` allocates exact micro-units against it | V23 payment intent and observation must bind to the same exact event size | settlement-intent and settlement-observation artifacts reference the same metered-unit event | implemented prerequisite |
+| NGI denomination rule | current source has exact integer settlement carriers but no BTC-facing denomination rule | V23 requires ENGI to remain the system name and NGI to be the share and settlement denomination | BTC-facing artifacts declare `unitDenomination = NGI` and treasury policy declares settlement denomination explicitly | implemented in docs |
 | Settlement proof chain | source-to-shares, settlement participation, accounting precision, journal diff, and settlement proof already close over exact accounting | V23 audited spend surfaces must bind to the existing settlement proof chain | payment observation does not contradict or replace settlement proof closure | implemented prerequisite |
 | Bounded-public proof surfaces | projection policy, bounded-public proof, redaction proof, and disclosure proof already exist | V23 public anchor receipts must project only these safe surfaces | bounded-public anchor is derivable without leaking private artifacts | implemented prerequisite |
-| Treasury-policy surface | current source has no explicit treasury or finalization policy artifact | V23 requires a treasury-policy carrier referenced by settlement intent, anchor policy, and finalization rules | `.engi/bitcoin-treasury-policy.json` is emitted and classified in deliverables manifest | not yet implemented |
+| Treasury-policy surface | current source has no explicit treasury or finalization policy artifact | V23 requires a treasury-policy carrier referenced by settlement intent, anchor policy, sidechain bridge policy, and finalization rules | `.engi/bitcoin-treasury-policy.json` is emitted and classified in deliverables manifest | not yet implemented |
 | BTC artifact projection matrix | current source has no per-principal visibility matrix for `bitcoin-*` artifacts | V23 requires explicit public/reviewer/buyer/internal visibility for each new BTC artifact | projection policy and deliverables classification cover each BTC artifact explicitly | implemented in docs |
 | External boundary specialization | `engi-demo/src/engi-demo.js` already emits a generic `settlement-network-effects` interface | V23 requires explicit anchor-publication and spend-observation interface contracts | external-boundary manifest is specialized beyond generic settlement network effects | draft-required |
 | Bitcoin-facing artifact family | no current source emits `bitcoin-*` artifacts | V23 requires commitment-manifest, anchor, bounded-public anchor, settlement intent, settlement observation, and two proof artifacts | new artifact family is emitted in `.engi/` and classified in deliverables manifest | not yet implemented |
 | Bitcoin proof-family validation | no current source emits `bitcoin-audit-anchor` or `bitcoin-settlement-interface` proof families | V23 requires both proof families with theorem and replay closure | proof-witness manifest and proof-contract include the new families | not yet implemented |
-| Mode-specific finalization policy | current source has no BTC-facing finalization semantics | V23 requires explicit finalization rules for base-layer, repeated-read, and checkpointed-L2 modes | tests and runtime enforce `journalBindingState` transitions by mode | not yet implemented |
+| Sidechain bridge mode and finalization policy | current source has no BTC-facing sidechain bridge semantics | V23 requires an explicit sidechain bridge connection point and finalization rules for base-layer, repeated-read, and checkpointed-sidechain modes | tests and runtime enforce `journalBindingState` transitions by mode and sidechain checkpoints | not yet implemented |
 | Live network execution | README and external-boundary surfaces remain explicit that networked settlement effects are modeled only | V23 must preserve that honesty until real implementation lands | docs and runtime continue to state modeled versus live boundaries accurately | accepted boundary |
 | Generated V23 evidence | no `ENGI_SPEC_V23_PROVEN.md` or generated `.engi/v23-*` evidence exists | V23 promotion requires generated evidence from real source behavior | generated appendix and generated V23 reports exist before promotion | accepted boundary |
-| Optional sidechain or L2 transferability | no current source models transferability beyond deterministic settlement accounting | V23 keeps this as later optional deployment work | any future transfer mode still binds back to the same commitment and settlement carriers | accepted boundary |
+| Sidechain connection point with later transferability | no current source models a sidechain bridge connection point or transferability beyond deterministic settlement accounting | V23 keeps the sidechain bridge connection point in first-gate scope while generalized transferability remains later work | sidechain bridge mode is specified now; any later generalized transfer mode still binds back to the same commitment and settlement carriers | implemented in docs / pending in source |
 
 ---
 
@@ -73,14 +76,19 @@ This matrix is grounded in:
 | Public/private commitment scope rule | bounded-public and private roots are specified distinctly | implemented in docs |
 | Manifest-root derivation contract | `publicRoot` and `privateRoot` are defined replayably | implemented in docs |
 | Enum vocabulary | BTC-facing artifact state enums are fixed | implemented in docs |
+| Compute-reality surface | prototype compute posture is explicit | implemented in docs |
+| Storage-reality surface | prototype storage posture is explicit | implemented in docs |
+| NGI denomination rule | ENGI versus NGI naming and unit semantics are explicit | implemented in docs |
 | Bitcoin artifact family | new `.engi/bitcoin-*` carriers are defined | implemented in docs |
 | Bitcoin proof families | new proof families are defined and bounded | implemented in docs |
 | Treasury policy surface | spend-policy and finalization carrier is defined | implemented in docs |
 | BTC artifact projection matrix | per-principal visibility for BTC artifacts is explicit | implemented in docs |
+| Sidechain bridge connection point | sidechain bridge mode is explicit in first-gate scope | implemented in docs |
 | Source emission | current runtime emits the new artifacts | pending |
+| Prototype compute/storage emission | current runtime emits compute-reality and storage-reality artifacts | pending |
 | Deliverables classification | current deliverables manifest classifies new artifacts correctly | pending |
 | External boundary specialization | current external-boundary manifest splits anchor and spend interfaces | pending |
-| Test closure | tests fail closed on scope leakage, receipt drift, and mode-specific finalization drift | pending |
+| Test closure | tests fail closed on scope leakage, receipt drift, compute/storage reality drift, and mode-specific finalization drift | pending |
 | Generated evidence | generated V23 appendix and V23 reports exist | pending |
 
 ## Accepted boundaries
@@ -88,9 +96,9 @@ This matrix is grounded in:
 | Boundary | Rationale | Reopen condition |
 | --- | --- | --- |
 | No pointer promotion in this pass | V22 remains the only active canon | Reopen only after real source implementation and generated evidence exist |
-| No live BTC execution claims | current source does not execute those flows | Reopen only when runtime, tests, and generated evidence prove it |
+| No live BTC execution claims beyond prototype demonstration | current source does not execute those flows end-to-end yet | Reopen only when runtime, tests, and generated evidence prove it |
 | No `_PROVEN_` appendix yet | V23 is still a draft target | Reopen only when V23 behavior is generated from source |
-| No mandatory transferability layer | Bitcoin-audit anchoring and spend binding come first | Reopen only if later implementation requires optional L2 or sidechain support |
+| No mandatory generalized transferability layer | Bitcoin-audit anchoring, sidechain bridge connectivity, and spend binding come first; generalized transferability can remain later | Reopen only if later implementation requires sidechain-issued transferability in first gate |
 | No Merkle inclusion requirement in first gate | first-gate V23 uses replayable manifest roots instead | Reopen only if a later version needs compact inclusion-path semantics beyond manifest replay |
 
 ## Completion condition
@@ -98,7 +106,8 @@ This matrix is grounded in:
 This parity file is complete for V23 only when:
 1. every draft artifact and proof-family row is either implemented in source or explicitly deferred,
 2. public and private commitment scopes are enforced by source and tests,
-3. manifest-root derivation, enum vocabulary, treasury-policy surface, and mode-specific finalization rules are enforced by source and tests,
-4. external-boundary specialization is emitted in current runtime artifacts,
-5. generated V23 evidence exists,
-6. and promotion away from V22 is justified by real implementation rather than by draft intent alone.
+3. prototype compute-reality and storage-reality surfaces are emitted and enforced by source and tests,
+4. manifest-root derivation, enum vocabulary, treasury-policy surface, and mode-specific finalization rules are enforced by source and tests,
+5. external-boundary specialization is emitted in current runtime artifacts,
+6. generated V23 evidence exists,
+7. and promotion away from V22 is justified by real implementation rather than by draft intent alone.

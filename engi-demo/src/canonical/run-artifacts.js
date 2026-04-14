@@ -386,7 +386,17 @@ function buildSystemProofBundle(
   disclosureProof,
   disclosureBoundaryProof,
   proofWitnessManifest,
-  proofContract
+  proofContract,
+  computeRealityManifest = null,
+  storageRealityManifest = null,
+  bitcoinCommitmentManifest = null,
+  bitcoinTreasuryPolicy = null,
+  bitcoinAnchor = null,
+  bitcoinBoundedPublicAnchor = null,
+  bitcoinSettlementIntent = null,
+  bitcoinSettlementObservation = null,
+  bitcoinAuditAnchorProof = null,
+  bitcoinSettlementInterfaceProof = null
 ) {
   const proofFamilies = [
     buildProofFamilyCatalogEntry('inference-synthesis', '.engi/inference-synthesis-proof.json', /** @type {any} */ (inferenceSynthesisProof)),
@@ -397,7 +407,9 @@ function buildSystemProofBundle(
     buildProofFamilyCatalogEntry('authorization-and-sensitive-flow', '.engi/authorization-and-sensitive-flow-proof.json', /** @type {any} */ (authorizationAndSensitiveFlowProof)),
     buildProofFamilyCatalogEntry('settlement-source-to-shares', '.engi/settlement-source-to-shares-proof.json', /** @type {any} */ (settlementSourceToSharesProof)),
     buildProofFamilyCatalogEntry('disclosure-boundary', '.engi/disclosure-boundary-proof.json', /** @type {any} */ (disclosureBoundaryProof)),
-    buildProofFamilyCatalogEntry('proof-contract', '.engi/proof-contract.json', /** @type {any} */ (proofContract))
+    buildProofFamilyCatalogEntry('proof-contract', '.engi/proof-contract.json', /** @type {any} */ (proofContract)),
+    ...(bitcoinAuditAnchorProof ? [buildProofFamilyCatalogEntry('bitcoin-audit-anchor', '.engi/bitcoin-audit-anchor-proof.json', /** @type {any} */ (bitcoinAuditAnchorProof))] : []),
+    ...(bitcoinSettlementInterfaceProof ? [buildProofFamilyCatalogEntry('bitcoin-settlement-interface', '.engi/bitcoin-settlement-interface-proof.json', /** @type {any} */ (bitcoinSettlementInterfaceProof))] : [])
   ];
   const verifierReplayArtifacts = summarizeStrings(proofFamilies.flatMap((entry) => entry.replayArtifacts || []));
   const verifierRequiredArtifactPaths = summarizeStrings(proofFamilies.flatMap((entry) => [
@@ -441,6 +453,16 @@ function buildSystemProofBundle(
     proofWitnessManifest,
     settlementProof,
     settlementSourceToSharesProof,
+    ...(computeRealityManifest ? { computeRealityManifest } : {}),
+    ...(storageRealityManifest ? { storageRealityManifest } : {}),
+    ...(bitcoinCommitmentManifest ? { bitcoinCommitmentManifest } : {}),
+    ...(bitcoinTreasuryPolicy ? { bitcoinTreasuryPolicy } : {}),
+    ...(bitcoinAnchor ? { bitcoinAnchor } : {}),
+    ...(bitcoinBoundedPublicAnchor ? { bitcoinBoundedPublicAnchor } : {}),
+    ...(bitcoinSettlementIntent ? { bitcoinSettlementIntent } : {}),
+    ...(bitcoinSettlementObservation ? { bitcoinSettlementObservation } : {}),
+    ...(bitcoinAuditAnchorProof ? { bitcoinAuditAnchorProof } : {}),
+    ...(bitcoinSettlementInterfaceProof ? { bitcoinSettlementInterfaceProof } : {}),
     proofFamilies,
     verifierEntrypoint: {
       replayArtifacts: verifierReplayArtifacts,
@@ -461,7 +483,9 @@ function buildSystemProofBundle(
         'Replay identity authorization and sensitive-data-flow closure from the authorization proof artifacts.',
         'Replay source-to-shares marginal contribution clipping, basis-point normalization, journal completeness, and exact micro-unit allocation from the settlement artifacts.',
         'Replay projection policy, bounded-public proof, redaction, and disclosure alignment.',
-        'Replay proof-contract closure across the proof contract, witness manifest, and system proof bundle.'
+        'Replay proof-contract closure across the proof contract, witness manifest, and system proof bundle.',
+        ...(bitcoinAuditAnchorProof ? ['Replay compute/storage scope derivation, root publication, and bounded-public anchor receipt closure for the bitcoin audit surface.'] : []),
+        ...(bitcoinSettlementInterfaceProof ? ['Replay compute reality, payment intent, confirmation observation, and journal-binding closure for the bitcoin settlement interface surface.'] : [])
       ]
     }
   };
@@ -523,7 +547,8 @@ function buildArtifactUploadManifest(selectedCandidates) {
  *   inferenceProofs: InferenceProof[],
  *   promptImplementationSurface: Record<string, unknown>,
  *   promptSurfaces: BuiltPromptSurface[],
- *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifact | null
+ *   parsedCompletionEnvelopeArtifact: ParsedCompletionEnvelopeArtifact | null,
+ *   v23BitcoinEnabled?: boolean | undefined
  * }} input
  */
 function buildDeliverablesManifest({
@@ -551,8 +576,83 @@ function buildDeliverablesManifest({
   inferenceProofs,
   promptImplementationSurface,
   promptSurfaces,
-  parsedCompletionEnvelopeArtifact
+  parsedCompletionEnvelopeArtifact,
+  v23BitcoinEnabled = false
 }) {
+  const v23Deliverables = v23BitcoinEnabled
+    ? [
+        {
+          path: '.engi/compute-reality-manifest.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-boundaries', 'proof-bundle', 'settlement-proof']
+        },
+        {
+          path: '.engi/storage-reality-manifest.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['deliverables-manifest', 'external-boundaries', 'bounded-public-proof']
+        },
+        {
+          path: '.engi/bitcoin-commitment-manifest.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['deliverables-manifest', 'disclosure-boundary', 'proof-contract']
+        },
+        {
+          path: '.engi/bitcoin-treasury-policy.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-boundaries', 'policy-release']
+        },
+        {
+          path: '.engi/bitcoin-anchor.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-commitment-manifest', 'bitcoin-treasury-policy']
+        },
+        {
+          path: '.engi/bitcoin-bounded-public-anchor.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'bounded-public-proof-metadata',
+          potentiallyDisclosable: true,
+          dependsOn: ['bitcoin-anchor', 'bounded-public-proof']
+        },
+        {
+          path: '.engi/bitcoin-settlement-intent.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['settlement-preview', 'source-to-shares', 'bitcoin-treasury-policy']
+        },
+        {
+          path: '.engi/bitcoin-settlement-observation.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-settlement-intent', 'bitcoin-treasury-policy']
+        },
+        {
+          path: '.engi/bitcoin-audit-anchor-proof.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-commitment-manifest', 'bitcoin-anchor', 'bitcoin-bounded-public-anchor']
+        },
+        {
+          path: '.engi/bitcoin-settlement-interface-proof.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-settlement-intent', 'bitcoin-settlement-observation', 'settlement-proof']
+        }
+      ]
+    : [];
   return {
     branchName,
     needId: need.needId,
@@ -986,6 +1086,7 @@ function buildDeliverablesManifest({
         potentiallyDisclosable: false,
         dependsOn: ['proof-bundle', 'proof-witness-manifest']
       },
+      ...v23Deliverables,
       {
         path: '.engi/scenario-fixture-manifest.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
@@ -1035,7 +1136,8 @@ function buildDeliverablesManifest({
       promptSurfaceCount: promptSurfaces.length,
       promptImplementationPromptCount: Array.isArray((/** @type {any} */ (promptImplementationSurface))?.['promptTemplates']) ? (/** @type {any} */ (promptImplementationSurface))['promptTemplates'].length : 0,
       parsedCompletionEnvelopeCount: parsedCompletionEnvelopeArtifact?.envelopeCount || 0,
-      externalBoundaryInterfaceCount: externalBoundaryManifest.interfaces.length
+      externalBoundaryInterfaceCount: externalBoundaryManifest.interfaces.length,
+      bitcoinArtifactCount: v23BitcoinEnabled ? v23Deliverables.length : 0
     }
   };
 }

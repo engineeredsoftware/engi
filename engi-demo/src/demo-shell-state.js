@@ -126,6 +126,7 @@
  *   createdAt?: string | undefined,
  *   scenarioId?: string | undefined,
  *   branchMode?: string | undefined,
+ *   paymentMode?: string | null | undefined,
  *   branchArtifacts?: { branchName?: string | undefined, branchMode?: string | undefined, confidentiality?: string | undefined, files?: Record<string, string> | undefined } | undefined,
  *   conformanceProfile?: string | undefined,
  *   productionIntentProfile?: string | undefined,
@@ -193,6 +194,16 @@
  *   accountingPrecisionReport?: unknown,
  *   settlementPreview?: unknown,
  *   journalDiff?: unknown,
+ *   computeRealityManifest?: unknown,
+ *   storageRealityManifest?: unknown,
+ *   bitcoinCommitmentManifest?: unknown,
+ *   bitcoinTreasuryPolicy?: unknown,
+ *   bitcoinAnchor?: unknown,
+ *   bitcoinBoundedPublicAnchor?: unknown,
+ *   bitcoinSettlementIntent?: unknown,
+ *   bitcoinSettlementObservation?: unknown,
+ *   bitcoinAuditAnchorProof?: unknown,
+ *   bitcoinSettlementInterfaceProof?: unknown,
  *   systemProofBundle?: unknown,
  *   proofContract?: unknown
  * }} LatestRunShape
@@ -339,6 +350,7 @@ function buildPublicProjection(latestRun) {
     createdAt: latestRun.createdAt,
     scenarioId: latestRun.scenarioId,
     branchMode: latestRun.branchMode,
+    paymentMode: latestRun.paymentMode || null,
     branchName: latestRun.branchArtifacts?.branchName,
     conformanceProfile: latestRun.conformanceProfile,
     productionIntentProfile: latestRun.productionIntentProfile,
@@ -377,6 +389,7 @@ function buildPublicProjection(latestRun) {
     },
     publicArtifacts: {
       '.engi/bounded-public-proof.json': latestRun.boundedPublicProof,
+      ...(latestRun.bitcoinBoundedPublicAnchor ? { '.engi/bitcoin-bounded-public-anchor.json': latestRun.bitcoinBoundedPublicAnchor } : {}),
       '.engi/needing-surface.json': latestRun.needingSurface,
       '.engi/depositing-to-needing-surface.json': latestRun.depositingToNeedingSurface,
       '.engi/match-report.json': latestRun.matchReport,
@@ -450,6 +463,16 @@ function buildBuyerProjection(latestRun) {
     testCoverageReport: latestRun.testCoverageReport,
     settlementPreview: latestRun.settlementPreview,
     journalDiff: latestRun.journalDiff,
+    computeRealityManifest: latestRun.computeRealityManifest,
+    storageRealityManifest: latestRun.storageRealityManifest,
+    bitcoinCommitmentManifest: latestRun.bitcoinCommitmentManifest,
+    bitcoinTreasuryPolicy: latestRun.bitcoinTreasuryPolicy,
+    bitcoinAnchor: latestRun.bitcoinAnchor,
+    bitcoinBoundedPublicAnchor: latestRun.bitcoinBoundedPublicAnchor,
+    bitcoinSettlementIntent: latestRun.bitcoinSettlementIntent,
+    bitcoinSettlementObservation: latestRun.bitcoinSettlementObservation,
+    bitcoinAuditAnchorProof: latestRun.bitcoinAuditAnchorProof,
+    bitcoinSettlementInterfaceProof: latestRun.bitcoinSettlementInterfaceProof,
     systemProofBundle: latestRun.systemProofBundle,
     proofContract: latestRun.proofContract,
     branchArtifacts: {
@@ -499,6 +522,50 @@ function buildReviewerProjection(latestRun) {
     journalCompletenessProof: latestRun.journalCompletenessProof,
     settlementSourceToSharesProof: latestRun.settlementSourceToSharesProof,
     externalBoundaryManifest: latestRun.externalBoundaryManifest,
+    computeRealityManifest: latestRun.computeRealityManifest
+      ? {
+          realityId: latestRun.computeRealityManifest?.realityId,
+          executionMode: latestRun.computeRealityManifest?.executionMode,
+          determinismClass: latestRun.computeRealityManifest?.determinismClass,
+          proofArtifactRefs: latestRun.computeRealityManifest?.proofArtifactRefs,
+          settlementArtifactRefs: latestRun.computeRealityManifest?.settlementArtifactRefs
+        }
+      : undefined,
+    storageRealityManifest: latestRun.storageRealityManifest
+      ? {
+          realityId: latestRun.storageRealityManifest?.realityId,
+          storageMode: latestRun.storageRealityManifest?.storageMode,
+          contentAddressingScheme: latestRun.storageRealityManifest?.contentAddressingScheme,
+          scopeStorageBindings: latestRun.storageRealityManifest?.scopeStorageBindings
+        }
+      : undefined,
+    bitcoinCommitmentManifest: latestRun.bitcoinCommitmentManifest
+      ? {
+          manifestVersion: latestRun.bitcoinCommitmentManifest?.manifestVersion,
+          publicRoot: latestRun.bitcoinCommitmentManifest?.publicRoot,
+          privateRootRef: latestRun.bitcoinCommitmentManifest?.privateRoot,
+          publicArtifactCount: latestRun.bitcoinCommitmentManifest?.scopeEntries?.public?.length || 0,
+          privateArtifactCount: latestRun.bitcoinCommitmentManifest?.scopeEntries?.private?.length || 0
+        }
+      : undefined,
+    bitcoinAnchor: latestRun.bitcoinAnchor
+      ? {
+          anchorId: latestRun.bitcoinAnchor?.anchorId,
+          network: latestRun.bitcoinAnchor?.network,
+          anchorMode: latestRun.bitcoinAnchor?.anchorMode,
+          confirmationState: latestRun.bitcoinAnchor?.confirmationState,
+          publicationState: latestRun.bitcoinAnchor?.publicationState
+        }
+      : undefined,
+    bitcoinBoundedPublicAnchor: latestRun.bitcoinBoundedPublicAnchor,
+    bitcoinAuditAnchorProof: latestRun.bitcoinAuditAnchorProof
+      ? {
+          proofFamily: latestRun.bitcoinAuditAnchorProof?.proofFamily,
+          allTheoremsPassed: latestRun.bitcoinAuditAnchorProof?.allTheoremsPassed,
+          theoremVerdicts: latestRun.bitcoinAuditAnchorProof?.theoremVerdicts,
+          memberVerdicts: latestRun.bitcoinAuditAnchorProof?.memberVerdicts
+        }
+      : undefined,
     systemProofBundle: latestRun.systemProofBundle,
     proofWitnessManifest: latestRun.proofWitnessManifest,
     proofContract: latestRun.proofContract,

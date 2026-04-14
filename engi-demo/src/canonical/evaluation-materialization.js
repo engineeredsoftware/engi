@@ -1929,6 +1929,20 @@ export function createEvaluationMaterializationRuntime({
       '.engi/deliverables.json',
       'ENGI_NEED.md'
     ];
+    if (branchArtifacts.files['.engi/bitcoin-settlement-intent.json']) {
+      requiredPaths.push(
+        '.engi/compute-reality-manifest.json',
+        '.engi/storage-reality-manifest.json',
+        '.engi/bitcoin-commitment-manifest.json',
+        '.engi/bitcoin-treasury-policy.json',
+        '.engi/bitcoin-anchor.json',
+        '.engi/bitcoin-bounded-public-anchor.json',
+        '.engi/bitcoin-settlement-intent.json',
+        '.engi/bitcoin-settlement-observation.json',
+        '.engi/bitcoin-audit-anchor-proof.json',
+        '.engi/bitcoin-settlement-interface-proof.json'
+      );
+    }
     for (const requiredPath of requiredPaths) {
       if (!branchArtifacts.files[requiredPath]) {
         throw new Error(`ENGI branch artifact contract failed: missing ${requiredPath}.`);
@@ -1940,7 +1954,7 @@ export function createEvaluationMaterializationRuntime({
    * @param {BuildBranchArtifactsInput} input
    * @returns {{ branchName: string, branchMode: string, confidentiality: string, files: Record<string, string> }}
    */
-  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract }) {
+  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof }) {
     const files = {
       '.engi/need.json': JSON.stringify(need, null, 2),
       '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -2006,6 +2020,16 @@ export function createEvaluationMaterializationRuntime({
       '.engi/disclosure-boundary-proof.json': JSON.stringify(disclosureBoundaryProof, null, 2),
       '.engi/proof-contract.json': JSON.stringify(proofContract, null, 2),
       '.engi/deliverables.json': JSON.stringify(deliverablesManifest, null, 2),
+      ...(computeRealityManifest ? { '.engi/compute-reality-manifest.json': JSON.stringify(computeRealityManifest, null, 2) } : {}),
+      ...(storageRealityManifest ? { '.engi/storage-reality-manifest.json': JSON.stringify(storageRealityManifest, null, 2) } : {}),
+      ...(bitcoinCommitmentManifest ? { '.engi/bitcoin-commitment-manifest.json': JSON.stringify(bitcoinCommitmentManifest, null, 2) } : {}),
+      ...(bitcoinTreasuryPolicy ? { '.engi/bitcoin-treasury-policy.json': JSON.stringify(bitcoinTreasuryPolicy, null, 2) } : {}),
+      ...(bitcoinAnchor ? { '.engi/bitcoin-anchor.json': JSON.stringify(bitcoinAnchor, null, 2) } : {}),
+      ...(bitcoinBoundedPublicAnchor ? { '.engi/bitcoin-bounded-public-anchor.json': JSON.stringify(bitcoinBoundedPublicAnchor, null, 2) } : {}),
+      ...(bitcoinSettlementIntent ? { '.engi/bitcoin-settlement-intent.json': JSON.stringify(bitcoinSettlementIntent, null, 2) } : {}),
+      ...(bitcoinSettlementObservation ? { '.engi/bitcoin-settlement-observation.json': JSON.stringify(bitcoinSettlementObservation, null, 2) } : {}),
+      ...(bitcoinAuditAnchorProof ? { '.engi/bitcoin-audit-anchor-proof.json': JSON.stringify(bitcoinAuditAnchorProof, null, 2) } : {}),
+      ...(bitcoinSettlementInterfaceProof ? { '.engi/bitcoin-settlement-interface-proof.json': JSON.stringify(bitcoinSettlementInterfaceProof, null, 2) } : {}),
       'ENGI_NEED.md': buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease)
     };
 

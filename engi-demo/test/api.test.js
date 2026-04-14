@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { EventEmitter } from 'node:events';
 import { createAppContext } from '../server.js';
 import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
@@ -14,6 +15,8 @@ import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 /** @type {((name: string, fn: (t: any) => any) => any) & ((name: string, options: any, fn: (t: any) => any) => any)} */
 const testAny = test;
 const createAppContextAny = /** @type {any} */ (createAppContext);
+const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const APP_ROOT = path.resolve(TEST_DIR, '..');
 
 /**
  * @param {any} [input={}]
@@ -87,7 +90,7 @@ async function invoke(app, request) {
 async function withApp(t, fn) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'engi-demo-test-'));
   const dataPath = path.join(tempDir, 'state.json');
-  const app = createAppContextAny({ dataPath, publicDir: path.join(process.cwd(), 'public') });
+  const app = createAppContextAny({ dataPath, publicDir: path.join(APP_ROOT, 'public') });
   app.ensureState();
   t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
   return fn({ app, dataPath });
@@ -188,10 +191,10 @@ testAny('GET /api/state exposes canonical profile labels, task seed, and needing
 });
 
 testAny('HOST capability docs are present in repo', async () => {
-  const root = path.join(process.cwd(), 'HOST_CAPABILITIES.md');
-  const json = path.join(process.cwd(), 'HOST_CAPABILITIES.json');
-  const dockerfile = path.join(process.cwd(), 'Dockerfile');
-  const dockerignore = path.join(process.cwd(), '.dockerignore');
+  const root = path.join(APP_ROOT, 'HOST_CAPABILITIES.md');
+  const json = path.join(APP_ROOT, 'HOST_CAPABILITIES.json');
+  const dockerfile = path.join(APP_ROOT, 'Dockerfile');
+  const dockerignore = path.join(APP_ROOT, '.dockerignore');
   assert.equal(fs.existsSync(root), true);
   assert.equal(fs.existsSync(json), true);
   assert.equal(fs.existsSync(dockerfile), true);
@@ -437,6 +440,40 @@ testAny('POST /api/make-engi-branch supports buyer projection and context branch
   });
 });
 
+testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoin surfaces by principal', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const buyerRun = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        paymentMode: 'checkpointed-sidechain-bridge',
+        principal: 'buyer'
+      })
+    });
+    const publicState = await invoke(app, { method: 'GET', url: '/api/state?principal=public' });
+    const reviewerState = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+
+    assert.equal(buyerRun.statusCode, 200);
+    assert.equal(buyerRun.json.latestRun.paymentMode, 'checkpointed-sidechain-bridge');
+    assert.equal(buyerRun.json.latestRun.projectionPrincipal, 'buyer');
+    assert.equal(buyerRun.json.latestRun.systemProofBundle.proofFamilies.length, 11);
+    assert.equal(buyerRun.json.latestRun.proofWitnessManifest.proofFamilies.length, 11);
+    assert.equal(buyerRun.json.latestRun.bitcoinSettlementObservation.networkState, 'checkpointed-sidechain');
+    assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
+    assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
+
+    assert.equal(publicState.statusCode, 200);
+    assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
+    assert.equal('.engi/bitcoin-anchor.json' in publicState.json.latestRun.publicArtifacts, false);
+
+    assert.equal(reviewerState.statusCode, 200);
+    assert.equal(reviewerState.json.latestRun.bitcoinSettlementIntent, undefined);
+    assert.ok(reviewerState.json.latestRun.bitcoinBoundedPublicAnchor.anchorId);
+    assert.ok(reviewerState.json.latestRun.bitcoinCommitmentManifest.publicRoot);
+  });
+});
+
 testAny('GET /api/state supports buyer projection without raw branch files', async (t) => {
   await withApp(t, async ({ app }) => {
     await invoke(app, {
@@ -494,7 +531,7 @@ testAny('GET /api/state rejects unsupported projection principal as a client err
   });
 });
 
-testAny('POST /api/make-engi-branch rejects unsupported principal, branch mode, and scenario as client errors', async (t) => {
+testAny('POST /api/make-engi-branch rejects unsupported principal, branch mode, payment mode, and scenario as client errors', async (t) => {
   await withApp(t, async ({ app }) => {
     const badPrincipal = await invoke(app, {
       method: 'POST',
@@ -513,6 +550,15 @@ testAny('POST /api/make-engi-branch rejects unsupported principal, branch mode, 
     });
     assert.equal(badBranchMode.statusCode, 400);
     assert.match(badBranchMode.json.error, /Unsupported branch mode/i);
+
+    const badPaymentMode = await invoke(app, {
+      method: 'POST',
+      url: '/api/make-engi-branch',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentMode: 'lightning-mainline' })
+    });
+    assert.equal(badPaymentMode.statusCode, 400);
+    assert.match(badPaymentMode.json.error, /Unsupported payment mode/i);
 
     const badScenario = await invoke(app, {
       method: 'POST',

@@ -55,15 +55,16 @@ The current accepted V23 drafting decisions are:
 
 1. V23 is deployment-facing rather than another truth-alignment pass.
 2. Bitcoin enters ENGI first as a commitment and spend substrate.
-3. ENGI proof computation and bulk private artifact storage remain off-chain by default.
+3. ENGI proof computation and bulk private artifact storage remain off-chain by default, while NGI remains the denomination for share and settlement units.
 4. V23 opens two new proof families: `bitcoin-audit-anchor` and `bitcoin-settlement-interface`.
 5. V23 requires bounded-public and private commitment scopes at minimum.
 6. V23 requires audited payment intent and audited payment observation carriers before any future live settlement claim can be made.
-7. V23 keeps optional sidechain or L2 transferability as later work, not as the entry point.
+7. V23 keeps a sidechain connection point inside first gate so the ENGI:BTC bridge is not mainchain-only; generalized sidechain-issued transferability remains later work.
 8. V23 does not authorize canonical promotion or generated-proof claims until source and validation land.
 9. V23 first gate fixes replayable manifest-root derivation instead of leaving root construction implicit.
 10. V23 first gate fixes the minimum enum vocabulary and mode-specific journal finalization rules for BTC-facing artifacts.
 11. V23 first gate adds a treasury-policy surface and a BTC artifact projection matrix so buyer, reviewer, and public visibility are explicit.
+12. V23 first gate also requires prototype-demonstration compute-reality and storage-reality artifacts so deployed compute and storage posture are spec-bearing rather than implied.
 
 ## Explicitly deferred
 
@@ -71,7 +72,8 @@ Still explicitly deferred beyond this drafting pass:
 - live Bitcoin transaction assembly and signing,
 - live anchor publication,
 - live repeated-read payment network integration,
-- live optional L2 or sidechain transferability,
+- live sidechain bridge execution,
+- live generalized sidechain-issued transferability,
 - and any V23 `_PROVEN_` appendix or generated `.engi/v23-*` artifact family.
 
 ## Draft implementation sequence
@@ -82,11 +84,12 @@ The accepted V23 sequencing is:
 2. define the new Bitcoin-facing artifact family and proof-family members,
 3. derive public and private commitment scopes from existing deliverables classification,
 4. fix the manifest-root derivation contract, enum vocabulary, treasury policy shape, and mode-specific finalization rules,
-5. specialize the external-boundary manifest into anchor and spend interfaces,
-6. bind settlement intent and observation to existing exact settlement artifacts,
-7. add fail-closed validation for scope leakage, receipt drift, and mode-specific finalization drift,
-8. generate V23 proof and draft-readiness artifacts from real source behavior,
-9. and only then consider promotion away from V22.
+5. define and prototype-demonstrate compute-reality and storage-reality artifacts,
+6. specialize the external-boundary manifest into anchor and spend interfaces,
+7. bind settlement intent and observation to existing exact settlement artifacts,
+8. add fail-closed validation for scope leakage, receipt drift, compute/storage reality drift, and mode-specific finalization drift,
+9. generate V23 proof and draft-readiness artifacts from real source behavior,
+10. and only then consider promotion away from V22.
 
 ## Commit-body direction
 
@@ -94,6 +97,7 @@ The eventual V23 canonical commit body should describe:
 - the Bitcoin-facing artifact family added to source,
 - the exact public and private commitment-scope rules,
 - the manifest-root derivation contract, enum vocabulary, treasury-policy surface, and finalization policy,
+- the prototype-demonstration compute-reality and storage-reality surfaces,
 - the spend-intent and payment-observation closure path,
 - the new proof families and validation surfaces,
 - and the explicit continued honesty about what remains modeled versus live.

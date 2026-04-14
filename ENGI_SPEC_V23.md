@@ -28,6 +28,7 @@ Its job is to:
 - keep ENGI proof computation and bulk artifact storage off-chain by default,
 - make principal-scoped public and private commitment roots explicit,
 - define audited spend and confirmation carriers that bind payment to bundle and settlement closure,
+- keep a sidechain connection point inside first-gate V23 so the ENGI:BTC bridge is not mainchain-only,
 - and keep active-canon honesty intact while those deployment rails remain unimplemented in source.
 
 ## Version executive summary
@@ -39,6 +40,7 @@ It extends the V22 system by drafting the next deployment-facing layer:
 - exact ENGI proofs and settlement artifacts continue to materialize off-chain in deterministic ENGI runtime surfaces,
 - stable canonical hashing and proof-witness manifests already emitted by current source become the commitment substrate,
 - bounded-public and private proof surfaces become separately anchorable commitment scopes,
+- NGI remains the denomination for share and settlement units while ENGI remains the name of the system,
 - and buyer payment plus public audit anchoring become explicit boundary contracts rather than an unnamed future network effect.
 
 The core V23 position is narrow and intentional:
@@ -100,6 +102,17 @@ Current source exports `METERED_MICRO_UNITS = '100000000'` in `engi-demo/src/eng
 V23 therefore can specify BTC-denominated settlement interfaces without changing ENGI's existing exact accounting model.
 The new work is binding that event size to audited spend and confirmation artifacts, not replacing the source-to-shares engine.
 
+## V23 denomination and naming rule
+
+V23 fixes the naming boundary between the system and its units:
+
+- `ENGI` names the system, protocol, runtime, and artifact family.
+- `NGI` names the share denomination and settlement unit emitted by ENGI.
+- `shareBp`, `settledShareBp`, `meteredMicroUnits`, credited micro-units, and any sidechain-bridge settlement amounts are NGI-denominated values.
+
+First-gate V23 therefore interprets current exact-settlement integer carriers as NGI base units.
+Until implementation catches up, current source may still carry generic field names such as `meteredMicroUnits`, but V23 BTC-facing artifact contracts must declare denomination explicitly.
+
 ### 3. Principal-scoped disclosure already supports public versus private anchoring
 
 Current source already classifies emitted artifacts by confidentiality and disclosability:
@@ -138,12 +151,12 @@ V23 accepts the following initial decisions:
 
 1. V23 is deployment-facing and audit-facing rather than another truth-alignment release.
 2. Bitcoin enters ENGI first as a public audit substrate and spend rail, not as the place where ENGI performs bulk proof computation or bulk private artifact storage.
-3. ENGI proof computation and exact settlement remain off-chain and deterministic by default; Bitcoin binds compact commitments and spend receipts to those results.
+3. ENGI proof computation, storage reality, and exact settlement remain off-chain and deterministic or content-addressed by default; Bitcoin binds compact commitments and spend receipts to those NGI-denominated results.
 4. V23 opens two new proof-bearing families: `bitcoin-audit-anchor` and `bitcoin-settlement-interface`.
 5. V23 requires at least one bounded-public commitment scope and one private proof-and-settlement commitment scope.
 6. Public commitment scopes must derive only from artifacts already classified as `potentiallyDisclosable: true`; private commitment scopes may include full proof-contract and settlement closure surfaces.
 7. Larger, reviewable purchases should default to audited spend-intent and confirmation carriers; smaller repeated read-like purchases may use a lighter payment-carrier mode, but the same bundle-binding and receipt-binding rules still apply.
-8. Optional sidechain or L2 transferability is a later deployment mode, not a prerequisite for V23.
+8. A sidechain connection point is part of first-gate V23 so the ENGI:BTC bridge is not mainchain-only; generalized sidechain-issued transferability remains later work.
 9. V23 does not authorize pointer promotion, `_PROVEN_` generation, or source posture changes until the new artifact family and validation surfaces are implemented.
 
 ## V23 source-of-truth hierarchy
@@ -167,15 +180,16 @@ It may not claim to outrank the active V22 canon until promotion is complete.
 
 ### Goals
 
-1. Define the Bitcoin-facing artifact family ENGI needs for public anchoring and spend-native settlement interfaces.
+1. Define the Bitcoin-facing artifact family ENGI needs for public anchoring, sidechain bridge posture, and spend-native settlement interfaces.
 2. Preserve V22 exact accounting, proof-family, and disclosure-boundary semantics while adding those external interfaces.
 3. Make public-safe versus private commitment scopes explicit and replayable from current artifact classifications.
-4. Bind bundle IDs, need IDs, settlement previews, source-to-shares artifacts, and journal consequences to audited payment intent and observation surfaces.
-5. Specify a phased deployment path that keeps current source honesty intact.
+4. Bind bundle IDs, need IDs, settlement previews, source-to-shares artifacts, and NGI-denominated journal consequences to audited payment intent and observation surfaces.
+5. Specify provable compute and storage reality surfaces so deployed ENGI infrastructure closes all ledgered artifact surfaces without pretending Bitcoin is the bulk compute or storage plane.
+6. Specify a phased deployment path that keeps current source honesty intact.
 
 ### Non-goals
 
-1. Claiming that current source already creates Bitcoin transactions, PSBT packets, Taproot commitments, Lightning invoices, or sidechain-issued assets.
+1. Claiming that current source already creates Bitcoin transactions, PSBT packets, Taproot commitments, Lightning invoices, or fully generalized sidechain-issued assets.
 2. Moving full private proof payloads or licensed source material onto a public chain by default.
 3. Replacing ENGI's existing deterministic settlement engine.
 4. Reopening V22 canon-posture alignment as the center of the version.
@@ -222,7 +236,28 @@ The V23 draft keeps the V22 system layers and adds one new deployment-facing lay
 
 8. Bitcoin-facing audit and spend interface layer
    V23 draft basis: specified here; not yet implemented in source
-   Responsibilities: commitment scope derivation, anchor publication receipts, audited payment intent, audited payment observation, and future optional L2 or sidechain binding.
+   Responsibilities: commitment scope derivation, anchor publication receipts, audited payment intent, audited payment observation, NGI denomination binding, and sidechain bridge binding.
+
+## V23 compute and storage reality rule
+
+V23 keeps Bitcoin out of ENGI's bulk compute and storage path while still requiring those realities to be specified and prototype-demonstrated.
+
+That means:
+- proof computation remains off-chain and replayable,
+- private and full proof storage remains off-chain and content-addressed,
+- and Bitcoin closes the public anchor and spend ledger around those realities rather than replacing them.
+
+First-gate V23 therefore requires two additional deployment-facing surfaces:
+
+1. Compute reality
+   - declares how ENGI proof and settlement-relevant computation was executed,
+   - binds that execution mode to replayable proof and settlement artifacts,
+   - and makes deployed compute posture audit-visible.
+
+2. Storage reality
+   - declares where and how full proof-bearing artifacts are stored,
+   - binds public and private commitment scopes to retrievable content-addressed surfaces,
+   - and makes deployed storage posture audit-visible.
 
 ## V23 artifact family additions
 
@@ -230,12 +265,14 @@ V23 introduces the following draft artifacts:
 
 | Artifact path | Intended role | Default disclosure posture | Minimum closure fields |
 | --- | --- | --- | --- |
+| `.engi/compute-reality-manifest.json` | off-chain compute substrate and replayability contract for proof and settlement-relevant execution | private-proof-artifact | `realityId`, `executionMode`, `executorClass`, `determinismClass`, `replayBasis`, `proofArtifactRefs`, `externalBoundaryRefs` |
+| `.engi/storage-reality-manifest.json` | content-addressed storage and retrieval contract for full proof-bearing artifacts and commitment scopes | private-proof-artifact | `realityId`, `storageMode`, `contentAddressingScheme`, `scopeStorageBindings`, `retrievalPolicy`, `retentionPolicy`, `anchorBindingRefs` |
 | `.engi/bitcoin-commitment-manifest.json` | canonical digest inventory and root derivation for bounded-public and private scopes | private-proof-artifact | `manifestVersion`, `publicRoot`, `privateRoot`, `scopeEntries`, `artifactDigests`, `derivationPolicy`, `proofWitnessRef` |
-| `.engi/bitcoin-treasury-policy.json` | spend-policy, anchor-policy, and settlement finalization contract for BTC-facing execution modes | private-proof-artifact | `policyId`, `paymentModes`, `anchorModes`, `confirmationPolicyByMode`, `journalFinalizationPolicy`, `signerPolicy` |
+| `.engi/bitcoin-treasury-policy.json` | spend-policy, anchor-policy, sidechain-bridge policy, and settlement finalization contract for BTC-facing execution modes | private-proof-artifact | `policyId`, `paymentModes`, `anchorModes`, `settlementDenomination`, `confirmationPolicyByMode`, `journalFinalizationPolicy`, `signerPolicy`, `sidechainBridgePolicy` |
 | `.engi/bitcoin-anchor.json` | full anchor contract and observation record for one or more commitment roots | private-proof-artifact | `anchorId`, `network`, `anchorMode`, `publicRoot`, `privateRootRef`, `publicationState`, `anchorRef`, `confirmationState`, `disclosurePrincipal`, `policyRef` |
 | `.engi/bitcoin-bounded-public-anchor.json` | public-safe receipt surface for the bounded-public root only | bounded-public-proof-metadata | `anchorId`, `network`, `anchorMode`, `publicRoot`, `anchorRef`, `confirmationState`, `publishedAt` |
-| `.engi/bitcoin-settlement-intent.json` | payment intent binding buyer spend to bundle, need, and exact settlement preview | private-proof-artifact | `intentId`, `buyerId`, `needId`, `bundleId`, `meteredMicroUnits`, `paymentMode`, `settlementPreviewRef`, `sourceToSharesRef`, `treasuryPolicyRef` |
-| `.engi/bitcoin-settlement-observation.json` | observed execution receipt or invoice/transaction confirmation carrier | private-proof-artifact | `observationId`, `intentId`, `paymentMode`, `networkState`, `networkRef`, `confirmations`, `observedValue`, `journalBindingState` |
+| `.engi/bitcoin-settlement-intent.json` | payment intent binding buyer spend to bundle, need, and exact settlement preview | private-proof-artifact | `intentId`, `buyerId`, `needId`, `bundleId`, `unitDenomination`, `meteredMicroUnits`, `paymentMode`, `settlementPreviewRef`, `sourceToSharesRef`, `treasuryPolicyRef` |
+| `.engi/bitcoin-settlement-observation.json` | observed execution receipt or invoice/transaction confirmation carrier | private-proof-artifact | `observationId`, `intentId`, `paymentMode`, `unitDenomination`, `networkState`, `networkRef`, `confirmations`, `observedValue`, `journalBindingState` |
 | `.engi/bitcoin-audit-anchor-proof.json` | proof artifact for commitment-scope and anchor-publication closure | private-proof-artifact | `proofHash`, `memberVerdicts`, `theoremVerdicts`, `witnessArtifactPaths`, `replaySteps` |
 | `.engi/bitcoin-settlement-interface-proof.json` | proof artifact for payment-intent and confirmation closure | private-proof-artifact | `proofHash`, `memberVerdicts`, `theoremVerdicts`, `witnessArtifactPaths`, `replaySteps` |
 
@@ -289,7 +326,7 @@ First-gate V23 fixes the minimum enum vocabulary for new BTC-facing artifacts.
 - `paymentMode`
   - `audited-base-layer-purchase`
   - `repeated-read-payment`
-  - `checkpointed-l2-transfer`
+  - `checkpointed-sidechain-bridge`
 
 - `publicationState`
   - `not-published`
@@ -311,7 +348,7 @@ First-gate V23 fixes the minimum enum vocabulary for new BTC-facing artifacts.
   - `pending-network`
   - `accepted-offchain`
   - `confirmed-onchain`
-  - `checkpointed-l2`
+  - `checkpointed-sidechain`
   - `network-invalidated`
   - `network-failed`
 
@@ -329,13 +366,17 @@ First-gate V23 fixes the minimum enum vocabulary for new BTC-facing artifacts.
   - `buyer`
   - `internal`
 
+- `unitDenomination`
+  - `NGI`
+
 ## V23 proof-family additions
 
 ### A. Bitcoin-audit-anchor
 
 - proofArtifactPath: `.engi/bitcoin-audit-anchor-proof.json`
-- members: `commitment-manifest`, `public-root-scope`, `private-root-binding`, `anchor-publication`, `bounded-public-anchor`
+- members: `commitment-manifest`, `public-root-scope`, `private-root-binding`, `storage-reality-binding`, `anchor-publication`, `bounded-public-anchor`
 - minimum witnessArtifactPaths:
+  - `.engi/storage-reality-manifest.json`
   - `.engi/bitcoin-commitment-manifest.json`
   - `.engi/bitcoin-treasury-policy.json`
   - `.engi/bitcoin-anchor.json`
@@ -353,14 +394,16 @@ First-gate V23 fixes the minimum enum vocabulary for new BTC-facing artifacts.
 - theorem closure reading:
   - `public_scope_is_disclosable_only` closes only when every artifact in `publicRoot` is already bounded-public according to deliverables classification and projection policy
   - `private_scope_binds_proof_contract` closes only when `privateRoot` binds the declared proof-contract and settlement witness set
+  - `storage_reality_binds_declared_scope` closes only when every artifact included in the declared commitment scopes has a declared storage binding and retrieval contract
   - `anchor_receipt_matches_declared_root` closes only when the anchor receipt or publication reference matches the declared root and network mode
   - `bounded_public_anchor_matches_full_anchor` closes only when the public-safe receipt is a projection of the same anchor record rather than an independently authored summary
 
 ### B. Bitcoin-settlement-interface
 
 - proofArtifactPath: `.engi/bitcoin-settlement-interface-proof.json`
-- members: `settlement-intent`, `exact-unit-binding`, `confirmation-observation`, `journal-receipt-binding`, `external-boundary-closure`
+- members: `compute-reality-binding`, `settlement-intent`, `exact-unit-binding`, `confirmation-observation`, `journal-receipt-binding`, `external-boundary-closure`
 - minimum witnessArtifactPaths:
+  - `.engi/compute-reality-manifest.json`
   - `.engi/bitcoin-settlement-intent.json`
   - `.engi/bitcoin-settlement-observation.json`
   - `.engi/bitcoin-treasury-policy.json`
@@ -374,7 +417,8 @@ First-gate V23 fixes the minimum enum vocabulary for new BTC-facing artifacts.
   - `bitcoin-settlement-interface.confirmation-policy`
   - `bitcoin-settlement-interface.journal-effect-binding`
 - theorem closure reading:
-  - `intent_matches_settlement_preview` closes only when the payment intent references the same `needId`, `bundleId`, `meteredMicroUnits`, and settlement refs already emitted by ENGI settlement surfaces
+  - `compute_reality_binds_declared_settlement_path` closes only when the declared compute reality is sufficient to replay the same settlement refs and bundle bindings observed by the payment surfaces
+  - `intent_matches_settlement_preview` closes only when the payment intent references the same `needId`, `bundleId`, `unitDenomination`, `meteredMicroUnits`, and settlement refs already emitted by ENGI settlement surfaces
   - `observation_confirms_declared_value` closes only when the observed payment value and network state satisfy the mode-specific confirmation rule
   - `journal_binding_remains_exact` closes only when payment observation does not mutate or contradict exact ENGI accounting and journal totals
   - `external_boundary_contract_is_honest` closes only when the observation surface states exactly which part was local prototype behavior and which part required external network confirmation
@@ -410,10 +454,12 @@ First-gate V23 fixes the default principal visibility for new BTC-facing artifac
 
 | Artifact path | Public | Reviewer | Buyer | Internal |
 | --- | --- | --- | --- | --- |
+| `.engi/compute-reality-manifest.json` | hidden | bounded compute-summary only | hidden | visible |
+| `.engi/storage-reality-manifest.json` | hidden | bounded storage-summary only | buyer-relevant retrieval summary only | visible |
 | `.engi/bitcoin-bounded-public-anchor.json` | visible | visible | visible | visible |
 | `.engi/bitcoin-anchor.json` | hidden | bounded summary plus public-root inclusion proof only | visible for buyer-bound intents and observations | visible |
 | `.engi/bitcoin-commitment-manifest.json` | hidden | public-root scope only | buyer-relevant scope entries plus private inclusion proofs | visible |
-| `.engi/bitcoin-treasury-policy.json` | hidden | hidden | confirmation policy summary only | visible |
+| `.engi/bitcoin-treasury-policy.json` | hidden | hidden | confirmation policy and denomination summary only | visible |
 | `.engi/bitcoin-settlement-intent.json` | hidden | hidden | visible for matching buyer purchase | visible |
 | `.engi/bitcoin-settlement-observation.json` | hidden | hidden | visible for matching buyer purchase | visible |
 | `.engi/bitcoin-audit-anchor-proof.json` | hidden | public-root theorem surface only | visible with buyer-permitted inclusion proofs | visible |
@@ -448,14 +494,15 @@ V23 defines three deployment modes:
    - still must bind to the same bundle and settlement references
    - anchor publication may lag the payment event but is not optional for final closure
 
-3. Optional sidechain or L2 transfer mode
-   Intended use: faster programmable transferability or frequent settlement
+3. Sidechain bridge mode
+   Intended use: non-mainchain bridge connectivity, checkpointed settlement, and later optional transferability
    Required surfaces:
    - same ENGI commitment and settlement bindings as above
    - `bitcoin-treasury-policy`
    - plus an explicit network-mode discriminator in both intent and observation artifacts
    Semantics:
-   - higher-frequency transfer is allowed only if periodic public anchor binding remains explicit
+   - sidechain bridge settlement is allowed only if periodic public mainchain anchor binding remains explicit
+   - generalized sidechain-issued transferability is a later widening, not a first-gate assumption
 
 ## V23 confirmation and journal finalization policy
 
@@ -476,15 +523,20 @@ First-gate V23 fixes the minimum finalization rule by payment mode.
      - `confirmationState = confirmed-by-mode`
      - and anchor publication referencing the same `intentId` or the same declared commitment scope
 
-3. `checkpointed-l2-transfer`
-   - `networkState` must reach `checkpointed-l2`
+3. `checkpointed-sidechain-bridge`
+   - `networkState` must reach `checkpointed-sidechain`
    - `confirmationState` must reach `confirmed-by-mode`
-   - `journalBindingState` must remain `anchor-required` until the declared periodic checkpoint anchor exists
+   - `journalBindingState` must remain `anchor-required` until the declared periodic mainchain checkpoint anchor exists
 
 Across all modes:
 - `journalBindingState = finalized` is not allowed until `journalBindingState` first reached `finalizable`
 - any `confirmation-invalidated`, `publication-invalidated`, or `network-invalidated` event forces `journalBindingState = binding-invalidated`
 - no payment observation may mutate `source-to-shares`, `settlement-proof`, or `journal-diff`; it may only bind external execution evidence to those already-materialized surfaces
+
+Prototype-demonstration rule:
+- first-gate V23 implementation must emit local deterministic versions of `compute-reality-manifest` and `storage-reality-manifest`
+- those prototype surfaces may still describe modeled deployment boundaries
+- but they must be real emitted artifacts and test-covered, not only prose
 
 ## V23 phased deployment rule
 
@@ -497,6 +549,7 @@ V23 adopts the following phased rule:
 - Phase 1: audited anchor introduction
   - derive bounded-public and private roots from existing digests
   - emit Bitcoin anchor artifacts and public-safe anchor receipts
+  - declare sidechain bridge policy alongside mainchain anchor policy
   - keep spend and confirmation observation explicit and fail-closed
 
 - Phase 2: spend-native access
@@ -505,7 +558,7 @@ V23 adopts the following phased rule:
   - keep exact source-to-shares settlement authoritative
 
 - Phase 3: optional transfer and deeper verification
-  - optional L2 or sidechain transfer surfaces may be introduced
+  - optional generalized sidechain transfer surfaces may be introduced
   - deeper public verification or challenge mechanisms may be added later
   - but only if they preserve V22 exact accounting and V23 disclosure discipline
 
@@ -516,20 +569,22 @@ The following remain explicit boundaries for V23 drafting:
 1. No live Bitcoin transaction construction is currently implemented in source.
 2. No live anchor publication is currently implemented in source.
 3. No V23-generated appendix or generated `.engi/v23-*` artifact family exists yet.
-4. No current source surface proves mode-specific payment semantics for large purchases, repeated reads, or optional L2 transfers.
-5. Bulk private proof and source-material storage remain off-chain by default.
-6. Transferable token or asset issuance is optional later work, not the center of V23.
-7. Merkle inclusion paths are deferred; first-gate V23 uses replayable manifest roots only.
+4. No current source surface proves mode-specific payment semantics for large purchases, repeated reads, or sidechain bridge mode.
+5. Current source does not yet emit prototype compute-reality or storage-reality manifests.
+6. Bulk private proof and source-material storage remain off-chain by default.
+7. Generalized sidechain-issued transferability or asset issuance is optional later work, not the center of V23 first gate.
+8. Merkle inclusion paths are deferred; first-gate V23 uses replayable manifest roots only.
 
 ## V23 completion condition
 
 This draft is ready for eventual promotion only when:
 1. the V23 document family is complete and internally consistent,
 2. current source emits the new Bitcoin-facing artifact family,
-3. current deliverables classification and projection policy cover those artifacts explicitly, including the BTC artifact projection matrix,
-4. current proof-witness manifest and proof-contract closure include the new proof families and the treasury-policy witness surface,
-5. current external boundary manifest specializes settlement network effects into anchor and spend interfaces,
-6. current source enforces the manifest-root derivation contract and canonical enum vocabulary defined here,
-7. current tests fail closed on public/private root misclassification, anchor receipt drift, payment-observation drift, and mode-specific finalization drift,
-8. generated V23 proof and draft-readiness artifacts exist,
-9. and `ENGI_SPEC_V23_PROVEN.md` is generated from real source behavior rather than from hand-authored aspiration.
+3. current source emits prototype-demonstration `compute-reality-manifest` and `storage-reality-manifest` artifacts,
+4. current deliverables classification and projection policy cover those artifacts explicitly, including the BTC artifact projection matrix,
+5. current proof-witness manifest and proof-contract closure include the new proof families, compute/storage reality witnesses, and the treasury-policy witness surface,
+6. current external boundary manifest specializes settlement network effects into anchor and spend interfaces and makes compute/storage reality honest,
+7. current source enforces the manifest-root derivation contract and canonical enum vocabulary defined here,
+8. current tests fail closed on public/private root misclassification, anchor receipt drift, payment-observation drift, compute/storage reality drift, and mode-specific finalization drift,
+9. generated V23 proof and draft-readiness artifacts exist,
+10. and `ENGI_SPEC_V23_PROVEN.md` is generated from real source behavior rather than from hand-authored aspiration.
