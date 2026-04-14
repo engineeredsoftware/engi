@@ -21,6 +21,8 @@ const __dirname = path.dirname(__filename);
 export const DEFAULT_V22_CANON_POSTURE_REPO_ROOT = path.resolve(__dirname, '../../..');
 export const V22_CANON_POSTURE_REPORT_ID = 'v22-canon-posture-drift-report';
 export const V22_CANON_POSTURE_GENERATOR_ID = 'engi-demo.v22-canon-posture.v1';
+export const V23_CANON_POSTURE_REPORT_ID = 'v23-canon-posture-drift-report';
+export const V23_CANON_POSTURE_GENERATOR_ID = 'engi-demo.v23-canon-posture.v1';
 
 /**
  * @param {Array<{ checkId: string, passed: boolean, detail: string }>} checks
@@ -52,14 +54,14 @@ function normalizeWhitespace(value) {
  *   worktreeState?: string
  * }} [input={}]
  */
-export function buildV22CanonPostureDriftReport({
+export function buildCanonPostureDriftReport({
   repoRoot = DEFAULT_V22_CANON_POSTURE_REPO_ROOT,
   version = 'V22',
   activeCanonVersion = ACTIVE_CANON_VERSION,
   draftTargetVersion = DRAFT_TARGET_VERSION,
   proofSourceCommit = 'unbound-preview',
   generatedAt = new Date().toISOString(),
-  generatorId = V22_CANON_POSTURE_GENERATOR_ID,
+  generatorId = `engi-demo.${version.toLowerCase()}-canon-posture.v1`,
   worktreeState = 'clean'
 } = {}) {
   const resolvedRepoRoot = path.resolve(repoRoot);
@@ -167,7 +169,7 @@ export function buildV22CanonPostureDriftReport({
 
   const blockingFailures = checks.filter((check) => !check.passed);
   return {
-    reportId: V22_CANON_POSTURE_REPORT_ID,
+    reportId: `${version.toLowerCase()}-canon-posture-drift-report`,
     version,
     checkedActiveCanonVersion: activeCanonVersion,
     checkedDraftTargetVersion: draftTargetVersion,
@@ -195,6 +197,28 @@ export function buildV22CanonPostureDriftReport({
 }
 
 /**
+ * @param {Parameters<typeof buildCanonPostureDriftReport>[0]} [input]
+ */
+export function buildV22CanonPostureDriftReport(input = {}) {
+  return buildCanonPostureDriftReport({
+    version: 'V22',
+    generatorId: V22_CANON_POSTURE_GENERATOR_ID,
+    ...input
+  });
+}
+
+/**
+ * @param {Parameters<typeof buildCanonPostureDriftReport>[0]} [input]
+ */
+export function buildV23CanonPostureDriftReport(input = {}) {
+  return buildCanonPostureDriftReport({
+    version: 'V23',
+    generatorId: V23_CANON_POSTURE_GENERATOR_ID,
+    ...input
+  });
+}
+
+/**
  * @param {{
  *   version: string,
  *   proofSourceCommit: string,
@@ -206,7 +230,7 @@ export function buildV22CanonPostureDriftReport({
  *   canonPostureDriftReport: ReturnType<typeof buildV22CanonPostureDriftReport>
  * }} input
  */
-export function buildV22GeneratedArtifactContents({
+export function buildCanonPostureGeneratedArtifactContents({
   version,
   proofSourceCommit,
   generatedAt,
@@ -226,6 +250,20 @@ export function buildV22GeneratedArtifactContents({
       specFamilyReport,
       canonicalInputReport
     }),
-    '.engi/v22-canon-posture-drift-report.json': `${JSON.stringify(canonPostureDriftReport, null, 2)}\n`
+    [`.engi/${version.toLowerCase()}-canon-posture-drift-report.json`]: `${JSON.stringify(canonPostureDriftReport, null, 2)}\n`
   };
+}
+
+/**
+ * @param {Parameters<typeof buildCanonPostureGeneratedArtifactContents>[0]} input
+ */
+export function buildV22GeneratedArtifactContents(input) {
+  return buildCanonPostureGeneratedArtifactContents(input);
+}
+
+/**
+ * @param {Parameters<typeof buildCanonPostureGeneratedArtifactContents>[0]} input
+ */
+export function buildV23GeneratedArtifactContents(input) {
+  return buildCanonPostureGeneratedArtifactContents(input);
 }

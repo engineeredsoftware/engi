@@ -2,7 +2,12 @@
 
 ## Status
 
-- Scope: V23 draft system specification for bitcoin-native audit anchoring and settlement-interface hardening after V22 canon-posture closure
+- Scope: V23 canonical system specification for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality after V22 truth-aligned canon
+- Current canonical/latest target: `V23`
+- Canonical proof-source commit: `ea3cdb1541c9c0016753450091fa21ea090cc819`
+- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
+- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_NOTES.md`
 - Companion delta file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_DELTA.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PARITY_MATRIX.md`
@@ -11,8 +16,9 @@
 - Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V22`
 - Current canonical/latest target remains `V22`; `V23` is the current draft target only
 - Inherited canonical proof-source commit from the active anchor: `5c3410df386022bb3f7c9c102c60724be46fe1c1`
-- Source parity basis for this pass: current `engi-demo/src/canon-posture.js`, current `engi-demo/src/engi-demo.js`, current `engi-demo/src/canonical/run-artifacts.js`, current `engi-demo/src/canonical/proof-materialization.js`, current `engi-demo/src/canonical/settlement.js`, current `engi-demo/src/canonical/projections.js`, current `engi-demo/src/demo-shell-state.js`, current `engi-demo/public/app.js`, current `engi-demo/README.md`, and the active V22 canon family
-- V23 state: drafting open; no `ENGI_SPEC_V23_PROVEN.md` exists, no V23-generated proof appendix is claimed, and no canonical promotion away from V22 is authorized by this file
+- Source parity state: V23 source-side bitcoin-facing artifacts, sidechain-connected settlement interfaces, prototype compute/storage reality manifests, canon-posture drift detection, and generated evidence are canonicalized in the promoted V23 file family
+- V23 state: canonical promotion complete; V23 is the active deployed-infrastructure canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned
+- Last fully realized canonical target preserved in source: `V23`
 
 ## Drafting and acceptance state
 
@@ -40,6 +46,7 @@ It extends the V22 system by drafting the next deployment-facing layer:
 - exact ENGI proofs and settlement artifacts continue to materialize off-chain in deterministic ENGI runtime surfaces,
 - stable canonical hashing and proof-witness manifests already emitted by current source become the commitment substrate,
 - bounded-public and private proof surfaces become separately anchorable commitment scopes,
+- bounded-public and private commitment scopes become separately replayable and auditable,
 - NGI remains the denomination for share and settlement units while ENGI remains the name of the system,
 - and buyer payment plus public audit anchoring become explicit boundary contracts rather than an unnamed future network effect.
 
@@ -54,6 +61,7 @@ The core V23 position is narrow and intentional:
 ENGI's current operating chain remains:
 1. authenticated repo supply and candidate deposits are brought into ENGI,
 2. a benchmark- and parser-bound need is measured,
+   which remains the measured need surface V23 inherits from V22,
 3. deposit-to-need fit is made explicit before deeper closure,
 4. recall, ranking, verification, and use-tiering select an asset pack,
 5. branch artifacts, proof artifacts, and witness artifacts are materialized,

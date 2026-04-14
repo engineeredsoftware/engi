@@ -179,14 +179,21 @@ export const COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES = [
 const COMMON_ALLOWED_PARITY_JUDGMENTS = new Set([
   'drafted',
   'implemented',
+  'implemented prerequisite',
+  'implemented in docs',
+  'implemented in docs / pending in source',
   'substantially advanced',
   'closed',
+  'closed in docs',
   'implemented; promotion pending',
   'spec closed; source gap',
   'generated artifact pending',
   'accepted boundary',
   'reopened',
   'blocked',
+  'draft-required',
+  'not yet implemented',
+  'pending',
   'deprecated',
   'historical only'
 ]);
@@ -289,6 +296,127 @@ function buildV22Profile() {
       ...base.requiredDeliverableAppendixPhrases,
       '.engi/v22-canon-posture-drift-report.json'
     ]
+  };
+}
+
+function buildV23Profile() {
+  return {
+    reportId: 'v23-spec-family-report',
+    defaultTarget: 'V23',
+    requiredStatusLabels: COMMON_REQUIRED_STATUS_LABELS,
+    requiredPromotedStatusLabels: ['Canonical proof-source commit'],
+    requiredSpecSections: [
+      'Status',
+      'Drafting and acceptance state',
+      'Version executive summary',
+      'Canonical ENGI executive summary',
+      'V23 inheritance rule',
+      'V23 audit findings',
+      'V23 denomination and naming rule',
+      'V23 accepted drafting decisions',
+      'V23 source-of-truth hierarchy',
+      'V23 system goals, non-goals, and design principles',
+      'V23 system architecture and layer boundaries',
+      'V23 compute and storage reality rule',
+      'V23 artifact family additions',
+      'V23 commitment derivation contract',
+      'V23 canonical enum set',
+      'V23 proof-family additions',
+      'V23 principal-scoped anchoring policy',
+      'V23 BTC artifact projection matrix',
+      'V23 settlement interface modes',
+      'V23 confirmation and journal finalization policy',
+      'V23 phased deployment rule',
+      'Accepted boundaries',
+      'V23 completion condition'
+    ],
+    requiredSpecAppendixSections: [],
+    requiredProofFamilySections: [
+      'Bitcoin-audit-anchor',
+      'Bitcoin-settlement-interface'
+    ],
+    requiredProofFamilyDetailLabels: [
+      'proofArtifactPath:',
+      'members:',
+      'minimum witnessArtifactPaths:',
+      'replayStepIds:',
+      'theorem closure reading:'
+    ],
+    requiredProofFamilyMatrixHeaders: [],
+    requiredGeneratedArtifactCatalogSections: [
+      'V23 artifact family additions',
+      'V23 proof-family additions',
+      'V23 BTC artifact projection matrix'
+    ],
+    requiredGeneratedAppendixContractPhrases: [
+      '.engi/v23-spec-family-report.json',
+      '.engi/v23-canonical-input-report.json',
+      '.engi/v23-canon-posture-drift-report.json',
+      'ENGI_SPEC_V23_PROVEN.md',
+      'compute-reality-manifest',
+      'storage-reality-manifest',
+      'bitcoin-commitment-manifest',
+      'bitcoin-settlement-intent',
+      'bitcoin-settlement-observation'
+    ],
+    requiredGeneratedArtifactPaths: [
+      '.engi/v23-spec-family-report.json',
+      '.engi/v23-canonical-input-report.json',
+      '.engi/v23-canon-posture-drift-report.json'
+    ],
+    requiredSubsystemCoveragePhrases: [
+      'authenticated repo supply',
+      'measured need',
+      'deposit-to-need fit',
+      'recall, ranking, verification, and use-tiering',
+      'exact source-to-shares settlement',
+      'bounded-public and private commitment scopes',
+      'audited payment intent',
+      'audited payment observation',
+      'sidechain connection point'
+    ],
+    requiredSubsystemSectionHeadings: [],
+    requiredSubsystemDetailLabels: [],
+    crossProductAppendixHeading: 'V23 system architecture and layer boundaries',
+    requiredCrossProductAppendixPhrases: [],
+    failClosedAppendixHeading: 'V23 inheritance rule',
+    requiredFailClosedAppendixPhrases: [
+      'public anchors must not leak non-disclosable artifacts',
+      'payment receipts must not finalize share- or journal-level consequences without explicit observation closure',
+      'future promotion must fail closed if draft Bitcoin claims outrun implementation'
+    ],
+    deliverableAppendixHeading: 'V23 artifact family additions',
+    requiredDeliverableAppendixPhrases: [
+      '.engi/compute-reality-manifest.json',
+      '.engi/storage-reality-manifest.json',
+      '.engi/bitcoin-commitment-manifest.json',
+      '.engi/bitcoin-treasury-policy.json',
+      '.engi/bitcoin-anchor.json',
+      '.engi/bitcoin-bounded-public-anchor.json',
+      '.engi/bitcoin-settlement-intent.json',
+      '.engi/bitcoin-settlement-observation.json',
+      '.engi/bitcoin-audit-anchor-proof.json',
+      '.engi/bitcoin-settlement-interface-proof.json'
+    ],
+    requiredDeltaSections: [
+      'Status',
+      'Why V23 exists',
+      'Findings that drive V23',
+      'Accepted V23 decisions',
+      'Explicitly deferred',
+      'Draft implementation sequence',
+      'Commit-body direction'
+    ],
+    requiredParitySections: [
+      'Status',
+      'Purpose',
+      'Audit basis',
+      'V23 implementation matrix',
+      'V23 implementation checklist',
+      'Accepted boundaries',
+      'Completion condition'
+    ],
+    forbiddenPhrases: []
   };
 }
 
@@ -404,6 +532,9 @@ function resolveSpecFamilyProfile(version) {
   }
   if (version === 'V22') {
     return buildV22Profile();
+  }
+  if (version === 'V23') {
+    return buildV23Profile();
   }
   if (!/^V\d+$/.test(version)) {
     throw new Error(`Version must look like VN or match a supported reconstruction family. Received ${version || 'none'}.`);
@@ -870,6 +1001,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   if (currentTarget === 'V22') {
     artifacts.push(...buildV22Profile().requiredGeneratedArtifactPaths);
   }
+  if (currentTarget === 'V23') {
+    artifacts.push(...buildV23Profile().requiredGeneratedArtifactPaths);
+  }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }
 
@@ -893,7 +1027,8 @@ export function buildV21CanonicalInputReport({
   const pointerPath = path.join(resolvedRepoRoot, 'ENGI_SPEC.txt');
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const checkedTarget = currentTarget || pointerVersion;
-  const resolvedReportVersion = reportVersion || (checkedTarget === 'V22' ? 'V22' : 'V21');
+  const resolvedReportVersion = reportVersion
+    || (['V21', 'V22', 'V23'].includes(checkedTarget) ? checkedTarget : 'V21');
   const assumedExistingPaths = new Set(
     assumeExistingRelativePaths.map((relativePath) => path.resolve(resolvedRepoRoot, relativePath))
   );

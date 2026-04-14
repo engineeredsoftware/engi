@@ -1,0 +1,34 @@
+{
+  "reportId": "v23-spec-family-report",
+  "version": "V23",
+  "proofSourceCommit": "ea3cdb1541c9c0016753450091fa21ea090cc819",
+  "generatedAt": "2026-04-14T17:26:13-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedVersion": "V23",
+  "mode": "promoted",
+  "currentTarget": "V23",
+  "pointerVersion": "V23",
+  "passed": false,
+  "failureCount": 1,
+  "failures": [
+    "parity row \"Test closure\" still carries non-closed promoted judgment: implemented; promotion pending"
+  ],
+  "requiredFiles": [
+    "ENGI_SPEC_V23.md",
+    "ENGI_SPEC_V23_DELTA.md",
+    "ENGI_SPEC_V23_PARITY_MATRIX.md"
+  ],
+  "supportFiles": [
+    "ENGI_SPECIFYING.md",
+    "ENGI_SPEC_TEMPLATEGUIDE.md"
+  ],
+  "requiredStatusLabelCount": 4,
+  "requiredPromotedStatusLabelCount": 1,
+  "requiredSpecSectionCount": 23,
+  "requiredAppendixSectionCount": 0,
+  "requiredProofFamilyCount": 2,
+  "requiredGeneratedArtifactCatalogSectionCount": 3,
+  "requiredGeneratedArtifactPathCount": 3,
+  "requiredSubsystemCoverageCount": 9
+}

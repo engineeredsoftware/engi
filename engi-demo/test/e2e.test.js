@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { createServer } from '../server.js';
 import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
@@ -15,6 +16,8 @@ import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 const testAny = test;
 const chromiumAny = /** @type {any} */ (chromium);
 const createServerAny = /** @type {any} */ (createServer);
+const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const APP_ROOT = path.resolve(TEST_DIR, '..');
 
 /**
  * @param {any} t
@@ -24,7 +27,7 @@ const createServerAny = /** @type {any} */ (createServer);
 async function withBrowserDemo(t, fn) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'engi-demo-e2e-'));
   const dataPath = path.join(tempDir, 'state.json');
-  const publicDir = path.join(process.cwd(), 'public');
+  const publicDir = path.join(APP_ROOT, 'public');
   const { app, server } = await createServerAny({ dataPath, publicDir });
 
   app.ensureState();

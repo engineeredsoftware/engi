@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildV22CanonPostureDriftReport } from '../engi-demo/src/canonical/v22-canon-posture.js';
+import { buildCanonPostureDriftReport } from '../engi-demo/src/canonical/v22-canon-posture.js';
 
 /**
  * @param {string[]} argv
@@ -40,7 +40,9 @@ function main() {
     return;
   }
 
-  const report = buildV22CanonPostureDriftReport({
+  const reportVersion = args.activeCanon || args.draftTarget || 'V22';
+  const report = buildCanonPostureDriftReport({
+    version: reportVersion,
     ...(args.activeCanon ? { activeCanonVersion: args.activeCanon } : {}),
     ...(args.draftTarget ? { draftTargetVersion: args.draftTarget } : {}),
     ...(args.repoRoot ? { repoRoot: args.repoRoot } : {})

@@ -112,3 +112,38 @@ test('V22 proven generator renders a V22 appendix while inheriting V20 and V19 g
   assert.ok(generated.markdown.includes('.engi/v22-canon-posture-drift-report.json'));
   assert.ok(generated.markdown.includes('ENGI_SPEC_V22_PROVEN.md'));
 });
+
+test('V23 proven generator renders a V23 appendix with bitcoin payment-mode coverage', () => {
+  const generated = generateCanonicalProvenMarkdown({
+    version: 'V23',
+    canonicalCommit: 'draft-v23',
+    canonicalCommitRecordedAt: '2026-04-14T00:00:00.000Z',
+    generatedAt: '2026-04-14T00:00:00.000Z'
+  });
+
+  assert.equal(generated.data.version, 'V23');
+  assert.equal(generated.data.aggregate.fullyProven, true);
+  assert.deepEqual(generated.data.paymentModes, [
+    'audited-base-layer-purchase',
+    'repeated-read-payment',
+    'checkpointed-sidechain-bridge'
+  ]);
+  assert.equal(generated.data.familySummaries.length, 11);
+  assert.equal(generated.data.v23.specFamilyReport.passed, true);
+  assert.equal(generated.data.v23.canonicalInputReport.passed, true);
+  assert.equal(generated.data.v23.canonPostureDriftReport.passed, true);
+  assert.deepEqual(Object.keys(generated.artifacts).sort(), [
+    '.engi/v23-canon-posture-drift-report.json',
+    '.engi/v23-canonical-input-report.json',
+    '.engi/v23-spec-family-report.json'
+  ]);
+  assert.ok(generated.markdown.includes('# ENGI Spec V23 Proven'));
+  assert.ok(generated.markdown.includes('## V23 Deployment and Canon Reports'));
+  assert.ok(generated.markdown.includes('`bitcoin-audit-anchor`'));
+  assert.ok(generated.markdown.includes('`bitcoin-settlement-interface`'));
+  assert.ok(generated.markdown.includes('`checkpointed-sidechain-bridge`'));
+  assert.ok(generated.markdown.includes('.engi/v23-spec-family-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v23-canonical-input-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v23-canon-posture-drift-report.json'));
+  assert.ok(generated.markdown.includes('ENGI_SPEC_V23_PROVEN.md'));
+});

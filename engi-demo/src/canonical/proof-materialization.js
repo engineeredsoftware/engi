@@ -260,12 +260,14 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
  *   materializationProof: { proofHash: string },
  *   materializationExclusions: { proofHash: string },
  *   materializationVisibilityProof: { proofHash: string },
+ *   settlementPreview?: { bundleId?: string | undefined } | undefined,
   *   sourceToSharesArtifact: { proofHash: string },
   *   settlementParticipationArtifact: { proofHash: string },
   *   accountingPrecisionReport: { reportHash: string },
  *   settlementSourceToSharesProof?: { proofHash?: string | undefined } | undefined,
  *   settlementProof: { assetPackLockHash: string, proofHash?: string | undefined },
  *   journalDiff: unknown,
+ *   externalBoundaryManifest?: unknown,
  *   projectionPolicy?: { policyHash?: string | undefined } | undefined,
  *   boundedPublicProof?: { boundedPublicProofHash?: string | undefined } | undefined,
  *   redactionProof: { boundedPublicProofHash: string },
@@ -309,12 +311,14 @@ function buildProofWitnessManifest({
   materializationProof,
   materializationExclusions,
   materializationVisibilityProof,
+  settlementPreview,
   sourceToSharesArtifact,
   settlementParticipationArtifact,
   accountingPrecisionReport,
   settlementSourceToSharesProof,
   settlementProof,
   journalDiff,
+  externalBoundaryManifest,
   projectionPolicy,
   boundedPublicProof,
   redactionProof,
@@ -368,12 +372,14 @@ function buildProofWitnessManifest({
     { path: '.engi/sensitive-data-flow-proof.json', digest: sensitiveDataFlowProof?.proofHash || stableHashObject({ missing: 'sensitive-data-flow-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.engi/authorization-and-sensitive-flow-proof.json', digest: authorizationAndSensitiveFlowProof?.proofHash || stableHashObject({ missing: 'authorization-and-sensitive-flow-proof' }), proofFamilies: ['authorization-and-sensitive-flow'] },
     { path: '.engi/source-to-shares.json', digest: sourceToSharesArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/settlement-preview.json', digest: stableHashObject(settlementPreview || {}), proofFamilies: ['bitcoin-settlement-interface'] },
     { path: '.engi/settlement-participation.json', digest: settlementParticipationArtifact.proofHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/accounting-precision-report.json', digest: accountingPrecisionReport.reportHash, proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/journal-diff.json', digest: stableHashObject(journalDiff || {}), proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/journal-completeness-proof.json', digest: journalCompletenessProof?.proofHash || stableHashObject({ missing: 'journal-completeness-proof' }), proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/settlement-proof.json', digest: settlementProof?.proofHash || stableHashObject(settlementProof || {}), proofFamilies: ['settlement-source-to-shares'] },
     { path: '.engi/settlement-source-to-shares-proof.json', digest: settlementSourceToSharesProof?.proofHash || stableHashObject({ missing: 'settlement-source-to-shares-proof' }), proofFamilies: ['settlement-source-to-shares'] },
+    { path: '.engi/external-boundary-manifest.json', digest: stableHashObject(externalBoundaryManifest || {}), proofFamilies: ['bitcoin-settlement-interface'] },
     { path: '.engi/projection-policy.json', digest: projectionPolicy?.policyHash || disclosureProof?.projectionPolicyRef || stableHashObject(projectionPolicy || { missing: 'projection-policy' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/bounded-public-proof.json', digest: boundedPublicProof?.boundedPublicProofHash || redactionProof?.boundedPublicProofHash || stableHashObject({ missing: 'bounded-public-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/redaction-proof.json', digest: redactionProof.boundedPublicProofHash, proofFamilies: ['disclosure-boundary'] },
@@ -456,13 +462,50 @@ function buildProofWitnessManifest({
       },
       ...(bitcoinAuditAnchorProof ? [{
         proofFamily: 'bitcoin-audit-anchor',
-        witnessArtifactPaths: ['.engi/storage-reality-manifest.json', '.engi/bitcoin-commitment-manifest.json', '.engi/bitcoin-treasury-policy.json', '.engi/bitcoin-anchor.json', '.engi/bitcoin-bounded-public-anchor.json', '.engi/bitcoin-audit-anchor-proof.json'],
-        witnessRefs: [storageRealityManifest?.realityId, bitcoinCommitmentManifest?.publicRoot, bitcoinAnchor?.anchorId, bitcoinAuditAnchorProof?.proofHash]
+        witnessArtifactPaths: [
+          '.engi/storage-reality-manifest.json',
+          '.engi/bitcoin-commitment-manifest.json',
+          '.engi/bitcoin-treasury-policy.json',
+          '.engi/bitcoin-anchor.json',
+          '.engi/bitcoin-bounded-public-anchor.json',
+          '.engi/projection-policy.json',
+          '.engi/bounded-public-proof.json',
+          '.engi/disclosure-proof.json',
+          '.engi/proof-contract.json',
+          '.engi/system-proof-bundle.json',
+          '.engi/proof-witness-manifest.json',
+          '.engi/bitcoin-audit-anchor-proof.json'
+        ],
+        witnessRefs: [
+          storageRealityManifest?.realityId,
+          bitcoinCommitmentManifest?.publicRoot,
+          bitcoinAnchor?.anchorId,
+          proofContract?.contractId,
+          bitcoinAuditAnchorProof?.proofHash
+        ]
       }] : []),
       ...(bitcoinSettlementInterfaceProof ? [{
         proofFamily: 'bitcoin-settlement-interface',
-        witnessArtifactPaths: ['.engi/compute-reality-manifest.json', '.engi/bitcoin-settlement-intent.json', '.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-treasury-policy.json', '.engi/bitcoin-settlement-interface-proof.json'],
-        witnessRefs: [computeRealityManifest?.realityId, bitcoinSettlementIntent?.intentId, bitcoinSettlementObservation?.observationId, bitcoinSettlementInterfaceProof?.proofHash]
+        witnessArtifactPaths: [
+          '.engi/compute-reality-manifest.json',
+          '.engi/bitcoin-settlement-intent.json',
+          '.engi/bitcoin-settlement-observation.json',
+          '.engi/bitcoin-treasury-policy.json',
+          '.engi/settlement-preview.json',
+          '.engi/source-to-shares.json',
+          '.engi/settlement-proof.json',
+          '.engi/journal-diff.json',
+          '.engi/external-boundary-manifest.json',
+          '.engi/bitcoin-settlement-interface-proof.json'
+        ],
+        witnessRefs: [
+          computeRealityManifest?.realityId,
+          bitcoinSettlementIntent?.intentId,
+          bitcoinSettlementObservation?.observationId,
+          sourceToSharesArtifact?.proofHash,
+          settlementProof?.proofHash,
+          bitcoinSettlementInterfaceProof?.proofHash
+        ]
       }] : [])
     ];
   const proofFamiliesByName = Object.fromEntries(

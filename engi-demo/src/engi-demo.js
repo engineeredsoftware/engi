@@ -4303,6 +4303,7 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       { path: '.engi/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/eval-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.engi/external-boundary-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/measurement-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       { path: '.engi/static-measurement-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
       { path: '.engi/static-measurement-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },

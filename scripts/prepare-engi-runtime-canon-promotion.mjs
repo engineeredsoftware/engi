@@ -28,7 +28,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-engi-runtime-canon-promotion.mjs --version V22 [--next-draft V23] [--repo-root <path>]',
+      'Usage: node scripts/prepare-engi-runtime-canon-promotion.mjs --version V23 [--next-draft V24] [--repo-root <path>]',
       '',
       'Rewrites the runtime/demo canon-posture surfaces for canonical promotion.'
     ].join('\n')

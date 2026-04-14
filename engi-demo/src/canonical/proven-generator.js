@@ -19,13 +19,27 @@ import {
   buildV21SpecFamilyReport
 } from './v21-specifying.js';
 import {
+  buildV23CanonPostureDriftReport,
   buildV22CanonPostureDriftReport,
+  buildV23GeneratedArtifactContents,
   buildV22GeneratedArtifactContents
 } from './v22-canon-posture.js';
+import { BITCOIN_PAYMENT_MODES } from './v23-bitcoin.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
+export const DEFAULT_V23_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const PROVEN_GENERATOR_ID = 'engi-demo.proven-generator.v1';
 const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
+
+/**
+ * @param {{ scenarioId: string, branchMode: string, paymentMode?: string | undefined }} run
+ * @returns {string}
+ */
+function formatRunId(run) {
+  return run.paymentMode
+    ? `${run.scenarioId}/${run.branchMode}/${run.paymentMode}`
+    : `${run.scenarioId}/${run.branchMode}`;
+}
 
 /**
  * @param {unknown} value
@@ -159,14 +173,16 @@ export function defaultProvenOutputPath(version) {
  *   buildInitialStateFn?: typeof buildInitialState,
  *   runMakeEngiBranchFn?: typeof runMakeEngiBranch,
  *   scenarioIds?: string[],
- *   branchModes?: string[]
+ *   branchModes?: string[],
+ *   paymentModes?: string[]
  * }} [input={}]
  */
 export function collectCanonicalProvenRuns({
   buildInitialStateFn = buildInitialState,
   runMakeEngiBranchFn = runMakeEngiBranch,
   scenarioIds,
-  branchModes = DEFAULT_PROVEN_BRANCH_MODES
+  branchModes = DEFAULT_PROVEN_BRANCH_MODES,
+  paymentModes = []
 } = {}) {
   const seededState = buildInitialStateFn();
   const availableScenarioIds = seededState.needScenarios.map((/** @type {any} */ scenario) => String(scenario.scenarioId));
@@ -179,44 +195,50 @@ export function collectCanonicalProvenRuns({
   const runs = [];
   for (const scenarioId of requestedScenarioIds) {
     for (const branchMode of branchModes) {
-      const { latestRun } = runMakeEngiBranchFn(buildInitialStateFn(), { scenarioId, branchMode });
-      invariant(latestRun?.branchArtifacts?.files, `Run ${scenarioId}/${branchMode} did not produce branch artifacts.`);
-      const files = /** @type {Record<string, string>} */ (latestRun.branchArtifacts.files);
-      const bundle = parseArtifactJson(files, '.engi/system-proof-bundle.json');
-      const witnessManifest = parseArtifactJson(files, '.engi/proof-witness-manifest.json');
-      const deliverablesManifest = parseArtifactJson(files, '.engi/deliverables.json');
-      const policyRelease = parseArtifactJson(files, '.engi/policy-release.json');
-      const need = parseArtifactJson(files, '.engi/need.json');
+      const effectivePaymentModes = paymentModes.length ? paymentModes : [undefined];
+      for (const paymentMode of effectivePaymentModes) {
+        const branchInput = paymentMode ? { scenarioId, branchMode, paymentMode } : { scenarioId, branchMode };
+        const { latestRun } = runMakeEngiBranchFn(buildInitialStateFn(), branchInput);
+        invariant(latestRun?.branchArtifacts?.files, `Run ${formatRunId({ scenarioId, branchMode, paymentMode })} did not produce branch artifacts.`);
+        const files = /** @type {Record<string, string>} */ (latestRun.branchArtifacts.files);
+        const bundle = parseArtifactJson(files, '.engi/system-proof-bundle.json');
+        const witnessManifest = parseArtifactJson(files, '.engi/proof-witness-manifest.json');
+        const deliverablesManifest = parseArtifactJson(files, '.engi/deliverables.json');
+        const policyRelease = parseArtifactJson(files, '.engi/policy-release.json');
+        const need = parseArtifactJson(files, '.engi/need.json');
 
-      /** @type {Record<string, any>} */
-      const familyProofsByName = {};
-      for (const familyCatalogEntry of bundle.proofFamilies || []) {
-        const proofFamily = String(familyCatalogEntry?.proofFamily || '');
-        const proofArtifactPath = String(familyCatalogEntry?.proofArtifactPath || '');
-        invariant(Boolean(proofFamily), `Run ${scenarioId}/${branchMode} contains a proof family entry without proofFamily.`);
-        invariant(Boolean(proofArtifactPath), `Run ${scenarioId}/${branchMode} family ${proofFamily} is missing proofArtifactPath.`);
-        familyProofsByName[proofFamily] = parseArtifactJson(files, proofArtifactPath);
+        /** @type {Record<string, any>} */
+        const familyProofsByName = {};
+        for (const familyCatalogEntry of bundle.proofFamilies || []) {
+          const proofFamily = String(familyCatalogEntry?.proofFamily || '');
+          const proofArtifactPath = String(familyCatalogEntry?.proofArtifactPath || '');
+          invariant(Boolean(proofFamily), `Run ${formatRunId({ scenarioId, branchMode, paymentMode })} contains a proof family entry without proofFamily.`);
+          invariant(Boolean(proofArtifactPath), `Run ${formatRunId({ scenarioId, branchMode, paymentMode })} family ${proofFamily} is missing proofArtifactPath.`);
+          familyProofsByName[proofFamily] = parseArtifactJson(files, proofArtifactPath);
+        }
+
+        runs.push({
+          scenarioId,
+          branchMode,
+          paymentMode: paymentMode || null,
+          branchName: String(deliverablesManifest?.branchName || latestRun?.branchName || ''),
+          needId: String(bundle?.needId || need?.needId || ''),
+          assetPackId: String(bundle?.assetPackId || latestRun?.assetPack?.assetPackId || ''),
+          branchArtifacts: files,
+          systemProofBundle: bundle,
+          proofWitnessManifest: witnessManifest,
+          deliverablesManifest,
+          policyRelease,
+          familyProofsByName
+        });
       }
-
-      runs.push({
-        scenarioId,
-        branchMode,
-        branchName: String(deliverablesManifest?.branchName || latestRun?.branchName || ''),
-        needId: String(bundle?.needId || need?.needId || ''),
-        assetPackId: String(bundle?.assetPackId || latestRun?.assetPack?.assetPackId || ''),
-        branchArtifacts: files,
-        systemProofBundle: bundle,
-        proofWitnessManifest: witnessManifest,
-        deliverablesManifest,
-        policyRelease,
-        familyProofsByName
-      });
     }
   }
 
   return {
     scenarioIds: requestedScenarioIds,
     branchModes: summarizeStrings(branchModes),
+    paymentModes: summarizeStrings(paymentModes),
     runs
   };
 }
@@ -237,7 +259,7 @@ function assertArtifactMetadata(deliverablesByPath, classificationsByPath, artif
  * @returns {any}
  */
 function validateAndNormalizeRun(run) {
-  const runLabel = `${run.scenarioId}/${run.branchMode}`;
+  const runLabel = formatRunId(run);
   const bundle = run.systemProofBundle;
   const witnessManifest = run.proofWitnessManifest;
   const deliverablesByPath = Object.fromEntries((run.deliverablesManifest?.deliverables || []).map((/** @type {any} */ entry) => [String(entry?.path || ''), entry]));
@@ -334,6 +356,7 @@ function validateAndNormalizeRun(run) {
   return {
     scenarioId: run.scenarioId,
     branchMode: run.branchMode,
+    paymentMode: run.paymentMode || null,
     branchName: run.branchName,
     needId: run.needId,
     assetPackId: run.assetPackId,
@@ -402,10 +425,10 @@ export function buildCanonicalProvenData(collected, {
   ]));
 
   for (const run of normalizedRuns.slice(1)) {
-    invariant(baseline.familyCount === run.familyCount, `Run ${run.scenarioId}/${run.branchMode} proof-family count differs from the baseline.`);
+    invariant(baseline.familyCount === run.familyCount, `Run ${formatRunId(run)} proof-family count differs from the baseline.`);
     for (const family of run.families) {
       const baselineSignature = baselineFamilySignatures[family.proofFamily];
-      invariant(!!baselineSignature, `Run ${run.scenarioId}/${run.branchMode} introduced unexpected proof family ${family.proofFamily}.`);
+      invariant(!!baselineSignature, `Run ${formatRunId(run)} introduced unexpected proof family ${family.proofFamily}.`);
       const runSignature = stableStringify({
         proofFamily: family.proofFamily,
         proofArtifactPath: family.proofArtifactPath,
@@ -415,9 +438,9 @@ export function buildCanonicalProvenData(collected, {
         replayArtifacts: family.replayArtifacts,
         replaySteps: family.replaySteps
       });
-      invariant(baselineSignature === runSignature, `Run ${run.scenarioId}/${run.branchMode} changed the structural catalog for ${family.proofFamily}.`);
+      invariant(baselineSignature === runSignature, `Run ${formatRunId(run)} changed the structural catalog for ${family.proofFamily}.`);
     }
-    invariant(stableListSignature(baseline.requiredArtifactPaths) === stableListSignature(run.requiredArtifactPaths), `Run ${run.scenarioId}/${run.branchMode} changed verifier required artifact paths.`);
+    invariant(stableListSignature(baseline.requiredArtifactPaths) === stableListSignature(run.requiredArtifactPaths), `Run ${formatRunId(run)} changed verifier required artifact paths.`);
   }
 
   const familySummaries = baseline.families.map((/** @type {any} */ baselineFamily) => {
@@ -425,7 +448,7 @@ export function buildCanonicalProvenData(collected, {
     const theoremSummaries = baselineFamily.theoremIds.map((/** @type {string} */ theoremId) => {
       const theoremRuns = perRunFamily.map((/** @type {any} */ family, /** @type {number} */ index) => {
         const verdict = family?.theoremVerdicts.find((/** @type {any} */ entry) => entry.theoremId === theoremId);
-        invariant(!!verdict, `Run ${normalizedRuns[index].scenarioId}/${normalizedRuns[index].branchMode} is missing theorem ${theoremId} for ${baselineFamily.proofFamily}.`);
+        invariant(!!verdict, `Run ${formatRunId(normalizedRuns[index])} is missing theorem ${theoremId} for ${baselineFamily.proofFamily}.`);
         return {
           run: normalizedRuns[index],
           verdict
@@ -435,7 +458,7 @@ export function buildCanonicalProvenData(collected, {
         theoremId,
         passedRuns: theoremRuns.filter((/** @type {any} */ entry) => entry.verdict.passed).length,
         totalRuns: theoremRuns.length,
-        failingRuns: theoremRuns.filter((/** @type {any} */ entry) => !entry.verdict.passed).map((/** @type {any} */ entry) => `${entry.run.scenarioId}/${entry.run.branchMode}`),
+        failingRuns: theoremRuns.filter((/** @type {any} */ entry) => !entry.verdict.passed).map((/** @type {any} */ entry) => formatRunId(entry.run)),
         replayStepIds: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.replayStepIds)),
         witnessArtifactPaths: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.witnessArtifactPaths)),
         replayArtifactPaths: summarizeStrings(theoremRuns.flatMap((/** @type {any} */ entry) => entry.verdict.replayArtifactPaths)),
@@ -445,7 +468,7 @@ export function buildCanonicalProvenData(collected, {
     const memberSummaries = baselineFamily.memberIds.map((/** @type {string} */ memberId) => {
       const memberRuns = perRunFamily.map((/** @type {any} */ family, /** @type {number} */ index) => {
         const verdict = family?.memberVerdicts.find((/** @type {any} */ entry) => entry.id === memberId);
-        invariant(!!verdict, `Run ${normalizedRuns[index].scenarioId}/${normalizedRuns[index].branchMode} is missing member ${memberId} for ${baselineFamily.proofFamily}.`);
+        invariant(!!verdict, `Run ${formatRunId(normalizedRuns[index])} is missing member ${memberId} for ${baselineFamily.proofFamily}.`);
         return {
           run: normalizedRuns[index],
           verdict
@@ -455,7 +478,7 @@ export function buildCanonicalProvenData(collected, {
         memberId,
         passedRuns: memberRuns.filter((/** @type {any} */ entry) => entry.verdict.passed).length,
         totalRuns: memberRuns.length,
-        failingRuns: memberRuns.filter((/** @type {any} */ entry) => !entry.verdict.passed).map((/** @type {any} */ entry) => `${entry.run.scenarioId}/${entry.run.branchMode}`),
+        failingRuns: memberRuns.filter((/** @type {any} */ entry) => !entry.verdict.passed).map((/** @type {any} */ entry) => formatRunId(entry.run)),
         fieldShape: summarizeStrings(memberRuns.flatMap((/** @type {any} */ entry) => entry.verdict.fields))
       };
     });
@@ -475,6 +498,7 @@ export function buildCanonicalProvenData(collected, {
   const runMatrix = normalizedRuns.map((run) => ({
     scenarioId: run.scenarioId,
     branchMode: run.branchMode,
+    paymentMode: run.paymentMode,
     branchName: run.branchName,
     needId: run.needId,
     assetPackId: run.assetPackId,
@@ -514,6 +538,7 @@ export function buildCanonicalProvenData(collected, {
     generatedAt,
     scenarioIds: collected.scenarioIds,
     branchModes: collected.branchModes,
+    paymentModes: collected.paymentModes || [],
     familySummaries,
     runMatrix,
     runDetails: normalizedRuns,
@@ -561,6 +586,7 @@ export function renderCanonicalProvenMarkdown(data) {
   const v20 = /** @type {any} */ (data).v20 || null;
   const v21 = /** @type {any} */ (data).v21 || null;
   const v22 = /** @type {any} */ (data).v22 || null;
+  const v23 = /** @type {any} */ (data).v23 || null;
   const lines = [];
   lines.push(`# ENGI Spec ${data.version} Proven`);
   lines.push('');
@@ -573,6 +599,9 @@ export function renderCanonicalProvenMarkdown(data) {
   lines.push(`- outputPath: ${markdownCode(data.outputPath)}`);
   lines.push(`- scenarioIds: ${data.scenarioIds.map(markdownCode).join(', ')}`);
   lines.push(`- branchModes: ${data.branchModes.map(markdownCode).join(', ')}`);
+  if (Array.isArray(data.paymentModes) && data.paymentModes.length) {
+    lines.push(`- paymentModes: ${data.paymentModes.map(markdownCode).join(', ')}`);
+  }
   lines.push('');
   lines.push('## Aggregate Verdict');
   lines.push('');
@@ -612,6 +641,12 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v22CanonicalInputsPassed: ${markdownCode(String(v22.canonicalInputReport.passed === true))}`);
     lines.push(`- v22CanonPostureDriftPassed: ${markdownCode(String(v22.canonPostureDriftReport.passed === true))}`);
     lines.push(`- v22GeneratedArtifactCount: ${markdownCode(String((v22.artifactSummaries || []).length))}`);
+  }
+  if (v23) {
+    lines.push(`- v23SpecFamilyPassed: ${markdownCode(String(v23.specFamilyReport.passed === true))}`);
+    lines.push(`- v23CanonicalInputsPassed: ${markdownCode(String(v23.canonicalInputReport.passed === true))}`);
+    lines.push(`- v23CanonPostureDriftPassed: ${markdownCode(String(v23.canonPostureDriftReport.passed === true))}`);
+    lines.push(`- v23GeneratedArtifactCount: ${markdownCode(String((v23.artifactSummaries || []).length))}`);
   }
   lines.push('');
   if (v18Matrices) {
@@ -1024,6 +1059,75 @@ export function renderCanonicalProvenMarkdown(data) {
     ));
     lines.push('');
   }
+  if (v23) {
+    lines.push('## V23 Deployment and Canon Reports');
+    lines.push('');
+    lines.push('### V23 Generated Artifact Inventory');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v23.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+    lines.push('### V23 Spec-Family Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v23.specFamilyReport.reportId)}`);
+    lines.push(`- mode: ${markdownCode(v23.specFamilyReport.mode)}`);
+    lines.push(`- currentTarget: ${markdownCode(v23.specFamilyReport.currentTarget)}`);
+    lines.push(`- passed: ${markdownCode(String(v23.specFamilyReport.passed))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v23.specFamilyReport.failureCount))}`);
+    lines.push(`- requiredSpecSectionCount: ${markdownCode(String(v23.specFamilyReport.requiredSpecSectionCount))}`);
+    lines.push(`- requiredGeneratedArtifactPathCount: ${markdownCode(String(v23.specFamilyReport.requiredGeneratedArtifactPathCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['requiredFile', 'supportFile'],
+      v23.specFamilyReport.requiredFiles.map((/** @type {string} */ file, /** @type {number} */ index) => [
+        markdownCode(file),
+        markdownCode(v23.specFamilyReport.supportFiles[index] || 'none')
+      ])
+    ));
+    lines.push('');
+    lines.push('### V23 Canonical-Input Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v23.canonicalInputReport.reportId)}`);
+    lines.push(`- checkedTargetVersion: ${markdownCode(v23.canonicalInputReport.checkedTargetVersion)}`);
+    lines.push(`- parityPath: ${markdownCode(String(v23.canonicalInputReport.parityPath || 'missing'))}`);
+    lines.push(`- passed: ${markdownCode(String(v23.canonicalInputReport.passed))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v23.canonicalInputReport.failureCount))}`);
+    lines.push(`- requiredGeneratedArtifactCount: ${markdownCode(String(v23.canonicalInputReport.requiredGeneratedArtifactCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['specPath', 'provenPath', 'requiredGeneratedArtifactPaths'],
+      [[
+        markdownCode(v23.canonicalInputReport.specPath),
+        markdownCode(v23.canonicalInputReport.provenPath),
+        v23.canonicalInputReport.requiredGeneratedArtifactPaths.map(markdownCode).join(', ')
+      ]]
+    ));
+    lines.push('');
+    lines.push('### V23 Canon-Posture Drift Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v23.canonPostureDriftReport.reportId)}`);
+    lines.push(`- checkedActiveCanonVersion: ${markdownCode(v23.canonPostureDriftReport.checkedActiveCanonVersion)}`);
+    lines.push(`- checkedDraftTargetVersion: ${markdownCode(v23.canonPostureDriftReport.checkedDraftTargetVersion)}`);
+    lines.push(`- passed: ${markdownCode(String(v23.canonPostureDriftReport.passed))}`);
+    lines.push(`- checkCount: ${markdownCode(String(v23.canonPostureDriftReport.checkCount))}`);
+    lines.push(`- blockingFailureCount: ${markdownCode(String(v23.canonPostureDriftReport.blockingFailureCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['checkId', 'passed', 'detail'],
+      v23.canonPostureDriftReport.checks.map((/** @type {any} */ check) => [
+        markdownCode(check.checkId),
+        markdownCode(String(check.passed)),
+        check.detail
+      ])
+    ));
+    lines.push('');
+  }
   lines.push('## Proof Family Inventory');
   lines.push('');
   lines.push(renderMarkdownTable(
@@ -1090,11 +1194,13 @@ export function renderCanonicalProvenMarkdown(data) {
   lines.push('');
   lines.push('## Scenario and Run Matrix');
   lines.push('');
+  const runMatrixHeaders = ['scenarioId', 'branchMode', ...(Array.isArray(data.paymentModes) && data.paymentModes.length ? ['paymentMode'] : []), 'needId', 'branchName', 'assetPackId', 'familyCount', 'allFamiliesPassed', 'proofContractPassed', 'requiredArtifactPathCount', 'artifactDigestCount', 'fullyProven'];
   lines.push(renderMarkdownTable(
-    ['scenarioId', 'branchMode', 'needId', 'branchName', 'assetPackId', 'familyCount', 'allFamiliesPassed', 'proofContractPassed', 'requiredArtifactPathCount', 'artifactDigestCount', 'fullyProven'],
+    runMatrixHeaders,
     data.runMatrix.map((run) => [
       markdownCode(run.scenarioId),
       markdownCode(run.branchMode),
+      ...(Array.isArray(data.paymentModes) && data.paymentModes.length ? [markdownCode(run.paymentMode || 'default')] : []),
       markdownCode(run.needId),
       markdownCode(run.branchName),
       markdownCode(run.assetPackId),
@@ -1120,11 +1226,14 @@ export function renderCanonicalProvenMarkdown(data) {
   lines.push('## Run Details');
   for (const run of data.runDetails) {
     lines.push('');
-    lines.push(`### ${run.scenarioId} / ${run.branchMode}`);
+    lines.push(`### ${formatRunId(run)}`);
     lines.push('');
     lines.push(`- branchName: ${markdownCode(run.branchName)}`);
     lines.push(`- needId: ${markdownCode(run.needId)}`);
     lines.push(`- assetPackId: ${markdownCode(run.assetPackId)}`);
+    if (run.paymentMode) {
+      lines.push(`- paymentMode: ${markdownCode(run.paymentMode)}`);
+    }
     lines.push(`- proofContractHash: ${markdownCode(run.proofContractHash)}`);
     lines.push(`- allFamiliesPassed: ${markdownCode(String(run.allFamiliesPassed))}`);
     lines.push(`- proofContractPassed: ${markdownCode(String(run.proofContractPassed))}`);
@@ -1176,6 +1285,7 @@ export function renderCanonicalProvenMarkdown(data) {
  *   generatorId?: string,
  *   scenarioIds?: string[],
  *   branchModes?: string[],
+ *   paymentModes?: string[],
  *   buildInitialStateFn?: typeof buildInitialState,
  *   runMakeEngiBranchFn?: typeof runMakeEngiBranch
  * }} input
@@ -1190,6 +1300,7 @@ function buildBaseCanonicalProvenData({
   generatorId = PROVEN_GENERATOR_ID,
   scenarioIds,
   branchModes = DEFAULT_PROVEN_BRANCH_MODES,
+  paymentModes = [],
   buildInitialStateFn = buildInitialState,
   runMakeEngiBranchFn = runMakeEngiBranch
 }) {
@@ -1197,6 +1308,7 @@ function buildBaseCanonicalProvenData({
     buildInitialStateFn,
     runMakeEngiBranchFn,
     branchModes,
+    paymentModes,
     ...(scenarioIds ? { scenarioIds } : {})
   });
   return buildCanonicalProvenData(collected, {
@@ -1538,6 +1650,84 @@ function buildV22ProvenPackage(baseData, {
 }
 
 /**
+ * @param {ReturnType<typeof buildCanonicalProvenData>} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ * @returns {{ data: any, markdown: string, artifacts: Record<string, string> }}
+ */
+function buildV23ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V23',
+    mode: 'promoted',
+    currentTarget: 'V23'
+  });
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V23',
+    reportVersion: 'V23',
+    assumeExistingRelativePaths: [
+      'ENGI_SPEC_V23_PROVEN.md',
+      '.engi/v23-spec-family-report.json',
+      '.engi/v23-canonical-input-report.json',
+      '.engi/v23-canon-posture-drift-report.json'
+    ]
+  });
+  const canonPostureDriftReport = buildV23CanonPostureDriftReport({
+    version: 'V23',
+    activeCanonVersion: 'V23',
+    draftTargetVersion: 'V24',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const artifacts = buildV23GeneratedArtifactContents({
+    version: 'V23',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    specFamilyReport,
+    canonicalInputReport,
+    canonPostureDriftReport
+  });
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v23: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      artifactSummaries
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && specFamilyReport.passed === true
+        && canonicalInputReport.passed === true
+        && canonPostureDriftReport.passed === true
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
  * @param {{
  *   version: string,
  *   canonicalCommit: string,
@@ -1547,6 +1737,7 @@ function buildV22ProvenPackage(baseData, {
  *   generatorId?: string,
  *   scenarioIds?: string[],
  *   branchModes?: string[],
+ *   paymentModes?: string[],
  *   buildInitialStateFn?: typeof buildInitialState,
  *   runMakeEngiBranchFn?: typeof runMakeEngiBranch
  * }} input
@@ -1560,9 +1751,13 @@ export function generateCanonicalProvenMarkdown({
   generatorId = PROVEN_GENERATOR_ID,
   scenarioIds,
   branchModes = DEFAULT_PROVEN_BRANCH_MODES,
+  paymentModes,
   buildInitialStateFn = buildInitialState,
   runMakeEngiBranchFn = runMakeEngiBranch
 }) {
+  const resolvedPaymentModes = version === 'V23'
+    ? (paymentModes || DEFAULT_V23_PROVEN_PAYMENT_MODES)
+    : (paymentModes || []);
   const baseData = buildBaseCanonicalProvenData({
     version,
     canonicalCommit,
@@ -1571,6 +1766,7 @@ export function generateCanonicalProvenMarkdown({
     worktreeState,
     generatorId,
     branchModes,
+    paymentModes: resolvedPaymentModes,
     buildInitialStateFn,
     runMakeEngiBranchFn,
     ...(scenarioIds ? { scenarioIds } : {})
@@ -1711,6 +1907,54 @@ export function generateCanonicalProvenMarkdown({
       inheritedV19: inheritedV19Package.data.v19
     });
     return buildV22ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+  }
+  if (version === 'V23') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19
+    });
+    return buildV23ProvenPackage(baseData, {
       generatedAt,
       inheritedV19: inheritedV19Package.data.v19,
       inheritedV20: inheritedV20Package.data.v20

@@ -1,0 +1,22 @@
+{
+  "reportId": "v23-canonical-input-report",
+  "version": "V23",
+  "proofSourceCommit": "ea3cdb1541c9c0016753450091fa21ea090cc819",
+  "generatedAt": "2026-04-14T17:26:13-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedTargetVersion": "V23",
+  "pointerVersion": "V23",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "ENGI_SPEC_V23.md",
+  "provenPath": "ENGI_SPEC_V23_PROVEN.md",
+  "parityPath": "ENGI_SPEC_V23_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [
+    ".engi/v23-spec-family-report.json",
+    ".engi/v23-canonical-input-report.json",
+    ".engi/v23-canon-posture-drift-report.json"
+  ],
+  "requiredGeneratedArtifactCount": 3
+}

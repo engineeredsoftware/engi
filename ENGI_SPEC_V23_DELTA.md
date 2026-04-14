@@ -2,7 +2,12 @@
 
 ## Status
 
-- Scope: V23 draft delta for bitcoin-native audit anchoring and settlement-interface hardening after V22 canon-posture closure
+- Scope: V23 canonical delta for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality after V22 truth-aligned canon
+- Current canonical/latest target: `V23`
+- Canonical proof-source commit: `ea3cdb1541c9c0016753450091fa21ea090cc819`
+- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
+- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
 - Current canonical/latest target remains `V22`
@@ -10,7 +15,8 @@
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_NOTES.md`
-- V23 state: draft open; no pointer promotion, no generated V23 appendix, no claim of live BTC execution
+- Source parity state: V23 source-side bitcoin-facing artifacts, sidechain-connected settlement interfaces, prototype compute/storage reality manifests, canon-posture drift detection, and generated evidence are canonicalized; this delta records the V22-to-V23 closure
+- V23 state: canonical promotion complete; V23 deployed-infrastructure canon is active and this delta records the promoted bitcoin-interface and compute/storage closure set
 
 ## Why V23 exists
 
