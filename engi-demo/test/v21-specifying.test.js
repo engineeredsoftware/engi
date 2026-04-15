@@ -18,6 +18,11 @@ function projectLabel(version) {
   return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
 }
 
+function expectedActiveCanonicalInputArtifactCount(version) {
+  const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
+  return Number.isInteger(numeric) && numeric >= 25 ? 0 : 3;
+}
+
 /**
  * @param {string[]} args
  * @param {string} cwd
@@ -674,7 +679,10 @@ test('real V20_PROPER draft spec family passes historical draft-mode checking', 
 test(`real canonical input set for active ${ACTIVE_CANON_VERSION} canon passes input checking`, () => {
   const output = runCanonicalInputCheck(['--current-target', ACTIVE_CANON_VERSION], repoRoot);
   assert.match(output, new RegExp(`${projectLabel(ACTIVE_CANON_VERSION)} canonical inputs ok for ${ACTIVE_CANON_VERSION}`));
-  assert.match(output, /artifacts=3/);
+  assert.match(
+    output,
+    new RegExp(`artifacts=${expectedActiveCanonicalInputArtifactCount(ACTIVE_CANON_VERSION)}`)
+  );
 });
 
 test('real canonical input set for historical V20 canon passes input checking with pointer bypass', () => {

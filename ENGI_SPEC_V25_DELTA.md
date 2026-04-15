@@ -11,7 +11,7 @@
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_NOTES.md`
-- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
+- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
 - Source parity state: V25 source-side Bitcode/BTD rename closure, brand-aware generated evidence, runtime/demo/site rename alignment, and promotion-time rename preparation are canonicalized; this delta records the V24-to-V25 closure
 - V25 state: canonical promotion complete; V25 rename canon is active and this delta records the promoted Bitcode/BTD closure set
 

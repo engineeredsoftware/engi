@@ -11,11 +11,11 @@
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_NOTES.md`
 - Companion delta file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_DELTA.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PARITY_MATRIX.md`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PROVEN.md`
-- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
+- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
 - Source parity state: V25 source-side Bitcode/BTD rename closure, brand-aware generated evidence, runtime/demo/site rename alignment, and promotion-time rename preparation are canonicalized in the promoted V25 file family
-- Draft posture source: `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V24'` and `DRAFT_TARGET_VERSION = 'V25'`
+- Draft posture source: `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V25'` and `DRAFT_TARGET_VERSION = 'V26'`
 - V25 state: canonical promotion complete; V25 is the active Bitcode rename canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned
 - Last fully realized canonical target preserved in source: `V25`
 

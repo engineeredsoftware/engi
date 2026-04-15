@@ -11,52 +11,53 @@
 - Specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_DELTA.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_NOTES.md`
-- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
+- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
 - Source parity state: V25 source-side Bitcode/BTD rename closure, brand-aware generated evidence, runtime/demo/site rename alignment, and promotion-time rename preparation are canonicalized; parity truth is aligned with the promoted V25 file family
 - V25 state: canonical promotion complete; parity truth, runtime posture truth, rename closure, and generated canon are aligned for V25
 - Last fully realized canonical target preserved in source: `V25`
 
 ## Purpose
 
-This file records the draft parity ledger between:
-- active V24 canon,
-- the intended Bitcode rename target,
-- the current runtime and generated surfaces,
-- and the still-open rename decisions that must close before promotion.
+This file records the canonical parity ledger between:
+- active V25 canon,
+- the promoted Bitcode/BTD rename target,
+- the current runtime, generated evidence, and build-process surfaces,
+- and the accepted compatibility boundaries that remain intentionally stable in V25.
 
-## V25 draft implementation matrix
+## V25 implementation matrix (formerly V25 draft implementation matrix)
 
 | Area | Current source truth | V25 implementation expectation | Closure signal | Judgment |
 | --- | --- | --- | --- | --- |
-| Canonical file family presence | V24 active family exists; no V25 family existed before this draft opening | V25 requires a full draft file family while V24 remains active | V25 spec, delta, parity, and notes files exist | specified |
-| Version center | V24 centers external realization | V25 centers full project rename to Bitcode without semantic drift | V25 main spec defines rename-first invariance posture | specified |
-| Full-system rewrite discipline | V24 repaired no-silent-inheritance discipline | V25 must remain full-system even though the version change is “just” a rename | promoted V25 may not depend semantically on V24 for current truth | specified |
-| System and product naming | active system identity is ENGI | active project/system identity becomes Bitcode | active surfaces present Bitcode as the current identity | specified |
-| Denomination naming | active denomination identity is NGI | active denomination identity becomes BTD | active settlement and ledger surfaces present BTD as the current denomination | specified |
-| Artifact namespace naming | active emitted namespace is `.engi/*` | V25 must explicitly implement and test the treatment of artifact namespace naming | namespace treatment is explicit and consistent | specified |
-| Generated evidence naming | active proof appendix and generated reports use ENGI-facing headings and V24 artifact names | V25 must explicitly implement and test generated naming treatment | generated headings and report paths match promoted V25 truth | specified |
-| Runtime and API naming | runtime/API summaries still use ENGI-facing copy in places | V25 must rename active runtime/API identity surfaces to Bitcode | active runtime/API naming is rename-complete | specified |
-| Demo and website naming | active demonstration and website posture are ENGI-facing | V25 must rename active UI copy to Bitcode | public/operator surfaces identify as Bitcode | specified |
-| Build and process naming | spec-quality, promotion, and CI/CD messaging are ENGI-facing | V25 must rename process-facing copy where it describes the current system | build/process messaging is rename-aligned | specified |
-| Semantic invariance | V24 proof, settlement, disclosure, and external-interface behavior are active truth | V25 must preserve V24 semantics unless explicit change is declared | regression suite proves rename without behavioral drift | specified |
-| Compatibility and migration | no V25 rename bridges exist yet | V25 must explicitly define compatibility and migration for renamed paths and interfaces | rename bridges and migration notes are implemented where needed | specified |
-| Recommended narrowing posture | V25 draft currently opens several possible rename depths | V25 should default to renaming active current-facing identity while keeping internal compatibility carriers stable unless explicitly widened | draft records a recommended default for `.engi/*`, `ENGI_SPEC_*`, and `NGI` treatment | specified |
-| Generated evidence | V24 `_PROVEN_` and `.engi/v24-*` reports exist | V25 requires its own generated evidence proving rename closure | `ENGI_SPEC_V25_PROVEN.md` and required `.engi` or successor reports exist | specified |
-| Canon promotion | `ENGI_SPEC.txt` points to `V24` | V25 promotes only after rename closure is proven | pointer, canon posture, and generated evidence all align | specified |
+| Canonical file family presence | V25 active family exists and V26 is the next draft target | V25 requires the full promoted file family plus a matching V26 draft opening | V25 spec, delta, parity, notes, and `_PROVEN_` files exist and canon posture points to `V26` next | implemented |
+| Version center | V24 centered external realization | V25 centers full project rename to Bitcode without semantic drift | V25 main spec defines rename-first invariance posture and promoted rename closure | implemented |
+| Full-system rewrite discipline | V25 main spec restates current whole-system canon under Bitcode branding | V25 must remain full-system even though the version change is rename-first | promoted V25 does not depend semantically on V24 for current truth | implemented |
+| System and product naming | active current-facing system identity is Bitcode in runtime, API, demo, and website surfaces | V25 requires Bitcode as the active product/system label | active current-facing surfaces present Bitcode as the current identity | implemented |
+| Denomination naming | active current-facing denomination identity is BTD across settlement and ledger surfaces | V25 requires BTD as the active denomination label | active settlement and ledger surfaces present BTD as the current denomination | implemented |
+| Artifact namespace naming | internal emitted namespace remains `.engi/*` by deliberate compatibility choice | V25 must make namespace treatment explicit rather than implicit | namespace treatment is explicit, stable, and tested | implemented |
+| Generated evidence naming | active proof appendix and generated reports are V25-local and Bitcode-facing where current-facing | V25 must implement and test generated naming treatment | generated headings and report paths match promoted V25 truth | implemented |
+| Runtime and API naming | runtime/API summaries and active labels are Bitcode/BTD-aware | V25 must rename active runtime/API identity surfaces to Bitcode and BTD | active runtime/API naming is rename-complete | implemented |
+| Demo and website naming | active demonstration and website posture are Bitcode-facing | V25 must rename active UI copy to Bitcode | public/operator surfaces identify as Bitcode | implemented |
+| Build and process naming | spec-quality, promotion, and CI/CD messaging are Bitcode-facing where they describe the current system | V25 must rename process-facing current-system copy without destabilizing tooling carriers | build/process messaging is rename-aligned | implemented |
+| Semantic invariance | V24 proof, settlement, disclosure, and external-interface behavior remain active truth under the rename | V25 must preserve V24 semantics unless explicit change is declared | regression suite proves rename without behavioral drift | implemented |
+| Compatibility and migration | V25 keeps `.engi/*`, `ENGI_SPEC_*`, and ENGI-prefixed internal tooling carriers stable by design | V25 must state compatibility and migration policy explicitly | compatibility boundaries and migration notes are implemented and explicit | implemented |
+| Recommended narrowing posture | V25 intentionally chose the medium-risk rename-first path rather than a full namespace migration | V25 should rename active current-facing identity while keeping selected internal compatibility carriers stable | promoted V25 records and implements that narrowing choice | implemented |
+| Generated evidence | `ENGI_SPEC_V25_PROVEN.md` and `.engi/v25-*` reports exist | V25 requires its own generated evidence proving rename closure | V25 `_PROVEN_` and generated reports exist and pass promoted checks | implemented |
+| Canon promotion | `ENGI_SPEC.txt` points to `V25` and canon posture is `V25`/`V26` | V25 promotes only after rename closure is proven | pointer, canon posture, and generated evidence all align | implemented |
 
-## V25 draft implementation checklist
+## V25 implementation checklist (formerly V25 draft implementation checklist)
 
 | Area | Required V25 result | Current judgment |
 | --- | --- | --- |
-| Draft family | V25 draft file family exists | specified |
-| Rename center | V25 is explicit that it is rename-first | specified |
-| Semantic invariance | V25 preserves V24 behavior by default | specified |
-| Rename matrix | V25 enumerates all required rename surfaces | specified |
-| Namespace treatment | V25 opens artifact namespace treatment explicitly | specified |
-| Denomination treatment | V25 explicitly renames NGI to BTD while preserving V24 settlement semantics | specified |
-| Narrowing defaults | V25 records the default scope-narrowing recommendation for compatibility carriers | specified |
-| Compatibility rules | V25 requires explicit compatibility and migration policy | specified |
-| Promotion gate | V25 requires rename-complete generated evidence before activation | specified |
+| File family | V25 promoted file family exists | implemented |
+| Rename center | V25 is explicit that it is rename-first | closed |
+| Semantic invariance | V25 preserves V24 behavior by default | implemented |
+| Rename matrix | V25 enumerates all required rename surfaces | implemented |
+| Namespace treatment | V25 makes artifact namespace treatment explicit | implemented |
+| Denomination treatment | V25 renames NGI to BTD while preserving V24 settlement semantics | implemented |
+| Narrowing defaults | V25 records and implements the compatibility-carrier narrowing choice | implemented |
+| Compatibility rules | V25 states explicit compatibility and migration policy | implemented |
+| Generated evidence | V25 `_PROVEN_` and generated reports exist | implemented |
+| Promotion gate | V25 rename-complete generated evidence exists before activation | implemented |
 
 ## Accepted boundaries
 
