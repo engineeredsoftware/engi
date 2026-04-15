@@ -190,7 +190,7 @@ const canonicalPathStages = [
   { number: '05', stage: 'retrieve' },
   { number: '06', stage: 'allocate' },
 ] as const;
-const headlineText = 'Bitcode is becoming the tokenized data depot for engineering knowledge.';
+const headlineText = 'Bitcode is the tokenized data depot for engineering knowledge.';
 const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 const defaultEmbeddedDemoUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
 const headlineHighlights = [
@@ -405,9 +405,9 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
       <p className="mt-3 text-[13px] leading-6 text-emerald-100/72">
         <span className={heroHighlightClass}>$BTD</span>
         <span>&apos;s purpose is to hoard valuable technical information and compensate contributors
-        fairly. Provable knowledge measuring algorithms build the foundations for collection and
-        issuance. Ideal long-term partnerships for asset management and infrastructure will be
-        finalized to empower the secure and thriving future of </span>
+          fairly. Provable knowledge measuring algorithms build the foundations for collection and
+          issuance. Ideal long-term partnerships for asset management and infrastructure will be
+          finalized to empower the secure and thriving future of </span>
         <span className={heroHighlightClass}>$BTD</span>
         <span>.</span>
       </p>
@@ -553,624 +553,622 @@ export default function MarketingLandingPage() {
 
           <main className="relative z-20 mx-auto flex w-full max-w-[1380px] flex-1 items-start px-4 py-4 phone:px-5 phone:py-5 tablet:px-6 laptop:items-center laptop:px-8 desktop:px-12">
             <div className="grid w-full gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: entranceEase }}
-              className="flex flex-col justify-center"
-              style={animatedMotionStyle}
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-400/10 shadow-[0_0_28px_rgba(103,254,183,0.14)]">
-                  <Logo height="h-5" width="w-5" />
-                </div>
-              </div>
-
-              <div className="mt-4 max-w-2xl space-y-4 phone:mt-5">
-                <p className="max-w-xl text-[11px] uppercase tracking-[0.26em] text-emerald-200/70">
-                  Compensating knowledge freely, fairly
-                </p>
-                <h1 className="text-[2.35rem] font-semibold leading-[0.96] text-white phone:text-[2.9rem] tablet:text-[3.6rem] laptop:text-[4.35rem]">
-                  <div className="relative max-w-[13ch] phone:max-w-[14ch] tablet:max-w-[15ch] laptop:max-w-[16ch]">
-                    <MultiLineTypingAnimation
-                      text={headlineText}
-                      charDelay={18}
-                      startDelay={140}
-                      align="left"
-                      className="text-white/92 tracking-[-0.02em]"
-                      highlightTexts={headlineHighlights}
-                    />
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: entranceEase }}
+                className="flex flex-col justify-center"
+                style={animatedMotionStyle}
+              >
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-400/10 shadow-[0_0_28px_rgba(103,254,183,0.14)]">
+                    <Logo height="h-5" width="w-5" />
                   </div>
-                </h1>
-                <p className="max-w-[42rem] text-[17px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[19px] tablet:text-[21px]">
-                  Deposit code and other technical assets. Quality is provably measured. Consumption distributes rewards. Value accrues to contributors.
-                </p>
-              </div>
+                </div>
 
-              <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.22em] text-emerald-200/68 phone:mt-5">
-                {['PUBLIC WRITES', 'PUBLIC PROOFS', 'LICENSED READS', 'MEASUREMINTING'].map((item) => (
-                  <span
-                    key={item}
-                    className="relative overflow-hidden rounded-[18px] border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
-                  >
-                    <span
-                      className="absolute inset-0 opacity-30"
-                      style={{
-                        backgroundImage:
-                          'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 32px)',
-                      }}
-                    />
-                    <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_34%)]" />
-                    <span className="absolute inset-[1px] rounded-[17px] border border-white/8" />
-                    <span className="relative">{item}</span>
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-4 grid grid-cols-1 gap-2 phone:mt-5 phone:grid-cols-2 phone:gap-3 desktop:grid-cols-3">
-                {productPillars.map(({ title, description, Icon }, index) => {
-                  const hasBtdInDescription = description.includes('$BTD');
-                  const [beforeBtd, afterBtd] = hasBtdInDescription ? description.split('$BTD') : [description, ''];
-
-                  return (
-                    <motion.div
-                      key={title}
-                      initial={{ opacity: 0, y: 18 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.75,
-                        delay: 0.1 + index * 0.08,
-                        ease: entranceEase,
-                      }}
-                      className={`relative overflow-hidden rounded-[24px] border p-3 backdrop-blur-xl phone:p-4 ${
-                        title.includes('$BTD')
-                          ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
-                          : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
-                      } ${title.includes('$BTD') ? 'phone:col-span-2 desktop:col-span-1' : ''}`}
-                      style={paintedMotionStyle}
-                    >
-                      {title === 'Deposit' ? (
-                        <>
-                        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(9,6,29,0.98),rgba(40,18,62,0.9))]" />
-                        <div
-                          className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
-                          style={{
-                            boxShadow:
-                              'inset 2px 2px 8px 2px rgba(0,0,0,0.82), 2px 2px 14px 2px rgba(0,0,0,0.18)',
-                          }}
-                        />
-                        <div className="absolute inset-[1px] rounded-[23px] border border-white/20" />
-                        <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-200/70 to-transparent" />
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(192,132,252,0.22),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(236,72,153,0.12),transparent_30%)]" />
-                        <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(90deg,transparent_0,transparent_31px,rgba(255,255,255,0.07)_32px),linear-gradient(180deg,transparent_0,transparent_31px,rgba(255,255,255,0.05)_32px)] [background-size:32px_32px]" />
-                        <div
-                          className="absolute inset-0 opacity-[0.18]"
-                          style={{
-                            backgroundImage:
-                              'radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px)',
-                            backgroundSize: '18px 18px',
-                          }}
-                        />
-                        <div className="relative">
-                          <div className="relative min-h-[58px] pr-16 text-violet-100 phone:min-h-[68px] phone:pr-20">
-                            <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
-                              source
-                            </span>
-                            <div className="flex min-w-0 items-start gap-2">
-                              <Icon className="h-4 w-4 text-purple-300" />
-                              <div className="min-w-0">
-                                <p className="bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
-                                  {title}
-                                </p>
-                                <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-violet-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                                  depot material intake
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-[11px] leading-4 text-violet-50/88 phone:text-[13px] phone:leading-5">
-                            {description}
-                          </p>
-                          <div className="mt-4 space-y-3 border-t border-white/12 pt-4">
-                            <div className="border-l-4 border-purple-400 pl-3">
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                                Technical assets
-                              </p>
-                              <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                                code, docs, diagrams, PDFs, and notes
-                              </p>
-                            </div>
-                            <div className="border-l-4 border-pink-400 pl-3">
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                                Context at deposit
-                              </p>
-                              <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                                commits, citations, authorship, and metadata
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : title === 'Measure' ? (
-                      <>
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#021511]/95 via-[#06231f]/84 to-[#02060d]" />
-                        <div
-                          className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
-                          style={{
-                            boxShadow:
-                              'inset 2px 2px 8px 2px rgba(0,0,0,0.82), 2px 2px 14px 2px rgba(0,0,0,0.18)',
-                          }}
-                        >
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              backgroundImage:
-                                'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 28px), repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 28px)',
-                              maskImage:
-                                'linear-gradient(180deg, transparent 0%, white 18%, white 82%, transparent 100%)',
-                              WebkitMaskImage:
-                                'linear-gradient(180deg, transparent 0%, white 18%, white 82%, transparent 100%)',
-                            }}
-                          />
-                          <div className="absolute inset-0 translate-y-[5%] overflow-hidden opacity-80">
-                            {measuremintCandles.map((candle, index) => (
-                              <React.Fragment key={`measuremint-candle-${index}`}>
-                                <span
-                                  className={`absolute w-[1px] ${candle.bullish ? 'bg-emerald-300/45' : 'bg-rose-300/40'}`}
-                                  style={{
-                                    left: candle.left,
-                                    top: candle.wickTop,
-                                    height: candle.wickHeight,
-                                  }}
-                                />
-                                <span
-                                  className={`absolute w-[6px] rounded-[2px] ${candle.bullish ? 'bg-emerald-300/35' : 'bg-rose-300/30'}`}
-                                  style={{
-                                    left: `calc(${candle.left} - 2px)`,
-                                    top: candle.bodyTop,
-                                    height: candle.bodyHeight,
-                                  }}
-                                />
-                              </React.Fragment>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="absolute inset-[1px] rounded-[23px] border border-emerald-200/10" />
-                        <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/70 to-transparent" />
-                        <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,white,white,transparent)] bg-[repeating-linear-gradient(90deg,#ffffff0d_0_40px,transparent_40px_80px)] bg-[length:160px_160px]" />
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.12),transparent_30%)]" />
-                        <div className="relative">
-                          <div className="relative min-h-[58px] pr-16 text-emerald-100 phone:min-h-[68px] phone:pr-20">
-                            <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-emerald-200/12 bg-emerald-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-emerald-50/72 phone:min-w-[72px]">
-                              weighted
-                            </span>
-                            <div className="flex min-w-0 items-start gap-2">
-                              <Icon className="h-4 w-4 text-emerald-300" />
-                              <div className="min-w-0">
-                                <p className="bg-gradient-to-r from-emerald-300 via-emerald-500 to-teal-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
-                                  {title}
-                                </p>
-                                <p className="mt-1 max-w-[16ch] text-[9px] uppercase tracking-[0.16em] text-emerald-100/52 phone:max-w-[18ch] phone:text-[10px]">
-                                  quantity + quality + valence
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-[11px] leading-4 text-emerald-50/88 phone:text-[13px] phone:leading-5">
-                            {description}
-                          </p>
-                          <div className="relative mt-4">
-                            <div className="relative grid grid-cols-3 gap-2">
-                              {measureCardAxes.map((axis, axisIndex) => (
-                                <div
-                                  key={axis.label}
-                                  className={`px-1 text-center ${axisIndex === 0 ? '' : 'border-l border-emerald-200/12'}`}
-                                >
-                                  <p className="whitespace-nowrap text-[7px] uppercase leading-none tracking-[0.12em] text-emerald-200/58">
-                                    {axis.label}
-                                  </p>
-                                  <p className="mt-1 text-[2.2rem] font-semibold leading-none text-white">
-                                    {axis.value}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="mt-4 rounded-2xl border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                            <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-emerald-200/62">
-                              read need
-                            </p>
-                            <p className="mt-1 font-mono text-[10px] leading-4 text-emerald-50/84 phone:text-[11px]">
-                              {measureCardReadNeed}
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#170900]/95 via-[#3c1700]/82 to-[#02060d]" />
-                        <div
-                          className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
-                          style={{
-                            boxShadow:
-                              'inset 2px 2px 8px 2px rgba(0,0,0,0.85), 2px 2px 14px 2px rgba(0,0,0,0.18)',
-                          }}
-                        >
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              backgroundImage:
-                                'repeating-linear-gradient(0deg, transparent 0 20px, rgba(255,255,255,0.08) 21px), repeating-linear-gradient(90deg, transparent 0 20px, rgba(255,255,255,0.08) 21px)',
-                              maskImage:
-                                'radial-gradient(circle 220px at center, white 72%, transparent 100%)',
-                              WebkitMaskImage:
-                                'radial-gradient(circle 220px at center, white 72%, transparent 100%)',
-                            }}
-                          />
-                        </div>
-                        <div className="absolute inset-[1px] rounded-[23px] border border-orange-200/10" />
-                        <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-orange-100/70 to-transparent" />
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.24),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_30%)]" />
-                        <div className="relative">
-                          <div className="relative min-h-[58px] pr-16 text-orange-100 phone:min-h-[68px] phone:pr-20">
-                            <div className="flex items-start gap-2">
-                              <Icon className="h-5 w-5 text-orange-300" />
-                              <div className="min-w-0">
-                                <p className="bg-gradient-to-r from-white via-orange-100 to-white/80 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
-                                  {title}
-                                </p>
-                                <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-orange-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                                  supplier issuance
-                                </p>
-                              </div>
-                            </div>
-                            <div className="absolute right-0 top-0">
-                              <EngiSoftwareSvgLogo
-                                width="60px"
-                                softwareClassName="hidden"
-                                className="opacity-90"
-                              />
-                            </div>
-                          </div>
-                          <p className="mt-3 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
-                            {hasBtdInDescription ? (
-                              <>
-                                {beforeBtd}
-                                <span className={`${heroHighlightClass} font-semibold`}>$BTD</span>
-                                {afterBtd}
-                              </>
-                            ) : (
-                              description
-                            )}
-                          </p>
-                          <div className="mt-4 rounded-2xl border border-orange-200/12 bg-black/25 px-3 py-2">
-                            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
-                              {'live supply · licensed reads · usage metering'}
-                            </p>
-                          </div>
-                          <div className="mt-4 rounded-2xl border border-orange-200/12 bg-black/25 px-3 py-2">
-                            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
-                              {'supply the depot -> consumption is metered -> value-based issuance'}
-                            </p>
-                          </div>
-                        </div>
-                        </>
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
-                <a
-                  href="#bitcode-demo-live"
-                  className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
-                >
-                  Open embedded demo
-                  <ArrowRightIcon className="h-4 w-4" />
-                </a>
-                <a
-                  href={embeddedDemoUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
-                >
-                  Launch standalone
-                  <ArrowRightIcon className="h-4 w-4" />
-                </a>
-              </div>
-
-              <ComingSoonMicroPost />
-            </motion.section>
-
-            <motion.aside
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.12, ease: entranceEase }}
-              className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/5 p-4 shadow-[0_26px_80px_rgba(2,8,17,0.48)] backdrop-blur-xl"
-              style={paintedMotionStyle}
-            >
-              <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent" />
-              <div className="absolute -right-10 top-10 h-40 w-40 rounded-full bg-emerald-400/12 blur-3xl" />
-              <div className="absolute -left-10 bottom-6 h-32 w-32 rounded-full bg-emerald-300/8 blur-3xl" />
-
-              <div className="relative">
-                <div className="flex items-center justify-between gap-3">
-                  <EngiPill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
-                    <CircleStackIcon className="h-3.5 w-3.5" />
-                    Data Depot
-                  </EngiPill>
-                  <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-200/58">
-                    depot surface
+                <div className="mt-4 max-w-2xl space-y-4 phone:mt-5">
+                  <p className="max-w-xl text-[11px] uppercase tracking-[0.26em] text-emerald-200/70">
+                    Compensating knowledge freely, fairly
+                  </p>
+                  <h1 className="text-[2.35rem] font-semibold leading-[0.96] text-white phone:text-[2.9rem] tablet:text-[3.6rem] laptop:text-[4.35rem]">
+                    <div className="relative max-w-[13ch] phone:max-w-[14ch] tablet:max-w-[15ch] laptop:max-w-[16ch]">
+                      <MultiLineTypingAnimation
+                        text={headlineText}
+                        charDelay={18}
+                        startDelay={140}
+                        align="left"
+                        className="text-white/92 tracking-[-0.02em]"
+                        highlightTexts={headlineHighlights}
+                      />
+                    </div>
+                  </h1>
+                  <p className="max-w-[42rem] text-[17px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[19px] tablet:text-[21px]">
+                    Deposit code and other technical assets. Quality is provably measured. Consumption distributes rewards. Value accrues to contributors.
                   </p>
                 </div>
 
-                <div className="mt-4 rounded-[26px] border border-white/10 bg-black/30">
-                  <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" />
-                    </div>
-                    <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-emerald-200/60">
-                      <span>write</span>
-                      <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-                      <span>measure</span>
-                      <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-                      <span>read</span>
-                    </div>
-                  </div>
+                <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.22em] text-emerald-200/68 phone:mt-5">
+                  {['PUBLIC WRITES', 'PUBLIC PROOFS', 'LICENSED READS', 'MEASUREMINTING'].map((item) => (
+                    <span
+                      key={item}
+                      className="relative overflow-hidden rounded-[18px] border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
+                    >
+                      <span
+                        className="absolute inset-0 opacity-30"
+                        style={{
+                          backgroundImage:
+                            'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 32px)',
+                        }}
+                      />
+                      <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_34%)]" />
+                      <span className="absolute inset-[1px] rounded-[17px] border border-white/8" />
+                      <span className="relative">{item}</span>
+                    </span>
+                  ))}
+                </div>
 
-                  <div className="grid gap-4 p-4 desktop:grid-cols-[0.9fr_1.1fr]">
-                    <div className="space-y-3">
-                      <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                          Measurement vector
-                        </p>
-                        <div className="mt-4 space-y-4">
-                          {measurementAxes.map((axis) => (
-                            <div key={axis.label}>
-                              <div className="flex items-end justify-between gap-3">
-                                <div>
-                                  <p className="text-sm font-medium text-white">{axis.label}</p>
-                                  <p className="text-[11px] leading-4 text-emerald-100/58">
-                                    {axis.detail}
+                <div className="mt-4 grid grid-cols-1 gap-2 phone:mt-5 phone:grid-cols-2 phone:gap-3 desktop:grid-cols-3">
+                  {productPillars.map(({ title, description, Icon }, index) => {
+                    const hasBtdInDescription = description.includes('$BTD');
+                    const [beforeBtd, afterBtd] = hasBtdInDescription ? description.split('$BTD') : [description, ''];
+
+                    return (
+                      <motion.div
+                        key={title}
+                        initial={{ opacity: 0, y: 18 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.75,
+                          delay: 0.1 + index * 0.08,
+                          ease: entranceEase,
+                        }}
+                        className={`relative overflow-hidden rounded-[24px] border p-3 backdrop-blur-xl phone:p-4 ${title.includes('$BTD')
+                            ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
+                            : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
+                          } ${title.includes('$BTD') ? 'phone:col-span-2 desktop:col-span-1' : ''}`}
+                        style={paintedMotionStyle}
+                      >
+                        {title === 'Deposit' ? (
+                          <>
+                            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(9,6,29,0.98),rgba(40,18,62,0.9))]" />
+                            <div
+                              className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
+                              style={{
+                                boxShadow:
+                                  'inset 2px 2px 8px 2px rgba(0,0,0,0.82), 2px 2px 14px 2px rgba(0,0,0,0.18)',
+                              }}
+                            />
+                            <div className="absolute inset-[1px] rounded-[23px] border border-white/20" />
+                            <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-200/70 to-transparent" />
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(192,132,252,0.22),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(236,72,153,0.12),transparent_30%)]" />
+                            <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(90deg,transparent_0,transparent_31px,rgba(255,255,255,0.07)_32px),linear-gradient(180deg,transparent_0,transparent_31px,rgba(255,255,255,0.05)_32px)] [background-size:32px_32px]" />
+                            <div
+                              className="absolute inset-0 opacity-[0.18]"
+                              style={{
+                                backgroundImage:
+                                  'radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px)',
+                                backgroundSize: '18px 18px',
+                              }}
+                            />
+                            <div className="relative">
+                              <div className="relative min-h-[58px] pr-16 text-violet-100 phone:min-h-[68px] phone:pr-20">
+                                <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
+                                  source
+                                </span>
+                                <div className="flex min-w-0 items-start gap-2">
+                                  <Icon className="h-4 w-4 text-purple-300" />
+                                  <div className="min-w-0">
+                                    <p className="bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
+                                      {title}
+                                    </p>
+                                    <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-violet-100/52 phone:max-w-[16ch] phone:text-[10px]">
+                                      depot material intake
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className="mt-3 text-[11px] leading-4 text-violet-50/88 phone:text-[13px] phone:leading-5">
+                                {description}
+                              </p>
+                              <div className="mt-4 space-y-3 border-t border-white/12 pt-4">
+                                <div className="border-l-4 border-purple-400 pl-3">
+                                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+                                    Technical assets
+                                  </p>
+                                  <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
+                                    code, docs, diagrams, PDFs, and notes
                                   </p>
                                 </div>
-                                <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/78">
-                                  {axis.value}
-                                </span>
+                                <div className="border-l-4 border-pink-400 pl-3">
+                                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+                                    Context at deposit
+                                  </p>
+                                  <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
+                                    commits, citations, authorship, and metadata
+                                  </p>
+                                </div>
                               </div>
-                              <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/6">
-                                <div className="h-full origin-left" style={{ width: `${axis.value}%` }}>
-                                  <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{
-                                      duration: 0.9,
-                                      delay: 0.35,
-                                      ease: entranceEase,
-                                    }}
-                                    className="h-full rounded-full bg-gradient-to-r from-emerald-500/70 via-emerald-300/90 to-emerald-100"
-                                    style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                            </div>
+                          </>
+                        ) : title === 'Measure' ? (
+                          <>
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#021511]/95 via-[#06231f]/84 to-[#02060d]" />
+                            <div
+                              className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
+                              style={{
+                                boxShadow:
+                                  'inset 2px 2px 8px 2px rgba(0,0,0,0.82), 2px 2px 14px 2px rgba(0,0,0,0.18)',
+                              }}
+                            >
+                              <div
+                                className="absolute inset-0"
+                                style={{
+                                  backgroundImage:
+                                    'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 28px), repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 28px)',
+                                  maskImage:
+                                    'linear-gradient(180deg, transparent 0%, white 18%, white 82%, transparent 100%)',
+                                  WebkitMaskImage:
+                                    'linear-gradient(180deg, transparent 0%, white 18%, white 82%, transparent 100%)',
+                                }}
+                              />
+                              <div className="absolute inset-0 translate-y-[5%] overflow-hidden opacity-80">
+                                {measuremintCandles.map((candle, index) => (
+                                  <React.Fragment key={`measuremint-candle-${index}`}>
+                                    <span
+                                      className={`absolute w-[1px] ${candle.bullish ? 'bg-emerald-300/45' : 'bg-rose-300/40'}`}
+                                      style={{
+                                        left: candle.left,
+                                        top: candle.wickTop,
+                                        height: candle.wickHeight,
+                                      }}
+                                    />
+                                    <span
+                                      className={`absolute w-[6px] rounded-[2px] ${candle.bullish ? 'bg-emerald-300/35' : 'bg-rose-300/30'}`}
+                                      style={{
+                                        left: `calc(${candle.left} - 2px)`,
+                                        top: candle.bodyTop,
+                                        height: candle.bodyHeight,
+                                      }}
+                                    />
+                                  </React.Fragment>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="absolute inset-[1px] rounded-[23px] border border-emerald-200/10" />
+                            <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/70 to-transparent" />
+                            <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,white,white,transparent)] bg-[repeating-linear-gradient(90deg,#ffffff0d_0_40px,transparent_40px_80px)] bg-[length:160px_160px]" />
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.12),transparent_30%)]" />
+                            <div className="relative">
+                              <div className="relative min-h-[58px] pr-16 text-emerald-100 phone:min-h-[68px] phone:pr-20">
+                                <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-emerald-200/12 bg-emerald-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-emerald-50/72 phone:min-w-[72px]">
+                                  weighted
+                                </span>
+                                <div className="flex min-w-0 items-start gap-2">
+                                  <Icon className="h-4 w-4 text-emerald-300" />
+                                  <div className="min-w-0">
+                                    <p className="bg-gradient-to-r from-emerald-300 via-emerald-500 to-teal-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
+                                      {title}
+                                    </p>
+                                    <p className="mt-1 max-w-[16ch] text-[9px] uppercase tracking-[0.16em] text-emerald-100/52 phone:max-w-[18ch] phone:text-[10px]">
+                                      quantity + quality + valence
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className="mt-3 text-[11px] leading-4 text-emerald-50/88 phone:text-[13px] phone:leading-5">
+                                {description}
+                              </p>
+                              <div className="relative mt-4">
+                                <div className="relative grid grid-cols-3 gap-2">
+                                  {measureCardAxes.map((axis, axisIndex) => (
+                                    <div
+                                      key={axis.label}
+                                      className={`px-1 text-center ${axisIndex === 0 ? '' : 'border-l border-emerald-200/12'}`}
+                                    >
+                                      <p className="whitespace-nowrap text-[7px] uppercase leading-none tracking-[0.12em] text-emerald-200/58">
+                                        {axis.label}
+                                      </p>
+                                      <p className="mt-1 text-[2.2rem] font-semibold leading-none text-white">
+                                        {axis.value}
+                                      </p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="mt-4 rounded-2xl border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                                <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-emerald-200/62">
+                                  read need
+                                </p>
+                                <p className="mt-1 font-mono text-[10px] leading-4 text-emerald-50/84 phone:text-[11px]">
+                                  {measureCardReadNeed}
+                                </p>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#170900]/95 via-[#3c1700]/82 to-[#02060d]" />
+                            <div
+                              className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
+                              style={{
+                                boxShadow:
+                                  'inset 2px 2px 8px 2px rgba(0,0,0,0.85), 2px 2px 14px 2px rgba(0,0,0,0.18)',
+                              }}
+                            >
+                              <div
+                                className="absolute inset-0"
+                                style={{
+                                  backgroundImage:
+                                    'repeating-linear-gradient(0deg, transparent 0 20px, rgba(255,255,255,0.08) 21px), repeating-linear-gradient(90deg, transparent 0 20px, rgba(255,255,255,0.08) 21px)',
+                                  maskImage:
+                                    'radial-gradient(circle 220px at center, white 72%, transparent 100%)',
+                                  WebkitMaskImage:
+                                    'radial-gradient(circle 220px at center, white 72%, transparent 100%)',
+                                }}
+                              />
+                            </div>
+                            <div className="absolute inset-[1px] rounded-[23px] border border-orange-200/10" />
+                            <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-orange-100/70 to-transparent" />
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.24),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_30%)]" />
+                            <div className="relative">
+                              <div className="relative min-h-[58px] pr-16 text-orange-100 phone:min-h-[68px] phone:pr-20">
+                                <div className="flex items-start gap-2">
+                                  <Icon className="h-5 w-5 text-orange-300" />
+                                  <div className="min-w-0">
+                                    <p className="bg-gradient-to-r from-white via-orange-100 to-white/80 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
+                                      {title}
+                                    </p>
+                                    <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-orange-100/52 phone:max-w-[16ch] phone:text-[10px]">
+                                      supplier issuance
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="absolute right-0 top-0">
+                                  <EngiSoftwareSvgLogo
+                                    width="60px"
+                                    softwareClassName="hidden"
+                                    className="opacity-90"
                                   />
                                 </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0 flex-1">
-                            <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
-                              Surface
-                            </p>
-                            <p className="mt-1 text-[9px] uppercase tracking-[0.08em] text-emerald-100/52">
-                              depot-first screens
-                            </p>
-                          </div>
-                          <span className="inline-flex min-w-[128px] shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 px-2.5 py-2 text-center text-[10px] uppercase leading-4 tracking-[0.18em] text-white/60">
-                            single surface
-                          </span>
-                        </div>
-                        <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 laptop:gap-x-4 laptop:gap-y-3">
-                          {surfaceModes.map((surface) => (
-                            <li
-                              key={surface}
-                              className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-3 tablet:grid-cols-[32px_minmax(0,1fr)] tablet:gap-4 laptop:grid-cols-[24px_minmax(0,1fr)] laptop:gap-3"
-                            >
-                              {renderOrbitalBullet(
-                                'scale-110 tablet:scale-[1.25] laptop:scale-100',
-                                surface === 'Earnings' ? 'green' : 'purple',
-                              )}
-                              <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-sm">
-                                {renderTrailingOrangeAsterisk(surface)}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="relative overflow-hidden rounded-[22px] border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.14),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_34%)]" />
-                        <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
-                        <div className="pointer-events-none absolute right-8 top-8 h-[72px] w-[72px] overflow-visible">
-                          <QuantumOrb
-                            size={72}
-                            config={verifiedAccessOrbConfig}
-                            initialState="active"
-                            interactive={false}
-                            respectReducedMotion={false}
-                          />
-                        </div>
-
-                        <div className="relative">
-                          <div className="pr-20">
-                            <div className="min-w-0">
-                              <p className="bg-gradient-to-r from-emerald-200 via-cyan-200 to-white bg-clip-text text-sm font-semibold text-transparent">
-                                Verified access
+                              <p className="mt-3 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
+                                {hasBtdInDescription ? (
+                                  <>
+                                    {beforeBtd}
+                                    <span className={`${heroHighlightClass} font-semibold`}>$BTD</span>
+                                    {afterBtd}
+                                  </>
+                                ) : (
+                                  description
+                                )}
                               </p>
-                              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-emerald-100/52">
-                                public writes • public proofs • private reads
-                              </p>
-                            </div>
-                            <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-emerald-300/14 bg-emerald-400/8 px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-emerald-50/72">
-                              <EyeIcon className="h-3 w-3" />
-                              usage pays
-                            </span>
-                          </div>
-
-                          <div className="mt-3 space-y-2">
-                            {verificationRows.map(({ label, detail, status, Icon: VerificationIcon }) => (
-                              <div
-                                key={label}
-                                className="rounded-2xl border border-white/8 bg-black/20 px-3 py-2.5"
-                              >
-                                <div className="flex items-start justify-between gap-3">
-                                  <div className="flex min-w-0 items-center gap-2">
-                                    <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/6 text-emerald-200/78">
-                                      <VerificationIcon className="h-3.5 w-3.5" />
-                                    </span>
-                                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/88">
-                                      {label}
-                                    </p>
-                                  </div>
-                                  <span className="shrink-0 rounded-full border border-cyan-200/12 bg-cyan-400/8 px-2 py-0.5 text-[8px] uppercase tracking-[0.14em] text-cyan-100/72">
-                                    {renderTrailingOrangeAsterisk(
-                                      status,
-                                      'origin-center scale-[1.875] tablet:scale-[2.125] laptop:scale-[1.75]',
-                                    )}
-                                  </span>
-                                </div>
-                                <p className="mt-2 text-[10px] leading-5 text-emerald-100/62">{detail}</p>
+                              <div className="mt-4 rounded-2xl border border-orange-200/12 bg-black/25 px-3 py-2">
+                                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
+                                  {'live supply · licensed reads · usage metering'}
+                                </p>
                               </div>
-                            ))}
-                          </div>
+                              <div className="mt-4 rounded-2xl border border-orange-200/12 bg-black/25 px-3 py-2">
+                                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
+                                  {'supply the depot -> consumption is metered -> value-based issuance'}
+                                </p>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
 
-                        </div>
+                <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
+                  <a
+                    href="#bitcode-demo-live"
+                    className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
+                  >
+                    Open embedded demo
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </a>
+                  <a
+                    href={embeddedDemoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
+                  >
+                    Launch standalone
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </a>
+                </div>
+
+                <ComingSoonMicroPost />
+              </motion.section>
+
+              <motion.aside
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.12, ease: entranceEase }}
+                className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/5 p-4 shadow-[0_26px_80px_rgba(2,8,17,0.48)] backdrop-blur-xl"
+                style={paintedMotionStyle}
+              >
+                <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent" />
+                <div className="absolute -right-10 top-10 h-40 w-40 rounded-full bg-emerald-400/12 blur-3xl" />
+                <div className="absolute -left-10 bottom-6 h-32 w-32 rounded-full bg-emerald-300/8 blur-3xl" />
+
+                <div className="relative">
+                  <div className="flex items-center justify-between gap-3">
+                    <EngiPill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
+                      <CircleStackIcon className="h-3.5 w-3.5" />
+                      Data Depot
+                    </EngiPill>
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-200/58">
+                      depot surface
+                    </p>
+                  </div>
+
+                  <div className="mt-4 rounded-[26px] border border-white/10 bg-black/30">
+                    <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" />
+                      </div>
+                      <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-emerald-200/60">
+                        <span>write</span>
+                        <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
+                        <span>measure</span>
+                        <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
+                        <span>read</span>
                       </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                          Depot contribution
-                        </p>
-                        <div className="mt-4 space-y-2 font-mono text-[11px] leading-5 text-emerald-100/78">
-                          {previewRows.map(
-                            ({ key, valueParts, Icon: RowIcon, accentClassName, valuesGridClassName, iconClassName }) => (
-                              <div
-                                key={key}
-                                className="relative overflow-hidden rounded-[20px] border border-white/6 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                              >
-                                <span className={`absolute inset-0 bg-gradient-to-r opacity-45 ${accentClassName}`} />
-                                <span className="absolute inset-[1px] rounded-[19px] border border-white/6" />
-                                <div className="relative">
-                                  <div className="flex items-center gap-3">
-                                    <span
-                                      className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] ${iconClassName}`}
-                                    >
-                                      <RowIcon className="h-4 w-4" />
-                                    </span>
-                                    <p className="text-[12px] uppercase tracking-[0.2em] text-emerald-200/58 tablet:text-[13px] laptop:text-[11px]">
-                                      {key}
+                    <div className="grid gap-4 p-4 desktop:grid-cols-[0.9fr_1.1fr]">
+                      <div className="space-y-3">
+                        <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                            Measurement vector
+                          </p>
+                          <div className="mt-4 space-y-4">
+                            {measurementAxes.map((axis) => (
+                              <div key={axis.label}>
+                                <div className="flex items-end justify-between gap-3">
+                                  <div>
+                                    <p className="text-sm font-medium text-white">{axis.label}</p>
+                                    <p className="text-[11px] leading-4 text-emerald-100/58">
+                                      {axis.detail}
                                     </p>
                                   </div>
-                                  <div
-                                    className={`mt-3 grid gap-x-5 gap-y-3 text-emerald-50/88 laptop:gap-x-4 laptop:gap-y-2 ${valuesGridClassName}`}
-                                  >
-                                    {valueParts.map((valuePart) => {
-                                      const isBtdValue = valuePart === '$BTD';
-
-                                      return (
-                                        <span
-                                          key={`${key}-${valuePart}`}
-                                          className="inline-flex min-w-0 items-start gap-2.5 tablet:gap-3 laptop:gap-2"
-                                        >
-                                          {renderOrbitalBullet(
-                                            'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
-                                            isBtdValue ? 'green' : 'orange',
-                                          )}
-                                          <span
-                                            className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[11px] laptop:leading-5 ${
-                                              isBtdValue ? heroHighlightClass : ''
-                                            }`}
-                                          >
-                                            {valuePart}
-                                          </span>
-                                        </span>
-                                      );
-                                    })}
+                                  <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/78">
+                                    {axis.value}
+                                  </span>
+                                </div>
+                                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/6">
+                                  <div className="h-full origin-left" style={{ width: `${axis.value}%` }}>
+                                    <motion.div
+                                      initial={{ scaleX: 0 }}
+                                      animate={{ scaleX: 1 }}
+                                      transition={{
+                                        duration: 0.9,
+                                        delay: 0.35,
+                                        ease: entranceEase,
+                                      }}
+                                      className="h-full rounded-full bg-gradient-to-r from-emerald-500/70 via-emerald-300/90 to-emerald-100"
+                                      style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                                    />
                                   </div>
                                 </div>
                               </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
-                              Canonical path
-                            </p>
-                            <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-emerald-100/52">
-                              technical value pipeline
-                            </p>
+                            ))}
                           </div>
-                          <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
-                            6 phases
-                          </span>
                         </div>
-                        <p className="mt-3 text-[13px] leading-5 text-emerald-100/70">
-                          Commits, citations, authorship, and metadata enter as context at deposit.
-                        </p>
-                        <div className="mt-4 rounded-[20px] border border-emerald-300/12 bg-emerald-400/6 p-3">
-                          <div className="grid gap-3">
-                            <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
-                              <span className="text-emerald-200/52">{canonicalPathStages[0].number}</span>
-                              {canonicalPathStages[0].stage}
+                        <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0 flex-1">
+                              <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
+                                Surface
+                              </p>
+                              <p className="mt-1 text-[9px] uppercase tracking-[0.08em] text-emerald-100/52">
+                                depot-first screens
+                              </p>
+                            </div>
+                            <span className="inline-flex min-w-[128px] shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 px-2.5 py-2 text-center text-[10px] uppercase leading-4 tracking-[0.18em] text-white/60">
+                              single surface
                             </span>
-                            <div className="grid gap-2">
-                              {[canonicalPathStages.slice(1, 3), canonicalPathStages.slice(3, 5)].map((row, rowIndex) => (
+                          </div>
+                          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 laptop:gap-x-4 laptop:gap-y-3">
+                            {surfaceModes.map((surface) => (
+                              <li
+                                key={surface}
+                                className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-3 tablet:grid-cols-[32px_minmax(0,1fr)] tablet:gap-4 laptop:grid-cols-[24px_minmax(0,1fr)] laptop:gap-3"
+                              >
+                                {renderOrbitalBullet(
+                                  'scale-110 tablet:scale-[1.25] laptop:scale-100',
+                                  surface === 'Earnings' ? 'green' : 'purple',
+                                )}
+                                <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-sm">
+                                  {renderTrailingOrangeAsterisk(surface)}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="relative overflow-hidden rounded-[22px] border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.14),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_34%)]" />
+                          <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
+                          <div className="pointer-events-none absolute right-8 top-8 h-[72px] w-[72px] overflow-visible">
+                            <QuantumOrb
+                              size={72}
+                              config={verifiedAccessOrbConfig}
+                              initialState="active"
+                              interactive={false}
+                              respectReducedMotion={false}
+                            />
+                          </div>
+
+                          <div className="relative">
+                            <div className="pr-20">
+                              <div className="min-w-0">
+                                <p className="bg-gradient-to-r from-emerald-200 via-cyan-200 to-white bg-clip-text text-sm font-semibold text-transparent">
+                                  Verified access
+                                </p>
+                                <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-emerald-100/52">
+                                  public writes • public proofs • private reads
+                                </p>
+                              </div>
+                              <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-emerald-300/14 bg-emerald-400/8 px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-emerald-50/72">
+                                <EyeIcon className="h-3 w-3" />
+                                usage pays
+                              </span>
+                            </div>
+
+                            <div className="mt-3 space-y-2">
+                              {verificationRows.map(({ label, detail, status, Icon: VerificationIcon }) => (
                                 <div
-                                  key={`canonical-middle-row-${rowIndex}`}
-                                  className="grid items-center gap-2 grid-cols-[minmax(0,1fr)_18px_minmax(0,1fr)]"
+                                  key={label}
+                                  className="rounded-2xl border border-white/8 bg-black/20 px-3 py-2.5"
                                 >
-                                  <span className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
-                                    <span className="text-emerald-200/52">{row[0].number}</span>
-                                    {row[0].stage}
-                                  </span>
-                                  <ArrowRightIcon className="h-3.5 w-3.5 text-emerald-200/32" />
-                                  <span className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
-                                    <span className="text-emerald-200/52">{row[1].number}</span>
-                                    {row[1].stage}
-                                  </span>
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="flex min-w-0 items-center gap-2">
+                                      <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/6 text-emerald-200/78">
+                                        <VerificationIcon className="h-3.5 w-3.5" />
+                                      </span>
+                                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/88">
+                                        {label}
+                                      </p>
+                                    </div>
+                                    <span className="shrink-0 rounded-full border border-cyan-200/12 bg-cyan-400/8 px-2 py-0.5 text-[8px] uppercase tracking-[0.14em] text-cyan-100/72">
+                                      {renderTrailingOrangeAsterisk(
+                                        status,
+                                        'origin-center scale-[1.875] tablet:scale-[2.125] laptop:scale-[1.75]',
+                                      )}
+                                    </span>
+                                  </div>
+                                  <p className="mt-2 text-[10px] leading-5 text-emerald-100/62">{detail}</p>
                                 </div>
                               ))}
                             </div>
-                            <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
-                              <span className="text-emerald-200/52">{canonicalPathStages[5].number}</span>
-                              {canonicalPathStages[5].stage}
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                            Depot contribution
+                          </p>
+                          <div className="mt-4 space-y-2 font-mono text-[11px] leading-5 text-emerald-100/78">
+                            {previewRows.map(
+                              ({ key, valueParts, Icon: RowIcon, accentClassName, valuesGridClassName, iconClassName }) => (
+                                <div
+                                  key={key}
+                                  className="relative overflow-hidden rounded-[20px] border border-white/6 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                                >
+                                  <span className={`absolute inset-0 bg-gradient-to-r opacity-45 ${accentClassName}`} />
+                                  <span className="absolute inset-[1px] rounded-[19px] border border-white/6" />
+                                  <div className="relative">
+                                    <div className="flex items-center gap-3">
+                                      <span
+                                        className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] ${iconClassName}`}
+                                      >
+                                        <RowIcon className="h-4 w-4" />
+                                      </span>
+                                      <p className="text-[12px] uppercase tracking-[0.2em] text-emerald-200/58 tablet:text-[13px] laptop:text-[11px]">
+                                        {key}
+                                      </p>
+                                    </div>
+                                    <div
+                                      className={`mt-3 grid gap-x-5 gap-y-3 text-emerald-50/88 laptop:gap-x-4 laptop:gap-y-2 ${valuesGridClassName}`}
+                                    >
+                                      {valueParts.map((valuePart) => {
+                                        const isBtdValue = valuePart === '$BTD';
+
+                                        return (
+                                          <span
+                                            key={`${key}-${valuePart}`}
+                                            className="inline-flex min-w-0 items-start gap-2.5 tablet:gap-3 laptop:gap-2"
+                                          >
+                                            {renderOrbitalBullet(
+                                              'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
+                                              isBtdValue ? 'green' : 'orange',
+                                            )}
+                                            <span
+                                              className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[11px] laptop:leading-5 ${isBtdValue ? heroHighlightClass : ''
+                                                }`}
+                                            >
+                                              {valuePart}
+                                            </span>
+                                          </span>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <p className="bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
+                                Canonical path
+                              </p>
+                              <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-emerald-100/52">
+                                technical value pipeline
+                              </p>
+                            </div>
+                            <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
+                              6 phases
                             </span>
+                          </div>
+                          <p className="mt-3 text-[13px] leading-5 text-emerald-100/70">
+                            Commits, citations, authorship, and metadata enter as context at deposit.
+                          </p>
+                          <div className="mt-4 rounded-[20px] border border-emerald-300/12 bg-emerald-400/6 p-3">
+                            <div className="grid gap-3">
+                              <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
+                                <span className="text-emerald-200/52">{canonicalPathStages[0].number}</span>
+                                {canonicalPathStages[0].stage}
+                              </span>
+                              <div className="grid gap-2">
+                                {[canonicalPathStages.slice(1, 3), canonicalPathStages.slice(3, 5)].map((row, rowIndex) => (
+                                  <div
+                                    key={`canonical-middle-row-${rowIndex}`}
+                                    className="grid items-center gap-2 grid-cols-[minmax(0,1fr)_18px_minmax(0,1fr)]"
+                                  >
+                                    <span className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
+                                      <span className="text-emerald-200/52">{row[0].number}</span>
+                                      {row[0].stage}
+                                    </span>
+                                    <ArrowRightIcon className="h-3.5 w-3.5 text-emerald-200/32" />
+                                    <span className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
+                                      <span className="text-emerald-200/52">{row[1].number}</span>
+                                      {row[1].stage}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                              <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
+                                <span className="text-emerald-200/52">{canonicalPathStages[5].number}</span>
+                                {canonicalPathStages[5].stage}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </motion.aside>
+              </motion.aside>
+            </div>
+          </main>
+
+          <MarketingEmbeddedDemoSection demoUrl={embeddedDemoUrl} />
+
+          <div className="relative z-20 mt-auto w-full">
+            <Footer showPrimaryContent={false} className="mt-0 border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />
           </div>
-        </main>
-
-        <MarketingEmbeddedDemoSection demoUrl={embeddedDemoUrl} />
-
-        <div className="relative z-20 mt-auto w-full">
-          <Footer showPrimaryContent={false} className="mt-0 border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />
-        </div>
 
         </div>
       </div>

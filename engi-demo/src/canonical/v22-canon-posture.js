@@ -47,6 +47,15 @@ function normalizeWhitespace(value) {
 }
 
 /**
+ * @param {string} version
+ * @returns {'ENGI' | 'Bitcode'}
+ */
+function projectLabel(version) {
+  const numeric = Number.parseInt(String(version).replace(/^V/u, ''), 10);
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
+/**
  * @param {{
  *   repoRoot?: string,
  *   version?: string,
@@ -78,6 +87,7 @@ export function buildCanonPostureDriftReport({
   const indexContent = readFileSync(indexPath, 'utf8');
   const appContent = readFileSync(appPath, 'utf8');
   const serverContent = readFileSync(serverPath, 'utf8');
+  const activeProjectLabel = projectLabel(activeCanonVersion);
 
   const initialState = buildInitialState();
   const projectedState = publicState(initialState, 'public');
@@ -163,7 +173,7 @@ export function buildCanonPostureDriftReport({
   pushCheck(
     checks,
     'readme-alignment',
-    readmeContent.includes(`# ENGI Demo - ${activeCanonVersion} canonical deterministic local prototype`)
+    readmeContent.includes(`# ${activeProjectLabel} Demo - ${activeCanonVersion} canonical deterministic local prototype`)
       && readmeContent.includes(`ENGI_SPEC.txt -> ${activeCanonVersion}`)
       && readmeContent.includes(`ENGI_SPEC_${activeCanonVersion}_PROVEN.md`)
       && normalizeWhitespace(readmeContent).includes(normalizeWhitespace(`This demo is governed by the active ${activeCanonVersion} canonical spec`))

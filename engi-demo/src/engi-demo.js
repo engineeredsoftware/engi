@@ -138,6 +138,23 @@ const buildDisclosureProofUnchecked = /** @type {any} */ (buildDisclosureProof);
 const buildDemoPublicStateUnchecked = /** @type {any} */ (buildDemoPublicState);
 
 export const SPEC_VERSION = CURRENT_SPEC_VERSION_LABEL;
+const ACTIVE_CANON_NUMERIC = Number.parseInt(String(CURRENT_CANON_POSTURE.activeCanonVersion || '').replace(/^V/u, ''), 10);
+const ACTIVE_PROJECT_LABEL = Number.isInteger(ACTIVE_CANON_NUMERIC) && ACTIVE_CANON_NUMERIC >= 25 ? 'Bitcode' : 'ENGI';
+const ACTIVE_DENOMINATION_LABEL = Number.isInteger(ACTIVE_CANON_NUMERIC) && ACTIVE_CANON_NUMERIC >= 25 ? 'BTD' : 'NGI';
+const ACTIVE_BRANCH_PREFIX = Number.isInteger(ACTIVE_CANON_NUMERIC) && ACTIVE_CANON_NUMERIC >= 25 ? 'BITCODE' : 'ENGI';
+
+function activeBranchRef(slug) {
+  return `${ACTIVE_BRANCH_PREFIX}-${slug}`;
+}
+
+const AUTH_ISSUER_ROLLBACK_REF = activeBranchRef('auth-issuer-rollback');
+const AUTH_MANY_ASSET_NORMALIZATION_REF = activeBranchRef('auth-many-asset-normalization');
+const PROOF_VALIDATOR_GAP_REF = activeBranchRef('proof-validator-gap');
+const CONFIG_POLICY_PRECEDENCE_REF = activeBranchRef('config-policy-precedence');
+const UNSAFE_PATCH_REVIEW_REF = activeBranchRef('unsafe-patch-review');
+const DEPLOYMENT_DRIFT_ROLLBACK_REF = activeBranchRef('deployment-drift-rollback');
+const BOUNDED_PROOF_EXPORT_REF = activeBranchRef('bounded-proof-export');
+const POLYGLOT_GATEWAY_REMEDIATION_REF = activeBranchRef('polyglot-gateway-remediation');
 export const DEFAULT_BRANCH_MODE = 'patch';
 export const METERED_MICRO_UNITS = '100000000';
 export const DEFAULT_PROJECTION_PRINCIPAL = 'public';
@@ -1617,13 +1634,13 @@ function buildRepoArtifactInventoryEntry({
  */
 function buildSeedGitHubAppSessions() {
   return [
-    buildGitHubAppSession({ repo: 'frontier/demo-auth', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-auth-issuer-rollback' }),
-    buildGitHubAppSession({ repo: 'frontier/payments-ledger', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-proof-validator-gap' }),
-    buildGitHubAppSession({ repo: 'frontier/policy-control-plane', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-config-policy-precedence' }),
-    buildGitHubAppSession({ repo: 'frontier/review-gateway', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-unsafe-patch-review' }),
-    buildGitHubAppSession({ repo: 'frontier/deploy-orchestrator', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-deployment-drift-rollback' }),
-    buildGitHubAppSession({ repo: 'frontier/private-proof-service', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-bounded-proof-export' }),
-    buildGitHubAppSession({ repo: 'frontier/polyglot-gateway', installationId: 'gh_inst_engi_demo_001', defaultRef: 'ENGI-polyglot-gateway-remediation' })
+    buildGitHubAppSession({ repo: 'frontier/demo-auth', installationId: 'gh_inst_engi_demo_001', defaultRef: AUTH_ISSUER_ROLLBACK_REF }),
+    buildGitHubAppSession({ repo: 'frontier/payments-ledger', installationId: 'gh_inst_engi_demo_001', defaultRef: PROOF_VALIDATOR_GAP_REF }),
+    buildGitHubAppSession({ repo: 'frontier/policy-control-plane', installationId: 'gh_inst_engi_demo_001', defaultRef: CONFIG_POLICY_PRECEDENCE_REF }),
+    buildGitHubAppSession({ repo: 'frontier/review-gateway', installationId: 'gh_inst_engi_demo_001', defaultRef: UNSAFE_PATCH_REVIEW_REF }),
+    buildGitHubAppSession({ repo: 'frontier/deploy-orchestrator', installationId: 'gh_inst_engi_demo_001', defaultRef: DEPLOYMENT_DRIFT_ROLLBACK_REF }),
+    buildGitHubAppSession({ repo: 'frontier/private-proof-service', installationId: 'gh_inst_engi_demo_001', defaultRef: BOUNDED_PROOF_EXPORT_REF }),
+    buildGitHubAppSession({ repo: 'frontier/polyglot-gateway', installationId: 'gh_inst_engi_demo_001', defaultRef: POLYGLOT_GATEWAY_REMEDIATION_REF })
   ];
 }
 
@@ -1651,7 +1668,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Auth rollback benchmark summary',
       summary: 'Workflow-generated benchmark summary describing issuer mismatch rollback failure slices.',
       sourceCommit: 'auth001abc',
-      ref: 'ENGI-auth-issuer-rollback',
+      ref: AUTH_ISSUER_ROLLBACK_REF,
       workflowRunId: 'gha_run_auth_001',
       workflowPath: '.github/workflows/benchmark-auth.yml',
       workflowJobName: 'benchmark-auth-remediation',
@@ -1668,7 +1685,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Rollback verifier compatibility patch',
       summary: 'Commit file candidate touching rollback handler and verifier restore path.',
       sourceCommit: 'auth001abc',
-      ref: 'ENGI-auth-issuer-rollback',
+      ref: AUTH_ISSUER_ROLLBACK_REF,
       sourcePath: 'services/auth/rollback.ts',
       tags: ['patch', 'auth', 'rollback'],
       declaredStacks: ['typescript', 'node', 'auth'],
@@ -1682,7 +1699,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Issuer compatibility config snapshot',
       summary: 'Repo config snapshot for issuer compatibility window and rollback kill switch.',
       sourceCommit: 'auth001abc',
-      ref: 'ENGI-auth-issuer-rollback',
+      ref: AUTH_ISSUER_ROLLBACK_REF,
       sourcePath: 'config/auth/issuer-compat.yml',
       tags: ['config', 'auth', 'compatibility-window'],
       declaredStacks: ['yaml', 'auth'],
@@ -1696,7 +1713,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Session validator proof log',
       summary: 'Proof log showing validator invariants and replay safety obligations.',
       sourceCommit: 'auth001abc',
-      ref: 'ENGI-auth-issuer-rollback',
+      ref: AUTH_ISSUER_ROLLBACK_REF,
       sourcePath: 'proofs/session_validator.creusot.log',
       workflowRunId: 'gha_run_auth_001',
       workflowPath: '.github/workflows/benchmark-auth.yml',
@@ -1713,7 +1730,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Issuer mismatch incident notes',
       summary: 'Incident note capturing operator ordering mistakes and recovery guidance.',
       sourceCommit: 'auth001abc',
-      ref: 'ENGI-auth-issuer-rollback',
+      ref: AUTH_ISSUER_ROLLBACK_REF,
       sourcePath: 'docs/incidents/auth-issuer-mismatch.md',
       tags: ['incident-response', 'auth', 'runbook'],
       declaredStacks: ['markdown', 'auth'],
@@ -1727,7 +1744,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Auth audit receipt patchset',
       summary: 'Receipt-binding patch that records workflow run, commit, and compatibility window together.',
       sourceCommit: 'auth019audit',
-      ref: 'ENGI-auth-many-asset-normalization',
+      ref: AUTH_MANY_ASSET_NORMALIZATION_REF,
       sourcePath: 'services/auth/audit_receipt.ts',
       tags: ['auth', 'auditability', 'patch', 'workflow-binding'],
       declaredStacks: ['typescript', 'node', 'auth', 'github-actions'],
@@ -1741,7 +1758,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Replay window attestation bundle',
       summary: 'Attestation bundle for validator proof and benchmark rerun.',
       sourceCommit: 'validator014proof',
-      ref: 'ENGI-proof-validator-gap',
+      ref: PROOF_VALIDATOR_GAP_REF,
       workflowRunId: 'gha_run_validator_014',
       workflowPath: '.github/workflows/validator-proof.yml',
       workflowJobName: 'prove-validator',
@@ -1758,7 +1775,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Replay guard patch',
       summary: 'Patch that hardens nonce-window bounds and overflow checks in the validator path.',
       sourceCommit: 'validator014proof',
-      ref: 'ENGI-proof-validator-gap',
+      ref: PROOF_VALIDATOR_GAP_REF,
       sourcePaths: ['crates/validator/src/session_guard.rs', 'crates/validator/src/replay_window.rs'],
       tags: ['validator', 'patch', 'overflow-safety'],
       declaredStacks: ['rust', 'cargo', 'formal-methods'],
@@ -1772,7 +1789,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Validator proof recovery runbook',
       summary: 'Operator playbook for rerunning proof plus benchmark after replay-window repair.',
       sourceCommit: 'validator014proof',
-      ref: 'ENGI-proof-validator-gap',
+      ref: PROOF_VALIDATOR_GAP_REF,
       sourcePath: 'docs/runbooks/validator-proof-recovery.md',
       tags: ['validator', 'runbook', 'formal-methods'],
       declaredStacks: ['markdown', 'rust', 'formal-methods'],
@@ -1786,7 +1803,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Policy precedence benchmark output',
       summary: 'Benchmark output for precedence regression across config policy layers.',
       sourceCommit: 'policy031fix',
-      ref: 'ENGI-config-policy-precedence',
+      ref: CONFIG_POLICY_PRECEDENCE_REF,
       workflowRunId: 'gha_run_policy_031',
       workflowPath: '.github/workflows/policy-benchmark.yml',
       workflowJobName: 'policy-benchmark',
@@ -1803,7 +1820,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Policy precedence governor patch',
       summary: 'Patch that rejects undeclared fallback winners and records the chosen policy source.',
       sourceCommit: 'policy031fix',
-      ref: 'ENGI-config-policy-precedence',
+      ref: CONFIG_POLICY_PRECEDENCE_REF,
       sourcePath: 'services/policy/evaluate_rollout.ts',
       tags: ['policy', 'patch', 'governance'],
       declaredStacks: ['typescript', 'node', 'policy'],
@@ -1817,7 +1834,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Policy incident operator runbook',
       summary: 'Runbook for recovering precedence drift without reopening the governance incident.',
       sourceCommit: 'policy031fix',
-      ref: 'ENGI-config-policy-precedence',
+      ref: CONFIG_POLICY_PRECEDENCE_REF,
       sourcePath: 'docs/runbooks/policy-incident.md',
       tags: ['policy', 'runbook', 'incident-response'],
       declaredStacks: ['markdown', 'policy'],
@@ -1831,7 +1848,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Unsafe review recovery diff note',
       summary: 'Pull request comment summarizing unsafe patch review recovery steps.',
       sourceCommit: 'review022safe',
-      ref: 'ENGI-unsafe-patch-review',
+      ref: UNSAFE_PATCH_REVIEW_REF,
       sourcePath: 'services/review/recovery.ts',
       checkSuiteId: 'checksuite_review_022',
       tags: ['review', 'patch', 'safety'],
@@ -1846,7 +1863,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Unsafe review containment checklist',
       summary: 'Checklist for applying touched-file budgets and reviewer rationale requirements.',
       sourceCommit: 'review022safe',
-      ref: 'ENGI-unsafe-patch-review',
+      ref: UNSAFE_PATCH_REVIEW_REF,
       sourcePath: 'docs/reviews/unsafe_patch_containment.md',
       tags: ['review', 'runbook', 'security'],
       declaredStacks: ['markdown', 'security', 'review'],
@@ -1860,7 +1877,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Review gate proof log',
       summary: 'Proof log binding touched-file budgets to rationale enforcement checks.',
       sourceCommit: 'review022safe',
-      ref: 'ENGI-unsafe-patch-review',
+      ref: UNSAFE_PATCH_REVIEW_REF,
       sourcePath: 'proofs/review_gate.log',
       workflowRunId: 'gha_run_review_009',
       workflowPath: '.github/workflows/review-guard.yml',
@@ -1877,7 +1894,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Deployment drift incident runbook',
       summary: 'Workflow artifact describing deployment drift rollback and validation ordering.',
       sourceCommit: 'deploy404rollback',
-      ref: 'ENGI-deployment-drift-rollback',
+      ref: DEPLOYMENT_DRIFT_ROLLBACK_REF,
       workflowRunId: 'gha_run_deploy_404',
       workflowPath: '.github/workflows/deploy-drift.yml',
       workflowJobName: 'rollback-drift',
@@ -1894,7 +1911,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Deployment drift config snapshot',
       summary: 'Combined Helm and Terraform config snapshot for the rollback window.',
       sourceCommit: 'deploy404rollback',
-      ref: 'ENGI-deployment-drift-rollback',
+      ref: DEPLOYMENT_DRIFT_ROLLBACK_REF,
       sourcePaths: ['deploy/helm/auth/values.yaml', 'infra/terraform/services/auth/main.tf'],
       tags: ['deployment', 'config', 'rollback'],
       declaredStacks: ['terraform', 'helm', 'kubernetes'],
@@ -1908,7 +1925,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Deployment release parity patch',
       summary: 'Patch that rebinds release receipts to the reconciled chart and infra revisions.',
       sourceCommit: 'deploy404rollback',
-      ref: 'ENGI-deployment-drift-rollback',
+      ref: DEPLOYMENT_DRIFT_ROLLBACK_REF,
       sourcePath: 'services/deploy/reconcile_release.ts',
       tags: ['deployment', 'patch', 'receipt-binding'],
       declaredStacks: ['typescript', 'kubernetes', 'infra'],
@@ -1922,7 +1939,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Bounded proof export witness bundle',
       summary: 'Witness bundle for public proof export and redaction closure.',
       sourceCommit: 'privacy065proof',
-      ref: 'ENGI-bounded-proof-export',
+      ref: BOUNDED_PROOF_EXPORT_REF,
       workflowRunId: 'gha_run_privacy_065',
       workflowPath: '.github/workflows/privacy-proof.yml',
       workflowJobName: 'bounded-proof-export',
@@ -1939,7 +1956,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Bounded proof redaction patch',
       summary: 'Patch that tightens redaction defaults before public proof export.',
       sourceCommit: 'projection006bound',
-      ref: 'ENGI-bounded-proof-export',
+      ref: BOUNDED_PROOF_EXPORT_REF,
       sourcePath: 'services/redaction/project_public_proof.ts',
       tags: ['privacy', 'patch', 'redaction'],
       declaredStacks: ['typescript', 'privacy', 'policy'],
@@ -1953,7 +1970,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Public proof disclosure runbook',
       summary: 'Runbook for replaying disclosure decisions before publishing bounded proof output.',
       sourceCommit: 'projection006bound',
-      ref: 'ENGI-bounded-proof-export',
+      ref: BOUNDED_PROOF_EXPORT_REF,
       sourcePath: 'docs/runbooks/public-proof-disclosure.md',
       tags: ['privacy', 'runbook', 'disclosure'],
       declaredStacks: ['markdown', 'privacy', 'policy'],
@@ -1967,7 +1984,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Polyglot gateway rollback patchset',
       summary: 'Patchset coordinating TypeScript, Python, and Rust rollback surfaces.',
       sourceCommit: 'gateway117poly',
-      ref: 'ENGI-polyglot-gateway-remediation',
+      ref: POLYGLOT_GATEWAY_REMEDIATION_REF,
       sourcePaths: ['api/server.ts', 'workers/session_replay.py', 'crates/token_bridge/src/lib.rs'],
       tags: ['polyglot', 'gateway', 'rollback'],
       declaredStacks: ['typescript', 'python', 'rust', 'gateway'],
@@ -1981,7 +1998,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Polyglot rollback runbook',
       summary: 'Runbook for coordinating TypeScript, Python, and Rust rollback sequencing.',
       sourceCommit: 'gateway117poly',
-      ref: 'ENGI-polyglot-gateway-remediation',
+      ref: POLYGLOT_GATEWAY_REMEDIATION_REF,
       sourcePath: 'docs/runbooks/polyglot_gateway_rollback.md',
       tags: ['polyglot', 'runbook', 'gateway'],
       declaredStacks: ['markdown', 'typescript', 'python', 'rust'],
@@ -1995,7 +2012,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Cross-language receipt config snapshot',
       summary: 'Config snapshot for rollback window and cross-language receipt requirements.',
       sourceCommit: 'gateway117poly',
-      ref: 'ENGI-polyglot-gateway-remediation',
+      ref: POLYGLOT_GATEWAY_REMEDIATION_REF,
       sourcePath: 'config/gateway/issuer_policy.yml',
       tags: ['polyglot', 'config', 'gateway'],
       declaredStacks: ['yaml', 'gateway', 'policy'],
@@ -2009,7 +2026,7 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       title: 'Gateway parity proof log',
       summary: 'Proof log showing TypeScript, Python, and Rust rollback paths stay aligned.',
       sourceCommit: 'gateway117poly',
-      ref: 'ENGI-polyglot-gateway-remediation',
+      ref: POLYGLOT_GATEWAY_REMEDIATION_REF,
       sourcePath: 'proofs/gateway_parity.log',
       workflowRunId: 'gha_run_gateway_021',
       workflowPath: '.github/workflows/gateway-benchmark.yml',
@@ -3050,7 +3067,7 @@ export function makeCandidateAsset(input) {
     },
     metadata: {
       author: input.author,
-      organization: input.organization || '$ENGI',
+      organization: input.organization || `$${ACTIVE_DENOMINATION_LABEL}`,
       sourceRepo: addressingSurface.repo,
       sourceCommit: addressingSurface.commit || `demo-${sha256(assetId).slice(0, 7)}`,
       sourcePaths: addressingSurface.sourcePaths,
@@ -3102,7 +3119,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Enterprise auth migration rollback playbook',
       author: 'Garrett',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'runbook',
       sourcePaths: ['services/auth/rollback.ts', 'config/auth/issuer-compat.yml'],
       symbols: ['restoreLegacyVerifier', 'emitAuditReceipt', 'validateIssuerCompatibility'],
@@ -3110,14 +3127,14 @@ export function buildInitialState() {
       tags: ['auth', 'migration', 'rollback', 'monorepo', 'enterprise'],
       declaredStacks: ['typescript', 'node', 'auth', 'github-actions', 'jwt', 'monorepo'],
       declaredConstraints: ['preserve session validity', 'replay only idempotent schema steps', 'emit audit receipt'],
-      content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the ENGI remediation branch validation notes.`,
+      content: `Objective: recover an enterprise monorepo auth migration without leaving half-migrated services or invalid sessions in production.\n\nProcedure: freeze writes, capture a signed migration snapshot, validate token issuer compatibility, restore old verifier configuration, replay only idempotent schema steps, and re-enable traffic behind a kill switch.\n\nValidation: rerun auth benchmark cases, verify session validator invariants, and confirm rollback audit receipts include repo, commit, workflow run, and migration batch.\n\nExpected touched areas: services/auth/rollback.ts, config/auth/issuer-compat.yml, and the ${ACTIVE_PROJECT_LABEL} remediation branch validation notes.`,
       proofLogs: ['creusot-session-validator-proof.log'],
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
     }, ['Auth rollback benchmark summary', 'Issuer compatibility config snapshot', 'Issuer mismatch incident notes'])),
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Proof-carrying session validator patch kit',
       author: 'Eve',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'patch',
       sourcePaths: ['services/auth/session_validator.rs', 'services/auth/cache.rs'],
       symbols: ['SessionValidator', 'validateIssuerAudience', 'evictExpiredEntry'],
@@ -3132,7 +3149,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Formal replay-window validator proof bundle',
       author: 'Sora',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'proof',
       sourceRepo: 'frontier/payments-ledger',
       sourceCommit: 'validator014proof',
@@ -3151,7 +3168,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Token issuer incident escalation notes',
       author: 'Avery',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'incident-note',
       sourcePaths: ['docs/incidents/auth-issuer-mismatch.md'],
       symbols: ['issuerCompatibilityWindow'],
@@ -3170,7 +3187,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Policy precedence incident governor fixpack',
       author: 'Noah',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'config',
       sourceRepo: 'frontier/policy-control-plane',
       sourceCommit: 'policy031fix',
@@ -3188,7 +3205,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Unsafe patch review containment checklist',
       author: 'Mina',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'runbook',
       sourceRepo: 'frontier/review-gateway',
       sourceCommit: 'review009contain',
@@ -3207,7 +3224,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Deployment drift rollback release playbook',
       author: 'Iris',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'runbook',
       sourceRepo: 'frontier/deploy-orchestrator',
       sourceCommit: 'deploy018drift',
@@ -3225,7 +3242,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Projection-safe bounded proof export notes',
       author: 'Jules',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'proof',
       sourceRepo: 'frontier/private-proof-service',
       sourceCommit: 'projection006bound',
@@ -3243,7 +3260,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Session validator compatibility witness dossier',
       author: 'Lane',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'proof',
       sourceRepo: 'frontier/demo-auth',
       sourceCommit: 'auth019validator',
@@ -3263,7 +3280,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Auth audit receipt reconciliation patchset',
       author: 'Kai',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'patch',
       sourceRepo: 'frontier/demo-auth',
       sourceCommit: 'auth019audit',
@@ -3281,7 +3298,7 @@ export function buildInitialState() {
     makeCandidateAsset(bindSeedRepoSelection({
       title: 'Polyglot gateway rollback coordination playbook',
       author: 'Rin',
-      organization: '$ENGI',
+      organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'runbook',
       sourceRepo: 'frontier/polyglot-gateway',
       sourceCommit: 'gateway021rollback',
@@ -3304,7 +3321,7 @@ export function buildInitialState() {
       orgName: 'Frontier Code Systems',
       installationId: 'gh_inst_engi_demo_001',
       repo: 'frontier/demo-auth',
-      buyerBranch: 'ENGI-auth-issuer-rollback',
+      buyerBranch: AUTH_ISSUER_ROLLBACK_REF,
       branchMode: 'patch',
       licensePoolMicroUnits: '900000000'
     }
@@ -3317,7 +3334,7 @@ export function buildInitialState() {
       coverageTags: ['monorepo', 'auth', 'rollback', 'privacy-boundary', 'polyglot'],
       repo: 'frontier/demo-auth',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-auth-issuer-rollback',
+      baseRef: AUTH_ISSUER_ROLLBACK_REF,
       targetRef: 'main',
       prNumber: 481,
       benchmarkHarnessPath: 'benchmarks/auth_remediation.yaml',
@@ -3353,13 +3370,13 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['runbook', 'patch', 'config', 'proof'],
-      humanPrompt: 'Need a private ENGI remediation branch for auth rollback failures observed in the buyer PR.',
+      humanPrompt: `Need a private ${ACTIVE_PROJECT_LABEL} remediation branch for auth rollback failures observed in the buyer PR.`,
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/benchmark-auth.yml',
         runId: 'gha_run_auth_001',
         runUrl: 'https://github.com/frontier/demo-auth/actions/runs/gha_run_auth_001',
         commitSha: 'demoauth481abc',
-        branch: 'ENGI-auth-issuer-rollback',
+        branch: AUTH_ISSUER_ROLLBACK_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'auth-remediation-report.json', path: 'artifacts/auth-remediation-report.json', mediaType: 'application/json' }
@@ -3390,7 +3407,7 @@ export function buildInitialState() {
       coverageTags: ['rust', 'proof', 'validator', 'formal-methods'],
       repo: 'frontier/payments-ledger',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-proof-validator-gap',
+      baseRef: PROOF_VALIDATOR_GAP_REF,
       targetRef: 'main',
       prNumber: 722,
       benchmarkHarnessPath: 'benchmarks/validator_regressions.yaml',
@@ -3425,13 +3442,13 @@ export function buildInitialState() {
         'keep remediation branch private until settlement completes'
       ],
       expectedTargetArtifactKinds: ['patch', 'proof', 'runbook'],
-      humanPrompt: 'Need a proof-heavy ENGI branch for a Rust validator regression coming from the benchmark harness.',
+      humanPrompt: `Need a proof-heavy ${ACTIVE_PROJECT_LABEL} branch for a Rust validator regression coming from the benchmark harness.`,
       canonicalRunEvidence: {
         workflowPath: '.github/workflows/prove-validator.yml',
         runId: 'gha_run_validator_014',
         runUrl: 'https://github.com/frontier/payments-ledger/actions/runs/gha_run_validator_014',
         commitSha: 'validator722abc',
-        branch: 'ENGI-proof-validator-gap',
+        branch: PROOF_VALIDATOR_GAP_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'validator-proof-report.json', path: 'artifacts/validator-proof-report.json', mediaType: 'application/json' },
@@ -3463,7 +3480,7 @@ export function buildInitialState() {
       coverageTags: ['config', 'policy', 'incident', 'auditability'],
       repo: 'frontier/policy-control-plane',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-config-policy-precedence',
+      baseRef: CONFIG_POLICY_PRECEDENCE_REF,
       targetRef: 'main',
       prNumber: 903,
       benchmarkHarnessPath: 'benchmarks/policy_precedence.yaml',
@@ -3504,7 +3521,7 @@ export function buildInitialState() {
         runId: 'gha_run_policy_031',
         runUrl: 'https://github.com/frontier/policy-control-plane/actions/runs/gha_run_policy_031',
         commitSha: 'policy903abc',
-        branch: 'ENGI-config-policy-precedence',
+        branch: CONFIG_POLICY_PRECEDENCE_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'policy-precedence-report.json', path: 'artifacts/policy-precedence-report.json', mediaType: 'application/json' }
@@ -3535,7 +3552,7 @@ export function buildInitialState() {
       coverageTags: ['code-review', 'security', 'patch', 'auditability'],
       repo: 'frontier/review-gateway',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-unsafe-patch-review',
+      baseRef: UNSAFE_PATCH_REVIEW_REF,
       targetRef: 'main',
       prNumber: 611,
       benchmarkHarnessPath: 'benchmarks/review_guard.yaml',
@@ -3576,7 +3593,7 @@ export function buildInitialState() {
         runId: 'gha_run_review_009',
         runUrl: 'https://github.com/frontier/review-gateway/actions/runs/gha_run_review_009',
         commitSha: 'review611abc',
-        branch: 'ENGI-unsafe-patch-review',
+        branch: UNSAFE_PATCH_REVIEW_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'review-guard-report.json', path: 'artifacts/review-guard-report.json', mediaType: 'application/json' }
@@ -3607,7 +3624,7 @@ export function buildInitialState() {
       coverageTags: ['infra', 'deployment', 'rollback', 'helm', 'terraform'],
       repo: 'frontier/deploy-orchestrator',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-deployment-drift-rollback',
+      baseRef: DEPLOYMENT_DRIFT_ROLLBACK_REF,
       targetRef: 'main',
       prNumber: 1044,
       benchmarkHarnessPath: 'benchmarks/deployment_drift.yaml',
@@ -3648,7 +3665,7 @@ export function buildInitialState() {
         runId: 'gha_run_deploy_018',
         runUrl: 'https://github.com/frontier/deploy-orchestrator/actions/runs/gha_run_deploy_018',
         commitSha: 'deploy1044abc',
-        branch: 'ENGI-deployment-drift-rollback',
+        branch: DEPLOYMENT_DRIFT_ROLLBACK_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'deployment-drift-report.json', path: 'artifacts/deployment-drift-report.json', mediaType: 'application/json' }
@@ -3679,7 +3696,7 @@ export function buildInitialState() {
       coverageTags: ['privacy', 'projection', 'redaction', 'bounded-proof'],
       repo: 'frontier/private-proof-service',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-bounded-proof-export',
+      baseRef: BOUNDED_PROOF_EXPORT_REF,
       targetRef: 'main',
       prNumber: 1188,
       benchmarkHarnessPath: 'benchmarks/projection_privacy.yaml',
@@ -3720,7 +3737,7 @@ export function buildInitialState() {
         runId: 'gha_run_projection_006',
         runUrl: 'https://github.com/frontier/private-proof-service/actions/runs/gha_run_projection_006',
         commitSha: 'projection1188abc',
-        branch: 'ENGI-bounded-proof-export',
+        branch: BOUNDED_PROOF_EXPORT_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'projection-privacy-report.json', path: 'artifacts/projection-privacy-report.json', mediaType: 'application/json' }
@@ -3751,7 +3768,7 @@ export function buildInitialState() {
       coverageTags: ['polyglot', 'typescript', 'python', 'rust', 'cross-language', 'rollback'],
       repo: 'frontier/polyglot-gateway',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-polyglot-gateway-remediation',
+      baseRef: POLYGLOT_GATEWAY_REMEDIATION_REF,
       targetRef: 'main',
       prNumber: 1021,
       benchmarkHarnessPath: 'benchmarks/gateway_parity.yaml',
@@ -3793,7 +3810,7 @@ export function buildInitialState() {
         runId: 'gha_run_gateway_021',
         runUrl: 'https://github.com/frontier/polyglot-gateway/actions/runs/gha_run_gateway_021',
         commitSha: 'gateway1021abc',
-        branch: 'ENGI-polyglot-gateway-remediation',
+        branch: POLYGLOT_GATEWAY_REMEDIATION_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'gateway-parity-report.json', path: 'artifacts/gateway-parity-report.json', mediaType: 'application/json' },
@@ -3826,7 +3843,7 @@ export function buildInitialState() {
       coverageTags: ['auth', 'many-asset', 'source-to-shares', 'normalization', 'auditability'],
       repo: 'frontier/demo-auth',
       installationId: 'gh_inst_engi_demo_001',
-      baseRef: 'ENGI-auth-many-asset-normalization',
+      baseRef: AUTH_MANY_ASSET_NORMALIZATION_REF,
       targetRef: 'main',
       prNumber: 519,
       benchmarkHarnessPath: 'benchmarks/auth_settlement_normalization.yaml',
@@ -3868,7 +3885,7 @@ export function buildInitialState() {
         runId: 'gha_run_auth_019',
         runUrl: 'https://github.com/frontier/demo-auth/actions/runs/gha_run_auth_019',
         commitSha: 'auth519abc',
-        branch: 'ENGI-auth-many-asset-normalization',
+        branch: AUTH_MANY_ASSET_NORMALIZATION_REF,
         conclusion: 'failure',
         artifacts: [
           { name: 'auth-normalization-report.json', path: 'artifacts/auth-normalization-report.json', mediaType: 'application/json' },

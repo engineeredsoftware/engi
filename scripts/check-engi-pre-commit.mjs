@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -18,6 +19,11 @@ const SPEC_RELEVANT_PATHS = [
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,
   /^\.github\/workflows\/engi-canon-quality\.yml$/u
 ];
+
+function projectLabel(version) {
+  const numeric = Number.parseInt(String(version).replace(/^V/u, ''), 10);
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
 
 /**
  * @param {string[]} argv
@@ -47,6 +53,8 @@ export function isSpecRelevantPath(stagedPath) {
  * @param {{ repoRoot: string, qualityScript: string }} options
  */
 export function runPreCommitCheck({ repoRoot, qualityScript }) {
+  const activeVersion = readFileSync(path.join(repoRoot, 'ENGI_SPEC.txt'), 'utf8').trim();
+  const label = projectLabel(activeVersion);
   const staged = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACMR'], {
     cwd: repoRoot,
     encoding: 'utf8'
@@ -57,11 +65,11 @@ export function runPreCommitCheck({ repoRoot, qualityScript }) {
 
   const relevant = staged.filter((entry) => isSpecRelevantPath(entry));
   if (relevant.length === 0) {
-    process.stdout.write('ENGI pre-commit: no spec-quality-sensitive files staged; skipping.\n');
+    process.stdout.write(`${label} pre-commit: no spec-quality-sensitive files staged; skipping.\n`);
     return;
   }
 
-  process.stdout.write(`ENGI pre-commit: running host-agnostic spec basics for ${relevant.length} staged path(s).\n`);
+  process.stdout.write(`${label} pre-commit: running host-agnostic spec basics for ${relevant.length} staged path(s).\n`);
   execFileSync(process.execPath, [qualityScript, '--mode', 'basic'], {
     cwd: repoRoot,
     stdio: 'inherit'

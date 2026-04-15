@@ -1,4 +1,4 @@
-name: ENGI Canon Quality
+name: Bitcode Canon Quality
 
 on:
   push:
@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   engi-spec-basics:
-    name: ENGI Spec Basics
+    name: Bitcode Spec Basics
     runs-on: ubuntu-latest
     container:
       image: node:22-bookworm
@@ -20,14 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install ENGI demo dependencies
+      - name: Install Bitcode demo dependencies
         run: npm --prefix engi-demo ci
 
-      - name: Run ENGI spec-quality basics
+      - name: Run Bitcode spec-quality basics
         run: node scripts/run-engi-spec-quality.mjs --mode basic
 
   engi-demo-full:
-    name: ENGI Demo Full Test Suite
+    name: Bitcode Demo Full Test Suite
     runs-on: ubuntu-latest
     needs: engi-spec-basics
     container:
@@ -37,14 +37,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install ENGI demo dependencies
+      - name: Install Bitcode demo dependencies
         run: npm --prefix engi-demo ci
 
-      - name: Run full ENGI demo suite
+      - name: Run full Bitcode demo suite
         run: npm --prefix engi-demo run test
 
   engi-spec-commit-conformance:
-    name: ENGI Spec Commit Conformance
+    name: Bitcode Spec Commit Conformance
     runs-on: ubuntu-latest
     needs: engi-spec-basics
     container:
@@ -56,7 +56,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install ENGI demo dependencies
+      - name: Install Bitcode demo dependencies
         run: npm --prefix engi-demo ci
 
       - name: Run strict spec conformance for `spec: VN` titles
