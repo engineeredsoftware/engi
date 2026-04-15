@@ -6,6 +6,7 @@ import {
   buildV24GithubLiveInterfaceProof
 } from './v24-external-execution.js';
 import { getV24LocalExecutorInterfaceId } from './v24-local-executors.js';
+import { executeV24RemoteAdapter } from './v24-remote-adapters.js';
 
 const V24_INTERFACE_ORDER = [
   'bitcoin-mainchain-execution',
@@ -200,11 +201,12 @@ function buildExecutionRequestPayload(latestRun, interfaceId) {
 /**
  * @param {string} executorUrl
  * @param {Record<string, any>} payload
+ * @param {Record<string, any>} binding
  * @param {typeof fetch} fetchImpl
  * @param {Record<string, (payload: Record<string, any>) => Promise<Record<string, any>> | Record<string, any>>} executorHandlers
  * @returns {Promise<Record<string, any>>}
  */
-async function callExecutor(executorUrl, payload, fetchImpl, executorHandlers) {
+async function callExecutor(executorUrl, payload, binding, fetchImpl, executorHandlers) {
   const localExecutorInterfaceId = getV24LocalExecutorInterfaceId(executorUrl);
   if (localExecutorInterfaceId) {
     const handler =
@@ -215,6 +217,9 @@ async function callExecutor(executorUrl, payload, fetchImpl, executorHandlers) {
       throw new Error(`V24 local executor handler missing for ${payload.interfaceId}.`);
     }
     return ensureRecord(await handler(payload));
+  }
+  if (binding?.executorKind && binding.executorKind !== 'http-json-patch') {
+    return ensureRecord(await executeV24RemoteAdapter(payload.interfaceId, binding, payload, fetchImpl));
   }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
@@ -437,7 +442,7 @@ export async function realizeV24LiveExternalExecution(latestRun, options = {}) {
     }
 
     const requestPayload = buildExecutionRequestPayload(realizedRun, interfaceId);
-    const response = await callExecutor(String(binding.executorUrl), requestPayload, fetchImpl, executorHandlers);
+    const response = await callExecutor(String(binding.executorUrl), requestPayload, binding, fetchImpl, executorHandlers);
     const { artifacts, telemetry } = validateExecutorResponse(interfaceId, response);
 
     for (const [key, value] of Object.entries(artifacts)) {

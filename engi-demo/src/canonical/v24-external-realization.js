@@ -455,7 +455,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       accountRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_ACCOUNT_REF'),
       addressRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_ADDRESS_REF'),
       treasuryPolicyRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_TREASURY_POLICY_REF'),
-      executorUrl: envString('ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_URL')
+      executorUrl: envString('ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_URL'),
+      executorKind: envString('ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_KIND')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -468,7 +469,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       accountRef: envString('ENGI_V24_SIDECHAIN_ACCOUNT_REF'),
       addressRef: envString('ENGI_V24_SIDECHAIN_ADDRESS_REF'),
       treasuryPolicyRef: envString('ENGI_V24_SIDECHAIN_TREASURY_POLICY_REF'),
-      executorUrl: envString('ENGI_V24_SIDECHAIN_EXECUTOR_URL')
+      executorUrl: envString('ENGI_V24_SIDECHAIN_EXECUTOR_URL'),
+      executorKind: envString('ENGI_V24_SIDECHAIN_EXECUTOR_KIND')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -481,7 +483,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       executionIdentityRef: envString('ENGI_V24_COMPUTE_EXECUTION_IDENTITY_REF'),
       queueRef: envString('ENGI_V24_COMPUTE_QUEUE_REF'),
       attestationScopeRef: envString('ENGI_V24_COMPUTE_ATTESTATION_SCOPE_REF'),
-      executorUrl: envString('ENGI_V24_COMPUTE_EXECUTOR_URL')
+      executorUrl: envString('ENGI_V24_COMPUTE_EXECUTOR_URL'),
+      executorKind: envString('ENGI_V24_COMPUTE_EXECUTOR_KIND')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -495,7 +498,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       publicationEndpointRef: envString('ENGI_V24_STORAGE_PUBLICATION_ENDPOINT_REF'),
       retentionPolicyRef: envString('ENGI_V24_STORAGE_RETENTION_POLICY_REF'),
       retrievalCredentialRef: envString('ENGI_V24_STORAGE_RETRIEVAL_CREDENTIAL_REF'),
-      executorUrl: envString('ENGI_V24_STORAGE_EXECUTOR_URL')
+      executorUrl: envString('ENGI_V24_STORAGE_EXECUTOR_URL'),
+      executorKind: envString('ENGI_V24_STORAGE_EXECUTOR_KIND')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -510,6 +514,7 @@ function applyActiveBindingOverrides(interfaceId, binding) {
     webhookRef: envString('ENGI_V24_GITHUB_WEBHOOK_REF'),
     mutationPolicyRef: envString('ENGI_V24_GITHUB_MUTATION_POLICY_REF'),
     executorUrl: envString('ENGI_V24_GITHUB_EXECUTOR_URL'),
+    executorKind: envString('ENGI_V24_GITHUB_EXECUTOR_KIND'),
     targetedRepos: targetedReposOverride.length
       ? targetedReposOverride.map((repo) => ({
           repo,

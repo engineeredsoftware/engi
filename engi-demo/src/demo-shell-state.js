@@ -419,6 +419,13 @@ function buildPublicExternalRealizationSummary(latestRun) {
   const interfaceSummaryById = Object.fromEntries(
     (latestRun.externalTelemetrySummary.interfaceSummaries || []).map((entry) => [entry.interfaceId, entry])
   );
+  const bindingByInterfaceId = {
+    'bitcoin-mainchain-execution': latestRun.externalEnvironmentProfile.activeBindings?.bitcoinMainchain || {},
+    'sidechain-execution': latestRun.externalEnvironmentProfile.activeBindings?.sidechain || {},
+    'compute-container-execution': latestRun.externalEnvironmentProfile.activeBindings?.compute || {},
+    'storage-container-execution': latestRun.externalEnvironmentProfile.activeBindings?.storage || {},
+    'github-live-interface': latestRun.externalEnvironmentProfile.activeBindings?.github || {}
+  };
   const interfaceStates = (latestRun.externalBoundaryManifest?.interfaces || [])
     .filter((entry) => interfaceSummaryById[entry.interfaceId])
     .map((entry) => ({
@@ -427,6 +434,8 @@ function buildPublicExternalRealizationSummary(latestRun) {
       status: entry.status,
       runtimeState: interfaceSummaryById[entry.interfaceId]?.runtimeState || null,
       executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
+      executorKind: bindingByInterfaceId[entry.interfaceId]?.executorKind || null,
+      transportProtocol: interfaceSummaryById[entry.interfaceId]?.transportProtocol || null,
       reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
       telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null
     }));
@@ -450,6 +459,13 @@ function buildReviewerExternalRealizationSummary(latestRun) {
   const interfaceSummaryById = Object.fromEntries(
     (latestRun.externalTelemetrySummary.interfaceSummaries || []).map((entry) => [entry.interfaceId, entry])
   );
+  const bindingByInterfaceId = {
+    'bitcoin-mainchain-execution': latestRun.externalEnvironmentProfile.activeBindings?.bitcoinMainchain || {},
+    'sidechain-execution': latestRun.externalEnvironmentProfile.activeBindings?.sidechain || {},
+    'compute-container-execution': latestRun.externalEnvironmentProfile.activeBindings?.compute || {},
+    'storage-container-execution': latestRun.externalEnvironmentProfile.activeBindings?.storage || {},
+    'github-live-interface': latestRun.externalEnvironmentProfile.activeBindings?.github || {}
+  };
   return {
     configuredEnvironmentMode: latestRun.externalEnvironmentProfile.configuredEnvironmentMode,
     actualityDisposition: latestRun.externalEnvironmentProfile.actualityDisposition,
@@ -467,6 +483,9 @@ function buildReviewerExternalRealizationSummary(latestRun) {
         runtimeState: interfaceSummaryById[entry.interfaceId]?.runtimeState || null,
         missingBindingKeys: interfaceSummaryById[entry.interfaceId]?.missingBindingKeys || [],
         executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
+        executorKind: bindingByInterfaceId[entry.interfaceId]?.executorKind || null,
+        transportProtocol: interfaceSummaryById[entry.interfaceId]?.transportProtocol || null,
+        remoteRequestCount: interfaceSummaryById[entry.interfaceId]?.remoteRequestCount || null,
         reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
         resultClass: interfaceSummaryById[entry.interfaceId]?.resultClass || null,
         telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null,

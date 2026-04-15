@@ -127,19 +127,23 @@ async function withEnv(envPatch, fn) {
 }
 
 /**
- * @param {(request: { url: string, method: string, json: any }) => Promise<{ status?: number, json?: any } | any>} handler
- * @returns {Promise<{ baseUrl: string, requests: Array<{ url: string, method: string, json: any }>, close: () => Promise<void> }>}
+ * @param {(request: { url: string, method: string, headers: Record<string, string>, json: any }) => Promise<{ status?: number, json?: any } | any>} handler
+ * @returns {Promise<{ baseUrl: string, requests: Array<{ url: string, method: string, headers: Record<string, string>, json: any }>, close: () => Promise<void> }>}
  */
 async function startJsonExecutorServer(handler) {
-  /** @type {Array<{ url: string, method: string, json: any }>} */
+  /** @type {Array<{ url: string, method: string, headers: Record<string, string>, json: any }>} */
   const requests = [];
   const server = http.createServer(async (req, res) => {
     let body = '';
     for await (const chunk of req) body += Buffer.from(chunk).toString('utf8');
     const json = body ? JSON.parse(body) : null;
+    const headers = Object.fromEntries(
+      Object.entries(req.headers || {}).map(([key, value]) => [key, Array.isArray(value) ? value.join(', ') : String(value || '')])
+    );
     const request = {
       url: String(req.url || '/'),
       method: String(req.method || 'GET'),
+      headers,
       json
     };
     requests.push(request);
@@ -746,6 +750,164 @@ testAny('POST /api/make-engi-branch realizes enabled V24 local executors across 
         reviewer.json.latestRun.externalRealizationSummary.interfaceSummaries
           .every((entry) => entry.runtimeState === 'live-observed')
       );
+    });
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes protocol-specific V24 remote adapters across all external interfaces before persisting state', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const executor = await startJsonExecutorServer(async ({ url, method, headers, json }) => {
+      if (method === 'GET' && url.startsWith('/github/repos/frontier/demo-auth/actions/runs?')) {
+        assert.equal(headers.authorization, 'Bearer gh_demo_token');
+        return { total_count: 1, workflow_runs: [{ id: 'gha_run_protocol_demo' }] };
+      }
+      if (method === 'GET' && url.startsWith('/github/repos/frontier/demo-auth/actions/runs/')) {
+        assert.equal(headers.authorization, 'Bearer gh_demo_token');
+        return { artifacts: [{ id: 1, name: 'proof-bundle' }] };
+      }
+      if (method === 'POST' && url === '/github/repos/frontier/demo-auth/git/refs') {
+        assert.equal(headers.authorization, 'Bearer gh_demo_token');
+        assert.match(String(json.ref || ''), /^refs\/heads\//);
+        return {
+          ref: json.ref,
+          object: { sha: json.sha || 'protocol-demo-sha' }
+        };
+      }
+      if (method === 'POST' && url === '/github/repos/frontier/demo-auth/pulls') {
+        assert.equal(headers.authorization, 'Bearer gh_demo_token');
+        return { number: 731, state: 'open' };
+      }
+      if (method === 'POST' && url === '/bitcoin-rpc') {
+        assert.match(String(headers.authorization || ''), /^Basic /);
+        if (json.method === 'sendtoaddress') {
+          return { result: 'btc_protocol_txid_1' };
+        }
+        if (json.method === 'gettransaction') {
+          return { result: { txid: 'btc_protocol_txid_1', confirmations: 2 } };
+        }
+      }
+      if (method === 'POST' && url === '/sidechain-rpc') {
+        assert.match(String(headers.authorization || ''), /^Basic /);
+        if (json.method === 'sendtoaddress') {
+          return { result: 'side_protocol_txid_1' };
+        }
+        if (json.method === 'gettransaction') {
+          return { result: { txid: 'side_protocol_txid_1', confirmations: 3 } };
+        }
+      }
+      if (method === 'POST' && url === '/compute/runs') {
+        assert.equal(headers.authorization, 'Bearer compute_demo_token');
+        return { runId: 'compute_protocol_run_1' };
+      }
+      if (method === 'GET' && url === '/compute/runs/compute_protocol_run_1') {
+        assert.equal(headers.authorization, 'Bearer compute_demo_token');
+        return {
+          executionId: 'exec_protocol_compute',
+          attestationRef: 'attest_protocol_compute',
+          imageDigest: 'sha256:protocol-compute-image',
+          outputArtifactRefs: ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json']
+        };
+      }
+      if (method === 'POST' && url === '/storage/publications') {
+        assert.equal(headers.authorization, 'Bearer storage_demo_token');
+        return { publicationId: 'storage_publication_1' };
+      }
+      if (method === 'GET' && url === '/storage/publications/storage_publication_1') {
+        assert.equal(headers.authorization, 'Bearer storage_demo_token');
+        return {
+          publishedArtifactCount: 2,
+          publishedScopeIds: ['proof-closure', 'settlement-closure']
+        };
+      }
+      return { status: 404, json: { error: 'not found' } };
+    });
+    t.after(async () => {
+      await executor.close();
+    });
+
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'staging',
+      ENGI_V24_ENABLE_BITCOIN_MAINCHAIN: '1',
+      ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_URL: `${executor.baseUrl}/bitcoin-rpc`,
+      ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_KIND: 'bitcoin-json-rpc-v1',
+      ENGI_V24_BITCOIN_MAINCHAIN_RPC_USER: 'btc_user',
+      ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD: 'btc_pass',
+      ENGI_V24_ENABLE_SIDECHAIN: '1',
+      ENGI_V24_SIDECHAIN_EXECUTOR_URL: `${executor.baseUrl}/sidechain-rpc`,
+      ENGI_V24_SIDECHAIN_EXECUTOR_KIND: 'sidechain-json-rpc-v1',
+      ENGI_V24_SIDECHAIN_RPC_USER: 'side_user',
+      ENGI_V24_SIDECHAIN_RPC_PASSWORD: 'side_pass',
+      ENGI_V24_ENABLE_COMPUTE: '1',
+      ENGI_V24_COMPUTE_EXECUTOR_URL: `${executor.baseUrl}/compute`,
+      ENGI_V24_COMPUTE_EXECUTOR_KIND: 'compute-http-v1',
+      ENGI_V24_COMPUTE_BEARER_TOKEN: 'compute_demo_token',
+      ENGI_V24_ENABLE_STORAGE: '1',
+      ENGI_V24_STORAGE_EXECUTOR_URL: `${executor.baseUrl}/storage`,
+      ENGI_V24_STORAGE_EXECUTOR_KIND: 'storage-http-v1',
+      ENGI_V24_STORAGE_BEARER_TOKEN: 'storage_demo_token',
+      ENGI_V24_ENABLE_GITHUB: '1',
+      ENGI_V24_GITHUB_EXECUTOR_URL: `${executor.baseUrl}/github`,
+      ENGI_V24_GITHUB_EXECUTOR_KIND: 'github-rest-v3',
+      ENGI_V24_GITHUB_BEARER_TOKEN: 'gh_demo_token'
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'checkpointed-sidechain-bridge',
+          principal: 'reviewer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(
+        response.json.latestRun.externalRealizationSummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').executorKind,
+        'github-rest-v3'
+      );
+      assert.equal(
+        response.json.latestRun.externalRealizationSummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').transportProtocol,
+        'github-rest-v3'
+      );
+
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.github.executorKind, 'github-rest-v3');
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.bitcoinMainchain.executorKind, 'bitcoin-json-rpc-v1');
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.sidechain.executorKind, 'sidechain-json-rpc-v1');
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.compute.executorKind, 'compute-http-v1');
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.storage.executorKind, 'storage-http-v1');
+      assert.equal(persisted.latestRun.githubPrUpdateReceipt.prNumber, 731);
+      assert.equal(persisted.latestRun.githubBranchPublicationReceipt.mutationState, 'live-github-branch-published');
+      assert.equal(persisted.latestRun.bitcoinNetworkExecution.executionState, 'live-network-broadcast-and-observed');
+      assert.equal(persisted.latestRun.bitcoinNetworkObservation.confirmationState, 'confirmed');
+      assert.equal(persisted.latestRun.sidechainExecutionReceipt.executionState, 'live-sidechain-checkpoint-observed');
+      assert.equal(persisted.latestRun.computeContainerExecution.executionState, 'live-container-executed');
+      assert.equal(persisted.latestRun.storagePublicationReceipt.publicationState, 'live-storage-published');
+      assert.equal(persisted.latestRun.storageRetrievalReceipt.retrievalState, 'live-storage-retrieved');
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').transportProtocol,
+        'github-rest-v3'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'bitcoin-mainchain-execution').transportProtocol,
+        'json-rpc-v1'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'compute-container-execution').transportProtocol,
+        'compute-http-v1'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'storage-container-execution').transportProtocol,
+        'storage-http-v1'
+      );
+      assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
+      assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
+      assert.equal(persisted.latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
+      assert.ok(executor.requests.some((entry) => entry.url.startsWith('/github/repos/frontier/demo-auth/actions/runs?')));
+      assert.ok(executor.requests.some((entry) => entry.url === '/bitcoin-rpc'));
+      assert.ok(executor.requests.some((entry) => entry.url === '/sidechain-rpc'));
+      assert.ok(executor.requests.some((entry) => entry.url === '/compute/runs'));
+      assert.ok(executor.requests.some((entry) => entry.url === '/storage/publications'));
     });
   });
 });
