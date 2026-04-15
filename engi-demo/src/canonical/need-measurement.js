@@ -221,8 +221,11 @@ import {
   computeProofClosure
 } from './proof-annotations.js';
 
+import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
 import { buildProfileCompositions } from '../demo-shell-state.js';
 import { buildRealizationProfile } from '../realization-profile.js';
+
+const ACTIVE_PROJECT_LABEL = Number.parseInt(ACTIVE_CANON_VERSION.replace(/^V/i, ''), 10) >= 25 ? 'Bitcode' : 'ENGI';
 
 /**
  * @param {BuiltPromptSurface[]} promptSurfaces
@@ -232,7 +235,7 @@ import { buildRealizationProfile } from '../realization-profile.js';
 function requirePromptSurface(promptSurfaces, promptId) {
   const promptSurface = promptSurfaces.find((surface) => surface.promptId === promptId);
   if (!promptSurface) {
-    throw new Error(`ENGI prompt surface missing for ${promptId}.`);
+    throw new Error(`${ACTIVE_PROJECT_LABEL} prompt surface missing for ${promptId}.`);
   }
   return promptSurface;
 }
@@ -627,7 +630,7 @@ export function createNeedMeasurementRuntime({
     const canonicalBenchmarkOutputs = parser.parse(scenario.canonicalRunEvidence);
     const parserValidation = parser.validate(canonicalBenchmarkOutputs);
     if (!parserValidation.ok) {
-      throw new Error(`ENGI parser validation failed: ${parserValidation.reasons.join('; ')}`);
+      throw new Error(`${ACTIVE_PROJECT_LABEL} parser validation failed: ${parserValidation.reasons.join('; ')}`);
     }
     const parserReceipt = buildStaticExecutionReceipt({
       receiptKind: 'benchmark-parser-normalization',
@@ -745,7 +748,7 @@ export function createNeedMeasurementRuntime({
       buildPromptSurface({
         promptId: 'need-measurement.task.v2',
         purpose: 'Synthesize the canonical engineering need statement from benchmark evidence.',
-        template: 'You are measuring an ENGI remediation need for repo {{repo}} on branch {{baseRef}} after GitHub run {{benchmarkRunId}}. Failing cases: {{failingCases}}. Weak dimensions: {{weakDimensions}}. Touched paths: {{touchedPaths}}. Constraints: {{constraints}}. Produce a concise task statement that preserves rollback safety and session validity.',
+        template: `You are measuring a ${ACTIVE_PROJECT_LABEL} remediation need for repo {{repo}} on branch {{baseRef}} after GitHub run {{benchmarkRunId}}. Failing cases: {{failingCases}}. Weak dimensions: {{weakDimensions}}. Touched paths: {{touchedPaths}}. Constraints: {{constraints}}. Produce a concise task statement that preserves rollback safety and session validity.`,
         values: { repo: scenario.repo, baseRef: scenario.baseRef, benchmarkRunId: scenario.benchmarkRunId, failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, touchedPaths: repoCodeAnalysis.touchedPaths, constraints },
         contextInputs: [
           { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/need.json'] },
@@ -762,7 +765,7 @@ export function createNeedMeasurementRuntime({
       buildPromptSurface({
         promptId: 'need-measurement.failure-modes.v2',
         purpose: 'Normalize failure modes from canonical benchmark evidence into remediation language.',
-        template: 'Given failing cases {{failingCases}} and weak dimensions {{weakDimensions}} for repo {{repo}}, derive the concrete failure modes that must be addressed in the private ENGI remediation branch.',
+        template: `Given failing cases {{failingCases}} and weak dimensions {{weakDimensions}} for repo {{repo}}, derive the concrete failure modes that must be addressed in the private ${ACTIVE_PROJECT_LABEL} remediation branch.`,
         values: { failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, repo: scenario.repo },
         contextInputs: [
           { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.engi/need.json'] },
@@ -775,7 +778,7 @@ export function createNeedMeasurementRuntime({
       buildPromptSurface({
         promptId: 'need-measurement.constraints.v2',
         purpose: 'Derive safety and governance constraints that the branch flow must honor.',
-        template: 'Use weak dimensions {{weakDimensions}}, benchmark run {{benchmarkRunId}}, and repo privacy expectations to derive the non-negotiable constraints for this ENGI branch. Include rollback safety, privacy, and auditability where supported.',
+        template: `Use weak dimensions {{weakDimensions}}, benchmark run {{benchmarkRunId}}, and repo privacy expectations to derive the non-negotiable constraints for this ${ACTIVE_PROJECT_LABEL} branch. Include rollback safety, privacy, and auditability where supported.`,
         values: { weakDimensions: canonicalBenchmarkOutputs.weakDimensions, benchmarkRunId: scenario.benchmarkRunId },
         contextInputs: [
           { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.engi/need-measurement.json'] },
@@ -802,7 +805,7 @@ export function createNeedMeasurementRuntime({
       buildPromptSurface({
         promptId: 'need-measurement.closure-criteria.v2',
         purpose: 'Derive the explicit closure criteria that determine whether the private remediation branch satisfies the measured need.',
-        template: 'Using failing cases {{failingCases}}, weak dimensions {{weakDimensions}}, target artifact kinds {{targetArtifactKinds}}, and constraints {{constraints}}, enumerate the concrete closure criteria ENGI must satisfy before the need is considered closed.',
+        template: `Using failing cases {{failingCases}}, weak dimensions {{weakDimensions}}, target artifact kinds {{targetArtifactKinds}}, and constraints {{constraints}}, enumerate the concrete closure criteria ${ACTIVE_PROJECT_LABEL} must satisfy before the need is considered closed.`,
         values: {
           failingCases: canonicalBenchmarkOutputs.failingCases,
           weakDimensions: canonicalBenchmarkOutputs.weakDimensions,

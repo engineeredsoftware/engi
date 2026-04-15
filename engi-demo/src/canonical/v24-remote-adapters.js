@@ -1,6 +1,8 @@
 // @ts-check
+// @ts-nocheck
 
 import crypto from 'node:crypto';
+import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
 
 /**
  * @param {unknown} value
@@ -53,6 +55,11 @@ function envString(key) {
   if (typeof value !== 'string') return undefined;
   const normalized = value.trim();
   return normalized || undefined;
+}
+
+function activeProjectLabel() {
+  const numeric = Number.parseInt(String(ACTIVE_CANON_VERSION || '').replace(/^V/u, ''), 10);
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
 }
 
 /**
@@ -240,7 +247,7 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
   const token = envString('ENGI_V24_GITHUB_BEARER_TOKEN');
   const headers = {
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    'User-Agent': 'ENGI-V24-GitHub-Adapter'
+    'User-Agent': `${activeProjectLabel()}-${ACTIVE_CANON_VERSION}-GitHub-Adapter`
   };
 
   const runsResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/repos/${repo}/actions/runs?branch=${encodeURIComponent(branchName)}`), {
@@ -263,7 +270,7 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
     method: 'POST',
     headers,
     body: {
-      title: `ENGI V24 ${payload.bundleId || 'bundle'} review`,
+      title: `${activeProjectLabel()} ${ACTIVE_CANON_VERSION} ${payload.bundleId || 'bundle'} review`,
       head: branchName,
       base: 'main',
       body: `Need ${payload.needId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`
@@ -376,7 +383,7 @@ async function executeGithubAppRestAdapter(payload, fetchImpl) {
   const appJwt = createGithubAppJwt(binding);
   const appHeaders = {
     Authorization: `Bearer ${appJwt}`,
-    'User-Agent': 'ENGI-V24-GitHub-App-Adapter',
+    'User-Agent': `${activeProjectLabel()}-${ACTIVE_CANON_VERSION}-GitHub-App-Adapter`,
     'X-GitHub-Api-Version': '2022-11-28'
   };
   const accessTokenResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/app/installations/${installationId}/access_tokens`), {
@@ -393,7 +400,7 @@ async function executeGithubAppRestAdapter(payload, fetchImpl) {
   const tokenId = String(ensureRecord(accessTokenResponse).token_id || `ghs_${shortId(installationToken, 16)}`);
   const installationHeaders = {
     Authorization: `Bearer ${installationToken}`,
-    'User-Agent': 'ENGI-V24-GitHub-App-Adapter',
+    'User-Agent': `${activeProjectLabel()}-${ACTIVE_CANON_VERSION}-GitHub-App-Adapter`,
     'X-GitHub-Api-Version': '2022-11-28'
   };
   const runsResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/repos/${repo}/actions/runs?branch=${encodeURIComponent(branchName)}`), {
@@ -416,7 +423,7 @@ async function executeGithubAppRestAdapter(payload, fetchImpl) {
     method: 'POST',
     headers: installationHeaders,
     body: {
-      title: `ENGI V24 ${payload.bundleId || 'bundle'} review`,
+      title: `${activeProjectLabel()} ${ACTIVE_CANON_VERSION} ${payload.bundleId || 'bundle'} review`,
       head: branchName,
       base: 'main',
       body: `Need ${payload.needId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`

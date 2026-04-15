@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { ACTIVE_CANON_VERSION } from '../engi-demo/src/canon-posture.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,7 +54,12 @@ export function isSpecRelevantPath(stagedPath) {
  * @param {{ repoRoot: string, qualityScript: string }} options
  */
 export function runPreCommitCheck({ repoRoot, qualityScript }) {
-  const activeVersion = readFileSync(path.join(repoRoot, 'ENGI_SPEC.txt'), 'utf8').trim();
+  let activeVersion = ACTIVE_CANON_VERSION;
+  try {
+    activeVersion = readFileSync(path.join(repoRoot, 'ENGI_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
+  } catch {
+    activeVersion = ACTIVE_CANON_VERSION;
+  }
   const label = projectLabel(activeVersion);
   const staged = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACMR'], {
     cwd: repoRoot,

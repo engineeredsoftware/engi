@@ -10,7 +10,7 @@ export function buildDemoScenario(state) {
   const query = 'enterprise auth migration rollback for monorepo services with issuer mismatch';
 
   const scenario = {
-    title: 'ENGI gold-path demo',
+    title: 'Bitcode gold-path demo',
     objective,
     query,
     defaultOrgId: defaultOrg?.orgId || null,

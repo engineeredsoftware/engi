@@ -1148,6 +1148,12 @@ export function renderCanonicalProvenMarkdown(data) {
   if (v24) {
     lines.push('## V24 External-Realization and Canon Reports');
     lines.push('');
+    lines.push(`- realizedExternalProofFamilies: ${[
+      'external-realization-execution',
+      'containerized-reality',
+      'github-live-interface'
+    ].map(markdownCode).join(', ')}`);
+    lines.push('');
     lines.push('### V24 Generated Artifact Inventory');
     lines.push('');
     lines.push(renderMarkdownTable(
@@ -1216,6 +1222,9 @@ export function renderCanonicalProvenMarkdown(data) {
   }
   if (v25) {
     lines.push('## V25 Bitcode Rename and Canon Reports');
+    lines.push('');
+    lines.push(`- projectRenameTarget: ${markdownCode('Bitcode')}`);
+    lines.push(`- denominationRenameTarget: ${markdownCode('BTD')}`);
     lines.push('');
     lines.push('### V25 Generated Artifact Inventory');
     lines.push('');
@@ -1976,13 +1985,11 @@ function buildV25ProvenPackage(baseData, {
 }) {
   const specFamilyReport = buildV21SpecFamilyReport({
     version: 'V25',
-    mode: 'draft',
-    currentTarget: 'V24'
+    mode: 'promoted'
   });
   const canonicalInputReport = buildV21CanonicalInputReport({
-    currentTarget: 'V24',
+    currentTarget: 'V25',
     reportVersion: 'V25',
-    proofAppendixPath: 'ENGI_SPEC_V25_PROVEN.md',
     assumeExistingRelativePaths: [
       'ENGI_SPEC_V25_PROVEN.md',
       '.engi/v25-spec-family-report.json',
@@ -1992,8 +1999,8 @@ function buildV25ProvenPackage(baseData, {
   });
   const canonPostureDriftReport = buildV25CanonPostureDriftReport({
     version: 'V25',
-    activeCanonVersion: 'V24',
-    draftTargetVersion: 'V25',
+    activeCanonVersion: 'V25',
+    draftTargetVersion: 'V26',
     proofSourceCommit: baseData.canonicalCommit,
     generatedAt,
     generatorId: baseData.generatorId,
@@ -2028,8 +2035,8 @@ function buildV25ProvenPackage(baseData, {
         && inheritedV19?.contractChangeLedger?.passed === true
         && inheritedV20?.qualitySummary?.passed === true
         && specFamilyReport.passed === true
-        && canonicalInputReport.passed === false
-        && canonPostureDriftReport.passed === false
+        && canonicalInputReport.passed === true
+        && canonPostureDriftReport.passed === true
     }
   };
   return {

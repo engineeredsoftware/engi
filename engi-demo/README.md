@@ -1,11 +1,11 @@
-# Bitcode Demo - V24 canonical deterministic local prototype
+# Bitcode Demo - V25 canonical deterministic local prototype
 
-This demo is governed by the active V24 canonical spec and serves as the current deterministic local realization of the full Bitcode operating chain while V25 drafts the rename-complete implementation pass.
+This demo is governed by the active V25 canonical spec and serves as the current deterministic local realization of the full Bitcode operating chain while V26 drafts the next rename-complete implementation pass.
 
 Current spec/doc truth for this repo:
-- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V24`
-- V24 is the current canonical/latest target and governing full-system spec
-- `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix
+- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
+- V25 is the current canonical/latest target and governing full-system spec
+- `ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix
 - the next-version draft family opens in the matching `ENGI_SPEC_VN.md`, `ENGI_SPEC_VN_DELTA.md`, and `ENGI_SPEC_VN_PARITY_MATRIX.md` files when that work begins
 - optional `ENGI_SPEC_VN_NOTES.md` files are non-canonical working notes only
 

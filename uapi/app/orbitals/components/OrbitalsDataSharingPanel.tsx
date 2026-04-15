@@ -134,7 +134,7 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
         </h3>
       <p className="text-sm text-slate-400 mb-4">
         Select repositories to opt into knowledge procurement. You can earn extra
-        <span className="text-teal-300 font-semibold mx-1">$ENGI</span> by sharing
+        <span className="text-teal-300 font-semibold mx-1">$BTD</span> by sharing
         code snapshots.
       </p>
 

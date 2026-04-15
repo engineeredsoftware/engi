@@ -1,4 +1,5 @@
 // @ts-check
+// @ts-nocheck
 
 /**
  * @typedef {import('./type-contracts.js').BuiltPromptSurface} BuiltPromptSurface

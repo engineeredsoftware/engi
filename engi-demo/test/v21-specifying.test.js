@@ -13,6 +13,11 @@ const scriptPath = fileURLToPath(new URL('../../scripts/check-engi-spec-family.m
 const canonicalInputsScriptPath = fileURLToPath(new URL('../../scripts/check-engi-canonical-inputs.mjs', import.meta.url));
 const preparePromotionScriptPath = fileURLToPath(new URL('../../scripts/prepare-engi-spec-family-promotion.mjs', import.meta.url));
 
+function projectLabel(version) {
+  const numeric = Number.parseInt(String(version || '').replace(/^V/u, ''), 10);
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
 /**
  * @param {string[]} args
  * @param {string} cwd
@@ -656,7 +661,7 @@ async function writeProperFixture(options = {}) {
 
 test(`real ${ACTIVE_CANON_VERSION} promoted spec family passes structural promoted-mode checking`, () => {
   const output = runCheck(['--version', ACTIVE_CANON_VERSION, '--mode', 'promoted'], repoRoot);
-  assert.match(output, new RegExp(`ENGI spec family ok for ${ACTIVE_CANON_VERSION}`));
+  assert.match(output, new RegExp(`${projectLabel(ACTIVE_CANON_VERSION)} spec family ok for ${ACTIVE_CANON_VERSION}`));
   assert.match(output, /mode=promoted/);
 });
 
@@ -668,7 +673,7 @@ test('real V20_PROPER draft spec family passes historical draft-mode checking', 
 
 test(`real canonical input set for active ${ACTIVE_CANON_VERSION} canon passes input checking`, () => {
   const output = runCanonicalInputCheck(['--current-target', ACTIVE_CANON_VERSION], repoRoot);
-  assert.match(output, new RegExp(`ENGI canonical inputs ok for ${ACTIVE_CANON_VERSION}`));
+  assert.match(output, new RegExp(`${projectLabel(ACTIVE_CANON_VERSION)} canonical inputs ok for ${ACTIVE_CANON_VERSION}`));
   assert.match(output, /artifacts=3/);
 });
 

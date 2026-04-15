@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Simple verification script for Engi UI SSOT compliance and perf guards.
+// Simple verification script for Bitcode UI SSOT compliance and perf guards.
 // Runs a series of greps to assert architectural invariants. Exits non-zero on failure.
 
 import { execSync } from 'node:child_process';
@@ -37,7 +37,7 @@ function assertSome(cmd, msg) {
   console.log(`[OK] ${msg}`);
 }
 
-console.log('Engi UI SSOT verification start');
+console.log('Bitcode UI SSOT verification start');
 
 // 1) No imports from vendored ui in app/VCS
 const banned = "@/components/ui/(button|card|input|label|select|tabs|dialog|alert-dialog|dropdown-menu|avatar|switch|textarea|progress|checkbox|popover|collapsible|command|calendar|tooltip|table|badge|alert)";
@@ -64,5 +64,5 @@ assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/app/conversati
 // 7) STYLE.md contains the Style PR Checklist
 assertSome("rg -n " + JSON.stringify("Style PR Checklist") + " internal-docs/STYLE.md || true", "STYLE.md includes Style PR Checklist");
 
-console.log('Engi UI SSOT verification passed');
+console.log('Bitcode UI SSOT verification passed');
 process.exit(0);

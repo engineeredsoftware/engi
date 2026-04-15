@@ -425,7 +425,7 @@ export function createAppContext({
     return {
       title,
       author,
-      organization: body.organization || '$ENGI',
+      organization: body.organization || '$BTD',
       artifactKind: String(body.artifactKind || '').trim() || (inferredKinds.length === 1 ? inferredKinds[0] : inferredKinds.length ? 'mixed' : 'mixed'),
       artifactType: String(body.artifactType || '').trim() || (inferredTypes.length === 1 ? inferredTypes[0] : undefined),
       visualPreview,
@@ -503,18 +503,20 @@ export function createAppContext({
           paymentMode
         };
         const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
+        const stateRecord = /** @type {any} */ (state);
         const realizedLatestRun = await realizeV24LiveExternalExecution(latestRun, {
           executorHandlers: v24LocalExecutorHandlers,
-          priorLatestRun: state.latestRun || null,
-          priorExternalExecutionLedger: state.externalExecutionLedger || null
+          priorLatestRun: stateRecord.latestRun || null,
+          priorExternalExecutionLedger: stateRecord.externalExecutionLedger || null
         });
-        const priorReconciliationLog = Array.isArray(state.externalReconciliationLog) ? state.externalReconciliationLog : [];
+        const realizedRunRecord = /** @type {any} */ (realizedLatestRun);
+        const priorReconciliationLog = Array.isArray(stateRecord.externalReconciliationLog) ? stateRecord.externalReconciliationLog : [];
         const persistedState = {
           ...nextState,
           latestRun: realizedLatestRun,
-          externalExecutionLedger: realizedLatestRun.externalExecutionLedger || state.externalExecutionLedger || null,
-          externalReconciliationLog: realizedLatestRun.externalReconciliationLog
-            ? [...priorReconciliationLog.slice(-31), realizedLatestRun.externalReconciliationLog]
+          externalExecutionLedger: realizedRunRecord.externalExecutionLedger || stateRecord.externalExecutionLedger || null,
+          externalReconciliationLog: realizedRunRecord.externalReconciliationLog
+            ? [...priorReconciliationLog.slice(-31), realizedRunRecord.externalReconciliationLog]
             : priorReconciliationLog
         };
         writeState(persistedState);
@@ -621,6 +623,6 @@ export async function startServer({ port = DEFAULT_PORT, host = '127.0.0.1', ...
 if (process.argv[1] && import.meta.url === new URL(process.argv[1], 'file://').href) {
   const host = process.env['HOST'] || '127.0.0.1';
   startServer({ port: DEFAULT_PORT, host }).then(({ port }) => {
-    console.log(`ENGI demo listening on http://${host}:${port}`);
+    console.log(`Bitcode demo listening on http://${host}:${port}`);
   });
 }

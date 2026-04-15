@@ -2,19 +2,22 @@
 
 ## Status
 
-- Scope: V25 draft canonical system specification for a simple but full project rename from `ENGI` to `Bitcode`, including denomination rename from `NGI` to `BTD`, after V24 external-realization canon
-- Current canonical/latest target: `V24`
+- Scope: V25 canonical system specification for a simple but full project rename from ENGI to Bitcode, including denomination rename from NGI to BTD, after V24 external-realization canon
+- Current canonical/latest target: `V25`
+- Canonical proof-source commit: `db25cc83898c6c7b7df1130033ecd3737cfc04cd`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `.engi/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; `ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix for V25
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_NOTES.md`
 - Companion delta file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_DELTA.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PARITY_MATRIX.md`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PROVEN.md`
 - Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
+- Source parity state: V25 source-side Bitcode/BTD rename closure, brand-aware generated evidence, runtime/demo/site rename alignment, and promotion-time rename preparation are canonicalized in the promoted V25 file family
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V24'` and `DRAFT_TARGET_VERSION = 'V25'`
-- V25 state: draft family opened; V24 remains the active canon while V25 defines a rename-complete successor
+- V25 state: canonical promotion complete; V25 is the active Bitcode rename canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned
+- Last fully realized canonical target preserved in source: `V25`
 
 ## Drafting and acceptance state
 
@@ -73,6 +76,8 @@ Promoted V25 must satisfy both of these conditions simultaneously:
    - generated proof/report headings move from `ENGI` to `Bitcode`,
    - active denomination naming moves from `NGI` to `BTD`,
    - and active public, API, demo, and runtime presentation must no longer self-identify as ENGI except for historical provenance or compatibility disclosures.
+   - the promoted rename target is that any active public or operator surface no longer presents itself as ENGI.
+   - the promoted rename target is that any active denomination-bearing surface no longer presents itself as NGI.
 
 2. Semantic invariance:
    - V25 must not silently change proof obligations, settlement logic, disclosure posture, external-interface contract, or fail-closed behavior merely because names changed,
@@ -162,6 +167,42 @@ V25 must explicitly define:
 - whether `ENGI_SPEC_V25*` filenames remain as repo-local drafting and tooling carriers even if the project-facing identity becomes Bitcode,
 - how ENGI historical references remain available for provenance without confusing the active product identity,
 - and how NGI historical references remain available for provenance without confusing the active denomination identity.
+
+## V25 generated canon
+
+### Exact generated-artifact inventory matrix
+
+Promoted V25 must emit and classify:
+- `ENGI_SPEC_V25_PROVEN.md`
+- `.engi/v25-spec-family-report.json`
+- `.engi/v25-canonical-input-report.json`
+- `.engi/v25-canon-posture-drift-report.json`
+
+Those artifacts remain repo-local and `.engi/*`-scoped in V25 even while the active public identity becomes Bitcode and the active denomination becomes BTD.
+
+### Minimum generated appendix rendered contents
+
+The V25 generated appendix must render:
+- aggregate proof verdict,
+- exact per-family member inventory,
+- exact per-family theorem inventory,
+- exact replay-step inventories and theorem bindings,
+- witness artifact inventories,
+- generated artifact inventories,
+- scenario and run coverage matrices,
+- proof-source commit,
+- and explicit BTD-denominated rename closure language where V25 changes current-facing naming.
+
+### Canonical regeneration and fail-closed posture
+
+V25 regeneration must fail closed when:
+- `ENGI_SPEC_V25_PROVEN.md` does not match the active generated proof appendix truth,
+- `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, or `.engi/v25-canon-posture-drift-report.json` are missing,
+- active runtime, API, UI, generated evidence, or build/process surfaces no longer present themselves as Bitcode,
+- active settlement and ledger surfaces no longer present themselves as BTD,
+- any active public or operator surface no longer presents itself as ENGI,
+- any active denomination-bearing surface no longer presents itself as NGI,
+- or rename work silently changes proof, settlement, disclosure, or external-interface semantics.
 
 ## V25 accepted drafting decisions
 

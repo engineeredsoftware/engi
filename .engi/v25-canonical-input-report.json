@@ -1,0 +1,18 @@
+{
+  "reportId": "v25-canonical-input-report",
+  "version": "V25",
+  "proofSourceCommit": "db25cc83898c6c7b7df1130033ecd3737cfc04cd",
+  "generatedAt": "2026-04-15T15:05:03-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedTargetVersion": "V25",
+  "pointerVersion": "V25",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "ENGI_SPEC_V25.md",
+  "provenPath": "ENGI_SPEC_V25_PROVEN.md",
+  "parityPath": "ENGI_SPEC_V25_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [],
+  "requiredGeneratedArtifactCount": 0
+}

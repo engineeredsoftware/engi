@@ -47,12 +47,17 @@ function normalizeWhitespace(value) {
 }
 
 /**
- * @param {string} version
+ * @param {string} activeCanonVersion
+ * @param {string} [draftTargetVersion='']
  * @returns {'ENGI' | 'Bitcode'}
  */
-function projectLabel(version) {
-  const numeric = Number.parseInt(String(version).replace(/^V/u, ''), 10);
-  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+function projectLabel(activeCanonVersion, draftTargetVersion = '') {
+  const activeNumeric = Number.parseInt(String(activeCanonVersion || '').replace(/^V/u, ''), 10);
+  const draftNumeric = Number.parseInt(String(draftTargetVersion || '').replace(/^V/u, ''), 10);
+  return (Number.isInteger(activeNumeric) && activeNumeric >= 25)
+    || (Number.isInteger(draftNumeric) && draftNumeric >= 25)
+    ? 'Bitcode'
+    : 'ENGI';
 }
 
 /**
@@ -87,7 +92,7 @@ export function buildCanonPostureDriftReport({
   const indexContent = readFileSync(indexPath, 'utf8');
   const appContent = readFileSync(appPath, 'utf8');
   const serverContent = readFileSync(serverPath, 'utf8');
-  const activeProjectLabel = projectLabel(activeCanonVersion);
+  const activeProjectLabel = projectLabel(activeCanonVersion, draftTargetVersion);
 
   const initialState = buildInitialState();
   const projectedState = publicState(initialState, 'public');

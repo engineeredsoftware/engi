@@ -410,6 +410,35 @@ function buildCommandPlan(version, commit) {
 }
 
 /**
+ * @param {Array<[string, string[]]>} commands
+ * @param {{ allowDirtyStart?: boolean | undefined, dirty?: boolean | undefined }} options
+ * @returns {Array<[string, string[]]>}
+ */
+function rewriteCommandPlanForEnvironment(commands, { allowDirtyStart = false, dirty = false } = {}) {
+  if (!allowDirtyStart || !dirty) return commands;
+  return commands.map(([file, commandArgs]) => {
+    if (file !== 'node' || commandArgs[0] !== 'scripts/generate-engi-proven.mjs') {
+      return [file, [...commandArgs]];
+    }
+    /** @type {string[]} */
+    const rewrittenArgs = [];
+    for (let index = 0; index < commandArgs.length; index += 1) {
+      const arg = commandArgs[index];
+      if (arg === '--worktree-state') {
+        rewrittenArgs.push(arg, 'dirty-preview');
+        index += 1;
+        continue;
+      }
+      rewrittenArgs.push(arg);
+    }
+    if (!rewrittenArgs.includes('--allow-dirty')) {
+      rewrittenArgs.push('--allow-dirty');
+    }
+    return [file, rewrittenArgs];
+  });
+}
+
+/**
  * @param {string} commit
  * @returns {Promise<string>}
  */
@@ -742,7 +771,10 @@ async function main() {
     throw new Error('Refusing canonical promotion from a dirty worktree. Commit or stash changes first, or use --allow-dirty-start for preview use.');
   }
 
-  const commands = buildCommandPlan(version, resolvedCommit);
+  const commands = rewriteCommandPlanForEnvironment(buildCommandPlan(version, resolvedCommit), {
+    allowDirtyStart: args.allowDirtyStart,
+    dirty: Boolean(dirty)
+  });
   process.stdout.write(`${version} canonical promotion plan for ${resolvedCommit}\n`);
   for (const [file, commandArgs] of commands) {
     process.stdout.write(`- ${renderCommand(file, commandArgs)}\n`);

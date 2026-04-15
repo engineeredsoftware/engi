@@ -10,7 +10,7 @@ export default function DemoVideoPage() {
             Demonstration video
           </p>
           <h1 className="max-w-[16ch] text-[2.35rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[2.9rem] tablet:text-[3.6rem]">
-            Watch the ENGI demonstration video.
+            Watch the Bitcode demonstration video.
           </h1>
           <p className="max-w-[42rem] text-[17px] leading-8 text-white/78">
             This host-side page keeps a stable URL for the recorded walkthrough while the standalone

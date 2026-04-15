@@ -1271,7 +1271,7 @@ export function buildV21CanonicalInputReport({
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const checkedTarget = currentTarget || pointerVersion;
   const resolvedReportVersion = reportVersion
-    || (['V21', 'V22', 'V23', 'V24'].includes(checkedTarget) ? checkedTarget : 'V21');
+    || (['V21', 'V22', 'V23', 'V24', 'V25'].includes(checkedTarget) ? checkedTarget : 'V21');
   const assumedExistingPaths = new Set(
     assumeExistingRelativePaths.map((relativePath) => path.resolve(resolvedRepoRoot, relativePath))
   );

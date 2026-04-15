@@ -1,0 +1,35 @@
+{
+  "reportId": "v25-spec-family-report",
+  "version": "V25",
+  "proofSourceCommit": "db25cc83898c6c7b7df1130033ecd3737cfc04cd",
+  "generatedAt": "2026-04-15T15:05:03-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedVersion": "V25",
+  "mode": "promoted",
+  "currentTarget": "V25",
+  "pointerVersion": "V25",
+  "passed": false,
+  "failureCount": 2,
+  "failures": [
+    "parity promoted-mode validation requires a populated implementation matrix table.",
+    "parity promoted-mode validation requires a populated implementation checklist table."
+  ],
+  "requiredFiles": [
+    "ENGI_SPEC_V25.md",
+    "ENGI_SPEC_V25_DELTA.md",
+    "ENGI_SPEC_V25_PARITY_MATRIX.md"
+  ],
+  "supportFiles": [
+    "ENGI_SPECIFYING.md",
+    "ENGI_SPEC_TEMPLATEGUIDE.md"
+  ],
+  "requiredStatusLabelCount": 4,
+  "requiredPromotedStatusLabelCount": 1,
+  "requiredSpecSectionCount": 14,
+  "requiredAppendixSectionCount": 0,
+  "requiredProofFamilyCount": 0,
+  "requiredGeneratedArtifactCatalogSectionCount": 0,
+  "requiredGeneratedArtifactPathCount": 3,
+  "requiredSubsystemCoverageCount": 9
+}

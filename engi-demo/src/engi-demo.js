@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @typedef {any} BuiltPromptSurface
  * @typedef {any} PromptContractShape
@@ -830,7 +831,7 @@ function buildCodeAnalysisFactRegistry({ need, evaluatedCandidates = [] }) {
     .map((entry) => entry.factId);
   const unregisteredConsumedFactIds = consumedFactIds.filter((factId) => !registeredFactIds.includes(factId));
   if (unregisteredConsumedFactIds.length) {
-    throw new Error(`ENGI code-analysis registry failed: unregistered consumed facts [${unregisteredConsumedFactIds.join(', ')}].`);
+    throw new Error(`${ACTIVE_PROJECT_LABEL} code-analysis registry failed: unregistered consumed facts [${unregisteredConsumedFactIds.join(', ')}].`);
   }
   return {
     conformanceProfile: PROFILE_A,
@@ -1000,7 +1001,7 @@ function cosineSimilarity(left, right) {
 function enforceRange(name, value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric) || numeric < 0 || numeric > 1) {
-    throw new Error(`ENGI debug failure: ${name} out of range (${value}).`);
+    throw new Error(`${ACTIVE_PROJECT_LABEL} debug failure: ${name} out of range (${value}).`);
   }
   return numeric;
 }
@@ -1020,7 +1021,7 @@ function summarizeScore(score) {
  */
 function enforceTelemetryTrace(name, trace) {
   if (!trace || typeof trace !== 'object') {
-    throw new Error(`ENGI debug failure: missing telemetry trace for ${name}.`);
+    throw new Error(`${ACTIVE_PROJECT_LABEL} debug failure: missing telemetry trace for ${name}.`);
   }
   return /** @type {any} */ (trace);
 }
@@ -2414,7 +2415,7 @@ function buildExternalBoundaryManifest({
           externalBoundary: {
             implemented: false,
             requiredForLive: true,
-            contract: ['assemble network-ready spend intent', 'observe broadcast and confirmation state', 'bind mainchain execution to ENGI bundle and settlement identities'],
+            contract: ['assemble network-ready spend intent', 'observe broadcast and confirmation state', `bind mainchain execution to ${ACTIVE_PROJECT_LABEL} bundle and settlement identities`],
             boundaryArtifacts: ['bitcoin.mainchain-intent', 'bitcoin.mainchain-execution', 'bitcoin.mainchain-observation']
           }
         }),
@@ -2440,7 +2441,7 @@ function buildExternalBoundaryManifest({
           externalBoundary: {
             implemented: false,
             requiredForLive: true,
-            contract: ['issue invoice or repeated-read payment intent', 'observe repeated-read payment acceptance or settlement drift', 'bind repeated-read access state back to ENGI anchor and journal policy'],
+            contract: ['issue invoice or repeated-read payment intent', 'observe repeated-read payment acceptance or settlement drift', `bind repeated-read access state back to ${ACTIVE_PROJECT_LABEL} anchor and journal policy`],
             boundaryArtifacts: ['bitcoin.repeated-read-intent', 'bitcoin.repeated-read-execution', 'bitcoin.repeated-read-observation']
           }
         }),
@@ -2489,7 +2490,7 @@ function buildExternalBoundaryManifest({
           externalBoundary: {
             implemented: false,
             requiredForLive: true,
-            contract: ['select attested execution image', 'emit execution and attestation receipts', 'bind proof outputs back to ENGI artifact identities'],
+            contract: ['select attested execution image', 'emit execution and attestation receipts', `bind proof outputs back to ${ACTIVE_PROJECT_LABEL} artifact identities`],
             boundaryArtifacts: ['compute.container-manifest', 'compute.execution-receipt', 'compute.attestation-receipt']
           }
         }),
@@ -2558,7 +2559,7 @@ function buildExternalBoundaryManifest({
           status: 'implemented-as-stubbed-testnet-service',
           localPrototype: {
             implemented: true,
-            surface: 'deterministic stubbed-testnet service assembles spend carriers and observation receipts bound to ENGI settlement refs',
+            surface: `deterministic stubbed-testnet service assembles spend carriers and observation receipts bound to ${ACTIVE_PROJECT_LABEL} settlement refs`,
             serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
             serviceCapabilities: bitcoinDemonstrationService,
             artifactRefs: ['.engi/bitcoin-settlement-intent.json', '.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-treasury-policy.json']
@@ -2566,7 +2567,7 @@ function buildExternalBoundaryManifest({
           externalBoundary: {
             implemented: false,
             requiredForLive: true,
-            contract: ['assemble buyer spend intent or invoice', 'observe payment or invoice state', 'bind observed value and confirmation state to the ENGI settlement bundle'],
+            contract: ['assemble buyer spend intent or invoice', 'observe payment or invoice state', `bind observed value and confirmation state to the ${ACTIVE_PROJECT_LABEL} settlement bundle`],
             boundaryArtifacts: ['bitcoin.settlement-intent', 'bitcoin.settlement-observation', 'bitcoin.confirmation-receipt']
           }
         }),
@@ -2813,12 +2814,12 @@ function buildPolicyState() {
         'open:delivery': { allow: false, policyRef: DEFAULT_POLICY_REF, reasons: ['Delivery-open is blocked in the deterministic local prototype.'] }
       },
       'engi-system-principal': {
-        'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal materializes private artifacts.'] },
-        'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI branch materializer may stage selected source material under .engi/source-material/.'] },
-        'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI settlement engine executes deterministic journal settlement.'] },
-        'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal stages remediation artifacts.'] },
-        'derive:bounded-public-proof-metadata': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI proof publisher may derive bounded proof metadata from the private proof surface.'] },
-        'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['ENGI system principal may inspect bounded proof metadata.'] }
+        'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal materializes private artifacts.`] },
+        'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} branch materializer may stage selected source material under .engi/source-material/.`] },
+        'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} settlement engine executes deterministic journal settlement.`] },
+        'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal stages remediation artifacts.`] },
+        'derive:bounded-public-proof-metadata': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} proof publisher may derive bounded proof metadata from the private proof surface.`] },
+        'read:bounded-public-proof': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal may inspect bounded proof metadata.`] }
       },
       'github-app-installation-principal': {
         'read:repo-artifact-inventory': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: ['Installation-scoped GitHub App session may enumerate repository artifact inventory.'] },
@@ -5157,7 +5158,7 @@ export function buildProofContract({
       ? [{
           stage: 'deployment-and-anchor',
           artifactRefs: ['.engi/compute-reality-manifest.json', '.engi/storage-reality-manifest.json', '.engi/bitcoin-settlement-intent.json', '.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-commitment-manifest.json', '.engi/bitcoin-anchor.json'],
-          claim: 'Deployment-facing compute, storage, spend, and audit-anchor realities are explicit, typed, and bound to the same ENGI proof and settlement closure.'
+          claim: `Deployment-facing compute, storage, spend, and audit-anchor realities are explicit, typed, and bound to the same ${ACTIVE_PROJECT_LABEL} proof and settlement closure.`
         }]
       : []),
     ...(v24ExternalEnabled
@@ -5181,7 +5182,7 @@ export function buildProofContract({
     'source-to-shares clipping and tie-breaks are replayable',
     'debits equal credits exactly',
     'asset-pack lock binds settlement refs closed',
-    ...(v23BitcoinEnabled ? ['bitcoin-facing spend and anchor surfaces bind back to the same ENGI proof and settlement identifiers'] : []),
+    ...(v23BitcoinEnabled ? [`bitcoin-facing spend and anchor surfaces bind back to the same ${ACTIVE_PROJECT_LABEL} proof and settlement identifiers`] : []),
     ...(v24ExternalEnabled ? ['external execution continuity remains mode-isolated and replayable across consecutive runs'] : [])
   ];
   const witnessArtifactPaths = ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];

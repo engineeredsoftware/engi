@@ -954,7 +954,9 @@ function assertRequiredRealizedArtifacts(latestRun) {
  * @param {Record<string, any>} latestRun
  * @param {{
  *   fetchImpl?: typeof fetch | undefined,
- *   executorHandlers?: Record<string, (payload: Record<string, any>) => Promise<Record<string, any>> | Record<string, any>> | undefined
+ *   executorHandlers?: Record<string, (payload: Record<string, any>) => Promise<Record<string, any>> | Record<string, any>> | undefined,
+ *   priorLatestRun?: Record<string, any> | null | undefined,
+ *   priorExternalExecutionLedger?: Record<string, any> | null | undefined
  * }} [options]
  * @returns {Promise<Record<string, any>>}
  */

@@ -225,7 +225,7 @@ const features = [
   },
   {
     Icon: ({ className, ...props }) => <ScaleIcon className={"!text-green-primary " + className} {...props} />,
-    name: (<span className="text-green-primary">$ENGI-Data Marketplace</span>),
+    name: (<span className="text-green-primary">$BTD-Data Marketplace</span>),
     description: (
       <>
         <span className="text-neutral-200">Engineering assets are measured by AI, priced, and exchanged on a decentralized economic substrate</span>

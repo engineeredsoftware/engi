@@ -77,7 +77,7 @@ function rewriteReadme(content, resolvedRepoRoot, version, nextDraft) {
     `# ${projectName} Demo - ${version} canonical deterministic local prototype`
   );
   rewritten = rewritten.replace(
-    /^This demo is governed by the active V\d+ canonical spec and serves as the current deterministic local realization of the full (?:ENGI|Bitcode) operating chain while V\d+ drafts the next (?:system-facing implementation|rename-complete implementation) pass\.$/m,
+    /^This demo is governed by the active V\d+ canonical spec and serves as the current deterministic local realization of the full (?:ENGI|Bitcode) operating chain while V\d+ drafts the (?:next )?(?:system-facing implementation|rename-complete implementation) pass\.$/m,
     `This demo is governed by the active ${version} canonical spec and serves as the current deterministic local realization of the full ${projectName} operating chain while ${nextDraft} drafts the next ${Number(version.slice(1)) >= 25 ? 'rename-complete implementation' : 'system-facing implementation'} pass.`
   );
   rewritten = rewritten.replace(

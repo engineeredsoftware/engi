@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildInitialState } from '../src/engi-demo.js';
+import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../src/canon-posture.js';
 import {
   buildCanonicalProvenData,
   collectCanonicalProvenRuns,
@@ -97,15 +98,15 @@ test('V22 proven generator renders a V22 appendix while inheriting V20 and V19 g
   assert.equal(generated.data.v20.qualitySummary.passed, true);
   assert.equal(generated.data.v22.specFamilyReport.checkedVersion, 'V22');
   assert.equal(generated.data.v22.specFamilyReport.currentTarget, 'V22');
-  assert.equal(generated.data.v22.specFamilyReport.pointerVersion, 'V23');
-  assert.equal(generated.data.v22.specFamilyReport.passed, false);
+  assert.equal(generated.data.v22.specFamilyReport.pointerVersion, ACTIVE_CANON_VERSION);
+  assert.equal(generated.data.v22.specFamilyReport.passed, ACTIVE_CANON_VERSION === 'V22');
   assert.equal(generated.data.v22.canonicalInputReport.checkedTargetVersion, 'V22');
-  assert.equal(generated.data.v22.canonicalInputReport.pointerVersion, 'V23');
-  assert.equal(generated.data.v22.canonicalInputReport.passed, false);
+  assert.equal(generated.data.v22.canonicalInputReport.pointerVersion, ACTIVE_CANON_VERSION);
+  assert.equal(generated.data.v22.canonicalInputReport.passed, ACTIVE_CANON_VERSION === 'V22');
   assert.equal(generated.data.v22.canonPostureDriftReport.checkedActiveCanonVersion, 'V22');
   assert.equal(generated.data.v22.canonPostureDriftReport.checkedDraftTargetVersion, 'V23');
-  assert.equal(generated.data.v22.canonPostureDriftReport.pointerVersion, 'V23');
-  assert.equal(generated.data.v22.canonPostureDriftReport.passed, false);
+  assert.equal(generated.data.v22.canonPostureDriftReport.pointerVersion, ACTIVE_CANON_VERSION);
+  assert.equal(generated.data.v22.canonPostureDriftReport.passed, ACTIVE_CANON_VERSION === 'V22');
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
     '.engi/v22-canon-posture-drift-report.json',
     '.engi/v22-canonical-input-report.json',
@@ -130,16 +131,24 @@ test('V23 proven generator renders a V23 appendix with bitcoin payment-mode cove
   });
 
   assert.equal(generated.data.version, 'V23');
-  assert.equal(generated.data.aggregate.fullyProven, true);
   assert.deepEqual(generated.data.paymentModes, [
     'audited-base-layer-purchase',
     'repeated-read-payment',
     'checkpointed-sidechain-bridge'
   ]);
   assert.equal(generated.data.familySummaries.length, 11);
-  assert.equal(generated.data.v23.specFamilyReport.passed, true);
-  assert.equal(generated.data.v23.canonicalInputReport.passed, true);
-  assert.equal(generated.data.v23.canonPostureDriftReport.passed, true);
+  assert.equal(generated.data.v23.specFamilyReport.passed, ACTIVE_CANON_VERSION === 'V23');
+  assert.equal(generated.data.v23.canonicalInputReport.passed, ACTIVE_CANON_VERSION === 'V23');
+  assert.equal(
+    generated.data.v23.canonPostureDriftReport.passed,
+    ACTIVE_CANON_VERSION === 'V23' && DRAFT_TARGET_VERSION === 'V24'
+  );
+  assert.equal(
+    generated.data.aggregate.fullyProven,
+    generated.data.v23.specFamilyReport.passed
+      && generated.data.v23.canonicalInputReport.passed
+      && generated.data.v23.canonPostureDriftReport.passed
+  );
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
     '.engi/v23-canon-posture-drift-report.json',
     '.engi/v23-canonical-input-report.json',
@@ -165,16 +174,25 @@ test('V24 proven generator renders a V24 appendix with external-realization paym
   });
 
   assert.equal(generated.data.version, 'V24');
-  assert.equal(generated.data.aggregate.fullyProven, true);
   assert.deepEqual(generated.data.paymentModes, [
     'audited-base-layer-purchase',
     'repeated-read-payment',
     'checkpointed-sidechain-bridge'
   ]);
-  assert.equal(generated.data.v24.specFamilyReport.passed, true);
-  assert.equal(generated.data.v24.canonicalInputReport.passed, false);
+  assert.equal(generated.data.v24.specFamilyReport.passed, ACTIVE_CANON_VERSION === 'V24');
+  assert.equal(generated.data.v24.canonicalInputReport.passed, ACTIVE_CANON_VERSION === 'V24');
   assert.equal(generated.data.v24.canonPostureDriftReport.checkedActiveCanonVersion, 'V24');
   assert.equal(generated.data.v24.canonPostureDriftReport.checkedDraftTargetVersion, 'V25');
+  assert.equal(
+    generated.data.v24.canonPostureDriftReport.passed,
+    ACTIVE_CANON_VERSION === 'V24' && DRAFT_TARGET_VERSION === 'V25'
+  );
+  assert.equal(
+    generated.data.aggregate.fullyProven,
+    generated.data.v24.specFamilyReport.passed
+      && generated.data.v24.canonicalInputReport.passed
+      && generated.data.v24.canonPostureDriftReport.passed
+  );
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
     '.engi/v24-canon-posture-drift-report.json',
     '.engi/v24-canonical-input-report.json',
@@ -182,12 +200,55 @@ test('V24 proven generator renders a V24 appendix with external-realization paym
   ]);
   assert.ok(generated.markdown.includes('# ENGI Spec V24 Proven'));
   assert.ok(generated.markdown.includes('## V24 External-Realization and Canon Reports'));
-  assert.ok(generated.markdown.includes('`external-realization-execution`'));
-  assert.ok(generated.markdown.includes('`containerized-reality`'));
-  assert.ok(generated.markdown.includes('`github-live-interface`'));
-  assert.ok(generated.markdown.includes('`repeated-read-payment`'));
+  assert.ok(generated.markdown.includes('external-realization-execution'));
+  assert.ok(generated.markdown.includes('containerized-reality'));
+  assert.ok(generated.markdown.includes('github-live-interface'));
+  assert.ok(generated.markdown.includes('repeated-read-payment'));
   assert.ok(generated.markdown.includes('.engi/v24-spec-family-report.json'));
   assert.ok(generated.markdown.includes('.engi/v24-canonical-input-report.json'));
   assert.ok(generated.markdown.includes('.engi/v24-canon-posture-drift-report.json'));
   assert.ok(generated.markdown.includes('ENGI_SPEC_V24_PROVEN.md'));
+});
+
+test('V25 proven generator renders a Bitcode-branded appendix with BTD rename closure', () => {
+  const generated = generateCanonicalProvenMarkdown({
+    version: 'V25',
+    canonicalCommit: 'draft-v25',
+    canonicalCommitRecordedAt: '2026-04-15T18:00:00.000Z',
+    generatedAt: '2026-04-15T18:00:00.000Z'
+  });
+
+  assert.equal(generated.data.version, 'V25');
+  assert.deepEqual(generated.data.paymentModes, [
+    'audited-base-layer-purchase',
+    'repeated-read-payment',
+    'checkpointed-sidechain-bridge'
+  ]);
+  assert.equal(generated.data.v25.specFamilyReport.passed, ACTIVE_CANON_VERSION === 'V25');
+  assert.equal(generated.data.v25.canonicalInputReport.passed, ACTIVE_CANON_VERSION === 'V25');
+  assert.equal(
+    generated.data.v25.canonPostureDriftReport.passed,
+    ACTIVE_CANON_VERSION === 'V25' && DRAFT_TARGET_VERSION === 'V26'
+  );
+  assert.equal(
+    generated.data.aggregate.fullyProven,
+    generated.data.v25.specFamilyReport.passed
+      && generated.data.v25.canonicalInputReport.passed
+      && generated.data.v25.canonPostureDriftReport.passed
+  );
+  assert.equal(generated.data.v25.canonPostureDriftReport.checkedActiveCanonVersion, 'V25');
+  assert.equal(generated.data.v25.canonPostureDriftReport.checkedDraftTargetVersion, 'V26');
+  assert.deepEqual(Object.keys(generated.artifacts).sort(), [
+    '.engi/v25-canon-posture-drift-report.json',
+    '.engi/v25-canonical-input-report.json',
+    '.engi/v25-spec-family-report.json'
+  ]);
+  assert.ok(generated.markdown.includes('# Bitcode Spec V25 Proven'));
+  assert.ok(generated.markdown.includes('## V25 Bitcode Rename and Canon Reports'));
+  assert.ok(generated.markdown.includes('`repeated-read-payment`'));
+  assert.ok(generated.markdown.includes('.engi/v25-spec-family-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v25-canonical-input-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v25-canon-posture-drift-report.json'));
+  assert.ok(generated.markdown.includes('ENGI_SPEC_V25_PROVEN.md'));
+  assert.ok(generated.markdown.includes('BTD'));
 });

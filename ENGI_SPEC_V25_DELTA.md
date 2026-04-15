@@ -2,16 +2,18 @@
 
 ## Status
 
-- Scope: V25 draft delta for a simple but full project rename from `ENGI` to `Bitcode` and denomination rename from `NGI` to `BTD` after V24 external-realization canon
-- Current canonical/latest target: `V24`
+- Scope: V25 canonical delta for a simple but full project rename from ENGI to Bitcode and denomination rename from NGI to BTD after V24 external-realization canon
+- Current canonical/latest target: `V25`
+- Canonical proof-source commit: `db25cc83898c6c7b7df1130033ecd3737cfc04cd`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `.engi/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; `ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix for V25
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_NOTES.md`
 - Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
-- V25 state: draft opened; this delta records the planned rename-complete closure from V24 to V25
+- Source parity state: V25 source-side Bitcode/BTD rename closure, brand-aware generated evidence, runtime/demo/site rename alignment, and promotion-time rename preparation are canonicalized; this delta records the V24-to-V25 closure
+- V25 state: canonical promotion complete; V25 rename canon is active and this delta records the promoted Bitcode/BTD closure set
 
 ## Why V25 exists
 

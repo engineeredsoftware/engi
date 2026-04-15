@@ -289,7 +289,7 @@ export function OrbitalsConnectsOrbitalPhoneConnection({
           <div className="orbitals-connects-command-showcase">
             <div className="orbitals-connects-showcase-header">
                 <span className="showcase-label">Text to</span>
-                <span className="engi-number">+1 (555) 123-ENGI</span>
+                <span className="engi-number">+1 (555) 123-BITCODE</span>
               </div>
               
               <div className="command-examples">

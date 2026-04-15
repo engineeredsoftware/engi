@@ -17,7 +17,7 @@ const features = [
   },
   {
     name: 'Bitcode Ad Infinitum: ',
-    description: 'Deploy many Engis and watch them operate like members of your team - making progress and communicating along the way.',
+    description: 'Deploy many Bitcode agents and watch them operate like members of your team - making progress and communicating along the way.',
     icon: ChartPieIcon,
   },
 ]
