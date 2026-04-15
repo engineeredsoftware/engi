@@ -56,6 +56,80 @@ function envString(key) {
 }
 
 /**
+ * @param {string} value
+ * @returns {string}
+ */
+function base64url(value) {
+  return Buffer.from(String(value))
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '');
+}
+
+/**
+ * @param {Record<string, unknown>} value
+ * @returns {string}
+ */
+function encodeJwtPart(value) {
+  return base64url(JSON.stringify(value));
+}
+
+/**
+ * @param {string} key
+ * @returns {string}
+ */
+function envPem(key) {
+  const value = envString(key);
+  if (!value) {
+    throw new Error(`Missing required V24 secret environment variable ${key}.`);
+  }
+  return value.replace(/\\n/g, '\n');
+}
+
+/**
+ * @param {Record<string, any>} binding
+ * @returns {string}
+ */
+function resolveGithubAppJwtIssuer(binding) {
+  return envString('ENGI_V24_GITHUB_APP_JWT_ISSUER')
+    || String(binding.appId || binding.appRef || '').trim()
+    || 'engi-v24-github-app';
+}
+
+/**
+ * @param {Record<string, any>} binding
+ * @param {string} repo
+ * @returns {string}
+ */
+function resolveGithubInstallationId(binding, repo) {
+  const repoBinding = /** @type {Array<Record<string, any>>} */ (binding.targetedRepos || []).find((entry) => entry.repo === repo);
+  return envString('ENGI_V24_GITHUB_INSTALLATION_ID')
+    || String(repoBinding?.installationId || binding.defaultInstallationId || '').trim()
+    || (() => {
+      throw new Error(`Missing V24 GitHub installation id for ${repo}.`);
+    })();
+}
+
+/**
+ * @param {Record<string, any>} binding
+ * @returns {string}
+ */
+function createGithubAppJwt(binding) {
+  const issuer = resolveGithubAppJwtIssuer(binding);
+  const now = Math.floor(Date.now() / 1000);
+  const encodedHeader = encodeJwtPart({ alg: 'RS256', typ: 'JWT' });
+  const encodedPayload = encodeJwtPart({
+    iat: now - 60,
+    exp: now + 9 * 60,
+    iss: issuer
+  });
+  const signingInput = `${encodedHeader}.${encodedPayload}`;
+  const signature = crypto.sign('RSA-SHA256', Buffer.from(signingInput), envPem('ENGI_V24_GITHUB_APP_PRIVATE_KEY_PEM'));
+  return `${signingInput}.${signature.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')}`;
+}
+
+/**
  * @param {typeof fetch} fetchImpl
  * @param {string} url
  * @param {{
@@ -135,7 +209,14 @@ function buildTelemetry(payload, overrides) {
       ...(overrides.affectedArtifactRefs || [])
     ]),
     transportProtocol: overrides.transportProtocol || 'http-json-patch',
-    remoteRequestCount: overrides.remoteRequestCount || 1
+    remoteRequestCount: overrides.remoteRequestCount || 1,
+    authMode: overrides.authMode || telemetry.authMode || binding.authMode || null,
+    remoteAuthExchangeCount:
+      overrides.remoteAuthExchangeCount
+      ?? telemetry.remoteAuthExchangeCount
+      ?? null,
+    appJwtIssuer: overrides.appJwtIssuer || telemetry.appJwtIssuer || binding.jwtIssuerRef || null,
+    installationId: overrides.installationId || telemetry.installationId || binding.defaultInstallationId || null
   };
 }
 
@@ -193,6 +274,7 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
     reconciliationState: 'live-github-rest-reconciled',
     transportProtocol: 'github-rest-v3',
     remoteRequestCount: 4,
+    authMode: 'bearer-token',
     affectedArtifactRefs: [
       '.engi/github-live-session.json',
       '.engi/github-inventory-fetch-receipt.json',
@@ -219,9 +301,175 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
         appRef: artifacts.githubLiveSession?.appRef || binding.appRef || null,
         appId: artifacts.githubLiveSession?.appId || binding.appId || null,
         installationTargetRef: artifacts.githubLiveSession?.installationTargetRef || binding.installationTargetRef || null,
+        authSessionKind: 'github-bearer-token',
         authSessionId: artifacts.githubLiveSession?.authSessionId || selectedSession.authSessionId || `auth_${shortId(sessionId, 12)}`,
         authPayloadHash: artifacts.githubLiveSession?.authPayloadHash || selectedSession.authPayloadHash || `sha256:${sha256(sessionId)}`,
         permissionsRoot: artifacts.githubLiveSession?.permissionsRoot || selectedSession.permissionsRoot || `perm_${shortId(`${sessionId}:permissions`, 12)}`,
+        repo,
+        branchName
+      },
+      githubInventoryFetchReceipt: {
+        ...ensureRecord(artifacts.githubInventoryFetchReceipt),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        sessionRef: sessionId,
+        fetchState: 'live-github-inventory-fetched',
+        targetedRepoCount: Number(ensureRecord(runsResponse).total_count || artifacts.githubInventoryFetchReceipt?.targetedRepoCount || 1),
+        selectedBindingCount: Number(artifacts.githubInventoryFetchReceipt?.selectedBindingCount || 0)
+      },
+      githubArtifactFetchReceipt: {
+        ...ensureRecord(artifacts.githubArtifactFetchReceipt),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        sessionRef: sessionId,
+        fetchState: 'live-github-artifact-fetched',
+        workflowRunIds: uniqueStrings([
+          workflowRunId,
+          ...(artifacts.githubArtifactFetchReceipt?.workflowRunIds || [])
+        ]),
+        remoteArtifactCount: Number((ensureRecord(artifactsResponse).artifacts || []).length || 0)
+      },
+      githubBranchPublicationReceipt: {
+        ...ensureRecord(artifacts.githubBranchPublicationReceipt),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        sessionRef: sessionId,
+        mutationState: 'live-github-branch-published',
+        targetRepo: repo,
+        branchName,
+        remoteRef: ensureRecord(refResponse).ref || `refs/heads/${branchName}`,
+        publishedSha: ensureRecord(ensureRecord(refResponse).object).sha || sourceSha
+      },
+      githubPrUpdateReceipt: {
+        ...ensureRecord(artifacts.githubPrUpdateReceipt),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        sessionRef: sessionId,
+        mutationState: 'live-github-pr-updated',
+        targetRepo: repo,
+        branchName,
+        prNumber: Number(ensureRecord(pullResponse).number || 0) || 24,
+        reviewUpdateState: ensureRecord(pullResponse).state === 'open' ? 'draft-opened' : 'demo-pr-updated'
+      }
+    }
+  };
+}
+
+/**
+ * @param {Record<string, any>} payload
+ * @param {typeof fetch} fetchImpl
+ * @returns {Promise<Record<string, any>>}
+ */
+async function executeGithubAppRestAdapter(payload, fetchImpl) {
+  const binding = ensureRecord(payload.binding);
+  const artifacts = ensureRecord(payload.artifacts);
+  const supportArtifacts = ensureRecord(payload.supportArtifacts);
+  const baseUrl = String(binding.executorUrl || '');
+  const repo = String(artifacts.githubLiveSession?.repo || binding.targetedRepos?.[0]?.repo || 'frontier/demo-auth');
+  const branchName = String(artifacts.githubBranchPublicationReceipt?.branchName || payload.branchName || 'engi-review/v24');
+  const workflowRunId =
+    artifacts.githubArtifactFetchReceipt?.workflowRunIds?.[0]
+    || supportArtifacts.githubBoundarySurface?.selectedInventoryProofs?.[0]?.workflowRunId
+    || 'engi-demo-run';
+  const sourceSha = artifacts.githubArtifactFetchReceipt?.sourceCommits?.[0] || `sha_${shortId(`${repo}:${branchName}`, 12)}`;
+  const installationId = resolveGithubInstallationId(binding, repo);
+  const appJwt = createGithubAppJwt(binding);
+  const appHeaders = {
+    Authorization: `Bearer ${appJwt}`,
+    'User-Agent': 'ENGI-V24-GitHub-App-Adapter',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  const accessTokenResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/app/installations/${installationId}/access_tokens`), {
+    method: 'POST',
+    headers: appHeaders,
+    body: {
+      repositories: [repo]
+    }
+  });
+  const installationToken = String(ensureRecord(accessTokenResponse).token || '').trim();
+  if (!installationToken) {
+    throw new Error(`V24 GitHub App adapter did not receive an installation token for ${repo}.`);
+  }
+  const tokenId = String(ensureRecord(accessTokenResponse).token_id || `ghs_${shortId(installationToken, 16)}`);
+  const installationHeaders = {
+    Authorization: `Bearer ${installationToken}`,
+    'User-Agent': 'ENGI-V24-GitHub-App-Adapter',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  const runsResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/repos/${repo}/actions/runs?branch=${encodeURIComponent(branchName)}`), {
+    method: 'GET',
+    headers: installationHeaders
+  });
+  const artifactsResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/repos/${repo}/actions/runs/${workflowRunId}/artifacts`), {
+    method: 'GET',
+    headers: installationHeaders
+  });
+  const refResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/repos/${repo}/git/refs`), {
+    method: 'POST',
+    headers: installationHeaders,
+    body: {
+      ref: `refs/heads/${branchName}`,
+      sha: sourceSha
+    }
+  });
+  const pullResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/repos/${repo}/pulls`), {
+    method: 'POST',
+    headers: installationHeaders,
+    body: {
+      title: `ENGI V24 ${payload.bundleId || 'bundle'} review`,
+      head: branchName,
+      base: 'main',
+      body: `Need ${payload.needId || 'unknown'} / bundle ${payload.bundleId || 'unknown'}`
+    }
+  });
+
+  const telemetry = buildTelemetry(payload, {
+    reconciliationState: 'live-github-app-rest-reconciled',
+    transportProtocol: 'github-app-rest-v3',
+    remoteRequestCount: 5,
+    authMode: 'github-app-installation-token',
+    installationId,
+    appJwtIssuer: resolveGithubAppJwtIssuer(binding),
+    remoteAuthExchangeCount: 1,
+    affectedArtifactRefs: [
+      '.engi/github-live-session.json',
+      '.engi/github-inventory-fetch-receipt.json',
+      '.engi/github-artifact-fetch-receipt.json',
+      '.engi/github-branch-publication-receipt.json',
+      '.engi/github-pr-update-receipt.json'
+    ]
+  });
+  const selectedSession = ensureRecord((supportArtifacts.githubBoundarySurface?.selectedAuthSessions || [])[0]);
+  const sessionId = artifacts.githubLiveSession?.sessionId || `session_${shortId(`${repo}:${branchName}`, 16)}`;
+  const tokenHash = `sha256:${sha256(`${installationId}:${installationToken}`)}`;
+  const permissions = ensureRecord(accessTokenResponse).permissions || {};
+
+  return {
+    interfaceId: String(payload.interfaceId || 'github-live-interface'),
+    telemetry,
+    artifacts: {
+      githubLiveSession: {
+        ...ensureRecord(artifacts.githubLiveSession),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        sessionId,
+        requestId: telemetry.requestId,
+        executionId: telemetry.executionId,
+        observationId: telemetry.observationId,
+        appRef: artifacts.githubLiveSession?.appRef || binding.appRef || null,
+        appId: artifacts.githubLiveSession?.appId || binding.appId || null,
+        installationTargetRef: artifacts.githubLiveSession?.installationTargetRef || binding.installationTargetRef || null,
+        installationId,
+        authSessionKind: 'github-app-installation-token',
+        authExchangeRef: `github-app-installation-token://${installationId}/${tokenId}`,
+        authSessionId: artifacts.githubLiveSession?.authSessionId || selectedSession.authSessionId || `auth_${shortId(tokenId, 12)}`,
+        authPayloadHash: artifacts.githubLiveSession?.authPayloadHash || selectedSession.authPayloadHash || tokenHash,
+        permissionsRoot:
+          artifacts.githubLiveSession?.permissionsRoot
+          || selectedSession.permissionsRoot
+          || `perm_${shortId(JSON.stringify(permissions), 12)}`,
+        credentialClass: 'github-app-installation-token',
+        appJwtIssuer: resolveGithubAppJwtIssuer(binding),
         repo,
         branchName
       },
@@ -544,6 +792,9 @@ export async function executeV24RemoteAdapter(interfaceId, binding, payload, fet
   const kind = String(binding.executorKind || 'http-json-patch');
   if (kind === 'github-rest-v3') {
     return executeGithubRestAdapter(payload, fetchImpl);
+  }
+  if (kind === 'github-app-rest-v3') {
+    return executeGithubAppRestAdapter(payload, fetchImpl);
   }
   if (kind === 'bitcoin-json-rpc-v1') {
     return executeJsonRpcSpendAdapter(payload, fetchImpl, {

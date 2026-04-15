@@ -5078,7 +5078,7 @@ function buildAssetMeasurementProofs(selectedCandidates) {
  * @param {any} __0
  * @returns {any}
  */
-function buildProofContract({
+export function buildProofContract({
   needId,
   assetPackId,
   branchName,
@@ -5087,7 +5087,10 @@ function buildProofContract({
   sensitiveDataFlowRecords,
   systemProofBundleSummary = null,
   proofWitnessManifestSummary = null,
-  v23BitcoinEnabled = false
+  v23BitcoinEnabled = false,
+  v24ExternalEnabled = false,
+  externalExecutionLedger = null,
+  externalReconciliationLog = null
 }) {
   const expectedProofFamilies = [
     'inference-synthesis',
@@ -5113,6 +5116,19 @@ function buildProofContract({
           artifactRefs: ['.engi/compute-reality-manifest.json', '.engi/storage-reality-manifest.json', '.engi/bitcoin-settlement-intent.json', '.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-commitment-manifest.json', '.engi/bitcoin-anchor.json'],
           claim: 'Deployment-facing compute, storage, spend, and audit-anchor realities are explicit, typed, and bound to the same ENGI proof and settlement closure.'
         }]
+      : []),
+    ...(v24ExternalEnabled
+      ? [{
+          stage: 'external-execution-continuity',
+          artifactRefs: [
+            '.engi/external-environment-profile.json',
+            '.engi/external-telemetry-summary.json',
+            '.engi/external-execution-ledger.json',
+            '.engi/external-reconciliation-log.json',
+            '.engi/external-realization-proof.json'
+          ],
+          claim: 'Realized external execution remains mode-isolated, continuity-tracked, and fail-closed across consecutive observed runs.'
+        }]
       : [])
   ];
   const theoremChecks = [
@@ -5122,7 +5138,8 @@ function buildProofContract({
     'source-to-shares clipping and tie-breaks are replayable',
     'debits equal credits exactly',
     'asset-pack lock binds settlement refs closed',
-    ...(v23BitcoinEnabled ? ['bitcoin-facing spend and anchor surfaces bind back to the same ENGI proof and settlement identifiers'] : [])
+    ...(v23BitcoinEnabled ? ['bitcoin-facing spend and anchor surfaces bind back to the same ENGI proof and settlement identifiers'] : []),
+    ...(v24ExternalEnabled ? ['external execution continuity remains mode-isolated and replayable across consecutive runs'] : [])
   ];
   const witnessArtifactPaths = ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
@@ -5136,7 +5153,19 @@ function buildProofContract({
     buildReplayStep({
       stepId: 'proof-contract.evidence-chain',
       theoremIds: ['proof_contract.evidence_chain_closure', 'proof_contract.theorem_check_binding'],
-      requiredArtifactPaths: ['.engi/proof-contract.json', '.engi/system-proof-bundle.json'],
+      requiredArtifactPaths: [
+        '.engi/proof-contract.json',
+        '.engi/system-proof-bundle.json',
+        ...(v24ExternalEnabled
+          ? [
+              '.engi/external-environment-profile.json',
+              '.engi/external-telemetry-summary.json',
+              '.engi/external-execution-ledger.json',
+              '.engi/external-reconciliation-log.json',
+              '.engi/external-realization-proof.json'
+            ]
+          : [])
+      ],
       instruction: 'Replay evidence-chain stages and theorem-binding closure.'
     }),
     buildReplayStep({
@@ -5260,6 +5289,18 @@ function buildProofContract({
       selectedAssets: selectedCandidates.map((/** @type {any} */ candidate) => ({ assetId: candidate.assetId, contentRoot: candidate.asset.contentRoot, attestationHash: candidate.asset.attestations[0]?.attestationHash })),
       authorizationDecisionCount: authorizationDecisions.length,
       sensitiveFlowCount: sensitiveDataFlowRecords.length,
+      externalExecutionLedgerSummary: externalExecutionLedger
+        ? {
+            ledgerId: externalExecutionLedger.ledgerId,
+            liveObservedInterfaceCount: externalExecutionLedger.liveObservedInterfaceCount
+          }
+        : null,
+      externalReconciliationLogSummary: externalReconciliationLog
+        ? {
+            logId: externalReconciliationLog.logId,
+            entryCount: externalReconciliationLog.entryCount
+          }
+        : null,
       systemProofBundleSummary,
       proofWitnessManifestSummary
     },
@@ -5270,6 +5311,9 @@ function buildProofContract({
       theoremChecks,
       evidenceChainLength: evidenceChain.length,
       selectedAssetCount: selectedCandidates.length,
+      v24ExternalEnabled,
+      externalExecutionLedgerRef: externalExecutionLedger?.ledgerId || null,
+      externalReconciliationLogRef: externalReconciliationLog?.logId || null,
       systemProofBundleSummary,
       proofWitnessManifestSummary
     })

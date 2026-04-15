@@ -105,6 +105,7 @@ function buildTelemetry(payload, overrides) {
       ...(telemetry.affectedArtifactRefs || []),
       ...(overrides.affectedArtifactRefs || [])
     ]),
+    authMode: overrides.authMode || telemetry.authMode || binding.authMode || null,
     executorDisposition: 'built-in-demonstration-adapter',
     observationReality: 'deterministic-local-executor'
   };

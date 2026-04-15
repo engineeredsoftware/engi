@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import http from 'node:http';
 import os from 'node:os';
@@ -630,6 +631,26 @@ testAny('GET /api/v24/external-realization promotes enabled local executors to l
   });
 });
 
+testAny('GET /api/v24/external-realization marks secret-dependent GitHub App execution as live-misconfigured when key material is absent', async (t) => {
+  await withApp(t, async ({ app }) => {
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_GITHUB: '1',
+      ENGI_V24_GITHUB_EXECUTOR_URL: 'https://github.example.test/api',
+      ENGI_V24_GITHUB_EXECUTOR_KIND: 'github-app-rest-v3',
+      ENGI_V24_GITHUB_APP_PRIVATE_KEY_PEM: undefined
+    }, async () => {
+      const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
+      const githubRuntime = response.json.activeRuntime.interfaceRuntimeStateById['github-live-interface'];
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(githubRuntime.runtimeState, 'live-misconfigured');
+      assert.deepEqual(githubRuntime.missingBindingKeys, []);
+      assert.deepEqual(githubRuntime.missingSecretEnvKeys, ['ENGI_V24_GITHUB_APP_PRIVATE_KEY_PEM']);
+    });
+  });
+});
+
 testAny('POST /api/v24/executors/:interfaceId serves built-in demonstration executor patches', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, {
@@ -732,6 +753,14 @@ testAny('POST /api/make-engi-branch realizes enabled V24 local executors across 
       assert.equal(persisted.latestRun.githubBranchPublicationReceipt.mutationState, 'live-github-branch-published');
       assert.equal(persisted.latestRun.githubPrUpdateReceipt.mutationState, 'live-github-pr-updated');
       assert.equal(persisted.latestRun.githubPrUpdateReceipt.prNumber, 24);
+      assert.equal(
+        persisted.latestRun.externalBoundaryManifest.interfaces.find((entry) => entry.interfaceId === 'github-live-interface').localPrototype.runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalBoundaryManifest.interfaces.find((entry) => entry.interfaceId === 'bitcoin-mainchain-execution').status,
+        'implemented-as-live-observed-surface'
+      );
       assert.ok(
         Object.values(persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById)
           .every((entry) => entry.runtimeState === 'live-observed')
@@ -751,6 +780,159 @@ testAny('POST /api/make-engi-branch realizes enabled V24 local executors across 
           .every((entry) => entry.runtimeState === 'live-observed')
       );
     });
+  });
+});
+
+testAny('POST /api/make-engi-branch persists V24 external continuity artifacts across consecutive realized runs', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const env = {
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_LOCAL_EXECUTORS: '1',
+      ENGI_V24_ENABLE_BITCOIN_MAINCHAIN: '1',
+      ENGI_V24_ENABLE_SIDECHAIN: '1',
+      ENGI_V24_ENABLE_COMPUTE: '1',
+      ENGI_V24_ENABLE_STORAGE: '1',
+      ENGI_V24_ENABLE_GITHUB: '1'
+    };
+
+    await withEnv(env, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'checkpointed-sidechain-bridge',
+          principal: 'reviewer'
+        })
+      });
+      assert.equal(response.statusCode, 200);
+    });
+
+    let persisted = readPersistedState(dataPath);
+    assert.ok(persisted.latestRun.branchArtifacts.files['.engi/external-execution-ledger.json']);
+    assert.ok(persisted.latestRun.branchArtifacts.files['.engi/external-reconciliation-log.json']);
+    assert.equal(
+      persisted.latestRun.externalExecutionLedger.interfaceLedgerById['github-live-interface'].continuityState,
+      'first-observation'
+    );
+    assert.equal(
+      persisted.latestRun.externalExecutionLedger.interfaceLedgerById['bitcoin-mainchain-execution'].observationSequence,
+      1
+    );
+
+    await withEnv(env, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'checkpointed-sidechain-bridge',
+          principal: 'reviewer'
+        })
+      });
+      assert.equal(response.statusCode, 200);
+    });
+
+    persisted = readPersistedState(dataPath);
+    assert.equal(Array.isArray(persisted.externalReconciliationLog), true);
+    assert.equal(persisted.externalReconciliationLog.length, 2);
+    assert.equal(
+      persisted.latestRun.externalExecutionLedger.interfaceLedgerById['github-live-interface'].continuityState,
+      'binding-stable'
+    );
+    assert.equal(
+      persisted.latestRun.externalExecutionLedger.interfaceLedgerById['github-live-interface'].observationSequence,
+      2
+    );
+    assert.equal(
+      persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').continuityState,
+      'binding-stable'
+    );
+    assert.ok(persisted.latestRun.proofWitnessManifest.artifactDigestByPath['.engi/external-execution-ledger.json']);
+    assert.ok(persisted.latestRun.proofWitnessManifest.artifactDigestByPath['.engi/external-reconciliation-log.json']);
+    assert.ok(
+      persisted.latestRun.proofWitnessManifest.proofFamiliesByName['proof-contract'].witnessArtifactPaths.includes('.engi/external-execution-ledger.json')
+    );
+    assert.ok(
+      persisted.latestRun.proofContract.evidenceChain
+        .find((entry) => entry.stage === 'external-execution-continuity')
+        .artifactRefs.includes('.engi/external-reconciliation-log.json')
+    );
+    assert.ok(
+      persisted.latestRun.systemProofBundle.verifierEntrypoint.requiredArtifactPaths.includes('.engi/external-execution-ledger.json')
+    );
+    assert.ok(
+      persisted.latestRun.systemProofBundle.proofContract.evidenceChain
+        .find((entry) => entry.stage === 'external-execution-continuity')
+        .artifactRefs.includes('.engi/external-reconciliation-log.json')
+    );
+    assert.ok(
+      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-execution-ledger.json')
+    );
+    assert.ok(
+      persisted.latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-reconciliation-log.json')
+    );
+
+    const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+    assert.equal(reviewer.statusCode, 200);
+    assert.equal(
+      reviewer.json.latestRun.externalRealizationSummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').continuityState,
+      'binding-stable'
+    );
+  });
+});
+
+testAny('POST /api/make-engi-branch fails closed when consecutive same-mode V24 bindings drift', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const stableEnv = {
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_LOCAL_EXECUTORS: '1',
+      ENGI_V24_ENABLE_GITHUB: '1'
+    };
+
+    await withEnv(stableEnv, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'audited-base-layer-purchase',
+          principal: 'reviewer'
+        })
+      });
+      assert.equal(response.statusCode, 200);
+    });
+
+    let persisted = readPersistedState(dataPath);
+    assert.equal(
+      persisted.latestRun.externalExecutionLedger.interfaceLedgerById['github-live-interface'].observationSequence,
+      1
+    );
+
+    await withEnv({
+      ...stableEnv,
+      ENGI_V24_GITHUB_INSTALLATION_TARGET_REF: 'github-installation://engi/development-drifted'
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'audited-base-layer-purchase',
+          principal: 'reviewer'
+        })
+      });
+      assert.equal(response.statusCode, 500);
+      assert.match(String(response.json.error || ''), /binding drift detected/i);
+    });
+
+    persisted = readPersistedState(dataPath);
+    assert.equal(
+      persisted.latestRun.externalExecutionLedger.interfaceLedgerById['github-live-interface'].observationSequence,
+      1
+    );
+    assert.equal(Array.isArray(persisted.externalReconciliationLog), true);
+    assert.equal(persisted.externalReconciliationLog.length, 1);
   });
 });
 
@@ -908,6 +1090,88 @@ testAny('POST /api/make-engi-branch realizes protocol-specific V24 remote adapte
       assert.ok(executor.requests.some((entry) => entry.url === '/sidechain-rpc'));
       assert.ok(executor.requests.some((entry) => entry.url === '/compute/runs'));
       assert.ok(executor.requests.some((entry) => entry.url === '/storage/publications'));
+    });
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes the V24 GitHub App adapter with installation-token exchange and receipt telemetry', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const { privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
+    const githubAppPrivateKeyPem = privateKey.export({ type: 'pkcs1', format: 'pem' }).toString();
+    const executor = await startJsonExecutorServer(async ({ url, method, headers, json }) => {
+      if (method === 'POST' && url === '/github-app/app/installations/inst_development_3f95f81d6d/access_tokens') {
+        const bearer = String(headers.authorization || '');
+        assert.match(bearer, /^Bearer [A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/);
+        assert.deepEqual(json.repositories, ['frontier/demo-auth']);
+        return {
+          token: 'ghs_installation_demo_token',
+          token_id: 'token_installation_demo_1',
+          permissions: { contents: 'write', pull_requests: 'write', actions: 'read' }
+        };
+      }
+      if (method === 'GET' && url.startsWith('/github-app/repos/frontier/demo-auth/actions/runs?')) {
+        assert.equal(headers.authorization, 'Bearer ghs_installation_demo_token');
+        return { total_count: 1, workflow_runs: [{ id: 'gha_run_app_demo' }] };
+      }
+      if (method === 'GET' && url.startsWith('/github-app/repos/frontier/demo-auth/actions/runs/')) {
+        assert.equal(headers.authorization, 'Bearer ghs_installation_demo_token');
+        return { artifacts: [{ id: 11, name: 'proof-bundle' }] };
+      }
+      if (method === 'POST' && url === '/github-app/repos/frontier/demo-auth/git/refs') {
+        assert.equal(headers.authorization, 'Bearer ghs_installation_demo_token');
+        assert.match(String(json.ref || ''), /^refs\/heads\//);
+        return {
+          ref: json.ref,
+          object: { sha: json.sha || 'github-app-demo-sha' }
+        };
+      }
+      if (method === 'POST' && url === '/github-app/repos/frontier/demo-auth/pulls') {
+        assert.equal(headers.authorization, 'Bearer ghs_installation_demo_token');
+        return { number: 944, state: 'open' };
+      }
+      return { status: 404, json: { error: 'not found' } };
+    });
+    t.after(async () => {
+      await executor.close();
+    });
+
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_GITHUB: '1',
+      ENGI_V24_GITHUB_EXECUTOR_URL: `${executor.baseUrl}/github-app`,
+      ENGI_V24_GITHUB_EXECUTOR_KIND: 'github-app-rest-v3',
+      ENGI_V24_GITHUB_APP_PRIVATE_KEY_PEM: githubAppPrivateKeyPem
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'audited-base-layer-purchase',
+          principal: 'reviewer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+      const githubSummary = response.json.latestRun.externalRealizationSummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface');
+      assert.equal(githubSummary.executorKind, 'github-app-rest-v3');
+      assert.equal(githubSummary.transportProtocol, 'github-app-rest-v3');
+      assert.equal(githubSummary.runtimeState, 'live-observed');
+
+      const persisted = readPersistedState(dataPath);
+      const persistedGithubSummary = persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface');
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.github.authMode, 'github-app-installation-token');
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.github.executorKind, 'github-app-rest-v3');
+      assert.equal(persistedGithubSummary.authMode, 'github-app-installation-token');
+      assert.equal(persistedGithubSummary.remoteAuthExchangeCount, 1);
+      assert.equal(persistedGithubSummary.transportProtocol, 'github-app-rest-v3');
+      assert.equal(persisted.latestRun.githubLiveSession.authSessionKind, 'github-app-installation-token');
+      assert.equal(persisted.latestRun.githubLiveSession.installationId, 'inst_development_3f95f81d6d');
+      assert.match(String(persisted.latestRun.githubLiveSession.authExchangeRef || ''), /^github-app-installation-token:\/\//);
+      assert.equal(persisted.latestRun.githubBranchPublicationReceipt.mutationState, 'live-github-branch-published');
+      assert.equal(persisted.latestRun.githubPrUpdateReceipt.prNumber, 944);
+      assert.ok(executor.requests.some((entry) => entry.url === '/github-app/app/installations/inst_development_3f95f81d6d/access_tokens'));
+      assert.ok(executor.requests.some((entry) => entry.url === '/github-app/repos/frontier/demo-auth/pulls'));
     });
   });
 });

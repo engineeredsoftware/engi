@@ -440,6 +440,16 @@ const EXPLAINERS = {
       'Shows where a live system would still need real external execution'
     ]
   },
+  'external-realization': {
+    kicker: 'V24 actuality',
+    title: 'External realization',
+    summary: 'The current execution posture of Bitcoin, sidechain, compute, storage, and GitHub interfaces for this run.',
+    detail: 'This surface says which external dependencies are mock, stubbed, live-configured, live-observed, or blocked, and why. It keeps actual-system claims tied to configuration, receipts, and telemetry instead of to hopeful language.',
+    points: [
+      'Shows the exact readiness and observation state per external interface',
+      'Separates missing configuration from observed live execution'
+    ]
+  },
   'proof-closure': {
     kicker: 'Glossary',
     title: 'Proof / proof closure',
@@ -3798,6 +3808,60 @@ function renderExternalBoundaryManifestVisual(manifest) {
 }
 
 /**
+ * @param {LooseRecord | null | undefined} summary
+ * @returns {string}
+ */
+function renderExternalRealizationSummaryVisual(summary) {
+  const interfaces = summary?.interfaceSummaries || summary?.interfaceStates || [];
+  return `
+    <div class="visual-stack">
+      <div class="mini-grid four-up compact-metrics">
+        ${metricTile('Interfaces', interfaces.length, '', { explainerKey: 'external-realization' })}
+        ${metricTile('Live observed', interfaces.filter((entry) => String(entry.runtimeState || '') === 'live-observed').length)}
+        ${metricTile('Live configured', interfaces.filter((entry) => String(entry.runtimeState || '') === 'live-configured').length)}
+        ${metricTile('Blocking', interfaces.filter((entry) => String(entry.runtimeState || '') === 'live-misconfigured').length)}
+      </div>
+      <div class="kv-grid">
+        ${kvRow('Environment mode', summary?.configuredEnvironmentMode || '—', { explainerKey: 'external-realization' })}
+        ${kvRow('Actuality disposition', summary?.actualityDisposition || '—', { explainerKey: 'external-realization' })}
+        ${kvRow('Surfaced across', formatList(summary?.surfacedAcross || []), { html: true })}
+        ${kvRow('Isolation posture', summary?.isolationDisposition || '—')}
+      </div>
+      <div class="object-list">
+        ${interfaces.map((entry) => `
+          <div class="section-card">
+            <div class="row wrap-gap">
+              <div>
+                <strong>${escapeHtml(entry.label || labelize(entry.interfaceId || 'interface'))}</strong>
+                <p class="meta">${escapeHtml(entry.interfaceId || '')}</p>
+              </div>
+              <div class="badge-row">
+                ${statusBadge(entry.runtimeState || 'n/a')}
+                ${entry.executorKind ? statusBadge(entry.executorKind) : ''}
+                ${entry.authMode ? statusBadge(entry.authMode) : ''}
+              </div>
+            </div>
+            <div class="kv-grid">
+              ${kvRow('Execution class', entry.executionClass || '—')}
+              ${kvRow('Transport', entry.transportProtocol || '—')}
+              ${kvRow('Auth mode', entry.authMode || '—')}
+              ${kvRow('Remote auth exchanges', entry.remoteAuthExchangeCount ?? '—')}
+              ${kvRow('Remote requests', entry.remoteRequestCount ?? '—')}
+              ${kvRow('Continuity', entry.continuityState || '—')}
+              ${kvRow('Observation sequence', entry.observationSequence ?? '—')}
+              ${kvRow('Telemetry', entry.telemetryCoverageState || '—')}
+              ${kvRow('Missing bindings', formatList(entry.missingBindingKeys || []), { html: true })}
+              ${kvRow('Missing secrets', formatList(entry.missingSecretEnvKeys || []), { html: true })}
+              ${entry.affectedArtifactRefs ? kvRow('Affected artifacts', formatList(entry.affectedArtifactRefs || []), { html: true }) : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/**
  * @param {any[]} [bindings=[]]
  * @returns {string}
  */
@@ -5620,6 +5684,19 @@ function renderOperatingPicture(state) {
     visual: renderBoundaryRealityVisual,
     accent: 'accent-slate'
   }));
+  if (state.latestRun?.externalRealizationSummary) {
+    surfaces.push(renderJsonSurface({
+      title: 'External realization',
+      subtitle: 'Which external interfaces are actually configured, observed, or blocked in this run',
+      eyebrow: 'V24 actuality surface',
+      help: 'This is the quickest operator read of whether Bitcoin, sidechain, compute, storage, and GitHub are still modeled, configured, observed, or blocked.',
+      explainerKey: 'external-realization',
+      data: state.latestRun.externalRealizationSummary,
+      raw: JSON.stringify(state.latestRun.externalRealizationSummary, null, 2),
+      visual: renderExternalRealizationSummaryVisual,
+      accent: 'accent-slate'
+    }));
+  }
   operatingPictureEl.innerHTML = surfaces.join('');
 }
 
@@ -5643,6 +5720,9 @@ function renderSummary(state) {
   const needingSurface = activeNeedingSurface(state);
   const fitSurface = activeDepositingToNeedingSurface(state);
   const boundaryStages = (state.boundaryRealitySurface?.stages || []).length;
+  const externalInterfaces = latestRun?.externalRealizationSummary?.interfaceSummaries || latestRun?.externalRealizationSummary?.interfaceStates || [];
+  const liveObservedInterfaces = externalInterfaces.filter((entry) => String(entry.runtimeState || '') === 'live-observed').length;
+  const blockingExternalInterfaces = externalInterfaces.filter((entry) => String(entry.runtimeState || '') === 'live-misconfigured').length;
   const bundleId = latestRun?.settlementPreview?.bundleId
     || latestRun?.boundedPublicProof?.bundleId
     || latestRun?.journalDiff?.bundleId
@@ -5667,7 +5747,9 @@ function renderSummary(state) {
     summaryTile('Selected assets in latest pack', selected, 'asset-pack'),
     summaryTile('Settlement-credited assets', settled, 'settlement'),
     summaryTile('Latest bundle', bundleId, 'settlement'),
-    summaryTile('Boundary stages', boundaryStages, 'boundary-reality')
+    summaryTile('Boundary stages', boundaryStages, 'boundary-reality'),
+    summaryTile('Live-observed external interfaces', liveObservedInterfaces, 'external-realization'),
+    summaryTile('Blocking external interfaces', blockingExternalInterfaces, 'external-realization')
   ].join('');
 }
 
@@ -6230,6 +6312,15 @@ function renderBranchArtifacts(state) {
       data: run.externalBoundaryManifest,
       raw: branchFiles['.engi/external-boundary-manifest.json'],
       visual: renderExternalBoundaryManifestVisual,
+      accent: 'accent-slate'
+    },
+    {
+      title: 'External realization summary',
+      subtitle: 'Projected V24 actuality and readiness summary',
+      explainerKey: 'external-realization',
+      data: run.externalRealizationSummary,
+      raw: JSON.stringify(run.externalRealizationSummary || null, null, 2),
+      visual: renderExternalRealizationSummaryVisual,
       accent: 'accent-slate'
     },
     {

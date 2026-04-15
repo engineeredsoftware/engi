@@ -433,10 +433,15 @@ function buildPublicExternalRealizationSummary(latestRun) {
       label: entry.label,
       status: entry.status,
       runtimeState: interfaceSummaryById[entry.interfaceId]?.runtimeState || null,
+      missingSecretEnvKeys: interfaceSummaryById[entry.interfaceId]?.missingSecretEnvKeys || [],
       executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
       executorKind: bindingByInterfaceId[entry.interfaceId]?.executorKind || null,
+      authMode: interfaceSummaryById[entry.interfaceId]?.authMode || null,
       transportProtocol: interfaceSummaryById[entry.interfaceId]?.transportProtocol || null,
+      remoteAuthExchangeCount: interfaceSummaryById[entry.interfaceId]?.remoteAuthExchangeCount || null,
       reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
+      continuityState: interfaceSummaryById[entry.interfaceId]?.continuityState || null,
+      observationSequence: interfaceSummaryById[entry.interfaceId]?.observationSequence || null,
       telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null
     }));
   return {
@@ -482,11 +487,17 @@ function buildReviewerExternalRealizationSummary(latestRun) {
         externalBoundaryRequiredForLive: entry.externalBoundary?.requiredForLive === true,
         runtimeState: interfaceSummaryById[entry.interfaceId]?.runtimeState || null,
         missingBindingKeys: interfaceSummaryById[entry.interfaceId]?.missingBindingKeys || [],
+        missingSecretEnvKeys: interfaceSummaryById[entry.interfaceId]?.missingSecretEnvKeys || [],
         executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
         executorKind: bindingByInterfaceId[entry.interfaceId]?.executorKind || null,
+        authMode: interfaceSummaryById[entry.interfaceId]?.authMode || null,
         transportProtocol: interfaceSummaryById[entry.interfaceId]?.transportProtocol || null,
         remoteRequestCount: interfaceSummaryById[entry.interfaceId]?.remoteRequestCount || null,
+        remoteAuthExchangeCount: interfaceSummaryById[entry.interfaceId]?.remoteAuthExchangeCount || null,
         reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
+        continuityState: interfaceSummaryById[entry.interfaceId]?.continuityState || null,
+        observationSequence: interfaceSummaryById[entry.interfaceId]?.observationSequence || null,
+        priorObservationId: interfaceSummaryById[entry.interfaceId]?.priorObservationId || null,
         resultClass: interfaceSummaryById[entry.interfaceId]?.resultClass || null,
         telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null,
         affectedArtifactRefs: interfaceSummaryById[entry.interfaceId]?.affectedArtifactRefs || []

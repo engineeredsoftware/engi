@@ -504,11 +504,18 @@ export function createAppContext({
         };
         const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
         const realizedLatestRun = await realizeV24LiveExternalExecution(latestRun, {
-          executorHandlers: v24LocalExecutorHandlers
+          executorHandlers: v24LocalExecutorHandlers,
+          priorLatestRun: state.latestRun || null,
+          priorExternalExecutionLedger: state.externalExecutionLedger || null
         });
+        const priorReconciliationLog = Array.isArray(state.externalReconciliationLog) ? state.externalReconciliationLog : [];
         const persistedState = {
           ...nextState,
-          latestRun: realizedLatestRun
+          latestRun: realizedLatestRun,
+          externalExecutionLedger: realizedLatestRun.externalExecutionLedger || state.externalExecutionLedger || null,
+          externalReconciliationLog: realizedLatestRun.externalReconciliationLog
+            ? [...priorReconciliationLog.slice(-31), realizedLatestRun.externalReconciliationLog]
+            : priorReconciliationLog
         };
         writeState(persistedState);
         const projectedState = buildPublicState(persistedState, principal);

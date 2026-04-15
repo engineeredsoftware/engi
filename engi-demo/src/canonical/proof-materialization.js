@@ -271,9 +271,16 @@ function buildMaterializationProof({ assetPack, assetPackLock, selectedSourceMat
  *   projectionPolicy?: { policyHash?: string | undefined } | undefined,
  *   boundedPublicProof?: { boundedPublicProofHash?: string | undefined } | undefined,
  *   redactionProof: { boundedPublicProofHash: string },
-  *   disclosureProof: { boundedPublicProofHash: string, projectionPolicyRef?: string | undefined },
+ *   disclosureProof: { boundedPublicProofHash: string, projectionPolicyRef?: string | undefined },
  *   disclosureBoundaryProof?: { proofHash?: string | undefined } | undefined,
- *   proofContract: { contractId: string }
+ *   proofContract: { contractId: string },
+ *   externalEnvironmentProfile?: unknown,
+ *   externalTelemetrySummary?: unknown,
+ *   externalExecutionLedger?: unknown,
+ *   externalReconciliationLog?: unknown,
+ *   externalRealizationProof?: { proofHash?: string | undefined } | undefined,
+ *   containerRealityProof?: { proofHash?: string | undefined } | undefined,
+ *   githubLiveInterfaceProof?: { proofHash?: string | undefined } | undefined
  * }} input
  * @returns {Record<string, unknown>}
  */
@@ -325,6 +332,13 @@ function buildProofWitnessManifest({
   disclosureProof,
   disclosureBoundaryProof,
   proofContract,
+  externalEnvironmentProfile = null,
+  externalTelemetrySummary = null,
+  externalExecutionLedger = null,
+  externalReconciliationLog = null,
+  externalRealizationProof = null,
+  containerRealityProof = null,
+  githubLiveInterfaceProof = null,
   computeRealityManifest = null,
   storageRealityManifest = null,
   bitcoinCommitmentManifest = null,
@@ -387,6 +401,13 @@ function buildProofWitnessManifest({
     { path: '.engi/disclosure-boundary-proof.json', digest: disclosureBoundaryProof?.proofHash || stableHashObject({ missing: 'disclosure-boundary-proof' }), proofFamilies: ['disclosure-boundary'] },
     { path: '.engi/proof-contract.json', digest: stableHashObject(proofContract || {}), proofFamilies: ['proof-contract'] },
     { path: '.engi/static-heuristics-registry.json', digest: stableHashObject(staticHeuristicsRegistry || {}), proofFamilies: ['static-code-analysis'] },
+    ...(externalEnvironmentProfile ? [{ path: '.engi/external-environment-profile.json', digest: stableHashObject(externalEnvironmentProfile || {}), proofFamilies: ['proof-contract'] }] : []),
+    ...(externalTelemetrySummary ? [{ path: '.engi/external-telemetry-summary.json', digest: stableHashObject(externalTelemetrySummary || {}), proofFamilies: ['proof-contract'] }] : []),
+    ...(externalExecutionLedger ? [{ path: '.engi/external-execution-ledger.json', digest: stableHashObject(externalExecutionLedger || {}), proofFamilies: ['proof-contract'] }] : []),
+    ...(externalReconciliationLog ? [{ path: '.engi/external-reconciliation-log.json', digest: stableHashObject(externalReconciliationLog || {}), proofFamilies: ['proof-contract'] }] : []),
+    ...(externalRealizationProof ? [{ path: '.engi/external-realization-proof.json', digest: externalRealizationProof?.proofHash || stableHashObject(externalRealizationProof || {}), proofFamilies: ['proof-contract'] }] : []),
+    ...(containerRealityProof ? [{ path: '.engi/container-reality-proof.json', digest: containerRealityProof?.proofHash || stableHashObject(containerRealityProof || {}), proofFamilies: ['proof-contract'] }] : []),
+    ...(githubLiveInterfaceProof ? [{ path: '.engi/github-live-interface-proof.json', digest: githubLiveInterfaceProof?.proofHash || stableHashObject(githubLiveInterfaceProof || {}), proofFamilies: ['proof-contract'] }] : []),
     ...(computeRealityManifest ? [{ path: '.engi/compute-reality-manifest.json', digest: stableHashObject(computeRealityManifest || {}), proofFamilies: ['bitcoin-settlement-interface'] }] : []),
     ...(storageRealityManifest ? [{ path: '.engi/storage-reality-manifest.json', digest: stableHashObject(storageRealityManifest || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
     ...(bitcoinCommitmentManifest ? [{ path: '.engi/bitcoin-commitment-manifest.json', digest: stableHashObject(bitcoinCommitmentManifest || {}), proofFamilies: ['bitcoin-audit-anchor'] }] : []),
@@ -457,8 +478,28 @@ function buildProofWitnessManifest({
       },
       {
         proofFamily: 'proof-contract',
-        witnessArtifactPaths: ['.engi/proof-contract.json', '.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'],
-        witnessRefs: [proofContract.contractId, settlementProof.assetPackLockHash, stableHashObject(proofContract || {})]
+        witnessArtifactPaths: [
+          '.engi/proof-contract.json',
+          '.engi/system-proof-bundle.json',
+          '.engi/proof-witness-manifest.json',
+          ...(externalEnvironmentProfile ? ['.engi/external-environment-profile.json'] : []),
+          ...(externalTelemetrySummary ? ['.engi/external-telemetry-summary.json'] : []),
+          ...(externalExecutionLedger ? ['.engi/external-execution-ledger.json'] : []),
+          ...(externalReconciliationLog ? ['.engi/external-reconciliation-log.json'] : []),
+          ...(externalRealizationProof ? ['.engi/external-realization-proof.json'] : []),
+          ...(containerRealityProof ? ['.engi/container-reality-proof.json'] : []),
+          ...(githubLiveInterfaceProof ? ['.engi/github-live-interface-proof.json'] : [])
+        ],
+        witnessRefs: [
+          proofContract.contractId,
+          settlementProof.assetPackLockHash,
+          stableHashObject(proofContract || {}),
+          ...(externalExecutionLedger ? [externalExecutionLedger?.ledgerId || stableHashObject(externalExecutionLedger || {})] : []),
+          ...(externalReconciliationLog ? [externalReconciliationLog?.logId || stableHashObject(externalReconciliationLog || {})] : []),
+          ...(externalRealizationProof ? [externalRealizationProof?.proofHash || stableHashObject(externalRealizationProof || {})] : []),
+          ...(containerRealityProof ? [containerRealityProof?.proofHash || stableHashObject(containerRealityProof || {})] : []),
+          ...(githubLiveInterfaceProof ? [githubLiveInterfaceProof?.proofHash || stableHashObject(githubLiveInterfaceProof || {})] : [])
+        ]
       },
       ...(bitcoinAuditAnchorProof ? [{
         proofFamily: 'bitcoin-audit-anchor',
@@ -537,6 +578,13 @@ function buildProofWitnessManifest({
       settlementSourceToSharesProof: settlementSourceToSharesProof?.proofHash,
       disclosureBoundaryProof: disclosureBoundaryProof?.proofHash,
       accountingPrecisionReport: accountingPrecisionReport.reportHash,
+      ...(externalEnvironmentProfile ? { externalEnvironmentProfile: stableHashObject(externalEnvironmentProfile || {}) } : {}),
+      ...(externalTelemetrySummary ? { externalTelemetrySummary: stableHashObject(externalTelemetrySummary || {}) } : {}),
+      ...(externalExecutionLedger ? { externalExecutionLedger: stableHashObject(externalExecutionLedger || {}) } : {}),
+      ...(externalReconciliationLog ? { externalReconciliationLog: stableHashObject(externalReconciliationLog || {}) } : {}),
+      ...(externalRealizationProof ? { externalRealizationProof: externalRealizationProof?.proofHash || stableHashObject(externalRealizationProof || {}) } : {}),
+      ...(containerRealityProof ? { containerRealityProof: containerRealityProof?.proofHash || stableHashObject(containerRealityProof || {}) } : {}),
+      ...(githubLiveInterfaceProof ? { githubLiveInterfaceProof: githubLiveInterfaceProof?.proofHash || stableHashObject(githubLiveInterfaceProof || {}) } : {}),
       ...(computeRealityManifest ? { computeRealityManifest: stableHashObject(computeRealityManifest || {}) } : {}),
       ...(storageRealityManifest ? { storageRealityManifest: stableHashObject(storageRealityManifest || {}) } : {}),
       ...(bitcoinCommitmentManifest ? { bitcoinCommitmentManifest: stableHashObject(bitcoinCommitmentManifest || {}) } : {}),

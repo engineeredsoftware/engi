@@ -215,6 +215,9 @@ function buildGithubBinding(mode, repos) {
     environmentMode: mode,
     appRef: `github-app://engi/${mode}`,
     appId: `engi-${mode}-github-app`,
+    authMode: mode === 'mock' ? 'deterministic-github-emulation' : 'github-app-installation-token',
+    jwtIssuerRef: `github-app-issuer://engi/${mode}`,
+    privateKeyRef: `secret://engi/${mode}/github-app-private-key`,
     installationTargetRef: `github-installation://engi/${mode}`,
     webhookRef: `webhook://engi/${mode}/github`,
     mutationPolicyRef: `policy://engi/${mode}/github-mutations`,
@@ -384,6 +387,14 @@ function envBoolean(key) {
 }
 
 /**
+ * @param {string} key
+ * @returns {boolean}
+ */
+function envPresent(key) {
+  return envString(key) !== undefined;
+}
+
+/**
  * @param {unknown} value
  * @param {string} fallback
  * @returns {string}
@@ -510,6 +521,10 @@ function applyActiveBindingOverrides(interfaceId, binding) {
   const overrides = compactRecord({
     appRef: envString('ENGI_V24_GITHUB_APP_REF'),
     appId: envString('ENGI_V24_GITHUB_APP_ID'),
+    authMode: envString('ENGI_V24_GITHUB_AUTH_MODE'),
+    jwtIssuerRef: envString('ENGI_V24_GITHUB_JWT_ISSUER_REF'),
+    privateKeyRef: envString('ENGI_V24_GITHUB_PRIVATE_KEY_REF'),
+    defaultInstallationId: envString('ENGI_V24_GITHUB_INSTALLATION_ID'),
     installationTargetRef: envString('ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'),
     webhookRef: envString('ENGI_V24_GITHUB_WEBHOOK_REF'),
     mutationPolicyRef: envString('ENGI_V24_GITHUB_MUTATION_POLICY_REF'),
@@ -541,6 +556,37 @@ function requiredBindingKeys(executionPolicy, interfaceId) {
 }
 
 /**
+ * @param {string} interfaceId
+ * @param {Record<string, unknown>} binding
+ * @returns {string[]}
+ */
+function requiredSecretEnvKeys(interfaceId, binding) {
+  const executorKind = String(binding.executorKind || 'http-json-patch');
+  if (executorKind === 'built-in-demonstration-adapter' || executorKind === 'http-json-patch') {
+    return [];
+  }
+  if (interfaceId === 'bitcoin-mainchain-execution' && executorKind === 'bitcoin-json-rpc-v1') {
+    return ['ENGI_V24_BITCOIN_MAINCHAIN_RPC_USER', 'ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD'];
+  }
+  if (interfaceId === 'sidechain-execution' && executorKind === 'sidechain-json-rpc-v1') {
+    return ['ENGI_V24_SIDECHAIN_RPC_USER', 'ENGI_V24_SIDECHAIN_RPC_PASSWORD'];
+  }
+  if (interfaceId === 'compute-container-execution' && executorKind === 'compute-http-v1') {
+    return ['ENGI_V24_COMPUTE_BEARER_TOKEN'];
+  }
+  if (interfaceId === 'storage-container-execution' && executorKind === 'storage-http-v1') {
+    return ['ENGI_V24_STORAGE_BEARER_TOKEN'];
+  }
+  if (interfaceId === 'github-live-interface' && executorKind === 'github-rest-v3') {
+    return ['ENGI_V24_GITHUB_BEARER_TOKEN'];
+  }
+  if (interfaceId === 'github-live-interface' && executorKind === 'github-app-rest-v3') {
+    return ['ENGI_V24_GITHUB_APP_PRIVATE_KEY_PEM'];
+  }
+  return [];
+}
+
+/**
  * @param {Record<string, unknown>} executionPolicy
  * @param {string} interfaceId
  * @param {Record<string, unknown>} binding
@@ -551,23 +597,26 @@ function requiredBindingKeys(executionPolicy, interfaceId) {
 function buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, configuredEnvironmentMode, defaultStubbed) {
   const liveEnabled = envBoolean(liveEnableEnvKey(interfaceId));
   const missingBindingKeys = requiredBindingKeys(executionPolicy, interfaceId).filter((key) => !binding[key]);
+  const missingSecretEnvKeys = requiredSecretEnvKeys(interfaceId, binding).filter((key) => !envPresent(key));
   if (configuredEnvironmentMode === 'mock') {
     return {
       interfaceId,
       runtimeState: 'mock',
       liveEnabled,
       missingBindingKeys,
+      missingSecretEnvKeys,
       resultClass: 'deterministic-mock-only',
       reconciliationState: 'mock-parity-only',
       telemetryCoverageState: 'shape-complete-implementation-pending'
     };
   }
-  if (liveEnabled && missingBindingKeys.length === 0) {
+  if (liveEnabled && missingBindingKeys.length === 0 && missingSecretEnvKeys.length === 0) {
     return {
       interfaceId,
       runtimeState: 'live-configured',
       liveEnabled,
       missingBindingKeys,
+      missingSecretEnvKeys,
       resultClass: 'configuration-live-ready',
       reconciliationState: 'configuration-ready-awaiting-observation',
       telemetryCoverageState: 'shape-complete-live-execution-pending'
@@ -579,20 +628,22 @@ function buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, confi
       runtimeState: 'live-misconfigured',
       liveEnabled,
       missingBindingKeys,
+      missingSecretEnvKeys,
       resultClass: 'configuration-invalid',
       reconciliationState: 'misconfigured-blocking',
       telemetryCoverageState: 'shape-complete-blocking'
     };
   }
   return {
-    interfaceId,
-    runtimeState: defaultStubbed ? 'stubbed-demonstration' : 'nonexecuting-preview',
-    liveEnabled,
-    missingBindingKeys,
-    resultClass: defaultStubbed ? 'stubbed-external-demonstration' : 'nonexecuting-preview',
-    reconciliationState: defaultStubbed ? 'draft-target-artifact-emission-only' : 'configuration-present-execution-disabled',
-    telemetryCoverageState: 'shape-complete-implementation-pending'
-  };
+      interfaceId,
+      runtimeState: defaultStubbed ? 'stubbed-demonstration' : 'nonexecuting-preview',
+      liveEnabled,
+      missingBindingKeys,
+      missingSecretEnvKeys,
+      resultClass: defaultStubbed ? 'stubbed-external-demonstration' : 'nonexecuting-preview',
+      reconciliationState: defaultStubbed ? 'draft-target-artifact-emission-only' : 'configuration-present-execution-disabled',
+      telemetryCoverageState: 'shape-complete-implementation-pending'
+    };
 }
 
 /**
@@ -790,6 +841,7 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
         environmentResourceRef: binding?.addressRef || binding?.bucketRef || binding?.namespaceRef || binding?.installationTargetRef || null,
         runtimeState: runtime.interfaceRuntimeStateById[interfaceId]?.runtimeState || null,
         missingBindingKeys: runtime.interfaceRuntimeStateById[interfaceId]?.missingBindingKeys || [],
+        missingSecretEnvKeys: runtime.interfaceRuntimeStateById[interfaceId]?.missingSecretEnvKeys || [],
         reconciliationState: runtime.interfaceRuntimeStateById[interfaceId]?.reconciliationState || 'draft-target-artifact-emission-only',
         resultClass: runtime.interfaceRuntimeStateById[interfaceId]?.resultClass || actualityDisposition,
         telemetryCoverageState: runtime.interfaceRuntimeStateById[interfaceId]?.telemetryCoverageState || 'shape-complete-implementation-pending',

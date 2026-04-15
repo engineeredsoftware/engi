@@ -5,8 +5,11 @@ import {
   buildV24ContainerRealityProof,
   buildV24GithubLiveInterfaceProof
 } from './v24-external-execution.js';
+import { buildSystemProofBundle } from './run-artifacts.js';
 import { getV24LocalExecutorInterfaceId } from './v24-local-executors.js';
 import { executeV24RemoteAdapter } from './v24-remote-adapters.js';
+import { buildProofWitnessManifest } from './proof-materialization.js';
+import { buildProofContract } from '../engi-demo.js';
 
 const V24_INTERFACE_ORDER = [
   'bitcoin-mainchain-execution',
@@ -27,6 +30,8 @@ const V24_ACTIVE_BINDING_KEY_BY_INTERFACE = {
 const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
   externalEnvironmentProfile: '.engi/external-environment-profile.json',
   externalTelemetrySummary: '.engi/external-telemetry-summary.json',
+  externalExecutionLedger: '.engi/external-execution-ledger.json',
+  externalReconciliationLog: '.engi/external-reconciliation-log.json',
   bitcoinNetworkIntent: '.engi/bitcoin-network-intent.json',
   bitcoinNetworkExecution: '.engi/bitcoin-network-execution.json',
   bitcoinNetworkObservation: '.engi/bitcoin-network-observation.json',
@@ -42,10 +47,20 @@ const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
   githubArtifactFetchReceipt: '.engi/github-artifact-fetch-receipt.json',
   githubBranchPublicationReceipt: '.engi/github-branch-publication-receipt.json',
   githubPrUpdateReceipt: '.engi/github-pr-update-receipt.json',
+  externalBoundaryManifest: '.engi/external-boundary-manifest.json',
+  deliverablesManifest: '.engi/deliverables.json',
+  systemProofBundle: '.engi/system-proof-bundle.json',
+  proofWitnessManifest: '.engi/proof-witness-manifest.json',
+  proofContract: '.engi/proof-contract.json',
   externalRealizationProof: '.engi/external-realization-proof.json',
   containerRealityProof: '.engi/container-reality-proof.json',
   githubLiveInterfaceProof: '.engi/github-live-interface-proof.json'
 };
+
+const V24_RECONCILIATION_ARTIFACT_PATHS = [
+  '.engi/external-execution-ledger.json',
+  '.engi/external-reconciliation-log.json'
+];
 
 const V24_SUPPORT_ARTIFACT_KEYS_BY_INTERFACE = {
   'bitcoin-mainchain-execution': [
@@ -142,6 +157,72 @@ function activeBinding(latestRun, interfaceId) {
 function interfaceSummary(latestRun, interfaceId) {
   const summaries = /** @type {Array<Record<string, any>>} */ (latestRun.externalTelemetrySummary?.interfaceSummaries || []);
   return summaries.find((entry) => entry.interfaceId === interfaceId) || {};
+}
+
+/**
+ * @param {Record<string, any> | null | undefined} latestRun
+ * @returns {string | null}
+ */
+function buildRunRef(latestRun) {
+  if (!latestRun) return null;
+  const createdAt = String(latestRun.createdAt || '').trim();
+  const scenarioId = String(latestRun.scenarioId || '').trim();
+  const branchName = String(latestRun.branchArtifacts?.branchName || '').trim();
+  if (!createdAt && !scenarioId && !branchName) return null;
+  const refSource = [createdAt, scenarioId, branchName].filter(Boolean).join(':') || 'run';
+  return `v24_run_${refSource}`;
+}
+
+/**
+ * @param {Record<string, any> | null | undefined} latestRun
+ * @param {string} interfaceId
+ * @returns {string | null}
+ */
+function continuityRef(latestRun, interfaceId) {
+  if (!latestRun) return null;
+  if (interfaceId === 'bitcoin-mainchain-execution') {
+    return String(
+      latestRun.bitcoinNetworkObservation?.serviceReceipt?.txid
+      || latestRun.bitcoinNetworkObservation?.anchorRef
+      || latestRun.bitcoinNetworkExecution?.networkRef
+      || ''
+    ).trim() || null;
+  }
+  if (interfaceId === 'sidechain-execution') {
+    return String(
+      latestRun.sidechainExecutionReceipt?.checkpointObservationRef
+      || latestRun.sidechainExecutionReceipt?.checkpointRef
+      || ''
+    ).trim() || null;
+  }
+  if (interfaceId === 'compute-container-execution') {
+    return String(
+      latestRun.computeContainerExecution?.remoteRunId
+      || latestRun.computeContainerExecution?.attestationRef
+      || latestRun.computeContainerExecution?.imageDigest
+      || ''
+    ).trim() || null;
+  }
+  if (interfaceId === 'storage-container-execution') {
+    return String(
+      latestRun.storagePublicationReceipt?.publicationReceiptRef
+      || latestRun.storageRetrievalReceipt?.retrievalReceiptRef
+      || ''
+    ).trim() || null;
+  }
+  if (interfaceId === 'github-live-interface') {
+    const targetRepo = String(
+      latestRun.githubPrUpdateReceipt?.targetRepo
+      || latestRun.githubBranchPublicationReceipt?.targetRepo
+      || ''
+    ).trim();
+    const prNumber = Number(latestRun.githubPrUpdateReceipt?.prNumber || 0);
+    if (targetRepo && prNumber > 0) return `${targetRepo}#${prNumber}`;
+    const branchName = String(latestRun.githubBranchPublicationReceipt?.branchName || '').trim();
+    if (targetRepo && branchName) return `${targetRepo}:${branchName}`;
+    return String(latestRun.githubLiveSession?.sessionId || '').trim() || null;
+  }
+  return null;
 }
 
 /**
@@ -303,9 +384,9 @@ function patchInterfaceTelemetry(latestRun, interfaceId, telemetryPatch, patched
     ...telemetryPatch,
     interfaceId,
     runtimeState: telemetryPatch.runtimeState || 'live-observed',
-    resultClass: telemetryPatch.resultClass || 'live-executed',
-    reconciliationState: telemetryPatch.reconciliationState || 'live-remote-reconciled',
-    telemetryCoverageState: telemetryPatch.telemetryCoverageState || 'shape-complete-live-observed',
+    resultClass: telemetryPatch.resultClass || prior.resultClass || 'live-executed',
+    reconciliationState: telemetryPatch.reconciliationState || prior.reconciliationState || 'live-remote-reconciled',
+    telemetryCoverageState: telemetryPatch.telemetryCoverageState || prior.telemetryCoverageState || 'shape-complete-live-observed',
     executionClass: telemetryPatch.executionClass || prior.executionClass || binding.executionClass || null,
     requestId: telemetryPatch.requestId || prior.requestId || null,
     executionId: telemetryPatch.executionId || prior.executionId || null,
@@ -353,13 +434,23 @@ function patchEnvironmentRuntimeState(latestRun, interfaceId, telemetryPatch) {
   const missingBindingKeys = uniqueStrings(telemetryPatch.missingBindingKeys || []);
   const nextEntry = {
     ...ensureRecord(latestRun.externalEnvironmentProfile.interfaceRuntimeStateById?.[interfaceId]),
+    ...ensureRecord(telemetryPatch),
     interfaceId,
     runtimeState,
     liveEnabled: true,
     missingBindingKeys,
-    resultClass: telemetryPatch.resultClass || 'live-executed',
-    reconciliationState: telemetryPatch.reconciliationState || 'live-remote-reconciled',
-    telemetryCoverageState: telemetryPatch.telemetryCoverageState || 'shape-complete-live-observed'
+    resultClass:
+      telemetryPatch.resultClass
+      || ensureRecord(latestRun.externalEnvironmentProfile.interfaceRuntimeStateById?.[interfaceId]).resultClass
+      || 'live-executed',
+    reconciliationState:
+      telemetryPatch.reconciliationState
+      || ensureRecord(latestRun.externalEnvironmentProfile.interfaceRuntimeStateById?.[interfaceId]).reconciliationState
+      || 'live-remote-reconciled',
+    telemetryCoverageState:
+      telemetryPatch.telemetryCoverageState
+      || ensureRecord(latestRun.externalEnvironmentProfile.interfaceRuntimeStateById?.[interfaceId]).telemetryCoverageState
+      || 'shape-complete-live-observed'
   };
   const entryIndex = activeRuntimeStates.findIndex((entry) => entry.interfaceId === interfaceId);
   if (entryIndex >= 0) {
@@ -413,6 +504,424 @@ function rebuildV24Proofs(latestRun) {
 
 /**
  * @param {Record<string, any>} latestRun
+ * @returns {void}
+ */
+function refreshExternalBoundaryManifest(latestRun) {
+  if (!latestRun.externalBoundaryManifest || !Array.isArray(latestRun.externalBoundaryManifest.interfaces)) return;
+  const configuredEnvironmentMode = latestRun.externalEnvironmentProfile?.configuredEnvironmentMode || null;
+  const actualityDisposition = latestRun.externalEnvironmentProfile?.actualityDisposition || null;
+  latestRun.externalBoundaryManifest.configuredEnvironmentMode = configuredEnvironmentMode;
+  latestRun.externalBoundaryManifest.actualityDisposition = actualityDisposition;
+  latestRun.externalBoundaryManifest.interfaces = latestRun.externalBoundaryManifest.interfaces.map((entry) => {
+    const interfaceId = String(entry.interfaceId || '');
+    if (!V24_INTERFACE_ORDER.includes(interfaceId)) return entry;
+    const summary = interfaceSummary(latestRun, interfaceId);
+    const binding = activeBinding(latestRun, interfaceId);
+    const runtimeState = summary.runtimeState || latestRun.externalEnvironmentProfile?.interfaceRuntimeStateById?.[interfaceId]?.runtimeState || null;
+    return {
+      ...entry,
+      status:
+        runtimeState === 'live-observed'
+          ? 'implemented-as-live-observed-surface'
+          : runtimeState === 'live-configured'
+            ? 'implemented-as-live-configured-surface'
+            : entry.status,
+      localPrototype: {
+        ...ensureRecord(entry.localPrototype),
+        configuredEnvironmentMode,
+        actualityDisposition,
+        runtimeState,
+        executorKind: binding.executorKind || ensureRecord(entry.localPrototype).executorKind || null,
+        transportProtocol: summary.transportProtocol || binding.transportProtocol || ensureRecord(entry.localPrototype).transportProtocol || null,
+        executionClass: summary.executionClass || ensureRecord(entry.localPrototype).executionClass || null,
+        reconciliationState: summary.reconciliationState || ensureRecord(entry.localPrototype).reconciliationState || null,
+        telemetryCoverageState: summary.telemetryCoverageState || ensureRecord(entry.localPrototype).telemetryCoverageState || null,
+        continuityState: summary.continuityState || ensureRecord(entry.localPrototype).continuityState || null,
+        observationSequence: summary.observationSequence || ensureRecord(entry.localPrototype).observationSequence || null
+      }
+    };
+  });
+  patchArtifact(latestRun, 'externalBoundaryManifest', latestRun.externalBoundaryManifest);
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @returns {void}
+ */
+function augmentV24DeliverablesManifest(latestRun) {
+  if (!latestRun.deliverablesManifest || !Array.isArray(latestRun.deliverablesManifest.deliverables)) return;
+  const deliverables = latestRun.deliverablesManifest.deliverables;
+  const byPath = new Map(deliverables.map((entry) => [String(entry.path || ''), entry]));
+  const requiredEntries = [
+    latestRun.externalExecutionLedger
+      ? {
+          path: '.engi/external-execution-ledger.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-environment-profile', 'external-telemetry-summary', 'external-realization-proof']
+        }
+      : null,
+    latestRun.externalReconciliationLog
+      ? {
+          path: '.engi/external-reconciliation-log.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-execution-ledger', 'external-telemetry-summary', 'proof-contract']
+        }
+      : null
+  ].filter(Boolean);
+
+  for (const entry of requiredEntries) {
+    if (!byPath.has(entry.path)) {
+      deliverables.push(entry);
+      byPath.set(entry.path, entry);
+      continue;
+    }
+    const current = byPath.get(entry.path);
+    current.useTiersContributed = uniqueStrings([
+      ...(current.useTiersContributed || []),
+      ...(entry.useTiersContributed || [])
+    ]);
+    current.confidentialityClass = entry.confidentialityClass;
+    current.potentiallyDisclosable = entry.potentiallyDisclosable;
+    current.dependsOn = uniqueStrings([
+      ...(current.dependsOn || []),
+      ...(entry.dependsOn || [])
+    ]);
+  }
+
+  latestRun.deliverablesManifest.deliverables = deliverables.slice().sort((left, right) =>
+    String(left.path || '').localeCompare(String(right.path || ''))
+  );
+  patchArtifact(latestRun, 'deliverablesManifest', latestRun.deliverablesManifest);
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @returns {Array<Record<string, any>>}
+ */
+function selectedCandidatesForProofContract(latestRun) {
+  const selectedAssetIds = uniqueStrings(
+    latestRun.assetPack?.selectedAssets
+    || (latestRun.selectedSourceMaterialManifest?.selectedSourceMaterial || []).map((entry) => entry.assetId)
+  );
+  return selectedAssetIds.map((assetId) => ({
+    assetId,
+    asset: {
+      contentRoot: null,
+      attestations: [{}]
+    }
+  }));
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @param {string} artifactPath
+ * @returns {Record<string, any>}
+ */
+function parsedBranchArtifact(latestRun, artifactPath) {
+  const payload = String(latestRun.branchArtifacts?.files?.[artifactPath] || '').trim();
+  if (!payload) return {};
+  try {
+    return ensureRecord(JSON.parse(payload));
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @returns {Record<string, any>}
+ */
+function buildProofWitnessManifestForLatestRun(latestRun) {
+  const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.engi/settlement-proof.json');
+  return buildProofWitnessManifest({
+    inferenceProofs: latestRun.inferenceProofs,
+    inferenceSynthesisProof: latestRun.inferenceSynthesisProof,
+    promptFamilyRegistry: latestRun.promptFamilyRegistry,
+    inferenceMomentContracts: latestRun.inferenceMomentContracts,
+    promptSurfaces: latestRun.promptSurfaces,
+    promptContracts: latestRun.promptContracts,
+    promptImplementationSurface: latestRun.promptImplementationSurface,
+    promptCompletenessProof: latestRun.promptCompletenessProof,
+    parsedCompletionEnvelopes: latestRun.parsedCompletionEnvelopes,
+    parsedCompletionEnvelopeArtifact: latestRun.parsedCompletionEnvelopeArtifact,
+    evalManifest: latestRun.evalManifest,
+    assetPackLock: latestRun.assetPackLock,
+    selectedSourceMaterialManifest: latestRun.selectedSourceMaterialManifest,
+    codeAnalysisFactRegistry: latestRun.codeAnalysisFactRegistry,
+    staticHeuristicsRegistry: latestRun.staticHeuristicsRegistry,
+    measurementReceipts: latestRun.measurementReceipts,
+    staticMeasurementReport: latestRun.staticMeasurementReport,
+    staticMeasurementProof: latestRun.staticMeasurementProof,
+    verificationReport: latestRun.verificationReport,
+    verificationReceiptsArtifact: latestRun.verificationReceipts,
+    verificationDecisionsProof: latestRun.verificationDecisionsProof,
+    identityBindings: latestRun.identityBindings,
+    authorizationDecisions: latestRun.authorizationDecisions || [],
+    sensitiveDataFlowRecords: latestRun.sensitiveDataFlowRecords || [],
+    selectionConsistencyProof: latestRun.selectionConsistencyProof,
+    selectionAndMaterializationProof: latestRun.selectionAndMaterializationProof,
+    journalCompletenessProof: latestRun.journalCompletenessProof,
+    identityAuthorizationProof: latestRun.identityAuthorizationProof,
+    sensitiveDataFlowProof: latestRun.sensitiveDataFlowProof,
+    authorizationAndSensitiveFlowProof: latestRun.authorizationAndSensitiveFlowProof,
+    materializationProof: latestRun.materializationProof,
+    materializationExclusions: latestRun.materializationExclusions,
+    materializationVisibilityProof: latestRun.materializationVisibilityProof,
+    settlementPreview: latestRun.settlementPreview,
+    sourceToSharesArtifact: latestRun.sourceToSharesArtifact,
+    settlementParticipationArtifact: latestRun.settlementParticipationArtifact,
+    accountingPrecisionReport: latestRun.accountingPrecisionReport,
+    settlementSourceToSharesProof: latestRun.settlementSourceToSharesProof,
+    settlementProof,
+    journalDiff: latestRun.journalDiff,
+    externalBoundaryManifest: latestRun.externalBoundaryManifest,
+    projectionPolicy: latestRun.projectionPolicy,
+    boundedPublicProof: latestRun.boundedPublicProof,
+    redactionProof: latestRun.redactionProof,
+    disclosureProof: latestRun.disclosureProof,
+    disclosureBoundaryProof: latestRun.disclosureBoundaryProof,
+    proofContract: latestRun.proofContract,
+    externalEnvironmentProfile: latestRun.externalEnvironmentProfile,
+    externalTelemetrySummary: latestRun.externalTelemetrySummary,
+    externalExecutionLedger: latestRun.externalExecutionLedger,
+    externalReconciliationLog: latestRun.externalReconciliationLog,
+    externalRealizationProof: latestRun.externalRealizationProof,
+    containerRealityProof: latestRun.containerRealityProof,
+    githubLiveInterfaceProof: latestRun.githubLiveInterfaceProof,
+    computeRealityManifest: latestRun.computeRealityManifest,
+    storageRealityManifest: latestRun.storageRealityManifest,
+    bitcoinCommitmentManifest: latestRun.bitcoinCommitmentManifest,
+    bitcoinTreasuryPolicy: latestRun.bitcoinTreasuryPolicy,
+    bitcoinAnchor: latestRun.bitcoinAnchor,
+    bitcoinBoundedPublicAnchor: latestRun.bitcoinBoundedPublicAnchor,
+    bitcoinSettlementIntent: latestRun.bitcoinSettlementIntent,
+    bitcoinSettlementObservation: latestRun.bitcoinSettlementObservation,
+    bitcoinAuditAnchorProof: latestRun.bitcoinAuditAnchorProof,
+    bitcoinSettlementInterfaceProof: latestRun.bitcoinSettlementInterfaceProof
+  });
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @returns {Record<string, any>}
+ */
+function buildSystemProofBundleForLatestRun(latestRun) {
+  const settlementProof = latestRun.settlementProof || parsedBranchArtifact(latestRun, '.engi/settlement-proof.json');
+  return buildSystemProofBundle(
+    latestRun.need?.needId,
+    latestRun.assetPack?.assetPackId,
+    latestRun.inferenceProofs,
+    latestRun.promptFamilyRegistry,
+    latestRun.inferenceMomentContracts,
+    latestRun.inferenceSynthesisProof,
+    latestRun.parsedCompletionEnvelopes,
+    latestRun.parsedCompletionEnvelopeArtifact,
+    latestRun.assetMeasurementProofs,
+    latestRun.selectionConsistencyProof,
+    latestRun.selectionAndMaterializationProof,
+    latestRun.journalCompletenessProof,
+    latestRun.identityAuthorizationProof,
+    latestRun.sensitiveDataFlowProof,
+    latestRun.authorizationAndSensitiveFlowProof,
+    settlementProof,
+    latestRun.settlementSourceToSharesProof,
+    latestRun.promptImplementationSurface,
+    latestRun.promptCompletenessProof,
+    latestRun.staticMeasurementProof,
+    latestRun.materializationProof,
+    latestRun.materializationExclusions,
+    latestRun.materializationVisibilityProof,
+    latestRun.verificationReceipts,
+    latestRun.verificationDecisionsProof,
+    latestRun.sourceToSharesArtifact,
+    latestRun.settlementParticipationArtifact,
+    latestRun.accountingPrecisionReport,
+    latestRun.redactionProof,
+    latestRun.disclosureProof,
+    latestRun.disclosureBoundaryProof,
+    latestRun.proofWitnessManifest,
+    latestRun.proofContract,
+    latestRun.computeRealityManifest,
+    latestRun.storageRealityManifest,
+    latestRun.bitcoinCommitmentManifest,
+    latestRun.bitcoinTreasuryPolicy,
+    latestRun.bitcoinAnchor,
+    latestRun.bitcoinBoundedPublicAnchor,
+    latestRun.bitcoinSettlementIntent,
+    latestRun.bitcoinSettlementObservation,
+    latestRun.bitcoinAuditAnchorProof,
+    latestRun.bitcoinSettlementInterfaceProof
+  );
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @returns {void}
+ */
+function rebuildV24ProofClosure(latestRun) {
+  refreshExternalBoundaryManifest(latestRun);
+  augmentV24DeliverablesManifest(latestRun);
+
+  latestRun.proofWitnessManifest = buildProofWitnessManifestForLatestRun(latestRun);
+  patchArtifact(latestRun, 'proofWitnessManifest', latestRun.proofWitnessManifest);
+
+  latestRun.systemProofBundle = buildSystemProofBundleForLatestRun(latestRun);
+  patchArtifact(latestRun, 'systemProofBundle', latestRun.systemProofBundle);
+
+  latestRun.proofContract = buildProofContract({
+    needId: latestRun.need?.needId,
+    assetPackId: latestRun.assetPack?.assetPackId,
+    branchName: latestRun.branchArtifacts?.branchName,
+    selectedCandidates: selectedCandidatesForProofContract(latestRun),
+    authorizationDecisions: latestRun.authorizationDecisions || [],
+    sensitiveDataFlowRecords: latestRun.sensitiveDataFlowRecords || [],
+    systemProofBundleSummary: {
+      proofFamilies: (latestRun.systemProofBundle?.proofFamilies || []).map((entry) => entry.proofFamily),
+      replayArtifactCount: (latestRun.systemProofBundle?.verifierEntrypoint?.replayArtifacts || []).length,
+      requiredArtifactCount: (latestRun.systemProofBundle?.verifierEntrypoint?.requiredArtifactPaths || []).length
+    },
+    proofWitnessManifestSummary: {
+      proofFamilies: (latestRun.proofWitnessManifest?.proofFamilies || []).map((entry) => entry.proofFamily),
+      digestedArtifactCount: (latestRun.proofWitnessManifest?.artifactDigests || []).length,
+      allProofRelevantArtifactsDigested: latestRun.proofWitnessManifest?.allProofRelevantArtifactsDigested === true
+    },
+    v23BitcoinEnabled: Boolean(latestRun.bitcoinSettlementIntent),
+    v24ExternalEnabled: Boolean(latestRun.externalEnvironmentProfile),
+    externalExecutionLedger: latestRun.externalExecutionLedger || null,
+    externalReconciliationLog: latestRun.externalReconciliationLog || null
+  });
+  patchArtifact(latestRun, 'proofContract', latestRun.proofContract);
+
+  latestRun.proofWitnessManifest = buildProofWitnessManifestForLatestRun(latestRun);
+  patchArtifact(latestRun, 'proofWitnessManifest', latestRun.proofWitnessManifest);
+
+  latestRun.systemProofBundle = buildSystemProofBundleForLatestRun(latestRun);
+  patchArtifact(latestRun, 'systemProofBundle', latestRun.systemProofBundle);
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @param {Record<string, any> | null | undefined} priorLatestRun
+ * @param {Record<string, any> | null | undefined} priorExternalExecutionLedger
+ * @returns {{ externalExecutionLedger: Record<string, any>, externalReconciliationLog: Record<string, any> }}
+ */
+function buildExternalContinuityArtifacts(latestRun, priorLatestRun, priorExternalExecutionLedger) {
+  const configuredEnvironmentMode = String(latestRun.externalEnvironmentProfile?.configuredEnvironmentMode || '');
+  const actualityDisposition = String(latestRun.externalEnvironmentProfile?.actualityDisposition || '');
+  const currentRunRef = buildRunRef(latestRun);
+  const priorRunRef = buildRunRef(priorLatestRun);
+  const sameEnvironmentMode =
+    !!priorLatestRun
+    && String(priorLatestRun.externalEnvironmentProfile?.configuredEnvironmentMode || '') === configuredEnvironmentMode;
+  const priorLedgerById = ensureRecord(priorExternalExecutionLedger?.interfaceLedgerById);
+  const interfaceLedgerById = {};
+  const entries = [];
+
+  for (const interfaceId of V24_INTERFACE_ORDER) {
+    const summary = interfaceSummary(latestRun, interfaceId);
+    if (String(summary.runtimeState || '') !== 'live-observed') continue;
+    const currentContinuityRef = continuityRef(latestRun, interfaceId);
+    const priorSummary = sameEnvironmentMode ? interfaceSummary(priorLatestRun || {}, interfaceId) : {};
+    const priorEntry = sameEnvironmentMode ? ensureRecord(priorLedgerById[interfaceId]) : {};
+    const priorWasObserved =
+      String(priorSummary.runtimeState || priorEntry.runtimeState || '') === 'live-observed';
+    const priorEnvironmentIdentityRef = String(
+      priorSummary.environmentIdentityRef
+      || priorEntry.environmentIdentityRef
+      || ''
+    ).trim() || null;
+    const priorEnvironmentResourceRef = String(
+      priorSummary.environmentResourceRef
+      || priorEntry.environmentResourceRef
+      || ''
+    ).trim() || null;
+    const currentEnvironmentIdentityRef = String(summary.environmentIdentityRef || '').trim() || null;
+    const currentEnvironmentResourceRef = String(summary.environmentResourceRef || '').trim() || null;
+
+    let continuityState = 'first-observation';
+    if (!sameEnvironmentMode && priorLatestRun) {
+      continuityState = 'environment-mode-rollover';
+    } else if (priorWasObserved) {
+      if (
+        priorEnvironmentIdentityRef !== currentEnvironmentIdentityRef
+        || priorEnvironmentResourceRef !== currentEnvironmentResourceRef
+      ) {
+        throw new Error(
+          `V24 external interface ${interfaceId} binding drift detected between consecutive ${configuredEnvironmentMode} runs.`
+        );
+      }
+      continuityState = 'binding-stable';
+    }
+
+    const entry = {
+      interfaceId,
+      configuredEnvironmentMode,
+      actualityDisposition,
+      continuityState,
+      runtimeState: summary.runtimeState || null,
+      executionClass: summary.executionClass || null,
+      transportProtocol: summary.transportProtocol || null,
+      reconciliationState: summary.reconciliationState || null,
+      environmentIdentityRef: currentEnvironmentIdentityRef,
+      environmentResourceRef: currentEnvironmentResourceRef,
+      currentRunRef,
+      priorRunRef: priorWasObserved ? (priorEntry.currentRunRef || priorRunRef || null) : null,
+      currentObservationId: summary.observationId || null,
+      priorObservationId: priorWasObserved
+        ? (priorEntry.currentObservationId || priorSummary.observationId || null)
+        : null,
+      currentContinuityRef,
+      priorContinuityRef: priorWasObserved
+        ? (priorEntry.currentContinuityRef || continuityRef(priorLatestRun, interfaceId))
+        : null,
+      observationSequence: priorWasObserved ? Number(priorEntry.observationSequence || 0) + 1 : 1
+    };
+    interfaceLedgerById[interfaceId] = entry;
+    entries.push(entry);
+  }
+
+  return {
+    externalExecutionLedger: {
+      ledgerId: `v24_external_execution_ledger_${configuredEnvironmentMode || 'unknown'}`,
+      configuredEnvironmentMode,
+      actualityDisposition,
+      currentRunRef,
+      priorRunRef: sameEnvironmentMode ? priorRunRef : null,
+      liveObservedInterfaceCount: entries.length,
+      interfaceLedgerById
+    },
+    externalReconciliationLog: {
+      logId: `v24_external_reconciliation_log_${currentRunRef || configuredEnvironmentMode || 'unknown'}`,
+      configuredEnvironmentMode,
+      actualityDisposition,
+      currentRunRef,
+      priorRunRef: sameEnvironmentMode ? priorRunRef : null,
+      entryCount: entries.length,
+      entries
+    }
+  };
+}
+
+/**
+ * @param {Record<string, any>} latestRun
+ * @returns {void}
+ */
+function assertRequiredRealizedArtifacts(latestRun) {
+  if (!latestRun.branchArtifacts?.files) return;
+  if (!latestRun.externalExecutionLedger) return;
+  for (const artifactPath of V24_RECONCILIATION_ARTIFACT_PATHS) {
+    if (!latestRun.branchArtifacts.files[artifactPath]) {
+      throw new Error(`V24 external realization artifact contract failed: missing ${artifactPath}.`);
+    }
+  }
+}
+
+/**
+ * @param {Record<string, any>} latestRun
  * @param {{
  *   fetchImpl?: typeof fetch | undefined,
  *   executorHandlers?: Record<string, (payload: Record<string, any>) => Promise<Record<string, any>> | Record<string, any>> | undefined
@@ -422,6 +931,8 @@ function rebuildV24Proofs(latestRun) {
 export async function realizeV24LiveExternalExecution(latestRun, options = {}) {
   const fetchImpl = options.fetchImpl || globalThis.fetch;
   const executorHandlers = options.executorHandlers || {};
+  const priorLatestRun = ensureRecord(options.priorLatestRun);
+  const priorExternalExecutionLedger = ensureRecord(options.priorExternalExecutionLedger);
   if (typeof fetchImpl !== 'function') {
     throw new Error('V24 live external execution requires fetch support.');
   }
@@ -461,6 +972,31 @@ export async function realizeV24LiveExternalExecution(latestRun, options = {}) {
     return latestRun;
   }
 
+  const continuityArtifacts = buildExternalContinuityArtifacts(
+    realizedRun,
+    Object.keys(priorLatestRun).length ? priorLatestRun : null,
+    Object.keys(priorExternalExecutionLedger).length ? priorExternalExecutionLedger : null
+  );
+  patchArtifact(realizedRun, 'externalExecutionLedger', continuityArtifacts.externalExecutionLedger);
+  patchArtifact(realizedRun, 'externalReconciliationLog', continuityArtifacts.externalReconciliationLog);
+  for (const entry of continuityArtifacts.externalReconciliationLog.entries || []) {
+    patchInterfaceTelemetry(realizedRun, entry.interfaceId, {
+      continuityState: entry.continuityState,
+      priorObservationId: entry.priorObservationId,
+      priorContinuityRef: entry.priorContinuityRef,
+      currentContinuityRef: entry.currentContinuityRef,
+      observationSequence: entry.observationSequence
+    }, V24_RECONCILIATION_ARTIFACT_PATHS);
+    patchEnvironmentRuntimeState(realizedRun, entry.interfaceId, {
+      continuityState: entry.continuityState,
+      priorObservationId: entry.priorObservationId,
+      priorContinuityRef: entry.priorContinuityRef,
+      currentContinuityRef: entry.currentContinuityRef,
+      observationSequence: entry.observationSequence
+    });
+  }
   rebuildV24Proofs(realizedRun);
+  rebuildV24ProofClosure(realizedRun);
+  assertRequiredRealizedArtifacts(realizedRun);
   return realizedRun;
 }
