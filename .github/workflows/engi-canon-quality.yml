@@ -1,0 +1,63 @@
+name: ENGI Canon Quality
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  engi-spec-basics:
+    name: ENGI Spec Basics
+    runs-on: ubuntu-latest
+    container:
+      image: node:22-bookworm
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ENGI demo dependencies
+        run: npm --prefix engi-demo ci
+
+      - name: Run ENGI spec-quality basics
+        run: node scripts/run-engi-spec-quality.mjs --mode basic
+
+  engi-demo-full:
+    name: ENGI Demo Full Test Suite
+    runs-on: ubuntu-latest
+    needs: engi-spec-basics
+    container:
+      image: node:22-bookworm
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ENGI demo dependencies
+        run: npm --prefix engi-demo ci
+
+      - name: Run full ENGI demo suite
+        run: npm --prefix engi-demo run test
+
+  engi-spec-commit-conformance:
+    name: ENGI Spec Commit Conformance
+    runs-on: ubuntu-latest
+    needs: engi-spec-basics
+    container:
+      image: node:22-bookworm
+    env:
+      SPEC_TITLE: ${{ github.event_name == 'pull_request' && github.event.pull_request.title || github.event.head_commit.message }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ENGI demo dependencies
+        run: npm --prefix engi-demo ci
+
+      - name: Run strict spec conformance for `spec: VN` titles
+        run: node scripts/run-engi-spec-quality.mjs --mode strict-from-title --commit-title "$SPEC_TITLE"

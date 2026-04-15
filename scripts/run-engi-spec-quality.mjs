@@ -1,0 +1,177 @@
+#!/usr/bin/env node
+
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../engi-demo/src/canon-posture.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const repoRoot = path.resolve(__dirname, '..');
+
+/**
+ * @param {string[]} argv
+ */
+function parseArgs(argv) {
+  /** @type {{ mode?: string, version?: string, commitTitle?: string, repoRoot?: string, help?: boolean }} */
+  const args = {};
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--mode') args.mode = argv[++index];
+    else if (arg === '--version') args.version = argv[++index];
+    else if (arg === '--commit-title') args.commitTitle = argv[++index];
+    else if (arg === '--repo-root') args.repoRoot = argv[++index];
+    else if (arg === '--help' || arg === '-h') args.help = true;
+    else throw new Error(`Unknown argument ${arg}`);
+  }
+  return args;
+}
+
+function printHelp() {
+  process.stdout.write(
+    [
+      'Usage: node scripts/run-engi-spec-quality.mjs [options]',
+      '',
+      'Options:',
+      '  --mode <basic|strict-version|strict-from-title>   Quality check mode. Defaults to basic.',
+      '  --version <VN>                                    Version for strict-version mode.',
+      '  --commit-title <title>                            Commit title for strict-from-title mode.',
+      '  --repo-root <path>                                Override repo root.',
+      '  --help                                            Show this help.'
+    ].join('\n')
+  );
+}
+
+/**
+ * @param {string} cwd
+ * @param {string} label
+ * @param {string[]} args
+ */
+function runNode(cwd, label, args) {
+  process.stdout.write(`ENGI spec quality: ${label}\n`);
+  execFileSync(process.execPath, args, {
+    cwd,
+    stdio: 'inherit'
+  });
+}
+
+/**
+ * @param {string} cwd
+ * @param {string} version
+ */
+function runStrictVersionChecks(cwd, version) {
+  if (version === ACTIVE_CANON_VERSION) {
+    runNode(cwd, `${version} promoted spec-family`, [
+      path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+      '--version',
+      version,
+      '--mode',
+      'promoted'
+    ]);
+    return;
+  }
+
+  if (version === DRAFT_TARGET_VERSION) {
+    runNode(cwd, `${version} draft spec-family`, [
+      path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+      '--version',
+      version,
+      '--mode',
+      'draft',
+      '--current-target',
+      ACTIVE_CANON_VERSION
+    ]);
+    return;
+  }
+
+  throw new Error(
+    `Strict spec-quality mode only supports the active canon (${ACTIVE_CANON_VERSION}) or current draft target (${DRAFT_TARGET_VERSION}). Received ${version}.`
+  );
+}
+
+/**
+ * @param {string} cwd
+ */
+function runBasicChecks(cwd) {
+  runNode(cwd, `${ACTIVE_CANON_VERSION} promoted canonical inputs`, [
+    path.join(cwd, 'scripts/check-engi-canonical-inputs.mjs'),
+    '--current-target',
+    ACTIVE_CANON_VERSION
+  ]);
+  runNode(cwd, `${ACTIVE_CANON_VERSION}/${DRAFT_TARGET_VERSION} canon posture drift`, [
+    path.join(cwd, 'scripts/check-engi-canon-posture-drift.mjs'),
+    '--active-canon',
+    ACTIVE_CANON_VERSION,
+    '--draft-target',
+    DRAFT_TARGET_VERSION
+  ]);
+  runNode(cwd, `${ACTIVE_CANON_VERSION} promoted spec-family`, [
+    path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+    '--version',
+    ACTIVE_CANON_VERSION,
+    '--mode',
+    'promoted'
+  ]);
+  runNode(cwd, 'specifying and canon-drift tests', [
+    '--test',
+    path.join(cwd, 'engi-demo/test/v21-specifying.test.js'),
+    path.join(cwd, 'engi-demo/test/v22-canon-drift.test.js')
+  ]);
+}
+
+/**
+ * @param {string} title
+ */
+function extractSpecVersionFromTitle(title) {
+  const firstLine = title.split('\n')[0].trim();
+  const match = firstLine.match(/^spec:\s*(V\d+)\b/i);
+  return match ? match[1].toUpperCase() : null;
+}
+
+function main() {
+  const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    printHelp();
+    return;
+  }
+
+  const mode = args.mode || 'basic';
+  const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
+
+  if (mode === 'basic') {
+    runBasicChecks(resolvedRepoRoot);
+    process.stdout.write('ENGI spec quality ok (basic)\n');
+    return;
+  }
+
+  if (mode === 'strict-version') {
+    if (!args.version) throw new Error('strict-version mode requires --version <VN>.');
+    runBasicChecks(resolvedRepoRoot);
+    runStrictVersionChecks(resolvedRepoRoot, args.version.toUpperCase());
+    process.stdout.write(`ENGI spec quality ok (strict-version ${args.version.toUpperCase()})\n`);
+    return;
+  }
+
+  if (mode === 'strict-from-title') {
+    const version = extractSpecVersionFromTitle(args.commitTitle || '');
+    if (!version) {
+      process.stdout.write('ENGI spec quality skipped strict commit-title checks; title is not a `spec: VN` commit.\n');
+      return;
+    }
+    runBasicChecks(resolvedRepoRoot);
+    runStrictVersionChecks(resolvedRepoRoot, version);
+    process.stdout.write(`ENGI spec quality ok (strict-from-title ${version})\n`);
+    return;
+  }
+
+  throw new Error(`Unsupported mode ${mode}. Expected basic, strict-version, or strict-from-title.`);
+}
+
+try {
+  main();
+} catch (error) {
+  const detail = error instanceof Error ? error.message : String(error);
+  process.stderr.write(`${detail}\n`);
+  process.exitCode = 1;
+}

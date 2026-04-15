@@ -33,6 +33,14 @@ An initial source slice now exists for the draft target:
 - `engi-demo/server.js` exposes that descriptor at `/api/v24/external-realization`,
 - and tests already close over four-mode isolation and telemetry-policy posture.
 
+V24 also carries one bounded metaspec repair because the current drafting path exposed a specification-quality regression:
+- `ENGI_SPEC_V22.md` was materially larger and more complete than V23 or the current V24 draft,
+- V23 narrowed the effective conformance carrier set instead of preserving full-canon restatement,
+- and future external-realization work would be under-specified if V24 repeated that pattern.
+
+That metaspec repair is a supporting V24 track, not the majority focus.
+The majority focus remains real Bitcoin, sidechain, storage, compute, and GitHub interfacing.
+
 ## Findings that drive V24
 
 ### 1. V23 already names the right boundaries
@@ -54,6 +62,17 @@ Success in an external system is insufficient if ENGI cannot prove:
 - what was observed,
 - and how that effect bound back to ENGI artifacts and settlement.
 
+### 4. V24 must repair no-silent-inheritance discipline without replacing the version center
+
+The V22 -> V23 -> V24 shrink exposed two problems:
+- current-system meaning moved out of the main `SPEC`,
+- and V23 tooling allowed a narrower conformance profile than the complete specifying standard.
+
+V24 therefore needs:
+- a promoted full-system rewrite rather than another delta-shaped shell,
+- strict conformance enforcement that matches `ENGI_SPECIFYING.md`,
+- and build-process gates that make future metaspec regressions hard to land.
+
 ## Accepted V24 drafting decisions
 
 The current accepted V24 drafting decisions are:
@@ -73,6 +92,8 @@ The current accepted V24 drafting decisions are:
    - `github-live-interface`
 11. V24 keeps ENGI as the system name and NGI as the unit denomination.
 12. V24 promotion will require source, tests, generated evidence, and fail-closed validation, not only draft language.
+13. V24 promotion will also require full-canon restatement and strict spec-quality enforcement so a promoted V24 no longer depends semantically on V23.
+14. V24 build-process enforcement will include host-agnostic pre-commit basics, containerized CI or CD conformance, and commit-title-gated spec checks for `spec: VN` commits.
 
 ## Explicitly deferred
 
@@ -96,8 +117,10 @@ The intended V24 sequencing is:
 8. define first-gate acceptance criteria for review,
 9. implement source emission for the new artifacts,
 10. add fail-closed validation and environment-matrix tests,
-11. generate V24 evidence,
-12. and promote only after those closure conditions are satisfied.
+11. restore full-canon coverage carriers and strict spec-family conformance,
+12. add host-agnostic pre-commit and containerized CI or CD enforcement for spec-quality gates,
+13. generate V24 evidence,
+14. and promote only after those closure conditions are satisfied.
 
 ## Commit-body direction
 
@@ -105,6 +128,7 @@ The eventual V24 canonical commit body should describe:
 - real external execution classes added to source,
 - real compute and storage container attestation surfaces,
 - real GitHub session and mutation receipt surfaces,
+- full-canon metaspec repair and strict spec-quality enforcement,
 - new proof families and validation rules,
 - generated V24 evidence,
 - and explicit continued honesty about any remaining live-boundary deferrals.

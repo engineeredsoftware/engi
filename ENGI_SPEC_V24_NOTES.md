@@ -28,7 +28,7 @@ Any note that survives as system truth must be promoted into:
 - a future `ENGI_SPEC_V24_PROVEN.md`,
 - or required generated `.engi/v24-*` artifacts once those exist.
 
-## Starting inheritance from V23
+## Starting draft input from V23
 
 V23 closed:
 - Bitcoin-facing artifact contracts,
@@ -37,7 +37,7 @@ V23 closed:
 - prototype compute and storage reality manifests,
 - and generated proof and parity closure.
 
-The inherited V24 baseline is therefore:
+The V24 draft-input baseline is therefore:
 - keep Bitcoin as audit and spend substrate,
 - keep ENGI compute and private storage off-chain,
 - preserve NGI denomination rules,
@@ -56,6 +56,13 @@ The strongest V24 center from the current draft is:
 - require proof-bearing execution receipts for all live external effects,
 - require exhaustive telemetry and strong environment-matrix coverage,
 - and preserve fail-closed auditability across every realized interface.
+
+The V24 draft now also carries one supporting metaspec repair:
+- restore full-canon, no-silent-inheritance promotion discipline,
+- restore strict spec-family carrier enforcement,
+- and push those checks down into pre-commit and containerized CI or CD gates.
+
+That repair is intentionally subordinate to the main V24 center.
 
 ## Candidate workstreams
 
@@ -107,6 +114,17 @@ Candidate requirement:
 Candidate implication:
 - missing telemetry, ambiguous mode binding, or shared cross-mode credentials should fail V24 realization closure.
 
+### 8. Metaspec repair and build enforcement
+
+Candidate requirement:
+- promoted V24 must be a full rewrite of current canon rather than a semantic dependency on V23.
+
+Candidate requirement:
+- spec-quality enforcement must run in local host-agnostic pre-commit checks, containerized CI or CD, and commit-title-gated spec conformance for `spec: VN` commits.
+
+Candidate implication:
+- future spec shrink or checker-profile weakening should fail before promotion.
+
 ## Open drafting questions
 
 Current questions worth resolving before implementation starts:
@@ -115,7 +133,8 @@ Current questions worth resolving before implementation starts:
 - what minimum real-network scope is required for V24 first-gate implementation,
 - whether GitHub live interfacing should require both read and write paths in the same promotion gate,
 - how much telemetry should live in emitted `.engi/` artifacts versus referenced remote logs or traces,
-- and whether `mock` mode should be deterministic-only or may include emulator-backed execution classes where the receipt shapes remain identical.
+- whether `mock` mode should be deterministic-only or may include emulator-backed execution classes where the receipt shapes remain identical,
+- and how strict the `spec: VN` commit-title matcher should be for triggering full spec-conformance gates.
 
 ## Initial V24 non-goals
 

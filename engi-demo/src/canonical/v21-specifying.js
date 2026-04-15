@@ -420,6 +420,134 @@ function buildV23Profile() {
   };
 }
 
+function buildV24Profile() {
+  const base = buildV21LikeProfile('V24');
+  return {
+    ...base,
+    reportId: 'v24-spec-family-report',
+    defaultTarget: 'V24',
+    requiredSpecSections: [
+      'Status',
+      'Drafting and acceptance state',
+      'Version executive summary',
+      'Canonical ENGI executive summary',
+      'V24 rewrite and no-silent-inheritance rule',
+      'Why V24 exists',
+      'V24 accepted drafting decisions',
+      'V24 source-of-truth hierarchy',
+      'V24 system goals, non-goals, and design principles',
+      'V24 external environment-mode rule',
+      'V24 system architecture and layer boundaries',
+      'V24 real network execution rule',
+      'V24 compute and storage container rule',
+      'V24 GitHub live interfacing rule',
+      'V24 telemetry and coverage rule',
+      'V24 metaspec and conformance repair rule',
+      'V24 artifact family additions',
+      'V24 proof-family additions',
+      'V24 principal-scoped execution and disclosure policy',
+      'V24 acceptance criteria',
+      'Accepted boundaries',
+      'V24 completion condition',
+      ...COMMON_REQUIRED_SPEC_SECTIONS
+    ],
+    requiredProofFamilySections: [
+      ...COMMON_REQUIRED_PROOF_FAMILY_SECTIONS,
+      'Bitcoin-audit-anchor',
+      'Bitcoin-settlement-interface',
+      'External-realization-execution',
+      'Containerized-reality',
+      'GitHub-live-interface'
+    ],
+    requiredGeneratedArtifactCatalogSections: [
+      ...base.requiredGeneratedArtifactCatalogSections,
+      'V24 artifact family additions',
+      'V24 proof-family additions',
+      'V24 acceptance criteria'
+    ],
+    requiredGeneratedAppendixContractPhrases: [
+      ...COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
+      '.engi/v24-spec-family-report.json',
+      '.engi/v24-canonical-input-report.json',
+      'ENGI_SPEC_V24_PROVEN.md',
+      'external-environment-profile',
+      'external-telemetry-summary',
+      'bitcoin-network-execution',
+      'compute-container-execution',
+      'storage-publication-receipt',
+      'github-live-session'
+    ],
+    requiredGeneratedArtifactPaths: [
+      '.engi/v24-spec-family-report.json',
+      '.engi/v24-canonical-input-report.json'
+    ],
+    requiredSubsystemCoveragePhrases: [
+      ...COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES,
+      'bitcoin mainchain execution',
+      'sidechain execution',
+      'compute-container execution',
+      'storage-container execution',
+      'github live interface',
+      'environment-mode completeness and isolation',
+      'telemetry and coverage',
+      'full-canon specification completeness'
+    ],
+    requiredFailClosedAppendixPhrases: [
+      ...COMMON_REQUIRED_FAIL_CLOSED_APPENDIX_PHRASES,
+      'cross-mode isolation drift',
+      'missing execution receipt',
+      'container attestation drift',
+      'github observation drift',
+      'spec checker profile omits full-canon carrier requirements'
+    ],
+    requiredDeliverableAppendixPhrases: [
+      ...base.requiredDeliverableAppendixPhrases,
+      '.engi/external-environment-profile.json',
+      '.engi/external-execution-policy.json',
+      '.engi/external-telemetry-policy.json',
+      '.engi/external-telemetry-summary.json',
+      '.engi/bitcoin-network-intent.json',
+      '.engi/bitcoin-network-execution.json',
+      '.engi/bitcoin-network-observation.json',
+      '.engi/sidechain-execution-receipt.json',
+      '.engi/compute-container-manifest.json',
+      '.engi/compute-container-execution.json',
+      '.engi/storage-container-manifest.json',
+      '.engi/storage-publication-receipt.json',
+      '.engi/storage-retrieval-receipt.json',
+      '.engi/github-app-binding.json',
+      '.engi/github-live-session.json',
+      '.engi/github-inventory-fetch-receipt.json',
+      '.engi/github-artifact-fetch-receipt.json',
+      '.engi/github-branch-publication-receipt.json',
+      '.engi/github-pr-update-receipt.json',
+      '.engi/external-realization-proof.json',
+      '.engi/container-reality-proof.json',
+      '.engi/github-live-interface-proof.json',
+      'ENGI_SPEC_V24_PROVEN.md'
+    ],
+    requiredDeltaSections: [
+      'Status',
+      'Why V24 exists',
+      'Findings that drive V24',
+      'Accepted V24 drafting decisions',
+      'Explicitly deferred',
+      'Draft implementation sequence',
+      'Commit-body direction'
+    ],
+    requiredParitySections: [
+      'Status',
+      'Purpose',
+      'Audit basis',
+      'V24 draft implementation matrix',
+      'V24 draft implementation checklist',
+      'Accepted boundaries',
+      'Completion condition'
+    ],
+    forbiddenPhrases: []
+  };
+}
+
 function buildV20ProperProfile() {
   return {
     reportId: 'v20-proper-spec-family-report',
@@ -535,6 +663,9 @@ function resolveSpecFamilyProfile(version) {
   }
   if (version === 'V23') {
     return buildV23Profile();
+  }
+  if (version === 'V24') {
+    return buildV24Profile();
   }
   if (!/^V\d+$/.test(version)) {
     throw new Error(`Version must look like VN or match a supported reconstruction family. Received ${version || 'none'}.`);
@@ -1004,6 +1135,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   if (currentTarget === 'V23') {
     artifacts.push(...buildV23Profile().requiredGeneratedArtifactPaths);
   }
+  if (currentTarget === 'V24') {
+    artifacts.push(...buildV24Profile().requiredGeneratedArtifactPaths);
+  }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }
 
@@ -1028,7 +1162,7 @@ export function buildV21CanonicalInputReport({
   const pointerVersion = readFileSync(pointerPath, 'utf8').trim();
   const checkedTarget = currentTarget || pointerVersion;
   const resolvedReportVersion = reportVersion
-    || (['V21', 'V22', 'V23'].includes(checkedTarget) ? checkedTarget : 'V21');
+    || (['V21', 'V22', 'V23', 'V24'].includes(checkedTarget) ? checkedTarget : 'V21');
   const assumedExistingPaths = new Set(
     assumeExistingRelativePaths.map((relativePath) => path.resolve(resolvedRepoRoot, relativePath))
   );
