@@ -381,6 +381,7 @@ function buildPublicProjection(latestRun) {
     projectionPolicy: latestRun.projectionPolicy,
     redactionProof: latestRun.redactionProof,
     disclosureProof: latestRun.disclosureProof,
+    externalRealizationSummary: buildPublicExternalRealizationSummary(latestRun),
     branchArtifacts: {
       branchName: latestRun.branchArtifacts?.branchName,
       branchMode: latestRun.branchArtifacts?.branchMode,
@@ -406,6 +407,46 @@ function buildPublicProjection(latestRun) {
       '.engi/redaction-proof.json': latestRun.redactionProof,
       '.engi/disclosure-proof.json': latestRun.disclosureProof
     }
+  };
+}
+
+/**
+ * @param {LatestRunShape | null | undefined} latestRun
+ * @returns {Record<string, unknown> | undefined}
+ */
+function buildPublicExternalRealizationSummary(latestRun) {
+  if (!latestRun?.externalEnvironmentProfile || !latestRun?.externalTelemetrySummary) return undefined;
+  return {
+    configuredEnvironmentMode: latestRun.externalEnvironmentProfile.configuredEnvironmentMode,
+    actualityDisposition: latestRun.externalEnvironmentProfile.actualityDisposition,
+    demonstrationToggleState: latestRun.externalEnvironmentProfile.demonstrationToggleState,
+    supportedEnvironmentModes: latestRun.externalEnvironmentProfile.supportedEnvironmentModes,
+    interfaceIds: (latestRun.networkCapabilityManifest?.interfaces || []).map((entry) => entry.interfaceId),
+    surfacedAcross: latestRun.externalTelemetrySummary.surfacedAcross || []
+  };
+}
+
+/**
+ * @param {LatestRunShape | null | undefined} latestRun
+ * @returns {Record<string, unknown> | undefined}
+ */
+function buildReviewerExternalRealizationSummary(latestRun) {
+  if (!latestRun?.externalEnvironmentProfile || !latestRun?.externalTelemetrySummary) return undefined;
+  return {
+    configuredEnvironmentMode: latestRun.externalEnvironmentProfile.configuredEnvironmentMode,
+    actualityDisposition: latestRun.externalEnvironmentProfile.actualityDisposition,
+    branchBinding: latestRun.externalExecutionPolicy?.branchBinding,
+    isolationDisposition: latestRun.externalExecutionPolicy?.isolationDisposition,
+    coverageExpectation: latestRun.externalTelemetryPolicy?.coverageExpectation,
+    interfaceSummaries: (latestRun.externalTelemetrySummary.interfaceSummaries || []).map((entry) => ({
+      interfaceId: entry.interfaceId,
+      executionClass: entry.executionClass,
+      reconciliationState: entry.reconciliationState,
+      resultClass: entry.resultClass,
+      telemetryCoverageState: entry.telemetryCoverageState,
+      affectedArtifactRefs: entry.affectedArtifactRefs
+    })),
+    targetedRepoCount: latestRun.githubAppBinding?.targetedRepoCount || 0
   };
 }
 
@@ -463,6 +504,7 @@ function buildBuyerProjection(latestRun) {
     testCoverageReport: latestRun.testCoverageReport,
     settlementPreview: latestRun.settlementPreview,
     journalDiff: latestRun.journalDiff,
+    externalRealizationSummary: buildReviewerExternalRealizationSummary(latestRun),
     computeRealityManifest: latestRun.computeRealityManifest,
     storageRealityManifest: latestRun.storageRealityManifest,
     bitcoinCommitmentManifest: latestRun.bitcoinCommitmentManifest,
@@ -571,6 +613,7 @@ function buildReviewerProjection(latestRun) {
     proofContract: latestRun.proofContract,
     scenarioFixtureManifest: latestRun.scenarioFixtureManifest,
     testCoverageReport: latestRun.testCoverageReport,
+    externalRealizationSummary: buildReviewerExternalRealizationSummary(latestRun),
     branchArtifacts: {
       branchName: latestRun.branchArtifacts?.branchName,
       branchMode: latestRun.branchArtifacts?.branchMode,

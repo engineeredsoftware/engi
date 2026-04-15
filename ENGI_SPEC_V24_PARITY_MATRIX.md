@@ -5,6 +5,10 @@
 - Scope: V24 draft parity ledger for realizing external interfacing after V23 deployed-infrastructure canon
 - Current canonical/latest target: `V23`
 - Current draft target: `V24`
+- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
+- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v23-*` reports remain the current generated baseline; V24 draft-target generation adds `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `ENGI_SPEC_V24_PROVEN.md`
+- Source parity state: draft-target source currently exposes environment profiles, telemetry policy, strict spec-quality enforcement, and `/api/v24/external-realization`, while real Bitcoin/sidechain/container/GitHub execution surfaces remain to be emitted
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
 - Draft specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
@@ -20,6 +24,13 @@ This file records the draft parity ledger between:
 - the V24 realization draft,
 - the current runtime's V23 boundary posture,
 - and the source work still required before V24 could ever become canonical.
+
+The dominant parity target is actual external operation by configuration:
+- reliable Bitcoin mainchain and sidechain execution,
+- reliable compute and storage container execution,
+- reliable GitHub live execution,
+- exhaustive telemetry throughout core, demonstration, and all executable surfaces,
+- and enforced build discipline on canonical `spec: VN` commits so version promises stay mechanically checked.
 
 ## Audit basis
 

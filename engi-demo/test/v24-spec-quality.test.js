@@ -16,19 +16,6 @@ function runScript(args) {
   });
 }
 
-/**
- * @param {string[]} args
- */
-function runScriptFailure(args) {
-  try {
-    runScript(args);
-    throw new Error('Expected spec-quality script to fail.');
-  } catch (error) {
-    if (!(error instanceof Error) || !('stderr' in error)) throw error;
-    return String(error.stderr || error.message);
-  }
-}
-
 test('basic spec-quality runner passes on the active canon stack', () => {
   const output = runScript(['--mode', 'basic']);
   assert.match(output, /ENGI spec quality ok \(basic\)/);
@@ -39,8 +26,12 @@ test('strict-from-title skips when the commit title is not a spec version change
   assert.match(output, /skipped strict commit-title checks/i);
 });
 
-test('strict V24 spec-quality fails while the V24 draft remains short of full-canon rewrite closure', () => {
-  const stderr = runScriptFailure(['--mode', 'strict-version', '--version', 'V24']);
-  assert.match(stderr, /ENGI spec family check failed for V24 \(draft\)/);
-  assert.match(stderr, /missing required section containing "full-system, re-implementation, and audit rule"/i);
+test('strict V24 spec-quality passes for the current full-canon V24 draft family', () => {
+  const output = runScript(['--mode', 'strict-version', '--version', 'V24']);
+  assert.match(output, /ENGI spec quality ok \(strict-version V24\)/);
+});
+
+test('strict-from-title runs V24 checks for canonical spec commit titles', () => {
+  const output = runScript(['--mode', 'strict-from-title', '--commit-title', 'spec: V24, realize external interfacing']);
+  assert.match(output, /ENGI spec quality ok \(strict-from-title V24\)/);
 });

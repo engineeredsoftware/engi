@@ -5,12 +5,17 @@
 - Scope: V24 draft delta for realizing external interfacing after V23 deployed-infrastructure canon
 - Current canonical/latest target: `V23`
 - Current draft target: `V24`
+- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
+- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v23-*` reports remain the current generated baseline; V24 draft-target generation adds `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `ENGI_SPEC_V24_PROVEN.md`
+- Source parity state: V24 draft-target source currently exposes environment-mode realization profiling and spec-quality enforcement, but real Bitcoin/sidechain/container/GitHub execution receipts remain open implementation work
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
 - Draft companion spec: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
 - Draft companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PARITY_MATRIX.md`
 - Draft companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_NOTES.md`
 - Pointer state remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V23`
+- V24 state: draft only; this delta records the realization-focused change set and supporting metaspec/build repairs, not promoted truth
 
 ## Why V24 exists
 
@@ -27,6 +32,7 @@ That leaves the next delta:
 - and real GitHub boundary execution instead of modeled or partially prototyped interfacing.
 
 V24 exists to close that realization gap.
+The majority focus is realizing actuality of ENGI through configuration and demonstration toggles so the same system can run in `production`, `staging`, `development`, and `mock` with real external dependencies where claimed.
 
 An initial source slice now exists for the draft target:
 - `engi-demo/src/canonical/v24-external-realization.js` emits a unified environment-mode descriptor,
@@ -39,7 +45,7 @@ V24 also carries one bounded metaspec repair because the current drafting path e
 - and future external-realization work would be under-specified if V24 repeated that pattern.
 
 That metaspec repair is a supporting V24 track, not the majority focus.
-The majority focus remains real Bitcoin, sidechain, storage, compute, and GitHub interfacing.
+The majority focus remains reliable, precise, strong external interfacing from Bitcoin through sidechain, storage, compute, and GitHub, with exhaustive telemetry throughout core, demonstration, and all executable surfaces.
 
 ## Findings that drive V24
 
@@ -86,14 +92,16 @@ The current accepted V24 drafting decisions are:
 7. Every realized external interface must support `production`, `staging`, `development`, and `mock` modes.
 8. Mode separation must be real: distinct external identities, applications, addresses, accounts, namespaces, and publication targets are required by mode.
 9. Exhaustive telemetry and environment-matrix coverage are part of realization, not post-hoc hardening.
-10. V24 opens three draft proof families:
+10. Demonstration toggles must be able to switch between actual and mock external operation without changing artifact shapes or weakening proof-bearing surfaces.
+11. Reliable build enforcement on canonical `spec: VN` commits is part of the version contract because external-interface promises are too brittle to rely on author memory.
+12. V24 opens three draft proof families:
    - `external-realization-execution`
    - `containerized-reality`
    - `github-live-interface`
-11. V24 keeps ENGI as the system name and NGI as the unit denomination.
-12. V24 promotion will require source, tests, generated evidence, and fail-closed validation, not only draft language.
-13. V24 promotion will also require full-canon restatement and strict spec-quality enforcement so a promoted V24 no longer depends semantically on V23.
-14. V24 build-process enforcement will include host-agnostic pre-commit basics, containerized CI or CD conformance, and commit-title-gated spec checks for `spec: VN` commits.
+13. V24 keeps ENGI as the system name and NGI as the unit denomination.
+14. V24 promotion will require source, tests, generated evidence, and fail-closed validation, not only draft language.
+15. V24 promotion will also require full-canon restatement and strict spec-quality enforcement so a promoted V24 no longer depends semantically on V23.
+16. V24 build-process enforcement will include host-agnostic pre-commit basics, containerized CI or CD conformance, and commit-title-gated spec checks for `spec: VN` commits.
 
 ## Explicitly deferred
 

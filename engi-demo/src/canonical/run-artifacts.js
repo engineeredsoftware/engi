@@ -577,7 +577,8 @@ function buildDeliverablesManifest({
   promptImplementationSurface,
   promptSurfaces,
   parsedCompletionEnvelopeArtifact,
-  v23BitcoinEnabled = false
+  v23BitcoinEnabled = false,
+  v24ExternalRealizationEnabled = false
 }) {
   const v23Deliverables = v23BitcoinEnabled
     ? [
@@ -650,6 +651,171 @@ function buildDeliverablesManifest({
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-settlement-intent', 'bitcoin-settlement-observation', 'settlement-proof']
+        }
+      ]
+    : [];
+  const v24Deliverables = v24ExternalRealizationEnabled
+    ? [
+        {
+          path: '.engi/external-environment-profile.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-boundaries', 'policy-release', 'deliverables-manifest']
+        },
+        {
+          path: '.engi/external-execution-policy.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-boundaries', 'policy-release']
+        },
+        {
+          path: '.engi/external-telemetry-policy.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['deliverables-manifest', 'external-execution-policy']
+        },
+        {
+          path: '.engi/external-telemetry-summary.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['pipeline-telemetry', 'external-telemetry-policy', 'external-environment-profile']
+        },
+        {
+          path: '.engi/network-capability-manifest.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-boundaries', 'external-environment-profile']
+        },
+        {
+          path: '.engi/github-app-binding.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-binding', 'external-environment-profile']
+        },
+        {
+          path: '.engi/bitcoin-network-intent.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-environment-profile', 'bitcoin-settlement-intent', 'external-telemetry-summary']
+        },
+        {
+          path: '.engi/bitcoin-network-execution.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-network-intent', 'external-execution-policy', 'external-telemetry-summary']
+        },
+        {
+          path: '.engi/bitcoin-network-observation.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-network-execution', 'bitcoin-settlement-observation', 'bitcoin-anchor']
+        },
+        {
+          path: '.engi/sidechain-execution-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-network-observation', 'external-telemetry-summary']
+        },
+        {
+          path: '.engi/compute-container-manifest.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-environment-profile', 'compute-reality-manifest']
+        },
+        {
+          path: '.engi/compute-container-execution.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['compute-container-manifest', 'external-telemetry-summary']
+        },
+        {
+          path: '.engi/storage-container-manifest.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['external-environment-profile', 'storage-reality-manifest']
+        },
+        {
+          path: '.engi/storage-publication-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['storage-container-manifest', 'external-telemetry-summary']
+        },
+        {
+          path: '.engi/storage-retrieval-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['storage-container-manifest', 'storage-publication-receipt']
+        },
+        {
+          path: '.engi/github-live-session.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-app-binding', 'external-telemetry-summary']
+        },
+        {
+          path: '.engi/github-inventory-fetch-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-live-session', 'github-boundary']
+        },
+        {
+          path: '.engi/github-artifact-fetch-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-live-session', 'artifact-upload']
+        },
+        {
+          path: '.engi/github-branch-publication-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-live-session', 'deliverables-manifest']
+        },
+        {
+          path: '.engi/github-pr-update-receipt.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-live-session', 'github-branch-publication-receipt']
+        },
+        {
+          path: '.engi/external-realization-proof.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['bitcoin-network-intent', 'bitcoin-network-execution', 'bitcoin-network-observation', 'sidechain-execution-receipt']
+        },
+        {
+          path: '.engi/container-reality-proof.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['compute-container-manifest', 'compute-container-execution', 'storage-container-manifest', 'storage-publication-receipt', 'storage-retrieval-receipt']
+        },
+        {
+          path: '.engi/github-live-interface-proof.json',
+          useTiersContributed: ['settlement-eligible'],
+          confidentialityClass: 'private-proof-artifact',
+          potentiallyDisclosable: false,
+          dependsOn: ['github-app-binding', 'github-live-session', 'github-inventory-fetch-receipt', 'github-artifact-fetch-receipt', 'github-branch-publication-receipt', 'github-pr-update-receipt']
         }
       ]
     : [];
@@ -1087,6 +1253,7 @@ function buildDeliverablesManifest({
         dependsOn: ['proof-bundle', 'proof-witness-manifest']
       },
       ...v23Deliverables,
+      ...v24Deliverables,
       {
         path: '.engi/scenario-fixture-manifest.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
@@ -1137,7 +1304,8 @@ function buildDeliverablesManifest({
       promptImplementationPromptCount: Array.isArray((/** @type {any} */ (promptImplementationSurface))?.['promptTemplates']) ? (/** @type {any} */ (promptImplementationSurface))['promptTemplates'].length : 0,
       parsedCompletionEnvelopeCount: parsedCompletionEnvelopeArtifact?.envelopeCount || 0,
       externalBoundaryInterfaceCount: externalBoundaryManifest.interfaces.length,
-      bitcoinArtifactCount: v23BitcoinEnabled ? v23Deliverables.length : 0
+      bitcoinArtifactCount: v23BitcoinEnabled ? v23Deliverables.length : 0,
+      v24ExternalArtifactCount: v24ExternalRealizationEnabled ? v24Deliverables.length : 0
     }
   };
 }

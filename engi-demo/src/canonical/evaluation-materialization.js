@@ -1943,6 +1943,33 @@ export function createEvaluationMaterializationRuntime({
         '.engi/bitcoin-settlement-interface-proof.json'
       );
     }
+    if (branchArtifacts.files['.engi/external-environment-profile.json']) {
+      requiredPaths.push(
+        '.engi/external-environment-profile.json',
+        '.engi/external-execution-policy.json',
+        '.engi/external-telemetry-policy.json',
+        '.engi/external-telemetry-summary.json',
+        '.engi/network-capability-manifest.json',
+        '.engi/github-app-binding.json',
+        '.engi/bitcoin-network-intent.json',
+        '.engi/bitcoin-network-execution.json',
+        '.engi/bitcoin-network-observation.json',
+        '.engi/sidechain-execution-receipt.json',
+        '.engi/compute-container-manifest.json',
+        '.engi/compute-container-execution.json',
+        '.engi/storage-container-manifest.json',
+        '.engi/storage-publication-receipt.json',
+        '.engi/storage-retrieval-receipt.json',
+        '.engi/github-live-session.json',
+        '.engi/github-inventory-fetch-receipt.json',
+        '.engi/github-artifact-fetch-receipt.json',
+        '.engi/github-branch-publication-receipt.json',
+        '.engi/github-pr-update-receipt.json',
+        '.engi/external-realization-proof.json',
+        '.engi/container-reality-proof.json',
+        '.engi/github-live-interface-proof.json'
+      );
+    }
     for (const requiredPath of requiredPaths) {
       if (!branchArtifacts.files[requiredPath]) {
         throw new Error(`ENGI branch artifact contract failed: missing ${requiredPath}.`);
@@ -1954,7 +1981,7 @@ export function createEvaluationMaterializationRuntime({
    * @param {BuildBranchArtifactsInput} input
    * @returns {{ branchName: string, branchMode: string, confidentiality: string, files: Record<string, string> }}
    */
-  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof }) {
+  function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
     const files = {
       '.engi/need.json': JSON.stringify(need, null, 2),
       '.engi/need-measurement.json': JSON.stringify(needMeasurement, null, 2),
@@ -2030,6 +2057,29 @@ export function createEvaluationMaterializationRuntime({
       ...(bitcoinSettlementObservation ? { '.engi/bitcoin-settlement-observation.json': JSON.stringify(bitcoinSettlementObservation, null, 2) } : {}),
       ...(bitcoinAuditAnchorProof ? { '.engi/bitcoin-audit-anchor-proof.json': JSON.stringify(bitcoinAuditAnchorProof, null, 2) } : {}),
       ...(bitcoinSettlementInterfaceProof ? { '.engi/bitcoin-settlement-interface-proof.json': JSON.stringify(bitcoinSettlementInterfaceProof, null, 2) } : {}),
+      ...(externalEnvironmentProfile ? { '.engi/external-environment-profile.json': JSON.stringify(externalEnvironmentProfile, null, 2) } : {}),
+      ...(externalExecutionPolicy ? { '.engi/external-execution-policy.json': JSON.stringify(externalExecutionPolicy, null, 2) } : {}),
+      ...(externalTelemetryPolicy ? { '.engi/external-telemetry-policy.json': JSON.stringify(externalTelemetryPolicy, null, 2) } : {}),
+      ...(externalTelemetrySummary ? { '.engi/external-telemetry-summary.json': JSON.stringify(externalTelemetrySummary, null, 2) } : {}),
+      ...(networkCapabilityManifest ? { '.engi/network-capability-manifest.json': JSON.stringify(networkCapabilityManifest, null, 2) } : {}),
+      ...(githubAppBinding ? { '.engi/github-app-binding.json': JSON.stringify(githubAppBinding, null, 2) } : {}),
+      ...(bitcoinNetworkIntent ? { '.engi/bitcoin-network-intent.json': JSON.stringify(bitcoinNetworkIntent, null, 2) } : {}),
+      ...(bitcoinNetworkExecution ? { '.engi/bitcoin-network-execution.json': JSON.stringify(bitcoinNetworkExecution, null, 2) } : {}),
+      ...(bitcoinNetworkObservation ? { '.engi/bitcoin-network-observation.json': JSON.stringify(bitcoinNetworkObservation, null, 2) } : {}),
+      ...(sidechainExecutionReceipt ? { '.engi/sidechain-execution-receipt.json': JSON.stringify(sidechainExecutionReceipt, null, 2) } : {}),
+      ...(computeContainerManifest ? { '.engi/compute-container-manifest.json': JSON.stringify(computeContainerManifest, null, 2) } : {}),
+      ...(computeContainerExecution ? { '.engi/compute-container-execution.json': JSON.stringify(computeContainerExecution, null, 2) } : {}),
+      ...(storageContainerManifest ? { '.engi/storage-container-manifest.json': JSON.stringify(storageContainerManifest, null, 2) } : {}),
+      ...(storagePublicationReceipt ? { '.engi/storage-publication-receipt.json': JSON.stringify(storagePublicationReceipt, null, 2) } : {}),
+      ...(storageRetrievalReceipt ? { '.engi/storage-retrieval-receipt.json': JSON.stringify(storageRetrievalReceipt, null, 2) } : {}),
+      ...(githubLiveSession ? { '.engi/github-live-session.json': JSON.stringify(githubLiveSession, null, 2) } : {}),
+      ...(githubInventoryFetchReceipt ? { '.engi/github-inventory-fetch-receipt.json': JSON.stringify(githubInventoryFetchReceipt, null, 2) } : {}),
+      ...(githubArtifactFetchReceipt ? { '.engi/github-artifact-fetch-receipt.json': JSON.stringify(githubArtifactFetchReceipt, null, 2) } : {}),
+      ...(githubBranchPublicationReceipt ? { '.engi/github-branch-publication-receipt.json': JSON.stringify(githubBranchPublicationReceipt, null, 2) } : {}),
+      ...(githubPrUpdateReceipt ? { '.engi/github-pr-update-receipt.json': JSON.stringify(githubPrUpdateReceipt, null, 2) } : {}),
+      ...(externalRealizationProof ? { '.engi/external-realization-proof.json': JSON.stringify(externalRealizationProof, null, 2) } : {}),
+      ...(containerRealityProof ? { '.engi/container-reality-proof.json': JSON.stringify(containerRealityProof, null, 2) } : {}),
+      ...(githubLiveInterfaceProof ? { '.engi/github-live-interface-proof.json': JSON.stringify(githubLiveInterfaceProof, null, 2) } : {}),
       'ENGI_NEED.md': buildNeedMarkdown(need, assetPack, selectedCandidates, journalDiff, policyRelease)
     };
 

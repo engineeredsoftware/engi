@@ -701,6 +701,70 @@ test('V24 external realization descriptor enforces four-mode isolation and telem
   assert.equal(descriptor.externalExecutionPolicy.isolationDisposition, 'blocking-on-cross-mode-resource-reuse');
 });
 
+test('runMakeEngiBranch emits V24 draft-target external realization artifacts and telemetry surfaces', () => {
+  const state = buildInitialStateTest();
+  const { latestRun } = runMakeEngiBranchTest(state, {
+    paymentMode: 'audited-base-layer-purchase'
+  });
+
+  assert.equal(latestRun.externalEnvironmentProfile.configuredEnvironmentMode, 'development');
+  assert.equal(latestRun.externalEnvironmentProfile.actualityDisposition, 'stubbed-external-demonstration');
+  assert.equal(latestRun.externalExecutionPolicy.configuredEnvironmentMode, 'development');
+  assert.equal(latestRun.externalTelemetryPolicy.surfacedAcross.includes('branch-artifacts'), true);
+  assert.equal(latestRun.externalTelemetrySummary.configuredEnvironmentMode, 'development');
+  assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('need-measurement'));
+  assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('settlement-and-shares'));
+  assert.equal(latestRun.externalTelemetrySummary.interfaceSummaries.length, 5);
+  assert.ok(latestRun.externalTelemetrySummary.interfaceSummaries.every((entry) => entry.affectedArtifactRefs.length >= 3));
+  assert.ok(latestRun.externalTelemetrySummary.interfaceSummaries.every((entry) => entry.requestId && entry.executionId && entry.observationId));
+  assert.ok(latestRun.networkCapabilityManifest.interfaces.length >= 5);
+  assert.equal(latestRun.githubAppBinding.configuredEnvironmentMode, 'development');
+  assert.equal(latestRun.bitcoinNetworkIntent.interfaceId, 'bitcoin-mainchain-execution');
+  assert.equal(latestRun.bitcoinNetworkExecution.executionState, 'stubbed-network-carrier-assembled');
+  assert.equal(latestRun.bitcoinNetworkObservation.observationState, 'observed-from-demonstration-service');
+  assert.equal(latestRun.sidechainExecutionReceipt.modeApplicability, 'inactive-for-mode');
+  assert.equal(latestRun.computeContainerManifest.interfaceId, 'compute-container-execution');
+  assert.ok(latestRun.computeContainerExecution.attestationRef);
+  assert.equal(latestRun.storageContainerManifest.interfaceId, 'storage-container-execution');
+  assert.ok(Number(latestRun.storagePublicationReceipt.publishedArtifactCount) >= 1);
+  assert.equal(latestRun.githubLiveSession.interfaceId, 'github-live-interface');
+  assert.ok(latestRun.githubInventoryFetchReceipt.selectedBindingCount >= 1);
+  assert.ok(latestRun.githubArtifactFetchReceipt.selectedAssetIds.length >= 1);
+  assert.equal(latestRun.externalRealizationProof.proofFamily, 'external-realization-execution');
+  assert.equal(latestRun.containerRealityProof.proofFamily, 'containerized-reality');
+  assert.equal(latestRun.githubLiveInterfaceProof.proofFamily, 'github-live-interface');
+  assert.equal(latestRun.externalRealizationProof.allTheoremsPassed, true);
+  assert.equal(latestRun.containerRealityProof.allTheoremsPassed, true);
+  assert.equal(latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-environment-profile.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-telemetry-summary.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/bitcoin-network-intent.json'));
+  assert.ok(latestRun.deliverablesManifest.deliverables.some((entry) => entry.path === '.engi/external-realization-proof.json'));
+  assert.ok(latestRun.branchArtifacts.files['.engi/external-environment-profile.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/external-execution-policy.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/external-telemetry-policy.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/external-telemetry-summary.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/network-capability-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-app-binding.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-network-intent.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-network-execution.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/bitcoin-network-observation.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/sidechain-execution-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/compute-container-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/compute-container-execution.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/storage-container-manifest.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/storage-publication-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/storage-retrieval-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-live-session.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-inventory-fetch-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-artifact-fetch-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-branch-publication-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-pr-update-receipt.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/external-realization-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/container-reality-proof.json']);
+  assert.ok(latestRun.branchArtifacts.files['.engi/github-live-interface-proof.json']);
+});
+
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {
   const state = buildInitialStateTest();
   const lowEvidence = makeCandidateAssetTest({

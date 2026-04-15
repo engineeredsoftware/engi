@@ -465,17 +465,27 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementObservation.observationReality, 'stubbed-testnet-demonstration-service');
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
     assert.equal(buyerRun.json.latestRun.bitcoinAnchor.publicationReality, 'stubbed-testnet-demonstration-service');
+    assert.equal(buyerRun.json.latestRun.externalEnvironmentProfile, undefined);
+    assert.equal(buyerRun.json.latestRun.externalTelemetrySummary, undefined);
+    assert.equal(buyerRun.json.latestRun.githubAppBinding, undefined);
+    assert.equal(buyerRun.json.latestRun.externalRealizationSummary.configuredEnvironmentMode, 'development');
+    assert.equal(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 5);
     assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
     assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.status === 'implemented-as-stubbed-testnet-service'));
 
     assert.equal(publicState.statusCode, 200);
     assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
     assert.equal('.engi/bitcoin-anchor.json' in publicState.json.latestRun.publicArtifacts, false);
+    assert.equal(publicState.json.latestRun.externalRealizationSummary.configuredEnvironmentMode, 'development');
+    assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceIds.length, 5);
+    assert.equal(publicState.json.latestRun.externalEnvironmentProfile, undefined);
 
     assert.equal(reviewerState.statusCode, 200);
     assert.equal(reviewerState.json.latestRun.bitcoinSettlementIntent, undefined);
     assert.ok(reviewerState.json.latestRun.bitcoinBoundedPublicAnchor.anchorId);
     assert.ok(reviewerState.json.latestRun.bitcoinCommitmentManifest.publicRoot);
+    assert.equal(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 5);
+    assert.equal(reviewerState.json.latestRun.externalEnvironmentProfile, undefined);
   });
 });
 
