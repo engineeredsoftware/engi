@@ -51,7 +51,10 @@ The strongest V24 center from the current draft is:
 - add real network-capable Bitcoin and sidechain execution paths,
 - add real auditable compute and storage containers,
 - add end-to-end real GitHub App interfacings,
+- require `production`, `staging`, `development`, and `mock` modes across every external interface,
+- require real mode isolation rather than shared test or app posture,
 - require proof-bearing execution receipts for all live external effects,
+- require exhaustive telemetry and strong environment-matrix coverage,
 - and preserve fail-closed auditability across every realized interface.
 
 ## Candidate workstreams
@@ -60,6 +63,16 @@ The strongest V24 center from the current draft is:
 
 Candidate requirement:
 - define one external-execution policy surface spanning bitcoin, sidechain, container, storage, and GitHub execution classes.
+
+### 1a. External environment-mode matrix
+
+Candidate requirement:
+- define one environment-mode contract spanning `production`, `staging`, `development`, and `mock` for every external interface.
+
+Candidate binding examples:
+- GitHub: distinct GitHub App and installation identities by mode.
+- Bitcoin mainchain and sidechain: distinct address and account scopes by mode, with separate staging and development test bindings.
+- Compute and storage: distinct registries, namespaces, buckets, endpoints, and retention targets by mode.
 
 ### 2. Bitcoin and sidechain live execution
 
@@ -86,13 +99,23 @@ Candidate requirement:
 Candidate requirement:
 - do not promote V24 until generated evidence proves the realized external interfaces rather than merely documenting them.
 
+### 7. Telemetry and environment-matrix coverage
+
+Candidate requirement:
+- make exhaustive telemetry and mode-aware validation part of the canonical interface contract.
+
+Candidate implication:
+- missing telemetry, ambiguous mode binding, or shared cross-mode credentials should fail V24 realization closure.
+
 ## Open drafting questions
 
 Current questions worth resolving before implementation starts:
 - whether V24 should keep separate proof families for network, containers, and GitHub or collapse some of them into a smaller execution family set,
 - whether storage publication and retrieval should live in one container family or two linked families,
 - what minimum real-network scope is required for V24 first-gate implementation,
-- and whether GitHub live interfacing should require both read and write paths in the same promotion gate.
+- whether GitHub live interfacing should require both read and write paths in the same promotion gate,
+- how much telemetry should live in emitted `.engi/` artifacts versus referenced remote logs or traces,
+- and whether `mock` mode should be deterministic-only or may include emulator-backed execution classes where the receipt shapes remain identical.
 
 ## Initial V24 non-goals
 

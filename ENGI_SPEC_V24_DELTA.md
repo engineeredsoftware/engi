@@ -59,12 +59,15 @@ The current accepted V24 drafting decisions are:
 4. Auditable compute and storage containers are in scope for all real ENGI usages and specification expectations.
 5. End-to-end real GitHub App interfacings are in scope.
 6. Every realized external interface must emit proof-bearing intent, execution, and observation receipts.
-7. V24 opens three draft proof families:
+7. Every realized external interface must support `production`, `staging`, `development`, and `mock` modes.
+8. Mode separation must be real: distinct external identities, applications, addresses, accounts, namespaces, and publication targets are required by mode.
+9. Exhaustive telemetry and environment-matrix coverage are part of realization, not post-hoc hardening.
+10. V24 opens three draft proof families:
    - `external-realization-execution`
    - `containerized-reality`
    - `github-live-interface`
-8. V24 keeps ENGI as the system name and NGI as the unit denomination.
-9. V24 promotion will require source, tests, generated evidence, and fail-closed validation, not only draft language.
+11. V24 keeps ENGI as the system name and NGI as the unit denomination.
+12. V24 promotion will require source, tests, generated evidence, and fail-closed validation, not only draft language.
 
 ## Explicitly deferred
 
@@ -79,15 +82,17 @@ Still explicitly deferred beyond first-gate V24 drafting:
 The intended V24 sequencing is:
 
 1. draft the V24 file family while V23 remains the active canon,
-2. define the realized external-execution artifact family,
-3. define container execution and storage publication artifacts,
-4. define GitHub live-session, fetch, branch, and PR execution artifacts,
-5. define proof families and replay expectations for those realized external effects,
-6. define first-gate acceptance criteria for review,
-7. implement source emission for the new artifacts,
-8. add fail-closed validation and tests,
-9. generate V24 evidence,
-10. and promote only after those closure conditions are satisfied.
+2. define the four-mode environment matrix and isolation requirements for all external interfaces,
+3. define the realized external-execution artifact family,
+4. define container execution and storage publication artifacts,
+5. define GitHub live-session, fetch, branch, and PR execution artifacts,
+6. define telemetry policy and telemetry-summary artifacts,
+7. define proof families and replay expectations for those realized external effects,
+8. define first-gate acceptance criteria for review,
+9. implement source emission for the new artifacts,
+10. add fail-closed validation and environment-matrix tests,
+11. generate V24 evidence,
+12. and promote only after those closure conditions are satisfied.
 
 ## Commit-body direction
 

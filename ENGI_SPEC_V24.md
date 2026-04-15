@@ -142,7 +142,10 @@ V24 accepts the following drafting decisions:
 6. GitHub remains an external boundary, but V24 requires end-to-end real GitHub App interfacings rather than modeled-only or partial prototype posture.
 7. Every realized external interface must emit proof-bearing execution receipts and observation receipts that bind back to existing ENGI artifact, need, bundle, and settlement identities.
 8. V24 keeps ENGI as the system name and NGI as the share and settlement denomination.
-9. V24 promotion may only occur after real external execution classes are implemented, validated, and represented in generated evidence.
+9. Every realized external interface must support four canonical execution modes: `production`, `staging`, `development`, and `mock`.
+10. Canonical execution modes must be isolated by real external identity and resource bindings rather than by labels alone.
+11. Exhaustive telemetry, environment-matrix validation, and fail-closed coverage are part of the interface contract rather than optional operational hardening.
+12. V24 promotion may only occur after real external execution classes are implemented, validated, and represented in generated evidence.
 
 ## V24 source-of-truth hierarchy
 
@@ -170,7 +173,9 @@ V24 cannot outrank V23 until promotion.
 3. Define auditable compute containers for proof computation, evaluation, verification, and other real ENGI execution workloads.
 4. Define auditable storage containers for artifact persistence, retrieval, publication, and retention-boundary enforcement.
 5. Define end-to-end real GitHub App interfacings for installation sessions, inventory, artifact fetch, branch publication, and PR updates.
-6. Require proof-bearing execution receipts and fail-closed validation for all realized external effects.
+6. Require `production`, `staging`, `development`, and `mock` mode coverage across every realized external interface.
+7. Require proof-bearing execution receipts and fail-closed validation for all realized external effects.
+8. Require exhaustive telemetry and environment-matrix coverage so brittle external behavior remains observable, attributable, and testable.
 
 ### Non-goals
 
@@ -183,9 +188,40 @@ V24 cannot outrank V23 until promotion.
 
 - Real execution must remain auditable.
 - Every external effect must have an intent, execution, observation, and proof surface.
+- Every external effect must declare its execution mode explicitly and bind to isolated mode-specific identities and resources.
 - Containers must be attestable, replayable, and policy-bound.
 - Storage publication must preserve principal-scoped disclosure and retention policy.
 - Live GitHub interaction must preserve repo-authenticated supply, authorization, and proof closure.
+- Telemetry is part of the proof surface whenever external execution is involved.
+
+## V24 external environment-mode rule
+
+V24 requires one explicit environment-mode matrix across all realized external interfaces:
+
+- `production`
+- `staging`
+- `development`
+- `mock`
+
+No realized external interface may be specified or implemented as single-environment only.
+Every realized external interface must declare:
+- `environmentMode`,
+- `environmentIdentityRef`,
+- `environmentResourceRef`,
+- `executionPolicyRef`,
+- and `telemetryPolicyRef`.
+
+Mode isolation is part of the canonical contract:
+- `production` must use production-only chain addresses, accounts, signer or treasury policy, container registries or execution identities, storage namespaces or buckets, and GitHub App or installation identities.
+- `staging` must use staging-only external identities and must never reuse production credentials or publication targets.
+- `development` must use development-only external identities and targets and must remain safe for frequent operator and test iteration.
+- `mock` must remain deterministic, non-broadcasting, and non-destructive while preserving the same artifact and receipt shapes as live modes.
+
+Mode isolation is interface-specific:
+- Bitcoin mainchain and sidechain execution must bind to mode-specific address, account, treasury, and network refs. `staging` and `development` must not collapse into one shared test binding; each requires its own testnet or sidechain address set and account scope.
+- GitHub live interfacing must bind to mode-specific GitHub App, installation, webhook, and mutation targets.
+- Compute-container execution must bind to mode-specific registries, images, execution identities, queues, and attestation scopes.
+- Storage-container execution must bind to mode-specific buckets, namespaces, publication endpoints, retention policies, and retrieval credentials.
 
 ## V24 system architecture and layer boundaries
 
@@ -212,6 +248,12 @@ V24 fixes the realization boundary for Bitcoin-backed infrastructure:
 - `repeated-read-payment` must support a real payment-network execution class if V24 claims it as realized.
 - `checkpointed-sidechain-bridge` must support real bridge and checkpoint observation if V24 claims it as realized.
 - `bitcoin-anchor-publication` must support real anchor publication receipts, not only demonstration envelopes.
+
+Mode isolation is mandatory here:
+- `production` must use production chain and address bindings only.
+- `staging` must use staging testnet or sidechain bindings distinct from development.
+- `development` must use development testnet or sidechain bindings distinct from staging.
+- `mock` must preserve the same receipt shapes without real broadcast.
 
 No V24 network surface counts as realized unless ENGI can produce:
 - an execution policy ref,
@@ -254,17 +296,50 @@ That includes:
 - real PR or issue mutation receipts,
 - and observation surfaces that bind GitHub effects back to ENGI need, asset-pack, proof, and settlement identities.
 
+Mode isolation is mandatory here as well:
+- `production` must use a production GitHub App and production installation targets.
+- `staging` must use a staging GitHub App and staging installation targets.
+- `development` must use a development GitHub App and development installation targets.
+- `mock` must preserve the same receipt and policy shapes without mutating live repositories.
+
 Any live GitHub operation must preserve:
 - repo-authenticated supply,
 - authorization and sensitive-flow posture,
 - proof-family closure,
 - and fail-closed behavior if GitHub observations drift from ENGI records.
 
+## V24 telemetry and coverage rule
+
+V24 treats external-interface telemetry and coverage as canonical requirements.
+
+Every realized external interface must emit exhaustive telemetry sufficient to reconstruct:
+- declared environment mode,
+- external identity and resource bindings,
+- request envelope and addressing roots,
+- execution attempt and execution outcome,
+- observation state and reconciliation result,
+- retry, timeout, and rollback behavior,
+- and the ENGI artifact, need, bundle, proof, and settlement identities affected.
+
+Telemetry must be mode-aware and interface-aware:
+- Bitcoin mainchain and sidechain telemetry must cover spend construction, signer coordination, broadcast, confirmation or checkpoint observation, fee and retry posture, and publication reconciliation.
+- Compute-container telemetry must cover image selection, attestation, input sealing, execution status, output sealing, replay handles, and failure class.
+- Storage-container telemetry must cover publication target, retrieval target, retention target, disclosure-boundary enforcement, and deletion or expiry events.
+- GitHub telemetry must cover app identity, installation, repository addressing, fetch or mutation operation class, returned remote identifiers, and reconciliation to ENGI receipts.
+
+Coverage expectations are equally explicit:
+- each external interface must have tests in `production`, `staging`, `development`, and `mock` modes,
+- each mode must have positive-path and fail-closed-path coverage,
+- and telemetry omissions must count as blocking validation failures for realized interfaces.
+
 ## V24 artifact family additions
 
 V24 draft adds the following candidate artifact family:
 
+- `.engi/external-environment-profile.json`
 - `.engi/external-execution-policy.json`
+- `.engi/external-telemetry-policy.json`
+- `.engi/external-telemetry-summary.json`
 - `.engi/network-capability-manifest.json`
 - `.engi/bitcoin-network-intent.json`
 - `.engi/bitcoin-network-execution.json`
@@ -275,6 +350,7 @@ V24 draft adds the following candidate artifact family:
 - `.engi/storage-container-manifest.json`
 - `.engi/storage-publication-receipt.json`
 - `.engi/storage-retrieval-receipt.json`
+- `.engi/github-app-binding.json`
 - `.engi/github-live-session.json`
 - `.engi/github-inventory-fetch-receipt.json`
 - `.engi/github-artifact-fetch-receipt.json`
@@ -294,21 +370,21 @@ V24 opens the following draft proof families:
 
 - `proofArtifactPath:` `.engi/external-realization-proof.json`
 - `members:` bitcoin network intent binding, bitcoin execution receipt binding, bitcoin observation closure, sidechain execution closure, external execution policy closure
-- `theorems:` live execution receipts match declared intents, observed network state matches declared execution, journal finalization does not outrun execution observation, anchor publication is backed by real network receipt
+- `theorems:` live execution receipts match declared intents, observed network state matches declared execution, journal finalization does not outrun execution observation, anchor publication is backed by real network receipt, execution mode and resource isolation remain coherent across production, staging, development, and mock
 - `replay basis:` replay from execution policy, network receipts, anchor receipts, and settlement artifacts
 
 ### Containerized-reality
 
 - `proofArtifactPath:` `.engi/container-reality-proof.json`
 - `members:` compute container manifest binding, compute execution receipt binding, storage manifest binding, storage publication and retrieval receipt binding, disclosure and retention closure
-- `theorems:` container execution is attributable and replayable, produced artifacts match declared execution environment, storage publication respects disclosure boundary, storage retrieval and retention posture remain auditable
+- `theorems:` container execution is attributable and replayable, produced artifacts match declared execution environment, storage publication respects disclosure boundary, storage retrieval and retention posture remain auditable, mode-specific container and storage identities remain isolated
 - `replay basis:` replay from container manifests, attestation surfaces, execution receipts, and affected artifact digests
 
 ### GitHub-live-interface
 
 - `proofArtifactPath:` `.engi/github-live-interface-proof.json`
 - `members:` live session binding, inventory fetch binding, artifact fetch binding, branch publication binding, PR mutation binding
-- `theorems:` GitHub effects preserve repo-authenticated provenance, live mutations match declared addressing and authorization, fetched GitHub artifacts match ENGI-recorded inventory and content roots
+- `theorems:` GitHub effects preserve repo-authenticated provenance, live mutations match declared addressing and authorization, fetched GitHub artifacts match ENGI-recorded inventory and content roots, environment-specific GitHub App and installation bindings remain isolated
 - `replay basis:` replay from GitHub session receipts, addressing roots, execution receipts, and resulting ENGI artifacts
 
 ## V24 principal-scoped execution and disclosure policy
@@ -337,20 +413,26 @@ The following acceptance criteria are the review gate for V24 drafting:
 4. V24 defines concrete artifact families for each realized external effect class.
 5. V24 defines concrete proof families for network execution, containers, and GitHub interfacing.
 6. V24 preserves V23 commitment, disclosure, settlement, and NGI denomination rules unless explicitly extended.
-7. V24 requires proof-bearing execution and observation receipts rather than informal operational success.
-8. V24 keeps sidechain execution in scope as a required bridge component.
-9. V24 states promotion prerequisites separately from drafting acceptance.
+7. V24 requires `production`, `staging`, `development`, and `mock` modes across Bitcoin, sidechain, compute, storage, and GitHub interfaces.
+8. V24 requires environment-isolated external identities and resources rather than shared cross-mode bindings.
+9. V24 requires proof-bearing execution and observation receipts rather than informal operational success.
+10. V24 requires exhaustive telemetry and mode-aware coverage as part of the interface contract.
+11. V24 keeps sidechain execution in scope as a required bridge component.
+12. V24 states promotion prerequisites separately from drafting acceptance.
 
 The following acceptance criteria are the later implementation/promotion gate:
 
 1. Source emits the realized V24 external-execution artifact family.
-2. Source emits real container manifests and execution receipts for compute and storage.
-3. Source emits real GitHub session and mutation receipts for end-to-end GitHub interfacings.
-4. Deliverables classification and projection policy classify all new V24 artifacts correctly.
-5. Proof-witness manifest and proof-contract include all new V24 proof families.
-6. Tests fail closed on receipt drift, network drift, container attestation drift, storage policy drift, GitHub observation drift, and disclosure leakage.
-7. Generated V24 reports and `ENGI_SPEC_V24_PROVEN.md` exist.
-8. Only then may `ENGI_SPEC.txt` point to `V24`.
+2. Source emits environment profiles and mode-specific identity and resource bindings for every realized external interface.
+3. Source emits real container manifests and execution receipts for compute and storage.
+4. Source emits real GitHub session and mutation receipts for end-to-end GitHub interfacings.
+5. Deliverables classification and projection policy classify all new V24 artifacts correctly.
+6. Proof-witness manifest and proof-contract include all new V24 proof families.
+7. Tests fail closed on receipt drift, network drift, container attestation drift, storage policy drift, GitHub observation drift, disclosure leakage, and cross-mode isolation drift.
+8. Tests cover `production`, `staging`, `development`, and `mock` paths for Bitcoin, sidechain, compute, storage, and GitHub interfaces.
+9. Exhaustive telemetry artifacts exist and validation treats missing telemetry as blocking.
+10. Generated V24 reports and `ENGI_SPEC_V24_PROVEN.md` exist.
+11. Only then may `ENGI_SPEC.txt` point to `V24`.
 
 ## Accepted boundaries
 
@@ -367,4 +449,6 @@ This V24 draft is first-gate complete only when:
 2. the realization center is explicit,
 3. artifact and proof-family additions are concrete rather than gestural,
 4. review-gate and promotion-gate acceptance criteria are distinct,
-5. and the draft can be implemented without ambiguity about what counts as a realized external effect.
+5. environment-mode completeness and isolation are explicit across all realized external interfaces,
+6. telemetry and coverage requirements are explicit across all realized external interfaces,
+7. and the draft can be implemented without ambiguity about what counts as a realized external effect.
