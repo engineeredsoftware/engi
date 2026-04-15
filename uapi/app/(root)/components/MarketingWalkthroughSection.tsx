@@ -186,8 +186,8 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     label: "Kill the Bug Backlog",
     steps: [
       { title: 'Bug Backlog', desc: 'Backend-api releases are blocked by a growing bug queue.', Icon: CursorArrowRaysIcon },
-      { title: 'Kick-off in Chat', desc: 'Select backend-api repo & prod logs; ask Engi to blitz Q2 bugs.', Icon: AcademicCapIcon },
-      { title: 'Engi Root-Causes & Fixes', desc: 'Reads stack traces, writes failing tests, patches code, re-runs full suite to guard regressions.', Icon: WrenchScrewdriverIcon },
+      { title: 'Kick-off in Chat', desc: 'Select backend-api repo & prod logs; ask Bitcode to blitz Q2 bugs.', Icon: AcademicCapIcon },
+      { title: 'Bitcode Root-Causes & Fixes', desc: 'Reads stack traces, writes failing tests, patches code, re-runs full suite to guard regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Zero-Bug Release', desc: 'PRs land with exhaustive tests—backlog cleared above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -196,7 +196,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Need AI Endpoint', desc: 'Product needs /summaries that returns concise JSON.', Icon: CursorArrowRaysIcon },
       { title: 'Describe in Chat', desc: 'Select Node repo; paste spec & sample Jest assertions.', Icon: AcademicCapIcon },
-      { title: 'Engi Designs & Builds', desc: 'Benchmarks models, codes route & vector store, writes docs, unit + contract tests, ensures zero regressions.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Designs & Builds', desc: 'Benchmarks models, codes route & vector store, writes docs, unit + contract tests, ensures zero regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Feature PR Ready', desc: 'Production-grade endpoint delivered & documented above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -205,7 +205,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Cloud Costs Spike', desc: 'EC2 spend is overshooting budget.', Icon: CursorArrowRaysIcon },
       { title: 'Set Goal in Chat', desc: 'Connect Terraform repo & cost explorer; ask “-30 % spend, keep p99 < 200 ms”.', Icon: AcademicCapIcon },
-      { title: 'Engi Explores & Optimizes', desc: 'Simulates Spot/Graviton mixes, load-tests, predicts savings, updates IaC with guarded rollbacks.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Explores & Optimizes', desc: 'Simulates Spot/Graviton mixes, load-tests, predicts savings, updates IaC with guarded rollbacks.', Icon: WrenchScrewdriverIcon },
       { title: 'Savings Locked-In', desc: 'PR ships with cost forecast & automated canary—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -214,7 +214,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Monolith Bottleneck', desc: 'Checkout logic is trapped inside legacy monolith.', Icon: CursorArrowRaysIcon },
       { title: 'Define Boundaries', desc: 'Select repo; list endpoints & tables that form checkout domain.', Icon: AcademicCapIcon },
-      { title: 'Engi Carves & Validates', desc: 'Generates strangler proxy, new service, contract tests, data migration & load tests—no regressions.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Carves & Validates', desc: 'Generates strangler proxy, new service, contract tests, data migration & load tests—no regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Seamless Cut-over', desc: 'Dual-write rollout script & PR delivered above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -223,7 +223,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'SOC 2 Deadline', desc: 'Fintech-api must satisfy 2024 controls before audit.', Icon: CursorArrowRaysIcon },
       { title: 'Upload Controls', desc: 'Select repo & AWS; attach spreadsheet mapping required controls.', Icon: AcademicCapIcon },
-      { title: 'Engi Enforces Policy', desc: 'Injects encryption, audit logs, least-priv IAM; writes unit + infra tests & evidence docs.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Enforces Policy', desc: 'Injects encryption, audit logs, least-priv IAM; writes unit + infra tests & evidence docs.', Icon: WrenchScrewdriverIcon },
       { title: 'Audit Binder Ready', desc: 'Comprehensive evidence bundle PR—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -232,7 +232,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Accuracy Slipping', desc: 'Fraud model F1 is trending below 92 %.', Icon: CursorArrowRaysIcon },
       { title: 'Set KPI in Chat', desc: 'Select repo; declare target F1 ≥ 92 %.', Icon: AcademicCapIcon },
-      { title: 'Engi Calibrates & Tests', desc: 'Auto-labels fresh data, refines model, A/B tests, safeguards latency, picks champion.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Calibrates & Tests', desc: 'Auto-labels fresh data, refines model, A/B tests, safeguards latency, picks champion.', Icon: WrenchScrewdriverIcon },
       { title: 'Accuracy Restored', desc: 'Champion model PR with detailed metrics—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -241,7 +241,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Need Pricing API', desc: 'Launch requires /calculate endpoint ASAP.', Icon: CursorArrowRaysIcon },
       { title: 'Specify in Chat', desc: 'Select repo; paste schema & golden-path tests.', Icon: AcademicCapIcon },
-      { title: 'Engi Codes & Validates', desc: 'Scrapes competitors, writes Go handler, migrations, OpenAPI, load & unit tests—ensures zero regressions.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Codes & Validates', desc: 'Scrapes competitors, writes Go handler, migrations, OpenAPI, load & unit tests—ensures zero regressions.', Icon: WrenchScrewdriverIcon },
       { title: 'Production-Ready API', desc: 'Fully tested, documented API PR—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -250,7 +250,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Brand Refresh', desc: 'Figma style guide just changed across web-suite.', Icon: CursorArrowRaysIcon },
       { title: 'Sync in Chat', desc: 'Select repo; attach updated tokens & assets.', Icon: AcademicCapIcon },
-      { title: 'Engi Re-skins & Diffs', desc: 'Updates CSS vars & assets, runs Playwright screenshot diffs & Lighthouse audits for pixel-perfect UI.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Re-skins & Diffs', desc: 'Updates CSS vars & assets, runs Playwright screenshot diffs & Lighthouse audits for pixel-perfect UI.', Icon: WrenchScrewdriverIcon },
       { title: 'Pixel-Perfect Release', desc: 'Visual diff PR with >95 Lighthouse—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -259,7 +259,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Risk of Drift', desc: 'Production DB may diverge from Prisma schema.', Icon: CursorArrowRaysIcon },
       { title: 'Enable Guard', desc: 'Select repo & Supabase; toggle Schema Guard in chat.', Icon: AcademicCapIcon },
-      { title: 'Engi Generates Migration', desc: 'Diffs prod vs code, writes migration, updates TS types & CI gate to block future drift.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Generates Migration', desc: 'Diffs prod vs code, writes migration, updates TS types & CI gate to block future drift.', Icon: WrenchScrewdriverIcon },
       { title: 'Drift Proofed', desc: 'Schema-aligned PR with automated gate—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -268,7 +268,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'CTR Declining', desc: 'Recommendation click-through rate is sliding.', Icon: CursorArrowRaysIcon },
       { title: 'Set Goal in Chat', desc: 'Select repo & analytics; target +15 % CTR.', Icon: AcademicCapIcon },
-      { title: 'Engi Mines & Models', desc: 'Surfaces new features, trains LightFM & XGBoost, offline & online tests, safeguards performance.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Mines & Models', desc: 'Surfaces new features, trains LightFM & XGBoost, offline & online tests, safeguards performance.', Icon: WrenchScrewdriverIcon },
       { title: 'CTR Jump-Start', desc: 'Champion model PR & real-time metrics—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -277,7 +277,7 @@ const NEW_SCENARIOS: Record<string, { label: string; steps: Step[] }> = {
     steps: [
       { title: 'Founder Spark', desc: 'You have a new SaaS idea but no product yet.', Icon: CursorArrowRaysIcon },
       { title: 'Chat the Vision', desc: 'Create empty repo; outline market gap & MVP in web chat.', Icon: AcademicCapIcon },
-      { title: 'Engi Scaffold & Iterate', desc: 'Bootstraps Remix + Supabase, auth, billing, tests & CI; queues nightly story expansions.', Icon: WrenchScrewdriverIcon },
+      { title: 'Bitcode Scaffold & Iterate', desc: 'Bootstraps Remix + Supabase, auth, billing, tests & CI; queues nightly story expansions.', Icon: WrenchScrewdriverIcon },
       { title: 'MVP Launchpad', desc: 'Investor-ready codebase PR & CI pipeline—above-and-beyond quality.', Icon: ArrowRightIcon },
     ],
   },
@@ -305,7 +305,7 @@ const SCENARIOS = {
       },
       {
         title: "Create PR & Merge",
-        desc: "Engi opens PR, auto-review, merge on approval.",
+        desc: "Bitcode opens PR, auto-review, merge on approval.",
         Icon: ArrowRightIcon,
       },
     ],
@@ -315,7 +315,7 @@ const SCENARIOS = {
     steps: [
       {
         title: "Select Pull Request",
-        desc: "Pick any open PR for Engi to inspect.",
+        desc: "Pick any open PR for Bitcode to inspect.",
         Icon: CursorArrowRaysIcon,
       },
       {
@@ -330,7 +330,7 @@ const SCENARIOS = {
       },
       {
         title: "Approve or Fix",
-        desc: "Engi can push fixes or approve directly.",
+        desc: "Bitcode can push fixes or approve directly.",
         Icon: ArrowRightIcon,
       },
     ],
@@ -392,7 +392,7 @@ const SCENARIOS = {
     steps: [
       {
         title: "Pick Knowledge Gap",
-        desc: "Tell Engi what domain to master.",
+        desc: "Tell Bitcode what domain to master.",
         Icon: CursorArrowRaysIcon,
       },
       {
@@ -432,7 +432,7 @@ const SCENARIOS = {
       },
       {
         title: "Register Template",
-        desc: "One-click insertion from Engi palette.",
+        desc: "One-click insertion from Bitcode palette.",
         Icon: ArrowRightIcon,
       },
     ],
@@ -465,7 +465,7 @@ const SCENARIOS = {
 
   // --- Adoption / Setup ---
   cicd: {
-    label: "Setup Engi in CI/CD",
+    label: "Setup Bitcode in CI/CD",
     steps: [
       {
         title: "Install GitHub App",
@@ -474,7 +474,7 @@ const SCENARIOS = {
       },
       {
         title: "Configure Workflow",
-        desc: "Add engi-run step to your pipeline.",
+        desc: "Add bitcode-run step to your pipeline.",
         Icon: AcademicCapIcon,
       },
       {
@@ -484,13 +484,13 @@ const SCENARIOS = {
       },
       {
         title: "Push – Auto-Run",
-        desc: "Every commit spawns Engi deliverables.",
+        desc: "Every commit spawns Bitcode deliverables.",
         Icon: ArrowRightIcon,
       },
     ],
   },
   mcp: {
-    label: "Add MCPs to My Engi AI",
+    label: "Add MCPs to My Bitcode AI",
     steps: [
       {
         title: "Choose Capability",
@@ -515,7 +515,7 @@ const SCENARIOS = {
     ],
   },
   webhook: {
-    label: "Headless Engi (Webhooks)",
+    label: "Headless Bitcode (Webhooks)",
     steps: [
       {
         title: "Subscribe Webhook",
@@ -528,7 +528,7 @@ const SCENARIOS = {
         Icon: AcademicCapIcon,
       },
       {
-        title: "Engi Executes Task",
+        title: "Bitcode Executes Task",
         desc: "Agents run asynchronously.",
         Icon: WrenchScrewdriverIcon,
       },
@@ -667,7 +667,7 @@ export default function MarketingWalkthroughSection() {
           Self-Learning Workflows That Perpetually Evolve Your Software
         </h2>
         <p className="text-base laptop:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-          Every merge trains Engi’s <span className="font-semibold text-white">Evolutionary Engineering&nbsp;AI</span>&nbsp;— delivering faster, higher-quality code while you sleep.
+          Every merge trains Bitcode’s <span className="font-semibold text-white">Evolutionary Engineering&nbsp;AI</span>&nbsp;— delivering faster, higher-quality code while you sleep.
         </p>
 
         {/* scenario selector */}

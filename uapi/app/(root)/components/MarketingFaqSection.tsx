@@ -27,7 +27,7 @@ const faqs = [
       "Easy to learn, hard to master. Within minutes, you'll have your tools connected and be chatting your way through your first real-world deliverables. Quickly, shepherding engineering and guiding perpetual evolution becomes second nature. Advanced users utilize triggered coordinated-learning sequencing, operating the operator with operators, deeper workstation compute capabilities, connecting internal tool MCPs, knowledge-gap arbitrage, and more to expand technical value creation levers throughout their autonomous engineering organizations.",
   },
   {
-    question: "Does Engi work with private repositories and APIs?",
+    question: "Does Bitcode work with private repositories and APIs?",
     answer:
       "Yes. Through the GitHub App, Bitcode can access both public and private repositories. You retain full control over installation scopes and permissions. MCP API credentials are securely stored, monitored when used, and can be deleted anytime.",
   },

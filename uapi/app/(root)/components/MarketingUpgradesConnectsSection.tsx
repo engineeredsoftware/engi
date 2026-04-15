@@ -239,7 +239,7 @@ export default function MarketingAI DocumentsConnectsSection() {
               </p>
               <div className="mt-6 border-t border-white/20 pt-6 space-y-6">
                 <FeatureCard className="border-l-4 border-purple-400 pl-4" icon={<SparklesIcon className="h-6 w-6 text-purple-400" />} title="Knowledge Extensions">
-                  Engi can process critical, internal, and new documentation for deep study, improving interconnected reasoning later.
+                  Bitcode can process critical, internal, and new documentation for deep study, improving interconnected reasoning later.
                 </FeatureCard>
                 <FeatureCard className="border-l-4 border-pink-400 pl-4" icon={<ArrowPathIcon className="h-6 w-6 text-pink-400" />} title="Deliverables Feedback">
                   Feedback loops — both automatic from rejections and manual from your team — create a precise learning signal that improves every future deliverable.

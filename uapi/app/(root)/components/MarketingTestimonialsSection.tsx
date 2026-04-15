@@ -15,27 +15,27 @@ import { FEATURE_FLAGS } from '@/config/features';
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Engi testimonials',
+  name: 'Bitcode testimonials',
   itemListElement: [
     {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Jaya Bhatt' },
       reviewBody:
-        'Compliance tweaks that used to block two sprints now ship via Engi PRs in under an hour.',
+        'Compliance tweaks that used to block two sprints now ship via Bitcode PRs in under an hour.',
       reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5 },
     },
     {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Olivia Chen' },
       reviewBody:
-        'Defects per KLOC dropped 38 % after Engi learned our code base through Auto-Alike ai_documents.',
+        'Defects per KLOC dropped 38 % after Bitcode learned our code base through Auto-Alike ai_documents.',
       reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5 },
     },
     {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Marcus Leblanc' },
       reviewBody:
-        'Solo dev here—Engi turns bullet lists into merge-ready PRs while I make coffee.',
+        'Solo dev here—Bitcode turns bullet lists into merge-ready PRs while I make coffee.',
       reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5 },
     },
   ],
@@ -74,7 +74,7 @@ const MarketingTestimonialsSection: React.FC = () => {
 
           {/* Subtitle */}
           <p className={subtitleClass}>
-            Teams of all backgrounds use Engi's no-code AI agents to automate workflows and evolve software effortlessly.
+            Teams of all backgrounds use Bitcode's no-code AI agents to automate workflows and evolve software effortlessly.
           </p>
 
           {/* Marquee of company logos – temporarily hidden */}

@@ -24,13 +24,13 @@ type Review = {
 };
 
 // ---------------------------------------------------------------------------
-// Updated: punchier, believable quotes that speak directly to Engi’s
+// Updated: punchier, believable quotes that speak directly to Bitcode’s
 // strengths – instant setup, iterative learning, and real productivity wins.
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // Expanded set – 30 diverse, industry-specific testimonials highlighting the
-// breadth of Engi’s benefits (ease of use, evolving intelligence, multi-modal
+// breadth of Bitcode’s benefits (ease of use, evolving intelligence, multi-modal
 // context, quality PRs, observability, credit transparency, etc.).
 // ---------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ const reviews: Review[] = [
   {
     name: 'Anita Lopez',
     username: '@anital',
-    body: 'I selected the “prod-infra” plane in Engi pointed at our Terraform repo, and within minutes its AI Documents & Integrations optimized our AWS, Kubernetes, and Docker pipelines. Our CI/CD now runs end-to-end with no manual configs.',
+    body: 'I selected the “prod-infra” plane in Bitcode pointed at our Terraform repo, and within minutes its AI Documents & Integrations optimized our AWS, Kubernetes, and Docker pipelines. Our CI/CD now runs end-to-end with no manual configs.',
     img: 'https://avatar.vercel.sh/anita',
     rating: 5,
     jobTitle: 'DevOps Engineer',
@@ -58,7 +58,7 @@ const reviews: Review[] = [
   {
     name: 'Maria Rossi',
     username: '@mariar',
-    body: 'Engi’s Multi-Agent orchestration scaled parallel testing across branches, doubling our release cadence without extra headcount.',
+    body: 'Bitcode’s Multi-Agent orchestration scaled parallel testing across branches, doubling our release cadence without extra headcount.',
     img: 'https://avatar.vercel.sh/maria',
     rating: 5,
     jobTitle: 'QA Manager',
@@ -68,7 +68,7 @@ const reviews: Review[] = [
   {
     name: 'Priya Singh',
     username: '@priyas',
-    body: 'Using the “Refresh Brand Everywhere” workflow, Engi generated visual diff PRs across our Next.js site—updating CSS variables, logos, and running Playwright screenshot tests. We merged with confidence and saw Lighthouse scores improve automatically.',
+    body: 'Using the “Refresh Brand Everywhere” workflow, Bitcode generated visual diff PRs across our Next.js site—updating CSS variables, logos, and running Playwright screenshot tests. We merged with confidence and saw Lighthouse scores improve automatically.',
     img: 'https://avatar.vercel.sh/priya',
     rating: 5,
     jobTitle: 'UI Engineer',
@@ -78,7 +78,7 @@ const reviews: Review[] = [
   {
     name: 'Jin Soo Park',
     username: '@jinsoo',
-    body: 'In the “Compute” plane, Engi provisioned ephemeral GPU workstations, ran our ML training jobs in parallel, and delivered results hours faster without any manual setup.',
+    body: 'In the “Compute” plane, Bitcode provisioned ephemeral GPU workstations, ran our ML training jobs in parallel, and delivered results hours faster without any manual setup.',
     img: 'https://avatar.vercel.sh/jinsoo',
     rating: 5,
     jobTitle: 'ML Engineer',
@@ -88,7 +88,7 @@ const reviews: Review[] = [
   {
     name: 'Jordan Lee',
     username: '@jordanl',
-    body: 'Before Engi, every time I hopped between feature work, bug fixes, and PR reviews I lost all momentum. Now I can churn out deliverables non-stop—and Engi quietly watches over my shoulder. The moment I introduce a hiccup, it immediately builds a permanent fix right into my repo. It’s like having a tireless senior engineer who never sleeps. I’m blown away by how smooth my workflow has become.',
+    body: 'Before Bitcode, every time I hopped between feature work, bug fixes, and PR reviews I lost all momentum. Now I can churn out deliverables non-stop—and Bitcode quietly watches over my shoulder. The moment I introduce a hiccup, it immediately builds a permanent fix right into my repo. It’s like having a tireless senior engineer who never sleeps. I’m blown away by how smooth my workflow has become.',
     img: 'https://avatar.vercel.sh/jordanl',
     rating: 5,
     jobTitle: 'Senior Software Engineer',
@@ -98,7 +98,7 @@ const reviews: Review[] = [
   {
     name: 'Olivia Nguyen',
     username: '@oliviang',
-    body: 'Token Metrics Dashboard gave me real-time insight into our $ENGI spend. We optimized usage and saved 35% in the first month.',
+    body: 'Token Metrics Dashboard gave me real-time insight into our $BTD spend. We optimized usage and saved 35% in the first month.',
     img: 'https://avatar.vercel.sh/olivia',
     rating: 5,
     jobTitle: 'Finance Analyst',
@@ -108,7 +108,7 @@ const reviews: Review[] = [
   {
     name: 'Sophia Patel',
     username: '@sophiap',
-    body: 'In the “Add Another AI Feature” workflow, I described a new `/summaries` endpoint in chat. Engi benchmarked LLMs, wrote the handler with vector search, generated a full Jest test suite, and opened a production-ready PR—all in one session.',
+    body: 'In the “Add Another AI Feature” workflow, I described a new `/summaries` endpoint in chat. Bitcode benchmarked LLMs, wrote the handler with vector search, generated a full Jest test suite, and opened a production-ready PR—all in one session.',
     img: 'https://avatar.vercel.sh/sophiap',
     rating: 5,
     jobTitle: 'Senior Developer',
@@ -118,7 +118,7 @@ const reviews: Review[] = [
   {
     name: 'Carlos Mendes',
     username: '@carlosm',
-    body: 'The FAQ section answered all my questions on tokens, credits, and security. Engi’s transparency made the decision easy.',
+    body: 'The FAQ section answered all my questions on tokens, credits, and security. Bitcode’s transparency made the decision easy.',
     img: 'https://avatar.vercel.sh/carlosm',
     rating: 5,
     jobTitle: 'CTO',
@@ -128,7 +128,7 @@ const reviews: Review[] = [
   {
     name: 'Emma Brown',
     username: '@emmab',
-    body: 'Under the “Automate SOC 2 Compliance” workflow, Engi ingested our control spreadsheet, injected encryption, auditing, and least-privilege IAM policies, and assembled an evidence bundle in a live compliance dashboard. Audit prep went from weeks to minutes.',
+    body: 'Under the “Automate SOC 2 Compliance” workflow, Bitcode ingested our control spreadsheet, injected encryption, auditing, and least-privilege IAM policies, and assembled an evidence bundle in a live compliance dashboard. Audit prep went from weeks to minutes.',
     img: 'https://avatar.vercel.sh/emma',
     rating: 5,
     jobTitle: 'Head of Security',
@@ -138,7 +138,7 @@ const reviews: Review[] = [
   {
     name: 'Marcus Leblanc',
     username: '@marcus',
-    body: 'From code snippet to production-grade PR in under an hour, thanks to Engi’s knowledge-extension ai_documents. Best assistant I’ve had.',
+    body: 'From code snippet to production-grade PR in under an hour, thanks to Bitcode’s knowledge-extension ai_documents. Best assistant I’ve had.',
     img: 'https://avatar.vercel.sh/marcus',
     rating: 5,
     jobTitle: 'Software Engineer',
@@ -148,7 +148,7 @@ const reviews: Review[] = [
   {
     name: 'Arjun Kapoor',
     username: '@arjunk',
-    body: 'My team and I ran Engi’s evolution ai_documents across our microservices and were amazed: each pass delivered smarter, more precise PRs—automating database migrations, updating configs, even generating unit tests. It feels like collaborating with an engineer who already knows our entire codebase.',
+    body: 'My team and I ran Bitcode’s evolution ai_documents across our microservices and were amazed: each pass delivered smarter, more precise PRs—automating database migrations, updating configs, even generating unit tests. It feels like collaborating with an engineer who already knows our entire codebase.',
     img: 'https://avatar.vercel.sh/arjunk',
     rating: 5,
     jobTitle: 'Engineering Lead',
@@ -158,7 +158,7 @@ const reviews: Review[] = [
   {
     name: 'Liam Nguyen',
     username: '@liamn',
-    body: 'My team and I hooked up Engi to our GitHub repo so every push now triggers automatic code reviews, ai_documents, and documentation updates. It’s freed us from repetitive checks and let us focus on building new features.',
+    body: 'My team and I hooked up Bitcode to our GitHub repo so every push now triggers automatic code reviews, ai_documents, and documentation updates. It’s freed us from repetitive checks and let us focus on building new features.',
     img: 'https://avatar.vercel.sh/liamn',
     rating: 5,
     jobTitle: 'DevOps Engineer',
@@ -168,7 +168,7 @@ const reviews: Review[] = [
   {
     name: 'Ella Martinez',
     username: '@ellam',
-    body: 'As a Product Designer, I uploaded our design specs and set Engi loose—within minutes I had a functional component library PR, complete with docs and tests. Getting started took under 3 minutes, and it felt like working with a teammate who speaks both design and code.',
+    body: 'As a Product Designer, I uploaded our design specs and set Bitcode loose—within minutes I had a functional component library PR, complete with docs and tests. Getting started took under 3 minutes, and it felt like working with a teammate who speaks both design and code.',
     img: 'https://avatar.vercel.sh/ellam',
     rating: 5,
     jobTitle: 'Product Designer',

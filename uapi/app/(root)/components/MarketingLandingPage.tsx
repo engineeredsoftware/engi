@@ -290,7 +290,7 @@ export const ComingSoonAccessForm = memo(function ComingSoonAccessForm() {
   const handlePasswordSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (password.trim() === 'engi/acc') {
+    if (password.trim() === 'bitcode/acc') {
       setSuccess(true);
 
       try {
@@ -392,7 +392,7 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
       <div className="border-b border-emerald-300/10 pb-3 laptop:grid laptop:grid-cols-[minmax(0,1fr)_auto] laptop:items-center laptop:gap-4">
         <div className="min-w-0 laptop:pr-2">
           <p className="bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.18em] text-transparent phone:text-[12px] phone:tracking-[0.22em]">
-            ENGI&apos;s Self-Evolution, Now
+            Bitcode&apos;s Self-Evolution, Now
           </p>
         </div>
         <div className="mt-3 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start">
@@ -403,12 +403,12 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
       </div>
 
       <p className="mt-3 text-[13px] leading-6 text-emerald-100/72">
-        <span className={heroHighlightClass}>$ENGI</span>
+        <span className={heroHighlightClass}>$BTD</span>
         <span>&apos;s purpose is to hoard valuable technical information and compensate contributors
         fairly. Provable knowledge measuring algorithms build the foundations for collection and
         issuance. Ideal long-term partnerships for asset management and infrastructure will be
         finalized to empower the secure and thriving future of </span>
-        <span className={heroHighlightClass}>$ENGI</span>
+        <span className={heroHighlightClass}>$BTD</span>
         <span>.</span>
       </p>
     </motion.article>
@@ -609,8 +609,8 @@ export default function MarketingLandingPage() {
 
               <div className="mt-4 grid grid-cols-1 gap-2 phone:mt-5 phone:grid-cols-2 phone:gap-3 desktop:grid-cols-3">
                 {productPillars.map(({ title, description, Icon }, index) => {
-                  const hasEngiInDescription = description.includes('$ENGI');
-                  const [beforeEngi, afterEngi] = hasEngiInDescription ? description.split('$ENGI') : [description, ''];
+                  const hasBtdInDescription = description.includes('$BTD');
+                  const [beforeBtd, afterBtd] = hasBtdInDescription ? description.split('$BTD') : [description, ''];
 
                   return (
                     <motion.div
@@ -623,10 +623,10 @@ export default function MarketingLandingPage() {
                         ease: entranceEase,
                       }}
                       className={`relative overflow-hidden rounded-[24px] border p-3 backdrop-blur-xl phone:p-4 ${
-                        title.includes('$ENGI')
+                        title.includes('$BTD')
                           ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
                           : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
-                      } ${title.includes('$ENGI') ? 'phone:col-span-2 desktop:col-span-1' : ''}`}
+                      } ${title.includes('$BTD') ? 'phone:col-span-2 desktop:col-span-1' : ''}`}
                       style={paintedMotionStyle}
                     >
                       {title === 'Deposit' ? (
@@ -833,11 +833,11 @@ export default function MarketingLandingPage() {
                             </div>
                           </div>
                           <p className="mt-3 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
-                            {hasEngiInDescription ? (
+                            {hasBtdInDescription ? (
                               <>
-                                {beforeEngi}
-                                <span className={`${heroHighlightClass} font-semibold`}>$ENGI</span>
-                                {afterEngi}
+                                {beforeBtd}
+                                <span className={`${heroHighlightClass} font-semibold`}>$BTD</span>
+                                {afterBtd}
                               </>
                             ) : (
                               description
@@ -863,7 +863,7 @@ export default function MarketingLandingPage() {
 
               <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
                 <a
-                  href="#engi-demo-live"
+                  href="#bitcode-demo-live"
                   className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
                 >
                   Open embedded demo
@@ -1081,7 +1081,7 @@ export default function MarketingLandingPage() {
                                     className={`mt-3 grid gap-x-5 gap-y-3 text-emerald-50/88 laptop:gap-x-4 laptop:gap-y-2 ${valuesGridClassName}`}
                                   >
                                     {valueParts.map((valuePart) => {
-                                      const isEngiValue = valuePart === '$ENGI';
+                                      const isBtdValue = valuePart === '$BTD';
 
                                       return (
                                         <span
@@ -1090,11 +1090,11 @@ export default function MarketingLandingPage() {
                                         >
                                           {renderOrbitalBullet(
                                             'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
-                                            isEngiValue ? 'green' : 'orange',
+                                            isBtdValue ? 'green' : 'orange',
                                           )}
                                           <span
                                             className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[11px] laptop:leading-5 ${
-                                              isEngiValue ? heroHighlightClass : ''
+                                              isBtdValue ? heroHighlightClass : ''
                                             }`}
                                           >
                                             {valuePart}

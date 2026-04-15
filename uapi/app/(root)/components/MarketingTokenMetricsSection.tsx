@@ -315,7 +315,7 @@ export default function MarketingTokenMetricsSection() {
         <div>
           <h2 className="text-4xl desktop:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-orange-100 to-white/80 drop-shadow-sm">
             Connect Knowledge, Collect{' '}
-            <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$ENGI</span>
+            <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>
           </h2>
           <p className="text-lg laptop:text-xl text-white/90 mb-10 max-w-xl">
             Share any slice of your codebase and watch value stream in. Purely passive procurement pairs your technical knowledge with intra-platform demand while your balance climbs automagically.

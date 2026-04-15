@@ -174,12 +174,12 @@ const MarketingCtaContactSection: React.FC = () => {
                     {/* Credit indicator (below buttons) */}
                     <div className="flex items-center justify-center space-x-3 select-none mt-2">
                       <span className="text-5xl font-bold text-emerald-300 drop-shadow-[0_0_8px_rgba(145,251,188,0.9)]">1</span>
-                      {/* Engi \"e\" logo */}
+                      {/* Bitcode "b" logo */}
                       <Image
                         src="/icons/logo.svg"
                         width={47}
                         height={47}
-                        alt="Engi credit"
+                        alt="Bitcode credit"
                         className="w-[47px] h-[47px] drop-shadow-[0_0_14px_rgba(145,251,188,0.9)] animate-pulse-slow"
                       />
                       <span className="text-3xl font-semibold text-gray-200">≈ $0.10</span>
@@ -270,7 +270,7 @@ const MarketingCtaContactSection: React.FC = () => {
                       id="message"
                       name="message"
                       rows={4}
-                      placeholder="Describe how Engi can help you..."
+                      placeholder="Describe how Bitcode can help you..."
                       required
                       value={formData.message}
                       onChange={handleInputChange}
@@ -297,7 +297,7 @@ const MarketingCtaContactSection: React.FC = () => {
 
                   {status === 'sent' ? (
                     <p className="text-green-400 font-semibold text-lg text-center">
-                      Thank you! Engi will be in touch soon.
+                      Thank you! Bitcode will be in touch soon.
                     </p>
                   ) : (
                     <MarketingButtonShimmer

@@ -20,10 +20,10 @@ export default function MarketingFooter() {
                 <path d="M8.5 8.5L13 13" stroke="#67FEB7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M19 19L23.5 23.5" stroke="#67FEB7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="text-white font-bold text-xl">engi</span>
+              <span className="text-white font-bold text-xl">bitcode</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Engineering intelligence for modern development teams.
+              Bitcode intelligence for modern development teams.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export default function MarketingFooter() {
 
         <div className="pt-8 border-t border-gray-800 flex flex-col laptop:flex-row justify-between items-center">
           <div className="text-gray-500 text-sm mb-4 laptop:mb-0">
-            &copy; {currentYear} Engi, Inc. All rights reserved.
+            &copy; {currentYear} Bitcode, Inc. All rights reserved.
             {process.env.NEXT_PUBLIC_APP_VERSION && (
               <span className="ml-2 text-[10px] text-gray-400/70 select-none">
                 v{process.env.NEXT_PUBLIC_APP_VERSION}

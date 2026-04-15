@@ -63,14 +63,14 @@ const MarketingScreenshotSection: React.FC = () => {
       src: '/screenshots/setup-marketplace.png',
       alt: 'Marketplace setup',
       revealingSoon: true,
-      description: 'Quickly connect your repo and configure Engi in the GitHub marketplace.'
+      description: 'Quickly connect your repo and configure Bitcode in the GitHub marketplace.'
     },
     {
       id: 'setup-credits',
       src: '/screenshots/setup-credits.png',
       alt: 'Add credits',
       revealingSoon: true,
-      description: 'Fund your Engi account with build credits.'
+      description: 'Fund your Bitcode account with build credits.'
     },
     {
       id: 'setup-credits-balance',
@@ -446,7 +446,7 @@ const MarketingScreenshotSection: React.FC = () => {
               />
               <Image
                 src="/screenshots/ai_documents-page.png"
-                alt="Left Engi screenshot"
+                alt="Left Bitcode screenshot"
                 className="relative w-full rounded-xl object-cover border-2 border-orange-400"
                 style={{}}
                 width={800}
@@ -521,7 +521,7 @@ const MarketingScreenshotSection: React.FC = () => {
                     <div className="relative">
                       <Image
                         src={shot.src}
-                        alt="Engi feature screenshot"
+                        alt="Bitcode feature screenshot"
                         className={`w-32 laptop:w-36 desktop:w-40 rounded-lg object-cover border-2 ${shot.border}`}
                         style={{ filter: `drop-shadow(0 0 14px ${shot.glow})` }}
                         width={160}
@@ -598,7 +598,7 @@ const MarketingScreenshotSection: React.FC = () => {
                 />
                 <Image
                   src="/screenshots/deliverables-page-minimal-state.png"
-                  alt="Center Engi screenshot"
+                  alt="Center Bitcode screenshot"
                   className="relative w-full rounded-2xl object-cover border-2 border-green-400"
                   style={{}}
                   width={900}
@@ -667,7 +667,7 @@ const MarketingScreenshotSection: React.FC = () => {
                 />
                 <Image
                   src="/screenshots/conversations-fullscreen.png"
-                  alt="Right Engi screenshot"
+                  alt="Right Bitcode screenshot"
                   className="relative w-full rounded-xl object-cover border-2 border-purple-500"
                   style={{}}
                   width={800}
@@ -742,7 +742,7 @@ const MarketingScreenshotSection: React.FC = () => {
                     >
                       <Image
                         src={shot.src}
-                        alt="Engi feature screenshot"
+                        alt="Bitcode feature screenshot"
                         className={`w-32 laptop:w-36 desktop:w-40 rounded-lg object-cover border-2 ${shot.border}`}
                         style={{ filter: `drop-shadow(0 0 14px ${shot.glow})` }}
                         width={160}
@@ -798,12 +798,12 @@ const MarketingScreenshotSection: React.FC = () => {
                 <a
                   ref={linkRef}
                   id="esi-link"
-                  href="https://github.com/marketplace/engi-github-app"
+                  href="https://github.com/marketplace/bitcode-github-app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="glowing-underline text-slate-100 hover:text-white transition-colors font-semibold"
                 >
-                  Engi&nbsp;Software&nbsp;Agents&nbsp;GitHub&nbsp;Plugin
+                  Bitcode&nbsp;Software&nbsp;Agents&nbsp;GitHub&nbsp;Plugin
                 </a>{' '}
                 lets you build with clicks, not code — self-improving agents with advanced tools iteratively deliver production-ready work.
               </p>
@@ -1037,7 +1037,7 @@ const MarketingScreenshotSection: React.FC = () => {
                   <p
                     className="absolute -top-4 left-4 right-4 text-center text-[12px] laptop:text-sm font-medium text-fuchsia-100 leading-snug select-none pointer-events-none px-3 py-1 rounded-md bg-fuchsia-500/15 backdrop-blur-sm border border-fuchsia-400/30 shadow-md"
                   >
-                    Deliverables From, For Your Engi AI
+                    Deliverables From, For Your Bitcode AI
                   </p>
                   {/* Deliverables & AI Documents grouped tags */}
                   <div className="space-y-4 mt-1 text-xs">
