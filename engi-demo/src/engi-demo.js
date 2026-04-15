@@ -2346,7 +2346,20 @@ function buildArtifactUploadSurface(input, content, extracted, artifactKind, art
  * @param {any} __0
  * @returns {any}
  */
-function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetPack, settlementPreview, paymentMode }) {
+function buildExternalBoundaryManifest({
+  buyer,
+  need,
+  selectedCandidates,
+  assetPack,
+  settlementPreview,
+  paymentMode,
+  externalEnvironmentProfile = null,
+  externalExecutionPolicy = null,
+  externalTelemetryPolicy = null,
+  externalTelemetrySummary = null,
+  networkCapabilityManifest = null,
+  githubAppBinding = null
+}) {
   const bitcoinDemonstrationService = paymentMode ? buildBitcoinDemonstrationServiceDescriptor() : null;
   const selectedGithubBindings = selectedCandidates.map((/** @type {any} */ candidate) => ({
     assetId: candidate.assetId,
@@ -2354,6 +2367,146 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
     workflowRunId: candidate.asset.githubBoundary?.workflowRunId,
     sourceCommit: candidate.asset.githubBoundary?.sourceCommit
   }));
+  const configuredEnvironmentMode = externalEnvironmentProfile?.configuredEnvironmentMode || null;
+  const actualityDisposition = externalEnvironmentProfile?.actualityDisposition || null;
+  const supportedEnvironmentModes = externalEnvironmentProfile?.supportedEnvironmentModes || [];
+  const interfaceSummaryById = Object.fromEntries(
+    (externalTelemetrySummary?.interfaceSummaries || []).map((entry) => [entry.interfaceId, entry])
+  );
+  const draftRealizationInterfaces = externalEnvironmentProfile
+    ? [
+        buildExternalBoundaryInterface({
+          interfaceId: 'bitcoin-mainchain-execution',
+          label: 'Bitcoin mainchain execution receipts',
+          status: 'implemented-as-draft-target-realization-surface',
+          localPrototype: {
+            implemented: true,
+            surface: 'mode-isolated runtime emits mainchain intent, execution, observation, and proof receipts',
+            configuredEnvironmentMode,
+            actualityDisposition,
+            executionClass: interfaceSummaryById['bitcoin-mainchain-execution']?.executionClass || null,
+            reconciliationState: interfaceSummaryById['bitcoin-mainchain-execution']?.reconciliationState || null,
+            telemetryCoverageState: interfaceSummaryById['bitcoin-mainchain-execution']?.telemetryCoverageState || null,
+            artifactRefs: [
+              '.engi/bitcoin-network-intent.json',
+              '.engi/bitcoin-network-execution.json',
+              '.engi/bitcoin-network-observation.json',
+              '.engi/external-realization-proof.json'
+            ]
+          },
+          externalBoundary: {
+            implemented: false,
+            requiredForLive: true,
+            contract: ['assemble network-ready spend intent', 'observe broadcast and confirmation state', 'bind mainchain execution to ENGI bundle and settlement identities'],
+            boundaryArtifacts: ['bitcoin.mainchain-intent', 'bitcoin.mainchain-execution', 'bitcoin.mainchain-observation']
+          }
+        }),
+        buildExternalBoundaryInterface({
+          interfaceId: 'sidechain-execution',
+          label: 'Sidechain execution receipts',
+          status: 'implemented-as-draft-target-realization-surface',
+          localPrototype: {
+            implemented: true,
+            surface: 'mode-isolated runtime emits sidechain execution posture and checkpoint receipts',
+            configuredEnvironmentMode,
+            actualityDisposition,
+            executionClass: interfaceSummaryById['sidechain-execution']?.executionClass || null,
+            reconciliationState: interfaceSummaryById['sidechain-execution']?.reconciliationState || null,
+            telemetryCoverageState: interfaceSummaryById['sidechain-execution']?.telemetryCoverageState || null,
+            artifactRefs: [
+              '.engi/sidechain-execution-receipt.json',
+              '.engi/external-realization-proof.json'
+            ]
+          },
+          externalBoundary: {
+            implemented: false,
+            requiredForLive: true,
+            contract: ['observe sidechain bridge execution', 'bind checkpoint posture to mainchain audit closure', 'fail closed on sidechain reconciliation drift'],
+            boundaryArtifacts: ['sidechain.execution-intent', 'sidechain.execution-receipt', 'sidechain.checkpoint-observation']
+          }
+        }),
+        buildExternalBoundaryInterface({
+          interfaceId: 'compute-container-execution',
+          label: 'Compute container execution receipts',
+          status: 'implemented-as-draft-target-realization-surface',
+          localPrototype: {
+            implemented: true,
+            surface: 'mode-isolated runtime emits compute container manifests, attestation refs, and proof closure',
+            configuredEnvironmentMode,
+            actualityDisposition,
+            executionClass: interfaceSummaryById['compute-container-execution']?.executionClass || null,
+            reconciliationState: interfaceSummaryById['compute-container-execution']?.reconciliationState || null,
+            telemetryCoverageState: interfaceSummaryById['compute-container-execution']?.telemetryCoverageState || null,
+            artifactRefs: [
+              '.engi/compute-container-manifest.json',
+              '.engi/compute-container-execution.json',
+              '.engi/container-reality-proof.json'
+            ]
+          },
+          externalBoundary: {
+            implemented: false,
+            requiredForLive: true,
+            contract: ['select attested execution image', 'emit execution and attestation receipts', 'bind proof outputs back to ENGI artifact identities'],
+            boundaryArtifacts: ['compute.container-manifest', 'compute.execution-receipt', 'compute.attestation-receipt']
+          }
+        }),
+        buildExternalBoundaryInterface({
+          interfaceId: 'storage-container-execution',
+          label: 'Storage publication and retrieval receipts',
+          status: 'implemented-as-draft-target-realization-surface',
+          localPrototype: {
+            implemented: true,
+            surface: 'mode-isolated runtime emits storage manifests, publication receipts, retrieval receipts, and proof closure',
+            configuredEnvironmentMode,
+            actualityDisposition,
+            executionClass: interfaceSummaryById['storage-container-execution']?.executionClass || null,
+            reconciliationState: interfaceSummaryById['storage-container-execution']?.reconciliationState || null,
+            telemetryCoverageState: interfaceSummaryById['storage-container-execution']?.telemetryCoverageState || null,
+            artifactRefs: [
+              '.engi/storage-container-manifest.json',
+              '.engi/storage-publication-receipt.json',
+              '.engi/storage-retrieval-receipt.json',
+              '.engi/container-reality-proof.json'
+            ]
+          },
+          externalBoundary: {
+            implemented: false,
+            requiredForLive: true,
+            contract: ['publish artifact scopes to durable storage', 'observe retrievability and retention posture', 'fail closed on storage publication or retrieval drift'],
+            boundaryArtifacts: ['storage.container-manifest', 'storage.publication-receipt', 'storage.retrieval-receipt']
+          }
+        }),
+        buildExternalBoundaryInterface({
+          interfaceId: 'github-live-interface',
+          label: 'GitHub live session and mutation receipts',
+          status: 'implemented-as-draft-target-realization-surface',
+          localPrototype: {
+            implemented: true,
+            surface: 'mode-isolated runtime emits GitHub live session, fetch, branch-publication, and PR-update receipts',
+            configuredEnvironmentMode,
+            actualityDisposition,
+            targetedRepoCount: githubAppBinding?.targetedRepoCount || 0,
+            executionClass: interfaceSummaryById['github-live-interface']?.executionClass || null,
+            reconciliationState: interfaceSummaryById['github-live-interface']?.reconciliationState || null,
+            telemetryCoverageState: interfaceSummaryById['github-live-interface']?.telemetryCoverageState || null,
+            artifactRefs: [
+              '.engi/github-live-session.json',
+              '.engi/github-inventory-fetch-receipt.json',
+              '.engi/github-artifact-fetch-receipt.json',
+              '.engi/github-branch-publication-receipt.json',
+              '.engi/github-pr-update-receipt.json',
+              '.engi/github-live-interface-proof.json'
+            ]
+          },
+          externalBoundary: {
+            implemented: false,
+            requiredForLive: true,
+            contract: ['bind GitHub App session to one environment and installation target', 'emit fetch and mutation receipts for repo actions', 'fail closed on GitHub reconciliation drift'],
+            boundaryArtifacts: ['github.live-session', 'github.fetch-receipt', 'github.mutation-receipt']
+          }
+        })
+      ]
+    : [];
   const paymentObservationInterface = paymentMode
     ? [
         buildExternalBoundaryInterface({
@@ -2418,6 +2571,12 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
   return {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
+    configuredEnvironmentMode,
+    actualityDisposition,
+    supportedEnvironmentModes,
+    executionPolicyRef: externalExecutionPolicy?.policyId || null,
+    telemetryPolicyRef: externalTelemetryPolicy?.policyId || null,
+    networkCapabilityManifestRef: networkCapabilityManifest?.manifestId || null,
     repo: buyer.repo,
     assetPackId: assetPack.assetPackId,
     bundleId: settlementPreview.bundleId,
@@ -2471,6 +2630,7 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
         localPrototype: { implemented: true, surface: 'deterministic journal diff + exact accounting invariants', artifactRefs: ['.engi/settlement-preview.json', '.engi/settlement-proof.json', '.engi/journal-diff.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['submit settlement transaction', 'wait for network confirmation', 'publish claim / redemption events'], boundaryArtifacts: ['settlement.execution-request', 'settlement.execution-receipt', 'settlement.network-observation'] }
       }),
+      ...draftRealizationInterfaces,
       ...paymentObservationInterface
     ],
     selectedGithubBindings,
@@ -5548,7 +5708,6 @@ export function runMakeEngiBranch(state, input = {}) {
   const githubBoundarySurface = buildGithubBoundarySurface(scenarioBoundBuyer, need, selectedCandidates);
   const artifactUploadManifest = buildArtifactUploadManifest(selectedCandidates);
   const profileCompositionSurface = /** @type {any} */ (buildProfileCompositions());
-  const externalBoundaryManifest = buildExternalBoundaryManifest({ buyer: scenarioBoundBuyer, need, selectedCandidates, assetPack, settlementPreview: settlement.settlementPreview, paymentMode });
   const authorizationDecisions = buildAuthorizationDecisions(policyState, identityBindings, scenarioBoundBuyer, branchName, assetPack);
   const sensitiveDataFlowRecords = buildSensitiveDataFlowRecords(policyState, scenarioBoundBuyer, branchName, assetPack, selectedCandidates);
   const identityAuthorizationProof = buildIdentityAuthorizationProof(branchName, authorizationDecisions, identityBindings, selectedCandidates);
@@ -5601,6 +5760,20 @@ export function runMakeEngiBranch(state, input = {}) {
     paymentMode,
     scenarioId: scenario.scenarioId,
     pipelineTelemetry
+  });
+  const externalBoundaryManifest = buildExternalBoundaryManifest({
+    buyer: scenarioBoundBuyer,
+    need,
+    selectedCandidates,
+    assetPack,
+    settlementPreview: settlement.settlementPreview,
+    paymentMode,
+    externalEnvironmentProfile,
+    externalExecutionPolicy,
+    externalTelemetryPolicy,
+    externalTelemetrySummary,
+    networkCapabilityManifest,
+    githubAppBinding
   });
   const testCoverageReport = buildTestCoverageReport({
     state,

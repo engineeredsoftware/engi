@@ -416,12 +416,26 @@ function buildPublicProjection(latestRun) {
  */
 function buildPublicExternalRealizationSummary(latestRun) {
   if (!latestRun?.externalEnvironmentProfile || !latestRun?.externalTelemetrySummary) return undefined;
+  const interfaceSummaryById = Object.fromEntries(
+    (latestRun.externalTelemetrySummary.interfaceSummaries || []).map((entry) => [entry.interfaceId, entry])
+  );
+  const interfaceStates = (latestRun.externalBoundaryManifest?.interfaces || [])
+    .filter((entry) => interfaceSummaryById[entry.interfaceId])
+    .map((entry) => ({
+      interfaceId: entry.interfaceId,
+      label: entry.label,
+      status: entry.status,
+      executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
+      reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
+      telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null
+    }));
   return {
     configuredEnvironmentMode: latestRun.externalEnvironmentProfile.configuredEnvironmentMode,
     actualityDisposition: latestRun.externalEnvironmentProfile.actualityDisposition,
     demonstrationToggleState: latestRun.externalEnvironmentProfile.demonstrationToggleState,
     supportedEnvironmentModes: latestRun.externalEnvironmentProfile.supportedEnvironmentModes,
     interfaceIds: (latestRun.networkCapabilityManifest?.interfaces || []).map((entry) => entry.interfaceId),
+    interfaceStates,
     surfacedAcross: latestRun.externalTelemetrySummary.surfacedAcross || []
   };
 }
@@ -432,20 +446,29 @@ function buildPublicExternalRealizationSummary(latestRun) {
  */
 function buildReviewerExternalRealizationSummary(latestRun) {
   if (!latestRun?.externalEnvironmentProfile || !latestRun?.externalTelemetrySummary) return undefined;
+  const interfaceSummaryById = Object.fromEntries(
+    (latestRun.externalTelemetrySummary.interfaceSummaries || []).map((entry) => [entry.interfaceId, entry])
+  );
   return {
     configuredEnvironmentMode: latestRun.externalEnvironmentProfile.configuredEnvironmentMode,
     actualityDisposition: latestRun.externalEnvironmentProfile.actualityDisposition,
     branchBinding: latestRun.externalExecutionPolicy?.branchBinding,
     isolationDisposition: latestRun.externalExecutionPolicy?.isolationDisposition,
     coverageExpectation: latestRun.externalTelemetryPolicy?.coverageExpectation,
-    interfaceSummaries: (latestRun.externalTelemetrySummary.interfaceSummaries || []).map((entry) => ({
-      interfaceId: entry.interfaceId,
-      executionClass: entry.executionClass,
-      reconciliationState: entry.reconciliationState,
-      resultClass: entry.resultClass,
-      telemetryCoverageState: entry.telemetryCoverageState,
-      affectedArtifactRefs: entry.affectedArtifactRefs
-    })),
+    interfaceSummaries: (latestRun.externalBoundaryManifest?.interfaces || [])
+      .filter((entry) => interfaceSummaryById[entry.interfaceId])
+      .map((entry) => ({
+        interfaceId: entry.interfaceId,
+        label: entry.label,
+        status: entry.status,
+        localPrototypeImplemented: entry.localPrototype?.implemented === true,
+        externalBoundaryRequiredForLive: entry.externalBoundary?.requiredForLive === true,
+        executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
+        reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
+        resultClass: interfaceSummaryById[entry.interfaceId]?.resultClass || null,
+        telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null,
+        affectedArtifactRefs: interfaceSummaryById[entry.interfaceId]?.affectedArtifactRefs || []
+      })),
     targetedRepoCount: latestRun.githubAppBinding?.targetedRepoCount || 0
   };
 }

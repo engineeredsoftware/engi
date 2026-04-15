@@ -362,6 +362,301 @@ function buildExternalTelemetryPolicy() {
 }
 
 /**
+ * @param {string} key
+ * @returns {string | undefined}
+ */
+function envString(key) {
+  const value = process.env[key];
+  if (typeof value !== 'string') return undefined;
+  const normalized = value.trim();
+  return normalized ? normalized : undefined;
+}
+
+/**
+ * @param {string} key
+ * @returns {boolean}
+ */
+function envBoolean(key) {
+  const value = envString(key);
+  if (!value) return false;
+  return ['1', 'true', 'yes', 'on'].includes(value.toLowerCase());
+}
+
+/**
+ * @param {unknown} value
+ * @param {string} fallback
+ * @returns {string}
+ */
+function normalizeEnvironmentMode(value, fallback) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return V24_EXTERNAL_ENVIRONMENT_MODES.includes(normalized) ? normalized : fallback;
+}
+
+/**
+ * @param {Record<string, unknown>} record
+ * @returns {Record<string, unknown>}
+ */
+function compactRecord(record) {
+  return Object.fromEntries(Object.entries(record).filter(([, value]) => value !== undefined && value !== null && value !== ''));
+}
+
+/**
+ * @param {Record<string, unknown>} binding
+ * @param {Record<string, unknown>} overrides
+ * @returns {Record<string, unknown>}
+ */
+function withBindingOverrides(binding, overrides) {
+  return {
+    ...binding,
+    ...compactRecord(overrides)
+  };
+}
+
+/**
+ * @param {string} interfaceId
+ * @returns {string}
+ */
+function liveEnableEnvKey(interfaceId) {
+  if (interfaceId === 'bitcoin-mainchain-execution') return 'ENGI_V24_ENABLE_BITCOIN_MAINCHAIN';
+  if (interfaceId === 'sidechain-execution') return 'ENGI_V24_ENABLE_SIDECHAIN';
+  if (interfaceId === 'compute-container-execution') return 'ENGI_V24_ENABLE_COMPUTE';
+  if (interfaceId === 'storage-container-execution') return 'ENGI_V24_ENABLE_STORAGE';
+  return 'ENGI_V24_ENABLE_GITHUB';
+}
+
+/**
+ * @param {string} interfaceId
+ * @param {Record<string, unknown>} binding
+ * @returns {{ binding: Record<string, unknown>, overrideKeys: string[] }}
+ */
+function applyActiveBindingOverrides(interfaceId, binding) {
+  if (interfaceId === 'bitcoin-mainchain-execution') {
+    const overrides = compactRecord({
+      network: envString('ENGI_V24_BITCOIN_MAINCHAIN_NETWORK'),
+      accountRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_ACCOUNT_REF'),
+      addressRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_ADDRESS_REF'),
+      treasuryPolicyRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_TREASURY_POLICY_REF')
+    });
+    return {
+      binding: withBindingOverrides(binding, overrides),
+      overrideKeys: Object.keys(overrides)
+    };
+  }
+  if (interfaceId === 'sidechain-execution') {
+    const overrides = compactRecord({
+      network: envString('ENGI_V24_SIDECHAIN_NETWORK'),
+      accountRef: envString('ENGI_V24_SIDECHAIN_ACCOUNT_REF'),
+      addressRef: envString('ENGI_V24_SIDECHAIN_ADDRESS_REF'),
+      treasuryPolicyRef: envString('ENGI_V24_SIDECHAIN_TREASURY_POLICY_REF')
+    });
+    return {
+      binding: withBindingOverrides(binding, overrides),
+      overrideKeys: Object.keys(overrides)
+    };
+  }
+  if (interfaceId === 'compute-container-execution') {
+    const overrides = compactRecord({
+      registryRef: envString('ENGI_V24_COMPUTE_REGISTRY_REF'),
+      executionIdentityRef: envString('ENGI_V24_COMPUTE_EXECUTION_IDENTITY_REF'),
+      queueRef: envString('ENGI_V24_COMPUTE_QUEUE_REF'),
+      attestationScopeRef: envString('ENGI_V24_COMPUTE_ATTESTATION_SCOPE_REF')
+    });
+    return {
+      binding: withBindingOverrides(binding, overrides),
+      overrideKeys: Object.keys(overrides)
+    };
+  }
+  if (interfaceId === 'storage-container-execution') {
+    const overrides = compactRecord({
+      namespaceRef: envString('ENGI_V24_STORAGE_NAMESPACE_REF'),
+      bucketRef: envString('ENGI_V24_STORAGE_BUCKET_REF'),
+      publicationEndpointRef: envString('ENGI_V24_STORAGE_PUBLICATION_ENDPOINT_REF'),
+      retentionPolicyRef: envString('ENGI_V24_STORAGE_RETENTION_POLICY_REF'),
+      retrievalCredentialRef: envString('ENGI_V24_STORAGE_RETRIEVAL_CREDENTIAL_REF')
+    });
+    return {
+      binding: withBindingOverrides(binding, overrides),
+      overrideKeys: Object.keys(overrides)
+    };
+  }
+  const targetedReposOverride = uniqueStrings((envString('ENGI_V24_GITHUB_TARGET_REPOS') || '').split(','));
+  const overrides = compactRecord({
+    appRef: envString('ENGI_V24_GITHUB_APP_REF'),
+    appId: envString('ENGI_V24_GITHUB_APP_ID'),
+    installationTargetRef: envString('ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'),
+    webhookRef: envString('ENGI_V24_GITHUB_WEBHOOK_REF'),
+    mutationPolicyRef: envString('ENGI_V24_GITHUB_MUTATION_POLICY_REF'),
+    targetedRepos: targetedReposOverride.length
+      ? targetedReposOverride.map((repo) => ({
+          repo,
+          installationId: `inst_env_${shortId(repo, 10)}`,
+          repositoryRef: `github://env/${repo}`
+        }))
+      : undefined
+  });
+  return {
+    binding: withBindingOverrides(binding, overrides),
+    overrideKeys: Object.keys(overrides)
+  };
+}
+
+/**
+ * @param {Record<string, unknown>} executionPolicy
+ * @param {string} interfaceId
+ * @returns {string[]}
+ */
+function requiredBindingKeys(executionPolicy, interfaceId) {
+  const requirements = /** @type {Array<Record<string, unknown>>} */ (executionPolicy.interfaceRequirements || []);
+  const match = requirements.find((entry) => entry.interfaceId === interfaceId) || {};
+  return uniqueStrings(/** @type {string[]} */ (match.requiredBindings || []));
+}
+
+/**
+ * @param {Record<string, unknown>} executionPolicy
+ * @param {string} interfaceId
+ * @param {Record<string, unknown>} binding
+ * @param {string} configuredEnvironmentMode
+ * @param {boolean} defaultStubbed
+ * @returns {Record<string, unknown>}
+ */
+function buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, configuredEnvironmentMode, defaultStubbed) {
+  const liveEnabled = envBoolean(liveEnableEnvKey(interfaceId));
+  const missingBindingKeys = requiredBindingKeys(executionPolicy, interfaceId).filter((key) => !binding[key]);
+  if (configuredEnvironmentMode === 'mock') {
+    return {
+      interfaceId,
+      runtimeState: 'mock',
+      liveEnabled,
+      missingBindingKeys,
+      resultClass: 'deterministic-mock-only',
+      reconciliationState: 'mock-parity-only',
+      telemetryCoverageState: 'shape-complete-implementation-pending'
+    };
+  }
+  if (liveEnabled && missingBindingKeys.length === 0) {
+    return {
+      interfaceId,
+      runtimeState: 'live-configured',
+      liveEnabled,
+      missingBindingKeys,
+      resultClass: 'configuration-live-ready',
+      reconciliationState: 'configuration-ready-awaiting-observation',
+      telemetryCoverageState: 'shape-complete-live-execution-pending'
+    };
+  }
+  if (liveEnabled) {
+    return {
+      interfaceId,
+      runtimeState: 'live-misconfigured',
+      liveEnabled,
+      missingBindingKeys,
+      resultClass: 'configuration-invalid',
+      reconciliationState: 'misconfigured-blocking',
+      telemetryCoverageState: 'shape-complete-blocking'
+    };
+  }
+  return {
+    interfaceId,
+    runtimeState: defaultStubbed ? 'stubbed-demonstration' : 'nonexecuting-preview',
+    liveEnabled,
+    missingBindingKeys,
+    resultClass: defaultStubbed ? 'stubbed-external-demonstration' : 'nonexecuting-preview',
+    reconciliationState: defaultStubbed ? 'draft-target-artifact-emission-only' : 'configuration-present-execution-disabled',
+    telemetryCoverageState: 'shape-complete-implementation-pending'
+  };
+}
+
+/**
+ * @param {Record<string, unknown>} descriptor
+ * @param {{
+ *   paymentMode?: string | null | undefined
+ * }} [input]
+ * @returns {{
+ *   configuredEnvironmentMode: string,
+ *   actualityDisposition: string,
+ *   activeProfile: Record<string, unknown>,
+ *   activeBindings: Record<string, Record<string, unknown>>,
+ *   interfaceRuntimeStates: Record<string, unknown>[],
+ *   interfaceRuntimeStateById: Record<string, Record<string, unknown>>,
+ *   activeBindingOverrideKeysByInterface: Record<string, string[]>
+ * }}
+ */
+export function resolveV24ActiveExternalRuntime(descriptor, input = {}) {
+  const fallbackMode = input.paymentMode ? 'development' : 'mock';
+  const configuredEnvironmentMode = normalizeEnvironmentMode(envString('ENGI_V24_ENVIRONMENT_MODE'), fallbackMode);
+  const activeProfile = /** @type {any[]} */ (descriptor.environmentProfiles || []).find((profile) => profile.environmentMode === configuredEnvironmentMode)
+    || /** @type {any[]} */ (descriptor.environmentProfiles || [])[0]
+    || {};
+  const profileBindings = /** @type {Record<string, Record<string, unknown>>} */ (activeProfile.externalBindings || {});
+  const executionPolicy = /** @type {Record<string, unknown>} */ (descriptor.externalExecutionPolicy || {});
+  const defaultStubbed = configuredEnvironmentMode !== 'mock';
+  const activeBindingOverrideKeysByInterface = {};
+  const activeBindings = {
+    bitcoinMainchain: (() => {
+      const { binding, overrideKeys } = applyActiveBindingOverrides('bitcoin-mainchain-execution', profileBindings.bitcoinMainchain || {});
+      activeBindingOverrideKeysByInterface['bitcoin-mainchain-execution'] = overrideKeys;
+      return binding;
+    })(),
+    sidechain: (() => {
+      const { binding, overrideKeys } = applyActiveBindingOverrides('sidechain-execution', profileBindings.sidechain || {});
+      activeBindingOverrideKeysByInterface['sidechain-execution'] = overrideKeys;
+      return binding;
+    })(),
+    compute: (() => {
+      const { binding, overrideKeys } = applyActiveBindingOverrides('compute-container-execution', profileBindings.compute || {});
+      activeBindingOverrideKeysByInterface['compute-container-execution'] = overrideKeys;
+      return binding;
+    })(),
+    storage: (() => {
+      const { binding, overrideKeys } = applyActiveBindingOverrides('storage-container-execution', profileBindings.storage || {});
+      activeBindingOverrideKeysByInterface['storage-container-execution'] = overrideKeys;
+      return binding;
+    })(),
+    github: (() => {
+      const { binding, overrideKeys } = applyActiveBindingOverrides('github-live-interface', profileBindings.github || {});
+      activeBindingOverrideKeysByInterface['github-live-interface'] = overrideKeys;
+      return binding;
+    })()
+  };
+  const interfaceRuntimeStates = V24_EXTERNAL_INTERFACE_IDS.map((interfaceId) => {
+    const binding =
+      interfaceId === 'bitcoin-mainchain-execution' ? activeBindings.bitcoinMainchain
+        : interfaceId === 'sidechain-execution' ? activeBindings.sidechain
+          : interfaceId === 'compute-container-execution' ? activeBindings.compute
+            : interfaceId === 'storage-container-execution' ? activeBindings.storage
+              : activeBindings.github;
+    const state = buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, configuredEnvironmentMode, defaultStubbed);
+    return {
+      ...state,
+      environmentIdentityRef: binding.accountRef || binding.executionIdentityRef || binding.appRef || null,
+      environmentResourceRef: binding.addressRef || binding.bucketRef || binding.namespaceRef || binding.installationTargetRef || null
+    };
+  });
+  const interfaceRuntimeStateById = Object.fromEntries(
+    interfaceRuntimeStates.map((entry) => [String(entry.interfaceId || ''), entry])
+  );
+  const liveConfiguredCount = interfaceRuntimeStates.filter((entry) => entry.runtimeState === 'live-configured').length;
+  const liveMisconfiguredCount = interfaceRuntimeStates.filter((entry) => entry.runtimeState === 'live-misconfigured').length;
+  const actualityDisposition =
+    configuredEnvironmentMode === 'mock'
+      ? 'deterministic-mock-only'
+      : liveConfiguredCount === interfaceRuntimeStates.length
+        ? 'live-configured-external-realization'
+        : liveConfiguredCount > 0 || liveMisconfiguredCount > 0
+          ? 'mixed-external-realization'
+          : 'stubbed-external-demonstration';
+  return {
+    configuredEnvironmentMode,
+    actualityDisposition,
+    activeProfile,
+    activeBindings,
+    interfaceRuntimeStates,
+    interfaceRuntimeStateById,
+    activeBindingOverrideKeysByInterface
+  };
+}
+
+/**
  * @param {string} interfaceId
  * @returns {string[]}
  */
@@ -389,19 +684,15 @@ function buildAffectedArtifactRefs(interfaceId) {
  */
 export function buildV24ExternalRealizationArtifacts(input = {}) {
   const descriptor = buildV24ExternalRealizationDescriptor(input);
-  const configuredEnvironmentMode = input.paymentMode ? 'development' : 'mock';
-  const activeProfile = /** @type {any[]} */ (descriptor.environmentProfiles || []).find((profile) => profile.environmentMode === configuredEnvironmentMode)
-    || /** @type {any[]} */ (descriptor.environmentProfiles || [])[0]
-    || {};
-  const activeBindings = activeProfile.externalBindings || {};
-  const activeGithubBinding = /** @type {any[]} */ (descriptor.githubAppBindings || []).find((binding) => binding.environmentMode === configuredEnvironmentMode)
-    || /** @type {any[]} */ (descriptor.githubAppBindings || [])[0]
-    || {};
+  const runtime = resolveV24ActiveExternalRuntime(descriptor, input);
+  const configuredEnvironmentMode = runtime.configuredEnvironmentMode;
+  const activeBindings = runtime.activeBindings;
+  const activeGithubBinding = activeBindings.github || {};
   const branchName = String(input.branchName || '');
   const branchMode = String(input.branchMode || '');
   const scenarioId = String(input.scenarioId || '');
   const pipelineStages = uniqueStrings((input.pipelineTelemetry?.events || []).map((event) => event.stage || event.stageId));
-  const actualityDisposition = input.paymentMode ? 'stubbed-external-demonstration' : 'deterministic-mock-only';
+  const actualityDisposition = runtime.actualityDisposition;
 
   const externalEnvironmentProfile = {
     profileId: `v24_external_environment_profile_${shortId(`${configuredEnvironmentMode}:${branchName || 'default'}`, 16)}`,
@@ -416,6 +707,9 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
       allowModeSwitchingWithoutArtifactShapeDrift: true
     },
     activeBindings,
+    activeRuntimeStates: runtime.interfaceRuntimeStates,
+    interfaceRuntimeStateById: runtime.interfaceRuntimeStateById,
+    activeBindingOverrideKeysByInterface: runtime.activeBindingOverrideKeysByInterface,
     environmentProfiles: descriptor.environmentProfiles,
     networkCapabilityManifestRef: /** @type {any} */ (descriptor.networkCapabilityManifest || {}).manifestId || null
   };
@@ -424,6 +718,7 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
     ...(/** @type {any} */ (descriptor.externalExecutionPolicy || {})),
     configuredEnvironmentMode,
     actualityDisposition,
+    activeRuntimeStateIds: runtime.interfaceRuntimeStates.map((entry) => `${entry.interfaceId}:${entry.runtimeState}`),
     branchBinding: {
       branchName: branchName || null,
       branchMode: branchMode || null,
@@ -463,9 +758,11 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
         executionClass: binding?.executionClass || null,
         environmentIdentityRef: binding?.accountRef || binding?.executionIdentityRef || binding?.appRef || null,
         environmentResourceRef: binding?.addressRef || binding?.bucketRef || binding?.namespaceRef || binding?.installationTargetRef || null,
-        reconciliationState: 'draft-target-artifact-emission-only',
-        resultClass: actualityDisposition,
-        telemetryCoverageState: 'shape-complete-implementation-pending',
+        runtimeState: runtime.interfaceRuntimeStateById[interfaceId]?.runtimeState || null,
+        missingBindingKeys: runtime.interfaceRuntimeStateById[interfaceId]?.missingBindingKeys || [],
+        reconciliationState: runtime.interfaceRuntimeStateById[interfaceId]?.reconciliationState || 'draft-target-artifact-emission-only',
+        resultClass: runtime.interfaceRuntimeStateById[interfaceId]?.resultClass || actualityDisposition,
+        telemetryCoverageState: runtime.interfaceRuntimeStateById[interfaceId]?.telemetryCoverageState || 'shape-complete-implementation-pending',
         affectedArtifactRefs: buildAffectedArtifactRefs(interfaceId)
       };
     }),
@@ -477,7 +774,8 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
     configuredEnvironmentMode,
     activeBinding: activeGithubBinding,
     allBindings: descriptor.githubAppBindings,
-    targetedRepoCount: Array.isArray(activeGithubBinding.targetedRepos) ? activeGithubBinding.targetedRepos.length : 0
+    targetedRepoCount: Array.isArray(activeGithubBinding.targetedRepos) ? activeGithubBinding.targetedRepos.length : 0,
+    runtimeState: runtime.interfaceRuntimeStateById['github-live-interface']?.runtimeState || null
   };
 
   return {

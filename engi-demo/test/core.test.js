@@ -719,6 +719,13 @@ test('runMakeEngiBranch emits V24 draft-target external realization artifacts an
   assert.ok(latestRun.externalTelemetrySummary.interfaceSummaries.every((entry) => entry.requestId && entry.executionId && entry.observationId));
   assert.ok(latestRun.networkCapabilityManifest.interfaces.length >= 5);
   assert.equal(latestRun.githubAppBinding.configuredEnvironmentMode, 'development');
+  assert.equal(latestRun.externalBoundaryManifest.configuredEnvironmentMode, 'development');
+  assert.equal(latestRun.externalBoundaryManifest.actualityDisposition, 'stubbed-external-demonstration');
+  assert.equal(latestRun.externalBoundaryManifest.executionPolicyRef, latestRun.externalExecutionPolicy.policyId);
+  assert.equal(latestRun.externalBoundaryManifest.telemetryPolicyRef, latestRun.externalTelemetryPolicy.policyId);
+  assert.equal(latestRun.externalBoundaryManifest.networkCapabilityManifestRef, latestRun.networkCapabilityManifest.manifestId);
+  assert.ok(latestRun.externalBoundaryManifest.interfaces.some((entry) => entry.interfaceId === 'bitcoin-mainchain-execution' && entry.status === 'implemented-as-draft-target-realization-surface' && entry.localPrototype.configuredEnvironmentMode === 'development'));
+  assert.ok(latestRun.externalBoundaryManifest.interfaces.some((entry) => entry.interfaceId === 'github-live-interface' && entry.localPrototype.targetedRepoCount >= 1));
   assert.equal(latestRun.bitcoinNetworkIntent.interfaceId, 'bitcoin-mainchain-execution');
   assert.equal(latestRun.bitcoinNetworkExecution.executionState, 'stubbed-network-carrier-assembled');
   assert.equal(latestRun.bitcoinNetworkObservation.observationState, 'observed-from-demonstration-service');
