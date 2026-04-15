@@ -8,7 +8,7 @@
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v23-*` reports remain the current generated baseline; V24 draft-target generation adds `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `ENGI_SPEC_V24_PROVEN.md`
-- Source parity state: V24 draft-target source currently exposes environment-mode realization profiling, emitted draft-target execution/container/GitHub receipt families, enriched external-boundary and projection summaries, and spec-quality enforcement; live third-party Bitcoin/sidechain/container/GitHub execution remains open implementation work
+- Source parity state: V24 draft-target source currently exposes environment-mode realization profiling, env-resolved active runtime posture, emitted draft-target execution/container/GitHub receipt families, enriched external-boundary and projection summaries, and spec-quality enforcement; live third-party Bitcoin/sidechain/container/GitHub execution remains open implementation work
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
 - Draft companion spec: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
@@ -36,8 +36,9 @@ The majority focus is realizing actuality of ENGI through configuration and demo
 
 An initial source slice now exists for the draft target:
 - `engi-demo/src/canonical/v24-external-realization.js` emits a unified environment-mode descriptor,
+- `engi-demo/src/canonical/v24-external-realization.js` now also resolves an env-driven active runtime posture for the currently selected mode,
 - `engi-demo/src/canonical/v24-external-execution.js` emits draft-target execution, observation, container, storage, and GitHub receipt families,
-- `engi-demo/server.js` exposes that descriptor at `/api/v24/external-realization`,
+- `engi-demo/server.js` exposes both the descriptor and the active runtime posture at `/api/v24/external-realization`,
 - `engi-demo/src/engi-demo.js` and `engi-demo/src/demo-shell-state.js` project those receipt families into branch artifacts, boundary manifests, and operator-facing realization summaries,
 - and tests already close over four-mode isolation, telemetry-policy posture, emitted receipt families, and projection-safe realization summaries.
 

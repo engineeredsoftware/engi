@@ -13,7 +13,7 @@
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
 - Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V23`
-- Source parity state: draft-target source currently includes V24 environment-mode realization profiling, emitted draft-target execution/container/GitHub receipt families, enriched external-boundary and projection summaries, and spec-quality enforcement; live third-party Bitcoin mainchain, sidechain, compute/storage, and GitHub execution remains open V24 work
+- Source parity state: draft-target source currently includes V24 environment-mode realization profiling, env-resolved active runtime posture, emitted draft-target execution/container/GitHub receipt families, enriched external-boundary and projection summaries, and spec-quality enforcement; live third-party Bitcoin mainchain, sidechain, compute/storage, and GitHub execution remains open V24 work
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V23'` and `DRAFT_TARGET_VERSION = 'V24'`
 - V24 state: drafting only; no V24 `_PROVEN_` appendix or `.engi/v24-*` generated reports may exist until V24 source, validation, and promotion close
 
@@ -116,9 +116,11 @@ But V23 intentionally stops short of live execution.
 V24 exists to convert that modeled honesty into real realized honesty.
 An initial draft-target source slice is already present:
 - `engi-demo/src/canonical/v24-external-realization.js` emits the four-mode environment, isolation, and telemetry descriptor set,
+- `engi-demo/src/canonical/v24-external-realization.js` also resolves an env-driven active runtime posture so the same demo can report whether each interface is `mock`, `stubbed-demonstration`, `live-configured`, or `live-misconfigured`,
 - `engi-demo/src/canonical/v24-external-execution.js` emits draft-target execution, observation, container, storage, and GitHub receipt families,
 - `engi-demo/src/engi-demo.js` binds those receipts into deliverables, branch artifacts, proof families, and the external-boundary manifest,
-- `engi-demo/src/demo-shell-state.js` projects sanitized realization summaries by principal,
+- `engi-demo/src/demo-shell-state.js` projects sanitized realization summaries by principal, including runtime-state disclosure that remains bounded by principal,
+- `engi-demo/server.js` exposes both the generic V24 descriptor and the active runtime posture at `/api/v24/external-realization`,
 - and tests already fail closed on draft-target execution-receipt drift, telemetry drift, boundary-manifest drift, and projection-summary drift.
 
 ### 2. Real ENGI operation requires auditable external execution classes

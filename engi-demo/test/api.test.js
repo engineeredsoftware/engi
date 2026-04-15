@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -102,6 +103,65 @@ async function withApp(t, fn) {
  */
 function readPersistedState(dataPath) {
   return JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+}
+
+/**
+ * @param {Record<string, string | undefined>} envPatch
+ * @param {() => Promise<any>} fn
+ * @returns {Promise<any>}
+ */
+async function withEnv(envPatch, fn) {
+  const previous = Object.fromEntries(Object.keys(envPatch).map((key) => [key, process.env[key]]));
+  try {
+    for (const [key, value] of Object.entries(envPatch)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+    return await fn();
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
+/**
+ * @param {(request: { url: string, method: string, json: any }) => Promise<{ status?: number, json?: any } | any>} handler
+ * @returns {Promise<{ baseUrl: string, requests: Array<{ url: string, method: string, json: any }>, close: () => Promise<void> }>}
+ */
+async function startJsonExecutorServer(handler) {
+  /** @type {Array<{ url: string, method: string, json: any }>} */
+  const requests = [];
+  const server = http.createServer(async (req, res) => {
+    let body = '';
+    for await (const chunk of req) body += Buffer.from(chunk).toString('utf8');
+    const json = body ? JSON.parse(body) : null;
+    const request = {
+      url: String(req.url || '/'),
+      method: String(req.method || 'GET'),
+      json
+    };
+    requests.push(request);
+    try {
+      const result = await handler(request);
+      const status = Number(result?.status || 200);
+      const payload = result && typeof result === 'object' && 'json' in result ? result.json : result;
+      res.writeHead(status, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(payload));
+    } catch (error) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error instanceof Error ? error.message : 'executor failure' }));
+    }
+  });
+
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const address = /** @type {import('node:net').AddressInfo} */ (server.address());
+  return {
+    baseUrl: `http://127.0.0.1:${address.port}`,
+    requests,
+    close: () => new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()))
+  };
 }
 
 /**
@@ -472,6 +532,7 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 5);
     assert.ok(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.localPrototypeImplemented === true));
     assert.ok(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.externalBoundaryRequiredForLive === true));
+    assert.ok(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.runtimeState === 'stubbed-demonstration'));
     assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
     assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.status === 'implemented-as-stubbed-testnet-service'));
     assert.equal(buyerRun.json.latestRun.externalBoundaryManifest.configuredEnvironmentMode, 'development');
@@ -484,6 +545,7 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceIds.length, 5);
     assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceStates.length, 5);
     assert.ok(publicState.json.latestRun.externalRealizationSummary.interfaceStates.every((entry) => entry.status === 'implemented-as-draft-target-realization-surface'));
+    assert.ok(publicState.json.latestRun.externalRealizationSummary.interfaceStates.every((entry) => entry.runtimeState === 'stubbed-demonstration'));
     assert.equal(publicState.json.latestRun.externalEnvironmentProfile, undefined);
 
     assert.equal(reviewerState.statusCode, 200);
@@ -493,6 +555,8 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 5);
     assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.localPrototypeImplemented === true));
     assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.externalBoundaryRequiredForLive === true));
+    assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.runtimeState === 'stubbed-demonstration'));
+    assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.missingBindingKeys.includes('executorUrl')));
     assert.equal(reviewerState.json.latestRun.externalEnvironmentProfile, undefined);
   });
 });
@@ -514,6 +578,7 @@ testAny('GET /api/v24/external-realization returns the draft-target environment 
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
     const descriptor = response.json.externalRealization;
+    const activeRuntime = response.json.activeRuntime;
     const stagingProfile = descriptor.environmentProfiles.find((profile) => profile.environmentMode === 'staging');
     const developmentProfile = descriptor.environmentProfiles.find((profile) => profile.environmentMode === 'development');
     const stagingGithub = descriptor.githubAppBindings.find((binding) => binding.environmentMode === 'staging');
@@ -529,6 +594,199 @@ testAny('GET /api/v24/external-realization returns the draft-target environment 
     assert.notEqual(stagingGithub.appId, developmentGithub.appId);
     assert.equal(descriptor.externalTelemetryPolicy.coverageExpectation.missingTelemetryDisposition, 'blocking');
     assert.ok(descriptor.networkCapabilityManifest.interfaces.some((entry) => entry.interfaceId === 'github-live-interface'));
+    assert.equal(activeRuntime.configuredEnvironmentMode, 'mock');
+    assert.equal(activeRuntime.interfaceRuntimeStates.length, 5);
+    assert.ok(activeRuntime.interfaceRuntimeStates.every((entry) => entry.runtimeState === 'mock'));
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes live-configured V24 GitHub and storage executors before persisting state', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const executor = await startJsonExecutorServer(async ({ url, json }) => {
+      if (url === '/github') {
+        return {
+          interfaceId: 'github-live-interface',
+          telemetry: {
+            runtimeState: 'live-observed',
+            resultClass: 'live-executed',
+            reconciliationState: 'live-remote-reconciled',
+            telemetryCoverageState: 'shape-complete-live-observed',
+            requestId: 'req_live_github',
+            executionId: 'exec_live_github',
+            observationId: 'obs_live_github',
+            executionClass: 'github-app-execution',
+            affectedArtifactRefs: [
+              '.engi/github-live-session.json',
+              '.engi/github-inventory-fetch-receipt.json',
+              '.engi/github-artifact-fetch-receipt.json',
+              '.engi/github-branch-publication-receipt.json',
+              '.engi/github-pr-update-receipt.json'
+            ]
+          },
+          artifacts: {
+            githubLiveSession: {
+              ...json.artifacts.githubLiveSession,
+              authSessionId: 'auth_live_github_session',
+              authPayloadHash: 'sha256:live-github-auth',
+              observationId: 'obs_live_github'
+            },
+            githubInventoryFetchReceipt: {
+              ...json.artifacts.githubInventoryFetchReceipt,
+              fetchState: 'live-github-inventory-fetched'
+            },
+            githubArtifactFetchReceipt: {
+              ...json.artifacts.githubArtifactFetchReceipt,
+              fetchState: 'live-github-artifacts-fetched'
+            },
+            githubBranchPublicationReceipt: {
+              ...json.artifacts.githubBranchPublicationReceipt,
+              mutationState: 'live-github-branch-published'
+            },
+            githubPrUpdateReceipt: {
+              ...json.artifacts.githubPrUpdateReceipt,
+              mutationState: 'live-github-pr-updated',
+              prNumber: 417,
+              reviewUpdateState: 'draft-opened'
+            }
+          }
+        };
+      }
+      if (url === '/storage') {
+        const publishedArtifactCount = Number(json.artifacts.storagePublicationReceipt.publishedArtifactCount || 0);
+        return {
+          interfaceId: 'storage-container-execution',
+          telemetry: {
+            runtimeState: 'live-observed',
+            resultClass: 'live-executed',
+            reconciliationState: 'live-storage-reconciled',
+            telemetryCoverageState: 'shape-complete-live-observed',
+            requestId: 'req_live_storage',
+            executionId: 'exec_live_storage',
+            observationId: 'obs_live_storage',
+            executionClass: 'durable-storage-execution',
+            affectedArtifactRefs: [
+              '.engi/storage-publication-receipt.json',
+              '.engi/storage-retrieval-receipt.json'
+            ]
+          },
+          artifacts: {
+            storagePublicationReceipt: {
+              ...json.artifacts.storagePublicationReceipt,
+              publicationState: 'live-storage-publication-observed',
+              publishedArtifactCount
+            },
+            storageRetrievalReceipt: {
+              ...json.artifacts.storageRetrievalReceipt,
+              retrievalState: 'live-storage-retrieval-observed',
+              retrievableArtifactCount: publishedArtifactCount
+            }
+          }
+        };
+      }
+      return { status: 404, json: { error: 'not found' } };
+    });
+    t.after(async () => {
+      await executor.close();
+    });
+
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'staging',
+      ENGI_V24_ENABLE_GITHUB: '1',
+      ENGI_V24_GITHUB_EXECUTOR_URL: `${executor.baseUrl}/github`,
+      ENGI_V24_ENABLE_STORAGE: '1',
+      ENGI_V24_STORAGE_EXECUTOR_URL: `${executor.baseUrl}/storage`
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'audited-base-layer-purchase',
+          principal: 'reviewer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(executor.requests.length, 2);
+      assert.deepEqual(
+        executor.requests.map((entry) => entry.json.interfaceId).sort(),
+        ['github-live-interface', 'storage-container-execution']
+      );
+      assert.equal(
+        response.json.latestRun.externalRealizationSummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        response.json.latestRun.externalRealizationSummary.interfaceSummaries.find((entry) => entry.interfaceId === 'storage-container-execution').runtimeState,
+        'live-observed'
+      );
+
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun.githubInventoryFetchReceipt.fetchState, 'live-github-inventory-fetched');
+      assert.equal(persisted.latestRun.githubBranchPublicationReceipt.mutationState, 'live-github-branch-published');
+      assert.equal(persisted.latestRun.githubPrUpdateReceipt.prNumber, 417);
+      assert.equal(persisted.latestRun.storagePublicationReceipt.publicationState, 'live-storage-publication-observed');
+      assert.equal(persisted.latestRun.storageRetrievalReceipt.retrievalState, 'live-storage-retrieval-observed');
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'storage-container-execution').reconciliationState,
+        'live-storage-reconciled'
+      );
+      assert.equal(persisted.latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
+      assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
+      assert.equal(
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/github-pr-update-receipt.json']).prNumber,
+        417
+      );
+      assert.equal(
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/storage-publication-receipt.json']).publicationState,
+        'live-storage-publication-observed'
+      );
+      assert.equal(
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/external-telemetry-summary.json']).interfaceSummaries
+          .find((entry) => entry.interfaceId === 'github-live-interface').runtimeState,
+        'live-observed'
+      );
+    });
+  });
+});
+
+testAny('POST /api/make-engi-branch fails closed when a live-configured V24 executor errors', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const executor = await startJsonExecutorServer(async ({ url }) => {
+      if (url === '/github') {
+        throw new Error('simulated github executor failure');
+      }
+      return { status: 404, json: { error: 'not found' } };
+    });
+    t.after(async () => {
+      await executor.close();
+    });
+
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'staging',
+      ENGI_V24_ENABLE_GITHUB: '1',
+      ENGI_V24_GITHUB_EXECUTOR_URL: `${executor.baseUrl}/github`
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'audited-base-layer-purchase',
+          principal: 'reviewer'
+        })
+      });
+
+      assert.equal(response.statusCode, 500);
+      assert.match(response.json.error, /V24 external executor github-live-interface failed/i);
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun, null);
+      assert.deepEqual(persisted.runHistory, []);
+    });
   });
 });
 

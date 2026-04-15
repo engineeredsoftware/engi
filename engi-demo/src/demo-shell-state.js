@@ -425,6 +425,7 @@ function buildPublicExternalRealizationSummary(latestRun) {
       interfaceId: entry.interfaceId,
       label: entry.label,
       status: entry.status,
+      runtimeState: interfaceSummaryById[entry.interfaceId]?.runtimeState || null,
       executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
       reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
       telemetryCoverageState: interfaceSummaryById[entry.interfaceId]?.telemetryCoverageState || null
@@ -463,6 +464,8 @@ function buildReviewerExternalRealizationSummary(latestRun) {
         status: entry.status,
         localPrototypeImplemented: entry.localPrototype?.implemented === true,
         externalBoundaryRequiredForLive: entry.externalBoundary?.requiredForLive === true,
+        runtimeState: interfaceSummaryById[entry.interfaceId]?.runtimeState || null,
+        missingBindingKeys: interfaceSummaryById[entry.interfaceId]?.missingBindingKeys || [],
         executionClass: interfaceSummaryById[entry.interfaceId]?.executionClass || null,
         reconciliationState: interfaceSummaryById[entry.interfaceId]?.reconciliationState || null,
         resultClass: interfaceSummaryById[entry.interfaceId]?.resultClass || null,

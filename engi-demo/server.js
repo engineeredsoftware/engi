@@ -119,7 +119,11 @@ import {
   SPEC_VERSION
 } from './src/engi-demo.js';
 import { buildBitcoinDemonstrationServiceDescriptor } from './src/canonical/v23-bitcoin-demonstration-service.js';
-import { buildV24ExternalRealizationDescriptor } from './src/canonical/v24-external-realization.js';
+import {
+  buildV24ExternalRealizationDescriptor,
+  resolveV24ActiveExternalRuntime
+} from './src/canonical/v24-external-realization.js';
+import { realizeV24LiveExternalExecution } from './src/canonical/v24-live-execution.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DATA_PATH = path.join(__dirname, 'data', 'state.json');
@@ -492,14 +496,19 @@ export function createAppContext({
           paymentMode
         };
         const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
-        writeState(nextState);
-        const projectedState = buildPublicState({ ...nextState, latestRun }, principal);
+        const realizedLatestRun = await realizeV24LiveExternalExecution(latestRun);
+        const persistedState = {
+          ...nextState,
+          latestRun: realizedLatestRun
+        };
+        writeState(persistedState);
+        const projectedState = buildPublicState(persistedState, principal);
         return sendJson(res, 200, {
           ok: true,
           specVersion: SPEC_VERSION,
           latestRun: projectedState['latestRun'],
-          ledger: nextState.ledger,
-          runHistory: nextState.runHistory
+          ledger: persistedState.ledger,
+          runHistory: persistedState.runHistory
         });
       }
 
@@ -519,12 +528,14 @@ export function createAppContext({
 
       if (req.method === 'GET' && req.url === '/api/v24/external-realization') {
         const state = readState();
+        const externalRealization = buildV24ExternalRealizationDescriptor({
+          githubAppSessions: state.githubAppSessions
+        });
         return sendJson(res, 200, {
           ok: true,
           specVersion: SPEC_VERSION,
-          externalRealization: buildV24ExternalRealizationDescriptor({
-            githubAppSessions: state.githubAppSessions
-          })
+          externalRealization,
+          activeRuntime: resolveV24ActiveExternalRuntime(externalRealization)
         });
       }
 

@@ -286,27 +286,27 @@ function buildExternalExecutionPolicy() {
     interfaceRequirements: [
       {
         interfaceId: 'bitcoin-mainchain-execution',
-        requiredBindings: ['network', 'accountRef', 'addressRef', 'treasuryPolicyRef'],
+        requiredBindings: ['network', 'accountRef', 'addressRef', 'treasuryPolicyRef', 'executorUrl'],
         requiredReceiptStages: ['intent', 'execution', 'observation']
       },
       {
         interfaceId: 'sidechain-execution',
-        requiredBindings: ['network', 'accountRef', 'addressRef', 'treasuryPolicyRef'],
+        requiredBindings: ['network', 'accountRef', 'addressRef', 'treasuryPolicyRef', 'executorUrl'],
         requiredReceiptStages: ['intent', 'execution', 'observation']
       },
       {
         interfaceId: 'compute-container-execution',
-        requiredBindings: ['registryRef', 'executionIdentityRef', 'attestationScopeRef'],
+        requiredBindings: ['registryRef', 'executionIdentityRef', 'attestationScopeRef', 'executorUrl'],
         requiredReceiptStages: ['intent', 'execution', 'observation']
       },
       {
         interfaceId: 'storage-container-execution',
-        requiredBindings: ['namespaceRef', 'bucketRef', 'retentionPolicyRef', 'retrievalCredentialRef'],
+        requiredBindings: ['namespaceRef', 'bucketRef', 'retentionPolicyRef', 'retrievalCredentialRef', 'executorUrl'],
         requiredReceiptStages: ['intent', 'execution', 'observation']
       },
       {
         interfaceId: 'github-live-interface',
-        requiredBindings: ['appRef', 'installationTargetRef', 'webhookRef', 'mutationPolicyRef'],
+        requiredBindings: ['appRef', 'installationTargetRef', 'webhookRef', 'mutationPolicyRef', 'executorUrl'],
         requiredReceiptStages: ['intent', 'execution', 'observation']
       }
     ]
@@ -435,7 +435,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       network: envString('ENGI_V24_BITCOIN_MAINCHAIN_NETWORK'),
       accountRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_ACCOUNT_REF'),
       addressRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_ADDRESS_REF'),
-      treasuryPolicyRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_TREASURY_POLICY_REF')
+      treasuryPolicyRef: envString('ENGI_V24_BITCOIN_MAINCHAIN_TREASURY_POLICY_REF'),
+      executorUrl: envString('ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_URL')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -447,7 +448,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       network: envString('ENGI_V24_SIDECHAIN_NETWORK'),
       accountRef: envString('ENGI_V24_SIDECHAIN_ACCOUNT_REF'),
       addressRef: envString('ENGI_V24_SIDECHAIN_ADDRESS_REF'),
-      treasuryPolicyRef: envString('ENGI_V24_SIDECHAIN_TREASURY_POLICY_REF')
+      treasuryPolicyRef: envString('ENGI_V24_SIDECHAIN_TREASURY_POLICY_REF'),
+      executorUrl: envString('ENGI_V24_SIDECHAIN_EXECUTOR_URL')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -459,7 +461,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       registryRef: envString('ENGI_V24_COMPUTE_REGISTRY_REF'),
       executionIdentityRef: envString('ENGI_V24_COMPUTE_EXECUTION_IDENTITY_REF'),
       queueRef: envString('ENGI_V24_COMPUTE_QUEUE_REF'),
-      attestationScopeRef: envString('ENGI_V24_COMPUTE_ATTESTATION_SCOPE_REF')
+      attestationScopeRef: envString('ENGI_V24_COMPUTE_ATTESTATION_SCOPE_REF'),
+      executorUrl: envString('ENGI_V24_COMPUTE_EXECUTOR_URL')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -472,7 +475,8 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       bucketRef: envString('ENGI_V24_STORAGE_BUCKET_REF'),
       publicationEndpointRef: envString('ENGI_V24_STORAGE_PUBLICATION_ENDPOINT_REF'),
       retentionPolicyRef: envString('ENGI_V24_STORAGE_RETENTION_POLICY_REF'),
-      retrievalCredentialRef: envString('ENGI_V24_STORAGE_RETRIEVAL_CREDENTIAL_REF')
+      retrievalCredentialRef: envString('ENGI_V24_STORAGE_RETRIEVAL_CREDENTIAL_REF'),
+      executorUrl: envString('ENGI_V24_STORAGE_EXECUTOR_URL')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -486,6 +490,7 @@ function applyActiveBindingOverrides(interfaceId, binding) {
     installationTargetRef: envString('ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'),
     webhookRef: envString('ENGI_V24_GITHUB_WEBHOOK_REF'),
     mutationPolicyRef: envString('ENGI_V24_GITHUB_MUTATION_POLICY_REF'),
+    executorUrl: envString('ENGI_V24_GITHUB_EXECUTOR_URL'),
     targetedRepos: targetedReposOverride.length
       ? targetedReposOverride.map((repo) => ({
           repo,
@@ -808,7 +813,8 @@ export function buildV24ExternalRealizationDescriptor(input = {}) {
     externalTelemetryPolicy: telemetryPolicy,
     githubAppBindings,
     implementationStatus: {
-      sourceSlice: 'draft-target descriptor and API exposure',
+      sourceSlice: 'draft-target descriptor, API exposure, and live executor realization path',
+      localExecutorSupport: true,
       realNetworkExecution: false,
       realGitHubMutationExecution: false,
       realContainerExecution: false

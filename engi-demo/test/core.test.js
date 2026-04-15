@@ -18,7 +18,11 @@ import {
 } from '../src/engi-demo.js';
 import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 import { buildProjectedLatestRun } from '../src/demo-shell-state.js';
-import { buildV24ExternalRealizationDescriptor } from '../src/canonical/v24-external-realization.js';
+import {
+  buildV24ExternalRealizationArtifacts,
+  buildV24ExternalRealizationDescriptor,
+  resolveV24ActiveExternalRuntime
+} from '../src/canonical/v24-external-realization.js';
 
 /**
  * @typedef {{
@@ -701,6 +705,110 @@ test('V24 external realization descriptor enforces four-mode isolation and telem
   assert.equal(descriptor.externalExecutionPolicy.isolationDisposition, 'blocking-on-cross-mode-resource-reuse');
 });
 
+test('V24 external realization resolves active runtime mode and live configuration from env', () => {
+  const state = buildInitialStateTest();
+  const previousEnv = {
+    ENGI_V24_ENVIRONMENT_MODE: process.env['ENGI_V24_ENVIRONMENT_MODE'],
+    ENGI_V24_ENABLE_GITHUB: process.env['ENGI_V24_ENABLE_GITHUB'],
+    ENGI_V24_GITHUB_APP_REF: process.env['ENGI_V24_GITHUB_APP_REF'],
+    ENGI_V24_GITHUB_APP_ID: process.env['ENGI_V24_GITHUB_APP_ID'],
+    ENGI_V24_GITHUB_INSTALLATION_TARGET_REF: process.env['ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'],
+    ENGI_V24_GITHUB_WEBHOOK_REF: process.env['ENGI_V24_GITHUB_WEBHOOK_REF'],
+    ENGI_V24_GITHUB_MUTATION_POLICY_REF: process.env['ENGI_V24_GITHUB_MUTATION_POLICY_REF'],
+    ENGI_V24_GITHUB_TARGET_REPOS: process.env['ENGI_V24_GITHUB_TARGET_REPOS'],
+    ENGI_V24_GITHUB_EXECUTOR_URL: process.env['ENGI_V24_GITHUB_EXECUTOR_URL']
+  };
+
+  process.env['ENGI_V24_ENVIRONMENT_MODE'] = 'staging';
+  process.env['ENGI_V24_ENABLE_GITHUB'] = '1';
+  process.env['ENGI_V24_GITHUB_APP_REF'] = 'github-app://engi/staging-live';
+  process.env['ENGI_V24_GITHUB_APP_ID'] = 'engi-staging-live-app';
+  process.env['ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'] = 'github-installation://engi/staging-live';
+  process.env['ENGI_V24_GITHUB_WEBHOOK_REF'] = 'webhook://engi/staging-live/github';
+  process.env['ENGI_V24_GITHUB_MUTATION_POLICY_REF'] = 'policy://engi/staging-live/github-mutations';
+  process.env['ENGI_V24_GITHUB_TARGET_REPOS'] = 'frontier/demo-auth,frontier/payments-ledger';
+  process.env['ENGI_V24_GITHUB_EXECUTOR_URL'] = 'http://127.0.0.1:4511/github';
+
+  try {
+    const descriptor = buildV24ExternalRealizationDescriptor({
+      githubAppSessions: state.githubAppSessions
+    });
+    const runtime = resolveV24ActiveExternalRuntime(descriptor, {
+      paymentMode: 'audited-base-layer-purchase'
+    });
+    const artifacts = buildV24ExternalRealizationArtifacts({
+      githubAppSessions: state.githubAppSessions,
+      branchName: 'engi/staging-live',
+      branchMode: 'patch',
+      paymentMode: 'audited-base-layer-purchase',
+      scenarioId: 'auth-issuer-rollback',
+      pipelineTelemetry: { events: [{ stageId: 'need-measurement' }, { stageId: 'settlement-and-shares' }] }
+    });
+    const githubRuntime = runtime.interfaceRuntimeStates.find((entry) => entry.interfaceId === 'github-live-interface');
+
+    assert.equal(runtime.configuredEnvironmentMode, 'staging');
+    assert.equal(runtime.actualityDisposition, 'mixed-external-realization');
+    assert.equal(githubRuntime.runtimeState, 'live-configured');
+    assert.deepEqual(githubRuntime.missingBindingKeys, []);
+    assert.equal(artifacts.externalEnvironmentProfile.configuredEnvironmentMode, 'staging');
+    assert.equal(artifacts.githubAppBinding.runtimeState, 'live-configured');
+    assert.equal(artifacts.githubAppBinding.activeBinding.appRef, 'github-app://engi/staging-live');
+    assert.equal(artifacts.githubAppBinding.targetedRepoCount, 2);
+    assert.equal(
+      artifacts.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'github-live-interface').runtimeState,
+      'live-configured'
+    );
+  } finally {
+    for (const [key, value] of Object.entries(previousEnv)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
+test('V24 external realization fails live GitHub readiness without an executor url', () => {
+  const state = buildInitialStateTest();
+  const previousEnv = {
+    ENGI_V24_ENVIRONMENT_MODE: process.env['ENGI_V24_ENVIRONMENT_MODE'],
+    ENGI_V24_ENABLE_GITHUB: process.env['ENGI_V24_ENABLE_GITHUB'],
+    ENGI_V24_GITHUB_APP_REF: process.env['ENGI_V24_GITHUB_APP_REF'],
+    ENGI_V24_GITHUB_APP_ID: process.env['ENGI_V24_GITHUB_APP_ID'],
+    ENGI_V24_GITHUB_INSTALLATION_TARGET_REF: process.env['ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'],
+    ENGI_V24_GITHUB_WEBHOOK_REF: process.env['ENGI_V24_GITHUB_WEBHOOK_REF'],
+    ENGI_V24_GITHUB_MUTATION_POLICY_REF: process.env['ENGI_V24_GITHUB_MUTATION_POLICY_REF'],
+    ENGI_V24_GITHUB_TARGET_REPOS: process.env['ENGI_V24_GITHUB_TARGET_REPOS'],
+    ENGI_V24_GITHUB_EXECUTOR_URL: process.env['ENGI_V24_GITHUB_EXECUTOR_URL']
+  };
+
+  process.env['ENGI_V24_ENVIRONMENT_MODE'] = 'staging';
+  process.env['ENGI_V24_ENABLE_GITHUB'] = '1';
+  process.env['ENGI_V24_GITHUB_APP_REF'] = 'github-app://engi/staging-live';
+  process.env['ENGI_V24_GITHUB_APP_ID'] = 'engi-staging-live-app';
+  process.env['ENGI_V24_GITHUB_INSTALLATION_TARGET_REF'] = 'github-installation://engi/staging-live';
+  process.env['ENGI_V24_GITHUB_WEBHOOK_REF'] = 'webhook://engi/staging-live/github';
+  process.env['ENGI_V24_GITHUB_MUTATION_POLICY_REF'] = 'policy://engi/staging-live/github-mutations';
+  process.env['ENGI_V24_GITHUB_TARGET_REPOS'] = 'frontier/demo-auth,frontier/payments-ledger';
+  delete process.env['ENGI_V24_GITHUB_EXECUTOR_URL'];
+
+  try {
+    const descriptor = buildV24ExternalRealizationDescriptor({
+      githubAppSessions: state.githubAppSessions
+    });
+    const runtime = resolveV24ActiveExternalRuntime(descriptor, {
+      paymentMode: 'audited-base-layer-purchase'
+    });
+    const githubRuntime = runtime.interfaceRuntimeStates.find((entry) => entry.interfaceId === 'github-live-interface');
+
+    assert.equal(githubRuntime.runtimeState, 'live-misconfigured');
+    assert.ok(githubRuntime.missingBindingKeys.includes('executorUrl'));
+  } finally {
+    for (const [key, value] of Object.entries(previousEnv)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
 test('runMakeEngiBranch emits V24 draft-target external realization artifacts and telemetry surfaces', () => {
   const state = buildInitialStateTest();
   const { latestRun } = runMakeEngiBranchTest(state, {
@@ -709,6 +817,8 @@ test('runMakeEngiBranch emits V24 draft-target external realization artifacts an
 
   assert.equal(latestRun.externalEnvironmentProfile.configuredEnvironmentMode, 'development');
   assert.equal(latestRun.externalEnvironmentProfile.actualityDisposition, 'stubbed-external-demonstration');
+  assert.equal(latestRun.externalEnvironmentProfile.activeRuntimeStates.length, 5);
+  assert.ok(latestRun.externalEnvironmentProfile.activeRuntimeStates.every((entry) => entry.runtimeState === 'stubbed-demonstration' || entry.runtimeState === 'nonexecuting-preview'));
   assert.equal(latestRun.externalExecutionPolicy.configuredEnvironmentMode, 'development');
   assert.equal(latestRun.externalTelemetryPolicy.surfacedAcross.includes('branch-artifacts'), true);
   assert.equal(latestRun.externalTelemetrySummary.configuredEnvironmentMode, 'development');

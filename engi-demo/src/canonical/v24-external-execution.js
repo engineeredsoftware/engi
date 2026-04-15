@@ -112,6 +112,8 @@ export function buildV24BitcoinNetworkArtifacts({
   const sidechainBinding = activeBinding(externalEnvironmentProfile, 'sidechain');
   const mainchainSummary = interfaceSummary(externalTelemetrySummary, BITCOIN_INTERFACE_ID);
   const sidechainSummary = interfaceSummary(externalTelemetrySummary, SIDECHAIN_INTERFACE_ID);
+  const mainchainRuntimeState = String(mainchainSummary.runtimeState || '');
+  const sidechainRuntimeState = String(sidechainSummary.runtimeState || '');
   const activePaymentMode = String(paymentMode || '');
   const mainchainActive = !!bitcoinSettlementIntent && !!bitcoinSettlementObservation;
   const sidechainActive = activePaymentMode === 'checkpointed-sidechain-bridge';
@@ -147,7 +149,13 @@ export function buildV24BitcoinNetworkArtifacts({
     requestId: mainchainSummary.requestId || null,
     observationId: bitcoinSettlementObservation?.observationId || mainchainSummary.observationId || null,
     executionClass: mainchainSummary.executionClass || mainchainBinding.executionClass || null,
-    executionState: mainchainActive ? 'stubbed-network-carrier-assembled' : 'inactive-no-payment-mode',
+    executionState: !mainchainActive
+      ? 'inactive-no-payment-mode'
+      : mainchainRuntimeState === 'live-configured'
+        ? 'live-network-configured-awaiting-broadcast'
+        : mainchainRuntimeState === 'live-misconfigured'
+          ? 'live-network-misconfigured'
+          : 'stubbed-network-carrier-assembled',
     settlementIntentRef: bitcoinSettlementIntent?.intentId || null,
     networkRef: bitcoinSettlementObservation?.networkRef || null,
     anchorRef: bitcoinAnchor?.anchorRef || null,
@@ -166,7 +174,13 @@ export function buildV24BitcoinNetworkArtifacts({
     needId: settlementPreview.needId || null,
     observationId: bitcoinSettlementObservation?.observationId || mainchainSummary.observationId || null,
     executionId: mainchainSummary.executionId || null,
-    observationState: mainchainActive ? 'observed-from-demonstration-service' : 'not-requested',
+    observationState: !mainchainActive
+      ? 'not-requested'
+      : mainchainRuntimeState === 'live-configured'
+        ? 'configuration-ready-no-live-observation'
+        : mainchainRuntimeState === 'live-misconfigured'
+          ? 'live-configuration-blocked'
+          : 'observed-from-demonstration-service',
     networkState: bitcoinSettlementObservation?.networkState || 'not-requested',
     confirmationState: bitcoinSettlementObservation?.confirmationState || 'not-requested',
     confirmations: bitcoinSettlementObservation?.confirmations ?? 0,
@@ -189,7 +203,13 @@ export function buildV24BitcoinNetworkArtifacts({
     requestId: sidechainSummary.requestId || null,
     observationId: sidechainSummary.observationId || null,
     executionClass: sidechainSummary.executionClass || sidechainBinding.executionClass || null,
-    executionState: sidechainActive ? 'stubbed-sidechain-checkpoint-observed' : 'inactive-for-mode',
+    executionState: !sidechainActive
+      ? 'inactive-for-mode'
+      : sidechainRuntimeState === 'live-configured'
+        ? 'live-sidechain-configured-awaiting-checkpoint'
+        : sidechainRuntimeState === 'live-misconfigured'
+          ? 'live-sidechain-misconfigured'
+          : 'stubbed-sidechain-checkpoint-observed',
     sidechainNetwork: sidechainBinding.network || null,
     checkpointRef: sidechainActive ? bitcoinSettlementObservation?.networkRef || null : null,
     environmentIdentityRef: sidechainSummary.environmentIdentityRef || sidechainBinding.accountRef || null,
@@ -232,6 +252,8 @@ export function buildV24ContainerArtifacts({
   const storageBinding = activeBinding(externalEnvironmentProfile, 'storage');
   const computeSummary = interfaceSummary(externalTelemetrySummary, COMPUTE_INTERFACE_ID);
   const storageSummary = interfaceSummary(externalTelemetrySummary, STORAGE_INTERFACE_ID);
+  const computeRuntimeState = String(computeSummary.runtimeState || '');
+  const storageRuntimeState = String(storageSummary.runtimeState || '');
 
   const computeContainerManifest = {
     manifestId: `v24_compute_container_manifest_${shortId(`${branchName}:${need.needId}`, 16)}`,
@@ -259,7 +281,13 @@ export function buildV24ContainerArtifacts({
     observationId: computeSummary.observationId || null,
     manifestRef: computeContainerManifest.manifestId,
     executionClass: computeSummary.executionClass || computeBinding.executionClass || null,
-    executionState: configuredEnvironmentMode === 'mock' ? 'mock-container-emulation' : 'deterministic-container-standin',
+    executionState: configuredEnvironmentMode === 'mock'
+      ? 'mock-container-emulation'
+      : computeRuntimeState === 'live-configured'
+        ? 'live-container-configured-awaiting-execution'
+        : computeRuntimeState === 'live-misconfigured'
+          ? 'live-container-misconfigured'
+          : 'deterministic-container-standin',
     attestationRef: `attest_${shortId(`${computeContainerManifest.manifestId}:${configuredEnvironmentMode}`, 16)}`,
     imageDigest: stableHashObject({
       registryRef: computeBinding.registryRef || null,
@@ -304,7 +332,13 @@ export function buildV24ContainerArtifacts({
     executionId: storageSummary.executionId || null,
     observationId: storageSummary.observationId || null,
     manifestRef: storageContainerManifest.manifestId,
-    publicationState: configuredEnvironmentMode === 'mock' ? 'mock-storage-publication' : 'deterministic-storage-publication',
+    publicationState: configuredEnvironmentMode === 'mock'
+      ? 'mock-storage-publication'
+      : storageRuntimeState === 'live-configured'
+        ? 'live-storage-configured-awaiting-publication'
+        : storageRuntimeState === 'live-misconfigured'
+          ? 'live-storage-misconfigured'
+          : 'deterministic-storage-publication',
     environmentIdentityRef: storageSummary.environmentIdentityRef || storageBinding.namespaceRef || null,
     environmentResourceRef: storageSummary.environmentResourceRef || storageBinding.bucketRef || null,
     publishedArtifactCount,
@@ -320,7 +354,13 @@ export function buildV24ContainerArtifacts({
     executionId: storageSummary.executionId || null,
     observationId: storageSummary.observationId || null,
     manifestRef: storageContainerManifest.manifestId,
-    retrievalState: configuredEnvironmentMode === 'mock' ? 'mock-storage-retrieval' : 'deterministic-storage-retrieval',
+    retrievalState: configuredEnvironmentMode === 'mock'
+      ? 'mock-storage-retrieval'
+      : storageRuntimeState === 'live-configured'
+        ? 'live-storage-configured-awaiting-retrieval'
+        : storageRuntimeState === 'live-misconfigured'
+          ? 'live-storage-misconfigured'
+          : 'deterministic-storage-retrieval',
     environmentIdentityRef: storageSummary.environmentIdentityRef || storageBinding.retrievalCredentialRef || null,
     environmentResourceRef: storageSummary.environmentResourceRef || storageBinding.bucketRef || null,
     retrievableArtifactCount: publishedArtifactCount,
@@ -362,6 +402,7 @@ export function buildV24GithubArtifacts({
   const actualityDisposition = String(externalEnvironmentProfile.actualityDisposition || 'deterministic-mock-only');
   const githubBinding = activeBinding(externalEnvironmentProfile, 'github');
   const githubSummary = interfaceSummary(externalTelemetrySummary, GITHUB_INTERFACE_ID);
+  const githubRuntimeState = String(githubSummary.runtimeState || '');
   const selectedSession = /** @type {Array<Record<string, unknown>>} */ (githubBoundarySurface.selectedAuthSessions || [])[0] || {};
   const workflowRunIds = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset?.githubBoundary?.workflowRunId));
   const sourceCommits = summarizeStrings(selectedCandidates.map((candidate) => candidate.asset?.githubBoundary?.sourceCommit));
@@ -390,7 +431,13 @@ export function buildV24GithubArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     sessionRef: githubLiveSession.sessionId,
-    fetchState: configuredEnvironmentMode === 'mock' ? 'mock-seeded-inventory' : 'deterministic-repo-inventory-fetch',
+    fetchState: configuredEnvironmentMode === 'mock'
+      ? 'mock-seeded-inventory'
+      : githubRuntimeState === 'live-configured'
+        ? 'live-github-configured-awaiting-fetch'
+        : githubRuntimeState === 'live-misconfigured'
+          ? 'live-github-misconfigured'
+          : 'deterministic-repo-inventory-fetch',
     targetedRepoCount: Number(githubAppBinding.targetedRepoCount || 0),
     selectedBindingCount: Number((githubBoundarySurface.selectedInventoryProofs || []).length || 0)
   };
@@ -401,7 +448,13 @@ export function buildV24GithubArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     sessionRef: githubLiveSession.sessionId,
-    fetchState: configuredEnvironmentMode === 'mock' ? 'mock-seeded-artifact-fetch' : 'deterministic-artifact-fetch',
+    fetchState: configuredEnvironmentMode === 'mock'
+      ? 'mock-seeded-artifact-fetch'
+      : githubRuntimeState === 'live-configured'
+        ? 'live-github-configured-awaiting-artifact-fetch'
+        : githubRuntimeState === 'live-misconfigured'
+          ? 'live-github-misconfigured'
+          : 'deterministic-artifact-fetch',
     workflowRunIds,
     sourceCommits,
     selectedAssetIds: summarizeStrings(selectedCandidates.map((candidate) => candidate.assetId))
@@ -413,7 +466,13 @@ export function buildV24GithubArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     sessionRef: githubLiveSession.sessionId,
-    mutationState: configuredEnvironmentMode === 'mock' ? 'mock-nonmutating' : 'stubbed-nonmutating-branch-publication',
+    mutationState: configuredEnvironmentMode === 'mock'
+      ? 'mock-nonmutating'
+      : githubRuntimeState === 'live-configured'
+        ? 'live-github-configured-awaiting-branch-publication'
+        : githubRuntimeState === 'live-misconfigured'
+          ? 'live-github-misconfigured'
+          : 'stubbed-nonmutating-branch-publication',
     targetRepo: buyer.repo,
     branchName,
     assetPackId: assetPack.assetPackId
@@ -425,7 +484,13 @@ export function buildV24GithubArtifacts({
     configuredEnvironmentMode,
     actualityDisposition,
     sessionRef: githubLiveSession.sessionId,
-    mutationState: configuredEnvironmentMode === 'mock' ? 'mock-nonmutating' : 'stubbed-nonmutating-pr-update',
+    mutationState: configuredEnvironmentMode === 'mock'
+      ? 'mock-nonmutating'
+      : githubRuntimeState === 'live-configured'
+        ? 'live-github-configured-awaiting-pr-update'
+        : githubRuntimeState === 'live-misconfigured'
+          ? 'live-github-misconfigured'
+          : 'stubbed-nonmutating-pr-update',
     targetRepo: buyer.repo,
     branchName,
     prNumber: null,
@@ -509,7 +574,8 @@ export function buildV24ExternalRealizationProof({
     && String(externalTelemetrySummary.configuredEnvironmentMode || '') === String(configuredEnvironmentMode || '');
   const sidechainClosed = sidechainExecutionReceipt.interfaceId === SIDECHAIN_INTERFACE_ID
     && (sidechainExecutionReceipt.modeApplicability === 'inactive-for-mode'
-      || sidechainExecutionReceipt.executionState === 'stubbed-sidechain-checkpoint-observed');
+      || sidechainExecutionReceipt.executionState === 'stubbed-sidechain-checkpoint-observed'
+      || sidechainExecutionReceipt.executionState === 'live-sidechain-checkpoint-observed');
 
   const theoremVerdicts = [
     buildTheoremVerdict({
