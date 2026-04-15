@@ -6,20 +6,20 @@ import { Disclosure, Transition } from '@headlessui/react';
 
 const faqs = [
   {
-    question: "Is my code and usage data secure with Engi?",
+    question: "Is my code and usage data secure with Bitcode?",
     answer:
-      "Absolutely. Engi is built on a security-first, zero-trust architecture designed to meet the most stringent enterprise requirements. All code and usage data are encrypted in transit with TLS 1.3+ and at rest with AES-256 (with optional customer-managed keys). Each session runs in a fully isolated, ephemeral container that is destroyed immediately after processing - nothing you submit is stored permanently unless you explicitly opt in. We enforce multi-factor authentication, granular role-based access controls, and integrate with your identity provider (SAML, OIDC, SCIM) for seamless SSO and enterprise-grade access governance. Comprehensive audit trails, continuous vulnerability scanning, and regular third-party penetration tests keep us ahead of emerging threats. Engi maintains SOC 2 Type II, ISO 27001, and FedRAMP readiness, and fully complies with GDPR, CCPA, HIPAA, and other major data protection regulations. When performing inference, Engi only integrates with third-party LLM services (e.g., Anthropic, OpenAI, and others) that adhere to our same encryption, isolation, and data protection requirements - none of your data is used to train their models without explicit, per-use opt-in. In short, your intellectual property remains entirely yours - Engi simply orchestrates secure, compliant LLM inference without retaining or training on your data (unless you explicitly opt in).",
+      "Absolutely. Bitcode is built on a security-first, zero-trust architecture designed to meet the most stringent enterprise requirements. All code and usage data are encrypted in transit with TLS 1.3+ and at rest with AES-256 (with optional customer-managed keys). Each session runs in a fully isolated, ephemeral container that is destroyed immediately after processing - nothing you submit is stored permanently unless you explicitly opt in. We enforce multi-factor authentication, granular role-based access controls, and integrate with your identity provider (SAML, OIDC, SCIM) for seamless SSO and enterprise-grade access governance. Comprehensive audit trails, continuous vulnerability scanning, and regular third-party penetration tests keep us ahead of emerging threats. Bitcode maintains SOC 2 Type II, ISO 27001, and FedRAMP readiness, and fully complies with GDPR, CCPA, HIPAA, and other major data protection regulations. When performing inference, Bitcode only integrates with third-party LLM services (e.g., Anthropic, OpenAI, and others) that adhere to our same encryption, isolation, and data protection requirements - none of your data is used to train their models without explicit, per-use opt-in. In short, your intellectual property remains entirely yours - Bitcode simply orchestrates secure, compliant LLM inference without retaining or training on your data (unless you explicitly opt in).",
   },
 
   {
     question: 'Everyone\'s building "amazing agents". These are...?',
     answer:
-      "Amazing coding agents! Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, research and computer use tools, progress logging, OTF steering, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Engi Software Agents state-of-the-art technical collaborators. Everyone from non-technical solopreneurs to large industrial engineering teams use Engi to make sure their software development operations are lean, mean, and green.",
+      "Amazing coding agents! Simple shepherding, proactive preparation, reactive calibration, deep iteration scoping, research and computer use tools, progress logging, OTF steering, measured-knowledge procurement, diverse command interfaces, 3rd-party integrations, and much more make Bitcode software agents state-of-the-art technical collaborators. Everyone from non-technical solopreneurs to large industrial engineering teams use Bitcode to make sure their software development operations are lean, mean, and green.",
   },
   {
     question: "So... is this a crypto scam?",
     answer:
-      "No. $ENGI is just one powerful tool in Engi's large toolbox. $ENGI transparently accelerates agent's proprietary engineering capabilities efficiently and at scale. Contribution dividends, paid in a permissionless standards-compliant digital asset, flexibly credit technical knowledge creators anywhere in the world. Elegant tokenomics and layered security serve retail to complete the aligned foundational-flywheel.",
+      "No. $BTD is just one powerful tool in Bitcode's large toolbox. $BTD transparently accelerates Bitcode's proprietary engineering capabilities efficiently and at scale. Contribution dividends, paid in a permissionless standards-compliant digital asset, flexibly credit technical knowledge creators anywhere in the world. Elegant tokenomics and layered security serve retail to complete the aligned foundational flywheel.",
   },
   {
     question: "Is this powerful tool easy to use?",
@@ -29,22 +29,22 @@ const faqs = [
   {
     question: "Does Engi work with private repositories and APIs?",
     answer:
-      "Yes! Through the GitHub App, Engi can access both public and private repositories. You retain full control over installation scopes and permissions. MCP API credientials are securely stored, monitored when used, and can be deleted anytime.",
+      "Yes. Through the GitHub App, Bitcode can access both public and private repositories. You retain full control over installation scopes and permissions. MCP API credentials are securely stored, monitored when used, and can be deleted anytime.",
   },
   {
     question: "AI codes slop! Now I'm supposed to code less... how does this really work?",
     answer:
-      "Off-the-shelf AIs generally over-fit to their wide programming example training data. Enterprise misalignment is demonstrated through disrespected coding principles, underused abstractions, over-confident incomplete solutions, intrusive regressions, and worse... Conversly, orchestral engineering targets systemic improvements and full-context comprehension that compound to raise code-quality on your specific IP. By applying proactive and reactive first-class agency to personalization, investing time with Engi is well worth it.",
+      "Off-the-shelf AIs generally over-fit to their wide programming example training data. Enterprise misalignment is demonstrated through disrespected coding principles, underused abstractions, over-confident incomplete solutions, intrusive regressions, and worse. Conversely, orchestral engineering targets systemic improvements and full-context comprehension that compound to raise code quality on your specific IP. By applying proactive and reactive first-class agency to personalization, investing time with Bitcode is well worth it.",
   },
   {
-    question: "So, Engi supports my stack and can do what I need it to do?",
+    question: "So, Bitcode supports my stack and can do what I need it to do?",
     answer:
-      "Probably! Engi supports almost all programming languages, popular libraries, and full-stack frameworks and researches the web or procures data for what it doesn't. Languages include Python, JavaScript/TypeScript, Java, Go, Ruby, PHP, C/C++, Rust, Solidity, C#, CSS/HTML, Objective-C, Swift, Kotlin, Scala, Dart, Haskell, Elixir, COBOL, and more. Frameworks include React, React Native, NextJS, Tailwind, Angular, Vue, Svelte, Django, Rails, Flask, Spring, Node/Express, ASP.NET, Laravel, Symfony, Flutter, Xamarin, TensorFlow, PyTorch, Kubernetes, Docker, Unity, Unreal Engine, and more. Between version control (GitHub, GitLab) complete read/write and MCPs general software engineering is our speciality.",
+      "Probably. Bitcode supports almost all programming languages, popular libraries, and full-stack frameworks and researches the web or procures data for what it doesn't. Languages include Python, JavaScript/TypeScript, Java, Go, Ruby, PHP, C/C++, Rust, Solidity, C#, CSS/HTML, Objective-C, Swift, Kotlin, Scala, Dart, Haskell, Elixir, COBOL, and more. Frameworks include React, React Native, NextJS, Tailwind, Angular, Vue, Svelte, Django, Rails, Flask, Spring, Node/Express, ASP.NET, Laravel, Symfony, Flutter, Xamarin, TensorFlow, PyTorch, Kubernetes, Docker, Unity, Unreal Engine, and more. Between version control (GitHub, GitLab) complete read/write and MCPs, general software engineering is Bitcode's specialty.",
   },
   {
     question: "We don't use cloud tools. Is self-hosting supported?",
     answer:
-      "Yes. Some internet-native tools will be unavailable including one that will require replacement implementation: the LLM(s) API. Contact sales to benefit from enterprise self-hosting to bring-your-own keys, fully own security, and hack endlessly on Engi's strong agentic foundations.",
+      "Yes. Some internet-native tools will be unavailable including one that will require replacement implementation: the LLM API. Contact sales to benefit from enterprise self-hosting to bring-your-own keys, fully own security, and build on Bitcode's strong agentic foundations.",
   },
   {
     question: "Can it be cheaper?",
@@ -59,7 +59,7 @@ const faqs = [
   {
     question: "Who is Advanced Engineered Software, Inc.?",
     answer:
-      "Advanced Engineered Software, Inc. (USA C-Corp) invents self-evolving engineering intelligence systems that accelerate technical development efficiency and capabalities. Enterprises across the world deliver better software to their customers for lower costs by using our tools. Engi Software Agents and $ENGI are the first pair of revolutionary products generally available to the public.",
+      "Advanced Engineered Software, Inc. (USA C-Corp) invents self-evolving engineering intelligence systems that accelerate technical development efficiency and capabilities. Enterprises across the world deliver better software to their customers for lower costs by using our tools. Bitcode and $BTD are the first pair of revolutionary products generally available to the public.",
   },
 ];
 

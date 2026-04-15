@@ -47,6 +47,11 @@ function deriveNextDraft(version) {
   return `V${numeric + 1}`;
 }
 
+function projectLabel(version) {
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
 /**
  * @param {string} content
  * @param {string} version
@@ -66,13 +71,14 @@ function rewriteCanonPostureSource(content, version, nextDraft) {
  */
 function rewriteReadme(content, resolvedRepoRoot, version, nextDraft) {
   let rewritten = content;
+  const projectName = projectLabel(version);
   rewritten = rewritten.replace(
-    /^# ENGI Demo - V\d+ canonical deterministic local prototype$/m,
-    `# ENGI Demo - ${version} canonical deterministic local prototype`
+    /^# (?:ENGI|Bitcode) Demo - V\d+ canonical deterministic local prototype$/m,
+    `# ${projectName} Demo - ${version} canonical deterministic local prototype`
   );
   rewritten = rewritten.replace(
-    /^This demo is governed by the active V\d+ canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V\d+ drafts the next system-facing implementation pass\.$/m,
-    `This demo is governed by the active ${version} canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while ${nextDraft} drafts the next system-facing implementation pass.`
+    /^This demo is governed by the active V\d+ canonical spec and serves as the current deterministic local realization of the full (?:ENGI|Bitcode) operating chain while V\d+ drafts the next (?:system-facing implementation|rename-complete implementation) pass\.$/m,
+    `This demo is governed by the active ${version} canonical spec and serves as the current deterministic local realization of the full ${projectName} operating chain while ${nextDraft} drafts the next ${Number(version.slice(1)) >= 25 ? 'rename-complete implementation' : 'system-facing implementation'} pass.`
   );
   rewritten = rewritten.replace(
     /^- Canonical pointer is `.+ENGI_SPEC\.txt -> V\d+`$/m,

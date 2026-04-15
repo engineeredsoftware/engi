@@ -25,6 +25,8 @@ export const V23_CANON_POSTURE_REPORT_ID = 'v23-canon-posture-drift-report';
 export const V23_CANON_POSTURE_GENERATOR_ID = 'engi-demo.v23-canon-posture.v1';
 export const V24_CANON_POSTURE_REPORT_ID = 'v24-canon-posture-drift-report';
 export const V24_CANON_POSTURE_GENERATOR_ID = 'engi-demo.v24-canon-posture.v1';
+export const V25_CANON_POSTURE_REPORT_ID = 'v25-canon-posture-drift-report';
+export const V25_CANON_POSTURE_GENERATOR_ID = 'engi-demo.v25-canon-posture.v1';
 
 /**
  * @param {Array<{ checkId: string, passed: boolean, detail: string }>} checks
@@ -232,6 +234,17 @@ export function buildV24CanonPostureDriftReport(input = {}) {
 }
 
 /**
+ * @param {Parameters<typeof buildCanonPostureDriftReport>[0]} [input]
+ */
+export function buildV25CanonPostureDriftReport(input = {}) {
+  return buildCanonPostureDriftReport({
+    version: 'V25',
+    generatorId: V25_CANON_POSTURE_GENERATOR_ID,
+    ...input
+  });
+}
+
+/**
  * @param {{
  *   version: string,
  *   proofSourceCommit: string,
@@ -285,5 +298,12 @@ export function buildV23GeneratedArtifactContents(input) {
  * @param {Parameters<typeof buildCanonPostureGeneratedArtifactContents>[0]} input
  */
 export function buildV24GeneratedArtifactContents(input) {
+  return buildCanonPostureGeneratedArtifactContents(input);
+}
+
+/**
+ * @param {Parameters<typeof buildCanonPostureGeneratedArtifactContents>[0]} input
+ */
+export function buildV25GeneratedArtifactContents(input) {
   return buildCanonPostureGeneratedArtifactContents(input);
 }

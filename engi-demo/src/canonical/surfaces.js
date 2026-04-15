@@ -370,7 +370,7 @@ function buildDepositingSurface({ buyer, need, assetPack, selectedCandidates }) 
     signingRoot: aggregateRootRef('signing', signingRoots),
     authRoot: aggregateRootRef('auth', authRoots),
     depositIntentSummary: selectedCandidates.length
-      ? `Deposit ${selectedCandidates.length} repo-authenticated ${selectedCandidates.length === 1 ? 'asset' : 'assets'} from ${buyer.repo} with ${selectedKinds.join(', ')} coverage so ENGI can ${realizationProfile.profileId === 'A' ? 'close a bounded need decisively.' : 'normalize overlapping contribution across a composite need.'}`
+      ? `Deposit ${selectedCandidates.length} repo-authenticated ${selectedCandidates.length === 1 ? 'asset' : 'assets'} from ${buyer.repo} with ${selectedKinds.join(', ')} coverage so Bitcode can ${realizationProfile.profileId === 'A' ? 'close a bounded need decisively.' : 'normalize overlapping contribution across a composite need.'}`
       : `No deposited assets are currently bound for ${buyer.repo}.`
   };
 }
@@ -680,27 +680,27 @@ function buildIdentityAuthSpineSurface({
       },
       {
         hopId: 'branch-authority',
-        label: 'ENGI branch authority',
+        label: 'Bitcode branch authority',
         principalRefs: ['engi-system:branch-materializer'],
-        authoritySummary: 'ENGI materializes the private remediation branch and mounted source material under policy release controls.',
+        authoritySummary: 'Bitcode materializes the private remediation branch and mounted source material under policy release controls.',
         stageRefs: [branchName, `${branchName}/.engi/source-material`].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:branch-materializer').map((binding) => binding.bindingRoot),
         boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },
       {
         hopId: 'proof-authority',
-        label: 'ENGI proof authority',
+        label: 'Bitcode proof authority',
         principalRefs: ['engi-system:proof-publisher'],
-        authoritySummary: 'ENGI proof publishing authority derives bounded public proof from the private proof closure.',
+        authoritySummary: 'Bitcode proof publishing authority derives bounded public proof from the private proof closure.',
         stageRefs: [proofWitnessManifest?.proofHash, `${branchName}#bounded-proof`].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:proof-publisher').map((binding) => binding.bindingRoot),
         boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },
       {
         hopId: 'settlement-authority',
-        label: 'ENGI settlement authority',
+        label: 'Bitcode settlement authority',
         principalRefs: ['engi-system:settlement-engine'],
-        authoritySummary: 'ENGI settlement authority closes the exact-accounting journal event for the selected bundle.',
+        authoritySummary: 'Bitcode settlement authority closes the exact-accounting journal event for the selected bundle.',
         stageRefs: [settlementPreview?.bundleId, settlementPreview?.sourceToSharesRef, settlementPreview?.settlementParticipationRef].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'engi-system:settlement-engine').map((binding) => binding.bindingRoot),
         boundaryClass: ExecutionReality.EXECUTED_LOCAL

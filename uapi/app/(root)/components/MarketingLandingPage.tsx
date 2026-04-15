@@ -73,8 +73,8 @@ const productPillars = [
     Icon: ScaleIcon,
   },
   {
-    title: 'EARN $ENGI',
-    description: 'Deposited contributions become live, licensable depot supply. Metered consumption issues $ENGI.',
+    title: 'EARN $BTD',
+    description: 'Deposited contributions become live, licensable depot supply. Metered consumption issues $BTD.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
@@ -130,7 +130,7 @@ const previewRows = [
   },
   {
     key: 'issuance',
-    valueParts: ['supplier', 'issuance event', '$ENGI'],
+    valueParts: ['supplier', 'issuance event', '$BTD'],
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: CurrencyDollarIcon,
     valuesGridClassName: 'grid-cols-1 phone:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-[minmax(0,1.28fr)_minmax(0,0.92fr)]',
@@ -158,7 +158,7 @@ const verificationRows = [
   },
   {
     label: 'Licensed reads',
-    detail: 'licensed readers consume the depot while metered usage issues $ENGI',
+    detail: 'licensed readers consume the depot while metered usage issues $BTD',
     status: 'private*',
     Icon: LockClosedIcon,
   },
@@ -190,11 +190,11 @@ const canonicalPathStages = [
   { number: '05', stage: 'retrieve' },
   { number: '06', stage: 'allocate' },
 ] as const;
-const headlineText = '$ENGI is becoming the tokenized data depot for engineering knowledge.';
+const headlineText = 'Bitcode is becoming the tokenized data depot for engineering knowledge.';
 const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 const defaultEmbeddedDemoUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
 const headlineHighlights = [
-  { text: '$ENGI', className: `${heroHighlightClass} font-semibold text-white` },
+  { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
   { text: 'tokenized data depot', className: heroHighlightClass },
 ] as const;
 

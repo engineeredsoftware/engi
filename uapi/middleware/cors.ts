@@ -12,8 +12,8 @@ import type { MiddlewareContext, MiddlewareHandler } from './index';
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',') ?? [
   'http://localhost:3000',
   'http://localhost:3001',
-  'https://app.engi.ai',
-  'https://staging.engi.ai'
+  'https://app.bitcode.ai',
+  'https://staging.bitcode.ai'
 ];
 
 // CORS configuration

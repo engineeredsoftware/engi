@@ -279,7 +279,7 @@ export function buildProfileCompositions() {
     activeProfile: 'A',
     distinctionBasis: 'deposit-and-need',
     demoOperatorGuidance: {
-      audienceMeaning: 'The current realization profiles distinguish how ENGI deposits supply against need. They are not a local-vs-GitHub toggle.',
+      audienceMeaning: 'The current realization profiles distinguish how Bitcode deposits supply against need. They are not a local-vs-GitHub toggle.',
       boundaryTruthPlacement: 'Boundary reality, GitHub boundary, and external boundary surfaces keep live/not-live truth explicit. The profile headline now explains deposit mode, need mode, and fit first.',
       recommendedWalkthrough: [
         'Start with repo supply and pick a targeted-deposit scenario to show a bounded need.',

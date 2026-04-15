@@ -17,8 +17,8 @@ import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-s
 
 const DEFAULT_DEMO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
 const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
-const CURRENT_SPEC_CANON = 'V22';
-const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V22.md';
+const CURRENT_SPEC_CANON = 'V24';
+const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V24.md';
 
 function resolveFooterDemoUrl() {
   if (typeof window === 'undefined') {
@@ -129,9 +129,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       label: (
         <>
           <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-            $ENGI
+            $BTD
           </span>
-          <span>&apos;s Demonstration Mini App</span>
+          <span>&apos;s Bitcode Demo</span>
         </>
       ),
       href: demoUrl,
@@ -165,9 +165,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       label: (
         <>
           <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-            $ENGI
+            $BTD
           </span>
-          <span>&apos;s Demonstration Video</span>
+          <span>&apos;s Bitcode Demo Video</span>
         </>
       ),
       href: DEFAULT_DEMO_VIDEO_URL,
@@ -199,9 +199,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       label: (
         <>
           <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-            $ENGI
+            Bitcode
           </span>
-          <span>&apos;s Social Media</span>
+          <span> Social Media</span>
         </>
       ),
       href: 'https://bsky.app/profile/engicomms.bsky.social',
@@ -387,7 +387,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   🐉
                 </span>
                 <span>
-                  Advanced Engineered Software, Inc. <span className="font-light">{new Date().getFullYear()}</span>
+                  Bitcode by Advanced Engineered Software, Inc. <span className="font-light">{new Date().getFullYear()}</span>
                 </span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-[10px] text-gray-400/70">

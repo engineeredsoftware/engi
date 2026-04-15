@@ -2,6 +2,11 @@
 
 import { buildV21SpecFamilyReport } from '../engi-demo/src/canonical/v21-specifying.js';
 
+function projectLabel(version) {
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
 /**
  * @param {string[]} argv
  */
@@ -66,7 +71,7 @@ function main() {
   });
 
   if (!report.passed) {
-    process.stderr.write(`ENGI spec family check failed for ${report.checkedVersion} (${report.mode})\n`);
+    process.stderr.write(`${projectLabel(report.checkedVersion)} spec family check failed for ${report.checkedVersion} (${report.mode})\n`);
     for (const failure of report.failures) {
       process.stderr.write(`- ${failure}\n`);
     }
@@ -76,7 +81,7 @@ function main() {
 
   process.stdout.write(
     [
-      `ENGI spec family ok for ${report.checkedVersion}`,
+      `${projectLabel(report.checkedVersion)} spec family ok for ${report.checkedVersion}`,
       `mode=${report.mode}`,
       `currentTarget=${report.currentTarget}`,
       `pointer=${report.pointerVersion}`,

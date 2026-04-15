@@ -10,6 +10,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
+function projectLabel(version) {
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
 /**
  * @param {string[]} argv
  */
@@ -49,7 +54,7 @@ function printHelp() {
  * @param {string[]} args
  */
 function runNode(cwd, label, args) {
-  process.stdout.write(`ENGI spec quality: ${label}\n`);
+  process.stdout.write(`${projectLabel(ACTIVE_CANON_VERSION)} spec quality: ${label}\n`);
   execFileSync(process.execPath, args, {
     cwd,
     stdio: 'inherit'
@@ -141,7 +146,7 @@ function main() {
 
   if (mode === 'basic') {
     runBasicChecks(resolvedRepoRoot);
-    process.stdout.write('ENGI spec quality ok (basic)\n');
+    process.stdout.write(`${projectLabel(ACTIVE_CANON_VERSION)} spec quality ok (basic)\n`);
     return;
   }
 
@@ -149,19 +154,19 @@ function main() {
     if (!args.version) throw new Error('strict-version mode requires --version <VN>.');
     runBasicChecks(resolvedRepoRoot);
     runStrictVersionChecks(resolvedRepoRoot, args.version.toUpperCase());
-    process.stdout.write(`ENGI spec quality ok (strict-version ${args.version.toUpperCase()})\n`);
+    process.stdout.write(`${projectLabel(args.version)} spec quality ok (strict-version ${args.version.toUpperCase()})\n`);
     return;
   }
 
   if (mode === 'strict-from-title') {
     const version = extractSpecVersionFromTitle(args.commitTitle || '');
     if (!version) {
-      process.stdout.write('ENGI spec quality skipped strict commit-title checks; title is not a `spec: VN` commit.\n');
+      process.stdout.write(`${projectLabel(ACTIVE_CANON_VERSION)} spec quality skipped strict commit-title checks; title is not a \`spec: VN\` commit.\n`);
       return;
     }
     runBasicChecks(resolvedRepoRoot);
     runStrictVersionChecks(resolvedRepoRoot, version);
-    process.stdout.write(`ENGI spec quality ok (strict-from-title ${version})\n`);
+    process.stdout.write(`${projectLabel(version)} spec quality ok (strict-from-title ${version})\n`);
     return;
   }
 

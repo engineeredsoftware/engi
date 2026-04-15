@@ -42,7 +42,7 @@ export const DockContainer = ({ className }: DockContainerProps) => {
       icon: <ChartBarIcon className="w-6 h-6" />,
       label: "Dashboard",
       path: "/dashboard",
-      tooltip: `Dashboard - ${engiBalance ? engiBalance : '0'} ENGI`
+      tooltip: `Dashboard - ${engiBalance ? engiBalance : '0'} BTD`
     },
     {
       icon: <ShoppingCartIcon className="w-6 h-6" />,

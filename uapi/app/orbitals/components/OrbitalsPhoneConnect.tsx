@@ -1,7 +1,7 @@
 /**
  * Phone/SMS Connect Component for Orbital Panel
  * 
- * Revolutionary phone number setup experience - the fastest path to ENGI.
+ * Revolutionary phone number setup experience - the fastest path to Bitcode.
  * Supports phone SSO, SMS commands, and Conversations chat via text.
  */
 
@@ -202,7 +202,7 @@ export function PhoneConnect({ userId, onComplete }: PhoneConnectProps) {
               </h3>
               <p className="text-gray-400 text-sm">
                 Enable SMS commands to trigger pipelines with a simple text.
-                The fastest way to use ENGI!
+                The fastest way to use Bitcode!
               </p>
             </div>
             
@@ -252,7 +252,7 @@ export function PhoneConnect({ userId, onComplete }: PhoneConnectProps) {
             </div>
             
             <div className="text-xs text-gray-500 text-center">
-              By connecting your phone, you agree to receive SMS messages from ENGI.
+              By connecting your phone, you agree to receive SMS messages from Bitcode.
               Standard messaging rates may apply.
             </div>
           </motion.div>
@@ -343,7 +343,7 @@ export function PhoneConnect({ userId, onComplete }: PhoneConnectProps) {
                 SMS Preferences ⚙️
               </h3>
               <p className="text-gray-400 text-sm">
-                Customize how you want to use SMS with ENGI
+                Customize how you want to use SMS with Bitcode
               </p>
             </div>
             

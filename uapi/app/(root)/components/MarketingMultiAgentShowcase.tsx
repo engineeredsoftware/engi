@@ -190,7 +190,7 @@ export const TABS: ReadonlyArray<{
   {
     id: 'sms',
     title: 'SMS Text Commands',
-    description: 'Text message pipelines from anywhere. Zero friction, instant results. Your phone becomes a powerful ENGI command center.',
+    description: 'Text message pipelines from anywhere. Zero friction, instant results. Your phone becomes a powerful Bitcode command center.',
     group: 'chat',
   },
 
@@ -558,7 +558,7 @@ function MarketingMultiAgentShowcase() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-2xl tablet:text-3xl laptop:text-5xl desktop:text-6xl font-bold tracking-tight leading-tight bg-gradient-to-r from-purple-300 via-indigo-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_3px_15px_rgba(0,0,0,0.25)] pb-2 block">
-            Engi Software Agents – Quick, Quality Coding Agents at Your Fingertips
+            Bitcode Software Agents – Quick, Quality Coding Agents at Your Fingertips
           </h2>
           <p className="mt-4 tablet:mt-6 text-sm tablet:text-base laptop:text-lg desktop:text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
             Command self-learning workflows via a chat-first, shepherding-scale interface—steer and optimize them in seconds with flexible integrations.
@@ -684,7 +684,7 @@ function MarketingMultiAgentShowcase() {
                       <span className="text-emerald-300/80 text-base font-mono">Chat Window Preview</span>
                     </div>
                     <p className="mt-4 text-gray-300 text-sm">
-                      Ask Engi anything—from "generate tests" to "architect a microservice." Cloud chat keeps the context synced with your workspace.
+                      Ask Bitcode anything—from "generate tests" to "architect a microservice." Cloud chat keeps the context synced with your workspace.
                     </p>
                   </div>
 
@@ -796,7 +796,7 @@ function MarketingMultiAgentShowcase() {
                     <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400 via-purple-600 to-purple-400 opacity-40 blur-lg" />
                     <div className="relative bg-[#0a132a]/60 border border-purple-400/40 backdrop-blur-md text-white p-5 rounded-2xl shadow-lg">
                       <h4 className="text-base font-semibold">Operator Interface: Conversations</h4>
-                      <p className="text-sm mt-2">Chat with Engi or assign tasks through the Conversations dashboard for streamlined team collaboration and oversight.</p>
+                      <p className="text-sm mt-2">Chat with Bitcode or assign tasks through the Conversations dashboard for streamlined team collaboration and oversight.</p>
                     </div>
                   </div>
                 </div>
@@ -828,7 +828,7 @@ function MarketingMultiAgentShowcase() {
                     <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 via-emerald-600 to-emerald-400 opacity-30 blur-xl animate-pulse-slow-1"></div>
                     <div className="relative bg-[#0a132a]/60 border border-emerald-400/40 backdrop-blur-md text-white p-5 rounded-2xl shadow-lg">
                       <h4 className="text-base font-semibold">SMS Text Commands</h4>
-                      <p className="text-sm mt-2">Text "deliver auth system" to +1 (555) 123-4567. Your phone becomes a powerful ENGI command center. Zero friction, instant results.</p>
+                      <p className="text-sm mt-2">Text "deliver auth system" to +1 (555) 123-4567. Your phone becomes a powerful Bitcode command center. Zero friction, instant results.</p>
                     </div>
                   </div>
                 </div>
@@ -862,7 +862,7 @@ function MarketingMultiAgentShowcase() {
                   <MarketingPlaceholderImage
                     type="component"
                     category="token"
-                    text="$ENGI Token"
+                    text="$BTD Token"
                     className="w-full h-full object-cover rounded-md"
                   />
 
@@ -870,7 +870,7 @@ function MarketingMultiAgentShowcase() {
                     <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-600 to-amber-400 opacity-40 blur-lg" />
                     <div className="relative bg-[#0a132a]/60 border border-amber-400/40 backdrop-blur-md text-white p-5 rounded-2xl shadow-lg">
                       <h4 className="text-base font-semibold">Invest in Your Data</h4>
-                      <p className="text-sm mt-2">Holding $ENGI is deflationary—tokens burn as your data fuels the network.</p>
+                      <p className="text-sm mt-2">Holding $BTD is deflationary—tokens burn as your data fuels the network.</p>
                     </div>
                   </div>
                 </div>
@@ -923,11 +923,11 @@ function MarketingMultiAgentShowcase() {
 
                   <div className="pt-10 px-4 font-mono text-sm whitespace-pre-wrap">
                     <div className="text-gray-400">
-                      {`$ curl -X POST https://mcp.engi.dev/v1/agents \\\n+  -H "Authorization: Bearer $ENGI_API_KEY" \\\n+  -H "Content-Type: application/json" \\\n+  -d '{\n    "repo": "https://github.com/acme/space-dragon",\n    "task": "implement_auth",\n    "definition_of_done": "all tests green"\n  }'`}
+                      {`$ curl -X POST https://mcp.bitcode.ai/v1/agents \\\n+  -H "Authorization: Bearer $BITCODE_API_KEY" \\\n+  -H "Content-Type: application/json" \\\n+  -d '{\n    "repo": "https://github.com/acme/space-dragon",\n    "task": "implement_auth",\n    "definition_of_done": "all tests green"\n  }'`}
                     </div>
                     <div className="text-gray-300 mt-4">HTTP/1.1 202 Accepted</div>
                     <div className="text-emerald-400 mt-1">
-                      {`{ "agent_id": "agt_87a6e", "status": "queued", "dashboard_url": "https://dash.engi.dev/runs/agt_87a6e" }`}
+                      {`{ "agent_id": "agt_87a6e", "status": "queued", "dashboard_url": "https://dash.bitcode.ai/runs/agt_87a6e" }`}
                     </div>
                   </div>
 

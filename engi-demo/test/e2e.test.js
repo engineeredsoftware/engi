@@ -358,14 +358,14 @@ testAny('browser flow keeps operator ordering and drives deposit to targeted set
 
     await page.fill('input[name="title"]', 'Browser-selected auth bundle');
     await page.fill('textarea[name="operatorNote"]', 'Browser verification deposit.');
-    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await page.getByRole('button', { name: 'Deposit candidate asset into Bitcode flow' }).click();
     await waitForStatus(page, `Candidate asset deposited into the ${CURRENT_CANON_POSTURE.operatorLabel} repo-authenticated flow.`);
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
     assert.ok(await page.locator('#assets').getByText('Browser-selected auth bundle').count() >= 1);
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-');
 
     const settledSummary = await readSummary(page);
@@ -440,7 +440,7 @@ testAny('browser operator matrix covers every scenario, branch mode, and project
           await page.selectOption('#scenarioPicker', scenario.scenarioId);
           await waitForSummaryValue(page, 'Active scenario', scenario.scenarioFamily);
 
-          await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+          await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
           await waitForStatus(page, `Created engi/remediation-need_${scenario.scenarioId}`);
 
           const summary = await readSummary(page);
@@ -482,7 +482,7 @@ testAny('browser flow can switch to normalization mode and surface source-to-sha
     assert.equal(selectedScenarioSummary['Active deposit profile'], 'Normalization deposit');
     assert.equal(selectedScenarioSummary['Active scenario'], 'many-asset-settlement-normalization');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_auth-many-asset-normalization');
 
     const settledSummary = await readSummary(page);
@@ -507,7 +507,7 @@ testAny('browser flow surfaces identity/auth and proof/disclosure panels for pri
     await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
 
     const settledSummary = await readSummary(page);
@@ -528,7 +528,7 @@ testAny('browser flow surfaces deposit validation failures without mutating seed
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
 
-    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await page.getByRole('button', { name: 'Deposit candidate asset into Bitcode flow' }).click();
     await waitForStatus(page, 'Raw content or repo artifact selection is required.');
 
     const summary = await readSummary(page);
@@ -542,21 +542,21 @@ testAny('browser flow recovers from an invalid deposit into a valid raw deposit 
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
 
-    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await page.getByRole('button', { name: 'Deposit candidate asset into Bitcode flow' }).click();
     await waitForStatus(page, 'Raw content or repo artifact selection is required.');
     assert.equal((await readSummary(page))['Candidate assets'], '11');
 
     await page.fill('input[name="title"]', 'Recovered browser raw deposit');
     await page.fill('input[name="author"]', 'V17 Browser');
     await page.fill('textarea[name="content"]', 'Manual recovery evidence for a browser-visible invalid-to-valid deposit path.');
-    await page.getByRole('button', { name: 'Deposit candidate asset into ENGI flow' }).click();
+    await page.getByRole('button', { name: 'Deposit candidate asset into Bitcode flow' }).click();
     await waitForStatus(page, `Candidate asset deposited into the ${CURRENT_CANON_POSTURE.operatorLabel} repo-authenticated flow.`);
 
     const depositedSummary = await readSummary(page);
     assert.equal(depositedSummary['Candidate assets'], '12');
     assert.ok(await page.locator('#assets').getByText('Recovered browser raw deposit').count() >= 1);
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-');
 
     const runSummary = await readSummary(page);
@@ -569,7 +569,7 @@ testAny('browser flow can reset back to the seeded state after a realized run', 
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-');
     assert.notEqual((await readSummary(page))['Latest bundle'], 'No run yet');
 
@@ -593,7 +593,7 @@ testAny('browser flow surfaces no-survivor branch conflicts and recovers after r
     assert.equal(emptySummary['Candidate assets'], '0');
     assert.equal(emptySummary['Latest bundle'], 'No run yet');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'No candidates survived into the asset pack');
     assert.equal((await readSummary(page))['Latest bundle'], 'No run yet');
 
@@ -601,7 +601,7 @@ testAny('browser flow surfaces no-survivor branch conflicts and recovers after r
     await waitForStatus(page, `Demo reset to the seeded ${CURRENT_CANON_POSTURE.operatorLabel} scenario state.`);
     assert.equal((await readSummary(page))['Candidate assets'], '11');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-');
 
     const recoveredSummary = await readSummary(page);
@@ -619,7 +619,7 @@ testAny('browser flow surfaces projection visibility and proof-family catalog fo
     await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
 
     const reviewerSummary = await readSummary(page);
@@ -648,7 +648,7 @@ testAny('browser flow can run a second scenario without reset and refresh latest
   await withBrowserDemo(t, async ({ baseUrl, page }) => {
     await loadDemo(page, baseUrl);
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_auth-issuer-rollback');
 
     const firstSummary = await readSummary(page);
@@ -657,7 +657,7 @@ testAny('browser flow can run a second scenario without reset and refresh latest
 
     await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
 
     const secondSummary = await readSummary(page);
@@ -677,7 +677,7 @@ testAny('browser flow can inspect raw verification and proof JSON for a restrict
     await page.selectOption('#scenarioPicker', 'unsafe-patch-review-recovery');
     await waitForStatus(page, 'Selected scenario unsafe-patch-review-recovery (Targeted deposit).');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_unsafe-patch-review-recovery');
 
     const verificationSurface = await surfaceByTitleInSection(page, 'evaluations', 'Verification report');
@@ -718,7 +718,7 @@ testAny('browser flow surfaces prompt and inference audit artifacts for internal
     await page.selectOption('#scenarioPicker', 'auth-issuer-rollback');
     await waitForStatus(page, 'Selected scenario auth-issuer-rollback');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_auth-issuer-rollback');
 
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Prompt family registry') >= 1);
@@ -752,7 +752,7 @@ testAny('browser flow surfaces static, authorization, and settlement family proo
     await page.selectOption('#scenarioPicker', 'auth-many-asset-normalization');
     await waitForStatus(page, 'Selected scenario auth-many-asset-normalization');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_auth-many-asset-normalization');
 
     assert.ok(await sectionSurfaceTitleCount(page, 'branchArtifacts', 'Static measurement report') >= 1);
@@ -798,7 +798,7 @@ testAny('browser flow can switch projections and keep proof visibility bounded b
     await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
 
     const reviewerSummary = await readSummary(page);
@@ -828,7 +828,7 @@ testAny('browser flow can switch between internal and reviewer visibility withou
     await page.selectOption('#scenarioPicker', 'privacy-boundary-proof-export');
     await waitForStatus(page, 'Selected scenario privacy-boundary-proof-export (Targeted deposit).');
 
-    await page.getByRole('button', { name: 'Make ENGI branch' }).click();
+    await page.getByRole('button', { name: 'Make Bitcode branch' }).click();
     await waitForStatus(page, 'Created engi/remediation-need_privacy-boundary-proof-export');
 
     const internalSummary = await readSummary(page);

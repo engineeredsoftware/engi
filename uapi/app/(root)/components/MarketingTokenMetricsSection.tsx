@@ -50,7 +50,7 @@ export default function MarketingTokenMetricsSection() {
         t: "Earn Procurement Rewards", // what it's for?
         c: <>
           Opt-in any repo, branch, or commit snapshot and walk away—value is
-          harvested around the clock, crediting <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$ENGI</span>{' '}
+          harvested around the clock, crediting <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span>{' '}
           whenever the contribution satisfies procurement anywhere.
         </>,
       },
@@ -63,21 +63,21 @@ export default function MarketingTokenMetricsSection() {
       {
         t: "Measure, Ingest, Mint", // how?
         c: <>
-          Procured contributions are agentically <span className="italic font-bold text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.9)] animate-pulse-slow">measuremint</span>ed—quantifying and qualifying engineering knowledge and rewarding <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$ENGI</span> relative to dataset valence.
+          Procured contributions are agentically <span className="italic font-bold text-purple-300 drop-shadow-[0_0_12px_rgba(168,85,247,0.9)] animate-pulse-slow">measuremint</span>ed—quantifying and qualifying engineering knowledge and rewarding <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span> relative to dataset valence.
         </>,
       },
       {
         t: "Digital Knowledge Scarcity", // DATA BACKED
         c: <>
-          USD inflates arbitrarily, BTC deflates with time, and <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$ENGI</span> deflates with work.
+          USD inflates arbitrarily, BTC deflates with time, and <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span> deflates with work.
           Coinage scarcity and dataset omniscience are deterministically inversely proportional—backing
           tokens with tokens.
         </>,
       },
       {
-        t: "Token Opportunity Vehicle", // investing in $ENGI
+        t: "Token Opportunity Vehicle", // investing in $BTD
         c: <>
-          <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$ENGI</span> is immutable, transparent, and recorded on-chain. A finite supply with infinitely decaying issuance simplifies data investing.
+          <span className="text-emerald-300 drop-shadow-[0_0_12px_rgba(101,254,183,0.9)] animate-pulse-slow">$BTD</span> is immutable, transparent, and recorded on-chain. A finite supply with infinitely decaying issuance simplifies data investing.
         </>,
       },
       {

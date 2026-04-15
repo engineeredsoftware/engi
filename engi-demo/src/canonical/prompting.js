@@ -84,14 +84,14 @@ function interpolateTemplate(template, values = {}) {
 function normalizeCompletionValue(type, value) {
   if (type === 'string') {
     if (typeof value !== 'string') {
-      throw new Error(`ENGI parsed completion failed: expected string, received ${typeof value}.`);
+      throw new Error(`Bitcode parsed completion failed: expected string, received ${typeof value}.`);
     }
     return value;
   }
 
   if (type === 'string[]') {
     if (!Array.isArray(value) || value.some((entry) => typeof entry !== 'string')) {
-      throw new Error('ENGI parsed completion failed: expected string[] payload.');
+      throw new Error('Bitcode parsed completion failed: expected string[] payload.');
     }
     return summarizeStrings(value);
   }
@@ -112,19 +112,19 @@ function normalizeParsedPayload(promptSurface, parsedPayload) {
     : null;
 
   if (!actualPayload) {
-    throw new Error('ENGI parsed completion failed: payload must be a strict JSON object.');
+    throw new Error('Bitcode parsed completion failed: payload must be a strict JSON object.');
   }
 
   const actualKeys = Object.keys(actualPayload).sort();
   const expectedKeys = expectedSchema.map((entry) => entry.field).sort();
 
   if (promptSurface?.promptContract?.requiresExactTopLevelKeys && canonicalJson(actualKeys) !== canonicalJson(expectedKeys)) {
-    throw new Error(`ENGI parsed completion failed: expected keys [${expectedKeys.join(', ')}], received [${actualKeys.join(', ')}].`);
+    throw new Error(`Bitcode parsed completion failed: expected keys [${expectedKeys.join(', ')}], received [${actualKeys.join(', ')}].`);
   }
 
   for (const requiredField of requiredTopLevelKeys) {
     if (!(requiredField in actualPayload)) {
-      throw new Error(`ENGI parsed completion failed: missing required field ${requiredField}.`);
+      throw new Error(`Bitcode parsed completion failed: missing required field ${requiredField}.`);
     }
   }
 
@@ -321,7 +321,7 @@ export function buildPromptContract({
 export function assertPromptContractComplete(promptContract) {
   if (!promptContract.completeness.ok) {
     throw new Error(
-      `ENGI prompt completeness failed for ${promptContract.promptId}: ` +
+      `Bitcode prompt completeness failed for ${promptContract.promptId}: ` +
       `missing placeholders [${promptContract.missingPlaceholderBindings.join(', ')}], ` +
       `unused context [${promptContract.unusedContextFields.join(', ')}], ` +
       `undeclared non-rendered [${promptContract.undeclaredNonRenderedContextFields.join(', ')}].`

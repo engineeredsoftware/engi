@@ -559,6 +559,101 @@ function buildV24Profile() {
   };
 }
 
+function buildV25Profile() {
+  return {
+    reportId: 'v25-spec-family-report',
+    defaultTarget: 'V25',
+    requiredStatusLabels: COMMON_REQUIRED_STATUS_LABELS,
+    requiredPromotedStatusLabels: ['Canonical proof-source commit'],
+    requiredSpecSections: [
+      'Status',
+      'Drafting and acceptance state',
+      'Version executive summary',
+      'Canonical Bitcode executive summary',
+      'Rename and invariance rule',
+      'Why V25 exists',
+      'V25 rename surface catalog',
+      'V25 accepted drafting decisions',
+      'Recommended narrowing defaults for V25',
+      'V25 source-of-truth hierarchy',
+      'Review acceptance criteria',
+      'Promotion acceptance criteria',
+      'Explicitly deferred',
+      'Commit-body direction'
+    ],
+    requiredSpecAppendixSections: [],
+    requiredProofFamilySections: [],
+    requiredProofFamilyDetailLabels: [],
+    requiredProofFamilyMatrixHeaders: [],
+    requiredGeneratedArtifactCatalogSections: [],
+    requiredGeneratedAppendixContractPhrases: [
+      '.engi/v25-spec-family-report.json',
+      '.engi/v25-canonical-input-report.json',
+      '.engi/v25-canon-posture-drift-report.json',
+      'ENGI_SPEC_V25_PROVEN.md',
+      'Bitcode',
+      'BTD'
+    ],
+    requiredGeneratedArtifactPaths: [
+      '.engi/v25-spec-family-report.json',
+      '.engi/v25-canonical-input-report.json',
+      '.engi/v25-canon-posture-drift-report.json'
+    ],
+    requiredSubsystemCoveragePhrases: [
+      'Bitcode',
+      'BTD',
+      '.engi/*',
+      'ENGI_SPEC_V25*',
+      'runtime',
+      'API',
+      'UI',
+      'generated evidence',
+      'build/process'
+    ],
+    requiredSubsystemSectionHeadings: [],
+    requiredSubsystemDetailLabels: [],
+    crossProductAppendixHeading: 'Review acceptance criteria',
+    requiredCrossProductAppendixPhrases: [],
+    failClosedAppendixHeading: 'Rename and invariance rule',
+    requiredFailClosedAppendixPhrases: [
+      'full rename',
+      'semantic invariance',
+      'must not silently change',
+      'no longer presents itself as ENGI',
+      'no longer presents itself as NGI'
+    ],
+    deliverableAppendixHeading: 'V25 rename surface catalog',
+    requiredDeliverableAppendixPhrases: [
+      '.engi/*',
+      'generated proof/report titles',
+      'runtime posture strings',
+      'API summary labels',
+      'demo shell headings and guidance',
+      'spec-quality hook output',
+      'promotion script messaging'
+    ],
+    requiredDeltaSections: [
+      'Status',
+      'Why V25 exists',
+      'Findings that drive V25',
+      'Accepted V25 drafting decisions',
+      'Recommended default closure for V25',
+      'Planned delta surface',
+      'Explicitly deferred',
+      'Draft implementation sequence'
+    ],
+    requiredParitySections: [
+      'Status',
+      'Purpose',
+      'V25 draft implementation matrix',
+      'V25 draft implementation checklist',
+      'Accepted boundaries',
+      'Completion condition'
+    ],
+    forbiddenPhrases: []
+  };
+}
+
 function buildV20ProperProfile() {
   return {
     reportId: 'v20-proper-spec-family-report',
@@ -677,6 +772,9 @@ function resolveSpecFamilyProfile(version) {
   }
   if (version === 'V24') {
     return buildV24Profile();
+  }
+  if (version === 'V25') {
+    return buildV25Profile();
   }
   if (!/^V\d+$/.test(version)) {
     throw new Error(`Version must look like VN or match a supported reconstruction family. Received ${version || 'none'}.`);

@@ -225,11 +225,11 @@ testAny('GET / returns the app shell', async (t) => {
   await withApp(t, async ({ app }) => {
     const response = await invoke(app, { method: 'GET', url: '/' });
     assert.equal(response.statusCode, 200);
-    assert.match(response.text, /<title>ENGI Demo<\/title>/);
-    assert.match(response.text, /Operate ENGI from repo supply to settlement/);
+    assert.match(response.text, /<title>Bitcode Demo<\/title>/);
+    assert.match(response.text, /Operate Bitcode from repo supply to settlement/);
     assert.match(response.text, /id="heroLede"/);
     assert.match(response.text, /id="heroTip"/);
-    assert.match(response.text, /ENGI deterministic local prototype/);
+    assert.match(response.text, /Bitcode deterministic local prototype/);
     assert.match(response.text, /Loading current canon posture/i);
     assert.match(response.text, /Loading current generated appendix and report posture/i);
     assert.match(response.text, /Depositing \+ candidate assets/);
@@ -280,7 +280,7 @@ testAny('GET /favicon.svg serves the demo icon', async (t) => {
     const response = await invoke(app, { method: 'GET', url: '/favicon.svg' });
     assert.equal(response.statusCode, 200);
     assert.match(String(response.headers['Content-Type']), /image\/svg\+xml/);
-    assert.match(response.text, /ENGI/);
+    assert.match(response.text, /Bitcode/);
   });
 });
 
@@ -528,7 +528,7 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.carrierType, 'sidechain-transfer-intent');
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementObservation.networkState, 'checkpointed-sidechain');
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementObservation.observationReality, 'stubbed-testnet-demonstration-service');
-    assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
+    assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.unitDenomination, 'BTD');
     assert.equal(buyerRun.json.latestRun.bitcoinAnchor.publicationReality, 'stubbed-testnet-demonstration-service');
     assert.equal(buyerRun.json.latestRun.externalEnvironmentProfile, undefined);
     assert.equal(buyerRun.json.latestRun.externalTelemetrySummary, undefined);

@@ -1,6 +1,6 @@
-# ENGI Demo - V24 canonical deterministic local prototype
+# Bitcode Demo - V24 canonical deterministic local prototype
 
-This demo is governed by the active V24 canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V25 drafts the next system-facing implementation pass.
+This demo is governed by the active V24 canonical spec and serves as the current deterministic local realization of the full Bitcode operating chain while V25 drafts the rename-complete implementation pass.
 
 Current spec/doc truth for this repo:
 - Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V24`
@@ -11,7 +11,7 @@ Current spec/doc truth for this repo:
 
 ## What this prototype demonstrates
 
-The local deterministic prototype models the ENGI operating chain as:
+The local deterministic prototype models the Bitcode operating chain as:
 
 1. repo supply and modeled GitHub App-authenticated inventory,
 2. depositing candidate supply against a measured need,
@@ -21,7 +21,7 @@ The local deterministic prototype models the ENGI operating chain as:
 6. asset-pack assembly and private branch artifact materialization,
 7. proof closure, bounded public proof, and disclosure/redaction policy,
 8. exact source-to-shares settlement with journal diff conservation,
-9. NGI-denominated bitcoin-facing settlement intent and observation carriers,
+9. BTD-denominated bitcoin-facing settlement intent and observation carriers,
 10. prototype compute/storage reality manifests and public/private commitment receipts.
 
 The demo is intentionally centered on:
@@ -47,7 +47,7 @@ At the same time, V23 now does execute deterministic stubbed-testnet demonstrati
 - PSBT-shaped audited base-layer purchase carriers,
 - BOLT11-shaped repeated-read payment carriers,
 - sidechain checkpoint stand-ins,
-- and anchor publication receipts bound back to ENGI bundle and settlement surfaces.
+- and anchor publication receipts bound back to Bitcode bundle and settlement surfaces.
 
 Those surfaces are represented deterministically in local state, called out explicitly in the boundary surfaces, and separated from any claim that live mainnet or third-party execution is active in this repo.
 
@@ -114,10 +114,10 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 ## Repo documentation for the current pass
 
 - `../ENGI_SPEC.txt` - pointer to the active canonical version
-- `../ENGI_SPEC_V23.md` - active full-system canonical spec
-- `../ENGI_SPEC_V23_DELTA.md` - active version-local delta
-- `../ENGI_SPEC_V23_PARITY_MATRIX.md` - active parity ledger
-- `../ENGI_SPEC_V23_PROVEN.md` - active generated proof appendix
+- `../ENGI_SPEC_V24.md` - active full-system canonical spec
+- `../ENGI_SPEC_V24_DELTA.md` - active version-local delta
+- `../ENGI_SPEC_V24_PARITY_MATRIX.md` - active parity ledger
+- `../ENGI_SPEC_V24_PROVEN.md` - active generated proof appendix
 - `../ENGI_SPEC_V20_PROPER.md` - historical full-canon reconstruction validation surface
 - `../ENGI_SPECIFYING.md` - current specifying standard
 - next-version draft work, when opened, lives in the matching `../ENGI_SPEC_VN*.md` family plus optional `../ENGI_SPEC_VN_NOTES.md`

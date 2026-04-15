@@ -6,7 +6,7 @@ export function initialState() {
     makeAssetCommitment({
       title: 'Enterprise auth migration rollback playbook',
       author: 'Garrett',
-      organization: '$ENGI',
+      organization: 'Bitcode',
       tags: ['auth', 'migration', 'rollback', 'monorepo', 'enterprise'],
       sourceType: 'runbook',
       compileOk: true,
@@ -20,7 +20,7 @@ export function initialState() {
     makeAssetCommitment({
       title: 'Proof-carrying session validator patch kit',
       author: 'Eve',
-      organization: '$ENGI',
+      organization: 'Bitcode',
       tags: ['rust', 'proof', 'validator', 'safety', 'patch'],
       sourceType: 'crate',
       compileOk: true,
@@ -34,7 +34,7 @@ export function initialState() {
     makeAssetCommitment({
       title: 'Token issuer incident escalation notes',
       author: 'Avery',
-      organization: '$ENGI',
+      organization: 'Bitcode',
       tags: ['issuer', 'incident-response', 'runbook', 'escalation'],
       sourceType: 'notes',
       compileOk: false,
@@ -49,7 +49,7 @@ export function initialState() {
 
   const licenses = [
     seedLicense({ orgId: 'demo-ai-lab', orgName: 'Frontier Code Systems', units: 900 }),
-    seedLicense({ orgId: 'engi-internal', orgName: 'ENGI Internal', units: 1500 })
+    seedLicense({ orgId: 'engi-internal', orgName: 'Bitcode Internal', units: 1500 })
   ];
 
   const state = {

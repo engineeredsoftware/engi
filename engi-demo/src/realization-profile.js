@@ -29,7 +29,7 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     shortLabel: 'Targeted deposit',
     identity: Object.freeze({
       whoItIs: 'Deposit a small, decisive set of repo-authenticated artifacts against a sharply bounded benchmark need.',
-      operatorRole: 'Use this when ENGI should close one tight remediation need with minimal normalization overhead.',
+      operatorRole: 'Use this when Bitcode should close one tight remediation need with minimal normalization overhead.',
       audienceMeaning: 'The demo is proving decisive selection, narrow proof closure, and fast settlement explanation.'
     }),
     depositMode: 'Deposit one or a few decisive repo-authenticated artifacts so the asset pack can stay tight.',
@@ -58,11 +58,11 @@ const profileDefinitions = /** @type {Record<RealizationProfileId, RealizationPr
     label: PROFILE_B,
     shortLabel: 'Normalization deposit',
     identity: Object.freeze({
-      whoItIs: 'Deposit several overlapping artifacts so ENGI can normalize coverage, provenance, and contribution across a composite need.',
-      operatorRole: 'Use this when ENGI must reconcile multiple slices, artifact kinds, or runtime surfaces before settlement is intelligible.',
+      whoItIs: 'Deposit several overlapping artifacts so Bitcode can normalize coverage, provenance, and contribution across a composite need.',
+      operatorRole: 'Use this when Bitcode must reconcile multiple slices, artifact kinds, or runtime surfaces before settlement is intelligible.',
       audienceMeaning: 'The demo is proving normalization, overlap handling, and source-to-shares closure rather than a single decisive pick.'
     }),
-    depositMode: 'Deposit multiple overlapping artifacts across kinds so ENGI can normalize contribution and provenance.',
+    depositMode: 'Deposit multiple overlapping artifacts across kinds so Bitcode can normalize contribution and provenance.',
     needMode: 'Need stays composite across several failing slices, weak dimensions, or cross-language/runtime boundaries.',
     assetPackShape: 'Broader pack where normalization, tie-break rules, and overlap accounting matter.',
     settlementShape: 'Settlement makes source-to-shares normalization visible and may keep zero-credit participants explicit.',

@@ -232,8 +232,8 @@ export function buildBitcoinTreasuryPolicy({ paymentMode }) {
     selectedPaymentMode: paymentMode,
     paymentModes: ['audited-base-layer-purchase', 'repeated-read-payment', 'checkpointed-sidechain-bridge'],
     anchorModes: ['op-return-receipt', 'taproot-commitment', 'batched-checkpoint'],
-    settlementDenomination: 'NGI',
-    unitDenomination: 'NGI',
+    settlementDenomination: 'BTD',
+    unitDenomination: 'BTD',
     confirmationPolicyByMode: {
       'audited-base-layer-purchase': {
         requiredNetworkState: 'confirmed-onchain',
@@ -304,7 +304,7 @@ export function buildBitcoinSettlementIntent({
     assetPackId: assetPack.assetPackId,
     bundleId: settlementPreview.bundleId,
     paymentMode,
-    unitDenomination: 'NGI',
+    unitDenomination: 'BTD',
     meteredMicroUnits: settlementPreview.meteredMicroUnits
   });
   return {
@@ -313,7 +313,7 @@ export function buildBitcoinSettlementIntent({
     needId: need.needId,
     assetPackId: assetPack.assetPackId,
     bundleId: settlementPreview.bundleId,
-    unitDenomination: 'NGI',
+    unitDenomination: 'BTD',
     meteredMicroUnits: settlementPreview.meteredMicroUnits,
     paymentMode,
     settlementPreviewRef: settlementPreview.bundleId,
@@ -353,7 +353,7 @@ export function buildBitcoinSettlementObservation({
     assetPackId: settlementIntent.assetPackId || 'asset-pack-observed',
     bundleId: settlementPreview.bundleId,
     paymentMode: settlementIntent.paymentMode,
-    unitDenomination: settlementIntent.unitDenomination || 'NGI',
+    unitDenomination: settlementIntent.unitDenomination || 'BTD',
     meteredMicroUnits: settlementIntent.meteredMicroUnits
   });
   return {
@@ -361,7 +361,7 @@ export function buildBitcoinSettlementObservation({
     intentId: settlementIntent.intentId,
     bundleId: settlementPreview.bundleId,
     paymentMode: settlementIntent.paymentMode,
-    unitDenomination: settlementIntent.unitDenomination || 'NGI',
+    unitDenomination: settlementIntent.unitDenomination || 'BTD',
     serviceMode: paymentCarrier.serviceMode,
     serviceId: paymentCarrier.serviceId,
     receiptId: paymentCarrier.receiptId,
@@ -739,7 +739,7 @@ export function buildBitcoinSettlementInterfaceProof({
   const computeRealityClosed = summarizeStrings(computeRealityManifest.proofArtifactRefs || []).includes('.engi/settlement-proof.json')
     && summarizeStrings(computeRealityManifest.settlementArtifactRefs || computeRealityManifest.replayBasis?.settlementArtifactRefs || []).includes('.engi/source-to-shares.json');
   const intentMatchesPreview = settlementIntent.bundleId === settlementPreview.bundleId
-    && settlementIntent.unitDenomination === 'NGI'
+    && settlementIntent.unitDenomination === 'BTD'
     && settlementIntent.meteredMicroUnits === settlementPreview.meteredMicroUnits
     && settlementIntent.sourceToSharesRef === (sourceToSharesArtifact.proofHash || null);
   const observationMatchesPolicy = settlementObservation.networkState === selectedPolicy.requiredNetworkState
@@ -803,7 +803,7 @@ export function buildBitcoinSettlementInterfaceProof({
     memberVerdicts: [
       { memberId: 'compute-reality-binding', passed: computeRealityClosed },
       { memberId: 'settlement-intent', passed: intentMatchesPreview },
-      { memberId: 'exact-unit-binding', passed: settlementIntent.unitDenomination === 'NGI' && settlementIntent.meteredMicroUnits === settlementPreview.meteredMicroUnits },
+      { memberId: 'exact-unit-binding', passed: settlementIntent.unitDenomination === 'BTD' && settlementIntent.meteredMicroUnits === settlementPreview.meteredMicroUnits },
       { memberId: 'confirmation-observation', passed: observationMatchesPolicy },
       { memberId: 'journal-receipt-binding', passed: journalBindingClosed },
       { memberId: 'external-boundary-closure', passed: externalBoundaryHonest }

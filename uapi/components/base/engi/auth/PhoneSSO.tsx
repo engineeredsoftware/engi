@@ -228,7 +228,7 @@ export function PhoneSSO({
         user_id: user?.id
       });
       
-      toast.success('Welcome to ENGI! 🚀');
+      toast.success('Welcome to Bitcode! 🚀');
       onSuccess?.();
       router.push('/'); // New users go to home page (onboarding handled by Orbital)
       
@@ -252,7 +252,7 @@ export function PhoneSSO({
           >
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white mb-2">
-                Welcome to ENGI 🚀
+                Welcome to Bitcode 🚀
               </h2>
               <p className="text-gray-400">
                 Sign in or create an account with your phone
@@ -343,7 +343,7 @@ export function PhoneSSO({
             </div>
             
             <p className="text-xs text-gray-500 text-center">
-              By continuing, you agree to ENGI's Terms of Service and Privacy Policy
+              By continuing, you agree to Bitcode's Terms of Service and Privacy Policy
             </p>
           </motion.div>
         );

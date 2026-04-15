@@ -2,6 +2,11 @@
 
 import { buildCanonPostureDriftReport } from '../engi-demo/src/canonical/v22-canon-posture.js';
 
+function projectLabel(version) {
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
 /**
  * @param {string[]} argv
  */
@@ -50,7 +55,7 @@ function main() {
 
   if (!report.passed) {
     process.stderr.write(
-      `ENGI canon posture drift check failed for active=${report.checkedActiveCanonVersion} draft=${report.checkedDraftTargetVersion}\n`
+      `${projectLabel(report.checkedActiveCanonVersion)} canon posture drift check failed for active=${report.checkedActiveCanonVersion} draft=${report.checkedDraftTargetVersion}\n`
     );
     for (const failure of report.blockingFailures) {
       process.stderr.write(`- ${failure}\n`);
@@ -61,7 +66,7 @@ function main() {
 
   process.stdout.write(
     [
-      `ENGI canon posture drift ok`,
+      `${projectLabel(report.checkedActiveCanonVersion)} canon posture drift ok`,
       `active=${report.checkedActiveCanonVersion}`,
       `draft=${report.checkedDraftTargetVersion}`,
       `checks=${report.checkCount}`

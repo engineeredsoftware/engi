@@ -605,9 +605,9 @@ test('runMakeEngiBranch emits V23 bitcoin and sidechain surfaces when payment mo
   assert.equal(latestRun.storageRealityManifest.storageMode, 'content-addressed-local-branch-artifacts');
   assert.equal(latestRun.computeRealityManifest.serviceExecutionMode, 'stubbed-testnet-demonstration-service');
   assert.equal(latestRun.storageRealityManifest.anchorPublicationMode, 'stubbed-testnet-demonstration-service');
-  assert.equal(latestRun.bitcoinTreasuryPolicy.unitDenomination, 'NGI');
+  assert.equal(latestRun.bitcoinTreasuryPolicy.unitDenomination, 'BTD');
   assert.equal(latestRun.bitcoinTreasuryPolicy.demonstrationServiceMode, 'stubbed-testnet-demonstration-service');
-  assert.equal(latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
+  assert.equal(latestRun.bitcoinSettlementIntent.unitDenomination, 'BTD');
   assert.equal(latestRun.bitcoinSettlementIntent.serviceMode, 'stubbed-testnet-demonstration-service');
   assert.equal(latestRun.bitcoinSettlementIntent.carrierType, 'psbt');
   assert.equal(latestRun.bitcoinSettlementObservation.networkState, 'confirmed-onchain');

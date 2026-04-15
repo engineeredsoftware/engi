@@ -2,6 +2,11 @@
 
 import { buildV21CanonicalInputReport } from '../engi-demo/src/canonical/v21-specifying.js';
 
+function projectLabel(version) {
+  const numeric = Number(String(version || '').replace(/^V/u, ''));
+  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+}
+
 /**
  * @param {string[]} argv
  */
@@ -47,7 +52,7 @@ function main() {
   });
 
   if (!report.passed) {
-    process.stderr.write(`ENGI canonical input check failed for ${report.checkedTargetVersion}\n`);
+    process.stderr.write(`${projectLabel(report.checkedTargetVersion)} canonical input check failed for ${report.checkedTargetVersion}\n`);
     for (const failure of report.failures) {
       process.stderr.write(`- ${failure}\n`);
     }
@@ -57,7 +62,7 @@ function main() {
 
   process.stdout.write(
     [
-      `ENGI canonical inputs ok for ${report.checkedTargetVersion}`,
+      `${projectLabel(report.checkedTargetVersion)} canonical inputs ok for ${report.checkedTargetVersion}`,
       `pointer=${report.pointerVersion}`,
       `parity=${report.parityPath}`,
       `artifacts=${report.requiredGeneratedArtifactCount}`

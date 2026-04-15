@@ -206,9 +206,9 @@ function canonPosture(state) {
   }
   return {
     operatorLabel: state?.specVersion || 'current canon posture',
-    documentTitle: 'ENGI Demo',
+    documentTitle: 'Bitcode Demo',
     inheritedCanonSurfaceLabel: 'current inherited canon',
-    heroEyebrow: 'ENGI deterministic local prototype',
+    heroEyebrow: 'Bitcode deterministic local prototype',
     heroLede: 'Current canon posture is loading.',
     heroTip: 'Current generated appendix and report posture is loading.'
   };
@@ -236,8 +236,8 @@ function inheritedCanonSurfaceLabel(state) {
  */
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
-  document.title = posture['documentTitle'] || `ENGI Demo — ${canonOperatorLabel(state)}`;
-  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'ENGI deterministic local prototype';
+  document.title = posture['documentTitle'] || `Bitcode Demo — ${canonOperatorLabel(state)}`;
+  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode deterministic local prototype';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
 }
@@ -323,7 +323,7 @@ const EXPLAINERS = {
   'repo-supply': {
     kicker: 'Glossary',
     title: 'Repo supply',
-    summary: 'The authenticated inventory ENGI can legally draw from for the current repository.',
+    summary: 'The authenticated inventory Bitcode can legally draw from for the current repository.',
     detail: 'Supply means "available to select", not "already proven useful". It becomes a deposit only after the operator binds selected artifacts to the active need.',
     points: [
       'Built from GitHub App sessions plus repo artifact inventory',
@@ -333,8 +333,8 @@ const EXPLAINERS = {
   depositing: {
     kicker: 'Glossary',
     title: 'Depositing',
-    summary: 'Depositing is the operator act of presenting source material to ENGI as candidate supply for a need.',
-    detail: 'A deposit says "these are the artifacts I want ENGI to consider". It does not by itself guarantee fit, proof, or settlement credit.',
+    summary: 'Depositing is the operator act of presenting source material to Bitcode as candidate supply for a need.',
+    detail: 'A deposit says "these are the artifacts I want Bitcode to consider". It does not by itself guarantee fit, proof, or settlement credit.',
     points: [
       'Starts from selected repo artifacts or raw fallback content',
       'Carries addressing, signing, and auth roots forward into later proofs'
@@ -343,7 +343,7 @@ const EXPLAINERS = {
   needing: {
     kicker: 'Glossary',
     title: 'Need / needing',
-    summary: 'The measured engineering demand ENGI is trying to close.',
+    summary: 'The measured engineering demand Bitcode is trying to close.',
     detail: 'A need is derived from benchmark evidence, parser rules, failure modes, and closure criteria. Deposits are judged against that measured surface.',
     points: [
       'Defines what must improve or be explained',
@@ -404,7 +404,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Identity / auth spine',
     summary: 'The authority chain linking buyer identity, GitHub App session, signer authority, branch authority, and settlement authority.',
-    detail: 'This is ENGI\'s answer to "who was allowed to do what, under which roots, at each stage?"',
+    detail: 'This is Bitcode\'s answer to "who was allowed to do what, under which roots, at each stage?"',
     points: [
       'Makes auth legible as one path instead of scattered hashes',
       'Shows how repo-bound authority flows into proof and settlement'
@@ -434,7 +434,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Boundary reality',
     summary: 'The explicit split between what is modeled locally, what runs locally, and what remains a real external dependency.',
-    detail: 'This keeps the demo honest. ENGI can center the operator story on deposit/need/fit without pretending the external world disappeared.',
+    detail: 'This keeps the demo honest. Bitcode can center the operator story on deposit/need/fit without pretending the external world disappeared.',
     points: [
       'Prevents profile semantics from being confused with integration truth',
       'Shows where a live system would still need real external execution'
@@ -454,7 +454,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Proof / proof closure',
     summary: 'The evidence-bound explanation that the selected artifacts, authorities, and accounting steps really close the need.',
-    detail: 'Proof closure is where ENGI stops hand-waving and binds the story to artifacts, roots, theorem checks, and closure criteria.',
+    detail: 'Proof closure is where Bitcode stops hand-waving and binds the story to artifacts, roots, theorem checks, and closure criteria.',
     points: [
       'Connects deposit, need, authorization, and settlement into one evidence chain',
       'Separates public bounded proof from deeper private artifacts'
@@ -503,7 +503,7 @@ const EXPLAINERS = {
   'github-app-auth': {
     kicker: 'Glossary',
     title: 'GitHub App auth payloads',
-    summary: 'The modeled installation-scoped auth facts ENGI carries forward from the GitHub App session.',
+    summary: 'The modeled installation-scoped auth facts Bitcode carries forward from the GitHub App session.',
     detail: 'These payload hashes stand in for the repo-bound authorization envelope: installation, account, repository, permissions, and token boundary.',
     points: [
       'Used to show repo-scoped authority without exposing live tokens',
@@ -513,7 +513,7 @@ const EXPLAINERS = {
   'artifact-kind': {
     kicker: 'Glossary',
     title: 'Artifact kind',
-    summary: 'The ENGI category for what an artifact fundamentally is, such as code patch, runbook, config diff, or proof surface.',
+    summary: 'The Bitcode category for what an artifact fundamentally is, such as code patch, runbook, config diff, or proof surface.',
     detail: 'Kinds matter because needs target kinds, ranking compares kinds, and fit often becomes legible first at the kind level.',
     points: [
       'Used for overlap between deposits and needs',
@@ -534,7 +534,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Target artifact kind',
     summary: 'The artifact kinds the need expects to be relevant for closure.',
-    detail: 'These are the first kinds ENGI looks for when asking whether a deposit plausibly addresses the active demand.',
+    detail: 'These are the first kinds Bitcode looks for when asking whether a deposit plausibly addresses the active demand.',
     points: [
       'Creates the opening overlap test for fit',
       'Does not guarantee closure on its own'
@@ -544,7 +544,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Closure criteria',
     summary: 'The concrete conditions that must be satisfied before the need counts as closed.',
-    detail: 'Closure criteria keep ENGI from settling on vibes. They say what the proof and settlement story must actually demonstrate.',
+    detail: 'Closure criteria keep Bitcode from settling on vibes. They say what the proof and settlement story must actually demonstrate.',
     points: [
       'Can include benchmark outcomes, policy gates, or evidence coverage',
       'Give proof closure a concrete finish line'
@@ -553,7 +553,7 @@ const EXPLAINERS = {
   'normalization-pressure': {
     kicker: 'Glossary',
     title: 'Normalization pressure',
-    summary: 'How much the current fit is pushing ENGI toward a compositional, source-to-shares settlement story.',
+    summary: 'How much the current fit is pushing Bitcode toward a compositional, source-to-shares settlement story.',
     detail: 'Low pressure usually means a targeted deposit can close the need directly. Higher pressure means several overlapping artifacts need to be normalized together.',
     points: [
       'Rises when multiple kinds or partial contributions overlap the need',
@@ -656,7 +656,7 @@ const EXPLAINERS = {
     kicker: 'GitHub identity',
     title: 'Repository ID',
     summary: 'Stable repository identity bound into auth and addressing surfaces.',
-    detail: 'This is the canonical repo identifier ENGI hashes into roots so the flow stays tied to one exact repository, not just owner/name text.',
+    detail: 'This is the canonical repo identifier Bitcode hashes into roots so the flow stays tied to one exact repository, not just owner/name text.',
     points: [
       'Shows up in GitHub auth, addressing, and buyer bindings',
       'Separate from installation account identity'
@@ -668,14 +668,14 @@ const EXPLAINERS = {
     summary: 'The GitHub App installation bound to the repo session.',
     detail: 'Permissions, token-boundary facts, and live GitHub exchange semantics hang off this installation, not off a generic user token.',
     points: [
-      'Installation-scoped authority is central to current ENGI GitHub auth',
+      'Installation-scoped authority is central to current Bitcode GitHub auth',
       'Used to distinguish repo-bound app sessions from manual/unbound intake'
     ]
   },
   'github-permissions': {
     kicker: 'GitHub auth',
     title: 'Permissions and scopes',
-    summary: 'The modeled GitHub App permissions ENGI carries from the installation session.',
+    summary: 'The modeled GitHub App permissions Bitcode carries from the installation session.',
     detail: 'Permissions are hashed into the permissions root and split into readable and writable scopes so later proof surfaces can reference the same envelope.',
     points: [
       'Modeled only in this demo; no live token is minted',
@@ -686,7 +686,7 @@ const EXPLAINERS = {
     kicker: 'Selection proof',
     title: 'Selection root',
     summary: 'Hash root over the exact inventory snapshot selected at intake.',
-    detail: 'This root is how ENGI later proves which repo entries were chosen, signed, and carried into deposit, proof, and settlement surfaces.',
+    detail: 'This root is how Bitcode later proves which repo entries were chosen, signed, and carried into deposit, proof, and settlement surfaces.',
     points: [
       'Built from selected inventory entry snapshots',
       'Keeps signing and proof tied to the same selection'
@@ -765,7 +765,7 @@ const EXPLAINERS = {
   'artifact-kind-filter': {
     kicker: 'Inventory control',
     title: 'Artifact kind filter',
-    summary: 'Filters the visible repo inventory by ENGI artifact kind.',
+    summary: 'Filters the visible repo inventory by Bitcode artifact kind.',
     detail: 'This only narrows the selection UI. It does not change the underlying repo supply or what scenarios the repo can support.',
     points: [
       'Useful when a repo has mixed proof, patch, runbook, and config artifacts',
@@ -785,7 +785,7 @@ const EXPLAINERS = {
   'deposit-title-override': {
     kicker: 'Deposit override',
     title: 'Asset title override',
-    summary: 'Optional override for the deposited asset title shown in ENGI surfaces.',
+    summary: 'Optional override for the deposited asset title shown in Bitcode surfaces.',
     detail: 'If omitted, the title is inferred from selected inventory or the submitted content.',
     points: [
       'Changes the human-readable asset label',
@@ -806,7 +806,7 @@ const EXPLAINERS = {
     kicker: 'Artifact metadata',
     title: 'Artifact type',
     summary: 'The more specific subtype within an artifact kind.',
-    detail: 'Kind drives broad ENGI behavior; type adds a finer-grained label for the deposited surface and ranking context.',
+    detail: 'Kind drives broad Bitcode behavior; type adds a finer-grained label for the deposited surface and ranking context.',
     points: [
       'Examples include patch, proof bundle, runbook page, or benchmark output subtype',
       'Can be inferred or explicitly overridden'
@@ -845,7 +845,7 @@ const EXPLAINERS = {
   'visual-preview': {
     kicker: 'Deposit surface',
     title: 'Visual preview',
-    summary: 'Human-readable summary text ENGI shows in visual surfaces.',
+    summary: 'Human-readable summary text Bitcode shows in visual surfaces.',
     detail: 'It makes the deposited asset legible at a glance without replacing raw content or proof-bearing metadata.',
     points: [
       'Optimized for operator readability',
@@ -876,7 +876,7 @@ const EXPLAINERS = {
     kicker: 'Ranking support',
     title: 'Verification and rights',
     summary: 'The downstream-use gate that sits beside ranking rather than inside it.',
-    detail: 'ENGI separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
+    detail: 'Bitcode separates relevance scoring from whether a candidate may be used for branch materialization or settlement.',
     points: [
       'Explains recommended tier and policy caps',
       'Makes branch and settlement rights explicit'
@@ -916,7 +916,7 @@ const EXPLAINERS = {
     kicker: 'Branch materialization',
     title: 'Selected source material',
     summary: 'The exact source material and unit bindings mounted into the remediation branch for the selected asset pack.',
-    detail: 'This is where ENGI makes the selected assets operationally concrete inside the private branch rather than keeping them as abstract candidates.',
+    detail: 'This is where Bitcode makes the selected assets operationally concrete inside the private branch rather than keeping them as abstract candidates.',
     points: [
       'Connects asset pack selection to mounted branch files',
       'Keeps unit refs and addressing roots visible for replay'
@@ -925,7 +925,7 @@ const EXPLAINERS = {
   'branch-materialization': {
     kicker: 'Branch materialization',
     title: 'Branch materialization',
-    summary: 'The deterministic step where ENGI materializes the selected asset pack into the private remediation branch and mounted source files.',
+    summary: 'The deterministic step where Bitcode materializes the selected asset pack into the private remediation branch and mounted source files.',
     detail: 'Materialization proofs explain which selected assets became branch artifacts, which stayed excluded, and why the public projection remains bounded.',
     points: [
       'Makes branch contents traceable back to selection and policy',
@@ -965,7 +965,7 @@ const EXPLAINERS = {
   'candidate-asset': {
     kicker: 'Deposit surface',
     title: 'Candidate asset',
-    summary: 'A deposited asset ENGI is still evaluating for fit, ranking, verification, and eventual branch or settlement use.',
+    summary: 'A deposited asset Bitcode is still evaluating for fit, ranking, verification, and eventual branch or settlement use.',
     detail: 'Candidate means the asset is in the deposit/evaluation flow. It is not yet guaranteed to survive into the selected asset pack or settlement.',
     points: [
       'Carries deposit, addressing, signing, and auth context forward',
@@ -1165,7 +1165,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Closure staging',
     title: 'Before proof',
     summary: 'This surface is intentionally upstream of proof inspection.',
-    detail: 'ENGI requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
+    detail: 'Bitcode requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
     points: [
       'Makes the fit story obvious first',
       'Keeps proof and settlement as downstream closure rather than upfront burden'
@@ -1206,7 +1206,7 @@ const EXTRA_EXPLAINERS = {
   'ref-commit': {
     kicker: 'Addressing field',
     title: 'Ref / commit',
-    summary: 'The exact source ref and commit ENGI is binding into the current address.',
+    summary: 'The exact source ref and commit Bitcode is binding into the current address.',
     detail: 'This is where the operator can see which branch, tag, or pinned commit the asset was taken from before later proofs hash it into roots.',
     points: [
       'Separates version identity from artifact title',
@@ -1220,8 +1220,8 @@ const EXTRA_EXPLAINERS = {
   'source-paths': {
     kicker: 'Addressing field',
     title: 'Source paths',
-    summary: 'The concrete repository paths ENGI believes this asset or deposit is drawing from.',
-    detail: 'Paths matter because ENGI keeps kind-native supply and exact addressing legible before the operator opens raw content.',
+    summary: 'The concrete repository paths Bitcode believes this asset or deposit is drawing from.',
+    detail: 'Paths matter because Bitcode keeps kind-native supply and exact addressing legible before the operator opens raw content.',
     points: [
       'Useful for repo artifact bundles and mixed deposits',
       'Complements repo/ref identity with file-level scope'
@@ -1235,7 +1235,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Content binding',
     title: 'Content root',
     summary: 'The deterministic content hash over the current asset payload.',
-    detail: 'This is the compact content identity that lets ENGI keep previews, addressing, signing, and later proofs tied to the same payload.',
+    detail: 'This is the compact content identity that lets Bitcode keep previews, addressing, signing, and later proofs tied to the same payload.',
     points: [
       'Different from repo path or commit identity',
       'Becomes useful whenever operators need to confirm payload sameness'
@@ -1248,7 +1248,7 @@ const EXTRA_EXPLAINERS = {
   'upload-surfaces': {
     kicker: 'Asset surface',
     title: 'Upload surfaces',
-    summary: 'The distinct renderable or derived surfaces ENGI produced for the deposited asset.',
+    summary: 'The distinct renderable or derived surfaces Bitcode produced for the deposited asset.',
     detail: 'A single asset can expose visual preview, raw content, selection metadata, and derived analysis surfaces without collapsing them into one generic blob.',
     points: [
       'Supports artifact-kind-native UX',
@@ -1262,7 +1262,7 @@ const EXTRA_EXPLAINERS = {
   constraints: {
     kicker: 'Need / asset guardrail',
     title: 'Constraints',
-    summary: 'Hard rules the current asset or measured need expects ENGI to preserve while closing the scenario.',
+    summary: 'Hard rules the current asset or measured need expects Bitcode to preserve while closing the scenario.',
     detail: 'Constraints keep the demo from reading like “fix it however you want.” They state what must stay true while the branch, proof, and settlement path proceeds.',
     points: [
       'Can be declared on assets or on the measured need',
@@ -1361,7 +1361,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Need measurement',
     title: 'Failing cases',
     summary: 'The concrete benchmark or parser failure slices the active need still carries.',
-    detail: 'These chips are the exact visible failure names ENGI wants operators to understand before they start reading branch artifacts.',
+    detail: 'These chips are the exact visible failure names Bitcode wants operators to understand before they start reading branch artifacts.',
     points: [
       'Upstream of proof closure',
       'One of the clearest ways needing stays consequential in the shell'
@@ -1461,7 +1461,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Rollback',
     summary: 'Marks remediation work that must remain reversible, correctly ordered, and safe to back out.',
-    detail: 'Rollback capsules matter because ENGI wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
+    detail: 'Rollback capsules matter because Bitcode wants the operator to see not just the fix, but the safe closure path for deploying that fix.',
     points: [
       'Often paired with audit receipts or session-preservation constraints',
       'Common in both auth and deployment scenarios'
@@ -1747,7 +1747,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Disclosure',
     summary: 'Marks what can or cannot be projected outward from the private remediation branch.',
-    detail: 'Disclosure capsules matter because ENGI wants public proof to stay legible without leaking private artifacts.',
+    detail: 'Disclosure capsules matter because Bitcode wants public proof to stay legible without leaking private artifacts.',
     points: [
       'Close to privacy and bounded-public-proof concerns',
       'Useful in redaction-heavy scenarios'
@@ -1816,7 +1816,7 @@ const EXTRA_EXPLAINERS = {
     detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may need to read theorem or validator surfaces.',
     points: [
       'Often paired with validator, Creusot, or Rust tags',
-      'Important in proof-heavy ENGI demonstrations'
+      'Important in proof-heavy Bitcode demonstrations'
     ],
     references: ASSET_CAPSULE_REFERENCES
   },
@@ -1824,7 +1824,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Policy',
     summary: 'Marks material or constraints whose closure depends on explicit policy behavior, precedence, or auditability.',
-    detail: 'Policy capsules matter because ENGI often has to prove not only that code changed, but that policy semantics now close correctly too.',
+    detail: 'Policy capsules matter because Bitcode often has to prove not only that code changed, but that policy semantics now close correctly too.',
     points: [
       'Often paired with governance and config',
       'Common in incident and deployment scenarios'
@@ -1890,7 +1890,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Review',
     summary: 'Marks review posture, approval requirements, or code-review-bound evidence in the current corpus.',
-    detail: 'Review capsules matter whenever ENGI needs to show why a change is allowed, explained, or justified before it closes.',
+    detail: 'Review capsules matter whenever Bitcode needs to show why a change is allowed, explained, or justified before it closes.',
     points: [
       'Often pairs with governance or policy',
       'Can show up in constraints, failing cases, or asset tags'
@@ -1923,7 +1923,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Enterprise',
     summary: 'Marks material aimed at enterprise-facing operator concerns such as governance, proofability, and bounded disclosure.',
-    detail: 'Enterprise capsules are a reminder that ENGI is trying to feel like the inevitable operating model for serious production use.',
+    detail: 'Enterprise capsules are a reminder that Bitcode is trying to feel like the inevitable operating model for serious production use.',
     points: [
       'A product-context tag rather than one failure mode',
       'Often appears alongside governance or proof-heavy material'
@@ -2643,7 +2643,7 @@ function buildDynamicExplainer(label = '', domainKey = '') {
   if (/^clear\b/.test(normalized)) {
     kicker = 'Closure target';
     summary = 'This capsule names an exact condition that must be satisfied before the active need counts as closed.';
-    detail = `${domainTitle} is the main domain behind this closure target, so ENGI keeps the phrase specific while still grounding it in the broader scenario semantics.`;
+    detail = `${domainTitle} is the main domain behind this closure target, so Bitcode keeps the phrase specific while still grounding it in the broader scenario semantics.`;
   } else if (/^improve\b/.test(normalized)) {
     kicker = 'Weak dimension';
     summary = 'This capsule marks a quality dimension the remediation still has to improve before closure is convincing.';
@@ -2651,14 +2651,14 @@ function buildDynamicExplainer(label = '', domainKey = '') {
   } else if (/^(preserve|keep|require|block|emit|bind|rerun|restore|replay|no)\b/.test(normalized)) {
     kicker = 'Need constraint';
     summary = 'This capsule is a hard rule the remediation, proof, or settlement path must respect while the need closes.';
-    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because ENGI wants constraints to read concretely instead of abstractly.`;
+    detail = `${domainTitle} is the main domain this constraint belongs to, but the exact phrase stays visible because Bitcode wants constraints to read concretely instead of abstractly.`;
   } else if (/\b(regression|gap|mismatch|bypass|drift|skip|divergence)\b/.test(normalized)) {
     kicker = 'Failing case';
     summary = 'This capsule names one concrete failing slice currently present in the measured need.';
     detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the needing surface before deeper proof inspection.`;
   } else if (normalized.includes('-')) {
     kicker = 'Scenario / corpus capsule';
-    summary = 'This capsule is part of the seeded ENGI corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
+    summary = 'This capsule is part of the seeded Bitcode corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
     detail = `${domainTitle} is the closest domain anchor for this phrase in the current corpus.`;
   }
 
@@ -3306,7 +3306,7 @@ function tutorialSteps(state) {
       selector: '#hero',
       kicker: 'Step 1',
       title: 'Start from the active canon posture',
-      body: `${canonOperatorLabel(state)} opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask ENGI to realize anything. Right now the shell is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
+      body: `${canonOperatorLabel(state)} opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the shell is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
       targetHint: 'Use the top controls to set the walkthrough context before you deposit or branch.'
     },
     {
@@ -3322,7 +3322,7 @@ function tutorialSteps(state) {
       selector: '#panelOperatingPicture',
       kicker: 'Step 3',
       title: 'Orient the operator story',
-      body: 'This panel is the compressed V22 operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole ENGI path before you dive into any one artifact family.',
+      body: 'This panel is the compressed V24 operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole Bitcode path before you dive into any one artifact family.',
       targetHint: 'If someone is lost, come back here first and then continue stepwise.'
     },
     {
@@ -3330,7 +3330,7 @@ function tutorialSteps(state) {
       kicker: 'Step 4',
       title: 'Bind supply into a deposit',
       body: 'The tutorial becomes real here. Choose an authenticated repo session, select inventory artifacts, add any operator note or raw fallback material, and deposit a candidate asset into the flow.',
-      targetHint: 'This panel answers: what did we present to ENGI, from which repo/auth boundary, and in what artifact shape?'
+      targetHint: 'This panel answers: what did we present to Bitcode, from which repo/auth boundary, and in what artifact shape?'
     },
     {
       selector: '#panelNeeding',
@@ -3343,14 +3343,14 @@ function tutorialSteps(state) {
       selector: '#panelFit',
       kicker: 'Step 6',
       title: 'Make deposit-to-need fit explicit',
-      body: 'This is the first decisive checkpoint. ENGI should say why the active deposit matters for the active need before ranking, proof, or settlement start carrying weight.',
+      body: 'This is the first decisive checkpoint. Bitcode should say why the active deposit matters for the active need before ranking, proof, or settlement start carrying weight.',
       targetHint: 'The fit panel should answer “why these artifacts for this need?” in one readable pass.'
     },
     {
       selector: '#panelEvaluations',
       kicker: 'Step 7',
       title: 'Separate ranking from verification',
-      body: 'Here ENGI turns candidate recall into evaluated candidates, then separately binds use tiers and rights. Ranking strength alone is not enough to materialize or settle an asset.',
+      body: 'Here Bitcode turns candidate recall into evaluated candidates, then separately binds use tiers and rights. Ranking strength alone is not enough to materialize or settle an asset.',
       targetHint: 'Use this panel to show why a high-signal candidate can still be context-only, patch-eligible, or fully rejected.'
     },
     {
@@ -3359,7 +3359,7 @@ function tutorialSteps(state) {
       title: 'Inspect the realized branch stack',
       body: branchUnlocked
         ? 'The branch panel is the artifact-heavy core of the demo: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and deliverables.'
-        : 'This panel stays intentionally thin until you run “Make ENGI branch”. Once realized, it becomes the artifact-heavy core of the demo.',
+        : 'This panel stays intentionally thin until you run “Make Bitcode branch”. Once realized, it becomes the artifact-heavy core of the demo.',
       targetHint: 'After a run, this is where you inspect the private remediation branch as a structured artifact system rather than a vague “output”.'
     },
     {
@@ -3367,9 +3367,9 @@ function tutorialSteps(state) {
       kicker: 'Step 9',
       title: 'Close the value path',
       body: branchUnlocked
-        ? 'Settlement is where ENGI explains contribution with exact accounting: source-to-shares, zero-credit participants, journal diff, bounded proof, and proof-family closure.'
+        ? 'Settlement is where Bitcode explains contribution with exact accounting: source-to-shares, zero-credit participants, journal diff, bounded proof, and proof-family closure.'
         : 'Settlement is the payoff surface, but it only becomes meaningful after a realized run materializes bundle, proof, and accounting artifacts.',
-      targetHint: 'Use this panel when you want to show that ENGI is not just selecting assets, but proving and accounting for them.'
+      targetHint: 'Use this panel when you want to show that Bitcode is not just selecting assets, but proving and accounting for them.'
     },
     {
       selector: '#panelLedger',
@@ -4066,7 +4066,7 @@ function renderProfileCompositionVisual(profileState) {
       </div>
       <div class="callout">
         <strong>Operational profile semantics</strong>
-        <span>${escapeHtml(guidance.audienceMeaning || 'The profiles distinguish how ENGI deposits supply against need, not whether GitHub is live.')}</span>
+        <span>${escapeHtml(guidance.audienceMeaning || 'The profiles distinguish how Bitcode deposits supply against need, not whether GitHub is live.')}</span>
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
@@ -5819,7 +5819,7 @@ function renderScenario(state) {
       title: 'Operational profiles + demo semantics',
       subtitle: 'Targeted deposit versus normalization deposit',
       eyebrow: 'Profile surface',
-      help: 'The profile distinction is about how ENGI deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
+      help: 'The profile distinction is about how Bitcode deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
       explainerKey: source.realizationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: {
         ...(state.profileCompositions || state.conformanceProfiles?.profileCompositions || {}),
@@ -5945,7 +5945,7 @@ function renderFit(state) {
 function renderEvaluations(state) {
   const items = state.latestRun?.evaluatedCandidates || [];
   if (!items.length) {
-    evaluationsEl.innerHTML = '<div class="card"><p class="meta">Run “Make ENGI branch” to compute ranking, verification determinisms, and use tiers.</p></div>';
+    evaluationsEl.innerHTML = '<div class="card"><p class="meta">Run “Make Bitcode branch” to compute ranking, verification determinisms, and use tiers.</p></div>';
     return;
   }
 
@@ -6849,7 +6849,7 @@ depositFormEl.addEventListener('submit', async (event) => {
     selectedInventoryKind = 'all';
     formEl.reset();
     await refresh();
-    setStatus(`Candidate asset deposited into the ${canonOperatorLabel(lastLoadedState)} repo-authenticated flow. Re-run “Make ENGI branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.`);
+    setStatus(`Candidate asset deposited into the ${canonOperatorLabel(lastLoadedState)} repo-authenticated flow. Re-run “Make Bitcode branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -6864,7 +6864,7 @@ window.addEventListener('resize', () => {
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make ENGI branch” to execute the ${canonOperatorLabel(lastLoadedState)} deposit-to-need closure path. Inherited surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
+  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the ${canonOperatorLabel(lastLoadedState)} deposit-to-need closure path. Inherited surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
 }).catch((error) => {
   document.body.innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;
 });

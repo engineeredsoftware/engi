@@ -39,8 +39,8 @@ export default function MarketingEmbeddedDemoSection({
 
   return (
     <section
-      id="engi-demo-live"
-      aria-labelledby="engi-demo-live-title"
+      id="bitcode-demo-live"
+      aria-labelledby="bitcode-demo-live-title"
       className="relative z-20 border-t border-white/8 bg-[linear-gradient(180deg,#02060d_0%,#04101a_12%,#02060d_100%)]"
     >
       <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(103,254,183,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(103,254,183,0.06)_1px,transparent_1px)] [background-size:120px_120px]" />
@@ -60,18 +60,18 @@ export default function MarketingEmbeddedDemoSection({
 
             <div className="space-y-3">
               <p className="text-[11px] uppercase tracking-[0.26em] text-emerald-200/66">
-                Live V23 system walkthrough
+                Live Bitcode walkthrough
               </p>
               <h2
-                id="engi-demo-live-title"
+                id="bitcode-demo-live-title"
                 className="max-w-[14ch] text-[2.15rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[2.6rem] tablet:text-[3rem]"
               >
-                Run ENGI from supply to settlement.
+                Run Bitcode from supply to settlement.
               </h2>
               <p className="max-w-[34rem] text-[16px] leading-7 text-white/78 tablet:text-[17px]">
                 Use the embedded surface like an operator console. Begin with repo supply and
                 measured need, create a branch, then inspect fit, proof, disclosure, and
-                NGI-denominated settlement in order. The layout is meant to be walked top to
+                BTD-denominated settlement in order. The layout is meant to be walked top to
                 bottom.
               </p>
             </div>
@@ -144,7 +144,7 @@ export default function MarketingEmbeddedDemoSection({
                         Loading
                       </p>
                       <p className="mt-2 text-sm text-white/84">
-                        Waiting for the ENGI walkthrough to become interactive.
+                        Waiting for the Bitcode walkthrough to become interactive.
                       </p>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export default function MarketingEmbeddedDemoSection({
 
                 <iframe
                   src={demoUrl}
-                  title="ENGI V23 walkthrough"
+                  title="Bitcode walkthrough"
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
                   onLoad={() => setIsFrameLoaded(true)}

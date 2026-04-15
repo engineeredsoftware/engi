@@ -833,7 +833,7 @@ export function createSettlementRuntime({
   function settleNeedEvent(state, { buyer, need, assetPack, assetPackLock, evaluatedCandidates, selectedCandidates, branchName, branchMode }) {
     const settlementCandidates = selectedCandidates.filter((candidate) => candidate.useTier === 'settlement-eligible');
     if (!settlementCandidates.length) {
-      throw new Error('No settlement-eligible assets available for ENGI settlement.');
+      throw new Error('No settlement-eligible assets available for Bitcode settlement.');
     }
 
     const sourceToSharesArtifact = buildSourceToSharesArtifact(need, settlementCandidates);
@@ -891,7 +891,7 @@ export function createSettlementRuntime({
       bundleId,
       needId: need.needId,
       receiptRef: issuanceReceiptId,
-      explanation: 'Debit buyer license pool for licensed ENGI remediation branch settlement.'
+      explanation: 'Debit buyer license pool for licensed Bitcode remediation branch settlement.'
     }];
 
     const credits = allocations.map((allocation) => ({

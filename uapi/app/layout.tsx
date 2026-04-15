@@ -30,16 +30,16 @@ initSentry({
 // text remains visible during fetch.
 // Disable Google Font fetching in offline / CI environments.
 const inter = { className: '' } as const;
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.engi.ai';
-const metadataTitle = "$ENGI • The Engineering Knowledge Token";
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.bitcode.ai';
+const metadataTitle = "$BTD • The Bitcode Engineering Knowledge Asset";
 const metadataDescription =
-  "$ENGI is a data depot for the world's most valuable technical data used to improve advanced engineering artifical intelligences.";
+  "Bitcode is auditable market infrastructure for engineering knowledge, with BTD-denominated settlement over the networked Bitcode system.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   title: metadataTitle,
   description: metadataDescription,
-  applicationName: '$ENGI',
+  applicationName: 'Bitcode',
   alternates: {
     canonical: '/',
   },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: metadataTitle,
     description: metadataDescription,
     url: '/',
-    siteName: '$ENGI',
+    siteName: 'Bitcode',
     type: 'website',
   },
   twitter: {

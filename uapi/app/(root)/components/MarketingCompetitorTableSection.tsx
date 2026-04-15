@@ -22,9 +22,9 @@ import EngiSoftwareSvgLogo from "@/components/base/engi/branding/engi-software-s
 /**
  * The competitor comparison table for the marketing pages.
  *
- *  – Columns were updated to match the latest Engi positioning.
+ *  – Columns were updated to match the latest Bitcode positioning.
  *  – A fixed “edu/doc” panel swaps its copy on column hover to avoid cramped tooltips.
- *  – The Engi row is always shown first and highlighted.
+ *  – The Bitcode row is always shown first and highlighted.
  */
 
 type Status = "✅" | "±" | "✖" | "⏳";
@@ -72,7 +72,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     title: "Deep Coding",
     subtitle: "Full-Stack",
     description:
-      "Multi-layer reasoning that traverses your entire repository graph—Engi architects, implements, refactors and self-tests until the feature is fully production-ready, not just a half-baked snippet.",
+      "Multi-layer reasoning that traverses your entire repository graph—Bitcode architects, implements, refactors and self-tests until the feature is fully production-ready, not just a half-baked snippet.",
   },
   "All Deliverables": {
     title: "All Deliverables",
@@ -84,7 +84,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     title: "Infinite Agents",
     subtitle: "Elastic Swarm",
     description:
-      "Engi spins up an elastic swarm of specialised agents on-demand, scaling compute and expertise in lock-step with problem complexity—zero bottlenecks, zero quotas.",
+      "Bitcode spins up an elastic swarm of specialised agents on-demand, scaling compute and expertise in lock-step with problem complexity—zero bottlenecks, zero quotas.",
   },
   "Shepherding at Scale": {
     title: "Shepherding at Scale",
@@ -102,25 +102,25 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     title: "Deep Evolution",
     subtitle: "Continuous Improvement",
     description:
-      "Closed-loop feedback from CI, runtime telemetry and merged PRs fine-tunes agent behaviour and code quality after every iteration—Engi literally learns from your codebase.",
+      "Closed-loop feedback from CI, runtime telemetry and merged PRs fine-tunes agent behaviour and code quality after every iteration—Bitcode literally learns from your codebase.",
   },
   "Knowledge Procurement": {
     title: "Knowledge Procurement",
     subtitle: "Premium Data",
     description:
-      "When knowledge is missing, Engi’s agents autonomously acquire proprietary research, domain-specific datasets and live insights—eliminating hallucinations and blind spots before they surface in code.",
+      "When knowledge is missing, Bitcode’s agents autonomously acquire proprietary research, domain-specific datasets and live insights—eliminating hallucinations and blind spots before they surface in code.",
   },
   "Data-Share Compensation": {
     title: "Data-Share Compensation",
-    subtitle: "Earn $ENGI",
+    subtitle: "Earn $BTD",
     description:
-      "Opt-in once and automatically earn $ENGI credits whenever your anonymised traces are used to sharpen the global Engi intelligence.",
+      "Opt-in once and automatically earn $BTD whenever your anonymised traces are used to sharpen the global Bitcode intelligence.",
   },
   "Retail Aligned": {
     title: "Retail Aligned",
     subtitle: "Investable Dataset",
     description:
-      "Engi converts its compounding knowledge graph into an investable asset. Holding $ENGI lets anyone capture upside as agents learn, datasets expand, and developer demand accelerates—all under a deflationary supply curve tied to real usage.",
+      "Bitcode converts its compounding knowledge graph into an investable asset. Holding $BTD lets anyone capture upside as agents learn, datasets expand, and developer demand accelerates—all under a deflationary supply curve tied to real usage.",
   },
   "Local Interfaces": {
     title: "Local Interfaces",
@@ -132,7 +132,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
     title: "Cloud Interfaces",
     subtitle: "Web & API",
     description:
-      "Rich browser UI, REST API and SaaS dashboard for remote, secure interaction with Engi from anywhere on the planet.",
+      "Rich browser UI, REST API and SaaS dashboard for remote, secure interaction with Bitcode from anywhere on the planet.",
   },
   "Pervasive Plugins": {
     title: "Pervasive Plugins",
@@ -223,7 +223,7 @@ const ENGI_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
   "Data-Share Compensation": {
     headline: "Build & Earn",
     points: [
-      "Opt-in trace sharing for $ENGI",
+      "Opt-in trace sharing for $BTD",
       "Transparent community revenue split",
       "Roadmap funded by your real-world use",
     ],
@@ -231,7 +231,7 @@ const ENGI_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
   "Retail Aligned": {
     headline: "Own the Intelligence",
     points: [
-      "$ENGI data-share compensation",
+      "$BTD data-share compensation",
       "Paid knowledge bound to supply ↔ demand",
       "Finite, stable, deflationary tokenomics",
     ],
@@ -285,7 +285,7 @@ const ENGI_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
 type Column = (typeof COLUMNS)[number];
 
 const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
-  Engi: {
+  Bitcode: {
     "Deep Coding": "✅",
     "All Deliverables": "✅",
     "Infinite Agents": "✅",
@@ -388,7 +388,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
 /* -------------------------------------------------------------------------- */
 
 // Helper: count how many competitors (excluding Engi) offer a given feature.
-const competitorNames = Object.keys(COMPETITOR_DATA).filter((n) => n !== "Engi");
+const competitorNames = Object.keys(COMPETITOR_DATA).filter((n) => n !== "Bitcode");
 
 const columnGreenCount: Record<Column, number> = (COLUMNS as readonly Column[]).reduce(
   (acc, col) => {
@@ -637,7 +637,7 @@ export default function MarketingCompetitorTableSection() {
 
       {/* Styles moved to CSS Module */}
 
-      {/* Dual card area – generic column explainer (left) & Engi advantage (right)
+      {/* Dual card area – generic column explainer (left) & Bitcode advantage (right)
        * Reduce fixed height to tighten vertical space (approx. one-third less). */}
       <div className="mx-auto max-w-6xl mb-10 grid grid-cols-1 laptop:grid-cols-2 gap-6 h-[150px] relative">
         {/* Generic explainer */}
@@ -649,7 +649,7 @@ export default function MarketingCompetitorTableSection() {
           }}
         />
 
-        {/* Engi Excellence / Elimination wrapper with persistent logo */}
+        {/* Bitcode Excellence / Elimination wrapper with persistent logo */}
         <div className="relative w-full h-full">
           {/* Persistent glowing logo */}
           {/* Logo + floating label */}
@@ -663,7 +663,7 @@ export default function MarketingCompetitorTableSection() {
                   fill="theme(colors.brand.red)"
                 />
                 <span className="text-[9px] laptop:text-[10px] font-semibold uppercase tracking-wider text-red-400 marketing-glowing-label-red">
-                  Engi&nbsp;Elimination
+                  Bitcode&nbsp;Elimination
                 </span>
               </>
             ) : (
@@ -675,7 +675,7 @@ export default function MarketingCompetitorTableSection() {
                   fill="theme(colors.brand.emerald)"
                 />
                 <span className="text-[9px] laptop:text-[10px] font-semibold uppercase tracking-wider text-brand-emerald marketing-glowing-label">
-                  Engi&nbsp;Excellence
+                  Bitcode&nbsp;Excellence
                 </span>
               </>
             )}
@@ -778,19 +778,19 @@ export default function MarketingCompetitorTableSection() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: rowIdx * 0.04 }}
-                  className={`relative ${row.name === "Engi"
+                  className={`relative ${row.name === "Bitcode"
                     ? "marketing-engi-row-glow"
                     : "border-t border-white/5"
                     }`}
                 >
                   {/* Company name */}
                   <th
-                    className={`text-left font-medium px-2.5 py-2 whitespace-nowrap laptop:sticky laptop:left-0 backdrop-blur z-[1] relative flex items-center ${row.name === "Engi"
+                    className={`text-left font-medium px-2.5 py-2 whitespace-nowrap laptop:sticky laptop:left-0 backdrop-blur z-[1] relative flex items-center ${row.name === "Bitcode"
                       ? "marketing-engi-logo-cell"
                       : "bg-black/30 text-gray-100 text-sm"
                       }`}
                   >
-                    {row.name === "Engi" ? (
+                    {row.name === "Bitcode" ? (
                       <EngiSoftwareSvgLogo
                         width="92px"
                         height="auto"
@@ -805,7 +805,7 @@ export default function MarketingCompetitorTableSection() {
                   {row.values.map((value, colIdx) => (
                     <td
                       key={colIdx}
-                      className={`text-center px-2.5 py-2 ${row.name === "Engi"
+                      className={`text-center px-2.5 py-2 ${row.name === "Bitcode"
                         ? "bg-brand-emerald/5 font-semibold text-[1.55rem] laptop:text-[2.3rem]"
                         : "text-xl"
                         }`}
@@ -821,16 +821,16 @@ export default function MarketingCompetitorTableSection() {
                       >
                         {value === "✅" ? (
                           <CheckCircleIcon
-                            className={`inline text-brand-emerald ${row.name === "Engi" ? "h-9 w-9 marketing-engi-icon-glow" : "h-6 w-6"
+                            className={`inline text-brand-emerald ${row.name === "Bitcode" ? "h-9 w-9 marketing-engi-icon-glow" : "h-6 w-6"
                               }`}
                           />
                         ) : value === "±" ? (
                           <MinusCircleIcon
-                            className={`inline text-yellow-400 ${row.name === "Engi" ? "h-9 w-9 marketing-engi-icon-glow" : "h-6 w-6"
+                            className={`inline text-yellow-400 ${row.name === "Bitcode" ? "h-9 w-9 marketing-engi-icon-glow" : "h-6 w-6"
                               }`}
                           />
                         ) : value === "⏳" ? (
-                          row.name === "Engi" ? (
+                          row.name === "Bitcode" ? (
                             <DisabledTooltipWrapper
                               tooltip="Coming&nbsp;Soon"
                               placement="left"
@@ -846,14 +846,14 @@ export default function MarketingCompetitorTableSection() {
                             </DisabledTooltipWrapper>
                           ) : (
                             <ClockIcon
-                              className={`inline text-gray-400 ${row.name === "Engi" ? "h-9 w-9" : "h-6 w-6"}`}
+                              className={`inline text-gray-400 ${row.name === "Bitcode" ? "h-9 w-9" : "h-6 w-6"}`}
                             />
                           )
                         ) : (
                           <XCircleIcon
-                            className={`inline text-red-500 ${row.name === "Engi" && ORDERED_COLUMNS[colIdx] === "Local Interfaces"
+                            className={`inline text-red-500 ${row.name === "Bitcode" && ORDERED_COLUMNS[colIdx] === "Local Interfaces"
                               ? "h-9 w-9 marketing-engi-no-icon-glow"
-                              : row.name === "Engi"
+                              : row.name === "Bitcode"
                                 ? "h-9 w-9 marketing-engi-icon-glow"
                                 : "h-6 w-6"
                               }`}

@@ -39,7 +39,7 @@ export function SmsPhonePreview() {
                     <span className="text-white font-bold text-sm">E</span>
                   </div>
                   <div>
-                    <p className="font-semibold text-sm">ENGI</p>
+                    <p className="font-semibold text-sm">BITCODE</p>
                     <p className="text-xs text-gray-500">+1 (555) 123-4567</p>
                   </div>
                 </div>
@@ -56,16 +56,16 @@ export function SmsPhonePreview() {
               </div>
             </div>
             
-            {/* ENGI Response 1 */}
+            {/* Bitcode Response 1 */}
             <div className="flex justify-start">
               <div className="bg-gray-200 rounded-2xl px-4 py-2 max-w-[80%]">
                 <p className="text-sm">✅ deliverable started!</p>
                 <p className="text-sm">Run: a1b2c3d4</p>
-                <p className="text-sm text-blue-500 underline">app.engi.ai/executions/a1b2c3d4</p>
+                <p className="text-sm text-blue-500 underline">app.bitcode.ai/executions/a1b2c3d4</p>
               </div>
             </div>
             
-            {/* ENGI Response 2 */}
+            {/* Bitcode Response 2 */}
             <div className="flex justify-start">
               <div className="bg-gray-200 rounded-2xl px-4 py-2 max-w-[80%]">
                 <p className="text-sm">✅ Complete!</p>
@@ -82,7 +82,7 @@ export function SmsPhonePreview() {
               </div>
             </div>
             
-            {/* ENGI Response 3 */}
+            {/* Bitcode Response 3 */}
             <div className="flex justify-start">
               <div className="bg-gray-200 rounded-2xl px-4 py-2 max-w-[80%]">
                 <p className="text-sm">🔍 Analyzing security...</p>

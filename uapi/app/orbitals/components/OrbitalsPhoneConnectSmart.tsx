@@ -223,7 +223,7 @@ export function PhoneConnectSmart({
                   
                   <div className="space-y-2">
                     <p className="text-sm text-gray-300">
-                      Text commands to: <span className="font-mono text-green-400">+1 (555) 123-ENGI</span>
+                      Text commands to: <span className="font-mono text-green-400">+1 (555) 123-BITC</span>
                     </p>
                     
                     <div className="flex flex-wrap gap-2 mt-3">
