@@ -650,6 +650,132 @@ async function executeJsonRpcSpendAdapter(payload, fetchImpl, config) {
  * @param {typeof fetch} fetchImpl
  * @returns {Promise<Record<string, any>>}
  */
+async function executeLightningHttpAdapter(payload, fetchImpl) {
+  const binding = ensureRecord(payload.binding);
+  const artifacts = ensureRecord(payload.artifacts);
+  const supportArtifacts = ensureRecord(payload.supportArtifacts);
+  const baseUrl = String(binding.executorUrl || '');
+  const token = envString('ENGI_V24_REPEATED_READ_BEARER_TOKEN');
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  const settlementIntent = ensureRecord(supportArtifacts.bitcoinSettlementIntent);
+  const amount = microUnitsToBtcString(
+    artifacts.repeatedReadPaymentIntent?.meteredMicroUnits
+    || settlementIntent.meteredMicroUnits
+    || '0'
+  );
+  const createResponse = await requestJson(fetchImpl, joinUrl(baseUrl, '/v1/invoices'), {
+    method: 'POST',
+    headers,
+    body: {
+      bundleId: payload.bundleId || null,
+      needId: payload.needId || null,
+      assetPackId: payload.assetPackId || null,
+      amountBtc: amount,
+      amountNgiMicroUnits: String(
+        artifacts.repeatedReadPaymentIntent?.meteredMicroUnits
+        || settlementIntent.meteredMicroUnits
+        || '0'
+      ),
+      descriptionHash:
+        artifacts.repeatedReadPaymentExecution?.descriptionHash
+        || settlementIntent.paymentCarrier?.descriptionHash
+        || null
+    }
+  });
+  const invoiceId = String(ensureRecord(createResponse).invoiceId || `invoice_${shortId(`${payload.bundleId || payload.needId}:${amount}`, 16)}`);
+  const observeResponse = await requestJson(fetchImpl, joinUrl(baseUrl, `/v1/invoices/${invoiceId}`), {
+    method: 'GET',
+    headers
+  });
+  const observed = ensureRecord(observeResponse);
+  const invoiceRef =
+    String(observed.invoice || observed.invoiceRef || '').trim()
+    || String(artifacts.repeatedReadPaymentExecution?.invoiceRef || settlementIntent.paymentCarrier?.invoice || `lnbcrt1engi${shortId(invoiceId, 24)}`);
+  const paymentHash =
+    String(observed.paymentHash || '').trim()
+    || String(artifacts.repeatedReadPaymentExecution?.paymentHash || settlementIntent.paymentCarrier?.paymentHash || `sha256:${sha256(invoiceId)}`);
+  const descriptionHash =
+    String(observed.descriptionHash || '').trim()
+    || String(artifacts.repeatedReadPaymentExecution?.descriptionHash || settlementIntent.paymentCarrier?.descriptionHash || `sha256:${sha256(`${invoiceId}:description`)}`);
+  const telemetry = buildTelemetry(payload, {
+    reconciliationState: 'live-repeated-read-http-reconciled',
+    transportProtocol: 'lightning-http-v1',
+    remoteRequestCount: 2,
+    affectedArtifactRefs: [
+      '.engi/repeated-read-payment-intent.json',
+      '.engi/repeated-read-payment-execution.json',
+      '.engi/repeated-read-payment-observation.json'
+    ]
+  });
+  return {
+    interfaceId: String(payload.interfaceId || 'repeated-read-payment-execution'),
+    telemetry,
+    artifacts: {
+      repeatedReadPaymentIntent: {
+        ...ensureRecord(artifacts.repeatedReadPaymentIntent),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        requestId: telemetry.requestId,
+        processorRef: binding.processorRef || artifacts.repeatedReadPaymentIntent?.processorRef || null,
+        invoiceEndpointRef: binding.invoiceEndpointRef || artifacts.repeatedReadPaymentIntent?.invoiceEndpointRef || null,
+        environmentIdentityRef: telemetry.environmentIdentityRef,
+        environmentResourceRef: telemetry.environmentResourceRef,
+        affectedArtifactRefs: telemetry.affectedArtifactRefs
+      },
+      repeatedReadPaymentExecution: {
+        ...ensureRecord(artifacts.repeatedReadPaymentExecution),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        requestId: telemetry.requestId,
+        executionId: telemetry.executionId,
+        observationId: telemetry.observationId,
+        executionClass: telemetry.executionClass,
+        executionState: 'live-lightning-invoice-issued',
+        processorRef: binding.processorRef || artifacts.repeatedReadPaymentExecution?.processorRef || null,
+        invoiceRef,
+        paymentHash,
+        descriptionHash,
+        environmentIdentityRef: telemetry.environmentIdentityRef,
+        environmentResourceRef: telemetry.environmentResourceRef,
+        affectedArtifactRefs: telemetry.affectedArtifactRefs,
+        remoteInvoiceId: invoiceId
+      },
+      repeatedReadPaymentObservation: {
+        ...ensureRecord(artifacts.repeatedReadPaymentObservation),
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || null,
+        executionId: telemetry.executionId,
+        observationId: telemetry.observationId,
+        observationState: String(observed.paymentStatus || observed.status || '').toLowerCase() === 'accepted'
+          ? 'live-lightning-payment-observed'
+          : 'live-lightning-invoice-issued',
+        networkState: String(binding.network || observed.networkState || 'lightning-testnet'),
+        confirmationState: String(observed.confirmationState || 'accepted-offchain'),
+        confirmations: Number(observed.confirmations || 0),
+        invoiceRef,
+        paymentHash,
+        descriptionHash,
+        observedValue: String(observed.observedValue || artifacts.repeatedReadPaymentObservation?.observedValue || settlementIntent.meteredMicroUnits || payload.bundleId || ''),
+        journalBindingState: String(observed.journalBindingState || artifacts.repeatedReadPaymentObservation?.journalBindingState || 'anchor-required'),
+        serviceReceipt: {
+          invoiceId,
+          invoiceRef,
+          paymentHash,
+          referenceId: String(observed.referenceId || `lightning://${binding.network || 'lightning-testnet'}/${invoiceId}`)
+        },
+        environmentIdentityRef: telemetry.environmentIdentityRef,
+        environmentResourceRef: telemetry.environmentResourceRef,
+        affectedArtifactRefs: telemetry.affectedArtifactRefs
+      }
+    }
+  };
+}
+
+/**
+ * @param {Record<string, any>} payload
+ * @param {typeof fetch} fetchImpl
+ * @returns {Promise<Record<string, any>>}
+ */
 async function executeComputeHttpAdapter(payload, fetchImpl) {
   const binding = ensureRecord(payload.binding);
   const artifacts = ensureRecord(payload.artifacts);
@@ -804,6 +930,9 @@ export async function executeV24RemoteAdapter(interfaceId, binding, payload, fet
       reconciliationState: 'live-mainchain-rpc-reconciled',
       networkLabel: 'bitcoin'
     });
+  }
+  if (kind === 'lightning-http-v1') {
+    return executeLightningHttpAdapter(payload, fetchImpl);
   }
   if (kind === 'sidechain-json-rpc-v1') {
     return executeJsonRpcSpendAdapter(payload, fetchImpl, {

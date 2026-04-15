@@ -2402,6 +2402,32 @@ function buildExternalBoundaryManifest({
           }
         }),
         buildExternalBoundaryInterface({
+          interfaceId: 'repeated-read-payment-execution',
+          label: 'Repeated-read payment processor receipts',
+          status: 'implemented-as-draft-target-realization-surface',
+          localPrototype: {
+            implemented: true,
+            surface: 'mode-isolated runtime emits repeated-read invoice intent, execution, and observation receipts',
+            configuredEnvironmentMode,
+            actualityDisposition,
+            executionClass: interfaceSummaryById['repeated-read-payment-execution']?.executionClass || null,
+            reconciliationState: interfaceSummaryById['repeated-read-payment-execution']?.reconciliationState || null,
+            telemetryCoverageState: interfaceSummaryById['repeated-read-payment-execution']?.telemetryCoverageState || null,
+            artifactRefs: [
+              '.engi/repeated-read-payment-intent.json',
+              '.engi/repeated-read-payment-execution.json',
+              '.engi/repeated-read-payment-observation.json',
+              '.engi/external-realization-proof.json'
+            ]
+          },
+          externalBoundary: {
+            implemented: false,
+            requiredForLive: true,
+            contract: ['issue invoice or repeated-read payment intent', 'observe repeated-read payment acceptance or settlement drift', 'bind repeated-read access state back to ENGI anchor and journal policy'],
+            boundaryArtifacts: ['bitcoin.repeated-read-intent', 'bitcoin.repeated-read-execution', 'bitcoin.repeated-read-observation']
+          }
+        }),
+        buildExternalBoundaryInterface({
           interfaceId: 'sidechain-execution',
           label: 'Sidechain execution receipts',
           status: 'implemented-as-draft-target-realization-surface',
@@ -5566,7 +5592,7 @@ function assertRequiredBranchArtifacts(branchArtifacts) {
  * @param {any} __0
  * @returns {any}
  */
-function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
+function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMode, branchName, depositingSurface, needingSurface, depositingToNeedingSurface, matchReport, verificationReport, evalManifest, assetPack, assetPackLock, selectedSourceMaterialManifest, settlementPreview, settlementProof, systemProofBundle, authorizationDecisions, sensitiveDataFlowRecords, policyRelease, deliverablesManifest, unitCatalog, pipelineTelemetry, selectedCandidates, journalDiff, identityBindings, githubBoundarySurface, artifactUploadManifest, profileCompositionSurface, promptFamilyRegistry, promptSurfaces, promptContracts, inferenceProofs, inferenceMomentContracts, promptImplementationSurface, inferenceSynthesisProof, promptCompletenessProof, parsedCompletionEnvelopes, parsedCompletionEnvelopeArtifact, externalBoundaryManifest, measurementReceipts, staticMeasurementReport, staticMeasurementProof, codeAnalysisFactRegistry, staticHeuristicsRegistry, verificationReceiptsArtifact, verificationDecisionsProof, proofWitnessManifest, selectionConsistencyProof, selectionAndMaterializationProof, identityAuthorizationProof, sensitiveDataFlowProof, authorizationAndSensitiveFlowProof, materializationProof, materializationExclusions, materializationVisibilityProof, sourceToSharesArtifact, settlementParticipationArtifact, accountingPrecisionReport, journalCompletenessProof, settlementSourceToSharesProof, scenarioFixtureManifest, testCoverageReport, projectionPolicy, boundedPublicProof, redactionProof, disclosureProof, disclosureBoundaryProof, proofContract, computeRealityManifest, storageRealityManifest, bitcoinCommitmentManifest, bitcoinTreasuryPolicy, bitcoinAnchor, bitcoinBoundedPublicAnchor, bitcoinSettlementIntent, bitcoinSettlementObservation, bitcoinAuditAnchorProof, bitcoinSettlementInterfaceProof, externalEnvironmentProfile, externalExecutionPolicy, externalTelemetryPolicy, externalTelemetrySummary, networkCapabilityManifest, githubAppBinding, bitcoinNetworkIntent, bitcoinNetworkExecution, bitcoinNetworkObservation, repeatedReadPaymentIntent, repeatedReadPaymentExecution, repeatedReadPaymentObservation, sidechainExecutionReceipt, computeContainerManifest, computeContainerExecution, storageContainerManifest, storagePublicationReceipt, storageRetrievalReceipt, githubLiveSession, githubInventoryFetchReceipt, githubArtifactFetchReceipt, githubBranchPublicationReceipt, githubPrUpdateReceipt, externalRealizationProof, containerRealityProof, githubLiveInterfaceProof }) {
   return evaluationMaterializationRuntime.buildBranchArtifacts({
     need,
     needMeasurement,
@@ -5656,6 +5682,9 @@ function buildBranchArtifacts({ need, needMeasurement, benchmarkTarget, branchMo
     bitcoinNetworkIntent,
     bitcoinNetworkExecution,
     bitcoinNetworkObservation,
+    repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation,
     sidechainExecutionReceipt,
     computeContainerManifest,
     computeContainerExecution,
@@ -6247,6 +6276,9 @@ export function runMakeEngiBranch(state, input = {}) {
   let bitcoinNetworkIntent = null;
   let bitcoinNetworkExecution = null;
   let bitcoinNetworkObservation = null;
+  let repeatedReadPaymentIntent = null;
+  let repeatedReadPaymentExecution = null;
+  let repeatedReadPaymentObservation = null;
   let sidechainExecutionReceipt = null;
   let computeContainerManifest = null;
   let computeContainerExecution = null;
@@ -6614,6 +6646,9 @@ export function runMakeEngiBranch(state, input = {}) {
     bitcoinNetworkIntent,
     bitcoinNetworkExecution,
     bitcoinNetworkObservation,
+    repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation,
     sidechainExecutionReceipt
   } = buildV24BitcoinNetworkArtifacts({
     externalEnvironmentProfile,
@@ -6665,6 +6700,9 @@ export function runMakeEngiBranch(state, input = {}) {
     bitcoinNetworkIntent,
     bitcoinNetworkExecution,
     bitcoinNetworkObservation,
+    repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation,
     sidechainExecutionReceipt
   });
   containerRealityProof = buildV24ContainerRealityProof({
@@ -6773,6 +6811,9 @@ export function runMakeEngiBranch(state, input = {}) {
     bitcoinNetworkIntent,
     bitcoinNetworkExecution,
     bitcoinNetworkObservation,
+    repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation,
     sidechainExecutionReceipt,
     computeContainerManifest,
     computeContainerExecution,
@@ -6912,6 +6953,9 @@ export function runMakeEngiBranch(state, input = {}) {
     bitcoinNetworkIntent,
     bitcoinNetworkExecution,
     bitcoinNetworkObservation,
+    repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation,
     sidechainExecutionReceipt,
     computeContainerManifest,
     computeContainerExecution,

@@ -13,6 +13,7 @@ import { buildProofContract } from '../engi-demo.js';
 
 const V24_INTERFACE_ORDER = [
   'bitcoin-mainchain-execution',
+  'repeated-read-payment-execution',
   'sidechain-execution',
   'compute-container-execution',
   'storage-container-execution',
@@ -21,6 +22,7 @@ const V24_INTERFACE_ORDER = [
 
 const V24_ACTIVE_BINDING_KEY_BY_INTERFACE = {
   'bitcoin-mainchain-execution': 'bitcoinMainchain',
+  'repeated-read-payment-execution': 'repeatedReadPayment',
   'sidechain-execution': 'sidechain',
   'compute-container-execution': 'compute',
   'storage-container-execution': 'storage',
@@ -35,6 +37,9 @@ const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
   bitcoinNetworkIntent: '.engi/bitcoin-network-intent.json',
   bitcoinNetworkExecution: '.engi/bitcoin-network-execution.json',
   bitcoinNetworkObservation: '.engi/bitcoin-network-observation.json',
+  repeatedReadPaymentIntent: '.engi/repeated-read-payment-intent.json',
+  repeatedReadPaymentExecution: '.engi/repeated-read-payment-execution.json',
+  repeatedReadPaymentObservation: '.engi/repeated-read-payment-observation.json',
   sidechainExecutionReceipt: '.engi/sidechain-execution-receipt.json',
   computeContainerManifest: '.engi/compute-container-manifest.json',
   computeContainerExecution: '.engi/compute-container-execution.json',
@@ -70,6 +75,12 @@ const V24_SUPPORT_ARTIFACT_KEYS_BY_INTERFACE = {
     'bitcoinAnchor',
     'bitcoinTreasuryPolicy'
   ],
+  'repeated-read-payment-execution': [
+    'repeatedReadPaymentIntent',
+    'bitcoinSettlementIntent',
+    'bitcoinSettlementObservation',
+    'bitcoinTreasuryPolicy'
+  ],
   'sidechain-execution': [
     'sidechainExecutionReceipt',
     'bitcoinSettlementIntent',
@@ -94,6 +105,11 @@ const V24_ALLOWED_ARTIFACT_KEYS_BY_INTERFACE = {
   'bitcoin-mainchain-execution': [
     'bitcoinNetworkExecution',
     'bitcoinNetworkObservation'
+  ],
+  'repeated-read-payment-execution': [
+    'repeatedReadPaymentIntent',
+    'repeatedReadPaymentExecution',
+    'repeatedReadPaymentObservation'
   ],
   'sidechain-execution': [
     'sidechainExecutionReceipt'
@@ -195,6 +211,14 @@ function continuityRef(latestRun, interfaceId) {
       || ''
     ).trim() || null;
   }
+  if (interfaceId === 'repeated-read-payment-execution') {
+    return String(
+      latestRun.repeatedReadPaymentObservation?.serviceReceipt?.referenceId
+      || latestRun.repeatedReadPaymentObservation?.invoiceRef
+      || latestRun.repeatedReadPaymentExecution?.paymentHash
+      || ''
+    ).trim() || null;
+  }
   if (interfaceId === 'compute-container-execution') {
     return String(
       latestRun.computeContainerExecution?.remoteRunId
@@ -233,6 +257,9 @@ function continuityRef(latestRun, interfaceId) {
 function interfaceApplicable(latestRun, interfaceId) {
   if (interfaceId === 'bitcoin-mainchain-execution') {
     return String(latestRun.bitcoinNetworkIntent?.modeApplicability || '') === 'active';
+  }
+  if (interfaceId === 'repeated-read-payment-execution') {
+    return String(latestRun.repeatedReadPaymentIntent?.modeApplicability || '') === 'active';
   }
   if (interfaceId === 'sidechain-execution') {
     return String(latestRun.sidechainExecutionReceipt?.modeApplicability || '') === 'active';
@@ -478,6 +505,9 @@ function rebuildV24Proofs(latestRun) {
     bitcoinNetworkIntent: latestRun.bitcoinNetworkIntent,
     bitcoinNetworkExecution: latestRun.bitcoinNetworkExecution,
     bitcoinNetworkObservation: latestRun.bitcoinNetworkObservation,
+    repeatedReadPaymentIntent: latestRun.repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution: latestRun.repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation: latestRun.repeatedReadPaymentObservation,
     sidechainExecutionReceipt: latestRun.sidechainExecutionReceipt
   });
   latestRun.containerRealityProof = buildV24ContainerRealityProof({

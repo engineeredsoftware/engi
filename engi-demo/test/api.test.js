@@ -534,7 +534,7 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(buyerRun.json.latestRun.externalTelemetrySummary, undefined);
     assert.equal(buyerRun.json.latestRun.githubAppBinding, undefined);
     assert.equal(buyerRun.json.latestRun.externalRealizationSummary.configuredEnvironmentMode, 'development');
-    assert.equal(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 5);
+    assert.equal(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 6);
     assert.ok(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.localPrototypeImplemented === true));
     assert.ok(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.externalBoundaryRequiredForLive === true));
     assert.ok(buyerRun.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.runtimeState === 'stubbed-demonstration'));
@@ -547,8 +547,8 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
     assert.equal('.engi/bitcoin-anchor.json' in publicState.json.latestRun.publicArtifacts, false);
     assert.equal(publicState.json.latestRun.externalRealizationSummary.configuredEnvironmentMode, 'development');
-    assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceIds.length, 5);
-    assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceStates.length, 5);
+    assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceIds.length, 6);
+    assert.equal(publicState.json.latestRun.externalRealizationSummary.interfaceStates.length, 6);
     assert.ok(publicState.json.latestRun.externalRealizationSummary.interfaceStates.every((entry) => entry.status === 'implemented-as-draft-target-realization-surface'));
     assert.ok(publicState.json.latestRun.externalRealizationSummary.interfaceStates.every((entry) => entry.runtimeState === 'stubbed-demonstration'));
     assert.equal(publicState.json.latestRun.externalEnvironmentProfile, undefined);
@@ -557,7 +557,7 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(reviewerState.json.latestRun.bitcoinSettlementIntent, undefined);
     assert.ok(reviewerState.json.latestRun.bitcoinBoundedPublicAnchor.anchorId);
     assert.ok(reviewerState.json.latestRun.bitcoinCommitmentManifest.publicRoot);
-    assert.equal(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 5);
+    assert.equal(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.length, 6);
     assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.localPrototypeImplemented === true));
     assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.externalBoundaryRequiredForLive === true));
     assert.ok(reviewerState.json.latestRun.externalRealizationSummary.interfaceSummaries.every((entry) => entry.runtimeState === 'stubbed-demonstration'));
@@ -600,7 +600,7 @@ testAny('GET /api/v24/external-realization returns the draft-target environment 
     assert.equal(descriptor.externalTelemetryPolicy.coverageExpectation.missingTelemetryDisposition, 'blocking');
     assert.ok(descriptor.networkCapabilityManifest.interfaces.some((entry) => entry.interfaceId === 'github-live-interface'));
     assert.equal(activeRuntime.configuredEnvironmentMode, 'mock');
-    assert.equal(activeRuntime.interfaceRuntimeStates.length, 5);
+    assert.equal(activeRuntime.interfaceRuntimeStates.length, 6);
     assert.ok(activeRuntime.interfaceRuntimeStates.every((entry) => entry.runtimeState === 'mock'));
   });
 });
@@ -611,6 +611,7 @@ testAny('GET /api/v24/external-realization promotes enabled local executors to l
       ENGI_V24_ENVIRONMENT_MODE: 'development',
       ENGI_V24_ENABLE_LOCAL_EXECUTORS: '1',
       ENGI_V24_ENABLE_BITCOIN_MAINCHAIN: '1',
+      ENGI_V24_ENABLE_REPEATED_READ_PAYMENT: '1',
       ENGI_V24_ENABLE_SIDECHAIN: '1',
       ENGI_V24_ENABLE_COMPUTE: '1',
       ENGI_V24_ENABLE_STORAGE: '1',
@@ -623,6 +624,7 @@ testAny('GET /api/v24/external-realization promotes enabled local executors to l
       assert.equal(activeRuntime.actualityDisposition, 'live-configured-external-realization');
       assert.ok(activeRuntime.interfaceRuntimeStates.every((entry) => entry.runtimeState === 'live-configured'));
       assert.equal(activeRuntime.activeBindings.bitcoinMainchain.executorUrl, 'engi-local://bitcoin-mainchain-execution');
+      assert.equal(activeRuntime.activeBindings.repeatedReadPayment.executorUrl, 'engi-local://repeated-read-payment-execution');
       assert.equal(activeRuntime.activeBindings.sidechain.executorUrl, 'engi-local://sidechain-execution');
       assert.equal(activeRuntime.activeBindings.compute.executorUrl, 'engi-local://compute-container-execution');
       assert.equal(activeRuntime.activeBindings.storage.executorUrl, 'engi-local://storage-container-execution');
@@ -761,13 +763,23 @@ testAny('POST /api/make-engi-branch realizes enabled V24 local executors across 
         persisted.latestRun.externalBoundaryManifest.interfaces.find((entry) => entry.interfaceId === 'bitcoin-mainchain-execution').status,
         'implemented-as-live-observed-surface'
       );
+      const observedInterfaceIds = [
+        'bitcoin-mainchain-execution',
+        'sidechain-execution',
+        'compute-container-execution',
+        'storage-container-execution',
+        'github-live-interface'
+      ];
       assert.ok(
-        Object.values(persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById)
-          .every((entry) => entry.runtimeState === 'live-observed')
+        observedInterfaceIds.every((interfaceId) =>
+          persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById[interfaceId].runtimeState === 'live-observed'
+        )
       );
       assert.ok(
-        persisted.latestRun.externalTelemetrySummary.interfaceSummaries
-          .every((entry) => entry.runtimeState === 'live-observed' && entry.telemetryCoverageState === 'shape-complete-live-observed')
+        observedInterfaceIds.every((interfaceId) => {
+          const summary = persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === interfaceId);
+          return summary?.runtimeState === 'live-observed' && summary?.telemetryCoverageState === 'shape-complete-live-observed';
+        })
       );
       assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
       assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
@@ -776,9 +788,52 @@ testAny('POST /api/make-engi-branch realizes enabled V24 local executors across 
       const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
       assert.equal(reviewer.statusCode, 200);
       assert.ok(
-        reviewer.json.latestRun.externalRealizationSummary.interfaceSummaries
-          .every((entry) => entry.runtimeState === 'live-observed')
+        observedInterfaceIds.every((interfaceId) =>
+          reviewer.json.latestRun.externalRealizationSummary.interfaceSummaries
+            .find((entry) => entry.interfaceId === interfaceId)?.runtimeState === 'live-observed'
+        )
       );
+    });
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes the V24 repeated-read payment executor for repeated-read payment mode', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_LOCAL_EXECUTORS: '1',
+      ENGI_V24_ENABLE_REPEATED_READ_PAYMENT: '1'
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'repeated-read-payment',
+          principal: 'buyer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun.repeatedReadPaymentIntent.modeApplicability, 'active');
+      assert.equal(persisted.latestRun.repeatedReadPaymentExecution.executionState, 'live-lightning-invoice-issued');
+      assert.equal(persisted.latestRun.repeatedReadPaymentObservation.observationState, 'live-lightning-payment-observed');
+      assert.equal(persisted.latestRun.repeatedReadPaymentObservation.confirmationState, 'accepted-offchain');
+      assert.equal(persisted.latestRun.repeatedReadPaymentObservation.journalBindingState, 'anchor-required');
+      assert.equal(
+        persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById['repeated-read-payment-execution'].runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'repeated-read-payment-execution').reconciliationState,
+        'live-repeated-read-reconciled'
+      );
+      assert.ok(
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/repeated-read-payment-observation.json']).invoiceRef
+      );
+      assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
     });
   });
 });
@@ -1497,6 +1552,78 @@ testAny('POST /api/make-engi-branch realizes live-configured V24 bitcoin, sidech
         JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/external-environment-profile.json']).interfaceRuntimeStateById['compute-container-execution'].runtimeState,
         'live-observed'
       );
+    });
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes the V24 repeated-read remote adapter before persisting state', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const executor = await startJsonExecutorServer(async ({ url, method, headers, json }) => {
+      if (url === '/lightning/v1/invoices' && method === 'POST') {
+        assert.equal(headers.authorization, 'Bearer repeated-read-secret');
+        return {
+          invoiceId: 'inv_live_read_001',
+          invoice: 'lnbcrt1engi-live-read-001',
+          paymentHash: 'hash_live_read_001',
+          descriptionHash: String(json.descriptionHash || 'desc_live_read_001')
+        };
+      }
+      if (url === '/lightning/v1/invoices/inv_live_read_001' && method === 'GET') {
+        assert.equal(headers.authorization, 'Bearer repeated-read-secret');
+        return {
+          paymentStatus: 'accepted',
+          confirmationState: 'accepted-offchain',
+          confirmations: 0,
+          networkState: 'accepted-offchain',
+          observedValue: String(json?.amountNgiMicroUnits || '0'),
+          journalBindingState: 'anchor-required',
+          referenceId: 'lightning://lightning-testnet/inv_live_read_001'
+        };
+      }
+      return { status: 404, json: { error: 'not found' } };
+    });
+    t.after(async () => {
+      await executor.close();
+    });
+
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'staging',
+      ENGI_V24_ENABLE_REPEATED_READ_PAYMENT: '1',
+      ENGI_V24_REPEATED_READ_EXECUTOR_URL: `${executor.baseUrl}/lightning`,
+      ENGI_V24_REPEATED_READ_EXECUTOR_KIND: 'lightning-http-v1',
+      ENGI_V24_REPEATED_READ_BEARER_TOKEN: 'repeated-read-secret'
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'repeated-read-payment',
+          principal: 'buyer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.deepEqual(
+        executor.requests.map((entry) => `${entry.method} ${entry.url}`),
+        ['POST /lightning/v1/invoices', 'GET /lightning/v1/invoices/inv_live_read_001']
+      );
+      assert.equal(executor.requests[0].json.bundleId, response.json.latestRun.settlementPreview.bundleId);
+
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun.repeatedReadPaymentExecution.executionState, 'live-lightning-invoice-issued');
+      assert.equal(persisted.latestRun.repeatedReadPaymentExecution.remoteInvoiceId, 'inv_live_read_001');
+      assert.equal(persisted.latestRun.repeatedReadPaymentObservation.observationState, 'live-lightning-payment-observed');
+      assert.equal(persisted.latestRun.repeatedReadPaymentObservation.serviceReceipt.referenceId, 'lightning://lightning-testnet/inv_live_read_001');
+      assert.equal(
+        persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById['repeated-read-payment-execution'].runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'repeated-read-payment-execution').transportProtocol,
+        'lightning-http-v1'
+      );
+      assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
     });
   });
 });

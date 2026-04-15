@@ -10,6 +10,7 @@ import {
 } from './proof-annotations.js';
 
 const BITCOIN_INTERFACE_ID = 'bitcoin-mainchain-execution';
+const REPEATED_READ_INTERFACE_ID = 'repeated-read-payment-execution';
 const SIDECHAIN_INTERFACE_ID = 'sidechain-execution';
 const COMPUTE_INTERFACE_ID = 'compute-container-execution';
 const STORAGE_INTERFACE_ID = 'storage-container-execution';
@@ -109,13 +110,17 @@ export function buildV24BitcoinNetworkArtifacts({
   const configuredEnvironmentMode = String(externalEnvironmentProfile.configuredEnvironmentMode || 'mock');
   const actualityDisposition = String(externalEnvironmentProfile.actualityDisposition || 'deterministic-mock-only');
   const mainchainBinding = activeBinding(externalEnvironmentProfile, 'bitcoinMainchain');
+  const repeatedReadBinding = activeBinding(externalEnvironmentProfile, 'repeatedReadPayment');
   const sidechainBinding = activeBinding(externalEnvironmentProfile, 'sidechain');
   const mainchainSummary = interfaceSummary(externalTelemetrySummary, BITCOIN_INTERFACE_ID);
+  const repeatedReadSummary = interfaceSummary(externalTelemetrySummary, REPEATED_READ_INTERFACE_ID);
   const sidechainSummary = interfaceSummary(externalTelemetrySummary, SIDECHAIN_INTERFACE_ID);
   const mainchainRuntimeState = String(mainchainSummary.runtimeState || '');
+  const repeatedReadRuntimeState = String(repeatedReadSummary.runtimeState || '');
   const sidechainRuntimeState = String(sidechainSummary.runtimeState || '');
   const activePaymentMode = String(paymentMode || '');
   const mainchainActive = !!bitcoinSettlementIntent && !!bitcoinSettlementObservation;
+  const repeatedReadActive = activePaymentMode === 'repeated-read-payment';
   const sidechainActive = activePaymentMode === 'checkpointed-sidechain-bridge';
 
   const bitcoinNetworkIntent = {
@@ -192,6 +197,87 @@ export function buildV24BitcoinNetworkArtifacts({
     affectedArtifactRefs: summarizeStrings(mainchainSummary.affectedArtifactRefs || [])
   };
 
+  const repeatedReadPaymentIntent = {
+    artifactId: `v24_repeated_read_intent_${shortId(`${branchName}:${activePaymentMode || 'none'}`, 16)}`,
+    interfaceId: REPEATED_READ_INTERFACE_ID,
+    configuredEnvironmentMode,
+    actualityDisposition,
+    paymentMode: activePaymentMode || null,
+    modeApplicability: repeatedReadActive ? 'active' : 'inactive-for-mode',
+    bundleId: settlementPreview.bundleId || null,
+    needId: settlementPreview.needId || null,
+    assetPackId: assetPack.assetPackId,
+    unitDenomination: bitcoinSettlementIntent?.unitDenomination || 'NGI',
+    meteredMicroUnits: bitcoinSettlementIntent?.meteredMicroUnits || settlementPreview.meteredMicroUnits || null,
+    treasuryPolicyRef: bitcoinTreasuryPolicy?.policyId || null,
+    requestId: repeatedReadSummary.requestId || null,
+    intentRef: repeatedReadActive ? bitcoinSettlementIntent?.intentId || null : null,
+    carrierType: repeatedReadActive ? bitcoinSettlementIntent?.carrierType || null : null,
+    transportNetwork: repeatedReadActive ? bitcoinSettlementIntent?.transportNetwork || repeatedReadBinding.network || null : null,
+    processorRef: repeatedReadBinding.processorRef || null,
+    invoiceEndpointRef: repeatedReadBinding.invoiceEndpointRef || null,
+    environmentIdentityRef: repeatedReadSummary.environmentIdentityRef || repeatedReadBinding.accountRef || null,
+    environmentResourceRef: repeatedReadSummary.environmentResourceRef || repeatedReadBinding.invoiceEndpointRef || null,
+    affectedArtifactRefs: summarizeStrings(repeatedReadSummary.affectedArtifactRefs || [])
+  };
+
+  const repeatedReadPaymentExecution = {
+    artifactId: `v24_repeated_read_execution_${shortId(`${branchName}:${configuredEnvironmentMode}`, 16)}`,
+    interfaceId: REPEATED_READ_INTERFACE_ID,
+    configuredEnvironmentMode,
+    actualityDisposition,
+    executionId: repeatedReadSummary.executionId || null,
+    requestId: repeatedReadSummary.requestId || null,
+    observationId: repeatedReadSummary.observationId || null,
+    executionClass: repeatedReadSummary.executionClass || repeatedReadBinding.executionClass || null,
+    executionState: !repeatedReadActive
+      ? 'inactive-for-mode'
+      : repeatedReadRuntimeState === 'live-configured'
+        ? 'live-lightning-configured-awaiting-invoice'
+        : repeatedReadRuntimeState === 'live-misconfigured'
+          ? 'live-lightning-misconfigured'
+          : 'stubbed-lightning-invoice-assembled',
+    settlementIntentRef: repeatedReadActive ? bitcoinSettlementIntent?.intentId || null : null,
+    processorRef: repeatedReadBinding.processorRef || null,
+    invoiceRef: repeatedReadActive ? bitcoinSettlementIntent?.paymentCarrier?.invoice || null : null,
+    paymentHash: repeatedReadActive ? bitcoinSettlementIntent?.paymentCarrier?.paymentHash || null : null,
+    descriptionHash: repeatedReadActive ? bitcoinSettlementIntent?.paymentCarrier?.descriptionHash || null : null,
+    environmentIdentityRef: repeatedReadSummary.environmentIdentityRef || repeatedReadBinding.accountRef || null,
+    environmentResourceRef: repeatedReadSummary.environmentResourceRef || repeatedReadBinding.invoiceEndpointRef || null,
+    affectedArtifactRefs: summarizeStrings(repeatedReadSummary.affectedArtifactRefs || []),
+    serviceMode: repeatedReadActive ? bitcoinSettlementIntent?.serviceMode || null : null
+  };
+
+  const repeatedReadPaymentObservation = {
+    artifactId: `v24_repeated_read_observation_${shortId(`${branchName}:${activePaymentMode || 'none'}`, 16)}`,
+    interfaceId: REPEATED_READ_INTERFACE_ID,
+    configuredEnvironmentMode,
+    actualityDisposition,
+    bundleId: settlementPreview.bundleId || null,
+    needId: settlementPreview.needId || null,
+    observationId: repeatedReadSummary.observationId || null,
+    executionId: repeatedReadSummary.executionId || null,
+    observationState: !repeatedReadActive
+      ? 'inactive-for-mode'
+      : repeatedReadRuntimeState === 'live-configured'
+        ? 'configuration-ready-no-live-payment-observation'
+        : repeatedReadRuntimeState === 'live-misconfigured'
+          ? 'live-configuration-blocked'
+          : 'observed-from-demonstration-service',
+    networkState: repeatedReadActive ? bitcoinSettlementObservation?.networkState || 'not-requested' : 'inactive-for-mode',
+    confirmationState: repeatedReadActive ? bitcoinSettlementObservation?.confirmationState || 'not-requested' : 'inactive-for-mode',
+    confirmations: repeatedReadActive ? bitcoinSettlementObservation?.confirmations ?? 0 : 0,
+    invoiceRef: repeatedReadActive ? bitcoinSettlementIntent?.paymentCarrier?.invoice || bitcoinSettlementObservation?.networkRef || null : null,
+    paymentHash: repeatedReadActive ? bitcoinSettlementIntent?.paymentCarrier?.paymentHash || null : null,
+    descriptionHash: repeatedReadActive ? bitcoinSettlementIntent?.paymentCarrier?.descriptionHash || null : null,
+    observedValue: repeatedReadActive ? bitcoinSettlementObservation?.observedValue || settlementPreview.meteredMicroUnits || null : null,
+    journalBindingState: repeatedReadActive ? bitcoinSettlementObservation?.journalBindingState || 'anchor-required' : 'inactive-for-mode',
+    serviceReceipt: repeatedReadActive ? bitcoinSettlementObservation?.serviceReceipt || null : null,
+    environmentIdentityRef: repeatedReadSummary.environmentIdentityRef || repeatedReadBinding.accountRef || null,
+    environmentResourceRef: repeatedReadSummary.environmentResourceRef || repeatedReadBinding.invoiceEndpointRef || null,
+    affectedArtifactRefs: summarizeStrings(repeatedReadSummary.affectedArtifactRefs || [])
+  };
+
   const sidechainExecutionReceipt = {
     artifactId: `v24_sidechain_execution_receipt_${shortId(`${branchName}:${activePaymentMode || 'none'}`, 16)}`,
     interfaceId: SIDECHAIN_INTERFACE_ID,
@@ -222,6 +308,9 @@ export function buildV24BitcoinNetworkArtifacts({
     bitcoinNetworkIntent,
     bitcoinNetworkExecution,
     bitcoinNetworkObservation,
+    repeatedReadPaymentIntent,
+    repeatedReadPaymentExecution,
+    repeatedReadPaymentObservation,
     sidechainExecutionReceipt
   };
 }
@@ -514,6 +603,9 @@ export function buildV24GithubArtifacts({
  *   bitcoinNetworkIntent: Record<string, unknown>,
  *   bitcoinNetworkExecution: Record<string, unknown>,
  *   bitcoinNetworkObservation: Record<string, unknown>,
+ *   repeatedReadPaymentIntent: Record<string, unknown>,
+ *   repeatedReadPaymentExecution: Record<string, unknown>,
+ *   repeatedReadPaymentObservation: Record<string, unknown>,
  *   sidechainExecutionReceipt: Record<string, unknown>
  * }} input
  */
@@ -524,6 +616,9 @@ export function buildV24ExternalRealizationProof({
   bitcoinNetworkIntent,
   bitcoinNetworkExecution,
   bitcoinNetworkObservation,
+  repeatedReadPaymentIntent,
+  repeatedReadPaymentExecution,
+  repeatedReadPaymentObservation,
   sidechainExecutionReceipt
 }) {
   const witnessArtifactPaths = [
@@ -533,6 +628,9 @@ export function buildV24ExternalRealizationProof({
     '.engi/bitcoin-network-intent.json',
     '.engi/bitcoin-network-execution.json',
     '.engi/bitcoin-network-observation.json',
+    '.engi/repeated-read-payment-intent.json',
+    '.engi/repeated-read-payment-execution.json',
+    '.engi/repeated-read-payment-observation.json',
     '.engi/sidechain-execution-receipt.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
@@ -554,6 +652,12 @@ export function buildV24ExternalRealizationProof({
       theoremIds: ['external_realization_execution.observation_closure'],
       requiredArtifactPaths: ['.engi/bitcoin-network-observation.json', '.engi/sidechain-execution-receipt.json', '.engi/external-telemetry-summary.json'],
       instruction: 'Replay observation closure across mainchain observation, sidechain receipt, and telemetry summaries.'
+    }),
+    buildReplayStep({
+      stepId: 'external-realization-execution.repeated-read',
+      theoremIds: ['external_realization_execution.repeated_read_closure'],
+      requiredArtifactPaths: ['.engi/repeated-read-payment-intent.json', '.engi/repeated-read-payment-execution.json', '.engi/repeated-read-payment-observation.json'],
+      instruction: 'Replay repeated-read payment closure across invoice intent, processor execution, and payment observation.'
     })
   ];
 
@@ -562,6 +666,9 @@ export function buildV24ExternalRealizationProof({
     bitcoinNetworkIntent.configuredEnvironmentMode === configuredEnvironmentMode
     && bitcoinNetworkExecution.configuredEnvironmentMode === configuredEnvironmentMode
     && bitcoinNetworkObservation.configuredEnvironmentMode === configuredEnvironmentMode
+    && repeatedReadPaymentIntent.configuredEnvironmentMode === configuredEnvironmentMode
+    && repeatedReadPaymentExecution.configuredEnvironmentMode === configuredEnvironmentMode
+    && repeatedReadPaymentObservation.configuredEnvironmentMode === configuredEnvironmentMode
     && sidechainExecutionReceipt.configuredEnvironmentMode === configuredEnvironmentMode;
   const intentBindingClosed = bitcoinNetworkIntent.interfaceId === BITCOIN_INTERFACE_ID
     && bitcoinNetworkIntent.bundleId === bitcoinNetworkObservation.bundleId
@@ -572,6 +679,17 @@ export function buildV24ExternalRealizationProof({
   const observationClosed = bitcoinNetworkObservation.interfaceId === BITCOIN_INTERFACE_ID
     && bitcoinNetworkObservation.affectedArtifactRefs.length >= 1
     && String(externalTelemetrySummary.configuredEnvironmentMode || '') === String(configuredEnvironmentMode || '');
+  const repeatedReadClosed =
+    repeatedReadPaymentIntent.modeApplicability !== 'active'
+    || (
+      repeatedReadPaymentIntent.interfaceId === REPEATED_READ_INTERFACE_ID
+      && repeatedReadPaymentExecution.interfaceId === REPEATED_READ_INTERFACE_ID
+      && repeatedReadPaymentObservation.interfaceId === REPEATED_READ_INTERFACE_ID
+      && repeatedReadPaymentExecution.executionState !== null
+      && repeatedReadPaymentExecution.observationId === repeatedReadPaymentObservation.observationId
+      && repeatedReadPaymentIntent.intentRef === bitcoinNetworkIntent.intentRef
+      && !!(repeatedReadPaymentObservation.invoiceRef || repeatedReadPaymentObservation.serviceReceipt?.referenceId)
+    );
   const sidechainClosed = sidechainExecutionReceipt.interfaceId === SIDECHAIN_INTERFACE_ID
     && (sidechainExecutionReceipt.modeApplicability === 'inactive-for-mode'
       || sidechainExecutionReceipt.executionState === 'stubbed-sidechain-checkpoint-observed'
@@ -603,6 +721,14 @@ export function buildV24ExternalRealizationProof({
       failureReasons: observationClosed && sidechainClosed ? [] : ['network observation or sidechain receipt closure drifted from telemetry and mode policy']
     }),
     buildTheoremVerdict({
+      theoremId: 'external_realization_execution.repeated_read_closure',
+      passed: repeatedReadClosed,
+      witnessArtifactPaths,
+      replayArtifactPaths: replayArtifacts,
+      replayStepIds: ['external-realization-execution.repeated-read'],
+      failureReasons: repeatedReadClosed ? [] : ['repeated-read invoice intent, processor execution, and payment observation failed to reconcile']
+    }),
+    buildTheoremVerdict({
       theoremId: 'external_realization_execution.mode_isolation_closure',
       passed: sameMode && externalExecutionPolicy.isolationDisposition === 'blocking-on-cross-mode-resource-reuse',
       witnessArtifactPaths,
@@ -618,6 +744,7 @@ export function buildV24ExternalRealizationProof({
       { memberId: 'mainchain-intent-binding', passed: intentBindingClosed },
       { memberId: 'network-execution-binding', passed: executionClosed },
       { memberId: 'network-observation-binding', passed: observationClosed },
+      { memberId: 'repeated-read-binding', passed: repeatedReadClosed },
       { memberId: 'sidechain-observation-binding', passed: sidechainClosed },
       { memberId: 'mode-isolation-closure', passed: sameMode }
     ],
@@ -629,19 +756,23 @@ export function buildV24ExternalRealizationProof({
       buildArtifactBinding({ artifactPath: '.engi/bitcoin-network-intent.json', role: 'mainchain-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
       buildArtifactBinding({ artifactPath: '.engi/bitcoin-network-execution.json', role: 'mainchain-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
       buildArtifactBinding({ artifactPath: '.engi/bitcoin-network-observation.json', role: 'mainchain-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/repeated-read-payment-intent.json', role: 'repeated-read-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/repeated-read-payment-execution.json', role: 'repeated-read-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.engi/repeated-read-payment-observation.json', role: 'repeated-read-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
       buildArtifactBinding({ artifactPath: '.engi/sidechain-execution-receipt.json', role: 'sidechain-receipt', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,
     replayArtifacts,
     replayInstructions: replaySteps.map((entry) => entry.instruction),
-    allCasesPassed: intentBindingClosed && executionClosed && observationClosed && sidechainClosed && sameMode,
+    allCasesPassed: intentBindingClosed && executionClosed && observationClosed && repeatedReadClosed && sidechainClosed && sameMode,
     allTheoremsPassed: aggregateTheoremVerdicts(theoremVerdicts),
     proofHash: stableHashObject({
       configuredEnvironmentMode,
       intentRef: bitcoinNetworkIntent.intentRef,
       executionId: bitcoinNetworkExecution.executionId,
       observationId: bitcoinNetworkObservation.observationId,
+      repeatedReadObservationId: repeatedReadPaymentObservation.observationId,
       sidechainModeApplicability: sidechainExecutionReceipt.modeApplicability
     })
   };

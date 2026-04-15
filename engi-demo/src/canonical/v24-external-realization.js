@@ -6,6 +6,7 @@ import { buildV24LocalExecutorUrl } from './v24-local-executors.js';
 export const V24_EXTERNAL_ENVIRONMENT_MODES = ['production', 'staging', 'development', 'mock'];
 export const V24_EXTERNAL_INTERFACE_IDS = [
   'bitcoin-mainchain-execution',
+  'repeated-read-payment-execution',
   'sidechain-execution',
   'compute-container-execution',
   'storage-container-execution',
@@ -17,6 +18,13 @@ const V24_INTERFACE_ARTIFACT_REFS = {
     '.engi/bitcoin-settlement-observation.json',
     '.engi/bitcoin-anchor.json',
     '.engi/bitcoin-bounded-public-anchor.json'
+  ],
+  'repeated-read-payment-execution': [
+    '.engi/repeated-read-payment-intent.json',
+    '.engi/repeated-read-payment-execution.json',
+    '.engi/repeated-read-payment-observation.json',
+    '.engi/bitcoin-settlement-intent.json',
+    '.engi/bitcoin-settlement-observation.json'
   ],
   'sidechain-execution': [
     '.engi/external-boundary-manifest.json',
@@ -175,6 +183,67 @@ function buildSidechainBinding(mode) {
  * @param {string} mode
  * @returns {Record<string, unknown>}
  */
+function buildRepeatedReadBinding(mode) {
+  if (mode === 'production') {
+    return {
+      interfaceId: 'repeated-read-payment-execution',
+      environmentMode: mode,
+      network: 'lightning-mainnet',
+      accountRef: 'lightning-prod-account',
+      nodeRef: 'lightning-node://engi/production',
+      processorRef: 'lightning-processor://engi/production',
+      invoiceEndpointRef: 'lightning://engi/production/invoices',
+      treasuryPolicyRef: 'treasury://engi/lightning-production',
+      executionClass: 'real-lightning-payment-execution',
+      mockEquivalent: false
+    };
+  }
+  if (mode === 'staging') {
+    return {
+      interfaceId: 'repeated-read-payment-execution',
+      environmentMode: mode,
+      network: 'lightning-testnet',
+      accountRef: 'lightning-stage-account',
+      nodeRef: 'lightning-node://engi/staging',
+      processorRef: 'lightning-processor://engi/staging',
+      invoiceEndpointRef: 'lightning://engi/staging/invoices',
+      treasuryPolicyRef: 'treasury://engi/lightning-staging',
+      executionClass: 'pre-production-lightning-payment-execution',
+      mockEquivalent: false
+    };
+  }
+  if (mode === 'development') {
+    return {
+      interfaceId: 'repeated-read-payment-execution',
+      environmentMode: mode,
+      network: 'lightning-testnet',
+      accountRef: 'lightning-dev-account',
+      nodeRef: 'lightning-node://engi/development',
+      processorRef: 'lightning-processor://engi/development',
+      invoiceEndpointRef: 'lightning://engi/development/invoices',
+      treasuryPolicyRef: 'treasury://engi/lightning-development',
+      executionClass: 'developer-lightning-payment-execution',
+      mockEquivalent: false
+    };
+  }
+  return {
+    interfaceId: 'repeated-read-payment-execution',
+    environmentMode: mode,
+    network: 'lightning-mock',
+    accountRef: 'lightning-mock-account',
+    nodeRef: 'lightning-node://engi/mock',
+    processorRef: 'lightning-processor://engi/mock',
+    invoiceEndpointRef: 'lightning://engi/mock/invoices',
+    treasuryPolicyRef: 'treasury://engi/lightning-mock',
+    executionClass: 'deterministic-nonbroadcast-lightning',
+    mockEquivalent: true
+  };
+}
+
+/**
+ * @param {string} mode
+ * @returns {Record<string, unknown>}
+ */
 function buildComputeBinding(mode) {
   return {
     interfaceId: 'compute-container-execution',
@@ -240,6 +309,7 @@ function buildEnvironmentProfiles(repos) {
     releaseDisposition: environmentMode === 'production' ? 'customer-facing' : environmentMode === 'mock' ? 'non-broadcasting' : 'pre-production',
     externalBindings: {
       bitcoinMainchain: buildBitcoinMainchainBinding(environmentMode),
+      repeatedReadPayment: buildRepeatedReadBinding(environmentMode),
       sidechain: buildSidechainBinding(environmentMode),
       compute: buildComputeBinding(environmentMode),
       storage: buildStorageBinding(environmentMode),
@@ -265,10 +335,11 @@ function buildNetworkCapabilityManifest(environmentProfiles) {
         const bindings = record.externalBindings || {};
         const binding =
           interfaceId === 'bitcoin-mainchain-execution' ? bindings.bitcoinMainchain
-            : interfaceId === 'sidechain-execution' ? bindings.sidechain
-              : interfaceId === 'compute-container-execution' ? bindings.compute
-                : interfaceId === 'storage-container-execution' ? bindings.storage
-                  : bindings.github;
+            : interfaceId === 'repeated-read-payment-execution' ? bindings.repeatedReadPayment
+              : interfaceId === 'sidechain-execution' ? bindings.sidechain
+                : interfaceId === 'compute-container-execution' ? bindings.compute
+                  : interfaceId === 'storage-container-execution' ? bindings.storage
+                    : bindings.github;
         return {
           environmentMode: record.environmentMode,
           binding
@@ -291,6 +362,11 @@ function buildExternalExecutionPolicy() {
       {
         interfaceId: 'bitcoin-mainchain-execution',
         requiredBindings: ['network', 'accountRef', 'addressRef', 'treasuryPolicyRef', 'executorUrl'],
+        requiredReceiptStages: ['intent', 'execution', 'observation']
+      },
+      {
+        interfaceId: 'repeated-read-payment-execution',
+        requiredBindings: ['network', 'accountRef', 'nodeRef', 'processorRef', 'invoiceEndpointRef', 'treasuryPolicyRef', 'executorUrl'],
         requiredReceiptStages: ['intent', 'execution', 'observation']
       },
       {
@@ -344,6 +420,10 @@ function buildExternalTelemetryPolicy() {
       {
         interfaceId: 'bitcoin-mainchain-execution',
         requiredEventClasses: ['spend-intent', 'signer-coordination', 'broadcast-attempt', 'confirmation-observation', 'publication-reconciliation']
+      },
+      {
+        interfaceId: 'repeated-read-payment-execution',
+        requiredEventClasses: ['invoice-intent', 'invoice-issuance', 'payment-observation', 'settlement-reconciliation', 'anchor-reconciliation']
       },
       {
         interfaceId: 'sidechain-execution',
@@ -448,6 +528,7 @@ function applyLocalExecutorSupport(interfaceId, binding, configuredEnvironmentMo
  */
 function liveEnableEnvKey(interfaceId) {
   if (interfaceId === 'bitcoin-mainchain-execution') return 'ENGI_V24_ENABLE_BITCOIN_MAINCHAIN';
+  if (interfaceId === 'repeated-read-payment-execution') return 'ENGI_V24_ENABLE_REPEATED_READ_PAYMENT';
   if (interfaceId === 'sidechain-execution') return 'ENGI_V24_ENABLE_SIDECHAIN';
   if (interfaceId === 'compute-container-execution') return 'ENGI_V24_ENABLE_COMPUTE';
   if (interfaceId === 'storage-container-execution') return 'ENGI_V24_ENABLE_STORAGE';
@@ -482,6 +563,22 @@ function applyActiveBindingOverrides(interfaceId, binding) {
       treasuryPolicyRef: envString('ENGI_V24_SIDECHAIN_TREASURY_POLICY_REF'),
       executorUrl: envString('ENGI_V24_SIDECHAIN_EXECUTOR_URL'),
       executorKind: envString('ENGI_V24_SIDECHAIN_EXECUTOR_KIND')
+    });
+    return {
+      binding: withBindingOverrides(binding, overrides),
+      overrideKeys: Object.keys(overrides)
+    };
+  }
+  if (interfaceId === 'repeated-read-payment-execution') {
+    const overrides = compactRecord({
+      network: envString('ENGI_V24_REPEATED_READ_NETWORK'),
+      accountRef: envString('ENGI_V24_REPEATED_READ_ACCOUNT_REF'),
+      nodeRef: envString('ENGI_V24_REPEATED_READ_NODE_REF'),
+      processorRef: envString('ENGI_V24_REPEATED_READ_PROCESSOR_REF'),
+      invoiceEndpointRef: envString('ENGI_V24_REPEATED_READ_INVOICE_ENDPOINT_REF'),
+      treasuryPolicyRef: envString('ENGI_V24_REPEATED_READ_TREASURY_POLICY_REF'),
+      executorUrl: envString('ENGI_V24_REPEATED_READ_EXECUTOR_URL'),
+      executorKind: envString('ENGI_V24_REPEATED_READ_EXECUTOR_KIND')
     });
     return {
       binding: withBindingOverrides(binding, overrides),
@@ -567,6 +664,9 @@ function requiredSecretEnvKeys(interfaceId, binding) {
   }
   if (interfaceId === 'bitcoin-mainchain-execution' && executorKind === 'bitcoin-json-rpc-v1') {
     return ['ENGI_V24_BITCOIN_MAINCHAIN_RPC_USER', 'ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD'];
+  }
+  if (interfaceId === 'repeated-read-payment-execution' && executorKind === 'lightning-http-v1') {
+    return ['ENGI_V24_REPEATED_READ_BEARER_TOKEN'];
   }
   if (interfaceId === 'sidechain-execution' && executorKind === 'sidechain-json-rpc-v1') {
     return ['ENGI_V24_SIDECHAIN_RPC_USER', 'ENGI_V24_SIDECHAIN_RPC_PASSWORD'];
@@ -677,6 +777,11 @@ export function resolveV24ActiveExternalRuntime(descriptor, input = {}) {
       activeBindingOverrideKeysByInterface['bitcoin-mainchain-execution'] = overrideKeys;
       return applyLocalExecutorSupport('bitcoin-mainchain-execution', binding, configuredEnvironmentMode);
     })(),
+    repeatedReadPayment: (() => {
+      const { binding, overrideKeys } = applyActiveBindingOverrides('repeated-read-payment-execution', profileBindings.repeatedReadPayment || {});
+      activeBindingOverrideKeysByInterface['repeated-read-payment-execution'] = overrideKeys;
+      return applyLocalExecutorSupport('repeated-read-payment-execution', binding, configuredEnvironmentMode);
+    })(),
     sidechain: (() => {
       const { binding, overrideKeys } = applyActiveBindingOverrides('sidechain-execution', profileBindings.sidechain || {});
       activeBindingOverrideKeysByInterface['sidechain-execution'] = overrideKeys;
@@ -701,10 +806,11 @@ export function resolveV24ActiveExternalRuntime(descriptor, input = {}) {
   const interfaceRuntimeStates = V24_EXTERNAL_INTERFACE_IDS.map((interfaceId) => {
     const binding =
       interfaceId === 'bitcoin-mainchain-execution' ? activeBindings.bitcoinMainchain
-        : interfaceId === 'sidechain-execution' ? activeBindings.sidechain
-          : interfaceId === 'compute-container-execution' ? activeBindings.compute
-            : interfaceId === 'storage-container-execution' ? activeBindings.storage
-              : activeBindings.github;
+        : interfaceId === 'repeated-read-payment-execution' ? activeBindings.repeatedReadPayment
+          : interfaceId === 'sidechain-execution' ? activeBindings.sidechain
+            : interfaceId === 'compute-container-execution' ? activeBindings.compute
+              : interfaceId === 'storage-container-execution' ? activeBindings.storage
+                : activeBindings.github;
     const state = buildInterfaceRuntimeState(executionPolicy, interfaceId, binding, configuredEnvironmentMode, defaultStubbed);
     return {
       ...state,
@@ -729,7 +835,7 @@ export function resolveV24ActiveExternalRuntime(descriptor, input = {}) {
     configuredEnvironmentMode,
     actualityDisposition,
     activeProfile,
-    activeBindings,
+      activeBindings,
     interfaceRuntimeStates,
     interfaceRuntimeStateById,
     activeBindingOverrideKeysByInterface
@@ -826,10 +932,11 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
     interfaceSummaries: V24_EXTERNAL_INTERFACE_IDS.map((interfaceId) => {
       const binding =
         interfaceId === 'bitcoin-mainchain-execution' ? activeBindings.bitcoinMainchain
-          : interfaceId === 'sidechain-execution' ? activeBindings.sidechain
-            : interfaceId === 'compute-container-execution' ? activeBindings.compute
-              : interfaceId === 'storage-container-execution' ? activeBindings.storage
-                : activeGithubBinding;
+          : interfaceId === 'repeated-read-payment-execution' ? activeBindings.repeatedReadPayment
+            : interfaceId === 'sidechain-execution' ? activeBindings.sidechain
+              : interfaceId === 'compute-container-execution' ? activeBindings.compute
+                : interfaceId === 'storage-container-execution' ? activeBindings.storage
+                  : activeGithubBinding;
       return {
         interfaceId,
         configuredEnvironmentMode,

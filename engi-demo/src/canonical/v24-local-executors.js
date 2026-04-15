@@ -182,6 +182,109 @@ function bitcoinMainchainExecutor(payload) {
  * @param {Record<string, any>} payload
  * @returns {Record<string, any>}
  */
+function repeatedReadPaymentExecutor(payload) {
+  const artifacts = ensureRecord(payload.artifacts);
+  const supportArtifacts = ensureRecord(payload.supportArtifacts);
+  const priorIntent = ensureRecord(artifacts.repeatedReadPaymentIntent);
+  const priorExecution = ensureRecord(artifacts.repeatedReadPaymentExecution);
+  const priorObservation = ensureRecord(artifacts.repeatedReadPaymentObservation);
+  const settlementIntent = ensureRecord(supportArtifacts.bitcoinSettlementIntent);
+  const settlementObservation = ensureRecord(supportArtifacts.bitcoinSettlementObservation);
+  const binding = ensureRecord(payload.binding);
+  const invoiceRef =
+    priorObservation.invoiceRef
+    || priorExecution.invoiceRef
+    || settlementIntent.paymentCarrier?.invoice
+    || `ln-invoice://${shortId(`${payload.bundleId || payload.needId || 'default'}:${payload.branchName || 'branch'}`, 16)}`;
+  const paymentHash =
+    priorObservation.paymentHash
+    || priorExecution.paymentHash
+    || settlementIntent.paymentCarrier?.paymentHash
+    || `sha256:${sha256(invoiceRef)}`;
+  const descriptionHash =
+    priorObservation.descriptionHash
+    || priorExecution.descriptionHash
+    || settlementIntent.paymentCarrier?.descriptionHash
+    || `sha256:${sha256(`${invoiceRef}:description`)}`;
+  const telemetry = buildTelemetry(payload, {
+    reconciliationState: 'live-repeated-read-reconciled',
+    affectedArtifactRefs: [
+      '.engi/repeated-read-payment-intent.json',
+      '.engi/repeated-read-payment-execution.json',
+      '.engi/repeated-read-payment-observation.json'
+    ]
+  });
+  return {
+    interfaceId: String(payload.interfaceId || 'repeated-read-payment-execution'),
+    telemetry,
+    artifacts: {
+      repeatedReadPaymentIntent: {
+        ...priorIntent,
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || priorIntent.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || priorIntent.actualityDisposition || null,
+        requestId: telemetry.requestId,
+        intentRef: priorIntent.intentRef || settlementIntent.intentId || null,
+        processorRef: priorIntent.processorRef || binding.processorRef || null,
+        invoiceEndpointRef: priorIntent.invoiceEndpointRef || binding.invoiceEndpointRef || null,
+        environmentIdentityRef: telemetry.environmentIdentityRef,
+        environmentResourceRef: telemetry.environmentResourceRef,
+        affectedArtifactRefs: telemetry.affectedArtifactRefs
+      },
+      repeatedReadPaymentExecution: {
+        ...priorExecution,
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || priorExecution.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || priorExecution.actualityDisposition || null,
+        requestId: telemetry.requestId,
+        executionId: telemetry.executionId,
+        observationId: telemetry.observationId,
+        executionClass: telemetry.executionClass,
+        executionState: priorIntent.modeApplicability === 'inactive-for-mode'
+          ? 'inactive-for-mode'
+          : 'live-lightning-invoice-issued',
+        processorRef: priorExecution.processorRef || binding.processorRef || null,
+        invoiceRef,
+        paymentHash,
+        descriptionHash,
+        environmentIdentityRef: telemetry.environmentIdentityRef,
+        environmentResourceRef: telemetry.environmentResourceRef,
+        affectedArtifactRefs: telemetry.affectedArtifactRefs,
+        serviceMode: 'v24-local-demonstration-executor'
+      },
+      repeatedReadPaymentObservation: {
+        ...priorObservation,
+        configuredEnvironmentMode: payload.configuredEnvironmentMode || priorObservation.configuredEnvironmentMode || null,
+        actualityDisposition: payload.actualityDisposition || priorObservation.actualityDisposition || null,
+        executionId: telemetry.executionId,
+        observationId: telemetry.observationId,
+        observationState: priorIntent.modeApplicability === 'inactive-for-mode'
+          ? 'inactive-for-mode'
+          : 'live-lightning-payment-observed',
+        networkState: binding.network || settlementObservation.networkState || 'lightning-testnet',
+        confirmationState: 'accepted-offchain',
+        confirmations: 0,
+        invoiceRef,
+        paymentHash,
+        descriptionHash,
+        observedValue: priorObservation.observedValue || settlementObservation.observedValue || payload.bundleId || null,
+        journalBindingState: 'anchor-required',
+        serviceReceipt: {
+          serviceMode: 'v24-local-demonstration-executor',
+          referenceId: `lightning://${shortId(`${invoiceRef}:${telemetry.observationId}`, 20)}`,
+          invoiceRef,
+          paymentHash
+        },
+        environmentIdentityRef: telemetry.environmentIdentityRef,
+        environmentResourceRef: telemetry.environmentResourceRef,
+        affectedArtifactRefs: telemetry.affectedArtifactRefs
+      }
+    }
+  };
+}
+
+/**
+ * @param {Record<string, any>} payload
+ * @returns {Record<string, any>}
+ */
 function sidechainExecutor(payload) {
   const artifacts = ensureRecord(payload.artifacts);
   const supportArtifacts = ensureRecord(payload.supportArtifacts);
@@ -399,6 +502,7 @@ function githubExecutor(payload) {
 
 export const V24_LOCAL_EXECUTOR_HANDLERS = {
   'bitcoin-mainchain-execution': bitcoinMainchainExecutor,
+  'repeated-read-payment-execution': repeatedReadPaymentExecutor,
   'sidechain-execution': sidechainExecutor,
   'compute-container-execution': computeExecutor,
   'storage-container-execution': storageExecutor,

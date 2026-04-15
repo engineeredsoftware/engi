@@ -817,14 +817,14 @@ test('runMakeEngiBranch emits V24 draft-target external realization artifacts an
 
   assert.equal(latestRun.externalEnvironmentProfile.configuredEnvironmentMode, 'development');
   assert.equal(latestRun.externalEnvironmentProfile.actualityDisposition, 'stubbed-external-demonstration');
-  assert.equal(latestRun.externalEnvironmentProfile.activeRuntimeStates.length, 5);
+  assert.equal(latestRun.externalEnvironmentProfile.activeRuntimeStates.length, 6);
   assert.ok(latestRun.externalEnvironmentProfile.activeRuntimeStates.every((entry) => entry.runtimeState === 'stubbed-demonstration' || entry.runtimeState === 'nonexecuting-preview'));
   assert.equal(latestRun.externalExecutionPolicy.configuredEnvironmentMode, 'development');
   assert.equal(latestRun.externalTelemetryPolicy.surfacedAcross.includes('branch-artifacts'), true);
   assert.equal(latestRun.externalTelemetrySummary.configuredEnvironmentMode, 'development');
   assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('need-measurement'));
   assert.ok(latestRun.externalTelemetrySummary.pipelineStageIds.includes('settlement-and-shares'));
-  assert.equal(latestRun.externalTelemetrySummary.interfaceSummaries.length, 5);
+  assert.equal(latestRun.externalTelemetrySummary.interfaceSummaries.length, 6);
   assert.ok(latestRun.externalTelemetrySummary.interfaceSummaries.every((entry) => entry.affectedArtifactRefs.length >= 3));
   assert.ok(latestRun.externalTelemetrySummary.interfaceSummaries.every((entry) => entry.requestId && entry.executionId && entry.observationId));
   assert.ok(latestRun.networkCapabilityManifest.interfaces.length >= 5);
