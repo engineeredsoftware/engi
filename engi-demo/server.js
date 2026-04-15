@@ -119,6 +119,7 @@ import {
   SPEC_VERSION
 } from './src/engi-demo.js';
 import { buildBitcoinDemonstrationServiceDescriptor } from './src/canonical/v23-bitcoin-demonstration-service.js';
+import { buildV24ExternalRealizationDescriptor } from './src/canonical/v24-external-realization.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DATA_PATH = path.join(__dirname, 'data', 'state.json');
@@ -513,6 +514,17 @@ export function createAppContext({
           ok: true,
           specVersion: SPEC_VERSION,
           service: buildBitcoinDemonstrationServiceDescriptor()
+        });
+      }
+
+      if (req.method === 'GET' && req.url === '/api/v24/external-realization') {
+        const state = readState();
+        return sendJson(res, 200, {
+          ok: true,
+          specVersion: SPEC_VERSION,
+          externalRealization: buildV24ExternalRealizationDescriptor({
+            githubAppSessions: state.githubAppSessions
+          })
         });
       }
 

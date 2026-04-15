@@ -18,6 +18,7 @@ import {
 } from '../src/engi-demo.js';
 import { CURRENT_CANON_POSTURE } from '../src/canon-posture.js';
 import { buildProjectedLatestRun } from '../src/demo-shell-state.js';
+import { buildV24ExternalRealizationDescriptor } from '../src/canonical/v24-external-realization.js';
 
 /**
  * @typedef {{
@@ -669,6 +670,35 @@ test('V23 payment modes preserve mode-specific observation policy and projection
   assert.equal(buyerProjection.bitcoinSettlementIntent.intentId, sidechain.bitcoinSettlementIntent.intentId);
   assert.equal(buyerProjection.bitcoinSettlementObservation.observationId, sidechain.bitcoinSettlementObservation.observationId);
   assert.equal(buyerProjection.bitcoinAnchor.anchorId, sidechain.bitcoinAnchor.anchorId);
+});
+
+test('V24 external realization descriptor enforces four-mode isolation and telemetry policy', () => {
+  const state = buildInitialStateTest();
+  const descriptor = buildV24ExternalRealizationDescriptor({
+    githubAppSessions: state.githubAppSessions
+  });
+  const profiles = descriptor.environmentProfiles;
+  const githubBindings = descriptor.githubAppBindings;
+  const production = profiles.find((profile) => profile.environmentMode === 'production');
+  const staging = profiles.find((profile) => profile.environmentMode === 'staging');
+  const development = profiles.find((profile) => profile.environmentMode === 'development');
+  const mock = profiles.find((profile) => profile.environmentMode === 'mock');
+  const stagingGithub = githubBindings.find((binding) => binding.environmentMode === 'staging');
+  const developmentGithub = githubBindings.find((binding) => binding.environmentMode === 'development');
+
+  assert.deepEqual(descriptor.environmentModes, ['production', 'staging', 'development', 'mock']);
+  assert.equal(profiles.length, 4);
+  assert.equal(production.externalBindings.bitcoinMainchain.network, 'bitcoin-mainnet');
+  assert.equal(staging.externalBindings.bitcoinMainchain.network, 'bitcoin-testnet4');
+  assert.equal(development.externalBindings.bitcoinMainchain.network, 'bitcoin-testnet4');
+  assert.notEqual(staging.externalBindings.bitcoinMainchain.addressRef, development.externalBindings.bitcoinMainchain.addressRef);
+  assert.notEqual(staging.externalBindings.sidechain.addressRef, development.externalBindings.sidechain.addressRef);
+  assert.equal(mock.externalBindings.bitcoinMainchain.executionClass, 'deterministic-nonbroadcast');
+  assert.notEqual(stagingGithub.appId, developmentGithub.appId);
+  assert.ok(stagingGithub.targetedRepos.length >= 1);
+  assert.deepEqual(descriptor.externalTelemetryPolicy.coverageExpectation.modes, ['production', 'staging', 'development', 'mock']);
+  assert.equal(descriptor.externalTelemetryPolicy.coverageExpectation.missingTelemetryDisposition, 'blocking');
+  assert.equal(descriptor.externalExecutionPolicy.isolationDisposition, 'blocking-on-cross-mode-resource-reuse');
 });
 
 test('context-mode asset pack can admit context-only candidates while patch mode excludes them', () => {

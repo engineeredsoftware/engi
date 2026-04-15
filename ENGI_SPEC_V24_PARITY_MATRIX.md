@@ -35,6 +35,7 @@ This matrix is grounded in:
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/v23-bitcoin.js`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/v23-bitcoin-demonstration-service.js`
+- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canonical/v24-external-realization.js`
 - `/Users/garrettmaring/Developer/ENGI/engi-demo/server.js`
 
 ---
@@ -44,8 +45,8 @@ This matrix is grounded in:
 | Area | Current source truth | V24 implementation expectation | Closure signal | Judgment |
 | --- | --- | --- | --- | --- |
 | Draft file family presence | V23 is active and `canon-posture.js` already names `V24` as the draft target | V24 requires `SPEC`, `DELTA`, `PARITY_MATRIX`, and `NOTES` draft files | V24 draft family exists without changing `ENGI_SPEC.txt` | implemented as draft |
-| Environment-mode completeness | current source has mode distinctions in places but no unified four-mode external realization contract | V24 requires `production`, `staging`, `development`, and `mock` across all realized external interfaces | emitted environment profiles and mode-specific bindings for every interface class | specified not implemented |
-| Environment identity and resource isolation | current source does not close mode-specific external identity isolation as canon law | V24 requires real mode-specific apps, addresses, accounts, namespaces, registries, and publication targets | proof surfaces and validation reject shared cross-mode bindings | specified not implemented |
+| Environment-mode completeness | current source now exposes a V24 draft-target descriptor with one unified four-mode external realization contract | V24 requires `production`, `staging`, `development`, and `mock` across all realized external interfaces | emitted environment profiles and mode-specific bindings for every interface class | implemented as draft-target descriptor |
+| Environment identity and resource isolation | current source now emits mode-specific draft-target apps, addresses, accounts, namespaces, registries, and publication targets through the V24 descriptor | V24 requires real mode-specific apps, addresses, accounts, namespaces, registries, and publication targets | proof surfaces and validation reject shared cross-mode bindings | implemented as draft-target descriptor |
 | Real Bitcoin mainchain execution | current source emits stubbed-testnet demonstration carriers and receipts only | V24 requires real network-capable spend, broadcast, and confirmation artifacts | emitted real network intent, execution, and observation receipts | specified not implemented |
 | Real sidechain execution | current source emits a checkpointed sidechain bridge demonstration mode only | V24 requires real sidechain bridge execution and observation artifacts if the bridge is claimed as realized | emitted real sidechain execution and checkpoint receipts | specified not implemented |
 | Compute container realization | current source emits compute-reality posture manifests only | V24 requires auditable compute-container manifests and execution receipts | emitted container manifest, execution receipt, attestation, and replay refs | specified not implemented |
@@ -53,8 +54,9 @@ This matrix is grounded in:
 | GitHub live sessions | current source carries GitHub boundary posture and repo-authenticated supply, but not end-to-end live execution receipts | V24 requires live GitHub App session receipts | emitted live session receipts bound to ENGI identities and authorization roots | specified not implemented |
 | GitHub inventory and artifact fetch | current source models repo supply and artifact inventory | V24 requires real GitHub inventory fetch and workflow-artifact fetch receipts | emitted fetch receipts with addressing and content-root binding | specified not implemented |
 | GitHub branch and PR mutation | current source does not claim live branch push or PR update execution as canonicalized behavior | V24 requires real branch publication and PR mutation receipts if those paths are claimed as realized | emitted branch publication and PR update receipts with replay handles | specified not implemented |
-| External execution policy | current source has treasury-policy and boundary posture, but not a unified external-execution policy surface | V24 requires one explicit external-execution policy carrier | emitted `.engi/external-execution-policy.json` and referenced it everywhere | specified not implemented |
-| Telemetry policy and telemetry completeness | current source has limited runtime telemetry but no canonical exhaustive external-interface telemetry contract | V24 requires one telemetry policy plus emitted telemetry summaries for every realized interface and mode | emitted `.engi/external-telemetry-policy.json`, `.engi/external-telemetry-summary.json`, and validation treats omissions as blocking | specified not implemented |
+| External execution policy | current source now exposes a unified V24 draft-target external-execution policy descriptor, but not yet emitted branch artifacts | V24 requires one explicit external-execution policy carrier | emitted `.engi/external-execution-policy.json` and referenced it everywhere | implemented as draft-target descriptor |
+| Telemetry policy and telemetry completeness | current source now exposes a V24 draft-target telemetry policy and coverage contract via API descriptor, but not yet emitted branch artifacts | V24 requires one telemetry policy plus emitted telemetry summaries for every realized interface and mode | emitted `.engi/external-telemetry-policy.json`, `.engi/external-telemetry-summary.json`, and validation treats omissions as blocking | implemented as draft-target descriptor |
+| API exposure for draft-target realization surfaces | current source now exposes `/api/v24/external-realization` for the V24 draft-target descriptor | V24 requires runtime-visible draft-target source surfaces before branch-artifact emission starts | API returns environment profiles, execution policy, telemetry policy, and GitHub bindings | implemented as draft-target source slice |
 | Unified execution receipt model | current source has separate V23 bitcoin carriers but no single generalized live-execution model | V24 requires intent, execution, and observation receipts across all realized external interfaces | proof families and artifacts use one execution-receipt model | specified not implemented |
 | Proof-family expansion | current source closes `bitcoin-audit-anchor` and `bitcoin-settlement-interface` only | V24 requires proof-family closure for network execution, containers, and GitHub live interfacing | proof-witness manifest and proof-contract include all three new V24 families | specified not implemented |
 | Deliverables classification | current deliverables manifest classifies V23 bitcoin artifacts and proof surfaces | V24 requires classification of every new external-realization artifact by confidentiality and disclosability | deliverables manifest covers all V24 artifacts correctly | specified not implemented |
@@ -69,14 +71,14 @@ This matrix is grounded in:
 | --- | --- | --- |
 | Draft version center | V24 is explicitly realization-facing | closed in draft |
 | Draft family | V24 draft family exists while V23 remains active | implemented |
-| Environment-mode matrix | all realized external interfaces require `production`, `staging`, `development`, and `mock` | specified |
-| Environment isolation | all realized external interfaces require isolated identities and resources by mode | specified |
+| Environment-mode matrix | all realized external interfaces require `production`, `staging`, `development`, and `mock` | implemented as draft-target source slice |
+| Environment isolation | all realized external interfaces require isolated identities and resources by mode | implemented as draft-target source slice |
 | Real Bitcoin execution model | real spend and anchor execution artifacts are defined | specified |
 | Real sidechain execution model | real bridge execution artifacts are defined | specified |
 | Compute container model | auditable compute-container artifacts are defined | specified |
 | Storage container model | auditable storage-container artifacts are defined | specified |
 | GitHub live interfacing model | real GitHub session/fetch/mutation artifacts are defined | specified |
-| Telemetry model | exhaustive telemetry policy and summary artifacts are defined | specified |
+| Telemetry model | exhaustive telemetry policy and summary artifacts are defined | implemented as draft-target source slice |
 | Execution receipt model | one intent/execution/observation model spans realized external interfaces | specified |
 | V24 proof families | proof families are defined for external execution, containers, and GitHub | specified |
 | Acceptance criteria | review gate and promotion gate are explicit | implemented |

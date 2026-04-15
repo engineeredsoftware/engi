@@ -28,6 +28,11 @@ That leaves the next delta:
 
 V24 exists to close that realization gap.
 
+An initial source slice now exists for the draft target:
+- `engi-demo/src/canonical/v24-external-realization.js` emits a unified environment-mode descriptor,
+- `engi-demo/server.js` exposes that descriptor at `/api/v24/external-realization`,
+- and tests already close over four-mode isolation and telemetry-policy posture.
+
 ## Findings that drive V24
 
 ### 1. V23 already names the right boundaries

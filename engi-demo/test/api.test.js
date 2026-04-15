@@ -492,6 +492,28 @@ testAny('GET /api/bitcoin-demonstration-service returns the V23 stubbed-testnet 
   });
 });
 
+testAny('GET /api/v24/external-realization returns the draft-target environment and telemetry descriptor', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
+    const descriptor = response.json.externalRealization;
+    const stagingProfile = descriptor.environmentProfiles.find((profile) => profile.environmentMode === 'staging');
+    const developmentProfile = descriptor.environmentProfiles.find((profile) => profile.environmentMode === 'development');
+    const stagingGithub = descriptor.githubAppBindings.find((binding) => binding.environmentMode === 'staging');
+    const developmentGithub = descriptor.githubAppBindings.find((binding) => binding.environmentMode === 'development');
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(descriptor.draftTargetVersion, 'V24');
+    assert.deepEqual(descriptor.environmentModes, ['production', 'staging', 'development', 'mock']);
+    assert.equal(stagingProfile.externalBindings.bitcoinMainchain.network, 'bitcoin-testnet4');
+    assert.equal(developmentProfile.externalBindings.bitcoinMainchain.network, 'bitcoin-testnet4');
+    assert.notEqual(stagingProfile.externalBindings.bitcoinMainchain.addressRef, developmentProfile.externalBindings.bitcoinMainchain.addressRef);
+    assert.notEqual(stagingProfile.externalBindings.sidechain.addressRef, developmentProfile.externalBindings.sidechain.addressRef);
+    assert.notEqual(stagingGithub.appId, developmentGithub.appId);
+    assert.equal(descriptor.externalTelemetryPolicy.coverageExpectation.missingTelemetryDisposition, 'blocking');
+    assert.ok(descriptor.networkCapabilityManifest.interfaces.some((entry) => entry.interfaceId === 'github-live-interface'));
+  });
+});
+
 testAny('GET /api/state supports buyer projection without raw branch files', async (t) => {
   await withApp(t, async ({ app }) => {
     await invoke(app, {
