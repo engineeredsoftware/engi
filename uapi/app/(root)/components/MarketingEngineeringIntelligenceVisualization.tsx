@@ -293,7 +293,7 @@ export default function MarketingEngineeringIntelligenceVisualization() {
                     <div>
                       <h3 className="text-sm font-medium text-emerald-400 mb-1 font-mono">Autonomous Execution</h3>
                       <p className="text-xs text-gray-400">
-                        Engi works independently on complex engineering tasks, freeing your team to focus on strategic priorities.
+                        Bitcode works independently on complex engineering tasks, freeing your team to focus on strategic priorities.
                       </p>
                     </div>
                   </div>

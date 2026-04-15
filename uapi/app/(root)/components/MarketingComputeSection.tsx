@@ -369,7 +369,7 @@ export default function MarketingComputeSection() {
           On-Demand Workstations — Ship Faster, Build Smarter
         </h2>
         <p className="text-base tablet:text-lg laptop:text-xl text-cyan-100/90 mb-8 max-w-2xl mx-auto text-center">
-          Engi silently provisions full-stack workstations the moment an agent needs them—unlocking real-world tools so your software ships faster and with greater quality.
+          Bitcode silently provisions full-stack workstations the moment an agent needs them—unlocking real-world tools so your software ships faster and with greater quality.
         </p>
 
         {/* Split pane */}

@@ -99,7 +99,7 @@ function TerminalCurl() {
   -H "Content-Type: application/json" \
   -d '{
     "repo": "acme/widgets",
-    "task": "engi-deliver-comment",
+    "task": "bitcode-deliver-comment",
     "definition_of_done": "refactor utils + docs"
   }'
 `}
@@ -127,7 +127,7 @@ export default function MarketingHeadlessMobileShowcase() {
           <SkeletonImage src="/screenshots/setup-marketplace.png" alt="Headless Mode Integration" />
           <h3 className="mt-4 text-2xl font-semibold text-white">GitHub Triggers</h3>
           <p className="mt-2 text-gray-300 leading-relaxed">
-            Add labels like <code>engi-deliver-comment</code>, <code>engi-deliver-review</code>, <code>engi-deliver-pr</code>, and <code>engi-deliver-issue</code> to GitHub Issues and Pull Requests to request AI-powered deliverables directly in GitHub. Integrate automatically via CI/CD or programmatically via the Engi API.
+            Add labels like <code>bitcode-deliver-comment</code>, <code>bitcode-deliver-review</code>, <code>bitcode-deliver-pr</code>, and <code>bitcode-deliver-issue</code> to GitHub Issues and Pull Requests to request AI-powered deliverables directly in GitHub. Integrate automatically via CI/CD or programmatically via the Bitcode API.
           </p>
         </div>
         {/* Mobile Mode */}
@@ -153,7 +153,7 @@ export default function MarketingHeadlessMobileShowcase() {
           <TerminalCurl />
           <h3 className="mt-4 text-2xl font-semibold text-white">MCP API</h3>
           <p className="mt-2 text-gray-300 leading-relaxed">
-            Trigger Engi from any backend with a single signed curl request.
+            Trigger Bitcode from any backend with a single signed curl request.
           </p>
         </div>
       </div>

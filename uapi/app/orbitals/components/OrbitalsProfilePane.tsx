@@ -404,7 +404,7 @@ export default function ProfileStep({ onSave,
                 <strong style={{ fontSize: "16px", color: "rgba(255, 255, 255, 0.95)" }}>Step 1: Secure your account</strong>
               </div>
               <p style={{ margin: "0 0 12px 0", fontSize: "15px", lineHeight: "1.5", color: "rgba(255, 255, 255, 0.85)" }}>
-                Verify your email to secure your Engi account. You’ll be ready to explore features and collaborate in seconds.
+                Verify your email to secure your Bitcode account. You’ll be ready to explore features and collaborate in seconds.
               </p>
               <div className="onboarding-focus-note">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style={{ marginTop: "4px", color: "rgba(103, 254, 183, 0.8)" }}>

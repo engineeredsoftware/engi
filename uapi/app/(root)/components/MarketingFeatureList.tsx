@@ -7,16 +7,16 @@ const features = [
   {
     name: 'Reach Zero Backlog: ',
     description:
-      'Engi can fix bugs and implement features. It\'s best at the easy stuff like adding documentation and writing tests.',
+      'Bitcode can fix bugs and implement features. It\'s best at the easy stuff like adding documentation and writing tests.',
     icon: BoltIcon,
   },
   {
     name: 'A Configurable Craftsman: ',
-    description: 'Steer Engi towards speed or quality, or default to balanced, by using adjustable labels.',
+    description: 'Steer Bitcode towards speed or quality, or default to balanced, by using adjustable labels.',
     icon: WrenchScrewdriverIcon,
   },
   {
-    name: 'Engi Ad Infinitum: ',
+    name: 'Bitcode Ad Infinitum: ',
     description: 'Deploy many Engis and watch them operate like members of your team - making progress and communicating along the way.',
     icon: ChartPieIcon,
   },
@@ -55,7 +55,7 @@ export default function MarketingFeatureList() {
               <h2 className="text-base font-semibold leading-7 text-green-primary">Seamlessly Integrate</h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-neutral-100 tablet:text-4xl">Your Pocket Engineer</p>
               <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-neutral-200">
-                Ask Engi to work for and with your dev teams anytime, freeing folks to focus on other tasks
+                Ask Bitcode to work for and with your dev teams anytime, freeing folks to focus on other tasks
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 dark:text-neutral-300 desktop:max-w-none">
                 {features.map((feature) => (

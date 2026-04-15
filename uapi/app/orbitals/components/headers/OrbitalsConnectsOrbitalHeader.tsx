@@ -9,7 +9,7 @@ export default function OrbitalsConnectsOrbitalHeader({
   return (
     <OrbitalsOrbitalHeader
       title="Connect Tools"
-      description="Connect tools to enhance Engi's capabilities."
+      description="Connect tools to enhance Bitcode's capabilities."
       stepNumber={2}
       isOnboardingComplete={isOnboardingComplete}
     />

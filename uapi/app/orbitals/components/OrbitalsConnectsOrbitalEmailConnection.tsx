@@ -288,7 +288,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
               {emailConfig?.customDomain && <span className="orbitals-connects-domain-badge">{emailConfig.customDomain}</span>}
             </div>
             <p className="orbitals-connects-status-description">
-              Inbox automation is live. Forward requirements, specs, or logs to Engi and we will spin up the right pipelines instantly.
+              Inbox automation is live. Forward requirements, specs, or logs to Bitcode and we will spin up the right pipelines instantly.
             </p>
             <div className="orbitals-connects-email-address">{emailConfig?.email}</div>
           </div>
@@ -411,7 +411,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
         </div>
         <div className="connect-info">
           <h3 className="connect-title">Enable email commands</h3>
-          <p className="connect-description">Forward specs, approvals, or context to Engi and trigger pipelines asynchronously.</p>
+          <p className="connect-description">Forward specs, approvals, or context to Bitcode and trigger pipelines asynchronously.</p>
         </div>
       </div>
 
@@ -442,7 +442,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
           <span className="benefit-icon">🧠</span>
           <div className="benefit-content">
             <span className="benefit-title">Structured understanding</span>
-            <span className="benefit-desc">Emails are parsed into Engi intents with attachment awareness.</span>
+            <span className="benefit-desc">Emails are parsed into Bitcode intents with attachment awareness.</span>
           </div>
         </div>
         <div className="benefit">

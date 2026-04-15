@@ -81,7 +81,7 @@ const phases: Phase[] = [
     id: 'setup',
     title: 'Setup',
     description:
-      'Engi analyzes your repository, understanding your code structure and patterns.',
+      'Bitcode analyzes your repository, understanding your code structure and patterns.',
     step: 'Plan',
     agents: ['Architect Agent', 'Researcher Agent'],
     tools: ['Git Clone', 'Context Preparer'],
@@ -107,7 +107,7 @@ const phases: Phase[] = [
     id: 'discovery',
     title: 'Discovery',
     description:
-      'Engi explores your requirements, researches solutions, and plans the approach.',
+      'Bitcode explores your requirements, researches solutions, and plans the approach.',
     step: 'Generate',
     agents: ['Researcher Agent'],
     tools: ['Web Crawler', 'Snippet Collector'],
@@ -132,7 +132,7 @@ const phases: Phase[] = [
   {
     id: 'implementation',
     title: 'Implementation',
-    description: 'Engi writes code, tests, and documentation matching standards.',
+    description: 'Bitcode writes code, tests, and documentation matching standards.',
     step: 'Refine',
     agents: ['Coder Agent'],
     tools: ['Codegen Engine', 'Formatter'],
@@ -158,7 +158,7 @@ const phases: Phase[] = [
     id: 'validation',
     title: 'Validation',
     description:
-      'Engi verifies the solution via testing, reviews, and quality checks.',
+      'Bitcode verifies the solution via testing, reviews, and quality checks.',
     step: 'Judge',
     agents: ['Tester Agent', 'Security Agent'],
     tools: ['Test Runner', 'Security Scanner'],
@@ -184,7 +184,7 @@ const phases: Phase[] = [
     id: 'shipping',
     title: 'Shipping',
     description:
-      'Engi creates pull requests with full documentation and handles deployment.',
+      'Bitcode creates pull requests with full documentation and handles deployment.',
     step: 'Open PR',
     agents: ['DevOps Agent', 'Review Agent'],
     tools: ['CI/CD Pipeline', 'Release Manager'],

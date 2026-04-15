@@ -563,7 +563,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
               Answers Beyond Public Data — Premium Knowledge Procurement
             </h2>
             <p className="text-base laptop:text-lg text-emerald-100 max-w-3xl mx-auto">
-              Public datasets leave blind spots. Engi Agents fill them in real&nbsp;time—spending credits to acquire proprietary research, niche domain files, and expert answers the moment they become available. No waiting, no manual sourcing—just continuous, gap-free intelligence that keeps your build moving.
+              Public datasets leave blind spots. Bitcode agents fill them in real&nbsp;time—spending credits to acquire proprietary research, niche domain files, and expert answers the moment they become available. No waiting, no manual sourcing—just continuous, gap-free intelligence that keeps your build moving.
             </p>
           </div>
 
@@ -747,7 +747,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                         src="/icons/logo.svg"
                         width={60}
                         height={60}
-                        alt="Engi credit"
+                        alt="Bitcode credit"
                         className="w-12 h-12 drop-shadow-glow-emerald animate-pulse-slow"
                       />
                       <span className="ml-3 text-6xl laptop:text-7xl font-extrabold text-emerald-300 drop-shadow-glow-emerald">

@@ -18,7 +18,7 @@ const reviews = [
   {
     name: "Jordan Kim",
     username: "@jkim",
-    body: "Just gave Engi 10 issues. Going to bed...",
+    body: "Just gave Bitcode 10 issues. Going to bed...",
     img: "https://avatar.vercel.sh/jill",
   },
   {
@@ -30,7 +30,7 @@ const reviews = [
   {
     name: "Casey Patel",
     username: "@cpatel",
-    body: "Engi is out and POWERFUL! Its *very* easy to get setup and does the job. And its only $5.",
+    body: "Bitcode is out and POWERFUL! It's very easy to get setup and does the job. And it's only $5.",
     img: "https://avatar.vercel.sh/jane",
   },
   {

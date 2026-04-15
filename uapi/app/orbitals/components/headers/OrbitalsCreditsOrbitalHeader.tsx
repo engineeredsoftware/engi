@@ -11,7 +11,7 @@ export default function OrbitalsCreditsOrbitalHeader({
       title="Add Credits"
       completedTitle="Credits & Usage"
       description={!isOnboardingComplete
-        ? 'Add credits now to start using Engi.'
+        ? 'Add credits now to start using Bitcode.'
         : 'View and manage your credit balance.'}
       stepNumber={4}
       isOnboardingComplete={isOnboardingComplete}

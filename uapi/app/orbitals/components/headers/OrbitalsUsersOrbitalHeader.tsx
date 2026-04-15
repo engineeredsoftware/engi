@@ -20,7 +20,7 @@ export default function OrbitalsUsersOrbitalHeader({
       badgeTestId="profile-step-badge"
       showInfoBox
       infoTitle="Secure your account"
-      infoDescription="Verify your email to secure your Engi account. You’ll be ready to explore features and collaborate in seconds."
+      infoDescription="Verify your email to secure your Bitcode account. You’ll be ready to explore features and collaborate in seconds."
     />
   );
 }

@@ -961,7 +961,7 @@ export default function ExecutionsPageHeader({
       const multiAgentEdu = {
         title: "Multi-Deliverables",
         subtitle: "Chain-of-Agents",
-        body: "Allow Engi to create a series of deliverables towards your task. This will include at least 1 of each typically in sequence."
+        body: "Allow Bitcode to create a series of deliverables toward your task. This will typically include at least one of each in sequence."
       };
       setActiveEdu(multiAgentEdu);
       setLastEduContent(multiAgentEdu);

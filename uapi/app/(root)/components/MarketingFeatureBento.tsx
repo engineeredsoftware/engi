@@ -235,7 +235,7 @@ const features = [
     className: "col-span-3 desktop:col-span-1",
     //href: "/market",
     href: "/",
-    cta: "AI Document your Engi, Earn knowledge tokens",
+    cta: "AI Document your Bitcode, Earn knowledge tokens",
     //disabled: true,
     background: (
       <Image

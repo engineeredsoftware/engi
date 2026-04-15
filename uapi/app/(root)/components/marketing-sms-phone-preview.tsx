@@ -39,7 +39,7 @@ export const SmsPhonePreview: React.FC<SmsPhonePreviewProps> = ({
           <div className="bg-blue-600 text-white p-4 flex items-center gap-3">
             <div className="w-8 h-8 bg-blue-400 rounded-full"></div>
             <div>
-              <div className="font-semibold">Engi Assistant</div>
+              <div className="font-semibold">Bitcode Assistant</div>
               <div className="text-xs opacity-80">Online</div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import MarketingEngiVideoCard from './MarketingEngiVideoCard';
 const docHighlights = [
   {
     title: '.ai/PRODUCT.md',
-    description: 'Product intent stays precise and Engi rewrites it live during the conversation.'
+    description: 'Product intent stays precise and Bitcode rewrites it live during the conversation.'
   },
   {
     title: '.ai/AGENTS.md',
@@ -28,7 +28,7 @@ const toolGroups = [
     phase: 'Design intelligence',
     summary: 'Keep design intent and collaboration rituals ahead of implementation.',
     tools: [
-      { id: 'depict_design_asset', usage: 'Turn visuals into citations Engi can reference later.' },
+      { id: 'depict_design_asset', usage: 'Turn visuals into citations Bitcode can reference later.' },
       { id: 'design_code', usage: 'Regenerate `.ai/PRODUCT.md` from digest or new ideas.' },
       { id: 'code_design', usage: 'Translate approved intent into implementation steps + patch shells.' },
       { id: 'improve_developing_behavior', usage: 'Capture new rituals inside `.ai/AGENTS.md`.' }
@@ -63,20 +63,20 @@ export default function MarketingEngiHero() {
         <div className="flex flex-col gap-6">
           <div className="space-y-4 text-left max-w-2xl">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-400/50 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">
-              <Layers className="h-3 w-3" /> Engi · ChatGPT App
+              <Layers className="h-3 w-3" /> Bitcode · ChatGPT App
             </span>
             <div className="space-y-3">
               <h1 className="text-4xl phone:text-5xl tablet:text-[54px] font-semibold leading-tight text-white">
                 <span className="bg-gradient-to-r from-emerald-200 via-white to-emerald-200 bg-clip-text text-transparent">
-                  Ship software by conversing with Engi—not by coding.
+                  Ship software by conversing with Bitcode—not by coding.
                 </span>
               </h1>
               <p className="text-base tablet:text-lg leading-relaxed text-emerald-100/85">
-                Engi sits inside ChatGPT as an MCP server. You narrate `.ai` documents, Engi orchestrates planning,
+                Bitcode sits inside ChatGPT as an MCP server. You narrate `.ai` documents, Bitcode orchestrates planning,
                 repo work, research, and DevOps, and the entire loop stays in the chat.
               </p>
               <p className="text-[13px] leading-relaxed text-emerald-100/70">
-                Every turn assumes the first instinct is wrong—Engi forces deeper reading, minimalist planning,
+                Every turn assumes the first instinct is wrong—Bitcode forces deeper reading, minimalist planning,
                 and zero-regression execution.
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function MarketingEngiHero() {
               ))}
             </div>
             <p className="mt-4 text-[12px] text-emerald-100/65 sm:mt-0 sm:max-w-xs">
-              Everything is auditable: Engi leaves the conversation with the exact plan, diff, deployment log,
+              Everything is auditable: Bitcode leaves the conversation with the exact plan, diff, deployment log,
               and `.ai` update it produced.
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function MarketingEngiHero() {
               ))}
             </div>
             <p className="mt-4 text-[12px] text-emerald-100/65">
-              The Engi ChatGPT App stays simple on the surface so the dense parts—the tools—remain powerful.
+              The Bitcode ChatGPT App stays simple on the surface so the dense parts—the tools—remain powerful.
             </p>
           </div>
         </div>

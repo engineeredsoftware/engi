@@ -201,8 +201,8 @@ const MarketingAccelerationSection: React.FC = () => {
 
   // Top-level group descriptions for hover info
   const groupDescriptions: Record<string, string> = useMemo(() => ({
-    Deliverables: 'From auto-generated, Git-native design docs through merge-ready, CI-validated code, context-indexed discussions, and automated compliance reviews, Engi obliterates handoffs and friction across your entire SDLC.',
-    AI Documents: 'Continuous system evolution via data-driven feedback loops: Engi ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions to ensure each iteration aligns with real-world results.',
+    Deliverables: 'From auto-generated, Git-native design docs through merge-ready, CI-validated code, context-indexed discussions, and automated compliance reviews, Bitcode obliterates handoffs and friction across your entire SDLC.',
+    AI Documents: 'Continuous system evolution via data-driven feedback loops: Bitcode ingests developer and user signals, orchestrates MCP integrations, and applies domain-specific Extensions to ensure each iteration aligns with real-world results.',
   }), []);
 
   // Deliverable items for hover and EduBox content

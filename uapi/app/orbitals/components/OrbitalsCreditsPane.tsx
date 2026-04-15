@@ -98,11 +98,11 @@ export default function CreditsPane({
 
   // Workflow steps
   const agenticWorkflowSteps = [
-    { id: 'setup', title: 'Setup', description: 'Engi analyzes your repository, understanding your code structure and patterns.', icon: Cog6ToothIcon },
-    { id: 'discovery', title: 'Discovery', description: 'Engi explores your requirements, researches solutions, and plans the approach.', icon: MagnifyingGlassIcon },
-    { id: 'implementation', title: 'Implementation', description: 'Engi writes code, tests, and documentation matching standards.', icon: CodeBracketIcon },
-    { id: 'validation', title: 'Validation', description: 'Engi verifies the solution via tests, reviews, and security checks.', icon: ShieldCheckIcon },
-    { id: 'shipping', title: 'Shipping', description: 'Engi opens pull requests, handles deployment, and delivers production-ready results.', icon: ArrowRightOnRectangleIcon },
+    { id: 'setup', title: 'Setup', description: 'Bitcode analyzes your repository, understanding your code structure and patterns.', icon: Cog6ToothIcon },
+    { id: 'discovery', title: 'Discovery', description: 'Bitcode explores your requirements, researches solutions, and plans the approach.', icon: MagnifyingGlassIcon },
+    { id: 'implementation', title: 'Implementation', description: 'Bitcode writes code, tests, and documentation matching standards.', icon: CodeBracketIcon },
+    { id: 'validation', title: 'Validation', description: 'Bitcode verifies the solution via tests, reviews, and security checks.', icon: ShieldCheckIcon },
+    { id: 'shipping', title: 'Shipping', description: 'Bitcode opens pull requests, handles deployment, and delivers production-ready results.', icon: ArrowRightOnRectangleIcon },
   ];
 
   // Fetch existing credits and poll for updates
@@ -588,7 +588,7 @@ export default function CreditsPane({
                       </div>
                       <div className="anchor-text-vertical">
                         <strong>99% Cost Reduction</strong>
-                        <span>$10-100 with Engi vs. $1,000-10,000+ with manual labor</span>
+                        <span>$10-100 with Bitcode vs. $1,000-10,000+ with manual labor</span>
                       </div>
                     </div>
                   </div>
@@ -597,7 +597,7 @@ export default function CreditsPane({
                   <div className="deliverable-types-container">
                     <h4 className="deliverable-types-title">Deliverables as GitHub Tasks</h4>
                     <p className="deliverable-types-description">
-                      Engi produces concrete GitHub artifacts that map directly to your development workflow:
+                      Bitcode produces concrete GitHub artifacts that map directly to your development workflow:
                     </p>
                     <div className="deliverable-types-grid">
                       <div className="deliverable-type-item improved">
@@ -657,7 +657,7 @@ export default function CreditsPane({
 
                   {/* Engineering Workflow */}
                   <div className="engineering-workflow-section">
-                    <h4 className="workflow-title">How Engi Delivers</h4>
+                    <h4 className="workflow-title">How Bitcode Delivers</h4>
                     <div className="workflow-steps-grid">
                       {agenticWorkflowSteps.map((step) => (
                         <div className="workflow-step" key={step.id}>
@@ -681,12 +681,12 @@ export default function CreditsPane({
                     </div>
                     <div className="agentic-scale-content">
                       <h5>Unlimited Scaling Potential</h5>
-                      <p>Unlike manual-only teams that scale linearly, Engi's agent network can scale to thousands of simultaneous tasks, allowing you to parallelize development across multiple projects with consistent quality and dramatically reduced costs.</p>
+                      <p>Unlike manual-only teams that scale linearly, Bitcode's agent network can scale to thousands of simultaneous tasks, allowing you to parallelize development across multiple projects with consistent quality and dramatically reduced costs.</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Why Engi Is Worth It */}
+                {/* Why Bitcode Is Worth It */}
                 <div className="first-time-value-anchor" style={{ marginTop: "24px", marginBottom: "0" }}>
                   <div className="value-anchor-title">
                     <div className="value-anchor-icon">
@@ -694,7 +694,7 @@ export default function CreditsPane({
                         <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2 11.7V16h-4v-2.3C8.48 12.63 7 11.53 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.49-1.51 3.65-3 4.7z" />
                       </svg>
                     </div>
-                    <h4>Why Engi Is Worth It</h4>
+                    <h4>Why Bitcode Is Worth It</h4>
                   </div>
                   <div className="value-anchor-grid">
                     <div className="value-anchor-item">
@@ -783,7 +783,7 @@ export default function CreditsPane({
           <h3 className="credits-usage-title">Advanced Engineering Agents: Autonomous Deliverables</h3>
           <div className="value-proposition">
             <p className="value-proposition p">
-              Engi's vertically integrated engineering platform transforms software development through specialized systems working in concert. Our advanced pipeline delivers production-ready solutions through a comprehensive process:
+              Bitcode's vertically integrated engineering platform transforms software development through specialized systems working in concert. Our advanced pipeline delivers production-ready solutions through a comprehensive process:
             </p>
             <div className="value-proposition-grid">
               <div className="value-prop-item">
