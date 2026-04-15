@@ -190,12 +190,12 @@ const canonicalPathStages = [
   { number: '05', stage: 'retrieve' },
   { number: '06', stage: 'allocate' },
 ] as const;
-const headlineText = 'Bitcode is the tokenized data depot for engineering knowledge.';
+const headlineText = 'Bitcode is auditable market infrastructure for engineering knowledge.';
 const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 const defaultEmbeddedDemoUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
 const headlineHighlights = [
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
-  { text: 'tokenized data depot', className: heroHighlightClass },
+  { text: 'market infrastructure for engineering', className: heroHighlightClass },
 ] as const;
 
 function resolveEmbeddedDemoUrl() {
@@ -623,8 +623,8 @@ export default function MarketingLandingPage() {
                           ease: entranceEase,
                         }}
                         className={`relative overflow-hidden rounded-[24px] border p-3 backdrop-blur-xl phone:p-4 ${title.includes('$BTD')
-                            ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
-                            : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
+                          ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
+                          : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
                           } ${title.includes('$BTD') ? 'phone:col-span-2 desktop:col-span-1' : ''}`}
                         style={paintedMotionStyle}
                       >

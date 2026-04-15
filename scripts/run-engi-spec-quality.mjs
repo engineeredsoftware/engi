@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -78,16 +79,38 @@ function runStrictVersionChecks(cwd, version) {
   }
 
   if (version === DRAFT_TARGET_VERSION) {
-    runNode(cwd, `${version} draft spec-family`, [
-      path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
-      '--version',
-      version,
-      '--mode',
-      'draft',
-      '--current-target',
-      ACTIVE_CANON_VERSION
-    ]);
-    return;
+    const draftSpecPath = path.join(cwd, `ENGI_SPEC_${version}.md`);
+    const draftDeltaPath = path.join(cwd, `ENGI_SPEC_${version}_DELTA.md`);
+    const draftParityPath = path.join(cwd, `ENGI_SPEC_${version}_PARITY_MATRIX.md`);
+    const draftNotesPath = path.join(cwd, `ENGI_SPEC_${version}_NOTES.md`);
+    const hasFullDraftFamily = existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath);
+    if (hasFullDraftFamily) {
+      runNode(cwd, `${version} draft spec-family`, [
+        path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+        '--version',
+        version,
+        '--mode',
+        'draft',
+        '--current-target',
+        ACTIVE_CANON_VERSION
+      ]);
+      return;
+    }
+
+    if (existsSync(draftNotesPath)) {
+      runNode(cwd, `${version} draft notes`, [
+        path.join(cwd, 'scripts/check-engi-draft-notes.mjs'),
+        '--version',
+        version,
+        '--current-target',
+        ACTIVE_CANON_VERSION
+      ]);
+      return;
+    }
+
+    throw new Error(
+      `Current draft target ${version} has neither a full draft family nor a notes-only opening. Expected one of ENGI_SPEC_${version}.md + companions or ENGI_SPEC_${version}_NOTES.md.`
+    );
   }
 
   throw new Error(

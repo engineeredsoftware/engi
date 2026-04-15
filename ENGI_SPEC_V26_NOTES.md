@@ -1,107 +1,90 @@
-# ENGI Spec V25 Notes
+# ENGI Spec V26 Notes
 
 ## Status
 
-- Scope: non-canonical V25 working notes for the Bitcode rename canon
+- Scope: notes-only V26 draft opening for work deferred from first-gate V25 closure and promotion
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- V25 state: canonical promotion complete; notes track follow-on cleanup and compatibility observations while V25 remains active
+- V26 state: notes-only draft opening; V26 main, delta, and parity files are intentionally not started yet
 
-## Non-Canonical Notes Rule
+## Notes-only draft rule
 
-This file is intentionally non-canonical.
+V26 begins here as notes only.
 
-It may contain:
-- shaping notes for V25,
-- rename questions,
-- migration ideas,
-- and sequencing notes.
+That means:
+- V25 remains the only active canonical system specification.
+- V26 does not yet define review acceptance, promotion acceptance, or a full draft-target spec family.
+- V26 may collect deferred items, reopen conditions, and candidate workstreams that were intentionally out of first-gate V25 scope.
+- V26 must not be treated as active system truth until a full V26 file family is deliberately drafted later.
 
-It must not be treated as active system truth.
+## Deferred from V25
 
-## Starting input from V24
+The following items were not first-gate V25 work and should be treated as V26 candidates instead of retroactively widening V25:
 
-V24 closed:
-- real external interfacing,
-- exhaustive telemetry,
-- build-process enforcement,
-- generated evidence closure,
-- and full-canon conformance repair.
+- Bitcoin execution hardening beyond V25’s first-gate closure, including deeper operator-grade reality for live topology, credential rotation, and long-run observation policy across Bitcoin mainchain, repeated-read payment, and sidechain execution.
+- GitHub interface hardening beyond V25’s first-gate closure, including richer real mutation sequencing, installation lifecycle management, and multi-application operational posture.
+- Compute and storage hardening beyond V25’s first-gate closure, including deeper auditability of container image lineage, execution provenance, publication retention, and longer-run reconciliation policy.
+- Cross-interface reconciliation and drift posture that goes beyond current first-gate V25 continuity and telemetry closure.
+- Build/process refinements that improve operator ergonomics, CI/CD signal quality, and promotion automation beyond what V25 needed to close.
+- Rename follow-on cleanup where compatibility carriers intentionally remained stable in V25.
 
-The V25 baseline from V24 is:
-- keep the V24 operating chain,
-- keep the V24 external-realization contract,
-- keep the V24 fail-closed posture,
-- and change the project identity from ENGI to Bitcode without silent semantic drift.
+These belong in V26 because they are relevant from V25 but were not first-gate V25 requirements.
 
-## Current V25 center
+## Candidate V26 workstreams
 
-The strongest V25 center is:
-- simple but full project rename,
-- active denomination rename from NGI to BTD,
-- rename completeness across active product, runtime, docs, generated evidence, artifacts, and build/process surfaces,
-- and explicit compatibility treatment wherever rename breaks existing paths or identifiers.
+### 1. Bitcoin and sidechain operational hardening
 
-## Recommended default scope
+Candidate V26 work:
+- deepen live Bitcoin operator posture,
+- deepen repeated-read payment execution posture,
+- deepen sidechain operator policy and recovery posture,
+- and strengthen long-run observation, reconciliation, and drift handling for Bitcoin-facing execution.
 
-The current recommended default is:
-- rename active product/system-facing identity to Bitcode,
-- rename active denomination-facing identity to BTD,
-- keep `.engi/*` stable in V25 as an internal compatibility namespace,
-- keep `ENGI_SPEC_V25*` as the repo-local drafting/tooling carrier family,
-- do not widen V25 into an emitted-namespace or repo-tooling rename by default,
-- and treat any wider namespace or denomination rename as optional follow-on work rather than required V25 scope.
+### 2. GitHub operational hardening
 
-## Candidate workstreams
+Candidate V26 work:
+- richer GitHub App lifecycle handling,
+- installation churn and permission drift handling,
+- mutation sequencing and reconciliation expansion,
+- and stronger telemetry around real GitHub execution.
 
-### 1. Product identity rename
+### 3. Compute and storage operational hardening
 
-Candidate requirement:
-- rename active system-facing identity from ENGI to Bitcode across demo, website, README, and current docs.
+Candidate V26 work:
+- container image and execution lineage expansion,
+- stronger storage publication and retrieval reconciliation,
+- and more explicit operator-grade runtime provenance across compute and storage.
 
-### 2. Artifact and namespace rename
+### 4. Build/process and conformance refinement
 
-Candidate requirement:
-- decide whether `.engi/*` becomes `.bitcode/*`, remains `.engi/*` with Bitcode-facing copy, or gains a compatibility bridge.
+Candidate V26 work:
+- improve build/process ergonomics beyond V25’s first-gate enforcement,
+- expand CI/CD presentation and containerized conformance signal,
+- and refine local-vs-containerized validation without weakening fail-closed posture.
 
-### 3. Generated evidence rename
+### 5. Compatibility follow-on cleanup
 
-Candidate requirement:
-- decide how generated report names, headings, and appendix rendering move from ENGI-facing identity to Bitcode-facing identity.
+Candidate V26 work:
+- reevaluate whether V25-stable compatibility carriers should remain stable,
+- including `.engi/*`,
+- repo-local `ENGI_SPEC_*`,
+- and other internal ENGI-prefixed carriers that V25 intentionally kept stable to preserve momentum.
 
-### 4. Runtime and API rename
+## Non-goals during V25 closure
 
-Candidate requirement:
-- rename active runtime/API labels, summaries, and identity-bearing payloads to Bitcode.
+The following are non-goals while closing and promoting V25:
 
-### 5. Build and process rename
+- drafting a full V26 main specification,
+- drafting a V26 delta file,
+- drafting a V26 parity matrix,
+- widening V25 into a second feature release,
+- or treating V26 notes as current canonical truth.
 
-Candidate requirement:
-- rename current-system references in promotion, CI/CD, and quality-gate messaging where appropriate.
+## Reopen conditions
 
-### 6. Compatibility and migration
+Reopen V26 from notes-only posture into a full draft family only when:
 
-Candidate requirement:
-- define what remains accepted for backward compatibility and for how long.
-
-## Residual drafting questions
-
-Current V25 questions are:
-- whether the emitted artifact namespace should rename immediately or through a compatibility bridge,
-- whether repo-local `ENGI_SPEC_*` filenames remain as tooling carriers after V25 promotion,
-- and how aggressively current website and investor-facing materials should be rewritten in the first V25 pass versus later cleanup.
-
-Current recommended answers unless changed are:
-- `.engi/*` remains in V25,
-- `ENGI_SPEC_*` remains as the repo-local spec/tooling family,
-- `NGI` renames to `BTD` as the active economic unit name,
-- and active system/product/current-facing copy fully renames in the first V25 pass.
-
-## V25 non-goals
-
-V25 should not:
-- add a new external-interface architecture,
-- reopen V24 external-realization closure,
-- weaken proof, disclosure, or settlement posture,
-- or turn the rename version into a mixed rename-plus-feature release.
+1. deferred Bitcoin, GitHub, compute, storage, or build/process work is concrete enough to justify a full-canon V26 draft,
+2. the intended V26 center is explicit rather than a loose backlog,
+3. and opening the full V26 family will not destabilize the promoted V25 closure.
