@@ -33,7 +33,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -262,6 +262,14 @@ function buildCommandPlan(version, commit) {
   const v23PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V23']];
   const v23PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V23', '--mode', 'promoted']];
   const v23PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V23', '--draft-target', 'V24']];
+  const v24DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V24', '--mode', 'draft', '--current-target', 'V23']];
+  const v24CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V23']];
+  const v24DraftCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V23', '--draft-target', 'V24']];
+  const v24PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V24', '--commit', commit]];
+  const v24PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-engi-runtime-canon-promotion.mjs', '--version', 'V24', '--next-draft', 'V25']];
+  const v24PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V24']];
+  const v24PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V24', '--mode', 'promoted']];
+  const v24PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V24', '--draft-target', 'V25']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'engi-demo', 'run', 'typecheck']],
     ['npm', ['--prefix', 'engi-demo', 'run', 'test:unit']],
@@ -354,7 +362,25 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, or V23.`);
+  if (version === 'V24') {
+    return [
+      v24DraftSpecCheckCommand,
+      v24CanonicalInputCheckCommand,
+      v24DraftCanonPostureDriftCommand,
+      ...inheritedProofCommands,
+      ...v20QualityCommands,
+      ['npm', ['--prefix', 'engi-demo', 'test']],
+      v24PreparePromotionSpecFamilyCommand,
+      v24PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
+      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      v24PromotedCanonicalInputCheckCommand,
+      v24PromotedSpecCheckCommand,
+      v24PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']]
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, or V24.`);
 }
 
 /**
@@ -513,6 +539,58 @@ async function buildDerivedV23CommitMessageBody(commit) {
 }
 
 /**
+ * @param {string} commit
+ * @returns {Promise<string>}
+ */
+async function buildDerivedV24CommitMessageBody(commit) {
+  const { spec, delta, parity } = await readSpecFamily('V24');
+  const scope = extractStatusValue(spec, 'Scope') || 'V24 canonical system specification for realizing external interfacing, exhaustive telemetry, and full-canon conformance after V23 deployed-infrastructure canon';
+  const focus = deriveScopeFocus(scope);
+  const decisionSection = extractSection(delta, 'Accepted V24 drafting decisions');
+  const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
+  const parityRows = parseMarkdownTable(extractSection(parity, 'V24 draft implementation matrix'));
+
+  /** @type {string[]} */
+  const bullets = [];
+
+  const realizationDecision = acceptedDecisions.find((item) => normalize(item).includes('proof-bearing intent, execution, observation, and reconciliation receipts'));
+  if (realizationDecision) bullets.push(trimTrailingPeriod(realizationDecision));
+
+  const modeDecision = acceptedDecisions.find((item) => normalize(item).includes('four canonical execution modes'));
+  if (modeDecision) bullets.push(trimTrailingPeriod(modeDecision));
+
+  const prioritizedAreas = [
+    'Environment-mode completeness',
+    'Environment identity and resource isolation',
+    'Real Bitcoin mainchain execution',
+    'Real sidechain execution',
+    'Compute container realization',
+    'Storage container realization',
+    'GitHub live sessions',
+    'GitHub inventory and artifact fetch',
+    'GitHub branch and PR mutation',
+    'Telemetry policy and telemetry completeness',
+    'Generated evidence'
+  ];
+  for (const area of prioritizedAreas) {
+    const row = findParityRow(parityRows, area);
+    if (!row) continue;
+    const closureSignal = trimTrailingPeriod(stripMarkdown(row['Closure signal'] || ''));
+    if (!closureSignal) continue;
+    bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
+  }
+
+  return [
+    `Promotes V24 as ${focus} for ENGI.`,
+    '',
+    `Proof-source commit: ${commit}`,
+    '',
+    'The promotion carries:',
+    ...bullets.slice(0, 10).map((bullet) => `- ${bullet}`)
+  ].join('\n');
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @returns {Promise<string>}
@@ -560,7 +638,10 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V23') {
     return buildDerivedV23CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, or V23.`);
+  if (version === 'V24') {
+    return buildDerivedV24CommitMessageBody(commit);
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, or V24.`);
 }
 
 async function main() {
@@ -571,8 +652,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21', 'V22', 'V23'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, or V23. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, or V24. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {

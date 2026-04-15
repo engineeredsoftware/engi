@@ -12,21 +12,21 @@ const prepareSpecFamilyScriptPath = fileURLToPath(new URL('../../scripts/prepare
 const prepareRuntimeScriptPath = fileURLToPath(new URL('../../scripts/prepare-engi-runtime-canon-promotion.mjs', import.meta.url));
 const promoteScriptPath = fileURLToPath(new URL('../../scripts/promote-engi-canon.mjs', import.meta.url));
 
-test('real repo canon posture drift check passes for active V23 and draft V24', () => {
+test('real repo canon posture drift check passes for active V24 and draft V25', () => {
   const output = execFileSync(process.execPath, [
     driftScriptPath,
     '--active-canon',
-    'V23',
+    'V24',
     '--draft-target',
-    'V24'
+    'V25'
   ], {
     cwd: repoRoot,
     encoding: 'utf8'
   });
 
   assert.match(output, /ENGI canon posture drift ok/);
-  assert.match(output, /active=V23/);
-  assert.match(output, /draft=V24/);
+  assert.match(output, /active=V24/);
+  assert.match(output, /draft=V25/);
 });
 
 test('runtime promotion preparation rewrites canon posture source and README', async () => {
@@ -148,4 +148,68 @@ test('V23 promotion dry-run includes drift detection and runtime posture prepara
   assert.match(output, /check-engi-spec-family\.mjs --version V23 --mode promoted/);
   assert.match(output, /check-engi-canon-posture-drift\.mjs --active-canon V23 --draft-target V24/);
   assert.match(output, /Promotes V23 as/);
+});
+
+test('V24 spec-family promotion preparation rewrites hand-authored status truth', async () => {
+  const fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'engi-spec-family-v24-'));
+  /** @type {Array<[string, string]>} */
+  const files = [
+    ['ENGI_SPEC_V24.md', '# ENGI Spec V24\n\n## Status\n\n- Current canonical/latest target: `V23`\n- Source parity state: draft\n- V24 state: draft implementation underway\n\n## Body\nx\n'],
+    ['ENGI_SPEC_V24_DELTA.md', '# ENGI Spec V24 Delta\n\n## Status\n\n- Current canonical/latest target: `V23`\n- Source parity state: draft\n- V24 state: draft implementation underway\n\n## Body\nx\n'],
+    ['ENGI_SPEC_V24_PARITY_MATRIX.md', '# ENGI Spec V24 Parity Matrix\n\n## Status\n\n- Current canonical/latest target: `V23`\n- Source parity state: draft\n- V24 state: draft implementation underway\n\n## Body\nx\n']
+  ];
+  await Promise.all(files.map(([relativePath, content]) => fs.writeFile(path.join(fixtureRoot, relativePath), content, 'utf8')));
+
+  const output = execFileSync(process.execPath, [
+    prepareSpecFamilyScriptPath,
+    '--version',
+    'V24',
+    '--commit',
+    'deadbeef',
+    '--repo-root',
+    fixtureRoot
+  ], {
+    cwd: fixtureRoot,
+    encoding: 'utf8'
+  });
+
+  assert.match(output, /Prepared V24 hand-authored spec family for promotion with proof-source commit deadbeef/);
+
+  for (const relativePath of files.map(([relativePath]) => relativePath)) {
+    const rewritten = await fs.readFile(path.join(fixtureRoot, relativePath), 'utf8');
+    assert.match(rewritten, /Current canonical\/latest target: `V24`/);
+    assert.match(rewritten, /Canonical proof-source commit: `deadbeef`/);
+    const versionStateLine = rewritten.match(/^- V24 state: (.+)$/m);
+    const stateValue = versionStateLine?.[1];
+    if (typeof stateValue !== 'string') {
+      throw new Error(`Missing V24 state line in ${relativePath}`);
+    }
+    assert.doesNotMatch(stateValue, /draft|pending|in progress/i);
+  }
+});
+
+test('V24 promotion dry-run includes drift detection and runtime posture preparation', () => {
+  const output = execFileSync(process.execPath, [
+    promoteScriptPath,
+    '--version',
+    'V24',
+    '--commit',
+    'HEAD',
+    '--dry-run'
+  ], {
+    cwd: repoRoot,
+    encoding: 'utf8'
+  });
+
+  assert.match(output, /V24 canonical promotion plan/);
+  assert.match(output, /check-engi-spec-family\.mjs --version V24 --mode draft --current-target V23/);
+  assert.match(output, /check-engi-canonical-inputs\.mjs --current-target V23/);
+  assert.match(output, /check-engi-canon-posture-drift\.mjs --active-canon V23 --draft-target V24/);
+  assert.match(output, /prepare-engi-spec-family-promotion\.mjs --version V24 --commit/);
+  assert.match(output, /prepare-engi-runtime-canon-promotion\.mjs --version V24 --next-draft V25/);
+  assert.match(output, /generate-engi-proven\.mjs --version V24/);
+  assert.match(output, /check-engi-canonical-inputs\.mjs --current-target V24/);
+  assert.match(output, /check-engi-spec-family\.mjs --version V24 --mode promoted/);
+  assert.match(output, /check-engi-canon-posture-drift\.mjs --active-canon V24 --draft-target V25/);
+  assert.match(output, /Promotes V24 as/);
 });

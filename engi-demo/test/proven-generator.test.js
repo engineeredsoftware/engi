@@ -155,3 +155,39 @@ test('V23 proven generator renders a V23 appendix with bitcoin payment-mode cove
   assert.ok(generated.markdown.includes('.engi/v23-canon-posture-drift-report.json'));
   assert.ok(generated.markdown.includes('ENGI_SPEC_V23_PROVEN.md'));
 });
+
+test('V24 proven generator renders a V24 appendix with external-realization payment-mode coverage', () => {
+  const generated = generateCanonicalProvenMarkdown({
+    version: 'V24',
+    canonicalCommit: 'draft-v24',
+    canonicalCommitRecordedAt: '2026-04-15T00:00:00.000Z',
+    generatedAt: '2026-04-15T00:00:00.000Z'
+  });
+
+  assert.equal(generated.data.version, 'V24');
+  assert.equal(generated.data.aggregate.fullyProven, true);
+  assert.deepEqual(generated.data.paymentModes, [
+    'audited-base-layer-purchase',
+    'repeated-read-payment',
+    'checkpointed-sidechain-bridge'
+  ]);
+  assert.equal(generated.data.v24.specFamilyReport.passed, true);
+  assert.equal(generated.data.v24.canonicalInputReport.passed, false);
+  assert.equal(generated.data.v24.canonPostureDriftReport.checkedActiveCanonVersion, 'V24');
+  assert.equal(generated.data.v24.canonPostureDriftReport.checkedDraftTargetVersion, 'V25');
+  assert.deepEqual(Object.keys(generated.artifacts).sort(), [
+    '.engi/v24-canon-posture-drift-report.json',
+    '.engi/v24-canonical-input-report.json',
+    '.engi/v24-spec-family-report.json'
+  ]);
+  assert.ok(generated.markdown.includes('# ENGI Spec V24 Proven'));
+  assert.ok(generated.markdown.includes('## V24 External-Realization and Canon Reports'));
+  assert.ok(generated.markdown.includes('`external-realization-execution`'));
+  assert.ok(generated.markdown.includes('`containerized-reality`'));
+  assert.ok(generated.markdown.includes('`github-live-interface`'));
+  assert.ok(generated.markdown.includes('`repeated-read-payment`'));
+  assert.ok(generated.markdown.includes('.engi/v24-spec-family-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v24-canonical-input-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v24-canon-posture-drift-report.json'));
+  assert.ok(generated.markdown.includes('ENGI_SPEC_V24_PROVEN.md'));
+});

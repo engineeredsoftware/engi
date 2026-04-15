@@ -2,20 +2,22 @@
 
 ## Status
 
-- Scope: V24 full-canon draft for realizing external interfacing after the V23 deployed-infrastructure canon
-- Current canonical/latest target: `V23`
+- Scope: V24 canonical system specification for realizing external interfacing, exhaustive telemetry, and full-canon conformance after V23 deployed-infrastructure canon
+- Current canonical/latest target: `V24`
+- Canonical proof-source commit: `00fabcb625e8c50ac9222596fba3f05ee7ab77f4`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v23-*` reports remain the current generated baseline; draft-target V24 adds `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `ENGI_SPEC_V24_PROVEN.md` as the required next generated family
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `.engi/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_NOTES.md`
 - Companion delta file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_DELTA.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PARITY_MATRIX.md`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
-- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V23`
-- Source parity state: draft-target source currently includes V24 environment-mode realization profiling, env-resolved active runtime posture, emitted draft-target execution/container/GitHub receipt families, enriched external-boundary and projection summaries, and spec-quality enforcement; live third-party Bitcoin mainchain, sidechain, compute/storage, and GitHub execution remains open V24 work
-- Draft posture source: `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V23'` and `DRAFT_TARGET_VERSION = 'V24'`
-- V24 state: drafting only; no V24 `_PROVEN_` appendix or `.engi/v24-*` generated reports may exist until V24 source, validation, and promotion close
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PROVEN.md`
+- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
+- Source parity state: V24 source-side mode-isolated external realization, live adapter contracts, continuity and reconciliation ledgers, exhaustive telemetry, build-process enforcement, and generated evidence are canonicalized in the promoted V24 file family
+- Draft posture source: `/Users/garrettmaring/Developer/ENGI/engi-demo/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V24'` and `DRAFT_TARGET_VERSION = 'V25'`
+- V24 state: canonical promotion complete; V24 is the active external-realization canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned
+- Last fully realized canonical target preserved in source: `V24`
 
 ## Drafting and acceptance state
 
@@ -76,15 +78,15 @@ It realizes the external interfaces V23 named and restores the main `SPEC` to a 
 
 ## V24 rewrite and no-silent-inheritance rule
 
-V24 is drafted from V23 inputs, but a promoted V24 may not depend on V23 for current-system semantic recovery.
+V24 was drafted from V23 inputs, but promoted V24 may not depend on V23 for current-system semantic recovery.
 
 That means:
-- V23 remains the drafting anchor while V24 is a draft,
-- V24 may cite V23 for provenance during drafting,
+- V23 was the drafting anchor while V24 was under development,
+- V24 may cite V23 for provenance,
 - but a promoted V24 must restate the current whole system in full wherever that behavior still matters,
 - and no promoted V24 may require an implementer, reviewer, operator, or auditor to open V23 in order to recover current behavior, proof obligations, artifacts, source maps, validation gates, or accepted boundaries.
 
-V24 therefore treats the V22 -> V23 -> V24 metaspec regression as a real draft concern:
+V24 therefore treats the V22 -> V23 -> V24 metaspec regression as a real canon concern:
 - the main `SPEC` size shrank across both V22 -> V23 and V23 -> V24,
 - whole-system meaning shifted out of `SPEC` and into `_PROVEN_`, parity, source, and prior versions,
 - and the V23 checker profile allowed a narrower carrier set than the complete specifying standard.
@@ -99,7 +101,7 @@ For this version, that means:
 - a real container execution without replayable attestation is invalid,
 - a real GitHub mutation without authorization, addressing, and execution receipts is invalid,
 - a promoted V24 `SPEC` without full-canon restatement is invalid,
-- and future V24 promotion must fail closed if draft claims outrun source, tests, generated evidence, or spec-completeness enforcement.
+- and V24 must fail closed if source, tests, generated evidence, or spec-completeness enforcement drift from promoted truth.
 
 ## Why V24 exists
 
@@ -114,14 +116,16 @@ V23 already specifies:
 
 But V23 intentionally stops short of live execution.
 V24 exists to convert that modeled honesty into real realized honesty.
-An initial draft-target source slice is already present:
+The realization machinery is already present in source:
 - `engi-demo/src/canonical/v24-external-realization.js` emits the four-mode environment, isolation, and telemetry descriptor set,
 - `engi-demo/src/canonical/v24-external-realization.js` also resolves an env-driven active runtime posture so the same demo can report whether each interface is `mock`, `stubbed-demonstration`, `live-configured`, or `live-misconfigured`,
-- `engi-demo/src/canonical/v24-external-execution.js` emits draft-target execution, observation, container, storage, and GitHub receipt families,
+- `engi-demo/src/canonical/v24-external-execution.js` emits execution, observation, container, storage, GitHub, and repeated-read payment receipt families,
 - `engi-demo/src/engi-demo.js` binds those receipts into deliverables, branch artifacts, proof families, and the external-boundary manifest,
 - `engi-demo/src/demo-shell-state.js` projects sanitized realization summaries by principal, including runtime-state disclosure that remains bounded by principal,
+- `engi-demo/src/canonical/v24-live-execution.js` adds cross-run continuity, reconciliation, and fail-closed drift checks over realized interfaces,
+- `engi-demo/src/canonical/v24-local-executors.js` and `engi-demo/src/canonical/v24-remote-adapters.js` provide built-in and credential-backed executor paths across Bitcoin, sidechain, compute, storage, GitHub, and repeated-read payment execution classes,
 - `engi-demo/server.js` exposes both the generic V24 descriptor and the active runtime posture at `/api/v24/external-realization`,
-- and tests already fail closed on draft-target execution-receipt drift, telemetry drift, boundary-manifest drift, and projection-summary drift.
+- and tests already fail closed on execution-receipt drift, telemetry drift, boundary-manifest drift, projection-summary drift, continuity drift, and spec-quality regressions.
 
 ### 2. Real ENGI operation requires auditable external execution classes
 
@@ -158,7 +162,7 @@ They become one external-realization model with shared proof expectations, share
 
 ## V24 accepted drafting decisions
 
-V24 accepts the following drafting decisions:
+V24 accepts the following decisions:
 
 1. V24 is realization-facing rather than another interface-description release.
 2. Bitcoin-backed infrastructure moves from stubbed-testnet demonstration service toward real network execution classes.
@@ -177,20 +181,17 @@ V24 accepts the following drafting decisions:
 
 ## V24 source-of-truth hierarchy
 
-While V24 is a draft, current truth order is:
+Current truth order is:
 1. `ENGI_SPEC.txt`
-2. `ENGI_SPEC_V23.md`
-3. `ENGI_SPEC_V23_DELTA.md`
-4. `ENGI_SPEC_V23_PARITY_MATRIX.md`
-5. `ENGI_SPEC_V23_PROVEN.md`
-6. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v23-*` artifacts
-7. `ENGI_SPEC_V24.md`
-8. `ENGI_SPEC_V24_DELTA.md`
-9. `ENGI_SPEC_V24_PARITY_MATRIX.md`
-10. `ENGI_SPEC_V24_NOTES.md`
-11. current source and tests explicitly referenced by active canon or V24 draft
-
-V24 cannot outrank V23 until promotion.
+2. `ENGI_SPEC_V24.md`
+3. `ENGI_SPEC_V24_DELTA.md`
+4. `ENGI_SPEC_V24_PARITY_MATRIX.md`
+5. `ENGI_SPEC_V24_PROVEN.md`
+6. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v24-*` artifacts
+7. current source and tests explicitly referenced by active V24 canon
+8. `ENGI_SPEC_V24_NOTES.md`
+9. any later V25 draft-target files once they exist
+10. historical prior specs
 
 ## full-system, re-implementation, and audit rule
 
@@ -239,10 +240,10 @@ That means:
 - every environment mode must map to distinct identity and resource bindings,
 - every generated artifact expectation must map to a regeneration and validation contract,
 - every fail-closed condition must be named,
-- and every boundary must state whether it is implemented, draft-target, or deferred.
+- and every boundary must state whether it is implemented or deferred.
 
 When V24 says "realized," it means ENGI can emit intent, execution, observation, telemetry, and proof receipts for that interface in source.
-When V24 says "draft-target," it means the carrier is part of the required promotion contract but not yet active canon.
+When V24 says "deferred," it means the carrier or deployment path is intentionally outside promoted V24 scope.
 
 ## V24 system goals, non-goals, and design principles
 
@@ -387,13 +388,13 @@ The workflow stages remain:
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: repo supply and depositing are represented by authenticated repository bindings, deposit envelopes, `.engi/depositing-surface.json`, `.engi/github-boundary.json`, `.engi/github-live-session.json` (draft-target V24), `.engi/github-inventory-fetch-receipt.json` (draft-target V24), and `.engi/asset-pack.lock.json`.
+- Current canonical objects and emitted artifacts: repo supply and depositing are represented by authenticated repository bindings, deposit envelopes, `.engi/depositing-surface.json`, `.engi/github-boundary.json`, `.engi/github-live-session.json`, `.engi/github-inventory-fetch-receipt.json`, and `.engi/asset-pack.lock.json`.
 - Current algorithms and derivation rules: ENGI admits only repo-addressable deposits, normalizes deposit identity against repo-authenticated supply, and carries deposit lineage forward into fit, verification, materialization, proof, and GitHub live mutation surfaces.
 - Current invariants and fail-closed conditions: invalid deposit, stale repo addressing, missing GitHub inventory receipt, cross-mode GitHub App drift, or broken deposit lineage fail closed.
 - Current proof obligations: deposit provenance, asset identity stability, repo-authenticated supply closure, and deposit-to-asset-pack continuity must be replayable.
-- Current source-bearing implementation basis: `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/run-artifacts.js`, and draft-target `engi-demo/src/canonical/v24-external-realization.js`.
+- Current source-bearing implementation basis: `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/run-artifacts.js`, and `engi-demo/src/canonical/v24-external-realization.js`.
 - Current validating commands and parity basis: `node --test engi-demo/test/core.test.js`, `node --test engi-demo/test/api.test.js`, and V24 parity rows for external environment profiling.
-- Current accepted boundaries: live GitHub inventory and mutation remain V24 draft-target work until real GitHub session and fetch receipts are emitted.
+- Current accepted boundaries: external GitHub execution remains deployment-configured and policy-bound; ENGI accepts it only through emitted session, fetch, branch, and mutation receipts.
 
 ### Needing and prompt/inference ownership
 
@@ -401,9 +402,9 @@ The workflow stages remain:
 - Current algorithms and derivation rules: ENGI measures need from benchmark/parser/repo reality, maps prompts and inference moments to that need, and binds evaluator ownership to replayable contracts.
 - Current invariants and fail-closed conditions: prompt contract incompleteness, parsed-envelope inadmissibility, evaluator ambiguity, or need drift fail closed.
 - Current proof obligations: prompt family completeness, inference synthesis closure, and evaluator provenance must stay witness-bound and replayable.
-- Current source-bearing implementation basis: `engi-demo/src/canonical/prompting.js`, `engi-demo/src/canonical/evaluation-materialization.js`, and `engi-demo/src/engi-demo.js`.
+- Current source-bearing implementation basis: `engi-demo/src/canonical/prompting.js`, `engi-demo/src/canonical/evaluation-materialization.js`, `engi-demo/src/canonical/v24-external-execution.js`, and `engi-demo/src/engi-demo.js`.
 - Current validating commands and parity basis: `node --test engi-demo/test/core.test.js`, prompt and proof-family coverage inside the active demo test suite, and spec-quality proof-family requirements.
-- Current accepted boundaries: live third-party model execution remains outside V24's center unless containerized and receipted; V24 requires the container contract first.
+- Current accepted boundaries: third-party model execution counts only when it is containerized, receipted, and bound back into ENGI artifacts through the V24 container contract.
 
 ### Fit, recall, ranking, and verification
 
@@ -427,41 +428,41 @@ The workflow stages remain:
 
 ### Identity, authorization, and sensitive flow
 
-- Current canonical objects and emitted artifacts: identity, authorization, and sensitive flow are represented by `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json`, and draft-target `.engi/github-app-binding.json` plus `.engi/bitcoin-network-intent.json`.
+- Current canonical objects and emitted artifacts: identity, authorization, and sensitive flow are represented by `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json`, `.engi/github-app-binding.json`, and `.engi/bitcoin-network-intent.json`.
 - Current algorithms and derivation rules: ENGI derives authorization from issuer/signer and policy roots, binds external execution to those roots, and routes sensitive data only through classified surfaces.
 - Current invariants and fail-closed conditions: authorization denial, stale signing roots, mis-bound treasury or GitHub App identities, or sensitive-flow leakage fail closed.
 - Current proof obligations: identity closure, authorization closure, policy closure, and sensitive-flow closure must remain replayable across live interfaces.
-- Current source-bearing implementation basis: `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/v23-bitcoin.js`, and draft-target `engi-demo/src/canonical/v24-external-realization.js`.
+- Current source-bearing implementation basis: `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/v23-bitcoin.js`, `engi-demo/src/canonical/v24-external-realization.js`, and `engi-demo/src/canonical/v24-live-execution.js`.
 - Current validating commands and parity basis: `node --test engi-demo/test/core.test.js`, `node --test engi-demo/test/api.test.js`, and V24 parity rows for mode isolation and GitHub App separation.
 - Current accepted boundaries: concrete signer topology, sidechain operator topology, and GitHub webhook infrastructure remain implementation choices so long as the receipt and policy contracts are satisfied.
 
 ### Disclosure and projection
 
-- Current canonical objects and emitted artifacts: disclosure and projection are represented by `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json`, `.engi/bitcoin-bounded-public-anchor.json`, and draft-target storage publication and retrieval receipts.
+- Current canonical objects and emitted artifacts: disclosure and projection are represented by `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json`, `.engi/bitcoin-bounded-public-anchor.json`, and storage publication and retrieval receipts.
 - Current algorithms and derivation rules: ENGI projects public, reviewer, buyer, and internal surfaces from the same underlying artifact set and preserves bounded-public proof as the only public-safe external projection.
 - Current invariants and fail-closed conditions: public projection overexposure, mismatched redaction, storage publication beyond principal rights, or retrieval without disclosure authorization fail closed.
 - Current proof obligations: projection policy closure, bounded-public closure, redaction alignment, disclosure verdict alignment, and storage-publication alignment must remain auditable.
-- Current source-bearing implementation basis: `engi-demo/src/canonical/projections.js`, `engi-demo/src/demo-shell-state.js`, `engi-demo/src/engi-demo.js`, and draft-target storage-container realization surfaces.
+- Current source-bearing implementation basis: `engi-demo/src/canonical/projections.js`, `engi-demo/src/demo-shell-state.js`, `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/v24-external-execution.js`, and `engi-demo/src/canonical/v24-live-execution.js`.
 - Current validating commands and parity basis: `node --test engi-demo/test/api.test.js`, `node --test engi-demo/test/e2e.test.js`, and disclosure-boundary proof-family closure.
 - Current accepted boundaries: public chains and public storage surfaces may only carry bounded-public receipts or bounded-public anchor material, never licensed source or private proof payloads by default.
 
 ### Settlement and exact accounting
 
-- Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json`, `.engi/bitcoin-settlement-intent.json`, `.engi/bitcoin-settlement-observation.json`, and draft-target `.engi/bitcoin-network-execution.json` plus `.engi/sidechain-execution-receipt.json`.
+- Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json`, `.engi/bitcoin-settlement-intent.json`, `.engi/bitcoin-settlement-observation.json`, `.engi/bitcoin-network-execution.json`, and `.engi/sidechain-execution-receipt.json`.
 - Current algorithms and derivation rules: ENGI allocates exact NGI base units, normalizes basis points deterministically, binds payment intent and observation to bundle and settlement identities, and finalizes journals only under policy-bound execution observation.
 - Current invariants and fail-closed conditions: settlement conservation drift, missing execution receipt, journal finalization without observation, or cross-mode treasury drift fail closed.
 - Current proof obligations: contribution totality, normalization exactness, journal completeness, settlement theorem integrity, and payment-observation coherence must remain replayable.
-- Current source-bearing implementation basis: `engi-demo/src/canonical/settlement.js`, `engi-demo/src/canonical/v23-bitcoin.js`, `engi-demo/src/engi-demo.js`, and draft-target V24 real network execution surfaces.
+- Current source-bearing implementation basis: `engi-demo/src/canonical/settlement.js`, `engi-demo/src/canonical/v23-bitcoin.js`, `engi-demo/src/canonical/v24-external-execution.js`, `engi-demo/src/canonical/v24-live-execution.js`, and `engi-demo/src/engi-demo.js`.
 - Current validating commands and parity basis: `node --test engi-demo/test/core.test.js`, `node --test engi-demo/test/workflow.integration.test.js`, and V23/V24 settlement-interface parity rows.
 - Current accepted boundaries: V24 may realize base-layer, sidechain, and repeated-read network execution, but only where execution and observation receipts exist in source.
 
 ### Proof contract, witnesses, and replay
 
-- Current canonical objects and emitted artifacts: proof contract, witnesses, and replay are represented by `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, all proof-family artifacts, draft-target `.engi/external-realization-proof.json`, `.engi/container-reality-proof.json`, `.engi/github-live-interface-proof.json`, and draft-target `.engi/external-telemetry-summary.json`.
+- Current canonical objects and emitted artifacts: proof contract, witnesses, and replay are represented by `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, all proof-family artifacts, `.engi/external-realization-proof.json`, `.engi/container-reality-proof.json`, `.engi/github-live-interface-proof.json`, and `.engi/external-telemetry-summary.json`.
 - Current algorithms and derivation rules: ENGI binds every proof family to witnessArtifactPaths, theoremIds, replayStepIds, and artifact digests, then carries them into the system proof bundle and witness manifest for replay.
 - Current invariants and fail-closed conditions: missing witness artifacts, replay-step drift, container attestation drift, github observation drift, or proof-family omission fail closed.
 - Current proof obligations: proof-family closure, theorem closure, replay closure, witness manifest coherence, and proof-contract bundle coherence must remain exact.
-- Current source-bearing implementation basis: `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/engi-demo.js`, and draft-target V24 realization builders.
+- Current source-bearing implementation basis: `engi-demo/src/canonical/proof-materialization.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/v24-live-execution.js`, and `engi-demo/src/engi-demo.js`.
 - Current validating commands and parity basis: `node --test engi-demo/test/proven-generator.test.js`, `node --test engi-demo/test/v21-specifying.test.js`, `node scripts/run-engi-spec-quality.mjs --mode basic`, and later strict V24 conformance.
 - Current accepted boundaries: V24 may add proof families, but promotion may not narrow away existing family detail carriers or witness expectations.
 
@@ -609,9 +610,9 @@ The proof-family canon in V24 contains the inherited core families, the V23 Bitc
 | proof-contract | `.engi/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness | proof_contract.contract_materialization, proof_contract.bundle_witness | proof-contract.contract-materialization, proof-contract.bundle-witness | `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json` | `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/run-artifacts.js` |
 | bitcoin-audit-anchor | `.engi/bitcoin-audit-anchor-proof.json` | bounded-public-root-closure, private-root-closure, anchor-receipt-closure | bitcoin_audit_anchor.public_root_closure, bitcoin_audit_anchor.anchor_receipt_closure | bitcoin-audit-anchor.public-root, bitcoin-audit-anchor.anchor-publication | `.engi/storage-reality-manifest.json`, `.engi/bitcoin-commitment-manifest.json`, `.engi/bitcoin-treasury-policy.json`, `.engi/bitcoin-anchor.json`, `.engi/bitcoin-bounded-public-anchor.json`, `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/disclosure-proof.json`, `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json`, `.engi/bitcoin-audit-anchor-proof.json` | `engi-demo/src/canonical/v23-bitcoin.js`, `engi-demo/src/canonical/proof-materialization.js` |
 | bitcoin-settlement-interface | `.engi/bitcoin-settlement-interface-proof.json` | settlement-intent-binding, settlement-observation-binding, journal-finalization-binding | bitcoin_settlement_interface.intent_binding, bitcoin_settlement_interface.observation_binding | bitcoin-settlement-interface.intent, bitcoin-settlement-interface.observation | `.engi/compute-reality-manifest.json`, `.engi/bitcoin-settlement-intent.json`, `.engi/bitcoin-settlement-observation.json`, `.engi/bitcoin-treasury-policy.json`, `.engi/source-to-shares.json`, `.engi/settlement-proof.json`, `.engi/external-boundary-manifest.json`, `.engi/bitcoin-settlement-interface-proof.json` | `engi-demo/src/canonical/v23-bitcoin.js`, `engi-demo/src/canonical/proof-materialization.js` |
-| external-realization-execution | `.engi/external-realization-proof.json` | mainchain-intent-binding, network-execution-binding, sidechain-observation-binding | external_realization_execution.network_execution_closure, external_realization_execution.mode_isolation_closure | external-realization-execution.intent, external-realization-execution.observation | `.engi/external-environment-profile.json`, `.engi/external-execution-policy.json`, `.engi/external-telemetry-summary.json`, `.engi/bitcoin-network-intent.json`, `.engi/bitcoin-network-execution.json`, `.engi/bitcoin-network-observation.json`, `.engi/sidechain-execution-receipt.json`, `.engi/external-realization-proof.json` | draft-target `engi-demo/src/canonical/v24-external-realization.js` plus pending runtime integration |
-| containerized-reality | `.engi/container-reality-proof.json` | compute-attestation-binding, storage-publication-binding, storage-retrieval-binding | containerized_reality.compute_attestation_closure, containerized_reality.storage_policy_closure | containerized-reality.compute-execution, containerized-reality.storage-publication | `.engi/external-environment-profile.json`, `.engi/compute-container-manifest.json`, `.engi/compute-container-execution.json`, `.engi/storage-container-manifest.json`, `.engi/storage-publication-receipt.json`, `.engi/storage-retrieval-receipt.json`, `.engi/container-reality-proof.json` | draft-target V24 runtime integration |
-| github-live-interface | `.engi/github-live-interface-proof.json` | app-binding-closure, live-session-closure, branch-publication-closure, pr-mutation-closure | github_live_interface.session_closure, github_live_interface.mutation_closure | github-live-interface.session, github-live-interface.branch-publication | `.engi/external-environment-profile.json`, `.engi/github-app-binding.json`, `.engi/github-live-session.json`, `.engi/github-inventory-fetch-receipt.json`, `.engi/github-artifact-fetch-receipt.json`, `.engi/github-branch-publication-receipt.json`, `.engi/github-pr-update-receipt.json`, `.engi/github-live-interface-proof.json` | draft-target V24 runtime integration |
+| external-realization-execution | `.engi/external-realization-proof.json` | mainchain-intent-binding, network-execution-binding, sidechain-observation-binding | external_realization_execution.network_execution_closure, external_realization_execution.mode_isolation_closure | external-realization-execution.intent, external-realization-execution.observation | `.engi/external-environment-profile.json`, `.engi/external-execution-policy.json`, `.engi/external-telemetry-summary.json`, `.engi/bitcoin-network-intent.json`, `.engi/bitcoin-network-execution.json`, `.engi/bitcoin-network-observation.json`, `.engi/sidechain-execution-receipt.json`, `.engi/external-realization-proof.json` | `engi-demo/src/canonical/v24-external-realization.js`, `engi-demo/src/canonical/v24-external-execution.js`, `engi-demo/src/canonical/v24-live-execution.js` |
+| containerized-reality | `.engi/container-reality-proof.json` | compute-attestation-binding, storage-publication-binding, storage-retrieval-binding | containerized_reality.compute_attestation_closure, containerized_reality.storage_policy_closure | containerized-reality.compute-execution, containerized-reality.storage-publication | `.engi/external-environment-profile.json`, `.engi/compute-container-manifest.json`, `.engi/compute-container-execution.json`, `.engi/storage-container-manifest.json`, `.engi/storage-publication-receipt.json`, `.engi/storage-retrieval-receipt.json`, `.engi/container-reality-proof.json` | `engi-demo/src/canonical/v24-external-execution.js`, `engi-demo/src/canonical/v24-live-execution.js` |
+| github-live-interface | `.engi/github-live-interface-proof.json` | app-binding-closure, live-session-closure, branch-publication-closure, pr-mutation-closure | github_live_interface.session_closure, github_live_interface.mutation_closure | github-live-interface.session, github-live-interface.branch-publication | `.engi/external-environment-profile.json`, `.engi/github-app-binding.json`, `.engi/github-live-session.json`, `.engi/github-inventory-fetch-receipt.json`, `.engi/github-artifact-fetch-receipt.json`, `.engi/github-branch-publication-receipt.json`, `.engi/github-pr-update-receipt.json`, `.engi/github-live-interface-proof.json` | `engi-demo/src/canonical/v24-external-execution.js`, `engi-demo/src/canonical/v24-live-execution.js`, `engi-demo/src/canonical/v24-remote-adapters.js` |
 
 ### Inference-synthesis
 
@@ -805,13 +806,15 @@ Current V24 generated artifact inventories must cover:
 - active inherited reproducible and operator-quality reports,
 - `.engi/v24-spec-family-report.json`,
 - `.engi/v24-canonical-input-report.json`,
+- `.engi/v24-canon-posture-drift-report.json`,
 - and `ENGI_SPEC_V24_PROVEN.md`.
 
 ### V24 specifying generated artifacts
 
-V24 draft-target specifying artifacts are:
+V24 specifying artifacts are:
 - `.engi/v24-spec-family-report.json`
 - `.engi/v24-canonical-input-report.json`
+- `.engi/v24-canon-posture-drift-report.json`
 - `ENGI_SPEC_V24_PROVEN.md`
 
 ### Shared generated-artifact fields
@@ -884,7 +887,7 @@ Promotion from V23 to V24 requires:
 
 ## V24 artifact family additions
 
-V24 draft adds the following candidate artifact family:
+V24 adds the following artifact family:
 
 - `.engi/external-environment-profile.json`
 - `.engi/external-execution-policy.json`
@@ -895,6 +898,11 @@ V24 draft adds the following candidate artifact family:
 - `.engi/bitcoin-network-execution.json`
 - `.engi/bitcoin-network-observation.json`
 - `.engi/sidechain-execution-receipt.json`
+- `.engi/external-execution-ledger.json`
+- `.engi/external-reconciliation-log.json`
+- `.engi/repeated-read-payment-intent.json`
+- `.engi/repeated-read-payment-execution.json`
+- `.engi/repeated-read-payment-observation.json`
 - `.engi/compute-container-manifest.json`
 - `.engi/compute-container-execution.json`
 - `.engi/storage-container-manifest.json`
@@ -910,11 +918,11 @@ V24 draft adds the following candidate artifact family:
 - `.engi/container-reality-proof.json`
 - `.engi/github-live-interface-proof.json`
 
-The final V24 artifact list may contract or expand, but every realized external interface must map to a concrete emitted artifact.
+Every realized external interface in promoted V24 maps to a concrete emitted artifact.
 
 ## V24 proof-family additions
 
-V24 extends the proof-family canon with the following draft-target families:
+V24 extends the proof-family canon with the following families:
 
 ### External-realization-execution
 
@@ -929,7 +937,7 @@ V24 extends the proof-family canon with the following draft-target families:
 - `current theorem-to-replay grouping:` intent closure groups under `intent`; execution and observation closure group under `execution` and `observation`.
 - `minimum artifact/replay binding set:` external environment profile, execution policy, telemetry summary, network intent/execution/observation, sidechain receipt, and replay steps are mandatory.
 - `current proof-object fields:` `proofFamily`, `proofHash`, `members`, `theoremVerdicts`, `artifactBindings`, `replayCatalog`, `failureReasons`.
-- `generated-artifact and test bindings:` draft-target V24 generated appendix plus environment-mode and network interface tests.
+- `generated-artifact and test bindings:` generated V24 appendix plus environment-mode and network interface tests.
 - `fail-closed conditions:` missing execution receipt, sidechain observation drift, or cross-mode isolation drift fail closed.
 
 ### Containerized-reality
@@ -945,7 +953,7 @@ V24 extends the proof-family canon with the following draft-target families:
 - `current theorem-to-replay grouping:` compute theorems group under `compute-execution`; storage theorems group under `storage-publication` and `storage-retrieval`.
 - `minimum artifact/replay binding set:` external environment profile, compute manifest/execution, storage manifest/publication/retrieval, and replay steps are mandatory.
 - `current proof-object fields:` `proofFamily`, `proofHash`, `members`, `theoremVerdicts`, `artifactBindings`, `replayCatalog`, `failureReasons`.
-- `generated-artifact and test bindings:` draft-target V24 generated appendix plus container and storage interface tests.
+- `generated-artifact and test bindings:` generated V24 appendix plus container and storage interface tests.
 - `fail-closed conditions:` container attestation drift, storage policy drift, or retrieval/publication mismatch fail closed.
 
 ### GitHub-live-interface
@@ -961,7 +969,7 @@ V24 extends the proof-family canon with the following draft-target families:
 - `current theorem-to-replay grouping:` app/session closure groups under `session`; fetch closure groups under `fetch`; mutation closure groups under `branch-publication` and `pr-mutation`.
 - `minimum artifact/replay binding set:` external environment profile, GitHub app binding, live session, fetch receipts, mutation receipts, and replay steps are mandatory.
 - `current proof-object fields:` `proofFamily`, `proofHash`, `members`, `theoremVerdicts`, `artifactBindings`, `replayCatalog`, `failureReasons`.
-- `generated-artifact and test bindings:` draft-target V24 generated appendix plus GitHub live-interface tests and spec-quality enforcement.
+- `generated-artifact and test bindings:` generated V24 appendix plus GitHub live-interface tests and spec-quality enforcement.
 - `fail-closed conditions:` github observation drift, GitHub App cross-mode drift, or mutation without receipt closure fail closed.
 
 ## V24 principal-scoped execution and disclosure policy
@@ -979,10 +987,10 @@ It increases the number of private proof-bearing artifacts ENGI must classify co
 
 ## V24 acceptance criteria
 
-The following acceptance criteria are the review gate for V24 drafting:
+The following acceptance criteria defined the first-gate V24 review contract and are now satisfied:
 
-1. V24 clearly keeps V23 active and does not claim promotion.
-2. V24 states that real external execution, not additional modeling, is the center of the version.
+1. V24 kept real external execution, not additional modeling, at the center of the version.
+2. V24 kept metaspec repair subordinate to the external-realization center.
 3. V24 covers all requested realization axes:
    - BTC-backed real network execution,
    - auditable compute and storage containers,
@@ -995,11 +1003,11 @@ The following acceptance criteria are the review gate for V24 drafting:
 9. V24 requires proof-bearing execution and observation receipts rather than informal operational success.
 10. V24 requires exhaustive telemetry and mode-aware coverage as part of the interface contract.
 11. V24 keeps sidechain execution in scope as a required bridge component.
-12. V24 states promotion prerequisites separately from drafting acceptance.
-13. V24 states that promoted canon must be a full-system rewrite rather than a semantic dependency on V23.
+12. V24 kept promotion prerequisites separate from drafting acceptance.
+13. V24 restored promoted canon to a full-system rewrite rather than a semantic dependency on V23.
 14. V24 includes explicit build-process enforcement for spec quality, including pre-commit, containerized CI or CD, and commit-title-gated spec conformance.
 
-The following acceptance criteria are the later implementation/promotion gate:
+The following acceptance criteria defined the V24 implementation and promotion gate and are now satisfied:
 
 1. Source emits the realized V24 external-execution artifact family.
 2. Source emits environment profiles and mode-specific identity and resource bindings for every realized external interface.
@@ -1017,7 +1025,7 @@ The following acceptance criteria are the later implementation/promotion gate:
 14. Local pre-commit checks cover host-agnostic spec basics when spec, specifying, or spec-checker files change.
 15. CI or CD runs the containerized strict spec-conformance suite plus the full implementation test suite.
 16. Commit titles matching `spec: VN` or `spec: VN...` trigger strict spec-family conformance checks.
-17. Only then may `ENGI_SPEC.txt` point to `V24`.
+17. `ENGI_SPEC.txt` now points to `V24`.
 
 ## appendices and canonical supporting material
 
@@ -1139,6 +1147,7 @@ The canonical file-family and promotion contract catalog includes:
 - `ENGI_SPEC_V24_PROVEN.md`
 - `.engi/v24-spec-family-report.json`
 - `.engi/v24-canonical-input-report.json`
+- `.engi/v24-canon-posture-drift-report.json`
 
 Promotion requires the pointer, posture, generated reports, `_PROVEN_` appendix, and source parity state to agree.
 
@@ -1212,10 +1221,15 @@ The source-bearing deliverable and artifact contract catalog includes:
 - `.engi/external-execution-policy.json`
 - `.engi/external-telemetry-policy.json`
 - `.engi/external-telemetry-summary.json`
+- `.engi/external-execution-ledger.json`
+- `.engi/external-reconciliation-log.json`
 - `.engi/bitcoin-network-intent.json`
 - `.engi/bitcoin-network-execution.json`
 - `.engi/bitcoin-network-observation.json`
 - `.engi/sidechain-execution-receipt.json`
+- `.engi/repeated-read-payment-intent.json`
+- `.engi/repeated-read-payment-execution.json`
+- `.engi/repeated-read-payment-observation.json`
 - `.engi/compute-container-manifest.json`
 - `.engi/compute-container-execution.json`
 - `.engi/storage-container-manifest.json`
@@ -1230,17 +1244,16 @@ The source-bearing deliverable and artifact contract catalog includes:
 - `.engi/external-realization-proof.json`
 - `.engi/container-reality-proof.json`
 - `.engi/github-live-interface-proof.json`
+- `.engi/v24-canon-posture-drift-report.json`
 - `ENGI_SPEC_V24_PROVEN.md`
 
 ## accepted boundaries and reopen conditions
 
-V24 accepts the following boundaries during drafting:
-- no live mainnet transaction broadcast is claimed until `bitcoin-network-execution` and `bitcoin-network-observation` are emitted,
-- no live repeated-read payment processor is claimed until the same receipt model exists for that mode,
-- no live sidechain operator is claimed until sidechain execution receipts and observation close,
-- no live compute or storage container reality is claimed until attested manifests and receipts are emitted,
-- no live GitHub mutation is claimed until live session, mutation, and observation receipts exist,
-- and no promoted V24 is accepted until the full-canon rewrite passes strict conformance.
+V24 accepts the following boundaries at promotion:
+- bulk proof computation does not move to Bitcoin mainchain,
+- private artifact payloads do not move to public-chain storage by default,
+- operator-owned credentials, third-party endpoints, and treasury topology remain deployment-time configuration rather than hard-coded repo truth,
+- and realized interfaces remain acceptable only through emitted receipts, telemetry, witness closure, and strict conformance.
 
 The following reopen conditions apply:
 - if any later V24 implementation narrows carriers back into `_PROVEN_` or parity,
@@ -1250,16 +1263,16 @@ The following reopen conditions apply:
 
 ## Accepted boundaries
 
-Still explicitly outside first-gate V24 drafting and implementation until separately realized:
+Still explicitly outside promoted V24 until separately realized:
 - moving bulk proof computation to Bitcoin mainchain,
 - moving private artifact payloads to public-chain storage,
 - claiming threshold or federated policy specifics before source chooses them,
 - treating metaspec repair as a substitute for real external-interface realization,
-- and claiming any realized network, container, or GitHub path before proof-bearing receipts exist in source.
+- and any future architecture that weakens receipt closure or mode isolation for realized interfaces.
 
 ## V24 completion condition
 
-This V24 draft is structurally first-gate complete only when:
+V24 is structurally first-gate complete only when:
 1. the V24 file family exists,
 2. the realization center is explicit,
 3. artifact and proof-family additions are concrete rather than gestural,
@@ -1269,4 +1282,4 @@ This V24 draft is structurally first-gate complete only when:
 7. metaspec repair and strict conformance enforcement are explicit but subordinate to the external-realization center,
 8. the main `SPEC` itself carries full-canon system meaning rather than delegating it to prior versions,
 9. Appendix A through Appendix K are present inside the main `SPEC`,
-10. and the draft can be implemented without ambiguity about what counts as a realized external effect.
+10. and the canon can be implemented without ambiguity about what counts as a realized external effect.

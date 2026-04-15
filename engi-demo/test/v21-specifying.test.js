@@ -6,6 +6,8 @@ import { execFileSync } from 'node:child_process';
 import { promises as fs } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
+import { ACTIVE_CANON_VERSION } from '../src/canon-posture.js';
+
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url));
 const scriptPath = fileURLToPath(new URL('../../scripts/check-engi-spec-family.mjs', import.meta.url));
 const canonicalInputsScriptPath = fileURLToPath(new URL('../../scripts/check-engi-canonical-inputs.mjs', import.meta.url));
@@ -652,9 +654,9 @@ async function writeProperFixture(options = {}) {
   return root;
 }
 
-test('real V23 promoted spec family passes structural promoted-mode checking', () => {
-  const output = runCheck(['--version', 'V23', '--mode', 'promoted'], repoRoot);
-  assert.match(output, /ENGI spec family ok for V23/);
+test(`real ${ACTIVE_CANON_VERSION} promoted spec family passes structural promoted-mode checking`, () => {
+  const output = runCheck(['--version', ACTIVE_CANON_VERSION, '--mode', 'promoted'], repoRoot);
+  assert.match(output, new RegExp(`ENGI spec family ok for ${ACTIVE_CANON_VERSION}`));
   assert.match(output, /mode=promoted/);
 });
 
@@ -664,9 +666,9 @@ test('real V20_PROPER draft spec family passes historical draft-mode checking', 
   assert.match(output, /mode=draft/);
 });
 
-test('real canonical input set for active V23 canon passes input checking', () => {
-  const output = runCanonicalInputCheck(['--current-target', 'V23'], repoRoot);
-  assert.match(output, /ENGI canonical inputs ok for V23/);
+test(`real canonical input set for active ${ACTIVE_CANON_VERSION} canon passes input checking`, () => {
+  const output = runCanonicalInputCheck(['--current-target', ACTIVE_CANON_VERSION], repoRoot);
+  assert.match(output, new RegExp(`ENGI canonical inputs ok for ${ACTIVE_CANON_VERSION}`));
   assert.match(output, /artifacts=3/);
 });
 

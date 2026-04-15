@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-engi-spec-family-promotion.mjs --version V23 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, and V23.'
+      'Currently implemented for V21, V22, V23, and V24.'
     ].join('\n')
   );
 }
@@ -104,14 +104,16 @@ function rewriteStatusValues(content, values) {
  * @param {'spec' | 'delta' | 'parity'} kind
  */
 function rewritePromotionStatus(version, commit, content, kind) {
-  if (!['V21', 'V22', 'V23'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, and V23. Received ${version}.`);
+  if (!['V21', 'V22', 'V23', 'V24'].includes(version)) {
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, and V24. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v21-spec-family-report.json`, and `.engi/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'
     : version === 'V22'
       ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v22-spec-family-report.json`, `.engi/v22-canonical-input-report.json`, and `.engi/v22-canon-posture-drift-report.json`; `ENGI_SPEC_V22_PROVEN.md` is the active generated proof appendix for V22'
-      : 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23';
+      : version === 'V23'
+        ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23'
+        : 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `.engi/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24';
   const sharedValues = {
     Scope:
       version === 'V21'
@@ -126,11 +128,17 @@ function rewritePromotionStatus(version, commit, content, kind) {
             : kind === 'delta'
               ? 'V22 canonical delta for runtime/operator drift-detection hardening after V21 specifying canon'
               : 'V22 canonical parity ledger for runtime/operator drift-detection hardening'
-          : kind === 'spec'
-            ? 'V23 canonical system specification for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality after V22 truth-aligned canon'
-            : kind === 'delta'
-              ? 'V23 canonical delta for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality after V22 truth-aligned canon'
-              : 'V23 canonical parity ledger for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality',
+          : version === 'V23'
+            ? kind === 'spec'
+              ? 'V23 canonical system specification for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality after V22 truth-aligned canon'
+              : kind === 'delta'
+                ? 'V23 canonical delta for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality after V22 truth-aligned canon'
+                : 'V23 canonical parity ledger for bitcoin-backed audit, sidechain-connected settlement interfaces, and deployed compute/storage reality'
+            : kind === 'spec'
+              ? 'V24 canonical system specification for realizing external interfacing, exhaustive telemetry, and full-canon conformance after V23 deployed-infrastructure canon'
+              : kind === 'delta'
+                ? 'V24 canonical delta for realizing external interfacing, exhaustive telemetry, and full-canon conformance after V23 deployed-infrastructure canon'
+                : 'V24 canonical parity ledger for realizing external interfacing, exhaustive telemetry, and full-canon conformance',
     'Current canonical/latest target': `\`${version}\``,
     'Canonical proof-source commit': `\`${commit}\``,
     'Generated structured artifact inventory': sharedInventory
@@ -189,7 +197,8 @@ function rewritePromotionStatus(version, commit, content, kind) {
                   'canonical promotion complete; parity truth, runtime posture truth, and generated canon are aligned for V22'
               })
       }
-      : {
+      : version === 'V23'
+      ? {
         ...(kind !== 'delta'
           ? { 'Last fully realized canonical target preserved in source': '`V23`' }
           : {}),
@@ -212,6 +221,31 @@ function rewritePromotionStatus(version, commit, content, kind) {
                   'V23 source-side bitcoin-facing artifacts, sidechain-connected settlement interfaces, prototype compute/storage reality manifests, canon-posture drift detection, and generated evidence are canonicalized; parity truth is aligned with the promoted V23 file family',
                 'V23 state':
                   'canonical promotion complete; parity truth, runtime posture truth, bitcoin-facing closure, and generated canon are aligned for V23'
+              })
+      }
+      : {
+        ...(kind !== 'delta'
+          ? { 'Last fully realized canonical target preserved in source': '`V24`' }
+          : {}),
+        ...(kind === 'spec'
+          ? {
+              'Source parity state':
+                'V24 source-side mode-isolated external realization, live adapter contracts, continuity and reconciliation ledgers, exhaustive telemetry, build-process enforcement, and generated evidence are canonicalized in the promoted V24 file family',
+              'V24 state':
+                'canonical promotion complete; V24 is the active external-realization canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned'
+            }
+          : kind === 'delta'
+            ? {
+                'Source parity state':
+                  'V24 source-side mode-isolated external realization, live adapter contracts, continuity and reconciliation ledgers, exhaustive telemetry, build-process enforcement, and generated evidence are canonicalized; this delta records the V23-to-V24 closure',
+                'V24 state':
+                  'canonical promotion complete; V24 external-realization canon is active and this delta records the promoted external-interface, telemetry, and conformance closure set'
+              }
+            : {
+                'Source parity state':
+                  'V24 source-side mode-isolated external realization, live adapter contracts, continuity and reconciliation ledgers, exhaustive telemetry, build-process enforcement, and generated evidence are canonicalized; parity truth is aligned with the promoted V24 file family',
+                'V24 state':
+                  'canonical promotion complete; parity truth, runtime posture truth, external-realization closure, and generated canon are aligned for V24'
               })
       };
 

@@ -469,17 +469,22 @@ function buildV24Profile() {
       ...COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
       '.engi/v24-spec-family-report.json',
       '.engi/v24-canonical-input-report.json',
+      '.engi/v24-canon-posture-drift-report.json',
       'ENGI_SPEC_V24_PROVEN.md',
       'external-environment-profile',
       'external-telemetry-summary',
+      'external-execution-ledger',
+      'external-reconciliation-log',
       'bitcoin-network-execution',
+      'repeated-read-payment-execution',
       'compute-container-execution',
       'storage-publication-receipt',
       'github-live-session'
     ],
     requiredGeneratedArtifactPaths: [
       '.engi/v24-spec-family-report.json',
-      '.engi/v24-canonical-input-report.json'
+      '.engi/v24-canonical-input-report.json',
+      '.engi/v24-canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       ...COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES,
@@ -506,9 +511,14 @@ function buildV24Profile() {
       '.engi/external-execution-policy.json',
       '.engi/external-telemetry-policy.json',
       '.engi/external-telemetry-summary.json',
+      '.engi/external-execution-ledger.json',
+      '.engi/external-reconciliation-log.json',
       '.engi/bitcoin-network-intent.json',
       '.engi/bitcoin-network-execution.json',
       '.engi/bitcoin-network-observation.json',
+      '.engi/repeated-read-payment-intent.json',
+      '.engi/repeated-read-payment-execution.json',
+      '.engi/repeated-read-payment-observation.json',
       '.engi/sidechain-execution-receipt.json',
       '.engi/compute-container-manifest.json',
       '.engi/compute-container-execution.json',
@@ -524,6 +534,7 @@ function buildV24Profile() {
       '.engi/external-realization-proof.json',
       '.engi/container-reality-proof.json',
       '.engi/github-live-interface-proof.json',
+      '.engi/v24-canon-posture-drift-report.json',
       'ENGI_SPEC_V24_PROVEN.md'
     ],
     requiredDeltaSections: [

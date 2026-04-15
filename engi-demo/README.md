@@ -1,11 +1,11 @@
-# ENGI Demo - V23 canonical deterministic local prototype
+# ENGI Demo - V24 canonical deterministic local prototype
 
-This demo is governed by the active V23 canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V24 drafts the next system-facing implementation pass.
+This demo is governed by the active V24 canonical spec and serves as the current deterministic local realization of the full ENGI operating chain while V25 drafts the next system-facing implementation pass.
 
 Current spec/doc truth for this repo:
-- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V23`
-- V23 is the current canonical/latest target and governing full-system spec
-- `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix
+- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V24`
+- V24 is the current canonical/latest target and governing full-system spec
+- `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix
 - the next-version draft family opens in the matching `ENGI_SPEC_VN.md`, `ENGI_SPEC_VN_DELTA.md`, and `ENGI_SPEC_VN_PARITY_MATRIX.md` files when that work begins
 - optional `ENGI_SPEC_VN_NOTES.md` files are non-canonical working notes only
 

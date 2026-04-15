@@ -2,12 +2,11 @@
 
 ## Status
 
-- Scope: non-canonical V24 working notes for realizing external interfacing after V23 deployed-infrastructure canon
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V23`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
-- Draft specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
-- V24 state: drafting only; notes track open shaping questions and implementation follow-ups
+- Scope: non-canonical V24 working notes after promotion of the external-realization canon
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V24`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V24_PROVEN.md`
+- V24 state: canonical promotion complete; notes now track residual V25-facing follow-ups only
 
 ## Non-Canonical Notes Rule
 
@@ -28,7 +27,7 @@ Any note that survives as system truth must be promoted into:
 - a future `ENGI_SPEC_V24_PROVEN.md`,
 - or required generated `.engi/v24-*` artifacts once those exist.
 
-## Starting draft input from V23
+## Starting input from V23
 
 V23 closed:
 - Bitcoin-facing artifact contracts,
@@ -37,7 +36,7 @@ V23 closed:
 - prototype compute and storage reality manifests,
 - and generated proof and parity closure.
 
-The V24 draft-input baseline is therefore:
+The V24 baseline from V23 is:
 - keep Bitcoin as audit and spend substrate,
 - keep ENGI compute and private storage off-chain,
 - preserve NGI denomination rules,
@@ -46,7 +45,7 @@ The V24 draft-input baseline is therefore:
 
 ## Current V24 center
 
-The strongest V24 center from the current draft is:
+The strongest V24 center carried into promotion is:
 - realize external interfacing rather than extend modeled boundaries,
 - add real network-capable Bitcoin and sidechain execution paths,
 - add real auditable compute and storage containers,
@@ -57,7 +56,7 @@ The strongest V24 center from the current draft is:
 - require exhaustive telemetry and strong environment-matrix coverage,
 - and preserve fail-closed auditability across every realized interface.
 
-The V24 draft now also carries one supporting metaspec repair:
+V24 also carries one supporting metaspec repair:
 - restore full-canon, no-silent-inheritance promotion discipline,
 - restore strict spec-family carrier enforcement,
 - and push those checks down into pre-commit and containerized CI or CD gates.
@@ -125,21 +124,18 @@ Candidate requirement:
 Candidate implication:
 - future spec shrink or checker-profile weakening should fail before promotion.
 
-## Open drafting questions
+## Residual V25-facing questions
 
-Current questions worth resolving before implementation starts:
-- whether V24 should keep separate proof families for network, containers, and GitHub or collapse some of them into a smaller execution family set,
-- whether storage publication and retrieval should live in one container family or two linked families,
-- what minimum real-network scope is required for V24 first-gate implementation,
-- whether GitHub live interfacing should require both read and write paths in the same promotion gate,
-- how much telemetry should live in emitted `.engi/` artifacts versus referenced remote logs or traces,
-- whether `mock` mode should be deterministic-only or may include emulator-backed execution classes where the receipt shapes remain identical,
-- and how strict the `spec: VN` commit-title matcher should be for triggering full spec-conformance gates.
+Current follow-up questions after V24 promotion:
+- how much operator-facing deployment guidance should move into a V25 appendix versus remaining in README and environment contracts,
+- whether future realized interfaces should extend the existing proof families or open a new cross-interface continuity family,
+- whether emulator-backed execution classes beyond current mock and local-executor posture are worth canonizing,
+- and which future external surfaces, if any, should join the active mode-isolated execution matrix.
 
-## Initial V24 non-goals
+## V24 non-goals preserved after promotion
 
-Based on the current draft, V24 should not begin by:
-- changing `ENGI_SPEC.txt`,
-- weakening V23 disclosure or settlement posture,
-- claiming mainchain or GitHub realization before receipts exist,
-- or treating containerization as non-audited operational detail.
+Promoted V24 still does not:
+- move bulk proof computation to Bitcoin mainchain,
+- move private artifact payloads to public-chain storage,
+- weaken V23 disclosure or settlement posture,
+- or treat containerization as non-audited operational detail.

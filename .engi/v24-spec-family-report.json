@@ -1,0 +1,32 @@
+{
+  "reportId": "v24-spec-family-report",
+  "version": "V24",
+  "proofSourceCommit": "00fabcb625e8c50ac9222596fba3f05ee7ab77f4",
+  "generatedAt": "2026-04-15T12:21:42-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedVersion": "V24",
+  "mode": "promoted",
+  "currentTarget": "V24",
+  "pointerVersion": "V24",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "requiredFiles": [
+    "ENGI_SPEC_V24.md",
+    "ENGI_SPEC_V24_DELTA.md",
+    "ENGI_SPEC_V24_PARITY_MATRIX.md"
+  ],
+  "supportFiles": [
+    "ENGI_SPECIFYING.md",
+    "ENGI_SPEC_TEMPLATEGUIDE.md"
+  ],
+  "requiredStatusLabelCount": 4,
+  "requiredPromotedStatusLabelCount": 1,
+  "requiredSpecSectionCount": 40,
+  "requiredAppendixSectionCount": 14,
+  "requiredProofFamilyCount": 14,
+  "requiredGeneratedArtifactCatalogSectionCount": 12,
+  "requiredGeneratedArtifactPathCount": 3,
+  "requiredSubsystemCoverageCount": 26
+}
