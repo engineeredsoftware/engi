@@ -1,6 +1,7 @@
 // @ts-check
 
 import crypto from 'node:crypto';
+import { buildV24LocalExecutorUrl } from './v24-local-executors.js';
 
 export const V24_EXTERNAL_ENVIRONMENT_MODES = ['production', 'staging', 'development', 'mock'];
 export const V24_EXTERNAL_INTERFACE_IDS = [
@@ -414,6 +415,24 @@ function withBindingOverrides(binding, overrides) {
 
 /**
  * @param {string} interfaceId
+ * @param {Record<string, unknown>} binding
+ * @param {string} configuredEnvironmentMode
+ * @returns {Record<string, unknown>}
+ */
+function applyLocalExecutorSupport(interfaceId, binding, configuredEnvironmentMode) {
+  if (configuredEnvironmentMode === 'mock') return binding;
+  if (!envBoolean('ENGI_V24_ENABLE_LOCAL_EXECUTORS')) return binding;
+  if (binding.executorUrl) return binding;
+  return {
+    ...binding,
+    executorUrl: buildV24LocalExecutorUrl(interfaceId),
+    executorKind: 'built-in-demonstration-adapter',
+    executorRouteRef: `/api/v24/executors/${interfaceId}`
+  };
+}
+
+/**
+ * @param {string} interfaceId
  * @returns {string}
  */
 function liveEnableEnvKey(interfaceId) {
@@ -600,27 +619,27 @@ export function resolveV24ActiveExternalRuntime(descriptor, input = {}) {
     bitcoinMainchain: (() => {
       const { binding, overrideKeys } = applyActiveBindingOverrides('bitcoin-mainchain-execution', profileBindings.bitcoinMainchain || {});
       activeBindingOverrideKeysByInterface['bitcoin-mainchain-execution'] = overrideKeys;
-      return binding;
+      return applyLocalExecutorSupport('bitcoin-mainchain-execution', binding, configuredEnvironmentMode);
     })(),
     sidechain: (() => {
       const { binding, overrideKeys } = applyActiveBindingOverrides('sidechain-execution', profileBindings.sidechain || {});
       activeBindingOverrideKeysByInterface['sidechain-execution'] = overrideKeys;
-      return binding;
+      return applyLocalExecutorSupport('sidechain-execution', binding, configuredEnvironmentMode);
     })(),
     compute: (() => {
       const { binding, overrideKeys } = applyActiveBindingOverrides('compute-container-execution', profileBindings.compute || {});
       activeBindingOverrideKeysByInterface['compute-container-execution'] = overrideKeys;
-      return binding;
+      return applyLocalExecutorSupport('compute-container-execution', binding, configuredEnvironmentMode);
     })(),
     storage: (() => {
       const { binding, overrideKeys } = applyActiveBindingOverrides('storage-container-execution', profileBindings.storage || {});
       activeBindingOverrideKeysByInterface['storage-container-execution'] = overrideKeys;
-      return binding;
+      return applyLocalExecutorSupport('storage-container-execution', binding, configuredEnvironmentMode);
     })(),
     github: (() => {
       const { binding, overrideKeys } = applyActiveBindingOverrides('github-live-interface', profileBindings.github || {});
       activeBindingOverrideKeysByInterface['github-live-interface'] = overrideKeys;
-      return binding;
+      return applyLocalExecutorSupport('github-live-interface', binding, configuredEnvironmentMode);
     })()
   };
   const interfaceRuntimeStates = V24_EXTERNAL_INTERFACE_IDS.map((interfaceId) => {
@@ -708,6 +727,7 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
     demonstrationToggleState: {
       configuredEnvironmentMode,
       paymentMode: input.paymentMode || null,
+      localExecutorsEnabled: envBoolean('ENGI_V24_ENABLE_LOCAL_EXECUTORS'),
       shapeStableArtifactContract: true,
       allowModeSwitchingWithoutArtifactShapeDrift: true
     },

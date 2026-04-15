@@ -600,6 +600,156 @@ testAny('GET /api/v24/external-realization returns the draft-target environment 
   });
 });
 
+testAny('GET /api/v24/external-realization promotes enabled local executors to live-configured runtime state', async (t) => {
+  await withApp(t, async ({ app }) => {
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_LOCAL_EXECUTORS: '1',
+      ENGI_V24_ENABLE_BITCOIN_MAINCHAIN: '1',
+      ENGI_V24_ENABLE_SIDECHAIN: '1',
+      ENGI_V24_ENABLE_COMPUTE: '1',
+      ENGI_V24_ENABLE_STORAGE: '1',
+      ENGI_V24_ENABLE_GITHUB: '1'
+    }, async () => {
+      const response = await invoke(app, { method: 'GET', url: '/api/v24/external-realization' });
+      const activeRuntime = response.json.activeRuntime;
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(activeRuntime.actualityDisposition, 'live-configured-external-realization');
+      assert.ok(activeRuntime.interfaceRuntimeStates.every((entry) => entry.runtimeState === 'live-configured'));
+      assert.equal(activeRuntime.activeBindings.bitcoinMainchain.executorUrl, 'engi-local://bitcoin-mainchain-execution');
+      assert.equal(activeRuntime.activeBindings.sidechain.executorUrl, 'engi-local://sidechain-execution');
+      assert.equal(activeRuntime.activeBindings.compute.executorUrl, 'engi-local://compute-container-execution');
+      assert.equal(activeRuntime.activeBindings.storage.executorUrl, 'engi-local://storage-container-execution');
+      assert.equal(activeRuntime.activeBindings.github.executorUrl, 'engi-local://github-live-interface');
+    });
+  });
+});
+
+testAny('POST /api/v24/executors/:interfaceId serves built-in demonstration executor patches', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, {
+      method: 'POST',
+      url: '/api/v24/executors/github-live-interface',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        interfaceId: 'github-live-interface',
+        configuredEnvironmentMode: 'development',
+        actualityDisposition: 'live-configured-external-realization',
+        branchName: 'engi-review/demo-route',
+        binding: {
+          appRef: 'github-app://engi/development',
+          appId: 'engi-development-github-app',
+          installationTargetRef: 'github-installation://engi/development'
+        },
+        telemetry: {
+          requestId: 'req_demo_github_route',
+          executionId: 'exec_demo_github_route',
+          observationId: 'obs_demo_github_route'
+        },
+        artifacts: {
+          githubLiveSession: {
+            repo: 'frontier/demo-auth',
+            branchName: 'engi-review/demo-route'
+          },
+          githubInventoryFetchReceipt: {},
+          githubArtifactFetchReceipt: {},
+          githubBranchPublicationReceipt: {
+            branchName: 'engi-review/demo-route'
+          },
+          githubPrUpdateReceipt: {
+            branchName: 'engi-review/demo-route'
+          }
+        },
+        supportArtifacts: {
+          githubAppBinding: {
+            activeBinding: {
+              appRef: 'github-app://engi/development',
+              appId: 'engi-development-github-app',
+              installationTargetRef: 'github-installation://engi/development'
+            }
+          },
+          githubBoundarySurface: {
+            selectedAuthSessions: [{
+              authSessionId: 'auth_demo_github_route',
+              authPayloadHash: 'sha256:demo-github-route',
+              permissionsRoot: 'perm_demo_github_route'
+            }],
+            selectedInventoryProofs: []
+          }
+        }
+      })
+    });
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.ok, true);
+    assert.equal(response.json.interfaceId, 'github-live-interface');
+    assert.equal(response.json.artifacts.githubLiveSession.authSessionId, 'auth_demo_github_route');
+    assert.equal(response.json.artifacts.githubBranchPublicationReceipt.mutationState, 'live-github-branch-published');
+    assert.equal(response.json.artifacts.githubPrUpdateReceipt.prNumber, 24);
+    assert.equal(response.json.telemetry.runtimeState, 'live-observed');
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes enabled V24 local executors across all external interfaces before persisting state', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'development',
+      ENGI_V24_ENABLE_LOCAL_EXECUTORS: '1',
+      ENGI_V24_ENABLE_BITCOIN_MAINCHAIN: '1',
+      ENGI_V24_ENABLE_SIDECHAIN: '1',
+      ENGI_V24_ENABLE_COMPUTE: '1',
+      ENGI_V24_ENABLE_STORAGE: '1',
+      ENGI_V24_ENABLE_GITHUB: '1'
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'checkpointed-sidechain-bridge',
+          principal: 'reviewer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.demonstrationToggleState.localExecutorsEnabled, true);
+      assert.equal(persisted.latestRun.externalEnvironmentProfile.activeBindings.github.executorUrl, 'engi-local://github-live-interface');
+      assert.equal(persisted.latestRun.bitcoinNetworkExecution.executionState, 'live-network-broadcast-and-observed');
+      assert.equal(persisted.latestRun.bitcoinNetworkObservation.confirmationState, 'confirmed');
+      assert.equal(persisted.latestRun.sidechainExecutionReceipt.executionState, 'live-sidechain-checkpoint-observed');
+      assert.equal(persisted.latestRun.computeContainerExecution.executionState, 'live-container-executed');
+      assert.equal(persisted.latestRun.storagePublicationReceipt.publicationState, 'live-storage-published');
+      assert.equal(persisted.latestRun.storageRetrievalReceipt.retrievalState, 'live-storage-retrieved');
+      assert.equal(persisted.latestRun.githubInventoryFetchReceipt.fetchState, 'live-github-inventory-fetched');
+      assert.equal(persisted.latestRun.githubArtifactFetchReceipt.fetchState, 'live-github-artifact-fetched');
+      assert.equal(persisted.latestRun.githubBranchPublicationReceipt.mutationState, 'live-github-branch-published');
+      assert.equal(persisted.latestRun.githubPrUpdateReceipt.mutationState, 'live-github-pr-updated');
+      assert.equal(persisted.latestRun.githubPrUpdateReceipt.prNumber, 24);
+      assert.ok(
+        Object.values(persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById)
+          .every((entry) => entry.runtimeState === 'live-observed')
+      );
+      assert.ok(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries
+          .every((entry) => entry.runtimeState === 'live-observed' && entry.telemetryCoverageState === 'shape-complete-live-observed')
+      );
+      assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
+      assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
+      assert.equal(persisted.latestRun.githubLiveInterfaceProof.allTheoremsPassed, true);
+
+      const reviewer = await invoke(app, { method: 'GET', url: '/api/state?principal=reviewer' });
+      assert.equal(reviewer.statusCode, 200);
+      assert.ok(
+        reviewer.json.latestRun.externalRealizationSummary.interfaceSummaries
+          .every((entry) => entry.runtimeState === 'live-observed')
+      );
+    });
+  });
+});
+
 testAny('POST /api/make-engi-branch realizes live-configured V24 GitHub and storage executors before persisting state', async (t) => {
   await withApp(t, async ({ app, dataPath }) => {
     const executor = await startJsonExecutorServer(async ({ url, json }) => {
@@ -748,6 +898,177 @@ testAny('POST /api/make-engi-branch realizes live-configured V24 GitHub and stor
       assert.equal(
         JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/external-telemetry-summary.json']).interfaceSummaries
           .find((entry) => entry.interfaceId === 'github-live-interface').runtimeState,
+        'live-observed'
+      );
+    });
+  });
+});
+
+testAny('POST /api/make-engi-branch realizes live-configured V24 bitcoin, sidechain, and compute executors before persisting state', async (t) => {
+  await withApp(t, async ({ app, dataPath }) => {
+    const executor = await startJsonExecutorServer(async ({ url, json }) => {
+      if (url === '/bitcoin') {
+        return {
+          interfaceId: 'bitcoin-mainchain-execution',
+          telemetry: {
+            runtimeState: 'live-observed',
+            resultClass: 'live-executed',
+            reconciliationState: 'live-mainchain-reconciled',
+            telemetryCoverageState: 'shape-complete-live-observed',
+            requestId: 'req_live_bitcoin',
+            executionId: 'exec_live_bitcoin',
+            observationId: 'obs_live_bitcoin',
+            executionClass: 'pre-production-network-execution',
+            affectedArtifactRefs: [
+              '.engi/bitcoin-network-execution.json',
+              '.engi/bitcoin-network-observation.json'
+            ]
+          },
+          artifacts: {
+            bitcoinNetworkExecution: {
+              ...json.artifacts.bitcoinNetworkExecution,
+              executionState: 'live-network-broadcast-and-observed',
+              executionId: 'exec_live_bitcoin',
+              observationId: 'obs_live_bitcoin',
+              networkRef: 'tx:testnet4:engi:001',
+              anchorRef: 'anchor:testnet4:engi:001'
+            },
+            bitcoinNetworkObservation: {
+              ...json.artifacts.bitcoinNetworkObservation,
+              observationState: 'live-network-observed',
+              observationId: 'obs_live_bitcoin',
+              executionId: 'exec_live_bitcoin',
+              networkState: 'confirmed-on-testnet',
+              confirmationState: 'confirmed',
+              confirmations: 2,
+              networkRef: 'tx:testnet4:engi:001',
+              anchorRef: 'anchor:testnet4:engi:001',
+              journalBindingState: 'network-observed-before-final-journal-close',
+              serviceReceipt: {
+                source: 'local-loopback-bitcoin-executor',
+                supportIntentRef: json.supportArtifacts.bitcoinSettlementIntent.intentId
+              }
+            }
+          }
+        };
+      }
+      if (url === '/sidechain') {
+        return {
+          interfaceId: 'sidechain-execution',
+          telemetry: {
+            runtimeState: 'live-observed',
+            resultClass: 'live-executed',
+            reconciliationState: 'live-sidechain-reconciled',
+            telemetryCoverageState: 'shape-complete-live-observed',
+            requestId: 'req_live_sidechain',
+            executionId: 'exec_live_sidechain',
+            observationId: 'obs_live_sidechain',
+            executionClass: 'pre-production-sidechain-execution',
+            affectedArtifactRefs: [
+              '.engi/sidechain-execution-receipt.json'
+            ]
+          },
+          artifacts: {
+            sidechainExecutionReceipt: {
+              ...json.artifacts.sidechainExecutionReceipt,
+              executionState: 'live-sidechain-checkpoint-observed',
+              executionId: 'exec_live_sidechain',
+              requestId: 'req_live_sidechain',
+              observationId: 'obs_live_sidechain',
+              checkpointRef: 'sidechain-checkpoint:testnet:engi:001'
+            }
+          }
+        };
+      }
+      if (url === '/compute') {
+        return {
+          interfaceId: 'compute-container-execution',
+          telemetry: {
+            runtimeState: 'live-observed',
+            resultClass: 'live-executed',
+            reconciliationState: 'live-container-reconciled',
+            telemetryCoverageState: 'shape-complete-live-observed',
+            requestId: 'req_live_compute',
+            executionId: 'exec_live_compute',
+            observationId: 'obs_live_compute',
+            executionClass: 'containerized-execution',
+            affectedArtifactRefs: [
+              '.engi/compute-container-execution.json'
+            ]
+          },
+          artifacts: {
+            computeContainerExecution: {
+              ...json.artifacts.computeContainerExecution,
+              executionState: 'live-container-executed',
+              executionId: 'exec_live_compute',
+              observationId: 'obs_live_compute',
+              attestationRef: 'attest_live_compute',
+              imageDigest: 'sha256:live-compute-image',
+              outputArtifactRefs: json.artifacts.computeContainerExecution.outputArtifactRefs
+            }
+          }
+        };
+      }
+      return { status: 404, json: { error: 'not found' } };
+    });
+    t.after(async () => {
+      await executor.close();
+    });
+
+    await withEnv({
+      ENGI_V24_ENVIRONMENT_MODE: 'staging',
+      ENGI_V24_ENABLE_BITCOIN_MAINCHAIN: '1',
+      ENGI_V24_BITCOIN_MAINCHAIN_EXECUTOR_URL: `${executor.baseUrl}/bitcoin`,
+      ENGI_V24_ENABLE_SIDECHAIN: '1',
+      ENGI_V24_SIDECHAIN_EXECUTOR_URL: `${executor.baseUrl}/sidechain`,
+      ENGI_V24_ENABLE_COMPUTE: '1',
+      ENGI_V24_COMPUTE_EXECUTOR_URL: `${executor.baseUrl}/compute`
+    }, async () => {
+      const response = await invoke(app, {
+        method: 'POST',
+        url: '/api/make-engi-branch',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentMode: 'checkpointed-sidechain-bridge',
+          principal: 'buyer'
+        })
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.deepEqual(
+        executor.requests.map((entry) => entry.url).sort(),
+        ['/bitcoin', '/compute', '/sidechain']
+      );
+      assert.ok(executor.requests.find((entry) => entry.url === '/bitcoin').json.supportArtifacts.bitcoinSettlementIntent.intentId);
+      assert.ok(executor.requests.find((entry) => entry.url === '/compute').json.supportArtifacts.computeContainerManifest.manifestId);
+      assert.ok(executor.requests.find((entry) => entry.url === '/sidechain').json.supportArtifacts.bitcoinSettlementObservation.observationId);
+
+      const persisted = readPersistedState(dataPath);
+      assert.equal(persisted.latestRun.bitcoinNetworkExecution.executionState, 'live-network-broadcast-and-observed');
+      assert.equal(persisted.latestRun.bitcoinNetworkObservation.confirmationState, 'confirmed');
+      assert.equal(persisted.latestRun.bitcoinNetworkObservation.confirmations, 2);
+      assert.equal(persisted.latestRun.sidechainExecutionReceipt.executionState, 'live-sidechain-checkpoint-observed');
+      assert.equal(persisted.latestRun.computeContainerExecution.executionState, 'live-container-executed');
+      assert.equal(
+        persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById['bitcoin-mainchain-execution'].runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById['sidechain-execution'].runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalEnvironmentProfile.interfaceRuntimeStateById['compute-container-execution'].runtimeState,
+        'live-observed'
+      );
+      assert.equal(
+        persisted.latestRun.externalTelemetrySummary.interfaceSummaries.find((entry) => entry.interfaceId === 'bitcoin-mainchain-execution').reconciliationState,
+        'live-mainchain-reconciled'
+      );
+      assert.equal(persisted.latestRun.externalRealizationProof.allTheoremsPassed, true);
+      assert.equal(persisted.latestRun.containerRealityProof.allTheoremsPassed, true);
+      assert.equal(
+        JSON.parse(persisted.latestRun.branchArtifacts.files['.engi/external-environment-profile.json']).interfaceRuntimeStateById['compute-container-execution'].runtimeState,
         'live-observed'
       );
     });

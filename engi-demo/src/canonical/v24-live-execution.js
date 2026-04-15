@@ -5,6 +5,7 @@ import {
   buildV24ContainerRealityProof,
   buildV24GithubLiveInterfaceProof
 } from './v24-external-execution.js';
+import { getV24LocalExecutorInterfaceId } from './v24-local-executors.js';
 
 const V24_INTERFACE_ORDER = [
   'bitcoin-mainchain-execution',
@@ -23,6 +24,7 @@ const V24_ACTIVE_BINDING_KEY_BY_INTERFACE = {
 };
 
 const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
+  externalEnvironmentProfile: '.engi/external-environment-profile.json',
   externalTelemetrySummary: '.engi/external-telemetry-summary.json',
   bitcoinNetworkIntent: '.engi/bitcoin-network-intent.json',
   bitcoinNetworkExecution: '.engi/bitcoin-network-execution.json',
@@ -42,6 +44,34 @@ const V24_BRANCH_ARTIFACT_PATH_BY_KEY = {
   externalRealizationProof: '.engi/external-realization-proof.json',
   containerRealityProof: '.engi/container-reality-proof.json',
   githubLiveInterfaceProof: '.engi/github-live-interface-proof.json'
+};
+
+const V24_SUPPORT_ARTIFACT_KEYS_BY_INTERFACE = {
+  'bitcoin-mainchain-execution': [
+    'bitcoinNetworkIntent',
+    'bitcoinSettlementIntent',
+    'bitcoinSettlementObservation',
+    'bitcoinAnchor',
+    'bitcoinTreasuryPolicy'
+  ],
+  'sidechain-execution': [
+    'sidechainExecutionReceipt',
+    'bitcoinSettlementIntent',
+    'bitcoinSettlementObservation',
+    'bitcoinTreasuryPolicy'
+  ],
+  'compute-container-execution': [
+    'computeContainerManifest',
+    'computeRealityManifest'
+  ],
+  'storage-container-execution': [
+    'storageContainerManifest',
+    'storageRealityManifest'
+  ],
+  'github-live-interface': [
+    'githubAppBinding',
+    'githubBoundarySurface'
+  ]
 };
 
 const V24_ALLOWED_ARTIFACT_KEYS_BY_INTERFACE = {
@@ -142,6 +172,12 @@ function buildExecutionRequestPayload(latestRun, interfaceId) {
       .filter((key) => latestRun[key])
       .map((key) => [key, cloneValue(latestRun[key])])
   );
+  const supportArtifactKeys = V24_SUPPORT_ARTIFACT_KEYS_BY_INTERFACE[interfaceId] || [];
+  const supportArtifacts = Object.fromEntries(
+    supportArtifactKeys
+      .filter((key) => latestRun[key])
+      .map((key) => [key, cloneValue(latestRun[key])])
+  );
   return {
     interfaceId,
     configuredEnvironmentMode: latestRun.externalEnvironmentProfile?.configuredEnvironmentMode || null,
@@ -156,7 +192,8 @@ function buildExecutionRequestPayload(latestRun, interfaceId) {
     runtimeState: telemetry.runtimeState || null,
     binding,
     telemetry,
-    artifacts
+    artifacts,
+    supportArtifacts
   };
 }
 
@@ -164,9 +201,21 @@ function buildExecutionRequestPayload(latestRun, interfaceId) {
  * @param {string} executorUrl
  * @param {Record<string, any>} payload
  * @param {typeof fetch} fetchImpl
+ * @param {Record<string, (payload: Record<string, any>) => Promise<Record<string, any>> | Record<string, any>>} executorHandlers
  * @returns {Promise<Record<string, any>>}
  */
-async function callExecutor(executorUrl, payload, fetchImpl) {
+async function callExecutor(executorUrl, payload, fetchImpl, executorHandlers) {
+  const localExecutorInterfaceId = getV24LocalExecutorInterfaceId(executorUrl);
+  if (localExecutorInterfaceId) {
+    const handler =
+      executorHandlers[localExecutorInterfaceId]
+      || executorHandlers[payload.interfaceId]
+      || executorHandlers[executorUrl];
+    if (typeof handler !== 'function') {
+      throw new Error(`V24 local executor handler missing for ${payload.interfaceId}.`);
+    }
+    return ensureRecord(await handler(payload));
+  }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
   try {
@@ -288,6 +337,41 @@ function patchInterfaceTelemetry(latestRun, interfaceId, telemetryPatch, patched
 
 /**
  * @param {Record<string, any>} latestRun
+ * @param {string} interfaceId
+ * @param {Record<string, any>} telemetryPatch
+ * @returns {void}
+ */
+function patchEnvironmentRuntimeState(latestRun, interfaceId, telemetryPatch) {
+  if (!latestRun.externalEnvironmentProfile) return;
+  const activeRuntimeStates = /** @type {Array<Record<string, any>>} */ (latestRun.externalEnvironmentProfile.activeRuntimeStates || []);
+  const runtimeState = telemetryPatch.runtimeState || 'live-observed';
+  const missingBindingKeys = uniqueStrings(telemetryPatch.missingBindingKeys || []);
+  const nextEntry = {
+    ...ensureRecord(latestRun.externalEnvironmentProfile.interfaceRuntimeStateById?.[interfaceId]),
+    interfaceId,
+    runtimeState,
+    liveEnabled: true,
+    missingBindingKeys,
+    resultClass: telemetryPatch.resultClass || 'live-executed',
+    reconciliationState: telemetryPatch.reconciliationState || 'live-remote-reconciled',
+    telemetryCoverageState: telemetryPatch.telemetryCoverageState || 'shape-complete-live-observed'
+  };
+  const entryIndex = activeRuntimeStates.findIndex((entry) => entry.interfaceId === interfaceId);
+  if (entryIndex >= 0) {
+    activeRuntimeStates[entryIndex] = nextEntry;
+  } else {
+    activeRuntimeStates.push(nextEntry);
+  }
+  latestRun.externalEnvironmentProfile.activeRuntimeStates = activeRuntimeStates;
+  latestRun.externalEnvironmentProfile.interfaceRuntimeStateById = {
+    ...ensureRecord(latestRun.externalEnvironmentProfile.interfaceRuntimeStateById),
+    [interfaceId]: nextEntry
+  };
+  patchArtifact(latestRun, 'externalEnvironmentProfile', latestRun.externalEnvironmentProfile);
+}
+
+/**
+ * @param {Record<string, any>} latestRun
  * @returns {void}
  */
 function rebuildV24Proofs(latestRun) {
@@ -324,11 +408,15 @@ function rebuildV24Proofs(latestRun) {
 
 /**
  * @param {Record<string, any>} latestRun
- * @param {{ fetchImpl?: typeof fetch | undefined }} [options]
+ * @param {{
+ *   fetchImpl?: typeof fetch | undefined,
+ *   executorHandlers?: Record<string, (payload: Record<string, any>) => Promise<Record<string, any>> | Record<string, any>> | undefined
+ * }} [options]
  * @returns {Promise<Record<string, any>>}
  */
 export async function realizeV24LiveExternalExecution(latestRun, options = {}) {
   const fetchImpl = options.fetchImpl || globalThis.fetch;
+  const executorHandlers = options.executorHandlers || {};
   if (typeof fetchImpl !== 'function') {
     throw new Error('V24 live external execution requires fetch support.');
   }
@@ -349,7 +437,7 @@ export async function realizeV24LiveExternalExecution(latestRun, options = {}) {
     }
 
     const requestPayload = buildExecutionRequestPayload(realizedRun, interfaceId);
-    const response = await callExecutor(String(binding.executorUrl), requestPayload, fetchImpl);
+    const response = await callExecutor(String(binding.executorUrl), requestPayload, fetchImpl, executorHandlers);
     const { artifacts, telemetry } = validateExecutorResponse(interfaceId, response);
 
     for (const [key, value] of Object.entries(artifacts)) {
@@ -360,6 +448,7 @@ export async function realizeV24LiveExternalExecution(latestRun, options = {}) {
       .map((key) => V24_BRANCH_ARTIFACT_PATH_BY_KEY[key])
       .filter(Boolean);
     patchInterfaceTelemetry(realizedRun, interfaceId, telemetry, patchedArtifactPaths);
+    patchEnvironmentRuntimeState(realizedRun, interfaceId, telemetry);
     realizedAnyInterface = true;
   }
 

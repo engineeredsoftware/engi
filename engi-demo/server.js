@@ -124,6 +124,11 @@ import {
   resolveV24ActiveExternalRuntime
 } from './src/canonical/v24-external-realization.js';
 import { realizeV24LiveExternalExecution } from './src/canonical/v24-live-execution.js';
+import {
+  buildV24LocalExecutorHandlers,
+  executeV24LocalExecutor,
+  getV24LocalExecutorInterfaceIdFromPath
+} from './src/canonical/v24-local-executors.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_DATA_PATH = path.join(__dirname, 'data', 'state.json');
@@ -165,6 +170,8 @@ export function createAppContext({
   dataPath = process.env['ENGI_DEMO_DATA_PATH'] || DEFAULT_DATA_PATH,
   publicDir = process.env['ENGI_DEMO_PUBLIC_DIR'] || DEFAULT_PUBLIC_DIR
 } = {}) {
+  const v24LocalExecutorHandlers = buildV24LocalExecutorHandlers();
+
   /**
    * @param {string} message
    * @returns {StatusError}
@@ -496,7 +503,9 @@ export function createAppContext({
           paymentMode
         };
         const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
-        const realizedLatestRun = await realizeV24LiveExternalExecution(latestRun);
+        const realizedLatestRun = await realizeV24LiveExternalExecution(latestRun, {
+          executorHandlers: v24LocalExecutorHandlers
+        });
         const persistedState = {
           ...nextState,
           latestRun: realizedLatestRun
@@ -536,6 +545,21 @@ export function createAppContext({
           specVersion: SPEC_VERSION,
           externalRealization,
           activeRuntime: resolveV24ActiveExternalRuntime(externalRealization)
+        });
+      }
+
+      if (req.method === 'POST' && req.url?.startsWith('/api/v24/executors/')) {
+        const url = new URL(req.url, 'http://127.0.0.1');
+        const interfaceId = getV24LocalExecutorInterfaceIdFromPath(url.pathname);
+        if (!interfaceId || typeof v24LocalExecutorHandlers[interfaceId] !== 'function') {
+          return sendJson(res, 404, { error: 'Unknown V24 executor interface.' });
+        }
+        const body = await readBody(req);
+        const execution = await executeV24LocalExecutor(interfaceId, body);
+        return sendJson(res, 200, {
+          ok: true,
+          interfaceId,
+          ...execution
         });
       }
 
