@@ -20,7 +20,9 @@ The local deterministic prototype models the ENGI operating chain as:
 5. ranked candidates plus separate verification and use-tiering,
 6. asset-pack assembly and private branch artifact materialization,
 7. proof closure, bounded public proof, and disclosure/redaction policy,
-8. exact source-to-shares settlement with journal diff conservation.
+8. exact source-to-shares settlement with journal diff conservation,
+9. NGI-denominated bitcoin-facing settlement intent and observation carriers,
+10. prototype compute/storage reality manifests and public/private commitment receipts.
 
 The demo is intentionally centered on:
 - depositing,
@@ -39,9 +41,15 @@ This repo does not:
 - push real remediation branches or PR updates,
 - run live LLM evaluators,
 - publish proof artifacts to an external system,
-- execute real networked settlement effects.
+- execute live mainnet or third-party network settlement effects.
 
-Those surfaces are represented deterministically in local state and called out explicitly in the boundary surfaces.
+At the same time, V23 now does execute deterministic stubbed-testnet demonstration service code for:
+- PSBT-shaped audited base-layer purchase carriers,
+- BOLT11-shaped repeated-read payment carriers,
+- sidechain checkpoint stand-ins,
+- and anchor publication receipts bound back to ENGI bundle and settlement surfaces.
+
+Those surfaces are represented deterministically in local state, called out explicitly in the boundary surfaces, and separated from any claim that live mainnet or third-party execution is active in this repo.
 
 ## Main implementation surfaces
 
@@ -52,6 +60,7 @@ Primary source files:
 - `src/settlement-structs.js` - source-to-shares and settlement participation discriminants
 - `src/canonical/projections.js` - bounded public proof, redaction, disclosure, and projection-policy builders
 - `src/canonical/proof-materialization.js` - materialization, witness-manifest, and accounting-precision builders
+- `src/canonical/v23-bitcoin-demonstration-service.js` - deterministic stubbed-testnet spend, observation, sidechain, and anchor publication service carriers
 - `server.js` - deterministic API and atomic local persistence
 - `public/app.js` - operator shell, visual/raw surfaces, explainers, and panel ordering
 - `public/index.html` - canonical shell structure for the demo
@@ -80,6 +89,7 @@ npm test
 ## Main API
 
 - `GET /api/state`
+- `GET /api/bitcoin-demonstration-service`
 - `POST /api/deposits`
 - `POST /api/make-engi-branch`
 - `POST /api/reset`
@@ -95,6 +105,7 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 - prompt, measurement, verification, and proof artifacts
 - materialization proof and exclusions
 - source-to-shares, settlement participation, accounting precision, settlement proof, and journal diff
+- compute-reality, storage-reality, bitcoin commitment, treasury-policy, anchor, bounded-public anchor, settlement intent, and settlement observation manifests
 - scenario fixture manifest and test coverage report
 - projection policy, bounded public proof, redaction proof, and disclosure proof
 - deliverables manifest
@@ -103,10 +114,10 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 ## Repo documentation for the current pass
 
 - `../ENGI_SPEC.txt` - pointer to the active canonical version
-- `../ENGI_SPEC_V21.md` - active full-system canonical spec
-- `../ENGI_SPEC_V21_DELTA.md` - active version-local delta
-- `../ENGI_SPEC_V21_PARITY_MATRIX.md` - active parity ledger
-- `../ENGI_SPEC_V21_PROVEN.md` - active generated proof appendix
+- `../ENGI_SPEC_V23.md` - active full-system canonical spec
+- `../ENGI_SPEC_V23_DELTA.md` - active version-local delta
+- `../ENGI_SPEC_V23_PARITY_MATRIX.md` - active parity ledger
+- `../ENGI_SPEC_V23_PROVEN.md` - active generated proof appendix
 - `../ENGI_SPEC_V20_PROPER.md` - historical full-canon reconstruction validation surface
 - `../ENGI_SPECIFYING.md` - current specifying standard
 - next-version draft work, when opened, lives in the matching `../ENGI_SPEC_VN*.md` family plus optional `../ENGI_SPEC_VN_NOTES.md`

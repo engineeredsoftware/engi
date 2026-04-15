@@ -84,6 +84,10 @@ import {
   buildBitcoinSettlementInterfaceProof
 } from './canonical/v23-bitcoin.js';
 import {
+  BITCOIN_DEMONSTRATION_SERVICE_MODE,
+  buildBitcoinDemonstrationServiceDescriptor
+} from './canonical/v23-bitcoin-demonstration-service.js';
+import {
   buildSelectionConsistencyProof,
   buildMaterializationVisibilityProof,
   buildMaterializationExclusions,
@@ -172,7 +176,8 @@ const V23_PRIVATE_ROOT_EXCLUSION_PATHS = new Set([
   '.engi/bitcoin-bounded-public-anchor.json',
   '.engi/bitcoin-audit-anchor-proof.json',
   '.engi/bitcoin-settlement-interface-proof.json',
-  '.engi/deliverables.json'
+  '.engi/deliverables.json',
+  '.engi/pipeline-telemetry.json'
 ]);
 
 /**
@@ -2333,6 +2338,7 @@ function buildArtifactUploadSurface(input, content, extracted, artifactKind, art
  * @returns {any}
  */
 function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetPack, settlementPreview, paymentMode }) {
+  const bitcoinDemonstrationService = paymentMode ? buildBitcoinDemonstrationServiceDescriptor() : null;
   const selectedGithubBindings = selectedCandidates.map((/** @type {any} */ candidate) => ({
     assetId: candidate.assetId,
     sourceRepo: candidate.asset.githubBoundary?.sourceRepo,
@@ -2344,10 +2350,12 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
         buildExternalBoundaryInterface({
           interfaceId: 'bitcoin-payment-observation',
           label: 'Bitcoin payment observation + confirmation policy',
-          status: 'implemented-as-local-stand-in',
+          status: 'implemented-as-stubbed-testnet-service',
           localPrototype: {
             implemented: true,
-            surface: 'deterministic modeled payment intent and observation bound to ENGI settlement refs',
+            surface: 'deterministic stubbed-testnet service assembles spend carriers and observation receipts bound to ENGI settlement refs',
+            serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
+            serviceCapabilities: bitcoinDemonstrationService,
             artifactRefs: ['.engi/bitcoin-settlement-intent.json', '.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-treasury-policy.json']
           },
           externalBoundary: {
@@ -2360,10 +2368,12 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
         buildExternalBoundaryInterface({
           interfaceId: 'bitcoin-anchor-publication',
           label: 'Bitcoin anchor publication + public receipt',
-          status: 'implemented-as-local-stand-in',
+          status: 'implemented-as-stubbed-testnet-service',
           localPrototype: {
             implemented: true,
-            surface: 'deterministic manifest-root commitment and modeled anchor publication receipt',
+            surface: 'deterministic stubbed-testnet service assembles commitment publication envelopes and anchor receipts',
+            serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
+            serviceCapabilities: bitcoinDemonstrationService,
             artifactRefs: ['.engi/bitcoin-commitment-manifest.json', '.engi/bitcoin-anchor.json', '.engi/bitcoin-bounded-public-anchor.json']
           },
           externalBoundary: {
@@ -2377,10 +2387,12 @@ function buildExternalBoundaryManifest({ buyer, need, selectedCandidates, assetP
           ? [buildExternalBoundaryInterface({
               interfaceId: 'bitcoin-sidechain-bridge',
               label: 'Bitcoin sidechain bridge + checkpoint binding',
-              status: 'implemented-as-local-stand-in',
+              status: 'implemented-as-stubbed-testnet-service',
               localPrototype: {
                 implemented: true,
-                surface: 'deterministic modeled sidechain checkpoint and mainchain anchor requirement',
+                surface: 'deterministic stubbed-testnet service assembles sidechain checkpoint receipts and mainchain anchor requirements',
+                serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
+                serviceCapabilities: bitcoinDemonstrationService,
                 artifactRefs: ['.engi/bitcoin-settlement-observation.json', '.engi/bitcoin-treasury-policy.json', '.engi/bitcoin-anchor.json']
               },
               externalBoundary: {

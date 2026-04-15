@@ -3,18 +3,18 @@
 ## Status
 
 - Scope: non-canonical V23 working notes for bitcoin-native audit anchoring and settlement-interface hardening
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V22`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
-- V23 state: draft family opened; notes track implementation sequencing and open questions only
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V23`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
+- V23 state: canonical promotion complete; notes now track residual V24-facing follow-ups only
 
 ## Non-Canonical Notes Rule
 
 This file is intentionally non-canonical.
 
 It may contain:
-- draft V23 scope ideas,
-- implementation sequencing notes,
+- residual V24 scope ideas,
+- post-promotion implementation notes,
 - open audit and boundary questions,
 - and candidate artifact-shape refinements.
 
@@ -29,7 +29,7 @@ Any note that survives as system truth must be promoted into:
 
 ## Starting inheritance from V22
 
-V22 closed runtime/API/browser/doc truth alignment and remains the active system authority.
+V22 closed runtime/API/browser/doc truth alignment and remains the immediate prior system authority.
 
 The inherited baseline for V23 is:
 - exact source-to-shares settlement is already canonical,
@@ -38,17 +38,18 @@ The inherited baseline for V23 is:
 - stable artifact hashing and proof-witness closure already exist in source,
 - and external network effects remain explicit modeled boundaries rather than hidden implementation claims.
 
-## Current V23 drafting center
+## Current V23 follow-up center
 
 The strongest V23 center from the current audit is:
-- define Bitcoin as ENGI's next public audit and spend interface layer,
+- keep Bitcoin as ENGI's public audit and spend interface layer,
 - keep a sidechain connection point in first-gate scope so the bridge is not mainchain-only,
 - keep proof computation and bulk private artifact storage off-chain,
 - clarify that NGI is the share and settlement denomination while ENGI names the system,
 - require prototype-demonstration compute and storage reality surfaces so deployed posture is explicit,
+- require deterministic stubbed-testnet demonstration service code for spend carriers and anchor receipts,
 - derive bounded-public and private commitment scopes from current artifact classifications,
 - bind buyer payment intent and network observation to exact ENGI bundle and settlement surfaces,
-- and preserve the repo's current honesty about modeled versus live boundaries.
+- and preserve the repo's current honesty about live mainnet versus demonstration boundaries.
 
 ## Candidate implementation workstreams
 

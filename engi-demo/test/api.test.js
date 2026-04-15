@@ -459,9 +459,14 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(buyerRun.json.latestRun.projectionPrincipal, 'buyer');
     assert.equal(buyerRun.json.latestRun.systemProofBundle.proofFamilies.length, 11);
     assert.equal(buyerRun.json.latestRun.proofWitnessManifest.proofFamilies.length, 11);
+    assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.serviceMode, 'stubbed-testnet-demonstration-service');
+    assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.carrierType, 'sidechain-transfer-intent');
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementObservation.networkState, 'checkpointed-sidechain');
+    assert.equal(buyerRun.json.latestRun.bitcoinSettlementObservation.observationReality, 'stubbed-testnet-demonstration-service');
     assert.equal(buyerRun.json.latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
+    assert.equal(buyerRun.json.latestRun.bitcoinAnchor.publicationReality, 'stubbed-testnet-demonstration-service');
     assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
+    assert.ok(buyerRun.json.latestRun.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.status === 'implemented-as-stubbed-testnet-service'));
 
     assert.equal(publicState.statusCode, 200);
     assert.ok(publicState.json.latestRun.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
@@ -471,6 +476,19 @@ testAny('POST /api/make-engi-branch accepts V23 payment mode and projects bitcoi
     assert.equal(reviewerState.json.latestRun.bitcoinSettlementIntent, undefined);
     assert.ok(reviewerState.json.latestRun.bitcoinBoundedPublicAnchor.anchorId);
     assert.ok(reviewerState.json.latestRun.bitcoinCommitmentManifest.publicRoot);
+  });
+});
+
+testAny('GET /api/bitcoin-demonstration-service returns the V23 stubbed-testnet service descriptor', async (t) => {
+  await withApp(t, async ({ app }) => {
+    const response = await invoke(app, { method: 'GET', url: '/api/bitcoin-demonstration-service' });
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(response.json.service.serviceMode, 'stubbed-testnet-demonstration-service');
+    assert.equal(response.json.service.liveMainnetExecution, false);
+    assert.ok(response.json.service.supportedPaymentModes.includes('audited-base-layer-purchase'));
+    assert.ok(response.json.service.supportedPaymentModes.includes('repeated-read-payment'));
+    assert.ok(response.json.service.supportedPaymentModes.includes('checkpointed-sidechain-bridge'));
   });
 });
 

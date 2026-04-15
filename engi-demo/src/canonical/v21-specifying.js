@@ -313,7 +313,7 @@ function buildV23Profile() {
       'V23 inheritance rule',
       'V23 audit findings',
       'V23 denomination and naming rule',
-      'V23 accepted drafting decisions',
+      'V23 accepted decisions',
       'V23 source-of-truth hierarchy',
       'V23 system goals, non-goals, and design principles',
       'V23 system architecture and layer boundaries',

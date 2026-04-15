@@ -11,11 +11,10 @@
 - Companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_NOTES.md`
 - Companion delta file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_DELTA.md`
 - Companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PARITY_MATRIX.md`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
-- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V22`
-- Current canonical/latest target remains `V22`; `V23` is the current draft target only
-- Inherited canonical proof-source commit from the active anchor: `5c3410df386022bb3f7c9c102c60724be46fe1c1`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
+- Current canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V23`
+- Inherited canonical proof-source commit from the prior anchor: `5c3410df386022bb3f7c9c102c60724be46fe1c1`
 - Source parity state: V23 source-side bitcoin-facing artifacts, sidechain-connected settlement interfaces, prototype compute/storage reality manifests, canon-posture drift detection, and generated evidence are canonicalized in the promoted V23 file family
 - V23 state: canonical promotion complete; V23 is the active deployed-infrastructure canon and runtime, API, browser shell, tests, demo-local docs, and generated canon are aligned
 - Last fully realized canonical target preserved in source: `V23`
@@ -24,7 +23,7 @@
 
 V22 returned ENGI to system work and closed first-gate runtime/API/browser/doc truth alignment.
 
-That changes the next draft question.
+That changes the next system question.
 V23 is not centered on whether ENGI can specify itself correctly.
 V23 is centered on how ENGI's already-auditable proof and settlement surfaces should bind to an external public audit substrate and a spend-native settlement interface without overstating what is already live.
 
@@ -35,14 +34,14 @@ Its job is to:
 - make principal-scoped public and private commitment roots explicit,
 - define audited spend and confirmation carriers that bind payment to bundle and settlement closure,
 - keep a sidechain connection point inside first-gate V23 so the ENGI:BTC bridge is not mainchain-only,
-- and keep active-canon honesty intact while those deployment rails remain unimplemented in source.
+- and keep active-canon honesty intact while live networked deployment rails remain explicitly modeled where source has not closed them.
 
 ## Version executive summary
 
 ENGI remains a proof-bearing operating system for engineering assetizing.
 
 V23 does not change that identity.
-It extends the V22 system by drafting the next deployment-facing layer:
+It extends the V22 system by specifying and prototype-demonstrating the next deployment-facing layer:
 - exact ENGI proofs and settlement artifacts continue to materialize off-chain in deterministic ENGI runtime surfaces,
 - stable canonical hashing and proof-witness manifests already emitted by current source become the commitment substrate,
 - bounded-public and private proof surfaces become separately anchorable commitment scopes,
@@ -76,7 +75,7 @@ It inserts an explicit external audit and settlement layer after proof, disclosu
 
 ## V23 inheritance rule
 
-V23 inherits V22 as the active full-system authority.
+V23 inherits V22 as the immediate prior full-system authority.
 
 That means:
 - V22 exact source-to-shares settlement remains authoritative,
@@ -132,30 +131,41 @@ V23 therefore should anchor at least two scopes:
 - a bounded-public commitment scope,
 - and a private proof-and-settlement commitment scope.
 
-### 4. The external boundary is already named, but not yet specialized
+### 4. The external boundary is already named and is now specialized into a V23 demonstration service layer
 
-Current `engi-demo/src/engi-demo.js` already emits `.engi/external-boundary-manifest.json` and includes `settlement-network-effects` as a boundary interface whose local prototype is deterministic accounting only and whose external contract is still unimplemented.
+Current `engi-demo/src/engi-demo.js` emits `.engi/external-boundary-manifest.json` and specializes `settlement-network-effects` into explicit Bitcoin-facing interfaces for payment observation, anchor publication, and sidechain checkpoint binding.
+
+Current `engi-demo/src/canonical/v23-bitcoin-demonstration-service.js` closes first-gate V23 with deterministic `stubbed-testnet-demonstration-service` code that assembles:
+- PSBT-shaped base-layer purchase carriers,
+- BOLT11-shaped repeated-read payment carriers,
+- sidechain bridge checkpoint stand-ins,
+- and anchor publication envelopes and receipts.
 
 V23 should specialize that generic boundary into Bitcoin-facing interfaces:
 - audited spend construction,
 - settlement execution observation,
 - and public anchor publication.
 
-### 5. The local prototype still does not execute networked settlement or external proof publication
+### 5. The local prototype now executes a stubbed-testnet demonstration service, but still does not claim live mainnet execution
 
 Current `engi-demo/README.md` remains explicit that the repo does not:
 - publish proof artifacts to an external system,
-- execute real networked settlement effects,
+- execute live mainnet or third-party network settlement effects,
 - fetch live workflow artifacts,
 - or run live model/network infrastructure.
 
+At the same time, V23 now requires and source now emits deterministic demonstration-service carriers and receipts inside the local runtime:
+- `bitcoin-settlement-intent` includes a spend carrier and request envelope,
+- `bitcoin-settlement-observation` includes a stubbed-testnet receipt and reference,
+- and `bitcoin-anchor` / `bitcoin-bounded-public-anchor` include publication envelopes and publication receipts.
+
 V23 must preserve that honesty.
-This file drafts the next deployment architecture.
-It does not authorize user-facing claims that BTC integration is already live in the local prototype.
+This file specifies the first-gate deployment architecture.
+It does not authorize user-facing claims that live mainnet BTC integration is already active in the local prototype.
 
-## V23 accepted drafting decisions
+## V23 accepted decisions
 
-V23 accepts the following initial decisions:
+V23 accepts the following decisions:
 
 1. V23 is deployment-facing and audit-facing rather than another truth-alignment release.
 2. Bitcoin enters ENGI first as a public audit substrate and spend rail, not as the place where ENGI performs bulk proof computation or bulk private artifact storage.
@@ -165,24 +175,22 @@ V23 accepts the following initial decisions:
 6. Public commitment scopes must derive only from artifacts already classified as `potentiallyDisclosable: true`; private commitment scopes may include full proof-contract and settlement closure surfaces.
 7. Larger, reviewable purchases should default to audited spend-intent and confirmation carriers; smaller repeated read-like purchases may use a lighter payment-carrier mode, but the same bundle-binding and receipt-binding rules still apply.
 8. A sidechain connection point is part of first-gate V23 so the ENGI:BTC bridge is not mainchain-only; generalized sidechain-issued transferability remains later work.
-9. V23 does not authorize pointer promotion, `_PROVEN_` generation, or source posture changes until the new artifact family and validation surfaces are implemented.
+9. V23 required pointer promotion, `_PROVEN_` generation, and source posture changes only after the new artifact family, validation surfaces, and generated evidence were implemented.
 
 ## V23 source-of-truth hierarchy
 
-Because V23 is only a draft target, current truth order remains:
+Current truth order is:
 1. `ENGI_SPEC.txt`
-2. `ENGI_SPEC_V22.md`
-3. `ENGI_SPEC_V22_DELTA.md`
-4. `ENGI_SPEC_V22_PARITY_MATRIX.md`
-5. `ENGI_SPEC_V22_PROVEN.md`
-6. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v22-*` artifacts
-7. current source and tests explicitly referenced by V22
-8. V23 draft files as non-promoted next-version targets
-9. optional non-canonical notes
-10. historical prior specs
+2. `ENGI_SPEC_V23.md`
+3. `ENGI_SPEC_V23_DELTA.md`
+4. `ENGI_SPEC_V23_PARITY_MATRIX.md`
+5. `ENGI_SPEC_V23_PROVEN.md`
+6. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v23-*` artifacts
+7. current source and tests explicitly referenced by V23
+8. optional non-canonical notes
+9. historical prior specs
 
-V23 draft truth may specify the next system.
-It may not claim to outrank the active V22 canon until promotion is complete.
+V22 remains the immediate inherited authority for any behavior V23 carries forward without redefining.
 
 ## V23 system goals, non-goals, and design principles
 
@@ -212,7 +220,7 @@ It may not claim to outrank the active V22 canon until promotion is complete.
 
 ## V23 system architecture and layer boundaries
 
-The V23 draft keeps the V22 system layers and adds one new deployment-facing layer:
+V23 keeps the V22 system layers and adds one new deployment-facing layer:
 
 1. Core deterministic primitives
    Current basis: `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/run-artifacts.js`, `engi-demo/src/canonical/proof-materialization.js`
@@ -243,7 +251,7 @@ The V23 draft keeps the V22 system layers and adds one new deployment-facing lay
    Responsibilities: modeled external interfaces for model execution, vector retrieval, GitHub actions, signer verification, and settlement network effects.
 
 8. Bitcoin-facing audit and spend interface layer
-   V23 draft basis: specified here; not yet implemented in source
+   Current basis: `engi-demo/src/canonical/v23-bitcoin.js`, `engi-demo/src/engi-demo.js`, `engi-demo/src/canonical/proof-materialization.js`
    Responsibilities: commitment scope derivation, anchor publication receipts, audited payment intent, audited payment observation, NGI denomination binding, and sidechain bridge binding.
 
 ## V23 compute and storage reality rule
@@ -269,7 +277,7 @@ First-gate V23 therefore requires two additional deployment-facing surfaces:
 
 ## V23 artifact family additions
 
-V23 introduces the following draft artifacts:
+V23 introduces the following artifacts:
 
 | Artifact path | Intended role | Default disclosure posture | Minimum closure fields |
 | --- | --- | --- | --- |
@@ -543,7 +551,7 @@ Across all modes:
 
 Prototype-demonstration rule:
 - first-gate V23 implementation must emit local deterministic versions of `compute-reality-manifest` and `storage-reality-manifest`
-- those prototype surfaces may still describe modeled deployment boundaries
+- those prototype surfaces may describe live-mainnet boundaries as deferred while still binding the stubbed-testnet demonstration service that is implemented in source
 - but they must be real emitted artifacts and test-covered, not only prose
 
 ## V23 phased deployment rule
@@ -552,11 +560,13 @@ V23 adopts the following phased rule:
 
 - Phase 0: current reality
   - deterministic ENGI proof and settlement artifacts exist locally
-  - external proof publication and networked settlement remain modeled only
+  - stubbed-testnet demonstration service code assembles spend carriers, observation receipts, and anchor publication receipts locally
+  - live mainnet publication and third-party settlement remain deferred
 
 - Phase 1: audited anchor introduction
   - derive bounded-public and private roots from existing digests
   - emit Bitcoin anchor artifacts and public-safe anchor receipts
+  - bind those receipts to the stubbed-testnet demonstration service
   - declare sidechain bridge policy alongside mainchain anchor policy
   - keep spend and confirmation observation explicit and fail-closed
 
@@ -572,20 +582,18 @@ V23 adopts the following phased rule:
 
 ## Accepted boundaries
 
-The following remain explicit boundaries for V23 drafting:
+The following remain explicit boundaries for V23:
 
-1. No live Bitcoin transaction construction is currently implemented in source.
-2. No live anchor publication is currently implemented in source.
-3. No V23-generated appendix or generated `.engi/v23-*` artifact family exists yet.
-4. No current source surface proves mode-specific payment semantics for large purchases, repeated reads, or sidechain bridge mode.
-5. Current source does not yet emit prototype compute-reality or storage-reality manifests.
-6. Bulk private proof and source-material storage remain off-chain by default.
-7. Generalized sidechain-issued transferability or asset issuance is optional later work, not the center of V23 first gate.
-8. Merkle inclusion paths are deferred; first-gate V23 uses replayable manifest roots only.
+1. No live mainnet Bitcoin transaction signing or broadcast is implemented in source.
+2. No live mainnet anchor publication is implemented in source.
+3. No live repeated-read payment processor or live sidechain bridge operator is implemented in source.
+4. Bulk private proof and source-material storage remain off-chain by default.
+5. Generalized sidechain-issued transferability or asset issuance is optional later work, not the center of V23 first gate.
+6. Merkle inclusion paths are deferred; first-gate V23 uses replayable manifest roots only.
 
 ## V23 completion condition
 
-This draft is ready for eventual promotion only when:
+V23 is complete only when:
 1. the V23 document family is complete and internally consistent,
 2. current source emits the new Bitcoin-facing artifact family,
 3. current source emits prototype-demonstration `compute-reality-manifest` and `storage-reality-manifest` artifacts,
@@ -594,5 +602,5 @@ This draft is ready for eventual promotion only when:
 6. current external boundary manifest specializes settlement network effects into anchor and spend interfaces and makes compute/storage reality honest,
 7. current source enforces the manifest-root derivation contract and canonical enum vocabulary defined here,
 8. current tests fail closed on public/private root misclassification, anchor receipt drift, payment-observation drift, compute/storage reality drift, and mode-specific finalization drift,
-9. generated V23 proof and draft-readiness artifacts exist,
+9. generated V23 proof and promotion-readiness artifacts exist,
 10. and `ENGI_SPEC_V23_PROVEN.md` is generated from real source behavior rather than from hand-authored aspiration.

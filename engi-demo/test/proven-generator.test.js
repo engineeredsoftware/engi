@@ -92,12 +92,20 @@ test('V22 proven generator renders a V22 appendix while inheriting V20 and V19 g
   });
 
   assert.equal(generated.data.version, 'V22');
-  assert.equal(generated.data.aggregate.fullyProven, true);
+  assert.equal(generated.data.aggregate.fullyProven, false);
   assert.equal(generated.data.v19.deterministicReplayReport.passed, true);
   assert.equal(generated.data.v20.qualitySummary.passed, true);
-  assert.equal(generated.data.v22.specFamilyReport.passed, true);
-  assert.equal(generated.data.v22.canonicalInputReport.passed, true);
-  assert.equal(generated.data.v22.canonPostureDriftReport.passed, true);
+  assert.equal(generated.data.v22.specFamilyReport.checkedVersion, 'V22');
+  assert.equal(generated.data.v22.specFamilyReport.currentTarget, 'V22');
+  assert.equal(generated.data.v22.specFamilyReport.pointerVersion, 'V23');
+  assert.equal(generated.data.v22.specFamilyReport.passed, false);
+  assert.equal(generated.data.v22.canonicalInputReport.checkedTargetVersion, 'V22');
+  assert.equal(generated.data.v22.canonicalInputReport.pointerVersion, 'V23');
+  assert.equal(generated.data.v22.canonicalInputReport.passed, false);
+  assert.equal(generated.data.v22.canonPostureDriftReport.checkedActiveCanonVersion, 'V22');
+  assert.equal(generated.data.v22.canonPostureDriftReport.checkedDraftTargetVersion, 'V23');
+  assert.equal(generated.data.v22.canonPostureDriftReport.pointerVersion, 'V23');
+  assert.equal(generated.data.v22.canonPostureDriftReport.passed, false);
   assert.deepEqual(Object.keys(generated.artifacts).sort(), [
     '.engi/v22-canon-posture-drift-report.json',
     '.engi/v22-canonical-input-report.json',

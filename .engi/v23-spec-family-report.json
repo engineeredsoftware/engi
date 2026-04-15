@@ -1,19 +1,17 @@
 {
   "reportId": "v23-spec-family-report",
   "version": "V23",
-  "proofSourceCommit": "ea3cdb1541c9c0016753450091fa21ea090cc819",
-  "generatedAt": "2026-04-14T17:26:13-03:00",
+  "proofSourceCommit": "f9ee1122af7670d9b34098686691be9b0987f775",
+  "generatedAt": "2026-04-14T20:58:36-03:00",
   "generatorId": "engi-demo.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedVersion": "V23",
   "mode": "promoted",
   "currentTarget": "V23",
   "pointerVersion": "V23",
-  "passed": false,
-  "failureCount": 1,
-  "failures": [
-    "parity row \"Test closure\" still carries non-closed promoted judgment: implemented; promotion pending"
-  ],
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
   "requiredFiles": [
     "ENGI_SPEC_V23.md",
     "ENGI_SPEC_V23_DELTA.md",

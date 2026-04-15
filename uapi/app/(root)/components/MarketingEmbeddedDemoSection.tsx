@@ -16,18 +16,18 @@ type MarketingEmbeddedDemoSectionProps = {
 
 const embeddedHighlights = [
   {
-    title: 'Canonical walkthrough',
-    description: 'The embedded surface is the same V22 demonstration chain used to prove deposit, need, fit, ranking, materialization, and settlement.',
+    title: 'Start with the chain',
+    description: 'Read repo supply, measured need, and deposit-to-need fit first. Those panels tell you what is being evaluated and why the run can proceed.',
     Icon: QueueListIcon,
   },
   {
-    title: 'Independent runtime',
-    description: 'The host page stays a simple marketing site while the demo remains an independently deployable micro frontend with its own runtime and tests.',
+    title: 'Run a branch',
+    description: 'Switch scenario, branch mode, and projection principal, then create a branch. The demonstration fills the artifact chain in the same order an operator would inspect it.',
     Icon: CommandLineIcon,
   },
   {
-    title: 'Public proof posture',
-    description: 'The landing page can present the live system without collapsing the distinction between public explanation, executable proof, and licensed surfaces.',
+    title: 'Inspect the closure',
+    description: 'After the run, move through proof, disclosure, and settlement. Buyer, reviewer, and public views expose different surfaces, so toggling them explains the rights boundary directly.',
     Icon: ShieldCheckIcon,
   },
 ] as const;
@@ -51,27 +51,28 @@ export default function MarketingEmbeddedDemoSection({
           <div className="space-y-5">
             <div className="flex flex-wrap items-center gap-3">
               <EngiPill className="border-emerald-300/26 bg-emerald-400/10 text-emerald-50">
-                Embedded Demo
+                Interactive Walkthrough
               </EngiPill>
               <span className="rounded-full border border-cyan-300/14 bg-cyan-400/8 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-cyan-100/72">
-                micro frontend
+                operator surface
               </span>
             </div>
 
             <div className="space-y-3">
               <p className="text-[11px] uppercase tracking-[0.26em] text-emerald-200/66">
-                Live V22 system surface
+                Live V23 system walkthrough
               </p>
               <h2
                 id="engi-demo-live-title"
                 className="max-w-[14ch] text-[2.15rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[2.6rem] tablet:text-[3rem]"
               >
-                The demonstration now lives inside the site.
+                Run ENGI from supply to settlement.
               </h2>
               <p className="max-w-[34rem] text-[16px] leading-7 text-white/78 tablet:text-[17px]">
-                The current website is still a marketing landing page, but it now carries the
-                actual ENGI V22 demonstration as an embedded, independently served surface. That
-                keeps the host simple while making the executable system inspectable in place.
+                Use the embedded surface like an operator console. Begin with repo supply and
+                measured need, create a branch, then inspect fit, proof, disclosure, and
+                NGI-denominated settlement in order. The layout is meant to be walked top to
+                bottom.
               </p>
             </div>
 
@@ -96,13 +97,13 @@ export default function MarketingEmbeddedDemoSection({
 
             <div className="rounded-[24px] border border-orange-300/12 bg-orange-400/[0.04] p-4 shadow-[0_16px_40px_rgba(80,30,0,0.18)]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-orange-100/76">
-                Embed contract
+                Interaction guide
               </p>
               <p className="mt-2 text-sm leading-6 text-orange-50/76">
-                The iframe source is configured by <code className="text-orange-100">NEXT_PUBLIC_ENGI_DEMO_URL</code>.
-                Without that variable, local development falls back to the current host on port{' '}
-                <code className="text-orange-100">4318</code>, which matches the standalone V22
-                demo server.
+                Start by scanning the left navigation and the opening surfaces for repo supply,
+                need, and fit. Then run a branch, switch projection principals, and compare what
+                remains visible at each disclosure boundary. Open standalone if you want a wider
+                inspection view while keeping the same walkthrough order.
               </p>
             </div>
           </div>
@@ -116,10 +117,10 @@ export default function MarketingEmbeddedDemoSection({
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/62">
-                    Embedded runtime
+                    Interactive runtime
                   </p>
                   <p className="mt-1 text-sm text-white/82">
-                    Live ENGI demo mounted as an external micro frontend
+                    Operator walkthrough with live branch, proof, disclosure, and settlement surfaces
                   </p>
                 </div>
                 <a
@@ -143,7 +144,7 @@ export default function MarketingEmbeddedDemoSection({
                         Loading
                       </p>
                       <p className="mt-2 text-sm text-white/84">
-                        Waiting for the embedded V22 demonstration to become interactive.
+                        Waiting for the ENGI walkthrough to become interactive.
                       </p>
                     </div>
                   </div>
@@ -151,7 +152,7 @@ export default function MarketingEmbeddedDemoSection({
 
                 <iframe
                   src={demoUrl}
-                  title="ENGI V22 demonstration"
+                  title="ENGI V23 walkthrough"
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
                   onLoad={() => setIsFrameLoaded(true)}

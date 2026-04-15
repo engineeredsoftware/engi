@@ -598,10 +598,17 @@ test('runMakeEngiBranch emits V23 bitcoin and sidechain surfaces when payment mo
   assert.equal(latestRun.paymentMode, 'audited-base-layer-purchase');
   assert.equal(latestRun.computeRealityManifest.executionMode, 'off-chain-deterministic-runtime');
   assert.equal(latestRun.storageRealityManifest.storageMode, 'content-addressed-local-branch-artifacts');
+  assert.equal(latestRun.computeRealityManifest.serviceExecutionMode, 'stubbed-testnet-demonstration-service');
+  assert.equal(latestRun.storageRealityManifest.anchorPublicationMode, 'stubbed-testnet-demonstration-service');
   assert.equal(latestRun.bitcoinTreasuryPolicy.unitDenomination, 'NGI');
+  assert.equal(latestRun.bitcoinTreasuryPolicy.demonstrationServiceMode, 'stubbed-testnet-demonstration-service');
   assert.equal(latestRun.bitcoinSettlementIntent.unitDenomination, 'NGI');
+  assert.equal(latestRun.bitcoinSettlementIntent.serviceMode, 'stubbed-testnet-demonstration-service');
+  assert.equal(latestRun.bitcoinSettlementIntent.carrierType, 'psbt');
   assert.equal(latestRun.bitcoinSettlementObservation.networkState, 'confirmed-onchain');
   assert.equal(latestRun.bitcoinSettlementObservation.journalBindingState, 'finalizable');
+  assert.equal(latestRun.bitcoinSettlementObservation.observationReality, 'stubbed-testnet-demonstration-service');
+  assert.equal(latestRun.bitcoinAnchor.publicationReality, 'stubbed-testnet-demonstration-service');
   assert.ok(proofFamilies.includes('bitcoin-audit-anchor'));
   assert.ok(proofFamilies.includes('bitcoin-settlement-interface'));
   assert.ok(witnessFamilies.includes('bitcoin-audit-anchor'));
@@ -641,11 +648,18 @@ test('V23 payment modes preserve mode-specific observation policy and projection
 
   assert.equal(baseLayer.bitcoinSettlementObservation.networkState, 'confirmed-onchain');
   assert.equal(baseLayer.bitcoinSettlementObservation.journalBindingState, 'finalizable');
+  assert.equal(baseLayer.bitcoinSettlementIntent.carrierType, 'psbt');
+  assert.equal(baseLayer.bitcoinSettlementIntent.transportNetwork, 'bitcoin-testnet4');
   assert.equal(repeatedRead.bitcoinSettlementObservation.networkState, 'accepted-offchain');
   assert.equal(repeatedRead.bitcoinSettlementObservation.journalBindingState, 'anchor-required');
+  assert.equal(repeatedRead.bitcoinSettlementIntent.carrierType, 'bolt11-invoice');
+  assert.equal(repeatedRead.bitcoinSettlementIntent.transportNetwork, 'lightning-testnet');
   assert.equal(sidechain.bitcoinSettlementObservation.networkState, 'checkpointed-sidechain');
   assert.equal(sidechain.bitcoinSettlementObservation.journalBindingState, 'anchor-required');
+  assert.equal(sidechain.bitcoinSettlementIntent.carrierType, 'sidechain-transfer-intent');
+  assert.equal(sidechain.bitcoinSettlementIntent.transportNetwork, 'liquid-testnet');
   assert.ok(sidechain.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.interfaceId === 'bitcoin-sidechain-bridge'));
+  assert.ok(sidechain.externalBoundaryManifest.interfaces.some((/** @type {any} */ entry) => entry.status === 'implemented-as-stubbed-testnet-service'));
 
   assert.ok(publicProjection.publicArtifacts['.engi/bitcoin-bounded-public-anchor.json']);
   assert.equal('.engi/bitcoin-anchor.json' in publicProjection.publicArtifacts, false);

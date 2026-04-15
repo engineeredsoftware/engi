@@ -8,10 +8,10 @@
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V22_PROVEN.md`
-- Current canonical/latest target remains `V22`
-- Draft target version: `V23`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PROVEN.md`
+- Current canonical/latest target remains `V23`
+- Next draft target version: `V24`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V23_NOTES.md`
@@ -50,10 +50,14 @@ V23 should turn that classification into explicit anchor-scope policy.
 Current source-to-shares, journal, settlement preview, and settlement proofs already define exact consequence surfaces.
 V23 should bind payment intent and confirmation to those surfaces rather than re-specifying settlement itself.
 
-### 4. External deployment work is still modeled rather than live
+### 4. External deployment work is now closed to a stubbed-testnet demonstration layer, not to live mainnet
 
-Current source and demo-local docs remain honest about modeled-only network effects.
-V23 must preserve that honesty and treat Bitcoin as next deployment architecture rather than as a retroactive claim about the current demo.
+Current source and demo-local docs remain honest about live-mainnet network effects still being deferred.
+At the same time, V23 now closes first gate with deterministic stubbed-testnet demonstration service code for:
+- spend carrier assembly,
+- payment observation receipts,
+- anchor publication receipts,
+- and sidechain checkpoint stand-ins.
 
 ## Accepted V23 decisions
 
@@ -66,36 +70,36 @@ The current accepted V23 drafting decisions are:
 5. V23 requires bounded-public and private commitment scopes at minimum.
 6. V23 requires audited payment intent and audited payment observation carriers before any future live settlement claim can be made.
 7. V23 keeps a sidechain connection point inside first gate so the ENGI:BTC bridge is not mainchain-only; generalized sidechain-issued transferability remains later work.
-8. V23 does not authorize canonical promotion or generated-proof claims until source and validation land.
+8. V23 required canonical promotion and generated-proof claims to wait until source, validation, and generated evidence landed.
 9. V23 first gate fixes replayable manifest-root derivation instead of leaving root construction implicit.
 10. V23 first gate fixes the minimum enum vocabulary and mode-specific journal finalization rules for BTC-facing artifacts.
 11. V23 first gate adds a treasury-policy surface and a BTC artifact projection matrix so buyer, reviewer, and public visibility are explicit.
 12. V23 first gate also requires prototype-demonstration compute-reality and storage-reality artifacts so deployed compute and storage posture are spec-bearing rather than implied.
+13. V23 first gate closes spend and anchor service code with deterministic stubbed-testnet carriers and receipts while keeping live-mainnet execution explicitly deferred.
 
 ## Explicitly deferred
 
-Still explicitly deferred beyond this drafting pass:
-- live Bitcoin transaction assembly and signing,
-- live anchor publication,
-- live repeated-read payment network integration,
-- live sidechain bridge execution,
-- live generalized sidechain-issued transferability,
-- and any V23 `_PROVEN_` appendix or generated `.engi/v23-*` artifact family.
+Still explicitly deferred beyond V23 first gate:
+- live mainnet Bitcoin transaction signing and broadcast,
+- live mainnet anchor publication,
+- live repeated-read payment network integration against a third-party processor,
+- live sidechain bridge execution against a real operator,
+- and live generalized sidechain-issued transferability.
 
 ## Draft implementation sequence
 
-The accepted V23 sequencing is:
+The accepted V23 sequencing was:
 
-1. draft the V23 file family while keeping V22 as the active canon,
+1. draft the V23 file family while V22 remained the active canon,
 2. define the new Bitcoin-facing artifact family and proof-family members,
 3. derive public and private commitment scopes from existing deliverables classification,
 4. fix the manifest-root derivation contract, enum vocabulary, treasury policy shape, and mode-specific finalization rules,
 5. define and prototype-demonstrate compute-reality and storage-reality artifacts,
 6. specialize the external-boundary manifest into anchor and spend interfaces,
-7. bind settlement intent and observation to existing exact settlement artifacts,
+7. bind settlement intent, observation, and stubbed-testnet demonstration service carriers to existing exact settlement artifacts,
 8. add fail-closed validation for scope leakage, receipt drift, compute/storage reality drift, and mode-specific finalization drift,
-9. generate V23 proof and draft-readiness artifacts from real source behavior,
-10. and only then consider promotion away from V22.
+9. generate V23 proof and promotion-readiness artifacts from real source behavior,
+10. and then promote to V23 only after those closure conditions were satisfied.
 
 ## Commit-body direction
 

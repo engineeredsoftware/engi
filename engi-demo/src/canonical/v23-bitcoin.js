@@ -3,6 +3,12 @@
 import crypto from 'node:crypto';
 import { PROFILE_A, PROFILE_B } from '../realization-profile.js';
 import {
+  BITCOIN_DEMONSTRATION_SERVICE_ID,
+  BITCOIN_DEMONSTRATION_SERVICE_MODE,
+  buildBitcoinDemonstrationPaymentCarrier,
+  buildBitcoinDemonstrationAnchorPublication
+} from './v23-bitcoin-demonstration-service.js';
+import {
   buildArtifactBinding,
   buildReplayStep,
   buildTheoremVerdict,
@@ -147,6 +153,8 @@ export function buildComputeRealityManifest({
     executionMode: 'off-chain-deterministic-runtime',
     executorClass: 'engi-deterministic-local-prototype',
     determinismClass: 'replayable-modeled-local-determinism',
+    serviceExecutionMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
+    serviceId: BITCOIN_DEMONSTRATION_SERVICE_ID,
     replayBasis: {
       replayType: 'artifact-and-proof-replay',
       proofArtifactRefs: summarizeStrings(proofArtifactRefs),
@@ -179,6 +187,8 @@ export function buildStorageRealityManifest({ branchName, paymentMode, deliverab
     productionIntentProfile: PROFILE_B,
     storageMode: 'content-addressed-local-branch-artifacts',
     contentAddressingScheme: 'stable-hash-object.v1',
+    anchorPublicationMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
+    anchorPublicationServiceId: BITCOIN_DEMONSTRATION_SERVICE_ID,
     scopeStorageBindings: [
       {
         scopeId: 'bounded-public-root',
@@ -253,9 +263,10 @@ export function buildBitcoinTreasuryPolicy({ paymentMode }) {
     },
     signerPolicy: {
       signerClass: paymentMode === 'audited-base-layer-purchase' ? 'taproot-reviewed-treasury' : 'batched-checkpoint-coordinator',
-      policySurface: 'prototype-demonstration-only',
+      policySurface: BITCOIN_DEMONSTRATION_SERVICE_MODE,
       liveThresholdImplemented: false
     },
+    demonstrationServiceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
     sidechainBridgePolicy: {
       enabled: paymentMode === 'checkpointed-sidechain-bridge',
       checkpointAnchorRequired: paymentMode === 'checkpointed-sidechain-bridge',
@@ -285,8 +296,19 @@ export function buildBitcoinSettlementIntent({
   treasuryPolicy,
   paymentMode
 }) {
+  const intentId = `btc_intent_${sha256(`${buyer.buyerId}:${settlementPreview.bundleId}:${paymentMode}`).slice(0, 12)}`;
+  const paymentCarrier = buildBitcoinDemonstrationPaymentCarrier({
+    intentId,
+    buyerId: buyer.buyerId,
+    needId: need.needId,
+    assetPackId: assetPack.assetPackId,
+    bundleId: settlementPreview.bundleId,
+    paymentMode,
+    unitDenomination: 'NGI',
+    meteredMicroUnits: settlementPreview.meteredMicroUnits
+  });
   return {
-    intentId: `btc_intent_${sha256(`${buyer.buyerId}:${settlementPreview.bundleId}:${paymentMode}`).slice(0, 12)}`,
+    intentId,
     buyerId: buyer.buyerId,
     needId: need.needId,
     assetPackId: assetPack.assetPackId,
@@ -297,6 +319,13 @@ export function buildBitcoinSettlementIntent({
     settlementPreviewRef: settlementPreview.bundleId,
     sourceToSharesRef: sourceToSharesArtifact.proofHash || null,
     treasuryPolicyRef: treasuryPolicy.policyId,
+    serviceMode: paymentCarrier.serviceMode,
+    serviceId: paymentCarrier.serviceId,
+    requestId: paymentCarrier.requestId,
+    carrierType: paymentCarrier.carrierType,
+    transportNetwork: paymentCarrier.network,
+    requestPreview: paymentCarrier.requestPreview,
+    paymentCarrier: paymentCarrier.carrier,
     prototypeDemonstrationOnly: true
   };
 }
@@ -317,20 +346,36 @@ export function buildBitcoinSettlementObservation({
   branchName
 }) {
   const state = modeObservationState(settlementIntent.paymentMode);
+  const paymentCarrier = buildBitcoinDemonstrationPaymentCarrier({
+    intentId: settlementIntent.intentId,
+    buyerId: settlementIntent.buyerId || 'buyer-observed',
+    needId: settlementIntent.needId || 'need-observed',
+    assetPackId: settlementIntent.assetPackId || 'asset-pack-observed',
+    bundleId: settlementPreview.bundleId,
+    paymentMode: settlementIntent.paymentMode,
+    unitDenomination: settlementIntent.unitDenomination || 'NGI',
+    meteredMicroUnits: settlementIntent.meteredMicroUnits
+  });
   return {
     observationId: `btc_obs_${sha256(`${settlementIntent.intentId}:${branchName}`).slice(0, 12)}`,
     intentId: settlementIntent.intentId,
     bundleId: settlementPreview.bundleId,
     paymentMode: settlementIntent.paymentMode,
     unitDenomination: settlementIntent.unitDenomination || 'NGI',
+    serviceMode: paymentCarrier.serviceMode,
+    serviceId: paymentCarrier.serviceId,
+    receiptId: paymentCarrier.receiptId,
+    carrierType: paymentCarrier.carrierType,
+    transportNetwork: paymentCarrier.network,
     networkState: state.networkState,
     confirmationState: state.confirmationState,
-    networkRef: `${state.networkState}:${sha256(`${settlementIntent.intentId}:${state.networkState}`).slice(0, 16)}`,
+    networkRef: paymentCarrier.receipt.referenceId,
     confirmations: state.confirmations,
     observedValue: settlementIntent.meteredMicroUnits,
     journalBindingState: state.journalBindingState,
     treasuryPolicyRef: treasuryPolicy.policyId,
-    observationReality: 'prototype-demonstration-modeled-network',
+    serviceReceipt: paymentCarrier.receipt,
+    observationReality: BITCOIN_DEMONSTRATION_SERVICE_MODE,
     prototypeDemonstrationOnly: true
   };
 }
@@ -430,7 +475,15 @@ export function buildBitcoinAnchorArtifacts({
 }) {
   const state = modeObservationState(settlementIntent.paymentMode);
   const anchorId = `btc_anchor_${sha256(`${branchName}:${settlementIntent.intentId}:${commitmentManifest.publicRoot}`).slice(0, 12)}`;
-  const anchorRef = `${inferAnchorNetwork(settlementIntent.paymentMode)}:${anchorId}`;
+  const publication = buildBitcoinDemonstrationAnchorPublication({
+    intentId: settlementIntent.intentId,
+    paymentMode: settlementIntent.paymentMode,
+    branchName,
+    publicationState: state.publicationState,
+    publicRoot: commitmentManifest.publicRoot,
+    privateRoot: commitmentManifest.privateRoot
+  });
+  const anchorRef = publication.anchorRef;
   const bitcoinAnchor = {
     anchorId,
     network: inferAnchorNetwork(settlementIntent.paymentMode),
@@ -443,6 +496,13 @@ export function buildBitcoinAnchorArtifacts({
     disclosurePrincipal: 'buyer',
     policyRef: treasuryPolicy.policyId,
     intentId: settlementIntent.intentId,
+    serviceMode: publication.serviceMode,
+    serviceId: publication.serviceId,
+    publicationRequestId: publication.requestId,
+    publicationReceiptId: publication.receiptId,
+    publicationEnvelope: publication.publicationEnvelope,
+    publicationReceipt: publication.receipt,
+    publicationReality: BITCOIN_DEMONSTRATION_SERVICE_MODE,
     prototypeDemonstrationOnly: true
   };
   const bitcoinBoundedPublicAnchor = {
@@ -453,7 +513,10 @@ export function buildBitcoinAnchorArtifacts({
     anchorRef,
     confirmationState: settlementObservation.confirmationState,
     publicationState: state.publicationState,
-    publishedAt: state.publicationState.startsWith('published') ? 'modeled-local-publication' : null,
+    serviceMode: publication.serviceMode,
+    publicationReceiptId: publication.receiptId,
+    publishedAt: publication.receipt.publishedAt,
+    publicationReality: BITCOIN_DEMONSTRATION_SERVICE_MODE,
     prototypeDemonstrationOnly: true
   };
   return { bitcoinAnchor, bitcoinBoundedPublicAnchor };
