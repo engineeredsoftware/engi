@@ -8,17 +8,17 @@ export default function OrbitalsModelsOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="Customize AI (Optional)"
-      completedTitle="AI Settings"
+      title="Model Settings"
+      completedTitle="Model Settings"
       description={!isOnboardingComplete
-        ? 'Fine-tune AI settings now or skip and use defaults.'
-        : 'Configure AI models and settings.'}
+        ? 'Choose defaults now or keep the standard Bitcode model profile.'
+        : 'Configure model defaults, prompts, and execution behavior.'}
       stepNumber={3}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
-      infoTitle="Customize AI (Optional)"
-      infoDescription="Use default AI settings or adjust to match your team's style. You can always change these later."
-      infoNote="No pressure — update AI settings anytime in your workspace."
+      infoTitle="Configure model defaults"
+      infoDescription="Use the default Bitcode model profile or tailor it to your team."
+      infoNote="You can revise these settings at any time."
     />
   );
 }

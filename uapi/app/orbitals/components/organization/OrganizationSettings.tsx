@@ -187,7 +187,7 @@ export default function OrganizationSettings({
 
   const generateApiKey = () => {
     // TODO: Implement API key generation
-    const apiKey = `engi_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`
+    const apiKey = `bitcode_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`
     navigator.clipboard.writeText(apiKey)
     toast.success('API key copied to clipboard')
   }
@@ -273,7 +273,7 @@ export default function OrganizationSettings({
                     disabled={!canManageOrganization}
                   />
                   <p className="text-xs text-slate-500 mt-1">
-                    engi.software/{formData.slug}
+                    app.bitcode.ai/{formData.slug}
                   </p>
                 </div>
               </div>
@@ -542,11 +542,11 @@ export default function OrganizationSettings({
                 <div className="flex space-x-2">
                   <Input
                     type={showApiKey ? 'text' : 'password'}
-                    value="engi_1234567890abcdef"
+                    value="bitcode_1234567890abcdef"
                     readOnly
                     className="font-mono"
                   />
-                  <Button variant="outline" size="sm" onClick={() => navigator.clipboard.writeText('engi_1234567890abcdef')}>
+                  <Button variant="outline" size="sm" onClick={() => navigator.clipboard.writeText('bitcode_1234567890abcdef')}>
                     <Copy className="w-4 h-4" />
                   </Button>
                   <Button variant="outline" size="sm" onClick={generateApiKey}>
@@ -565,7 +565,7 @@ export default function OrganizationSettings({
                   type="url"
                   value={formData.webhookUrl}
                   onChange={(e) => setFormData(prev => ({ ...prev, webhookUrl: e.target.value }))}
-                  placeholder="https://your-app.com/webhooks/engi"
+                  placeholder="https://your-app.com/webhooks/bitcode"
                   disabled={!canManageOrganization}
                 />
                 <p className="text-xs text-slate-500 mt-1">

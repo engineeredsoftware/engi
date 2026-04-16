@@ -53,6 +53,8 @@ export default function ModelsPane({
   onCompletionStatusChange, 
   initialModelPreferences
 }: ModelsPaneProps) {
+  const isSettingsSurface = isOnboardingComplete;
+
   // Available model options: generated from centralized catalog
   const modelOptions: ModelOption[] = useMemo(() => {
     // Compute robust min/max over known priced models
@@ -196,6 +198,19 @@ export default function ModelsPane({
       >
         <OrbitalsModelsOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
 
+        {isSettingsSurface && (
+          <div className="mb-6 rounded-[22px] border border-emerald-300/18 bg-emerald-400/10 px-5 py-4 text-white/82 shadow-[0_20px_50px_rgba(0,0,0,0.18)]">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-100/76">
+              Execution defaults
+            </div>
+            <p className="mt-3 text-sm leading-7 text-white/78">
+              Model routing and system prompts here apply to future Bitcode executions and operator
+              workflows. Update these defaults before starting new work when you need a different
+              provider mix or instruction baseline.
+            </p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="step-form">
           {/* System Prompt Section */}
           <AfterOnboardingOverlay disabled={!isOnboardingComplete}>
@@ -223,13 +238,10 @@ export default function ModelsPane({
             id="models-submit-button"
             style={{ display: 'none' }}
           />
-          
-          {/* Only show save button for first-time users */}
-          {!isOnboardingComplete && (
-            <button type="submit" className="primary-button save-button">
-              Continue
-            </button>
-          )}
+
+          <button type="submit" className="primary-button save-button">
+            {isSettingsSurface ? 'Save model settings' : 'Continue'}
+          </button>
         </form>
       </motion.div>
     </div>

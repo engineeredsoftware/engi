@@ -156,10 +156,6 @@ export default function ProfileStep({ onSave,
       window.removeEventListener('message', msgHandler);
       listener.subscription.unsubscribe();
     };
-    // We intentionally exclude isVerified/onCompletionStatusChange from the
-    // dependency array so that the effect does not re-attach multiple times
-    // when those props update.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Handlers for OTP authentication
   const handleSendCode = async () => {
@@ -367,6 +363,7 @@ export default function ProfileStep({ onSave,
 
         <form onSubmit={handleSubmit} className="step-form">
 
+          {!isOnboardingComplete && (
           <motion.div
               className="onboarding-info"
               initial={{ opacity: 0, y: 20 }}
@@ -415,6 +412,7 @@ export default function ProfileStep({ onSave,
                 </p>
               </div>
             </motion.div>
+          )}
           
 
 
@@ -910,9 +908,14 @@ export default function ProfileStep({ onSave,
             id="profile-submit-button"
             style={{ display: 'none' }}
           />
+          {isOnboardingComplete && (
+            <div className="mt-6 flex justify-end">
+              <button type="submit" className="primary-button save-button enhanced-contrast">
+                Save account settings
+              </button>
+            </div>
+          )}
         </form>
-        {/* Save Profile button for Account mode */}
-        {/* Legacy visible Save button removed – form still submits via hidden button or internal triggers */}
       </motion.div>
     </div>
   );

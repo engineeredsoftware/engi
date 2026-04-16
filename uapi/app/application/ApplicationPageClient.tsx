@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import Logo from '@/components/base/engi/branding/logo';
-import EngiPill from '@/components/base/engi/branding/engi-pill';
+import BitcodePill from '@/components/base/engi/branding/engi-pill';
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 
@@ -62,15 +62,15 @@ export default function ApplicationPageClient() {
           <div className="relative flex flex-col gap-8 laptop:grid laptop:grid-cols-[1.2fr_0.8fr] laptop:items-end">
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
-                <EngiPill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
+                <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
                   Bitcode application
-                </EngiPill>
-                <EngiPill className="border-white/12 bg-white/6 text-white/78">
+                </BitcodePill>
+                <BitcodePill className="border-white/12 bg-white/6 text-white/78">
                   Active canon V25
-                </EngiPill>
-                <EngiPill className="border-cyan-300/20 bg-cyan-400/10 text-cyan-100">
+                </BitcodePill>
+                <BitcodePill className="border-cyan-300/20 bg-cyan-400/10 text-cyan-100">
                   Draft target V26
-                </EngiPill>
+                </BitcodePill>
               </div>
 
               <div className="space-y-4">

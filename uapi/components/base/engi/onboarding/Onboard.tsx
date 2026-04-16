@@ -5,6 +5,7 @@ export const useOnboardCTA = () => {
   const { user } = useUser()
   const [text, setText] = useState('Get Started')
   const [href, setHref] = useState('SIGNIN')
+  const subscriptionFlowEnabled = false
 
   // 1. sign in 2. pay 3. install
   useEffect(() => {
@@ -13,9 +14,9 @@ export const useOnboardCTA = () => {
       console.log(t)
 
       // TODO: disabling customer check for demo !
-      if (false) {
+      if (subscriptionFlowEnabled) {
         //if (!isCustomer) {
-        setText('Mint Engi')
+        setText('Mint Bitcode')
         setHref('SUBSCRIBE')
         //setHref('https://buy.stripe.com/6oE9Bx0d05yugpO4gh')
       } else {
@@ -31,7 +32,7 @@ export const useOnboardCTA = () => {
       setHref('SIGNIN')
       //setHref('https://accounts.engi.exchange/sign-up')
     }
-  }, [user])
+  }, [subscriptionFlowEnabled, user])
 
   return { text, href }
 }

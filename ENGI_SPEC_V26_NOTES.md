@@ -58,6 +58,13 @@ V26 now locks the route class:
 Still open:
 - current source-side candidate now uses `/application` under `uapi/app/application/*` as the stronger carrier for the first-class Bitcode application page,
 - current source-side coexistence now includes non-legacy `uapi/app/executions/page.tsx` and `uapi/app/executions/[runId]/page.tsx` so the operator workspace and run-detail routes are application-owned rather than only component-owned,
+- current source-side coexistence now also includes non-legacy `uapi/app/orbitals/layout.tsx`, `/orbitals/users`, `/orbitals/connects`, `/orbitals/credits`, and `/orbitals/models`, so the orbital deep-link family is no longer only an implicit pathname contract inside client code,
+- the current source-side orbital route layer now defaults those direct `/orbitals/*` surfaces to account/login-first posture instead of signup-first posture, which better matches orbital as the settings owner,
+- the current source-side orbital repair also includes replacing the broken `OrbitalsConnectsPane` self-reexport with a real app-owned connects pane centered on GitHub connection state and current VCS components,
+- the current source-side orbital rehabilitation now preserves the ringed overlay shell while treating signed-in orbitals as Bitcode settings navigation rather than only sequential onboarding gating,
+- the current source-side orbital settings rehab now restores explicit in-pane save actions where settings screens still depended on hidden onboarding-era submit hooks,
+- the current source-side orbital/settings pass also keeps catching lingering ENGI-facing copy in touched user-facing strings and moving those surfaces toward Bitcode naming,
+- the current source-side settings naming cleanup now reaches organization-facing API key and webhook examples so active user-facing security settings no longer present `engi_*` placeholders,
 - `/bitcode` was rejected as an overly product-redundant route/file carrier because the repository and product are already Bitcode,
 - the exact route path and surrounding navigation treatment,
 - whether Bitcode becomes its own top-level app route,

@@ -14,7 +14,7 @@ interface AfterOnboardingOverlayProps {
 }
 
 /**
- * Unified component for showing "After Onboarding" state
+ * Unified component for showing content that unlocks after initial setup
  * Provides consistent styling and behavior across all orbital panes
  */
 export function AfterOnboardingOverlay({
@@ -33,7 +33,7 @@ export function AfterOnboardingOverlay({
       <>
         {children}
         <span className="after-onboarding-badge-inline">
-          After Onboarding
+          Available after setup
         </span>
       </>
     );

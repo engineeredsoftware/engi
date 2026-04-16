@@ -8,18 +8,18 @@ export default function OrbitalsCreditsOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="Add Credits"
+      title="Credits & Usage"
       completedTitle="Credits & Usage"
       description={!isOnboardingComplete
-        ? 'Add credits now to start using Bitcode.'
-        : 'View and manage your credit balance.'}
+        ? 'Add credits to start running Bitcode workloads.'
+        : 'Review balances, usage, and purchase history.'}
       stepNumber={4}
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="credits-step-badge"
       showInfoBox
-      infoTitle="Add Credits"
-      infoDescription="Credits power AI tasks. Buy what you need now and add more anytime."
-      infoNote="New users save on their first purchase. Credits never expire and are ready to use immediately."
+      infoTitle="Fund Bitcode usage"
+      infoDescription="Credits fund Bitcode execution, model calls, and workflow throughput."
+      infoNote="Purchase what you need now and top up later."
     />
   );
 }

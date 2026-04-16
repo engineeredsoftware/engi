@@ -42,6 +42,7 @@ export default function CreditsPane({
   onCompletionStatusChange,
   initialCredits = 0
 }: CreditsPaneProps) {
+  const isSettingsSurface = isOnboardingComplete;
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [customCredits, setCustomCredits] = useState<number>(5000);
   const [currentCredits, setCurrentCredits] = useState(initialCredits);
@@ -520,6 +521,13 @@ export default function CreditsPane({
           </div>
         </motion.div>
 
+        {isSettingsSurface && (
+          <div className="mb-6 rounded-[22px] border border-white/10 bg-white/[0.045] px-5 py-4 text-sm leading-7 text-white/74 shadow-[0_18px_45px_rgba(0,0,0,0.2)]">
+            Use this settings area to top up capacity, review provider premiums, and inspect how
+            Bitcode spends credits across repository analysis, execution, and delivery work.
+          </div>
+        )}
+
         {/* Primary purchase component */}
         <div className="credit-plans mt-6">
           <CreditsPrices
@@ -548,7 +556,7 @@ export default function CreditsPane({
                 <div className="value-anchor">
                   <div className="anchor-header">
                     <h3>What Is A Deliverable?</h3>
-                    <div className="anchor-badge">ENGINEERING OUTPUT</div>
+                    <div className="anchor-badge">BITCODE OUTPUT</div>
                   </div>
                   <div className="anchor-content">
                     <div className="anchor-item-vertical">
@@ -655,7 +663,7 @@ export default function CreditsPane({
                     </div>
                   </div>
 
-                  {/* Engineering Workflow */}
+                  {/* Bitcode workflow */}
                   <div className="engineering-workflow-section">
                     <h4 className="workflow-title">How Bitcode Delivers</h4>
                     <div className="workflow-steps-grid">
@@ -780,10 +788,14 @@ export default function CreditsPane({
         )}
 
         <div className="credits-usage-info">
-          <h3 className="credits-usage-title">Advanced Engineering Agents: Autonomous Deliverables</h3>
+          <h3 className="credits-usage-title">
+            {isSettingsSurface ? 'How Bitcode uses credits' : 'Advanced Bitcode Agents: Autonomous Deliverables'}
+          </h3>
           <div className="value-proposition">
             <p className="value-proposition p">
-              Bitcode's vertically integrated engineering platform transforms software development through specialized systems working in concert. Our advanced pipeline delivers production-ready solutions through a comprehensive process:
+              {isSettingsSurface
+                ? 'Credits fund repository analysis, execution, validation, and delivery work across Bitcode. Review balance, premium adjustments, and historical consumption here before launching additional work.'
+                : "Bitcode's vertically integrated engineering platform transforms software development through specialized systems working in concert. Our advanced pipeline delivers production-ready solutions through a comprehensive process:"}
             </p>
             <div className="value-proposition-grid">
               <div className="value-prop-item">
@@ -793,10 +805,10 @@ export default function CreditsPane({
                       <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                     </svg>
                   </div>
-                  <h5>Deep Analysis</h5>
+                  <h5>{isSettingsSurface ? 'Repository analysis' : 'Deep Analysis'}</h5>
                 </div>
                 <div className="value-prop-item-content">
-                  <p>Architectural understanding and strategic planning</p>
+                  <p>{isSettingsSurface ? 'Initial repository mapping, planning, and execution setup' : 'Architectural understanding and strategic planning'}</p>
                 </div>
               </div>
               <div className="value-prop-item">
@@ -806,10 +818,10 @@ export default function CreditsPane({
                       <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
                     </svg>
                   </div>
-                  <h5>Intelligent Coding</h5>
+                  <h5>{isSettingsSurface ? 'Execution work' : 'Intelligent Coding'}</h5>
                 </div>
                 <div className="value-prop-item-content">
-                  <p>Clean, maintainable code following best practices</p>
+                  <p>{isSettingsSurface ? 'Model-backed implementation, edits, and iterative refinement' : 'Clean, maintainable code following best practices'}</p>
                 </div>
               </div>
               <div className="value-prop-item">
@@ -819,10 +831,10 @@ export default function CreditsPane({
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                     </svg>
                   </div>
-                  <h5>Rigorous Validation</h5>
+                  <h5>{isSettingsSurface ? 'Validation and delivery' : 'Rigorous Validation'}</h5>
                 </div>
                 <div className="value-prop-item-content">
-                  <p>Automated testing and quality assurance</p>
+                  <p>{isSettingsSurface ? 'Testing, review, reconciliation, and final delivery surfaces' : 'Automated testing and quality assurance'}</p>
                 </div>
               </div>
             </div>

@@ -304,7 +304,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
         <div className="orbitals-connects-command-showcase">
           <div className="orbitals-connects-showcase-header">
             <div className="orbitals-connects-showcase-label">Forward to</div>
-            <div className="orbitals-connects-engi-email">build@engi.run</div>
+            <div className="orbitals-connects-engi-email">build@bitcode.ai</div>
             <div className="orbitals-connects-showcase-label">Example message</div>
           </div>
 
@@ -314,15 +314,15 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
                 <strong>From:</strong> {emailConfig?.email}
               </div>
               <div className="orbitals-connects-email-field">
-                <strong>Subject:</strong> Ship onboarding ai_documents
+                <strong>Subject:</strong> Ship application deliverables
               </div>
             </header>
             <div className="orbitals-connects-email-body">
-              <p>Trigger the ai_documents pipeline for the onboarding flow:</p>
+              <p>Trigger the application-deliverables pipeline for the Bitcode workspace:</p>
               <ul>
-                <li>Attach new welcome email copy</li>
+                <li>Attach updated operator settings copy</li>
                 <li>Generate migration plan for production DB</li>
-                <li>Run post-ai_document regression tests</li>
+                <li>Run post-deliverable regression tests</li>
               </ul>
             </div>
             <div className="orbitals-connects-features-grid">

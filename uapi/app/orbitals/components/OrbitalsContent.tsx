@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { OrbitalPane } from './index';
 
 export interface OrbitalContentProps {
+  mode?: 'onboarding' | 'settings';
   steps: OrbitalPane[];
   currentStep: OrbitalPane;
   completedSteps: OrbitalPane[];
@@ -24,10 +25,12 @@ function OrbitalContent(props: OrbitalContentProps) {
     availableSteps = [],
     showContent = false,
     showSuccessAnimation = false,
+    mode = 'onboarding',
     onStepClick = (_: OrbitalPane) => {},
     renderStepContent = (_: OrbitalPane) => null,
     isOnboardingComplete = false,
   } = props;
+  const isSettingsMode = mode === 'settings';
 
   const stepMeta = useMemo(() => {
     const pos = new Map<OrbitalPane, number>();
@@ -43,7 +46,7 @@ function OrbitalContent(props: OrbitalContentProps) {
 
   return (
     <>
-      {showSuccessAnimation && currentStep && !completedSteps.includes(currentStep) && (
+      {showSuccessAnimation && !isSettingsMode && currentStep && !completedSteps.includes(currentStep) && (
         <div className="step-completion-success">
           <div className="success-icon">✓</div>
           <div className="success-ring-outer" />
@@ -53,7 +56,7 @@ function OrbitalContent(props: OrbitalContentProps) {
         </div>
       )}
 
-      {currentStep && !isOnboardingComplete && (
+      {currentStep && (isSettingsMode || !isOnboardingComplete) && (
         <motion.div
           className="orbital-step-indicator"
           initial={{ opacity: 0, x: -20 }}
@@ -64,17 +67,19 @@ function OrbitalContent(props: OrbitalContentProps) {
           }}
         >
           <div className="step-indicator-content">
-            <h3 className="step-indicator-title">Onboarding Progress</h3>
+            <h3 className="step-indicator-title">{isSettingsMode ? 'Settings Areas' : 'Onboarding Progress'}</h3>
             <div className="step-indicator-steps">
               {steps.map((step) => {
                 const index = stepMeta.pos.get(step)!;
                 const isActive = step === currentStep;
-                const isCompleted = step === 'models' && !isOnboardingComplete
+                const isCompleted = isSettingsMode
+                  ? completedSteps.includes(step)
+                  : step === 'models' && !isOnboardingComplete
                   ? completedSteps.includes('connects') && completedSteps.includes('models')
                   : completedSteps.includes(step);
                 const isAvailable = availableSteps.includes(step);
                 const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-                const isNext = index === highest + 1;
+                const isNext = !isSettingsMode && index === highest + 1;
                 const classes = ['step-indicator-item'];
                 if (isActive) classes.push('active');
                 if (isCompleted) classes.push('completed');
@@ -87,7 +92,7 @@ function OrbitalContent(props: OrbitalContentProps) {
                       if (isAvailable) {
                         try {
                           const { trackEvent } = require('@engi/google-analytics');
-                          trackEvent('onboarding_step_click', { step });
+                          trackEvent(isSettingsMode ? 'settings_step_click' : 'onboarding_step_click', { step });
                         } catch {}
                         onStepClick(step);
                       }
@@ -120,7 +125,7 @@ function OrbitalContent(props: OrbitalContentProps) {
           const isCompleted = completedSteps.includes(step);
           const isAvailable = availableSteps.includes(step);
           const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-          const isNext = i === highest + 1;
+          const isNext = !isSettingsMode && i === highest + 1;
           const size = 30 + i * 15;
           const style: React.CSSProperties = {
             position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
