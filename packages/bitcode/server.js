@@ -115,9 +115,10 @@ import {
   buildInitialState,
   makeCandidateAsset,
   publicState as buildPublicState,
-  runMakeEngiBranch,
+  runMakeBitcodeBranch,
   SPEC_VERSION
-} from './src/engi-demo.js';
+} from './src/bitcode-runtime.js';
+import { CURRENT_CANON_POSTURE } from './src/canon-posture.js';
 import { buildBitcoinDemonstrationServiceDescriptor } from './src/canonical/v23-bitcoin-demonstration-service.js';
 import {
   buildV24ExternalRealizationDescriptor,
@@ -166,6 +167,21 @@ function writeJsonAtomically(targetPath, value) {
     }
     throw error;
   }
+}
+
+/**
+ * @param {AppState} state
+ * @returns {{ nextState: AppState, changed: boolean }}
+ */
+function normalizeStateForCurrentCanon(state) {
+  const nextState = {
+    ...state,
+    specVersion: SPEC_VERSION,
+    canonPosture: CURRENT_CANON_POSTURE
+  };
+  const changed = state.specVersion !== SPEC_VERSION
+    || JSON.stringify(state.canonPosture || null) !== JSON.stringify(CURRENT_CANON_POSTURE);
+  return { nextState, changed };
 }
 
 export function createAppContext({
@@ -244,6 +260,16 @@ export function createAppContext({
     if (!Array.isArray(raw.assets) || !Array.isArray(raw.buyers) || !Array.isArray(raw.githubAppSessions) || !Array.isArray(raw.repoArtifactInventory) || !raw.ledger?.accounts) {
       writeJsonAtomically(dataPath, buildInitialState());
       return { bootstrapped: true, reason: 'incomplete-state' };
+    }
+    const { nextState, changed } = normalizeStateForCurrentCanon(raw);
+    if (changed) {
+      writeJsonAtomically(dataPath, nextState);
+      return {
+        bootstrapped: false,
+        reason: 'canon-posture-sync',
+        assetCount: nextState.assets.length,
+        buyerCount: nextState.buyers.length
+      };
     }
     return { bootstrapped: false, assetCount: raw.assets.length, buyerCount: raw.buyers.length };
   }
@@ -505,7 +531,7 @@ export function createAppContext({
       branchMode,
       paymentMode
     };
-    const { nextState, latestRun } = runMakeEngiBranch(state, branchRequest);
+    const { nextState, latestRun } = runMakeBitcodeBranch(state, branchRequest);
     const stateRecord = /** @type {any} */ (state);
     const realizedLatestRun = await realizeV24LiveExternalExecution(latestRun, {
       executorHandlers: v24LocalExecutorHandlers,
@@ -607,7 +633,7 @@ export function createAppContext({
         return sendJson(res, 200, createDeposit(body));
       }
 
-      if (req.method === 'POST' && req.url === '/api/make-engi-branch') {
+      if (req.method === 'POST' && (req.url === '/api/make-bitcode-branch' || req.url === '/api/make-engi-branch')) {
         const body = await readBody(req);
         return sendJson(res, 200, await makeBitcodeBranch(body));
       }

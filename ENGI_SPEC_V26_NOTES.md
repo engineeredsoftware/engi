@@ -92,6 +92,14 @@ Still open:
 - whether repo-local `ENGI_SPEC_*` remains stable through V26 promotion,
 - and which compatibility carriers are worth changing during a productionizing version versus later dedicated migration work.
 
+### 6. Second-gate Bitcode rename completion
+
+Still open:
+- full Bitcode rename completion remains part of second-gate rather than first-gate,
+- first-gate may preserve compatibility carriers while package/app migration closes,
+- second-gate should return to remaining active-source rename debt after first-gate closure is stable,
+- and any remaining ENGI-era naming that survives first-gate must be cataloged and intentionally retired rather than left implicit.
+
 ## Current sequencing bias
 
 The current sequencing bias is:

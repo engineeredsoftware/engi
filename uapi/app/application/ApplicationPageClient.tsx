@@ -88,7 +88,7 @@ export default function ApplicationPageClient() {
               Hide tutorial
             </button>
             <button id="resetButton" className="ghost" type="button">
-              Reset demo
+              Reset application
             </button>
           </div>
           <div id="status" className="status" role="status" aria-live="polite" aria-atomic="true" />

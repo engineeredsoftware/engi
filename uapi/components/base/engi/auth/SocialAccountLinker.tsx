@@ -10,7 +10,7 @@ import { toast } from '@/components/base/shadcn/sonner'
 import dynamic from 'next/dynamic'
 
 // Lazy load ConfirmModal to avoid adding framer-motion earlier than needed
-const ConfirmModal = dynamic(() => import('../ui/ConfirmModal'))
+const ConfirmModal = dynamic(() => import('../overlays/ConfirmModal'))
 
 const providerLabels = {
   github: 'GitHub',

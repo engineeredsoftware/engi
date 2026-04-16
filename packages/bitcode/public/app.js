@@ -1131,7 +1131,7 @@ const ASSET_CAPSULE_REFERENCES = {
   code: [
     'public/app.js -> chipList()',
     'public/app.js -> renderAssetVisual()',
-    'src/engi-demo.js -> makeCandidateAsset()'
+    'src/bitcode-runtime.js -> makeCandidateAsset()'
   ],
   spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Identity, authority, signing, and addressing']
 };
@@ -1203,7 +1203,7 @@ const EXTRA_EXPLAINERS = {
       'Should read as a consequence of fit, not as separate infrastructure trivia'
     ],
     references: {
-      code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/engi-demo.js -> buildDepositingToNeedingSurface()'],
+      code: ['public/app.js -> renderDepositingToNeedingVisual()', 'src/bitcode-runtime.js -> buildDepositingToNeedingSurface()'],
       spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -1217,7 +1217,7 @@ const EXTRA_EXPLAINERS = {
       'Feeds the explicit repo address carried through later proofs'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
@@ -1231,7 +1231,7 @@ const EXTRA_EXPLAINERS = {
       'Complements repo/ref identity with file-level scope'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
@@ -1245,7 +1245,7 @@ const EXTRA_EXPLAINERS = {
       'Becomes useful whenever operators need to confirm payload sameness'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -1259,7 +1259,7 @@ const EXTRA_EXPLAINERS = {
       'Helps operators see what parts of the asset are available for inspection'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Artifact kinds, inventory supply, and depositing overrides']
     }
   },
@@ -1287,7 +1287,7 @@ const EXTRA_EXPLAINERS = {
       'Separate from where the key material came from'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -1301,7 +1301,7 @@ const EXTRA_EXPLAINERS = {
       'Complements signer address and algorithm rather than replacing them'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Disclosure, projection, and boundary reality']
     }
   },
@@ -1315,7 +1315,7 @@ const EXTRA_EXPLAINERS = {
       'Lets later proofs bind back to one exact attested payload'
     ],
     references: {
-      code: ['public/app.js -> renderAssetVisual()', 'src/engi-demo.js -> makeCandidateAsset()'],
+      code: ['public/app.js -> renderAssetVisual()', 'src/bitcode-runtime.js -> makeCandidateAsset()'],
       spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Generated proof, branch, and settlement artifacts']
     }
   },
@@ -1393,7 +1393,7 @@ const EXTRA_EXPLAINERS = {
       'Useful when validating why the need reads the way it does'
     ],
     references: {
-      code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()'],
+      code: ['public/app.js -> renderNeedVisual()', 'src/bitcode-runtime.js -> buildNeedDescriptor()'],
       spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Identity, authority, signing, and addressing']
     }
   },
@@ -1407,7 +1407,7 @@ const EXTRA_EXPLAINERS = {
       'Useful for understanding why later ranking surfaces saw certain assets'
     ],
     references: {
-      code: ['public/app.js -> renderNeedVisual()', 'src/engi-demo.js -> buildNeedDescriptor()', 'src/engi-demo.js -> recallCandidates()'],
+      code: ['public/app.js -> renderNeedVisual()', 'src/bitcode-runtime.js -> buildNeedDescriptor()', 'src/bitcode-runtime.js -> recallCandidates()'],
       spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
     }
   },
@@ -1421,7 +1421,7 @@ const EXTRA_EXPLAINERS = {
       'Different from executed-local stages'
     ],
     references: {
-      code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
+      code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/bitcode-runtime.js -> buildBoundaryRealitySurface()'],
       spec: ['V21 canon -> Disclosure, projection, and boundary reality']
     }
   },
@@ -1435,7 +1435,7 @@ const EXTRA_EXPLAINERS = {
       'Still sits inside the explicit boundary reality surface'
     ],
     references: {
-      code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/engi-demo.js -> buildBoundaryRealitySurface()'],
+      code: ['public/app.js -> renderBoundaryRealityVisual()', 'src/bitcode-runtime.js -> buildBoundaryRealitySurface()'],
       spec: ['V21 canon -> Disclosure, projection, and boundary reality']
     }
   },
@@ -2056,28 +2056,28 @@ const EXPLAINER_REFERENCE_LIBRARY = {
   'repo-supply': {
     code: [
       'public/app.js -> renderRepoSupplyVisual()',
-      'src/engi-demo.js -> buildRepoSupplySurface()'
+      'src/bitcode-runtime.js -> buildRepoSupplySurface()'
     ],
     spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Artifact kinds, inventory supply, and depositing overrides']
   },
   depositing: {
     code: [
       'public/app.js -> renderDepositingSurfaceVisual()',
-      'src/engi-demo.js -> buildDepositingSurface()'
+      'src/bitcode-runtime.js -> buildDepositingSurface()'
     ],
     spec: ['V21 canon -> Depositing and asset supply', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   needing: {
     code: [
       'public/app.js -> renderNeedingSurfaceVisual()',
-      'src/engi-demo.js -> buildNeedingSurface()'
+      'src/bitcode-runtime.js -> buildNeedingSurface()'
     ],
     spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   fit: {
     code: [
       'public/app.js -> renderDepositingToNeedingVisual()',
-      'src/engi-demo.js -> buildDepositingToNeedingSurface()'
+      'src/bitcode-runtime.js -> buildDepositingToNeedingSurface()'
     ],
     spec: ['V21 canon -> Fit, recall, ranking, and verification', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
@@ -2092,7 +2092,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/index.html -> section 0',
       'public/app.js -> renderOperatingPicture()',
-      'src/engi-demo.js -> buildRepoToSettlementSurface()'
+      'src/bitcode-runtime.js -> buildRepoToSettlementSurface()'
     ],
     spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
@@ -2100,8 +2100,8 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderIdentityAuthSpineVisual()',
       'public/app.js -> renderGitHubBoundaryVisual()',
-      'src/engi-demo.js -> buildIdentityAuthSpineSurface()',
-      'src/engi-demo.js -> buildGithubBoundarySurface()'
+      'src/bitcode-runtime.js -> buildIdentityAuthSpineSurface()',
+      'src/bitcode-runtime.js -> buildGithubBoundarySurface()'
     ],
     spec: ['V21 canon -> Identity, authority, signing, and addressing', 'V21 canon -> Disclosure, projection, and boundary reality']
   },
@@ -2130,8 +2130,8 @@ const EXPLAINER_REFERENCE_LIBRARY = {
   branch: {
     code: [
       'public/app.js -> renderBranchArtifacts()',
-      'src/engi-demo.js -> assembleAssetPack()',
-      'src/engi-demo.js -> buildBranchArtifacts()'
+      'src/bitcode-runtime.js -> assembleAssetPack()',
+      'src/bitcode-runtime.js -> buildBranchArtifacts()'
     ],
     spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
@@ -2139,9 +2139,9 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderMaterializationProofVisual()',
       'public/app.js -> renderSelectedSourceMaterialManifestVisual()',
-      'src/engi-demo.js -> buildSelectedSourceMaterialManifest()',
-      'src/engi-demo.js -> buildMaterializationProof()',
-      'src/engi-demo.js -> buildMaterializationVisibilityProof()'
+      'src/bitcode-runtime.js -> buildSelectedSourceMaterialManifest()',
+      'src/bitcode-runtime.js -> buildMaterializationProof()',
+      'src/bitcode-runtime.js -> buildMaterializationVisibilityProof()'
     ],
     spec: ['V21 canon -> Proof contract, witnesses, replay, and branch closure', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
@@ -2149,8 +2149,8 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderSystemProofBundleVisual()',
       'public/app.js -> renderBoundedProofVisual()',
-      'src/engi-demo.js -> buildProofWitnessManifest()',
-      'src/engi-demo.js -> buildBoundedPublicProofArtifact()'
+      'src/bitcode-runtime.js -> buildProofWitnessManifest()',
+      'src/bitcode-runtime.js -> buildBoundedPublicProofArtifact()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Disclosure, projection, and boundary reality']
   },
@@ -2158,16 +2158,16 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderSettlementPreviewVisual()',
       'public/app.js -> renderSettlementParticipationVisual()',
-      'src/engi-demo.js -> settleNeedEvent()',
-      'src/engi-demo.js -> buildSettlementParticipationArtifact()'
+      'src/bitcode-runtime.js -> settleNeedEvent()',
+      'src/bitcode-runtime.js -> buildSettlementParticipationArtifact()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Proof contract, witnesses, replay, and branch closure']
   },
   'source-to-shares': {
     code: [
       'public/app.js -> renderSourceToSharesVisual()',
-      'src/engi-demo.js -> buildSourceToSharesArtifact()',
-      'src/engi-demo.js -> buildAccountingPrecisionReport()'
+      'src/bitcode-runtime.js -> buildSourceToSharesArtifact()',
+      'src/bitcode-runtime.js -> buildAccountingPrecisionReport()'
     ],
     spec: ['V21 canon -> Profile B and source-to-shares semantics', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   },
@@ -2175,8 +2175,8 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderAccountingPrecisionVisual()',
       'public/app.js -> renderJournalDiffVisual()',
-      'src/engi-demo.js -> buildAccountingPrecisionReport()',
-      'src/engi-demo.js -> settleNeedEvent()'
+      'src/bitcode-runtime.js -> buildAccountingPrecisionReport()',
+      'src/bitcode-runtime.js -> settleNeedEvent()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
@@ -2184,23 +2184,23 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderLedger()',
       'public/app.js -> renderLedgerAccountsVisual()',
-      'src/engi-demo.js -> publicState()'
+      'src/bitcode-runtime.js -> publicState()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Disclosure, projection, and boundary reality']
   },
   'run-history': {
     code: [
       'public/app.js -> renderRunHistoryVisual()',
-      'src/engi-demo.js -> runMakeEngiBranch()',
-      'src/engi-demo.js -> publicState()'
+      'src/bitcode-runtime.js -> runMakeBitcodeBranch()',
+      'src/bitcode-runtime.js -> publicState()'
     ],
     spec: ['V21 canon -> Generated proof, branch, and settlement artifacts', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
   boundary: {
     code: [
       'public/app.js -> renderBoundaryRealityVisual()',
-      'src/engi-demo.js -> buildBoundaryRealitySurface()',
-      'src/engi-demo.js -> buildExternalBoundaryManifest()'
+      'src/bitcode-runtime.js -> buildBoundaryRealitySurface()',
+      'src/bitcode-runtime.js -> buildExternalBoundaryManifest()'
     ],
     spec: ['V21 canon -> Disclosure, projection, and boundary reality', 'V21 canon -> Validation, operator review, and canonical promotion']
   },
@@ -2216,8 +2216,8 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderScenario()',
       'public/app.js -> renderScenarioCorpusVisual()',
-      'src/engi-demo.js -> publicState()',
-      'src/engi-demo.js -> buildNeedDescriptor()'
+      'src/bitcode-runtime.js -> publicState()',
+      'src/bitcode-runtime.js -> buildNeedDescriptor()'
     ],
     spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Realization profiles and settlement shape']
   },
@@ -2225,7 +2225,7 @@ const EXPLAINER_REFERENCE_LIBRARY = {
     code: [
       'public/app.js -> renderNeedVisual()',
       'public/app.js -> renderNeedMeasurementVisual()',
-      'src/engi-demo.js -> buildNeedDescriptor()'
+      'src/bitcode-runtime.js -> buildNeedDescriptor()'
     ],
     spec: ['V21 canon -> Needing and prompt/inference ownership', 'V21 canon -> Generated proof, branch, and settlement artifacts']
   }
@@ -6398,9 +6398,9 @@ function renderBranchArtifacts(state) {
       visual: artifact.visual,
       accent: artifact.accent || ''
     })).join('')}
-    ${(branchFiles['ENGI_NEED.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.engi/source-material/'))) ? `<div class="card">
+    ${(branchFiles['BITCODE_NEED.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.engi/source-material/'))) ? `<div class="card">
       <div class="section-head"><h3>Materialized markdown artifacts</h3><span class="badge">Non-JSON reference</span></div>
-      ${detailsSection('ENGI_NEED.md', `<pre>${escapeHtml(branchFiles['ENGI_NEED.md'] || '')}</pre>`, true)}
+      ${detailsSection('BITCODE_NEED.md', `<pre>${escapeHtml(branchFiles['BITCODE_NEED.md'] || '')}</pre>`, true)}
       ${Object.entries(branchFiles).filter(([path]) => path.startsWith('.engi/source-material/')).map(([path, content]) => detailsSection(path, `<pre>${escapeHtml(content)}</pre>`)).join('')}
     </div>` : ''}
   `;
