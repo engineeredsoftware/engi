@@ -70,14 +70,32 @@ Primary tests:
 - `test/api.test.js` - route semantics, projection behavior, persistence safety
 - `test/e2e.test.js` - browser ordering and end-to-end operator flows
 
-## Run
+## Current first-gate review path
+
+The primary first-gate Bitcode review surface is no longer the package-local standalone shell.
+It is the application-owned route at `/application`, mounted by:
+
+- `uapi/app/application/page.tsx`
+- `uapi/app/application/ApplicationPageClient.tsx`
+- `uapi/app/api/*`
+
+For review without live external data, run the app in mock mode:
+
+```bash
+cd /Users/garrettmaring/Developer/ENGI/uapi
+NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_ORBITAL=true NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_ISSUES=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_GITHUB_FILES=true PORT=3000 pnpm dev:remote
+```
+
+Open <http://127.0.0.1:3000/application>.
+
+## Package-local runtime validation
 
 ```bash
 cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
 npm start
 ```
 
-Open <http://localhost:4318>.
+Open <http://127.0.0.1:4318>.
 
 ## Test
 
@@ -88,11 +106,16 @@ npm test
 
 ## Main API
 
+Primary first-gate app-owned API carriers:
+
 - `GET /api/state`
 - `GET /api/bitcoin-demonstration-service`
 - `POST /api/deposits`
+- `POST /api/make-bitcode-branch`
 - `POST /api/make-engi-branch`
 - `POST /api/reset`
+
+Package-local validation runtime exposes the same preserved contract on its local port.
 
 ## Canonical branch artifact families
 

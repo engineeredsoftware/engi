@@ -97,14 +97,16 @@ The accepted V26 decisions are now:
 5. `engi-demo/` no longer exists as a source directory.
 6. First-gate preserves the old Bitcode operator UX and deterministic state/API contract under new package/app ownership.
 7. First-gate uses `packages/bitcode` as the immediate package owner.
-8. Second-gate remains the deeper application-facing component and styling refit.
-9. Existing packages such as `packages/github`, `packages/auth`, and `packages/api` still remain convergence targets where that ownership is the correct long-term fit.
-10. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
+8. First-gate review must work through `/application` in mock mode so interface quality can be inspected without live external data.
+9. Second-gate remains the deeper application-facing component and styling refit.
+10. Existing packages such as `packages/github`, `packages/auth`, and `packages/api` still remain convergence targets where that ownership is the correct long-term fit.
+11. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
 
 ## Remaining V26 delta after first-gate
 
 The remaining V26 delta is now concentrated in:
 - second-gate application-experience refit of the preserved Bitcode shell,
+- production, staging, and development mode completeness within the new application expression,
 - deeper package splitting beyond the immediate `packages/bitcode` consolidation owner,
 - GitHub convergence onto longer-term package/API owners,
 - wallet productionization,

@@ -27,6 +27,7 @@ The following items are no longer open draft questions:
 - the preserved first-gate JSON contract now runs through app-owned `uapi/app/api/*` route handlers.
 - the ringed orbital overlay remains the settings owner for user/account areas.
 - homepage embedded-demo posture remains removed.
+- mock-mode `/application` review is part of first-gate closure rather than second-gate work.
 
 ## Current first-gate source reminders
 
@@ -73,7 +74,8 @@ Still open:
 - how second-gate application wireframing should be produced and used before deeper UI/component replacement,
 - how far the preserved first-gate shell should be decomposed into native application-facing components,
 - which sections should become route-local React composition first,
-- and how aggressively the old shell CSS and DOM contract should be retired during second-gate.
+- how aggressively the old shell CSS and DOM contract should be retired during second-gate,
+- and what must be proven so production, staging, and development modes all remain functional in the new application expression.
 
 ### 2. Longer-term package splitting after `packages/bitcode`
 

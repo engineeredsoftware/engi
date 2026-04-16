@@ -60,6 +60,7 @@ V26 is now explicitly split into two gates.
 
 First-gate is the ownership migration gate.
 It preserves the Bitcode shell experience while changing where that experience lives.
+It also requires the preserved demonstration UX to read through the application as a production-initial Bitcode surface by using core app/component carriers rather than a standalone demo framing.
 
 The current first-gate source file structure is:
 - `packages/bitcode/src/*`
@@ -84,6 +85,7 @@ First-gate closure means:
 - no `engi-demo/` directory remains,
 - `/application` is the app-owned Bitcode carrier,
 - the preserved shell DOM, interaction order, and API/state contract run from package/app owners,
+- the application-owned Bitcode carrier can be reviewed coherently in mock mode without requiring live external data,
 - and the homepage no longer embeds or foregrounds a standalone demo surface.
 
 ### Second-gate
@@ -91,6 +93,7 @@ First-gate closure means:
 Second-gate is the application-experience gate.
 It does not reopen the first-gate ownership migration.
 It replaces the preserved shell implementation with deeper native application-facing composition while keeping Bitcode semantics intact.
+It also includes ensuring the new application expression functions coherently across production, staging, and development modes.
 
 ## Canonical ENGI executive summary
 

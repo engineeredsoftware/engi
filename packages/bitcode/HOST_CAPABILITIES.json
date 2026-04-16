@@ -1,9 +1,10 @@
 {
-  "inspectedAt": "2026-04-03",
-  "specVersion": "ENGI Spec V15 canonical target over the deterministic local prototype",
-  "canonicalPointerVersion": "V15",
-  "lastFullyRealizedCanonVersion": "V15",
-  "repo": "engi-demo",
+  "inspectedAt": "2026-04-16",
+  "specVersion": "Bitcode V25 active canon with V26 first-gate application carrier",
+  "canonicalPointerVersion": "V25",
+  "draftTargetVersion": "V26",
+  "packageOwner": "packages/bitcode",
+  "primaryApplicationCarrier": "uapi/app/application",
   "host": {
     "os": "Darwin 25.4.0",
     "arch": "arm64"
@@ -11,28 +12,29 @@
   "runtime": {
     "node": "v24.14.1",
     "npm": "11.11.0",
-    "pnpm": "10.33.0",
-    "python3": "3.13.12",
-    "rustc": "1.94.1",
-    "cargo": "1.94.1",
-    "git": "2.53.0",
-    "docker": "29.1.3"
+    "pnpm": "10.33.0"
   },
   "programUsageTruth": {
-    "machineLocalStaticAnalysis": [
-      "github-actions.benchmark-parser.v15",
-      "github.repo-context.extract.v15",
-      "content-unit.extract-static-code-analysis.v15",
-      "asset.measurement.extract.v15",
-      "verification.issuance-checks.v15",
-      "verification.provenance-checks.v15",
-      "verification.sufficiency-checks.v15",
-      "verification.issuer-policy-checks.v15"
+    "primaryReviewPath": [
+      "uapi/app/application/page.tsx",
+      "uapi/app/application/ApplicationPageClient.tsx",
+      "uapi/app/api/*"
+    ],
+    "packageValidationPath": [
+      "packages/bitcode/server.js",
+      "packages/bitcode/public/app.js",
+      "packages/bitcode/public/styles.css"
+    ],
+    "machineLocalAssembly": [
+      "deterministic need derivation",
+      "proof and materialization assembly",
+      "source-to-shares accounting assembly",
+      "app-owned JSON contract serving"
     ],
     "proofProgramUsage": {
-      "coreDemoExecutesExternalProofTools": false,
+      "runtimeExecutesExternalProofTools": false,
       "proofBearingEvidenceMayReferenceExternalLogs": true,
-      "coreDemoAssembly": [
+      "localAssembly": [
         "materialization proof assembly",
         "source-to-shares replay",
         "settlement proof assembly",
@@ -61,64 +63,52 @@
       "settlement network effects"
     ]
   },
-  "github": {
-    "remote": "https://github.com/engineeredsoftware/ENGI.git",
-    "ghCliPresent": true,
-    "ghAuthStatus": "invalid-token",
-    "account": "garrettmaring"
-  },
-  "bootstrapAndFurnishing": {
-    "nativeRepoRequirements": [
-      "node",
-      "npm"
-    ],
-    "optionalRepoRequirements": [
-      "docker",
-      "openclaw"
-    ],
-    "referenceBootstrapPatterns": {
-      "repo": "/Users/garrettmaring/Developer/casa",
-      "bootstrapScript": "/Users/garrettmaring/Developer/casa/scripts/bootstrap.sh",
-      "packageInstaller": "/Users/garrettmaring/Developer/casa/scripts/install-packages.sh"
-    }
+  "repository": {
+    "remote": "https://github.com/engineeredsoftware/ENGI.git"
   },
   "availableConfigurations": [
     {
-      "configurationId": "native-runtime",
+      "configurationId": "application-review-mock",
+      "workingDirectory": "/Users/garrettmaring/Developer/ENGI/uapi",
+      "command": "NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_ORBITAL=true NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_ISSUES=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_GITHUB_FILES=true PORT=3000 pnpm dev:remote",
+      "purpose": "Primary first-gate review of the application-owned Bitcode route"
+    },
+    {
+      "configurationId": "application-review-liveish",
+      "workingDirectory": "/Users/garrettmaring/Developer/ENGI/uapi",
+      "command": "PORT=3000 pnpm dev:remote",
+      "purpose": "App-owned route review without mock flags"
+    },
+    {
+      "configurationId": "package-runtime-validation",
+      "workingDirectory": "/Users/garrettmaring/Developer/ENGI/packages/bitcode",
       "command": "npm start",
-      "purpose": "Serve the local deterministic demo UI and API"
+      "purpose": "Package-local validation of the preserved first-gate shell/runtime"
     },
     {
-      "configurationId": "native-test",
+      "configurationId": "package-test",
+      "workingDirectory": "/Users/garrettmaring/Developer/ENGI/packages/bitcode",
       "command": "npm test",
-      "purpose": "Run the deterministic Node regression suite"
+      "purpose": "Deterministic Node regression suite"
     },
     {
-      "configurationId": "docker-runtime",
-      "buildCommand": "docker build -t engi-demo-v15 .",
-      "runCommand": "docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v15",
-      "purpose": "Serve the demo in a container"
-    },
-    {
-      "configurationId": "docker-test",
-      "buildCommand": "docker build -t engi-demo-v15 .",
-      "runCommand": "docker run --rm engi-demo-v15 npm test",
-      "purpose": "Run the regression suite in a container"
+      "configurationId": "docker-runtime-validation",
+      "buildCommand": "docker build -t bitcode-first-gate .",
+      "runCommand": "docker run --rm -p 4318:4318 -e HOST=0.0.0.0 bitcode-first-gate",
+      "purpose": "Containerized validation of the package-local runtime carrier"
     }
   ],
   "telemetryAndSafety": {
     "atomicStateWrites": true,
-    "bodySizeLimitBytes": 1000000,
     "pathTraversalBlocked": true,
-    "defaultProjectionPrincipal": "public",
-    "privateSourceMaterialPubliclyDisclosed": false,
-    "coreFlowRequiresNetwork": false
+    "coreFirstGateReviewRequiresNetwork": false,
+    "firstGateReviewSupportsMockMode": true,
+    "privateSourceMaterialPubliclyDisclosed": false
   },
   "containerization": {
     "dockerfile": "Dockerfile",
     "dockerignore": ".dockerignore",
-    "defaultPort": 4318,
-    "defaultHostEnv": "0.0.0.0",
+    "packageValidationPort": 4318,
     "supportsServerRun": true,
     "supportsTestRun": true,
     "doesNotImplyProductionDeployment": true

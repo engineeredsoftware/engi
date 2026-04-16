@@ -1,46 +1,63 @@
-# ENGI Demo Host Capabilities
+# Bitcode First-Gate Host Capabilities
 
-Last inspected: 2026-04-03 (America/Los_Angeles)
-Host scope: local machine capabilities relevant to the ENGI Spec V15 canonical target over the current deterministic demo implementation in this repo.
+Last inspected: 2026-04-16 (America/Sao_Paulo)
+Host scope: local machine capabilities relevant to the active V25 canon and the current V26 first-gate Bitcode application carrier.
 
 ## Canon status
 
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V15`
-- Current canonical/latest target: `V15`
-- Last fully realized canon preserved in the demo source: `V15`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
+- Current canonical/latest target: `V25`
+- Current draft-target family: `V26`
+- Current first-gate owner: `packages/bitcode` mounted through `uapi/app/application/*`
 
 ## Purpose
 
-This document records what the host actually needs to run the current deterministic demo implementation, what it can optionally support, what remains modeled instead of executed, and how the repo can be furnished natively or in a container without overclaiming production readiness.
+This document records what the host actually needs to run the current first-gate Bitcode application expression, what remains optional, and what is still modeled rather than executed live.
 
 The source of truth for this document is:
 
-- live host inspection commands run on 2026-04-03
-- the current repo implementation in `server.js`, `src/engi-demo.js`, `public/app.js`, and `test/`
-- the current V15-canonical / V15-realized artifact and proof flow, not older V8/V9 framing
+- live host inspection commands run on 2026-04-16,
+- the current repo implementation in `packages/bitcode/*` and `uapi/app/application/*`,
+- the active V25 canonical family,
+- and the active V26 first-gate draft family.
+
+## First-gate runtime truth
+
+### Primary review path
+
+The primary first-gate review path is the application-owned route:
+
+- `uapi/app/application/page.tsx`
+- `uapi/app/application/ApplicationPageClient.tsx`
+- `uapi/app/api/*`
+
+This is the route that carries the preserved Bitcode operator UX inside the app shell.
+For interface review, the preferred posture is mock mode so the application can be reviewed without live external dependencies or real user data.
+
+### Package-local validation path
+
+`packages/bitcode/server.js` remains useful for package-local validation of the preserved first-gate shell/runtime contract, but it is no longer the primary product review surface.
 
 ## Program usage truth
 
-### Required for the current demo implementation
+### Required for the current first-gate implementation
 
-The repo needs only a local Node runtime plus filesystem access to execute its real control-plane behavior:
+The repo needs:
 
-- serve the demo UI and JSON API
-- run the deterministic need-derivation flow
-- execute local static code-analysis receipts implemented in-process
-- assemble proof/materialization/accounting artifacts
-- run the Node test suite
+- a local Node runtime,
+- filesystem access to the working tree,
+- the ability to bind the app server on a local port such as `3000`,
+- and the ability to serve the package-owned Bitcode shell assets through the app route.
 
-In the current implementation, the following stages are real local program usage, but they are all executed by deterministic in-process Node logic rather than external commands:
+The current real local program usage includes:
 
-- benchmark parser normalization: `github-actions.benchmark-parser.v15`
-- repo code-analysis derivation: `github.repo-context.extract.v15`
-- content-unit code analysis: `content-unit.extract-static-code-analysis.v15`
-- asset code-analysis derivation: `asset.measurement.extract.v15`
-- verification determinisms: `verification.*.v15`
-- source-to-shares replay, exact allocation, journal settlement, and proof assembly
+- serving the app-owned `/application` route,
+- serving app-owned JSON contract routes under `uapi/app/api/*`,
+- deterministic need derivation and state transitions inside `packages/bitcode`,
+- proof/materialization/accounting artifact assembly,
+- and the Node-based regression/test stack.
 
-### Present on host but not required for the core V9 path
+### Present on host but not required for core first-gate review
 
 - `python3`
 - `rustc`
@@ -53,36 +70,29 @@ In the current implementation, the following stages are real local program usage
 - `openclaw`
 - `codex`
 
-These are useful for inspection, authoring, proof-log generation outside the core demo path, or container work, but the demo does not require them to complete its main run.
+These are useful for inspection, authoring, container work, or upstream experiments, but not required to review the first-gate application route.
 
 ### Proof-program usage truth
 
-The current demo does **not** execute external proof engines as part of the core flow.
+The current first-gate implementation does not require external proof engines at runtime.
 
 Instead it:
 
-- models proof-bearing assets and proof logs as evidence-bearing source material
-- assembles witness-complete proof artifacts locally in Node
-- treats Rust / Creusot / other proof tooling as optional upstream producers of evidence, not mandatory runtime dependencies for demo execution
-
-So:
-
-- proof bundle assembly is local and real
-- proof-program execution is modeled as upstream evidence, not required live host behavior
+- models proof-bearing source material and logs,
+- assembles witness-complete proof artifacts locally in Node,
+- and treats external proof tooling as upstream evidence producers rather than mandatory runtime dependencies.
 
 ### GitHub / remote usage truth
 
-Observed on this host:
+Current first-gate review does not require live GitHub network effects.
 
-- repo remote: `https://github.com/engineeredsoftware/ENGI.git`
-- `gh` is installed
-- `gh auth status` currently reports the default token as invalid for `garrettmaring`
+The application can be reviewed in mock mode without:
 
-Current interpretation:
-
-- GitHub CLI presence is real
-- GitHub CLI authorization is **not** currently healthy
-- the demo must continue treating GitHub/App actions as modeled Profile B boundaries rather than host-ready live operations
+- live GitHub App installation auth,
+- live workflow artifact fetch,
+- branch or PR writes,
+- live model execution,
+- or live settlement-network effects.
 
 ## Required host capability specification
 
@@ -90,139 +100,117 @@ Current interpretation:
 
 - macOS or Linux host with a modern Node runtime
 - ability to read and write the repo working tree
-- ability to bind a local HTTP server on port `4318` or another chosen port
+- ability to bind a local HTTP server on port `3000` or another chosen app port
 
 ### Repo-minimal runtime requirement
 
-- Node.js `v24.14.1` observed on this host
-- npm `11.11.0` observed on this host
+- Node.js `v24.14.1`
+- npm `11.11.0`
 
-Because the repo currently has no third-party npm dependencies, the practical runtime requirement is:
+Because the current first-gate review path is app-owned, the practical runtime requirement is:
 
 - `node`
-- `npm`
+- `npm` or `pnpm`
 
 ### Optional but useful local tooling
 
-- `pnpm` for parity with broader workstation habits
+- `pnpm` for workspace/app commands
 - `rg`, `jq`, `curl` for inspection
-- `docker` for the container configuration provided in this repo
-- `python3`, `rustc`, `cargo` for upstream proof/code-analysis experiments outside the core demo path
-- `openclaw` for the completion notification command used at the end of local work
-
-## Install / bootstrap / furnishing
-
-This repo intentionally stays light, but if the machine needs broader furnishing the recommended pattern is the existing Casa bootstrap layout at `~/Developer/casa`.
-
-Relevant Casa references:
-
-- bootstrap entrypoint: `/Users/garrettmaring/Developer/casa/scripts/bootstrap.sh`
-- package installer: `/Users/garrettmaring/Developer/casa/scripts/install-packages.sh`
-- bootstrap overview: `/Users/garrettmaring/Developer/casa/README.md`
-
-Casa’s useful patterns for this repo are:
-
-- manifest-driven package installation instead of ad hoc shell history
-- one bootstrap entrypoint
-- separate install, app, and config-linking phases
-
-For this repo specifically, furnishing is simpler:
-
-1. ensure `node` and `npm` are present
-2. optionally ensure `docker` is present if using the container configuration
-3. optionally ensure `openclaw` is present if you want the local completion notification command
+- `docker` for container validation
+- `python3`, `rustc`, `cargo` for upstream experiments outside the core first-gate path
+- `openclaw` for local completion notifications
 
 ## Available configurations
 
-### `native-runtime`
+### `application-review-mock`
 
-- start command: `npm start`
-- bind address default: `127.0.0.1`
-- purpose: local interactive UI + API walkthrough
+- working directory: `/Users/garrettmaring/Developer/ENGI/uapi`
+- command:
+  `NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_ORBITAL=true NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_ISSUES=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_GITHUB_FILES=true PORT=3000 pnpm dev:remote`
+- purpose: primary first-gate review of the application-owned Bitcode route at `/application`
 
-### `native-test`
+### `application-review-liveish`
 
-- test command: `npm test`
-- purpose: deterministic API/core regression suite
+- working directory: `/Users/garrettmaring/Developer/ENGI/uapi`
+- command: `PORT=3000 pnpm dev:remote`
+- purpose: app-owned route review against current non-mock environment posture
 
-### `docker-runtime`
+### `package-runtime-validation`
 
-- build command: `docker build -t engi-demo-v15 .`
-- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 engi-demo-v15`
-- purpose: containerized local serving with no host Node requirement beyond Docker
+- working directory: `/Users/garrettmaring/Developer/ENGI/packages/bitcode`
+- command: `npm start`
+- purpose: package-local validation of the preserved first-gate shell/runtime carrier
 
-### `docker-test`
+### `package-test`
 
-- build command: `docker build -t engi-demo-v15 .`
-- run command: `docker run --rm engi-demo-v15 npm test`
-- purpose: containerized regression check using the same image contents
+- working directory: `/Users/garrettmaring/Developer/ENGI/packages/bitcode`
+- command: `npm test`
+- purpose: deterministic regression validation of the package-owned Bitcode runtime
+
+### `docker-runtime-validation`
+
+- build command: `docker build -t bitcode-first-gate .`
+- run command: `docker run --rm -p 4318:4318 -e HOST=0.0.0.0 bitcode-first-gate`
+- purpose: containerized validation of the package-local runtime carrier
 
 ## Telemetry and safety
 
-The current repo truth relevant to host safety:
+Current repo truth relevant to host safety:
 
-- state writes are atomic via temp-file + rename
-- request bodies are capped at 1 MB
-- static path traversal is blocked
-- public/API projection defaults to `public`
-- buyer/reviewer/internal projections are explicit
-- no remote network access is required for the core flow
-- private branch files and source material remain withheld from public projection
+- state writes are atomic via temp-file plus rename,
+- request bodies are capped,
+- path traversal is blocked,
+- public/API projection defaults are explicit,
+- private branch/source material remains withheld from public projection,
+- and first-gate app review can run entirely in mock mode without requiring production credentials.
 
 Operational implication:
 
-- the host does not need secret production credentials to run the demo safely
-- the container configuration should remain local-demo scoped and must not be described as a production deployment path
+- the host does not need secret production credentials to review first-gate application behavior,
+- and the package-local runtime path should be described as validation posture rather than primary product carriage.
 
 ## Remote assumptions and boundaries
 
-The repo still models, rather than executes live:
+The current system still models, rather than fully executes live:
 
-- GitHub App installation auth
-- workflow artifact fetch by run ID
-- branch / PR / review writes
-- remote model execution
-- external vector store operations
-- signer verification against external authorities
-- settlement network effects
+- GitHub App installation auth,
+- workflow artifact fetch by run ID,
+- branch / PR / review writes,
+- remote model execution,
+- external vector store operations,
+- signer verification against external authorities,
+- and settlement-network effects.
 
-These remain Profile B boundaries even if the host later gains the necessary credentials or tools.
+These remain explicit V26 hardening scope rather than first-gate closure requirements.
 
 ## Containerization
 
-This repo now includes:
+This package includes:
 
 - `Dockerfile`
 - `.dockerignore`
 
 Container scope is intentionally narrow:
 
-- run the Node server
-- run the Node tests
-- keep the same deterministic V9 behavior as native execution
+- run the package-local Node server,
+- run the Node tests,
+- and validate the preserved first-gate carrier.
 
-Container scope does **not** imply:
+Container scope does not imply:
 
-- GitHub CLI auth inside the container
-- live GitHub/App operations
-- proof-engine execution inside the container
-- a production-grade deployment posture
+- production deployment posture,
+- live GitHub/App operations,
+- external proof-engine execution,
+- or promoted V26 closure.
 
 ## Inspection commands used
 
+- `date +%Y-%m-%d`
 - `uname -srmo`
 - `node -v`
 - `npm -v`
 - `pnpm -v`
-- `python3 --version`
-- `rustc --version`
-- `cargo --version`
-- `git --version`
-- `docker --version`
-- `gh auth status`
 - `git remote get-url origin`
+- `command -v docker`
+- `command -v gh`
 - `command -v openclaw`
-- `command -v codex`
-- `command -v rg`
-- `command -v jq`
-- `command -v curl`

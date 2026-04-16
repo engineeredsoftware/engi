@@ -230,10 +230,10 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         <React.Suspense fallback={null}>
           {/* Sidebars on desktop (md+): left runs/items and right Conversations chat */}
           <div className="hidden laptop:block">
-            {authLoaded && user && FEATURE_FLAGS.SIDEBAR_LEFT && (
+            {authLoaded && user && !mockMode && FEATURE_FLAGS.SIDEBAR_LEFT && (
               <LeftSidebar />
             )}
-            {authLoaded && user && isOnboardingComplete && FEATURE_FLAGS.CONVERSATIONS_WIDGET && (
+            {authLoaded && user && !mockMode && isOnboardingComplete && FEATURE_FLAGS.CONVERSATIONS_WIDGET && (
               <>
                 <Conversation
                   position="bottom-right"
