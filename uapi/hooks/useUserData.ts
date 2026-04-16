@@ -9,11 +9,21 @@ import { useState, useEffect, useCallback } from 'react';
 export interface AggregatedUserData {
   profile?: any | null;
   vcsConnections?: any[];
+  githubConnection?: any | null;
   credits?: number;
   modelPreferences?: any | null;
   onboarded_steps?: string[];
   isOnboardingComplete?: boolean;
 }
+
+const ANONYMOUS_USER_DATA: AggregatedUserData = {
+  profile: null,
+  githubConnection: null,
+  credits: 0,
+  modelPreferences: null,
+  onboarded_steps: ['models'],
+  isOnboardingComplete: false,
+};
 
 // ---------------------------------------------------------------------------
 // Very lightweight shared cache (module-level).  We intentionally avoid adding
@@ -34,12 +44,19 @@ async function fetchUserData(): Promise<AggregatedUserData> {
   if (inFlight) return inFlight;
 
   inFlight = (async () => {
-    const res = await fetch('/api/orbitals/data');
-    if (!res.ok) throw new Error(`Status ${res.status}`);
-    const data = (await res.json()) as AggregatedUserData;
-    cached = data;
-    inFlight = null;
-    return data;
+    try {
+      const res = await fetch('/api/orbitals/data');
+      if (res.status === 401) {
+        cached = ANONYMOUS_USER_DATA;
+        return cached;
+      }
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const data = (await res.json()) as AggregatedUserData;
+      cached = data;
+      return data;
+    } finally {
+      inFlight = null;
+    }
   })();
 
   return inFlight;
@@ -115,7 +132,7 @@ export function useUserData() {
   }, []);
 
   const hasGitHubConnection = Boolean(
-    data?.vcsConnections?.some(conn => conn.provider === 'github')
+    data?.githubConnection || data?.vcsConnections?.some(conn => conn.provider === 'github')
   );
   const credits = typeof data?.credits === 'number' ? data.credits : hydratedCredits;
 

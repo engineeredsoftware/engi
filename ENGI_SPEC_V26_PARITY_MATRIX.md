@@ -42,9 +42,11 @@ This ledger is grounded in:
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/application/first-gate-styles/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/state/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/deposits/route.ts`
+- `/Users/garrettmaring/Developer/ENGI/uapi/app/api/make-bitcode-branch/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/make-engi-branch/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/reset/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/bitcoin-demonstration-service/route.ts`
+- `/Users/garrettmaring/Developer/ENGI/uapi/app/api/orbitals/data/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/v24/external-realization/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/app/api/v24/executors/[interfaceId]/route.ts`
 - `/Users/garrettmaring/Developer/ENGI/uapi/lib/bitcode-app-context.ts`
@@ -64,7 +66,7 @@ This ledger is grounded in:
 | First-gate package ownership | former demo runtime/shell/test surfaces now live in `packages/bitcode` | V26 first-gate requires package-backed ownership before deeper refit | `packages/bitcode/{src,public,test,server.js}` now carries the preserved shell/runtime contract | implemented |
 | First-gate shell preservation | `/application` now renders the preserved deterministic shell markup and mounts the preserved shell behavior from `packages/bitcode/public/app.js` | V26 first-gate must keep UX/content/interaction/state contract effectively intact while ownership moves | `uapi/app/application/ApplicationPageClient.tsx` hosts the preserved shell contract and package JS boot path | implemented |
 | Second-gate application experience | the preserved shell still uses the carried-forward shell DOM/CSS/JS contract | V26 second-gate must replace preserved shell implementation with more native application-facing composition | sections migrate onto `uapi/components/base/*` and route-local React composition without changing Bitcode semantics | drafted |
-| App-owned JSON contract | `/api/state`, `/api/deposits`, `/api/make-engi-branch`, `/api/reset`, `/api/bitcoin-demonstration-service`, and V24 routes now resolve through `uapi/app/api/*` | V26 first-gate must remove standalone HTTP ownership | preserved shell APIs are now served by app-owned Next routes | implemented |
+| App-owned JSON contract | `/api/state`, `/api/deposits`, `/api/make-bitcode-branch`, `/api/make-engi-branch`, `/api/reset`, `/api/bitcoin-demonstration-service`, `/api/orbitals/data`, and V24 routes now resolve through `uapi/app/api/*` | V26 first-gate must remove standalone HTTP ownership | preserved shell APIs are now served by app-owned Next routes | implemented |
 | Shared runtime bridge | `uapi/lib/bitcode-app-context.ts` now bridges app route handlers into the package-owned context | V26 requires app/runtime composition to be explicit and centralized | app-owned routes share one package-owned context bridge | implemented |
 | Execution route ownership | `/executions` and `/executions/[runId]` remain app-owned routes | V26 requires operator workspace and run-detail routes to be application-owned | active app-route files exist for execution workspace and run-detail surfaces | substantially advanced |
 | Orbital route ownership | `/orbitals/*` routes remain app-owned and settings-oriented | V26 requires orbital deep links to be application-owned settings surfaces | active app-route files exist and default to account/login-first posture | substantially advanced |
@@ -86,7 +88,7 @@ This ledger is grounded in:
 | --- | --- | --- |
 | `packages/bitcode` | `src/*`, `public/*`, `server.js`, `test/*` | preserved first-gate runtime, shell, styling, proof, and validation owner |
 | `uapi/app/application` | `page.tsx`, `layout.tsx`, `ApplicationPageClient.tsx`, `first-gate-styles/route.ts` | first-class Bitcode application route carrier |
-| `uapi/app/api` | `state`, `deposits`, `make-engi-branch`, `reset`, `bitcoin-demonstration-service`, `v24/external-realization`, `v24/executors/[interfaceId]` | app-owned JSON contract for the preserved first-gate shell |
+| `uapi/app/api` | `state`, `deposits`, `make-bitcode-branch`, `make-engi-branch`, `reset`, `bitcoin-demonstration-service`, `orbitals/data`, `v24/external-realization`, `v24/executors/[interfaceId]` | app-owned JSON contract for the preserved first-gate shell and preserved settings aggregation |
 | `uapi/lib` | `bitcode-app-context.ts` | shared bridge into the package-owned Bitcode context |
 
 ## V26 checklist

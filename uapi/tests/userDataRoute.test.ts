@@ -16,11 +16,21 @@ describe('GET /api/orbitals/data', () => {
     (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser }, from: mockFrom });
   });
 
-  it('returns 401 if unauthenticated', async () => {
+  it('returns anonymous orbital data if unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
     const req = new Request('http://localhost/api/orbitals/data');
     const res = await GET(req);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({
+      profile: null,
+      githubConnection: null,
+      credits: 0,
+      modelPreferences: null,
+      onboarded_steps: ['models'],
+      isOnboardingComplete: false,
+    });
+    expect(mockFrom).not.toHaveBeenCalled();
   });
 
   it('returns user data with only GitHub connection', async () => {

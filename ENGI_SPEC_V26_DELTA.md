@@ -77,9 +77,11 @@ The current first-gate V26 structure is:
   Shared app-owned bridge from Next route handlers into the package-owned Bitcode context.
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
+- `uapi/app/api/make-bitcode-branch/route.ts`
 - `uapi/app/api/make-engi-branch/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
+- `uapi/app/api/orbitals/data/route.ts`
 - `uapi/app/api/v24/external-realization/route.ts`
 - `uapi/app/api/v24/executors/[interfaceId]/route.ts`
   These now carry the preserved first-gate JSON contract from the application instead of from a standalone demo server.

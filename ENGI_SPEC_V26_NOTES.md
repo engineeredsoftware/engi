@@ -40,6 +40,18 @@ The current first-gate source shape is:
 - `uapi/app/api/*`
 - `uapi/lib/bitcode-app-context.ts`
 
+In current source, the app-owned first-gate API surface now explicitly includes:
+
+- `/api/state`
+- `/api/deposits`
+- `/api/make-bitcode-branch`
+- `/api/make-engi-branch`
+- `/api/reset`
+- `/api/bitcoin-demonstration-service`
+- `/api/orbitals/data`
+- `/api/v24/external-realization`
+- `/api/v24/executors/[interfaceId]`
+
 This is the current V26 source carrier, even while V25 remains the only active canon.
 
 ## Still driving V26 from V25 deferrals
@@ -58,6 +70,7 @@ The following items still remain part of the V26 center because they were deferr
 ### 1. Second-gate application surface shape
 
 Still open:
+- how second-gate application wireframing should be produced and used before deeper UI/component replacement,
 - how far the preserved first-gate shell should be decomposed into native application-facing components,
 - which sections should become route-local React composition first,
 - and how aggressively the old shell CSS and DOM contract should be retired during second-gate.

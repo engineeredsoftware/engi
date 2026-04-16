@@ -210,7 +210,7 @@ function canonPosture(state) {
   }
   return {
     operatorLabel: state?.specVersion || 'current canon posture',
-    documentTitle: 'Bitcode Demo',
+    documentTitle: 'Bitcode Application',
     inheritedCanonSurfaceLabel: 'current inherited canon',
     heroEyebrow: 'Bitcode deterministic local prototype',
     heroLede: 'Current canon posture is loading.',
@@ -240,7 +240,7 @@ function inheritedCanonSurfaceLabel(state) {
  */
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
-  document.title = posture['documentTitle'] || `Bitcode Demo — ${canonOperatorLabel(state)}`;
+  document.title = posture['documentTitle'] || `Bitcode Application — ${canonOperatorLabel(state)}`;
   heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode deterministic local prototype';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
@@ -299,7 +299,7 @@ const tutorialCloseButtonEl = requireElement('tutorialCloseButton');
 
 const DEFAULT_SURFACE_MODE = 'visual';
 const EXPLAINER_PANEL_MAX_WIDTH = 360;
-const TUTORIAL_STORAGE_KEY = 'engi-demo:tutorial-overlay-dismissed:v22';
+const TUTORIAL_STORAGE_KEY = 'bitcode-application:first-gate:tutorial-overlay-dismissed:v26';
 let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
@@ -6654,7 +6654,7 @@ document.addEventListener('click', (event) => {
 makeBranchButtonEl.addEventListener('click', async () => {
   try {
     setStatus('Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…');
-    const result = /** @type {AppState} */ (await api('/api/make-engi-branch', {
+    const result = /** @type {AppState} */ (await api('/api/make-bitcode-branch', {
       method: 'POST',
       body: JSON.stringify({
         principal: activeProjectionPrincipal(lastLoadedState),
