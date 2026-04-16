@@ -124,9 +124,9 @@ The current V26 draft does not require:
 
 The current V26 sequencing is now:
 
-1. complete first-gate route/package migration,
+1. keep the now-landed first-gate route/package migration stable,
 2. keep spec, parity, and generated tooling synchronized to the new file structure,
-3. close remaining first-gate hardening gaps around auth and interface surfaces,
+3. preserve anonymous and signed-in first-gate app/interface behavior while deeper V26 hardening proceeds,
 4. execute second-gate application-facing refit,
 5. refresh generated evidence and promotion checks,
 6. and promote only after V26 closure is proven end-to-end.

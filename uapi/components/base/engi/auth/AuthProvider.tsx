@@ -5,6 +5,8 @@ import { createClient } from "@engi/supabase/ssr/client";
 
 import type { User } from "@supabase/supabase-js";
 
+import { buildMockReviewUser, isUserOrbitalMockMode } from "@/lib/mock-review-mode";
+
 interface AuthContextValue {
   user: User | null;
   /** True while the initial getUser() request is pending */
@@ -14,13 +16,20 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const mockMode = isUserOrbitalMockMode();
   const supabase = useMemo(() => createClient(), []);
 
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(mockMode ? buildMockReviewUser() : null);
+  const [loading, setLoading] = useState(!mockMode);
 
   // Initial fetch
   useEffect(() => {
+    if (mockMode) {
+      setUser(buildMockReviewUser());
+      setLoading(false);
+      return;
+    }
+
     let cancelled = false;
     supabase.auth
       .getUser()
@@ -33,15 +42,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [supabase]);
+  }, [mockMode, supabase]);
 
   // Subscribe once for session changes
   useEffect(() => {
+    if (mockMode) {
+      return;
+    }
+
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
     return () => listener.subscription.unsubscribe();
-  }, [supabase]);
+  }, [mockMode, supabase]);
 
   const ctx: AuthContextValue = useMemo(() => ({ user, loading }), [user, loading]);
 

@@ -4,6 +4,13 @@ import { useQuery, useQueryClient, QueryClient } from '@tanstack/react-query';
 import { createClient } from '@engi/supabase/ssr/client';
 import type { User } from '@supabase/supabase-js';
 
+import {
+  buildMockOnboardingData,
+  buildMockOrbitalData,
+  buildMockReviewUser,
+  isUserOrbitalMockMode,
+} from '@/lib/mock-review-mode';
+
 // Query key for auth queries
 export const authQueryKeys = {
   user: ['auth', 'user'] as const,
@@ -25,6 +32,10 @@ function getSupabaseClient() {
  * Fetches the current user from Supabase auth
  */
 async function fetchUser(): Promise<User | null> {
+  if (isUserOrbitalMockMode()) {
+    return buildMockReviewUser();
+  }
+
   const client = getSupabaseClient();
   const { data: { user } } = await client.auth.getUser();
   return user;
@@ -59,6 +70,10 @@ export async function prefetchUser(queryClient: QueryClient) {
  * Fetches user profile data
  */
 async function fetchProfile() {
+  if (isUserOrbitalMockMode()) {
+    return buildMockOrbitalData().profile;
+  }
+
   const response = await fetch('/api/orbitals/data', {
     credentials: 'same-origin',
   });
@@ -86,6 +101,10 @@ export function useProfile() {
  * Fetches onboarding status
  */
 async function fetchOnboarding() {
+  if (isUserOrbitalMockMode()) {
+    return buildMockOnboardingData();
+  }
+
   const response = await fetch('/api/orbitals/onboarding', {
     credentials: 'same-origin',
   });

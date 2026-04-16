@@ -1,6 +1,8 @@
 import { createClient } from '@engi/supabase/ssr/server';
 import { NextResponse } from 'next/server';
 
+import { buildMockOrbitalData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+
 export const runtime = 'nodejs';
 
 function buildAnonymousOrbitalData() {
@@ -32,6 +34,10 @@ function parseOnboardedSteps(value: unknown): string[] {
 }
 
 export async function GET(_request: Request) {
+  if (isUserOrbitalMockMode()) {
+    return NextResponse.json(buildMockOrbitalData());
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

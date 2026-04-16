@@ -119,7 +119,7 @@ The current sequencing bias is:
 
 1. keep first-gate source stable,
 2. keep spec/parity/generated tooling synchronized to first-gate file structure,
-3. finish first-gate hardening gaps,
+3. preserve the now-closed first-gate anonymous and signed-in app behavior while deeper hardening proceeds,
 4. execute second-gate application-facing refit,
 5. then refresh generated evidence and promotion checks.
 

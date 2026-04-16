@@ -10,6 +10,7 @@ import OrbitalsProvider from '@/app/orbitals/components/OrbitalsProvider'
 import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
+import { buildMockReviewUser, isUserOrbitalMockMode } from '@/lib/mock-review-mode'
 
 // Lazy-load toast infrastructure to avoid increasing initial JS bundle – the
 // component itself is tiny but pulls in Radix primitives.
@@ -111,9 +112,10 @@ Nav.preload?.();
 export default function ClientLayoutInner({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const queryClient = useQueryClient();
+  const mockMode = isUserOrbitalMockMode();
   const supabase = createClient()
-  const [user, setUser] = React.useState<null | import('@supabase/supabase-js').User>(null)
-  const [authLoaded, setAuthLoaded] = React.useState(false)
+  const [user, setUser] = React.useState<null | import('@supabase/supabase-js').User>(mockMode ? buildMockReviewUser() : null)
+  const [authLoaded, setAuthLoaded] = React.useState(mockMode)
   
   // Prefetch auth data IMMEDIATELY for instant Orbital open
   React.useLayoutEffect(() => {
@@ -187,6 +189,14 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
   // Show toast if redirected back with an auth error
   useLoginErrorToast();
   React.useEffect(() => {
+    if (mockMode) {
+      const mockUser = buildMockReviewUser();
+      setUser(mockUser);
+      updateCachedUser(queryClient, mockUser);
+      setAuthLoaded(true);
+      return;
+    }
+
     // Get initial user from Supabase (React Query will cache this)
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user)
@@ -201,7 +211,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
       setAuthLoaded(true)
     })
     return () => { listener.subscription.unsubscribe() }
-  }, [supabase, queryClient])
+  }, [mockMode, supabase, queryClient])
 
   // State for Conversations sidebar open/close (desktop)
   const [isConversationSidebarOpen, setIsConversationSidebarOpen] = React.useState(false);
