@@ -96,6 +96,9 @@ Still open:
 ### 5. Auth and wallet production target
 
 Still open:
+- current source-side now includes a non-legacy `uapi/app/api/auth/unlink/route.ts` owned through package/application surfaces instead of leaving account unlink behavior as a demo-local or client-only assumption,
+- current source-side orbital settings now exposes connected-account management for the active GitHub and Google providers and explicitly marks unsupported providers as unavailable rather than pretending those paths are live,
+- current source-side auth/login UI now keeps email-code as the primary entry posture, keeps GitHub and Google as the active linked sign-in providers, and treats wallet connection as staged V26 work rather than as already-production account access,
 - exact wallet-verification flow requirements,
 - how wallet connection interacts with the current auth/provider model,
 - whether wallet is primary, linked, or required only for certain Bitcode actions,

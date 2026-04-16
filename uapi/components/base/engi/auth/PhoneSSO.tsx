@@ -1,7 +1,7 @@
 /**
  * Phone SSO Component
  * 
- * Revolutionary phone-based authentication - the fastest path to ENGI.
+ * Phone-based authentication for Bitcode account access.
  * Zero friction onboarding with SMS verification.
  */
 

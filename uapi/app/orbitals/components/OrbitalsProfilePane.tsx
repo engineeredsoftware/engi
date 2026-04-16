@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import SocialLoginButton from '@/components/base/engi/auth/SocialLoginButton';
+import SocialAccountLinker from '@/components/base/engi/auth/SocialAccountLinker';
 import LoadingSpinner from '@/components/base/engi/indicators/LoadingSpinner';
 import { trackEvent } from '@engi/google-analytics';
 import { reportError } from '@engi/errors';
@@ -568,26 +569,22 @@ export default function ProfileStep({ onSave,
                     </span>
                     <div className="flex-grow h-px bg-[linear-gradient(to_right,_#10B981_0%,_#6EE7B7_50%,_#10B981_100%)] drop-shadow-[0_0_6px_rgba(103,254,183,0.5)]" />
                   </div>
-                  {/* Social SSO Buttons - Grid layout with square icon buttons */}
+                  {/* Active provider buttons plus staged wallet carrier */}
                   <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(6, 1fr)', 
+                    gridTemplateColumns: 'repeat(3, 1fr)', 
                     gap: '8px',
                     width: '100%' 
                   }}>
                     <SocialLoginButton provider="github" variant="icon-square" />
                     <SocialLoginButton provider="google" variant="icon-square" />
-                    <SocialLoginButton provider="chatgpt" variant="icon-square" />
                     <SocialLoginButton provider="metamask" variant="icon-square" />
-                    <SocialLoginButton provider="apple" variant="icon-square" />
-                    <SocialLoginButton provider="microsoft" variant="icon-square" />
-                    <SocialLoginButton provider="bitbucket" variant="icon-square" />
-                    <SocialLoginButton provider="facebook" variant="icon-square" />
-                    <SocialLoginButton provider="figma" variant="icon-square" />
-                    <SocialLoginButton provider="notion" variant="icon-square" />
-                    <SocialLoginButton provider="gitlab" variant="icon-square" />
-                    <SocialLoginButton provider="twitter" variant="icon-square" />
                   </div>
+                  <p className="mt-3 text-sm leading-7 text-white/66">
+                    GitHub and Google are the active Bitcode sign-in providers here today. Wallet
+                    connection remains staged for V26 closure hardening rather than being treated
+                    as live account access already.
+                  </p>
                   </>
                 )}
                 {/* When a code is being verified, show verification input */}
@@ -897,6 +894,26 @@ export default function ProfileStep({ onSave,
               </AfterOnboardingOverlay>
             </div>
           </div>
+
+          {isOnboardingComplete && (
+            <div className="settings-section mt-12">
+              <div className="rounded-[24px] border border-white/10 bg-white/[0.045] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+                <div className="mb-5">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                    Connected accounts
+                  </div>
+                  <p className="mt-3 max-w-[44rem] text-sm leading-7 text-white/72">
+                    Manage sign-in methods linked to this Bitcode account. Repository and workflow
+                    integrations remain in the Connections orbital.
+                  </p>
+                </div>
+                <div className="grid gap-3 tablet:grid-cols-2">
+                  <SocialAccountLinker provider="github" />
+                  <SocialAccountLinker provider="google" />
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Data Sharing Section – revamped */}
           <div className="settings-section mt-12">

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 "use client"
 
 import React, { Suspense } from 'react'
@@ -101,7 +102,7 @@ interface OrbitPlanetProps {
   /** Which orbital ring to lock onto (1 = innermost as used previously). */
   ringIndex?: number
   /** Optional OAuth provider icon+button (inner ring planets). */
-  provider?: 'github' | 'google' | 'chatgpt' | 'metamask'
+  provider?: 'github' | 'google' | 'chatgpt' | 'metamask' | 'apple'
   /** Appearance delay (seconds) */
   delay?: number
   /** Custom content for outer decorative circles */
@@ -604,21 +605,30 @@ function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
           )}
         </AnimatePresence>
       </form>
-      {/* Decorative SSO rings – visible only on the email entry stage */}
-      {/* Decorative SSO planets – anchored by polar coordinates */}
+      {/* Decorative auth ring – visible only on the email entry stage */}
+      {/* The ring is preserved, but only active providers remain actionable. */}
       <AnimatePresence mode="wait" initial={true}>
         {stage === 'request' && (
           <>
-            {/* Bottom-half arc – inner ring OAuth providers - DISABLED FOR GA-1 */}
-            {/* These are shown but disabled, just like the outer ring */}
-            {/* Inner ring: 4 planets evenly spaced, symmetric around 90° (vertical axis) */}
+            <div className="mx-auto mb-6 max-w-[28rem] rounded-[24px] border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
+              Email code remains the primary Bitcode sign-in path. GitHub and Google are active
+              account providers, and wallet connection is staged for V26 closure hardening.
+            </div>
+
+            {/* Inner ring: active providers plus primary email-code posture and staged wallet. */}
             <OrbitPlanet angleDeg={35} provider="github" delay={0.7} />
-            <OrbitPlanet angleDeg={71.67} provider="chatgpt" delay={0.85} />
+            <OrbitPlanet angleDeg={71.67} delay={0.85}>
+              <div
+                className="absolute inset-0 flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/10 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-100/90 backdrop-blur-lg"
+                aria-hidden="true"
+              >
+                OTP
+              </div>
+            </OrbitPlanet>
             <OrbitPlanet angleDeg={108.33} provider="google" delay={1.0} />
             <OrbitPlanet angleDeg={145} provider="metamask" delay={1.15} />
 
-            {/* Outer ring decorative circles (unsupported providers placeholder) */}
-            {/* Outer ring: 8 planets evenly spaced, symmetric around 90° (vertical axis) */}
+            {/* Outer ring reserved-provider carriers. */}
             <OuterOrbitCircle provider="apple" angleDeg={10} delay={1.4} />
             <OuterOrbitCircle provider="microsoft" angleDeg={32.5} delay={1.55} />
             <OuterOrbitCircle provider="bitbucket" angleDeg={55} delay={1.7} />

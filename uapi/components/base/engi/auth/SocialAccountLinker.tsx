@@ -12,11 +12,20 @@ import dynamic from 'next/dynamic'
 // Lazy load ConfirmModal to avoid adding framer-motion earlier than needed
 const ConfirmModal = dynamic(() => import('../ui/ConfirmModal'))
 
+const providerLabels = {
+  github: 'GitHub',
+  google: 'Google',
+  chatgpt: 'ChatGPT',
+  metamask: 'MetaMask',
+} as const
+
 interface SocialAccountLinkerProps {
   provider: 'github' | 'google' | 'chatgpt' | 'metamask'
   /** Compact renders just icon + status */
   compact?: boolean
 }
+
+const oauthLinkableProviders = new Set<SocialAccountLinkerProps['provider']>(['github', 'google'])
 
 export default function SocialAccountLinker({ provider, compact = false }: SocialAccountLinkerProps) {
   const supabase = createClient()
@@ -24,6 +33,8 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
   const [identityId, setIdentityId] = useState<string | null>(null)
   const [showConfirm, setShowConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
+  const providerLabel = providerLabels[provider]
+  const isSupported = oauthLinkableProviders.has(provider)
 
   // Fetch current identities once
   useEffect(() => {
@@ -50,6 +61,10 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
   }, [provider, supabase])
 
   const handleLink = async () => {
+    if (!isSupported) {
+      toast.error(`${providerLabel} account linking is not yet available in the active application surface`)
+      return
+    }
     setLoading(true)
     try {
       const authAny = supabase.auth as any
@@ -81,12 +96,16 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
       if (typeof authAny.unlinkIdentity === 'function') {
         await authAny.unlinkIdentity(identityId)
       } else {
-        // Fallback: call REST endpoint directly
-        await fetch('/api/auth/unlink', {
+        const response = await fetch('/api/auth/unlink', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ identityId }),
+          body: JSON.stringify({ provider }),
         })
+
+        if (!response.ok) {
+          const payload = await response.json().catch(() => null)
+          throw new Error(payload?.error || 'Failed to disconnect account')
+        }
       }
       toast('Account disconnected')
       setLinked(false)
@@ -109,6 +128,8 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
 
   const statusBadge = linked ? (
     <span className="text-green-500 text-xs">Connected</span>
+  ) : !isSupported ? (
+    <span className="text-white/45 text-xs uppercase tracking-[0.18em]">Unavailable</span>
   ) : (
     <span className="text-muted-foreground text-xs">Not connected</span>
   )
@@ -130,15 +151,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
         closeConfirm()
         handleUnlink()
       }}
-      title={`Disconnect ${
-        provider === 'github'
-          ? 'GitHub'
-          : provider === 'google'
-          ? 'Google'
-          : provider === 'chatgpt'
-          ? 'ChatGPT'
-          : 'MetaMask'
-      }?`}
+      title={`Disconnect ${providerLabel}?`}
       description="You’ll no longer be able to sign in with this provider until you connect it again."
       confirmLabel="Disconnect"
       variant="danger"
@@ -159,6 +172,8 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
             >
               Disconnect
             </button>
+          ) : !isSupported ? (
+            <span className="text-xs text-white/45">V26 hardening</span>
           ) : (
             <button
               type="button"
@@ -177,8 +192,22 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
 
   return (
     <>
-    <div className="setting-item">
-      <span className="setting-label capitalize">{provider}</span>
+    <div className="flex items-center justify-between gap-4 rounded-[18px] border border-white/10 bg-black/20 px-4 py-3 shadow-[0_14px_36px_rgba(0,0,0,0.18)]">
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80">
+          {icons[provider]}
+        </div>
+        <div className="min-w-0">
+          <div className="text-sm font-medium text-white">{providerLabel}</div>
+          <div className="text-xs text-white/58">
+            {linked
+              ? 'Connected to your Bitcode account'
+              : isSupported
+              ? 'Available for sign-in and account linking'
+              : 'Reserved for later V26 hardening'}
+          </div>
+        </div>
+      </div>
       <div className="flex items-center gap-2">
         {linked ? (
           <button
@@ -189,6 +218,10 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
           >
             {loading ? 'Removing…' : 'Disconnect'}
           </button>
+        ) : !isSupported ? (
+          <span className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/45">
+            Unavailable
+          </span>
         ) : (
           <button
             type="button"

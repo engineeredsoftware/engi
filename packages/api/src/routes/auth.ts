@@ -13,15 +13,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@engi/supabase/ssr/server';
 import { traceRoute } from '@engi/observability';
 import { log } from '@engi/logger';
-import { UserConnectionsModel, UserProfilesModel } from '@engi/orm';
+import { createAdminClient } from '@engi/orm';
 import { sendServerEvent } from '@engi/google-analytics';
 import { createJsonResponse, createErrorResponse } from '@engi/responses';
 import { sendEmail } from '@engi/email';
 import * as crypto from 'crypto';
 
-// Initialize ORM models
-const userConnections = new UserConnectionsModel();
-const userProfiles = new UserProfilesModel();
+const orm = createAdminClient();
+const userConnections = orm.userConnections;
+const userProfiles = orm.userProfiles;
 
 /**
  * POST /api/auth/unlink

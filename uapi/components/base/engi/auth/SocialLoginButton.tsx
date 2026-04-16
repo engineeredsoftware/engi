@@ -1,7 +1,6 @@
 "use client"
 
 import React from 'react'
-import { createClient } from '@engi/supabase/ssr/client'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import Image from 'next/image'
@@ -16,8 +15,22 @@ import NotionIcon from '@/components/base/engi/icons/social/Notion.svg'
 import GitlabIcon from '@/components/base/engi/icons/social/Gitlab.svg'
 import TwitterIcon from '@/components/base/engi/icons/social/Twitter.svg'
 
+type SocialProvider =
+  | 'github'
+  | 'google'
+  | 'chatgpt'
+  | 'metamask'
+  | 'apple'
+  | 'microsoft'
+  | 'bitbucket'
+  | 'facebook'
+  | 'figma'
+  | 'notion'
+  | 'gitlab'
+  | 'twitter'
+
 interface SocialLoginButtonProps {
-  provider: 'github' | 'google' | 'chatgpt' | 'metamask' | 'apple' | 'microsoft' | 'bitbucket' | 'facebook' | 'figma' | 'notion' | 'gitlab' | 'twitter'
+  provider: SocialProvider
   /** Render icon-only circle button */
   iconOnly?: boolean
   /** Preserve `next` query param when redirecting */
@@ -32,10 +45,11 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
   // Click handler: open Supabase OAuth authorize endpoint in popup
   const ReactClone = React.cloneElement
 
-  // Only email is enabled for GA-1 launch - SSO disabled temporarily
-  const enabledProviders: string[] = [] // Disabled: ['google', 'github']
-  const globallyDisabled = !enabledProviders.includes(provider)
-  const disabled = disabledProp ?? globallyDisabled
+  const activeProviders = new Set<SocialProvider>(['github', 'google'])
+  const stagedProviders = new Set<SocialProvider>(['metamask'])
+  const isActiveProvider = activeProviders.has(provider)
+  const isStagedProvider = stagedProviders.has(provider)
+  const disabled = disabledProp ?? !isActiveProvider
   const handleClick = () => {
     if (disabled) return // no-op when disabled
     // Preserve `next` parameters in the callback URL
@@ -142,7 +156,15 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
   } as const
 
   const { label, shortLabel, icon, className: providerClass } = config[provider]
-  const displayLabel = variant === 'signup' ? shortLabel : label
+  const inactiveLabel = isStagedProvider ? 'Wallet staged for V26' : `${shortLabel} unavailable`
+  const displayLabel = disabled
+    ? inactiveLabel
+    : variant === 'signup'
+    ? shortLabel
+    : label
+  const disabledReason = isStagedProvider
+    ? 'Wallet connection is staged for V26 closure hardening'
+    : `${shortLabel} is not active in the current Bitcode application surface`
   // Icon element, override size/color for iconOnly
   let iconElement = icon
   if (iconOnly && React.isValidElement(icon)) {
@@ -196,6 +218,8 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
       type="button"
       onClick={handleClick}
       className={baseClass}
+      aria-disabled={disabled}
+      title={disabled ? disabledReason : label}
     >
       {iconElement}
       {!iconOnly && variant !== 'icon-square' && (
