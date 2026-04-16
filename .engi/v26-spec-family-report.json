@@ -1,0 +1,32 @@
+{
+  "reportId": "v26-spec-family-report",
+  "version": "V26",
+  "proofSourceCommit": "fd508b95caa4f10d37ab7eb20ba3c8dc41d4554f",
+  "generatedAt": "2026-04-15T23:14:44-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedVersion": "V26",
+  "mode": "draft",
+  "currentTarget": "V25",
+  "pointerVersion": "V25",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "requiredFiles": [
+    "ENGI_SPEC_V26.md",
+    "ENGI_SPEC_V26_DELTA.md",
+    "ENGI_SPEC_V26_PARITY_MATRIX.md"
+  ],
+  "supportFiles": [
+    "ENGI_SPECIFYING.md",
+    "ENGI_SPEC_TEMPLATEGUIDE.md"
+  ],
+  "requiredStatusLabelCount": 4,
+  "requiredPromotedStatusLabelCount": 1,
+  "requiredSpecSectionCount": 18,
+  "requiredAppendixSectionCount": 14,
+  "requiredProofFamilyCount": 9,
+  "requiredGeneratedArtifactCatalogSectionCount": 9,
+  "requiredGeneratedArtifactPathCount": 2,
+  "requiredSubsystemCoverageCount": 18
+}

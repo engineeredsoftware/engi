@@ -29,11 +29,13 @@ import {
   buildV22GeneratedArtifactContents
 } from './v22-canon-posture.js';
 import { BITCOIN_PAYMENT_MODES } from './v23-bitcoin.js';
+import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const DEFAULT_V23_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const DEFAULT_V24_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const DEFAULT_V25_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
+export const DEFAULT_V26_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const PROVEN_GENERATOR_ID = 'engi-demo.proven-generator.v1';
 const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.engi/system-proof-bundle.json', '.engi/proof-witness-manifest.json'];
 
@@ -604,6 +606,7 @@ export function renderCanonicalProvenMarkdown(data) {
   const v23 = /** @type {any} */ (data).v23 || null;
   const v24 = /** @type {any} */ (data).v24 || null;
   const v25 = /** @type {any} */ (data).v25 || null;
+  const v26 = /** @type {any} */ (data).v26 || null;
   const lines = [];
   lines.push(`# ${specBrandLabel(data.version)} Spec ${data.version} Proven`);
   lines.push('');
@@ -664,6 +667,25 @@ export function renderCanonicalProvenMarkdown(data) {
     lines.push(`- v23CanonicalInputsPassed: ${markdownCode(String(v23.canonicalInputReport.passed === true))}`);
     lines.push(`- v23CanonPostureDriftPassed: ${markdownCode(String(v23.canonPostureDriftReport.passed === true))}`);
     lines.push(`- v23GeneratedArtifactCount: ${markdownCode(String((v23.artifactSummaries || []).length))}`);
+  }
+  if (v24) {
+    lines.push(`- v24SpecFamilyPassed: ${markdownCode(String(v24.specFamilyReport.passed === true))}`);
+    lines.push(`- v24CanonicalInputsPassed: ${markdownCode(String(v24.canonicalInputReport.passed === true))}`);
+    lines.push(`- v24CanonPostureDriftPassed: ${markdownCode(String(v24.canonPostureDriftReport.passed === true))}`);
+    lines.push(`- v24GeneratedArtifactCount: ${markdownCode(String((v24.artifactSummaries || []).length))}`);
+  }
+  if (v25) {
+    lines.push(`- v25SpecFamilyPassed: ${markdownCode(String(v25.specFamilyReport.passed === true))}`);
+    lines.push(`- v25CanonicalInputsPassed: ${markdownCode(String(v25.canonicalInputReport.passed === true))}`);
+    lines.push(`- v25CanonPostureDriftPassed: ${markdownCode(String(v25.canonPostureDriftReport.passed === true))}`);
+    lines.push(`- v25GeneratedArtifactCount: ${markdownCode(String((v25.artifactSummaries || []).length))}`);
+  }
+  if (v26) {
+    lines.push(`- v26SpecFamilyPassed: ${markdownCode(String(v26.specFamilyReport.passed === true))}`);
+    lines.push(`- v26CanonicalInputsPassed: ${markdownCode(String(v26.canonicalInputReport.passed === true))}`);
+    lines.push(`- v26GeneratedArtifactCount: ${markdownCode(String((v26.artifactSummaries || []).length))}`);
+    lines.push(`- v26DraftPreview: ${markdownCode(String(v26.draftPreview === true))}`);
+    lines.push(`- v26PromotionReady: ${markdownCode(String(v26.promotionReady === true))}`);
   }
   lines.push('');
   if (v18Matrices) {
@@ -1289,6 +1311,62 @@ export function renderCanonicalProvenMarkdown(data) {
         markdownCode(String(check.passed)),
         check.detail
       ])
+    ));
+    lines.push('');
+  }
+  if (v26) {
+    lines.push('## V26 Productionizing Draft and Canon Reports');
+    lines.push('');
+    lines.push(`- activeCanonicalTarget: ${markdownCode(v26.activeCanonicalTarget)}`);
+    lines.push(`- draftPreview: ${markdownCode(String(v26.draftPreview === true))}`);
+    lines.push(`- promotionReady: ${markdownCode(String(v26.promotionReady === true))}`);
+    lines.push(`- operatorSurfaceTarget: ${markdownCode(v26.operatorSurfaceTarget)}`);
+    lines.push('');
+    lines.push('### V26 Generated Artifact Inventory');
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v26.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Spec-Family Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.specFamilyReport.reportId)}`);
+    lines.push(`- mode: ${markdownCode(v26.specFamilyReport.mode)}`);
+    lines.push(`- currentTarget: ${markdownCode(v26.specFamilyReport.currentTarget)}`);
+    lines.push(`- passed: ${markdownCode(String(v26.specFamilyReport.passed))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v26.specFamilyReport.failureCount))}`);
+    lines.push(`- requiredSpecSectionCount: ${markdownCode(String(v26.specFamilyReport.requiredSpecSectionCount))}`);
+    lines.push(`- requiredGeneratedArtifactPathCount: ${markdownCode(String(v26.specFamilyReport.requiredGeneratedArtifactPathCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['requiredFile', 'supportFile'],
+      v26.specFamilyReport.requiredFiles.map((/** @type {string} */ file, /** @type {number} */ index) => [
+        markdownCode(file),
+        markdownCode(v26.specFamilyReport.supportFiles[index] || 'none')
+      ])
+    ));
+    lines.push('');
+    lines.push('### V26 Canonical-Input Report');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v26.canonicalInputReport.reportId)}`);
+    lines.push(`- checkedTargetVersion: ${markdownCode(v26.canonicalInputReport.checkedTargetVersion)}`);
+    lines.push(`- parityPath: ${markdownCode(String(v26.canonicalInputReport.parityPath || 'missing'))}`);
+    lines.push(`- passed: ${markdownCode(String(v26.canonicalInputReport.passed))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v26.canonicalInputReport.failureCount))}`);
+    lines.push(`- requiredGeneratedArtifactCount: ${markdownCode(String(v26.canonicalInputReport.requiredGeneratedArtifactCount))}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['specPath', 'provenPath', 'requiredGeneratedArtifactPaths'],
+      [[
+        markdownCode(v26.canonicalInputReport.specPath),
+        markdownCode(v26.canonicalInputReport.provenPath),
+        v26.canonicalInputReport.requiredGeneratedArtifactPaths.map(markdownCode).join(', ')
+      ]]
     ));
     lines.push('');
   }
@@ -2047,6 +2125,82 @@ function buildV25ProvenPackage(baseData, {
 }
 
 /**
+ * @param {any} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ */
+function buildV26ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const draftPreview = ACTIVE_CANON_VERSION !== 'V26';
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V26',
+    mode: draftPreview ? 'draft' : 'promoted',
+    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : {})
+  });
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V26',
+    reportVersion: 'V26',
+    ...(draftPreview
+      ? {
+          skipPointerCheck: true,
+          assumeExistingRelativePaths: [
+            'ENGI_SPEC_V26_PROVEN.md',
+            '.engi/v26-spec-family-report.json',
+            '.engi/v26-canonical-input-report.json'
+          ]
+        }
+      : {})
+  });
+  const artifacts = buildV21GeneratedArtifactContents({
+    version: 'V26',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    specFamilyReport,
+    canonicalInputReport
+  });
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const promotionReady = !draftPreview
+    && specFamilyReport.passed === true
+    && canonicalInputReport.passed === true;
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v26: {
+      specFamilyReport,
+      canonicalInputReport,
+      artifactSummaries,
+      draftPreview,
+      promotionReady,
+      activeCanonicalTarget: ACTIVE_CANON_VERSION,
+      operatorSurfaceTarget: 'application-native-full-page'
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && promotionReady
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
  * @param {{
  *   version: string,
  *   canonicalCommit: string,
@@ -2074,10 +2228,12 @@ export function generateCanonicalProvenMarkdown({
   buildInitialStateFn = buildInitialState,
   runMakeEngiBranchFn = runMakeEngiBranch
 }) {
-  const resolvedPaymentModes = (version === 'V23' || version === 'V24' || version === 'V25')
+  const resolvedPaymentModes = (version === 'V23' || version === 'V24' || version === 'V25' || version === 'V26')
     ? (
       paymentModes
-      || (version === 'V25'
+      || (version === 'V26'
+        ? DEFAULT_V26_PROVEN_PAYMENT_MODES
+        : version === 'V25'
         ? DEFAULT_V25_PROVEN_PAYMENT_MODES
         : version === 'V24'
           ? DEFAULT_V24_PROVEN_PAYMENT_MODES
@@ -2377,6 +2533,54 @@ export function generateCanonicalProvenMarkdown({
       inheritedV19: inheritedV19Package.data.v19
     });
     return buildV25ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+  }
+  if (version === 'V26') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeEngiBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19
+    });
+    return buildV26ProvenPackage(baseData, {
       generatedAt,
       inheritedV19: inheritedV19Package.data.v19,
       inheritedV20: inheritedV20Package.data.v20

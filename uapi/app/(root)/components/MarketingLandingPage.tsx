@@ -23,7 +23,6 @@ import Logo from '@/components/base/engi/branding/logo';
 import { QuantumOrb, minimalPreset } from '@/components/base/engi/effects/quantum-orb';
 import Footer from '@/components/base/engi/layout/footer';
 import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
-import MarketingEmbeddedDemoSection from './MarketingEmbeddedDemoSection';
 
 import '../../../styles/coming-soon-fix.css';
 import '../../../styles/coming-soon-glow-fix.css';
@@ -192,29 +191,10 @@ const canonicalPathStages = [
 ] as const;
 const headlineText = 'Bitcode is auditable market infrastructure for engineering knowledge.';
 const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
-const defaultEmbeddedDemoUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
 const headlineHighlights = [
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
   { text: 'market infrastructure for engineering', className: heroHighlightClass },
 ] as const;
-
-function resolveEmbeddedDemoUrl() {
-  const configuredUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim();
-  if (configuredUrl) {
-    return configuredUrl;
-  }
-
-  if (typeof window === 'undefined') {
-    return defaultEmbeddedDemoUrl;
-  }
-
-  const localHostnames = new Set(['localhost', '127.0.0.1', 'host.docker.internal']);
-  if (localHostnames.has(window.location.hostname)) {
-    return `${window.location.protocol}//${window.location.hostname}:4318`;
-  }
-
-  return defaultEmbeddedDemoUrl;
-}
 
 function renderOrbitalBullet(className = '', variant: 'purple' | 'orange' | 'green' = 'purple') {
   const outerRingClassName =
@@ -417,7 +397,6 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
 
 export default function MarketingLandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [embeddedDemoUrl, setEmbeddedDemoUrl] = useState(defaultEmbeddedDemoUrl);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -473,11 +452,6 @@ export default function MarketingLandingPage() {
       container.removeEventListener('pointerleave', resetMousePosition);
     };
   }, []);
-
-  useEffect(() => {
-    setEmbeddedDemoUrl(resolveEmbeddedDemoUrl());
-  }, []);
-
   return (
     <>
       <svg width="0" height="0" style={{ position: 'absolute', top: '-9999px' }}>
@@ -862,19 +836,17 @@ export default function MarketingLandingPage() {
 
                 <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
                   <a
-                    href="#bitcode-demo-live"
+                    href="/bitcode"
                     className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
-                    Open embedded demo
+                    Open Bitcode app
                     <ArrowRightIcon className="h-4 w-4" />
                   </a>
                   <a
-                    href={embeddedDemoUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                    href="/demo-video"
                     className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
                   >
-                    Launch standalone
+                    Watch walkthrough
                     <ArrowRightIcon className="h-4 w-4" />
                   </a>
                 </div>
@@ -1163,8 +1135,6 @@ export default function MarketingLandingPage() {
               </motion.aside>
             </div>
           </main>
-
-          <MarketingEmbeddedDemoSection demoUrl={embeddedDemoUrl} />
 
           <div className="relative z-20 mt-auto w-full">
             <Footer showPrimaryContent={false} className="mt-0 border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />

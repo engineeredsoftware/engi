@@ -252,3 +252,35 @@ test('V25 proven generator renders a Bitcode-branded appendix with BTD rename cl
   assert.ok(generated.markdown.includes('ENGI_SPEC_V25_PROVEN.md'));
   assert.ok(generated.markdown.includes('BTD'));
 });
+
+test('V26 proven generator renders a draft-preview appendix while V25 remains active', () => {
+  const generated = generateCanonicalProvenMarkdown({
+    version: 'V26',
+    canonicalCommit: 'draft-v26',
+    canonicalCommitRecordedAt: '2026-04-16T00:00:00.000Z',
+    generatedAt: '2026-04-16T00:00:00.000Z'
+  });
+
+  assert.equal(generated.data.version, 'V26');
+  assert.deepEqual(generated.data.paymentModes, [
+    'audited-base-layer-purchase',
+    'repeated-read-payment',
+    'checkpointed-sidechain-bridge'
+  ]);
+  assert.equal(generated.data.v26.activeCanonicalTarget, ACTIVE_CANON_VERSION);
+  assert.equal(generated.data.v26.draftPreview, ACTIVE_CANON_VERSION !== 'V26');
+  assert.equal(generated.data.v26.promotionReady, ACTIVE_CANON_VERSION === 'V26');
+  assert.equal(generated.data.v26.specFamilyReport.passed, true);
+  assert.equal(generated.data.v26.canonicalInputReport.passed, true);
+  assert.equal(generated.data.aggregate.fullyProven, ACTIVE_CANON_VERSION === 'V26');
+  assert.deepEqual(Object.keys(generated.artifacts).sort(), [
+    '.engi/v26-canonical-input-report.json',
+    '.engi/v26-spec-family-report.json'
+  ]);
+  assert.ok(generated.markdown.includes('# Bitcode Spec V26 Proven'));
+  assert.ok(generated.markdown.includes('## V26 Productionizing Draft and Canon Reports'));
+  assert.ok(generated.markdown.includes('application-native-full-page'));
+  assert.ok(generated.markdown.includes('.engi/v26-spec-family-report.json'));
+  assert.ok(generated.markdown.includes('.engi/v26-canonical-input-report.json'));
+  assert.ok(generated.markdown.includes('ENGI_SPEC_V26_PROVEN.md'));
+});

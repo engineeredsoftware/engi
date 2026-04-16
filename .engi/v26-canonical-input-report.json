@@ -1,0 +1,21 @@
+{
+  "reportId": "v26-canonical-input-report",
+  "version": "V26",
+  "proofSourceCommit": "fd508b95caa4f10d37ab7eb20ba3c8dc41d4554f",
+  "generatedAt": "2026-04-15T23:14:44-03:00",
+  "generatorId": "engi-demo.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "checkedTargetVersion": "V26",
+  "pointerVersion": "V25",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "ENGI_SPEC_V26.md",
+  "provenPath": "ENGI_SPEC_V26_PROVEN.md",
+  "parityPath": "ENGI_SPEC_V26_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [
+    ".engi/v26-spec-family-report.json",
+    ".engi/v26-canonical-input-report.json"
+  ],
+  "requiredGeneratedArtifactCount": 2
+}

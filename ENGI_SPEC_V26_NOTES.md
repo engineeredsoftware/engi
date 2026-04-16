@@ -2,25 +2,41 @@
 
 ## Status
 
-- Scope: notes-only V26 draft opening for work deferred from first-gate V25 closure and promotion
+- Scope: working-note companion for the opened V26 draft family centered on Bitcode productionizing hardening, demonstration-to-application integration, application-facing UI replacement, interface hardening, and organizational refurbishment
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- V26 state: notes-only draft opening; V26 main, delta, and parity files are intentionally not started yet
+- Draft spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
+- Draft delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
+- Draft parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
+- V26 state: active draft family opened; V25 remains the only active canonical truth
 
-## Notes-only draft rule
+## Notes companion rule
 
-V26 begins here as notes only.
+This file is no longer the sole V26 opening surface.
+V26 now has an opened main/delta/parity draft family.
 
 That means:
 - V25 remains the only active canonical system specification.
-- V26 does not yet define review acceptance, promotion acceptance, or a full draft-target spec family.
-- V26 may collect deferred items, reopen conditions, and candidate workstreams that were intentionally out of first-gate V25 scope.
-- V26 must not be treated as active system truth until a full V26 file family is deliberately drafted later.
+- V26 may collect unresolved questions, target-package refinements, migration sequencing notes, and reopen conditions while the main spec carries the current draft center.
+- V26 still must not be treated as active system truth until promotion is deliberate.
 
-## Deferred from V25
+## Current V26 center reminders
 
-The following items were not first-gate V25 work and should be treated as V26 candidates instead of retroactively widening V25:
+The current V26 draft center is:
+- Bitcode becomes a first-class application page rather than an embedded or standalone-primary demo,
+- demonstration UX is preserved while demonstration UI is replaced by application-facing components,
+- interface hardening moves toward live-application-ready posture,
+- and repository ownership is reorganized back toward package-first Bitcode system implementations.
+
+The wrong V26 move remains:
+- micro-app `engi-demo/` into `uapi/`,
+- keep demo-local domain ownership intact,
+- and call that integration.
+
+## Still driving V26 from V25 deferrals
+
+The following items remain part of the V26 center because they were deferred from first-gate V25 closure:
 
 - Bitcoin execution hardening beyond V25’s first-gate closure, including deeper operator-grade reality for live topology, credential rotation, and long-run observation policy across Bitcoin mainchain, repeated-read payment, and sidechain execution.
 - GitHub interface hardening beyond V25’s first-gate closure, including richer real mutation sequencing, installation lifecycle management, and multi-application operational posture.
@@ -29,62 +45,83 @@ The following items were not first-gate V25 work and should be treated as V26 ca
 - Build/process refinements that improve operator ergonomics, CI/CD signal quality, and promotion automation beyond what V25 needed to close.
 - Rename follow-on cleanup where compatibility carriers intentionally remained stable in V25.
 
-These belong in V26 because they are relevant from V25 but were not first-gate V25 requirements.
+## Open questions for the current draft
 
-## Candidate V26 workstreams
+### 1. Final application-route path
 
-### 1. Bitcoin and sidechain operational hardening
+V26 now locks the route class:
+- full-page,
+- application-native,
+- not homepage-embedded,
+- not iframe-dependent.
 
-Candidate V26 work:
-- deepen live Bitcoin operator posture,
-- deepen repeated-read payment execution posture,
-- deepen sidechain operator policy and recovery posture,
-- and strengthen long-run observation, reconciliation, and drift handling for Bitcoin-facing execution.
+Still open:
+- the exact route path and surrounding navigation treatment,
+- whether Bitcode becomes its own top-level app route,
+- and how it coexists with or subsumes existing `executions`/`orbitals` surfaces.
 
-### 2. GitHub operational hardening
+### 2. Final package names and ownership splits
 
-Candidate V26 work:
-- richer GitHub App lifecycle handling,
-- installation churn and permission drift handling,
-- mutation sequencing and reconciliation expansion,
-- and stronger telemetry around real GitHub execution.
+The current V26 main spec includes a draft-opening extraction matrix.
+Still open:
+- the final package names for Bitcode-specific domain owners,
+- whether some draft target owners should be merged,
+- and the exact boundary between package-owned domain logic and route-owned application composition.
 
-### 3. Compute and storage operational hardening
+### 3. Fate of `engi-demo/`
 
-Candidate V26 work:
-- container image and execution lineage expansion,
-- stronger storage publication and retrieval reconciliation,
-- and more explicit operator-grade runtime provenance across compute and storage.
+Still open:
+- whether `engi-demo/` remains as a fixture/scenario/test carrier,
+- whether it becomes a thinner compatibility shell around extracted packages,
+- or whether it is eventually removed after extraction is complete.
 
-### 4. Build/process and conformance refinement
+### 4. Legacy component intake inventory
 
-Candidate V26 work:
-- improve build/process ergonomics beyond V25’s first-gate enforcement,
-- expand CI/CD presentation and containerized conformance signal,
-- and refine local-vs-containerized validation without weakening fail-closed posture.
+Still open:
+- which legacy UI components are worth recovering,
+- which should be normalized into `uapi/components/base/*`,
+- which should remain discarded,
+- and which recovered components belong to the Bitcode operator page versus general application libraries.
 
-### 5. Compatibility follow-on cleanup
+### 5. Auth and wallet production target
 
-Candidate V26 work:
-- reevaluate whether V25-stable compatibility carriers should remain stable,
-- including `.engi/*`,
-- repo-local `ENGI_SPEC_*`,
-- and other internal ENGI-prefixed carriers that V25 intentionally kept stable to preserve momentum.
+Still open:
+- exact wallet-verification flow requirements,
+- how wallet connection interacts with the current auth/provider model,
+- whether wallet is primary, linked, or required only for certain Bitcode actions,
+- and how much of the current MetaMask/auth code can be reused without redesign.
 
-## Non-goals during V25 closure
+### 6. Compatibility-carrier treatment
 
-The following are non-goals while closing and promoting V25:
+Still open:
+- whether `.engi/*` remains the emitted namespace in V26,
+- whether `@engi/*` remains the internal package prefix in V26,
+- whether repo-local `ENGI_SPEC_*` remains stable through V26 promotion,
+- and which compatibility carriers are worth changing during a productionizing version versus a later dedicated migration version.
 
-- drafting a full V26 main specification,
-- drafting a V26 delta file,
-- drafting a V26 parity matrix,
-- widening V25 into a second feature release,
-- or treating V26 notes as current canonical truth.
+## Candidate sequencing notes
+
+The current sequencing bias remains:
+
+1. lock target ownership before UI rewrites,
+2. extract package-owned domain layers before collapsing the application surface onto them,
+3. replace the UI after the runtime/API ownership model is clear,
+4. remove marketing embed posture after the full-page application surface exists,
+5. and refresh docs/tests/generated evidence after ownership settles enough to make those updates truthful.
+
+## Non-goals for the current V26 draft-opening pass
+
+The following remain non-goals for this notes companion:
+- promoting V26 early,
+- treating the draft extraction matrix as already-implemented source truth,
+- widening V26 into a new economics or denomination redesign,
+- or treating legacy code as canonical merely because it once existed.
 
 ## Reopen conditions
 
-Reopen V26 from notes-only posture into a full draft family only when:
+Reopen the current V26 draft shape only when:
 
-1. deferred Bitcoin, GitHub, compute, storage, or build/process work is concrete enough to justify a full-canon V26 draft,
-2. the intended V26 center is explicit rather than a loose backlog,
-3. and opening the full V26 family will not destabilize the promoted V25 closure.
+1. the chosen application route or ownership model proves wrong in source,
+2. the extraction matrix needs a different package topology to stay coherent,
+3. auth/wallet or GitHub hardening requirements force a broader or narrower version center,
+4. or compatibility-carrier migration becomes central enough that V26 needs to name it as a major explicit sub-version concern.

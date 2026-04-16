@@ -1247,6 +1247,12 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   if (currentTarget === 'V24') {
     artifacts.push(...buildV24Profile().requiredGeneratedArtifactPaths);
   }
+  if (currentTarget === 'V25') {
+    artifacts.push(...buildV21LikeProfile('V25').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V26') {
+    artifacts.push(...buildV21LikeProfile('V26').requiredGeneratedArtifactPaths);
+  }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }
 

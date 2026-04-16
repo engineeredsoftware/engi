@@ -15,28 +15,10 @@ import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@engi/supabase/ssr/client';
 import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
 
-const DEFAULT_DEMO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
+const BITCODE_APP_URL = '/bitcode';
 const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
 const CURRENT_SPEC_CANON = 'V25';
 const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
-
-function resolveFooterDemoUrl() {
-  if (typeof window === 'undefined') {
-    return DEFAULT_DEMO_URL;
-  }
-
-  const configuredUrl = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim();
-  if (configuredUrl) {
-    return configuredUrl;
-  }
-
-  const localHostnames = new Set(['localhost', '127.0.0.1', 'host.docker.internal']);
-  if (localHostnames.has(window.location.hostname)) {
-    return `${window.location.protocol}//${window.location.hostname}:4318`;
-  }
-
-  return DEFAULT_DEMO_URL;
-}
 
 const footerNavs = [
   {
@@ -107,7 +89,6 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   // Supabase client and user state for authentication CTA
   const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<import('@supabase/supabase-js').User | null>(null);
-  const [demoUrl, setDemoUrl] = useState(DEFAULT_DEMO_URL);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -119,22 +100,19 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       listener.subscription.unsubscribe();
     };
   }, [supabase]);
-  useEffect(() => {
-    setDemoUrl(resolveFooterDemoUrl());
-  }, []);
   const text = user ? 'Subscribe' : 'Use';
   const footerLinks = useMemo(() => [
     {
-      name: 'Demo mini app',
+      name: 'Bitcode app',
       label: (
         <>
           <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
             $BTD
           </span>
-          <span>&apos;s Bitcode Demo</span>
+          <span>&apos;s Bitcode App</span>
         </>
       ),
-      href: demoUrl,
+      href: BITCODE_APP_URL,
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -222,7 +200,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
         </span>
       ),
     },
-  ], [demoUrl]);
+  ], []);
 
   return (
     <>

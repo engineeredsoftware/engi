@@ -13,8 +13,8 @@ export default function DemoVideoPage() {
             Watch the Bitcode demonstration video.
           </h1>
           <p className="max-w-[42rem] text-[17px] leading-8 text-white/78">
-            This host-side page keeps a stable URL for the recorded walkthrough while the standalone
-            demo and embedded micro frontend continue to evolve independently.
+            This page keeps a stable URL for the recorded walkthrough while the Bitcode operator
+            surface moves into the application-native V26 route.
           </p>
         </div>
 
