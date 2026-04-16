@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { ACTIVE_CANON_VERSION } from '../engi-demo/src/canon-posture.js';
+import { ACTIVE_CANON_VERSION } from '../packages/bitcode/src/canon-posture.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +14,7 @@ const defaultQualityScript = path.join(defaultRepoRoot, 'scripts/run-engi-spec-q
 const SPEC_RELEVANT_PATHS = [
   /^ENGI_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
   /^ENGI_SPEC\.txt$/u,
-  /^engi-demo\/src\/canonical\/v21-specifying\.js$/u,
+  /^packages\/bitcode\/src\/canonical\/v21-specifying\.js$/u,
   /^package\.json$/u,
   /^scripts\/(?:check-engi-|prepare-engi-spec-family-promotion|promote-engi-canon|run-engi-spec-quality|setup-engi-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,

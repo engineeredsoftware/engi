@@ -4,7 +4,7 @@
 - canonicalCommit: `fd508b95caa4f10d37ab7eb20ba3c8dc41d4554f`
 - canonicalCommitRecordedAt: `2026-04-15T23:14:44-03:00`
 - worktreeState: `dirty-preview`
-- generatorId: `engi-demo.proven-generator.v1`
+- generatorId: `bitcode.proven-generator.v1`
 - generatedAt: `2026-04-15T23:14:44-03:00`
 - outputPath: `ENGI_SPEC_V26_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
@@ -7935,4 +7935,3 @@
 | `.engi/verification-decisions-proof.json` | `sha256:608f4210eb9b498b765f65b1d7a8c67edddf9bc3d5ff1fd6a0c7c3aeb7c5859f` | `verification-decisions` | `private-proof-artifact` | `false` |
 | `.engi/verification-receipts.json` | `sha256:5b8d9ad84e9540a33360b15ade75aa0e59112845854c03014a11023a197d0d55` | `verification-decisions` | `private-proof-artifact` | `false` |
 | `.engi/verification-report.json` | `sha256:7d7f9c048b8db87cc936105b7d4db97d09c4bf3d28d3e0314191580f43659b0b` | `verification-decisions` | `verification-evidence` | `false` |
-

@@ -8,7 +8,7 @@ import {
   PROVEN_GENERATOR_ID,
   defaultProvenOutputPath,
   generateCanonicalProvenMarkdown
-} from '../engi-demo/src/canonical/proven-generator.js';
+} from '../packages/bitcode/src/canonical/proven-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

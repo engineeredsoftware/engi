@@ -73,12 +73,12 @@ function rewriteReadme(content, resolvedRepoRoot, version, nextDraft) {
   let rewritten = content;
   const projectName = projectLabel(version);
   rewritten = rewritten.replace(
-    /^# (?:ENGI|Bitcode) Demo - V\d+ canonical deterministic local prototype$/m,
-    `# ${projectName} Demo - ${version} canonical deterministic local prototype`
+    /^# (?:ENGI|Bitcode) Package - V\d+ canonical first-gate deterministic shell and runtime$/m,
+    `# ${projectName} Package - ${version} canonical first-gate deterministic shell and runtime`
   );
   rewritten = rewritten.replace(
-    /^This demo is governed by the active V\d+ canonical spec and serves as the current deterministic local realization of the full (?:ENGI|Bitcode) operating chain while V\d+ drafts the (?:next )?(?:system-facing implementation|rename-complete implementation) pass\.$/m,
-    `This demo is governed by the active ${version} canonical spec and serves as the current deterministic local realization of the full ${projectName} operating chain while ${nextDraft} drafts the next ${Number(version.slice(1)) >= 25 ? 'rename-complete implementation' : 'system-facing implementation'} pass.`
+    /^This package is governed by the active V\d+ canonical spec and serves as the current deterministic first-gate realization of the (?:full )?(?:ENGI|Bitcode) operating chain while V\d+ drafts and lands the productionizing hardening pass\.$/m,
+    `This package is governed by the active ${version} canonical spec and serves as the current deterministic first-gate realization of the ${projectName} operating chain while ${nextDraft} drafts and lands the productionizing hardening pass.`
   );
   rewritten = rewritten.replace(
     /^- Canonical pointer is `.+ENGI_SPEC\.txt -> V\d+`$/m,
@@ -110,8 +110,8 @@ async function main() {
   const nextDraft = args.nextDraft || deriveNextDraft(version);
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
 
-  const canonPosturePath = path.join(resolvedRepoRoot, 'engi-demo', 'src', 'canon-posture.js');
-  const readmePath = path.join(resolvedRepoRoot, 'engi-demo', 'README.md');
+  const canonPosturePath = path.join(resolvedRepoRoot, 'packages', 'bitcode', 'src', 'canon-posture.js');
+  const readmePath = path.join(resolvedRepoRoot, 'packages', 'bitcode', 'README.md');
 
   const [canonPostureContent, readmeContent] = await Promise.all([
     fs.readFile(canonPosturePath, 'utf8'),

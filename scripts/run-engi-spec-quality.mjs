@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../engi-demo/src/canon-posture.js';
+import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../packages/bitcode/src/canon-posture.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -143,8 +143,8 @@ function runBasicChecks(cwd) {
   ]);
   runNode(cwd, 'specifying and canon-drift tests', [
     '--test',
-    path.join(cwd, 'engi-demo/test/v21-specifying.test.js'),
-    path.join(cwd, 'engi-demo/test/v22-canon-drift.test.js')
+    path.join(cwd, 'packages/bitcode/test/v21-specifying.test.js'),
+    path.join(cwd, 'packages/bitcode/test/v22-canon-drift.test.js')
   ]);
 }
 

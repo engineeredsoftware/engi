@@ -279,25 +279,25 @@ function buildCommandPlan(version, commit) {
   const v25PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V25', '--mode', 'promoted']];
   const v25PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V25', '--draft-target', 'V26']];
   const inheritedProofCommands = [
-    ['npm', ['--prefix', 'engi-demo', 'run', 'typecheck']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:unit']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:integration']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:e2e']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:proof-member-matrix']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:theorem-evidence-matrix']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:state-machine']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:deterministic-replay']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:volatility']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:negative-mutation-matrix']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:contract-ledger']]
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'typecheck']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:unit']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:integration']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:e2e']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:proof-member-matrix']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:theorem-evidence-matrix']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:state-machine']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:deterministic-replay']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:volatility']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:negative-mutation-matrix']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:contract-ledger']]
   ];
   const v20QualityCommands = [
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-operator-transcript']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-accessibility']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-visual']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-performance']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-projection-quality']],
-    ['npm', ['--prefix', 'engi-demo', 'run', 'test:v20-quality-summary']]
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-operator-transcript']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-accessibility']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-visual']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-performance']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-projection-quality']],
+    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-quality-summary']]
   ];
   const generatedCommands = [
     ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
@@ -307,7 +307,7 @@ function buildCommandPlan(version, commit) {
   if (version === 'V19') {
     return [
       ...inheritedProofCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       ...generatedCommands
     ];
   }
@@ -315,7 +315,7 @@ function buildCommandPlan(version, commit) {
     return [
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       ...generatedCommands
     ];
   }
@@ -325,7 +325,7 @@ function buildCommandPlan(version, commit) {
       v21CanonicalInputCheckCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v21PreparePromotionSpecFamilyCommand,
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
@@ -341,7 +341,7 @@ function buildCommandPlan(version, commit) {
       v22DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v22PreparePromotionSpecFamilyCommand,
       v22PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
@@ -359,7 +359,7 @@ function buildCommandPlan(version, commit) {
       v23DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v23PreparePromotionSpecFamilyCommand,
       v23PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
@@ -377,7 +377,7 @@ function buildCommandPlan(version, commit) {
       v24DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v24PreparePromotionSpecFamilyCommand,
       v24PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
@@ -395,7 +395,7 @@ function buildCommandPlan(version, commit) {
       v25DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'engi-demo', 'test']],
+      ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v25PreparePromotionSpecFamilyCommand,
       v25PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],

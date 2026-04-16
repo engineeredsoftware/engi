@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildV21SpecFamilyReport } from '../engi-demo/src/canonical/v21-specifying.js';
+import { buildV21SpecFamilyReport } from '../packages/bitcode/src/canonical/v21-specifying.js';
 
 function projectLabel(version) {
   const numeric = Number(String(version || '').replace(/^V/u, ''));

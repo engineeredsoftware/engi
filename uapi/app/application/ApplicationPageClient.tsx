@@ -1,176 +1,316 @@
 'use client';
 
-import Link from 'next/link';
-import {
-  ArrowRightIcon,
-  CircleStackIcon,
-  CodeBracketSquareIcon,
-  ShieldCheckIcon,
-  WalletIcon,
-} from '@heroicons/react/24/outline';
+import { useEffect } from 'react';
 
-import Logo from '@/components/base/engi/branding/logo';
-import BitcodePill from '@/components/base/engi/branding/engi-pill';
-import { useAuth } from '@/components/base/engi/auth/AuthProvider';
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { mountBitcodeApplicationShell } from '@engi/bitcode/src/client-entry.js';
 
-const productionTracks = [
-  {
-    title: 'Application-native route',
-    description:
-      'The Bitcode operator surface now lives at a first-class application route instead of a homepage iframe or companion localhost runtime.',
-    Icon: CircleStackIcon,
-  },
-  {
-    title: 'Package-first system ownership',
-    description:
-      'V26 moves canonical operating layers out of demo-local ownership and back into package and route surfaces that match the larger repository architecture.',
-    Icon: CodeBracketSquareIcon,
-  },
-  {
-    title: 'Live-interface hardening',
-    description:
-      'GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for productionizing closure.',
-    Icon: ShieldCheckIcon,
-  },
-  {
-    title: 'Authentication upgrade',
-    description:
-      'Connecting wallet, signer policy, and operator auth are treated as production responsibilities rather than demo affordances.',
-    Icon: WalletIcon,
-  },
-] as const;
-
-const routeCommitments = [
-  'No homepage embedded demo',
-  'Preserve the Bitcode operator UX chain',
-  'Replace demo UI with application-facing surfaces',
-  'Keep V25 active until V26 is actually promoted',
-] as const;
+const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
+const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
 export default function ApplicationPageClient() {
-  const { user } = useAuth();
+  useEffect(() => {
+    let disposed = false;
+    let cleanup: (() => void) | undefined;
+
+    let stylesheet = document.getElementById(FIRST_GATE_STYLESHEET_ID) as HTMLLinkElement | null;
+    if (!stylesheet) {
+      stylesheet = document.createElement('link');
+      stylesheet.id = FIRST_GATE_STYLESHEET_ID;
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = FIRST_GATE_STYLESHEET_HREF;
+      document.head.appendChild(stylesheet);
+    }
+
+    void mountBitcodeApplicationShell()
+      .then((dispose) => {
+        if (disposed) {
+          dispose?.();
+          return;
+        }
+        cleanup = dispose;
+      })
+      .catch((error) => {
+        console.error('Failed to mount Bitcode application shell', error);
+      });
+
+    return () => {
+      disposed = true;
+      cleanup?.();
+      stylesheet?.remove();
+    };
+  }, []);
 
   return (
-    <div className="min-h-[calc(100vh-9rem)] bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.18),transparent_28%),radial-gradient(circle_at_85%_18%,rgba(56,189,248,0.14),transparent_22%),linear-gradient(180deg,#05111a_0%,#030814_46%,#02050c_100%)] text-white">
-      <main className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-12 phone:px-5 tablet:px-6 laptop:px-8">
-        <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 px-5 py-8 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl phone:px-6 tablet:px-8 tablet:py-10">
-          <div className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/80 to-transparent" />
-          <div className="absolute -right-20 top-6 h-40 w-40 rounded-full bg-emerald-400/14 blur-3xl" />
-          <div className="absolute -left-16 bottom-0 h-36 w-36 rounded-full bg-cyan-400/10 blur-3xl" />
+    <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
+      <div className="page">
+        <header className="hero" id="hero">
+          <p className="eyebrow" id="heroEyebrow">
+            Bitcode deterministic local prototype
+          </p>
+          <h1>Operate Bitcode from repo supply to settlement.</h1>
+          <p className="lede" id="heroLede">
+            Loading current canon posture…
+          </p>
+          <p className="meta hero-tip" id="heroTip">
+            Loading current generated appendix and report posture…
+          </p>
+          <div className="hero-actions">
+            <label>
+              <span data-explainer-key="needing" data-explainer-side="bottom">
+                Scenario
+              </span>
+              <select id="scenarioPicker" />
+            </label>
+            <label>
+              <span data-explainer-key="projection" data-explainer-side="bottom">
+                Projection
+              </span>
+              <select id="projectionPicker" defaultValue="buyer">
+                <option value="buyer">buyer</option>
+                <option value="reviewer">reviewer</option>
+                <option value="public">public</option>
+                <option value="internal">internal</option>
+              </select>
+            </label>
+            <label>
+              <span data-explainer-key="branch-artifacts" data-explainer-side="bottom">
+                Branch mode
+              </span>
+              <select id="branchModePicker" defaultValue="patch">
+                <option value="patch">patch</option>
+                <option value="context">context</option>
+              </select>
+            </label>
+            <button id="makeBranchButton" type="button">
+              Make Bitcode branch
+            </button>
+            <button id="tutorialToggleButton" className="ghost" type="button">
+              Hide tutorial
+            </button>
+            <button id="resetButton" className="ghost" type="button">
+              Reset demo
+            </button>
+          </div>
+          <div id="status" className="status" role="status" aria-live="polite" aria-atomic="true" />
+        </header>
 
-          <div className="relative flex flex-col gap-8 laptop:grid laptop:grid-cols-[1.2fr_0.8fr] laptop:items-end">
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center gap-3">
-                <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
-                  Bitcode application
-                </BitcodePill>
-                <BitcodePill className="border-white/12 bg-white/6 text-white/78">
-                  Active canon V25
-                </BitcodePill>
-                <BitcodePill className="border-cyan-300/20 bg-cyan-400/10 text-cyan-100">
-                  Draft target V26
-                </BitcodePill>
-              </div>
+        <section className="summary-grid" id="summary" />
 
-              <div className="space-y-4">
-                <h1 className="max-w-[14ch] text-[2.8rem] font-semibold leading-[0.94] tracking-[-0.045em] text-white phone:text-[3.4rem] tablet:text-[4.3rem]">
-                  Bitcode now lives as a first-class application surface.
-                </h1>
-                <p className="max-w-[52rem] text-[17px] leading-8 text-white/78">
-                  V26 productionizing hardening moves the Bitcode operator experience out of the
-                  marketing page and into a dedicated application route. The embedded demo posture
-                  is removed here; the operating chain stays in scope while the UI owner shifts to
-                  application-facing components.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                {user ? (
-                  <Link
-                    href="/executions?type=pipeline:deliverables&postprocessingType=pipeline:deliverables"
-                    className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/12 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
-                  >
-                    Open operator workspace
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </Link>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => openOrbital('SignUpWindow')}
-                    className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/12 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
-                  >
-                    Connect account
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </button>
-                )}
-                {!user && (
-                  <button
-                    type="button"
-                    onClick={() => openOrbital('SignInWindow')}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
-                  >
-                    Sign in
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </button>
-                )}
-                <Link
-                  href="/demo-video"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
-                >
-                  Watch walkthrough
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
-              </div>
+        <main className="grid">
+          <section className="panel wide" id="panelOperatingPicture">
+            <div className="panel-head">
+              <h2 data-explainer-key="operating-picture">0. Operating picture</h2>
+              <span className="badge" data-explainer-key="repo-to-settlement">
+                repo supply -&gt; settlement
+              </span>
             </div>
+            <div id="operatingPicture" className="stack" />
+          </section>
 
-            <div className="grid gap-3 rounded-[28px] border border-white/10 bg-black/25 p-4">
-              <div className="flex items-center gap-4 rounded-[22px] border border-white/8 bg-white/5 p-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-300/24 bg-emerald-400/10">
-                  <Logo className="scale-[1.15]" height="h-8" width="w-8" />
-                </div>
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                    Route posture
-                  </p>
-                  <p className="mt-1 text-xl font-semibold text-white">/application is the product surface</p>
-                </div>
-              </div>
-
-              <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                  Current commitments
-                </p>
-                <div className="mt-4 grid gap-2">
-                  {routeCommitments.map((item) => (
-                    <div
-                      key={item}
-                      className="rounded-2xl border border-white/8 bg-black/20 px-3 py-2.5 text-sm text-white/78"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <section className="panel" id="panelDepositing">
+            <div className="panel-head">
+              <h2 data-explainer-key="depositing">1. Depositing + candidate assets</h2>
+              <span className="badge" data-explainer-key="candidate-asset">
+                artifact-kind-native deposit
+              </span>
             </div>
+            <form id="depositForm" className="stack compact">
+              <div className="section-card">
+                <div className="section-head">
+                  <h4 data-explainer-key="identity-auth-spine">Authenticated Repo Session</h4>
+                  <span className="badge">Modeled GitHub App</span>
+                </div>
+                <div className="stack">
+                  <select id="authSessionPicker" name="authSessionId" />
+                  <div id="inventorySelectionSummary" className="callout" />
+                </div>
+              </div>
+              <div className="section-card">
+                <div className="section-head">
+                  <h4 data-explainer-key="repo-supply">Repo Artifact Inventory</h4>
+                  <span className="badge">Selection-first</span>
+                </div>
+                <p className="meta">
+                  Selections here define the deposit side of the active profile: either a tight decisive deposit for a
+                  bounded need or a broader normalization deposit for a composite need.
+                </p>
+                <div className="mini-grid two-up">
+                  <label className="field-stack">
+                    <span data-explainer-key="inventory-search">Artifact inventory search</span>
+                    <input
+                      id="inventorySearchInput"
+                      placeholder="Filter by title, path, workflow run, or tag"
+                    />
+                  </label>
+                  <label className="field-stack">
+                    <span data-explainer-key="artifact-kind-filter">Artifact kind filter</span>
+                    <select id="inventoryKindFilter" name="inventoryKindFilter" defaultValue="all">
+                      <option value="all">All artifact kinds</option>
+                    </select>
+                  </label>
+                </div>
+                <div id="repoInventoryList" className="stack" />
+              </div>
+              <label className="field-stack">
+                <span data-explainer-key="deposit-title-override">Asset title override</span>
+                <input name="title" placeholder="Optional; inferred from selection if omitted" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="author-override">Author override</span>
+                <input name="author" placeholder="Optional; inferred from session if omitted" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="artifact-kind">Artifact kind override</span>
+                <input name="artifactKind" placeholder="Optional; inferred from selection if omitted" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="artifact-type">Artifact type override</span>
+                <input name="artifactType" placeholder="Optional; inferred from selection if omitted" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="source-repo-override">GitHub repo boundary override</span>
+                <input name="sourceRepo" placeholder="Optional; inferred from session if omitted" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="source-commit-override">Commit SHA / ref override</span>
+                <input name="sourceCommit" placeholder="Optional explicit commit or ref" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="workflow-run-override">GitHub workflow run ID override</span>
+                <input name="workflowRunId" placeholder="Optional workflow run binding" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="signing">Signer / issuer DID override</span>
+                <input name="signerAddress" placeholder="Optional signer or issuer DID" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="coverage-tags">Additional tags</span>
+                <input name="tags" placeholder="Comma-separated tags" />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="visual-preview">Visual preview override</span>
+                <textarea
+                  name="visualPreview"
+                  rows={3}
+                  placeholder="Human-readable summary used in visual mode"
+                />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="operator-note">Operator note</span>
+                <textarea
+                  name="operatorNote"
+                  rows={3}
+                  placeholder="Optional note appended to selected repo artifacts"
+                />
+              </label>
+              <label className="field-stack">
+                <span data-explainer-key="raw-fallback">Raw fallback / supplemental source material</span>
+                <textarea
+                  name="content"
+                  rows={5}
+                  placeholder="Optional if selecting repo artifacts"
+                />
+              </label>
+              <button type="submit">Deposit candidate asset into Bitcode flow</button>
+            </form>
+            <div id="assets" className="stack" />
+          </section>
+
+          <section className="panel" id="panelNeeding">
+            <div className="panel-head">
+              <h2 data-explainer-key="needing">2. Needing + measured demand</h2>
+              <span className="badge" data-explainer-key="scenario-preview">
+                scenario preview
+              </span>
+            </div>
+            <div id="scenario" className="stack" />
+          </section>
+
+          <section className="panel wide" id="panelFit">
+            <div className="panel-head">
+              <h2 data-explainer-key="deposit-fit">3. Depositing-to-needing fit</h2>
+              <span className="badge" data-explainer-key="deposit-fit">
+                fit before proof
+              </span>
+            </div>
+            <div id="fit" className="stack" />
+          </section>
+
+          <section className="panel wide" id="panelEvaluations">
+            <div className="panel-head">
+              <h2 data-explainer-key="verification-rights">4. Ranked candidates + verification determinisms</h2>
+              <span className="badge" data-explainer-key="verification-rights">
+                ranking + use tiers
+              </span>
+            </div>
+            <div id="evaluations" className="stack" />
+          </section>
+
+          <section className="panel" id="panelBranchArtifacts">
+            <div className="panel-head">
+              <h2 data-explainer-key="branch-artifacts">5. Asset pack + branch artifacts</h2>
+              <span className="badge private" data-explainer-key="private-remediation-branch">
+                private remediation branch
+              </span>
+            </div>
+            <div id="branchArtifacts" className="stack" />
+          </section>
+
+          <section className="panel" id="panelSettlement">
+            <div className="panel-head">
+              <h2 data-explainer-key="settlement">6. Settlement + journal diff</h2>
+              <span className="badge" data-explainer-key="exact-accounting">
+                exact accounting
+              </span>
+            </div>
+            <div id="settlement" className="stack" />
+          </section>
+
+          <section className="panel wide" id="panelLedger">
+            <div className="panel-head">
+              <h2 data-explainer-key="ledger-policy">7. Ledger + policy surfaces</h2>
+              <span className="badge" data-explainer-key="bounded-public-proof">
+                bounded proof metadata
+              </span>
+            </div>
+            <div id="ledger" className="stack" />
+          </section>
+        </main>
+      </div>
+
+      <div id="tutorialLayer" className="tutorial-layer" hidden>
+        <section
+          id="tutorialCard"
+          className="tutorial-card"
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="tutorialTitle"
+          aria-describedby="tutorialBody"
+        >
+          <div className="tutorial-progress">
+            <span id="tutorialStepCounter" className="badge">
+              Step 1 of 10
+            </span>
+            <button id="tutorialCloseButton" className="ghost tutorial-button" type="button">
+              Dismiss
+            </button>
+          </div>
+          <p id="tutorialKicker" className="tutorial-kicker">
+            Stepwise shell guide
+          </p>
+          <h2 id="tutorialTitle">Start with current canon posture</h2>
+          <p id="tutorialBody" className="tutorial-body" />
+          <p id="tutorialTargetHint" className="tutorial-target-hint" />
+          <div className="tutorial-actions">
+            <button id="tutorialPrevButton" className="ghost tutorial-button" type="button">
+              Back
+            </button>
+            <button id="tutorialNextButton" className="tutorial-button" type="button">
+              Next step
+            </button>
           </div>
         </section>
-
-        <section className="grid gap-4 tablet:grid-cols-2">
-          {productionTracks.map(({ title, description, Icon }) => (
-            <article
-              key={title}
-              className="rounded-[28px] border border-white/10 bg-white/[0.045] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl"
-            >
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-300/24 bg-emerald-400/10 text-emerald-100">
-                <Icon className="h-5 w-5" />
-              </div>
-              <h2 className="mt-4 text-[1.2rem] font-semibold tracking-[-0.03em] text-white">{title}</h2>
-              <p className="mt-2 text-[15px] leading-7 text-white/72">{description}</p>
-            </article>
-          ))}
-        </section>
-      </main>
+      </div>
     </div>
   );
 }
