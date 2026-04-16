@@ -56,9 +56,12 @@ V26 now locks the route class:
 - not iframe-dependent.
 
 Still open:
+- current source-side candidate now uses `/application` under `uapi/app/application/*` as the stronger carrier for the first-class Bitcode application page,
+- current source-side coexistence now includes non-legacy `uapi/app/executions/page.tsx` and `uapi/app/executions/[runId]/page.tsx` so the operator workspace and run-detail routes are application-owned rather than only component-owned,
+- `/bitcode` was rejected as an overly product-redundant route/file carrier because the repository and product are already Bitcode,
 - the exact route path and surrounding navigation treatment,
 - whether Bitcode becomes its own top-level app route,
-- and how it coexists with or subsumes existing `executions`/`orbitals` surfaces.
+- and how far `/application` should subsume versus simply stage the existing `executions`/`orbitals` surfaces.
 
 ### 2. Final package names and ownership splits
 

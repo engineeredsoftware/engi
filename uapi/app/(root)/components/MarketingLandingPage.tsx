@@ -836,10 +836,10 @@ export default function MarketingLandingPage() {
 
                 <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
                   <a
-                    href="/bitcode"
+                    href="/application"
                     className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
-                    Open Bitcode app
+                    Open application
                     <ArrowRightIcon className="h-4 w-4" />
                   </a>
                   <a

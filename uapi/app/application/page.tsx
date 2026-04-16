@@ -1,22 +1,16 @@
 import type { Metadata } from 'next';
 
-import ClientLayout from '@/app/ClientLayout';
-
-import BitcodePageClient from './BitcodePageClient';
+import ApplicationPageClient from './ApplicationPageClient';
 
 export const metadata: Metadata = {
   title: '$BTD • Bitcode Application',
   description:
     'Application-native Bitcode route for the V26 productionizing transition away from homepage demo embedding.',
   alternates: {
-    canonical: '/bitcode',
+    canonical: '/application',
   },
 };
 
-export default function BitcodePage() {
-  return (
-    <ClientLayout>
-      <BitcodePageClient />
-    </ClientLayout>
-  );
+export default function ApplicationPage() {
+  return <ApplicationPageClient />;
 }

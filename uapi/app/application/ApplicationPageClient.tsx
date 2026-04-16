@@ -18,7 +18,7 @@ const productionTracks = [
   {
     title: 'Application-native route',
     description:
-      'The Bitcode operator surface now lives at a first-class app route instead of a homepage iframe or companion localhost runtime.',
+      'The Bitcode operator surface now lives at a first-class application route instead of a homepage iframe or companion localhost runtime.',
     Icon: CircleStackIcon,
   },
   {
@@ -48,7 +48,7 @@ const routeCommitments = [
   'Keep V25 active until V26 is actually promoted',
 ] as const;
 
-export default function BitcodePageClient() {
+export default function ApplicationPageClient() {
   const { user } = useAuth();
 
   return (
@@ -63,7 +63,7 @@ export default function BitcodePageClient() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
                 <EngiPill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
-                  Application-native Bitcode
+                  Bitcode application
                 </EngiPill>
                 <EngiPill className="border-white/12 bg-white/6 text-white/78">
                   Active canon V25
@@ -75,13 +75,13 @@ export default function BitcodePageClient() {
 
               <div className="space-y-4">
                 <h1 className="max-w-[14ch] text-[2.8rem] font-semibold leading-[0.94] tracking-[-0.045em] text-white phone:text-[3.4rem] tablet:text-[4.3rem]">
-                  Bitcode now lives in the application.
+                  Bitcode now lives as a first-class application surface.
                 </h1>
                 <p className="max-w-[52rem] text-[17px] leading-8 text-white/78">
-                  V26 productionizing hardening moves the Bitcode operator surface out of the marketing
-                  page and into a first-class route. The embedded demo posture is removed here; the
-                  operating chain stays in scope while the UI owner shifts to application-facing
-                  components.
+                  V26 productionizing hardening moves the Bitcode operator experience out of the
+                  marketing page and into a dedicated application route. The embedded demo posture
+                  is removed here; the operating chain stays in scope while the UI owner shifts to
+                  application-facing components.
                 </p>
               </div>
 
@@ -133,7 +133,7 @@ export default function BitcodePageClient() {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
                     Route posture
                   </p>
-                  <p className="mt-1 text-xl font-semibold text-white">/bitcode is the product surface</p>
+                  <p className="mt-1 text-xl font-semibold text-white">/application is the product surface</p>
                 </div>
               </div>
 

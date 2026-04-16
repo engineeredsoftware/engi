@@ -14,7 +14,7 @@ export default function DemoVideoPage() {
           </h1>
           <p className="max-w-[42rem] text-[17px] leading-8 text-white/78">
             This page keeps a stable URL for the recorded walkthrough while the Bitcode operator
-            surface moves into the application-native V26 route.
+            surface moves into the application-native V26 route at `/application`.
           </p>
         </div>
 

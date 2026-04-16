@@ -173,7 +173,7 @@ export default function Nav() {
             {user && (
               <ul className="flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center tablet:ml-[130px]">
                 {[
-                  { href: '/bitcode', label: 'bitcode' },
+                  { href: '/application', label: 'application' },
                   { href: '/executions?type=pipeline:deliverables&postprocessingType=pipeline:deliverables', label: 'deliverables' },
                   { href: '/executions?type=pipeline:measure&postprocessingType=pipeline:measure', label: 'measure' },
                 ].map(({ href, label }, index) => {
@@ -182,7 +182,8 @@ export default function Nav() {
                   const isDisabledByFeatureFlag = isMeasureItem && !ENABLE_MEASURE;
                   const isDisabled = isMidOnboarding || isDisabledByFeatureFlag;
                   const shouldAnimate = !isDisabled;
-                  const isActiveRoute = label === 'bitcode' ? pathname === '/bitcode' : pathname?.startsWith('/executions');
+                  const isApplicationItem = label === 'application';
+                  const isActiveRoute = isApplicationItem ? pathname === '/application' : pathname?.startsWith('/executions');
                   return (
                     <li key={href}
                       className={`${shouldAnimate ? 'nav-item-animated' : ''}`.trim()}
@@ -227,7 +228,7 @@ export default function Nav() {
                               {label}
                             </span>
 
-                            {label !== 'bitcode' && pathname?.startsWith('/executions') && FEATURE_FLAGS.NAV_PROCESSING_INDICATOR && (
+                            {!isApplicationItem && pathname?.startsWith('/executions') && FEATURE_FLAGS.NAV_PROCESSING_INDICATOR && (
                               <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 scale-75 opacity-80">
                                 <NavProcessingIndicator
                                   isActive={false}

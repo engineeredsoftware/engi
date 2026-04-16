@@ -15,7 +15,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@engi/supabase/ssr/client';
 import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
 
-const BITCODE_APP_URL = '/bitcode';
+const APPLICATION_URL = '/application';
 const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
 const CURRENT_SPEC_CANON = 'V25';
 const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
@@ -109,10 +109,10 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
           <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
             $BTD
           </span>
-          <span>&apos;s Bitcode App</span>
+          <span>&apos;s Application</span>
         </>
       ),
-      href: BITCODE_APP_URL,
+      href: APPLICATION_URL,
       icon: (
         <span
           className="inline-flex items-center justify-center"
