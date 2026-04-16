@@ -17,8 +17,8 @@ import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-s
 
 const DEFAULT_DEMO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_URL?.trim() || 'http://127.0.0.1:4318';
 const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
-const CURRENT_SPEC_CANON = 'V24';
-const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V24.md';
+const CURRENT_SPEC_CANON = 'V25';
+const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
 
 function resolveFooterDemoUrl() {
   if (typeof window === 'undefined') {
@@ -235,7 +235,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   <EngiSoftwareSvgLogo
                     width="115px"
                     height="auto"
-                    softwareOffsetY='-12px'
+                    softwareOffsetY="-4px"
                   />
                 </a>
                 <div className="max-w-lg">
@@ -374,7 +374,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   height="auto"
                   className="-mb-0.5"
                   softwareClassName="ml-0.5 font-light text-xs tracking-wide bg-gradient-to-r from-[#65FEB7] via-white to-[#65FEB7] text-transparent bg-clip-text"
-                  softwareOffsetY="-6px"
+                  softwareOffsetY="-2px"
                 />
               </a>
             </div>

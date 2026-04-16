@@ -562,7 +562,7 @@ export default function MarketingLandingPage() {
               >
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-400/10 shadow-[0_0_28px_rgba(103,254,183,0.14)]">
-                    <Logo height="h-5" width="w-5" />
+                    <Logo height="h-7" width="w-7" />
                   </div>
                 </div>
 
@@ -825,7 +825,7 @@ export default function MarketingLandingPage() {
                                 </div>
                                 <div className="absolute right-0 top-0">
                                   <EngiSoftwareSvgLogo
-                                    width="60px"
+                                    width="44px"
                                     softwareClassName="hidden"
                                     className="opacity-90"
                                   />
