@@ -33,7 +33,7 @@ Those map as follows:
 - `conversations`
   The fullscreen chat workspace entered from within `/application`.
 - `orbitals`
-  The fullscreen settings workspace entered from within `/application`.
+  The fullscreen settings workspace entered from within `/application`, including the transitional credits-to-wallet cutover.
 - `give`
   Repo supply, deposits, authenticated material intake, and operator actions that place material into the Bitcode chain.
 - `need`
@@ -53,20 +53,25 @@ Current active carriers:
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
+- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
+- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-command-state.ts`
+- `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
+- `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
@@ -124,6 +129,21 @@ Operational rule:
 - command posture is normalized into route-local application state before rendering
 - second-gate command composition stays application-owned even while first-gate shell ownership remains below it
 
+## Summary-state semantic snapshot bridge
+
+Second-gate now also treats the Bitcode summary strip as application-owned semantic state rather than a rendered-card mirror.
+
+Current active carriers:
+- `packages/bitcode/public/app.js`
+- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `uapi/app/application/application-live-summary.ts`
+
+Operational rule:
+- the mounted Bitcode shell now emits a compact `summarySurface` through the semantic snapshot bridge
+- `/application` reads pinned and full operating posture from that summary bridge instead of scraping rendered summary cards
+- summary posture stays semantically aligned to the preserved Bitcode shell while becoming application-owned route composition
+- later second-gate and fourth-gate convergence work should extend this bridge rather than reintroducing summary DOM reads
+
 ## Give-side intake selection carrier
 
 Second-gate now also treats authenticated intake session, artifact filtering, search, and inventory selection as route-local application composition rather than preserved-shell-only control surfaces.
@@ -156,6 +176,38 @@ Operational rule:
 - selected inventory and authenticated session continuity are derived from the mounted shell snapshot/control bridge
 - title/author inference, raw fallback behavior, and selection-derived payload rules stay aligned to the Bitcode deposit builder
 - the native application composer strengthens second-gate without forking deposit semantics away from the preserved Bitcode chain
+
+## Native need-scenario carrier
+
+Second-gate now also treats active need selection as application-owned behavior rather than preserved-shell-only scenario selection.
+
+Current active carriers:
+- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
+- `uapi/app/application/application-need-scenarios.ts`
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+
+Operational rule:
+- `/application` selects the active Bitcode scenario through the shell control bridge
+- parser posture, closure count, and target-kind count remain visible inside the native need workspace
+- scenario selection stays semantically aligned to the mounted Bitcode shell rather than creating a competing need state
+- second-gate should keep shifting need behavior inward to route-local application carriers while preserving Bitcode need/fit semantics
+
+## Closure-state semantic snapshot bridge
+
+Second-gate now also treats verification, branch, settlement, and ledger semantics as an application-owned native carrier rather than a rendered-shell discovery problem.
+
+Current active carriers:
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+- `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/application-closure-state.ts`
+
+Operational rule:
+- the mounted Bitcode shell now emits a compact `closureSurface` through the semantic snapshot bridge
+- `/application` normalizes that closure surface into verification, branch, settlement, and ledger panels without re-deriving meaning from rendered shell DOM
+- closure-side second-gate carriers should prefer this semantic bridge over generic DOM reads whenever the underlying Bitcode state is already available
+- deeper fourth-gate and fifth-gate proof closure should build from this bridge rather than recreating a parallel closure semantics layer
 
 ## External interfacing posture carrier
 

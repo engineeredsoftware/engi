@@ -22,7 +22,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Orbitals',
     badge: 'fullscreen',
     description:
-      'The fullscreen settings workspace entered from `/application`, retaining the ringed overlay while owning account, connects, models, and credits.',
+      'The fullscreen settings workspace entered from `/application`, retaining the ringed overlay while owning account, connects, models, and the credits-to-wallet cutover.',
     targetId: 'orbitals',
   },
 ] as const;

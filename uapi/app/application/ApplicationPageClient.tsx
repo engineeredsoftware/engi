@@ -9,6 +9,7 @@ import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
 import ApplicationCommandDeck from './ApplicationCommandDeck';
+import ApplicationClosureControlDeck from './ApplicationClosureControlDeck';
 import ApplicationClosureNativeSections from './ApplicationClosureNativeSections';
 import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
 import ApplicationDepositComposer from './ApplicationDepositComposer';
@@ -218,6 +219,7 @@ export default function ApplicationPageClient() {
           <ApplicationNeedScenarioPanel />
           <ApplicationSupplySelectionPanel />
           <ApplicationDepositComposer />
+          <ApplicationClosureControlDeck />
           <ApplicationClosureNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">

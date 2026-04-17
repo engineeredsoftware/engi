@@ -1,11 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-type SummaryItem = {
-  label: string;
-  value: string;
-};
+import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
+
+import {
+  normalizeApplicationLiveSummary,
+  type ApplicationLiveSummaryItem,
+} from './application-live-summary';
 
 const PINNED_LABELS = new Set([
   'Active scenario',
@@ -16,50 +18,28 @@ const PINNED_LABELS = new Set([
   'Blocking external interfaces',
 ]);
 
-function readDirectText(element: Element | null): string {
-  if (!element) return '';
-  const directText = Array.from(element.childNodes)
-    .filter((node) => node.nodeType === Node.TEXT_NODE)
-    .map((node) => node.textContent?.trim() || '')
-    .filter(Boolean)
-    .join(' ')
-    .trim();
-  return directText || element.textContent?.trim() || '';
-}
-
-function readSummaryItems(): SummaryItem[] {
-  return Array.from(document.querySelectorAll('#summary .summary-card')).map((card) => {
-    const meta = card.querySelector('.meta');
-    const explainerLabel = meta?.querySelector('.label-with-info > span:first-child')?.textContent?.trim() || '';
-    const directStrong = card.querySelector(':scope > strong');
-    const label = explainerLabel || readDirectText(meta) || 'Signal';
-    const value = readDirectText(directStrong) || '—';
-    return { label, value };
-  });
-}
-
 export default function ApplicationLiveSummaryStrip() {
-  const [items, setItems] = useState<SummaryItem[]>([]);
-
-  const refreshFromShell = useCallback(() => {
-    setItems(readSummaryItems());
-  }, []);
+  const [items, setItems] = useState<ApplicationLiveSummaryItem[]>([]);
 
   useEffect(() => {
-    refreshFromShell();
+    let disposed = false;
 
-    const intervalId = window.setInterval(refreshFromShell, 700);
-    const handleDocumentChange = () => window.setTimeout(refreshFromShell, 0);
+    const refresh = async () => {
+      const snapshot = await readBitcodeApplicationShellSnapshot();
+      if (disposed) return;
+      setItems(normalizeApplicationLiveSummary(snapshot));
+    };
 
-    document.addEventListener('change', handleDocumentChange, true);
-    document.addEventListener('click', handleDocumentChange, true);
+    void refresh();
+    const intervalId = window.setInterval(() => {
+      void refresh();
+    }, 700);
 
     return () => {
+      disposed = true;
       window.clearInterval(intervalId);
-      document.removeEventListener('change', handleDocumentChange, true);
-      document.removeEventListener('click', handleDocumentChange, true);
     };
-  }, [refreshFromShell]);
+  }, []);
 
   const pinnedItems = items.filter((item) => PINNED_LABELS.has(item.label));
 
@@ -72,15 +52,15 @@ export default function ApplicationLiveSummaryStrip() {
             Route-local operating posture
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This summary strip mirrors the preserved Bitcode shell&apos;s computed state so the application frame can own
-            more of the operator read without rewriting the underlying system logic.
+            This summary strip now reads the Bitcode shell&apos;s semantic summary surface directly, so the application frame
+            owns more of the operator read without depending on rendered shell cards.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Semantic source</p>
-            <p className="mt-2 text-neutral-200">preserved shell summary</p>
+            <p className="mt-2 text-neutral-200">shell summary bridge</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Application owner</p>

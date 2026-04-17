@@ -74,7 +74,9 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
+- `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-run-activity.ts`
@@ -89,11 +91,12 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `/api/conversations`
 
-The next closure-side second-gate milestone is now partially implemented in source:
+The next closure-side second-gate milestone is now materially implemented in source:
 
 - `/application` carries native application-owned reading for ranked verification, branch artifacts, settlement/proof, and ledger/history through `ApplicationClosureNativeSections.tsx`,
-- the shared DOM-reading contract for native application sections is centralized in `application-shell-reading.ts`,
-- and live browser verification now confirms those route-local closure cards populate after `Make Bitcode branch` without console or request failures.
+- `application-closure-state.ts` now normalizes a dedicated `closureSurface` emitted by `getBitcodeApplicationShellSnapshot()` instead of reconstructing closure semantics from rendered shell markup,
+- `packages/bitcode/public/app.js` now exposes verification, branch, settlement, and ledger semantics directly through the shell snapshot bridge,
+- and the closure-side proof surface now includes `uapi/tests/applicationClosureState.test.ts` instead of leaving closure normalization as unproven UI glue.
 - `/api/conversations/branch`
 - `/api/conversations/stream`
 - `/api/conversations/[conversationId]/stream`
@@ -118,12 +121,15 @@ The current source now reflects that architecture more directly:
 
 - `ApplicationExperienceFrame.tsx` names the three main experiences and the two main actions inside `/application`,
 - `ApplicationCommandDeck.tsx` plus `application-command-state.ts` now carry direct give/need focus controls and route-local command posture through the Bitcode shell bridge instead of raw DOM scraping,
+- `ApplicationLiveSummaryStrip.tsx` plus `application-live-summary.ts` now read route-local operating posture from the shell summary bridge instead of rendered summary-card markup,
 - `ApplicationCoreNativeSections.tsx` now reads as the master-detail give/need core instead of only as generic core shell mirroring,
 - `ApplicationSupplySelectionPanel.tsx` plus `application-supply-selection.ts` now make authenticated intake session, artifact filtering, search, and inventory selection explicit inside `/application` through the mounted Bitcode shell bridge,
 - `ApplicationDepositComposer.tsx` plus `application-deposit-composer.ts` now make native deposit submission available inside `/application`, posting to the app-owned `/api/deposits` contract while preserving selected inventory and auth-session continuity from the mounted shell,
+- `ApplicationNeedScenarioPanel.tsx` plus `application-need-scenarios.ts` now make native need-scenario selection available inside `/application`, driving active scenario posture through the mounted Bitcode shell bridge while keeping parser and closure posture visible,
 - `ApplicationRunWorkspace.tsx` now exposes runs, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
 - `ApplicationRunDetailSurface.tsx` plus `application-run-detail.ts` now normalize selected-run history payloads into one application-owned detail carrier so deliverable-reading panels render in both mock and live posture inside `/application`,
 - `ApplicationRunActivitySurface.tsx` plus `application-run-activity.ts` now elevate the retained execution/log/work-update system into the Bitcode application-owned detail space instead of leaving that depth mostly to the compatibility execution page,
+- `ApplicationClosureNativeSections.tsx` plus `application-closure-state.ts` now read verification, branch, settlement, and ledger semantics from the mounted Bitcode shell snapshot rather than from rendered closure panel markup,
 - and `ApplicationWorkspaceRail.tsx` now frames conversations and orbitals as the other two experiences rather than as loose utility exits.
 - `OrbitalsProvider.tsx`, `OrbitalsCreditsPane.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, and `ExecutionsPageClient.tsx` now use the current app-owned `/api/orbitals/data` route instead of the stale `/api/orbitals/user/data` path on touched active surfaces.
 - live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
@@ -132,11 +138,14 @@ The current source now reflects that architecture more directly:
 - `ApplicationGiveNeedWorkbench.tsx` plus `application-give-need-workbench.ts` now make give/need action detail explicit from a semantic shell snapshot bridge rather than generic shell markup, which is a stronger second-gate step toward application-owned Bitcode composition.
 - `uapi/tests/applicationCommandState.test.ts` now proves deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state.
 - `uapi/tests/applicationDepositComposer.test.ts` now proves deterministic normalization of deposit-auth session defaults, selected inventory continuity, and signer/source repo defaults into route-local deposit-composer state.
+- `uapi/tests/applicationNeedScenarios.test.ts` now proves deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state.
 - `uapi/tests/applicationSupplySelection.test.ts` now proves deterministic normalization of authenticated intake session, artifact filter, search, and selected inventory entry detail into route-local application supply selection.
 - `ApplicationExternalInterfacingPanel.tsx` now makes environment mode, actuality disposition, and per-interface runtime blocking state explicit inside `/application` through the app-owned `/api/v24/external-realization` contract.
 - `packages/bitcode/public/app.js` plus `packages/bitcode/src/client-entry.js` now expose both the read-only shell snapshot carrier and the mutable shell control bridge so application-owned V26 sections can reuse precise Bitcode semantics without re-implementing the shell’s local selection logic.
 - `uapi/tests/api/externalRealizationRoute.test.ts` now proves the app-owned `/api/v24/external-realization` carrier directly instead of relying only on UI normalization coverage.
 - `uapi/tests/applicationGiveNeedWorkbench.test.ts` now proves deterministic give/need/fit normalization from the semantic shell snapshot into application-owned action detail.
+- `uapi/tests/applicationLiveSummary.test.ts` now proves deterministic normalization of the shell summary bridge into route-local application operating posture.
+- `uapi/tests/applicationClosureState.test.ts` now proves deterministic normalization of verification, branch, settlement, and ledger semantics from the shell snapshot into application-owned closure state.
 - `uapi/tests/applicationRunDetail.test.ts` now proves the selected-run normalization layer that merges live history payloads with route-owned fallback detail before the application renders deliverables, proofs, and history.
 - `uapi/tests/applicationRunActivity.test.ts` now proves the activity/log normalization layer that lifts retained execution events into the application-owned run activity surface.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
@@ -252,6 +261,7 @@ Still open:
 - exact wallet verification flow requirements,
 - how wallet connection interacts with the current auth/provider model,
 - whether wallet is primary, linked, or action-scoped,
+- where the current credits carrier is cut and replaced by wallet-connected Bitcoin for auth, share ownership, and token transfers,
 - and how much of the current MetaMask/auth code can be reused without redesign.
 
 ### 8. Compatibility-carrier treatment

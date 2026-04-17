@@ -169,6 +169,7 @@ The remaining V26 delta is now concentrated in:
 - deeper package splitting beyond the immediate `packages/bitcode` consolidation owner,
 - GitHub convergence onto longer-term package/API owners,
 - wallet productionization,
+- credits-to-wallet cutover so wallet-connected Bitcoin replaces credits as the end-state auth, share-ownership, and token-transfer carrier,
 - deeper auth hardening,
 - richer external-interface hardening,
 - telemetry and reconciliation hardening,
@@ -194,6 +195,7 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
 - `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
@@ -204,11 +206,14 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-command-state.ts`
+- `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
+- `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
@@ -233,6 +238,9 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationDepositComposer.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
 - `uapi/tests/applicationGiveNeedWorkbench.test.ts`
+- `uapi/tests/applicationClosureState.test.ts`
+- `uapi/tests/applicationLiveSummary.test.ts`
+- `uapi/tests/applicationNeedScenarios.test.ts`
 - `uapi/tests/applicationRunActivity.test.ts`
 - `uapi/tests/applicationRunDetail.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
@@ -261,6 +269,7 @@ Second-gate acceptance is reached only when:
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
 - route-local command state/control is bridged from the mounted Bitcode shell into `ApplicationCommandDeck.tsx` rather than being read and driven through raw DOM queries,
 - route-local deposit submission is available through `ApplicationDepositComposer.tsx`, posting to the app-owned `/api/deposits` route while preserving selected-inventory and auth-session continuity from the mounted shell,
+- route-local need selection is available through `ApplicationNeedScenarioPanel.tsx`, driving active Bitcode scenario posture through the mounted shell bridge,
 - route-local give/need action detail reads the mounted Bitcode shell through a semantic snapshot bridge rather than generic shell markup and stays application-owned inside `/application`,
 - route-local supply selection makes authenticated intake session, artifact filtering, search, and inventory selection explicit inside `/application`,
 - route-local external-runtime posture makes environment mode, actuality disposition, and per-interface blocking state explicit inside `/application`,

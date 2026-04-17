@@ -1,88 +1,169 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
 
 import { CLOSURE_PANEL_SUBSTRUCTURE, getMasterDetailSubstructure } from './application-experience-architecture';
+import { jumpToShellSection, toneForPanel } from './application-shell-reading';
 import {
-  jumpToShellSection,
-  readGenericCard,
-  readPrimaryText,
-  readSurfaceArticle,
-  toneForPanel,
-  type NativeCard,
-  type NativePanel,
-} from './application-shell-reading';
+  normalizeApplicationClosureState,
+  type ApplicationClosurePanel,
+  type ApplicationClosureState,
+} from './application-closure-state';
 
-const CLOSURE_PANEL_CONFIG = [
-  { id: 'panelEvaluations', fallbackLabel: 'Verification + ranked candidates' },
-  { id: 'panelBranchArtifacts', fallbackLabel: 'Branch artifacts' },
-  { id: 'panelSettlement', fallbackLabel: 'Settlement + proof' },
-  { id: 'panelLedger', fallbackLabel: 'Ledger + run history' },
-] as const;
+const PANEL_IDS: Record<ApplicationClosurePanel['id'], string> = {
+  verification: 'panelEvaluations',
+  branch: 'panelBranchArtifacts',
+  settlement: 'panelSettlement',
+  ledger: 'panelLedger',
+};
 
-function readFallbackCard(panel: HTMLElement, title: string, eyebrow: string): NativeCard[] {
-  const fallback = panel.querySelector('.card');
-  if (!fallback) return [];
-  return [readGenericCard(fallback, title, eyebrow)];
+function panelRows(panel: ApplicationClosurePanel) {
+  const extras: { label: string; value: string }[] = [];
+
+  if (panel.candidates?.length) {
+    panel.candidates.forEach((candidate) => {
+      extras.push({
+        label: candidate.title,
+        value: [candidate.artifactKind, `score ${candidate.score}`, candidate.rights].filter(Boolean).join(' · '),
+      });
+    });
+  }
+
+  if (panel.proofFamilies?.length) {
+    panel.proofFamilies.forEach((family) => {
+      extras.push({
+        label: family.label,
+        value: `${family.theoremStatus} · replay ${family.replayArtifacts} · ${family.artifactPath}`,
+      });
+    });
+  }
+
+  if (panel.recentRuns?.length) {
+    panel.recentRuns.forEach((run) => {
+      extras.push({
+        label: run.label,
+        value: run.summary,
+      });
+    });
+  }
+
+  return [...panel.rows, ...extras].slice(0, 8);
 }
 
-function readClosurePanel(panelId: string, fallbackLabel: string): NativePanel {
-  const panel = document.getElementById(panelId) as HTMLElement | null;
-  if (!panel) {
-    return { id: panelId, label: fallbackLabel, badge: '', cards: [] };
-  }
+function renderClosurePanelCard(panel: ApplicationClosurePanel) {
+  const shellPanelId = PANEL_IDS[panel.id];
+  const substructureId = CLOSURE_PANEL_SUBSTRUCTURE[shellPanelId];
+  const substructure = substructureId ? getMasterDetailSubstructure(substructureId) : null;
+  const rows = panelRows(panel);
 
-  const label = readPrimaryText(panel.querySelector('.panel-head h2')) || fallbackLabel;
-  const badge = readPrimaryText(panel.querySelector('.panel-head .badge'));
-  const articles = Array.from(panel.querySelectorAll('article.json-surface')).map((element) => readSurfaceArticle(element));
+  return (
+    <article className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(shellPanelId)}`}>
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div className="min-w-0 max-w-3xl">
+          <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Closure Bitcode section</p>
+          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{panel.label}</h3>
+          <p className="mt-2 text-sm leading-6 text-neutral-300">{panel.summary}</p>
+        </div>
 
-  let cards: NativeCard[] = [];
-  if (panelId === 'panelBranchArtifacts') {
-    const introCards = Array.from(panel.querySelectorAll('.intro-card')).map((element) =>
-      readGenericCard(element, 'Branch artifact stack', 'Branch artifact'),
-    );
-    const markdownCards = Array.from(panel.querySelectorAll(':scope > .card:not(.intro-card)'))
-      .filter((element) => !element.querySelector('article.json-surface'))
-      .map((element) => readGenericCard(element, 'Materialized markdown artifacts', 'Branch artifact'));
-    cards = [...introCards, ...articles, ...markdownCards];
-  } else {
-    cards = articles;
-  }
+        <div className="flex shrink-0 flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
+          {substructure ? (
+            <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-emerald-100">
+              {substructure.label}
+            </span>
+          ) : null}
+          <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{panel.id}</span>
+          <button
+            type="button"
+            onClick={() => jumpToShellSection(shellPanelId)}
+            className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
+          >
+            Open live section
+          </button>
+        </div>
+      </div>
 
-  if (!cards.length) {
-    cards = readFallbackCard(panel, fallbackLabel, 'Bitcode closure');
-  }
+      <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="space-y-4">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {panel.metrics.map((metric) => (
+              <div
+                key={`${panel.id}-${metric.label}`}
+                className="rounded-[1.15rem] border border-white/8 bg-black/20 px-4 py-4"
+              >
+                <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{metric.label}</p>
+                <p className="mt-2 text-base font-semibold text-white">{metric.value}</p>
+              </div>
+            ))}
+          </div>
 
-  return {
-    id: panelId,
-    label,
-    badge,
-    cards: cards.slice(0, 4),
-  };
+          {panel.chips.length ? (
+            <div className="rounded-[1.15rem] border border-white/8 bg-black/20 px-4 py-4">
+              <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Surfaced reads</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {panel.chips.map((chip) => (
+                  <span
+                    key={`${panel.id}-${chip}`}
+                    className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <dl className="space-y-3 rounded-[1.2rem] border border-white/8 bg-black/20 px-4 py-4 text-sm">
+          {rows.map((row) => (
+            <div key={`${panel.id}-${row.label}-${row.value}`}>
+              <dt className="text-neutral-500">{row.label}</dt>
+              <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </article>
+  );
 }
 
 export default function ApplicationClosureNativeSections() {
-  const [panels, setPanels] = useState<NativePanel[]>([]);
-
-  const refreshFromShell = useCallback(() => {
-    setPanels(CLOSURE_PANEL_CONFIG.map((panel) => readClosurePanel(panel.id, panel.fallbackLabel)));
-  }, []);
+  const [closureState, setClosureState] = useState<ApplicationClosureState | null>(null);
 
   useEffect(() => {
-    refreshFromShell();
+    let disposed = false;
 
-    const intervalId = window.setInterval(refreshFromShell, 900);
-    const handleDocumentChange = () => window.setTimeout(refreshFromShell, 0);
+    const refresh = async () => {
+      const snapshot = await readBitcodeApplicationShellSnapshot();
+      if (disposed) return;
+      setClosureState(normalizeApplicationClosureState(snapshot));
+    };
 
-    document.addEventListener('change', handleDocumentChange, true);
-    document.addEventListener('click', handleDocumentChange, true);
+    void refresh();
+    const intervalId = window.setInterval(() => {
+      void refresh();
+    }, 900);
 
     return () => {
+      disposed = true;
       window.clearInterval(intervalId);
-      document.removeEventListener('change', handleDocumentChange, true);
-      document.removeEventListener('click', handleDocumentChange, true);
     };
-  }, [refreshFromShell]);
+  }, []);
+
+  const panels = useMemo(() => {
+    if (!closureState) return [];
+    return [closureState.verification, closureState.branch, closureState.settlement, closureState.ledger];
+  }, [closureState]);
+
+  if (!closureState) {
+    return (
+      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
+        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application closure composition</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode closure snapshot…</p>
+      </section>
+    );
+  }
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
@@ -90,114 +171,29 @@ export default function ApplicationClosureNativeSections() {
         <div className="max-w-3xl">
           <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application closure composition</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native verification, artifact, settlement, and ledger read
+            Native verification, branch, settlement, and ledger semantics
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This layer lifts the consequence side of Bitcode into the application frame. Ranked verification, branch
-            materialization, settlement proof, and ledger history now read as route-owned master-detail closure cards while
-            the preserved shell below remains the live semantic source.
+            The closure side now reads directly from the mounted Bitcode shell snapshot instead of reconstructing itself
+            from rendered panel markup. Verification, branch artifacts, settlement proof, and ledger history are now
+            application-owned closure surfaces with exact semantic continuity.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Closure owner</p>
-            <p className="mt-2 text-neutral-200">native application cards</p>
+            <p className="mt-2 text-neutral-200">native application surfaces</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">System source</p>
-            <p className="mt-2 text-neutral-200">live verification + settlement panels</p>
+            <p className="text-emerald-300/85">Semantic source</p>
+            <p className="mt-2 text-neutral-200">{closureState.canonLabel}</p>
           </div>
         </div>
       </div>
 
       <div className="mt-6 grid gap-5">
-        {panels.map((panel) => (
-          <div key={panel.id} className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(panel.id)}`}>
-            <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-              <div className="min-w-0 max-w-3xl">
-                <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Closure Bitcode section</p>
-                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{panel.label}</h3>
-                <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  {panel.cards[0]?.help ||
-                    panel.cards[0]?.subtitle ||
-                    'This closure-stage section is live in the preserved Bitcode shell below.'}
-                </p>
-              </div>
-
-              <div className="flex shrink-0 flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
-                {(() => {
-                  const substructureId = CLOSURE_PANEL_SUBSTRUCTURE[panel.id];
-                  const substructure = substructureId ? getMasterDetailSubstructure(substructureId) : null;
-                  return substructure ? (
-                    <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-emerald-100">
-                      {substructure.label}
-                    </span>
-                  ) : null;
-                })()}
-                {panel.badge ? (
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{panel.badge}</span>
-                ) : null}
-                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-                  {panel.cards.length} surfaced reads
-                </span>
-                <button
-                  type="button"
-                  onClick={() => jumpToShellSection(panel.id)}
-                  className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
-                >
-                  Open live section
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-5 grid gap-4 xl:grid-cols-2">
-              {panel.cards.map((card, cardIndex) => (
-                <article key={`${panel.id}-${cardIndex}-${card.title}`} className="rounded-[1.45rem] border border-white/8 bg-black/20 px-5 py-5">
-                  <div className="flex flex-col gap-3">
-                    <div>
-                      {card.eyebrow ? (
-                        <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">{card.eyebrow}</p>
-                      ) : null}
-                      <h4 className="mt-2 text-lg font-semibold text-white">{card.title}</h4>
-                      {card.subtitle ? <p className="mt-2 text-sm leading-6 text-neutral-300">{card.subtitle}</p> : null}
-                    </div>
-
-                    {card.badge ? (
-                      <div className="flex flex-wrap gap-2">
-                        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
-                          {card.badge}
-                        </span>
-                      </div>
-                    ) : null}
-
-                    {card.metrics.length ? (
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        {card.metrics.map((metric, metricIndex) => (
-                          <div key={`${card.title}-${metricIndex}-${metric.label}-${metric.value}`} className="rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4">
-                            <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{metric.label}</p>
-                            <p className="mt-2 text-base font-semibold text-white">{metric.value}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {card.rows.length ? (
-                      <dl className="space-y-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
-                        {card.rows.map((row, rowIndex) => (
-                          <div key={`${card.title}-${rowIndex}-${row.label}-${row.value}`}>
-                            <dt className="text-neutral-500">{row.label}</dt>
-                            <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : null}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        ))}
+        {panels.map((panel) => renderClosurePanelCard(panel))}
       </div>
     </section>
   );

@@ -48,9 +48,12 @@ Current active carriers:
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
+- `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/api/conversations/*`
@@ -139,6 +142,16 @@ Current active assignments:
   lint plus live `/application` verification through the shell command/control bridge
   proof surface:
   second-gate application-owned command posture for scenario, projection, branch mode, tutorial, reset, and branch creation
+- `uapi/app/application/application-live-summary.ts`
+  test coverage:
+  `uapi/tests/applicationLiveSummary.test.ts`
+  proof surface:
+  deterministic normalization of the shell summary bridge into route-local application operating posture
+- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with route-local summary posture mounted
+  proof surface:
+  second-gate application-owned operating summary reading from semantic shell state rather than rendered shell cards
 - `uapi/app/application/application-give-need-workbench.ts`
   test coverage:
   `uapi/tests/applicationGiveNeedWorkbench.test.ts`
@@ -174,6 +187,26 @@ Current active assignments:
   lint plus localhost route verification with the app-owned deposit carrier present in `/application`
   proof surface:
   second-gate application-owned native deposit submission against the app-owned Bitcode intake route
+- `uapi/app/application/application-need-scenarios.ts`
+  test coverage:
+  `uapi/tests/applicationNeedScenarios.test.ts`
+  proof surface:
+  deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state
+- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with route-local scenario selection mounted
+  proof surface:
+  second-gate application-owned native need selection through the Bitcode shell control bridge
+- `uapi/app/application/application-closure-state.ts`
+  test coverage:
+  `uapi/tests/applicationClosureState.test.ts`
+  proof surface:
+  deterministic normalization of verification, branch, settlement, and ledger semantics from the shell snapshot into application-owned closure state
+- `uapi/app/application/ApplicationClosureNativeSections.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with native closure cards mounted
+  proof surface:
+  second-gate application-owned closure composition reading from the semantic `closureSurface` bridge instead of rendered shell DOM
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
   test coverage:
   browser/API verification plus runtime-normalization helper coverage
