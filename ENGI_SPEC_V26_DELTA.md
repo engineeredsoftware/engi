@@ -205,8 +205,8 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationRunActivitySurface.tsx`
-- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
 - `uapi/app/application/ApplicationTransactionDetailHero.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
@@ -226,16 +226,18 @@ The current active second-gate source file additions are:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
-- `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
+- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/application-supply-selection.ts`
+- `uapi/app/application/application-transaction-query.ts`
 - `uapi/app/application/application-transactions.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
-- `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `uapi/app/application/ApplicationMockTransactionDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
@@ -263,8 +265,8 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationClosureState.test.ts`
 - `uapi/tests/applicationLiveSummary.test.ts`
 - `uapi/tests/applicationNeedScenarios.test.ts`
-- `uapi/tests/applicationRunActivity.test.ts`
-- `uapi/tests/applicationRunDetail.test.ts`
+- `uapi/tests/applicationTransactionActivity.test.ts`
+- `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
 - `uapi/tests/applicationTransactionDetail.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
@@ -287,6 +289,9 @@ Second-gate acceptance is reached only when:
 - `/application` is the primary Bitcode destination and carries the converged workspace,
 - `/application` clearly reads as a transactions master-detail experience,
 - `/application` uses `transactionId` as the primary application query carrier for master-detail selection while preserving inbound `runId` compatibility,
+- transaction selection and rich master-table filters are route-owned and shareable through application query state,
+- transaction-detail focus is route-owned and shareable through application query state,
+- selected-transaction closure rerun and detail refresh are available directly from the application-owned detail surface through the shell bridge,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
 - the read experience clearly centers on the transactions master-detail window while the write experience moves through give, need, and configuring,

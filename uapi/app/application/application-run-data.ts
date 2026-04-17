@@ -114,7 +114,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       edited: 6,
       created: 2,
       deleted: 0,
-      paths: ['uapi/app/application/ApplicationRunWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
+      paths: ['uapi/app/application/ApplicationTransactionWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
     },
     summary:
       'The branch remediation pack now reads as an application-native workspace surface. Operators can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning `/application`.',

@@ -21,7 +21,7 @@ function getRunStatusTone(status?: string | null) {
   return 'border-amber-500/30 bg-amber-500/10 text-amber-100';
 }
 
-export default function ApplicationMockRunDetails({ run }: { run: WorkspaceRun }) {
+export default function ApplicationMockTransactionDetails({ run }: { run: WorkspaceRun }) {
   return (
     <div className="space-y-4 rounded-[1.5rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 text-sm text-neutral-200 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
       <div className="flex items-start justify-between gap-3">

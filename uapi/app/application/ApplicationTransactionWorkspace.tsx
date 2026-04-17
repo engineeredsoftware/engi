@@ -3,15 +3,17 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
+import type { TransactionFilters } from '@/components/base/engi/execution/bitcode-transaction-types';
 import type { DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
 
-import ApplicationRunDetailSurface from './ApplicationRunDetailSurface';
+import ApplicationTransactionDetailSurface from './ApplicationTransactionDetailSurface';
 import ApplicationTransactionsTable from './ApplicationTransactionsTable';
+import type { ApplicationTransactionDetailSection } from './application-transaction-query';
 import {
   buildApplicationRunDetailFromSelectedRun,
   normalizeApplicationRunDetailPayload,
   type ApplicationRunDetailSnapshot,
-} from './application-run-detail';
+} from './application-transaction-detail-snapshot';
 import { MASTER_DETAIL_SUBSTRUCTURES } from './application-experience-architecture';
 import { MOCK_RUN_DELIVERABLES, type WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
@@ -160,23 +162,33 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: Appli
   });
 }
 
-interface ApplicationRunWorkspaceProps {
+interface ApplicationTransactionWorkspaceProps {
   runs: WorkspaceRun[];
   selectedRun: WorkspaceRun | null;
+  filters: TransactionFilters;
+  onFiltersChange: (nextFilters: TransactionFilters) => void;
+  onResetFilters: () => void;
+  detailSection: ApplicationTransactionDetailSection;
+  onDetailSectionChange: (detailSection: ApplicationTransactionDetailSection) => void;
   isLoadingRuns: boolean;
   runsError: string | null;
   mockMode: boolean;
   onSelectTransaction: (transactionId: string) => void;
 }
 
-export default function ApplicationRunWorkspace({
+export default function ApplicationTransactionWorkspace({
   runs,
   selectedRun,
+  filters,
+  onFiltersChange,
+  onResetFilters,
+  detailSection,
+  onDetailSectionChange,
   isLoadingRuns,
   runsError,
   mockMode,
   onSelectTransaction,
-}: ApplicationRunWorkspaceProps) {
+}: ApplicationTransactionWorkspaceProps) {
   const mockDeliverables = selectedRun ? MOCK_RUN_DELIVERABLES[selectedRun.id] : null;
   const [runDetail, setRunDetail] = useState<ApplicationRunDetailSnapshot | null>(null);
   const [isLoadingRunDetail, setIsLoadingRunDetail] = useState(false);
@@ -243,7 +255,7 @@ export default function ApplicationRunWorkspace({
 
   return (
     <section
-      id="applicationRunWorkspace"
+      id="applicationTransactionWorkspace"
       className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,10,20,0.96),rgba(4,8,16,0.94))] shadow-[0_32px_110px_rgba(0,0,0,0.48)]"
     >
       <div className="border-b border-white/8 px-6 py-5">
@@ -296,6 +308,9 @@ export default function ApplicationRunWorkspace({
               runs={runs}
               selectedTransactionId={selectedRun.id}
               onSelectTransaction={onSelectTransaction}
+              filters={filters}
+              onFiltersChange={onFiltersChange}
+              onResetFilters={onResetFilters}
               isLoadingRuns={isLoadingRuns}
               runsError={runsError}
               mockMode={mockMode}
@@ -348,12 +363,14 @@ export default function ApplicationRunWorkspace({
               ))}
             </div>
 
-            <ApplicationRunDetailSurface
+            <ApplicationTransactionDetailSurface
               selectedRun={selectedRun}
               detail={runDetail}
               isLoadingDetail={isLoadingRunDetail}
               detailError={runDetailError}
               mockMode={mockMode}
+              detailSection={detailSection}
+              onDetailSectionChange={onDetailSectionChange}
             />
           </div>
         )}

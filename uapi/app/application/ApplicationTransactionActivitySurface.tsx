@@ -10,15 +10,15 @@ import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 import { buildApplicationRunActivityFromEvents, buildApplicationRunActivityFromMock } from './application-run-activity';
 import { MOCK_RUN_ACTIVITY, type WorkspaceRun } from './application-run-data';
 
-interface ApplicationRunActivitySurfaceProps {
+interface ApplicationTransactionActivitySurfaceProps {
   selectedRun: WorkspaceRun;
   mockMode: boolean;
 }
 
-export default function ApplicationRunActivitySurface({
+export default function ApplicationTransactionActivitySurface({
   selectedRun,
   mockMode,
-}: ApplicationRunActivitySurfaceProps) {
+}: ApplicationTransactionActivitySurfaceProps) {
   const [userHasScrolled, setUserHasScrolled] = useState(false);
   const liveRun = usePipelineExecution(mockMode ? null : selectedRun.id);
 

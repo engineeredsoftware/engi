@@ -2,7 +2,7 @@ import type { DeliverablesDoc } from '@/components/base/engi/execution/Deliverab
 import {
   buildApplicationRunDetailFromSelectedRun,
   normalizeApplicationRunDetailPayload,
-} from '@/app/application/application-run-detail';
+} from '@/app/application/application-transaction-detail-snapshot';
 import type { WorkspaceRun } from '@/app/application/application-run-data';
 
 const baseRun: WorkspaceRun = {
@@ -22,7 +22,7 @@ const baseRun: WorkspaceRun = {
   closureFocus: 'deliverable bundle',
 };
 
-describe('application-run-detail helpers', () => {
+describe('application-transaction-detail-snapshot helpers', () => {
   it('builds a selected-run fallback snapshot', () => {
     const fallbackDeliverables: DeliverablesDoc = {
       summary: 'Fallback deliverable summary.',

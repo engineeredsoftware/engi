@@ -11,6 +11,7 @@ interface BitcodeTransactionsTableProps {
   onSelectTransaction: (transactionId: string) => void;
   filters: TransactionFilters;
   onFiltersChange: (nextFilters: TransactionFilters) => void;
+  onResetFilters?: () => void;
   statusOptions: string[];
   repositoryOptions: string[];
   participantOptions: string[];
@@ -26,6 +27,7 @@ export default function BitcodeTransactionsTable({
   onSelectTransaction,
   filters,
   onFiltersChange,
+  onResetFilters,
   statusOptions,
   repositoryOptions,
   participantOptions,
@@ -61,6 +63,7 @@ export default function BitcodeTransactionsTable({
       <BitcodeTransactionsFilterBar
         filters={filters}
         onFiltersChange={onFiltersChange}
+        onResetFilters={onResetFilters}
         statusOptions={statusOptions}
         repositoryOptions={repositoryOptions}
         participantOptions={participantOptions}

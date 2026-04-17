@@ -1,4 +1,4 @@
-import type { ApplicationRunDetailSnapshot } from './application-run-detail';
+import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 import type { WorkspaceRun } from './application-run-data';
 
 export type ApplicationTransactionDetailRow = {

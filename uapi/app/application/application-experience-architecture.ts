@@ -60,7 +60,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'Deliverables',
     badge: 'materialized output',
     description:
-      'Read pull requests, reviews, issues, comments, and artifact bundles in the selected run context inside the application workspace.',
+      'Read pull requests, reviews, issues, comments, and artifact bundles in the selected transaction context inside the application workspace.',
     targetId: 'applicationRunDeliverables',
   },
   {

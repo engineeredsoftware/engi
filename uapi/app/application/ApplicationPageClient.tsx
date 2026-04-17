@@ -21,10 +21,19 @@ import ApplicationNeedScenarioPanel from './ApplicationNeedScenarioPanel';
 import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPanel';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
-import ApplicationRunWorkspace from './ApplicationRunWorkspace';
+import ApplicationTransactionWorkspace from './ApplicationTransactionWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
 import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
+import {
+  readApplicationTransactionDetailSection,
+  readApplicationTransactionFilters,
+  readApplicationTransactionId,
+  writeApplicationTransactionDetailSection,
+  resetApplicationTransactionFilters,
+  writeApplicationTransactionFilters,
+  writeApplicationTransactionId,
+} from './application-transaction-query';
 import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
 
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
@@ -35,7 +44,7 @@ function deriveClosureFocus(type?: string | null) {
   if (type.includes('deliverable')) return 'branch artifacts + deliverables';
   if (type.includes('measure')) return 'fit verification + measurement';
   if (type.includes('proof')) return 'proof-family refresh';
-  return 'run detail + consequence reading';
+  return 'transaction detail + consequence reading';
 }
 
 function deriveProofStatus(type?: string | null, status?: string | null) {
@@ -60,7 +69,12 @@ export default function ApplicationPageClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const mockMode = isUserOrbitalMockMode();
-  const selectedTransactionId = searchParams.get('transactionId') || searchParams.get('runId');
+  const selectedTransactionId = useMemo(() => readApplicationTransactionId(searchParams), [searchParams]);
+  const selectedTransactionDetailSection = useMemo(
+    () => readApplicationTransactionDetailSection(searchParams),
+    [searchParams],
+  );
+  const transactionFilters = useMemo(() => readApplicationTransactionFilters(searchParams), [searchParams]);
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
   const [runs, setRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
@@ -160,9 +174,7 @@ export default function ApplicationPageClient() {
 
   useEffect(() => {
     if (!runs.length || selectedTransactionId) return;
-    const nextParams = new URLSearchParams(searchParams.toString());
-    nextParams.set('transactionId', runs[0].id);
-    nextParams.delete('runId');
+    const nextParams = writeApplicationTransactionId(searchParams, runs[0].id);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   }, [pathname, router, runs, searchParams, selectedTransactionId]);
 
@@ -172,9 +184,22 @@ export default function ApplicationPageClient() {
   );
 
   const handleSelectTransaction = (transactionId: string) => {
-    const nextParams = new URLSearchParams(searchParams.toString());
-    nextParams.set('transactionId', transactionId);
-    nextParams.delete('runId');
+    const nextParams = writeApplicationTransactionId(searchParams, transactionId);
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  };
+
+  const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
+    const nextParams = writeApplicationTransactionFilters(searchParams, nextFilters);
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  };
+
+  const handleTransactionFiltersReset = () => {
+    const nextParams = resetApplicationTransactionFilters(searchParams);
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  };
+
+  const handleTransactionDetailSectionChange = (detailSection: typeof selectedTransactionDetailSection) => {
+    const nextParams = writeApplicationTransactionDetailSection(searchParams, detailSection);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
@@ -242,7 +267,7 @@ export default function ApplicationPageClient() {
                 <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Operator workspace</p>
                 <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">Repo supply to settlement</h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-                  First-gate semantics remain intact here while the application-owned frame, overlays, and run-detail
+                  First-gate semantics remain intact here while the application-owned frame, overlays, and transaction-detail
                   workspace converge around the Bitcode system.
                 </p>
               </div>
@@ -534,13 +559,18 @@ export default function ApplicationPageClient() {
             </aside>
           </div>
 
-          <ApplicationRunWorkspace
+          <ApplicationTransactionWorkspace
             runs={runs}
             selectedRun={selectedRun}
             isLoadingRuns={isLoadingRuns}
             runsError={runsError}
             mockMode={mockMode}
             onSelectTransaction={handleSelectTransaction}
+            filters={transactionFilters}
+            onFiltersChange={handleTransactionFiltersChange}
+            onResetFilters={handleTransactionFiltersReset}
+            detailSection={selectedTransactionDetailSection}
+            onDetailSectionChange={handleTransactionDetailSectionChange}
           />
           </div>
         </div>

@@ -5,6 +5,7 @@ import type { TransactionFilters, TransactionOwnership, TransactionSort } from '
 interface BitcodeTransactionsFilterBarProps {
   filters: TransactionFilters;
   onFiltersChange: (nextFilters: TransactionFilters) => void;
+  onResetFilters?: () => void;
   statusOptions: string[];
   repositoryOptions: string[];
   participantOptions: string[];
@@ -14,6 +15,7 @@ interface BitcodeTransactionsFilterBarProps {
 export default function BitcodeTransactionsFilterBar({
   filters,
   onFiltersChange,
+  onResetFilters,
   statusOptions,
   repositoryOptions,
   participantOptions,
@@ -139,6 +141,18 @@ export default function BitcodeTransactionsFilterBar({
           <option value="highest-usd">Highest USD</option>
         </select>
       </label>
+
+      {onResetFilters ? (
+        <div className="xl:col-span-full">
+          <button
+            type="button"
+            onClick={onResetFilters}
+            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
+          >
+            Reset transaction filters
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -49,13 +49,14 @@ Current active carriers:
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-repository-context.ts`
+- `uapi/app/application/application-transaction-query.ts`
 - `uapi/app/api/conversations/*`
 - `uapi/app/api/orbitals/data/route.ts`
 - `uapi/app/api/vcs/[provider]/*`
@@ -202,6 +203,11 @@ Current active assignments:
   lint plus localhost `/application` verification with the transactions master surface mounted
   proof surface:
   second-gate application-owned orchestration of transaction selection, `transactionId` route posture, and filter state
+- `uapi/app/application/application-transaction-query.ts`
+  test coverage:
+  `uapi/tests/applicationTransactionQuery.test.ts`
+  proof surface:
+  deterministic parsing, persistence, compatibility fallback, and reset behavior for route-owned transaction query state
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
   test coverage:
   lint plus application-level verification through the route-local transactions carrier
@@ -307,14 +313,14 @@ Current active assignments:
   route response tests for app-owned runtime posture and live localhost verification
   proof surface:
   second-gate external interfacing hardening and native boundary-actuality application read
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
   test coverage:
   browser verification and UI coverage around transactions/deliverables/proofs/history
   proof surface:
   second-gate master-detail substructure closure
-- `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail-snapshot.ts`
   test coverage:
-  `uapi/tests/applicationRunDetail.test.ts`
+  `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
   proof surface:
   deterministic normalization of selected-transaction history payloads into application-owned deliverable/proof/history detail
 - `uapi/app/application/application-transaction-detail.ts`
@@ -324,10 +330,10 @@ Current active assignments:
   deterministic normalization of selected-transaction overview, identity, and closure-read rows into SRP-aligned detail modules
 - `uapi/app/application/application-run-activity.ts`
   test coverage:
-  `uapi/tests/applicationRunActivity.test.ts`
+  `uapi/tests/applicationTransactionActivity.test.ts`
   proof surface:
   deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
-- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
   test coverage:
   browser verification and UI coverage around live and mock selected-transaction detail rendering
   proof surface:
@@ -347,7 +353,7 @@ Current active assignments:
   lint plus `uapi/tests/applicationTransactionDetail.test.ts`
   proof surface:
   reusable closure/read-follow-through carrier for selected-transaction detail SRP decomposition
-- `uapi/app/application/ApplicationRunActivitySurface.tsx`
+- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
   test coverage:
   browser verification and UI coverage around central activity/log/work-update rendering
   proof surface:

@@ -117,8 +117,9 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationRunActivitySurface.tsx`
-- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
 - `uapi/app/application/ApplicationTransactionDetailHero.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
@@ -137,16 +138,17 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
-- `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/application-supply-selection.ts`
+- `uapi/app/application/application-transaction-query.ts`
 - `uapi/app/application/application-transactions.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
-- `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `uapi/app/application/ApplicationMockTransactionDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
@@ -174,9 +176,10 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/applicationSectionAtlas.test.ts`
 - `uapi/tests/applicationLiveSummary.test.ts`
 - `uapi/tests/applicationNeedScenarios.test.ts`
-- `uapi/tests/applicationRunActivity.test.ts`
-- `uapi/tests/applicationRunDetail.test.ts`
+- `uapi/tests/applicationTransactionActivity.test.ts`
+- `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
 - `uapi/tests/applicationTransactionDetail.test.ts`
+- `uapi/tests/applicationTransactionQuery.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
@@ -325,7 +328,7 @@ The second-gate target structure is:
 
 | Second-gate surface | Current semantic source | Second-gate target owner | Required semantic invariants | Required UI direction |
 | --- | --- | --- | --- | --- |
-| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, a rich transaction-master carrier in `ApplicationTransactionsTable.tsx`, inward substructure composition in `ApplicationRunWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | transactions, deliverables, proofs, history, and operating detail remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
+| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, a rich transaction-master carrier in `ApplicationTransactionsTable.tsx`, inward substructure composition in `ApplicationTransactionWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | transactions, deliverables, proofs, history, and operating detail remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
 | give action frame | `renderRepoInventory()`, `renderAssets()`, deposit form semantics, repo-auth session surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationSupplySelectionPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | authenticated repo supply, depositing, inventory browsing, and material submission remain explicit | the operator should clearly understand how to give material to Bitcode |
 | give-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode give-side supply |
 | native deposit submission | preserved-shell deposit contract and app-owned `/api/deposits` carrier | `ApplicationDepositComposer.tsx`, `application-deposit-composer.ts`, and `uapi/app/api/deposits/route.ts` | title/author inference, selected inventory continuity, raw fallback behavior, and deposit posting remain semantically aligned to Bitcode intake | the operator should be able to submit a Bitcode deposit from the application workspace without dropping back into the preserved shell form |
@@ -399,8 +402,11 @@ Second-gate is accepted only when all of the following hold:
 2. UI acceptance
    - `/application` is primarily route-local app composition rather than a carried monolithic shell DOM/CSS contract,
    - `/application` is the only primary Bitcode destination,
-- `/application` clearly reads as the master-detail Bitcode workspace,
-- `/application` treats `transactionId` as the primary master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence,
+   - `/application` clearly reads as the master-detail Bitcode workspace,
+   - `/application` treats `transactionId` as the primary master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence,
+   - transaction selection plus rich master-table filter posture are route-owned and shareable through application query state instead of being trapped in local component state,
+   - transaction-detail focus is route-owned and shareable through application query state rather than being trapped in local detail-surface state,
+   - selected-transaction closure rerun and detail refresh are available directly from the application-owned detail surface through the shell bridge,
    - the give-side application frame includes explicit repository connection posture and selected repository supply before the deposit chain,
    - the route-local command deck reads and drives scenario/projection/branch/tutorial/reset posture through the shell bridge rather than direct DOM scraping,
    - route-local deposit submission is available through an application-owned Bitcode composer that posts to the app-owned deposit route and refreshes shell state coherently,

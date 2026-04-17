@@ -4,7 +4,7 @@ import {
   buildApplicationTransactionOverviewMetrics,
   countApplicationTransactionDeliverableSurfaces,
 } from '@/app/application/application-transaction-detail';
-import type { ApplicationRunDetailSnapshot } from '@/app/application/application-run-detail';
+import type { ApplicationRunDetailSnapshot } from '@/app/application/application-transaction-detail-snapshot';
 import type { WorkspaceRun } from '@/app/application/application-run-data';
 
 const selectedTransaction: WorkspaceRun = {

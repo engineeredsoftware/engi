@@ -57,15 +57,15 @@ Current active carriers:
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationRunActivitySurface.tsx`
-- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
 - `uapi/app/application/ApplicationTransactionDetailHero.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-closure-state.ts`
@@ -78,8 +78,9 @@ Current active carriers:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
-- `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
+- `uapi/app/application/application-transaction-query.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-supply-selection.ts`
 - `uapi/app/application/application-transactions.ts`
@@ -113,15 +114,33 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 
 Operational rule:
 - master detail means a rich Bitcode transactions table as master and transaction detail as detail
 - the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and configuring from application context
 - `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
+- transaction selection and rich master-table filters are route-owned and shareable through application query state
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
 - later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
+
+## Route-owned transaction query carrier
+
+Second-gate now treats transaction selection and rich master filters as route-owned application state instead of component-local table state.
+
+Current active carriers:
+- `uapi/app/application/application-transaction-query.ts`
+- `uapi/app/application/ApplicationPageClient.tsx`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `uapi/app/application/ApplicationTransactionsTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+
+Operational rule:
+- `transactionId` remains the primary master-detail selection carrier
+- inbound `runId` remains accepted only for compatibility convergence
+- transaction search, status, ownership, lens, repository, participant, proof posture, and sort are persisted in route query state
+- resetting filters clears only transaction-filter carriers and preserves selected transaction plus unrelated application parameters
 
 ## Give-side repository supply carrier
 
@@ -321,12 +340,12 @@ Operational rule:
 Second-gate now treats selected-transaction detail as an application-owned carrier instead of a mock-only inward-port preview.
 
 Current active carriers:
-- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
 - `uapi/app/application/ApplicationTransactionDetailHero.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationRunWorkspace.tsx`
-- `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
 - `/api/executions/history/[runId]`
 
@@ -342,7 +361,7 @@ Operational rule:
 Second-gate now also elevates the retained execution/log/work-update system into the Bitcode application workspace instead of leaving that depth mostly to `/executions`.
 
 Current active carriers:
-- `uapi/app/application/ApplicationRunActivitySurface.tsx`
+- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/hooks/usePipelineExecution.ts`
 - `uapi/components/base/engi/execution/pipeline-execution-log.tsx`
