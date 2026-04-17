@@ -1,6 +1,7 @@
 'use client';
 
 import BitcodeTransactionsDataTable from './BitcodeTransactionsDataTable';
+import BitcodeTransactionsActiveFilters from './BitcodeTransactionsActiveFilters';
 import BitcodeTransactionsFilterBar from './BitcodeTransactionsFilterBar';
 import BitcodeTransactionsOverview from './BitcodeTransactionsOverview';
 import BitcodeTransactionsPagination from './BitcodeTransactionsPagination';
@@ -81,6 +82,12 @@ export default function BitcodeTransactionsTable({
         repositoryOptions={repositoryOptions}
         participantOptions={participantOptions}
         proofStatusOptions={proofStatusOptions}
+      />
+
+      <BitcodeTransactionsActiveFilters
+        filters={filters}
+        onFiltersChange={onFiltersChange}
+        onResetFilters={onResetFilters}
       />
 
       <BitcodeTransactionsDataTable

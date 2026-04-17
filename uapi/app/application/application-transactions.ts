@@ -1,3 +1,5 @@
+import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/engi/execution/bitcode-transaction-types';
+
 import type { WorkspaceRun } from './application-run-data';
 
 export type ApplicationTransactionOwnership = 'all' | 'mine' | 'network';
@@ -108,16 +110,7 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
 }
 
 export function buildApplicationTransactionFilters(): ApplicationTransactionFilters {
-  return {
-    searchTerm: '',
-    status: 'all',
-    ownership: 'all',
-    transactionLens: 'all',
-    repository: 'all',
-    participant: 'all',
-    proofStatus: 'all',
-    sort: 'newest',
-  };
+  return { ...DEFAULT_TRANSACTION_FILTERS };
 }
 
 export function filterApplicationTransactions(

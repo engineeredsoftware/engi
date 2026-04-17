@@ -22,6 +22,22 @@ export interface TransactionPagination {
   pageSize: TransactionPageSize;
 }
 
+export const DEFAULT_TRANSACTION_FILTERS: TransactionFilters = {
+  searchTerm: '',
+  status: 'all',
+  ownership: 'all',
+  transactionLens: 'all',
+  repository: 'all',
+  participant: 'all',
+  proofStatus: 'all',
+  sort: 'newest',
+};
+
+export const DEFAULT_TRANSACTION_PAGINATION: TransactionPagination = {
+  page: 1,
+  pageSize: 10,
+};
+
 export interface TransactionPaginationSummary extends TransactionPagination {
   totalRecords: number;
   totalPages: number;

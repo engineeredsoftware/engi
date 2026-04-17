@@ -140,9 +140,11 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
+- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 
 Operational rule:
@@ -152,6 +154,7 @@ Operational rule:
 - transaction selection and rich master-table filters are route-owned and shareable through application query state
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
 - transaction pagination must remain route-owned and query-shareable rather than living only as a table-local row window
+- active transaction filters should remain visibly surfaced as individually clearable chips rather than hiding the shaped table window inside controls alone
 - transaction filters, headers, pagination, and payload views should share one explainer/tooltip carrier rather than embedding incidental one-off help text per surface
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
 - workspace substructure preview cards should reuse one shared detail-panel carrier rather than preserving page-local metric/row card markup
@@ -167,12 +170,16 @@ Current active carriers:
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
+- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
 
 Operational rule:
 - `transactionId` remains the primary master-detail selection carrier
 - inbound `runId` remains accepted only for compatibility convergence
 - transaction search, status, ownership, lens, repository, participant, proof posture, sort, page, and page size are persisted in route query state
+- shared transaction defaults and active-filter chip normalization should live in the execution layer rather than being redefined independently per route or component
 - transaction detail prefers `transaction` as the active detail carrier while accepting legacy `identity` only as a compatibility parsing alias
 - resetting filters clears only transaction-filter carriers and preserves selected transaction plus unrelated application parameters
 

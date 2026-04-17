@@ -5,7 +5,10 @@ import type {
   TransactionPagination,
   TransactionSort,
 } from '@/components/base/engi/execution/bitcode-transaction-types';
-import { BITCODE_TRANSACTION_PAGE_SIZES } from '@/components/base/engi/execution/bitcode-transaction-types';
+import {
+  BITCODE_TRANSACTION_PAGE_SIZES,
+  DEFAULT_TRANSACTION_PAGINATION,
+} from '@/components/base/engi/execution/bitcode-transaction-types';
 
 import { buildApplicationTransactionFilters } from './application-transactions';
 
@@ -28,10 +31,6 @@ const SEARCH_PARAM_KEYS = {
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
 const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'give', 'need', 'closure'];
 const TRANSACTION_SORT_VALUES: TransactionSort[] = ['newest', 'oldest', 'most-tokens', 'highest-usd'];
-const DEFAULT_TRANSACTION_PAGINATION: TransactionPagination = {
-  page: 1,
-  pageSize: 10,
-};
 export type ApplicationTransactionDetailSection =
   | 'deliverables'
   | 'transaction'

@@ -213,12 +213,22 @@ Current active assignments:
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted
   proof surface:
-  second-gate application-owned orchestration of transaction selection, `transactionId` route posture, filter state, and route-owned pagination
+  second-gate application-owned orchestration of transaction selection, `transactionId` route posture, filter state, active-filter chip posture, and route-owned pagination
 - `uapi/app/application/application-transaction-query.ts`
   test coverage:
   `uapi/tests/applicationTransactionQuery.test.ts`
   proof surface:
-  deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, route-owned pagination carriers, and reset behavior for route-owned transaction query state
+  deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, shared default filter/pagination carriers, route-owned pagination carriers, and reset behavior for route-owned transaction query state
+- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
+  test coverage:
+  `uapi/tests/bitcodeTransactionActiveFilters.test.ts`
+  proof surface:
+  deterministic normalization of non-default transaction filters into readable active-filter chips plus one-at-a-time default reset behavior
+- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
+  test coverage:
+  `uapi/tests/bitcodeTransactionsActiveFilters.test.tsx`
+  proof surface:
+  reusable active-filter chip carrier for the transaction terminal, keeping the shaped master window explicit and individually clearable
 - `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
   test coverage:
   lint plus localhost `/application` verification with route-owned detail focus and closure actions mounted
