@@ -448,6 +448,7 @@ Second-gate is accepted only when all of the following hold:
    - the route-local command deck reads and drives scenario/projection/branch/tutorial/reset posture through the shell bridge rather than direct DOM scraping,
    - route-local deposit submission is available through an application-owned Bitcode composer that posts to the app-owned deposit route and refreshes shell state coherently,
    - route-local need selection is available through an application-owned scenario carrier that drives active Bitcode need posture through the shell bridge,
+   - route-local support rail and give-side supply terminal both use the same shared operator-shell/help grammar as the rest of the operator workspace rather than bespoke section shells,
    - the retained late-Engi navbar frames the Bitcode application,
    - the page reads as Bitcode inside the app shell,
    - and the late-Engi aesthetic atmosphere is preserved without reverting product identity to ENGI.
@@ -461,8 +462,9 @@ Second-gate is accepted only when all of the following hold:
    - route-local need composition keeps active scenario choice, parser posture, closure count, and target-kind posture explicit inside `/application`,
    - route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
    - route-local give/need action detail reads through the semantic shell snapshot bridge rather than generic shell markup,
-- transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
-- the transactions master surface supports free-text search plus direct filtering by status, ownership, repository, participant, proof posture, and sort order,
+   - transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
+   - the transactions master surface supports free-text search plus direct filtering by status, ownership, repository, participant, proof posture, and sort order,
+   - visible operator copy stays user-referencing and does not narrate gates, routes, shell plumbing, mounted-state mechanics, or source-path internals back to the operator,
    - the repo-supply to settlement journey remains understandable,
    - conversations and orbitals are reachable as fullscreen overlays without abandoning application context,
    - selected-transaction detail and deliverable-reading workflows are available from within `/application` through master-detail reuse in both live and mock posture,
@@ -492,7 +494,7 @@ Second-gate is accepted only when all of the following hold:
 
 The intended second-gate implementation order is:
 1. navbar/app-frame and shell-frame convergence,
-2. tutorial/command-rail replacement,
+2. guide/command/rail replacement,
 3. depositing and repo-supply replacement,
 4. needing and fit replacement,
 5. ranking/verification replacement,

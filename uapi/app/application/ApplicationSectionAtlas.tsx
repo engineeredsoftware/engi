@@ -28,7 +28,7 @@ export default function ApplicationSectionAtlas() {
     <ApplicationOperatorCard
       kicker="Workspace map"
       title="Preview the deeper flow"
-      summary="Scan give, need, fit, verification, artifacts, settlement, and ledger sections before you open the exact source path below."
+      summary="Scan give, need, fit, verification, artifacts, settlement, and ledger sections before you open the next deeper stage."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.workspaceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
@@ -38,7 +38,7 @@ export default function ApplicationSectionAtlas() {
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Interaction</p>
-          <p className="mt-2 text-neutral-200">open exact section</p>
+          <p className="mt-2 text-neutral-200">open the next section</p>
         </div>
       </div>
 

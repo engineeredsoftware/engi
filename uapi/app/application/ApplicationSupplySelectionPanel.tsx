@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { normalizeApplicationSupplySelection, type ApplicationSupplySelectionState } from './application-supply-selection';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
@@ -18,41 +23,45 @@ export default function ApplicationSupplySelectionPanel() {
     setSearchValue(selection?.searchTerm || '');
   }, [selection?.searchTerm]);
 
+  const selectedEntryLabels = useMemo(
+    () => selection?.filteredEntries.filter((entry) => entry.selected).slice(0, 6).map((entry) => entry.title) || [],
+    [selection],
+  );
+
   if (!selection) {
     return (
-      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application supply selection</p>
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the mounted Bitcode supply-selection state…</p>
-      </section>
+      <ApplicationOperatorCard
+        kicker="Give-side supply"
+        title="Search and select supply for the current give draft"
+        summary="Loading repository-bound supply, selected inventory, and intake controls."
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.supplyInventory}
+      >
+        <p className="text-sm leading-6 text-neutral-300">Loading give-side supply…</p>
+      </ApplicationOperatorCard>
     );
   }
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application supply selection</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native give-side intake control
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Bind an authenticated session, search the available supply, and select the material you want Bitcode to
-            carry forward into Give. The application keeps the controls close while the underlying shell keeps the exact
-            intake semantics stable.
-          </p>
-        </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Selected refs</p>
-            <p className="mt-2 text-neutral-200">{selection.selectedCount}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Filtered inventory</p>
-            <p className="mt-2 text-neutral-200">{selection.filteredCount}</p>
-          </div>
-        </div>
-      </div>
+    <ApplicationOperatorCard
+      kicker="Give-side supply"
+      title="Search and select supply for the current give draft"
+      summary="Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current give draft before moving into deposit and need."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.supplyInventory}
+      headerAside={
+        <BitcodeMetricGrid
+          metrics={[
+            { label: 'Selected refs', value: String(selection.selectedCount) },
+            { label: 'Filtered inventory', value: String(selection.filteredCount) },
+            { label: 'Auth sessions', value: String(selection.authSessions.length) },
+            { label: 'Artifact kinds', value: String(selection.kindOptions.length) },
+          ]}
+          columnsClassName="tablet:grid-cols-2"
+          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
+          valueClassName="text-sm font-semibold text-neutral-200"
+        />
+      }
+    >
 
       <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <div className="grid gap-4 lg:grid-cols-3">
@@ -106,17 +115,24 @@ export default function ApplicationSupplySelectionPanel() {
         </div>
 
         <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Source continuity</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Draft continuity</p>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            These controls drive the live Bitcode intake path directly. Work here in the operator workspace, then open
-            the exact deposit section only when you need the lower source path.
+            Selected supply stays attached to the current give draft. Continue into give when you are ready to describe
+            issuer, provenance, and intent.
           </p>
+          {selectedEntryLabels.length ? (
+            <BitcodeChipCloud
+              chips={selectedEntryLabels}
+              className="mt-4"
+              chipClassName="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200"
+            />
+          ) : null}
           <button
             type="button"
             onClick={() => jumpToShellSection('panelDepositing')}
             className="mt-4 rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Open live deposit section
+            Continue to give draft
           </button>
         </div>
       </div>
@@ -166,6 +182,6 @@ export default function ApplicationSupplySelectionPanel() {
           </button>
         ))}
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

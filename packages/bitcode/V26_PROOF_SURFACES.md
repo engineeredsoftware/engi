@@ -183,6 +183,11 @@ Current active assignments:
   `uapi/tests/applicationOperatorCard.test.tsx`
   proof surface:
   second-gate shared operator shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
+- `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
+  test coverage:
+  `uapi/tests/applicationWorkspaceRailCard.test.tsx`
+  proof surface:
+  second-gate compact shared operator-shell/help carrier for the right-rail posture, including explainer continuity and user-facing copy framing
 - `uapi/app/application/application-operator-explainers.ts`
   test coverage:
   consumed through component tests and lint plus live `/application` verification
@@ -213,6 +218,11 @@ Current active assignments:
   lint plus localhost `/application` verification with semantic atlas cards mounted
   proof surface:
   second-gate application-owned section atlas reading from semantic bridges rather than rendered shell panel markup
+- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+  test coverage:
+  `uapi/tests/applicationSupplySelection.test.ts` for normalized supply-selection state plus lint and live `/application` verification for the shared operator-shell framing
+  proof surface:
+  second-gate give-side supply terminal with shared operator-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/application`
 - `uapi/app/application/application-core-surface.ts`
   test coverage:
   `uapi/tests/applicationCoreSurface.test.ts`

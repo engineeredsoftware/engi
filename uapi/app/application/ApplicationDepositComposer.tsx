@@ -135,7 +135,7 @@ export default function ApplicationDepositComposer() {
         summary="Reading selected supply, issuer continuity, and the current deposit draft posture."
         explainer={APPLICATION_OPERATOR_EXPLAINERS.depositComposer}
       >
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading mounted Bitcode deposit state…</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">Loading the current give draft…</p>
       </ApplicationOperatorCard>
     );
   }
@@ -302,7 +302,7 @@ export default function ApplicationDepositComposer() {
               onClick={() => jumpToShellSection('panelDepositing')}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
-              Open live deposit section
+              Continue in give
             </button>
           </div>
 

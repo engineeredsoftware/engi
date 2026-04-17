@@ -136,7 +136,7 @@ export default function ApplicationClosureNativeSections() {
       <ApplicationOperatorCard
         kicker="Closure map"
         title="Verification, branch, settlement, and ledger"
-        summary="Reading the current closure sequence and source posture."
+        summary="Reading the current closure sequence and runtime posture."
         explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode closure snapshot…</p>
@@ -148,13 +148,13 @@ export default function ApplicationClosureNativeSections() {
     <ApplicationOperatorCard
       kicker="Closure map"
       title="Verification, branch, settlement, and ledger"
-      summary="Read closure as one sequence from verification through ledger continuity, then open the deeper source path only when needed."
+      summary="Read closure as one sequence from verification through ledger continuity, then open the lower runtime detail only when needed."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
             { label: 'Read posture', value: 'workspace sequence' },
-            { label: 'Source posture', value: closureState.canonLabel },
+            { label: 'Runtime posture', value: closureState.canonLabel },
           ]}
           columnsClassName="tablet:grid-cols-2"
           itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"

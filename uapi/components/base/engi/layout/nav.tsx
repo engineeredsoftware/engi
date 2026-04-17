@@ -107,25 +107,33 @@ export default function Nav() {
 
   const isScrolled = useScrollPosition();
   const shouldCollapse = shouldApplyCollapseAnimation(pathname);
+  const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
 
   // Determine if the nav should be fixed
   const shouldBeFixed = useMemo(() => {
+    if (isApplicationRoute) return false;
     if (user) return true;
     if (!pathname) return true;
     if (pathname === '/') return false;
     return true;
-  }, [user, pathname]);
+  }, [isApplicationRoute, user, pathname]);
 
   // Determine if the nav should be visually collapsed
   const isCollapsed = shouldCollapse && isScrolled;
 
   // Compute positioning class
-  const positionClass = shouldBeFixed
-    ? 'fixed inset-x-0 top-0 mx-auto'
-    : 'relative';
+  const positionClass = isApplicationRoute
+    ? 'sticky inset-x-0 top-0'
+    : shouldBeFixed
+      ? 'fixed inset-x-0 top-0 mx-auto'
+      : 'relative';
 
   // Compute translateY for expanded (offset) or collapsed (pinned) state
-  const transformValue = isCollapsed ? 'translateY(0)' : 'translateY(calc(var(--banner-offset,0px) + 4rem))';
+  const transformValue = isApplicationRoute
+    ? 'none'
+    : isCollapsed
+      ? 'translateY(0)'
+      : 'translateY(calc(var(--banner-offset,0px) + 4rem))';
 
   const handleLogoClick = () => {
     router.push('/')
@@ -134,31 +142,39 @@ export default function Nav() {
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${isApplicationRoute ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${!isApplicationRoute && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!isApplicationRoute && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,
-          width: isCollapsed ? '80%' : '100%',
-          transition: shouldCollapse
+          width: !isApplicationRoute && isCollapsed ? '80%' : '100%',
+          transition: isApplicationRoute
+            ? 'opacity 250ms ease-out'
+            : shouldCollapse
             ? isCollapsed
               ? 'transform 500ms ease-in-out, width 250ms ease-in-out'
               : 'transform 250ms ease-in-out, width 500ms ease-in-out'
             : undefined,
-          padding: '2px',
-          paddingBottom: '16px',
+          padding: isApplicationRoute ? '0px' : '2px',
+          paddingBottom: isApplicationRoute ? '0px' : '16px',
           isolation: 'isolate',
           border: 'none',
         }}
       >
-        <div className="flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 py-4 pb-6 max-w-7xl mx-auto">
+        <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${isApplicationRoute ? 'py-4' : 'py-4 pb-6'}`}>
           <div className="flex items-center w-full">
-            <div onClick={handleLogoClick} className={`cursor-pointer ${isAnimated ? 'nav-logo-animated' : 'opacity-0'}`}>
-              <Logo beta />
+            <div onClick={handleLogoClick} className={`flex items-center gap-3 cursor-pointer ${isAnimated ? 'nav-logo-animated' : 'opacity-0'}`}>
+              <Logo beta={!isApplicationRoute} height="h-9" width="w-9" />
+              {isApplicationRoute ? (
+                <div className="hidden sm:block">
+                  <p className="text-xs uppercase tracking-[0.24em] text-emerald-300/80">Bitcode</p>
+                  <p className="mt-1 text-sm text-neutral-200">operator terminal</p>
+                </div>
+              ) : null}
             </div>
             {/* Nav links shown only when signed in */}
             {!user && <div className="flex-1" />}
             {user && (
-              <ul className="flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center tablet:ml-[130px]">
+              <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${isApplicationRoute ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
                   { href: '/application', label: 'application' },
                 ].map(({ href, label }, index) => {
@@ -196,6 +212,7 @@ export default function Nav() {
                         ) : (
                           <a
                             data-testid={`nav-${label}-link`}
+                            aria-current={isActiveRoute ? 'page' : undefined}
                             href={href}
                             className={`
                           text-xl font-light relative transition-all duration-200 ease-in-out 

@@ -8,6 +8,7 @@ import {
 import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './application-run-data';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
 import ApplicationWorkspaceRailCard from './ApplicationWorkspaceRailCard';
 
@@ -56,6 +57,7 @@ export default function ApplicationWorkspaceRail({
         title={APPLICATION_SURFACE_COPY.rail.control.title}
         summary={APPLICATION_SURFACE_COPY.rail.control.summary}
         tone="emerald"
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.railModes}
       >
         <div className="mt-5 grid gap-3">
           <button
@@ -79,6 +81,7 @@ export default function ApplicationWorkspaceRail({
         kicker={APPLICATION_SURFACE_COPY.rail.support.kicker}
         title={APPLICATION_SURFACE_COPY.rail.support.title}
         summary={APPLICATION_SURFACE_COPY.rail.support.summary}
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.railSupport}
       >
         <div className="flex items-center justify-between gap-3">
           {usesMockTransactions ? (
@@ -99,7 +102,7 @@ export default function ApplicationWorkspaceRail({
             </div>
           ) : !selectedRun ? (
             <div className="rounded-2xl border border-white/6 bg-black/20 px-4 py-6 text-sm text-neutral-400">
-              Select a Bitcode transaction in the central master table to load support context here.
+              Select a Bitcode transaction in the ledger to load support context here.
             </div>
           ) : (
             <div className="rounded-2xl border border-white/6 bg-black/20 px-4 py-4">
@@ -134,6 +137,7 @@ export default function ApplicationWorkspaceRail({
           kicker={APPLICATION_SURFACE_COPY.rail.focus.kicker}
           title={APPLICATION_SURFACE_COPY.rail.focus.title}
           summary={APPLICATION_SURFACE_COPY.rail.focus.summary}
+          explainer={APPLICATION_OPERATOR_EXPLAINERS.railFocus}
         >
           <dl className="mt-4 space-y-3 text-sm">
             <div>

@@ -3,30 +3,47 @@
 import React from 'react';
 
 import ApplicationOperatorCard from './ApplicationOperatorCard';
+import ApplicationRuntimeDrawer from './ApplicationRuntimeDrawer';
 import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 
 export default function ApplicationPreservedShellSurface() {
   return (
     <ApplicationOperatorCard
-      kicker="Source path view"
-      title="Repo supply to settlement source path"
-      summary="Open the exact Bitcode source path when you need to inspect the lower deterministic flow from give through settlement."
+      kicker="Lower runtime"
+      title="Keep the mounted runtime available without letting it take over the workspace"
+      summary="Stay in the application terminal for normal reading and drafting. Open the lower runtime only when you need exact follow-through, replay detail, or mount-level verification."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.sourcePath}
       className="min-w-0"
-      childrenClassName="p-2 tablet:p-4"
+      childrenClassName="space-y-5"
     >
+      <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Use this for</p>
+          <p className="mt-2 text-neutral-200">exact follow-through + replay checks</p>
+        </div>
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Keep primary</p>
+          <p className="mt-2 text-neutral-200">transactions + selected detail</p>
+        </div>
+      </div>
+
+      <ApplicationRuntimeDrawer
+        title="Open the mounted Bitcode runtime"
+        summary="This preserves the original runtime contract for inspection and closure follow-through while the main application keeps the cleaner master-detail surface."
+      >
+        <div className="min-w-0 p-2 tablet:p-4">
         <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
           <div className="page">
             <header className="hero" id="hero">
               <p className="eyebrow" id="heroEyebrow">
-                Bitcode operator workspace
+                Bitcode lower runtime detail
               </p>
-              <h1>Operate Bitcode from repo supply to settlement.</h1>
+              <h1>Inspect the live Bitcode runtime from give through settlement.</h1>
               <p className="lede" id="heroLede">
-                Set the working scenario, select supply, and follow the flow from give through settlement.
+                Use this lower runtime when you need deterministic follow-through beyond the main application workspace.
               </p>
               <p className="meta hero-tip" id="heroTip">
-                The guide and exact source-path surfaces stay available here whenever you need lower-level inspection.
+                The application terminal stays primary. This runtime view is for exact inspection, replay, and closure follow-through.
               </p>
               <div className="hero-actions">
                 <label>
@@ -286,6 +303,8 @@ export default function ApplicationPreservedShellSurface() {
             </section>
           </div>
         </div>
+        </div>
+      </ApplicationRuntimeDrawer>
     </ApplicationOperatorCard>
   );
 }

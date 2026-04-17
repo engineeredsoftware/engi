@@ -15,7 +15,7 @@ export const APPLICATION_SURFACE_COPY = {
     kicker: 'Closure and provenance',
     title: 'Closure, proofs, and provenance',
     summary:
-      'Review verification, branch artifacts, settlement, and ledger continuity in one place, then open the exact source path only when you need it.',
+      'Review verification, branch artifacts, settlement, and ledger continuity in one place, then continue into the exact closure stage only when you need deeper proof.',
   },
   workspace: {
     emptySelection:
@@ -26,7 +26,7 @@ export const APPLICATION_SURFACE_COPY = {
   rail: {
     control: {
       kicker: 'Workspace modes',
-      title: 'Read here, write in fullscreen',
+      title: 'Read here, draft in fullscreen',
       summary:
         'Stay in the transaction workspace by default, then open conversations or orbitals when you need fullscreen writing or configuration.',
     },

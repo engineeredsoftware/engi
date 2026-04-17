@@ -10,6 +10,7 @@ import {
   normalizeApplicationCommandState,
   type ApplicationCommandState,
 } from './application-command-state';
+import { deriveApplicationCommandPresentation } from './application-command-presentation';
 import { useApplicationShellBridge } from './application-shell-bridge';
 
 function jumpToShellSection(id: string) {
@@ -29,9 +30,6 @@ export default function ApplicationCommandDeck() {
   const scenario = commandState?.scenario || 'waiting';
   const projection = commandState?.projection || 'waiting';
   const branchMode = commandState?.branchMode || 'waiting';
-  const heroLede = commandState?.heroLede || 'Preparing the operator controls…';
-  const heroTip = commandState?.heroTip || 'Waiting for the current flow guidance and runtime signals.';
-  const status = commandState?.status || 'Loading control state…';
   const guideActionLabel = commandState?.tutorialOpen
     ? 'Hide flow guide'
     : commandState?.tutorialStepCount
@@ -42,6 +40,10 @@ export default function ApplicationCommandDeck() {
     commandState && commandState.tutorialStepCount > 0
       ? `${commandState.tutorialOpen ? 'active' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
       : 'available';
+  const presentation = useMemo(
+    () => deriveApplicationCommandPresentation(commandState),
+    [commandState],
+  );
 
   return (
     <ApplicationOperatorCard
@@ -194,12 +196,12 @@ export default function ApplicationCommandDeck() {
         <div className="space-y-4">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <div className="flex items-center gap-2">
-              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Working draft</p>
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Current working draft</p>
               <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-emerald-100">
                 resumable
               </span>
             </div>
-            <p className="mt-3 text-sm leading-6 text-neutral-200">{heroLede}</p>
+            <p className="mt-3 text-sm leading-6 text-neutral-200">{presentation.draftSummary}</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
                 <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Scenario</p>
@@ -218,8 +220,8 @@ export default function ApplicationCommandDeck() {
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Guide and continuation</p>
-            <p className="mt-3 text-sm leading-6 text-neutral-200">{status}</p>
-            <p className="mt-3 text-xs leading-6 text-neutral-400">{heroTip}</p>
+            <p className="mt-3 text-sm leading-6 text-neutral-200">{presentation.continuationStatus}</p>
+            <p className="mt-3 text-xs leading-6 text-neutral-400">{presentation.continuationTip}</p>
             <p className="mt-3 text-xs leading-6 text-neutral-400">Guide posture: {guideDetail}</p>
           </div>
         </div>

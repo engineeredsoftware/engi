@@ -96,6 +96,19 @@ export function NotificationsWidget() {
     };
   }, [supabase, fetchNotifications, normalize]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [open]);
+
   const unread = notifications.filter((n) => !n.read).length;
 
   // Track arrival animation state
@@ -138,6 +151,10 @@ export function NotificationsWidget() {
         className={['notifications-bell', unread > 0 ? 'has-unread' : '', arrival ? 'new-arrival' : ''].filter(Boolean).join(' ')}
         onClick={() => setOpen((o) => !o)}
         data-testid="notifications-toggle"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls="notifications-dropdown"
+        aria-label={unread > 0 ? `${unread} unread notifications` : 'Notifications'}
       >
         {/* icon */}
         <div className="bell-icon-container">
@@ -160,7 +177,7 @@ export function NotificationsWidget() {
       </button>
 
       {open && (
-        <div className="notifications-dropdown shadow-popover">
+        <div id="notifications-dropdown" className="notifications-dropdown shadow-popover" role="dialog" aria-label="Notifications">
           <div className="notifications-header">
             <h3>Notifications</h3>
             {notifications.length > 0 && (

@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
 import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';

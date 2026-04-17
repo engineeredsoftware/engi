@@ -34,7 +34,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
       preview:
         panel.cards[0]?.help ||
         panel.cards[0]?.subtitle ||
-        'This Bitcode section is live in the mounted core surface.',
+        'This workspace stage is ready to read.',
       subheads: unique(
         panel.cards
           .map((card) => card.title)
@@ -57,7 +57,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
         id,
         label: panel.label,
         badge: panel.chips[0] || panel.metrics[0]?.value || '',
-        preview: panel.summary || 'This Bitcode closure section is live in the semantic closure surface.',
+        preview: panel.summary || 'This closure stage is ready to read.',
         subheads: unique([
           ...panel.metrics.map((metric) => metric.label),
           ...(panel.candidates || []).map((candidate) => candidate.title),
@@ -80,7 +80,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
       id: section.id,
       label: section.label,
       badge: '',
-      preview: 'Waiting for semantic Bitcode section state to populate.',
+      preview: 'Waiting for this workspace stage to populate.',
       subheads: [],
       itemCount: 0,
     }

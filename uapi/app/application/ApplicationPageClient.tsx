@@ -251,13 +251,13 @@ export default function ApplicationPageClient() {
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-3xl">
-                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode application</p>
+                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode operator terminal</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
                   Bitcode transactions master-detail workspace
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  Search and read Bitcode transactions from one operator workspace, open the selected transaction into
-                  deliverables, proofs, and history, and move into conversations or orbitals without losing context.
+                  Search and read Bitcode transactions in one ledger window, open the selected transaction into
+                  deliverables, proofs, and history, and move into conversations or orbitals without losing your place.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
@@ -271,7 +271,7 @@ export default function ApplicationPageClient() {
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Primary actions</p>
-                  <p className="mt-2 text-neutral-200">give + need</p>
+                  <p className="mt-2 text-neutral-200">give + need drafts</p>
                 </div>
               </div>
             </div>

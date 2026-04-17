@@ -305,7 +305,10 @@ Current active carriers:
 - `uapi/app/application/ApplicationOperatorCard.tsx`
 - `uapi/app/application/application-operator-explainers.ts`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
 - `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
+- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
@@ -313,7 +316,9 @@ Current active carriers:
 
 Operational rule:
 - operator-facing workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
+- the support rail and give-side supply terminal are part of that same shared operator shell and may not drift into one-off section chrome
 - live application copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the operator
+- live application copy should also avoid shell-plumbing, mounted-state, or source-path narration unless the operator deliberately enters a bounded lower-level runtime view
 - stepwise workspace guidance should read as resumable give/need flow guidance and working-draft continuity rather than tutorial or demo residue
 - the shared operator shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
 

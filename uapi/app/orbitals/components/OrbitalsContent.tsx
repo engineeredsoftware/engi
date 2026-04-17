@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { OrbitalPane } from './index';
+import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
 
 export interface OrbitalContentProps {
   mode?: 'onboarding' | 'settings';
@@ -12,6 +13,7 @@ export interface OrbitalContentProps {
   availableSteps: OrbitalPane[];
   showContent: boolean;
   showSuccessAnimation: boolean;
+  navigationMode?: 'orbital' | 'tabs';
   onStepClick: (step: OrbitalPane) => void;
   renderStepContent: (step: OrbitalPane) => React.ReactNode;
   isOnboardingComplete?: boolean;
@@ -25,12 +27,14 @@ function OrbitalContent(props: OrbitalContentProps) {
     availableSteps = [],
     showContent = false,
     showSuccessAnimation = false,
+    navigationMode = 'orbital',
     mode = 'onboarding',
     onStepClick = (_: OrbitalPane) => {},
     renderStepContent = (_: OrbitalPane) => null,
     isOnboardingComplete = false,
   } = props;
   const isSettingsMode = mode === 'settings';
+  const usesTabNavigation = navigationMode === 'tabs';
 
   const stepMeta = useMemo(() => {
     const pos = new Map<OrbitalPane, number>();
@@ -56,7 +60,18 @@ function OrbitalContent(props: OrbitalContentProps) {
         </div>
       )}
 
-      {currentStep && (isSettingsMode || !isOnboardingComplete) && (
+      {usesTabNavigation ? (
+        <OrbitalsPaneTabs
+          mode={mode}
+          steps={steps}
+          currentStep={currentStep}
+          completedSteps={completedSteps}
+          availableSteps={availableSteps}
+          onStepClick={onStepClick}
+        />
+      ) : null}
+
+      {currentStep && (isSettingsMode || !isOnboardingComplete) && !usesTabNavigation && (
         <motion.div
           className="orbital-step-indicator"
           initial={{ opacity: 0, x: -20 }}
@@ -119,37 +134,43 @@ function OrbitalContent(props: OrbitalContentProps) {
         </motion.div>
       )}
 
-      <div className="orbital-rings-container">
-        {steps.map((step) => {
-          const i = stepMeta.pos.get(step)!;
-          const isCompleted = completedSteps.includes(step);
-          const isAvailable = availableSteps.includes(step);
-          const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-          const isNext = !isSettingsMode && i === highest + 1;
-          const size = 30 + i * 15;
-          const style: React.CSSProperties = {
-            position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
-            width: `${size}%`, height: `${size}%`, borderRadius: '50%', border: isAvailable ? `2px solid rgba(103,254,183,0.05)` : 'none',
-            boxSizing: 'border-box', cursor: isAvailable ? 'pointer' : 'default', pointerEvents: isAvailable ? 'auto' : 'none',
-            zIndex: steps.length - i,
-          };
-          return (
-            <div
-              key={step}
-              className={`clickable-ring ${isAvailable ? 'available' : ''} ${isNext ? 'next-available' : ''}`}
-              style={style}
-              onClick={() => isAvailable && onStepClick(step)}
-            >
+      {!usesTabNavigation ? (
+        <div className="orbital-rings-container">
+          {steps.map((step) => {
+            const i = stepMeta.pos.get(step)!;
+            const isAvailable = availableSteps.includes(step);
+            const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
+            const isNext = !isSettingsMode && i === highest + 1;
+            const size = 30 + i * 15;
+            const style: React.CSSProperties = {
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: `${size}%`,
+              height: `${size}%`,
+              borderRadius: '50%',
+              border: isAvailable ? '2px solid rgba(103,254,183,0.05)' : 'none',
+              boxSizing: 'border-box',
+              cursor: isAvailable ? 'pointer' : 'default',
+              pointerEvents: isAvailable ? 'auto' : 'none',
+              zIndex: steps.length - i,
+            };
+            return (
               <div
-                className="orbital-label"
-                style={{ '--index': i } as React.CSSProperties}
+                key={step}
+                className={`clickable-ring ${isAvailable ? 'available' : ''} ${isNext ? 'next-available' : ''}`}
+                style={style}
+                onClick={() => isAvailable && onStepClick(step)}
               >
-                {step.charAt(0).toUpperCase() + step.slice(1)}
+                <div className="orbital-label" style={{ '--index': i } as React.CSSProperties}>
+                  {step.charAt(0).toUpperCase() + step.slice(1)}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ) : null}
 
       <AnimatePresence mode="wait">
         {showContent && currentStep && (

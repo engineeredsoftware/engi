@@ -100,7 +100,7 @@ export default function ApplicationTransactionDetailSurface({
       return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active detail focus.`;
     }
     if (showConsole) {
-      return `${normalizedSummary} The compatibility execution console remains available when you need the lower execution view.`;
+      return `${normalizedSummary} The execution console remains available when you need the lower-level runtime view.`;
     }
     return `${normalizedSummary} Deliverables, reviews, issues, comments, and summary text are the active detail focus.`;
   }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);

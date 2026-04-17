@@ -32,7 +32,7 @@ export default function ApplicationNeedScenarioPanel() {
         summary="Reading the current demand frame, parser posture, and target structure."
         explainer={APPLICATION_OPERATOR_EXPLAINERS.needScenarios}
       >
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading mounted Bitcode need scenarios…</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">Loading need scenarios…</p>
       </ApplicationOperatorCard>
     );
   }

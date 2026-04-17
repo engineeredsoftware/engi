@@ -18,7 +18,7 @@ export default function Logo({
   beta = false,
   className = "",
   height = 'h-10',
-  width = 'h-10',
+  width = 'w-10',
   fill = '#65FEB7'
 }: LogoProps) {
   const resolvedFill = normalizeLogoColor(fill);

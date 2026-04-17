@@ -66,6 +66,7 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
       <DropdownMenu.Trigger asChild>
         <button
           aria-label="User menu"
+          aria-haspopup="menu"
           className="relative w-9 h-9 flex items-center justify-center rounded-full overflow-hidden cursor-pointer text-neutral-300 transition-shadow transition-colors duration-300 ease-out focus:outline-none focus-visible:outline-none focus:ring-0 border border-emerald-400/30 shadow-[0_0_6px_rgba(101,254,183,0.2)] hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] hover:border-emerald-400/50 hover:text-white"
         >
           <Avatar.Root className="w-full h-full rounded-full">
@@ -88,8 +89,8 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          sideOffset={0}
-          alignOffset={0}
+          sideOffset={8}
+          alignOffset={-4}
           align="end"
           className={contentStyles}
         >

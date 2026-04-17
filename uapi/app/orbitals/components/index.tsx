@@ -94,6 +94,7 @@ export default function Orbital({
   const router = useRouter();
   const pathname = usePathname();
   const routeStep = useMemo(() => parseOrbitalPath(pathname), [pathname]);
+  const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteOrbitalPane>(initialStep ?? routeStep ?? 'profile');
@@ -422,11 +423,12 @@ export default function Orbital({
   ]);
 
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
+  const usesApplicationOverlay = isApplicationRoute;
 
   return (
     <div
       ref={containerRef}
-      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isSettingsSurface ? 'orbital-system-onboarding' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isSettingsSurface ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
@@ -469,15 +471,17 @@ export default function Orbital({
         )}
       </div>
 
-      <GPUAcceleration>
-        <OrbitalRings
-          count={4}
-          baseSize={30}
-          sizeIncrement={15}
-          activeIndex={showLoginPane ? 0 : currentStepIndex}
-          className={`orbital-system-background ${showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
-        />
-      </GPUAcceleration>
+      {!usesApplicationOverlay ? (
+        <GPUAcceleration>
+          <OrbitalRings
+            count={4}
+            baseSize={30}
+            sizeIncrement={15}
+            activeIndex={showLoginPane ? 0 : currentStepIndex}
+            className={`orbital-system-background ${showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
+          />
+        </GPUAcceleration>
+      ) : null}
 
       <ContentVisibility containSize="600px 400px">
         {showLoginPane ? (
@@ -491,7 +495,8 @@ export default function Orbital({
             completedSteps={completedSteps}
             availableSteps={availableSteps}
             showContent
-            showSuccessAnimation={!isSettingsSurface}
+            showSuccessAnimation={!isSettingsSurface && !usesApplicationOverlay}
+            navigationMode={usesApplicationOverlay ? 'tabs' : 'orbital'}
             onStepClick={handleStepClick}
             renderStepContent={renderStepContent}
             isOnboardingComplete={isUnlockedSurface}

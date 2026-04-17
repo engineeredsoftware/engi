@@ -49,6 +49,40 @@
   backdrop-filter: blur(16px);
 }
 
+.orbital-system-application {
+  padding: clamp(1rem, 2vw, 2rem);
+  background:
+    radial-gradient(circle at top, rgba(101, 254, 183, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(4, 8, 18, 0.98), rgba(3, 6, 14, 0.98));
+}
+
+.orbital-system-application .orbital-header-buttons {
+  left: auto;
+  right: 24px;
+  top: 24px;
+  z-index: 10001;
+}
+
+.orbital-system-application .orbital-content-container {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: min(72rem, calc(100vw - 2rem));
+  height: auto;
+  max-height: calc(100vh - 2rem);
+  margin: 0;
+  padding: clamp(1.5rem, 2.5vw, 2.5rem);
+  border-radius: 1.75rem;
+  border-color: rgba(101, 254, 183, 0.14);
+  background:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(9, 15, 28, 0.98), rgba(5, 9, 18, 0.98));
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  animation: none;
+}
+
 /* Header buttons container */
 .orbital-header-buttons {
   position: absolute;

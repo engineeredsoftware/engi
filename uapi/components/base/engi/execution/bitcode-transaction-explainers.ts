@@ -1,17 +1,7 @@
 import type { BitcodeExplainer } from './bitcode-transaction-types';
 
-const sourceReferences = ['uapi/app/application/*', 'uapi/components/base/engi/execution/*'];
-const canonReferences = ['ENGI_SPEC_V26.md', 'ENGI_SPEC_V26_DELTA.md'];
-
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
-  return {
-    references: {
-      source: sourceReferences,
-      canon: canonReferences,
-      ...explainer.references,
-    },
-    ...explainer,
-  };
+  return explainer;
 }
 
 export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {

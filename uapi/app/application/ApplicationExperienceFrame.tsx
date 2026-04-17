@@ -14,9 +14,9 @@ interface ApplicationExperienceFrameProps {
 export default function ApplicationExperienceFrame({ onOpenConversations }: ApplicationExperienceFrameProps) {
   return (
     <ApplicationOperatorCard
-      kicker="Experience map"
-      title="How the operator workspace is organized"
-      summary="Keep the ledger window primary, then open conversations or orbitals only when you need deeper writing, coordination, or configuration."
+      kicker="Workspace model"
+      title="Read the ledger, then open deeper modes only when needed"
+      summary="Keep transactions and selected detail primary, then move into conversations or orbitals only when you need drafting, coordination, or settings."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -50,7 +50,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
                   onClick={() => jumpToShellSection(experience.targetId)}
                   className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
                 >
-                  Focus master detail
+                  Focus transactions
                 </button>
               ) : experience.id === 'conversations' ? (
                 <button
@@ -106,8 +106,8 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
       <div className="mt-6 rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure stages</p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Verification, branch artifacts, settlement, proofs, deliverables, and history stay first-class Bitcode
-          surfaces, but they read as closure stages inside one central workspace instead of scattering across separate destinations.
+          Verification, branch artifacts, settlement, proofs, deliverables, and history stay connected as one working
+          chain instead of scattering across separate destinations.
         </p>
       </div>
 

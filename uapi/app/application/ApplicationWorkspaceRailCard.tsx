@@ -2,6 +2,8 @@
 
 import React, { type ReactNode } from 'react';
 
+import type { BitcodeExplainer } from '@/components/base/engi/execution/bitcode-transaction-types';
+
 import ApplicationOperatorCard from './ApplicationOperatorCard';
 
 interface ApplicationWorkspaceRailCardProps {
@@ -10,6 +12,7 @@ interface ApplicationWorkspaceRailCardProps {
   summary?: string;
   children: ReactNode;
   tone?: 'default' | 'emerald';
+  explainer?: BitcodeExplainer;
 }
 
 export default function ApplicationWorkspaceRailCard({
@@ -18,6 +21,7 @@ export default function ApplicationWorkspaceRailCard({
   summary,
   children,
   tone = 'default',
+  explainer,
 }: ApplicationWorkspaceRailCardProps) {
   return (
     <ApplicationOperatorCard
@@ -27,6 +31,7 @@ export default function ApplicationWorkspaceRailCard({
       tone={tone}
       size="compact"
       childrenClassName="mt-5"
+      explainer={explainer}
     >
       {children}
     </ApplicationOperatorCard>
