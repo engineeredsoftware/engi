@@ -2,6 +2,7 @@ import type { WorkspaceRun } from './application-run-data';
 
 export type ApplicationTransactionOwnership = 'all' | 'mine' | 'network';
 export type ApplicationTransactionLens = 'all' | 'give' | 'need' | 'closure';
+export type ApplicationTransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-usd';
 
 export interface ApplicationTransactionRecord {
   id: string;
@@ -29,6 +30,9 @@ export interface ApplicationTransactionFilters {
   ownership: ApplicationTransactionOwnership;
   transactionLens: ApplicationTransactionLens;
   repository: string;
+  participant: string;
+  proofStatus: string;
+  sort: ApplicationTransactionSort;
 }
 
 function normalizeWhitespace(value?: string | null) {
@@ -110,6 +114,9 @@ export function buildApplicationTransactionFilters(): ApplicationTransactionFilt
     ownership: 'all',
     transactionLens: 'all',
     repository: 'all',
+    participant: 'all',
+    proofStatus: 'all',
+    sort: 'newest',
   };
 }
 
@@ -119,14 +126,32 @@ export function filterApplicationTransactions(
 ) {
   const searchTerm = filters.searchTerm.trim().toLowerCase();
 
-  return records.filter((record) => {
+  const filteredRecords = records.filter((record) => {
     if (searchTerm && !record.searchableText.includes(searchTerm)) return false;
     if (filters.status !== 'all' && record.status !== filters.status) return false;
     if (filters.transactionLens !== 'all' && record.transactionLens !== filters.transactionLens) return false;
     if (filters.repository !== 'all' && record.repository !== filters.repository) return false;
+    if (filters.participant !== 'all' && record.participant !== filters.participant) return false;
+    if (filters.proofStatus !== 'all' && record.proofStatus !== filters.proofStatus) return false;
     if (filters.ownership === 'mine' && !record.isOwnTransaction) return false;
     if (filters.ownership === 'network' && record.isOwnTransaction) return false;
     return true;
+  });
+
+  return [...filteredRecords].sort((left, right) => {
+    if (filters.sort === 'oldest') {
+      return new Date(left.createdAt).getTime() - new Date(right.createdAt).getTime();
+    }
+
+    if (filters.sort === 'most-tokens') {
+      return (right.tokenTotal ?? 0) - (left.tokenTotal ?? 0);
+    }
+
+    if (filters.sort === 'highest-usd') {
+      return (right.usdTotal ?? 0) - (left.usdTotal ?? 0);
+    }
+
+    return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
   });
 }
 
@@ -134,5 +159,7 @@ export function buildApplicationTransactionFilterOptions(records: ApplicationTra
   return {
     statuses: Array.from(new Set(records.map((record) => record.status))).sort(),
     repositories: Array.from(new Set(records.map((record) => record.repository))).sort(),
+    participants: Array.from(new Set(records.map((record) => record.participant))).sort(),
+    proofStatuses: Array.from(new Set(records.map((record) => record.proofStatus))).sort(),
   };
 }

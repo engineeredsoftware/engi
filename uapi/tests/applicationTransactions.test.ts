@@ -77,10 +77,38 @@ describe('application-transactions', () => {
     expect(filtered[0].id).toBe('tx-2');
   });
 
+  it('filters transactions by participant and proof posture', () => {
+    const records = normalizeApplicationTransactions(runs);
+    const filters = {
+      ...buildApplicationTransactionFilters(),
+      participant: 'garrett',
+      proofStatus: 'bounded proof ready',
+    };
+
+    const filtered = filterApplicationTransactions(records, filters);
+
+    expect(filtered).toHaveLength(1);
+    expect(filtered[0].id).toBe('tx-1');
+  });
+
+  it('sorts transactions by highest usd when requested', () => {
+    const records = normalizeApplicationTransactions(runs);
+    const filters = {
+      ...buildApplicationTransactionFilters(),
+      sort: 'highest-usd' as const,
+    };
+
+    const filtered = filterApplicationTransactions(records, filters);
+
+    expect(filtered.map((record) => record.id)).toEqual(['tx-1', 'tx-2']);
+  });
+
   it('builds filter options from normalized transactions', () => {
     const options = buildApplicationTransactionFilterOptions(normalizeApplicationTransactions(runs));
 
     expect(options.statuses).toEqual(['completed', 'running']);
     expect(options.repositories).toEqual(['bitcode/bitcode', 'bitcode/research']);
+    expect(options.participants).toEqual(['garrett', 'research-partner']);
+    expect(options.proofStatuses).toEqual(['bounded proof ready', 'verification in flight']);
   });
 });

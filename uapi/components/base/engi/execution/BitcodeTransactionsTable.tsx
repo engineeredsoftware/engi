@@ -2,6 +2,7 @@
 
 type TransactionOwnership = 'all' | 'mine' | 'network';
 type TransactionLens = 'all' | 'give' | 'need' | 'closure';
+type TransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-usd';
 
 interface TransactionFilters {
   searchTerm: string;
@@ -9,6 +10,9 @@ interface TransactionFilters {
   ownership: TransactionOwnership;
   transactionLens: TransactionLens;
   repository: string;
+  participant: string;
+  proofStatus: string;
+  sort: TransactionSort;
 }
 
 interface TransactionRecord {
@@ -57,6 +61,8 @@ interface BitcodeTransactionsTableProps {
   onFiltersChange: (nextFilters: TransactionFilters) => void;
   statusOptions: string[];
   repositoryOptions: string[];
+  participantOptions: string[];
+  proofStatusOptions: string[];
   isLoading: boolean;
   error: string | null;
   mockMode: boolean;
@@ -70,6 +76,8 @@ export default function BitcodeTransactionsTable({
   onFiltersChange,
   statusOptions,
   repositoryOptions,
+  participantOptions,
+  proofStatusOptions,
   isLoading,
   error,
   mockMode,
@@ -77,6 +85,9 @@ export default function BitcodeTransactionsTable({
   const updateFilter = <K extends keyof TransactionFilters>(key: K, value: TransactionFilters[K]) => {
     onFiltersChange({ ...filters, [key]: value });
   };
+
+  const ownTransactionCount = records.filter((record) => record.isOwnTransaction).length;
+  const visibleTokenTotal = records.reduce((total, record) => total + (record.tokenTotal ?? 0), 0);
 
   return (
     <section className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
@@ -95,17 +106,29 @@ export default function BitcodeTransactionsTable({
             <p className="mt-2 text-neutral-100">{records.length}</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-emerald-300/85">Selected</p>
-            <p className="mt-2 text-neutral-100">{selectedTransactionId ? '1 active' : 'none'}</p>
+            <p className="text-emerald-300/85">Own visible</p>
+            <p className="mt-2 text-neutral-100">{ownTransactionCount}</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-emerald-300/85">Mode</p>
-            <p className="mt-2 text-neutral-100">{mockMode ? 'mock review' : 'live detail'}</p>
+            <p className="text-emerald-300/85">Visible tokens</p>
+            <p className="mt-2 text-neutral-100">{visibleTokenTotal.toLocaleString('en-US')}</p>
           </div>
         </div>
       </div>
 
-      <div className="mt-5 grid gap-3 xl:grid-cols-[minmax(0,1.6fr)_repeat(4,minmax(0,0.8fr))]">
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+          selected {selectedTransactionId ? 'transaction active' : 'none'}
+        </span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+          mode {mockMode ? 'mock review' : 'live detail'}
+        </span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+          search spans ids, repos, branches, participants, proof posture, and summaries
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-3 xl:grid-cols-[minmax(0,1.4fr)_repeat(6,minmax(0,0.76fr))]">
         <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
           <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Search transactions</span>
           <input
@@ -172,6 +195,52 @@ export default function BitcodeTransactionsTable({
                 {repository}
               </option>
             ))}
+          </select>
+        </label>
+
+        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
+          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Participant</span>
+          <select
+            value={filters.participant}
+            onChange={(event) => updateFilter('participant', event.target.value)}
+            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
+          >
+            <option value="all">All participants</option>
+            {participantOptions.map((participant) => (
+              <option key={participant} value={participant}>
+                {participant}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
+          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Proof posture</span>
+          <select
+            value={filters.proofStatus}
+            onChange={(event) => updateFilter('proofStatus', event.target.value)}
+            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
+          >
+            <option value="all">All proof states</option>
+            {proofStatusOptions.map((proofStatus) => (
+              <option key={proofStatus} value={proofStatus}>
+                {proofStatus}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
+          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Sort</span>
+          <select
+            value={filters.sort}
+            onChange={(event) => updateFilter('sort', event.target.value as TransactionSort)}
+            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="most-tokens">Most tokens</option>
+            <option value="highest-usd">Highest USD</option>
           </select>
         </label>
       </div>

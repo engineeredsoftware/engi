@@ -60,7 +60,7 @@ export default function ApplicationPageClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const mockMode = isUserOrbitalMockMode();
-  const selectedRunId = searchParams.get('runId');
+  const selectedTransactionId = searchParams.get('transactionId') || searchParams.get('runId');
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
   const [runs, setRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
@@ -159,20 +159,22 @@ export default function ApplicationPageClient() {
   }, [mockMode]);
 
   useEffect(() => {
-    if (!runs.length || selectedRunId) return;
+    if (!runs.length || selectedTransactionId) return;
     const nextParams = new URLSearchParams(searchParams.toString());
-    nextParams.set('runId', runs[0].id);
+    nextParams.set('transactionId', runs[0].id);
+    nextParams.delete('runId');
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
-  }, [pathname, router, runs, searchParams, selectedRunId]);
+  }, [pathname, router, runs, searchParams, selectedTransactionId]);
 
   const selectedRun = useMemo(
-    () => runs.find((run) => run.id === selectedRunId) || runs[0] || null,
-    [runs, selectedRunId],
+    () => runs.find((run) => run.id === selectedTransactionId) || runs[0] || null,
+    [runs, selectedTransactionId],
   );
 
-  const handleSelectRun = (runId: string) => {
+  const handleSelectTransaction = (transactionId: string) => {
     const nextParams = new URLSearchParams(searchParams.toString());
-    nextParams.set('runId', runId);
+    nextParams.set('transactionId', transactionId);
+    nextParams.delete('runId');
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
@@ -538,7 +540,7 @@ export default function ApplicationPageClient() {
             isLoadingRuns={isLoadingRuns}
             runsError={runsError}
             mockMode={mockMode}
-            onSelectRun={handleSelectRun}
+            onSelectTransaction={handleSelectTransaction}
           />
           </div>
         </div>

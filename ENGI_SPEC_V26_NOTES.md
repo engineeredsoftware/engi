@@ -134,6 +134,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationNeedScenarioPanel.tsx` plus `application-need-scenarios.ts` now make native need-scenario selection available inside `/application`, driving active scenario posture through the mounted Bitcode shell bridge while keeping parser and closure posture visible,
 - `application-shell-bridge.tsx` plus `applicationShellBridge.test.tsx` now centralize mounted-shell polling and control refresh so second-gate carriers consume one coherent Bitcode application state bridge rather than drifting per-panel refresh loops,
 - `ApplicationTransactionsTable.tsx`, `application-transactions.ts`, `BitcodeTransactionsTable.tsx`, and `applicationTransactions.test.ts` now make master detail concrete as a rich, searchable, filterable Bitcode transactions table with transaction detail carried centrally inside `/application`,
+- `/application` now prefers `transactionId` as the master-detail query carrier while still accepting inbound `runId` for compatibility convergence, and the transactions master surface now filters by status, ownership, repository, participant, proof posture, and sort order in addition to free-text search,
 - `ApplicationRunWorkspace.tsx` now exposes transactions, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
 - `ApplicationRunDetailSurface.tsx` plus `application-run-detail.ts` now normalize selected-run history payloads into one application-owned detail carrier so deliverable-reading panels render in both mock and live posture inside `/application`,
 - `ApplicationRunActivitySurface.tsx` plus `application-run-activity.ts` now elevate the retained execution/log/work-update system into the Bitcode application-owned detail space instead of leaving that depth mostly to the compatibility execution page,
@@ -207,7 +208,7 @@ Still open:
 - how far the preserved first-gate shell should be decomposed into native application-facing components,
 - which sections should become route-local React composition first,
 - how aggressively the old shell CSS and DOM contract should be retired during second-gate,
-- the exact master-detail structure for runs, deliverables, proofs, and history within `/application`,
+- the exact master-detail structure for transactions, deliverables, proofs, and history within `/application`,
 - the exact fullscreen overlay choreography for conversations relative to the main application workspace,
 - how the late-Engi design-system atmosphere should be preserved while the product expression stays entirely Bitcode,
 - and which external interfacings must be considered second-gate-stable before the new application page is considered ready.

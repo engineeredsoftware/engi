@@ -196,12 +196,12 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationTransactions.test.ts`
   proof surface:
-  deterministic normalization and filtering of Bitcode transactions into a searchable master-detail table carrier
+  deterministic normalization and filtering of Bitcode transactions into a searchable master-detail table carrier, including participant/proof-posture filters and explicit sort posture
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted
   proof surface:
-  second-gate application-owned orchestration of transaction selection and filter state
+  second-gate application-owned orchestration of transaction selection, `transactionId` route posture, and filter state
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
   test coverage:
   lint plus application-level verification through the route-local transactions carrier
@@ -289,14 +289,14 @@ Current active assignments:
   second-gate external interfacing hardening and native boundary-actuality application read
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
   test coverage:
-  browser verification and UI coverage around runs/deliverables/proofs/history
+  browser verification and UI coverage around transactions/deliverables/proofs/history
   proof surface:
   second-gate master-detail substructure closure
 - `uapi/app/application/application-run-detail.ts`
   test coverage:
   `uapi/tests/applicationRunDetail.test.ts`
   proof surface:
-  deterministic normalization of selected-run history payloads into application-owned deliverable/proof/history detail
+  deterministic normalization of selected-transaction history payloads into application-owned deliverable/proof/history detail
 - `uapi/app/application/application-run-activity.ts`
   test coverage:
   `uapi/tests/applicationRunActivity.test.ts`
@@ -304,9 +304,9 @@ Current active assignments:
   deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
   test coverage:
-  browser verification and UI coverage around live and mock selected-run detail rendering
+  browser verification and UI coverage around live and mock selected-transaction detail rendering
   proof surface:
-  second-gate selected-run application ownership rather than mock-only inward reuse
+  second-gate selected-transaction application ownership rather than mock-only inward reuse
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
   test coverage:
   browser verification and UI coverage around central activity/log/work-update rendering

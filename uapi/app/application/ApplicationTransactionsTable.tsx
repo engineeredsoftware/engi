@@ -14,8 +14,8 @@ import type { WorkspaceRun } from './application-run-data';
 
 interface ApplicationTransactionsTableProps {
   runs: WorkspaceRun[];
-  selectedRunId: string | null;
-  onSelectRun: (runId: string) => void;
+  selectedTransactionId: string | null;
+  onSelectTransaction: (transactionId: string) => void;
   isLoadingRuns: boolean;
   runsError: string | null;
   mockMode: boolean;
@@ -23,8 +23,8 @@ interface ApplicationTransactionsTableProps {
 
 export default function ApplicationTransactionsTable({
   runs,
-  selectedRunId,
-  onSelectRun,
+  selectedTransactionId,
+  onSelectTransaction,
   isLoadingRuns,
   runsError,
   mockMode,
@@ -37,12 +37,14 @@ export default function ApplicationTransactionsTable({
   return (
     <BitcodeTransactionsTable
       records={filteredRecords}
-      selectedTransactionId={selectedRunId}
-      onSelectTransaction={onSelectRun}
+      selectedTransactionId={selectedTransactionId}
+      onSelectTransaction={onSelectTransaction}
       filters={filters}
       onFiltersChange={setFilters}
       statusOptions={options.statuses}
       repositoryOptions={options.repositories}
+      participantOptions={options.participants}
+      proofStatusOptions={options.proofStatuses}
       isLoading={isLoadingRuns}
       error={runsError}
       mockMode={mockMode}

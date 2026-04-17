@@ -26,6 +26,7 @@ The concrete V26 delta is:
 - the Bitcode operator route had to become app-native,
 - the repo had to stop treating `engi-demo/` as the primary system owner,
 - the preserved operator UX had to survive the ownership move,
+- the retained and repurposed whole repository now has to be proven up to Bitcode-grade production satisfaction rather than leaving strong proof closure isolated to the former demo core,
 - and production hardening had to continue beyond V25’s first rename gate.
 
 ## Gate Structure
@@ -93,6 +94,7 @@ Its rule is:
 Fifth-gate is the proof precision, closure, and promotion-finalization gate.
 Its rule is:
 - close V26 only under explicit proof-family precision,
+- prove the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - add the debug setting and floating debug widget,
 - ensure the environment toggle refreshes the application coherently,
 - prove production/staging/development mode behavior,
@@ -275,9 +277,11 @@ Second-gate acceptance is reached only when:
 - `/application` is no longer primarily a carried monolithic shell implementation,
 - `/application` is the primary Bitcode destination and carries the converged workspace,
 - `/application` clearly reads as a transactions master-detail experience,
+- `/application` uses `transactionId` as the primary application query carrier for master-detail selection while preserving inbound `runId` compatibility,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
 - transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
+- the transactions master surface supports direct transaction-field filtering, participant ownership filtering, and explicit sort posture,
 - route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,

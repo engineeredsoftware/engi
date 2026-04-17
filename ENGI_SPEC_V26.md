@@ -209,6 +209,7 @@ It includes:
 Fifth-gate is the proof precision, closure, and promotion-finalization gate.
 V26 is not acceptable without complete proof precision and closure across the gates and retained packages it keeps.
 It includes:
+- proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
 - the debug setting and floating debug widget,
 - at minimum an environment toggle that switches environment posture and refreshes the application coherently,
 - full production/staging/development mode completeness in the new application expression,
@@ -387,7 +388,8 @@ Second-gate is accepted only when all of the following hold:
 2. UI acceptance
    - `/application` is primarily route-local app composition rather than a carried monolithic shell DOM/CSS contract,
    - `/application` is the only primary Bitcode destination,
-   - `/application` clearly reads as the master-detail Bitcode workspace,
+- `/application` clearly reads as the master-detail Bitcode workspace,
+- `/application` treats `transactionId` as the primary master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence,
    - the give-side application frame includes explicit repository connection posture and selected repository supply before the deposit chain,
    - the route-local command deck reads and drives scenario/projection/branch/tutorial/reset posture through the shell bridge rather than direct DOM scraping,
    - route-local deposit submission is available through an application-owned Bitcode composer that posts to the app-owned deposit route and refreshes shell state coherently,
@@ -405,7 +407,8 @@ Second-gate is accepted only when all of the following hold:
    - route-local need composition keeps active scenario choice, parser posture, closure count, and target-kind posture explicit inside `/application`,
    - route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
    - route-local give/need action detail reads through the semantic shell snapshot bridge rather than generic shell markup,
-   - transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
+- transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
+- the transactions master surface supports free-text search plus direct filtering by status, ownership, repository, participant, proof posture, and sort order,
    - the repo-supply to settlement journey remains understandable,
    - conversations and orbitals are reachable as fullscreen overlays without abandoning application context,
    - selected-transaction detail and deliverable-reading workflows are available from within `/application` through master-detail reuse in both live and mock posture,
@@ -497,6 +500,7 @@ No part of V26 is considered complete until proof precision and closure are expl
 | runs and pipelines totality | `.engi/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
 | prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` |
 | retained package admissibility | `.engi/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, and justification | retained `packages/*` admitted by V26 |
+| whole-repository production satisfaction | `.engi/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
 | environment mode coherence | `.engi/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
 | v26 total closure | `.engi/v26-total-closure-proof.json` | prove that the gated V26 system closes as one coherent Bitcode system suitable for promotion | all promoted V26 systems and generated artifacts |
 

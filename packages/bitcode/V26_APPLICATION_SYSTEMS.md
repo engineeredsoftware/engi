@@ -29,7 +29,7 @@ V26 defines two main Bitcode actions:
 
 Those map as follows:
 - `master detail`
-  The application-owned operating workspace for repo supply, measured need, runs, deliverables, proofs, and history.
+  The application-owned operating workspace for repo supply, measured need, a transactions master surface, transaction detail, deliverables, proofs, and history.
 - `conversations`
   The fullscreen chat workspace entered from within `/application`.
 - `orbitals`
@@ -109,7 +109,8 @@ Current active carriers:
 
 Operational rule:
 - master detail means a rich Bitcode transactions table as master and transaction detail as detail
-- transaction filtering must support free-text search, transaction-field filtering, and participant ownership filtering
+- `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
+- transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable table UI carrier
 - later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
 
@@ -306,9 +307,9 @@ Operational rule:
 - boundary-only, mock, live-configured, and misconfigured states remain visible and fail closed
 - the app-owned V24 route feeds the application carrier while preserved-shell boundary reading remains below as semantic context
 
-## Selected-run detail carrier
+## Selected-transaction detail carrier
 
-Second-gate now treats selected-run detail as an application-owned carrier instead of a mock-only inward-port preview.
+Second-gate now treats selected-transaction detail as an application-owned carrier instead of a mock-only inward-port preview.
 
 Current active carriers:
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
@@ -317,12 +318,12 @@ Current active carriers:
 - `/api/executions/history/[runId]`
 
 Operational rule:
-- selected-run history payloads normalize into one application-owned detail snapshot
+- selected-transaction history payloads normalize into one application-owned detail snapshot
 - deliverable summary/cards render in both mock and live posture inside `/application`
-- proof/history/accounting remain part of the same selected-run read surface
+- proof/history/accounting remain part of the same selected-transaction read surface
 - the detailed execution console remains secondary compatibility context during second-gate convergence
 
-## Application-owned run activity carrier
+## Application-owned transaction activity carrier
 
 Second-gate now also elevates the retained execution/log/work-update system into the Bitcode application workspace instead of leaving that depth mostly to `/executions`.
 
@@ -335,7 +336,7 @@ Current active carriers:
 - `uapi/components/base/engi/execution/WorkUpdatePanel.tsx`
 
 Operational rule:
-- central master detail owns the selected run’s activity read
+- central master detail owns the selected transaction’s activity read
 - retained execution/log carriers are reused under Bitcode application ownership
 - the rail is selection/orientation focused rather than duplicating the detailed activity surface
 - compatibility execution pages remain available during convergence but are no longer the only rich carrier

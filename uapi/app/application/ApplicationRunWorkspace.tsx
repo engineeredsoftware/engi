@@ -166,7 +166,7 @@ interface ApplicationRunWorkspaceProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   mockMode: boolean;
-  onSelectRun: (runId: string) => void;
+  onSelectTransaction: (transactionId: string) => void;
 }
 
 export default function ApplicationRunWorkspace({
@@ -175,7 +175,7 @@ export default function ApplicationRunWorkspace({
   isLoadingRuns,
   runsError,
   mockMode,
-  onSelectRun,
+  onSelectTransaction,
 }: ApplicationRunWorkspaceProps) {
   const mockDeliverables = selectedRun ? MOCK_RUN_DELIVERABLES[selectedRun.id] : null;
   const [runDetail, setRunDetail] = useState<ApplicationRunDetailSnapshot | null>(null);
@@ -294,8 +294,8 @@ export default function ApplicationRunWorkspace({
           <div className="space-y-6">
             <ApplicationTransactionsTable
               runs={runs}
-              selectedRunId={selectedRun.id}
-              onSelectRun={onSelectRun}
+              selectedTransactionId={selectedRun.id}
+              onSelectTransaction={onSelectTransaction}
               isLoadingRuns={isLoadingRuns}
               runsError={runsError}
               mockMode={mockMode}
