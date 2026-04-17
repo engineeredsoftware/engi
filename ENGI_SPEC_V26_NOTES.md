@@ -58,6 +58,7 @@ In current source, the app-owned first-gate API surface now explicitly includes:
 - `/api/v24/executors/[interfaceId]`
 
 This is the current V26 source carrier, even while V25 remains the only active canon.
+The practical V26 leverage rule is now explicit: the retained active package/app systems outside first-gate Bitcode ownership are to be elevated up to Bitcode-grade auditability, proof-bearing precision, and knowability rather than treated as a looser host Bitcode must compromise down into.
 
 The current active second-gate application additions now explicitly include:
 
@@ -69,9 +70,11 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
@@ -114,6 +117,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationCoreNativeSections.tsx` now reads as the master-detail give/need core instead of only as generic core shell mirroring,
 - `ApplicationRunWorkspace.tsx` now exposes runs, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
 - `ApplicationRunDetailSurface.tsx` plus `application-run-detail.ts` now normalize selected-run history payloads into one application-owned detail carrier so deliverable-reading panels render in both mock and live posture inside `/application`,
+- `ApplicationRunActivitySurface.tsx` plus `application-run-activity.ts` now elevate the retained execution/log/work-update system into the Bitcode application-owned detail space instead of leaving that depth mostly to the compatibility execution page,
 - and `ApplicationWorkspaceRail.tsx` now frames conversations and orbitals as the other two experiences rather than as loose utility exits.
 - `OrbitalsProvider.tsx`, `OrbitalsCreditsPane.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, and `ExecutionsPageClient.tsx` now use the current app-owned `/api/orbitals/data` route instead of the stale `/api/orbitals/user/data` path on touched active surfaces.
 - live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
@@ -122,6 +126,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationExternalInterfacingPanel.tsx` now makes environment mode, actuality disposition, and per-interface runtime blocking state explicit inside `/application` through the app-owned `/api/v24/external-realization` contract.
 - `uapi/tests/api/externalRealizationRoute.test.ts` now proves the app-owned `/api/v24/external-realization` carrier directly instead of relying only on UI normalization coverage.
 - `uapi/tests/applicationRunDetail.test.ts` now proves the selected-run normalization layer that merges live history payloads with route-owned fallback detail before the application renders deliverables, proofs, and history.
+- `uapi/tests/applicationRunActivity.test.ts` now proves the activity/log normalization layer that lifts retained execution events into the application-owned run activity surface.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
 - the active internal module namespace is now `@bitcode/*` across workspace manifests, path aliases, and active source imports.
 

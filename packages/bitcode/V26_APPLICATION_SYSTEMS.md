@@ -54,10 +54,14 @@ Current active carriers:
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationRunActivitySurface.tsx`
+- `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-run-activity.ts`
+- `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 
 ## Give-side repository supply carrier
@@ -91,6 +95,40 @@ Operational rule:
 - per-interface runtime state stays explicit for bitcoin, repeated-read, sidechain, compute, storage, and GitHub
 - boundary-only, mock, live-configured, and misconfigured states remain visible and fail closed
 - the app-owned V24 route feeds the application carrier while preserved-shell boundary reading remains below as semantic context
+
+## Selected-run detail carrier
+
+Second-gate now treats selected-run detail as an application-owned carrier instead of a mock-only inward-port preview.
+
+Current active carriers:
+- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationRunWorkspace.tsx`
+- `uapi/app/application/application-run-detail.ts`
+- `/api/executions/history/[runId]`
+
+Operational rule:
+- selected-run history payloads normalize into one application-owned detail snapshot
+- deliverable summary/cards render in both mock and live posture inside `/application`
+- proof/history/accounting remain part of the same selected-run read surface
+- the detailed execution console remains secondary compatibility context during second-gate convergence
+
+## Application-owned run activity carrier
+
+Second-gate now also elevates the retained execution/log/work-update system into the Bitcode application workspace instead of leaving that depth mostly to `/executions`.
+
+Current active carriers:
+- `uapi/app/application/ApplicationRunActivitySurface.tsx`
+- `uapi/app/application/application-run-activity.ts`
+- `uapi/hooks/usePipelineExecution.ts`
+- `uapi/components/base/engi/execution/pipeline-execution-log.tsx`
+- `uapi/components/base/engi/execution/pipeline-execution-log-header.tsx`
+- `uapi/components/base/engi/execution/WorkUpdatePanel.tsx`
+
+Operational rule:
+- central master detail owns the selected run’s activity read
+- retained execution/log carriers are reused under Bitcode application ownership
+- the rail is selection/orientation focused rather than duplicating the detailed activity surface
+- compatibility execution pages remain available during convergence but are no longer the only rich carrier
 
 ## Overlay choreography
 

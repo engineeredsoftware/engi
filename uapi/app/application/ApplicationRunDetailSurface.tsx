@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 import DeliverablesCardsPanel from '@/components/base/engi/execution/DeliverablesCardsPanel';
 import DeliverablesDocPanel from '@/components/base/engi/execution/DeliverablesDocPanel';
 
+import ApplicationRunActivitySurface from './ApplicationRunActivitySurface';
 import type { ApplicationRunDetailSnapshot } from './application-run-detail';
 import type { WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
@@ -66,6 +67,10 @@ export default function ApplicationRunDetailSurface({
 }: ApplicationRunDetailSurfaceProps) {
   const [summaryOpen, setSummaryOpen] = useState(true);
   const deliverableSurfaceCount = countDeliverableSurfaces(detail) || selectedRun.itemCount || 0;
+
+  useEffect(() => {
+    setSummaryOpen(true);
+  }, [selectedRun.id]);
 
   if (isLoadingDetail && !detail) {
     return (
@@ -248,6 +253,8 @@ export default function ApplicationRunDetailSurface({
           </div>
         </div>
       </div>
+
+      <ApplicationRunActivitySurface selectedRun={selectedRun} mockMode={mockMode} />
 
       {!mockMode ? (
         <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">

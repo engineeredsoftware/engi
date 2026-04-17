@@ -1,9 +1,6 @@
 "use client";
 
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
-import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
-
-import ApplicationMockRunDetails from './ApplicationMockRunDetails';
 import type { WorkspaceRun } from './application-run-data';
 
 function formatRunTimestamp(value: string) {
@@ -136,17 +133,26 @@ export default function ApplicationWorkspaceRail({
       </section>
 
       {selectedRun ? (
-        mockMode ? (
-          <ApplicationMockRunDetails run={selectedRun} />
-        ) : (
-          <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Detail surface</p>
-            <h3 className="mt-2 text-lg font-semibold text-white">Run detail and deliverable inspection</h3>
-            <div className="mt-4">
-              <ExecutionDetailsView runId={selectedRun.id} />
+        <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected run focus</p>
+          <h3 className="mt-2 text-lg font-semibold text-white">Central detail lives in master detail</h3>
+          <p className="mt-3 text-sm leading-6 text-neutral-300">
+            The rail now stays focused on selection and orientation. Rich run detail, deliverable reading, proof posture,
+            and activity logs are carried centrally inside `/application`.
+          </p>
+          <dl className="mt-4 space-y-3 text-sm">
+            <div>
+              <dt className="text-neutral-500">Run id</dt>
+              <dd className="mt-1 font-mono text-neutral-100">{selectedRun.id}</dd>
             </div>
-          </section>
-        )
+            <div>
+              <dt className="text-neutral-500">Summary</dt>
+              <dd className="mt-1 text-neutral-100">
+                {selectedRun.summary || 'Select the central Bitcode detail surface to inspect this run.'}
+              </dd>
+            </div>
+          </dl>
+        </section>
       ) : null}
     </div>
   );

@@ -138,3 +138,146 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       'Proof-family witnesses are still refreshing. Mock review keeps the application workspace legible while the final proof bundle remains in-flight.',
   },
 };
+
+export const MOCK_RUN_ACTIVITY: Record<
+  string,
+  {
+    output: string;
+    outputDetails: Record<string, any>;
+    executionState: Record<string, any>;
+    latestWorkUpdate?: any;
+    iterationUpdates?: any[];
+    isStreamingComplete?: boolean;
+    generationCount?: number;
+    error?: string | null;
+  }
+> = {
+  'mock-run-branch-remediation': {
+    output: [
+      '[pipeline:running]',
+      '[phase:running] Branch remediation',
+      '[agent:running] Branch synthesizer',
+      '[completion]',
+    ].join('\n'),
+    outputDetails: {
+      '[pipeline:running]': { type: 'pipeline', status: 'running', timestamp: '2026-04-16T12:00:10.000Z' },
+      '[phase:running] Branch remediation': {
+        type: 'phase',
+        status: 'running',
+        phase: 'Branch remediation',
+        timestamp: '2026-04-16T12:00:20.000Z',
+      },
+      '[agent:running] Branch synthesizer': {
+        type: 'agent',
+        status: 'running',
+        agent: 'Branch synthesizer',
+        timestamp: '2026-04-16T12:00:26.000Z',
+      },
+      '[completion]': { type: 'completion', timestamp: '2026-04-16T12:02:00.000Z' },
+    },
+    executionState: {
+      phase: 'Branch remediation',
+      agent: 'Branch synthesizer',
+      step: 'prepare_concise_context',
+      generation: 'deliverable bundle',
+    },
+    latestWorkUpdate: {
+      id: 'wu-1',
+      iteration: 2,
+      confidence: 0.94,
+      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for application review.',
+      timestamp: '2026-04-16T12:01:40.000Z',
+    },
+    iterationUpdates: [
+      {
+        id: 'wu-1',
+        iteration: 1,
+        confidence: 0.66,
+        prose: 'Initial remediation branch bundle prepared.',
+        timestamp: '2026-04-16T12:00:48.000Z',
+      },
+      {
+        id: 'wu-2',
+        iteration: 2,
+        confidence: 0.94,
+        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for application review.',
+        timestamp: '2026-04-16T12:01:40.000Z',
+      },
+    ],
+    isStreamingComplete: true,
+    generationCount: 2,
+  },
+  'mock-run-measurement-pass': {
+    output: ['[pipeline:running]', '[phase:running] Measurement refresh', '[completion]'].join('\n'),
+    outputDetails: {
+      '[pipeline:running]': { type: 'pipeline', status: 'running', timestamp: '2026-04-16T11:12:04.000Z' },
+      '[phase:running] Measurement refresh': {
+        type: 'phase',
+        status: 'running',
+        phase: 'Measurement refresh',
+        timestamp: '2026-04-16T11:12:20.000Z',
+      },
+      '[completion]': { type: 'completion', timestamp: '2026-04-16T11:13:02.000Z' },
+    },
+    executionState: {
+      phase: 'Measurement refresh',
+      agent: 'Fit analyzer',
+      step: 'chunk_then_sum',
+      generation: 'verification update',
+    },
+    latestWorkUpdate: {
+      id: 'wu-3',
+      iteration: 1,
+      confidence: 0.88,
+      prose: 'Normalization and decisive fit tiers were refreshed for the selected scenario.',
+      timestamp: '2026-04-16T11:12:48.000Z',
+    },
+    iterationUpdates: [
+      {
+        id: 'wu-3',
+        iteration: 1,
+        confidence: 0.88,
+        prose: 'Normalization and decisive fit tiers were refreshed for the selected scenario.',
+        timestamp: '2026-04-16T11:12:48.000Z',
+      },
+    ],
+    isStreamingComplete: true,
+    generationCount: 1,
+  },
+  'mock-run-proof-refresh': {
+    output: ['[pipeline:running]', '[agent:running] Proof witness generator'].join('\n'),
+    outputDetails: {
+      '[pipeline:running]': { type: 'pipeline', status: 'running', timestamp: '2026-04-16T10:34:04.000Z' },
+      '[agent:running] Proof witness generator': {
+        type: 'agent',
+        status: 'running',
+        agent: 'Proof witness generator',
+        timestamp: '2026-04-16T10:34:26.000Z',
+      },
+    },
+    executionState: {
+      phase: 'Proof refresh',
+      agent: 'Proof witness generator',
+      step: 'stitch_until_complete',
+      generation: 'proof witness',
+    },
+    latestWorkUpdate: {
+      id: 'wu-4',
+      iteration: 1,
+      confidence: 0.58,
+      prose: 'Proof-family witnesses are still refreshing against the current canon posture.',
+      timestamp: '2026-04-16T10:35:10.000Z',
+    },
+    iterationUpdates: [
+      {
+        id: 'wu-4',
+        iteration: 1,
+        confidence: 0.58,
+        prose: 'Proof-family witnesses are still refreshing against the current canon posture.',
+        timestamp: '2026-04-16T10:35:10.000Z',
+      },
+    ],
+    isStreamingComplete: false,
+    generationCount: 1,
+  },
+};

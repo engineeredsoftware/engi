@@ -198,9 +198,11 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
@@ -220,6 +222,7 @@ The current active second-gate source file additions are:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
+- `uapi/tests/applicationRunActivity.test.ts`
 - `uapi/tests/applicationRunDetail.test.ts`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
@@ -247,7 +250,7 @@ Second-gate acceptance is reached only when:
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,
 - route-local native operating, deposit, need, and fit cards now read the live shell surfaces through application-owned composition,
-- run/detail and deliverable-reading behavior is reachable within `/application`,
+- selected-run detail normalizes into one application-owned carrier and deliverable-reading behavior is reachable in both live and mock posture within `/application`,
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,
 - second-gate repository documents stay synchronized to active source, with supplementary modular docs identified where the canon is not the correct carrier,

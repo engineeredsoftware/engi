@@ -27,6 +27,7 @@ During V26 drafting:
 - V26 must not claim promotion or current runtime closure,
 - the current source-bearing implementation basis now includes the landed first-gate package/app migration surfaces cited below,
 - and the V26 main spec must still be full-system and re-implementation-grade even while some target ownership remains draft-target rather than promoted truth.
+- the retained active repository systems outside first-gate Bitcode ownership must be elevated to Bitcode-grade auditability, proof-bearing precision, and knowability rather than pulling Bitcode down to older application looseness.
 
 ## Version executive summary
 
@@ -111,9 +112,11 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
@@ -133,6 +136,7 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
+- `uapi/tests/applicationRunActivity.test.ts`
 - `uapi/tests/applicationRunDetail.test.ts`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
@@ -354,7 +358,7 @@ Second-gate is accepted only when all of the following hold:
    - runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
    - the repo-supply to settlement journey remains understandable,
    - conversations and orbitals are reachable as fullscreen overlays without abandoning application context,
-   - run/detail and deliverable-reading workflows are available from within `/application` through master-detail reuse,
+   - selected-run detail and deliverable-reading workflows are available from within `/application` through master-detail reuse in both live and mock posture,
    - tutorial and explainer guidance remain useful,
    - settings entry and account state remain coherent with the application page,
    - and first-gate semantic regressions are not introduced.

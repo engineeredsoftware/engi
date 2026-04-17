@@ -188,7 +188,7 @@ export function normalizeApplicationRunDetailPayload(
   const processingStats = hasRunProcessingStats ? runProcessingStats : finalWorkSummaryProcessingStats;
 
   return {
-    summary: coerceString(run.summary) || coerceString(finalWorkSummary?.summary) || deliverables?.summary || base.summary,
+    summary: coerceString(run.summary) || coerceString(finalWorkSummary?.summary) || base.summary || deliverables?.summary,
     deliverables,
     repoSnapshot,
     processingStats: {

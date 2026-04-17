@@ -149,6 +149,26 @@ Current active assignments:
   browser verification and UI coverage around runs/deliverables/proofs/history
   proof surface:
   second-gate master-detail substructure closure
+- `uapi/app/application/application-run-detail.ts`
+  test coverage:
+  `uapi/tests/applicationRunDetail.test.ts`
+  proof surface:
+  deterministic normalization of selected-run history payloads into application-owned deliverable/proof/history detail
+- `uapi/app/application/application-run-activity.ts`
+  test coverage:
+  `uapi/tests/applicationRunActivity.test.ts`
+  proof surface:
+  deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
+- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+  test coverage:
+  browser verification and UI coverage around live and mock selected-run detail rendering
+  proof surface:
+  second-gate selected-run application ownership rather than mock-only inward reuse
+- `uapi/app/application/ApplicationRunActivitySurface.tsx`
+  test coverage:
+  browser verification and UI coverage around central activity/log/work-update rendering
+  proof surface:
+  second-gate elevation of retained execution/log carriers into Bitcode application ownership
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
   test coverage:
   browser verification and conversations route tests

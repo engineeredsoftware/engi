@@ -13,6 +13,7 @@ import ApplicationClosureNativeSections from './ApplicationClosureNativeSections
 import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
 import ApplicationExperienceFrame from './ApplicationExperienceFrame';
 import ApplicationExternalInterfacingPanel from './ApplicationExternalInterfacingPanel';
+import ApplicationGiveNeedWorkbench from './ApplicationGiveNeedWorkbench';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
 import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPanel';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
@@ -210,6 +211,7 @@ export default function ApplicationPageClient() {
           <ApplicationExternalInterfacingPanel />
           <ApplicationSectionAtlas />
           <ApplicationCoreNativeSections repositoryContext={repositoryContext} />
+          <ApplicationGiveNeedWorkbench repositoryContext={repositoryContext} />
           <ApplicationClosureNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">

@@ -226,6 +226,78 @@ function canonOperatorLabel(state) {
   return canonPosture(state)['operatorLabel'] || state?.specVersion || 'current canon posture';
 }
 
+function compactInventoryEntry(entry) {
+  return {
+    inventoryEntryId: entry.inventoryEntryId,
+    title: entry.title,
+    artifactKind: entry.artifactKind,
+    originKind: entry.originKind,
+    sourcePath: entry.sourcePath,
+    workflowPath: entry.workflowPath,
+    tags: entry.tags || []
+  };
+}
+
+export function getBitcodeApplicationShellSnapshot() {
+  const state = lastLoadedState;
+  if (!state) return null;
+
+  const scenario = currentScenario(state);
+  const authSession = activeAuthSession(state);
+  const activeEntries = activeInventoryEntries(state);
+  const filteredEntries = filteredInventoryEntries(state);
+  const selectedEntries = selectedInventoryEntries(state);
+
+  return {
+    canonLabel: canonOperatorLabel(state),
+    selection: {
+      projectionPrincipal: activeProjectionPrincipal(state),
+      branchMode: activeBranchMode(state),
+      scenarioId: scenario?.scenarioId || selectedScenarioId || null,
+      authSessionId: authSession?.authSessionId || selectedAuthSessionId || null,
+      selectedInventoryEntryIds: [...selectedInventoryEntryIds]
+    },
+    repoSupplySummary: {
+      repoCount: state.repoSupplySurface?.repoCount || 0,
+      inventoryEntryCount: state.repoSupplySurface?.inventoryEntryCount || 0,
+      scenarioCount: state.needScenarios?.length || 0,
+      candidateAssetCount: state.assets?.length || 0
+    },
+    scenario: scenario
+      ? {
+          scenarioId: scenario.scenarioId,
+          scenarioFamily: scenario.scenarioFamily,
+          repo: scenario.repo,
+          task: scenario.task || scenario.taskSeed || '',
+          profileId: scenario.realizationProfile?.profileId || null,
+          profileLabel: scenario.realizationProfile?.label || null,
+          profileShortLabel: scenario.realizationProfile?.shortLabel || null
+        }
+      : null,
+    authSession: authSession
+      ? {
+          authSessionId: authSession.authSessionId,
+          repo: authSession.repo,
+          installationId: authSession.installationId,
+          installationAccountLogin: authSession.installationAccountLogin,
+          defaultRef: authSession.defaultRef,
+          defaultSignerAddress: authSession.defaultSignerAddress,
+          appSlug: authSession.appSlug,
+          permissionsRoot: authSession.permissionsRoot
+        }
+      : null,
+    inventory: {
+      activeCount: activeEntries.length,
+      filteredCount: filteredEntries.length,
+      selectedCount: selectedEntries.length,
+      selectedEntries: selectedEntries.map(compactInventoryEntry)
+    },
+    depositingSurface: activeDepositingSurface(state),
+    needingSurface: activeNeedingSurface(state),
+    fitSurface: activeDepositingToNeedingSurface(state)
+  };
+}
+
 /**
  * @param {AppState | null | undefined} state
  * @returns {string}
