@@ -132,6 +132,11 @@ Current active assignments:
   semantic snapshot bridge exercised by application-owned give/need normalization and live `/application` review
   proof surface:
   second-gate package-to-application bridge for mounted-shell semantic state and command/intake control
+- `uapi/app/application/application-shell-bridge.tsx`
+  test coverage:
+  `uapi/tests/applicationShellBridge.test.tsx`
+  proof surface:
+  centralized mounted-shell polling and control refresh for second-gate application carriers
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
@@ -187,6 +192,21 @@ Current active assignments:
   component-level lint/visual verification through the workbench surface
   proof surface:
   retained late-Engi design-system card reuse under Bitcode-owned action composition
+- `uapi/app/application/application-transactions.ts`
+  test coverage:
+  `uapi/tests/applicationTransactions.test.ts`
+  proof surface:
+  deterministic normalization and filtering of Bitcode transactions into a searchable master-detail table carrier
+- `uapi/app/application/ApplicationTransactionsTable.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with the transactions master surface mounted
+  proof surface:
+  second-gate application-owned orchestration of transaction selection and filter state
+- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
+  test coverage:
+  lint plus application-level verification through the route-local transactions carrier
+  proof surface:
+  reusable base-component table carrier for searchable Bitcode transaction master-detail UI
 - `uapi/app/application/application-supply-selection.ts`
   test coverage:
   `uapi/tests/applicationSupplySelection.test.ts`
@@ -297,6 +317,15 @@ Current active assignments:
   browser verification and conversations route tests
   proof surface:
   second-gate overlay continuity and fourth-gate conversations retention
+
+## Whole-repository proof closure
+
+V26 proof closure must extend beyond the former demo core.
+
+Required closure posture:
+- the retained and repurposed whole repository that remains in V26 production canon must be proven up to Bitcode-grade satisfaction
+- any package, component family, route carrier, or application subsystem kept for V26 must have explicit spec, test, and proof-surface ownership
+- proof closure may no longer terminate at the old `engi-demo` equivalent core alone; it must close over the production application and surviving packages as one Bitcode system
 
 ## Module namespace proof note
 

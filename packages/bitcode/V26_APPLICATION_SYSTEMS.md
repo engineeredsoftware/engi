@@ -42,7 +42,7 @@ Those map as follows:
 ## Master-detail inner structure
 
 Within the master-detail experience, V26 treats these as required substructures:
-- `runs`
+- `transactions`
 - `deliverables`
 - `proofs`
 - `history`
@@ -59,6 +59,7 @@ Current active carriers:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
@@ -66,6 +67,7 @@ Current active carriers:
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-command-state.ts`
+- `uapi/app/application/application-shell-bridge.tsx`
 - `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-external-runtime.ts`
@@ -76,8 +78,40 @@ Current active carriers:
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-supply-selection.ts`
+- `uapi/app/application/application-transactions.ts`
+- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
+
+## Shared shell bridge provider
+
+Second-gate now centralizes mounted-shell semantic polling and control refresh behind one reusable application bridge.
+
+Current active carriers:
+- `uapi/app/application/application-shell-bridge.tsx`
+- `packages/bitcode/src/client-entry.js`
+- `packages/bitcode/public/app.js`
+
+Operational rule:
+- route-local second-gate carriers consume one shared shell bridge instead of independently polling the mounted shell
+- command, summary, give/need, core, closure, and intake surfaces all refresh against the same semantic Bitcode state carrier
+- V26 should extend this provider rather than multiplying per-component shell refresh loops
+
+## Transactions master carrier
+
+Second-gate now makes master detail concrete as a searchable and filterable Bitcode transactions table rather than leaving the master surface implicit.
+
+Current active carriers:
+- `uapi/app/application/ApplicationTransactionsTable.tsx`
+- `uapi/app/application/application-transactions.ts`
+- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
+- `uapi/app/application/ApplicationRunWorkspace.tsx`
+
+Operational rule:
+- master detail means a rich Bitcode transactions table as master and transaction detail as detail
+- transaction filtering must support free-text search, transaction-field filtering, and participant ownership filtering
+- route-local application orchestration owns normalization and selection while the base component library owns the reusable table UI carrier
+- later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
 
 ## Give-side repository supply carrier
 

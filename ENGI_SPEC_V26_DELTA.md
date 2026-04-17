@@ -205,9 +205,11 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/application-core-surface.ts`
+- `uapi/app/application/application-shell-bridge.tsx`
 - `uapi/app/application/application-closure-controls.ts`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-deposit-composer.ts`
@@ -224,10 +226,12 @@ The current active second-gate source file additions are:
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/application-supply-selection.ts`
+- `uapi/app/application/application-transactions.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
+- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`
@@ -239,6 +243,7 @@ The current active second-gate source file additions are:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
 - `uapi/tests/applicationCommandState.test.ts`
+- `uapi/tests/applicationShellBridge.test.tsx`
 - `uapi/tests/applicationClosureControls.test.ts`
 - `uapi/tests/applicationCoreSurface.test.ts`
 - `uapi/tests/applicationDepositComposer.test.ts`
@@ -251,6 +256,7 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationRunActivity.test.ts`
 - `uapi/tests/applicationRunDetail.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
+- `uapi/tests/applicationTransactions.test.ts`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
@@ -268,10 +274,11 @@ The second-gate mandatory design outputs are:
 Second-gate acceptance is reached only when:
 - `/application` is no longer primarily a carried monolithic shell implementation,
 - `/application` is the primary Bitcode destination and carries the converged workspace,
-- `/application` clearly reads as the master-detail experience,
+- `/application` clearly reads as a transactions master-detail experience,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
-- runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
+- transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
+- route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
 - route-local command state/control is bridged from the mounted Bitcode shell into `ApplicationCommandDeck.tsx` rather than being read and driven through raw DOM queries,
