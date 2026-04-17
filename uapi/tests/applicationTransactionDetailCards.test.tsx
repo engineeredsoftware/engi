@@ -24,6 +24,19 @@ describe('application transaction detail cards', () => {
             { label: 'Participating assets', value: '3' },
           ]}
           branchArtifacts={['BITCODE_NEED.md']}
+          payload={{
+            closure: {
+              rows: [
+                { label: 'Proof posture', value: 'proof witness ready' },
+                { label: 'Closure focus', value: 'bounded disclosure' },
+              ],
+              settlementMetrics: [
+                { label: 'Credited assets', value: '2' },
+                { label: 'Participating assets', value: '3' },
+              ],
+              branchArtifacts: ['BITCODE_NEED.md'],
+            },
+          }}
           onOpenVerification={onOpenVerification}
           onOpenBranch={onOpenBranch}
           onOpenSettlement={onOpenSettlement}
@@ -75,7 +88,13 @@ describe('application transaction detail cards', () => {
     expect(screen.getByText('run-001')).toBeTruthy();
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Raw JSON' })[0]);
+    expect(screen.getByText(/"settlementMetrics"/)).toBeTruthy();
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Raw JSON' })[1]);
     expect(screen.getByText(/"proofFamilies"/)).toBeTruthy();
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Visual' })[0]);
+    fireEvent.click(screen.getAllByRole('button', { name: 'Visual' })[1]);
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Open verification' })[0]);
     fireEvent.click(screen.getAllByRole('button', { name: 'Open settlement' })[0]);

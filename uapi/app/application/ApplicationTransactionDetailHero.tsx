@@ -1,5 +1,9 @@
 'use client';
 
+import React from 'react';
+
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
 interface ApplicationTransactionDetailHeroProps {
   title: string;
   summary: string;
@@ -28,14 +32,14 @@ export default function ApplicationTransactionDetailHero({
         </span>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {metrics.map((metric) => (
-          <div key={`${metric.label}-${metric.value}`} className="rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{metric.label}</p>
-            <p className="mt-2 text-sm font-semibold text-white">{metric.value}</p>
-          </div>
-        ))}
-      </div>
+      <BitcodeMetricGrid
+        metrics={metrics}
+        className="mt-5"
+        columnsClassName="sm:grid-cols-2 xl:grid-cols-4"
+        itemClassName="rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4"
+        labelClassName="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500"
+        valueClassName="text-sm font-semibold text-white"
+      />
 
       <div className="mt-4 rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
         <p className="text-neutral-500">Transaction posture</p>

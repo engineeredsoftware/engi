@@ -87,6 +87,9 @@ Current active carriers:
 - `uapi/app/application/application-transactions.ts`
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
@@ -178,16 +181,21 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
 - `uapi/app/application/ApplicationTransactionProofsCard.tsx`
 - `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
 - `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
 
 Operational rule:
-- selected-transaction identity, proofs, and history should all expose one shared visual-vs-raw payload reading carrier
+- selected-transaction identity, closure, proofs, and history should all expose one shared visual-vs-raw payload reading carrier
 - raw payload reading should include copy support and payload metadata instead of falling back to an unstructured `<pre>` block
 - shared inline explainers should document visual-vs-raw posture, filter meaning, column meaning, and page-size behavior without reverting to browser-only `title` hints
 - transaction-terminal controls should keep stable accessible names even when explainer triggers are introduced beside labels
+- selected-transaction rows, metric grids, and chip clouds should converge on reusable execution-level base carriers instead of being re-authored per card
 - future transaction-detail, closure, and conversation payload views should extend this base carrier instead of rebuilding raw-view toggles ad hoc
 
 ## Route-owned transaction detail interaction carrier
@@ -428,11 +436,15 @@ Current active carriers:
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
+- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `/api/executions/history/[runId]`
 
 Operational rule:
 - selected-transaction history payloads normalize into one application-owned detail snapshot
 - overview, identity, and closure reading are split into SRP-aligned transaction-detail modules rather than one mixed-responsibility pane
+- closure now exposes the same visual-versus-raw payload posture as the other JSON-bearing transaction-detail cards
 - deliverable summary/cards render in both mock and live posture inside `/application`
 - proof/history/accounting remain part of the same selected-transaction read surface
 - the detailed execution console remains secondary compatibility context during second-gate convergence

@@ -1,4 +1,5 @@
 import {
+  buildApplicationTransactionClosurePayload,
   buildApplicationTransactionClosureFollowThrough,
   buildApplicationTransactionClosureRows,
   buildApplicationTransactionIdentityRows,
@@ -164,6 +165,61 @@ describe('application-transaction-detail helpers', () => {
           summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
         },
       ],
+    });
+  });
+
+  it('builds a reusable closure payload for inline inspection', () => {
+    const closureFollowThrough = buildApplicationTransactionClosureFollowThrough(closureState);
+
+    expect(buildApplicationTransactionClosurePayload(selectedTransaction, detail, closureState, closureFollowThrough)).toEqual({
+      transaction: {
+        id: 'tx-001',
+        createdAt: '2026-04-16T12:00:00.000Z',
+        proofStatus: 'proof witness ready',
+        closureFocus: 'bounded disclosure',
+      },
+      closure: {
+        canonLabel: 'V25 active canon / V26 system draft',
+        processingStats: {
+          time: '4m 12s',
+          tokenTotal: 2200,
+          credits: 24.5,
+          usdTotal: 1.62,
+          averageLatencyMs: 930,
+        },
+        rows: [
+          { label: 'Proof posture', value: 'proof witness ready' },
+          { label: 'Closure focus', value: 'bounded disclosure' },
+          { label: 'Processing time', value: '4m 12s' },
+          { label: 'Token total', value: '2,200' },
+          { label: 'Credits', value: '24.5' },
+          { label: 'Spend', value: '$1.62' },
+          { label: 'Latency', value: '930 ms' },
+        ],
+        settlementMetrics: [
+          { label: 'Credited assets', value: '2' },
+          { label: 'Participating assets', value: '3' },
+        ],
+        branchArtifacts: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+        proofFamilies: [
+          {
+            label: 'selection-materialization',
+            artifactPath: '.engi/selection-and-materialization-proof.json',
+            theoremStatus: 'passed',
+            replayArtifacts: '3',
+          },
+        ],
+        recentHistory: [
+          {
+            label: 'run-001',
+            summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
+          },
+        ],
+        verification: closureState.verification,
+        branch: closureState.branch,
+        settlement: closureState.settlement,
+        ledger: closureState.ledger,
+      },
     });
   });
 });

@@ -244,6 +244,9 @@ The current active second-gate source file additions are:
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
@@ -274,6 +277,8 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationTransactionDetail.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
+- `uapi/tests/bitcodeDetailRowList.test.tsx`
+- `uapi/tests/bitcodeMetricGrid.test.tsx`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
@@ -298,7 +303,8 @@ Second-gate acceptance is reached only when:
 - transaction-detail focus is route-owned and shareable through application query state, with `transaction` as the preferred detail carrier and legacy `identity` accepted only for compatibility parsing,
 - selected-transaction closure rerun and detail refresh are available directly from the application-owned detail surface through the shell bridge,
 - selected-transaction closure, proofs, and history are explicit detail carriers inside `/application` instead of being buried under one closure pane or delegated back to shell-section follow-through,
-- selected-transaction identity, proofs, and history support a reusable visual-vs-raw payload inspection carrier instead of leaving JSON-bearing detail as incidental text,
+- selected-transaction identity, closure, proofs, and history support a reusable visual-vs-raw payload inspection carrier instead of leaving JSON-bearing detail as incidental text,
+- selected-transaction rows, metric grids, and branch-artifact chips converge on reusable execution-level base carriers instead of being re-authored per card,
 - transaction master controls and payload inspection surfaces expose shared inline explainers plus stable accessible control names rather than relying on incidental browser `title` text or unlabeled form controls,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,

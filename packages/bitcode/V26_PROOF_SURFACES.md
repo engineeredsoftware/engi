@@ -228,12 +228,12 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationTransactionDetail.test.ts`
   proof surface:
-  deterministic closure follow-through normalization for inline settlement metrics, proof families, branch artifacts, and recent transaction history
+  deterministic closure follow-through normalization for inline settlement metrics, proof families, branch artifacts, recent transaction history, and reusable closure raw-payload inspection
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
   test coverage:
   `uapi/tests/applicationTransactionDetailCards.test.tsx`
   proof surface:
-  explicit closure summary and settlement/branch follow-through carrier inside selected-transaction detail
+  explicit closure summary and settlement/branch follow-through carrier inside selected-transaction detail, including the shared visual-vs-raw payload posture
 - `uapi/app/application/ApplicationTransactionProofsCard.tsx`
   test coverage:
   `uapi/tests/applicationTransactionDetailCards.test.tsx`
@@ -284,6 +284,21 @@ Current active assignments:
   `uapi/tests/bitcodePayloadInspector.test.tsx`
   proof surface:
   reusable visual-vs-raw payload carrier with copy support, payload metadata, and shared explainers for selected-transaction detail
+- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
+  test coverage:
+  `uapi/tests/bitcodeDetailRowList.test.tsx`
+  proof surface:
+  reusable key-value row carrier for SRP-aligned selected-transaction identity and closure reading
+- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+  test coverage:
+  `uapi/tests/bitcodeMetricGrid.test.tsx`
+  proof surface:
+  reusable metric-grid carrier for selected-transaction overview and closure follow-through
+- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
+  test coverage:
+  browser verification and card-level integration through `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  proof surface:
+  reusable chip-cloud carrier for branch artifacts and later selected-transaction detail token clouds
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
   test coverage:
   covered indirectly through `uapi/tests/bitcodeInlineExplainer.test.tsx`, `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`, and `uapi/tests/bitcodePayloadInspector.test.tsx`

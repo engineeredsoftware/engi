@@ -1,5 +1,6 @@
 import type {
   ApplicationClosureHistoryEntry,
+  ApplicationClosurePanel,
   ApplicationClosureProofFamily,
   ApplicationClosureState,
 } from './application-closure-state';
@@ -16,6 +17,28 @@ export type ApplicationTransactionClosureFollowThrough = {
   branchArtifacts: string[];
   proofFamilies: ApplicationClosureProofFamily[];
   recentHistory: ApplicationClosureHistoryEntry[];
+};
+
+export type ApplicationTransactionClosurePayload = {
+  transaction: {
+    id: string;
+    createdAt: string;
+    proofStatus: string | null;
+    closureFocus: string | null;
+  };
+  closure: {
+    canonLabel: string | null;
+    processingStats: ApplicationRunDetailSnapshot['processingStats'] | null;
+    rows: ApplicationTransactionDetailRow[];
+    settlementMetrics: ApplicationTransactionClosureFollowThrough['settlementMetrics'];
+    branchArtifacts: ApplicationTransactionClosureFollowThrough['branchArtifacts'];
+    proofFamilies: ApplicationTransactionClosureFollowThrough['proofFamilies'];
+    recentHistory: ApplicationTransactionClosureFollowThrough['recentHistory'];
+    verification: ApplicationClosurePanel | null;
+    branch: ApplicationClosurePanel | null;
+    settlement: ApplicationClosurePanel | null;
+    ledger: ApplicationClosurePanel | null;
+  };
 };
 
 export function countApplicationTransactionDeliverableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
@@ -103,5 +126,34 @@ export function buildApplicationTransactionClosureFollowThrough(
     branchArtifacts: closureState?.branch.chips.slice(0, 6) || [],
     proofFamilies: closureState?.settlement.proofFamilies?.slice(0, 4) || [],
     recentHistory: closureState?.ledger.recentRuns?.slice(0, 4) || [],
+  };
+}
+
+export function buildApplicationTransactionClosurePayload(
+  selectedRun: WorkspaceRun,
+  detail: ApplicationRunDetailSnapshot | null,
+  closureState: ApplicationClosureState | null,
+  closureFollowThrough: ApplicationTransactionClosureFollowThrough,
+): ApplicationTransactionClosurePayload {
+  return {
+    transaction: {
+      id: selectedRun.id,
+      createdAt: selectedRun.created_at,
+      proofStatus: detail?.proofStatus || selectedRun.proofStatus || null,
+      closureFocus: detail?.closureFocus || selectedRun.closureFocus || null,
+    },
+    closure: {
+      canonLabel: closureState?.canonLabel || null,
+      processingStats: detail?.processingStats || null,
+      rows: buildApplicationTransactionClosureRows(detail),
+      settlementMetrics: closureFollowThrough.settlementMetrics,
+      branchArtifacts: closureFollowThrough.branchArtifacts,
+      proofFamilies: closureFollowThrough.proofFamilies,
+      recentHistory: closureFollowThrough.recentHistory,
+      verification: closureState?.verification || null,
+      branch: closureState?.branch || null,
+      settlement: closureState?.settlement || null,
+      ledger: closureState?.ledger || null,
+    },
   };
 }

@@ -18,6 +18,7 @@ import ApplicationTransactionIdentityCard from './ApplicationTransactionIdentity
 import ApplicationTransactionProofsCard from './ApplicationTransactionProofsCard';
 import { normalizeApplicationClosureState } from './application-closure-state';
 import {
+  buildApplicationTransactionClosurePayload,
   buildApplicationTransactionClosureFollowThrough,
   buildApplicationTransactionClosureRows,
   buildApplicationTransactionIdentityRows,
@@ -147,6 +148,10 @@ export default function ApplicationTransactionDetailSurface({
     }),
     [closureFollowThrough.recentHistory, detail, selectedRun],
   );
+  const closurePayload = useMemo(
+    () => buildApplicationTransactionClosurePayload(selectedRun, detail, closureState, closureFollowThrough),
+    [closureFollowThrough, closureState, detail, selectedRun],
+  );
 
   useEffect(() => {
     setSummaryOpen(true);
@@ -262,6 +267,7 @@ export default function ApplicationTransactionDetailSurface({
               rows={closureRows}
               settlementMetrics={closureFollowThrough.settlementMetrics}
               branchArtifacts={closureFollowThrough.branchArtifacts}
+              payload={closurePayload}
               onOpenVerification={() => jumpToShellSection('panelEvaluations')}
               onOpenBranch={() => jumpToShellSection('panelBranchArtifacts')}
               onOpenSettlement={() => jumpToShellSection('panelSettlement')}

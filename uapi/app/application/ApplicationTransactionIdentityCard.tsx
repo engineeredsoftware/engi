@@ -1,5 +1,8 @@
 'use client';
 
+import React from 'react';
+
+import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
 import BitcodePayloadInspector from '@/components/base/engi/execution/BitcodePayloadInspector';
 
 interface ApplicationTransactionIdentityCardProps {
@@ -13,6 +16,8 @@ export default function ApplicationTransactionIdentityCard({
   rows,
   payload,
 }: ApplicationTransactionIdentityCardProps) {
+  const identityRows = [...rows, { label: 'Started', value: startedAt }];
+
   return (
     <BitcodePayloadInspector
       kicker="Selected transaction"
@@ -21,18 +26,7 @@ export default function ApplicationTransactionIdentityCard({
       payload={payload}
       rawLabel="Transaction payload"
     >
-      <dl className="space-y-3 text-sm">
-        {rows.map((row) => (
-          <div key={`${row.label}-${row.value}`}>
-            <dt className="text-neutral-500">{row.label}</dt>
-            <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
-          </div>
-        ))}
-        <div>
-          <dt className="text-neutral-500">Started</dt>
-          <dd className="mt-1 text-neutral-100">{startedAt}</dd>
-        </div>
-      </dl>
+      <BitcodeDetailRowList rows={identityRows} />
     </BitcodePayloadInspector>
   );
 }
