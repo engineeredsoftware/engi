@@ -1,5 +1,9 @@
 'use client';
 
+import React from 'react';
+
+import BitcodeInlineExplainer from './BitcodeInlineExplainer';
+import { BITCODE_TRANSACTION_COLUMN_EXPLAINERS } from './bitcode-transaction-explainers';
 import type { TransactionRecord } from './bitcode-transaction-types';
 
 function formatTimestamp(value: string) {
@@ -53,13 +57,69 @@ export default function BitcodeTransactionsDataTable({
           <table className="min-w-full border-collapse text-left">
             <thead className="border-b border-white/8 bg-white/5 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
               <tr>
-                <th className="px-4 py-3">Transaction</th>
-                <th className="px-4 py-3">Lens</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Participant</th>
-                <th className="px-4 py-3">Repository</th>
-                <th className="px-4 py-3">Proof</th>
-                <th className="px-4 py-3">Started</th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Transaction</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.transaction.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.transaction.description}
+                    />
+                  </span>
+                </th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Lens</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.lens.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.lens.description}
+                    />
+                  </span>
+                </th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Status</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.status.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.status.description}
+                    />
+                  </span>
+                </th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Participant</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.participant.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.participant.description}
+                    />
+                  </span>
+                </th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Repository</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.repository.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.repository.description}
+                    />
+                  </span>
+                </th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Proof</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.proof.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.proof.description}
+                    />
+                  </span>
+                </th>
+                <th className="px-4 py-3">
+                  <span className="inline-flex items-center gap-2">
+                    <span>Started</span>
+                    <BitcodeInlineExplainer
+                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.started.title}
+                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.started.description}
+                    />
+                  </span>
+                </th>
               </tr>
             </thead>
             <tbody>

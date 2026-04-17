@@ -144,6 +144,11 @@ Current active assignments:
   `uapi/tests/api/clientErrorRoute.test.ts`
   proof surface:
   second-gate runtime-health intake so client-side application failures are accepted by an app-owned carrier instead of 404ing
+- `uapi/app/orbitals/components/OrbitalsProfilePane.tsx`
+  test coverage:
+  live `/application` verification with fullscreen orbitals entry exercised from the running app
+  proof surface:
+  second-gate orbitals renderability from `/application`, including the active data-sharing pane hookup required to avoid missing-overlay crashes
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
@@ -208,12 +213,12 @@ Current active assignments:
   test coverage:
   lint plus localhost `/application` verification with the transactions master surface mounted
   proof surface:
-  second-gate application-owned orchestration of transaction selection, `transactionId` route posture, and filter state
+  second-gate application-owned orchestration of transaction selection, `transactionId` route posture, filter state, and route-owned pagination
 - `uapi/app/application/application-transaction-query.ts`
   test coverage:
   `uapi/tests/applicationTransactionQuery.test.ts`
   proof surface:
-  deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, and reset behavior for route-owned transaction query state
+  deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, route-owned pagination carriers, and reset behavior for route-owned transaction query state
 - `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
   test coverage:
   lint plus localhost `/application` verification with route-owned detail focus and closure actions mounted
@@ -256,19 +261,39 @@ Current active assignments:
   reusable overview metrics and mode posture carrier for transaction-master SRP decomposition
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
   test coverage:
-  lint plus `uapi/tests/applicationTransactions.test.ts`
+  lint plus `uapi/tests/applicationTransactions.test.ts` and `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`
   proof surface:
-  reusable field-filter and sort-control carrier for transaction-master SRP decomposition
+  reusable field-filter and sort-control carrier for transaction-master SRP decomposition, including explicit accessible control naming under shared explainers
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
   test coverage:
   lint plus application-level verification through the transactions master carrier
   proof surface:
-  reusable row-selection and detail-entry carrier for transaction-master SRP decomposition
+  reusable row-selection and detail-entry carrier for transaction-master SRP decomposition, including shared header explainers
+- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+  test coverage:
+  `uapi/tests/bitcodeTransactionsPagination.test.tsx`
+  proof surface:
+  reusable pagination carrier for the route-owned Bitcode transactions master surface, including shared page-size explainers
+- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+  test coverage:
+  `uapi/tests/bitcodeInlineExplainer.test.tsx`
+  proof surface:
+  reusable second-gate explainer/tooltip carrier for the transaction terminal workspace
+- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+  test coverage:
+  `uapi/tests/bitcodePayloadInspector.test.tsx`
+  proof surface:
+  reusable visual-vs-raw payload carrier with copy support, payload metadata, and shared explainers for selected-transaction detail
+- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
+  test coverage:
+  covered indirectly through `uapi/tests/bitcodeInlineExplainer.test.tsx`, `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`, and `uapi/tests/bitcodePayloadInspector.test.tsx`
+  proof surface:
+  centralized explainer-copy contract for transaction filters, headers, pagination, and payload modes
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
   test coverage:
-  imported through `uapi/tests/applicationTransactions.test.ts`
+  imported through `uapi/tests/applicationTransactions.test.ts`, `uapi/tests/applicationTransactionQuery.test.ts`, and `uapi/tests/bitcodeTransactionsPagination.test.tsx`
   proof surface:
-  typed base-component contract for transaction-master filtering, overview, and row-selection carriers
+  typed base-component contract for transaction-master filtering, overview, pagination, and row-selection carriers
 - `uapi/app/application/application-supply-selection.ts`
   test coverage:
   `uapi/tests/applicationSupplySelection.test.ts`

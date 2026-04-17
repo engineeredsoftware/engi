@@ -1,5 +1,9 @@
 'use client';
 
+import React from 'react';
+
+import BitcodeInlineExplainer from './BitcodeInlineExplainer';
+import { BITCODE_TRANSACTION_FILTER_EXPLAINERS } from './bitcode-transaction-explainers';
 import type { TransactionFilters, TransactionOwnership, TransactionSort } from './bitcode-transaction-types';
 
 interface BitcodeTransactionsFilterBarProps {
@@ -28,8 +32,15 @@ export default function BitcodeTransactionsFilterBar({
   return (
     <div className="mt-5 grid gap-3 xl:grid-cols-[minmax(0,1.4fr)_repeat(6,minmax(0,0.76fr))]">
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Search transactions</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Search transactions</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search.description}
+          />
+        </span>
         <input
+          aria-label="Search transactions"
           value={filters.searchTerm}
           onChange={(event) => updateFilter('searchTerm', event.target.value)}
           placeholder="Search ids, repos, branches, proof posture, participants…"
@@ -38,8 +49,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Status</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Status</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status.description}
+          />
+        </span>
         <select
+          aria-label="Status"
           value={filters.status}
           onChange={(event) => updateFilter('status', event.target.value)}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
@@ -54,8 +72,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Ownership</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Ownership</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership.description}
+          />
+        </span>
         <select
+          aria-label="Ownership"
           value={filters.ownership}
           onChange={(event) => updateFilter('ownership', event.target.value as TransactionOwnership)}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
@@ -67,8 +92,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Action lens</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Action lens</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens.description}
+          />
+        </span>
         <select
+          aria-label="Action lens"
           value={filters.transactionLens}
           onChange={(event) => updateFilter('transactionLens', event.target.value as TransactionFilters['transactionLens'])}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
@@ -81,8 +113,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Repository</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Repository</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository.description}
+          />
+        </span>
         <select
+          aria-label="Repository"
           value={filters.repository}
           onChange={(event) => updateFilter('repository', event.target.value)}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
@@ -97,8 +136,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Participant</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Participant</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant.description}
+          />
+        </span>
         <select
+          aria-label="Participant"
           value={filters.participant}
           onChange={(event) => updateFilter('participant', event.target.value)}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
@@ -113,8 +159,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Proof posture</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Proof posture</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus.description}
+          />
+        </span>
         <select
+          aria-label="Proof posture"
           value={filters.proofStatus}
           onChange={(event) => updateFilter('proofStatus', event.target.value)}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
@@ -129,8 +182,15 @@ export default function BitcodeTransactionsFilterBar({
       </label>
 
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 xl:col-start-7">
-        <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Sort</span>
+        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+          <span>Sort</span>
+          <BitcodeInlineExplainer
+            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort.title}
+            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort.description}
+          />
+        </span>
         <select
+          aria-label="Sort"
           value={filters.sort}
           onChange={(event) => updateFilter('sort', event.target.value as TransactionSort)}
           className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"

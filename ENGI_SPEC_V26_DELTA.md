@@ -243,6 +243,10 @@ The current active second-gate source file additions are:
 - `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
@@ -295,6 +299,7 @@ Second-gate acceptance is reached only when:
 - selected-transaction closure rerun and detail refresh are available directly from the application-owned detail surface through the shell bridge,
 - selected-transaction closure, proofs, and history are explicit detail carriers inside `/application` instead of being buried under one closure pane or delegated back to shell-section follow-through,
 - selected-transaction identity, proofs, and history support a reusable visual-vs-raw payload inspection carrier instead of leaving JSON-bearing detail as incidental text,
+- transaction master controls and payload inspection surfaces expose shared inline explainers plus stable accessible control names rather than relying on incidental browser `title` text or unlabeled form controls,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
 - the read experience clearly centers on the transactions master-detail window while the write experience moves through give, need, and configuring,

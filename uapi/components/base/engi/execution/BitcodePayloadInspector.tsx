@@ -3,6 +3,9 @@
 import React from 'react';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
+import BitcodeInlineExplainer from './BitcodeInlineExplainer';
+import { BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS } from './bitcode-transaction-explainers';
+
 type BitcodePayloadInspectorMode = 'visual' | 'raw';
 
 interface BitcodePayloadInspectorProps {
@@ -89,31 +92,44 @@ export default function BitcodePayloadInspector({
       <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">{kicker}</p>
-          <h3 className="mt-2 text-lg font-semibold text-white">{title}</h3>
+          <div className="mt-2 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-white">{title}</h3>
+            <BitcodeInlineExplainer
+              title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.modes.title}
+              description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.modes.description}
+            />
+          </div>
           <p className="mt-2 text-sm leading-6 text-neutral-300">{summary}</p>
         </div>
 
-        <div className="inline-flex rounded-full border border-white/10 bg-white/5 p-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
-          <button
-            type="button"
-            onClick={() => setMode('visual')}
-            aria-pressed={mode === 'visual'}
-            className={`rounded-full px-3 py-2 transition ${
-              mode === 'visual' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
-            }`}
-          >
-            Visual
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode('raw')}
-            aria-pressed={mode === 'raw'}
-            className={`rounded-full px-3 py-2 transition ${
-              mode === 'raw' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
-            }`}
-          >
-            Raw JSON
-          </button>
+        <div className="flex items-center gap-2">
+          <div className="inline-flex rounded-full border border-white/10 bg-white/5 p-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
+            <button
+              type="button"
+              onClick={() => setMode('visual')}
+              aria-pressed={mode === 'visual'}
+              className={`rounded-full px-3 py-2 transition ${
+                mode === 'visual' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
+              }`}
+            >
+              Visual
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('raw')}
+              aria-pressed={mode === 'raw'}
+              className={`rounded-full px-3 py-2 transition ${
+                mode === 'raw' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
+              }`}
+            >
+              Raw JSON
+            </button>
+          </div>
+
+          <BitcodeInlineExplainer
+            title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.title}
+            description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.description}
+          />
         </div>
       </div>
 
@@ -124,7 +140,14 @@ export default function BitcodePayloadInspector({
           <div className="rounded-[1.1rem] border border-white/8 bg-[rgba(2,6,16,0.92)] px-4 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{rawLabel}</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{rawLabel}</p>
+                  <BitcodeInlineExplainer
+                    title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.title}
+                    description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.description}
+                    side="top"
+                  />
+                </div>
                 <p className="mt-2 text-[0.68rem] uppercase tracking-[0.16em] text-neutral-500">
                   {payloadMeta.lineCount} lines · {payloadMeta.characterCount.toLocaleString('en-US')} chars
                 </p>

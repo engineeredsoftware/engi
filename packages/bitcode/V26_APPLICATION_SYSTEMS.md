@@ -86,6 +86,10 @@ Current active carriers:
 - `uapi/app/application/application-supply-selection.ts`
 - `uapi/app/application/application-transactions.ts`
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
 
@@ -111,6 +115,7 @@ Second-gate now explicitly treats application health as part of the productioniz
 Current active carriers:
 - `uapi/app/api/client-error/route.ts`
 - `uapi/app/application/application-shell-bridge.tsx`
+- `uapi/app/orbitals/components/OrbitalsProfilePane.tsx`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
 
@@ -118,6 +123,7 @@ Operational rule:
 - client-side runtime failures should be accepted by an app-owned telemetry intake route instead of 404ing
 - semantic snapshot reads should return null during shell pre-mount windows rather than throwing
 - mounted-shell bootstrap should wait for the host markup and fail closed while the application is rebuilding
+- fullscreen orbitals entered from `/application` should remain renderable during convergence rather than crashing on missing overlay-pane references
 
 ## Transactions master carrier
 
@@ -130,6 +136,7 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 
@@ -139,6 +146,8 @@ Operational rule:
 - `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
 - transaction selection and rich master-table filters are route-owned and shareable through application query state
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
+- transaction pagination must remain route-owned and query-shareable rather than living only as a table-local row window
+- transaction filters, headers, pagination, and payload views should share one explainer/tooltip carrier rather than embedding incidental one-off help text per surface
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
 - later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
 
@@ -152,13 +161,34 @@ Current active carriers:
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
 
 Operational rule:
 - `transactionId` remains the primary master-detail selection carrier
 - inbound `runId` remains accepted only for compatibility convergence
-- transaction search, status, ownership, lens, repository, participant, proof posture, and sort are persisted in route query state
+- transaction search, status, ownership, lens, repository, participant, proof posture, sort, page, and page size are persisted in route query state
 - transaction detail prefers `transaction` as the active detail carrier while accepting legacy `identity` only as a compatibility parsing alias
 - resetting filters clears only transaction-filter carriers and preserves selected transaction plus unrelated application parameters
+
+## Reusable payload inspection carrier
+
+Second-gate now treats visual-vs-raw payload inspection as a reusable application/base-component problem instead of an incidental per-card debugging convenience.
+
+Current active carriers:
+- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
+- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `uapi/app/application/ApplicationTransactionProofsCard.tsx`
+- `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+
+Operational rule:
+- selected-transaction identity, proofs, and history should all expose one shared visual-vs-raw payload reading carrier
+- raw payload reading should include copy support and payload metadata instead of falling back to an unstructured `<pre>` block
+- shared inline explainers should document visual-vs-raw posture, filter meaning, column meaning, and page-size behavior without reverting to browser-only `title` hints
+- transaction-terminal controls should keep stable accessible names even when explainer triggers are introduced beside labels
+- future transaction-detail, closure, and conversation payload views should extend this base carrier instead of rebuilding raw-view toggles ad hoc
 
 ## Route-owned transaction detail interaction carrier
 

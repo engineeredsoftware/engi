@@ -26,6 +26,8 @@ describe('BitcodePayloadInspector', () => {
     );
 
     expect(screen.getByText('Visual payload body')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Explain Visual and raw modes' })).toBeTruthy();
+    expect(screen.getAllByRole('button', { name: 'Explain Raw payload view' }).length).toBeGreaterThan(0);
 
     fireEvent.click(screen.getByRole('button', { name: 'Raw JSON' }));
 
