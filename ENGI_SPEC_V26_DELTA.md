@@ -177,7 +177,9 @@ Second-gate is now specified as:
 
 The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/application/application-run-data.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`

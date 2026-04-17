@@ -1,17 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { mountBitcodeApplicationShell } from '@engi/bitcode/src/client-entry.js';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
+import { fetchPipelineExecutionHistory } from '@/networking/api-client';
+import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
+import ApplicationRunWorkspace from './ApplicationRunWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
+import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
 
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
 const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
 export default function ApplicationPageClient() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const mockMode = isUserOrbitalMockMode();
+  const selectedRunId = searchParams.get('runId');
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
+  const [runs, setRuns] = useState<WorkspaceRun[]>([]);
+  const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
+  const [runsError, setRunsError] = useState<string | null>(null);
 
   useEffect(() => {
     let disposed = false;
@@ -44,6 +57,65 @@ export default function ApplicationPageClient() {
       stylesheet?.remove();
     };
   }, []);
+
+  useEffect(() => {
+    let disposed = false;
+
+    if (mockMode) {
+      setRuns(MOCK_RUNS);
+      setIsLoadingRuns(false);
+      setRunsError(null);
+      return () => {
+        disposed = true;
+      };
+    }
+
+    setIsLoadingRuns(true);
+    setRunsError(null);
+
+    fetchPipelineExecutionHistory()
+      .then((history) => {
+        if (disposed) return;
+        setRuns(
+          history.map((run) => ({
+            id: run.id,
+            created_at: run.created_at,
+            status: run.status,
+            type: run.type,
+            summary: run.summary || run.final_work_summary?.summary || run.final_work_summary?.deliverables?.summary || null,
+          })),
+        );
+      })
+      .catch((error) => {
+        if (disposed) return;
+        setRunsError(error instanceof Error ? error.message : 'Unable to load recent runs.');
+      })
+      .finally(() => {
+        if (!disposed) setIsLoadingRuns(false);
+      });
+
+    return () => {
+      disposed = true;
+    };
+  }, [mockMode]);
+
+  useEffect(() => {
+    if (!runs.length || selectedRunId) return;
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.set('runId', runs[0].id);
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  }, [pathname, router, runs, searchParams, selectedRunId]);
+
+  const selectedRun = useMemo(
+    () => runs.find((run) => run.id === selectedRunId) || runs[0] || null,
+    [runs, selectedRunId],
+  );
+
+  const handleSelectRun = (runId: string) => {
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.set('runId', runId);
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  };
 
   return (
     <>
@@ -371,9 +443,26 @@ export default function ApplicationPageClient() {
             </section>
 
             <aside className="min-w-0">
-              <ApplicationWorkspaceRail onOpenConversations={() => setIsConversationOverlayOpen(true)} />
+              <ApplicationWorkspaceRail
+                onOpenConversations={() => setIsConversationOverlayOpen(true)}
+                runs={runs}
+                isLoadingRuns={isLoadingRuns}
+                runsError={runsError}
+                selectedRun={selectedRun}
+                onSelectRun={handleSelectRun}
+                mockMode={mockMode}
+              />
             </aside>
           </div>
+
+          <ApplicationRunWorkspace
+            runs={runs}
+            selectedRun={selectedRun}
+            isLoadingRuns={isLoadingRuns}
+            runsError={runsError}
+            mockMode={mockMode}
+            onSelectRun={handleSelectRun}
+          />
         </div>
       </div>
     </>

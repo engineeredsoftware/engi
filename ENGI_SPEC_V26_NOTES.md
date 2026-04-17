@@ -62,7 +62,9 @@ This is the current V26 source carrier, even while V25 remains the only active c
 The current active second-gate application additions now explicitly include:
 
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/application/application-run-data.ts`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `/api/conversations`
 - `/api/conversations/branch`
@@ -70,6 +72,7 @@ The current active second-gate application additions now explicitly include:
 - `/api/conversations/[conversationId]/stream`
 
 Those carriers now make fullscreen conversations application-owned from `/application` in mock-mode review instead of leaving the overlay mounted over missing App Router routes.
+They also place a central run-and-deliverable master-detail workspace directly inside `/application` instead of leaving inward reuse mostly confined to the right rail or the compatibility `/executions` route.
 
 ## Still driving V26 from V25 deferrals
 

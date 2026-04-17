@@ -104,7 +104,9 @@ Its aesthetic atmosphere remains the design system of late-Engi, but the product
 
 The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/application/application-run-data.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`

@@ -1,42 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
-import { fetchPipelineExecutionHistory } from '@/networking/api-client';
-import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
-import type { PipelineExecution } from '@/types/api';
+
 import ApplicationMockRunDetails from './ApplicationMockRunDetails';
-
-type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'status'> & {
-  summary?: string | null;
-};
-
-const MOCK_RUNS: WorkspaceRun[] = [
-  {
-    id: 'mock-run-branch-remediation',
-    created_at: '2026-04-16T12:00:00.000Z',
-    type: 'pipeline:deliverables',
-    status: 'completed',
-    summary: 'Prepared the active branch artifact pack and bounded proof bundle for review.',
-  },
-  {
-    id: 'mock-run-measurement-pass',
-    created_at: '2026-04-16T11:12:00.000Z',
-    type: 'pipeline:measure',
-    status: 'completed',
-    summary: 'Measured fit pressure, surfaced ranked verification evidence, and refreshed ledger posture.',
-  },
-  {
-    id: 'mock-run-proof-refresh',
-    created_at: '2026-04-16T10:34:00.000Z',
-    type: 'pipeline:proof',
-    status: 'running',
-    summary: 'Refreshing proof-family witnesses against the current V25 canon / V26 draft posture.',
-  },
-];
+import type { WorkspaceRun } from './application-run-data';
 
 function formatRunTimestamp(value: string) {
   try {
@@ -59,78 +27,23 @@ function getRunStatusTone(status?: string | null) {
 
 interface ApplicationWorkspaceRailProps {
   onOpenConversations: () => void;
+  runs: WorkspaceRun[];
+  isLoadingRuns: boolean;
+  runsError: string | null;
+  selectedRun: WorkspaceRun | null;
+  onSelectRun: (runId: string) => void;
+  mockMode: boolean;
 }
 
-export default function ApplicationWorkspaceRail({ onOpenConversations }: ApplicationWorkspaceRailProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const mockMode = isUserOrbitalMockMode();
-  const selectedRunId = searchParams.get('runId');
-
-  const [runs, setRuns] = useState<WorkspaceRun[]>([]);
-  const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
-  const [runsError, setRunsError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let disposed = false;
-
-    if (mockMode) {
-      setRuns(MOCK_RUNS);
-      setIsLoadingRuns(false);
-      setRunsError(null);
-      return () => {
-        disposed = true;
-      };
-    }
-
-    setIsLoadingRuns(true);
-    setRunsError(null);
-
-    fetchPipelineExecutionHistory()
-      .then((history) => {
-        if (disposed) return;
-        setRuns(
-          history.map((run) => ({
-            id: run.id,
-            created_at: run.created_at,
-            status: run.status,
-            type: run.type,
-            summary: run.summary || run.final_work_summary?.summary || run.final_work_summary?.deliverables?.summary || null,
-          })),
-        );
-      })
-      .catch((error) => {
-        if (disposed) return;
-        setRunsError(error instanceof Error ? error.message : 'Unable to load recent runs.');
-      })
-      .finally(() => {
-        if (!disposed) setIsLoadingRuns(false);
-      });
-
-    return () => {
-      disposed = true;
-    };
-  }, [mockMode]);
-
-  useEffect(() => {
-    if (!runs.length || selectedRunId) return;
-    const nextParams = new URLSearchParams(searchParams.toString());
-    nextParams.set('runId', runs[0].id);
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
-  }, [pathname, router, runs, searchParams, selectedRunId]);
-
-  const selectedRun = useMemo(
-    () => runs.find((run) => run.id === selectedRunId) || runs[0] || null,
-    [runs, selectedRunId],
-  );
-
-  const handleSelectRun = (runId: string) => {
-    const nextParams = new URLSearchParams(searchParams.toString());
-    nextParams.set('runId', runId);
-    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
-  };
-
+export default function ApplicationWorkspaceRail({
+  onOpenConversations,
+  runs,
+  isLoadingRuns,
+  runsError,
+  selectedRun,
+  onSelectRun,
+  mockMode,
+}: ApplicationWorkspaceRailProps) {
   return (
     <div className="space-y-5 xl:sticky xl:top-40">
       <section className="overflow-hidden rounded-[1.75rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.96),rgba(4,8,18,0.94))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
@@ -192,7 +105,7 @@ export default function ApplicationWorkspaceRail({ onOpenConversations }: Applic
                   <button
                     key={run.id}
                     type="button"
-                    onClick={() => handleSelectRun(run.id)}
+                    onClick={() => onSelectRun(run.id)}
                     className={`w-full rounded-2xl border px-4 py-3 text-left transition ${
                       isSelected
                         ? 'border-emerald-400/35 bg-emerald-400/10'
