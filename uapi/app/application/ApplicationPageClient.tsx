@@ -12,6 +12,7 @@ import ApplicationCommandDeck from './ApplicationCommandDeck';
 import ApplicationClosureNativeSections from './ApplicationClosureNativeSections';
 import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
 import ApplicationExperienceFrame from './ApplicationExperienceFrame';
+import ApplicationExternalInterfacingPanel from './ApplicationExternalInterfacingPanel';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
 import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPanel';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
@@ -206,6 +207,7 @@ export default function ApplicationPageClient() {
             onContextChange={setRepositoryContext}
           />
           <ApplicationLiveSummaryStrip />
+          <ApplicationExternalInterfacingPanel />
           <ApplicationSectionAtlas />
           <ApplicationCoreNativeSections repositoryContext={repositoryContext} />
           <ApplicationClosureNativeSections />

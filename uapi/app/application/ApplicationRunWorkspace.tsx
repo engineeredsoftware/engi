@@ -1,13 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
-import DeliverablesCardsPanel from '@/components/base/engi/execution/DeliverablesCardsPanel';
-import DeliverablesDocPanel, { type DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
+import type { DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
 
-import ApplicationMockRunDetails from './ApplicationMockRunDetails';
+import ApplicationRunDetailSurface from './ApplicationRunDetailSurface';
+import {
+  buildApplicationRunDetailFromSelectedRun,
+  normalizeApplicationRunDetailPayload,
+  type ApplicationRunDetailSnapshot,
+} from './application-run-detail';
 import { MASTER_DETAIL_SUBSTRUCTURES } from './application-experience-architecture';
 import { MOCK_RUN_DELIVERABLES, type WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
@@ -57,15 +60,15 @@ function countDeliverableSurfaces(deliverables?: DeliverablesDoc | null) {
   return count;
 }
 
-function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, mockDeliverables?: DeliverablesDoc | null) {
-  const deliverableSurfaceCount = countDeliverableSurfaces(mockDeliverables) || selectedRun.itemCount || 0;
+function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: ApplicationRunDetailSnapshot | null) {
+  const deliverableSurfaceCount = countDeliverableSurfaces(detail?.deliverables) || detail?.historyItemCount || selectedRun.itemCount || 0;
 
   return MASTER_DETAIL_SUBSTRUCTURES.map((substructure) => {
     if (substructure.id === 'runs') {
       return {
         ...substructure,
         summary:
-          selectedRun.summary || 'This selected run is the active master-detail detail surface inside the Bitcode application.',
+          detail?.summary || selectedRun.summary || 'This selected run is the active master-detail detail surface inside the Bitcode application.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
@@ -82,17 +85,21 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, mockDeliverab
       return {
         ...substructure,
         summary:
-          mockDeliverables?.summary ||
+          detail?.deliverables?.summary ||
           'Deliverable surfaces stay inside the selected run context so the operator can inspect output without leaving `/application`.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
-          { label: 'Closure focus', value: selectedRun.closureFocus || 'materialized output' },
+          { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
         ],
         rows: [
-          ...(mockDeliverables?.pullRequest ? [{ label: 'Pull request', value: `#${mockDeliverables.pullRequest.number}` }] : []),
-          ...(mockDeliverables?.pullRequestReviews ? [{ label: 'Reviews', value: formatNumber(mockDeliverables.pullRequestReviews.length) }] : []),
-          ...(mockDeliverables?.issues ? [{ label: 'Issues', value: formatNumber(mockDeliverables.issues.length) }] : []),
-          ...(mockDeliverables?.comments ? [{ label: 'Comments', value: formatNumber(mockDeliverables.comments.length) }] : []),
+          ...(detail?.deliverables?.pullRequest ? [{ label: 'Pull request', value: `#${detail.deliverables.pullRequest.number}` }] : []),
+          ...(detail?.deliverables?.pullRequestReviews
+            ? [{ label: 'Reviews', value: formatNumber(detail.deliverables.pullRequestReviews.length) }]
+            : []),
+          ...(detail?.deliverables?.issues ? [{ label: 'Issues', value: formatNumber(detail.deliverables.issues.length) }] : []),
+          ...(detail?.deliverables?.comments
+            ? [{ label: 'Comments', value: formatNumber(detail.deliverables.comments.length) }]
+            : []),
         ],
       };
     }
@@ -101,16 +108,23 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, mockDeliverab
       return {
         ...substructure,
         summary:
+          detail?.proofStatus ||
           selectedRun.proofStatus ||
           'Verification, settlement, and bounded proof remain explicit closure stages of the selected run.',
         metrics: [
-          { label: 'Proof posture', value: selectedRun.proofStatus || 'in flight' },
-          { label: 'Tokens', value: formatNumber(selectedRun.tokenTotal) },
+          { label: 'Proof posture', value: detail?.proofStatus || selectedRun.proofStatus || 'in flight' },
+          { label: 'Tokens', value: formatNumber(detail?.processingStats.tokenTotal ?? selectedRun.tokenTotal) },
         ],
         rows: [
-          { label: 'Closure focus', value: selectedRun.closureFocus || 'proof-bearing closure' },
-          { label: 'Latency', value: selectedRun.averageLatencyMs ? `${formatNumber(selectedRun.averageLatencyMs)} ms` : 'n/a' },
-          { label: 'Spend', value: formatUsd(selectedRun.usdTotal) },
+          { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'proof-bearing closure' },
+          {
+            label: 'Latency',
+            value:
+              detail?.processingStats.averageLatencyMs ?? selectedRun.averageLatencyMs
+                ? `${formatNumber(detail?.processingStats.averageLatencyMs ?? selectedRun.averageLatencyMs)} ms`
+                : 'n/a',
+          },
+          { label: 'Spend', value: formatUsd(detail?.processingStats.usdTotal ?? selectedRun.usdTotal) },
         ],
       };
     }
@@ -120,12 +134,23 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, mockDeliverab
       summary:
         'Run history, ledger reading, and processing posture remain part of the same Bitcode application workspace.',
       metrics: [
-        { label: 'History items', value: formatNumber(selectedRun.itemCount) },
-        { label: 'Credits', value: formatNumber(selectedRun.creditsTotal, { maximumFractionDigits: 1 }) },
+        { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
+        {
+          label: 'Credits',
+          value: formatNumber(detail?.processingStats.credits ?? selectedRun.creditsTotal, { maximumFractionDigits: 1 }),
+        },
       ],
       rows: [
-        ...(selectedRun.repository ? [{ label: 'Repository', value: selectedRun.repository }] : []),
-        ...(selectedRun.branch ? [{ label: 'Branch', value: selectedRun.branch }] : []),
+        ...(detail?.repoSnapshot
+          ? [{ label: 'Repository', value: `${detail.repoSnapshot.org}/${detail.repoSnapshot.repo}` }]
+          : selectedRun.repository
+            ? [{ label: 'Repository', value: selectedRun.repository }]
+            : []),
+        ...(detail?.repoSnapshot?.branch
+          ? [{ label: 'Branch', value: detail.repoSnapshot.branch }]
+          : selectedRun.branch
+            ? [{ label: 'Branch', value: selectedRun.branch }]
+            : []),
         { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
       ],
     };
@@ -149,9 +174,69 @@ export default function ApplicationRunWorkspace({
   mockMode,
   onSelectRun,
 }: ApplicationRunWorkspaceProps) {
-  const [summaryOpen, setSummaryOpen] = useState(true);
   const mockDeliverables = selectedRun ? MOCK_RUN_DELIVERABLES[selectedRun.id] : null;
-  const masterDetailSubstructures = selectedRun ? buildMasterDetailSubstructures(selectedRun, mockDeliverables) : [];
+  const [runDetail, setRunDetail] = useState<ApplicationRunDetailSnapshot | null>(null);
+  const [isLoadingRunDetail, setIsLoadingRunDetail] = useState(false);
+  const [runDetailError, setRunDetailError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let disposed = false;
+
+    if (!selectedRun) {
+      setRunDetail(null);
+      setIsLoadingRunDetail(false);
+      setRunDetailError(null);
+      return () => {
+        disposed = true;
+      };
+    }
+
+    const fallbackDetail = buildApplicationRunDetailFromSelectedRun(selectedRun, mockDeliverables);
+    setRunDetail(fallbackDetail);
+    setRunDetailError(null);
+
+    if (mockMode) {
+      setIsLoadingRunDetail(false);
+      return () => {
+        disposed = true;
+      };
+    }
+
+    setIsLoadingRunDetail(true);
+
+    fetch(`/api/executions/history/${selectedRun.id}`)
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Unable to load selected run detail (${response.status})`);
+        }
+        return response.json();
+      })
+      .then((payload) => {
+        if (disposed) return;
+        setRunDetail(normalizeApplicationRunDetailPayload(payload, selectedRun, mockDeliverables));
+      })
+      .catch((error) => {
+        if (disposed) return;
+        setRunDetail(fallbackDetail);
+        setRunDetailError(
+          error instanceof Error
+            ? `${error.message}. Falling back to the route-owned workspace summary while live detail stays unavailable.`
+            : 'Unable to load live selected-run detail. Falling back to the route-owned workspace summary.',
+        );
+      })
+      .finally(() => {
+        if (!disposed) setIsLoadingRunDetail(false);
+      });
+
+    return () => {
+      disposed = true;
+    };
+  }, [mockDeliverables, mockMode, selectedRun]);
+
+  const masterDetailSubstructures = useMemo(
+    () => (selectedRun ? buildMasterDetailSubstructures(selectedRun, runDetail) : []),
+    [runDetail, selectedRun],
+  );
 
   return (
     <section
@@ -289,105 +374,13 @@ export default function ApplicationRunWorkspace({
               ))}
             </div>
 
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
-              <div className="min-w-0">
-                {mockMode ? <ApplicationMockRunDetails run={selectedRun} /> : <ExecutionDetailsView runId={selectedRun.id} />}
-              </div>
-
-              <div className="space-y-5">
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/20 p-5">
-                  <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode inward port</p>
-                  <h3 className="mt-2 text-lg font-semibold text-white">Master-detail now lives in the application</h3>
-                  <p className="mt-3 text-sm leading-6 text-neutral-300">
-                    Executions remains available as a compatibility route, but the operator no longer needs to leave
-                    `/application` to read the selected run, its deliverable surfaces, or its proof-bearing detail state.
-                  </p>
-                </div>
-
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/20 p-5">
-                  <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected run</p>
-                  <dl className="mt-3 space-y-3 text-sm">
-                    <div>
-                      <dt className="text-neutral-500">Run id</dt>
-                      <dd className="mt-1 font-mono text-neutral-100">{selectedRun.id}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-neutral-500">Started</dt>
-                      <dd className="mt-1 text-neutral-100">{formatRunTimestamp(selectedRun.created_at)}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-neutral-500">Summary</dt>
-                      <dd className="mt-1 leading-6 text-neutral-200">
-                        {selectedRun.summary || 'This run is available for inward application inspection.'}
-                      </dd>
-                    </div>
-                    {selectedRun.repository ? (
-                      <div>
-                        <dt className="text-neutral-500">Repository</dt>
-                        <dd className="mt-1 text-neutral-100">{selectedRun.repository}</dd>
-                      </div>
-                    ) : null}
-                    {selectedRun.branch ? (
-                      <div>
-                        <dt className="text-neutral-500">Branch</dt>
-                        <dd className="mt-1 text-neutral-100">{selectedRun.branch}</dd>
-                      </div>
-                    ) : null}
-                  </dl>
-                </div>
-
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/20 p-5">
-                  <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure posture</p>
-                  <dl className="mt-3 space-y-3 text-sm">
-                    <div>
-                      <dt className="text-neutral-500">Proof posture</dt>
-                      <dd className="mt-1 text-neutral-100">{selectedRun.proofStatus || 'Closure state in flight'}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-neutral-500">Closure focus</dt>
-                      <dd className="mt-1 text-neutral-100">{selectedRun.closureFocus || 'Application consequence reading'}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-neutral-500">Token total</dt>
-                      <dd className="mt-1 text-neutral-100">{formatNumber(selectedRun.tokenTotal)}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-neutral-500">Spend</dt>
-                      <dd className="mt-1 text-neutral-100">{formatUsd(selectedRun.usdTotal)}</dd>
-                    </div>
-                  </dl>
-                </div>
-              </div>
-            </div>
-
-            {mockMode && mockDeliverables ? (
-              <div
-                id="applicationRunDeliverables"
-                className="space-y-6 rounded-[1.5rem] border border-white/8 bg-[rgba(5,10,20,0.88)] px-4 py-5"
-              >
-                <div className="px-2">
-                  <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Deliverable surfaces</p>
-                  <h3 className="mt-2 text-lg font-semibold text-white">Inward reuse of deliverable-reading panels</h3>
-                  <p className="mt-2 text-sm leading-6 text-neutral-300">
-                    Mock review keeps the strongest deliverable panels visible here so second-gate can evaluate the
-                    application-owned reading flow before production/staging/dev completeness work begins.
-                  </p>
-                </div>
-                <DeliverablesDocPanel
-                  deliverables={mockDeliverables}
-                  summaryOpen={summaryOpen}
-                  onToggleSummary={() => setSummaryOpen((current) => !current)}
-                />
-                <DeliverablesCardsPanel
-                  deliverables={{
-                    pullRequest: mockDeliverables.pullRequest ?? null,
-                    pullRequestReviews: mockDeliverables.pullRequestReviews ?? null,
-                    comments: mockDeliverables.comments ?? null,
-                    issues: mockDeliverables.issues ?? null,
-                  }}
-                />
-              </div>
-            ) : null}
+            <ApplicationRunDetailSurface
+              selectedRun={selectedRun}
+              detail={runDetail}
+              isLoadingDetail={isLoadingRunDetail}
+              detailError={runDetailError}
+              mockMode={mockMode}
+            />
           </div>
         )}
       </div>

@@ -26,6 +26,7 @@ Any new or newly repurposed V26 system must have all three:
 3. proof-surface assignment
 
 V26 does not allow large application glue layers to accumulate without explicit coverage expectations.
+The provable space is expected to grow materially in V26 as more package code, application surfaces, and reused component/system carriers are admitted into the converged Bitcode system.
 
 ## Gate coverage map
 
@@ -41,15 +42,18 @@ Required system families:
 Current active carriers:
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/api/conversations/*`
 - `uapi/app/api/orbitals/data/route.ts`
 - `uapi/app/api/vcs/[provider]/*`
+- `uapi/app/api/v24/external-realization/route.ts`
 
 Required coverage posture:
 - spec:
@@ -110,11 +114,21 @@ Current active assignments:
   browser verification plus repository-selection helper coverage
   proof surface:
   second-gate give-side repository context readiness inside `/application`
+- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+  test coverage:
+  browser/API verification plus runtime-normalization helper coverage
+  proof surface:
+  second-gate boundary honesty and external-interfacing stable readiness inside `/application`
 - `uapi/app/application/application-repository-context.ts`
   test coverage:
   `uapi/tests/applicationRepositoryContext.test.ts`
   proof surface:
   deterministic repository-provider normalization and selected-repository derivation for the give-side application frame
+- `uapi/app/application/application-external-runtime.ts`
+  test coverage:
+  `uapi/tests/applicationExternalRuntime.test.ts`
+  proof surface:
+  deterministic runtime-state normalization and blocking-interface classification for the application-owned external posture carrier
 - `uapi/app/api/vcs/[provider]/oauth/route.ts`
   test coverage:
   route behavior tests and redirect contract checks
@@ -125,6 +139,11 @@ Current active assignments:
   route response tests for mock mode and error/success handling
   proof surface:
   second-gate external interfacing hardening and fallback-connect behavior
+- `uapi/app/api/v24/external-realization/route.ts`
+  test coverage:
+  route response tests for app-owned runtime posture and live localhost verification
+  proof surface:
+  second-gate external interfacing hardening and native boundary-actuality application read
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
   test coverage:
   browser verification and UI coverage around runs/deliverables/proofs/history

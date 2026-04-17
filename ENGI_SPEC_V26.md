@@ -105,12 +105,16 @@ Its aesthetic atmosphere remains the design system of late-Engi, but the product
 The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
+- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
@@ -128,6 +132,9 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/api/vcs/[provider]/repositories/route.ts`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
+- `uapi/tests/applicationExternalRuntime.test.ts`
+- `uapi/tests/applicationRunDetail.test.ts`
+- `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
 - `packages/bitcode/V26_PROOF_SURFACES.md`
 
@@ -271,6 +278,7 @@ The second-gate target structure is:
 | master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, inward substructure composition in `ApplicationRunWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | runs, deliverables, proofs, history, and operating detail remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
 | give action frame | `renderRepoInventory()`, `renderAssets()`, deposit form semantics, repo-auth session surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | authenticated repo supply, depositing, inventory browsing, and material submission remain explicit | the operator should clearly understand how to give material to Bitcode |
 | give-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode give-side supply |
+| external interfacing posture | `renderOperatingPicture()`, `state.boundaryRealitySurface`, `latestRun.externalRealizationSummary`, and `uapi/app/api/v24/external-realization/route.ts` | `ApplicationExternalInterfacingPanel.tsx`, `application-external-runtime.ts`, and the app-owned V24 route surface | environment mode, actuality disposition, boundary-only posture, live misconfiguration, and per-interface runtime state remain explicit and fail closed | the operator should clearly understand what is mocked, what is boundary-only, what is live-configured, and what is currently blocking |
 | need action frame | `renderScenario()`, `renderFit()`, measured-demand and fit surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | scenario framing, measured need, and fit pressure remain explicit before closure stages | the operator should clearly understand how to express and inspect need |
 | global navbar and app frame | `uapi/components/base/engi/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established late-Engi navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
 | shell frame, command rail, summary, hero posture | `uapi/app/application/ApplicationPageClient.tsx`, `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `packages/bitcode/public/app.js` | route-local `uapi/app/application/*` composition using current app shell carriers | scenario/projection/branch controls, run status, summary posture, reset, and canon posture remain explicit and synchronized to the preserved shell | read as a first-class Bitcode application page instead of a carried static shell |
@@ -354,6 +362,7 @@ Second-gate is accepted only when all of the following hold:
 4. External hardening acceptance
    - the application-facing external interfacings used by the page are stable enough to be considered second-gate-ready,
    - the app-owned `/api/vcs/*` contract coherently feeds repository connection posture and repository selection inside `/application`,
+   - the app-owned `/api/v24/external-realization` contract coherently feeds a native external-interfacing posture read inside `/application`,
    - boundary honesty remains explicit,
    - and failure states are deliberate rather than incidental.
 

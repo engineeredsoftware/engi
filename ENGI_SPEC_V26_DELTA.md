@@ -192,12 +192,16 @@ Second-gate is now specified as:
 The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
+- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
@@ -215,6 +219,9 @@ The current active second-gate source file additions are:
 - `uapi/app/api/vcs/[provider]/repositories/route.ts`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
+- `uapi/tests/applicationExternalRuntime.test.ts`
+- `uapi/tests/applicationRunDetail.test.ts`
+- `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
 - `packages/bitcode/V26_PROOF_SURFACES.md`
 
@@ -235,6 +242,7 @@ Second-gate acceptance is reached only when:
 - runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
+- route-local external-runtime posture makes environment mode, actuality disposition, and per-interface blocking state explicit inside `/application`,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,

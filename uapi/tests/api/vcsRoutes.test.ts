@@ -31,6 +31,7 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(payload.valid).toBe(true);
     expect(payload.provider).toBe('github');
     expect(payload.username).toBe('bitcode');
+    expect(payload.metadata.account).toBe('bitcode');
   });
 
   it('returns deterministic mock repositories for the application-owned GitHub carrier', async () => {
@@ -43,7 +44,7 @@ describe('/api/vcs routes (mock mode)', () => {
     expect(response.status).toBe(200);
     expect(Array.isArray(payload.repositories)).toBe(true);
     expect(payload.repositories.length).toBeGreaterThan(0);
-    expect(payload.repositories[0]).toHaveProperty('fullName');
+    expect(payload.repositories[0].fullName).toBe('bitcode/bitcode');
   });
 
   it('accepts PAT connect requests in mock mode without falling through to legacy HTML routes', async () => {

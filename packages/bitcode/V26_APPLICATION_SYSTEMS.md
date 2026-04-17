@@ -50,11 +50,13 @@ Within the master-detail experience, V26 treats these as required substructures:
 Current active carriers:
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-repository-context.ts`
 
@@ -74,6 +76,21 @@ Operational rule:
 - selected repository supply is route state inside `/application`
 - the app-owned `/api/vcs/*` contract feeds the give-side carrier
 - the preserved deposit surfaces remain the semantic source below that application frame
+
+## External interfacing posture carrier
+
+Second-gate now also treats boundary honesty and external actuality as application-owned read surfaces rather than preserved-shell-only detail.
+
+Current active carriers:
+- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/application-external-runtime.ts`
+- `uapi/app/api/v24/external-realization/route.ts`
+
+Operational rule:
+- environment mode and actuality disposition are application-visible inside `/application`
+- per-interface runtime state stays explicit for bitcoin, repeated-read, sidechain, compute, storage, and GitHub
+- boundary-only, mock, live-configured, and misconfigured states remain visible and fail closed
+- the app-owned V24 route feeds the application carrier while preserved-shell boundary reading remains below as semantic context
 
 ## Overlay choreography
 

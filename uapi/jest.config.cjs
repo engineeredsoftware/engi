@@ -38,6 +38,7 @@ module.exports = {
     '^@bitcode/context$': '<rootDir>/../packages/context/src/index.ts',
     '^@bitcode/context/(.*)$': '<rootDir>/../packages/context/src/$1',
     '^@bitcode/observability$': '<rootDir>/tests/mocks/observability.js',
+    '^@bitcode/bitcode$': '<rootDir>/../packages/bitcode/src/index.js',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
     '^@bitcode/supabase/ssr/client$': '<rootDir>/tests/mocks/supabaseBrowserClient.ts',
     '^@bitcode/supabase/ssr/(.*)$': '<rootDir>/../packages/supabase/src/ssr/$1',
@@ -53,6 +54,7 @@ module.exports = {
     // that have not yet been migrated. These can be removed once the import
     // sweep is complete.
     // -------------------------------------------------------------------
+    '^@/lib/bitcode-app-context$': '<rootDir>/lib/bitcode-app-context.ts',
     '^@/lib/logger$': '<rootDir>/../packages/pipelines-generics/src/logger.ts',
     '^@/lib/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',
     '^@/lib/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
