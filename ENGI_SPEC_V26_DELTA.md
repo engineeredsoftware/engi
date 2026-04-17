@@ -202,7 +202,9 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-command-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
@@ -228,6 +230,7 @@ The current active second-gate source file additions are:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
 - `uapi/tests/applicationCommandState.test.ts`
+- `uapi/tests/applicationDepositComposer.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
 - `uapi/tests/applicationGiveNeedWorkbench.test.ts`
 - `uapi/tests/applicationRunActivity.test.ts`
@@ -257,6 +260,7 @@ Second-gate acceptance is reached only when:
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
 - route-local command state/control is bridged from the mounted Bitcode shell into `ApplicationCommandDeck.tsx` rather than being read and driven through raw DOM queries,
+- route-local deposit submission is available through `ApplicationDepositComposer.tsx`, posting to the app-owned `/api/deposits` route while preserving selected-inventory and auth-session continuity from the mounted shell,
 - route-local give/need action detail reads the mounted Bitcode shell through a semantic snapshot bridge rather than generic shell markup and stays application-owned inside `/application`,
 - route-local supply selection makes authenticated intake session, artifact filtering, search, and inventory selection explicit inside `/application`,
 - route-local external-runtime posture makes environment mode, actuality disposition, and per-interface blocking state explicit inside `/application`,

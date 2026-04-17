@@ -11,10 +11,12 @@ import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 import ApplicationCommandDeck from './ApplicationCommandDeck';
 import ApplicationClosureNativeSections from './ApplicationClosureNativeSections';
 import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
+import ApplicationDepositComposer from './ApplicationDepositComposer';
 import ApplicationExperienceFrame from './ApplicationExperienceFrame';
 import ApplicationExternalInterfacingPanel from './ApplicationExternalInterfacingPanel';
 import ApplicationGiveNeedWorkbench from './ApplicationGiveNeedWorkbench';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
+import ApplicationNeedScenarioPanel from './ApplicationNeedScenarioPanel';
 import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPanel';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
@@ -213,7 +215,9 @@ export default function ApplicationPageClient() {
           <ApplicationSectionAtlas />
           <ApplicationCoreNativeSections repositoryContext={repositoryContext} />
           <ApplicationGiveNeedWorkbench repositoryContext={repositoryContext} />
+          <ApplicationNeedScenarioPanel />
           <ApplicationSupplySelectionPanel />
+          <ApplicationDepositComposer />
           <ApplicationClosureNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">

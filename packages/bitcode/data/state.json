@@ -130,7 +130,7 @@
   "assets": [
     {
       "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
-      "depositedAt": "2026-04-16T22:00:06.458Z",
+      "depositedAt": "2026-04-17T15:45:26.635Z",
       "title": "Enterprise auth migration rollback playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -2720,7 +2720,7 @@
     },
     {
       "assetId": "asset_proof-carrying-session-validator-patch-kit_535567adae",
-      "depositedAt": "2026-04-16T22:00:06.460Z",
+      "depositedAt": "2026-04-17T15:45:26.637Z",
       "title": "Proof-carrying session validator patch kit",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -5252,7 +5252,7 @@
     },
     {
       "assetId": "asset_formal-replay-window-validator-proof-bundle_ebe682fd49",
-      "depositedAt": "2026-04-16T22:00:06.461Z",
+      "depositedAt": "2026-04-17T15:45:26.638Z",
       "title": "Formal replay-window validator proof bundle",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -7380,7 +7380,7 @@
     },
     {
       "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
-      "depositedAt": "2026-04-16T22:00:06.462Z",
+      "depositedAt": "2026-04-17T15:45:26.638Z",
       "title": "Token issuer incident escalation notes",
       "artifactKind": "incident-note",
       "artifactType": "notes/incident-retrospective",
@@ -9217,7 +9217,7 @@
     },
     {
       "assetId": "asset_policy-precedence-incident-governor-fixpack_24fd6bb39b",
-      "depositedAt": "2026-04-16T22:00:06.463Z",
+      "depositedAt": "2026-04-17T15:45:26.639Z",
       "title": "Policy precedence incident governor fixpack",
       "artifactKind": "config",
       "artifactType": "config/policy-change",
@@ -11291,7 +11291,7 @@
     },
     {
       "assetId": "asset_unsafe-patch-review-containment-checklist_d755cefe57",
-      "depositedAt": "2026-04-16T22:00:06.464Z",
+      "depositedAt": "2026-04-17T15:45:26.640Z",
       "title": "Unsafe patch review containment checklist",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -13413,7 +13413,7 @@
     },
     {
       "assetId": "asset_deployment-drift-rollback-release-playbook_06609384ae",
-      "depositedAt": "2026-04-16T22:00:06.465Z",
+      "depositedAt": "2026-04-17T15:45:26.640Z",
       "title": "Deployment drift rollback release playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -15532,7 +15532,7 @@
     },
     {
       "assetId": "asset_projection-safe-bounded-proof-export-notes_a74e682378",
-      "depositedAt": "2026-04-16T22:00:06.466Z",
+      "depositedAt": "2026-04-17T15:45:26.641Z",
       "title": "Projection-safe bounded proof export notes",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -17203,7 +17203,7 @@
     },
     {
       "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
-      "depositedAt": "2026-04-16T22:00:06.467Z",
+      "depositedAt": "2026-04-17T15:45:26.642Z",
       "title": "Session validator compatibility witness dossier",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -19497,7 +19497,7 @@
     },
     {
       "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
-      "depositedAt": "2026-04-16T22:00:06.468Z",
+      "depositedAt": "2026-04-17T15:45:26.643Z",
       "title": "Auth audit receipt reconciliation patchset",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -21605,7 +21605,7 @@
     },
     {
       "assetId": "asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7",
-      "depositedAt": "2026-04-16T22:00:06.468Z",
+      "depositedAt": "2026-04-17T15:45:26.643Z",
       "title": "Polyglot gateway rollback coordination playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",

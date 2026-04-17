@@ -164,6 +164,16 @@ Current active assignments:
   lint plus live `/application` verification through the shell command/control bridge
   proof surface:
   second-gate application-owned give-side intake control for session binding, inventory filtering, search, and artifact selection
+- `uapi/app/application/application-deposit-composer.ts`
+  test coverage:
+  `uapi/tests/applicationDepositComposer.test.ts`
+  proof surface:
+  deterministic normalization of deposit-auth session defaults, selected inventory continuity, and signer/source-repo defaults into route-local deposit-composer state
+- `uapi/app/application/ApplicationDepositComposer.tsx`
+  test coverage:
+  lint plus localhost route verification with the app-owned deposit carrier present in `/application`
+  proof surface:
+  second-gate application-owned native deposit submission against the app-owned Bitcode intake route
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
   test coverage:
   browser/API verification plus runtime-normalization helper coverage

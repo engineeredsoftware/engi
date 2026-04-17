@@ -58,10 +58,12 @@ Current active carriers:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-command-state.ts`
+- `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
@@ -137,6 +139,23 @@ Operational rule:
 - `/application` reads and drives intake selection through the shell snapshot/control bridge
 - selected inventory, artifact filters, and authenticated session binding are explicit in the give-side workspace before the preserved deposit chain
 - second-gate should keep moving intake behavior inward to route-local application carriers without inventing alternate Bitcode semantics
+
+## Native deposit submission carrier
+
+Second-gate now also treats deposit submission itself as application-owned behavior rather than preserved-shell-only form ownership.
+
+Current active carriers:
+- `uapi/app/application/ApplicationDepositComposer.tsx`
+- `uapi/app/application/application-deposit-composer.ts`
+- `uapi/app/api/deposits/route.ts`
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+
+Operational rule:
+- `/application` posts deposits through the app-owned Bitcode route contract
+- selected inventory and authenticated session continuity are derived from the mounted shell snapshot/control bridge
+- title/author inference, raw fallback behavior, and selection-derived payload rules stay aligned to the Bitcode deposit builder
+- the native application composer strengthens second-gate without forking deposit semantics away from the preserved Bitcode chain
 
 ## External interfacing posture carrier
 
