@@ -1,0 +1,116 @@
+'use client';
+
+import type { TransactionRecord } from './bitcode-transaction-types';
+
+function formatTimestamp(value: string) {
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    }).format(new Date(value));
+  } catch {
+    return value;
+  }
+}
+
+function formatTypeLabel(value: string) {
+  return value.replace(/^pipeline:/, '').replace(/[-_]/g, ' ');
+}
+
+function statusTone(status: string) {
+  if (status === 'completed') return 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200';
+  if (status === 'error' || status === 'failed') return 'border-red-500/30 bg-red-500/10 text-red-200';
+  return 'border-amber-500/30 bg-amber-500/10 text-amber-100';
+}
+
+interface BitcodeTransactionsDataTableProps {
+  records: TransactionRecord[];
+  selectedTransactionId: string | null;
+  onSelectTransaction: (transactionId: string) => void;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export default function BitcodeTransactionsDataTable({
+  records,
+  selectedTransactionId,
+  onSelectTransaction,
+  isLoading,
+  error,
+}: BitcodeTransactionsDataTableProps) {
+  return (
+    <div className="mt-5 overflow-hidden rounded-[1.35rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
+      {isLoading ? (
+        <div className="px-5 py-10 text-sm text-neutral-400">Loading Bitcode transactions…</div>
+      ) : error ? (
+        <div className="px-5 py-5 text-sm text-red-200">{error}</div>
+      ) : records.length === 0 ? (
+        <div className="px-5 py-10 text-sm text-neutral-400">No Bitcode transactions match the current filters.</div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse text-left">
+            <thead className="border-b border-white/8 bg-white/5 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+              <tr>
+                <th className="px-4 py-3">Transaction</th>
+                <th className="px-4 py-3">Lens</th>
+                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Participant</th>
+                <th className="px-4 py-3">Repository</th>
+                <th className="px-4 py-3">Proof</th>
+                <th className="px-4 py-3">Started</th>
+              </tr>
+            </thead>
+            <tbody>
+              {records.map((record) => {
+                const isSelected = record.id === selectedTransactionId;
+                return (
+                  <tr
+                    key={record.id}
+                    className={`border-t border-white/6 transition ${isSelected ? 'bg-emerald-400/10' : 'hover:bg-white/5'}`}
+                  >
+                    <td className="px-4 py-4 align-top">
+                      <button type="button" onClick={() => onSelectTransaction(record.id)} className="w-full text-left">
+                        <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.id}</p>
+                        <p className="mt-2 text-sm font-medium text-white">{formatTypeLabel(record.type)}</p>
+                        <p className="mt-1 max-w-[24rem] text-sm leading-6 text-neutral-300">{record.summary}</p>
+                      </button>
+                    </td>
+                    <td className="px-4 py-4 align-top">
+                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200">
+                        {record.transactionLens}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 align-top">
+                      <span
+                        className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] ${statusTone(record.status)}`}
+                      >
+                        {record.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 align-top text-sm text-neutral-200">
+                      <p>{record.participant}</p>
+                      <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">
+                        {record.isOwnTransaction ? 'mine' : 'network'}
+                      </p>
+                    </td>
+                    <td className="px-4 py-4 align-top text-sm text-neutral-200">
+                      <p>{record.repository}</p>
+                      <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.branch}</p>
+                    </td>
+                    <td className="px-4 py-4 align-top text-sm text-neutral-200">
+                      <p>{record.proofStatus}</p>
+                      <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.closureFocus}</p>
+                    </td>
+                    <td className="px-4 py-4 align-top text-sm text-neutral-200">{formatTimestamp(record.createdAt)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}

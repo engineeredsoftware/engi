@@ -38,7 +38,7 @@ export default function ApplicationRunActivitySurface({
   if (!activity) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-8 text-sm text-neutral-400">
-        No application-owned activity surface is available for this selected run yet.
+        No application-owned activity surface is available for this selected transaction yet.
       </div>
     );
   }

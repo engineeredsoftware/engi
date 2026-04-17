@@ -59,6 +59,9 @@ Current active carriers:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
+- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
@@ -76,6 +79,7 @@ Current active carriers:
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-supply-selection.ts`
 - `uapi/app/application/application-transactions.ts`
@@ -105,6 +109,10 @@ Current active carriers:
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/application-transactions.ts`
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 
 Operational rule:
@@ -112,7 +120,7 @@ Operational rule:
 - the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and configuring from application context
 - `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
-- route-local application orchestration owns normalization and selection while the base component library owns the reusable table UI carrier
+- route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
 - later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
 
 ## Give-side repository supply carrier
@@ -314,12 +322,17 @@ Second-gate now treats selected-transaction detail as an application-owned carri
 
 Current active carriers:
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
+- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail.ts`
 - `/api/executions/history/[runId]`
 
 Operational rule:
 - selected-transaction history payloads normalize into one application-owned detail snapshot
+- overview, identity, and closure reading are split into SRP-aligned transaction-detail modules rather than one mixed-responsibility pane
 - deliverable summary/cards render in both mock and live posture inside `/application`
 - proof/history/accounting remain part of the same selected-transaction read surface
 - the detailed execution console remains secondary compatibility context during second-gate convergence

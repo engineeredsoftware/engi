@@ -207,6 +207,26 @@ Current active assignments:
   lint plus application-level verification through the route-local transactions carrier
   proof surface:
   reusable base-component table carrier for searchable Bitcode transaction master-detail UI
+- `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
+  test coverage:
+  lint plus application-level verification through the transactions master carrier
+  proof surface:
+  reusable overview metrics and mode posture carrier for transaction-master SRP decomposition
+- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+  test coverage:
+  lint plus `uapi/tests/applicationTransactions.test.ts`
+  proof surface:
+  reusable field-filter and sort-control carrier for transaction-master SRP decomposition
+- `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+  test coverage:
+  lint plus application-level verification through the transactions master carrier
+  proof surface:
+  reusable row-selection and detail-entry carrier for transaction-master SRP decomposition
+- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
+  test coverage:
+  imported through `uapi/tests/applicationTransactions.test.ts`
+  proof surface:
+  typed base-component contract for transaction-master filtering, overview, and row-selection carriers
 - `uapi/app/application/application-supply-selection.ts`
   test coverage:
   `uapi/tests/applicationSupplySelection.test.ts`
@@ -297,6 +317,11 @@ Current active assignments:
   `uapi/tests/applicationRunDetail.test.ts`
   proof surface:
   deterministic normalization of selected-transaction history payloads into application-owned deliverable/proof/history detail
+- `uapi/app/application/application-transaction-detail.ts`
+  test coverage:
+  `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  deterministic normalization of selected-transaction overview, identity, and closure-read rows into SRP-aligned detail modules
 - `uapi/app/application/application-run-activity.ts`
   test coverage:
   `uapi/tests/applicationRunActivity.test.ts`
@@ -307,6 +332,21 @@ Current active assignments:
   browser verification and UI coverage around live and mock selected-transaction detail rendering
   proof surface:
   second-gate selected-transaction application ownership rather than mock-only inward reuse
+- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
+  test coverage:
+  lint plus `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  reusable overview carrier for selected-transaction detail SRP decomposition
+- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+  test coverage:
+  lint plus `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  reusable identity/read carrier for selected-transaction detail SRP decomposition
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+  test coverage:
+  lint plus `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  reusable closure/read-follow-through carrier for selected-transaction detail SRP decomposition
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
   test coverage:
   browser verification and UI coverage around central activity/log/work-update rendering

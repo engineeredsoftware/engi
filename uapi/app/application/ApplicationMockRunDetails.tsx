@@ -26,7 +26,7 @@ export default function ApplicationMockRunDetails({ run }: { run: WorkspaceRun }
     <div className="space-y-4 rounded-[1.5rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 text-sm text-neutral-200 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.28em] text-emerald-300/80">Mock run detail</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.28em] text-emerald-300/80">Mock transaction detail</p>
           <h3 className="mt-2 text-lg font-semibold text-white">{run.type || 'pipeline:deliverables'}</h3>
         </div>
         <span className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.2em] ${getRunStatusTone(run.status)}`}>
@@ -35,7 +35,7 @@ export default function ApplicationMockRunDetails({ run }: { run: WorkspaceRun }
       </div>
       <dl className="grid gap-3 text-xs text-neutral-400 sm:grid-cols-2">
         <div>
-          <dt className="uppercase tracking-[0.2em] text-neutral-500">Run id</dt>
+          <dt className="uppercase tracking-[0.2em] text-neutral-500">Transaction id</dt>
           <dd className="mt-1 font-mono text-neutral-200">{run.id}</dd>
         </div>
         <div>

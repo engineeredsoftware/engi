@@ -123,7 +123,7 @@ export default function ApplicationWorkspaceRail({
 
       {selectedRun ? (
         <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected run focus</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected transaction focus</p>
           <h3 className="mt-2 text-lg font-semibold text-white">Central transaction detail lives in master detail</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
             The rail now stays focused on support and orientation. Rich transaction detail, deliverable reading, proof

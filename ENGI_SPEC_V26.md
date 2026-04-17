@@ -119,6 +119,9 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
+- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/application-core-surface.ts`
@@ -135,6 +138,7 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
+- `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
@@ -145,6 +149,10 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`
@@ -168,6 +176,7 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/applicationNeedScenarios.test.ts`
 - `uapi/tests/applicationRunActivity.test.ts`
 - `uapi/tests/applicationRunDetail.test.ts`
+- `uapi/tests/applicationTransactionDetail.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
