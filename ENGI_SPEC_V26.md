@@ -102,6 +102,15 @@ It replaces the preserved shell implementation with deeper native application-fa
 It hardens the live application-facing external interfacings up to stable readiness within the new `/application` expression.
 Its aesthetic atmosphere remains the design system of late-Engi, but the product itself is entirely Bitcode.
 
+The current active second-gate source additions are now explicitly:
+- `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/api/conversations/route.ts`
+- `uapi/app/api/conversations/branch/route.ts`
+- `uapi/app/api/conversations/stream/route.ts`
+- `uapi/app/api/conversations/[conversationId]/stream/route.ts`
+- `uapi/app/conversations/components/ConversationsOverlay.tsx`
+
 ### Third-gate
 
 Third-gate is the marketing refurbishment gate.

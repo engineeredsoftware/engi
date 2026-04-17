@@ -175,6 +175,15 @@ Second-gate is now specified as:
 - preservation of the late-Engi aesthetic atmosphere while the product identity remains entirely Bitcode,
 - and stable-readiness hardening for the application-facing external interfacings visible through the new page.
 
+The current active second-gate source file additions are:
+- `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/api/conversations/route.ts`
+- `uapi/app/api/conversations/branch/route.ts`
+- `uapi/app/api/conversations/stream/route.ts`
+- `uapi/app/api/conversations/[conversationId]/stream/route.ts`
+- `uapi/app/conversations/components/ConversationsOverlay.tsx`
+
 The second-gate mandatory design outputs are:
 1. section wireframes,
 2. semantic non-regression ledger,

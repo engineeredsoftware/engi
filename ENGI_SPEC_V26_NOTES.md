@@ -59,6 +59,18 @@ In current source, the app-owned first-gate API surface now explicitly includes:
 
 This is the current V26 source carrier, even while V25 remains the only active canon.
 
+The current active second-gate application additions now explicitly include:
+
+- `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/ApplicationMockRunDetails.tsx`
+- `uapi/app/conversations/components/ConversationsOverlay.tsx`
+- `/api/conversations`
+- `/api/conversations/branch`
+- `/api/conversations/stream`
+- `/api/conversations/[conversationId]/stream`
+
+Those carriers now make fullscreen conversations application-owned from `/application` in mock-mode review instead of leaving the overlay mounted over missing App Router routes.
+
 ## Still driving V26 from V25 deferrals
 
 The following items still remain part of the V26 center because they were deferred from V25 or from first-gate closure:

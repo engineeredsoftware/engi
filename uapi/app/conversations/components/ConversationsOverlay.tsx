@@ -77,7 +77,6 @@ import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDeta
 // Data hooks
 import { useConversationPages } from '@/hooks/useConversationPages';
 import { useConversationStream, StreamToken } from '@/hooks/useConversationStream';
-import { OPEN_CONVERSATIONS_OVERLAY_EVENT } from './conversations-overlay-events';
 
 // Backend types from generics packages
 import type { 
@@ -213,7 +212,6 @@ interface ConversationProps {
   onToggle?: () => void;
   onCloseRequest?: () => void;
   showFloatingOrb?: boolean;
-  listenForGlobalOpen?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -230,7 +228,6 @@ const Conversation = memo(function Conversation({
   onToggle,
   onCloseRequest,
   showFloatingOrb = true,
-  listenForGlobalOpen = false,
 }: ConversationProps) {
   // Core state
   const [isOpenInternal, setIsOpenInternal] = useState(false);
@@ -286,21 +283,6 @@ const Conversation = memo(function Conversation({
       didPlayEntrance = false; // Reset for floating mode
     }
   }, [inSidebar]);
-
-  useEffect(() => {
-    if (inSidebar || !listenForGlobalOpen || typeof window === 'undefined') return;
-
-    const handleOpen = (event: Event) => {
-      const detail = (event as CustomEvent<{ fullscreen?: boolean }>).detail;
-      setIsOpenInternal(true);
-      setIsFullscreen(Boolean(detail?.fullscreen));
-    };
-
-    window.addEventListener(OPEN_CONVERSATIONS_OVERLAY_EVENT, handleOpen as EventListener);
-    return () => {
-      window.removeEventListener(OPEN_CONVERSATIONS_OVERLAY_EVENT, handleOpen as EventListener);
-    };
-  }, [inSidebar, listenForGlobalOpen]);
 
   useEffect(() => {
     if (inSidebar || !isControlledOpen) return;
@@ -725,8 +707,8 @@ const Conversation = memo(function Conversation({
   // Handle fullscreen mode
   if (isFullscreen) {
     return (
-      <FullscreenPortal>
-        <div className="conversations-fullscreen">
+      <FullscreenPortal isOpen={isFullscreen} onClose={handleClose}>
+        <>
           {splitScreenMode ? (
             <SplitGrid
               boxes={splitBoxes}
@@ -754,7 +736,7 @@ const Conversation = memo(function Conversation({
             onToggleFullscreen={toggleFullscreen}
             onToggleSplitScreen={toggleSplitScreen}
           />
-        </div>
+        </>
       </FullscreenPortal>
     );
   }
