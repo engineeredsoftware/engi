@@ -61,6 +61,11 @@ This is the current V26 source carrier, even while V25 remains the only active c
 
 The current active second-gate application additions now explicitly include:
 
+- `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `uapi/app/application/ApplicationSectionAtlas.tsx`
+- `uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
@@ -73,6 +78,9 @@ The current active second-gate application additions now explicitly include:
 
 Those carriers now make fullscreen conversations application-owned from `/application` in mock-mode review instead of leaving the overlay mounted over missing App Router routes.
 They also place a central run-and-deliverable master-detail workspace directly inside `/application` instead of leaving inward reuse mostly confined to the right rail or the compatibility `/executions` route.
+They also place route-local command and live-summary carriers above the preserved shell, with browser-verified proxying from the application frame into preserved-shell scenario/projection/branch state.
+They now also place a route-local body atlas above the preserved shell, with browser-verified card labels and deterministic jump behavior into the live operating, depositing, needing, fit, verification, artifact, settlement, and ledger panels.
+They now also place the first native route-local body replacement layer above the preserved shell: application-owned operating, deposit, need, and fit cards that read the live shell surfaces directly and remain browser-verified against the underlying Bitcode panels.
 
 ## Still driving V26 from V25 deferrals
 

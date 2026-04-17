@@ -8,6 +8,10 @@ import ConversationsOverlay from '@/app/conversations/components/ConversationsOv
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
+import ApplicationCommandDeck from './ApplicationCommandDeck';
+import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
+import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
+import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationRunWorkspace from './ApplicationRunWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
 import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
@@ -155,6 +159,11 @@ export default function ApplicationPageClient() {
               </div>
             </div>
           </section>
+
+          <ApplicationCommandDeck />
+          <ApplicationLiveSummaryStrip />
+          <ApplicationSectionAtlas />
+          <ApplicationCoreNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">
             <section className="min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(4,8,18,0.9)] shadow-[0_30px_90px_rgba(0,0,0,0.42)]">

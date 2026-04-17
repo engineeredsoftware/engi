@@ -176,6 +176,11 @@ Second-gate is now specified as:
 - and stable-readiness hardening for the application-facing external interfacings visible through the new page.
 
 The current active second-gate source file additions are:
+- `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `uapi/app/application/ApplicationSectionAtlas.tsx`
+- `uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
@@ -197,6 +202,9 @@ Second-gate acceptance is reached only when:
 - `/application` is no longer primarily a carried monolithic shell implementation,
 - `/application` is the primary Bitcode destination and carries the converged workspace,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
+- route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
+- route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,
+- route-local native operating, deposit, need, and fit cards now read the live shell surfaces through application-owned composition,
 - run/detail and deliverable-reading behavior is reachable within `/application`,
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,
