@@ -42,18 +42,23 @@ Required system families:
 Current active carriers:
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-external-runtime.ts`
+- `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/api/conversations/*`
 - `uapi/app/api/orbitals/data/route.ts`
 - `uapi/app/api/vcs/[provider]/*`
 - `uapi/app/api/v24/external-realization/route.ts`
+- `packages/bitcode/src/client-entry.js`
+- `packages/bitcode/public/app.js`
 
 Required coverage posture:
 - spec:
@@ -114,6 +119,51 @@ Current active assignments:
   browser verification plus repository-selection helper coverage
   proof surface:
   second-gate give-side repository context readiness inside `/application`
+- `packages/bitcode/public/app.js`
+  test coverage:
+  semantic snapshot bridge verification through route-local normalization tests and live application checks
+  proof surface:
+  second-gate admissible shell snapshot and shell control exposure for native application composition
+- `packages/bitcode/src/client-entry.js`
+  test coverage:
+  semantic snapshot bridge exercised by application-owned give/need normalization and live `/application` review
+  proof surface:
+  second-gate package-to-application bridge for mounted-shell semantic state and command/intake control
+- `uapi/app/application/application-command-state.ts`
+  test coverage:
+  `uapi/tests/applicationCommandState.test.ts`
+  proof surface:
+  deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state
+- `uapi/app/application/ApplicationCommandDeck.tsx`
+  test coverage:
+  lint plus live `/application` verification through the shell command/control bridge
+  proof surface:
+  second-gate application-owned command posture for scenario, projection, branch mode, tutorial, reset, and branch creation
+- `uapi/app/application/application-give-need-workbench.ts`
+  test coverage:
+  `uapi/tests/applicationGiveNeedWorkbench.test.ts`
+  proof surface:
+  deterministic normalization of give, need, and fit action detail from the shell snapshot into route-local Bitcode application composition
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
+  test coverage:
+  browser verification and UI review around route-local give/need action detail
+  proof surface:
+  second-gate application-owned action detail for repository supply, measured demand, and fit intent
+- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
+  test coverage:
+  component-level lint/visual verification through the workbench surface
+  proof surface:
+  retained late-Engi design-system card reuse under Bitcode-owned action composition
+- `uapi/app/application/application-supply-selection.ts`
+  test coverage:
+  `uapi/tests/applicationSupplySelection.test.ts`
+  proof surface:
+  deterministic normalization of authenticated intake session, artifact filter, search, and selected inventory entries into route-local application intake state
+- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+  test coverage:
+  lint plus live `/application` verification through the shell command/control bridge
+  proof surface:
+  second-gate application-owned give-side intake control for session binding, inventory filtering, search, and artifact selection
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
   test coverage:
   browser/API verification plus runtime-normalization helper coverage

@@ -2,88 +2,76 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import {
+  readBitcodeApplicationShellControls,
+  readBitcodeApplicationShellSnapshot,
+} from '@bitcode/bitcode/src/client-entry.js';
+
 import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
+import {
+  normalizeApplicationCommandState,
+  type ApplicationCommandState,
+} from './application-command-state';
 
-type SelectOption = {
-  value: string;
-  label: string;
+type ShellControls = {
+  setScenario?: (value: string) => unknown;
+  setProjection?: (value: string) => unknown;
+  setBranchMode?: (value: string) => unknown;
+  toggleTutorial?: () => unknown;
+  makeBranch?: () => unknown;
+  resetApplication?: () => unknown;
 };
-
-function readOptions(element: HTMLSelectElement | null): SelectOption[] {
-  if (!element) return [];
-  return Array.from(element.options).map((option) => ({
-    value: option.value,
-    label: option.textContent?.trim() || option.value,
-  }));
-}
-
-function readButtonLabel(id: string, fallback: string) {
-  const button = document.getElementById(id);
-  return button?.textContent?.trim() || fallback;
-}
-
-function updateShellSelect(id: string, value: string) {
-  const element = document.getElementById(id) as HTMLSelectElement | null;
-  if (!element || element.value === value) return;
-  element.value = value;
-  element.dispatchEvent(new Event('change', { bubbles: true }));
-}
-
-function triggerShellButton(id: string) {
-  (document.getElementById(id) as HTMLButtonElement | null)?.click();
-}
 
 function jumpToShellSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'auto', block: 'start' });
 }
 
 export default function ApplicationCommandDeck() {
-  const [scenarioOptions, setScenarioOptions] = useState<SelectOption[]>([]);
-  const [projectionOptions, setProjectionOptions] = useState<SelectOption[]>([]);
-  const [branchOptions, setBranchOptions] = useState<SelectOption[]>([]);
-  const [scenario, setScenario] = useState('');
-  const [projection, setProjection] = useState('');
-  const [branchMode, setBranchMode] = useState('');
-  const [heroLede, setHeroLede] = useState('Awaiting preserved Bitcode shell posture…');
-  const [heroTip, setHeroTip] = useState('Waiting for current appendix and report posture…');
-  const [status, setStatus] = useState('Loading application command state…');
-  const [tutorialLabel, setTutorialLabel] = useState('Toggle tutorial');
-  const [shellReady, setShellReady] = useState(false);
+  const [commandState, setCommandState] = useState<ApplicationCommandState | null>(null);
 
-  const refreshFromShell = useCallback(() => {
-    const scenarioSelect = document.getElementById('scenarioPicker') as HTMLSelectElement | null;
-    const projectionSelect = document.getElementById('projectionPicker') as HTMLSelectElement | null;
-    const branchSelect = document.getElementById('branchModePicker') as HTMLSelectElement | null;
-
-    setScenarioOptions(readOptions(scenarioSelect));
-    setProjectionOptions(readOptions(projectionSelect));
-    setBranchOptions(readOptions(branchSelect));
-    setScenario(scenarioSelect?.value || '');
-    setProjection(projectionSelect?.value || '');
-    setBranchMode(branchSelect?.value || '');
-    setHeroLede(document.getElementById('heroLede')?.textContent?.trim() || 'Awaiting preserved Bitcode shell posture…');
-    setHeroTip(document.getElementById('heroTip')?.textContent?.trim() || 'Waiting for current appendix and report posture…');
-    setStatus(document.getElementById('status')?.textContent?.trim() || 'Application command state is syncing from the preserved shell.');
-    setTutorialLabel(readButtonLabel('tutorialToggleButton', 'Toggle tutorial'));
-    setShellReady(Boolean(scenarioSelect && projectionSelect && branchSelect));
+  const refreshFromShell = useCallback(async () => {
+    const snapshot = await readBitcodeApplicationShellSnapshot();
+    setCommandState(normalizeApplicationCommandState(snapshot));
   }, []);
 
+  const runControl = useCallback(
+    async (callback: (controls: ShellControls) => unknown) => {
+      const controls = await readBitcodeApplicationShellControls();
+      if (!controls) return;
+      callback(controls);
+      await refreshFromShell();
+    },
+    [refreshFromShell],
+  );
+
   useEffect(() => {
-    refreshFromShell();
+    void refreshFromShell();
 
-    const intervalId = window.setInterval(refreshFromShell, 600);
-    const handleDocumentChange = () => window.setTimeout(refreshFromShell, 0);
-
-    document.addEventListener('change', handleDocumentChange, true);
-    document.addEventListener('click', handleDocumentChange, true);
+    const intervalId = window.setInterval(() => {
+      void refreshFromShell();
+    }, 700);
 
     return () => {
       window.clearInterval(intervalId);
-      document.removeEventListener('change', handleDocumentChange, true);
-      document.removeEventListener('click', handleDocumentChange, true);
     };
   }, [refreshFromShell]);
+
+  const scenarioOptions = commandState?.scenarioOptions || [];
+  const projectionOptions = commandState?.projectionOptions || [];
+  const branchOptions = commandState?.branchOptions || [];
+  const scenario = commandState?.scenario || '';
+  const projection = commandState?.projection || '';
+  const branchMode = commandState?.branchMode || '';
+  const heroLede = commandState?.heroLede || 'Awaiting preserved Bitcode shell posture…';
+  const heroTip = commandState?.heroTip || 'Waiting for current appendix and report posture…';
+  const status = commandState?.status || 'Loading application command state…';
+  const tutorialLabel = commandState?.tutorialLabel || 'Toggle tutorial';
+  const shellReady = commandState?.shellReady || false;
+  const tutorialDetail =
+    commandState && commandState.tutorialStepCount > 0
+      ? `${commandState.tutorialOpen ? 'open' : 'closed'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+      : tutorialLabel.replace(/\s+/g, ' ');
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(7,12,24,0.97),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
@@ -105,7 +93,7 @@ export default function ApplicationCommandDeck() {
           </div>
           <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
             <p className="text-emerald-300/85">Tutorial state</p>
-            <p className="mt-2 text-neutral-200">{tutorialLabel.replace(/\s+/g, ' ')}</p>
+            <p className="mt-2 text-neutral-200">{tutorialDetail}</p>
           </div>
         </div>
       </div>
@@ -119,8 +107,7 @@ export default function ApplicationCommandDeck() {
                 value={scenario}
                 onChange={(event) => {
                   const nextValue = event.target.value;
-                  setScenario(nextValue);
-                  updateShellSelect('scenarioPicker', nextValue);
+                  void runControl((controls) => controls.setScenario?.(nextValue));
                 }}
                 className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
               >
@@ -142,8 +129,7 @@ export default function ApplicationCommandDeck() {
                 value={projection}
                 onChange={(event) => {
                   const nextValue = event.target.value;
-                  setProjection(nextValue);
-                  updateShellSelect('projectionPicker', nextValue);
+                  void runControl((controls) => controls.setProjection?.(nextValue));
                 }}
                 className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
               >
@@ -165,8 +151,7 @@ export default function ApplicationCommandDeck() {
                 value={branchMode}
                 onChange={(event) => {
                   const nextValue = event.target.value;
-                  setBranchMode(nextValue);
-                  updateShellSelect('branchModePicker', nextValue);
+                  void runControl((controls) => controls.setBranchMode?.(nextValue));
                 }}
                 className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
               >
@@ -186,21 +171,27 @@ export default function ApplicationCommandDeck() {
           <div className="grid gap-3 lg:grid-cols-3">
             <button
               type="button"
-              onClick={() => triggerShellButton('makeBranchButton')}
+              onClick={() => {
+                void runControl((controls) => controls.makeBranch?.());
+              }}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
             >
               Make Bitcode branch
             </button>
             <button
               type="button"
-              onClick={() => triggerShellButton('tutorialToggleButton')}
+              onClick={() => {
+                void runControl((controls) => controls.toggleTutorial?.());
+              }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
               {tutorialLabel}
             </button>
             <button
               type="button"
-              onClick={() => triggerShellButton('resetButton')}
+              onClick={() => {
+                void runControl((controls) => controls.resetApplication?.());
+              }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
               Reset application
@@ -244,8 +235,9 @@ export default function ApplicationCommandDeck() {
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Shell status</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Shell command status</p>
             <p className="mt-3 text-sm leading-6 text-neutral-200">{status}</p>
+            <p className="mt-3 text-xs leading-6 text-neutral-400">Tutorial posture: {tutorialDetail}</p>
           </div>
         </div>
       </div>

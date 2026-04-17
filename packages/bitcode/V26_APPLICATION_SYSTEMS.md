@@ -50,19 +50,27 @@ Within the master-detail experience, V26 treats these as required substructures:
 Current active carriers:
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
+- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `uapi/app/application/application-command-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
+- `uapi/app/application/application-supply-selection.ts`
+- `packages/bitcode/src/client-entry.js`
+- `packages/bitcode/public/app.js`
 
 ## Give-side repository supply carrier
 
@@ -80,6 +88,55 @@ Operational rule:
 - selected repository supply is route state inside `/application`
 - the app-owned `/api/vcs/*` contract feeds the give-side carrier
 - the preserved deposit surfaces remain the semantic source below that application frame
+
+## Give/need semantic snapshot bridge
+
+Second-gate now exposes the mounted Bitcode shell through a read-only semantic snapshot so route-local application carriers can reuse precise Bitcode truth without re-implementing shell-local selection logic or scraping generic markup.
+
+Current active carriers:
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
+- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
+- `uapi/app/application/application-give-need-workbench.ts`
+
+Operational rule:
+- the preserved shell remains the semantic owner of active scenario, auth session, deposit preview, need surface, and fit surface
+- V26 route-local application carriers may consume that truth through `getBitcodeApplicationShellSnapshot()` and `readBitcodeApplicationShellSnapshot()`
+- route-local give/need action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
+- this bridge is read-only and does not reopen first-gate ownership
+
+## Command-state and control bridge
+
+Second-gate now also exposes the mounted Bitcode shell as a mutable command carrier so the application deck can drive Bitcode command posture without scraping or mutating raw shell DOM directly.
+
+Current active carriers:
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+- `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/application-command-state.ts`
+
+Operational rule:
+- scenario, projection, branch mode, tutorial visibility, make-branch, and reset remain preserved-shell semantics
+- `/application` drives those semantics through the shell control bridge rather than direct DOM reads and synthetic document listeners
+- command posture is normalized into route-local application state before rendering
+- second-gate command composition stays application-owned even while first-gate shell ownership remains below it
+
+## Give-side intake selection carrier
+
+Second-gate now also treats authenticated intake session, artifact filtering, search, and inventory selection as route-local application composition rather than preserved-shell-only control surfaces.
+
+Current active carriers:
+- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `uapi/app/application/application-supply-selection.ts`
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+
+Operational rule:
+- the mounted Bitcode shell remains the semantic owner of intake selection
+- `/application` reads and drives intake selection through the shell snapshot/control bridge
+- selected inventory, artifact filters, and authenticated session binding are explicit in the give-side workspace before the preserved deposit chain
+- second-gate should keep moving intake behavior inward to route-local application carriers without inventing alternate Bitcode semantics
 
 ## External interfacing posture carrier
 

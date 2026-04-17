@@ -17,6 +17,7 @@ import ApplicationGiveNeedWorkbench from './ApplicationGiveNeedWorkbench';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
 import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPanel';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
+import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
 import ApplicationRunWorkspace from './ApplicationRunWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
@@ -212,6 +213,7 @@ export default function ApplicationPageClient() {
           <ApplicationSectionAtlas />
           <ApplicationCoreNativeSections repositoryContext={repositoryContext} />
           <ApplicationGiveNeedWorkbench repositoryContext={repositoryContext} />
+          <ApplicationSupplySelectionPanel />
           <ApplicationClosureNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">

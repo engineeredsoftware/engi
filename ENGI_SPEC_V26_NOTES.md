@@ -63,8 +63,10 @@ The practical V26 leverage rule is now explicit: the retained active package/app
 The current active second-gate application additions now explicitly include:
 
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
@@ -74,6 +76,7 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
@@ -100,6 +103,7 @@ They also place a central run-and-deliverable master-detail workspace directly i
 They also place route-local command and live-summary carriers above the preserved shell, with browser-verified proxying from the application frame into preserved-shell scenario/projection/branch state.
 They now also place a route-local body atlas above the preserved shell, with browser-verified card labels and deterministic jump behavior into the live operating, depositing, needing, fit, verification, artifact, settlement, and ledger panels.
 They now also place the first native route-local body replacement layer above the preserved shell: application-owned operating, deposit, need, and fit cards that read the live shell surfaces directly and remain browser-verified against the underlying Bitcode panels.
+They now also place a deeper route-local give/need action workbench above the preserved shell: application-owned action detail that reads the mounted shell through `getBitcodeApplicationShellSnapshot()` and the client-entry bridge instead of relying on generic DOM markup reads for repository supply, measured demand, and fit intent.
 
 The V26 application architecture is now explicitly locked in the draft family as:
 
@@ -113,8 +117,9 @@ The V26 application architecture is now explicitly locked in the draft family as
 The current source now reflects that architecture more directly:
 
 - `ApplicationExperienceFrame.tsx` names the three main experiences and the two main actions inside `/application`,
-- `ApplicationCommandDeck.tsx` now carries direct give/need focus controls alongside the preserved-shell command bridge,
+- `ApplicationCommandDeck.tsx` plus `application-command-state.ts` now carry direct give/need focus controls and route-local command posture through the Bitcode shell bridge instead of raw DOM scraping,
 - `ApplicationCoreNativeSections.tsx` now reads as the master-detail give/need core instead of only as generic core shell mirroring,
+- `ApplicationSupplySelectionPanel.tsx` plus `application-supply-selection.ts` now make authenticated intake session, artifact filtering, search, and inventory selection explicit inside `/application` through the mounted Bitcode shell bridge,
 - `ApplicationRunWorkspace.tsx` now exposes runs, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
 - `ApplicationRunDetailSurface.tsx` plus `application-run-detail.ts` now normalize selected-run history payloads into one application-owned detail carrier so deliverable-reading panels render in both mock and live posture inside `/application`,
 - `ApplicationRunActivitySurface.tsx` plus `application-run-activity.ts` now elevate the retained execution/log/work-update system into the Bitcode application-owned detail space instead of leaving that depth mostly to the compatibility execution page,
@@ -123,8 +128,13 @@ The current source now reflects that architecture more directly:
 - live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
 - `uapi/app/api/vcs/[provider]/*` now exists as an app-owned VCS carrier family for connection status, OAuth entry, PAT fallback connection, and repository listing instead of letting active Bitcode UI fall through to missing HTML routes.
 - `ApplicationRepositoryContextPanel.tsx` now makes provider connection posture and selected repository supply explicit inside `/application` before the preserved deposit chain, using the app-owned `/api/vcs/*` contract and route state.
+- `ApplicationGiveNeedWorkbench.tsx` plus `application-give-need-workbench.ts` now make give/need action detail explicit from a semantic shell snapshot bridge rather than generic shell markup, which is a stronger second-gate step toward application-owned Bitcode composition.
+- `uapi/tests/applicationCommandState.test.ts` now proves deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state.
+- `uapi/tests/applicationSupplySelection.test.ts` now proves deterministic normalization of authenticated intake session, artifact filter, search, and selected inventory entry detail into route-local application supply selection.
 - `ApplicationExternalInterfacingPanel.tsx` now makes environment mode, actuality disposition, and per-interface runtime blocking state explicit inside `/application` through the app-owned `/api/v24/external-realization` contract.
+- `packages/bitcode/public/app.js` plus `packages/bitcode/src/client-entry.js` now expose both the read-only shell snapshot carrier and the mutable shell control bridge so application-owned V26 sections can reuse precise Bitcode semantics without re-implementing the shell’s local selection logic.
 - `uapi/tests/api/externalRealizationRoute.test.ts` now proves the app-owned `/api/v24/external-realization` carrier directly instead of relying only on UI normalization coverage.
+- `uapi/tests/applicationGiveNeedWorkbench.test.ts` now proves deterministic give/need/fit normalization from the semantic shell snapshot into application-owned action detail.
 - `uapi/tests/applicationRunDetail.test.ts` now proves the selected-run normalization layer that merges live history payloads with route-owned fallback detail before the application renders deliverables, proofs, and history.
 - `uapi/tests/applicationRunActivity.test.ts` now proves the activity/log normalization layer that lifts retained execution events into the application-owned run activity surface.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.

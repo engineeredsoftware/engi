@@ -3,8 +3,8 @@
 import { useMemo, useState } from 'react';
 
 import WorkUpdatePanel from '@/components/base/engi/execution/WorkUpdatePanel';
-import PipelineExecutionLog from '@/components/base/engi/execution/pipeline-execution-log';
-import PipelineExecutionLogHeader from '@/components/base/engi/execution/pipeline-execution-log-header';
+import { PipelineExecutionLog } from '@/components/base/engi/execution/pipeline-execution-log';
+import { PipelineExecutionLogHeader } from '@/components/base/engi/execution/pipeline-execution-log-header';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 
 import { buildApplicationRunActivityFromEvents, buildApplicationRunActivityFromMock } from './application-run-activity';

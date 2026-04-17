@@ -191,8 +191,10 @@ Second-gate is now specified as:
 
 The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
@@ -200,13 +202,17 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `uapi/app/application/application-command-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-run-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
+- `uapi/app/application/application-supply-selection.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
@@ -221,10 +227,15 @@ The current active second-gate source file additions are:
 - `uapi/app/api/vcs/[provider]/repositories/route.ts`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
+- `uapi/tests/applicationCommandState.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
+- `uapi/tests/applicationGiveNeedWorkbench.test.ts`
 - `uapi/tests/applicationRunActivity.test.ts`
 - `uapi/tests/applicationRunDetail.test.ts`
+- `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
+- `packages/bitcode/src/client-entry.js`
+- `packages/bitcode/public/app.js`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
 - `packages/bitcode/V26_PROOF_SURFACES.md`
 
@@ -245,6 +256,9 @@ Second-gate acceptance is reached only when:
 - runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
+- route-local command state/control is bridged from the mounted Bitcode shell into `ApplicationCommandDeck.tsx` rather than being read and driven through raw DOM queries,
+- route-local give/need action detail reads the mounted Bitcode shell through a semantic snapshot bridge rather than generic shell markup and stays application-owned inside `/application`,
+- route-local supply selection makes authenticated intake session, artifact filtering, search, and inventory selection explicit inside `/application`,
 - route-local external-runtime posture makes environment mode, actuality disposition, and per-interface blocking state explicit inside `/application`,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,

@@ -233,12 +233,22 @@ function compactInventoryEntry(entry) {
     artifactKind: entry.artifactKind,
     originKind: entry.originKind,
     sourcePath: entry.sourcePath,
+    summary: entry.summary,
     workflowPath: entry.workflowPath,
-    tags: entry.tags || []
+    tags: entry.tags || [],
+    selected: selectedInventoryEntryIds.has(entry.inventoryEntryId)
   };
 }
 
-export function getBitcodeApplicationShellSnapshot() {
+function compactSelectOptions(element) {
+  if (!(element instanceof HTMLSelectElement)) return [];
+  return Array.from(element.options).map((option) => ({
+    value: option.value,
+    label: option.textContent?.trim() || option.value
+  }));
+}
+
+function getBitcodeApplicationShellSnapshot() {
   const state = lastLoadedState;
   if (!state) return null;
 
@@ -274,6 +284,13 @@ export function getBitcodeApplicationShellSnapshot() {
           profileShortLabel: scenario.realizationProfile?.shortLabel || null
         }
       : null,
+    scenarios: (state.needScenarios || []).map((entry) => ({
+      scenarioId: entry.scenarioId,
+      scenarioFamily: entry.scenarioFamily,
+      repo: entry.repo,
+      profileShortLabel: entry.realizationProfile?.shortLabel || null,
+      selected: entry.scenarioId === (scenario?.scenarioId || null)
+    })),
     authSession: authSession
       ? {
           authSessionId: authSession.authSessionId,
@@ -286,17 +303,114 @@ export function getBitcodeApplicationShellSnapshot() {
           permissionsRoot: authSession.permissionsRoot
         }
       : null,
+    authSessions: (state.githubAppSessions || []).map((entry) => ({
+      authSessionId: entry.authSessionId,
+      repo: entry.repo,
+      installationId: entry.installationId,
+      installationAccountLogin: entry.installationAccountLogin,
+      selected: entry.authSessionId === (authSession?.authSessionId || null)
+    })),
     inventory: {
       activeCount: activeEntries.length,
       filteredCount: filteredEntries.length,
       selectedCount: selectedEntries.length,
-      selectedEntries: selectedEntries.map(compactInventoryEntry)
+      selectedEntries: selectedEntries.map(compactInventoryEntry),
+      filteredEntries: filteredEntries.slice(0, 14).map(compactInventoryEntry),
+      totalFilteredEntries: filteredEntries.length,
+      searchTerm: inventorySearchTerm,
+      kind: selectedInventoryKind,
+      kindOptions: ['all', ...new Set(activeEntries.map((entry) => String(entry.artifactKind || '').trim()).filter(Boolean))]
+    },
+    commandSurface: {
+      heroEyebrow: heroEyebrowEl.textContent?.trim() || '',
+      heroLede: heroLedeEl.textContent?.trim() || '',
+      heroTip: heroTipEl.textContent?.trim() || '',
+      status: statusEl.textContent?.trim() || '',
+      tutorialLabel: tutorialToggleButtonEl.textContent?.trim() || '',
+      tutorialOpen,
+      tutorialStepIndex,
+      tutorialStepCount: tutorialSteps(state).length,
+      projectionOptions: compactSelectOptions(projectionPickerEl),
+      branchModeOptions: compactSelectOptions(branchModePickerEl)
     },
     depositingSurface: activeDepositingSurface(state),
     needingSurface: activeNeedingSurface(state),
     fitSurface: activeDepositingToNeedingSurface(state)
   };
 }
+
+globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__ = getBitcodeApplicationShellSnapshot;
+
+function updateShellSelectValue(element, value) {
+  if (!element || element.value === value) return;
+  element.value = value;
+  element.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+const bitcodeApplicationShellControls = {
+  setScenario(value) {
+    updateShellSelectValue(scenarioPickerEl, value);
+    return getBitcodeApplicationShellSnapshot();
+  },
+  setProjection(value) {
+    updateShellSelectValue(projectionPickerEl, value);
+    return getBitcodeApplicationShellSnapshot();
+  },
+  setBranchMode(value) {
+    updateShellSelectValue(branchModePickerEl, value);
+    return getBitcodeApplicationShellSnapshot();
+  },
+  setAuthSession(value) {
+    updateShellSelectValue(authSessionPickerEl, value);
+    return getBitcodeApplicationShellSnapshot();
+  },
+  setInventoryKind(value) {
+    updateShellSelectValue(inventoryKindFilterEl, value);
+    return getBitcodeApplicationShellSnapshot();
+  },
+  setInventorySearch(value) {
+    const nextValue = String(value || '');
+    if (!inventorySearchInputEl || inventorySearchInputEl.value === nextValue) return getBitcodeApplicationShellSnapshot();
+    inventorySearchInputEl.value = nextValue;
+    inventorySearchInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+    return getBitcodeApplicationShellSnapshot();
+  },
+  toggleInventoryEntry(entryId) {
+    const value = String(entryId || '').trim();
+    if (!value) return getBitcodeApplicationShellSnapshot();
+    if (selectedInventoryEntryIds.has(value)) selectedInventoryEntryIds.delete(value);
+    else selectedInventoryEntryIds.add(value);
+    if (lastLoadedState) {
+      renderRepoInventory(lastLoadedState);
+      renderSummary(lastLoadedState);
+      renderOperatingPicture(lastLoadedState);
+      renderAssets(lastLoadedState);
+      renderFit(lastLoadedState);
+      decorateStaticExplainers();
+      syncExplainerAlignment();
+      renderTutorialOverlay(lastLoadedState);
+    }
+    return getBitcodeApplicationShellSnapshot();
+  },
+  toggleTutorial() {
+    tutorialToggleButtonEl.click();
+    return getBitcodeApplicationShellSnapshot();
+  },
+  makeBranch() {
+    makeBranchButtonEl.click();
+    return getBitcodeApplicationShellSnapshot();
+  },
+  resetApplication() {
+    resetButtonEl.click();
+    return getBitcodeApplicationShellSnapshot();
+  },
+  async refresh() {
+    await refresh();
+    return getBitcodeApplicationShellSnapshot();
+  }
+};
+
+globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ = bitcodeApplicationShellControls;
 
 /**
  * @param {AppState | null | undefined} state
@@ -6948,6 +7062,12 @@ refresh().then(() => {
 
 return () => {
   eventController.abort();
+  if (globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__ === getBitcodeApplicationShellSnapshot) {
+    delete globalThis.__BITCODE_APPLICATION_SHELL_SNAPSHOT__;
+  }
+  if (globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ === bitcodeApplicationShellControls) {
+    delete globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__;
+  }
 };
 }
 
