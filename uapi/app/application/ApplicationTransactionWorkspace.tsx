@@ -3,7 +3,10 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
-import type { TransactionFilters } from '@/components/base/engi/execution/bitcode-transaction-types';
+import type {
+  TransactionFilters,
+  TransactionPagination,
+} from '@/components/base/engi/execution/bitcode-transaction-types';
 import type { DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
 
 import ApplicationTransactionDetailSurface from './ApplicationTransactionDetailSurface';
@@ -168,6 +171,8 @@ interface ApplicationTransactionWorkspaceProps {
   filters: TransactionFilters;
   onFiltersChange: (nextFilters: TransactionFilters) => void;
   onResetFilters: () => void;
+  pagination: TransactionPagination;
+  onPaginationChange: (nextPagination: TransactionPagination) => void;
   detailSection: ApplicationTransactionDetailSection;
   onDetailSectionChange: (detailSection: ApplicationTransactionDetailSection) => void;
   isLoadingRuns: boolean;
@@ -182,6 +187,8 @@ export default function ApplicationTransactionWorkspace({
   filters,
   onFiltersChange,
   onResetFilters,
+  pagination,
+  onPaginationChange,
   detailSection,
   onDetailSectionChange,
   isLoadingRuns,
@@ -311,6 +318,8 @@ export default function ApplicationTransactionWorkspace({
               filters={filters}
               onFiltersChange={onFiltersChange}
               onResetFilters={onResetFilters}
+              pagination={pagination}
+              onPaginationChange={onPaginationChange}
               isLoadingRuns={isLoadingRuns}
               runsError={runsError}
               mockMode={mockMode}

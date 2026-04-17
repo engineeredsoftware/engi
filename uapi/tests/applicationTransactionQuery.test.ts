@@ -2,10 +2,12 @@ import {
   readApplicationTransactionDetailSection,
   readApplicationTransactionFilters,
   readApplicationTransactionId,
+  readApplicationTransactionPagination,
   resetApplicationTransactionFilters,
   writeApplicationTransactionDetailSection,
   writeApplicationTransactionFilters,
   writeApplicationTransactionId,
+  writeApplicationTransactionPagination,
 } from '@/app/application/application-transaction-query';
 
 describe('application-transaction-query', () => {
@@ -73,6 +75,32 @@ describe('application-transaction-query', () => {
     expect(nextParams.get('provider')).toBe('github');
   });
 
+  it('reads and writes transaction pagination through route query state', () => {
+    expect(
+      readApplicationTransactionPagination(new URLSearchParams('transactionPage=3&transactionPageSize=25')),
+    ).toEqual({
+      page: 3,
+      pageSize: 25,
+    });
+
+    expect(readApplicationTransactionPagination(new URLSearchParams('transactionPage=-1'))).toEqual({
+      page: 1,
+      pageSize: 10,
+    });
+
+    const pagedParams = writeApplicationTransactionPagination(
+      new URLSearchParams('transactionId=tx-123&provider=github'),
+      { page: 2, pageSize: 50 },
+    );
+
+    expect(pagedParams.get('transactionPage')).toBe('2');
+    expect(pagedParams.get('transactionPageSize')).toBe('50');
+
+    const resetToDefault = writeApplicationTransactionPagination(pagedParams, { page: 1, pageSize: 10 });
+    expect(resetToDefault.get('transactionPage')).toBeNull();
+    expect(resetToDefault.get('transactionPageSize')).toBeNull();
+  });
+
   it('writes only non-default filters to route query params', () => {
     const nextParams = writeApplicationTransactionFilters(
       new URLSearchParams('transactionId=tx-789&provider=github'),
@@ -103,7 +131,7 @@ describe('application-transaction-query', () => {
   it('resets all transaction filter query params while preserving selection and external params', () => {
     const resetParams = resetApplicationTransactionFilters(
       new URLSearchParams(
-        'transactionId=tx-123&transactionSearch=proof&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-usd&provider=github',
+        'transactionId=tx-123&transactionSearch=proof&transactionStatus=completed&transactionOwnership=mine&transactionLens=give&transactionRepository=bitcode%2Fbitcode&transactionParticipant=garrett&transactionProof=bounded%20proof%20ready&transactionSort=highest-usd&transactionPage=3&provider=github',
       ),
     );
 
@@ -117,5 +145,6 @@ describe('application-transaction-query', () => {
     expect(resetParams.get('transactionParticipant')).toBeNull();
     expect(resetParams.get('transactionProof')).toBeNull();
     expect(resetParams.get('transactionSort')).toBeNull();
+    expect(resetParams.get('transactionPage')).toBeNull();
   });
 });

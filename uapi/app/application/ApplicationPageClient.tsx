@@ -29,10 +29,12 @@ import {
   readApplicationTransactionDetailSection,
   readApplicationTransactionFilters,
   readApplicationTransactionId,
+  readApplicationTransactionPagination,
   writeApplicationTransactionDetailSection,
   resetApplicationTransactionFilters,
   writeApplicationTransactionFilters,
   writeApplicationTransactionId,
+  writeApplicationTransactionPagination,
 } from './application-transaction-query';
 import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
 
@@ -75,6 +77,7 @@ export default function ApplicationPageClient() {
     [searchParams],
   );
   const transactionFilters = useMemo(() => readApplicationTransactionFilters(searchParams), [searchParams]);
+  const transactionPagination = useMemo(() => readApplicationTransactionPagination(searchParams), [searchParams]);
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
   const [runs, setRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
@@ -189,12 +192,23 @@ export default function ApplicationPageClient() {
   };
 
   const handleTransactionFiltersChange = (nextFilters: typeof transactionFilters) => {
-    const nextParams = writeApplicationTransactionFilters(searchParams, nextFilters);
+    const nextParams = writeApplicationTransactionPagination(
+      writeApplicationTransactionFilters(searchParams, nextFilters),
+      { page: 1, pageSize: transactionPagination.pageSize },
+    );
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
   const handleTransactionFiltersReset = () => {
-    const nextParams = resetApplicationTransactionFilters(searchParams);
+    const nextParams = writeApplicationTransactionPagination(
+      resetApplicationTransactionFilters(searchParams),
+      { page: 1, pageSize: transactionPagination.pageSize },
+    );
+    router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  };
+
+  const handleTransactionPaginationChange = (nextPagination: typeof transactionPagination) => {
+    const nextParams = writeApplicationTransactionPagination(searchParams, nextPagination);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   };
 
@@ -569,6 +583,8 @@ export default function ApplicationPageClient() {
             filters={transactionFilters}
             onFiltersChange={handleTransactionFiltersChange}
             onResetFilters={handleTransactionFiltersReset}
+            pagination={transactionPagination}
+            onPaginationChange={handleTransactionPaginationChange}
             detailSection={selectedTransactionDetailSection}
             onDetailSectionChange={handleTransactionDetailSectionChange}
           />

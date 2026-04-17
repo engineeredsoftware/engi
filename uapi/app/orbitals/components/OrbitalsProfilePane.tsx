@@ -6,13 +6,13 @@ import SocialAccountLinker from '@/components/base/engi/auth/SocialAccountLinker
 import LoadingSpinner from '@/components/base/engi/indicators/LoadingSpinner';
 import { trackEvent } from '@bitcode/google-analytics';
 import { reportError } from '@bitcode/errors';
-// import DataSharingPanel from './data-sharing-panel';
 import { createClient } from '@bitcode/supabase/ssr/client';
 // Use Supabase client for OTP flows instead of manual fetch
 import { motion, AnimatePresence } from 'framer-motion';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
 import stylesProfilePane from './profile-pane.module.css';
 import OrbitalsUsersOrbitalHeader from './headers/OrbitalsUsersOrbitalHeader';
+import DataSharingPanel from './OrbitalsDataSharingPanel';
 
 interface TeamMember {
   id: string;

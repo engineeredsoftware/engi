@@ -2,8 +2,10 @@ import type {
   TransactionFilters,
   TransactionLens,
   TransactionOwnership,
+  TransactionPagination,
   TransactionSort,
 } from '@/components/base/engi/execution/bitcode-transaction-types';
+import { BITCODE_TRANSACTION_PAGE_SIZES } from '@/components/base/engi/execution/bitcode-transaction-types';
 
 import { buildApplicationTransactionFilters } from './application-transactions';
 
@@ -19,11 +21,17 @@ const SEARCH_PARAM_KEYS = {
   participant: 'transactionParticipant',
   proofStatus: 'transactionProof',
   sort: 'transactionSort',
+  page: 'transactionPage',
+  pageSize: 'transactionPageSize',
 } as const;
 
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
 const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'give', 'need', 'closure'];
 const TRANSACTION_SORT_VALUES: TransactionSort[] = ['newest', 'oldest', 'most-tokens', 'highest-usd'];
+const DEFAULT_TRANSACTION_PAGINATION: TransactionPagination = {
+  page: 1,
+  pageSize: 10,
+};
 export type ApplicationTransactionDetailSection =
   | 'deliverables'
   | 'transaction'
@@ -50,6 +58,12 @@ function parseEnumValue<T extends string>(value: string | null, allowed: readonl
 function parseTextValue(value: string | null, fallback: string) {
   const normalized = value?.trim();
   return normalized ? normalized : fallback;
+}
+
+function parsePositiveInteger(value: string | null, fallback: number) {
+  const parsed = Number.parseInt(value || '', 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return fallback;
+  return parsed;
 }
 
 export function readApplicationTransactionId(searchParams: URLSearchParams) {
@@ -86,6 +100,21 @@ export function readApplicationTransactionFilters(searchParams: URLSearchParams)
     participant: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.participant), fallback.participant),
     proofStatus: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.proofStatus), fallback.proofStatus),
     sort: parseEnumValue(searchParams.get(SEARCH_PARAM_KEYS.sort), TRANSACTION_SORT_VALUES, fallback.sort),
+  };
+}
+
+export function readApplicationTransactionPagination(searchParams: URLSearchParams): TransactionPagination {
+  const parsedPageSize = parsePositiveInteger(
+    searchParams.get(SEARCH_PARAM_KEYS.pageSize),
+    DEFAULT_TRANSACTION_PAGINATION.pageSize,
+  );
+  const pageSize = BITCODE_TRANSACTION_PAGE_SIZES.includes(parsedPageSize as (typeof BITCODE_TRANSACTION_PAGE_SIZES)[number])
+    ? (parsedPageSize as TransactionPagination['pageSize'])
+    : DEFAULT_TRANSACTION_PAGINATION.pageSize;
+
+  return {
+    page: parsePositiveInteger(searchParams.get(SEARCH_PARAM_KEYS.page), DEFAULT_TRANSACTION_PAGINATION.page),
+    pageSize,
   };
 }
 
@@ -136,6 +165,27 @@ export function writeApplicationTransactionFilters(
   return nextParams;
 }
 
+export function writeApplicationTransactionPagination(
+  searchParams: URLSearchParams,
+  pagination: TransactionPagination,
+) {
+  const nextParams = new URLSearchParams(searchParams.toString());
+
+  if (pagination.page <= DEFAULT_TRANSACTION_PAGINATION.page) {
+    nextParams.delete(SEARCH_PARAM_KEYS.page);
+  } else {
+    nextParams.set(SEARCH_PARAM_KEYS.page, String(pagination.page));
+  }
+
+  if (pagination.pageSize === DEFAULT_TRANSACTION_PAGINATION.pageSize) {
+    nextParams.delete(SEARCH_PARAM_KEYS.pageSize);
+  } else {
+    nextParams.set(SEARCH_PARAM_KEYS.pageSize, String(pagination.pageSize));
+  }
+
+  return nextParams;
+}
+
 export function resetApplicationTransactionFilters(searchParams: URLSearchParams) {
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.delete(SEARCH_PARAM_KEYS.search);
@@ -146,5 +196,6 @@ export function resetApplicationTransactionFilters(searchParams: URLSearchParams
   nextParams.delete(SEARCH_PARAM_KEYS.participant);
   nextParams.delete(SEARCH_PARAM_KEYS.proofStatus);
   nextParams.delete(SEARCH_PARAM_KEYS.sort);
+  nextParams.delete(SEARCH_PARAM_KEYS.page);
   return nextParams;
 }

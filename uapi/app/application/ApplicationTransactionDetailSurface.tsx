@@ -97,6 +97,56 @@ export default function ApplicationTransactionDetailSurface({
     }
     return `${normalizedSummary} Deliverables, reviews, issues, comments, and summary text are the active detail focus.`;
   }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
+  const transactionPayload = useMemo(
+    () => ({
+      transaction: {
+        id: selectedRun.id,
+        type: selectedRun.type || null,
+        status: selectedRun.status || null,
+        createdAt: selectedRun.created_at,
+        summary: detail?.summary || selectedRun.summary || null,
+      },
+      repository: detail?.repoSnapshot
+        ? {
+            org: detail.repoSnapshot.org,
+            repo: detail.repoSnapshot.repo,
+            branch: detail.repoSnapshot.branch,
+            commit: detail.repoSnapshot.commit,
+          }
+        : selectedRun.repository || null,
+      processingStats: detail?.processingStats || null,
+      proofStatus: detail?.proofStatus || selectedRun.proofStatus || null,
+      closureFocus: detail?.closureFocus || selectedRun.closureFocus || null,
+      historyItemCount: detail?.historyItemCount ?? selectedRun.itemCount ?? 0,
+      eventCount: detail?.eventCount ?? 0,
+    }),
+    [detail, selectedRun],
+  );
+  const proofsPayload = useMemo(
+    () => ({
+      proofStatus: detail?.proofStatus || selectedRun.proofStatus || null,
+      closureFocus: detail?.closureFocus || selectedRun.closureFocus || null,
+      proofFamilies: closureFollowThrough.proofFamilies,
+      processingStats: detail?.processingStats || null,
+    }),
+    [closureFollowThrough.proofFamilies, detail, selectedRun],
+  );
+  const historyPayload = useMemo(
+    () => ({
+      historyItemCount: detail?.historyItemCount ?? selectedRun.itemCount ?? 0,
+      eventCount: detail?.eventCount ?? 0,
+      repository: detail?.repoSnapshot
+        ? {
+            org: detail.repoSnapshot.org,
+            repo: detail.repoSnapshot.repo,
+            branch: detail.repoSnapshot.branch,
+            commit: detail.repoSnapshot.commit,
+          }
+        : selectedRun.repository || null,
+      recentHistory: closureFollowThrough.recentHistory,
+    }),
+    [closureFollowThrough.recentHistory, detail, selectedRun],
+  );
 
   useEffect(() => {
     setSummaryOpen(true);
@@ -203,6 +253,7 @@ export default function ApplicationTransactionDetailSurface({
             <ApplicationTransactionIdentityCard
               startedAt={formatRunTimestamp(selectedRun.created_at)}
               rows={identityRows}
+              payload={transactionPayload}
             />
           ) : null}
 
@@ -222,6 +273,7 @@ export default function ApplicationTransactionDetailSurface({
               proofFamilies={closureFollowThrough.proofFamilies}
               onOpenVerification={() => jumpToShellSection('panelEvaluations')}
               onOpenSettlement={() => jumpToShellSection('panelSettlement')}
+              payload={proofsPayload}
             />
           ) : null}
 
@@ -229,6 +281,7 @@ export default function ApplicationTransactionDetailSurface({
             <ApplicationTransactionHistoryCard
               recentHistory={closureFollowThrough.recentHistory}
               onOpenHistory={() => jumpToShellSection('panelLedger')}
+              payload={historyPayload}
             />
           ) : null}
         </div>

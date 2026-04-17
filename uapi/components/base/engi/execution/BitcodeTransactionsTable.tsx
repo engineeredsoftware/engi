@@ -3,15 +3,26 @@
 import BitcodeTransactionsDataTable from './BitcodeTransactionsDataTable';
 import BitcodeTransactionsFilterBar from './BitcodeTransactionsFilterBar';
 import BitcodeTransactionsOverview from './BitcodeTransactionsOverview';
-import type { TransactionFilters, TransactionRecord } from './bitcode-transaction-types';
+import BitcodeTransactionsPagination from './BitcodeTransactionsPagination';
+import type {
+  TransactionFilters,
+  TransactionPagination,
+  TransactionPaginationSummary,
+  TransactionRecord,
+} from './bitcode-transaction-types';
 
 interface BitcodeTransactionsTableProps {
   records: TransactionRecord[];
+  filteredRecordCount: number;
+  ownTransactionCount: number;
+  visibleTokenTotal: number;
   selectedTransactionId: string | null;
   onSelectTransaction: (transactionId: string) => void;
   filters: TransactionFilters;
   onFiltersChange: (nextFilters: TransactionFilters) => void;
   onResetFilters?: () => void;
+  pagination: TransactionPaginationSummary;
+  onPaginationChange: (nextPagination: TransactionPagination) => void;
   statusOptions: string[];
   repositoryOptions: string[];
   participantOptions: string[];
@@ -23,11 +34,16 @@ interface BitcodeTransactionsTableProps {
 
 export default function BitcodeTransactionsTable({
   records,
+  filteredRecordCount,
+  ownTransactionCount,
+  visibleTokenTotal,
   selectedTransactionId,
   onSelectTransaction,
   filters,
   onFiltersChange,
   onResetFilters,
+  pagination,
+  onPaginationChange,
   statusOptions,
   repositoryOptions,
   participantOptions,
@@ -36,9 +52,6 @@ export default function BitcodeTransactionsTable({
   error,
   mockMode,
 }: BitcodeTransactionsTableProps) {
-  const ownTransactionCount = records.filter((record) => record.isOwnTransaction).length;
-  const visibleTokenTotal = records.reduce((total, record) => total + (record.tokenTotal ?? 0), 0);
-
   return (
     <section className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
@@ -52,7 +65,7 @@ export default function BitcodeTransactionsTable({
         </div>
 
         <BitcodeTransactionsOverview
-          recordCount={records.length}
+          recordCount={filteredRecordCount}
           ownTransactionCount={ownTransactionCount}
           visibleTokenTotal={visibleTokenTotal}
           selectedTransactionId={selectedTransactionId}
@@ -77,6 +90,10 @@ export default function BitcodeTransactionsTable({
         isLoading={isLoading}
         error={error}
       />
+
+      {!isLoading && !error ? (
+        <BitcodeTransactionsPagination pagination={pagination} onPaginationChange={onPaginationChange} />
+      ) : null}
     </section>
   );
 }

@@ -1,0 +1,154 @@
+'use client';
+
+import React from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+
+type BitcodePayloadInspectorMode = 'visual' | 'raw';
+
+interface BitcodePayloadInspectorProps {
+  kicker: string;
+  title: string;
+  summary: string;
+  payload: unknown;
+  children: ReactNode;
+  className?: string;
+  rawLabel?: string;
+  emptyRawMessage?: string;
+}
+
+function stringifyPayload(payload: unknown) {
+  if (payload === undefined) return null;
+
+  try {
+    return JSON.stringify(payload, null, 2);
+  } catch {
+    return null;
+  }
+}
+
+function buildPayloadMeta(rawPayload: string | null) {
+  if (!rawPayload) {
+    return {
+      characterCount: 0,
+      lineCount: 0,
+    };
+  }
+
+  return {
+    characterCount: rawPayload.length,
+    lineCount: rawPayload.split('\n').length,
+  };
+}
+
+export default function BitcodePayloadInspector({
+  kicker,
+  title,
+  summary,
+  payload,
+  children,
+  className,
+  rawLabel = 'Raw JSON payload',
+  emptyRawMessage = 'No raw payload is surfaced for this Bitcode detail yet.',
+}: BitcodePayloadInspectorProps) {
+  const [mode, setMode] = useState<BitcodePayloadInspectorMode>('visual');
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'unavailable'>('idle');
+  const rawPayload = useMemo(() => stringifyPayload(payload), [payload]);
+  const payloadMeta = useMemo(() => buildPayloadMeta(rawPayload), [rawPayload]);
+
+  useEffect(() => {
+    if (copyState === 'idle') return undefined;
+    const timeout = globalThis.setTimeout(() => setCopyState('idle'), 1600);
+    return () => globalThis.clearTimeout(timeout);
+  }, [copyState]);
+
+  const handleCopyRawPayload = async () => {
+    if (!rawPayload) return;
+
+    if (!globalThis.navigator?.clipboard?.writeText) {
+      setCopyState('unavailable');
+      return;
+    }
+
+    try {
+      await globalThis.navigator.clipboard.writeText(rawPayload);
+      setCopyState('copied');
+    } catch {
+      setCopyState('unavailable');
+    }
+  };
+
+  const copyLabel =
+    copyState === 'copied'
+      ? 'Copied'
+      : copyState === 'unavailable'
+        ? 'Copy unavailable'
+        : 'Copy JSON';
+
+  return (
+    <div className={`rounded-[1.5rem] border border-white/8 bg-black/20 p-5 ${className || ''}`.trim()}>
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div className="max-w-3xl">
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">{kicker}</p>
+          <h3 className="mt-2 text-lg font-semibold text-white">{title}</h3>
+          <p className="mt-2 text-sm leading-6 text-neutral-300">{summary}</p>
+        </div>
+
+        <div className="inline-flex rounded-full border border-white/10 bg-white/5 p-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
+          <button
+            type="button"
+            onClick={() => setMode('visual')}
+            aria-pressed={mode === 'visual'}
+            className={`rounded-full px-3 py-2 transition ${
+              mode === 'visual' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
+            }`}
+          >
+            Visual
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('raw')}
+            aria-pressed={mode === 'raw'}
+            className={`rounded-full px-3 py-2 transition ${
+              mode === 'raw' ? 'bg-emerald-400/15 text-emerald-100' : 'hover:bg-white/10'
+            }`}
+          >
+            Raw JSON
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4">
+        {mode === 'visual' ? (
+          children
+        ) : rawPayload ? (
+          <div className="rounded-[1.1rem] border border-white/8 bg-[rgba(2,6,16,0.92)] px-4 py-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{rawLabel}</p>
+                <p className="mt-2 text-[0.68rem] uppercase tracking-[0.16em] text-neutral-500">
+                  {payloadMeta.lineCount} lines · {payloadMeta.characterCount.toLocaleString('en-US')} chars
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => void handleCopyRawPayload()}
+                title="Copy the raw JSON payload"
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
+              >
+                {copyLabel}
+              </button>
+            </div>
+            <pre className="mt-3 overflow-x-auto whitespace-pre-wrap break-words text-xs leading-6 text-emerald-100">
+              {rawPayload}
+            </pre>
+          </div>
+        ) : (
+          <div className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
+            {emptyRawMessage}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -154,6 +154,8 @@ The current active second-gate source additions are now explicitly:
 - `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
@@ -182,6 +184,8 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/applicationTransactionQuery.test.ts`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
+- `uapi/tests/bitcodeTransactionsPagination.test.tsx`
+- `uapi/tests/bitcodePayloadInspector.test.tsx`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
@@ -305,6 +309,8 @@ The read experience is the transactions master-detail window inside `/applicatio
 The write experience moves through `give`, `need`, and configuring via conversations and orbitals entered from application context.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
 Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
+The transactions master itself must stay query-owned, searchable, filterable, and paginatable rather than falling back to component-local table state.
+Selected-transaction proof, history, and identity detail must also support a reusable visual-vs-raw payload reading posture rather than leaving JSON-bearing detail stranded in ad hoc prose cards.
 
 ### Second-gate target file-structure direction
 
@@ -328,7 +334,7 @@ The second-gate target structure is:
 
 | Second-gate surface | Current semantic source | Second-gate target owner | Required semantic invariants | Required UI direction |
 | --- | --- | --- | --- | --- |
-| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, a rich transaction-master carrier in `ApplicationTransactionsTable.tsx`, inward substructure composition in `ApplicationTransactionWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | transactions, deliverables, proofs, history, and operating detail remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
+| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, a rich transaction-master carrier in `ApplicationTransactionsTable.tsx`, inward substructure composition in `ApplicationTransactionWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | transactions, deliverables, proofs, history, operating detail, route-owned pagination, and payload inspection remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
 | give action frame | `renderRepoInventory()`, `renderAssets()`, deposit form semantics, repo-auth session surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationSupplySelectionPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | authenticated repo supply, depositing, inventory browsing, and material submission remain explicit | the operator should clearly understand how to give material to Bitcode |
 | give-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode give-side supply |
 | native deposit submission | preserved-shell deposit contract and app-owned `/api/deposits` carrier | `ApplicationDepositComposer.tsx`, `application-deposit-composer.ts`, and `uapi/app/api/deposits/route.ts` | title/author inference, selected inventory continuity, raw fallback behavior, and deposit posting remain semantically aligned to Bitcode intake | the operator should be able to submit a Bitcode deposit from the application workspace without dropping back into the preserved shell form |

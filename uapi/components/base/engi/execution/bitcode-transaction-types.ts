@@ -3,6 +3,8 @@
 export type TransactionOwnership = 'all' | 'mine' | 'network';
 export type TransactionLens = 'all' | 'give' | 'need' | 'closure';
 export type TransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-usd';
+export const BITCODE_TRANSACTION_PAGE_SIZES = [10, 25, 50] as const;
+export type TransactionPageSize = typeof BITCODE_TRANSACTION_PAGE_SIZES[number];
 
 export interface TransactionFilters {
   searchTerm: string;
@@ -13,6 +15,18 @@ export interface TransactionFilters {
   participant: string;
   proofStatus: string;
   sort: TransactionSort;
+}
+
+export interface TransactionPagination {
+  page: number;
+  pageSize: TransactionPageSize;
+}
+
+export interface TransactionPaginationSummary extends TransactionPagination {
+  totalRecords: number;
+  totalPages: number;
+  startRecord: number;
+  endRecord: number;
 }
 
 export interface TransactionRecord {

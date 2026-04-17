@@ -37,6 +37,14 @@ describe('application transaction detail cards', () => {
               replayArtifacts: '3',
             },
           ]}
+          payload={{
+            proofFamilies: [
+              {
+                label: 'selection-materialization',
+                artifactPath: '.engi/selection-and-materialization-proof.json',
+              },
+            ],
+          }}
           onOpenVerification={onOpenVerification}
           onOpenSettlement={onOpenSettlement}
         />
@@ -47,6 +55,14 @@ describe('application transaction detail cards', () => {
               summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
             },
           ]}
+          payload={{
+            recentHistory: [
+              {
+                label: 'run-001',
+                summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
+              },
+            ],
+          }}
           onOpenHistory={onOpenHistory}
         />
       </div>,
@@ -57,6 +73,9 @@ describe('application transaction detail cards', () => {
     expect(screen.getByText('History')).toBeTruthy();
     expect(screen.getByText('selection-materialization')).toBeTruthy();
     expect(screen.getByText('run-001')).toBeTruthy();
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Raw JSON' })[0]);
+    expect(screen.getByText(/"proofFamilies"/)).toBeTruthy();
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Open verification' })[0]);
     fireEvent.click(screen.getAllByRole('button', { name: 'Open settlement' })[0]);
