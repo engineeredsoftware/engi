@@ -1,12 +1,6 @@
 "use client";
 
-type WorkspaceRun = {
-  id: string;
-  created_at: string;
-  type?: string | null;
-  status?: string | null;
-  summary?: string | null;
-};
+import type { WorkspaceRun } from './application-run-data';
 
 function formatRunTimestamp(value: string) {
   try {
@@ -48,6 +42,18 @@ export default function ApplicationMockRunDetails({ run }: { run: WorkspaceRun }
           <dt className="uppercase tracking-[0.2em] text-neutral-500">Started</dt>
           <dd className="mt-1 text-neutral-200">{formatRunTimestamp(run.created_at)}</dd>
         </div>
+        {run.repository ? (
+          <div>
+            <dt className="uppercase tracking-[0.2em] text-neutral-500">Repository</dt>
+            <dd className="mt-1 text-neutral-200">{run.repository}</dd>
+          </div>
+        ) : null}
+        {run.proofStatus ? (
+          <div>
+            <dt className="uppercase tracking-[0.2em] text-neutral-500">Proof posture</dt>
+            <dd className="mt-1 text-neutral-200">{run.proofStatus}</dd>
+          </div>
+        ) : null}
       </dl>
       <div className="rounded-2xl border border-white/6 bg-black/20 p-4">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Summary</p>

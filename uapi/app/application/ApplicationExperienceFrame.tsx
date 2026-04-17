@@ -114,6 +114,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Verification, branch artifacts, settlement, proofs, deliverables, and history remain first-class Bitcode
           surfaces, but they are closure stages within master detail rather than separate top-level experiences or actions.
+          Inside that master-detail experience, runs, deliverables, proofs, and history remain the four key substructures.
         </p>
       </div>
     </section>

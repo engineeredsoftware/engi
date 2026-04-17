@@ -3,6 +3,15 @@ import type { PipelineExecution } from '@/types/api';
 
 export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'status'> & {
   summary?: string | null;
+  repository?: string | null;
+  branch?: string | null;
+  itemCount?: number;
+  tokenTotal?: number | null;
+  creditsTotal?: number | null;
+  usdTotal?: number | null;
+  averageLatencyMs?: number | null;
+  proofStatus?: string | null;
+  closureFocus?: string | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [
@@ -12,6 +21,15 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     type: 'pipeline:deliverables',
     status: 'completed',
     summary: 'Prepared the active branch artifact pack and bounded proof bundle for review.',
+    repository: 'bitcode-labs/application',
+    branch: 'bitcode/application-refit',
+    itemCount: 6,
+    tokenTotal: 18420,
+    creditsTotal: 148.4,
+    usdTotal: 6.72,
+    averageLatencyMs: 1180,
+    proofStatus: 'bounded proof bundle ready',
+    closureFocus: 'branch artifacts + deliverables',
   },
   {
     id: 'mock-run-measurement-pass',
@@ -19,6 +37,15 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     type: 'pipeline:measure',
     status: 'completed',
     summary: 'Measured fit pressure, surfaced ranked verification evidence, and refreshed ledger posture.',
+    repository: 'bitcode-labs/application',
+    branch: 'fit-pressure/review',
+    itemCount: 4,
+    tokenTotal: 10980,
+    creditsTotal: 82.1,
+    usdTotal: 3.11,
+    averageLatencyMs: 920,
+    proofStatus: 'verification witness refreshed',
+    closureFocus: 'fit verification + ledger refresh',
   },
   {
     id: 'mock-run-proof-refresh',
@@ -26,6 +53,15 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     type: 'pipeline:proof',
     status: 'running',
     summary: 'Refreshing proof-family witnesses against the current V25 canon / V26 draft posture.',
+    repository: 'bitcode-labs/application',
+    branch: 'proof-refresh/v26',
+    itemCount: 3,
+    tokenTotal: 7640,
+    creditsTotal: 54.6,
+    usdTotal: 2.08,
+    averageLatencyMs: 1325,
+    proofStatus: 'proof-family refresh in flight',
+    closureFocus: 'settlement proof + canon posture',
   },
 ];
 

@@ -163,7 +163,8 @@ Before second-gate implementation is accepted, the draft must carry:
 2. a semantic non-regression ledger for the carried first-gate Bitcode flow,
 3. a component adoption matrix that maps each carried section onto route-local app composition and current `uapi/components/base/*` carriers,
 4. an external interfacing hardening matrix covering the application-facing GitHub/auth/bitcoin/sidechain/repeated-read/compute/storage surfaces,
-5. and a second-gate acceptance matrix that separates UI acceptance from third-gate marketing work and fourth-gate cleanup work.
+5. a modular supplementary-doc rewrite map for non-canonical repository documents that must evolve alongside the converged Bitcode architecture,
+6. and a second-gate acceptance matrix that separates UI acceptance from third-gate marketing work and fourth-gate cleanup work.
 
 ### Second-gate route and ownership frame
 
@@ -223,6 +224,7 @@ For V26, those mean:
 
 The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main operator actions.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
+Within that master-detail experience, V26 now treats `runs`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
 
 ### Second-gate target file-structure direction
 
@@ -246,7 +248,7 @@ The second-gate target structure is:
 
 | Second-gate surface | Current semantic source | Second-gate target owner | Required semantic invariants | Required UI direction |
 | --- | --- | --- | --- | --- |
-| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx` and route-local composition in `ApplicationPageClient.tsx` | runs, deliverables, proofs, history, and operating detail remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
+| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, inward substructure composition in `ApplicationRunWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | runs, deliverables, proofs, history, and operating detail remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
 | give action frame | `renderRepoInventory()`, `renderAssets()`, deposit form semantics, repo-auth session surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | authenticated repo supply, depositing, inventory browsing, and material submission remain explicit | the operator should clearly understand how to give material to Bitcode |
 | need action frame | `renderScenario()`, `renderFit()`, measured-demand and fit surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | scenario framing, measured need, and fit pressure remain explicit before closure stages | the operator should clearly understand how to express and inspect need |
 | global navbar and app frame | `uapi/components/base/engi/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established late-Engi navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
@@ -318,6 +320,7 @@ Second-gate is accepted only when all of the following hold:
 3. UX acceptance
    - the three main experiences are legible as master detail, conversations, and orbitals,
    - the two main actions are legible as give and need,
+   - runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
    - the repo-supply to settlement journey remains understandable,
    - conversations and orbitals are reachable as fullscreen overlays without abandoning application context,
    - run/detail and deliverable-reading workflows are available from within `/application` through master-detail reuse,
@@ -330,7 +333,12 @@ Second-gate is accepted only when all of the following hold:
    - boundary honesty remains explicit,
    - and failure states are deliberate rather than incidental.
 
-5. Separation acceptance
+5. Documentation and parity acceptance
+   - second-gate repository/specification documents stay synchronized to active source state,
+   - supplementary modular docs are identified wherever the canon is not the right long-form carrier,
+   - and new second-gate code systems are assigned proof/test/spec coverage rather than being treated as unproven incidental glue.
+
+6. Separation acceptance
    - third-gate marketing work is not required for second-gate acceptance,
    - and fourth-gate debug/environment controls are not treated as substitutes for second-gate interface hardening.
 

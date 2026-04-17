@@ -46,6 +46,41 @@ export const APPLICATION_ACTIONS = [
   },
 ] as const;
 
+export const MASTER_DETAIL_SUBSTRUCTURES = [
+  {
+    id: 'runs',
+    label: 'Runs',
+    badge: 'selection',
+    description:
+      'Select and inspect the active Bitcode run inside `/application` without handing master detail back to a peer route.',
+    targetId: 'applicationRunWorkspace',
+  },
+  {
+    id: 'deliverables',
+    label: 'Deliverables',
+    badge: 'materialized output',
+    description:
+      'Read pull requests, reviews, issues, comments, and artifact bundles in the selected run context inside the application workspace.',
+    targetId: 'applicationRunDeliverables',
+  },
+  {
+    id: 'proofs',
+    label: 'Proofs',
+    badge: 'closure',
+    description:
+      'Keep verification, settlement proof, and bounded disclosure inside the same master-detail consequence chain.',
+    targetId: 'panelSettlement',
+  },
+  {
+    id: 'history',
+    label: 'History',
+    badge: 'ledger',
+    description:
+      'Retain run history, ledger state, policy metadata, and execution accounting as first-class read surfaces inside master detail.',
+    targetId: 'panelLedger',
+  },
+] as const;
+
 export const CORE_PANEL_EXPERIENCE: Record<string, (typeof APPLICATION_EXPERIENCES)[number]['id']> = {
   panelOperatingPicture: 'master-detail',
   panelDepositing: 'master-detail',
@@ -60,10 +95,24 @@ export const CORE_PANEL_ACTION: Record<string, (typeof APPLICATION_ACTIONS)[numb
   panelFit: 'need',
 };
 
+export const CLOSURE_PANEL_SUBSTRUCTURE: Record<
+  string,
+  (typeof MASTER_DETAIL_SUBSTRUCTURES)[number]['id'] | null
+> = {
+  panelEvaluations: 'proofs',
+  panelBranchArtifacts: 'deliverables',
+  panelSettlement: 'proofs',
+  panelLedger: 'history',
+};
+
 export function getApplicationExperience(id: (typeof APPLICATION_EXPERIENCES)[number]['id']) {
   return APPLICATION_EXPERIENCES.find((experience) => experience.id === id) || null;
 }
 
 export function getApplicationAction(id: (typeof APPLICATION_ACTIONS)[number]['id']) {
   return APPLICATION_ACTIONS.find((action) => action.id === id) || null;
+}
+
+export function getMasterDetailSubstructure(id: (typeof MASTER_DETAIL_SUBSTRUCTURES)[number]['id']) {
+  return MASTER_DETAIL_SUBSTRUCTURES.find((substructure) => substructure.id === id) || null;
 }

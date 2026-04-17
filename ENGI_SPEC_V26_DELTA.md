@@ -202,7 +202,8 @@ The second-gate mandatory design outputs are:
 2. semantic non-regression ledger,
 3. component adoption matrix,
 4. external interfacing hardening matrix,
-5. and second-gate acceptance matrix.
+5. modular supplementary-doc rewrite map,
+6. and second-gate acceptance matrix.
 
 Second-gate acceptance is reached only when:
 - `/application` is no longer primarily a carried monolithic shell implementation,
@@ -210,6 +211,7 @@ Second-gate acceptance is reached only when:
 - `/application` clearly reads as the master-detail experience,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
+- runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
@@ -218,6 +220,8 @@ Second-gate acceptance is reached only when:
 - run/detail and deliverable-reading behavior is reachable within `/application`,
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,
+- second-gate repository documents stay synchronized to active source, with supplementary modular docs identified where the canon is not the correct carrier,
+- new second-gate code systems are assigned proof/test/spec coverage rather than being treated as incidental glue,
 - the external interfacings used by the page behave with stable readiness,
 - and orbitals still read as the settings owner rather than as displaced onboarding residue.
 

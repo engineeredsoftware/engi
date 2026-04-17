@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import { CLOSURE_PANEL_SUBSTRUCTURE, getMasterDetailSubstructure } from './application-experience-architecture';
 import {
   jumpToShellSection,
   readGenericCard,
@@ -93,8 +94,8 @@ export default function ApplicationClosureNativeSections() {
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
             This layer lifts the consequence side of Bitcode into the application frame. Ranked verification, branch
-            materialization, settlement proof, and ledger history now read as route-owned cards while the preserved shell
-            below remains the live semantic source.
+            materialization, settlement proof, and ledger history now read as route-owned master-detail closure cards while
+            the preserved shell below remains the live semantic source.
           </p>
         </div>
 
@@ -125,6 +126,15 @@ export default function ApplicationClosureNativeSections() {
               </div>
 
               <div className="flex shrink-0 flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
+                {(() => {
+                  const substructureId = CLOSURE_PANEL_SUBSTRUCTURE[panel.id];
+                  const substructure = substructureId ? getMasterDetailSubstructure(substructureId) : null;
+                  return substructure ? (
+                    <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-emerald-100">
+                      {substructure.label}
+                    </span>
+                  ) : null;
+                })()}
                 {panel.badge ? (
                   <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{panel.badge}</span>
                 ) : null}

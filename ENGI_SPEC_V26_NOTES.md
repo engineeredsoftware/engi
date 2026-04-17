@@ -106,6 +106,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationExperienceFrame.tsx` names the three main experiences and the two main actions inside `/application`,
 - `ApplicationCommandDeck.tsx` now carries direct give/need focus controls alongside the preserved-shell command bridge,
 - `ApplicationCoreNativeSections.tsx` now reads as the master-detail give/need core instead of only as generic core shell mirroring,
+- `ApplicationRunWorkspace.tsx` now exposes runs, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
 - and `ApplicationWorkspaceRail.tsx` now frames conversations and orbitals as the other two experiences rather than as loose utility exits.
 - `OrbitalsProvider.tsx`, `OrbitalsCreditsPane.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, and `ExecutionsPageClient.tsx` now use the current app-owned `/api/orbitals/data` route instead of the stale `/api/orbitals/user/data` path on touched active surfaces.
 - live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
@@ -131,9 +132,11 @@ The second-gate collaboration pack must now include:
 - an overlay choreography map for fullscreen conversations and orbitals within `/application`,
 - a master-detail reuse map for executions and deliverables patterns being ported inward,
 - an external interfacing hardening matrix,
+- a modular supplementary-doc rewrite map for non-canonical repository docs that need fuller system detail once V26 becomes more package- and subsystem-shaped,
 - and an acceptance matrix that separates second-gate from third-gate and fourth-gate work.
 
 This pack should be treated as required V26 drafting work before broad second-gate implementation begins.
+It must now also assign proof/test/spec coverage expectations to any new second-gate code systems rather than letting them accumulate as unproven application glue.
 
 ## Fourth-gate retained-system pack now required
 

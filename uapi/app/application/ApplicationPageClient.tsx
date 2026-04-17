@@ -21,6 +21,25 @@ import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
 const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
+function deriveClosureFocus(type?: string | null) {
+  if (!type) return 'application closure';
+  if (type.includes('deliverable')) return 'branch artifacts + deliverables';
+  if (type.includes('measure')) return 'fit verification + measurement';
+  if (type.includes('proof')) return 'proof-family refresh';
+  return 'run detail + consequence reading';
+}
+
+function deriveProofStatus(type?: string | null, status?: string | null) {
+  if (status === 'completed') {
+    if (type?.includes('proof')) return 'proof witness ready';
+    if (type?.includes('measure')) return 'verification witness ready';
+    return 'closure bundle ready';
+  }
+  if (status === 'error' || status === 'failed') return 'proof posture failed closed';
+  if (type?.includes('proof')) return 'proof witness in flight';
+  return 'closure state in flight';
+}
+
 export default function ApplicationPageClient() {
   const router = useRouter();
   const pathname = usePathname();
@@ -89,6 +108,20 @@ export default function ApplicationPageClient() {
             status: run.status,
             type: run.type,
             summary: run.summary || run.final_work_summary?.summary || run.final_work_summary?.deliverables?.summary || null,
+            repository:
+              run.repo_snapshot || run.final_work_summary?.repoSnapshot
+                ? `${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org}/${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.repo}`
+                : null,
+            branch: (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.branch || null,
+            itemCount: run.items?.length || 0,
+            tokenTotal:
+              run.processing_stats?.tokens?.total ?? run.final_work_summary?.processingStats?.tokens?.total ?? null,
+            creditsTotal: run.processing_stats?.credits ?? run.final_work_summary?.processingStats?.credits ?? null,
+            usdTotal: run.processing_stats?.usdTotal ?? run.final_work_summary?.processingStats?.usdTotal ?? null,
+            averageLatencyMs:
+              run.processing_stats?.averageLatencyMs ?? run.final_work_summary?.processingStats?.averageLatencyMs ?? null,
+            proofStatus: deriveProofStatus(run.type, run.status),
+            closureFocus: deriveClosureFocus(run.type),
           })),
         );
       })
