@@ -231,7 +231,7 @@ export default function ApplicationTransactionDetailSurface({
             >
               <div className="px-2">
                 <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Deliverable surfaces</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">Transaction outputs stay inside `/application`</h3>
+                <h3 className="mt-2 text-lg font-semibold text-white">Deliverables attached to this transaction</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
                   Pull requests, reviews, issues, comments, and summary text stay attached to the selected transaction in
                   both mock and live posture.
@@ -253,8 +253,8 @@ export default function ApplicationTransactionDetailSurface({
             </section>
           ) : showDeliverables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized deliverable surfaces are attached to this selected transaction yet. The transaction still
-              remains part of the same master-detail Bitcode workspace for proof and history reading.
+              No materialized deliverable surfaces are attached to this transaction yet. The same detail workspace still
+              keeps proofs, history, and closure reading available.
             </div>
           ) : null}
         </div>

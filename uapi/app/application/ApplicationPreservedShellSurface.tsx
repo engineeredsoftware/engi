@@ -2,19 +2,19 @@
 
 import React from 'react';
 
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+
 export default function ApplicationPreservedShellSurface() {
   return (
-    <section className="min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(4,8,18,0.9)] shadow-[0_30px_90px_rgba(0,0,0,0.42)]">
-      <div className="border-b border-white/8 px-6 py-5">
-        <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Source path view</p>
-        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">Repo supply to settlement source path</h3>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-          Open the exact Bitcode source path when you need to inspect the lower deterministic flow from supply through
-          settlement.
-        </p>
-      </div>
-
-      <div className="p-2 tablet:p-4">
+    <ApplicationOperatorCard
+      kicker="Source path view"
+      title="Repo supply to settlement source path"
+      summary="Open the exact Bitcode source path when you need to inspect the lower deterministic flow from give through settlement."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.sourcePath}
+      className="min-w-0"
+      childrenClassName="p-2 tablet:p-4"
+    >
         <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
           <div className="page">
             <header className="hero" id="hero">
@@ -23,10 +23,10 @@ export default function ApplicationPreservedShellSurface() {
               </p>
               <h1>Operate Bitcode from repo supply to settlement.</h1>
               <p className="lede" id="heroLede">
-                Loading current canon posture…
+                Set the working scenario, select supply, and follow the flow from give through settlement.
               </p>
               <p className="meta hero-tip" id="heroTip">
-                Loading current generated appendix and report posture…
+                The guide and exact source-path surfaces stay available here whenever you need lower-level inspection.
               </p>
               <div className="hero-actions">
                 <label>
@@ -286,7 +286,6 @@ export default function ApplicationPreservedShellSurface() {
             </section>
           </div>
         </div>
-      </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

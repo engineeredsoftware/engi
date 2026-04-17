@@ -2,6 +2,12 @@
 
 import { useMemo } from 'react';
 
+import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { CLOSURE_PANEL_SUBSTRUCTURE, getMasterDetailSubstructure } from './application-experience-architecture';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection, toneForPanel } from './application-shell-reading';
@@ -85,43 +91,29 @@ function renderClosurePanelCard(panel: ApplicationClosurePanel) {
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-2">
-            {panel.metrics.map((metric) => (
-              <div
-                key={`${panel.id}-${metric.label}`}
-                className="rounded-[1.15rem] border border-white/8 bg-black/20 px-4 py-4"
-              >
-                <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{metric.label}</p>
-                <p className="mt-2 text-base font-semibold text-white">{metric.value}</p>
-              </div>
-            ))}
-          </div>
+          <BitcodeMetricGrid
+            metrics={panel.metrics}
+            columnsClassName="sm:grid-cols-2"
+            itemClassName="rounded-[1.15rem] border border-white/8 bg-black/20 px-4 py-4"
+            labelClassName="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500"
+            valueClassName="text-base font-semibold text-white"
+          />
 
           {panel.chips.length ? (
             <div className="rounded-[1.15rem] border border-white/8 bg-black/20 px-4 py-4">
               <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Surfaced reads</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {panel.chips.map((chip) => (
-                  <span
-                    key={`${panel.id}-${chip}`}
-                    className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
+              <BitcodeChipCloud
+                chips={panel.chips}
+                className="mt-3"
+                chipClassName="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200"
+              />
             </div>
           ) : null}
         </div>
 
-        <dl className="space-y-3 rounded-[1.2rem] border border-white/8 bg-black/20 px-4 py-4 text-sm">
-          {rows.map((row) => (
-            <div key={`${panel.id}-${row.label}-${row.value}`}>
-              <dt className="text-neutral-500">{row.label}</dt>
-              <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="rounded-[1.2rem] border border-white/8 bg-black/20 px-4 py-4 text-sm">
+          <BitcodeDetailRowList rows={rows} />
+        </div>
       </div>
     </article>
   );
@@ -141,42 +133,40 @@ export default function ApplicationClosureNativeSections() {
 
   if (!closureState) {
     return (
-      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application closure composition</p>
+      <ApplicationOperatorCard
+        kicker="Closure map"
+        title="Verification, branch, settlement, and ledger"
+        summary="Reading the current closure sequence and source posture."
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
+      >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode closure snapshot…</p>
-      </section>
+      </ApplicationOperatorCard>
     );
   }
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application closure composition</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native verification, branch, settlement, and ledger semantics
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Read verification, branch artifacts, settlement proof, and ledger history as one continuous closure surface.
-            The source path stays exact without forcing you back into fragmented lower-level panels.
-          </p>
-        </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Closure mode</p>
-            <p className="mt-2 text-neutral-200">workspace reading</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Semantic source</p>
-            <p className="mt-2 text-neutral-200">{closureState.canonLabel}</p>
-          </div>
-        </div>
-      </div>
+    <ApplicationOperatorCard
+      kicker="Closure map"
+      title="Verification, branch, settlement, and ledger"
+      summary="Read closure as one sequence from verification through ledger continuity, then open the deeper source path only when needed."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
+      headerAside={
+        <BitcodeMetricGrid
+          metrics={[
+            { label: 'Read posture', value: 'workspace sequence' },
+            { label: 'Source posture', value: closureState.canonLabel },
+          ]}
+          columnsClassName="tablet:grid-cols-2"
+          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
+          valueClassName="text-sm font-semibold text-neutral-200"
+        />
+      }
+    >
 
       <div className="mt-6 grid gap-5">
         {panels.map((panel) => renderClosurePanelCard(panel))}
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

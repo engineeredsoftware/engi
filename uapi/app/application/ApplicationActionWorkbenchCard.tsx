@@ -1,5 +1,9 @@
 'use client';
 
+import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
 import { jumpToShellSection } from './application-shell-reading';
 
 interface ApplicationActionWorkbenchCardProps {
@@ -41,35 +45,25 @@ export default function ApplicationActionWorkbenchCard({
 
       <p className="mt-3 text-sm leading-6 text-neutral-300">{summary}</p>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        {metrics.map((metric) => (
-          <div key={`${title}-${metric.label}`} className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">{metric.label}</p>
-            <p className="mt-2 text-base font-semibold text-white">{metric.value}</p>
-          </div>
-        ))}
+      <BitcodeMetricGrid
+        metrics={metrics}
+        className="mt-5"
+        columnsClassName="sm:grid-cols-2"
+        itemClassName="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4"
+        labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500"
+        valueClassName="text-base font-semibold text-white"
+      />
+
+      <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
+        <BitcodeDetailRowList rows={rows} />
       </div>
 
-      <dl className="mt-4 space-y-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
-        {rows.map((row) => (
-          <div key={`${title}-${row.label}`}>
-            <dt className="text-neutral-500">{row.label}</dt>
-            <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-
       {chips?.length ? (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {chips.map((chip) => (
-            <span
-              key={`${title}-${chip}`}
-              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200"
-            >
-              {chip}
-            </span>
-          ))}
-        </div>
+        <BitcodeChipCloud
+          chips={chips}
+          className="mt-4"
+          chipClassName="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200"
+        />
       ) : null}
     </article>
   );

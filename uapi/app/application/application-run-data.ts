@@ -73,7 +73,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     usdTotal: 2.08,
     averageLatencyMs: 1325,
     proofStatus: 'proof-family refresh in flight',
-    closureFocus: 'settlement proof + canon posture',
+    closureFocus: 'settlement proof + operating posture',
   },
 ];
 
@@ -97,7 +97,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
         url: 'https://github.com/bitcode/bitcode/pull/268#pullrequestreview-1',
         number: 1,
         title: 'Review remediation workspace wiring',
-        description: 'Confirms branch visibility, proof grouping, and run-detail entry posture for `/application`.',
+        description: 'Confirms branch visibility, proof grouping, and the current transaction-detail posture.',
       },
     ],
     issues: [
@@ -113,7 +113,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
         url: 'https://github.com/bitcode/bitcode/issues/411#issuecomment-1',
         number: 411,
         title: 'Operator note',
-        description: 'The inward application workspace now reads the branch artifacts before leaving to compatibility routes.',
+        description: 'Branch artifacts can now be reviewed directly before dropping into deeper compatibility context.',
       },
     ],
     fileChanges: {
@@ -123,7 +123,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       paths: ['uapi/app/application/ApplicationTransactionWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
     },
     summary:
-      'The branch remediation pack now reads as an application-native workspace surface. Operators can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning `/application`.',
+      'The branch remediation pack now reads as one operator workspace surface. Operators can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
   },
   'mock-run-measurement-pass': {
     pullRequest: null,
@@ -145,7 +145,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       },
     ],
     summary:
-      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so the application page can present verification pressure without leaving the main route.',
+      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the main ledger workspace.',
   },
   'mock-run-proof-refresh': {
     pullRequest: null,
@@ -153,7 +153,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     issues: null,
     comments: null,
     summary:
-      'Proof-family witnesses are still refreshing. Mock review keeps the application workspace legible while the final proof bundle remains in-flight.',
+      'Proof-family witnesses are still refreshing. Mock review keeps the operator workspace legible while the final proof bundle remains in-flight.',
   },
 };
 
@@ -203,7 +203,7 @@ export const MOCK_RUN_ACTIVITY: Record<
       id: 'wu-1',
       iteration: 2,
       confidence: 0.94,
-      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for application review.',
+      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for operator review.',
       timestamp: '2026-04-16T12:01:40.000Z',
     },
     iterationUpdates: [
@@ -218,7 +218,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-2',
         iteration: 2,
         confidence: 0.94,
-        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for application review.',
+        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for operator review.',
         timestamp: '2026-04-16T12:01:40.000Z',
       },
     ],
@@ -283,7 +283,7 @@ export const MOCK_RUN_ACTIVITY: Record<
       id: 'wu-4',
       iteration: 1,
       confidence: 0.58,
-      prose: 'Proof-family witnesses are still refreshing against the current canon posture.',
+      prose: 'Proof-family witnesses are still refreshing against the current Bitcode operating posture.',
       timestamp: '2026-04-16T10:35:10.000Z',
     },
     iterationUpdates: [
@@ -291,7 +291,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-4',
         iteration: 1,
         confidence: 0.58,
-        prose: 'Proof-family witnesses are still refreshing against the current canon posture.',
+        prose: 'Proof-family witnesses are still refreshing against the current Bitcode operating posture.',
         timestamp: '2026-04-16T10:35:10.000Z',
       },
     ],

@@ -6,7 +6,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Master detail',
     badge: 'primary',
     description:
-      'The central Bitcode read workspace inside `/application`, carrying a rich transactions master table and transaction detail with deliverables, proofs, and history.',
+      'The central Bitcode ledger window: a searchable transactions table with the selected transaction opened into deliverables, proofs, and history.',
     targetId: 'bitcodeApplicationRoot',
   },
   {
@@ -14,7 +14,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Conversations',
     badge: 'fullscreen',
     description:
-      'The fullscreen natural-language Bitcode workspace entered from `/application`, retaining tool usage, read/write continuity, and run attachment as first-class Bitcode behavior.',
+      'The fullscreen natural-language workspace for writing, coordination, and tool-assisted follow-through without losing the current transaction context.',
     targetId: 'conversations',
   },
   {
@@ -22,7 +22,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Orbitals',
     badge: 'fullscreen',
     description:
-      'The fullscreen Bitcode configuration space entered from `/application`, retaining the ringed overlay while owning account, connects, models, and the credits-to-wallet cutover.',
+      'The fullscreen Bitcode configuration space for account, connects, models, credits, and the rest of the operator settings surface.',
     targetId: 'orbitals',
   },
 ] as const;
@@ -52,7 +52,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'Transactions',
     badge: 'master',
     description:
-      'Search, filter, and inspect Bitcode transactions inside `/application` without handing master detail back to a peer route.',
+      'Search, filter, and inspect Bitcode transactions from one ledger window without breaking the selected detail read.',
     targetId: 'applicationTransactionWorkspace',
   },
   {
@@ -60,7 +60,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'Deliverables',
     badge: 'materialized output',
     description:
-      'Read pull requests, reviews, issues, comments, and artifact bundles in the selected transaction context inside the application workspace.',
+      'Read pull requests, reviews, issues, comments, and artifact bundles inside the selected transaction context.',
     targetId: 'applicationTransactionDeliverables',
   },
   {
@@ -68,7 +68,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'Proofs',
     badge: 'closure',
     description:
-      'Keep verification, settlement proof, and bounded disclosure inside the same master-detail consequence chain.',
+      'Keep verification, settlement proof, and bounded disclosure inside the same consequence chain as the selected transaction.',
     targetId: 'panelSettlement',
   },
   {
@@ -76,7 +76,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'History',
     badge: 'ledger',
     description:
-      'Retain run history, ledger state, policy metadata, and execution accounting as first-class read surfaces inside master detail.',
+      'Retain run history, ledger state, policy metadata, and execution accounting as first-class read surfaces in the same window.',
     targetId: 'panelLedger',
   },
 ] as const;

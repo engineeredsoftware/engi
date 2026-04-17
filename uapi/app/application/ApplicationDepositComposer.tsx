@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import {
   normalizeApplicationDepositComposer,
   type ApplicationDepositComposerState,
@@ -124,39 +129,36 @@ export default function ApplicationDepositComposer() {
 
   if (!composer) {
     return (
-      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application deposit composer</p>
+      <ApplicationOperatorCard
+        kicker="Give intake"
+        title="Draft and submit a give-side deposit"
+        summary="Reading selected supply, issuer continuity, and the current deposit draft posture."
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.depositComposer}
+      >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading mounted Bitcode deposit state…</p>
-      </section>
+      </ApplicationOperatorCard>
     );
   }
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application deposit composer</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native deposit submission in the Bitcode workspace
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate now pushes the actual deposit action inward. This route-local Bitcode composer submits to the
-            app-owned deposit contract while preserving selected inventory and authenticated session continuity from the
-            mounted shell.
-          </p>
-        </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Auth session</p>
-            <p className="mt-2 break-all text-neutral-200">{composer.authSessionId || 'none bound'}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Selected inventory</p>
-            <p className="mt-2 text-neutral-200">{composer.selectedCount}</p>
-          </div>
-        </div>
-      </div>
+    <ApplicationOperatorCard
+      kicker="Give intake"
+      title="Draft and submit a give-side deposit"
+      summary="Build the deposit from selected supply, add provenance overrides where needed, and keep the working draft resumable before fit and closure."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.depositComposer}
+      headerAside={
+        <BitcodeMetricGrid
+          metrics={[
+            { label: 'Session', value: composer.authSessionId || 'none bound' },
+            { label: 'Selected supply', value: String(composer.selectedCount) },
+          ]}
+          columnsClassName="tablet:grid-cols-2"
+          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
+          valueClassName="text-sm font-semibold text-neutral-200"
+        />
+      }
+    >
 
       <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]">
         <form onSubmit={handleSubmit} className="grid gap-4">
@@ -328,28 +330,23 @@ export default function ApplicationDepositComposer() {
                 : 'No repo artifacts are currently selected. Use raw fallback content or select inventory above.'}
             </p>
             {selectedEntryLabels.length ? (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {selectedEntryLabels.map((label) => (
-                  <span
-                    key={label}
-                    className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200"
-                  >
-                    {label}
-                  </span>
-                ))}
-              </div>
+              <BitcodeChipCloud
+                chips={selectedEntryLabels}
+                className="mt-4"
+                chipClassName="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200"
+              />
             ) : null}
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Deposit continuity</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">After deposit</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
-              This composer posts to the app-owned Bitcode deposit route, then refreshes the mounted shell so selection,
-              need, fit, and later branch/proof/settlement reads stay semantically aligned.
+              Submitting refreshes the working chain so selected supply, measured demand, fit, and later branch, proof,
+              and settlement reads stay aligned in the same workspace.
             </p>
           </div>
         </aside>
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

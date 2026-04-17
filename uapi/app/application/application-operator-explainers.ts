@@ -50,6 +50,71 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
       'Closure control stays adjacent to the active draft state',
     ],
   }),
+  needScenarios: buildExplainer({
+    kicker: 'Demand framing',
+    title: 'Need scenario selection',
+    summary:
+      'The active demand frame should be explicit and switchable before the operator judges fit, proof, or settlement posture.',
+    detail:
+      'This surface keeps the currently measured demand visible as a first-class workspace choice. The operator should be able to change the scenario, review parser and target posture, and keep moving without dropping into implementation detail.',
+    points: [
+      'Keeps the active demand frame explicit',
+      'Makes scenario switching part of the main workspace',
+      'Preserves continuity into fit and closure reading',
+    ],
+  }),
+  depositComposer: buildExplainer({
+    kicker: 'Give-side intake',
+    title: 'Deposit drafting and submission',
+    summary:
+      'A give-side deposit should read like a resumable working draft built from selected supply, not like infrastructure plumbing.',
+    detail:
+      'Use this surface to bind selected supply, add issuer and provenance overrides where needed, and submit a deposit while keeping the rest of the working chain coherent.',
+    points: [
+      'Treats deposit as a resumable working draft',
+      'Keeps selected supply and issuer continuity visible',
+      'Feeds directly into fit, proof, and settlement follow-through',
+    ],
+  }),
+  giveNeedChain: buildExplainer({
+    kicker: 'Operating chain',
+    title: 'Give, need, and fit in one read',
+    summary:
+      'Supply, demand, and fit should read as one operating chain so the operator can judge why the current transaction is or is not moving forward.',
+    detail:
+      'This workspace is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
+    points: [
+      'Keeps give and need in one workspace read',
+      'Makes fit legible before proof and settlement',
+      'Supports quick orientation before deeper source-path reading',
+    ],
+  }),
+  closureControls: buildExplainer({
+    kicker: 'Closure operation',
+    title: 'Run and review closure follow-through',
+    summary:
+      'Closure work should stay adjacent to the active transaction detail so verification, branch execution, settlement, and ledger follow-through are one continuous operation.',
+    detail:
+      'This surface is where the operator runs closure, refreshes the current state, and reopens the exact follow-through path without rebuilding context.',
+    points: [
+      'Keeps closure controls near the active transaction',
+      'Makes refresh and reset explicit instead of hidden',
+      'Preserves continuity into verification, branch, settlement, and ledger reads',
+    ],
+  }),
+  closureMap: buildExplainer({
+    kicker: 'Closure reading',
+    title: 'Verification, branch, settlement, and ledger map',
+    summary:
+      'Closure should read as one sequence from verification through ledger continuity rather than as isolated panels.',
+    detail:
+      'Use this map to preview the closure sequence, inspect the strongest metrics and rows for each stage, and open the exact source path only when you need deeper proof.',
+    points: [
+      'Keeps closure stages in one readable sequence',
+      'Brings proof and history closer to the operator workspace',
+      'Makes exact source-path reads deliberate instead of mandatory',
+    ],
+  }),
   ledgerPulse: buildExplainer({
     kicker: 'At-a-glance read',
     title: 'Pinned operating signals',

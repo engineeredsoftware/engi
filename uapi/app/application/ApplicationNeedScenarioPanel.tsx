@@ -2,6 +2,10 @@
 
 import { useMemo } from 'react';
 
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import {
   normalizeApplicationNeedScenarios,
   type ApplicationNeedScenariosState,
@@ -22,42 +26,37 @@ export default function ApplicationNeedScenarioPanel() {
 
   if (!needState) {
     return (
-      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application need scenarios</p>
+      <ApplicationOperatorCard
+        kicker="Need scenarios"
+        title="Choose the active demand frame"
+        summary="Reading the current demand frame, parser posture, and target structure."
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.needScenarios}
+      >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading mounted Bitcode need scenarios…</p>
-      </section>
+      </ApplicationOperatorCard>
     );
   }
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application need scenarios</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native scenario selection in the need workspace
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate now brings need selection further inward. `/application` can choose the active Bitcode scenario
-            directly while keeping parser, closure, and target-kind posture visible before deeper fit and proof closure.
-          </p>
-        </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Active parser</p>
-            <p className="mt-2 text-neutral-200">{needState.parserKind}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Closure criteria</p>
-            <p className="mt-2 text-neutral-200">{needState.closureCriteriaCount}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Target kinds</p>
-            <p className="mt-2 text-neutral-200">{needState.targetKindCount}</p>
-          </div>
-        </div>
-      </div>
+    <ApplicationOperatorCard
+      kicker="Need scenarios"
+      title="Choose the active demand frame"
+      summary="Keep the current need scenario explicit before reading fit, proof, or closure posture."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.needScenarios}
+      headerAside={
+        <BitcodeMetricGrid
+          metrics={[
+            { label: 'Active parser', value: needState.parserKind },
+            { label: 'Closure criteria', value: String(needState.closureCriteriaCount) },
+            { label: 'Target kinds', value: String(needState.targetKindCount) },
+          ]}
+          columnsClassName="tablet:grid-cols-3"
+          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
+          valueClassName="text-sm font-semibold text-neutral-200"
+        />
+      }
+    >
 
       <div className="mt-6 flex flex-wrap gap-3">
         <button
@@ -65,14 +64,14 @@ export default function ApplicationNeedScenarioPanel() {
           onClick={() => jumpToShellSection('panelNeeding')}
           className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
         >
-          Open live need section
+          Open need path
         </button>
         <button
           type="button"
           onClick={() => jumpToShellSection('panelFit')}
           className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
         >
-          Open live fit section
+          Open fit path
         </button>
       </div>
 
@@ -109,6 +108,6 @@ export default function ApplicationNeedScenarioPanel() {
           </button>
         ))}
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

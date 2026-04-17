@@ -48,6 +48,8 @@ Within the master-detail experience, V26 treats these as required substructures:
 - `history`
 
 Current active carriers:
+- `uapi/app/application/ApplicationOperatorCard.tsx`
+- `uapi/app/application/application-operator-explainers.ts`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
@@ -295,6 +297,26 @@ Operational rule:
 - route-local give/need action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
 - this bridge is read-only and does not reopen first-gate ownership
 
+## Operator workspace shell and explainer carrier
+
+Second-gate now treats the operator workspace shell, help posture, and visible copy discipline as shared application composition rather than one-off per-panel chrome.
+
+Current active carriers:
+- `uapi/app/application/ApplicationOperatorCard.tsx`
+- `uapi/app/application/application-operator-explainers.ts`
+- `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
+- `uapi/app/application/ApplicationDepositComposer.tsx`
+- `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
+- `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+
+Operational rule:
+- operator-facing workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
+- live application copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the operator
+- stepwise workspace guidance should read as resumable give/need flow guidance and working-draft continuity rather than tutorial or demo residue
+- the shared operator shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
+
 ## Command-state and control bridge
 
 Second-gate now also exposes the mounted Bitcode shell as a mutable command carrier so the application deck can drive Bitcode command posture without scraping or mutating raw shell DOM directly.
@@ -309,6 +331,7 @@ Operational rule:
 - scenario, projection, branch mode, tutorial visibility, make-branch, and reset remain preserved-shell semantics
 - `/application` drives those semantics through the shell control bridge rather than direct DOM reads and synthetic document listeners
 - command posture is normalized into route-local application state before rendering
+- stepwise guide posture is presented to operators as flow guidance and resumable draft continuity rather than tutorial residue
 - second-gate command composition stays application-owned even while first-gate shell ownership remains below it
 
 ## Summary-state semantic snapshot bridge
@@ -561,11 +584,13 @@ Fourth-gate must also converge the retained storage layer into explicit Bitcode 
 
 Current major retained owners:
 - `supabase/*`
-  Migration history, hosted-storage posture, auth/storage config, and database-side operational baseline.
+  Migration history, hosted-storage posture, auth/storage config, and database-side operational baseline, currently anchored by `supabase/migrations/001_ga1_production.sql`.
 - `packages/supabase/*`
-  Typed client, SSR helpers, and retained Supabase package ownership.
+  Typed client, SSR helpers, retained Supabase package ownership, and active helpers under `packages/supabase/src/*`.
+- `packages/orm/*`
+  Active ORM model/query ownership and generated database typing under `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`.
 - storage-facing app/API carriers including the required `/edgetimes` posture
-  Application and API surfaces that expose the retained storage system upward into Bitcode.
+  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` remains a required fourth-gate Bitcode storage/API posture rather than an already-implemented active owner in current source.
 
 Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.

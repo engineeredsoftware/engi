@@ -2,6 +2,10 @@
 
 import { useMemo, useState } from 'react';
 
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
   normalizeApplicationClosureState,
@@ -49,30 +53,24 @@ export default function ApplicationClosureControlDeck() {
   const state = normalizeApplicationClosureControlState(commandState, closureState);
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application closure control</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Route-local closure operation
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Run verification, branch execution, settlement review, and ledger follow-through from the same workspace
-            where you read the transaction detail.
-          </p>
-        </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Scenario</p>
-            <p className="mt-2 text-neutral-200">{state.scenario}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Branch mode</p>
-            <p className="mt-2 text-neutral-200">{state.branchMode}</p>
-          </div>
-        </div>
-      </div>
+    <ApplicationOperatorCard
+      kicker="Closure controls"
+      title="Run closure and settlement follow-through"
+      summary="Keep verification, branch execution, settlement review, and ledger follow-through adjacent to the active transaction detail."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.closureControls}
+      headerAside={
+        <BitcodeMetricGrid
+          metrics={[
+            { label: 'Scenario', value: state.scenario },
+            { label: 'Branch mode', value: state.branchMode },
+          ]}
+          columnsClassName="tablet:grid-cols-2"
+          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
+          valueClassName="text-sm font-semibold text-neutral-200"
+        />
+      }
+    >
 
       <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
         <article className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
@@ -141,9 +139,9 @@ export default function ApplicationClosureControlDeck() {
           </div>
 
           <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
-            <p className="text-neutral-500">Shell status</p>
+            <p className="text-neutral-500">Runtime status</p>
             <p className="mt-2 text-neutral-100">{state.status}</p>
-            <p className="mt-3 text-neutral-500">Guide posture</p>
+            <p className="mt-3 text-neutral-500">Guide continuity</p>
             <p className="mt-1 text-neutral-100">{state.tutorialDetail}</p>
           </div>
         </article>
@@ -156,32 +154,32 @@ export default function ApplicationClosureControlDeck() {
               onClick={() => jumpToShellSection('panelEvaluations')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Focus verification
+              Open verification path
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelBranchArtifacts')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Focus branch artifacts
+              Open branch path
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelSettlement')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Focus settlement + proof
+              Open settlement path
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelLedger')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Focus ledger + history
+              Open ledger path
             </button>
           </div>
         </article>
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

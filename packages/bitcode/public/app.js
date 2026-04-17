@@ -213,8 +213,8 @@ function canonPosture(state) {
     documentTitle: 'Bitcode Application',
     inheritedCanonSurfaceLabel: 'current inherited canon',
     heroEyebrow: 'Bitcode operator workspace',
-    heroLede: 'Current canon posture is loading.',
-    heroTip: 'Current generated appendix and report posture is loading.'
+    heroLede: 'Set the working scenario, select supply, and follow the flow from give through settlement.',
+    heroTip: 'The guide and exact source-path surfaces stay available here whenever you need lower-level inspection.'
   };
 }
 

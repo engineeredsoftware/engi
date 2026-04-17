@@ -40,6 +40,8 @@ Required system families:
 - app-owned VCS surfaces required for connections and repository context
 
 Current active carriers:
+- `uapi/app/application/ApplicationOperatorCard.tsx`
+- `uapi/app/application/application-operator-explainers.ts`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
@@ -176,11 +178,21 @@ Current active assignments:
   `uapi/tests/applicationCommandState.test.ts`
   proof surface:
   deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state
+- `uapi/app/application/ApplicationOperatorCard.tsx`
+  test coverage:
+  `uapi/tests/applicationOperatorCard.test.tsx`
+  proof surface:
+  second-gate shared operator shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
+- `uapi/app/application/application-operator-explainers.ts`
+  test coverage:
+  consumed through component tests and lint plus live `/application` verification
+  proof surface:
+  shared operator explainer catalog for give, need, deposit, closure, and workspace-map help posture carried forward into the production application
 - `uapi/app/application/ApplicationCommandDeck.tsx`
   test coverage:
   lint plus live `/application` verification through the shell command/control bridge
   proof surface:
-  second-gate application-owned command posture for scenario, projection, branch mode, tutorial, reset, and branch creation
+  second-gate application-owned command posture for scenario, projection, branch mode, guide continuity, reset, and branch creation
 - `uapi/app/application/application-live-summary.ts`
   test coverage:
   `uapi/tests/applicationLiveSummary.test.ts`
@@ -223,9 +235,9 @@ Current active assignments:
   second-gate application-owned action detail for repository supply, measured demand, and fit intent
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
   test coverage:
-  component-level lint/visual verification through the workbench surface
+  `uapi/tests/applicationActionWorkbenchCard.test.tsx`
   proof surface:
-  retained late-Engi design-system card reuse under Bitcode-owned action composition
+  retained late-Engi design-system card reuse under Bitcode-owned action composition, now grounded in shared execution-level metric, row, and chip carriers
 - `uapi/app/application/application-transactions.ts`
   test coverage:
   `uapi/tests/applicationTransactions.test.ts`

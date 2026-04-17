@@ -40,7 +40,7 @@ export default function ApplicationCommandDeck() {
   const shellReady = commandState?.shellReady || false;
   const guideDetail =
     commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'open' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+      ? `${commandState.tutorialOpen ? 'active' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
       : 'available';
 
   return (

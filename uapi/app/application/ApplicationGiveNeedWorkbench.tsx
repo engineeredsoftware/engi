@@ -2,7 +2,11 @@
 
 import { useMemo } from 'react';
 
+import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+
 import ApplicationActionWorkbenchCard from './ApplicationActionWorkbenchCard';
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import {
   normalizeApplicationGiveNeedWorkbench,
@@ -31,46 +35,38 @@ export default function ApplicationGiveNeedWorkbench({
 
   if (!workbench) {
     return (
-      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Give / need workbench</p>
+      <ApplicationOperatorCard
+        kicker="Give + need chain"
+        title="Read supply, demand, and fit together"
+        summary="Reading the live give-side source, demand frame, and fit posture."
+        explainer={APPLICATION_OPERATOR_EXPLAINERS.giveNeedChain}
+      >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode workbench…</p>
-      </section>
+      </ApplicationOperatorCard>
     );
   }
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Give / need workbench</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Give and Need as one operating chain
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Keep Give and Need readable as one operating chain: what supply is being offered, what demand is being
-            measured, and why the current fit is or is not strong enough to carry forward.
-          </p>
-        </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Projection</p>
-            <p className="mt-2 text-neutral-200">{workbench.projectionPrincipal}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Branch mode</p>
-            <p className="mt-2 text-neutral-200">{workbench.branchMode}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Scenario</p>
-            <p className="mt-2 text-neutral-200">{workbench.scenarioLabel}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Profile</p>
-            <p className="mt-2 text-neutral-200">{workbench.profileLabel}</p>
-          </div>
-        </div>
-      </div>
+    <ApplicationOperatorCard
+      kicker="Give + need chain"
+      title="Read supply, demand, and fit together"
+      summary="Keep the give-side source, active demand frame, and fit posture readable as one operating chain."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.giveNeedChain}
+      headerAside={
+        <BitcodeMetricGrid
+          metrics={[
+            { label: 'Projection', value: workbench.projectionPrincipal },
+            { label: 'Branch mode', value: workbench.branchMode },
+            { label: 'Scenario', value: workbench.scenarioLabel },
+            { label: 'Profile', value: workbench.profileLabel },
+          ]}
+          columnsClassName="tablet:grid-cols-2"
+          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
+          valueClassName="text-sm font-semibold text-neutral-200"
+        />
+      }
+    >
 
       <div className="mt-6 grid gap-5 xl:grid-cols-2">
         <ApplicationActionWorkbenchCard
@@ -80,7 +76,7 @@ export default function ApplicationGiveNeedWorkbench({
           metrics={workbench.give.metrics}
           rows={workbench.give.rows}
           chips={selectedEntryChips.length ? selectedEntryChips : workbench.give.artifactKinds}
-          actionLabel="Focus give"
+          actionLabel="Open give path"
           actionTarget="panelDepositing"
         />
         <ApplicationActionWorkbenchCard
@@ -90,7 +86,7 @@ export default function ApplicationGiveNeedWorkbench({
           metrics={workbench.need.metrics}
           rows={workbench.need.rows}
           chips={workbench.need.closureCriteria.length ? workbench.need.closureCriteria : workbench.need.targetKinds}
-          actionLabel="Focus need"
+          actionLabel="Open need path"
           actionTarget="panelNeeding"
         />
       </div>
@@ -106,7 +102,7 @@ export default function ApplicationGiveNeedWorkbench({
             onClick={() => jumpToShellSection('panelFit')}
             className="rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15"
           >
-            Focus fit
+            Open fit path
           </button>
         </div>
         <p className="mt-3 text-sm leading-6 text-neutral-300">{workbench.fit.summary}</p>
@@ -129,6 +125,6 @@ export default function ApplicationGiveNeedWorkbench({
           ))}
         </dl>
       </article>
-    </section>
+    </ApplicationOperatorCard>
   );
 }
