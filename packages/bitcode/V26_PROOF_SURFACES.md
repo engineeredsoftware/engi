@@ -50,6 +50,7 @@ Current active carriers:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
@@ -130,14 +131,19 @@ Current active assignments:
   second-gate admissible shell snapshot and shell control exposure for native application composition
 - `packages/bitcode/src/client-entry.js`
   test coverage:
-  semantic snapshot bridge exercised by application-owned give/need normalization and live `/application` review
+  semantic snapshot bridge exercised by application-owned give/need normalization, shell-bridge tests, and live `/application` review
   proof surface:
-  second-gate package-to-application bridge for mounted-shell semantic state and command/intake control
+  second-gate package-to-application bridge for mounted-shell semantic state and command/intake control, including host-wait and fail-closed snapshot reads during bootstrap windows
 - `uapi/app/application/application-shell-bridge.tsx`
   test coverage:
   `uapi/tests/applicationShellBridge.test.tsx`
   proof surface:
-  centralized mounted-shell polling and control refresh for second-gate application carriers
+  centralized mounted-shell polling and control refresh for second-gate application carriers, including fail-closed refresh behavior during pre-mount and hot-reload rebuild windows
+- `uapi/app/api/client-error/route.ts`
+  test coverage:
+  `uapi/tests/api/clientErrorRoute.test.ts`
+  proof surface:
+  second-gate runtime-health intake so client-side application failures are accepted by an app-owned carrier instead of 404ing
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
@@ -207,7 +213,37 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationTransactionQuery.test.ts`
   proof surface:
-  deterministic parsing, persistence, compatibility fallback, and reset behavior for route-owned transaction query state
+  deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, and reset behavior for route-owned transaction query state
+- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with route-owned detail focus and closure actions mounted
+  proof surface:
+  application-owned detail interaction and closure follow-through inside the selected-transaction carrier
+- `uapi/app/application/application-transaction-detail.ts`
+  test coverage:
+  `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  deterministic closure follow-through normalization for inline settlement metrics, proof families, branch artifacts, and recent transaction history
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+  test coverage:
+  `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  proof surface:
+  explicit closure summary and settlement/branch follow-through carrier inside selected-transaction detail
+- `uapi/app/application/ApplicationTransactionProofsCard.tsx`
+  test coverage:
+  `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  proof surface:
+  explicit proofs detail carrier inside selected-transaction detail
+- `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
+  test coverage:
+  `uapi/tests/applicationTransactionDetailCards.test.tsx`
+  proof surface:
+  explicit history detail carrier inside selected-transaction detail
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with inline closure follow-through mounted in selected-transaction detail
+  proof surface:
+  application-owned lower closure reading inside the selected-transaction carrier rather than shell-section-only follow-through
 - `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
   test coverage:
   lint plus application-level verification through the route-local transactions carrier

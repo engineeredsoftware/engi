@@ -762,6 +762,32 @@ function buildApplicationSummarySurface(state) {
   ];
 }
 
+const DEFAULT_SURFACE_MODE = 'visual';
+const EXPLAINER_PANEL_MAX_WIDTH = 360;
+const TUTORIAL_STORAGE_KEY = 'bitcode-application:first-gate:tutorial-overlay-dismissed:v26';
+let surfaceCounter = 0;
+let explainerCounter = 0;
+let selectedScenarioId = '';
+let selectedProjectionPrincipal = 'buyer';
+let selectedBranchMode = 'patch';
+let selectedAuthSessionId = '';
+/** @type {Set<string>} */
+let selectedInventoryEntryIds = new Set();
+let inventorySearchTerm = '';
+let selectedInventoryKind = 'all';
+/** @type {AppState | null} */
+let lastLoadedState = null;
+let tutorialStepIndex = 0;
+let tutorialOpen = true;
+/** @type {HTMLElement | null} */
+let tutorialHighlightedEl = null;
+
+try {
+  tutorialOpen = window.localStorage.getItem(TUTORIAL_STORAGE_KEY) !== '1';
+} catch {
+  tutorialOpen = true;
+}
+
 function getBitcodeApplicationShellSnapshot() {
   const state = lastLoadedState;
   if (!state) return null;
@@ -999,32 +1025,6 @@ const tutorialTargetHintEl = requireElement('tutorialTargetHint');
 const tutorialPrevButtonEl = requireElement('tutorialPrevButton');
 const tutorialNextButtonEl = requireElement('tutorialNextButton');
 const tutorialCloseButtonEl = requireElement('tutorialCloseButton');
-
-const DEFAULT_SURFACE_MODE = 'visual';
-const EXPLAINER_PANEL_MAX_WIDTH = 360;
-const TUTORIAL_STORAGE_KEY = 'bitcode-application:first-gate:tutorial-overlay-dismissed:v26';
-let surfaceCounter = 0;
-let explainerCounter = 0;
-let selectedScenarioId = '';
-let selectedProjectionPrincipal = 'buyer';
-let selectedBranchMode = 'patch';
-let selectedAuthSessionId = '';
-/** @type {Set<string>} */
-let selectedInventoryEntryIds = new Set();
-let inventorySearchTerm = '';
-let selectedInventoryKind = 'all';
-/** @type {AppState | null} */
-let lastLoadedState = null;
-let tutorialStepIndex = 0;
-let tutorialOpen = true;
-/** @type {HTMLElement | null} */
-let tutorialHighlightedEl = null;
-
-try {
-  tutorialOpen = window.localStorage.getItem(TUTORIAL_STORAGE_KEY) !== '1';
-} catch {
-  tutorialOpen = true;
-}
 
 const EXPLAINERS = {
   'repo-supply': {

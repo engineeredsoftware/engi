@@ -1,9 +1,11 @@
 import {
+  buildApplicationTransactionClosureFollowThrough,
   buildApplicationTransactionClosureRows,
   buildApplicationTransactionIdentityRows,
   buildApplicationTransactionOverviewMetrics,
   countApplicationTransactionDeliverableSurfaces,
 } from '@/app/application/application-transaction-detail';
+import type { ApplicationClosureState } from '@/app/application/application-closure-state';
 import type { ApplicationRunDetailSnapshot } from '@/app/application/application-transaction-detail-snapshot';
 import type { WorkspaceRun } from '@/app/application/application-run-data';
 
@@ -50,6 +52,62 @@ const detail: ApplicationRunDetailSnapshot = {
   eventCount: 3,
 };
 
+const closureState: ApplicationClosureState = {
+  canonLabel: 'V25 active canon / V26 system draft',
+  verification: {
+    id: 'verification',
+    label: 'Verification + ranked candidates',
+    summary: 'Verification summary.',
+    metrics: [
+      { label: 'Candidates', value: '5' },
+      { label: 'Selected assets', value: '2' },
+    ],
+    rows: [{ label: 'Verification state', value: 'allowed-with-policy' }],
+    chips: ['rollback runbook'],
+  },
+  branch: {
+    id: 'branch',
+    label: 'Branch artifacts',
+    summary: 'Branch summary.',
+    metrics: [{ label: 'Visible artifacts', value: '7' }],
+    rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
+    chips: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+  },
+  settlement: {
+    id: 'settlement',
+    label: 'Settlement + proof',
+    summary: 'Settlement summary.',
+    metrics: [
+      { label: 'Credited assets', value: '2' },
+      { label: 'Participating assets', value: '3' },
+    ],
+    rows: [{ label: 'Bundle', value: 'bundle-001' }],
+    chips: ['selection-materialization'],
+    proofFamilies: [
+      {
+        label: 'selection-materialization',
+        artifactPath: '.engi/selection-and-materialization-proof.json',
+        theoremStatus: 'passed',
+        replayArtifacts: '3',
+      },
+    ],
+  },
+  ledger: {
+    id: 'ledger',
+    label: 'Ledger + run history',
+    summary: 'Ledger summary.',
+    metrics: [{ label: 'History count', value: '1' }],
+    rows: [{ label: 'buyer pools', value: '120 BTD' }],
+    chips: [],
+    recentRuns: [
+      {
+        label: 'run-001',
+        summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
+      },
+    ],
+  },
+};
+
 describe('application-transaction-detail helpers', () => {
   it('counts transaction deliverable surfaces', () => {
     expect(countApplicationTransactionDeliverableSurfaces(detail)).toBe(2);
@@ -83,5 +141,29 @@ describe('application-transaction-detail helpers', () => {
       { label: 'Spend', value: '$1.62' },
       { label: 'Latency', value: '930 ms' },
     ]);
+  });
+
+  it('builds closure follow-through from application closure state', () => {
+    expect(buildApplicationTransactionClosureFollowThrough(closureState)).toEqual({
+      settlementMetrics: [
+        { label: 'Credited assets', value: '2' },
+        { label: 'Participating assets', value: '3' },
+      ],
+      branchArtifacts: ['BITCODE_NEED.md', '.engi/settlement-preview.json'],
+      proofFamilies: [
+        {
+          label: 'selection-materialization',
+          artifactPath: '.engi/selection-and-materialization-proof.json',
+          theoremStatus: 'passed',
+          replayArtifacts: '3',
+        },
+      ],
+      recentHistory: [
+        {
+          label: 'run-001',
+          summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
+        },
+      ],
+    });
   });
 });

@@ -56,6 +56,7 @@ In current source, the app-owned first-gate API surface now explicitly includes:
 - `/api/orbitals/data`
 - `/api/v24/external-realization`
 - `/api/v24/executors/[interfaceId]`
+- `/api/client-error`
 
 This is the current V26 source carrier, even while V25 remains the only active canon.
 The practical V26 leverage rule is now explicit: the retained active package/app systems outside first-gate Bitcode ownership are to be elevated up to Bitcode-grade auditability, proof-bearing precision, and knowability rather than treated as a looser host Bitcode must compromise down into.
@@ -88,6 +89,7 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
+- `uapi/app/api/client-error/route.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationMockTransactionDetails.tsx`
@@ -138,7 +140,8 @@ The current source now reflects that architecture more directly:
 - `BitcodeTransactionsOverview.tsx`, `BitcodeTransactionsFilterBar.tsx`, `BitcodeTransactionsDataTable.tsx`, and `bitcode-transaction-types.ts` now split the base transaction master carrier into typed SRP-aligned subcomponents instead of leaving the reusable table UI as one monolith,
 - `application-transaction-query.ts` plus `applicationTransactionQuery.test.ts` now make transaction selection and rich master-table filters route-owned and shareable through `/application` query state instead of leaving them trapped in component-local state,
 - `ApplicationTransactionDetailHero.tsx`, `ApplicationTransactionIdentityCard.tsx`, `ApplicationTransactionClosureCard.tsx`, `application-transaction-detail.ts`, and `applicationTransactionDetail.test.ts` now split the selected-transaction detail carrier into overview, identity, and closure modules instead of leaving the central detail pane as one mixed-responsibility component,
-- `ApplicationTransactionDetailActionBar.tsx` plus `ApplicationTransactionDetailSurface.tsx` now make transaction-detail focus, closure rerun, and detail refresh route-owned inside `/application` through query state and the shell bridge instead of leaving detail interaction implicit inside the rendered surface alone,
+- `ApplicationTransactionDetailActionBar.tsx` plus `ApplicationTransactionDetailSurface.tsx` now make transaction-detail focus, closure rerun, and detail refresh route-owned inside `/application` through query state and the shell bridge, with `transaction` as the preferred detail carrier and legacy `identity` accepted only for compatibility parsing,
+- `ApplicationTransactionClosureCard.tsx`, `ApplicationTransactionProofsCard.tsx`, and `ApplicationTransactionHistoryCard.tsx` now split selected-transaction closure, proofs, and history into explicit detail carriers instead of burying proofs/history under one closure pane,
 - `/application` now prefers `transactionId` as the master-detail query carrier while still accepting inbound `runId` for compatibility convergence, and the transactions master surface now filters by status, ownership, repository, participant, proof posture, and sort order in addition to free-text search,
 - `ApplicationTransactionWorkspace.tsx` now exposes transactions, deliverables, proofs, and history as explicit master-detail substructures instead of leaving them as adjacent imported detail panels,
 - `ApplicationTransactionDetailSurface.tsx` plus `application-transaction-detail-snapshot.ts` now normalize selected-run history payloads into one application-owned detail carrier so deliverable-reading panels render in both mock and live posture inside `/application`,
@@ -162,6 +165,8 @@ The current source now reflects that architecture more directly:
 - `uapi/tests/applicationClosureState.test.ts` now proves deterministic normalization of verification, branch, settlement, and ledger semantics from the shell snapshot into application-owned closure state.
 - `uapi/tests/applicationTransactionDetailSnapshot.test.ts` now proves the selected-run normalization layer that merges live history payloads with route-owned fallback detail before the application renders deliverables, proofs, and history.
 - `uapi/tests/applicationTransactionActivity.test.ts` now proves the activity/log normalization layer that lifts retained execution events into the application-owned run activity surface.
+- `uapi/tests/applicationShellBridge.test.tsx` now also proves that the shared shell bridge fails closed to an empty snapshot/control state when mounted-shell refresh throws during pre-mount or hot-reload rebuild windows.
+- `uapi/tests/api/clientErrorRoute.test.ts` now proves that client-side error telemetry is accepted by an app-owned route instead of 404ing during second-gate runtime failures.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
 - the active internal module namespace is now `@bitcode/*` across workspace manifests, path aliases, and active source imports.
 - V26 proof closure now explicitly requires the retained and repurposed whole repository that survives into V26 production canon to be proven up to Bitcode-grade satisfaction rather than leaving strong proof posture isolated to the former `engi-demo` core.

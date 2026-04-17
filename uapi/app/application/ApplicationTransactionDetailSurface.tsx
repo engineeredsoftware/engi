@@ -13,8 +13,12 @@ import type { ApplicationRunDetailSnapshot } from './application-transaction-det
 import type { WorkspaceRun } from './application-run-data';
 import ApplicationTransactionClosureCard from './ApplicationTransactionClosureCard';
 import ApplicationTransactionDetailHero from './ApplicationTransactionDetailHero';
+import ApplicationTransactionHistoryCard from './ApplicationTransactionHistoryCard';
 import ApplicationTransactionIdentityCard from './ApplicationTransactionIdentityCard';
+import ApplicationTransactionProofsCard from './ApplicationTransactionProofsCard';
+import { normalizeApplicationClosureState } from './application-closure-state';
 import {
+  buildApplicationTransactionClosureFollowThrough,
   buildApplicationTransactionClosureRows,
   buildApplicationTransactionIdentityRows,
   buildApplicationTransactionOverviewMetrics,
@@ -56,7 +60,43 @@ export default function ApplicationTransactionDetailSurface({
 }: ApplicationTransactionDetailSurfaceProps) {
   const [summaryOpen, setSummaryOpen] = useState(true);
   const [isActing, setIsActing] = useState(false);
-  const { runControl, controls } = useApplicationShellBridge();
+  const { snapshot, runControl, controls } = useApplicationShellBridge();
+  const closureState = useMemo(() => normalizeApplicationClosureState(snapshot), [snapshot]);
+  const closureFollowThrough = useMemo(
+    () => buildApplicationTransactionClosureFollowThrough(closureState),
+    [closureState],
+  );
+  const shellReady = Boolean(controls);
+  const showDeliverables = detailSection === 'deliverables';
+  const showTransaction = detailSection === 'transaction';
+  const showClosure = detailSection === 'closure';
+  const showProofs = detailSection === 'proofs';
+  const showHistory = detailSection === 'history';
+  const showActivity = detailSection === 'activity';
+  const showConsole = detailSection === 'console' && !mockMode;
+  const normalizedSummary =
+    detail?.summary || 'The selected transaction now reads through an inward Bitcode detail carrier inside `/application`.';
+  const sectionSummary = useMemo(() => {
+    if (showTransaction) {
+      return `${normalizedSummary} Transaction identity, repository, and timing posture are the active detail focus.`;
+    }
+    if (showClosure) {
+      return `${normalizedSummary} Closure proof, settlement follow-through, and re-run controls are the active detail focus.`;
+    }
+    if (showProofs) {
+      return `${normalizedSummary} Proof families and bounded verification posture are the active detail focus.`;
+    }
+    if (showHistory) {
+      return `${normalizedSummary} Ledger-linked transaction history and recent closure continuity are the active detail focus.`;
+    }
+    if (showActivity) {
+      return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active detail focus.`;
+    }
+    if (showConsole) {
+      return `${normalizedSummary} Compatibility execution console remains available as the active detail focus during second-gate convergence.`;
+    }
+    return `${normalizedSummary} Deliverables, reviews, issues, comments, and summary text are the active detail focus.`;
+  }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
 
   useEffect(() => {
     setSummaryOpen(true);
@@ -81,7 +121,6 @@ export default function ApplicationTransactionDetailSurface({
   const overviewMetrics = buildApplicationTransactionOverviewMetrics(selectedRun, detail);
   const identityRows = buildApplicationTransactionIdentityRows(selectedRun, detail);
   const closureRows = buildApplicationTransactionClosureRows(detail);
-  const shellReady = Boolean(controls);
 
   const handleClosureAction = async (callback: Parameters<typeof runControl>[0]) => {
     setIsActing(true);
@@ -91,23 +130,6 @@ export default function ApplicationTransactionDetailSurface({
       setIsActing(false);
     }
   };
-
-  const showDeliverables = detailSection === 'deliverables';
-  const showIdentity = detailSection === 'identity';
-  const showClosure = detailSection === 'closure';
-  const showActivity = detailSection === 'activity';
-  const showConsole = detailSection === 'console' && !mockMode;
-
-  const sectionSummary = useMemo(() => {
-    const normalizedSummary =
-      detail.summary || 'The selected transaction now reads through an inward Bitcode detail carrier inside `/application`.';
-
-    if (showIdentity) return `${normalizedSummary} Identity, repository, and timing posture are the active detail focus.`;
-    if (showClosure) return `${normalizedSummary} Closure proof, settlement follow-through, and re-run controls are the active detail focus.`;
-    if (showActivity) return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active detail focus.`;
-    if (showConsole) return `${normalizedSummary} Compatibility execution console remains available as the active detail focus during second-gate convergence.`;
-    return `${normalizedSummary} Deliverables, reviews, issues, comments, and summary text are the active detail focus.`;
-  }, [detail.summary, showActivity, showClosure, showConsole, showIdentity]);
 
   return (
     <div className="space-y-6">
@@ -177,7 +199,7 @@ export default function ApplicationTransactionDetailSurface({
         </div>
 
         <div className="space-y-5">
-          {showIdentity ? (
+          {showTransaction ? (
             <ApplicationTransactionIdentityCard
               startedAt={formatRunTimestamp(selectedRun.created_at)}
               rows={identityRows}
@@ -187,7 +209,25 @@ export default function ApplicationTransactionDetailSurface({
           {showClosure ? (
             <ApplicationTransactionClosureCard
               rows={closureRows}
+              settlementMetrics={closureFollowThrough.settlementMetrics}
+              branchArtifacts={closureFollowThrough.branchArtifacts}
+              onOpenVerification={() => jumpToShellSection('panelEvaluations')}
+              onOpenBranch={() => jumpToShellSection('panelBranchArtifacts')}
               onOpenSettlement={() => jumpToShellSection('panelSettlement')}
+            />
+          ) : null}
+
+          {showProofs ? (
+            <ApplicationTransactionProofsCard
+              proofFamilies={closureFollowThrough.proofFamilies}
+              onOpenVerification={() => jumpToShellSection('panelEvaluations')}
+              onOpenSettlement={() => jumpToShellSection('panelSettlement')}
+            />
+          ) : null}
+
+          {showHistory ? (
+            <ApplicationTransactionHistoryCard
+              recentHistory={closureFollowThrough.recentHistory}
               onOpenHistory={() => jumpToShellSection('panelLedger')}
             />
           ) : null}

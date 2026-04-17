@@ -53,7 +53,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     badge: 'master',
     description:
       'Search, filter, and inspect Bitcode transactions inside `/application` without handing master detail back to a peer route.',
-    targetId: 'applicationRunWorkspace',
+    targetId: 'applicationTransactionWorkspace',
   },
   {
     id: 'deliverables',
@@ -61,7 +61,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     badge: 'materialized output',
     description:
       'Read pull requests, reviews, issues, comments, and artifact bundles in the selected transaction context inside the application workspace.',
-    targetId: 'applicationRunDeliverables',
+    targetId: 'applicationTransactionDeliverables',
   },
   {
     id: 'proofs',

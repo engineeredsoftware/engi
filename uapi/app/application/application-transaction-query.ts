@@ -24,11 +24,20 @@ const SEARCH_PARAM_KEYS = {
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
 const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'give', 'need', 'closure'];
 const TRANSACTION_SORT_VALUES: TransactionSort[] = ['newest', 'oldest', 'most-tokens', 'highest-usd'];
-export type ApplicationTransactionDetailSection = 'deliverables' | 'identity' | 'closure' | 'activity' | 'console';
+export type ApplicationTransactionDetailSection =
+  | 'deliverables'
+  | 'transaction'
+  | 'closure'
+  | 'proofs'
+  | 'history'
+  | 'activity'
+  | 'console';
 const TRANSACTION_DETAIL_SECTION_VALUES: ApplicationTransactionDetailSection[] = [
   'deliverables',
-  'identity',
+  'transaction',
   'closure',
+  'proofs',
+  'history',
   'activity',
   'console',
 ];
@@ -52,11 +61,9 @@ export function readApplicationTransactionId(searchParams: URLSearchParams) {
 }
 
 export function readApplicationTransactionDetailSection(searchParams: URLSearchParams) {
-  return parseEnumValue(
-    searchParams.get(SEARCH_PARAM_KEYS.detailSection),
-    TRANSACTION_DETAIL_SECTION_VALUES,
-    'deliverables',
-  );
+  const rawValue = searchParams.get(SEARCH_PARAM_KEYS.detailSection);
+  if (rawValue === 'identity') return 'transaction';
+  return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'deliverables');
 }
 
 export function readApplicationTransactionFilters(searchParams: URLSearchParams): TransactionFilters {

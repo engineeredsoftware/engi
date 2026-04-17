@@ -58,6 +58,7 @@ Current active carriers:
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
 - `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
 - `uapi/app/application/ApplicationTransactionDetailHero.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
@@ -100,7 +101,23 @@ Current active carriers:
 Operational rule:
 - route-local second-gate carriers consume one shared shell bridge instead of independently polling the mounted shell
 - command, summary, give/need, core, closure, and intake surfaces all refresh against the same semantic Bitcode state carrier
+- the shared shell bridge must fail closed during pre-mount and hot-reload rebuild windows instead of crashing `/application`
 - V26 should extend this provider rather than multiplying per-component shell refresh loops
+
+## Runtime health carriers
+
+Second-gate now explicitly treats application health as part of the productionizing pass, not as incidental developer ergonomics.
+
+Current active carriers:
+- `uapi/app/api/client-error/route.ts`
+- `uapi/app/application/application-shell-bridge.tsx`
+- `packages/bitcode/src/client-entry.js`
+- `packages/bitcode/public/app.js`
+
+Operational rule:
+- client-side runtime failures should be accepted by an app-owned telemetry intake route instead of 404ing
+- semantic snapshot reads should return null during shell pre-mount windows rather than throwing
+- mounted-shell bootstrap should wait for the host markup and fail closed while the application is rebuilding
 
 ## Transactions master carrier
 
@@ -140,7 +157,41 @@ Operational rule:
 - `transactionId` remains the primary master-detail selection carrier
 - inbound `runId` remains accepted only for compatibility convergence
 - transaction search, status, ownership, lens, repository, participant, proof posture, and sort are persisted in route query state
+- transaction detail prefers `transaction` as the active detail carrier while accepting legacy `identity` only as a compatibility parsing alias
 - resetting filters clears only transaction-filter carriers and preserves selected transaction plus unrelated application parameters
+
+## Route-owned transaction detail interaction carrier
+
+Second-gate now treats selected-transaction focus and closure follow-through as application route state rather than detail-local widget state.
+
+Current active carriers:
+- `uapi/app/application/application-transaction-query.ts`
+- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+- `uapi/app/application/ApplicationPageClient.tsx`
+
+Operational rule:
+- detail focus is persisted as route query state with `deliverables` as the default focus
+- selected transactions can switch focus between deliverables, transaction, closure, proofs, history, activity, and compatibility console without losing the active transaction selection
+- closure rerun and detail refresh are available directly from the application-owned transaction detail carrier through the shared shell bridge
+
+## Inline transaction closure follow-through carrier
+
+Second-gate now treats settlement/proof/history reading inside selected-transaction detail as application-owned closure composition rather than primarily a shell-section navigation task.
+
+Current active carriers:
+- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
+- `uapi/app/application/ApplicationTransactionProofsCard.tsx`
+- `uapi/app/application/ApplicationTransactionHistoryCard.tsx`
+- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+- `uapi/app/application/application-transaction-detail.ts`
+- `uapi/app/application/application-closure-state.ts`
+
+Operational rule:
+- selected-transaction closure view reads settlement metrics and branch artifacts inline
+- proof families are visible directly inside an explicit proofs detail carrier
+- recent transaction history is visible directly inside an explicit history detail carrier
+- shell-section navigation remains available as secondary follow-through rather than the primary lower closure read path
 
 ## Give-side repository supply carrier
 

@@ -53,19 +53,28 @@ export function ApplicationShellBridgeProvider({ children }: { children: ReactNo
   const controlsRef = useRef<BitcodeApplicationShellControls>(null);
 
   const refresh = useCallback(async () => {
-    const [nextSnapshot, nextControls] = await Promise.all([
-      readBitcodeApplicationShellSnapshot(),
-      readBitcodeApplicationShellControls(),
-    ]);
+    try {
+      const [nextSnapshot, nextControls] = await Promise.all([
+        readBitcodeApplicationShellSnapshot(),
+        readBitcodeApplicationShellControls(),
+      ]);
 
-    if (!mountedRef.current) return nextSnapshot;
+      if (!mountedRef.current) return nextSnapshot;
 
-    controlsRef.current = nextControls as BitcodeApplicationShellControls;
-    setSnapshot(nextSnapshot);
-    setControls(nextControls as BitcodeApplicationShellControls);
-    setLastUpdatedAt(Date.now());
+      controlsRef.current = nextControls as BitcodeApplicationShellControls;
+      setSnapshot(nextSnapshot);
+      setControls(nextControls as BitcodeApplicationShellControls);
+      setLastUpdatedAt(Date.now());
 
-    return nextSnapshot;
+      return nextSnapshot;
+    } catch {
+      if (!mountedRef.current) return null;
+      controlsRef.current = null;
+      setSnapshot(null);
+      setControls(null);
+      setLastUpdatedAt(Date.now());
+      return null;
+    }
   }, []);
 
   const runControl = useCallback<ApplicationShellBridgeContextValue['runControl']>(

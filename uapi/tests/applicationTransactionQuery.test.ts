@@ -38,15 +38,27 @@ describe('application-transaction-query', () => {
     expect(
       readApplicationTransactionDetailSection(new URLSearchParams('transactionDetail=activity')),
     ).toBe('activity');
+    expect(
+      readApplicationTransactionDetailSection(new URLSearchParams('transactionDetail=identity')),
+    ).toBe('transaction');
+    expect(
+      readApplicationTransactionDetailSection(new URLSearchParams('transactionDetail=proofs')),
+    ).toBe('proofs');
+    expect(
+      readApplicationTransactionDetailSection(new URLSearchParams('transactionDetail=history')),
+    ).toBe('history');
     expect(readApplicationTransactionDetailSection(new URLSearchParams(''))).toBe('deliverables');
 
     const nextParams = writeApplicationTransactionDetailSection(
       new URLSearchParams('transactionId=tx-123'),
-      'closure',
+      'transaction',
     );
-    expect(nextParams.get('transactionDetail')).toBe('closure');
+    expect(nextParams.get('transactionDetail')).toBe('transaction');
 
-    const resetToDefault = writeApplicationTransactionDetailSection(nextParams, 'deliverables');
+    const proofsParams = writeApplicationTransactionDetailSection(nextParams, 'proofs');
+    expect(proofsParams.get('transactionDetail')).toBe('proofs');
+
+    const resetToDefault = writeApplicationTransactionDetailSection(proofsParams, 'deliverables');
     expect(resetToDefault.get('transactionDetail')).toBeNull();
   });
 

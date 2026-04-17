@@ -9,8 +9,10 @@ type DetailAction = {
 
 const DETAIL_ACTIONS: DetailAction[] = [
   { id: 'deliverables', label: 'Deliverables' },
-  { id: 'identity', label: 'Identity' },
+  { id: 'transaction', label: 'Transaction' },
   { id: 'closure', label: 'Closure' },
+  { id: 'proofs', label: 'Proofs' },
+  { id: 'history', label: 'History' },
   { id: 'activity', label: 'Activity' },
   { id: 'console', label: 'Console' },
 ];

@@ -68,4 +68,19 @@ describe('ApplicationShellBridgeProvider', () => {
       expect(result.current.snapshot).toEqual({ commandSurface: { status: 'after' } });
     });
   });
+
+  it('fails closed to an empty bridge when snapshot refresh throws', async () => {
+    readBitcodeApplicationShellSnapshot.mockRejectedValue(new Error('snapshot unavailable'));
+    readBitcodeApplicationShellControls.mockResolvedValue({
+      refresh: jest.fn(),
+    });
+
+    const { result } = renderHook(() => useApplicationShellBridge(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.snapshot).toBeNull();
+      expect(result.current.controls).toBeNull();
+      expect(result.current.lastUpdatedAt).toBeGreaterThan(0);
+    });
+  });
 });

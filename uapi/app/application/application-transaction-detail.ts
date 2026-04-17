@@ -1,9 +1,21 @@
+import type {
+  ApplicationClosureHistoryEntry,
+  ApplicationClosureProofFamily,
+  ApplicationClosureState,
+} from './application-closure-state';
 import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 import type { WorkspaceRun } from './application-run-data';
 
 export type ApplicationTransactionDetailRow = {
   label: string;
   value: string;
+};
+
+export type ApplicationTransactionClosureFollowThrough = {
+  settlementMetrics: Array<{ label: string; value: string }>;
+  branchArtifacts: string[];
+  proofFamilies: ApplicationClosureProofFamily[];
+  recentHistory: ApplicationClosureHistoryEntry[];
 };
 
 export function countApplicationTransactionDeliverableSurfaces(detail: ApplicationRunDetailSnapshot | null) {
@@ -81,4 +93,15 @@ export function buildApplicationTransactionClosureRows(detail: ApplicationRunDet
       value: detail?.processingStats.averageLatencyMs ? `${formatNumber(detail.processingStats.averageLatencyMs)} ms` : 'n/a',
     },
   ];
+}
+
+export function buildApplicationTransactionClosureFollowThrough(
+  closureState: ApplicationClosureState | null,
+): ApplicationTransactionClosureFollowThrough {
+  return {
+    settlementMetrics: closureState?.settlement.metrics.slice(0, 4) || [],
+    branchArtifacts: closureState?.branch.chips.slice(0, 6) || [],
+    proofFamilies: closureState?.settlement.proofFamilies?.slice(0, 4) || [],
+    recentHistory: closureState?.ledger.recentRuns?.slice(0, 4) || [],
+  };
 }
