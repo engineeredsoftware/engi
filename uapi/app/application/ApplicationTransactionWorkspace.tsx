@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
+import BitcodeDetailPanel from '@/components/base/engi/execution/BitcodeDetailPanel';
 import type {
   TransactionFilters,
   TransactionPagination,
 } from '@/components/base/engi/execution/bitcode-transaction-types';
 import type { DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
+import type { BitcodeDetailRow } from '@/components/base/engi/execution/BitcodeDetailRowList';
+import type { BitcodeMetric } from '@/components/base/engi/execution/BitcodeMetricGrid';
 
 import ApplicationTransactionDetailSurface from './ApplicationTransactionDetailSurface';
 import ApplicationTransactionsTable from './ApplicationTransactionsTable';
@@ -66,7 +69,16 @@ function countDeliverableSurfaces(deliverables?: DeliverablesDoc | null) {
   return count;
 }
 
-function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: ApplicationRunDetailSnapshot | null) {
+type ApplicationMasterDetailSubstructure = (typeof MASTER_DETAIL_SUBSTRUCTURES)[number] & {
+  summary: string;
+  metrics: BitcodeMetric[];
+  rows: BitcodeDetailRow[];
+};
+
+function buildMasterDetailSubstructures(
+  selectedRun: WorkspaceRun,
+  detail: ApplicationRunDetailSnapshot | null,
+): ApplicationMasterDetailSubstructure[] {
   const deliverableSurfaceCount = countDeliverableSurfaces(detail?.deliverables) || detail?.historyItemCount || selectedRun.itemCount || 0;
 
   return MASTER_DETAIL_SUBSTRUCTURES.map((substructure) => {
@@ -327,48 +339,17 @@ export default function ApplicationTransactionWorkspace({
 
             <div className="grid gap-4 2xl:grid-cols-4">
               {masterDetailSubstructures.map((substructure) => (
-                <article key={substructure.id} className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">{substructure.badge}</p>
-                      <h3 className="mt-2 text-lg font-semibold text-white">{substructure.label}</h3>
-                    </div>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-300">
-                      substructure
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm leading-6 text-neutral-300">{substructure.summary}</p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {substructure.metrics.map((metric) => (
-                      <div
-                        key={`${substructure.id}-${metric.label}-${metric.value}`}
-                        className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4"
-                      >
-                        <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{metric.label}</p>
-                        <p className="mt-2 text-sm font-semibold text-white">{metric.value}</p>
-                      </div>
-                    ))}
-                  </div>
-                  {substructure.rows.length ? (
-                    <dl className="mt-4 space-y-3 rounded-[1.15rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
-                      {substructure.rows.map((row) => (
-                        <div key={`${substructure.id}-${row.label}-${row.value}`}>
-                          <dt className="text-neutral-500">{row.label}</dt>
-                          <dd className="mt-1 break-words text-neutral-100">{row.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  ) : null}
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      onClick={() => jumpToShellSection(substructure.targetId)}
-                      className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
-                    >
-                      Open {substructure.label.toLowerCase()}
-                    </button>
-                  </div>
-                </article>
+                <BitcodeDetailPanel
+                  key={substructure.id}
+                  badge={substructure.badge}
+                  title={substructure.label}
+                  summary={substructure.summary}
+                  metrics={substructure.metrics}
+                  rows={substructure.rows}
+                  tagLabel="substructure"
+                  actionLabel={`Open ${substructure.label.toLowerCase()}`}
+                  onAction={() => jumpToShellSection(substructure.targetId)}
+                />
               ))}
             </div>
 

@@ -246,6 +246,8 @@ The current active second-gate source file additions are:
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
 - `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
 - `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`

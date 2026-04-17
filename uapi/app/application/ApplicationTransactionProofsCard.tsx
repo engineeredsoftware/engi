@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import BitcodeDetailCollection from '@/components/base/engi/execution/BitcodeDetailCollection';
 import BitcodePayloadInspector from '@/components/base/engi/execution/BitcodePayloadInspector';
 
 import type { ApplicationClosureProofFamily } from './application-closure-state';
@@ -19,6 +20,13 @@ export default function ApplicationTransactionProofsCard({
   onOpenSettlement,
   payload,
 }: ApplicationTransactionProofsCardProps) {
+  const proofItems = proofFamilies.map((family) => ({
+    id: `${family.label}-${family.artifactPath}`,
+    title: family.label,
+    summary: `${family.theoremStatus} · replay ${family.replayArtifacts}`,
+    supportingText: family.artifactPath,
+  }));
+
   return (
     <BitcodePayloadInspector
       kicker="Proof families"
@@ -28,27 +36,10 @@ export default function ApplicationTransactionProofsCard({
       rawLabel="Proof payload"
     >
       <>
-        {proofFamilies.length ? (
-          <div className="space-y-3 text-sm">
-            {proofFamilies.map((family) => (
-              <div
-                key={`${family.label}-${family.artifactPath}`}
-                className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4"
-              >
-                <p className="font-medium text-white">{family.label}</p>
-                <p className="mt-1 text-neutral-300">
-                  {family.theoremStatus} · replay {family.replayArtifacts}
-                </p>
-                <p className="mt-1 break-all text-neutral-500">{family.artifactPath}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
-            No proof families are surfaced on the selected transaction yet. Verification and settlement still remain part
-            of the same Bitcode closure path.
-          </div>
-        )}
+        <BitcodeDetailCollection
+          items={proofItems}
+          emptyMessage="No proof families are surfaced on the selected transaction yet. Verification and settlement still remain part of the same Bitcode closure path."
+        />
 
         <div className="mt-4 flex flex-wrap gap-2">
           <button

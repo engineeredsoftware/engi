@@ -89,6 +89,8 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
 - `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
 - `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
@@ -152,6 +154,7 @@ Operational rule:
 - transaction pagination must remain route-owned and query-shareable rather than living only as a table-local row window
 - transaction filters, headers, pagination, and payload views should share one explainer/tooltip carrier rather than embedding incidental one-off help text per surface
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
+- workspace substructure preview cards should reuse one shared detail-panel carrier rather than preserving page-local metric/row card markup
 - later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
 
 ## Route-owned transaction query carrier
@@ -183,6 +186,8 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
 - `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
 - `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
@@ -196,6 +201,7 @@ Operational rule:
 - shared inline explainers should document visual-vs-raw posture, filter meaning, column meaning, and page-size behavior without reverting to browser-only `title` hints
 - transaction-terminal controls should keep stable accessible names even when explainer triggers are introduced beside labels
 - selected-transaction rows, metric grids, and chip clouds should converge on reusable execution-level base carriers instead of being re-authored per card
+- proof/history collection cards and workspace substructure preview cards should converge on shared collection/panel carriers instead of repeating page-local list/article markup
 - future transaction-detail, closure, and conversation payload views should extend this base carrier instead of rebuilding raw-view toggles ad hoc
 
 ## Route-owned transaction detail interaction carrier

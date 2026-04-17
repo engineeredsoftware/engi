@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import BitcodeDetailCollection from '@/components/base/engi/execution/BitcodeDetailCollection';
 import BitcodePayloadInspector from '@/components/base/engi/execution/BitcodePayloadInspector';
 
 import type { ApplicationClosureHistoryEntry } from './application-closure-state';
@@ -17,6 +18,12 @@ export default function ApplicationTransactionHistoryCard({
   onOpenHistory,
   payload,
 }: ApplicationTransactionHistoryCardProps) {
+  const historyItems = recentHistory.map((entry) => ({
+    id: `${entry.label}-${entry.summary}`,
+    title: entry.label,
+    summary: entry.summary,
+  }));
+
   return (
     <BitcodePayloadInspector
       kicker="History"
@@ -26,24 +33,10 @@ export default function ApplicationTransactionHistoryCard({
       rawLabel="History payload"
     >
       <>
-        {recentHistory.length ? (
-          <div className="space-y-3 text-sm">
-            {recentHistory.map((entry) => (
-              <div
-                key={`${entry.label}-${entry.summary}`}
-                className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4"
-              >
-                <p className="font-medium text-white">{entry.label}</p>
-                <p className="mt-1 text-neutral-300">{entry.summary}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
-            No recent history is surfaced on the selected transaction yet. The ledger and bounded proof chain remain part
-            of the same Bitcode detail path.
-          </div>
-        )}
+        <BitcodeDetailCollection
+          items={historyItems}
+          emptyMessage="No recent history is surfaced on the selected transaction yet. The ledger and bounded proof chain remain part of the same Bitcode detail path."
+        />
 
         <div className="mt-4 flex flex-wrap gap-2">
           <button

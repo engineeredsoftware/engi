@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-type BitcodeMetric = {
+export type BitcodeMetric = {
   label: string;
   value: string;
 };

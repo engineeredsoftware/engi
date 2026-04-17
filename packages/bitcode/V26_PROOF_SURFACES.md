@@ -244,6 +244,16 @@ Current active assignments:
   `uapi/tests/applicationTransactionDetailCards.test.tsx`
   proof surface:
   explicit history detail carrier inside selected-transaction detail
+- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
+  test coverage:
+  `uapi/tests/bitcodeDetailCollection.test.tsx`
+  proof surface:
+  reusable execution-level carrier for proof/history-style transaction detail collections
+- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
+  test coverage:
+  `uapi/tests/bitcodeDetailPanel.test.tsx`
+  proof surface:
+  reusable execution-level carrier for master-detail substructure preview panels inside the Bitcode transaction workspace
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
   test coverage:
   lint plus localhost `/application` verification with inline closure follow-through mounted in selected-transaction detail
