@@ -157,6 +157,7 @@ The accepted V26 decisions are now:
 16. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
 17. Existing packages such as `packages/github`, `packages/auth`, and `packages/api` still remain convergence targets where that ownership is the correct long-term fit.
 18. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
+19. Transaction source posture inside `/application` is now explicitly three-state rather than binary: `live`, `mock-review`, and `review-fallback`, with review-fallback kept labeled when mock transaction review URLs land on empty live history.
 
 ## Remaining V26 delta after first-gate
 
@@ -226,6 +227,7 @@ The current active second-gate source file additions are:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
+- `uapi/app/application/application-transaction-source.ts`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
@@ -253,6 +255,7 @@ The current active second-gate source file additions are:
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
+- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/app/api/conversations/route.ts`
@@ -279,10 +282,14 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationTransactionActivity.test.ts`
 - `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
 - `uapi/tests/applicationTransactionDetail.test.ts`
+- `uapi/tests/applicationShellBridge.test.tsx`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
 - `uapi/tests/bitcodeDetailRowList.test.tsx`
 - `uapi/tests/bitcodeMetricGrid.test.tsx`
+- `uapi/tests/deliverablesHistoryRoute.test.ts`
+- `uapi/tests/deliverablesHistoryRunRoute.test.ts`
+- `uapi/tests/usePipelineExecution.test.tsx`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
@@ -318,6 +325,7 @@ Second-gate acceptance is reached only when:
 - the transactions master surface also supports route-owned pagination rather than component-local row-window state,
 - route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
 - second-gate application health is explicit: shell-bridge snapshot/control reads fail closed during pre-mount or hot-reload rebuilds instead of crashing `/application`, and client-error telemetry is accepted through an app-owned route rather than 404ing,
+- app-owned execution-history JSON routes exist under `uapi/app/api/executions/history*` so the transactions master, selected-transaction detail, and retained execution readers no longer fall through to missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review,
 - second-gate application health also includes keeping fullscreen orbitals renderable from `/application` rather than allowing missing overlay carriers to crash the app during settings entry,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,

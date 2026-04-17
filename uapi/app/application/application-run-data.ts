@@ -77,6 +77,12 @@ export const MOCK_RUNS: WorkspaceRun[] = [
   },
 ];
 
+const MOCK_RUN_IDS = new Set(MOCK_RUNS.map((run) => run.id));
+
+export function isMockWorkspaceRunId(runId?: string | null) {
+  return !!runId && MOCK_RUN_IDS.has(runId);
+}
+
 export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
   'mock-run-branch-remediation': {
     pullRequest: {

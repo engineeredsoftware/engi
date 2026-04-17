@@ -138,6 +138,7 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
+- `uapi/app/application/application-transaction-source.ts`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/application/application-repository-context.ts`
@@ -156,6 +157,7 @@ The current active second-gate source additions are now explicitly:
 - `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
 - `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
 - `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
 - `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
@@ -191,6 +193,7 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
 - `uapi/tests/applicationTransactionDetail.test.ts`
 - `uapi/tests/applicationTransactionQuery.test.ts`
+- `uapi/tests/applicationShellBridge.test.tsx`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
 - `uapi/tests/bitcodeInlineExplainer.test.tsx`
@@ -199,6 +202,9 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`
 - `uapi/tests/bitcodeTransactionsPagination.test.tsx`
 - `uapi/tests/bitcodePayloadInspector.test.tsx`
+- `uapi/tests/deliverablesHistoryRoute.test.ts`
+- `uapi/tests/deliverablesHistoryRunRoute.test.ts`
+- `uapi/tests/usePipelineExecution.test.tsx`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`

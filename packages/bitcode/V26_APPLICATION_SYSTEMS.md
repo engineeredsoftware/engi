@@ -79,6 +79,7 @@ Current active carriers:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-need-scenarios.ts`
 - `uapi/app/application/application-run-activity.ts`
+- `uapi/app/application/application-transaction-source.ts`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/application/application-transaction-query.ts`
@@ -143,6 +144,7 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
 - `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
@@ -157,6 +159,8 @@ Operational rule:
 - active transaction filters should remain visibly surfaced as individually clearable chips rather than hiding the shaped table window inside controls alone
 - transaction filters, headers, pagination, and payload views should share one explainer/tooltip carrier rather than embedding incidental one-off help text per surface
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable typed overview/filter/table UI carriers
+- transaction source resolution should derive `live`, `mock-review`, and `review-fallback` from fetched live history plus the selected transaction URL instead of trapping source mode in mutable page-local branches
+- the master surface should fail over into a clearly labeled `review-fallback` posture when live history is empty but the route is opened on an explicit mock transaction review URL
 - workspace substructure preview cards should reuse one shared detail-panel carrier rather than preserving page-local metric/row card markup
 - later V26 convergence should deepen this transaction surface rather than reverting back to sidebar-only or generic run-selection posture
 
@@ -275,6 +279,7 @@ Current active carriers:
 Operational rule:
 - the preserved shell remains the semantic owner of active scenario, auth session, deposit preview, need surface, and fit surface
 - V26 route-local application carriers may consume that truth through `getBitcodeApplicationShellSnapshot()` and `readBitcodeApplicationShellSnapshot()`
+- client entry must wait for the application host before importing the preserved shell module for mount, snapshot, or control reads
 - route-local give/need action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
 - this bridge is read-only and does not reopen first-gate ownership
 
@@ -449,6 +454,8 @@ Current active carriers:
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
 - `uapi/app/application/application-transaction-detail.ts`
+- `uapi/app/api/executions/_shared.ts`
+- `uapi/app/api/executions/history/route.ts`
 - `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
 - `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
@@ -456,6 +463,8 @@ Current active carriers:
 
 Operational rule:
 - selected-transaction history payloads normalize into one application-owned detail snapshot
+- current app-owned execution-history routes return JSON again for both transaction collection and selected-transaction detail instead of falling through to missing-route HTML
+- GET history carriers fail closed to anonymous-safe empty payloads during unauthenticated review so `/application` remains interactive without leaking privileged history
 - overview, identity, and closure reading are split into SRP-aligned transaction-detail modules rather than one mixed-responsibility pane
 - closure now exposes the same visual-versus-raw payload posture as the other JSON-bearing transaction-detail cards
 - deliverable summary/cards render in both mock and live posture inside `/application`

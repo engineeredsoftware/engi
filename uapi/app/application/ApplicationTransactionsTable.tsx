@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react';
 
 import BitcodeTransactionsTable from '@/components/base/engi/execution/BitcodeTransactionsTable';
 import type {
+  TransactionDataMode,
   TransactionFilters,
   TransactionPagination,
 } from '@/components/base/engi/execution/bitcode-transaction-types';
@@ -26,7 +27,7 @@ interface ApplicationTransactionsTableProps {
   onPaginationChange: (nextPagination: TransactionPagination) => void;
   isLoadingRuns: boolean;
   runsError: string | null;
-  mockMode: boolean;
+  transactionDataMode: TransactionDataMode;
 }
 
 export default function ApplicationTransactionsTable({
@@ -40,7 +41,7 @@ export default function ApplicationTransactionsTable({
   onPaginationChange,
   isLoadingRuns,
   runsError,
-  mockMode,
+  transactionDataMode,
 }: ApplicationTransactionsTableProps) {
   const records = useMemo(() => normalizeApplicationTransactions(runs), [runs]);
   const options = useMemo(() => buildApplicationTransactionFilterOptions(records), [records]);
@@ -96,7 +97,7 @@ export default function ApplicationTransactionsTable({
       proofStatusOptions={options.proofStatuses}
       isLoading={isLoadingRuns}
       error={runsError}
-      mockMode={mockMode}
+      dataMode={transactionDataMode}
     />
   );
 }

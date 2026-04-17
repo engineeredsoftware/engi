@@ -3,8 +3,13 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
+import {
+  getTransactionDataModeLabel,
+  isMockTransactionDataMode,
+} from '@/components/base/engi/execution/bitcode-transaction-data-mode';
 import BitcodeDetailPanel from '@/components/base/engi/execution/BitcodeDetailPanel';
 import type {
+  TransactionDataMode,
   TransactionFilters,
   TransactionPagination,
 } from '@/components/base/engi/execution/bitcode-transaction-types';
@@ -189,7 +194,7 @@ interface ApplicationTransactionWorkspaceProps {
   onDetailSectionChange: (detailSection: ApplicationTransactionDetailSection) => void;
   isLoadingRuns: boolean;
   runsError: string | null;
-  mockMode: boolean;
+  transactionDataMode: TransactionDataMode;
   onSelectTransaction: (transactionId: string) => void;
 }
 
@@ -205,10 +210,11 @@ export default function ApplicationTransactionWorkspace({
   onDetailSectionChange,
   isLoadingRuns,
   runsError,
-  mockMode,
+  transactionDataMode,
   onSelectTransaction,
 }: ApplicationTransactionWorkspaceProps) {
   const mockDeliverables = selectedRun ? MOCK_RUN_DELIVERABLES[selectedRun.id] : null;
+  const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
   const [runDetail, setRunDetail] = useState<ApplicationRunDetailSnapshot | null>(null);
   const [isLoadingRunDetail, setIsLoadingRunDetail] = useState(false);
   const [runDetailError, setRunDetailError] = useState<string | null>(null);
@@ -229,7 +235,7 @@ export default function ApplicationTransactionWorkspace({
     setRunDetail(fallbackDetail);
     setRunDetailError(null);
 
-    if (mockMode) {
+    if (usesMockTransactions) {
       setIsLoadingRunDetail(false);
       return () => {
         disposed = true;
@@ -265,7 +271,7 @@ export default function ApplicationTransactionWorkspace({
     return () => {
       disposed = true;
     };
-  }, [mockDeliverables, mockMode, selectedRun]);
+  }, [mockDeliverables, selectedRun, usesMockTransactions]);
 
   const masterDetailSubstructures = useMemo(
     () => (selectedRun ? buildMasterDetailSubstructures(selectedRun, runDetail) : []),
@@ -296,6 +302,9 @@ export default function ApplicationTransactionWorkspace({
                 className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.22em] ${getRunStatusTone(selectedRun.status)}`}
               >
                 {selectedRun.status || 'running'}
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-neutral-200">
+                {getTransactionDataModeLabel(transactionDataMode)}
               </span>
               <Link
                 href={`/executions?runId=${encodeURIComponent(selectedRun.id)}`}
@@ -334,7 +343,7 @@ export default function ApplicationTransactionWorkspace({
               onPaginationChange={onPaginationChange}
               isLoadingRuns={isLoadingRuns}
               runsError={runsError}
-              mockMode={mockMode}
+              transactionDataMode={transactionDataMode}
             />
 
             <div className="grid gap-4 2xl:grid-cols-4">
@@ -358,7 +367,7 @@ export default function ApplicationTransactionWorkspace({
               detail={runDetail}
               isLoadingDetail={isLoadingRunDetail}
               detailError={runDetailError}
-              mockMode={mockMode}
+              transactionDataMode={transactionDataMode}
               detailSection={detailSection}
               onDetailSectionChange={onDetailSectionChange}
             />

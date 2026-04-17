@@ -15,11 +15,12 @@ describe('Deliverables History GET', () => {
     (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser } });
   });
 
-  it('returns 401 when unauthenticated', async () => {
+  it('fails closed to an empty history list when unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: new Error('no') });
     const req = new Request('http://localhost/api/executions/history');
     const res = await getHistory(req);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual([]);
   });
 
   it('returns user runs with items on success', async () => {
@@ -39,4 +40,3 @@ describe('Deliverables History GET', () => {
     expect(body[0].id).toBe('run-1');
   });
 });
-

@@ -6,6 +6,7 @@ import BitcodeTransactionsFilterBar from './BitcodeTransactionsFilterBar';
 import BitcodeTransactionsOverview from './BitcodeTransactionsOverview';
 import BitcodeTransactionsPagination from './BitcodeTransactionsPagination';
 import type {
+  TransactionDataMode,
   TransactionFilters,
   TransactionPagination,
   TransactionPaginationSummary,
@@ -30,7 +31,7 @@ interface BitcodeTransactionsTableProps {
   proofStatusOptions: string[];
   isLoading: boolean;
   error: string | null;
-  mockMode: boolean;
+  dataMode: TransactionDataMode;
 }
 
 export default function BitcodeTransactionsTable({
@@ -51,7 +52,7 @@ export default function BitcodeTransactionsTable({
   proofStatusOptions,
   isLoading,
   error,
-  mockMode,
+  dataMode,
 }: BitcodeTransactionsTableProps) {
   return (
     <section className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
@@ -70,7 +71,7 @@ export default function BitcodeTransactionsTable({
           ownTransactionCount={ownTransactionCount}
           visibleTokenTotal={visibleTokenTotal}
           selectedTransactionId={selectedTransactionId}
-          mockMode={mockMode}
+          dataMode={dataMode}
         />
       </div>
 

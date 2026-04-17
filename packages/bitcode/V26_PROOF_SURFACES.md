@@ -139,6 +139,21 @@ Current active assignments:
   `uapi/tests/applicationShellBridge.test.tsx`
   proof surface:
   centralized mounted-shell polling and control refresh for second-gate application carriers, including fail-closed refresh behavior during pre-mount and hot-reload rebuild windows
+- `uapi/app/api/executions/_shared.ts`
+  test coverage:
+  `uapi/tests/deliverablesHistoryRoute.test.ts`, `uapi/tests/deliverablesHistoryRunRoute.test.ts`, and `uapi/tests/usePipelineExecution.test.tsx`
+  proof surface:
+  normalized current execution-history payload shape shared by the transaction master, selected-transaction detail, and retained execution readers
+- `uapi/app/api/executions/history/route.ts`
+  test coverage:
+  `uapi/tests/deliverablesHistoryRoute.test.ts`
+  proof surface:
+  current app-owned execution-history collection route for transaction-master hydration, including anonymous-safe empty GET posture
+- `uapi/app/api/executions/history/[runId]/route.ts`
+  test coverage:
+  `uapi/tests/deliverablesHistoryRunRoute.test.ts` and `uapi/tests/usePipelineExecution.test.tsx`
+  proof surface:
+  current app-owned selected-execution history route for selected-transaction detail and retained execution activity hydration, including anonymous-safe empty GET posture
 - `uapi/app/api/client-error/route.ts`
   test coverage:
   `uapi/tests/api/clientErrorRoute.test.ts`
@@ -214,6 +229,11 @@ Current active assignments:
   lint plus localhost `/application` verification with the transactions master surface mounted
   proof surface:
   second-gate application-owned orchestration of transaction selection, `transactionId` route posture, filter state, active-filter chip posture, and route-owned pagination
+- `uapi/app/application/application-transaction-source.ts`
+  test coverage:
+  `uapi/tests/applicationTransactionSource.test.ts`
+  proof surface:
+  deterministic resolution of `live`, `mock-review`, and `review-fallback` transaction-source posture from live history plus the selected transaction URL, so explicit mock review URLs fail over to interactive review state instead of emptying `/application`
 - `uapi/app/application/application-transaction-query.ts`
   test coverage:
   `uapi/tests/applicationTransactionQuery.test.ts`
@@ -294,6 +314,11 @@ Current active assignments:
   `uapi/tests/bitcodeTransactionsPagination.test.tsx`
   proof surface:
   reusable pagination carrier for the route-owned Bitcode transactions master surface, including shared page-size explainers
+- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
+  test coverage:
+  `uapi/tests/bitcodeTransactionDataMode.test.ts`
+  proof surface:
+  typed source-mode contract for transaction overview, support-rail labeling, and review-fallback posture across the Bitcode transaction workspace
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
   test coverage:
   `uapi/tests/bitcodeInlineExplainer.test.tsx`

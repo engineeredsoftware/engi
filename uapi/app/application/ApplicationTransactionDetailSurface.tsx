@@ -3,8 +3,13 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
+import {
+  getTransactionDataModeLabel,
+  isMockTransactionDataMode,
+} from '@/components/base/engi/execution/bitcode-transaction-data-mode';
 import DeliverablesCardsPanel from '@/components/base/engi/execution/DeliverablesCardsPanel';
 import DeliverablesDocPanel from '@/components/base/engi/execution/DeliverablesDocPanel';
+import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 
 import ApplicationTransactionDetailActionBar from './ApplicationTransactionDetailActionBar';
 import ApplicationTransactionActivitySurface from './ApplicationTransactionActivitySurface';
@@ -45,7 +50,7 @@ interface ApplicationTransactionDetailSurfaceProps {
   detail: ApplicationRunDetailSnapshot | null;
   isLoadingDetail: boolean;
   detailError: string | null;
-  mockMode: boolean;
+  transactionDataMode: TransactionDataMode;
   detailSection: ApplicationTransactionDetailSection;
   onDetailSectionChange: (detailSection: ApplicationTransactionDetailSection) => void;
 }
@@ -55,13 +60,14 @@ export default function ApplicationTransactionDetailSurface({
   detail,
   isLoadingDetail,
   detailError,
-  mockMode,
+  transactionDataMode,
   detailSection,
   onDetailSectionChange,
 }: ApplicationTransactionDetailSurfaceProps) {
   const [summaryOpen, setSummaryOpen] = useState(true);
   const [isActing, setIsActing] = useState(false);
   const { snapshot, runControl, controls } = useApplicationShellBridge();
+  const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
   const closureState = useMemo(() => normalizeApplicationClosureState(snapshot), [snapshot]);
   const closureFollowThrough = useMemo(
     () => buildApplicationTransactionClosureFollowThrough(closureState),
@@ -74,7 +80,7 @@ export default function ApplicationTransactionDetailSurface({
   const showProofs = detailSection === 'proofs';
   const showHistory = detailSection === 'history';
   const showActivity = detailSection === 'activity';
-  const showConsole = detailSection === 'console' && !mockMode;
+  const showConsole = detailSection === 'console' && !usesMockTransactions;
   const normalizedSummary =
     detail?.summary || 'The selected transaction now reads through an inward Bitcode detail carrier inside `/application`.';
   const sectionSummary = useMemo(() => {
@@ -200,7 +206,7 @@ export default function ApplicationTransactionDetailSurface({
             title={selectedRun.type || 'pipeline:deliverables'}
             summary={sectionSummary}
             proofPosture={detail.proofStatus || 'closure state in flight'}
-            modeLabel={mockMode ? 'mock review' : 'live detail'}
+            modeLabel={getTransactionDataModeLabel(transactionDataMode)}
             metrics={overviewMetrics}
           />
 
@@ -215,7 +221,7 @@ export default function ApplicationTransactionDetailSurface({
             }}
             isActing={isActing}
             shellReady={shellReady}
-            mockMode={mockMode}
+            mockMode={usesMockTransactions}
           />
 
           {showDeliverables && detail.deliverables ? (
@@ -293,7 +299,12 @@ export default function ApplicationTransactionDetailSurface({
         </div>
       </div>
 
-      {showActivity ? <ApplicationTransactionActivitySurface selectedRun={selectedRun} mockMode={mockMode} /> : null}
+      {showActivity ? (
+        <ApplicationTransactionActivitySurface
+          selectedRun={selectedRun}
+          transactionDataMode={transactionDataMode}
+        />
+      ) : null}
 
       {showConsole ? (
         <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">

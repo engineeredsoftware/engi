@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from 'react';
 
+import { isMockTransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-data-mode';
+import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 import WorkUpdatePanel from '@/components/base/engi/execution/WorkUpdatePanel';
 import { PipelineExecutionLog } from '@/components/base/engi/execution/pipeline-execution-log';
 import { PipelineExecutionLogHeader } from '@/components/base/engi/execution/pipeline-execution-log-header';
@@ -12,18 +14,19 @@ import { MOCK_RUN_ACTIVITY, type WorkspaceRun } from './application-run-data';
 
 interface ApplicationTransactionActivitySurfaceProps {
   selectedRun: WorkspaceRun;
-  mockMode: boolean;
+  transactionDataMode: TransactionDataMode;
 }
 
 export default function ApplicationTransactionActivitySurface({
   selectedRun,
-  mockMode,
+  transactionDataMode,
 }: ApplicationTransactionActivitySurfaceProps) {
   const [userHasScrolled, setUserHasScrolled] = useState(false);
-  const liveRun = usePipelineExecution(mockMode ? null : selectedRun.id);
+  const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
+  const liveRun = usePipelineExecution(usesMockTransactions ? null : selectedRun.id);
 
   const activity = useMemo(() => {
-    if (mockMode) {
+    if (usesMockTransactions) {
       return buildApplicationRunActivityFromMock(MOCK_RUN_ACTIVITY[selectedRun.id]);
     }
 
@@ -33,7 +36,7 @@ export default function ApplicationTransactionActivitySurface({
       liveRun.iterationUpdates,
       liveRun.error,
     );
-  }, [liveRun.error, liveRun.events, liveRun.iterationUpdates, liveRun.latestWorkUpdate, mockMode, selectedRun.id]);
+  }, [liveRun.error, liveRun.events, liveRun.iterationUpdates, liveRun.latestWorkUpdate, selectedRun.id, usesMockTransactions]);
 
   if (!activity) {
     return (

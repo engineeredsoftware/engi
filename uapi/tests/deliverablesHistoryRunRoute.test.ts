@@ -24,6 +24,15 @@ describe('GET /api/executions/history/[runId]', () => {
     });
   });
 
+  it('fails closed to an empty run payload when unauthenticated', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: null }, error: new Error('no') });
+
+    const req = new Request('http://localhost/api/executions/history/run-1');
+    const res = await getRunHistory(req, { params: { runId: 'run-1' } });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ run: null, events: [] });
+  });
+
   it('returns execution with normalized events', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
 
@@ -47,8 +56,7 @@ describe('GET /api/executions/history/[runId]', () => {
     const eventsBuilder: any = {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
-      order: jest.fn().mockReturnThis(),
-      then: jest.fn().mockResolvedValue({
+      order: jest.fn().mockResolvedValue({
         data: [
           {
             id: '1',

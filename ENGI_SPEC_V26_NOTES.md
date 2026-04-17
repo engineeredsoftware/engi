@@ -54,6 +54,8 @@ In current source, the app-owned first-gate API surface now explicitly includes:
 - `/api/reset`
 - `/api/bitcoin-demonstration-service`
 - `/api/orbitals/data`
+- `/api/executions/history`
+- `/api/executions/history/[runId]`
 - `/api/v24/external-realization`
 - `/api/v24/executors/[interfaceId]`
 - `/api/client-error`
@@ -89,6 +91,9 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
+- `uapi/app/api/executions/_shared.ts`
+- `uapi/app/api/executions/history/route.ts`
+- `uapi/app/api/executions/history/[runId]/route.ts`
 - `uapi/app/api/client-error/route.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
@@ -137,6 +142,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationNeedScenarioPanel.tsx` plus `application-need-scenarios.ts` now make native need-scenario selection available inside `/application`, driving active scenario posture through the mounted Bitcode shell bridge while keeping parser and closure posture visible,
 - `application-shell-bridge.tsx` plus `applicationShellBridge.test.tsx` now centralize mounted-shell polling and control refresh so second-gate carriers consume one coherent Bitcode application state bridge rather than drifting per-panel refresh loops,
 - `ApplicationTransactionsTable.tsx`, `application-transactions.ts`, `BitcodeTransactionsTable.tsx`, and `applicationTransactions.test.ts` now make master detail concrete as a rich, searchable, filterable Bitcode transactions table with transaction detail carried centrally inside `/application`,
+- `application-transaction-source.ts`, `bitcode-transaction-data-mode.ts`, `ApplicationPageClient.tsx`, and `ApplicationWorkspaceRail.tsx` now resolve and label `live`, `mock-review`, and `review-fallback` transaction-source posture from live history plus the selected transaction URL, so empty live history on explicit mock review URLs fails over to an interactive Bitcode workspace instead of an inert empty state,
 - `BitcodeTransactionsOverview.tsx`, `BitcodeTransactionsFilterBar.tsx`, `BitcodeTransactionsActiveFilters.tsx`, `BitcodeTransactionsDataTable.tsx`, `bitcode-transaction-types.ts`, and `bitcode-transaction-active-filters.ts` now split the base transaction master carrier into typed SRP-aligned subcomponents, shared defaults, and active-filter chip posture instead of leaving the reusable table UI as one monolith,
 - `application-transaction-query.ts` plus `applicationTransactionQuery.test.ts` now make transaction selection and rich master-table filters route-owned and shareable through `/application` query state instead of leaving them trapped in component-local state,
 - `ApplicationTransactionDetailHero.tsx`, `ApplicationTransactionIdentityCard.tsx`, `ApplicationTransactionClosureCard.tsx`, `application-transaction-detail.ts`, and `applicationTransactionDetail.test.ts` now split the selected-transaction detail carrier into overview, identity, and closure modules instead of leaving the central detail pane as one mixed-responsibility component,
@@ -172,6 +178,8 @@ The current source now reflects that architecture more directly:
 - `BitcodeInlineExplainer.tsx`, `bitcode-transaction-explainers.ts`, `BitcodeTransactionsFilterBar.tsx`, `BitcodeTransactionsDataTable.tsx`, `BitcodeTransactionsPagination.tsx`, `BitcodePayloadInspector.tsx`, `bitcodeInlineExplainer.test.tsx`, and `bitcodeTransactionsFilterBar.test.tsx` now provide one shared second-gate explainer/tooltip system for transaction filters, headers, pagination, and payload views, while also restoring stable accessible names to the master-table controls after the explainer triggers were introduced.
 - `BitcodeDetailRowList.tsx`, `BitcodeMetricGrid.tsx`, `BitcodeDetailCollection.tsx`, `BitcodeDetailPanel.tsx`, `BitcodeChipCloud.tsx`, `bitcodeDetailRowList.test.tsx`, `bitcodeMetricGrid.test.tsx`, `bitcodeDetailCollection.test.tsx`, and `bitcodeDetailPanel.test.tsx` now move selected-transaction rows, metric grids, proof/history collections, workspace substructure cards, and artifact chips onto reusable base carriers, with `ApplicationTransactionProofsCard.tsx`, `ApplicationTransactionHistoryCard.tsx`, and `ApplicationTransactionWorkspace.tsx` now consuming those shared execution components instead of hand-built page-local markup.
 - `OrbitalsProfilePane.tsx` now reconnects the data-sharing overlay carrier so orbitals entered from `/application` remain renderable during second-gate convergence rather than crashing on missing-pane reference drift.
+- `uapi/app/api/executions/_shared.ts`, `uapi/app/api/executions/history/route.ts`, and `uapi/app/api/executions/history/[runId]/route.ts` now restore the active app-owned execution-history JSON carrier the transactions master, selected-transaction detail, and retained execution readers depend on, so those flows no longer collapse into missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review.
+- `packages/bitcode/src/client-entry.js` now applies the host-wait guard to snapshot and control reads as well as shell mount, so the application shell bridge no longer imports the preserved shell module before `bitcodeApplicationRoot` and `heroEyebrow` exist.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
 - the active internal module namespace is now `@bitcode/*` across workspace manifests, path aliases, and active source imports.
 - V26 proof closure now explicitly requires the retained and repurposed whole repository that survives into V26 production canon to be proven up to Bitcode-grade satisfaction rather than leaving strong proof posture isolated to the former `engi-demo` core.

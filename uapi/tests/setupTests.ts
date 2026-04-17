@@ -94,6 +94,9 @@ jest.mock('next/server', () => ({
 // Polyfill TextEncoder
 // @ts-ignore
 global.TextEncoder = require('util').TextEncoder;
+// Polyfill TextDecoder
+// @ts-ignore
+global.TextDecoder = require('util').TextDecoder;
 // Stub 'stream/web' TransformStream import to avoid real streams in tests
 jest.mock('stream/web', () => ({
   TransformStream: class {

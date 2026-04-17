@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { mountBitcodeApplicationShell } from '@bitcode/bitcode/src/client-entry.js';
+import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
@@ -36,7 +37,8 @@ import {
   writeApplicationTransactionId,
   writeApplicationTransactionPagination,
 } from './application-transaction-query';
-import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
+import { resolveApplicationTransactionSource } from './application-transaction-source';
+import type { WorkspaceRun } from './application-run-data';
 
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
 const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
@@ -79,10 +81,23 @@ export default function ApplicationPageClient() {
   const transactionFilters = useMemo(() => readApplicationTransactionFilters(searchParams), [searchParams]);
   const transactionPagination = useMemo(() => readApplicationTransactionPagination(searchParams), [searchParams]);
   const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
-  const [runs, setRuns] = useState<WorkspaceRun[]>([]);
+  const [liveRuns, setLiveRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
-  const [runsError, setRunsError] = useState<string | null>(null);
+  const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
   const [repositoryContext, setRepositoryContext] = useState<ApplicationRepositoryContextState | null>(null);
+
+  const transactionSource = useMemo(
+    () =>
+      resolveApplicationTransactionSource({
+        liveRuns,
+        mockMode,
+        selectedTransactionId,
+      }),
+    [liveRuns, mockMode, selectedTransactionId],
+  );
+  const runs = transactionSource.runs;
+  const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
+  const runsError = transactionDataMode === 'review-fallback' ? null : runsLoadError;
 
   useEffect(() => {
     let disposed = false;
@@ -120,21 +135,21 @@ export default function ApplicationPageClient() {
     let disposed = false;
 
     if (mockMode) {
-      setRuns(MOCK_RUNS);
+      setLiveRuns([]);
       setIsLoadingRuns(false);
-      setRunsError(null);
+      setRunsLoadError(null);
       return () => {
         disposed = true;
       };
     }
 
     setIsLoadingRuns(true);
-    setRunsError(null);
+    setRunsLoadError(null);
 
     fetchPipelineExecutionHistory()
       .then((history) => {
         if (disposed) return;
-        setRuns(
+        setLiveRuns(
           history.map((run) => ({
             id: run.id,
             created_at: run.created_at,
@@ -164,7 +179,8 @@ export default function ApplicationPageClient() {
       })
       .catch((error) => {
         if (disposed) return;
-        setRunsError(error instanceof Error ? error.message : 'Unable to load recent runs.');
+        setLiveRuns([]);
+        setRunsLoadError(error instanceof Error ? error.message : 'Unable to load recent runs.');
       })
       .finally(() => {
         if (!disposed) setIsLoadingRuns(false);
@@ -176,7 +192,8 @@ export default function ApplicationPageClient() {
   }, [mockMode]);
 
   useEffect(() => {
-    if (!runs.length || selectedTransactionId) return;
+    if (!runs.length) return;
+    if (selectedTransactionId && runs.some((run) => run.id === selectedTransactionId)) return;
     const nextParams = writeApplicationTransactionId(searchParams, runs[0].id);
     router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
   }, [pathname, router, runs, searchParams, selectedTransactionId]);
@@ -568,7 +585,7 @@ export default function ApplicationPageClient() {
                   isLoadingRuns={isLoadingRuns}
                   runsError={runsError}
                   selectedRun={selectedRun}
-                  mockMode={mockMode}
+                  transactionDataMode={transactionDataMode}
                 />
             </aside>
           </div>
@@ -578,7 +595,7 @@ export default function ApplicationPageClient() {
             selectedRun={selectedRun}
             isLoadingRuns={isLoadingRuns}
             runsError={runsError}
-            mockMode={mockMode}
+            transactionDataMode={transactionDataMode}
             onSelectTransaction={handleSelectTransaction}
             filters={transactionFilters}
             onFiltersChange={handleTransactionFiltersChange}

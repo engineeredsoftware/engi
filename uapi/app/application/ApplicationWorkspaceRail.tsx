@@ -1,6 +1,12 @@
 "use client";
 
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import {
+  getTransactionDataModeLabel,
+  isMockTransactionDataMode,
+} from '@/components/base/engi/execution/bitcode-transaction-data-mode';
+import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
+
 import type { WorkspaceRun } from './application-run-data';
 
 function formatRunTimestamp(value: string) {
@@ -28,7 +34,7 @@ interface ApplicationWorkspaceRailProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   selectedRun: WorkspaceRun | null;
-  mockMode: boolean;
+  transactionDataMode: TransactionDataMode;
 }
 
 export default function ApplicationWorkspaceRail({
@@ -37,8 +43,10 @@ export default function ApplicationWorkspaceRail({
   isLoadingRuns,
   runsError,
   selectedRun,
-  mockMode,
+  transactionDataMode,
 }: ApplicationWorkspaceRailProps) {
+  const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
+
   return (
     <div className="space-y-5 xl:sticky xl:top-40">
       <section className="overflow-hidden rounded-[1.75rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.96),rgba(4,8,18,0.94))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
@@ -73,9 +81,9 @@ export default function ApplicationWorkspaceRail({
             <p className="text-[0.68rem] uppercase tracking-[0.26em] text-neutral-400">Transaction support</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Master-table support rail</h3>
           </div>
-          {mockMode ? (
+          {usesMockTransactions ? (
             <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200">
-              mock
+              {getTransactionDataModeLabel(transactionDataMode)}
             </span>
           ) : null}
         </div>

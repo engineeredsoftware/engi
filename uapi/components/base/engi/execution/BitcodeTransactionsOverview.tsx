@@ -1,11 +1,19 @@
 'use client';
 
+import React from 'react';
+
+import {
+  getTransactionDataModeDescription,
+  getTransactionDataModeLabel,
+} from './bitcode-transaction-data-mode';
+import type { TransactionDataMode } from './bitcode-transaction-types';
+
 interface BitcodeTransactionsOverviewProps {
   recordCount: number;
   ownTransactionCount: number;
   visibleTokenTotal: number;
   selectedTransactionId: string | null;
-  mockMode: boolean;
+  dataMode: TransactionDataMode;
 }
 
 export default function BitcodeTransactionsOverview({
@@ -13,8 +21,11 @@ export default function BitcodeTransactionsOverview({
   ownTransactionCount,
   visibleTokenTotal,
   selectedTransactionId,
-  mockMode,
+  dataMode,
 }: BitcodeTransactionsOverviewProps) {
+  const modeLabel = getTransactionDataModeLabel(dataMode);
+  const modeDescription = getTransactionDataModeDescription(dataMode);
+
   return (
     <>
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-3">
@@ -37,7 +48,10 @@ export default function BitcodeTransactionsOverview({
           selected {selectedTransactionId ? 'transaction active' : 'none'}
         </span>
         <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-          mode {mockMode ? 'mock review' : 'live detail'}
+          mode {modeLabel}
+        </span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+          {modeDescription}
         </span>
         <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
           search spans ids, repos, branches, participants, proof posture, and summaries
