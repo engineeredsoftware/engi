@@ -6,9 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import ExecutionsPageHeaderDeliverablePostprocess from '@/app/executions/components/ExecutionsPageHeaderDeliverablePostprocess';
 import DeliverablesDocPanel from '@/components/base/engi/execution/DeliverablesDocPanel';
 import DeliverablesCardsPanel from '@/components/base/engi/execution/DeliverablesCardsPanel';
-import PipelineExecutionLog from '@/components/base/engi/execution/pipeline-execution-log';
-import PipelineExecutionLogHeader from '@/components/base/engi/execution/pipeline-execution-log-header';
-import WorkUpdatePanel from '@/components/base/engi/execution/WorkUpdatePanel';
+import BitcodeExecutionStreamPanel from '@/components/base/engi/execution/BitcodeExecutionStreamPanel';
 import { ErrorBox } from '@/components/base/engi/execution/error-box';
 import { PreprocessToggle } from '@/components/base/engi/execution/preprocess-toggle';
 import { VCSSourceSelectors as RawVCSSourceSelectors } from '@/components/base/engi/vcs/VCSSourceSelectors';
@@ -120,7 +118,6 @@ export function ExecutionsClient() {
     if (persistedState.definitionOfDone && !definitionOfDone) {
       setDefinitionOfDone(persistedState.definitionOfDone);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSetDefinitionOfDone = (value: string) => {
@@ -526,43 +523,26 @@ export function ExecutionsClient() {
         />
       )}
 
-      <PipelineExecutionLogHeader
+      <BitcodeExecutionStreamPanel
+        ref={logContainerRef as any}
         isProcessing={isProcessing}
         executionState={executionProgress || {}}
         isStreamingComplete={isStreamingComplete}
         generationCount={generationCount}
         error={combinedError ? combinedError.toString() : null}
         runId={activeRunId || runId || undefined}
-        onNavigateToExecution={(id) => router.push(`/executions?runId=${id}`)}
-      />
-
-      <PipelineExecutionLog
-        ref={logContainerRef as any}
         output={runLog}
-        isProcessing={isProcessing}
-        error={combinedError}
         outputDetails={processLogOutputDetails}
         onRetry={handleRetry}
         onDismissError={handleDismissError}
         userHasScrolled={processLogHasScrolled}
         setUserHasScrolled={setProcessLogHasScrolled}
         compact={false}
+        latestWorkUpdate={latestWorkUpdate as any}
+        iterationUpdates={(iterationUpdates as any[]) || []}
+        onNavigateToExecution={(id) => router.push(`/executions?runId=${id}`)}
+        workUpdatesClassName="mt-6 space-y-4"
       />
-      {(latestWorkUpdate || (iterationUpdates && iterationUpdates.length > 0)) && (
-        <div className="mt-6 space-y-4">
-          <WorkUpdatePanel variant="latest" update={latestWorkUpdate as any} />
-          {iterationUpdates
-            ?.slice()
-            .sort((a: any, b: any) => (b?.iteration ?? 0) - (a?.iteration ?? 0))
-            .map((iterationUpdate: any) => (
-              <WorkUpdatePanel
-                key={iterationUpdate?.id || `iteration-${iterationUpdate?.iteration}`}
-                variant="iteration"
-                update={iterationUpdate}
-              />
-            ))}
-        </div>
-      )}
       {/** Inline OTF instructions below logs for active executions */}
       { (activeRunId || runId) && (
         <div className="mt-6">
@@ -577,7 +557,14 @@ export function ExecutionsClient() {
             <IterationSlider
               value={iterationCount}
               onChange={setIterationCount}
-              disabled={!selectedAccount || !selectedRepo || !selectedBranch || !selectedCommit || !(false ? definitionOfDone : definitionOfDone) || (false ? (definitionOfDone || '').trim() === '' : (definitionOfDone || '').trim() === '')}
+              disabled={
+                !selectedAccount ||
+                !selectedRepo ||
+                !selectedBranch ||
+                !selectedCommit ||
+                !definitionOfDone ||
+                (definitionOfDone || '').trim() === ''
+              }
               onEducationHover={(type) => {
                 setShowMultiAgentEdu(false); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowComputeEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); setShowExecuteButtonEdu(false);
                 if (type === 'iterations' || type === 'minimize' || type === 'maximize') setShowIterationsEdu(type); else setShowIterationsEdu(null);
@@ -594,12 +581,19 @@ export function ExecutionsClient() {
           )}
           <div className="relative z-20" onMouseEnter={() => { setShowExecuteButtonEdu(true); setShowSourceEdu(false); setShowAttachmentsEdu(false); setShowComputeEdu(false); setShowMultiAgentEdu(false); setShowEnhanceEdu(false); setShowSaveTemplateEdu(false); }} onMouseLeave={() => setShowExecuteButtonEdu(false)}>
             <ExecuteButton
-              isProcessing={false ? isProcessing : isProcessing}
+              isProcessing={isProcessing}
               onSubmit={onExecuteSubmit}
               onCancel={onCancelPipeline}
               labelNode={<FlipText text={'Execute'} />}
               processingLabelNode={<FlipText text={'Executing...'} />}
-              disabled={!selectedAccount || !selectedRepo || !selectedBranch || !selectedCommit || !(false ? definitionOfDone : definitionOfDone) || (false ? (definitionOfDone || '').trim() === '' : (definitionOfDone || '').trim() === '')}
+              disabled={
+                !selectedAccount ||
+                !selectedRepo ||
+                !selectedBranch ||
+                !selectedCommit ||
+                !definitionOfDone ||
+                (definitionOfDone || '').trim() === ''
+              }
             />
           </div>
           {ENABLE_COMPUTE_TOGGLE && (

@@ -364,6 +364,11 @@ Current active assignments:
   `uapi/tests/bitcodeActionPillRow.test.tsx`
   proof surface:
   reusable action-pill carrier for selected-transaction verification, settlement, branch, and history follow-through inside transaction detail
+- `uapi/components/base/engi/execution/BitcodeExecutionStreamPanel.tsx`
+  test coverage:
+  `uapi/tests/bitcodeExecutionStreamPanel.test.tsx`
+  proof surface:
+  reusable execution-stream carrier for shared header/log/work-update composition across `/application`, conversations, and `/executions`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
   test coverage:
   covered indirectly through `uapi/tests/bitcodeInlineExplainer.test.tsx`, `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`, `uapi/tests/bitcodePayloadInspector.test.tsx`, `uapi/tests/bitcodePayloadShape.test.tsx`, and `uapi/tests/bitcodePayloadTree.test.tsx`
@@ -374,6 +379,16 @@ Current active assignments:
   `uapi/tests/bitcodePayloadDetailCard.test.tsx`
   proof surface:
   reusable selected-transaction card shell that composes payload inspection and action pills into one execution-level carrier
+- `uapi/components/base/engi/execution/BitcodePayloadRowsCard.tsx`
+  test coverage:
+  `uapi/tests/bitcodePayloadRowsCard.test.tsx`
+  proof surface:
+  reusable payload-plus-rows carrier for selected-transaction identity and other row-shaped Bitcode detail cards
+- `uapi/components/base/engi/execution/BitcodePayloadCollectionCard.tsx`
+  test coverage:
+  `uapi/tests/bitcodePayloadCollectionCard.test.tsx`
+  proof surface:
+  reusable payload-plus-collection carrier for proof/history and other list-shaped Bitcode detail cards
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
   test coverage:
   imported through `uapi/tests/applicationTransactions.test.ts`, `uapi/tests/applicationTransactionQuery.test.ts`, and `uapi/tests/bitcodeTransactionsPagination.test.tsx`

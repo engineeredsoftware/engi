@@ -2,8 +2,7 @@
 
 import React from 'react';
 
-import BitcodeDetailCollection from '@/components/base/engi/execution/BitcodeDetailCollection';
-import BitcodePayloadDetailCard from '@/components/base/engi/execution/BitcodePayloadDetailCard';
+import BitcodePayloadCollectionCard from '@/components/base/engi/execution/BitcodePayloadCollectionCard';
 
 import type { ApplicationClosureProofFamily } from './application-closure-state';
 
@@ -28,23 +27,18 @@ export default function ApplicationTransactionProofsCard({
   }));
 
   return (
-    <BitcodePayloadDetailCard
+    <BitcodePayloadCollectionCard
       kicker="Proof families"
       title="Bounded proof stays in transaction detail"
       summary="Verification and settlement proof families remain readable inside the selected transaction rather than as a separate operator detour."
       payload={payload}
       rawLabel="Proof payload"
+      items={proofItems}
       actions={[
         { label: 'Open verification', onClick: onOpenVerification },
         { label: 'Open settlement', onClick: onOpenSettlement, tone: 'accent' },
       ]}
-    >
-      <>
-        <BitcodeDetailCollection
-          items={proofItems}
-          emptyMessage="No proof families are surfaced on the selected transaction yet. Verification and settlement still remain part of the same Bitcode closure path."
-        />
-      </>
-    </BitcodePayloadDetailCard>
+      emptyMessage="No proof families are surfaced on the selected transaction yet. Verification and settlement still remain part of the same Bitcode closure path."
+    />
   );
 }

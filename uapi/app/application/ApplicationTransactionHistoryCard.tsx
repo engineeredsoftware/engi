@@ -2,8 +2,7 @@
 
 import React from 'react';
 
-import BitcodeDetailCollection from '@/components/base/engi/execution/BitcodeDetailCollection';
-import BitcodePayloadDetailCard from '@/components/base/engi/execution/BitcodePayloadDetailCard';
+import BitcodePayloadCollectionCard from '@/components/base/engi/execution/BitcodePayloadCollectionCard';
 
 import type { ApplicationClosureHistoryEntry } from './application-closure-state';
 
@@ -25,20 +24,15 @@ export default function ApplicationTransactionHistoryCard({
   }));
 
   return (
-    <BitcodePayloadDetailCard
+    <BitcodePayloadCollectionCard
       kicker="History"
       title="Recent transaction history stays inline"
       summary="Ledger-linked run history remains part of the same transaction detail space so consequence reading does not fragment into a separate route."
       payload={payload}
       rawLabel="History payload"
+      items={historyItems}
       actions={[{ label: 'Open history', onClick: onOpenHistory }]}
-    >
-      <>
-        <BitcodeDetailCollection
-          items={historyItems}
-          emptyMessage="No recent history is surfaced on the selected transaction yet. The ledger and bounded proof chain remain part of the same Bitcode detail path."
-        />
-      </>
-    </BitcodePayloadDetailCard>
+      emptyMessage="No recent history is surfaced on the selected transaction yet. The ledger and bounded proof chain remain part of the same Bitcode detail path."
+    />
   );
 }

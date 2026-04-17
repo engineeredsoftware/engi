@@ -3,10 +3,8 @@
 import { useMemo, useState } from 'react';
 
 import { isMockTransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-data-mode';
+import BitcodeExecutionStreamPanel from '@/components/base/engi/execution/BitcodeExecutionStreamPanel';
 import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
-import WorkUpdatePanel from '@/components/base/engi/execution/WorkUpdatePanel';
-import { PipelineExecutionLog } from '@/components/base/engi/execution/pipeline-execution-log';
-import { PipelineExecutionLogHeader } from '@/components/base/engi/execution/pipeline-execution-log-header';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 
 import { buildApplicationRunActivityFromEvents, buildApplicationRunActivityFromMock } from './application-run-activity';
@@ -46,10 +44,6 @@ export default function ApplicationTransactionActivitySurface({
     );
   }
 
-  const orderedIterationUpdates = [...(activity.iterationUpdates || [])].sort(
-    (a, b) => (b?.iteration ?? 0) - (a?.iteration ?? 0),
-  );
-
   return (
     <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
       <div className="border-b border-white/8 px-5 py-4">
@@ -61,39 +55,25 @@ export default function ApplicationTransactionActivitySurface({
           that as a compatibility-only page behavior.
         </p>
       </div>
-      <div className="relative">
-        <PipelineExecutionLogHeader
-          isProcessing={!activity.isStreamingComplete && !activity.error}
-          executionState={activity.executionState}
-          isStreamingComplete={activity.isStreamingComplete}
-          generationCount={activity.generationCount}
-          error={activity.error}
-          runId={selectedRun.id}
-        />
-        <PipelineExecutionLog
-          output={activity.output}
-          isProcessing={!activity.isStreamingComplete && !activity.error}
-          error={activity.error}
-          outputDetails={activity.outputDetails}
-          onRetry={() => {}}
-          onDismissError={() => {}}
-          userHasScrolled={userHasScrolled}
-          setUserHasScrolled={setUserHasScrolled}
-          compact={true}
-        />
-        {(activity.latestWorkUpdate || orderedIterationUpdates.length > 0) && (
-          <div className="space-y-4 border-t border-gray-700/60 bg-gray-900/40 px-4 pb-4">
-            {activity.latestWorkUpdate ? <WorkUpdatePanel variant="latest" update={activity.latestWorkUpdate} /> : null}
-            {orderedIterationUpdates.map((iterationUpdate) => (
-              <WorkUpdatePanel
-                key={iterationUpdate?.id || `application-iteration-${iterationUpdate?.iteration}`}
-                variant="iteration"
-                update={iterationUpdate}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      <BitcodeExecutionStreamPanel
+        className="relative"
+        isProcessing={!activity.isStreamingComplete && !activity.error}
+        executionState={activity.executionState}
+        isStreamingComplete={activity.isStreamingComplete}
+        generationCount={activity.generationCount}
+        error={activity.error}
+        runId={selectedRun.id}
+        output={activity.output}
+        outputDetails={activity.outputDetails}
+        onRetry={() => {}}
+        onDismissError={() => {}}
+        userHasScrolled={userHasScrolled}
+        setUserHasScrolled={setUserHasScrolled}
+        compact={true}
+        latestWorkUpdate={activity.latestWorkUpdate}
+        iterationUpdates={activity.iterationUpdates || []}
+        workUpdatesClassName="space-y-4 border-t border-gray-700/60 bg-gray-900/40 px-4 pb-4"
+      />
     </section>
   );
 }

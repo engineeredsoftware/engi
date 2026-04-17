@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import PipelineExecutionLog from "@/components/base/engi/execution/pipeline-execution-log";
-import PipelineExecutionLogHeader from "@/components/base/engi/execution/pipeline-execution-log-header";
+import BitcodeExecutionStreamPanel from "@/components/base/engi/execution/BitcodeExecutionStreamPanel";
 
 interface SidebarLogsProps {
   show: boolean;
@@ -78,28 +77,23 @@ export function SidebarLogs({
         </div>
       )}
 
-      <PipelineExecutionLogHeader
-        isProcessing={isProcessing}
+      <BitcodeExecutionStreamPanel
+        ref={processLogRef as any}
+        isProcessing={isProcessing || runs.find((r) => r.id === activeRunId)?.status === "running"}
         executionState={executionState || {}}
         isStreamingComplete={isComplete}
         generationCount={generationCount}
         error={headerError}
         runId={activeRunId || undefined}
-        onOpenDetails={onOpenDetails}
-        onNavigateToExecution={onNavigateToExecution}
-        onClose={() => setActiveRunId(null)}
-      />
-
-      <PipelineExecutionLog
-        ref={processLogRef as any}
         output={output}
-        isProcessing={isProcessing || runs.find((r) => r.id === activeRunId)?.status === "running"}
-        error={error}
         outputDetails={outputDetails}
         onRetry={onRetry}
         onDismissError={onDismissError}
         userHasScrolled={userHasScrolled}
         setUserHasScrolled={setUserHasScrolled}
+        onOpenDetails={onOpenDetails}
+        onNavigateToExecution={onNavigateToExecution}
+        onClose={() => setActiveRunId(null)}
       />
 
       {showLinksPane && <div className="right-links-pane flex-1 overflow-auto border-t border-gray-700 p-2">{linksPane}</div>}

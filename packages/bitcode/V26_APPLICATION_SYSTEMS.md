@@ -95,6 +95,9 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
 - `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/engi/execution/BitcodeExecutionStreamPanel.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadRowsCard.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadCollectionCard.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
@@ -212,6 +215,7 @@ Current active carriers:
 
 Operational rule:
 - selected-transaction identity, closure, proofs, and history should all expose one shared visual-vs-raw payload reading carrier
+- repeated selected-transaction card families should converge on shared payload-plus-rows and payload-plus-collection carriers rather than preserving page-local wrappers for each card type
 - raw payload reading should include copy support and payload metadata instead of falling back to an unstructured `<pre>` block
 - visual payload reading should also expose a structured payload summary with root kind, top-level counts, and previewed sections before operators drop into raw JSON
 - visual payload reading should also expose a bounded nested payload tree so operators can inspect structural JSON fields and types without leaving the shared detail carrier
@@ -220,6 +224,7 @@ Operational rule:
 - selected-transaction rows, metric grids, and chip clouds should converge on reusable execution-level base carriers instead of being re-authored per card
 - selected-transaction action rows and payload-card shells should also converge on reusable execution-level carriers instead of each card reauthoring its own inspector-plus-button structure
 - proof/history collection cards and workspace substructure preview cards should converge on shared collection/panel carriers instead of repeating page-local list/article markup
+- execution-log header, log body, and work-update stacks should converge on one reusable execution-stream carrier across `/application`, conversations, and `/executions` instead of remaining page-local log glue
 - future transaction-detail, closure, and conversation payload views should extend this base carrier instead of rebuilding raw-view toggles ad hoc
 
 ## Route-owned transaction detail interaction carrier

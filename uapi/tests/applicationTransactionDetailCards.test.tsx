@@ -1,8 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 
 import ApplicationTransactionClosureCard from '@/app/application/ApplicationTransactionClosureCard';
 import ApplicationTransactionHistoryCard from '@/app/application/ApplicationTransactionHistoryCard';
+import ApplicationTransactionIdentityCard from '@/app/application/ApplicationTransactionIdentityCard';
 import ApplicationTransactionProofsCard from '@/app/application/ApplicationTransactionProofsCard';
 
 describe('application transaction detail cards', () => {
@@ -40,6 +41,19 @@ describe('application transaction detail cards', () => {
           onOpenVerification={onOpenVerification}
           onOpenBranch={onOpenBranch}
           onOpenSettlement={onOpenSettlement}
+        />
+        <ApplicationTransactionIdentityCard
+          startedAt="Apr 17, 10:45 AM"
+          rows={[
+            { label: 'Transaction id', value: 'txn-001' },
+            { label: 'Status', value: 'completed' },
+          ]}
+          payload={{
+            transaction: {
+              id: 'txn-001',
+              status: 'completed',
+            },
+          }}
         />
         <ApplicationTransactionProofsCard
           proofFamilies={[
@@ -82,20 +96,31 @@ describe('application transaction detail cards', () => {
     );
 
     expect(screen.getByText('Closure posture')).toBeTruthy();
+    expect(screen.getByText('Selected transaction')).toBeTruthy();
     expect(screen.getByText('Proof families')).toBeTruthy();
     expect(screen.getByText('History')).toBeTruthy();
     expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByText('selection-materialization').length).toBeGreaterThan(0);
     expect(screen.getAllByText('run-001').length).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getAllByRole('button', { name: 'Raw JSON' })[0]);
+    const closureCard = screen
+      .getByText('Closure summary, settlement, and branch follow-through')
+      .closest('div.rounded-\\[1\\.5rem\\]');
+    const proofsCard = screen
+      .getByText('Bounded proof stays in transaction detail')
+      .closest('div.rounded-\\[1\\.5rem\\]');
+
+    expect(closureCard).toBeTruthy();
+    expect(proofsCard).toBeTruthy();
+
+    fireEvent.click(within(closureCard as HTMLElement).getByRole('button', { name: 'Raw JSON' }));
     expect(screen.getByText(/"settlementMetrics"/)).toBeTruthy();
 
-    fireEvent.click(screen.getAllByRole('button', { name: 'Raw JSON' })[1]);
+    fireEvent.click(within(proofsCard as HTMLElement).getByRole('button', { name: 'Raw JSON' }));
     expect(screen.getByText(/"proofFamilies"/)).toBeTruthy();
 
-    fireEvent.click(screen.getAllByRole('button', { name: 'Visual' })[0]);
-    fireEvent.click(screen.getAllByRole('button', { name: 'Visual' })[1]);
+    fireEvent.click(within(closureCard as HTMLElement).getByRole('button', { name: 'Visual' }));
+    fireEvent.click(within(proofsCard as HTMLElement).getByRole('button', { name: 'Visual' }));
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Open verification' })[0]);
     fireEvent.click(screen.getAllByRole('button', { name: 'Open settlement' })[0]);

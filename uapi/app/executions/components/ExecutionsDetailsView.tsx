@@ -4,9 +4,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
-import WorkUpdatePanel from '@/components/base/engi/execution/WorkUpdatePanel';
-import { ExecutionsProcessLog as PipelineExecutionLog } from '@/app/executions/components/ExecutionsProcessLog';
-import { ExecutionsProcessLogHeader as PipelineExecutionLogHeader } from '@/app/executions/components/ExecutionsProcessLogHeader';
+import BitcodeExecutionStreamPanel from '@/components/base/engi/execution/BitcodeExecutionStreamPanel';
 
 interface ExecutionDetailsViewProps {
   runId?: string;
@@ -218,43 +216,25 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
           <h2 className="text-lg font-semibold">Execution Log</h2>
         </div>
         <div className="relative">
-          <PipelineExecutionLogHeader
+          <BitcodeExecutionStreamPanel
             isProcessing={!completionEvent && !errorEvents.length}
             executionState={executionState || {}}
             isStreamingComplete={!!completionEvent}
             generationCount={events.filter(e => e.event?.type === 'generation').length}
             error={errorEvents.length ? errorEvents[0]?.event?.message : null}
             runId={run.id}
-            onNavigateToExecution={(target) => router.push(`/executions?runId=${target}`)}
-          />
-          <PipelineExecutionLog
             output={output}
-            isProcessing={!completionEvent && !errorEvents.length}
-            error={errorEvents.length ? errorEvents[0]?.event?.message : null}
             outputDetails={processLogOutputDetails}
             onRetry={() => {}}
             onDismissError={() => {}}
             userHasScrolled={false}
             setUserHasScrolled={() => {}}
             compact={true}
+            latestWorkUpdate={derivedLatestWorkUpdate}
+            iterationUpdates={iterationUpdateList as any[]}
+            onNavigateToExecution={(target) => router.push(`/executions?runId=${target}`)}
+            workUpdatesClassName="px-4 pb-4 space-y-4 border-t border-gray-700/60 bg-gray-900/40"
           />
-          {(derivedLatestWorkUpdate || iterationUpdateList.length > 0) && (
-            <div className="px-4 pb-4 space-y-4 border-t border-gray-700/60 bg-gray-900/40">
-              {derivedLatestWorkUpdate && (
-                <WorkUpdatePanel variant="latest" update={derivedLatestWorkUpdate} />
-              )}
-              {iterationUpdateList
-                .slice()
-                .sort((a: any, b: any) => (b?.iteration ?? 0) - (a?.iteration ?? 0))
-                .map((iterationUpdate: any) => (
-                  <WorkUpdatePanel
-                    key={iterationUpdate?.id || `iteration-${iterationUpdate?.iteration}`}
-                    variant="iteration"
-                    update={iterationUpdate}
-                  />
-                ))}
-            </div>
-          )}
         </div>
       </div>
     </div>

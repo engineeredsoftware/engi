@@ -67,9 +67,7 @@ import { ChatHistorySidebar } from './ConversationsChatHistorySidebar';
 import { ThinkingLog } from './ConversationsThinkingLog';
 import { FloatingOrb } from './ConversationsFloatingOrb';
 import FullscreenPortal from './ConversationsFullscreenPortal';
-import { PipelineExecutionLog } from '@/components/base/engi/execution/pipeline-execution-log';
-import { PipelineExecutionLogHeader } from '@/components/base/engi/execution/pipeline-execution-log-header';
-import WorkUpdatePanel from '@/components/base/engi/execution/WorkUpdatePanel';
+import BitcodeExecutionStreamPanel from '@/components/base/engi/execution/BitcodeExecutionStreamPanel';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 // NOTE: Avoid wrapping the Big‑O container in GPUAcceleration because
 // transform on an ancestor breaks position: sticky on header/input.
@@ -616,13 +614,23 @@ const Conversation = memo(function Conversation({
         {/* Process log (if active) */}
         {activeRunId && (
           <div className="conversations-process-log">
-            <PipelineExecutionLogHeader
+            <BitcodeExecutionStreamPanel
+              ref={processLogRef}
               isProcessing={isProcessing || (activeRun?.status === 'running')}
               executionState={executionState || {}}
               isStreamingComplete={isRunComplete}
               generationCount={generationCount}
               error={logError}
               runId={activeRunId || undefined}
+              output={runLog}
+              outputDetails={processLogOutputDetails}
+              onRetry={handleRetry}
+              onDismissError={handleDismissError}
+              userHasScrolled={processLogHasScrolled}
+              setUserHasScrolled={setProcessLogHasScrolled}
+              compact={false}
+              latestWorkUpdate={latestWorkUpdate as any}
+              iterationUpdates={(iterationUpdates as any[]) || []}
               onOpenDetails={(id) => setSelectedRunDetailsId(id)}
               onNavigateToExecution={(id) => {
                 if (typeof window !== 'undefined') {
@@ -633,34 +641,8 @@ const Conversation = memo(function Conversation({
                 setActiveRunId(null);
                 setSelectedRunDetailsId(null);
               }}
+              workUpdatesClassName="mt-4 space-y-4"
             />
-            <PipelineExecutionLog
-              ref={processLogRef}
-              output={runLog}
-              isProcessing={isProcessing}
-              error={processError?.message || null}
-              outputDetails={processLogOutputDetails}
-              onRetry={handleRetry}
-              onDismissError={handleDismissError}
-              userHasScrolled={processLogHasScrolled}
-              setUserHasScrolled={setProcessLogHasScrolled}
-              compact={false}
-            />
-            {(latestWorkUpdate || (iterationUpdates && iterationUpdates.length > 0)) && (
-              <div className="mt-4 space-y-4">
-                <WorkUpdatePanel variant="latest" update={latestWorkUpdate as any} />
-                {iterationUpdates
-                  ?.slice()
-                  .sort((a: any, b: any) => (b?.iteration ?? 0) - (a?.iteration ?? 0))
-                  .map((iterationUpdate: any) => (
-                    <WorkUpdatePanel
-                      key={iterationUpdate?.id || `iteration-${iterationUpdate?.iteration}`}
-                      variant="iteration"
-                      update={iterationUpdate}
-                    />
-                  ))}
-              </div>
-            )}
           </div>
         )}
 
