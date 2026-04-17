@@ -66,6 +66,7 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
 - `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
@@ -74,9 +75,12 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
+- `uapi/app/application/application-core-surface.ts`
+- `uapi/app/application/application-closure-controls.ts`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-live-summary.ts`
+- `uapi/app/application/application-section-atlas.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-run-activity.ts`
@@ -105,8 +109,10 @@ Those carriers now make fullscreen conversations application-owned from `/applic
 They also place a central run-and-deliverable master-detail workspace directly inside `/application` instead of leaving inward reuse mostly confined to the right rail or the compatibility `/executions` route.
 They also place route-local command and live-summary carriers above the preserved shell, with browser-verified proxying from the application frame into preserved-shell scenario/projection/branch state.
 They now also place a route-local body atlas above the preserved shell, with browser-verified card labels and deterministic jump behavior into the live operating, depositing, needing, fit, verification, artifact, settlement, and ledger panels.
-They now also place the first native route-local body replacement layer above the preserved shell: application-owned operating, deposit, need, and fit cards that read the live shell surfaces directly and remain browser-verified against the underlying Bitcode panels.
+That atlas now also reads semantic core and closure bridges instead of scraping rendered shell panel text and card counts.
+They now also place the first native route-local body replacement layer above the preserved shell: application-owned operating, deposit, need, and fit cards that now read a dedicated semantic `coreSurface` emitted by the mounted Bitcode shell instead of scraping rendered operating/deposit/need/fit panel markup.
 They now also place a deeper route-local give/need action workbench above the preserved shell: application-owned action detail that reads the mounted shell through `getBitcodeApplicationShellSnapshot()` and the client-entry bridge instead of relying on generic DOM markup reads for repository supply, measured demand, and fit intent.
+They now also place a route-local closure operation deck above the preserved shell: application-owned branch execution, refresh, reset, and follow-through controls that normalize closure posture from the shell bridge instead of leaving closure interaction implicit in shared command controls alone.
 
 The V26 application architecture is now explicitly locked in the draft family as:
 

@@ -1,8 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
 
-import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
+import { normalizeApplicationSectionAtlas } from './application-section-atlas';
+import { jumpToShellSection } from './application-shell-reading';
 
 type SectionPreview = {
   id: string;
@@ -13,94 +15,23 @@ type SectionPreview = {
   itemCount: number;
 };
 
-function unique(items: string[]) {
-  return Array.from(new Set(items.filter(Boolean)));
-}
-
-function readDirectText(element: Element | null): string {
-  if (!element) return '';
-  const directText = Array.from(element.childNodes)
-    .filter((node) => node.nodeType === Node.TEXT_NODE)
-    .map((node) => node.textContent?.trim() || '')
-    .filter(Boolean)
-    .join(' ')
-    .trim();
-  return directText || element.textContent?.trim() || '';
-}
-
-function readPrimaryText(element: Element | null): string {
-  if (!element) return '';
-  const infoLabel = element.querySelector(':scope > .label-with-info > span:first-child');
-  return infoLabel?.textContent?.trim() || readDirectText(element);
-}
-
-function isVisibleShellText(element: Element) {
-  return !element.closest('.explainer-panel') && !element.closest('.panel-head');
-}
-
-function readSectionPreview(panelId: string, fallbackLabel: string): SectionPreview {
-  const panel = document.getElementById(panelId);
-  if (!panel) {
-    return {
-      id: panelId,
-      label: fallbackLabel,
-      badge: '',
-      preview: 'Waiting for preserved shell section to populate.',
-      subheads: [],
-      itemCount: 0,
-    };
-  }
-
-  const title = readPrimaryText(panel.querySelector('.panel-head h2')) || fallbackLabel;
-  const badge = readPrimaryText(panel.querySelector('.panel-head .badge'));
-  const paragraphSamples = unique(
-    Array.from(panel.querySelectorAll('p'))
-      .filter((element) => isVisibleShellText(element))
-      .map((element) => element.textContent?.trim() || '')
-      .filter((text) => text.length > 28)
-      .slice(0, 8),
-  );
-  const subheads = unique(
-    Array.from(panel.querySelectorAll('h3, h4, summary, .surface-header strong'))
-      .filter((element) => isVisibleShellText(element))
-      .map((element) => readPrimaryText(element))
-      .filter((text) => text && text !== title && text !== badge),
-  ).slice(0, 4);
-
-  return {
-    id: panelId,
-    label: title,
-    badge,
-    preview: paragraphSamples.slice(0, 2).join(' ') || 'This Bitcode section is live in the preserved shell below.',
-    subheads,
-    itemCount: panel.querySelectorAll('.card, .surface-card, .section-card').length,
-  };
-}
-
-function jumpToShellSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'auto', block: 'start' });
-}
-
 export default function ApplicationSectionAtlas() {
   const [sections, setSections] = useState<SectionPreview[]>([]);
 
-  const refreshFromShell = useCallback(() => {
-    setSections(APPLICATION_SHELL_SECTIONS.map((section) => readSectionPreview(section.id, section.label)));
+  const refreshFromShell = useCallback(async () => {
+    const snapshot = await readBitcodeApplicationShellSnapshot();
+    setSections(normalizeApplicationSectionAtlas(snapshot));
   }, []);
 
   useEffect(() => {
-    refreshFromShell();
+    void refreshFromShell();
 
-    const intervalId = window.setInterval(refreshFromShell, 900);
-    const handleDocumentChange = () => window.setTimeout(refreshFromShell, 0);
-
-    document.addEventListener('change', handleDocumentChange, true);
-    document.addEventListener('click', handleDocumentChange, true);
+    const intervalId = window.setInterval(() => {
+      void refreshFromShell();
+    }, 900);
 
     return () => {
       window.clearInterval(intervalId);
-      document.removeEventListener('change', handleDocumentChange, true);
-      document.removeEventListener('click', handleDocumentChange, true);
     };
   }, [refreshFromShell]);
 
@@ -113,9 +44,9 @@ export default function ApplicationSectionAtlas() {
             Route-local body read
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate is now lifting the main Bitcode body into the application frame. These cards mirror the preserved
-            shell&apos;s live sections so operators can read the workspace at application level before diving into the full
-            underlying surfaces.
+            Second-gate is now lifting the main Bitcode body into the application frame through semantic shell bridges.
+            These cards summarize the current Bitcode sections so operators can read the workspace at application level
+            before diving into the deeper underlying surfaces.
           </p>
         </div>
 
@@ -126,7 +57,7 @@ export default function ApplicationSectionAtlas() {
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Semantic source</p>
-            <p className="mt-2 text-neutral-200">preserved shell panels</p>
+            <p className="mt-2 text-neutral-200">semantic core + closure surfaces</p>
           </div>
         </div>
       </div>

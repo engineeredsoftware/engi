@@ -144,6 +144,38 @@ Operational rule:
 - summary posture stays semantically aligned to the preserved Bitcode shell while becoming application-owned route composition
 - later second-gate and fourth-gate convergence work should extend this bridge rather than reintroducing summary DOM reads
 
+## Atlas semantic bridge
+
+Second-gate now also treats the section-atlas layer as semantic application state rather than a rendered-panel preview scrape.
+
+Current active carriers:
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+- `uapi/app/application/ApplicationSectionAtlas.tsx`
+- `uapi/app/application/application-section-atlas.ts`
+
+Operational rule:
+- the route-local atlas now reads semantic core and closure bridges rather than rendered shell text
+- atlas labels, previews, subheads, and item counts stay aligned to the real Bitcode body without depending on panel markup
+- the atlas remains a route-local application summary layer above the preserved shell
+- later second-gate convergence should extend this bridge rather than reintroducing generic DOM panel readers
+
+## Core-state semantic snapshot bridge
+
+Second-gate now also treats the operating-picture, depositing, needing, and fit body as semantic application state rather than a rendered-panel discovery problem.
+
+Current active carriers:
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+- `uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `uapi/app/application/application-core-surface.ts`
+
+Operational rule:
+- the mounted Bitcode shell now emits a compact `coreSurface` through the semantic snapshot bridge
+- `/application` normalizes that core surface into operating, give, need, and fit cards without scraping rendered shell panel markup
+- the application core body now reads exact Bitcode semantic posture while remaining route-local composition
+- later second-gate and fourth-gate convergence work should extend this bridge rather than reintroducing DOM-era panel readers
+
 ## Give-side intake selection carrier
 
 Second-gate now also treats authenticated intake session, artifact filtering, search, and inventory selection as route-local application composition rather than preserved-shell-only control surfaces.
@@ -208,6 +240,22 @@ Operational rule:
 - `/application` normalizes that closure surface into verification, branch, settlement, and ledger panels without re-deriving meaning from rendered shell DOM
 - closure-side second-gate carriers should prefer this semantic bridge over generic DOM reads whenever the underlying Bitcode state is already available
 - deeper fourth-gate and fifth-gate proof closure should build from this bridge rather than recreating a parallel closure semantics layer
+
+## Closure-operation application carrier
+
+Second-gate now also treats closure execution posture as application-owned behavior rather than an implicit preserved-shell action.
+
+Current active carriers:
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+- `uapi/app/application/application-closure-controls.ts`
+- `packages/bitcode/public/app.js`
+- `packages/bitcode/src/client-entry.js`
+
+Operational rule:
+- `/application` normalizes closure operation posture from command and closure semantic bridges
+- make-branch, refresh, reset, and closure follow-through remain Bitcode shell semantics underneath
+- closure interaction now reads as a route-local Bitcode operator deck instead of a hidden lower-body shell action
+- later second-gate work should deepen closure behavior from this carrier rather than relocating control back into preserved-shell UI
 
 ## External interfacing posture carrier
 

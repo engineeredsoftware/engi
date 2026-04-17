@@ -106,6 +106,7 @@ Its aesthetic atmosphere remains the design system of late-Engi, but the product
 The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
@@ -119,10 +120,13 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationRunActivitySurface.tsx`
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `uapi/app/application/application-core-surface.ts`
+- `uapi/app/application/application-closure-controls.ts`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-command-state.ts`
+- `uapi/app/application/application-section-atlas.ts`
 - `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-give-need-workbench.ts`
@@ -148,10 +152,13 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
 - `uapi/tests/applicationCommandState.test.ts`
+- `uapi/tests/applicationClosureControls.test.ts`
+- `uapi/tests/applicationCoreSurface.test.ts`
 - `uapi/tests/applicationDepositComposer.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
 - `uapi/tests/applicationGiveNeedWorkbench.test.ts`
 - `uapi/tests/applicationClosureState.test.ts`
+- `uapi/tests/applicationSectionAtlas.test.ts`
 - `uapi/tests/applicationLiveSummary.test.ts`
 - `uapi/tests/applicationNeedScenarios.test.ts`
 - `uapi/tests/applicationRunActivity.test.ts`
@@ -305,6 +312,8 @@ The second-gate target structure is:
 | give-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode give-side supply |
 | native deposit submission | preserved-shell deposit contract and app-owned `/api/deposits` carrier | `ApplicationDepositComposer.tsx`, `application-deposit-composer.ts`, and `uapi/app/api/deposits/route.ts` | title/author inference, selected inventory continuity, raw fallback behavior, and deposit posting remain semantically aligned to Bitcode intake | the operator should be able to submit a Bitcode deposit from the application workspace without dropping back into the preserved shell form |
 | command-state and control bridge | preserved-shell command posture and mutable operator actions exposed for native application composition without DOM scraping | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationCommandDeck.tsx`, and `application-command-state.ts` | scenario, projection, branch mode, tutorial, make-branch, and reset remain application-visible and semantically aligned to the preserved shell | the operator should experience a route-owned command surface rather than a DOM-proxy shell control strip |
+| application section atlas bridge | route-local atlas previews previously depended on rendered shell panel text and card counting | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationSectionAtlas.tsx`, and `application-section-atlas.ts` | atlas previews remain aligned to the real Bitcode body without reintroducing panel-markup scraping | the operator should experience a semantic application atlas rather than a DOM-era section mirror |
+| core-state semantic snapshot bridge | preserved-shell operating, depositing, needing, and fit panels previously depended on rendered shell DOM for application-owned composition | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationCoreNativeSections.tsx`, and `application-core-surface.ts` | route-local give/need and master-detail core sections read exact Bitcode surface truth without relying on rendered panel markup | the operator should experience native Bitcode core cards that stay semantically exact without DOM-era drift |
 | give/need semantic snapshot bridge | preserved-shell semantic state and active operator selections exposed for native application composition without re-deriving Bitcode truth from generic markup | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationGiveNeedWorkbench.tsx`, `ApplicationSupplySelectionPanel.tsx`, `application-give-need-workbench.ts`, and `application-supply-selection.ts` | route-local V26 sections read exact Bitcode shell truth without mutating first-gate ownership or inventing alternate semantics | the operator should experience deeper native composition without semantic drift between preserved shell and application-owned sections |
 | external interfacing posture | `renderOperatingPicture()`, `state.boundaryRealitySurface`, `latestRun.externalRealizationSummary`, and `uapi/app/api/v24/external-realization/route.ts` | `ApplicationExternalInterfacingPanel.tsx`, `application-external-runtime.ts`, and the app-owned V24 route surface | environment mode, actuality disposition, boundary-only posture, live misconfiguration, and per-interface runtime state remain explicit and fail closed | the operator should clearly understand what is mocked, what is boundary-only, what is live-configured, and what is currently blocking |
 | need action frame | `renderScenario()`, `renderFit()`, measured-demand and fit surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationNeedScenarioPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | scenario framing, measured need, and fit pressure remain explicit before closure stages | the operator should clearly understand how to express and inspect need |
@@ -320,6 +329,7 @@ The second-gate target structure is:
 | ranked candidates and verification determinisms | `renderEvaluations()` and verification report surfaces | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then deeper route-local section composition using current execution/log/panel carriers where useful | ranking, use tiers, verification determinisms, and report reading remain intact | application-grade ranking and verification panels rather than preserved shell blocks |
 | branch artifacts and materialization | `renderBranchArtifacts()` and artifact bundle surfaces | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then route-local section with package-fed artifact data and app-native detail panels | branch mode, projection visibility, artifact bundle reading, and materialization proof remain intact | clearer private-remediation workspace reading with richer panels and evidence grouping |
 | settlement, proofs, and journal/accounting closure | `renderSettlement()` and settlement/proof visuals | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then route-local section with app-native proof/accounting composition | exact accounting, source-to-shares, proof family, and journal diff semantics remain intact | structured settlement/proof reading suitable for a production-initial application page |
+| closure operation control | preserved-shell make-branch/reset/refresh posture previously lived only in shared command controls and underlying shell actions | `ApplicationClosureControlDeck.tsx`, `application-closure-controls.ts`, and the shell command/control bridge | branch execution, closure refresh, reset, and follow-through focus remain semantically aligned to Bitcode closure | the operator should experience a native closure operation deck rather than treating closure as an opaque lower-body shell action |
 | ledger, run history, and policy surfaces | `renderLedger()` and policy/ledger/history visuals | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then route-local section plus application-owned execution/history linkages and reused execution carriers | ledger accounts, run history, and bounded proof metadata remain explicit | read as a live application workspace/history surface instead of a shell appendix |
 | run detail and deliverable master-detail surfaces | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, execution/log/deliverable panels | inward-ported master-detail sections, drawers, and detail surfaces within `/application` | run inspection, logs, work updates, and deliverable/proof reading remain available without semantic loss | reuse the strongest execution/deliverable interaction patterns inside `/application` rather than preserving peer destinations |
 | orbitals/settings relationship | `uapi/app/orbitals/*` and `uapi/app/api/orbitals/data/route.ts` | existing orbitals ownership with stronger application-page entry points and state coherence | orbitals remain the user/settings owner and are not flattened into `/application` | the ringed overlay stays intact and feels like the application’s settings layer |

@@ -152,6 +152,26 @@ Current active assignments:
   lint plus localhost `/application` verification with route-local summary posture mounted
   proof surface:
   second-gate application-owned operating summary reading from semantic shell state rather than rendered shell cards
+- `uapi/app/application/application-section-atlas.ts`
+  test coverage:
+  `uapi/tests/applicationSectionAtlas.test.ts`
+  proof surface:
+  deterministic normalization of section-atlas previews from semantic core and closure bridges into route-local application navigation state
+- `uapi/app/application/ApplicationSectionAtlas.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with semantic atlas cards mounted
+  proof surface:
+  second-gate application-owned section atlas reading from semantic bridges rather than rendered shell panel markup
+- `uapi/app/application/application-core-surface.ts`
+  test coverage:
+  `uapi/tests/applicationCoreSurface.test.ts`
+  proof surface:
+  deterministic normalization of operating, depositing, needing, and fit semantics from the shell snapshot into route-local application core panels
+- `uapi/app/application/ApplicationCoreNativeSections.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with core panels mounted from the semantic bridge
+  proof surface:
+  second-gate application-owned master-detail core composition reading from the semantic `coreSurface` bridge instead of rendered shell DOM
 - `uapi/app/application/application-give-need-workbench.ts`
   test coverage:
   `uapi/tests/applicationGiveNeedWorkbench.test.ts`
@@ -207,6 +227,16 @@ Current active assignments:
   lint plus localhost `/application` verification with native closure cards mounted
   proof surface:
   second-gate application-owned closure composition reading from the semantic `closureSurface` bridge instead of rendered shell DOM
+- `uapi/app/application/application-closure-controls.ts`
+  test coverage:
+  `uapi/tests/applicationClosureControls.test.ts`
+  proof surface:
+  deterministic normalization of closure execution, reset, refresh, and follow-through posture from the command and closure semantic bridges
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
+  test coverage:
+  lint plus localhost `/application` verification with route-local closure operation controls mounted
+  proof surface:
+  second-gate application-owned closure operation deck rather than implicit preserved-shell action ownership
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
   test coverage:
   browser/API verification plus runtime-normalization helper coverage

@@ -2,14 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { ArrowUpRight, GitBranch, Lock, ShieldCheck } from 'lucide-react';
-import {
-  readDepositSectionCard,
-  readPrimaryText,
-  readSurfaceArticle,
-  toneForPanel,
-  type NativePanel,
-  jumpToShellSection,
-} from './application-shell-reading';
+import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
+
+import { toneForPanel, type NativePanel, jumpToShellSection } from './application-shell-reading';
 import {
   APPLICATION_ACTIONS,
   CORE_PANEL_ACTION,
@@ -18,30 +13,7 @@ import {
   getApplicationExperience,
 } from './application-experience-architecture';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
-
-const CORE_PANEL_CONFIG = [
-  { id: 'panelOperatingPicture', fallbackLabel: 'Operating picture' },
-  { id: 'panelDepositing', fallbackLabel: 'Depositing' },
-  { id: 'panelNeeding', fallbackLabel: 'Needing + measured demand' },
-  { id: 'panelFit', fallbackLabel: 'Depositing-to-needing fit' },
-] as const;
-
-function readPanel(panelId: string, fallbackLabel: string): NativePanel {
-  const panel = document.getElementById(panelId);
-  if (!panel) {
-    return { id: panelId, label: fallbackLabel, badge: '', cards: [] };
-  }
-
-  const label = readPrimaryText(panel.querySelector('.panel-head h2')) || fallbackLabel;
-  const badge = readPrimaryText(panel.querySelector('.panel-head .badge'));
-
-  const cards =
-    panelId === 'panelDepositing'
-      ? Array.from(panel.querySelectorAll('#depositForm > .section-card')).map((element) => readDepositSectionCard(element))
-      : Array.from(panel.querySelectorAll('article.json-surface')).map((element) => readSurfaceArticle(element));
-
-  return { id: panelId, label, badge, cards };
-}
+import { normalizeApplicationCorePanels } from './application-core-surface';
 
 interface ApplicationCoreNativeSectionsProps {
   repositoryContext?: ApplicationRepositoryContextState | null;
@@ -54,23 +26,20 @@ export default function ApplicationCoreNativeSections({
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const connectionStatus = repositoryContext?.connectionStatus || null;
 
-  const refreshFromShell = useCallback(() => {
-    setPanels(CORE_PANEL_CONFIG.map((panel) => readPanel(panel.id, panel.fallbackLabel)));
+  const refreshFromShell = useCallback(async () => {
+    const snapshot = await readBitcodeApplicationShellSnapshot();
+    setPanels(normalizeApplicationCorePanels(snapshot));
   }, []);
 
   useEffect(() => {
-    refreshFromShell();
+    void refreshFromShell();
 
-    const intervalId = window.setInterval(refreshFromShell, 900);
-    const handleDocumentChange = () => window.setTimeout(refreshFromShell, 0);
-
-    document.addEventListener('change', handleDocumentChange, true);
-    document.addEventListener('click', handleDocumentChange, true);
+    const intervalId = window.setInterval(() => {
+      void refreshFromShell();
+    }, 900);
 
     return () => {
       window.clearInterval(intervalId);
-      document.removeEventListener('change', handleDocumentChange, true);
-      document.removeEventListener('click', handleDocumentChange, true);
     };
   }, [refreshFromShell]);
 
@@ -83,9 +52,9 @@ export default function ApplicationCoreNativeSections({
             Native master-detail give / need read
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This is the first real second-gate body replacement inside `/application`. The cards below are application-owned
-            readings of the live Bitcode shell for the master-detail sections that set up the two main Bitcode actions:
-            give and need.
+            This is a semantic shell-bridge replacement inside `/application`. The cards below are application-owned
+            readings of the mounted Bitcode core surface for the master-detail sections that set up the two main Bitcode
+            actions: give and need.
           </p>
         </div>
 
@@ -95,8 +64,8 @@ export default function ApplicationCoreNativeSections({
             <p className="mt-2 text-neutral-200">route-local core cards</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Shell source</p>
-            <p className="mt-2 text-neutral-200">live operating panels</p>
+            <p className="text-emerald-300/85">Semantic source</p>
+            <p className="mt-2 text-neutral-200">mounted Bitcode core surface</p>
           </div>
         </div>
       </div>
@@ -191,7 +160,7 @@ export default function ApplicationCoreNativeSections({
                 <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Core Bitcode section</p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{panel.label}</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  {panel.cards[0]?.help || panel.cards[0]?.subtitle || 'This section is live in the preserved Bitcode shell below.'}
+                  {panel.cards[0]?.help || panel.cards[0]?.subtitle || 'This section is live in the mounted Bitcode core surface below.'}
                 </p>
               </div>
 

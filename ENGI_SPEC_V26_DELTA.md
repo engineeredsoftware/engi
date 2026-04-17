@@ -195,6 +195,7 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `uapi/app/application/ApplicationClosureControlDeck.tsx`
 - `uapi/app/application/ApplicationNeedScenarioPanel.tsx`
 - `uapi/app/application/ApplicationGiveNeedWorkbench.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
@@ -206,9 +207,12 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationRunDetailSurface.tsx`
 - `uapi/app/application/ApplicationDepositComposer.tsx`
 - `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `uapi/app/application/application-core-surface.ts`
+- `uapi/app/application/application-closure-controls.ts`
 - `uapi/app/application/application-closure-state.ts`
 - `uapi/app/application/application-deposit-composer.ts`
 - `uapi/app/application/application-command-state.ts`
+- `uapi/app/application/application-section-atlas.ts`
 - `uapi/app/application/application-live-summary.ts`
 - `uapi/app/application/application-external-runtime.ts`
 - `uapi/app/application/application-experience-architecture.ts`
@@ -235,9 +239,12 @@ The current active second-gate source file additions are:
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `uapi/tests/applicationRepositoryContext.test.ts`
 - `uapi/tests/applicationCommandState.test.ts`
+- `uapi/tests/applicationClosureControls.test.ts`
+- `uapi/tests/applicationCoreSurface.test.ts`
 - `uapi/tests/applicationDepositComposer.test.ts`
 - `uapi/tests/applicationExternalRuntime.test.ts`
 - `uapi/tests/applicationGiveNeedWorkbench.test.ts`
+- `uapi/tests/applicationSectionAtlas.test.ts`
 - `uapi/tests/applicationClosureState.test.ts`
 - `uapi/tests/applicationLiveSummary.test.ts`
 - `uapi/tests/applicationNeedScenarios.test.ts`
