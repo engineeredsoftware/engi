@@ -1,5 +1,5 @@
-import { createClient } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { createClient } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 import type { FigmaConnection } from './types';
 import { FigmaAuth } from './auth';
 

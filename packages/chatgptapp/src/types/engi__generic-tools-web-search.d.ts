@@ -1,4 +1,4 @@
-declare module '@engi/generic-tools-web-search' {
+declare module '@bitcode/generic-tools-web-search' {
   export const search: {
     execute: (
       query: string,

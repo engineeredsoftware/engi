@@ -14,7 +14,7 @@ import {
   DocComment, 
   DocCommentMetadata,
   ParseLocation 
-} from '@engi/doc-comment';
+} from '@bitcode/doc-comment';
 
 export interface BenchmarkMetadata extends DocCommentMetadata {
   type: 'benchmark';
@@ -125,5 +125,5 @@ export class DocBenchmarkPlugin implements DocCommentPlugin {
 export const docBenchmarkPlugin = new DocBenchmarkPlugin();
 
 // Auto-register when imported
-import { registerPlugin } from '@engi/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment';
 registerPlugin(docBenchmarkPlugin);

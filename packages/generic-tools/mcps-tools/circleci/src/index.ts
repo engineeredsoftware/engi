@@ -4,7 +4,7 @@
  * CircleCI CI/CD integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   circleciConfigHelperTool as _circleciConfigHelper,
   circleciGetLatestPipelineStatusTool as _circleciGetLatestPipelineStatus,
@@ -18,7 +18,7 @@ import {
   circleciGetProjectSettingsTool as _circleciGetProjectSettings,
   circleciAddEnvVarTool as _circleciAddEnvVar,
   circleciApproveJobTool as _circleciApproveJob,
-} from '@engi/circleci';
+} from '@bitcode/circleci';
 
 // Import DocCodeToolPrompt
 import { CIRCLECI_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/CircleCIMCPDocCodeToolPrompt';

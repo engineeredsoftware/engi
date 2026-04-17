@@ -6,8 +6,8 @@
  */
 
 import { z } from 'zod';
-import { logger } from '@engi/logger';
-import { createClient as createAdminClient } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { createClient as createAdminClient } from '@bitcode/supabase';
 import type { MCPAuthContext } from '../types';
 
 /**

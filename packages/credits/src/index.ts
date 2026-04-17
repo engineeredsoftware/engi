@@ -2,9 +2,9 @@
  * Credit management utilities – migrated from `uapi/lib/credits.ts`.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { getUsdPricingForApiModel } from '@engi/models/src/pricing';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { getUsdPricingForApiModel } from '@bitcode/models/src/pricing';
+import { log } from '@bitcode/logger';
 
 // ---------------------------------------------------------------------------
 // Tunable operational constants
@@ -327,7 +327,7 @@ export async function deductGenerationCredits(userId: string, tokens: Generation
  * The values mirror OpenAI’s public pricing sheet as of 2024-03-15.
  * Add / update rows when Engi supports new models or vendors.
  */
-// Deprecated static fallback. Prefer centralized catalog in @engi/models.
+// Deprecated static fallback. Prefer centralized catalog in @bitcode/models.
 export const MODEL_PRICING_USD_PER_MILLION: Record<string, { input: number; output: number }> = {
   'gpt-3.5-turbo': { input: 0.50, output: 1.50 },
   'gpt-3.5-turbo-16k': { input: 0.50, output: 1.50 },
@@ -692,7 +692,7 @@ export async function closeReservation(
 // Short-circuit refund processing
 // ---------------------------------------------------------------------------
 
-import { ShortCircuitSignal } from '@engi/execution-generics';
+import { ShortCircuitSignal } from '@bitcode/execution-generics';
 
 /**
  * Process refund based on short-circuit signal

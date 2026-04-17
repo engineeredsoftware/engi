@@ -1,4 +1,4 @@
-declare module '@engi/generic-tools-mcps-aws' {
+declare module '@bitcode/generic-tools-mcps-aws' {
   type AwsPayload = Record<string, unknown>;
 
   export const awsLambdaInvokeTool: { execute: (input: AwsPayload) => Promise<Record<string, unknown>> };

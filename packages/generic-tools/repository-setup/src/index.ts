@@ -11,9 +11,9 @@
  * - Production-grade reliability with comprehensive error handling
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 // Do not import types from a non-existent path; Tool is imported above
 import { 
   VCSProviderFactory,
@@ -22,7 +22,7 @@ import {
   type VCSAuth,
   type VCSRepository,
   type VCSProviderType
-} from '@engi/vcs';
+} from '@bitcode/vcs';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';

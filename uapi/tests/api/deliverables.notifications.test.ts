@@ -5,7 +5,7 @@
  */
 
 // Mock Supabase auth to return a user
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn().mockResolvedValue({
     auth: { getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'user-1', email: 'u@example.com', user_metadata: {} } }, error: null }) }
   })
@@ -13,7 +13,7 @@ jest.mock('@engi/supabase/ssr/server', () => ({
 
 // Mock ORM with notifications.create spy
 const notificationsCreate = jest.fn();
-jest.mock('@engi/orm', () => ({
+jest.mock('@bitcode/orm', () => ({
   createAdminClient: () => ({
     deliverablePipeline: {
       createDeliverable: jest.fn().mockResolvedValue({ id: 'run-1' }),
@@ -29,15 +29,15 @@ jest.mock('@engi/orm', () => ({
 }));
 
 // Mock VCS service factory used by packages/api
-jest.mock('@engi/vcs', () => ({ VCSService: class { constructor(_: any) {} } }));
+jest.mock('@bitcode/vcs', () => ({ VCSService: class { constructor(_: any) {} } }));
 
 // Mock models and credits
-jest.mock('@engi/models', () => ({ getModelPricing: () => ({ multiplier: 1 }), defaultModelPricing: { provider: 'openai', model: 'gpt-4o' } }));
-jest.mock('@engi/credits', () => ({ withCreditReservation: (_u: any, fn: any) => fn() }));
+jest.mock('@bitcode/models', () => ({ getModelPricing: () => ({ multiplier: 1 }), defaultModelPricing: { provider: 'openai', model: 'gpt-4o' } }));
+jest.mock('@bitcode/credits', () => ({ withCreditReservation: (_u: any, fn: any) => fn() }));
 
 // Mock GA telemetry to no-op
-jest.mock('@engi/google-analytics', () => ({ sendServerEvent: jest.fn() }));
-jest.mock('@engi/email', () => ({ sendEmail: jest.fn() }));
+jest.mock('@bitcode/google-analytics', () => ({ sendServerEvent: jest.fn() }));
+jest.mock('@bitcode/email', () => ({ sendEmail: jest.fn() }));
 
 describe('POST /api/executions notifications gating', () => {
   beforeEach(() => {

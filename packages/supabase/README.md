@@ -1,4 +1,4 @@
-# @engi/supabase
+# @bitcode/supabase
 
 Supabase client utilities and MCP tools for ENGI platform. Provides centralized database access with SSR support and administrative operations.
 
@@ -19,7 +19,7 @@ Supabase client utilities and MCP tools for ENGI platform. Provides centralized 
 ## Client Usage
 
 ```typescript
-import { supabase, supabaseAdmin } from '@engi/supabase';
+import { supabase, supabaseAdmin } from '@bitcode/supabase';
 
 // Public client (browser)
 const { data: user } = await supabase.auth.getUser();
@@ -35,11 +35,11 @@ const { data: users } = await supabaseAdmin
 
 ```typescript
 // Server components
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 const supabase = createClient();
 
 // Middleware
-import { updateSession } from '@engi/supabase/ssr/middleware';
+import { updateSession } from '@bitcode/supabase/ssr/middleware';
 export const middleware = updateSession;
 ```
 
@@ -50,7 +50,7 @@ import {
   supabaseMcpTool,
   supabaseQueryTool,
   supabaseInsertTool 
-} from '@engi/supabase';
+} from '@bitcode/supabase';
 
 // Template matching
 const templates = await supabaseMcpTool({

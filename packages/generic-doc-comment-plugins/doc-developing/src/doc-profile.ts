@@ -14,7 +14,7 @@ import {
   DocComment, 
   DocCommentMetadata,
   ParseLocation 
-} from '@engi/doc-comment';
+} from '@bitcode/doc-comment';
 
 export interface ProfileMetadata extends DocCommentMetadata {
   type: 'profile';
@@ -152,5 +152,5 @@ export class DocProfilePlugin implements DocCommentPlugin {
 export const docProfilePlugin = new DocProfilePlugin();
 
 // Auto-register when imported
-import { registerPlugin } from '@engi/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment';
 registerPlugin(docProfilePlugin);

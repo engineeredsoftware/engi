@@ -41,10 +41,10 @@ echo "Updating imports..."
 # For each renamed file, update imports
 find packages/ -type f \( -name "*.ts" -o -name "*.tsx" \) | while read file; do
   # Check if file has any uppercase imports from prompts/raw
-  if grep -q "from '@engi/prompts/raw/[^']*[A-Z]" "$file" 2>/dev/null; then
+  if grep -q "from '@bitcode/prompts/raw/[^']*[A-Z]" "$file" 2>/dev/null; then
     echo "Updating imports in: $file"
     # Use perl for more complex regex replacement
-    perl -i -pe "s|(from\s+['\"]\@engi/prompts/raw/[^'\"]+)|
+    perl -i -pe "s|(from\s+['\"]\@bitcode/prompts/raw/[^'\"]+)|
       my \$match = \$1;
       \$match =~ s|/raw/(.+)|'/raw/' . lc(\$1)|e;
       \$match

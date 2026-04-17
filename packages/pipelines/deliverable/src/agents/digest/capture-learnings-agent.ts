@@ -5,7 +5,7 @@
  * Extracts Q&A patterns, user iterates and provides feedback.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 
 const CaptureLearningsInputSchema = z.object({

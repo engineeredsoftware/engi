@@ -1,17 +1,17 @@
 import { GET as getRunHistory } from '@/app/api/executions/history/[runId]/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
 
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     from: jest.fn(),
   },
 }));
 
-const { createClient } = require('@engi/supabase/ssr/server');
-const { supabaseAdmin } = require('@engi/supabase');
+const { createClient } = require('@bitcode/supabase/ssr/server');
+const { supabaseAdmin } = require('@bitcode/supabase');
 
 describe('GET /api/executions/history/[runId]', () => {
   const mockUser = { id: 'user-1' };

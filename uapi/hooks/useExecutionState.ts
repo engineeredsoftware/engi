@@ -4,7 +4,7 @@ import { parseStreamChunk } from '../utils/stream-parser';
 import { callDeliverablesAPI } from '../networking/api-client';
 import { ENABLE_COMPUTE_TOGGLE } from '@/config/featureFlags';
 
-import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@engi/streams';
+import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
 
 interface ExecutionProgress {
   phase?: ExecutionPhase;

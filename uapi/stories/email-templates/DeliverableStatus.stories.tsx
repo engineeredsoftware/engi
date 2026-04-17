@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DeliverableStatusEmail } from '@engi/email-templates';
+import { DeliverableStatusEmail } from '@bitcode/email-templates';
 import { createEmailStory } from './_helpers';
 
 const meta: Meta<typeof DeliverableStatusEmail> = {

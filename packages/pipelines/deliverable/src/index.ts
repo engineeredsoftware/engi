@@ -5,8 +5,8 @@
  * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
  */
 
-import { Executor, Execution } from '@engi/execution-generics';
-import { factorySDIVSExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@engi/pipelines-generics';
+import { Executor, Execution } from '@bitcode/execution-generics';
+import { factorySDIVSExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
 import { deliverablePhases } from './phases';
 import { initializeDeliverablePipeline } from './preprocess';
 import { normalizeDeliverableOutput, buildDeliverablePostprocessedResult } from './postprocess';
@@ -88,7 +88,7 @@ function factoryIterationPreprocess(): Executor<any, any> {
     const processedInput = gatePreprocess(input, execution);
 
     // Fetch latest instructions
-    const { supabaseAdmin } = await import('@engi/supabase');
+    const { supabaseAdmin } = await import('@bitcode/supabase');
     const { data: instructions } = await supabaseAdmin
       .from('instructions')
       .select('*')

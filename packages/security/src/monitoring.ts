@@ -5,7 +5,7 @@
  * activities with configurable alerting and automated response capabilities.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { 
   auditLog, 
   AuditEventType, 

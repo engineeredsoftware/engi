@@ -6,7 +6,7 @@
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 // Prompts for validation agents (GA-1 prompt + stepPrompts shape)
 import {
@@ -42,12 +42,12 @@ import {
   DeliverablesPipelineValidationPhaseReadyToShipAgentPromptSteps
 } from './prompts/ready-to-ship-prompt';
 
-import { Prompt } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
 import {
   PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,
   PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA,
   PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT
-} from '@engi/prompts';
+} from '@bitcode/prompts';
 
 // ==================== VALIDATE LAST ITERATION'S VALIDATION (NEW) ====================
 

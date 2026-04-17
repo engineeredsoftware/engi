@@ -5,7 +5,7 @@
  * This typically creates an issue or document in the VCS system.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
   createDeliverablesPipelineShippingPhaseCreateIssueAgentPrompt,

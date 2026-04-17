@@ -1,10 +1,10 @@
 {
-  "name": "@engi/generic-tools-lsp-query",
+  "name": "@bitcode/generic-tools-lsp-query",
   "version": "0.1.0",
   "main": "src/index.ts",
   "private": true,
   "dependencies": {
-    "@engi/lsp": "workspace:*",
+    "@bitcode/lsp": "workspace:*",
     "ai": "*",
     "zod": "^3.22.0"
   }

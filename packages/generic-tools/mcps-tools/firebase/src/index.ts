@@ -4,7 +4,7 @@
  * Firebase cloud database integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   firebaseFirestoreAddDocumentTool as _firebaseFirestoreAddDocument,
   firebaseFirestoreListDocumentsTool as _firebaseFirestoreListDocuments,
@@ -13,7 +13,7 @@ import {
   firebaseFirestoreDeleteDocumentTool as _firebaseFirestoreDeleteDocument,
   firebaseFirestoreListCollectionsTool as _firebaseFirestoreListCollections,
   firebaseFirestoreQueryCollectionGroupTool as _firebaseFirestoreQueryCollectionGroup,
-} from '@engi/firebase';
+} from '@bitcode/firebase';
 
 // Import DocCodeToolPrompt
 import { FIREBASE_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/FirebaseMCPDocCodeToolPrompt';

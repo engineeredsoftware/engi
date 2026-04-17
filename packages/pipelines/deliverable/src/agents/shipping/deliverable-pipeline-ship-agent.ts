@@ -7,14 +7,14 @@
  * - design-document: create issue via VCS tool
  * - design-document-review: add comment via VCS tool
  */
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
-import { Prompt } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
 import { 
   PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,
   PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,
   PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA
-} from '@engi/prompts';
+} from '@bitcode/prompts';
 
 const ShipOutputSchema = z.object({
   status: z.enum(['shipped','partial']).default('shipped'),

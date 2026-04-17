@@ -124,7 +124,7 @@ Promise<{
 
 ### Lambda Function Invocation
 ```typescript
-import { awsLambdaInvokeTool } from '@engi/aws';
+import { awsLambdaInvokeTool } from '@bitcode/aws';
 
 // Invoke data processing function
 const result = await awsLambdaInvokeTool({
@@ -140,7 +140,7 @@ console.log(`Invoked function: ${result.invoked}`);
 
 ### S3 File Operations
 ```typescript
-import { awsS3GetObjectTool, awsS3PutObjectTool } from '@engi/aws';
+import { awsS3GetObjectTool, awsS3PutObjectTool } from '@bitcode/aws';
 
 // Download file from S3
 const file = await awsS3GetObjectTool({
@@ -161,7 +161,7 @@ await awsS3PutObjectTool({
 
 ### DynamoDB Operations
 ```typescript
-import { awsDynamoGetItemTool, awsDynamoPutItemTool } from '@engi/aws';
+import { awsDynamoGetItemTool, awsDynamoPutItemTool } from '@bitcode/aws';
 
 // Retrieve user profile
 const user = await awsDynamoGetItemTool({
@@ -183,7 +183,7 @@ await awsDynamoPutItemTool({
 
 ### CloudWatch Logging
 ```typescript
-import { awsCloudWatchLogTool } from '@engi/aws';
+import { awsCloudWatchLogTool } from '@bitcode/aws';
 
 // Log application events
 await awsCloudWatchLogTool({
@@ -199,7 +199,7 @@ await awsCloudWatchLogTool({
 
 ### Resource Management
 ```typescript
-import { awsMcpTool } from '@engi/aws';
+import { awsMcpTool } from '@bitcode/aws';
 
 // Generic resource operation
 const result = await awsMcpTool({

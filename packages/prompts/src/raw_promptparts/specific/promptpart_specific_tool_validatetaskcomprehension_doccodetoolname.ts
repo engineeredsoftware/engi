@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLNAME: PromptPart =
   'Validate Task Comprehension Tool' as PromptPart;

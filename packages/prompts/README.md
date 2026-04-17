@@ -1,4 +1,4 @@
-# @engi/prompts
+# @bitcode/prompts
 
 The foundational prompt primitives package for Engi - a low-level, elegant system for type-safe prompt formatting with performance-based evolution capabilities.
 
@@ -33,7 +33,7 @@ This branding allows doc-comment plugins to match PromptPart types specifically,
 Prompt extends Registry to provide hierarchical prompt organization with required parts:
 
 ```typescript
-import { Prompt, createPromptPart } from '@engi/prompts';
+import { Prompt, createPromptPart } from '@bitcode/prompts';
 
 // Create a new prompt registry
 const prompt = new Prompt();
@@ -78,7 +78,7 @@ try {
 ### Basic Prompt Building
 
 ```typescript
-import { createPrompt, createPromptPart } from '@engi/prompts';
+import { createPrompt, createPromptPart } from '@bitcode/prompts';
 
 const prompt = createPrompt();
 
@@ -98,7 +98,7 @@ prompt.set('context:style', createPromptPart('Functional programming'));
 ### Hierarchical Formatters
 
 ```typescript
-import { hierarchicalFormatter } from '@engi/prompts';
+import { hierarchicalFormatter } from '@bitcode/prompts';
 
 // Default formatter joins with double newlines
 const simple = prompt.format();
@@ -145,16 +145,16 @@ base.merge(extensions);
 ### Complete Example: Building a Tool Prompt
 
 ```typescript
-import { Prompt } from '@engi/prompts';
-import { hierarchicalFormatter } from '@engi/prompts/formatting';
+import { Prompt } from '@bitcode/prompts';
+import { hierarchicalFormatter } from '@bitcode/prompts/formatting';
 
 // Import specific PromptParts
 import { PROMPTPART_GENERIC_FORMATTING_YOUARE } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 
 /**
  * @doc-comment-developing-prompt
@@ -205,10 +205,10 @@ const formatted = toolPrompt.format();
 ```typescript
 // Import raw prompts directly - NO RE-EXPORTS
 import { PROMPTPART_GENERIC_VALIDATION_INPUTCHECKS_NULLCHECK } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 
 import { PROMPTPART_SPECIFIC_DELIVERABLE_SETUPREPOSITORY_ANALYSIS } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 
 // Use in prompt formatting
 const prompt = createPrompt();
@@ -575,7 +575,7 @@ The dry run system enables mocking LLM calls with hardcoded responses:
 ### Using Dry Run Mode
 
 ```typescript
-import { DryRunManager } from '@engi/prompts/dry-run';
+import { DryRunManager } from '@bitcode/prompts/dry-run';
 
 // Enable dry run mode
 const dryRun = new DryRunManager();
@@ -635,7 +635,7 @@ const qualityGates = {
 The prompts package integrates with the comprehensive testing framework:
 
 ```typescript
-import { PromptQualityEngine } from '@engi/testing/prompt-quality-framework';
+import { PromptQualityEngine } from '@bitcode/testing/prompt-quality-framework';
 
 // Test prompt quality
 const engine = new PromptQualityEngine({

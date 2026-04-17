@@ -1,5 +1,5 @@
 {
-  "name": "@engi/github",
+  "name": "@bitcode/github",
   "version": "1.0.0",
   "description": "GitHub provider implementation and MCP tools",
   "main": "dist/index.js",
@@ -9,8 +9,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/vcs": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/vcs": "workspace:*",
     "@octokit/auth-app": "^6.0.0",
     "@octokit/rest": "^20.0.0",
     "@octokit/webhooks-methods": "^4.0.0"

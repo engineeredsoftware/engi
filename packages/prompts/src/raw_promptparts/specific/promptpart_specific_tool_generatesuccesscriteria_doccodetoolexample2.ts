@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Autonomous Vehicle Fleet Coordination: generateSuccessCriteria({ taskObjectives: "autonomous-fleet-coordination", qualityDimensions: ["safety", "efficiency", "adaptability", "coordination"], emergentIndicators: ["swarm-intelligence", "predictive-behavior", "collective-optimization"], measurementFramework: "real-time-multi-agent", validationContext: "urban-traffic-scenarios", benchmarkStrategy: "simulation-plus-field", adaptiveThresholds: "context-sensitive" }) → Returns SuccessFramework with zero-accident requirements, traffic flow optimization metrics, swarm intelligence emergence detection, collective decision-making quality indicators, adaptive coordination protocols, and real-time validation systems for autonomous fleet success measurement' as PromptPart;

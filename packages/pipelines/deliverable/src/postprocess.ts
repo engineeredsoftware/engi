@@ -1,5 +1,5 @@
 import type { DeliverableOutput, DeliverablePostprocessed } from './types/PipelineSchemas';
-import { Execution, getValidationReadyToShip } from '@engi/execution-generics';
+import { Execution, getValidationReadyToShip } from '@bitcode/execution-generics';
 
 export function normalizeDeliverableOutput(output: DeliverableOutput, execution: Execution): DeliverableOutput {
   const enhanced = { ...output };

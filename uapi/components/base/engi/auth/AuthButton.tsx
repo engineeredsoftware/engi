@@ -1,6 +1,6 @@
 'use client'
 
-import { createClient } from '@engi/supabase/ssr/client'
+import { createClient } from '@bitcode/supabase/ssr/client'
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'

@@ -1,4 +1,4 @@
-# @engi/notifications
+# @bitcode/notifications
 
 Event-driven notification system for ENGI platform. Provides email delivery, event processing, and background worker management with automatic startup.
 
@@ -20,7 +20,7 @@ Event-driven notification system for ENGI platform. Provides email delivery, eve
 ## Email System
 
 ```typescript
-import { sendEmail } from '@engi/notifications';
+import { sendEmail } from '@bitcode/notifications';
 
 // Send templated email
 await sendEmail({
@@ -37,7 +37,7 @@ await sendEmail({
 ## Event Processing
 
 ```typescript
-import { startNotificationWorker } from '@engi/notifications';
+import { startNotificationWorker } from '@bitcode/notifications';
 
 // Worker starts automatically unless DISABLE_NOTIFICATIONS_WORKER=1
 // Manual start for custom scenarios

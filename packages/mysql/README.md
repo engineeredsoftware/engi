@@ -1,4 +1,4 @@
-# @engi/mysql
+# @bitcode/mysql
 
 MySQL database management tools for ENGI platform. Provides schema introspection and query execution capabilities for MySQL databases.
 
@@ -15,7 +15,7 @@ import {
   mysqlListTablesTool,
   mysqlGetTableSchemaTool,
   mysqlQueryTool 
-} from '@engi/mysql';
+} from '@bitcode/mysql';
 
 // List database tables
 const tables = await mysqlListTablesTool();

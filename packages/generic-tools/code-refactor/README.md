@@ -87,7 +87,7 @@ class RefactorTool extends Tool<typeof primitiveFunction> {
 
 ### Repository-wide Symbol Rename
 ```typescript
-import { renameSymbolTool } from '@engi/generic-tools-code-refactor';
+import { renameSymbolTool } from '@bitcode/generic-tools-code-refactor';
 
 const result = await renameSymbolTool.use({
   filePath: '/project/src/utils.ts',
@@ -100,7 +100,7 @@ const result = await renameSymbolTool.use({
 
 ### Method Extraction
 ```typescript
-import { extractMethodTool } from '@engi/generic-tools-code-refactor';
+import { extractMethodTool } from '@bitcode/generic-tools-code-refactor';
 
 const result = await extractMethodTool.use({
   filePath: '/project/src/service.ts',
@@ -113,7 +113,7 @@ const result = await extractMethodTool.use({
 
 ### Import Organization
 ```typescript
-import { organizeImportsTool } from '@engi/generic-tools-code-refactor';
+import { organizeImportsTool } from '@bitcode/generic-tools-code-refactor';
 
 const result = await organizeImportsTool.use({
   filePath: '/project/src/index.ts',

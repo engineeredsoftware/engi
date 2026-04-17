@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import pLimit from 'p-limit';
 import pRetry from 'p-retry';
-import { log } from '@engi/logger';
-import { telemetry } from '@engi/observability';
+import { log } from '@bitcode/logger';
+import { telemetry } from '@bitcode/observability';
 
 /**
  * Comprehensive Multimodal Processing Utilities

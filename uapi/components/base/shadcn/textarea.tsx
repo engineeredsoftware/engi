@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from '@engi/styling'
+import { cn } from '@bitcode/styling'
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}

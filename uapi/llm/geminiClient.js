@@ -1,5 +1,5 @@
 
-const { log } = require('@engi/logger');
+const { log } = require('@bitcode/logger');
 
 async function callGemini(endpoint, apiKey, prompt, maxOutputTokens) {
   const body = {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EmailChangeEmail } from '@engi/email-templates';
+import { EmailChangeEmail } from '@bitcode/email-templates';
 import { createEmailStory } from './_helpers';
 
 const meta: Meta<typeof EmailChangeEmail> = {

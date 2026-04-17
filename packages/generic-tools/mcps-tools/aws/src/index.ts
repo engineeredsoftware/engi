@@ -4,8 +4,8 @@
  * AWS service integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
-// Inline minimal implementations so this package does not depend on @engi/aws
+import { Tool } from '@bitcode/tools-generics';
+// Inline minimal implementations so this package does not depend on @bitcode/aws
 // Tools return structured placeholders; replace with real AWS SDK logic when ready.
 async function _awsMcpTool(input: any): Promise<any> {
   return { ok: true, tool: 'awsMcpTool', input };

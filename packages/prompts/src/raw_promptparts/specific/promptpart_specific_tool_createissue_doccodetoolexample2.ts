@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEISSUE_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Epic with intelligent decomposition: createIssue({ project_id: "enterprise/crm-platform", title: "Implement advanced customer segmentation", description: "Build ML-powered customer segmentation with real-time behavioral analysis and automated campaign triggers", issue_type: "epic", priority: "medium", template: "feature-epic", milestone: "Q2-Product-Launch", auto_assign: true, custom_fields: { "business_value": "high", "technical_risk": "medium", "customer_impact": 8500 } }) → Creates epic #156 with AI-generated story breakdown into 8 sub-tasks, assigns cross-functional team members based on skill requirements, estimates 3-sprint delivery timeline, and establishes dependency chains with data platform and marketing automation systems' as PromptPart;

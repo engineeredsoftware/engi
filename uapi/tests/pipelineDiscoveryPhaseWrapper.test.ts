@@ -2,20 +2,20 @@
 import '@/tests/setupTests';
 
 // Mock dependencies
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
-jest.mock('@engi/context', () => ({ getGlobalContext: jest.fn() }));
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@engi/engine/pipeline/metrics', () => ({ trackApiCall: jest.fn((metrics, name, fn) => fn()) }));
-jest.mock('@engi/discovery/discoveryPhaseModule', () => ({ runDiscovery: jest.fn() }));
-jest.mock('@engi/discovery/discoveryDeliverablesPhaseModule', () => ({
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline/metrics', () => ({ trackApiCall: jest.fn((metrics, name, fn) => fn()) }));
+jest.mock('@bitcode/discovery/discoveryPhaseModule', () => ({ runDiscovery: jest.fn() }));
+jest.mock('@bitcode/discovery/discoveryDeliverablesPhaseModule', () => ({
   runDiscoveryDeliverables: jest.fn(),
 }));
 
-import { getGlobalContext } from '@engi/context';
-import { writeStreamMessage } from '@engi/streams';
-import { runDiscoveryDeliverables } from '@engi/discovery/discoveryDeliverablesPhaseModule';
-import { executeDiscoveryPhase } from '@engi/engine/pipeline/pipelineDiscoveryPhaseWrapper';
-import type { PipelineMetrics, PipelineState } from '@engi/engine/types';
+import { getGlobalContext } from '@bitcode/context';
+import { writeStreamMessage } from '@bitcode/streams';
+import { runDiscoveryDeliverables } from '@bitcode/discovery/discoveryDeliverablesPhaseModule';
+import { executeDiscoveryPhase } from '@bitcode/engine/pipeline/pipelineDiscoveryPhaseWrapper';
+import type { PipelineMetrics, PipelineState } from '@bitcode/engine/types';
 
 describe('executeDiscoveryPhase', () => {
   const fakeStream = {};

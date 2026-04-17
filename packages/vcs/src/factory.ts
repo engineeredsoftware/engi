@@ -15,7 +15,7 @@
 
 import { AbstractVCSProvider } from './interface';
 import { VCSConfig, VCSError, VCSProviderType } from './types';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 /**
  * Provider constructor type
@@ -148,9 +148,9 @@ export class VCSProviderFactory {
 }
 
 // Register default providers - lazy loaded for zero initial overhead
-VCSProviderFactory.registerProvider('github', () => import('@engi/github'));
-VCSProviderFactory.registerProvider('gitlab', () => import('@engi/gitlab'));
-VCSProviderFactory.registerProvider('bitbucket', () => import('@engi/bitbucket'));
+VCSProviderFactory.registerProvider('github', () => import('@bitcode/github'));
+VCSProviderFactory.registerProvider('gitlab', () => import('@bitcode/gitlab'));
+VCSProviderFactory.registerProvider('bitbucket', () => import('@bitcode/bitbucket'));
 
 /**
  * Export convenience functions for type-safe provider creation

@@ -54,7 +54,7 @@ Production-grade GitLab integration implementing the unified VCS abstraction lay
 
 ### Provider Initialization
 ```typescript
-import { GitLabProvider } from '@engi/gitlab';
+import { GitLabProvider } from '@bitcode/gitlab';
 
 // GitLab.com configuration
 const provider = new GitLabProvider({

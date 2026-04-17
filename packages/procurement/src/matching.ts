@@ -9,9 +9,9 @@
  * - Cost optimization
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { generateSolutionEmbedding } from './vectorize';
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 import type { 
   Procurement, 
   GlobalDatasetEntry, 

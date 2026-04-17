@@ -1,5 +1,5 @@
 {
-  "name": "@engi/responses",
+  "name": "@bitcode/responses",
   "version": "1.0.0",
   "description": "HTTP response utilities for engi",
   "main": "src/index.ts",

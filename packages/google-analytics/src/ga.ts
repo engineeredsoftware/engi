@@ -1,5 +1,5 @@
 /*
- * @engi/google-analytics
+ * @bitcode/google-analytics
  * ---------------------------------------------
  * A very small convenience wrapper around Google Analytics (GA4) that:
  *   • Makes calls type-safe for TS projects.
@@ -10,7 +10,7 @@
  *     instrumentation gaps without crashing the user experience.
  */
 
-import { captureException } from '@engi/sentry';
+import { captureException } from '@bitcode/sentry';
 
 // Internal helpers ----------------------------------------------------------
 

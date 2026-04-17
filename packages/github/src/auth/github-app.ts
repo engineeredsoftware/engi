@@ -5,7 +5,7 @@
  * Separate from OAuth flow - used for repository access via installations.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { generateGitHubAppJWT } from './jwt-helper';
 
 export interface GitHubAppConfig {

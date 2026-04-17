@@ -7,8 +7,8 @@
  * - Error handling
  */
 
-import { VCSProviderFactory, VCSAuth } from '@engi/vcs';
-import { log } from '@engi/logger';
+import { VCSProviderFactory, VCSAuth } from '@bitcode/vcs';
+import { log } from '@bitcode/logger';
 
 export abstract class VCSServiceBase {
   protected abstract readonly providerType: string;

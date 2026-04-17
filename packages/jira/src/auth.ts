@@ -1,4 +1,4 @@
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type { JiraOAuthData, JiraConnection, JiraUser, JiraAccessibleResource } from './types';
 
 export class JiraAuth {

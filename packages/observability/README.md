@@ -86,7 +86,7 @@ async function logFeedback(params: {
 ### Tracing Configuration
 ```typescript
 // Sentry Integration Configuration
-import { startSpan } from '@engi/sentry';
+import { startSpan } from '@bitcode/sentry';
 
 // Automatic span creation with performance monitoring
 export async function trace<T>(name: string, fn: () => Promise<T>): Promise<T> {

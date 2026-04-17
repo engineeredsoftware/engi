@@ -5,7 +5,7 @@
  * Identifies relevant files for the task at hand.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { createDeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgentPrompt, DeliverablesPipelineDiscoveryPhaseSelectFilesParallelAgentPromptSteps } from '../prompts/select-files-parallel-prompt';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';

@@ -7,7 +7,7 @@
 
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
-import { logger } from '@engi/logger';
+import { logger } from '@bitcode/logger';
 import type { MCPAuthContext } from '../types';
 
 /**

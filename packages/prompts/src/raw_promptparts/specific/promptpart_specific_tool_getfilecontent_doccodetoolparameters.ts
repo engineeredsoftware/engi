@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLPARAMETERS: PromptPart = 
   'file_path: string | string[] (target file(s) with glob pattern support and recursive resolution), content_format?: "raw" | "parsed" | "semantic" | "vector_embedded" (processing depth), encoding_detection?: "auto" | "strict" | "permissive" (character encoding handling), analysis_scope?: "content_only" | "with_context" | "full_ecosystem" (analysis breadth), semantic_understanding?: boolean (enable AI-powered code comprehension), relationship_mapping?: "none" | "local" | "global" | "enterprise" (dependency analysis depth), cache_strategy?: "memory" | "distributed" | "persistent" | "quantum" (performance optimization), security_context?: object (access control and encryption requirements), transformation_pipeline?: string[] (content processing workflow), version_tracking?: "current" | "historical" | "predictive" (temporal content access), collaboration_mode?: "isolated" | "shared" | "real_time" (concurrent access handling), and intelligence_level?: "basic" | "advanced" | "autonomous" | "transcendent" (AI processing sophistication)' as PromptPart;

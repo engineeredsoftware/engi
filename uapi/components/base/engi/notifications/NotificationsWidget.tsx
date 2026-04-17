@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 import '@/styles/notifications-widget.css';
 
 type Notification = {

@@ -5,7 +5,7 @@
  * Execution-generics knows nothing about S3 - that's artifacts' job.
  */
 
-import { saveArtifact } from '@engi/artifacts';
+import { saveArtifact } from '@bitcode/artifacts';
 import { ExecutionStorageConfig } from './StorageDestination';
 
 /**

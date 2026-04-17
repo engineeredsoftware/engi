@@ -7,10 +7,10 @@
  * postprocessed result at the top level.
  */
 
-import type { Executor } from '@engi/execution-generics';
-import { sequential } from '@engi/execution-generics';
-import { factoryQuickPipeline, type QuickPhase } from '@engi/pipelines-generics';
-import deliverablePipeline from '@engi/pipeline-deliverable';
+import type { Executor } from '@bitcode/execution-generics';
+import { sequential } from '@bitcode/execution-generics';
+import { factoryQuickPipeline, type QuickPhase } from '@bitcode/pipelines-generics';
+import deliverablePipeline from '@bitcode/pipeline-deliverable';
 
 type Input = any;
 type Output = any;

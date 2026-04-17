@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Custom path with cache disabled: cloneRepositoryTool({ provider: "bitbucket", owner: "atlassian", name: "jira-sdk", ref: "v2.0.0", connectionId: 54321, targetPath: "/workspace/deps/jira-sdk", cache: { enabled: false } })' as PromptPart;

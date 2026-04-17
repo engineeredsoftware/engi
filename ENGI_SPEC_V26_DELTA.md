@@ -64,6 +64,18 @@ Its rule is:
 - refurbish the public website only after second-gate application work is stable,
 - and avoid letting marketing-page changes blur application acceptance criteria.
 
+Its current draft-only content spine is:
+- where + when:
+  engineering economy participants
+- who:
+  producers, consumers, investors, partners, researchers
+- how:
+  auditable, proved, open
+- what:
+  observable, modular, hackable
+- why:
+  throughput, quality, trust
+
 ### Fourth-gate
 
 Fourth-gate is the retained-system convergence gate.
@@ -181,10 +193,12 @@ The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
@@ -195,7 +209,14 @@ The current active second-gate source file additions are:
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`
 - `uapi/app/api/conversations/[conversationId]/stream/route.ts`
+- `uapi/app/api/vcs/[provider]/connection/route.ts`
+- `uapi/app/api/vcs/[provider]/oauth/route.ts`
+- `uapi/app/api/vcs/[provider]/connect-token/route.ts`
+- `uapi/app/api/vcs/[provider]/repositories/route.ts`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
+- `uapi/tests/applicationRepositoryContext.test.ts`
+- `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
+- `packages/bitcode/V26_PROOF_SURFACES.md`
 
 The second-gate mandatory design outputs are:
 1. section wireframes,
@@ -213,6 +234,7 @@ Second-gate acceptance is reached only when:
 - the give and need actions are explicit in the master-detail workspace,
 - runs, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,
+- route-local repository context makes provider connection posture and selected repository supply explicit inside the give-side application frame,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,
@@ -221,6 +243,7 @@ Second-gate acceptance is reached only when:
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,
 - second-gate repository documents stay synchronized to active source, with supplementary modular docs identified where the canon is not the correct carrier,
+- the active module namespace is `@bitcode/*` across package manifests, path aliases, and active source imports,
 - new second-gate code systems are assigned proof/test/spec coverage rather than being treated as incidental glue,
 - the external interfacings used by the page behave with stable readiness,
 - and orbitals still read as the settings owner rather than as displaced onboarding residue.

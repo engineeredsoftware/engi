@@ -1,4 +1,5 @@
 import type { User } from '@supabase/supabase-js';
+import type { VCSProviderType, VCSRepository } from '@bitcode/vcs';
 
 import { ENABLE_MOCKS, MOCK_USER_ORBITAL, MOCK_USER_ORBITAL_SCENARIO } from '@/config/featureFlags';
 
@@ -63,8 +64,8 @@ export function buildMockOrbitalData() {
     githubConnection: {
       installationId: 424242,
       provider: 'github',
-      account: 'bitcode-labs',
-      login: 'bitcode-labs',
+      account: 'bitcode',
+      login: 'bitcode',
       status: 'connected',
       repositories: 7,
       mock_mode: true,
@@ -87,4 +88,119 @@ export function buildMockOnboardingData() {
     currentStep: 'profile',
     isOnboardingComplete: true,
   };
+}
+
+export function buildMockVcsConnectionStatus(provider: VCSProviderType) {
+  if (provider !== 'github') {
+    return {
+      connected: false,
+      provider,
+      valid: false,
+      metadata: {
+        mock_mode: true,
+        supported: false,
+      },
+    };
+  }
+
+  const orbitalData = buildMockOrbitalData();
+  const githubConnection = orbitalData.githubConnection;
+
+  return {
+    connected: true,
+    provider,
+    valid: true,
+    username: githubConnection?.login || githubConnection?.account || 'bitcode',
+    instanceUrl: undefined,
+    metadata: {
+      mock_mode: true,
+      repositories: githubConnection?.repositories || 0,
+      account: githubConnection?.account || 'bitcode',
+      status: githubConnection?.status || 'connected',
+    },
+  };
+}
+
+export function buildMockVcsRepositories(provider: VCSProviderType): VCSRepository[] {
+  if (provider !== 'github') {
+    return [];
+  }
+
+  return [
+    {
+      id: 'mock-repo-bitcode',
+      name: 'bitcode',
+      fullName: 'bitcode/bitcode',
+      description: 'Primary Bitcode application workspace and route-local composition carrier.',
+      private: true,
+      defaultBranch: 'main',
+      url: 'https://github.com/bitcode/bitcode',
+      cloneUrl: 'https://github.com/bitcode/bitcode.git',
+      sshUrl: 'git@github.com:bitcode/bitcode.git',
+      owner: {
+        id: 'bitcode',
+        username: 'bitcode',
+        type: 'organization',
+      },
+      createdAt: new Date(REVIEW_TIMESTAMP),
+      updatedAt: new Date(REVIEW_TIMESTAMP),
+      language: 'TypeScript',
+      topics: ['bitcode', 'application', 'v26'],
+      archived: false,
+      fork: false,
+      forksCount: 0,
+      starsCount: 0,
+      size: 2048,
+    },
+    {
+      id: 'mock-repo-core',
+      name: 'bitcode-core',
+      fullName: 'bitcode/bitcode-core',
+      description: 'System specification, proof, and pipeline-core integration surface for Bitcode.',
+      private: true,
+      defaultBranch: 'main',
+      url: 'https://github.com/bitcode/bitcode-core',
+      cloneUrl: 'https://github.com/bitcode/bitcode-core.git',
+      sshUrl: 'git@github.com:bitcode/bitcode-core.git',
+      owner: {
+        id: 'bitcode',
+        username: 'bitcode',
+        type: 'organization',
+      },
+      createdAt: new Date(REVIEW_TIMESTAMP),
+      updatedAt: new Date(REVIEW_TIMESTAMP),
+      language: 'TypeScript',
+      topics: ['bitcode', 'proof', 'pipelines'],
+      archived: false,
+      fork: false,
+      forksCount: 0,
+      starsCount: 0,
+      size: 1024,
+    },
+    {
+      id: 'mock-repo-economics',
+      name: 'economic-ledger',
+      fullName: 'bitcode/economic-ledger',
+      description: 'Settlement, accounting, and proof-publishing surfaces feeding the V26 application.',
+      private: true,
+      defaultBranch: 'main',
+      url: 'https://github.com/bitcode/economic-ledger',
+      cloneUrl: 'https://github.com/bitcode/economic-ledger.git',
+      sshUrl: 'git@github.com:bitcode/economic-ledger.git',
+      owner: {
+        id: 'bitcode',
+        username: 'bitcode',
+        type: 'organization',
+      },
+      createdAt: new Date(REVIEW_TIMESTAMP),
+      updatedAt: new Date(REVIEW_TIMESTAMP),
+      language: 'Rust',
+      topics: ['bitcode', 'settlement', 'proof'],
+      archived: false,
+      fork: false,
+      forksCount: 0,
+      starsCount: 0,
+      size: 1536,
+    },
+  ];
 }

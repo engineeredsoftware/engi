@@ -35,8 +35,8 @@ The Code Searcher Agent provides sophisticated code search capabilities through 
 ## Technical Implementation
 
 ### Dependencies
-- `@engi/generic-tools-lsp-query` - LSP tool integration
-- `@engi/agent-generics` - Base agent framework
+- `@bitcode/generic-tools-lsp-query` - LSP tool integration
+- `@bitcode/agent-generics` - Base agent framework
 - `FileTracker` - File content management
 - `zod` - Schema validation
 

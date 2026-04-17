@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { motion, useReducedMotion } from "framer-motion";
 import { RefObject, useEffect, useId, useState } from "react";
 

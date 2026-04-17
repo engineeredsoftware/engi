@@ -1,6 +1,6 @@
 // Diagnostics instrumentation utilities (formerly named hooks)
-import { Execution } from '@engi/execution-generics';
-import { log, writePromptIO, writeStepTraceJSON } from '@engi/logger';
+import { Execution } from '@bitcode/execution-generics';
+import { log, writePromptIO, writeStepTraceJSON } from '@bitcode/logger';
 import { DIAG_ENABLED, DIAG_TRACES, DIAG_FULL_TRACES, DIAG_FULL_PROMPTS, DIAG_TRACE_MAX, DIAG_WRITE_PROMPT_IO, DIAG_WRITE_STEP_TRACES } from './config';
 import { collectExecutionTrace, summarizeExecutionTrace } from './trace';
 

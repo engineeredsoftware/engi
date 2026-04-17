@@ -7,7 +7,7 @@ import {
   extractToolMetadata,
   hasDocCodePrompt,
 } from '../doc-code-tool/formatUsableTools';
-import { createPromptPart } from '@engi/prompts';
+import { createPromptPart } from '@bitcode/prompts';
 
 const buildPrompt = (nameSuffix: string) =>
   new DocCodeToolPrompt()

@@ -53,7 +53,7 @@ abstract class VCSProvider implements AbstractVCSProvider {
 - **Retry Logic**: Exponential backoff with configurable max attempts
 - **Timeout Handling**: Operation-specific timeouts (auth/read/write/heavy)
 - **Error Normalization**: Standard VCSError type across providers
-- **Logging**: Integrated with @engi/logger
+- **Logging**: Integrated with @bitcode/logger
 
 ## Database Schema
 
@@ -276,7 +276,7 @@ Each MCP tool follows a standardized structure:
 
 ```typescript
 // Standard Tool implementation pattern
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
 
 export class ServiceNameTool extends Tool {
@@ -365,7 +365,7 @@ Each MCP tool includes:
 
 To add a new MCP tool:
 1. Create directory in `packages/generic-tools/mcps-tools/`
-2. Implement Tool class extending `@engi/tools-generics`
+2. Implement Tool class extending `@bitcode/tools-generics`
 3. Add Zod schemas for validation
 4. Implement resilience patterns
 5. Add comprehensive tests

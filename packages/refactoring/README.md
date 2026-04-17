@@ -34,7 +34,7 @@ Lightweight code refactoring system providing atomic symbol renaming with LSP in
 
 ### Symbol Renaming
 ```typescript
-import { renameSymbol, RenameSymbolParams } from '@engi/refactoring';
+import { renameSymbol, RenameSymbolParams } from '@bitcode/refactoring';
 
 // Rename symbol with position hint
 const result = await renameSymbol({
@@ -55,7 +55,7 @@ console.log('Refactoring completed:', {
 
 ### Parameter Validation
 ```typescript
-import { renameSymbolParamsSchema } from '@engi/refactoring';
+import { renameSymbolParamsSchema } from '@bitcode/refactoring';
 
 // Validate parameters before operation
 const params = {
@@ -75,7 +75,7 @@ const result = await renameSymbol(validatedParams);
 
 ### Error Handling
 ```typescript
-import { renameSymbol, LspError } from '@engi/refactoring';
+import { renameSymbol, LspError } from '@bitcode/refactoring';
 
 try {
   const result = await renameSymbol({

@@ -1,5 +1,5 @@
 {
-  "name": "@engi/llm-generics",
+  "name": "@bitcode/llm-generics",
   "version": "1.0.0",
   "description": "Pure LLM primitives with zero framework awareness",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@engi/registry": "workspace:*"
+    "@bitcode/registry": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

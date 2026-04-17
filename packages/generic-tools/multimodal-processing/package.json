@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-tools-multimodal-processing",
+  "name": "@bitcode/generic-tools-multimodal-processing",
   "version": "0.1.0",
   "description": "Multimodal attachment processing tools for Engi pipelines",
   "main": "src/index.ts",
@@ -10,9 +10,9 @@
   "dependencies": {
     "ai": "^3.4.33",
     "zod": "^3.20.2",
-    "@engi/tools-generics": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/multimodal-utils": "workspace:*"
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/multimodal-utils": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

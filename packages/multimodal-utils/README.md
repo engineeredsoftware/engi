@@ -75,7 +75,7 @@ Process multiple files with intelligent batching and memory management.
 
 ### Basic File Processing
 ```typescript
-import { MultimodalProcessor } from '@engi/multimodal-utils';
+import { MultimodalProcessor } from '@bitcode/multimodal-utils';
 
 const processor = new MultimodalProcessor({
   concurrency: { maxConcurrent: 5 },
@@ -159,7 +159,7 @@ const analysis = await processor.processFile(
 
 ### Processing Strategy Selection
 ```typescript
-import { multimodalUtils } from '@engi/multimodal-utils';
+import { multimodalUtils } from '@bitcode/multimodal-utils';
 
 // Automatic strategy selection
 const strategy = multimodalUtils.getProcessingStrategy('document.pdf');
@@ -187,7 +187,7 @@ import {
   RateLimitError, 
   TimeoutError,
   multimodalUtils 
-} from '@engi/multimodal-utils';
+} from '@bitcode/multimodal-utils';
 
 try {
   const result = await processor.processFile(url, processingFunc);
@@ -310,7 +310,7 @@ const devProcessor = new MultimodalProcessor({
 For quick usage, a default configured instance is available:
 
 ```typescript
-import { defaultMultimodalProcessor } from '@engi/multimodal-utils';
+import { defaultMultimodalProcessor } from '@bitcode/multimodal-utils';
 
 // Use with default configuration
 const result = await defaultMultimodalProcessor.processFile(

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { AnimatedList } from "@/components/base/engi/magicui/animated-list";
 
 interface Item {

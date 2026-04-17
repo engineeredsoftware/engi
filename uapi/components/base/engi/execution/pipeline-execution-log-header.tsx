@@ -1,4 +1,4 @@
-import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@engi/streams';
+import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
 import styles from './pipeline-execution-log-header.module.css';
 
 interface PipelineRunLogHeaderProps {

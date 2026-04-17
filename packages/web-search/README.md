@@ -32,13 +32,13 @@ Advanced web search capabilities with revolutionary multi-provider orchestration
 ### Installation
 
 ```bash
-npm install @engi/web-search @engi/generic-tools-web-search
+npm install @bitcode/web-search @bitcode/generic-tools-web-search
 ```
 
 ### Revolutionary Production Search
 
 ```typescript
-import { productionMultiProviderSearch } from '@engi/generic-tools-web-search';
+import { productionMultiProviderSearch } from '@bitcode/generic-tools-web-search';
 
 // Revolutionary multi-provider search with enterprise resilience
 const results = await productionMultiProviderSearch(
@@ -59,7 +59,7 @@ console.log(`Diversity Score: ${results.fusionMetrics.diversityScore}`);
 ### Revolutionary Web Research Agent
 
 ```typescript
-import { WEB_RESEARCH_AGENT } from '@engi/generic-agents-web-research';
+import { WEB_RESEARCH_AGENT } from '@bitcode/generic-agents-web-research';
 
 // Execute complete PTRR workflow for revolutionary research quality
 const agent = WEB_RESEARCH_AGENT.researchWeb;
@@ -75,7 +75,7 @@ const agent = WEB_RESEARCH_AGENT.researchWeb;
 ### Basic URL-Enhanced Search
 
 ```typescript
-import { searchWithUrlIntelligence } from '@engi/web-search';
+import { searchWithUrlIntelligence } from '@bitcode/web-search';
 
 const urlAttachments = [
   'https://reactjs.org/docs/hooks.html',
@@ -172,7 +172,7 @@ Plan Phase          Generate Phase       Refine Phase         Intensify Phase
 The system automatically classifies URLs into types:
 
 ```typescript
-import { classifyUrl } from '@engi/web-search';
+import { classifyUrl } from '@bitcode/web-search';
 
 const classification = classifyUrl('https://github.com/facebook/react');
 // Returns:
@@ -205,7 +205,7 @@ const classification = classifyUrl('https://github.com/facebook/react');
 ### Technology Context Extraction
 
 ```typescript
-import { extractTechnologyContext } from '@engi/web-search';
+import { extractTechnologyContext } from '@bitcode/web-search';
 
 const urls = [
   'https://reactjs.org/docs',
@@ -220,7 +220,7 @@ const technologies = extractTechnologyContext(urls);
 ### Related Domain Discovery
 
 ```typescript
-import { discoverRelatedDomains } from '@engi/web-search';
+import { discoverRelatedDomains } from '@bitcode/web-search';
 
 const related = discoverRelatedDomains('reactjs.org');
 // Returns: ['react.dev', 'legacy.reactjs.org', 'beta.reactjs.org']
@@ -229,7 +229,7 @@ const related = discoverRelatedDomains('reactjs.org');
 ### Complete URL Attachment Analysis
 
 ```typescript
-import { analyzeUrlAttachments } from '@engi/web-search';
+import { analyzeUrlAttachments } from '@bitcode/web-search';
 
 const analysis = await analyzeUrlAttachments([
   'https://reactjs.org/docs/hooks.html',
@@ -441,7 +441,7 @@ await search('React performance optimization', { type: 'auto' });
 ## Error Handling
 
 ```typescript
-import { search, classifyUrl } from '@engi/web-search';
+import { search, classifyUrl } from '@bitcode/web-search';
 
 try {
   const results = await search('React tutorial');
@@ -472,7 +472,7 @@ import {
   searchWithUrlIntelligence,
   analyzeUrlAttachments,
   classifyUrl 
-} from '@engi/web-search';
+} from '@bitcode/web-search';
 
 async function enhancedResearch(task: string, urls: string[]) {
   // 1. Analyze URL attachments
@@ -552,7 +552,7 @@ LOG_LEVEL=info
 ### Production Health Monitoring
 
 ```typescript
-import { getProductionHealth, getProductionMetrics } from '@engi/generic-tools-web-search';
+import { getProductionHealth, getProductionMetrics } from '@bitcode/generic-tools-web-search';
 
 // Monitor system health in production
 const health = getProductionHealth();

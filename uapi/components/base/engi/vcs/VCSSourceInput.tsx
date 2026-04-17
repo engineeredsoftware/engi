@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { VCSProviderType, VCSRepository } from '@engi/vcs-core';
+import { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 import { VCSSourceBadge } from './VCSSourceBadge';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 interface VCSSourceInputProps {
   value?: {

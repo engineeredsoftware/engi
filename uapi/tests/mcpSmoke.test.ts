@@ -7,7 +7,7 @@ process.env.NEXT_PUBLIC_ENABLE_MOCKS = 'true';
 process.env.NEXT_PUBLIC_MOCK_DELIVERABLES = 'true';
 jest.resetModules();
 // Mock authentication to always succeed
-jest.mock('@engi/auth', () => ({ authenticateRequest: jest.fn() }));
+jest.mock('@bitcode/auth', () => ({ authenticateRequest: jest.fn() }));
 
 import deliverablesMock from '@/mocks/deliverables.json';
 // Minimal Response polyfill for Node test environment
@@ -23,9 +23,9 @@ import deliverablesMock from '@/mocks/deliverables.json';
   async json() { return JSON.parse(this.body); }
 };
 // Mock Supabase admin client
-jest.mock('@engi/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
-import { supabaseAdmin } from '@engi/supabase';
-import { authenticateRequest } from '@engi/auth';
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+import { supabaseAdmin } from '@bitcode/supabase';
+import { authenticateRequest } from '@bitcode/auth';
 import { POST as createKey } from '@/app/api/orbitals/api-keys/route';
 // Stub internal deliverables handler to avoid TS errors in pipeline modules
 jest.mock('@/app/api/executions/route', () => ({

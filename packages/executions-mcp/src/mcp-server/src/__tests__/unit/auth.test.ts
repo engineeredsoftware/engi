@@ -4,12 +4,12 @@
 
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { authenticateMCPRequest, validatePermissions } from '../../auth/middleware';
-import { createClient } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase';
 import { authCache } from '../../server';
 
 // Mock dependencies
-jest.mock('@engi/supabase/src/ssr/admin');
-jest.mock('@engi/logger');
+jest.mock('@bitcode/supabase/src/ssr/admin');
+jest.mock('@bitcode/logger');
 
 describe('Authentication Middleware', () => {
   beforeEach(() => {

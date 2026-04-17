@@ -1,5 +1,5 @@
 {
-  "name": "@engi/templates-generics",
+  "name": "@bitcode/templates-generics",
   "version": "1.0.0",
   "description": "Templates system types and business logic for ENGI platform",
   "main": "src/index.ts",
@@ -9,8 +9,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/supabase": "workspace:*",
-    "@engi/logger": "workspace:*"
+    "@bitcode/supabase": "workspace:*",
+    "@bitcode/logger": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

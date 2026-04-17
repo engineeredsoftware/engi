@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agents-jira",
+  "name": "@bitcode/generic-agents-jira",
   "version": "1.0.0",
   "description": "Jira project management and issue processing agent for comprehensive project coordination",
   "main": "./src/index.js",
@@ -9,9 +9,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@engi/jira-tools": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/observability": "workspace:*",
+    "@bitcode/jira-tools": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/observability": "workspace:*",
     "zod": "^3.20.0"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
 // Mock internal deliverables route to avoid loading pipeline modules
 jest.mock('@/app/api/executions/route', () => ({ GET: jest.fn(), POST: jest.fn() }));
 import { GET, POST } from '@/app/api/mcp/deliverables/route';
-import { authenticateRequest } from '@engi/auth';
+import { authenticateRequest } from '@bitcode/auth';
 const internal = jest.requireMock('@/app/api/executions/route') as { GET: jest.Mock; POST: jest.Mock };
 
-jest.mock('@engi/auth');
+jest.mock('@bitcode/auth');
 // authenticateRequest mocked above
 const mockAuth = authenticateRequest as jest.Mock;
 const mockInternalGET = internal.GET;

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSMCP_DOCCODETOOLPURPOSE: PromptPart = 
   'Provides comprehensive AWS cloud services integration through MCP (Model Context Protocol) interface, enabling seamless orchestration of Lambda functions, S3 storage operations, DynamoDB data management, CloudWatch monitoring, and other AWS services with intelligent resource optimization and automated infrastructure management.' as PromptPart;

@@ -1,4 +1,4 @@
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { NotionClient } from './client';
 import { NotionConnections } from './connections';
 import { extractTitle, pageToText, normalizeNotionId, isValidNotionId } from './utils';

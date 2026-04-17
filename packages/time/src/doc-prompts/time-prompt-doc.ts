@@ -7,8 +7,8 @@
  * Time package uses doc-prompts for temporal reasoning and time-slip learning.
  */
 
-import { DocPromptBase } from '@engi/doc-prompt';
-import { PromptPart } from '@engi/prompts';
+import { DocPromptBase } from '@bitcode/doc-prompt';
+import { PromptPart } from '@bitcode/prompts';
 
 // ==================== TIME-SPECIFIC DOC-PROMPT TYPES ====================
 

@@ -2,21 +2,21 @@
 import '@/tests/setupTests';
 
 // Mock dependencies
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
-jest.mock('@engi/context', () => ({ getGlobalContext: jest.fn() }));
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@engi/engine/pipeline/metrics', () => ({
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline/metrics', () => ({
   trackApiCall: jest.fn((metrics, phase, fn) => fn()),
   updatePeakMemory: jest.fn(),
 }));
-jest.mock('@engi/pipeline-deliverable/src/phases/implementation', () => ({ runImplementationDeliverables: jest.fn() }));
+jest.mock('@bitcode/pipeline-deliverable/src/phases/implementation', () => ({ runImplementationDeliverables: jest.fn() }));
 
-import { getGlobalContext } from '@engi/context';
-import { writeStreamMessage } from '@engi/streams';
-import { log } from '@engi/logger';
-import { runImplementationDeliverables as runImplementation } from '@engi/pipeline-deliverable';
-import { executeImplementationPhase } from '@engi/engine/pipeline/pipelineImplementationPhaseWrapper';
-import type { PipelineMetrics, PipelineState } from '@engi/engine/types';
+import { getGlobalContext } from '@bitcode/context';
+import { writeStreamMessage } from '@bitcode/streams';
+import { log } from '@bitcode/logger';
+import { runImplementationDeliverables as runImplementation } from '@bitcode/pipeline-deliverable';
+import { executeImplementationPhase } from '@bitcode/engine/pipeline/pipelineImplementationPhaseWrapper';
+import type { PipelineMetrics, PipelineState } from '@bitcode/engine/types';
 
 describe('executeImplementationPhase', () => {
   const fakeStream = {};

@@ -117,7 +117,7 @@ Advanced refactoring operations with LSP integration.
 
 ### Symbol Renaming
 ```typescript
-import { renameSymbolLsp } from '@engi/lsp';
+import { renameSymbolLsp } from '@bitcode/lsp';
 
 // Rename function across entire codebase
 const edits = await renameSymbolLsp({

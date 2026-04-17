@@ -5,8 +5,8 @@
  * pipeline step progression, performance metrics, and user interactions.
  */
 
-import { sendServerEvent } from '@engi/google-analytics';
-import { log } from '@engi/logger';
+import { sendServerEvent } from '@bitcode/google-analytics';
+import { log } from '@bitcode/logger';
 
 export interface PipelineEventMetadata {
   run_id: string;

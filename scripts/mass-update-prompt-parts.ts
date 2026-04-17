@@ -187,8 +187,8 @@ async function updateImports(): Promise<void> {
       
       // Update moved LSP files
       for (const lspFile of LSP_FILES_TO_MOVE) {
-        const genericImport = `@engi/prompts/src/raw/generic/${lspFile.replace('.ts', '')}`;
-        const specificImport = `@engi/prompts/src/raw/specific/${lspFile.replace('.ts', '').replace('_generic_', '_specific_')}`;
+        const genericImport = `@bitcode/prompts/src/raw/generic/${lspFile.replace('.ts', '')}`;
+        const specificImport = `@bitcode/prompts/src/raw/specific/${lspFile.replace('.ts', '').replace('_generic_', '_specific_')}`;
         
         if (content.includes(genericImport)) {
           content = content.replace(genericImport, specificImport);

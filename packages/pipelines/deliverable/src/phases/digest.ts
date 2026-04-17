@@ -6,7 +6,7 @@
  * When satisfied, user clicks "Ship" → execution complete.
  */
 
-import { createPhaseRunner } from '@engi/pipelines-generics';
+import { createPhaseRunner } from '@bitcode/pipelines-generics';
 
 export const digestPhase = createPhaseRunner({
   phaseName: 'digest',

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Tool } from '../Tool';
 import { factoryTool } from '../factoryTool';
-import { createPromptPart } from '@engi/prompts';
+import { createPromptPart } from '@bitcode/prompts';
 import { DocCodeToolPrompt } from '../doc-code-tool/DocCodeToolPrompt';
 
 class EchoTool extends Tool<(msg: string) => string> {

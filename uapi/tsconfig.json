@@ -18,23 +18,23 @@
     "paths": {
       "@/*": ["./*"],
 
-      // Generic deep imports: allow any @engi/<pkg>/src/<path>
-      "@engi/*/src/*": ["../packages/*/src/*"],
+      // Generic deep imports: allow any @bitcode/<pkg>/src/<path>
+      "@bitcode/*/src/*": ["../packages/*/src/*"],
 
-      // Ensure deep prompt parts resolve before the generic @engi/* pattern
-      "@engi/prompts": ["../packages/prompts/src/index.ts"],
-      "@engi/prompts/*": ["../packages/prompts/src/*"],
-      "@engi/prompts/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
-      "@engi/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
-      "@engi/prompts/src/*": ["../packages/prompts/src/*"],
+      // Ensure deep prompt parts resolve before the generic @bitcode/* pattern
+      "@bitcode/prompts": ["../packages/prompts/src/index.ts"],
+      "@bitcode/prompts/*": ["../packages/prompts/src/*"],
+      "@bitcode/prompts/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@bitcode/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@bitcode/prompts/src/*": ["../packages/prompts/src/*"],
       // Keep the generic mapping after specific ones so it doesn't hijack
-      // deep imports like @engi/prompts/src/... and duplicate /src
-      "@engi/*": ["../packages/*/src", "../packages/*"],
-      "@engi/agent-generics/*": ["../packages/agent-generics/*"],
+      // deep imports like @bitcode/prompts/src/... and duplicate /src
+      "@bitcode/*": ["../packages/*/src", "../packages/*"],
+      "@bitcode/agent-generics/*": ["../packages/agent-generics/*"],
 
       // Allow importing tool packages using the new
-      // "@engi/generic-tools/<tool>" pattern.
-      "@engi/generic-tools/*": ["../packages/generic-tools/*/src/index.ts"],
+      // "@bitcode/generic-tools/<tool>" pattern.
+      "@bitcode/generic-tools/*": ["../packages/generic-tools/*/src/index.ts"],
 
 
       "@/lib/engine": ["../packages/pipelines-generics/src/pipeline/index.ts"],
@@ -91,74 +91,74 @@
       "@/lib/dryrun/*": ["../packages/observability/src/dryrun/*"],
 
 
-      "@engi/pipeline-deliverable/*": ["../packages/pipelines/deliverable/*"],
+      "@bitcode/pipeline-deliverable/*": ["../packages/pipelines/deliverable/*"],
 
 
-      "@engi/generic-agents-initialize-mcps": [
+      "@bitcode/generic-agents-initialize-mcps": [
         "../packages/generic-agents/mcps-initializer/src/index.ts"
       ],
-      "@engi/generic-agents-ready-to-short-circuit": [
+      "@bitcode/generic-agents-ready-to-short-circuit": [
         "../packages/generic-agents/ready-to-short-circuit/src/index.ts"
       ],
-      "@engi/generic-agents-digesting": [
+      "@bitcode/generic-agents-digesting": [
         "../packages/generic-agents/digester/src/index.ts"
       ],
-      "@engi/generic-agents-file-pick": [
+      "@bitcode/generic-agents-file-pick": [
         "../packages/generic-agents/file-pick/src/index.ts"
       ],
-      "@engi/generic-agents-language": [
+      "@bitcode/generic-agents-language": [
         "../packages/generic-agents/language/src/index.ts"
       ],
-      "@engi/generic-agents-web-search": [
+      "@bitcode/generic-agents-web-search": [
         "../packages/generic-agents/web-search/src/index.ts"
       ],
-      "@engi/pipeline-engine-generics/*": ["../packages/pipelines-generics/src/*"],
-      "@engi/generic-tools-registry": ["../packages/tools-generics/src/registry.ts"],
-      "@engi/generic-tools-editing": ["../packages/generic-tools/files-maintaining/src/index.ts"],
-      "@engi/generic-tools/repository": ["../packages/generic-tools/git-interactor/src/index.ts"],
-      "@engi/generic-tools/file-tracker": ["../packages/pipelines-generics/src/context/context.ts"],
-      "@engi/generic-agents-git": ["../packages/generic-agents/git-interactor/src/index.ts"],
-      "@engi/generic-tools-simple-system-text-search": ["../packages/generic-tools/simple-system-text-search/src/index.ts"],
-      "@engi/generic-tools-git": ["../packages/generic-tools/git-interactor/src/index.ts"],
-      "@engi/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["../packages/pipelines/deliverable/src/phases/validation.ts"],
+      "@bitcode/pipeline-engine-generics/*": ["../packages/pipelines-generics/src/*"],
+      "@bitcode/generic-tools-registry": ["../packages/tools-generics/src/registry.ts"],
+      "@bitcode/generic-tools-editing": ["../packages/generic-tools/files-maintaining/src/index.ts"],
+      "@bitcode/generic-tools/repository": ["../packages/generic-tools/git-interactor/src/index.ts"],
+      "@bitcode/generic-tools/file-tracker": ["../packages/pipelines-generics/src/context/context.ts"],
+      "@bitcode/generic-agents-git": ["../packages/generic-agents/git-interactor/src/index.ts"],
+      "@bitcode/generic-tools-simple-system-text-search": ["../packages/generic-tools/simple-system-text-search/src/index.ts"],
+      "@bitcode/generic-tools-git": ["../packages/generic-tools/git-interactor/src/index.ts"],
+      "@bitcode/pipelines-generics/src/phases/validation/validationDeliverablesPhaseModule": ["../packages/pipelines/deliverable/src/phases/validation.ts"],
 
       // -------------------------------------------------------------------
-      // New @engi/* aliases replacing the historical @/lib/* imports.
+      // New @bitcode/* aliases replacing the historical @/lib/* imports.
       // -------------------------------------------------------------------
-      "@engi/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
-      "@engi/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
-      "@engi/context/*": ["../packages/context/src/*"],
-      "@engi/context": ["../packages/context/src/index.ts"],
-      "@engi/steps/*": ["../packages/pipelines-generics/src/steps/*"],
-      "@engi/steps": ["../packages/pipelines-generics/src/steps/index.ts"],
-      "@engi/streams/*": ["../packages/streams/src/*"],
-      "@engi/streams": ["../packages/streams/src/index.ts"],
-      "@engi/logger": ["../packages/logger/src/logger.ts"],
-      "@engi/time": ["../packages/pipelines-generics/src/time.ts"],
-      "@engi/parsing": ["../packages/parsing/src/parsing.ts"],
-      "@engi/phases": ["../packages/pipelines-generics/src/phases/index.ts"],
-      "@engi/phases/*": ["../packages/pipelines-generics/src/phases/*"],
-      "@engi/agents/*": ["../packages/agent-generics/src/*"],
-      "@engi/agents": ["../packages/agent-generics/src/index.ts"],
-      "@engi/files": ["../packages/files/src/files.ts"],
-      "@engi/files/*": ["../packages/files/src/*"],
-      "@engi/styling": ["../packages/styling/src/index.ts"],
-      "@engi/styling/*": ["../packages/styling/src/*"],
-      "@engi/utils": ["../packages/styling/src/index.ts"],
-      "@engi/observability": ["../packages/observability/src/observability.ts"],
-      "@engi/observability/*": ["../packages/observability/src/observability.ts"],
-      "@engi/discovery": ["../packages/pipelines-generics/src/phases/discovery/index.ts"],
-      "@engi/discovery/*": ["../packages/pipelines-generics/src/phases/discovery/*"],
-      "@engi/setup": ["../packages/pipelines-generics/src/phases/setup/index.ts"],
-      "@engi/setup/*": ["../packages/pipelines-generics/src/phases/setup/*", "../packages/pipelines-generics/src/setup/*"],
-      "@engi/supabase/ssr/*": ["../packages/supabase/src/ssr/*"],
-      "@engi/implementation": ["../packages/pipelines-generics/src/phases/implementation/index.ts"],
-      "@engi/implementation/*": ["../packages/pipelines-generics/src/implementation/*"],
-      "@engi/validation": ["../packages/validation/src/index.ts"],
-      "@engi/validation/*": ["../packages/validation/src/*"],
-      "@engi/shipping": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
-      "@engi/shipping/*": ["../packages/pipelines-generics/src/phases/shipping/*", "../packages/pipelines-generics/src/shipping/*"],
-      "@engi/sentry": ["../packages/sentry/src/sentry.ts"],
+      "@bitcode/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
+      "@bitcode/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
+      "@bitcode/context/*": ["../packages/context/src/*"],
+      "@bitcode/context": ["../packages/context/src/index.ts"],
+      "@bitcode/steps/*": ["../packages/pipelines-generics/src/steps/*"],
+      "@bitcode/steps": ["../packages/pipelines-generics/src/steps/index.ts"],
+      "@bitcode/streams/*": ["../packages/streams/src/*"],
+      "@bitcode/streams": ["../packages/streams/src/index.ts"],
+      "@bitcode/logger": ["../packages/logger/src/logger.ts"],
+      "@bitcode/time": ["../packages/pipelines-generics/src/time.ts"],
+      "@bitcode/parsing": ["../packages/parsing/src/parsing.ts"],
+      "@bitcode/phases": ["../packages/pipelines-generics/src/phases/index.ts"],
+      "@bitcode/phases/*": ["../packages/pipelines-generics/src/phases/*"],
+      "@bitcode/agents/*": ["../packages/agent-generics/src/*"],
+      "@bitcode/agents": ["../packages/agent-generics/src/index.ts"],
+      "@bitcode/files": ["../packages/files/src/files.ts"],
+      "@bitcode/files/*": ["../packages/files/src/*"],
+      "@bitcode/styling": ["../packages/styling/src/index.ts"],
+      "@bitcode/styling/*": ["../packages/styling/src/*"],
+      "@bitcode/utils": ["../packages/styling/src/index.ts"],
+      "@bitcode/observability": ["../packages/observability/src/observability.ts"],
+      "@bitcode/observability/*": ["../packages/observability/src/observability.ts"],
+      "@bitcode/discovery": ["../packages/pipelines-generics/src/phases/discovery/index.ts"],
+      "@bitcode/discovery/*": ["../packages/pipelines-generics/src/phases/discovery/*"],
+      "@bitcode/setup": ["../packages/pipelines-generics/src/phases/setup/index.ts"],
+      "@bitcode/setup/*": ["../packages/pipelines-generics/src/phases/setup/*", "../packages/pipelines-generics/src/setup/*"],
+      "@bitcode/supabase/ssr/*": ["../packages/supabase/src/ssr/*"],
+      "@bitcode/implementation": ["../packages/pipelines-generics/src/phases/implementation/index.ts"],
+      "@bitcode/implementation/*": ["../packages/pipelines-generics/src/implementation/*"],
+      "@bitcode/validation": ["../packages/validation/src/index.ts"],
+      "@bitcode/validation/*": ["../packages/validation/src/*"],
+      "@bitcode/shipping": ["../packages/pipelines-generics/src/phases/shipping/index.ts"],
+      "@bitcode/shipping/*": ["../packages/pipelines-generics/src/phases/shipping/*", "../packages/pipelines-generics/src/shipping/*"],
+      "@bitcode/sentry": ["../packages/sentry/src/sentry.ts"],
 
       // -------------------------------------------------------------------
       // UI registry components (Shadcn)
@@ -166,49 +166,49 @@
       "@/registry/*": ["components/ui/apps/www/registry/*"],
 
       // Generic tools & utilities
-      "@engi/tools/types": ["../packages/tools-generics/src/types.ts"],
-      "@engi/execution-generics": ["../packages/execution-generics/src/index.ts"],
-      "@engi/execution-generics/*": ["../packages/execution-generics/src/*"],
-      "@engi/registry": ["../packages/registry/src/index.ts"],
-      "@engi/registry/*": ["../packages/registry/src/*"],
-      "@engi/llm-generics": ["../packages/llm-generics/src/index.ts"],
-      "@engi/llm-generics/*": ["../packages/llm-generics/src/*"],
-      "@engi/doc-comment": ["../packages/doc-comment/src/index.ts"],
-      "@engi/doc-comment/*": ["../packages/doc-comment/src/*"],
-      "@engi/github": ["../packages/github/src/index.ts"],
-      "@engi/github/*": ["../packages/github/src/*"],
-      "@engi/vcs": ["../packages/vcs/src/index.ts"],
-      "@engi/vcs/*": ["../packages/vcs/src/*"],
-      "@engi/orm": ["../packages/orm/src/index.ts"],
-      "@engi/orm/*": ["../packages/orm/src/*"],
-      "@engi/tools/*": ["../packages/generic-tools/src/*"],
-      "@engi/tools": ["../packages/generic-tools/src/index.ts"],
-      "@engi/digest": ["../packages/digest/run/index.ts"],
-      "@engi/digest/*": ["../packages/digest/*"],
-      "@engi/email": ["../packages/notifications/src/index.ts"],
-      "@engi/prompts": ["../packages/prompts/src/index.ts"],
-      "@engi/prompts/src/*": ["../packages/prompts/src/*"],
-      "@engi/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
-      "@engi/system_prompt.txt": ["../packages/prompts/src/system_prompt.txt"],
-      "@engi/responses": ["../packages/networking/src/responses.ts"],
-      "@engi/sse": ["../packages/networking/src/sse.ts"],
-      "@engi/models": ["../packages/models/src/index.ts"],
-      "@engi/telemetry": ["../packages/observability/src/telemetry.ts"],
-      "@engi/web-search": ["../packages/web-search/src/index.ts"],
+      "@bitcode/tools/types": ["../packages/tools-generics/src/types.ts"],
+      "@bitcode/execution-generics": ["../packages/execution-generics/src/index.ts"],
+      "@bitcode/execution-generics/*": ["../packages/execution-generics/src/*"],
+      "@bitcode/registry": ["../packages/registry/src/index.ts"],
+      "@bitcode/registry/*": ["../packages/registry/src/*"],
+      "@bitcode/llm-generics": ["../packages/llm-generics/src/index.ts"],
+      "@bitcode/llm-generics/*": ["../packages/llm-generics/src/*"],
+      "@bitcode/doc-comment": ["../packages/doc-comment/src/index.ts"],
+      "@bitcode/doc-comment/*": ["../packages/doc-comment/src/*"],
+      "@bitcode/github": ["../packages/github/src/index.ts"],
+      "@bitcode/github/*": ["../packages/github/src/*"],
+      "@bitcode/vcs": ["../packages/vcs/src/index.ts"],
+      "@bitcode/vcs/*": ["../packages/vcs/src/*"],
+      "@bitcode/orm": ["../packages/orm/src/index.ts"],
+      "@bitcode/orm/*": ["../packages/orm/src/*"],
+      "@bitcode/tools/*": ["../packages/generic-tools/src/*"],
+      "@bitcode/tools": ["../packages/generic-tools/src/index.ts"],
+      "@bitcode/digest": ["../packages/digest/run/index.ts"],
+      "@bitcode/digest/*": ["../packages/digest/*"],
+      "@bitcode/email": ["../packages/notifications/src/index.ts"],
+      "@bitcode/prompts": ["../packages/prompts/src/index.ts"],
+      "@bitcode/prompts/src/*": ["../packages/prompts/src/*"],
+      "@bitcode/prompts/src/raw_promptparts/*": ["../packages/prompts/src/raw_promptparts/*"],
+      "@bitcode/system_prompt.txt": ["../packages/prompts/src/system_prompt.txt"],
+      "@bitcode/responses": ["../packages/networking/src/responses.ts"],
+      "@bitcode/sse": ["../packages/networking/src/sse.ts"],
+      "@bitcode/models": ["../packages/models/src/index.ts"],
+      "@bitcode/telemetry": ["../packages/observability/src/telemetry.ts"],
+      "@bitcode/web-search": ["../packages/web-search/src/index.ts"],
       
-      "@engi/obfuscate": ["../packages/obfuscate/src/index.ts"],
-      "@engi/dockerUtils": ["../packages/docker/src/index.ts"],
-      "@engi/supabase": ["../packages/supabase/src/index.ts"],
+      "@bitcode/obfuscate": ["../packages/obfuscate/src/index.ts"],
+      "@bitcode/dockerUtils": ["../packages/docker/src/index.ts"],
+      "@bitcode/supabase": ["../packages/supabase/src/index.ts"],
       "@/lib/measure/measureEngi": ["../packages/measure/src/measureEngi.ts"],
       "@/lib/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
       "@/lib/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
 
-      "@engi/objects-arrays-objects": ["../packages/objects-arrays/objects/src/index.ts"],
-      "@engi/objects-arrays-objects/*": ["../packages/objects-arrays/objects/src/*"],
+      "@bitcode/objects-arrays-objects": ["../packages/objects-arrays/objects/src/index.ts"],
+      "@bitcode/objects-arrays-objects/*": ["../packages/objects-arrays/objects/src/*"],
 
-      "@engi/web-search": ["../packages/web-search/src/index.ts"],
+      "@bitcode/web-search": ["../packages/web-search/src/index.ts"],
       
-      "@engi/obfuscate": ["../packages/obfuscate/src/index.ts"],
+      "@bitcode/obfuscate": ["../packages/obfuscate/src/index.ts"],
 
 
       "@/lib/email": ["../packages/notifications/src/index.ts"],

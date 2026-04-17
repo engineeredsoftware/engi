@@ -42,7 +42,7 @@ import {
   awsTerraformModuleSuggestionTool,
   awsTerraformCheckovScanTool,
   awsTerraformGenerateAwsModuleTool
-} from '@engi/generic-tools-mcps-aws-terraform';
+} from '@bitcode/generic-tools-mcps-aws-terraform';
 
 // Security scan execution
 const securityResults = await awsTerraformSecurityScanTool({

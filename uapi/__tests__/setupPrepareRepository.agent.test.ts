@@ -1,10 +1,10 @@
 import { jest } from '@jest/globals';
 
-import { initializeContext } from '@engi/context/context';
-import { getGlobalContext } from '@engi/context';
-import { executeAgentSteps } from '@engi/steps/runner';
-import { resolveTool } from '@engi/generic-tools-registry';
-import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY as AGENT } from '@engi/pipeline-deliverable';
+import { initializeContext } from '@bitcode/context/context';
+import { getGlobalContext } from '@bitcode/context';
+import { executeAgentSteps } from '@bitcode/steps/runner';
+import { resolveTool } from '@bitcode/generic-tools-registry';
+import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY as AGENT } from '@bitcode/pipeline-deliverable';
 
 
 // ---------------------------------------------------------------------------
@@ -27,8 +27,8 @@ function createDefault(schema: z.ZodType<any>): any {
 // Mocks
 // ---------------------------------------------------------------------------
 
-jest.mock('@engi/steps/sub', () => {
-  const actual = jest.requireActual('@engi/steps/sub');
+jest.mock('@bitcode/steps/sub', () => {
+  const actual = jest.requireActual('@bitcode/steps/sub');
   return {
     ...actual,
     structuredLLMCall: jest.fn(async (_msgs: any, cfg: { schema: z.ZodType<any> }) => {
@@ -37,8 +37,8 @@ jest.mock('@engi/steps/sub', () => {
   };
 });
 
-jest.mock('@engi/generic-tools-registry', () => {
-  const actual = jest.requireActual('@engi/generic-tools-registry');
+jest.mock('@bitcode/generic-tools-registry', () => {
+  const actual = jest.requireActual('@bitcode/generic-tools-registry');
   return {
     ...actual,
     resolveTool: jest.fn((name: string) => {

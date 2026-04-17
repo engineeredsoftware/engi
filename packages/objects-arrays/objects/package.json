@@ -1,5 +1,5 @@
 {
-  "name": "@engi/objects-arrays-objects",
+  "name": "@bitcode/objects-arrays-objects",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",

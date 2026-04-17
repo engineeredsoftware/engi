@@ -179,8 +179,8 @@
  * - Automatic cleanup on failure
  */
 
-import { Tool } from '@engi/tools-generics';
-import { VCSProvider, VCSOperation } from '@engi/vcs';
+import { Tool } from '@bitcode/tools-generics';
+import { VCSProvider, VCSOperation } from '@bitcode/vcs';
 import { z } from 'zod';
 
 // Input schema with comprehensive validation

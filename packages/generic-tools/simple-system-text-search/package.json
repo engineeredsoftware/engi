@@ -1,11 +1,11 @@
 {
-  "name": "@engi/generic-tools-simple-system-text-search",
+  "name": "@bitcode/generic-tools-simple-system-text-search",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@engi/tools-generics": "workspace:*",
-    "@engi/simple-system-text-search": "workspace:*"
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/simple-system-text-search": "workspace:*"
   }
 }

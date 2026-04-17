@@ -122,7 +122,7 @@ import {
   figmaGetArtboardPNGTool,
   figmaFindArtboardByNameTool,
   figmaGetFileTool
-} from '@engi/mcps-tools/figma';
+} from '@bitcode/mcps-tools/figma';
 
 // MCP server integration
 const figmaTools = [

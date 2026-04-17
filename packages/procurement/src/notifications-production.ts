@@ -4,9 +4,9 @@
  * Real-time notification system for procurement marketplace events
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
-import { telemetry } from '@engi/observability';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
+import { telemetry } from '@bitcode/observability';
 import { ProcurementErrorHandler, withErrorHandling } from './error-handling';
 import { ProcurementMonitoring } from './monitoring';
 

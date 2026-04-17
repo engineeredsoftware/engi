@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLOUTPUT: PromptPart = 
   'Structured ComplexityIntelligence containing: complexityStratification with multi-dimensional analysis layers, implementationPathways with strategic route optimization, resourceOptimization with intelligent allocation strategies, temporalProjections with timeline complexity modeling, riskComplexityMatrix with uncertainty correlation analysis, emergentComplexityPredictions with adaptive system behavior forecasting, strategicRecommendations with actionable optimization intelligence, and transcendentComplexityMetrics with strategic pattern indicators for intelligent task planning and execution management' as PromptPart;

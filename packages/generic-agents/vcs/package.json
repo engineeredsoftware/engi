@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agents-vcs",
+  "name": "@bitcode/generic-agents-vcs",
   "version": "1.0.0",
   "description": "VCS agent for orchestrating version control operations through provider APIs",
   "main": "src/index.ts",
@@ -9,11 +9,11 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@engi/agent-generics": "workspace:*",
-    "@engi/vcs": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/errors": "workspace:*",
-    "@engi/supabase": "workspace:*",
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/vcs": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/errors": "workspace:*",
+    "@bitcode/supabase": "workspace:*",
     "zod": "^3.21.4"
   },
   "devDependencies": {

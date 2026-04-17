@@ -11,15 +11,15 @@
  */
 
 import { z } from 'zod';
-import { logger } from '@engi/logger';
-import { createClient } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { createClient } from '@bitcode/supabase';
 import {
   PipelineExecutionsModel,
   DeliverablesModel,
   UserConnectionsModel,
   OrganizationsModel,
   UserProfilesModel
-} from '@engi/orm';
+} from '@bitcode/orm';
 import type { MCPAuthContext } from '../types';
 
 /**

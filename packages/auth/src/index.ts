@@ -1,7 +1,7 @@
 // Moved from uapi/lib/apiAuth.ts
 
-import { createClient } from '@engi/supabase';
-import { supabaseAdmin } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { createAuthErrorResponse } from '@/lib/responses';
 
 /**

@@ -1,5 +1,5 @@
 {
-  "name": "@engi/test-intelligence",
+  "name": "@bitcode/test-intelligence",
   "version": "0.0.0",
   "description": "Unified test intelligence system for fixtures, mocks, dryrun, and Storybook",
   "main": "./dist/index.js",
@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/doc-comment": "workspace:*",
+    "@bitcode/doc-comment": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

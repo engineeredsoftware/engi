@@ -1,4 +1,4 @@
-import { createPhaseRunner, PhaseConfig } from '@engi/pipelines-generics';
+import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 import { registerValidationAgentsForType as registerAgents } from '../agents/validation-agents';
 
 /**

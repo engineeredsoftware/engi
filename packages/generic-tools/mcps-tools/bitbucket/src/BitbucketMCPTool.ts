@@ -3,7 +3,7 @@
  * @prompt BITBUCKET_MCP_DOC_CODE_TOOL_PROMPT
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { BITBUCKET_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/BitbucketMCPDocCodeToolPrompt';
 
 // Import all Bitbucket operations
@@ -32,7 +32,7 @@ import {
   bitbucketUpdateIssueTool,
   bitbucketCommentOnIssueTool,
   bitbucketDeleteIssueTool,
-} from '@engi/bitbucket';
+} from '@bitcode/bitbucket';
 
 /**
  * Unified Bitbucket MCP operation handler

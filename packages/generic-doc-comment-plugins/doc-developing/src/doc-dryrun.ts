@@ -14,7 +14,7 @@ import {
   DocComment, 
   DocCommentMetadata,
   ParseLocation 
-} from '@engi/doc-comment';
+} from '@bitcode/doc-comment';
 
 export interface DryRunMetadata extends DocCommentMetadata {
   type: 'dryrun';
@@ -101,5 +101,5 @@ ${dryRunMeta.sideEffects ? `// Side Effects: ${dryRunMeta.sideEffects.join(', ')
 export const docDryRunPlugin = new DocDryRunPlugin();
 
 // Auto-register when imported
-import { registerPlugin } from '@engi/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment';
 registerPlugin(docDryRunPlugin);

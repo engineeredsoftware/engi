@@ -72,7 +72,7 @@ export {
   type AuditLogEntryData
 } from './validation';
 
-// Note: Client-only hooks are exported from '@engi/security/client' to avoid
+// Note: Client-only hooks are exported from '@bitcode/security/client' to avoid
 // importing React client modules in server contexts.
 
 // Twilio webhook and phone utilities

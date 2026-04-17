@@ -12,17 +12,17 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for tech identification
 // TODO: Import actual tools when they exist
-// import { codeAnalysisTool } from '@engi/generic-tools/code-analysis';
-// import { packageAnalysisTool } from '@engi/generic-tools/package-analysis';
-// import { frameworkDetectionTool } from '@engi/generic-tools/framework-detection';
+// import { codeAnalysisTool } from '@bitcode/generic-tools/code-analysis';
+// import { packageAnalysisTool } from '@bitcode/generic-tools/package-analysis';
+// import { frameworkDetectionTool } from '@bitcode/generic-tools/framework-detection';
 const codeAnalysisTool = null;
 const packageAnalysisTool = null;
 const frameworkDetectionTool = null;

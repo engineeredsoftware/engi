@@ -1,9 +1,9 @@
 {
-  "name": "@engi/generic-agents-ready-to-short-circuit",
+  "name": "@bitcode/generic-agents-ready-to-short-circuit",
   "version": "0.0.0",
   "main": "src/index.ts",
   "private": true,
   "dependencies": {
-    "@engi/agent-generics": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*"
   }
 }

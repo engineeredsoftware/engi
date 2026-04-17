@@ -51,7 +51,7 @@ This keeps the test hermetic and <100 ms.
 Run:
 
 ```bash
-pnpm --filter @engi/digest run test
+pnpm --filter @bitcode/digest run test
 ```
 
 ## Future work

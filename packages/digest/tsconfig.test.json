@@ -9,7 +9,7 @@
       "../streams": ["packages/digest/__mocks__/streams.ts"],
       "minimatch": ["packages/digest/__mocks__/minimatch.ts"],
       "dotenv": ["packages/digest/__mocks__/dotenv.ts"],
-      "@engi/logger": ["packages/digest/__mocks__/engi/logger.ts"],
+      "@bitcode/logger": ["packages/digest/__mocks__/engi/logger.ts"],
       "@/llm/geminiClient": ["packages/digest/__mocks__/llm/geminiClient.ts"],
       "@/llm/anthropicClient": ["packages/digest/__mocks__/llm/anthropicClient.ts"],
       "@/lib/dryrun": ["packages/digest/__mocks__/lib/dryrun.ts"],

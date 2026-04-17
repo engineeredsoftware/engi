@@ -1,5 +1,5 @@
-import { Prompt } from '@engi/prompts';
-import { PromptPart } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 /**
  * ExecutionPrompt - Base prompt for all executions with enforced hierarchy

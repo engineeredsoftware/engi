@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_LISTBRANCHES_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Multi-VCS platform integration with unified branch discovery, intelligent branch categorization by purpose and lifecycle stage, activity timeline analysis with commit velocity tracking, merge readiness assessment using automated conflict detection, stale branch identification with cleanup recommendations, developer ownership mapping and collaboration pattern analysis, branch dependency graph visualization with impact assessment, CI/CD pipeline status integration and deployment tracking, feature flag correlation and release coordination, custom filtering with saved search patterns, real-time synchronization across distributed teams, and predictive analytics for branch lifecycle optimization and merge conflict prevention' as PromptPart;

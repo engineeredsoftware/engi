@@ -7,11 +7,11 @@
  * NOTE: Gate type is defined in ./types/primitives.ts (SSOT)
  * Import from there or from package root.
  *
- * @package @engi/pipelines-generics
+ * @package @bitcode/pipelines-generics
  */
 
 import type { Gate, MetaPhase } from '../types/primitives';
-import type { Execution } from '@engi/execution-generics';
+import type { Execution } from '@bitcode/execution-generics';
 export type { Gate, MetaPhase };
 
 /**

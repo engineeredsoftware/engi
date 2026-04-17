@@ -3,8 +3,8 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { trackEvent } from '@engi/google-analytics';
-import { reportError } from '@engi/errors';
+import { trackEvent } from '@bitcode/google-analytics';
+import { reportError } from '@bitcode/errors';
 // import { modelCallNames } from './models/_legacy_modelCallNames'; // Legacy - not used
 import GlobalModelSelection from './models/GlobalModelSelection';
 import { SUPPORTED_LLM_MODELS, ProviderId } from '@/utils/model-pricing';

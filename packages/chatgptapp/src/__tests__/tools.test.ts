@@ -1,22 +1,22 @@
 import { getEngiTools, type EngiToolExecutionResult } from '../tools';
 
-jest.mock('@engi/generic-tools-simple-system-text-search', () => ({
+jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
 }));
 
-jest.mock('@engi/generic-tools-web-search', () => ({
+jest.mock('@bitcode/generic-tools-web-search', () => ({
   search: { execute: jest.fn() },
 }));
 
-jest.mock('@engi/digest/run', () => ({
+jest.mock('@bitcode/digest/run', () => ({
   generateDigest: jest.fn(),
 }));
 
 const simpleSystemTextSearchExecute =
-  (jest.requireMock('@engi/generic-tools-simple-system-text-search').simpleSystemTextSearch.execute as jest.Mock);
+  (jest.requireMock('@bitcode/generic-tools-simple-system-text-search').simpleSystemTextSearch.execute as jest.Mock);
 const webSearchExecute =
-  (jest.requireMock('@engi/generic-tools-web-search').search.execute as jest.Mock);
-const generateDigestMock = (jest.requireMock('@engi/digest/run').generateDigest as jest.Mock);
+  (jest.requireMock('@bitcode/generic-tools-web-search').search.execute as jest.Mock);
+const generateDigestMock = (jest.requireMock('@bitcode/digest/run').generateDigest as jest.Mock);
 
 describe('ChatGPT App tools', () => {
   beforeEach(() => {

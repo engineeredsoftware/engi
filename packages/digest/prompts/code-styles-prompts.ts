@@ -4,7 +4,7 @@
  * intent: "Prompt for generating Code Styles guidelines"
  * current_version: "GA1.00.0"
  */
-import { Prompt, hierarchicalFormatter } from '@engi/prompts';
+import { Prompt, hierarchicalFormatter } from '@bitcode/prompts';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_CODESTYLES_BASE_CORE,
 } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_codestyles_base_core';

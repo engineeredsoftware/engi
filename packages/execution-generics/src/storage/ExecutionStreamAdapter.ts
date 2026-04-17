@@ -6,7 +6,7 @@
  * of pipeline execution progress.
  */
 
-import { Streamer } from '@engi/streams';
+import { Streamer } from '@bitcode/streams';
 import { ExecutionStorageDestination } from './StorageDestination';
 
 /**

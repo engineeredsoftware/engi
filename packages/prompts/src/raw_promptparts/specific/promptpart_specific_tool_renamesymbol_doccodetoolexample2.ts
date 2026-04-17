@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2: Rename with conflict detection\nInput: { filePath: "/src/models/User.ts", position: { line: 10, column: 6 }, newName: "id", atomic: true, validateReferences: true }\nOutput: Rename failed - conflict detected: Symbol "id" already exists in 3 locations. Rollback completed. Suggested alternatives: userId, identifier, userIdentifier' as PromptPart;

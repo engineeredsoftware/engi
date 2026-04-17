@@ -2,16 +2,16 @@
 import '@/tests/setupTests';
 
 // Mock dependencies
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
-jest.mock('@engi/context', () => ({ getGlobalContext: jest.fn() }));
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@engi/pipeline-deliverable/src/phases/shipping', () => ({ runShippingDeliverables: jest.fn() }));
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
+jest.mock('@bitcode/pipeline-deliverable/src/phases/shipping', () => ({ runShippingDeliverables: jest.fn() }));
 
-import { getGlobalContext } from '@engi/context';
-import { writeStreamMessage } from '@engi/streams';
-import { runShippingDeliverables as runShipping } from '@engi/pipeline-deliverable';
-import { executeShippingPhase, handleShippingFailure } from '@engi/engine/pipeline/pipelineShippingPhaseWrapper';
-import { log } from '@engi/logger';
+import { getGlobalContext } from '@bitcode/context';
+import { writeStreamMessage } from '@bitcode/streams';
+import { runShippingDeliverables as runShipping } from '@bitcode/pipeline-deliverable';
+import { executeShippingPhase, handleShippingFailure } from '@bitcode/engine/pipeline/pipelineShippingPhaseWrapper';
+import { log } from '@bitcode/logger';
 
 describe('executeShippingPhase', () => {
   let fakeCtx: any;

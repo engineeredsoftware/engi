@@ -34,7 +34,7 @@ Atomic file manipulation system providing comprehensive editing operations with 
 
 ### Transactional File Editor
 ```typescript
-import { TransactionalFileEditor, EditCommandParams } from '@engi/editing';
+import { TransactionalFileEditor, EditCommandParams } from '@bitcode/editing';
 
 // Initialize editor with transaction support
 const editor = new TransactionalFileEditor();
@@ -125,7 +125,7 @@ const deleted = await editor.executeCommand({
 
 ### Text Edit Operations
 ```typescript
-import { applyTextEdit, applyTextEdits, TextEdit, Position } from '@engi/editing';
+import { applyTextEdit, applyTextEdits, TextEdit, Position } from '@bitcode/editing';
 
 // Single text edit
 const edit: TextEdit = {
@@ -155,7 +155,7 @@ const result = applyTextEdits(originalContent, edits);
 
 ### Position and Range Utilities
 ```typescript
-import { positionToOffset, offsetToPosition } from '@engi/editing';
+import { positionToOffset, offsetToPosition } from '@bitcode/editing';
 
 // Convert line/character position to string offset
 const offset = positionToOffset(content, { line: 10, character: 5 });
@@ -174,7 +174,7 @@ try {
 
 ### Legacy Compatibility
 ```typescript
-import { runEditCommand, EditCommandParams } from '@engi/editing';
+import { runEditCommand, EditCommandParams } from '@bitcode/editing';
 
 // Simple command execution with automatic transaction handling
 const result = await runEditCommand({

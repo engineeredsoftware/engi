@@ -138,7 +138,7 @@ if (error || !record) {
 ### Database Integration
 ```typescript
 // Supabase Admin Client Usage
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 const validation = await supabaseAdmin
   .from('user_api_keys')

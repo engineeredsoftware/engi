@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { GenericNotificationEmail } from '@engi/email-templates';
+import { GenericNotificationEmail } from '@bitcode/email-templates';
 import { createEmailStory } from './_helpers';
 
 const meta: Meta<typeof GenericNotificationEmail> = {

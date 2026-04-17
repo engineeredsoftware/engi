@@ -4,12 +4,12 @@
  * PostgreSQL database management and query tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   postgresqlListTablesTool as _postgresqlListTables,
   postgresqlDescribeTableTool as _postgresqlDescribeTable,
   postgresqlRunQueryTool as _postgresqlRunQuery,
-} from '@engi/postgresql';
+} from '@bitcode/postgresql';
 
 // Import DocCodeToolPrompt
 import { POSTGRESQL_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/PostgreSQLMCPDocCodeToolPrompt';

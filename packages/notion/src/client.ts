@@ -1,5 +1,5 @@
 import { Client } from '@notionhq/client';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type {
   NotionConnection,
   NotionPage,

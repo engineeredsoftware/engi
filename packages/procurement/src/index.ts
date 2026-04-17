@@ -2,8 +2,8 @@ import 'openai/shims/node';
 
 import OpenAI from 'openai';
 
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 
 // ---------------------------------------------------------------------------
 // Environment-tunable constants

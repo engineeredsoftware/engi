@@ -5,7 +5,7 @@
  * without exposing sensitive data in logs.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 /**
  * Audit event types for credential operations

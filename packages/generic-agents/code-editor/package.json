@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agent-code-editor",
+  "name": "@bitcode/generic-agent-code-editor",
   "version": "1.0.0",
   "description": "Code editing agent with Divide|Conquer|Correct pattern for reliable code modifications",
   "main": "src/index.ts",
@@ -9,10 +9,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "@engi/agent-generics": "workspace:*",
-    "@engi/execution-generics": "workspace:*",
-    "@engi/editing": "workspace:*",
-    "@engi/prompts": "workspace:*",
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/editing": "workspace:*",
+    "@bitcode/prompts": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

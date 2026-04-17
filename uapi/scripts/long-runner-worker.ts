@@ -8,8 +8,8 @@
 
 import { spawn } from 'child_process';
 import * as crypto from 'crypto';
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 
 // ----------------------------- Prometheus metrics -------------------------
 import * as http from 'http';

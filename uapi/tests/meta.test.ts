@@ -8,9 +8,9 @@ import {
   defaultFitPrompt,
   defaultCheckPrompt,
   defaultStitchPrompt
-} from '@engi/steps/meta';
+} from '@bitcode/steps/meta';
 
-import type { ChatCompletionRequestMessage } from '@engi/steps/meta';
+import type { ChatCompletionRequestMessage } from '@bitcode/steps/meta';
 
 describe('formatJsonRequestMessage', () => {
   it('appends JSON requirement to system messages without it', () => {

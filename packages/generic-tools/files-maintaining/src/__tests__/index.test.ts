@@ -14,11 +14,11 @@ import {
   commitTransactionTool,
   rollbackTransactionTool,
 } from '../index';
-import { TransactionalFileEditor, EditError } from '@engi/editing';
+import { TransactionalFileEditor, EditError } from '@bitcode/editing';
 
 // Mock dependencies
-jest.mock('@engi/editing');
-jest.mock('@engi/logger');
+jest.mock('@bitcode/editing');
+jest.mock('@bitcode/logger');
 
 const MockTransactionalFileEditor = TransactionalFileEditor as jest.MockedClass<typeof TransactionalFileEditor>;
 

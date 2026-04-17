@@ -35,7 +35,7 @@ npm run build  # runs prebuild hook
 #### Use in UI Components
 
 ```typescript
-import { useGeneratedModelConfigs } from '@engi/models';
+import { useGeneratedModelConfigs } from '@bitcode/models';
 
 // In your models-step.tsx or similar component
 function ModelsConfiguration() {
@@ -72,7 +72,7 @@ const modelCallNames = [
 ];
 
 // After: Build-time generated
-import { getModelCallNames } from '@engi/models';
+import { getModelCallNames } from '@bitcode/models';
 const modelCallNames = getModelCallNames();
 ```
 

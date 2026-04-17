@@ -5,7 +5,7 @@
  * Organized by phase and functionality for optimal agent selection.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 
 // VCS and Repository Tools (always available)
 import { deliverablePipelineCloneVCSRepositoryTool } from './DeliverablePipelineCloneVCSRepositoryTool';
@@ -16,7 +16,7 @@ import { deliverablePipelinePDFComprehensionTool } from './DeliverablePipelinePD
 import { deliverablePipelineAudioComprehensionTool } from './DeliverablePipelineAudioComprehensionTool';
 import { deliverablePipelineVideoComprehensionTool } from './DeliverablePipelineVideoComprehensionTool';
 // VCS tools used during shipping
-import { createPullRequestTool, createIssueTool, createCommentTool } from '@engi/generic-tools/vcs/src/index';
+import { createPullRequestTool, createIssueTool, createCommentTool } from '@bitcode/generic-tools/vcs/src/index';
 
 // GA-1 policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration
@@ -33,7 +33,7 @@ const vercelTools: Tool[] = [];
 
 try {
   // Load LSP query tools unconditionally (best-effort)
-  const m = require('@engi/generic-tools/lsp-query');
+  const m = require('@bitcode/generic-tools/lsp-query');
   // Map common LSP operations to semantic/code intelligence slots
   lspSemanticAnalysisEngine = m.documentSymbolsTool || m.referencesTool || m.hoverInfoTool;
   lspCodeIntelligenceEngine = m.codeActionsTool || m.completionTool || m.signatureHelpTool;

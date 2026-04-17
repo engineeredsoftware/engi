@@ -52,7 +52,7 @@ Zod schema defining the structure of MCP configurations.
 
 **Usage:**
 ```typescript
-import { McpConfigSchema } from '@engi/mcp';
+import { McpConfigSchema } from '@bitcode/mcp';
 
 // Validate configuration
 const parsed = McpConfigSchema.parse(userConfig);
@@ -68,7 +68,7 @@ if (!result.success) {
 
 ### Basic Configuration Validation
 ```typescript
-import { validateMcpConfig, McpConfigSchema } from '@engi/mcp';
+import { validateMcpConfig, McpConfigSchema } from '@bitcode/mcp';
 
 // Validate MCP configuration
 const config = {
@@ -94,7 +94,7 @@ console.log('Validated config:', parsed);
 ### Type-Safe Configuration
 ```typescript
 import { z } from 'zod';
-import { McpConfigSchema } from '@engi/mcp';
+import { McpConfigSchema } from '@bitcode/mcp';
 
 // Define type from schema
 type McpConfig = z.infer<typeof McpConfigSchema>;
@@ -157,7 +157,7 @@ const validConfigs = results
 
 ### Pipeline Integration
 ```typescript
-import { McpConfigSchema } from '@engi/mcp';
+import { McpConfigSchema } from '@bitcode/mcp';
 
 // Load MCP configurations from environment
 function loadMcpConfigs(): McpConfig[] {

@@ -43,10 +43,10 @@ for agent_pair in "${AGENTS[@]}"; do
  * ]
  */
 
-import { Prompt } from '@engi/prompts';
-import { PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_IDENTITY } from '@engi/prompts';
-import { PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_ROLE } from '@engi/prompts';
-import { PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_INSTRUCTIONS } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
+import { PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_IDENTITY } from '@bitcode/prompts';
+import { PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_ROLE } from '@bitcode/prompts';
+import { PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts';
 
 export const ${const_name}_SYSTEM_PROMPT = new Prompt()
   .set('identity', PROMPTPART_SPECIFIC_AGENT_${const_name}_SYSTEM_IDENTITY)

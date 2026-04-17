@@ -7,7 +7,7 @@ echo ""
 
 # 1. Import path check
 echo "1. IMPORT PATHS CHECK:"
-IMPORT_ERRORS=$(grep -r "@engi/prompts/src/raw" packages/ --include="*.ts" --include="*.tsx" 2>/dev/null | wc -l)
+IMPORT_ERRORS=$(grep -r "@bitcode/prompts/src/raw" packages/ --include="*.ts" --include="*.tsx" 2>/dev/null | wc -l)
 echo "   Files with incorrect import paths: $IMPORT_ERRORS"
 
 # 2. EXECUTION naming check

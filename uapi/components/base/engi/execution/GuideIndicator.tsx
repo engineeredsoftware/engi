@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FileTextIcon, CodeIcon, BookOpenIcon, CheckCircleIcon } from 'lucide-react';
-import type { Gate } from '@engi/pipelines-generics';
+import type { Gate } from '@bitcode/pipelines-generics';
 
 export interface GuideIndicatorProps {
   currentGuide: Gate;

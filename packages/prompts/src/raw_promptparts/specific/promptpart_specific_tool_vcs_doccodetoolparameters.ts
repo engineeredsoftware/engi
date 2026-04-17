@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLPARAMETERS: PromptPart = 
   'DEPRECATED: Tool-specific parameters vary. See VCS tools documentation for modern equivalent operations.' as PromptPart;

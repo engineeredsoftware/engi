@@ -5,10 +5,10 @@
  * for real-time event emission during pipeline executions.
  */
 
-import { Execution, ExecutionStreamAdapter } from '@engi/execution-generics';
+import { Execution, ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { toPhaseLower, toStepLower } from '../types/primitives';
-import { Streamer } from '@engi/streams';
-import { ExecutionEventsModel } from '@engi/orm';
+import { Streamer } from '@bitcode/streams';
+import { ExecutionEventsModel } from '@bitcode/orm';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
@@ -98,7 +98,7 @@ export function enablePipelineStreaming(
     let genSchemas: any = null;
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      genSchemas = require('@engi/orm/src/types/generated/deliverables_pipeline.generated');
+      genSchemas = require('@bitcode/orm/src/types/generated/deliverables_pipeline.generated');
     } catch {}
     const toPascal = (s: string) => s.split('_').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('');
     const validate = (table: string, row: any) => {

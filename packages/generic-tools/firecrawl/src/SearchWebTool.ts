@@ -5,8 +5,8 @@
  * @prompt SEARCH_WEB_DOC_CODE_TOOL_PROMPT
  */
 
-import { Tool } from '@engi/tools-generics';
-import { searchWeb } from '@engi/firecrawl';
+import { Tool } from '@bitcode/tools-generics';
+import { searchWeb } from '@bitcode/firecrawl';
 import { SEARCH_WEB_DOC_CODE_TOOL_PROMPT } from './prompts/SearchWebDocCodeToolPrompt';
 
 export class SearchWebTool extends Tool<typeof searchWeb> {

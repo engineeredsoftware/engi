@@ -15,13 +15,13 @@ import {
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import * as path from 'path';
-import { LspClient, LspError } from '@engi/lsp';
+import { LspClient, LspError } from '@bitcode/lsp';
 
 // Mock dependencies
 jest.mock('fs/promises');
 jest.mock('fs');
-jest.mock('@engi/lsp');
-jest.mock('@engi/logger');
+jest.mock('@bitcode/lsp');
+jest.mock('@bitcode/logger');
 jest.mock('@/lib/files');
 
 const mockFs = fs as jest.Mocked<typeof fs>;
@@ -42,7 +42,7 @@ const mockGlobalContext = {
   },
 };
 
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: () => mockGlobalContext,
 }));
 

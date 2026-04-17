@@ -16,7 +16,7 @@ The LSP optimization engine provides:
 ### 1. Initialize the Optimizer
 
 ```typescript
-import { initializePipelineOptimizer } from '@engi/lsp';
+import { initializePipelineOptimizer } from '@bitcode/lsp';
 
 // Initialize with default configuration
 const optimizer = initializePipelineOptimizer({
@@ -35,7 +35,7 @@ const optimizer = initializePipelineOptimizer({
 import { 
   initializePipelineOptimizer,
   queueOptimizedLspOperation 
-} from '@engi/lsp';
+} from '@bitcode/lsp';
 
 async function setupPhaseWithOptimization() {
   const optimizer = initializePipelineOptimizer();
@@ -135,7 +135,7 @@ const optimizer = initializePipelineOptimizer(advancedConfig);
 ### Performance Monitoring
 
 ```typescript
-import { getPipelineOptimizer } from '@engi/lsp';
+import { getPipelineOptimizer } from '@bitcode/lsp';
 
 async function monitorLspPerformance() {
   const optimizer = getPipelineOptimizer();
@@ -426,7 +426,7 @@ import {
   initializePipelineOptimizer,
   queueOptimizedLspOperation,
   finalizePipelineOptimizer 
-} from '@engi/lsp';
+} from '@bitcode/lsp';
 
 export const ENHANCED_AGENT = {
   async plan(context) {

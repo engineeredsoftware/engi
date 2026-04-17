@@ -8,12 +8,12 @@ jest.mock('@/llm/anthropicClient', () => ({
   callAnthropic: jest.fn(),
 }));
 
-jest.mock('@engi/credits', () => ({
+jest.mock('@bitcode/credits', () => ({
   estimateTokens: jest.fn(() => 10),
   deductGenerationCredits: jest.fn(),
 }));
 
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   createClient: jest.fn(async () => ({
     auth: {
       getUser: jest.fn(async () => ({ data: { user: { id: 'user-123' } } })),
@@ -35,7 +35,7 @@ jest.mock('@/lib/dryrun', () => ({
 
 import { callGemini } from '@/llm/geminiClient';
 import { callAnthropic } from '@/llm/anthropicClient';
-import { deductGenerationCredits } from '@engi/credits';
+import { deductGenerationCredits } from '@bitcode/credits';
 import { callLLMAPI } from '../callLLMAPI';
 
 const callGeminiMock = callGemini as jest.MockedFunction<typeof callGemini>;

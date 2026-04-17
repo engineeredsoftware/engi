@@ -1,5 +1,5 @@
 {
-  "name": "@engi/jira",
+  "name": "@bitcode/jira",
   "version": "1.0.0",
   "description": "Jira Cloud API integration for comprehensive project and issue management",
   "main": "./src/index.ts",
@@ -9,8 +9,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/supabase": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/supabase": "workspace:*",
     "zod": "^3.20.0"
   },
   "devDependencies": {

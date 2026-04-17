@@ -2,7 +2,7 @@
  * Lightweight unit tests for critical credit maths & reservation logic.
  * **NOTE** – These tests use Jest’s fake timers and a stub Supabase client so
  * they never touch a real database.  They are intended as documentation as
- * much as validation – CI may stub `@engi/supabase` with a local fake.
+ * much as validation – CI may stub `@bitcode/supabase` with a local fake.
  */
 
 import {

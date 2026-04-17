@@ -10,7 +10,7 @@ module.exports = {
     }
   },
   moduleNameMapper: {
-    '^@engi/llm-generics$': '<rootDir>/../llm-generics/src/index.ts',
-    '^@engi/registry$': '<rootDir>/../registry/src/index.ts'
+    '^@bitcode/llm-generics$': '<rootDir>/../llm-generics/src/index.ts',
+    '^@bitcode/registry$': '<rootDir>/../registry/src/index.ts'
   }
 };

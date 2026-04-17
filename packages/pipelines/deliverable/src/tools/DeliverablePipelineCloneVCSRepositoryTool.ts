@@ -1,8 +1,8 @@
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_PURPOSE_ADDENDUM } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_purpose_addendum';
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_CAPABILITIES_ADDENDUM } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_capabilities_addendum';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_PURPOSE_ADDENDUM } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_purpose_addendum';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_CAPABILITIES_ADDENDUM } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_capabilities_addendum';
 /**
  * Deliverable Pipeline - Clone VCS Repository Tool (Wrapper)
  *
@@ -12,12 +12,12 @@ import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_CAPABILITIES_ADDE
  * RepositorySetup prompt.
  */
 
-import { Tool } from '@engi/tools-generics';
-import type { Prompt } from '@engi/prompts';
+import { Tool } from '@bitcode/tools-generics';
+import type { Prompt } from '@bitcode/prompts';
 
 // Base generic tool + its DocCodeToolPrompt
-import { cloneRepositoryTool } from '@engi/generic-tools-repository-setup';
-import { REPOSITORY_SETUP_DOC_CODE_TOOL_PROMPT } from '@engi/generic-tools-repository-setup/src/prompts/RepositorySetupDocCodeToolPrompt';
+import { cloneRepositoryTool } from '@bitcode/generic-tools-repository-setup';
+import { REPOSITORY_SETUP_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-repository-setup/src/prompts/RepositorySetupDocCodeToolPrompt';
 
 // PromptParts for Deliverables overlay
 

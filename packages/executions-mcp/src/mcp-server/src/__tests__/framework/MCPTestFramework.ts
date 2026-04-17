@@ -273,7 +273,7 @@ export class MCPTestFramework {
    */
   private mockExternalDependencies(): void {
     // Mock logger
-    jest.mock('@engi/logger', () => ({
+    jest.mock('@bitcode/logger', () => ({
       logger: {
         info: jest.fn(),
         warn: jest.fn(),
@@ -283,7 +283,7 @@ export class MCPTestFramework {
     }));
     
     // Mock observability
-    jest.mock('@engi/observability', () => ({
+    jest.mock('@bitcode/observability', () => ({
       observability: {
         init: jest.fn(),
         recordMetric: jest.fn(),

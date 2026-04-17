@@ -6,27 +6,27 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@engi/supabase/ssr/server';
-import { traceRoute } from '@engi/observability';
-import { log, reinitLoggerFile } from '@engi/logger';
-import { VCSService } from '@engi/vcs';
-import { createAdminClient, type Database } from '@engi/orm';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { traceRoute } from '@bitcode/observability';
+import { log, reinitLoggerFile } from '@bitcode/logger';
+import { VCSService } from '@bitcode/vcs';
+import { createAdminClient, type Database } from '@bitcode/orm';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@engi/models';
-import { withCreditReservation } from '@engi/credits';
-import { Execution, ExecutionStreamAdapter, NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@engi/execution-generics';
-import { PipelineExecution } from '@engi/pipelines-generics/src/execution/PipelineExecution';
-import { deliverablePipeline } from '@engi/pipeline-deliverable';
+import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/models';
+import { withCreditReservation } from '@bitcode/credits';
+import { Execution, ExecutionStreamAdapter, NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@bitcode/execution-generics';
+import { PipelineExecution } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
+import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
 // GA-2: Multi-deliverable will be integrated into main pipeline
-// import multiDeliverablesPipeline from '@engi/pipelines/multi';
-import { factoryLLMRegistryWithProviders } from '@engi/generic-llms';
-import { sendServerEvent } from '@engi/google-analytics';
-import { EngiError, reportError } from '@engi/errors';
-import { sendEmail } from '@engi/email';
+// import multiDeliverablesPipeline from '@bitcode/pipelines/multi';
+import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
+import { sendServerEvent } from '@bitcode/google-analytics';
+import { EngiError, reportError } from '@bitcode/errors';
+import { sendEmail } from '@bitcode/email';
 import { createPipelineCompletionMessage, findOrCreateConversationForPipeline } from '../conversations';
-import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@engi/responses';
+import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
 import * as crypto from 'crypto';
-import { Streamer } from '@engi/streams';
+import { Streamer } from '@bitcode/streams';
 
 // Initialize ORM client with admin access for API routes
 const orm = createAdminClient();
@@ -503,7 +503,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
       }
       
       // Process uploaded files
-      const { saveArtifact } = await import('@engi/artifacts');
+      const { saveArtifact } = await import('@bitcode/artifacts');
       for (const [key, value] of formData.entries()) {
         if (key.startsWith('file_') && value instanceof File) {
           log('[deliverables] Processing uploaded file', 'debug', {
@@ -954,7 +954,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         // Telemetry: summarize file changes from editing history
         let fileChanges: { created: string[]; modified: string[]; deleted: string[] } | undefined;
         try {
-          const { FILE_EDITOR_HISTORY } = await import('@engi/editing');
+          const { FILE_EDITOR_HISTORY } = await import('@bitcode/editing');
           const ops = FILE_EDITOR_HISTORY() || [];
           const created = new Set<string>();
           const modified = new Set<string>();

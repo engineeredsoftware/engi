@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEISSUE_DOCCODETOOLPURPOSE: PromptPart = 
   'Orchestrates comprehensive issue lifecycle management through intelligent creation, categorization, and routing workflows, leveraging natural language processing for automatic priority assessment, stakeholder identification, and dependency mapping while integrating seamlessly with project management systems, development workflows, and team collaboration platforms to ensure optimal resource allocation and delivery tracking' as PromptPart;

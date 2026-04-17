@@ -7,7 +7,7 @@
  */
 
 import * as path from 'path';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 function resolveRepoRoot(): string {
   return process.env.ENGI_REPO_ROOT || process.cwd();

@@ -1,7 +1,7 @@
 // AI tool wrappers around Supabase utilities for AI agents to interact with
 // Supabase databases, perform queries, manage data, and search MCP templates.
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 
 import {
   supabaseMcpTool as _supabaseMcp,
@@ -9,7 +9,7 @@ import {
   supabaseInsertTool as _supabaseInsert,
   supabaseUpdateTool as _supabaseUpdate,
   supabaseDeleteTool as _supabaseDelete,
-} from '@engi/supabase';
+} from '@bitcode/supabase';
 
 // ---------------------------------------------------------------------------
 // MCP Template Search
@@ -86,7 +86,7 @@ export type {
   ExecutionEvent,
   GeneratedAsset,
   TokenCost,
-} from '@engi/supabase';
+} from '@bitcode/supabase';
 
 // Re-export client instances and creation functions
 export {
@@ -95,4 +95,4 @@ export {
   createBrowserClient,
   SupabaseStream,
   flushAndExit,
-} from '@engi/supabase';
+} from '@bitcode/supabase';

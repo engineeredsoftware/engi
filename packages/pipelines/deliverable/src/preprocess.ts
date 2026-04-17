@@ -7,12 +7,12 @@
  * - Superset of tools usable across agents
  */
 
-import { PipelineExecution, enableExecutionDebug } from '@engi/pipelines-generics';
-import type { Tool } from '@engi/tools-generics';
-import { PipelineLLMRegistry } from '@engi/pipelines-generics/src/execution/PipelineLLMRegistry';
-import { PipelineExecution as PE } from '@engi/pipelines-generics/src/execution/PipelineExecution';
-import { factoryLLMRegistryWithProviders } from '@engi/generic-llms';
-import { LLMRegistry } from '@engi/llm-generics';
+import { PipelineExecution, enableExecutionDebug } from '@bitcode/pipelines-generics';
+import type { Tool } from '@bitcode/tools-generics';
+import { PipelineLLMRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineLLMRegistry';
+import { PipelineExecution as PE } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
+import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
+import { LLMRegistry } from '@bitcode/llm-generics';
 import { ALL_DELIVERABLE_TOOLS } from './tools';
 
 function assertDocCodePrompt(tool: Tool, key: string) {
@@ -52,15 +52,15 @@ export async function initializeDeliverablePipeline(execution: PipelineExecution
       const fallback = new LLMRegistry();
       // Best-effort register providers
       try {
-        const { openAIProvider } = require('@engi/generic-llms/src/providers/openai');
+        const { openAIProvider } = require('@bitcode/generic-llms/src/providers/openai');
         fallback.registerProvider(openAIProvider);
       } catch {}
       try {
-        const { anthropicProvider } = require('@engi/generic-llms/src/providers/anthropic');
+        const { anthropicProvider } = require('@bitcode/generic-llms/src/providers/anthropic');
         fallback.registerProvider(anthropicProvider);
       } catch {}
       try {
-        const { googleProvider } = require('@engi/generic-llms/src/providers/google');
+        const { googleProvider } = require('@bitcode/generic-llms/src/providers/google');
         fallback.registerProvider(googleProvider);
       } catch {}
       const provider = (process.env.ENGI_LLM_PROVIDER || 'google').toLowerCase();

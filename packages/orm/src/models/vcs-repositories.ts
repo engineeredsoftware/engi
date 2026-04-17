@@ -4,7 +4,7 @@
  * Manages version control system repository metadata for connected repos.
  * Supports GitHub, GitLab, Bitbucket integration.
  *
- * @package @engi/orm
+ * @package @bitcode/orm
  */
 
 import { createClient } from '@supabase/supabase-js';

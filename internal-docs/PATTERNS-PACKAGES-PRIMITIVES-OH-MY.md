@@ -135,7 +135,7 @@ These files should be STUPID. They should be SO THIN you can see through them. T
 ```typescript
 // uapi/app/api/vcs/commits/route.ts - NextJS Entry Point
 import { traceRoute } from '@/utils/trace';
-import { GitHubService } from '@engi/api';
+import { GitHubService } from '@bitcode/api';
 
 export const GET = traceRoute(async (request: NextRequest) => {
   // 1. Extract from NextJS request
@@ -294,7 +294,7 @@ return NextResponse.json({ commits });
 ```typescript
 // ❌ WRONG - Primitive with database knowledge
 // packages/github/src/providers/github-provider.ts
-import { supabase } from '@engi/supabase';
+import { supabase } from '@bitcode/supabase';
 
 async listRepos(userId: string) {
   const { data } = await supabase
@@ -330,7 +330,7 @@ static async listRepos(userId: string) {
 ```typescript
 // ❌ WRONG - Primitive importing another primitive
 // packages/stripe/src/payment-processor.ts
-import { GitHubProvider } from '@engi/github';
+import { GitHubProvider } from '@bitcode/github';
 
 async processPaymentForRepo(repoId: string) {
   const github = new GitHubProvider();

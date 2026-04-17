@@ -11,9 +11,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './OrbitalsConnectsOrbitalEmailConnection.module.css';
 import { motion } from 'framer-motion';
-import { trackEvent } from '@engi/google-analytics';
-import { createClient } from '@engi/supabase/ssr/client';
-import { reportError } from '@engi/errors';
+import { trackEvent } from '@bitcode/google-analytics';
+import { createClient } from '@bitcode/supabase/ssr/client';
+import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/base/shadcn/sonner';
 
 interface OrbitalsConnectsOrbitalEmailConnectionProps {

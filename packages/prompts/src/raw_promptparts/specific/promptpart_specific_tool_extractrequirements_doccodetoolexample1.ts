@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Multi-Stakeholder E-commerce Platform: extractRequirements({ taskDescription: [text: "Build scalable e-commerce platform", specs: "performance-requirements.pdf", stakeholders: ["developers", "users", "business"]], extractionDepth: "comprehensive", requirementTypes: ["functional", "performance", "security", "usability"], stakeholderPerspectives: "all", contextualFramework: "enterprise-web", implicitInferenceLevel: "deep" }) → Returns structured RequirementFramework with 47 functional requirements, 23 performance constraints, implicit scalability assumptions, stakeholder conflict analysis, and cognitive complexity stratification' as PromptPart;

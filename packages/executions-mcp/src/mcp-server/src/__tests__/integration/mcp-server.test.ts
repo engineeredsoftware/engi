@@ -6,14 +6,14 @@
 
 import { describe, it, expect, beforeAll, afterAll, jest } from '@jest/globals';
 import { EngiMCPServer } from '../../server';
-import { createClient } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import WebSocket from 'ws';
 import { EventSource } from 'eventsource';
 
 // Mock dependencies
-jest.mock('@engi/supabase/src/ssr/admin');
-jest.mock('@engi/logger');
+jest.mock('@bitcode/supabase/src/ssr/admin');
+jest.mock('@bitcode/logger');
 
 describe('Engi MCP Server Integration Tests', () => {
   let server: EngiMCPServer;

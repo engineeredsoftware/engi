@@ -6,8 +6,8 @@
  * classification used by downstream phases.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
-import { Prompt } from '@engi/prompts';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts';
 import { z } from 'zod';
 import { DeliverableType } from '../../types/DeliverableType';
 

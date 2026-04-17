@@ -2,14 +2,14 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { trackEvent } from '@engi/google-analytics';
+import { trackEvent } from '@bitcode/google-analytics';
 import { motion } from 'framer-motion';
-import { reportError } from '@engi/errors';
+import { reportError } from '@bitcode/errors';
 import CreditsPrices from '@/components/base/engi/credits/CreditsPrices';
 import { ProcessingIndicator } from '@/components/base/engi/indicators/ProcessingIndicator';
 import { Cog6ToothIcon, MagnifyingGlassIcon, CodeBracketIcon, ShieldCheckIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
-import { createClient } from '@engi/supabase/ssr/client';
-import { creditBundleList } from '@engi/credits';
+import { createClient } from '@bitcode/supabase/ssr/client';
+import { creditBundleList } from '@bitcode/credits';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
 import OrbitalsCreditsOrbitalHeader from './headers/OrbitalsCreditsOrbitalHeader';
 

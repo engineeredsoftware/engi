@@ -2,11 +2,11 @@
  * Full dry-run integration test for the Deliverables SDIVS pipeline.
  * Ensures all phases execute with default dry-run responses.
  */
-import { configureDryRun } from '@engi/dryrun';
-import { runSDIVSPipeline } from '@engi/engine/pipeline/pipelineSDIVS';
+import { configureDryRun } from '@bitcode/dryrun';
+import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
 
 // Mock global context to provide minimal data for pipeline
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: jest.fn(() => ({
     dataStream: { writeData: jest.fn(), close: jest.fn() },
     abortSignal: {},

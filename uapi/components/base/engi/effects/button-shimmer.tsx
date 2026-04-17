@@ -1,5 +1,5 @@
 
-import { cn } from "@engi/styling";
+import { cn } from "@bitcode/styling";
 
 import React, { FC, CSSProperties } from "react";
 

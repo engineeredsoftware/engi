@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Enterprise Development Workflow: bitbucketMCPOperation("createPullRequest", { workspace: "enterprise-dev-team", repoSlug: "microservices-platform", title: "Implement OAuth2 Authentication Service", sourceBranch: "feature/oauth2-service", destinationBranch: "develop", description: "Add enterprise-grade OAuth2 authentication with JWT tokens, refresh token rotation, and multi-tenant support. Includes comprehensive unit tests, integration tests, security scanning, and performance benchmarks. Implements PKCE flow for mobile clients and supports SAML SSO integration.", closeSourceBranch: true, accessToken: "oauth_token_xyz123" }) → Returns { success: true, operation: "createPullRequest", result: { id: 1247, title: "Implement OAuth2 Authentication Service", state: "OPEN", author: { display_name: "Senior Developer", uuid: "{dev-uuid-001}" }, created_on: "2024-01-15T14:30:22.000Z", source: { branch: { name: "feature/oauth2-service" } }, destination: { branch: { name: "develop" } }, links: { html: { href: "https://bitbucket.org/enterprise-dev-team/microservices-platform/pull-requests/1247" } } }, metadata: { workspace: "enterprise-dev-team", repository: "microservices-platform", timestamp: "2024-01-15T14:30:22.123Z" } } with automated code review triggers, CI/CD pipeline initiation, security compliance checks, and team notification workflows for streamlined collaborative development process.' as PromptPart;

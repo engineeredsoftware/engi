@@ -1,5 +1,5 @@
 {
-  "name": "@engi/doc-comment",
+  "name": "@bitcode/doc-comment",
   "version": "1.0.0",
   "description": "Ultra-generic doc comment parsing and build-time type injection primitive",
   "main": "dist/index.js",

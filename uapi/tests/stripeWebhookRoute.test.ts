@@ -1,7 +1,7 @@
 // Tests for Stripe webhook handler
 import '@/tests/setupTests';
 // Mock Supabase admin
-jest.mock('@engi/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
 // Mock stripe SDK
 const mockRetrieve = jest.fn();
 const mockCreate = jest.fn();
@@ -12,7 +12,7 @@ jest.mock('stripe', () => {
   }));
 });
 
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { POST } from '@/app/api/stripe/route';
 
 describe('POST /api/stripe webhook', () => {

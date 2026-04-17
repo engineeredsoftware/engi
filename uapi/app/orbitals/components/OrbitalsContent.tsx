@@ -91,7 +91,7 @@ function OrbitalContent(props: OrbitalContentProps) {
                     onClick={() => {
                       if (isAvailable) {
                         try {
-                          const { trackEvent } = require('@engi/google-analytics');
+                          const { trackEvent } = require('@bitcode/google-analytics');
                           trackEvent(isSettingsMode ? 'settings_step_click' : 'onboarding_step_click', { step });
                         } catch {}
                         onStepClick(step);

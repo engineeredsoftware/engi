@@ -10,8 +10,8 @@
  */
 
 import { z } from 'zod';
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
-import { Prompt } from '@engi/prompts';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts';
 import {
   PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,
   PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA,
@@ -28,7 +28,7 @@ import {
   PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING,
   PROMPTPART_GENERIC_FORMATTING_BASEDONTHE,
   PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING
-} from '@engi/prompts';
+} from '@bitcode/prompts';
 
 const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')

@@ -1,4 +1,4 @@
-# @engi/postgresql
+# @bitcode/postgresql
 
 PostgreSQL database management tools for ENGI platform. Provides schema introspection and query execution capabilities for PostgreSQL databases.
 
@@ -15,7 +15,7 @@ import {
   postgresqlListTablesTool,
   postgresqlDescribeTableTool,
   postgresqlRunQueryTool 
-} from '@engi/postgresql';
+} from '@bitcode/postgresql';
 
 // List database tables
 const tables = await postgresqlListTablesTool();

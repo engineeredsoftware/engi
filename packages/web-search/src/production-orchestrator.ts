@@ -3,7 +3,7 @@
  * Enterprise-Level Resilience, Monitoring, and Performance
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { 
   SearchProvider,
   SearchResult,

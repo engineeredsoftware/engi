@@ -1,16 +1,16 @@
-import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PURPOSE_CORESTATEMENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_purpose_corestatement';
-import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_CAPABILITIES_LIST } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_capabilities_list';
-import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_EXECUTIONPATTERN_DETAILCONTENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_executionpattern_detailcontent';
-import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PTRRSTEPS_LIST } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_ptrrsteps_list';
-import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_TOOLS_LIST } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_tools_list';
-import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_INTEGRATION_DETAILCONTENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_integration_detailcontent';
-import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PURPOSE_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_purpose_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_CAPABILITIES_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_capabilities_list';
+import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_EXECUTIONPATTERN_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_executionpattern_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_PTRRSTEPS_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_ptrrsteps_list';
+import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_TOOLS_LIST } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_tools_list';
+import { PROMPTPART_SPECIFIC_AGENT_CODESEARCHER_INTEGRATION_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_codesearcher_integration_detailcontent';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 /**
  * @doc-comment-developing-promptdevelopment
  * domain: agent
@@ -31,7 +31,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/pro
  * pattern: LSP-powered semantic search with chunked processing
  */
 
-import { AgentPrompt } from '@engi/agent-generics';
+import { AgentPrompt } from '@bitcode/agent-generics';
 
 
 

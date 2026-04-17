@@ -1,5 +1,5 @@
 {
-  "name": "@engi/files",
+  "name": "@bitcode/files",
   "version": "0.1.0",
   "private": true,
   "description": "File helpers (JS stub build).",
@@ -20,6 +20,6 @@
     "src"
   ],
   "dependencies": {
-    "@engi/logger": "workspace:*"
+    "@bitcode/logger": "workspace:*"
   }
 }

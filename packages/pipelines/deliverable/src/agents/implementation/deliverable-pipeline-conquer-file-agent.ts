@@ -5,7 +5,7 @@
  * Runs in parallel with other conquer agents as part of Divide|Conquer|Correct.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { ConquerFilePrompts } from '../prompts/conquer-file-prompt';
 
@@ -13,7 +13,7 @@ import { ConquerFilePrompts } from '../prompts/conquer-file-prompt';
 let baseAgent;
 try {
   // If there's a generic code-editor agent, we can compose with it
-  baseAgent = require('@engi/generic-agent-code-editor');
+  baseAgent = require('@bitcode/generic-agent-code-editor');
 } catch {
   // No generic agent available, we'll create from scratch
   baseAgent = null;
@@ -99,7 +99,7 @@ export const ConquerFileAgent = async (input: any, execution: any) => {
   // Manual file change recording (agent has tools:[] so no usedTools)
   if (result.success) {
     try {
-      const { recordFileChange } = await import('@engi/execution-generics');
+      const { recordFileChange } = await import('@bitcode/execution-generics');
 
       recordFileChange(execution, {
         path: result.filePath,
@@ -115,7 +115,7 @@ export const ConquerFileAgent = async (input: any, execution: any) => {
       });
 
       // Stream file changes
-      const { streamFileChangesAfterStep } = await import('@engi/agent-generics');
+      const { streamFileChangesAfterStep } = await import('@bitcode/agent-generics');
       await streamFileChangesAfterStep(execution, result, {
         agent: 'ConquerFileAgent',
         step: 'Try'

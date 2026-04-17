@@ -82,7 +82,7 @@ import { useConversationStream, StreamToken } from '@/hooks/useConversationStrea
 import type { 
   Conversation as DBConversation, 
   ConversationsMessage as DBMessage
-} from '@engi/conversations-generics';
+} from '@bitcode/conversations-generics';
 
 // UI types from local hooks - these intentionally differ from DB types
 // The UI uses 'type' instead of 'role' and 'agent' instead of 'assistant'

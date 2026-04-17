@@ -94,7 +94,7 @@ interface DeliverableOutput {
 
 ### Setup Phase
 - **VCS Agent**: Clones repository and analyzes structure
-- **Digester Agent**: Generates comprehensive codebase digest using `@engi/digest`
+- **Digester Agent**: Generates comprehensive codebase digest using `@bitcode/digest`
 - **Tech Types Agent**: Identifies technology stack and conventions
 - **Danger Wall Agent**: Performs safety and security checks before iteration
 
@@ -126,7 +126,7 @@ interface DeliverableOutput {
 ## Usage
 
 ```typescript
-import { deliverablePipeline } from '@engi/pipeline-deliverable';
+import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
 
 const result = await deliverablePipeline({
   definitionOfDone: 'Add user authentication with JWT',

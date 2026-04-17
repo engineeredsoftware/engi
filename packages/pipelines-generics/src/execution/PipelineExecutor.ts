@@ -11,8 +11,8 @@ import {
   ShortCircuitError, 
   hasShortCircuitSignal,
   ShortCircuitSignal 
-} from '@engi/execution-generics';
-import { Executor } from '@engi/execution-generics';
+} from '@bitcode/execution-generics';
+import { Executor } from '@bitcode/execution-generics';
 
 export interface PhaseConfig {
   phaseName: string;

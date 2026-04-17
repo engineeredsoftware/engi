@@ -5,9 +5,9 @@
  * anomaly detection, and incident management.
  */
 
-import { logger } from '@engi/logger';
-import { observability } from '@engi/observability';
-import { supabaseAdmin } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { observability } from '@bitcode/observability';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { CircuitBreaker } from '../middleware/rate-limit';
 
 /**

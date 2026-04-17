@@ -16,13 +16,13 @@
  * pattern: layered-registry-execution
  */
 
-import { Execution } from '@engi/execution-generics';
-import { ExecutionPrompt } from '@engi/execution-generics';
-import type { PromptPart } from '@engi/prompts';
+import { Execution } from '@bitcode/execution-generics';
+import { ExecutionPrompt } from '@bitcode/execution-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { AgentPromptsRegistry } from './AgentPromptsRegistry';
 import { AgentToolsRegistry } from './AgentToolsRegistry';
 import { AgentLLMsRegistry } from './AgentLLMsRegistry';
-import { factoryLLMRegistryWithProviders } from '@engi/generic-llms';
+import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { AgentAgentsRegistry } from './AgentAgentsRegistry';
 
 /**

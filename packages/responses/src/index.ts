@@ -1,5 +1,5 @@
 /**
- * @engi/responses - HTTP response utilities
+ * @bitcode/responses - HTTP response utilities
  * 
  * Standard response creation utilities for the engi API
  */

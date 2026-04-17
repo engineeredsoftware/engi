@@ -4,8 +4,8 @@
  * Implements the 5 SDIVS phases using generic agents.
  */
 
-import { type PhaseDelegator, createAgentExecutor } from '@engi/pipelines-generics';
-import { Executor, sequential, parallel } from '@engi/execution-generics';
+import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
+import { Executor, sequential, parallel } from '@bitcode/execution-generics';
 import { deliverablesPipelineSetupPhaseExecutor } from './setup';
 import { registerDiscoveryAgents } from './discovery';
 import { registerImplementationAgentsForType } from './implementation';
@@ -150,7 +150,7 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
     const selfInstruct = exec.get('validation', 'selfInstruction');
 
     if (selfInstruct && selfInstruct.confidence < 0.8) {
-      const { waitForInstruction } = await import('@engi/pipelines-generics');
+      const { waitForInstruction } = await import('@bitcode/pipelines-generics');
 
       return waitForInstruction({
         confidence: selfInstruct.confidence

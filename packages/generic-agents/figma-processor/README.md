@@ -35,8 +35,8 @@ The Figma Processor Agent provides comprehensive design analysis through Figma A
 ## Technical Implementation
 
 ### Dependencies
-- `@engi/figma-tools` - Figma API tool integration
-- `@engi/agent-generics` - Base agent framework with PTRR methodology
+- `@bitcode/figma-tools` - Figma API tool integration
+- `@bitcode/agent-generics` - Base agent framework with PTRR methodology
 - `zod` - Schema validation for structured outputs
 - Environment variable: `FIGMA_ACCESS_TOKEN` for API authentication
 

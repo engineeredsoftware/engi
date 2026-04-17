@@ -1,4 +1,4 @@
-# @engi/files
+# @bitcode/files
 
 Industrial file system abstraction layer providing standardized file operations, path normalization, and change tracking for enterprise applications.
 
@@ -30,7 +30,7 @@ Comprehensive file system utilities designed for cross-platform compatibility an
 
 ### Path Utilities
 ```typescript
-import { absolutifyPath, normalizeRepoPath } from '@engi/files';
+import { absolutifyPath, normalizeRepoPath } from '@bitcode/files';
 
 const absolutePath = absolutifyPath('src/components/Button.tsx');
 const relativePath = normalizeRepoPath('/full/path/to/file.ts');
@@ -38,7 +38,7 @@ const relativePath = normalizeRepoPath('/full/path/to/file.ts');
 
 ### File Discovery
 ```typescript
-import { verifyFileWithExtension, getAllFiles } from '@engi/files';
+import { verifyFileWithExtension, getAllFiles } from '@bitcode/files';
 
 const verifiedPath = await verifyFileWithExtension(basePath, 'config');
 const allFiles = await getAllFiles(directoryPath);
@@ -46,7 +46,7 @@ const allFiles = await getAllFiles(directoryPath);
 
 ### Change Tracking
 ```typescript
-import { FileTracker } from '@engi/files';
+import { FileTracker } from '@bitcode/files';
 
 const tracker = new FileTracker('/repo/path');
 const content = tracker.getFileContent('src/index.ts');
@@ -62,7 +62,7 @@ tracker.track({
 
 ### Repository File Management
 ```typescript
-import { FileTracker, getAllFiles } from '@engi/files';
+import { FileTracker, getAllFiles } from '@bitcode/files';
 
 class RepositoryManager {
   private tracker: FileTracker;
@@ -86,7 +86,7 @@ class RepositoryManager {
 
 ### Build System Integration
 ```typescript
-import { verifyFileWithExtension, normalizeRepoPath } from '@engi/files';
+import { verifyFileWithExtension, normalizeRepoPath } from '@bitcode/files';
 
 export async function resolveConfigFile(basePath: string, configName: string) {
   // Try multiple extension variants
@@ -106,7 +106,7 @@ const tsconfigPath = await resolveConfigFile(process.cwd(), 'tsconfig');
 
 ### Development Tool Integration
 ```typescript
-import { FileTracker, extractExplicitFileReferences } from '@engi/files';
+import { FileTracker, extractExplicitFileReferences } from '@bitcode/files';
 
 class DevelopmentServer {
   private tracker: FileTracker;
@@ -152,7 +152,7 @@ class DevelopmentServer {
 
 ### File System Errors
 ```typescript
-import { verifyFileWithExtension } from '@engi/files';
+import { verifyFileWithExtension } from '@bitcode/files';
 
 try {
   const configPath = await verifyFileWithExtension(basePath, 'missing-config');

@@ -6,7 +6,7 @@ import { Input } from '@/components/base/shadcn/input';
 import { Label } from '@/components/base/shadcn/label';
 import { Button } from '@/components/base/shadcn/button';
 import { Badge } from '@/components/base/shadcn/badge';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { ExternalLink, Eye, EyeOff, Info } from 'lucide-react';
 import { toast } from '@/components/base/shadcn/sonner';
 import {
@@ -40,6 +40,15 @@ export function PersonalAccessTokenForm({
   const [showInstructions, setShowInstructions] = useState(false);
   
   const Icon = providerInfo.icon;
+
+  const readJsonResponse = async (response: Response) => {
+    const contentType = response.headers?.get?.('content-type') || '';
+    if (contentType && !contentType.includes('application/json')) {
+      return null;
+    }
+
+    return response.json().catch(() => null);
+  };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,10 +76,14 @@ export function PersonalAccessTokenForm({
         body: JSON.stringify(body)
       });
       
-      const data = await response.json();
+      const data = await readJsonResponse(response);
       
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to connect');
+        throw new Error((data && typeof data.error === 'string' && data.error) || 'Failed to connect');
+      }
+
+      if (!data) {
+        throw new Error('The connection endpoint returned an invalid response');
       }
       
       toast.success(`Successfully connected to ${providerInfo.label}`);
@@ -80,7 +93,6 @@ export function PersonalAccessTokenForm({
         onSuccess();
       }
     } catch (error) {
-      console.error('Failed to connect with token:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to connect');
     } finally {
       setIsSubmitting(false);

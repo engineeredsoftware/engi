@@ -28,7 +28,7 @@ Note: Product page is `/executions?type=pipeline:deliverables`. The second tab i
 - DB schema in `supabase/migrations/*.sql`. React Query keys in `use-auth-query.ts`.
 
 ### Development Notes
-- Use `createClient()` from `@engi/supabase/ssr/*` (SSR/Client variants). Clear React Query caches on sign‑out.
+- Use `createClient()` from `@bitcode/supabase/ssr/*` (SSR/Client variants). Clear React Query caches on sign‑out.
 
 ### E2E
 - `uapi/tests/e2e/sso.spec.ts` navigates to `/tps/supabase/callback`.
@@ -50,7 +50,7 @@ Note: Product page is `/executions?type=pipeline:deliverables`. The second tab i
 - Return overlay: `/tps/stripe/checkout` (reuses `CheckoutCallbackClient`).
 
 ### Data & Sync
-- Telemetry via `@engi/google-analytics`. Persist credits in Supabase via webhooks (see server infrastructure, not in this repo).
+- Telemetry via `@bitcode/google-analytics`. Persist credits in Supabase via webhooks (see server infrastructure, not in this repo).
 
 ### Development Notes
 - Success/cancel URLs are built from `origin` or `NEXT_PUBLIC_APP_URL`.

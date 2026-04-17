@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCSLISTREPOSITORIES_DOCCODETOOLEXAMPLE1: PromptPart = 
   'List GitHub repositories with pagination: { provider: "github", userId: "user123", page: 1, perPage: 25, sort: "updated", direction: "desc" }' as PromptPart;

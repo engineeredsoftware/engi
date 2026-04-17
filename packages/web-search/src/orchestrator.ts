@@ -6,8 +6,8 @@
  * to provide the best possible research experience.
  */
 
-import { log } from '@engi/logger';
-import { recordReservationUsage } from '@engi/credits';
+import { log } from '@bitcode/logger';
+import { recordReservationUsage } from '@bitcode/credits';
 import { 
   SearchProvider,
   SearchResult,

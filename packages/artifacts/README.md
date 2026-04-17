@@ -42,7 +42,7 @@ Promise<ArtifactInfo> {
 
 ### Basic Artifact Storage
 ```typescript
-import { saveArtifact } from '@engi/artifacts';
+import { saveArtifact } from '@bitcode/artifacts';
 
 // Store text content
 const textArtifact = await saveArtifact(

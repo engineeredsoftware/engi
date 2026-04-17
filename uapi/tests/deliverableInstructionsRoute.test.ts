@@ -1,11 +1,11 @@
 import { GET, POST } from '@/app/api/executions/instructions/route';
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
-import { getUserBySessionOrThrow } from '@engi/auth';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { getUserBySessionOrThrow } from '@bitcode/auth';
 
-jest.mock('@engi/supabase/ssr/server');
-jest.mock('@engi/supabase');
-jest.mock('@engi/auth');
+jest.mock('@bitcode/supabase/ssr/server');
+jest.mock('@bitcode/supabase');
+jest.mock('@bitcode/auth');
 
 describe('Deliverable OTF Instructions API', () => {
   const fakeUser = { id: 'user-1' };

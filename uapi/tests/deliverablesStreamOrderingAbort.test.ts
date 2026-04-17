@@ -1,10 +1,10 @@
 import { GET as getStream } from '@/app/api/executions/stream/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({ createClient: jest.fn() }));
-jest.mock('@engi/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
 
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 describe('Deliverables Stream Route (ordering + abort)', () => {
   const mockUser = { id: 'user-1' };

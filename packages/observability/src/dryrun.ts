@@ -7,9 +7,9 @@
  */
 
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 // import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
-import { writeStreamMessage, type DataStream } from '@engi/streams';
+import { writeStreamMessage, type DataStream } from '@bitcode/streams';
 // import { ChatCompletionRequestMessage } from '@/lib/steps/meta';
 
 // Temporary stubs

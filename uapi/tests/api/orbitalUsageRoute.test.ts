@@ -1,14 +1,14 @@
 import { GET } from '@/app/api/orbitals/usage/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: { from: jest.fn() },
 }));
 
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 describe('GET /api/orbitals/usage', () => {
   const mockUser = { id: 'user-1' };

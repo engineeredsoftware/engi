@@ -1,5 +1,5 @@
 {
-  "name": "@engi/time",
+  "name": "@bitcode/time",
   "version": "0.1.0",
   "private": true,
   "main": "src/time.ts",

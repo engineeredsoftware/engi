@@ -1,4 +1,4 @@
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import Marquee from "@/components/base/engi/magicui/marquee";
 import { useState } from 'react';
 

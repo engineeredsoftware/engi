@@ -1,4 +1,4 @@
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 /**
  * A lightweight marquee purpose-built for simple, uniform logo rows.

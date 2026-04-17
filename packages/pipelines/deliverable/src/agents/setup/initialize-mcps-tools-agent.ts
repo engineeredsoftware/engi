@@ -1,6 +1,6 @@
-import { factoryAgentWithSingleStep } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
-import { McpConfigSchema } from '@engi/mcp';
+import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
+import { McpConfigSchema } from '@bitcode/mcp';
 import {
   entriesToAIDocumentList,
   loadMcpDocumentFromWorkspace,

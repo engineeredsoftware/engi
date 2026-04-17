@@ -10,10 +10,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { traceRoute } from '@engi/observability';
-import { log } from '@engi/logger';
-import { createJsonResponse } from '@engi/responses';
-import { supabaseAdmin } from '@engi/supabase';
+import { traceRoute } from '@bitcode/observability';
+import { log } from '@bitcode/logger';
+import { createJsonResponse } from '@bitcode/responses';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 // Application start time
 const startTime = Date.now();

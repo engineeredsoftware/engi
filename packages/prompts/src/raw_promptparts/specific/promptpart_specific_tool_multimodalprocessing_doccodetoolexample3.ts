@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Cross-Modal Synthesis: multimodalProcessingTool({ content: ["presentation.pdf", "narration.mp3"], processingType: "synthesis", outputFormat: "video", options: { syncAudioToSlides: true, generateCaptions: true } }) → Creates synchronized video with slides, audio, and captions' as PromptPart;

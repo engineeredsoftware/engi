@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-tools-repository-setup",
+  "name": "@bitcode/generic-tools-repository-setup",
   "version": "0.1.0",
   "description": "Repository setup and analysis tools for Engi pipelines",
   "main": "src/index.ts",
@@ -10,10 +10,10 @@
   "dependencies": {
     "ai": "^3.4.33",
     "zod": "^3.20.2",
-    "@engi/tools-generics": "workspace:*",
-    "@engi/git": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/files": "workspace:*"
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/git": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/files": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

@@ -1,7 +1,7 @@
 import { createTransform } from '../index';
 import docCodeToolLoader from '../loaders/doc-code-tool-loader';
 
-const TOOL_SOURCE = `import { Tool } from '@engi/tools-generics';
+const TOOL_SOURCE = `import { Tool } from '@bitcode/tools-generics';
 import { SOME_PROMPT } from './prompts';
 
 /**
@@ -12,7 +12,7 @@ class ExampleTool extends Tool<void> {}
 
 export const exampleTool = new ExampleTool();`;
 
-const TOOL_SOURCE_WITHOUT_PROMPT = `import { Tool } from '@engi/tools-generics';
+const TOOL_SOURCE_WITHOUT_PROMPT = `import { Tool } from '@bitcode/tools-generics';
 
 /**
  * @doc-code-tool

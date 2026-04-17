@@ -4,7 +4,7 @@
  * Docker containerization integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   dockerListContainersTool as _dockerListContainers,
   dockerCreateContainerTool as _dockerCreateContainer,
@@ -25,7 +25,7 @@ import {
   dockerListVolumesTool as _dockerListVolumes,
   dockerCreateVolumeTool as _dockerCreateVolume,
   dockerRemoveVolumeTool as _dockerRemoveVolume,
-} from '@engi/docker';
+} from '@bitcode/docker';
 
 // Import DocCodeToolPrompt
 import { DOCKER_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/DockerMCPDocCodeToolPrompt';

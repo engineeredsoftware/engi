@@ -1,5 +1,5 @@
 {
-  "name": "@engi/tools-generics",
+  "name": "@bitcode/tools-generics",
   "version": "0.0.1",
   "private": true,
   "main": "dist/index.js",
@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/doc-code": "workspace:*",
-    "@engi/prompts": "workspace:*",
+    "@bitcode/doc-code": "workspace:*",
+    "@bitcode/prompts": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

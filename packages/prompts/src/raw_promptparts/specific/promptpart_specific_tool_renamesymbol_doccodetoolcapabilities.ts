@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Symbol identification across multiple files, LSP semantic analysis, dependency tracking, cross-file renaming with atomic operations, rollback support, semantic validation, conflict detection, and comprehensive rename reporting' as PromptPart;

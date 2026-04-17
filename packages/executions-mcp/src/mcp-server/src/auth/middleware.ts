@@ -10,8 +10,8 @@
  * pattern: orm-integration
  */
 
-import { createClient } from '@engi/supabase';
-import { logger } from '@engi/logger';
+import { createClient } from '@bitcode/supabase';
+import { logger } from '@bitcode/logger';
 import {
   UsersModel,
   UserProfilesModel,
@@ -19,7 +19,7 @@ import {
   UserCreditsModel,
   OrganizationsModel,
   OrganizationMembersModel
-} from '@engi/orm';
+} from '@bitcode/orm';
 import type { MCPAuthContext } from '../types';
 import * as crypto from 'crypto';
 

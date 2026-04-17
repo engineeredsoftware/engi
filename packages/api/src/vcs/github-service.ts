@@ -7,9 +7,9 @@
  * - Repository operations with proper auth
  */
 
-import { VCSProviderFactory, VCSAuth, VCSCache } from '@engi/vcs';
-import { GitHubAppAuth } from '@engi/github';
-import { log } from '@engi/logger';
+import { VCSProviderFactory, VCSAuth, VCSCache } from '@bitcode/vcs';
+import { GitHubAppAuth } from '@bitcode/github';
+import { log } from '@bitcode/logger';
 
 export interface GitHubConnectionData {
   access_token?: string;

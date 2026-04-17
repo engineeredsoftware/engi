@@ -1,8 +1,8 @@
 import { jest } from '@jest/globals';
-import { searchRelevantDeliverables } from '@engi/pipeline-deliverable/src/tools/search';
+import { searchRelevantDeliverables } from '@bitcode/pipeline-deliverable/src/tools/search';
 import 'openai/shims/node';
 import OpenAI from 'openai';
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 jest.mock('exa-js', () => {
   return {
@@ -35,7 +35,7 @@ jest.mock('exa-js', () => {
     query() { return Promise.resolve({ results: [] }); }
   };
 });
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     // Use a forwarding function so we don't access the `mockRpc` binding until
     // after it has been initialised in the `beforeEach` hook.

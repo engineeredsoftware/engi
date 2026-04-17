@@ -5,9 +5,9 @@
  * Can short-circuit with full refund if prerequisites not met.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { createDeliverablesPipelineSetupPhaseReadyToIterateAgentPrompt, DeliverablesPipelineSetupPhaseReadyToIterateAgentPromptSteps } from '../prompts/ready-to-iterate-prompt';
-import { ShortCircuitSignal } from '@engi/execution-generics';
+import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
 

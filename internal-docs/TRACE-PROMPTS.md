@@ -8,7 +8,7 @@ This guide shows how to instantiate deliverables pipeline prompts and render fin
 Example (TypeScript):
 
 ```ts
-import { hierarchicalFormatter } from '@engi/prompts/formatters/hierarchical';
+import { hierarchicalFormatter } from '@bitcode/prompts/formatters/hierarchical';
 import { createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt } from 'packages/pipelines/deliverable/src/agents/prompts/ready-to-ship-prompt';
 
 const prompt = createDeliverablesPipelineValidationPhaseReadyToShipAgentPrompt();
@@ -19,6 +19,6 @@ console.log(out);
 
 Notes:
 - All deliverables prompts are scaffolded with `generation:*` and `failsafe:prepare_context` keys and set required fields.
-- PromptParts are imported via deep paths under `@engi/prompts/raw_promptparts/{generic|specific}/...`.
+- PromptParts are imported via deep paths under `@bitcode/prompts/raw_promptparts/{generic|specific}/...`.
 - All referenced PromptParts carry `current_version: "0.50.0"` and bench scores ≥ 0.50.
 

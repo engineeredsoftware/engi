@@ -12,10 +12,10 @@
 
 import { Tool, ToolMetadata } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
-import { createAdminClient, AdminClient } from '@engi/orm';
-import { logger } from '@engi/logger';
-import { metrics } from '@engi/observability';
-import { Cache } from '@engi/pipeline-recovery';
+import { createAdminClient, AdminClient } from '@bitcode/orm';
+import { logger } from '@bitcode/logger';
+import { metrics } from '@bitcode/observability';
+import { Cache } from '@bitcode/pipeline-recovery';
 
 // ==================== SCHEMAS ====================
 

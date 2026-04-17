@@ -11,9 +11,9 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { createClient } from '@engi/supabase';
-import { logger } from '@engi/logger';
-import { observability } from '@engi/observability';
+import { createClient } from '@bitcode/supabase';
+import { logger } from '@bitcode/logger';
+import { observability } from '@bitcode/observability';
 import {
   DeliverablesModel,
   PipelineExecutionsModel,
@@ -21,9 +21,9 @@ import {
   UserCreditsModel,
   UserCreditUsagesModel,
   OrganizationCreditsModel
-} from '@engi/orm';
-import deliverablePipeline from '@engi/pipelines/deliverable';
-import { Execution } from '@engi/execution-generics';
+} from '@bitcode/orm';
+import deliverablePipeline from '@bitcode/pipelines/deliverable';
+import { Execution } from '@bitcode/execution-generics';
 import type { PipelineName } from '../types';
 
 export interface PipelineJobOptions {

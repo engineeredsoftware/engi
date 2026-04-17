@@ -22,8 +22,8 @@
  * - Production-grade resilience
  */
 
-import { Tool } from '@engi/tools-generics';
-import { factoryTool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
+import { factoryTool } from '@bitcode/tools-generics';
 
 import {
   search as _search,
@@ -42,7 +42,7 @@ import {
   productionMultiProviderSearch as _productionMultiProviderSearch,
   getProductionMetrics as _getProductionMetrics,
   getProductionHealth as _getProductionHealth,
-} from '@engi/web-search';
+} from '@bitcode/web-search';
 
 import { WEB_SEARCH_DOC_CODE_TOOL_PROMPT } from './prompts/WebSearchDocCodeToolPrompt';
 import { GET_CONTENTS_DOC_CODE_TOOL_PROMPT } from './prompts/GetContentsDocCodeToolPrompt';
@@ -293,4 +293,4 @@ export type {
   RateLimiterConfig,
   FallbackConfig,
   ProviderHealthMetrics
-} from '@engi/web-search';
+} from '@bitcode/web-search';

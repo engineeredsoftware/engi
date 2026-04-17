@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { InviteEmail } from '@engi/email-templates';
+import { InviteEmail } from '@bitcode/email-templates';
 import { createEmailStory } from './_helpers';
 
 const meta: Meta<typeof InviteEmail> = {

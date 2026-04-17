@@ -1,5 +1,5 @@
 {
-  "name": "@engi/doc-comment-developing",
+  "name": "@bitcode/doc-comment-developing",
   "version": "1.0.0",
   "description": "Development-time doc-comment plugins for Engi",
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@engi/doc-comment": "workspace:*"
+    "@bitcode/doc-comment": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

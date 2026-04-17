@@ -1,7 +1,7 @@
 // Pipeline DB type aliases built from ORM Database types (SoT: migrations)
 // SRP: schemas in migrations → types in orm → aliases here for primitives
 
-import type { Tables, Insertable } from '@engi/orm';
+import type { Tables, Insertable } from '@bitcode/orm';
 
 export type DPPhaseDelegation = Tables<'deliverables_pipeline_phase_delegations'>;
 export type DPPhaseDelegationInsert = Insertable<'deliverables_pipeline_phase_delegations'>;

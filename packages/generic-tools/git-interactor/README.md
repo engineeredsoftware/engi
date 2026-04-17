@@ -69,13 +69,13 @@ class GitOperationTool extends Tool<typeof primitiveFunction> {
 
 ### VCS Abstraction Integration
 ```typescript
-import { vcsTools } from '@engi/vcs-tools';
+import { vcsTools } from '@bitcode/vcs-tools';
 import { 
   getRepository, 
   createPullRequest, 
   createIssue,
   createFileContent 
-} from '@engi/git';
+} from '@bitcode/git';
 ```
 
 ### Legacy Compatibility
@@ -94,7 +94,7 @@ import {
 
 ### Repository Cloning
 ```typescript
-import { cloneRepositoryTool } from '@engi/generic-tools-git';
+import { cloneRepositoryTool } from '@bitcode/generic-tools-git';
 
 const result = await cloneRepositoryTool.use({
   repoUrl: 'https://github.com/org/project.git',
@@ -109,7 +109,7 @@ const result = await cloneRepositoryTool.use({
 
 ### Pull Request Creation
 ```typescript
-import { createPullRequestTool } from '@engi/generic-tools-git';
+import { createPullRequestTool } from '@bitcode/generic-tools-git';
 
 const pr = await createPullRequestTool.use({
   owner: 'organization',
@@ -127,7 +127,7 @@ const pr = await createPullRequestTool.use({
 import { 
   createFileContentTool,
   updateFileContentTool 
-} from '@engi/generic-tools-git';
+} from '@bitcode/generic-tools-git';
 
 // Create new file
 await createFileContentTool.use({
@@ -156,7 +156,7 @@ await updateFileContentTool.use({
 import { 
   createIssueTool,
   leaveCommentOnIssueTool 
-} from '@engi/generic-tools-git';
+} from '@bitcode/generic-tools-git';
 
 // Create issue
 const issue = await createIssueTool.use({

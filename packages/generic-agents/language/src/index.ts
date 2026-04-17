@@ -12,16 +12,16 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for language analysis
-import { languageDetectorTool } from '@engi/generic-tools/language-detector';
-import { sentimentAnalyzerTool } from '@engi/generic-tools/sentiment-analyzer';
-import { linguisticProcessorTool } from '@engi/generic-tools/linguistic-processor';
+import { languageDetectorTool } from '@bitcode/generic-tools/language-detector';
+import { sentimentAnalyzerTool } from '@bitcode/generic-tools/sentiment-analyzer';
+import { linguisticProcessorTool } from '@bitcode/generic-tools/linguistic-processor';
 
 // ==================== INPUT SCHEMA ====================
 const LanguageInputSchema = z.object({

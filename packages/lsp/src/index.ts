@@ -51,7 +51,7 @@ import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import * as path from 'path';
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // ---------------------------------------------------------------------------
 // Error types and validation schemas

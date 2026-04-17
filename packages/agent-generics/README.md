@@ -10,7 +10,7 @@ Agents execute decisions through PTRR methodology with hierarchical prompt accum
 Create a QuickAgent:
 
 ```ts
-import { factoryQuickAgent } from '@engi/agent-generics';
+import { factoryQuickAgent } from '@bitcode/agent-generics';
 
 export const InitializeSomething = factoryQuickAgent({
   name: 'setup:initialize-something',
@@ -61,7 +61,7 @@ Every PTRR generation (Plan, Try, Refine, Retry) automatically executes the core
 Generation factories use a shared helper that composes the default 3×3 core sequence:
 
 ```ts
-import { createFailsafeGenerationSequence } from '@engi/agent-generics/src/steps/failsafe-sequence';
+import { createFailsafeGenerationSequence } from '@bitcode/agent-generics/src/steps/failsafe-sequence';
 
 const core = createFailsafeGenerationSequence({ outputSchema, enableParallelChunks: true });
 
@@ -70,7 +70,7 @@ const core = createFailsafeGenerationSequence({ outputSchema, enableParallelChun
 A ThricifiedGeneration is the atomic typed generation used by agents: Reason → Judge → StructuredOutput. It wraps three LLM calls into a single Generation.
 
 ```ts
-import { createThricifiedGeneration } from '@engi/agent-generics/src/steps/thricified-generation';
+import { createThricifiedGeneration } from '@bitcode/agent-generics/src/steps/thricified-generation';
 
 const gen = createThricifiedGeneration(outputSchema);
 ```
@@ -165,8 +165,8 @@ Pipeline (PipelineExecution)
 ### Agent Definition Pattern
 
 ```typescript
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 
 // Define schemas for each PTRR step
 const AgentPlanSchema = z.object({
@@ -360,8 +360,8 @@ When any agent is called:
 ## Usage
 
 ```typescript
-import { audioProcessorAgent } from '@engi/generic-agents-audio-processor';
-import { codeSearcherAgent } from '@engi/generic-agents-rag-snippets';
+import { audioProcessorAgent } from '@bitcode/generic-agents-audio-processor';
+import { codeSearcherAgent } from '@bitcode/generic-agents-rag-snippets';
 
 // Use any agent - they all follow the same pattern
 const result = await audioProcessorAgent(

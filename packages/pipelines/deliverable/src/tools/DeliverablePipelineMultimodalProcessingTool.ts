@@ -1,4 +1,4 @@
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
 /**
  * Deliverable Pipeline - Multimodal Processing Tool (Wrapper)
  *
@@ -6,15 +6,15 @@ import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_pro
  * DocCodeToolPrompt overlay providing pipeline/phase metadata.
  */
 
-import { Tool } from '@engi/tools-generics';
-import type { Prompt } from '@engi/prompts';
+import { Tool } from '@bitcode/tools-generics';
+import type { Prompt } from '@bitcode/prompts';
 
-import { multimodalProcessingTool } from '@engi/generic-tools-multimodal-processing';
-import { multimodalProcessingDocCodeToolPrompt as MULTIMODAL_PROCESSING_DOC_CODE_TOOL_PROMPT } from '@engi/generic-tools-multimodal-processing';
+import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
+import { multimodalProcessingDocCodeToolPrompt as MULTIMODAL_PROCESSING_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-multimodal-processing';
 
 
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE as PROMPTPART_SPECIFIC_TOOL_DELIVERABLES_METADATA_PIPELINE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP as PROMPTPART_SPECIFIC_TOOL_DELIVERABLES_METADATA_PHASE_SETUP } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE as PROMPTPART_SPECIFIC_TOOL_DELIVERABLES_METADATA_PIPELINE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP as PROMPTPART_SPECIFIC_TOOL_DELIVERABLES_METADATA_PHASE_SETUP } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
 
 const DELIVERABLES_MULTIMODAL_TOOL_OVERLAY_PROMPT: Prompt = (() => {
   const p = MULTIMODAL_PROCESSING_DOC_CODE_TOOL_PROMPT.clone();

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Check, ChevronsUpDown, GitFork, Lock, Search } from 'lucide-react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { Button } from '@/components/base/shadcn/button';
 import {
   Command,
@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from '@/components/base/shadcn/popover';
 import { Badge } from '@/components/base/shadcn/badge';
-import { VCSProviderType, VCSRepository } from '@engi/vcs-core';
+import { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 import { toast } from '@/components/base/shadcn/sonner';
 
 interface VCSRepositorySelectorProps {
@@ -28,6 +28,8 @@ interface VCSRepositorySelectorProps {
   onSelect: (repository: VCSRepository | null) => void;
   placeholder?: string;
   className?: string;
+  repositories?: VCSRepository[] | null;
+  loading?: boolean;
 }
 
 export function VCSRepositorySelector({
@@ -36,16 +38,30 @@ export function VCSRepositorySelector({
   value,
   onSelect,
   placeholder = 'Select repository...',
-  className
+  className,
+  repositories: providedRepositories,
+  loading: providedLoading,
 }: VCSRepositorySelectorProps) {
   const [open, setOpen] = useState(false);
-  const [repositories, setRepositories] = useState<VCSRepository[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [fetchedRepositories, setFetchedRepositories] = useState<VCSRepository[]>([]);
+  const [isFetching, setIsFetching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRepo, setSelectedRepo] = useState<VCSRepository | null>(null);
+
+  const repositories = providedRepositories ?? fetchedRepositories;
+  const isLoading = providedLoading ?? isFetching;
+
+  const readJsonResponse = async (response: Response) => {
+    const contentType = response.headers?.get?.('content-type') || '';
+    if (contentType && !contentType.includes('application/json')) {
+      return null;
+    }
+
+    return response.json().catch(() => null);
+  };
   
   const fetchRepositories = async () => {
-    setIsLoading(true);
+    setIsFetching(true);
     
     try {
       let url = `/api/vcs/${provider}/repositories`;
@@ -59,8 +75,12 @@ export function VCSRepositorySelector({
         throw new Error('Failed to fetch repositories');
       }
       
-      const data = await response.json();
-      setRepositories(data.repositories || []);
+      const data = await readJsonResponse(response);
+      if (!data) {
+        throw new Error('The repositories endpoint returned an invalid response');
+      }
+
+      setFetchedRepositories(data.repositories || []);
       
       // Find selected repository if value is provided
       if (value) {
@@ -71,20 +91,29 @@ export function VCSRepositorySelector({
           setSelectedRepo(selected);
         }
       }
-    } catch (error) {
-      console.error('Failed to fetch repositories:', error);
+    } catch {
       toast.error('Failed to load repositories');
-      setRepositories([]);
+      setFetchedRepositories([]);
     } finally {
-      setIsLoading(false);
+      setIsFetching(false);
     }
   };
   
   useEffect(() => {
-    if (open && repositories.length === 0) {
+    if (!providedRepositories && open && fetchedRepositories.length === 0) {
       fetchRepositories();
     }
-  }, [open]);
+  }, [fetchedRepositories.length, open, providedRepositories]);
+
+  useEffect(() => {
+    if (!value) {
+      setSelectedRepo(null);
+      return;
+    }
+
+    const selected = repositories.find((repo) => repo.fullName === value || repo.id === value);
+    setSelectedRepo(selected || null);
+  }, [repositories, value]);
   
   const filteredRepositories = repositories.filter(repo =>
     repo.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||

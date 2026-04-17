@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLPARAMETERS: PromptPart = 
   'repository: string (target repository identifier), source_branch: string (feature branch name), target_branch: string (base branch, defaults to main/master), title: string (PR title with smart generation), description?: string (detailed description with template support), reviewers?: string[] (reviewer usernames or team identifiers), labels?: string[] (categorization labels), milestone?: string (project milestone association), draft?: boolean (create as draft PR), auto_merge?: boolean (enable auto-merge on approval), template?: string (PR template identifier), linked_issues?: string[] (associated issue numbers), merge_strategy?: string (merge/squash/rebase preference), and metadata?: object (custom platform-specific fields)' as PromptPart;

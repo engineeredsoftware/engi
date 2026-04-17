@@ -11,7 +11,7 @@
  */
 
 import { Executor, Execution } from '../index';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 /**
  * Retry configuration options

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/base/shadcn/button';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { GitBranch, Server } from 'lucide-react';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { toast } from '@/components/base/shadcn/sonner';
 
 interface VCSConnectionButtonProps {

@@ -11,7 +11,7 @@ import {
   CreateMessageAttachmentInput
 } from './types';
 
-import { validateAttachmentCategory } from '@engi/attachments-generics';
+import { validateAttachmentCategory } from '@bitcode/attachments-generics';
 
 /**
  * Validate message role

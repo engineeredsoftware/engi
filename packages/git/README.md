@@ -1,76 +1,76 @@
-# @engi/git
+# @bitcode/git
 
 **DEPRECATED PACKAGE** - Version Control System abstraction layer migration notice.
 
 ## Overview
 
-This package has been deprecated and functionality migrated to the modern VCS abstraction layer. The @engi/git package provided Git-specific operations but has been superseded by a multi-provider VCS system supporting GitHub, GitLab, and Bitbucket integrations.
+This package has been deprecated and functionality migrated to the modern VCS abstraction layer. The @bitcode/git package provided Git-specific operations but has been superseded by a multi-provider VCS system supporting GitHub, GitLab, and Bitbucket integrations.
 
 ## Migration Path
 
 ### Immediate Action Required
-All imports from @engi/git will throw runtime errors directing users to the appropriate replacement packages.
+All imports from @bitcode/git will throw runtime errors directing users to the appropriate replacement packages.
 
 ### Replacement Packages
 
 #### Core VCS Operations
 ```typescript
 // OLD - Will throw error
-import { getRepository } from '@engi/git';
+import { getRepository } from '@bitcode/git';
 
 // NEW - Multi-provider VCS abstraction
-import { getRepository } from '@engi/vcs';
+import { getRepository } from '@bitcode/vcs';
 ```
 
 #### VCS Tools
 ```typescript
 // OLD - Will throw error  
-import { createPullRequest } from '@engi/git';
+import { createPullRequest } from '@bitcode/git';
 
 // NEW - Generic VCS tools
-import { createPullRequest } from '@engi/vcs-tools';
+import { createPullRequest } from '@bitcode/vcs-tools';
 ```
 
 #### VCS Agent Integration
 ```typescript
 // OLD - Will throw error
-import { syncUserGithubRepos } from '@engi/git';
+import { syncUserGithubRepos } from '@bitcode/git';
 
 // NEW - VCS agent with multi-provider support
-import { syncUserRepos } from '@engi/generic-agents-vcs';
+import { syncUserRepos } from '@bitcode/generic-agents-vcs';
 ```
 
 ## Deprecated Functionality
 
 ### Repository Operations
-- `syncUserGithubRepos` → Use `@engi/vcs` with provider selection
-- `syncAllGithubUsers` → Use `@engi/vcs` batch operations
-- `getRepository` → Use `@engi/vcs` repository interface
-- `getAllRepositories` → Use `@engi/vcs` repository listing
-- `cloneRepository` → Use `@engi/vcs` clone operations
+- `syncUserGithubRepos` → Use `@bitcode/vcs` with provider selection
+- `syncAllGithubUsers` → Use `@bitcode/vcs` batch operations
+- `getRepository` → Use `@bitcode/vcs` repository interface
+- `getAllRepositories` → Use `@bitcode/vcs` repository listing
+- `cloneRepository` → Use `@bitcode/vcs` clone operations
 
 ### File Operations
-- `listGitFiles` → Use `@engi/vcs` file listing
-- `getFileContent` → Use `@engi/vcs` content retrieval
-- `getFileInfo` → Use `@engi/vcs` metadata queries
-- `createFileContent` → Use `@engi/vcs` file creation
-- `updateFileContent` → Use `@engi/vcs` file updates
-- `deleteFileContent` → Use `@engi/vcs` file deletion
+- `listGitFiles` → Use `@bitcode/vcs` file listing
+- `getFileContent` → Use `@bitcode/vcs` content retrieval
+- `getFileInfo` → Use `@bitcode/vcs` metadata queries
+- `createFileContent` → Use `@bitcode/vcs` file creation
+- `updateFileContent` → Use `@bitcode/vcs` file updates
+- `deleteFileContent` → Use `@bitcode/vcs` file deletion
 
 ### Branch Management
-- `getAllBranches` → Use `@engi/vcs` branch listing
-- `createReference` → Use `@engi/vcs` reference creation
-- `getReferenceInfo` → Use `@engi/vcs` reference queries
+- `getAllBranches` → Use `@bitcode/vcs` branch listing
+- `createReference` → Use `@bitcode/vcs` reference creation
+- `getReferenceInfo` → Use `@bitcode/vcs` reference queries
 
 ### Pull Request Operations
-- `createPullRequest` → Use `@engi/vcs` PR creation
-- `reviewPullRequest` → Use `@engi/vcs` PR review system
+- `createPullRequest` → Use `@bitcode/vcs` PR creation
+- `reviewPullRequest` → Use `@bitcode/vcs` PR review system
 
 ### Issue Management
-- `createIssue` → Use `@engi/vcs` issue creation
-- `leaveCommentOnIssue` → Use `@engi/vcs` comment system
-- `getIssueWithComments` → Use `@engi/vcs` issue retrieval
-- `getRepositoryIssues` → Use `@engi/vcs` issue listing
+- `createIssue` → Use `@bitcode/vcs` issue creation
+- `leaveCommentOnIssue` → Use `@bitcode/vcs` comment system
+- `getIssueWithComments` → Use `@bitcode/vcs` issue retrieval
+- `getRepositoryIssues` → Use `@bitcode/vcs` issue listing
 
 ## Migration Benefits
 
@@ -95,31 +95,31 @@ The new VCS abstraction supports multiple version control providers:
 
 ## Error Handling
 
-All imports from @engi/git will throw detailed migration errors:
+All imports from @bitcode/git will throw detailed migration errors:
 
 ```typescript
-import { getRepository } from '@engi/git';
-// Throws: @engi/git is deprecated and has been removed.
+import { getRepository } from '@bitcode/git';
+// Throws: @bitcode/git is deprecated and has been removed.
 // Please update your imports:
-// - For VCS operations: import from '@engi/vcs'
-// - For git tools: import from '@engi/vcs-tools'  
-// - For VCS agent: import from '@engi/generic-agents-vcs'
+// - For VCS operations: import from '@bitcode/vcs'
+// - For git tools: import from '@bitcode/vcs-tools'  
+// - For VCS agent: import from '@bitcode/generic-agents-vcs'
 // The VCS abstraction supports GitHub, GitLab, and Bitbucket.
 ```
 
 ## Recommended Actions
 
-1. **Audit Dependencies**: Search codebase for `@engi/git` imports
-2. **Update Imports**: Replace with appropriate `@engi/vcs` equivalents
+1. **Audit Dependencies**: Search codebase for `@bitcode/git` imports
+2. **Update Imports**: Replace with appropriate `@bitcode/vcs` equivalents
 3. **Test Integration**: Verify VCS operations work with your provider
-4. **Remove Package**: Remove `@engi/git` from package.json dependencies
+4. **Remove Package**: Remove `@bitcode/git` from package.json dependencies
 5. **Update Documentation**: Update any references to Git-specific operations
 
 ## Support
 
 For migration assistance:
-- Review `@engi/vcs` documentation for API equivalents
-- Consult `@engi/generic-tools/vcs` for tool-specific operations
-- Check `@engi/generic-agents/vcs` for agent integration patterns
+- Review `@bitcode/vcs` documentation for API equivalents
+- Consult `@bitcode/generic-tools/vcs` for tool-specific operations
+- Check `@bitcode/generic-agents/vcs` for agent integration patterns
 
 The VCS abstraction provides superior functionality with multi-provider support, enhanced performance, and standardized error handling.

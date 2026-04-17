@@ -4,7 +4,7 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
   roots: ['<rootDir>/src'],
   moduleNameMapper: {
-    '^@engi/tools-generics$': '<rootDir>/__mocks__/engi-tools-generics.ts'
+    '^@bitcode/tools-generics$': '<rootDir>/__mocks__/engi-tools-generics.ts'
   },
   globals: {
     'ts-jest': {

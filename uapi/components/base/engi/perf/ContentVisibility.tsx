@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 export interface ContentVisibilityProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Optional intrinsic size hint for browsers that use content-visibility */

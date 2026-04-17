@@ -1,4 +1,4 @@
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 
 import { ENABLE_MOCKS, MOCK_CHAT_STREAM } from '../../../config/featureFlags';
 import { buildMockReviewUser, isUserOrbitalMockMode } from '../../../lib/mock-review-mode';

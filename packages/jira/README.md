@@ -1,4 +1,4 @@
-# @engi/jira
+# @bitcode/jira
 
 Comprehensive Jira integration package for ENGI platform. Provides OAuth-authenticated client with full issue management, project operations, and JQL query capabilities.
 
@@ -26,7 +26,7 @@ import {
   createJiraClientFromUser,
   jiraSearchIssues,
   JQL_QUERIES 
-} from '@engi/jira';
+} from '@bitcode/jira';
 
 // Create authenticated client
 const client = await createJiraClientFromUser(userId);
@@ -51,7 +51,7 @@ await jiraCreateIssue(
 ## URL Processing
 
 ```typescript
-import { extractIssueKeyFromUrl, parseJiraBaseUrl } from '@engi/jira';
+import { extractIssueKeyFromUrl, parseJiraBaseUrl } from '@bitcode/jira';
 
 const issueKey = extractIssueKeyFromUrl(
   'https://company.atlassian.net/browse/PROJ-123'

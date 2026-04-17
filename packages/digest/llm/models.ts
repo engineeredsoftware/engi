@@ -1,9 +1,9 @@
 import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
 import { callGemini } from '@/llm/geminiClient';
 import { callAnthropic } from '@/llm/anthropicClient';
-import { estimateTokens, deductGenerationCredits, GenerationTokens } from '@engi/credits';
-import { createClient } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { estimateTokens, deductGenerationCredits, GenerationTokens } from '@bitcode/credits';
+import { createClient } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 
 // Model configuration
 export const MODEL_CONFIGS = {

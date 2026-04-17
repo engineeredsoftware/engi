@@ -5,9 +5,9 @@
  * Can short-circuit with partial refund if not production-ready.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
-import { NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@engi/execution-generics';
-import { ShortCircuitSignal } from '@engi/execution-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { NS_EXEC_DELIVERABLE_VALIDATION_RTS } from '@bitcode/execution-generics';
+import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
 import {

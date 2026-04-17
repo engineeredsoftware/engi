@@ -5,7 +5,7 @@
  * Validates all conquered files work together and fixes issues.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { CorrectCodeChangePrompts } from '../prompts/correct-code-change-prompt';
 

@@ -5,7 +5,7 @@
  * Enables agents to automatically request and fulfill procurements.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { ProcurementEngine } from './core';
 import type { 
   Procurement, 

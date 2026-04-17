@@ -53,7 +53,7 @@ import {
   awsDynamoGetItemTool,
   awsDynamoPutItemTool,
   awsCloudWatchLogTool
-} from '@engi/generic-tools-mcps-aws';
+} from '@bitcode/generic-tools-mcps-aws';
 
 // Lambda function invocation
 const lambdaResult = await awsLambdaInvokeTool({

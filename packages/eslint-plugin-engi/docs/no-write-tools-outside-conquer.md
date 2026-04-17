@@ -53,11 +53,11 @@ module.exports = {
 
 ```ts
 // ❌  Raises an ESLint error
-import { textEditorTool } from '@engi/generic-tools-files-maintaining';
+import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';
 
 // ✓  Allowed inside an implementation-phase agent
 // path: packages/pipelines/deliverable/src/agents/implementationDeliverablesAgentConquer/index.ts
-import { textEditorTool } from '@engi/generic-tools-files-maintaining';
+import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';
 ```
 
 ## Tests

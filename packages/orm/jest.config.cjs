@@ -1,5 +1,5 @@
 /**
- * Jest configuration for @engi/orm
+ * Jest configuration for @bitcode/orm
  */
 module.exports = {
   preset: 'ts-jest/presets/js-with-ts',

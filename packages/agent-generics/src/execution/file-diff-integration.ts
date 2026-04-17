@@ -4,11 +4,11 @@
  * Automatically streams file diffs when tools execute during PTRR steps.
  * Integrates file change tracker with streaming system.
  *
- * @package @engi/agent-generics
+ * @package @bitcode/agent-generics
  */
 
-import type { Execution } from '@engi/execution-generics';
-import { extractFileChangesFromToolResults, getFileChangeStats } from '@engi/execution-generics';
+import type { Execution } from '@bitcode/execution-generics';
+import { extractFileChangesFromToolResults, getFileChangeStats } from '@bitcode/execution-generics';
 
 /**
  * Post-step hook for streaming file diffs
@@ -41,7 +41,7 @@ export async function streamFileChangesAfterStep(
   if (stats.files.length > 0) {
     try {
       // Dynamic import to avoid circular dependency
-      const { writeFileTreeChanges } = await import('@engi/streams');
+      const { writeFileTreeChanges } = await import('@bitcode/streams');
 
       // Get data stream from execution
       const dataStream = execution.get('execution', 'dataStream');

@@ -16,7 +16,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import AnalyticsEventsClient from '@/components/base/engi/analytics/AnalyticsEventsClient';
 import PageAnalyticsClient from '@/components/base/engi/analytics/PageAnalyticsClient';
-import { init as initSentry } from '@engi/sentry';
+import { init as initSentry } from '@bitcode/sentry';
 
 initSentry({
   dsn: process.env.SENTRY_DSN,

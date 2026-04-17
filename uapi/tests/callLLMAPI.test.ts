@@ -1,7 +1,7 @@
 /**
  * Test dry-run behavior of callLLMAPI in uapi/lib/digest/digest.ts
  */
-import { configureDryRun } from '@engi/dryrun';
+import { configureDryRun } from '@bitcode/dryrun';
 
 describe.skip('callLLMAPI dry-run mode', () => {
   beforeAll(() => {
@@ -13,7 +13,7 @@ describe.skip('callLLMAPI dry-run mode', () => {
 
   it('returns the default response JSON without making an actual LLM call', async () => {
     // Import inside test to pick up env and config
-    const { callLLMAPI } = await import('@engi/digest/digest');
+    const { callLLMAPI } = await import('@bitcode/digest/digest');
     const result = await callLLMAPI('any prompt', 5);
     expect(result).toEqual({ x: 1, _metadata: { dryRun: true } });
   });

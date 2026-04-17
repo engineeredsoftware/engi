@@ -1,4 +1,4 @@
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 export interface PhaseMetric {
   duration: number;

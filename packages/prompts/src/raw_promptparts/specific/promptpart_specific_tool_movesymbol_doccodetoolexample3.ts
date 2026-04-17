@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MOVESYMBOL_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Extracting shared TypeScript interfaces to common types file: moves "ApiResponse" and "UserProfile" interfaces from component files to types module, updates 15 import statements across frontend and backend, consolidates type definitions for better maintainability' as PromptPart;

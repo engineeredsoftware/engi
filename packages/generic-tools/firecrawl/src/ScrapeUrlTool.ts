@@ -5,8 +5,8 @@
  * @prompt SCRAPE_URL_DOC_CODE_TOOL_PROMPT
  */
 
-import { Tool } from '@engi/tools-generics';
-import { scrapeUrl } from '@engi/firecrawl';
+import { Tool } from '@bitcode/tools-generics';
+import { scrapeUrl } from '@bitcode/firecrawl';
 import { SCRAPE_URL_DOC_CODE_TOOL_PROMPT } from './prompts/ScrapeUrlDocCodeToolPrompt';
 
 export class ScrapeUrlTool extends Tool<typeof scrapeUrl> {

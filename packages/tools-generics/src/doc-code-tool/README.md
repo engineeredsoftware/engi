@@ -1,6 +1,6 @@
 # Doc-Code-Tool Implementation
 
-The `@doc-code-tool` pattern is implemented through the webpack loader in the `@engi/doc-code` package. This document describes how to use it with Tool classes.
+The `@doc-code-tool` pattern is implemented through the webpack loader in the `@bitcode/doc-code` package. This document describes how to use it with Tool classes.
 
 ## Pattern
 
@@ -57,7 +57,7 @@ export const MY_TOOL_PROMPT = new MyToolPrompt();
 The `formatUsableTools` function automatically uses the attached prompts:
 
 ```typescript
-import { formatUsableTools } from '@engi/tools-generics';
+import { formatUsableTools } from '@bitcode/tools-generics';
 
 const tools = [myTool, otherTool];
 const documentation = formatUsableTools(tools);

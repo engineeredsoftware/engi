@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { normalizeDeliverableOutput } from '../postprocess';
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 describe('normalizeDeliverableOutput', () => {
   it('backfills prUrl, filesModified, and summary from execution', () => {

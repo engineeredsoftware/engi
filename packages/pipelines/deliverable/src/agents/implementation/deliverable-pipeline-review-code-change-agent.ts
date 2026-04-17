@@ -5,7 +5,7 @@
  * This is for the code-change-review deliverable type.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { ReviewCodeChangePrompts } from '../prompts/review-code-change-prompt';
 

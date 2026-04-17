@@ -1,5 +1,5 @@
 {
-  "name": "@engi/parsing",
+  "name": "@bitcode/parsing",
   "version": "0.1.0",
   "private": true,
   "main": "src/parsing.ts",
@@ -15,6 +15,6 @@
     "src"
   ],
   "dependencies": {
-    "@engi/logger": "workspace:*"
+    "@bitcode/logger": "workspace:*"
   }
 }

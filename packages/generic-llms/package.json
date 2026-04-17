@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-llms",
+  "name": "@bitcode/generic-llms",
   "version": "0.1.0",
   "description": "LLM provider implementations for engi",
   "main": "src/index.ts",
@@ -10,7 +10,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@engi/llm-generics": "workspace:*"
+    "@bitcode/llm-generics": "workspace:*"
   },
   "devDependencies": {
     "@jest/globals": "^29.0.0",

@@ -5,7 +5,7 @@
  * This prompt provides the base abstraction for pipeline-level prompting.
  */
 
-import { Prompt, PromptPart, createPromptPart } from '@engi/prompts';
+import { Prompt, PromptPart, createPromptPart } from '@bitcode/prompts';
 
 /**
  * Base Pipeline Prompt

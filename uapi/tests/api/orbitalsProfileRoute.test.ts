@@ -14,11 +14,11 @@ function makeRequest() {
 // The route relies on two Supabase helpers.  Provide light-weight mocks so we
 // can exercise the handler logic without network or database access.
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn()
 }));
 
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     from: jest.fn().mockReturnThis(),
     select: jest.fn().mockReturnThis(),
@@ -27,8 +27,8 @@ jest.mock('@engi/supabase', () => ({
   }
 }));
 
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 describe('/api/orbitals/profile GET', () => {
   beforeEach(() => {

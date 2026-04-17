@@ -1,4 +1,4 @@
-# @engi/procurement
+# @bitcode/procurement
 
 Global solution procurement engine for ENGI platform. Provides vector-based solution matching, advanced analytics, fraud detection, and automated quality assessment.
 
@@ -23,7 +23,7 @@ Global solution procurement engine for ENGI platform. Provides vector-based solu
 ## Solution Search
 
 ```typescript
-import { searchRelevantSolutions } from '@engi/procurement';
+import { searchRelevantSolutions } from '@bitcode/procurement';
 
 const solutions = await searchRelevantSolutions({
   organizationId: 'org-123',
@@ -44,7 +44,7 @@ const solutions = await searchRelevantSolutions({
 ## Advanced Matching
 
 ```typescript
-import { AdvancedMatchingEngine } from '@engi/procurement';
+import { AdvancedMatchingEngine } from '@bitcode/procurement';
 
 const engine = new AdvancedMatchingEngine();
 const recommendations = await engine.getRecommendations({
@@ -57,7 +57,7 @@ const recommendations = await engine.getRecommendations({
 ## Dataset Management
 
 ```typescript
-import { GlobalDatasetManager, RepositoryOptInManager } from '@engi/procurement';
+import { GlobalDatasetManager, RepositoryOptInManager } from '@bitcode/procurement';
 
 // Manage global dataset
 const dataset = new GlobalDatasetManager();

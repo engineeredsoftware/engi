@@ -1,5 +1,5 @@
 // Mock Supabase client and ProcessingIndicator to isolate SSR rendering
-jest.mock('@engi/supabase/ssr/client', () => ({ createClient: () => ({}) }));
+jest.mock('@bitcode/supabase/ssr/client', () => ({ createClient: () => ({}) }));
 jest.mock('@/components/base/engi/indicators/processing-indicator', () => ({ ProcessingIndicator: () => null }));
 import React from 'react';
 import { renderToString } from 'react-dom/server';

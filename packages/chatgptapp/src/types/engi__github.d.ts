@@ -1,5 +1,5 @@
-declare module '@engi/github' {
-  import type { VCSAuth } from '@engi/vcs';
+declare module '@bitcode/github' {
+  import type { VCSAuth } from '@bitcode/vcs';
 
   export class GitHubProvider {
     constructor(config: Record<string, unknown>);

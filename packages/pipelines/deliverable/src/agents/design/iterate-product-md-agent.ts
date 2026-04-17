@@ -5,7 +5,7 @@
  * Reads requirements, proposes PRODUCT.md changes, user reviews and provides feedback.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 
 const IterateProductMdInputSchema = z.object({

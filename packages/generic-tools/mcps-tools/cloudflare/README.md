@@ -100,7 +100,7 @@ import {
   cloudflareKvGetTool,
   cloudflareR2ListBucketsTool,
   cloudflareD1QueryTool 
-} from '@engi/mcps-tools/cloudflare';
+} from '@bitcode/mcps-tools/cloudflare';
 
 // Register with MCP server
 const tools = [

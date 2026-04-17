@@ -7,7 +7,7 @@
 
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { logger } from '@engi/logger';
+import { logger } from '@bitcode/logger';
 import type { RepositoryContext } from '../types';
 
 /**

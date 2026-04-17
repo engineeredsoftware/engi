@@ -1,8 +1,8 @@
 import { GET } from '@/app/api/orbitals/data/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 
 describe('GET /api/orbitals/data', () => {
   const mockUser = { id: 'user-1' };

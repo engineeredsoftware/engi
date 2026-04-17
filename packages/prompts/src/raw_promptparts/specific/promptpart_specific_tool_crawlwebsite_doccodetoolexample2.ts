@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Domain-restricted deep crawl: crawlWebsiteTool({ url: "https://blog.example.com", options: { allowedDomains: ["blog.example.com"], blockedDomains: ["ads.example.com"], maxDepth: 3, limit: 500 } })' as PromptPart;

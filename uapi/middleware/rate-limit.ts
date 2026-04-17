@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type { MiddlewareContext, MiddlewareHandler } from './index';
 
 // In-memory store (replace with Redis in production)

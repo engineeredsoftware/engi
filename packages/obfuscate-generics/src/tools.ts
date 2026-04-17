@@ -29,7 +29,7 @@ import {
   TransformationResultSchema,
   ReversibilityDataSchema
 } from './generics';
-import { BaseTool, ToolResult } from '@engi/tool-generics';
+import { BaseTool, ToolResult } from '@bitcode/tool-generics';
 
 // ==================== PRIVACY ANALYZER TOOL ====================
 

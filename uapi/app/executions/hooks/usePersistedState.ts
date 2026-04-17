@@ -2,7 +2,7 @@
  * Persisted state hook for executions page
  */
 import { useCallback } from 'react';
-import { createPersistedState } from '@engi/browser-storage';
+import { createPersistedState } from '@bitcode/browser-storage';
 
 const STORAGE_KEY = 'engi_execution_state_v1';
 const SAVE_DEBOUNCE_MS = 3000;

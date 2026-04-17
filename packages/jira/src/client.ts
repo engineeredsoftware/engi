@@ -1,4 +1,4 @@
-import { logger } from '@engi/logger';
+import { logger } from '@bitcode/logger';
 import type {
   JiraConnection,
   JiraProject,

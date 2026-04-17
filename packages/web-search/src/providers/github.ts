@@ -3,7 +3,7 @@
  */
 
 import { SearchProviderBase, SearchQuery, SearchResult } from '../multi-provider';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 export class GitHubSearchProvider extends SearchProviderBase {
   readonly name = 'github' as const;

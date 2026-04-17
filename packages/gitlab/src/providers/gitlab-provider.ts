@@ -35,8 +35,8 @@ import {
   FileDeleteData,
   CreateWebhookData,
   CreateIssueData
-} from '@engi/vcs';
-import { log } from '@engi/logger';
+} from '@bitcode/vcs';
+import { log } from '@bitcode/logger';
 
 /**
  * GitLab API response interfaces

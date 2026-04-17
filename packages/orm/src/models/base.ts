@@ -12,7 +12,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database, TableName, Tables, Insertable, Updatable } from '../types/database';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 export abstract class BaseModel<T extends TableName> {
   protected readonly tableName: T;

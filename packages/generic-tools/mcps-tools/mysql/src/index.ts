@@ -4,12 +4,12 @@
  * MySQL database management and query tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   mysqlListTablesTool as _mysqlListTables,
   mysqlGetTableSchemaTool as _mysqlGetTableSchema,
   mysqlQueryTool as _mysqlQuery,
-} from '@engi/mysql';
+} from '@bitcode/mysql';
 
 // Import DocCodeToolPrompt
 import { MYSQL_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/MySQLMCPDocCodeToolPrompt';

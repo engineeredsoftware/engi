@@ -12,9 +12,9 @@
     "composite": false,
     "baseUrl": "../../../",
     "paths": {
-      "@engi/*": ["packages/*/src/index.ts"],
-      "@engi/generic-agents/*": ["packages/generic-agents/*/src/index.ts"],
-      "@engi/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*"]
+      "@bitcode/*": ["packages/*/src/index.ts"],
+      "@bitcode/generic-agents/*": ["packages/generic-agents/*/src/index.ts"],
+      "@bitcode/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*"]
     }
   },
   "include": ["src/**/*"],

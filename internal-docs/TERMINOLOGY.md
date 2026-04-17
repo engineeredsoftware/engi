@@ -106,7 +106,7 @@ Core prompt intelligence (plugin exists)
 ## Tool Architecture
 
 ### Tool Class Pattern
-**Source**: `@engi/tools-generics`
+**Source**: `@bitcode/tools-generics`
 - Abstract base class with `.use = primitiveFunction` pattern
 - MCP tools have `DocCodeToolPrompt` class with @doc-code-tool
 - No more cast patterns from 'ai' package

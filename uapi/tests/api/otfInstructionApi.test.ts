@@ -1,6 +1,6 @@
 // Unit-tests for the REST handlers in deliverables/ai_documents OTF instruction routes.
 
-jest.mock('@engi/supabase', () => {
+jest.mock('@bitcode/supabase', () => {
   return {
     supabaseAdmin: {
       from: jest.fn(() => ({
@@ -12,7 +12,7 @@ jest.mock('@engi/supabase', () => {
   };
 });
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: () => ({
     auth: {
       getUser: async () => ({ data: { user: { id: 'u1' } }, error: null }),
@@ -20,7 +20,7 @@ jest.mock('@engi/supabase/ssr/server', () => ({
   }),
 }));
 
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 import { POST as deliverablePost } from '@/app/api/executions/instructions/route';
 import { POST as ai_documentPost } from '@/app/api/ai_documents/instructions/route';

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { VCSProviderType } from '@engi/vcs';
+import { VCSProviderType } from '@bitcode/vcs';
 import { IssueOrPR } from '../types/api';
 
 /**

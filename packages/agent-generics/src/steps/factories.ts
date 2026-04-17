@@ -20,9 +20,9 @@ import {
   buildAgentStepWorkUpdate,
   storeAgentStepWorkUpdate,
   type ToolUsageUpdate,
-} from '@engi/execution-generics';
-import { Executor } from '@engi/execution-generics';
-import { log } from '@engi/logger';
+} from '@bitcode/execution-generics';
+import { Executor } from '@bitcode/execution-generics';
+import { log } from '@bitcode/logger';
 import { AgentStep, UsedTool } from '../types';
 
 // StepExecutor is just an Executor - no special type needed

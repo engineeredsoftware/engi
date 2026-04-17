@@ -9,32 +9,32 @@ The doc-coding system provides infrastructure for attaching metadata to code thr
 ### ✅ What Exists
 
 #### Infrastructure Packages
-- **`@engi/doc-comment`** - Pure plugin infrastructure
+- **`@bitcode/doc-comment`** - Pure plugin infrastructure
   - Base plugin classes and interfaces
   - Plugin registry system
   - Parser foundations
   - TypeScript transformer factory (not integrated)
 
-- **`@engi/doc-code`** - Runtime injection system  
+- **`@bitcode/doc-code`** - Runtime injection system  
   - Transform interface for build tools
   - Prompt injection pattern definitions
   - Build integration helpers (not active)
 
-- **`@engi/doc-comment-developing`** - Development annotation base
+- **`@bitcode/doc-comment-developing`** - Development annotation base
   - Base class for development-time annotations
   - Validation framework
 
 #### Plugin Implementations
-- **`@engi/doc-comment-developing-prompt`** - Prompt development plugin
-- **`@engi/doc-comment-developing-promptpart`** - PromptPart development plugin
-- **`@engi/doc-field`** - Field injection plugin
-- **`@engi/doc-typescript`** - TypeScript introspection
-- **`@engi/doc-dryrun`** - Dry-run capabilities
+- **`@bitcode/doc-comment-developing-prompt`** - Prompt development plugin
+- **`@bitcode/doc-comment-developing-promptpart`** - PromptPart development plugin
+- **`@bitcode/doc-field`** - Field injection plugin
+- **`@bitcode/doc-typescript`** - TypeScript introspection
+- **`@bitcode/doc-dryrun`** - Dry-run capabilities
 
 #### Co-located Plugins
 Plugins that enhance specific packages live with those packages:
-- `@engi/prompts/src/doc-plugins/` - doc-prompt and doc-promptpart
-- `@engi/pipelines-generics/src/doc-plugins/` - doc-pgri
+- `@bitcode/prompts/src/doc-plugins/` - doc-prompt and doc-promptpart
+- `@bitcode/pipelines-generics/src/doc-plugins/` - doc-pgri
 
 ### ❌ What Doesn't Exist
 
@@ -80,7 +80,7 @@ const metadata = ENGI_IDENTITY.__proto__.docPromptPart;
 The system provides classes and interfaces but requires manual integration:
 
 ```typescript
-import { BaseDocCommentPlugin } from '@engi/doc-comment';
+import { BaseDocCommentPlugin } from '@bitcode/doc-comment';
 
 // Plugins must be manually registered
 class MyPlugin extends BaseDocCommentPlugin {
@@ -175,7 +175,7 @@ Agents in `generic-agents/` use:
 
 ```typescript
 // In package that owns the plugin
-import { registerPlugin } from '@engi/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment';
 import { docPromptPlugin } from './doc-prompt';
 
 // Auto-register when module imported
@@ -186,11 +186,11 @@ registerPlugin(docPromptPlugin);
 
 ```typescript
 // Import plugins you need - they auto-register
-import '@engi/prompts/doc-plugins';
-import '@engi/doc-typescript';
+import '@bitcode/prompts/doc-plugins';
+import '@bitcode/doc-typescript';
 
 // Use the doc-comment system
-import { createParser } from '@engi/doc-comment';
+import { createParser } from '@bitcode/doc-comment';
 const parser = createParser();
 ```
 

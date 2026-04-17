@@ -2,16 +2,16 @@
 import '@/tests/setupTests';
 
 // Mock dependencies
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
-jest.mock('@engi/context', () => ({ getGlobalContext: jest.fn() }));
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@engi/pipeline-deliverable/src/phases/setup', () => ({ runSetupDeliverables: jest.fn() }));
-jest.mock('@engi/engine/pipeline/metrics', () => ({ updatePeakMemory: jest.fn(), createPipelineMetrics: jest.fn(() => ({ totalTokensUsed: 0, totalApiCalls: 0, phaseTimings: { setup: 0 } })), validatePipelineConfig: jest.fn(() => ({ maxIterations: 1, validationThreshold: 0, retryDelayMs: 0, maxRetries: 0 })) }));
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
+jest.mock('@bitcode/pipeline-deliverable/src/phases/setup', () => ({ runSetupDeliverables: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline/metrics', () => ({ updatePeakMemory: jest.fn(), createPipelineMetrics: jest.fn(() => ({ totalTokensUsed: 0, totalApiCalls: 0, phaseTimings: { setup: 0 } })), validatePipelineConfig: jest.fn(() => ({ maxIterations: 1, validationThreshold: 0, retryDelayMs: 0, maxRetries: 0 })) }));
 
-import { getGlobalContext } from '@engi/context';
-import { writeStreamMessage } from '@engi/streams';
-import { runSetupDeliverables } from '@engi/pipeline-deliverable';
-import { executeSetupPhase } from '@engi/engine/pipeline/pipelineSetupPhaseWrapper';
+import { getGlobalContext } from '@bitcode/context';
+import { writeStreamMessage } from '@bitcode/streams';
+import { runSetupDeliverables } from '@bitcode/pipeline-deliverable';
+import { executeSetupPhase } from '@bitcode/engine/pipeline/pipelineSetupPhaseWrapper';
 
 describe('executeSetupPhase', () => {
   const fakeCtx: any = {

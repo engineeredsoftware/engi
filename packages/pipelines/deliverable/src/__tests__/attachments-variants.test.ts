@@ -1,6 +1,6 @@
 // @ts-nocheck
 import deliverablePipeline from '../index';
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 describe('Deliverable pipeline - attachments and DoD variants (enabled when full SDIVS is active)', () => {
   const baseInput = {

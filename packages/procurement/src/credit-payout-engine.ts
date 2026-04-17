@@ -5,9 +5,9 @@
  * Handles automatic quality assessment, bonus calculations, and secure credit transfers.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
-import { telemetry } from '@engi/observability';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
+import { telemetry } from '@bitcode/observability';
 import { NotificationService } from './notifications-production';
 import { ProcurementErrorHandler, withErrorHandling } from './error-handling';
 import { ProcurementMonitoring } from './monitoring';

@@ -4,7 +4,7 @@
  * Tracks all file edits during execution for diff visualization.
  * Accumulates changes from Write, Edit, and Delete tool executions.
  *
- * @package @engi/execution-generics
+ * @package @bitcode/execution-generics
  */
 
 import type { Execution } from '../Execution';

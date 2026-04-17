@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agents-tech-types-identifier",
+  "name": "@bitcode/generic-agents-tech-types-identifier",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",

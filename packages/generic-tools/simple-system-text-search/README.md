@@ -360,7 +360,7 @@ private deduplicateMatches(matches: MatchResult[]): MatchResult[] {
 ### Basic Text Search
 
 ```typescript
-import { simpleSystemTextSearch } from '@engi/simple-system-text-search';
+import { simpleSystemTextSearch } from '@bitcode/simple-system-text-search';
 
 const result = await simpleSystemTextSearch.use({
   patterns: 'function.*export',

@@ -10,7 +10,7 @@
  * pattern: registry-extension
  */
 
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 import { Prompt } from '../prompt';
 
 /**

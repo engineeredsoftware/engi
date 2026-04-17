@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { trackEvent } from '@engi/google-analytics';
+import { trackEvent } from '@bitcode/google-analytics';
 
 /**
  * Fires a GA4 page_view event on route changes.  Because Next.js App Router

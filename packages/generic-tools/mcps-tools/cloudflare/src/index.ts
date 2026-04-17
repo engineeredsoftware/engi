@@ -4,7 +4,7 @@
  * Cloudflare edge computing integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   cloudflareListKvNamespacesTool as _cloudflareListKvNamespaces,
   cloudflareKvGetTool as _cloudflareKvGet,
@@ -39,7 +39,7 @@ import {
   cloudflareQueuesSendMessageTool as _cloudflareQueuesSendMessage,
   cloudflareQueuesGetMessagesTool as _cloudflareQueuesGetMessages,
   cloudflareQueuesUpdateConsumerTool as _cloudflareQueuesUpdateConsumer,
-} from '@engi/cloudflare';
+} from '@bitcode/cloudflare';
 
 // Import DocCodeToolPrompt
 import { CLOUDFLARE_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/CloudflareMCPDocCodeToolPrompt';

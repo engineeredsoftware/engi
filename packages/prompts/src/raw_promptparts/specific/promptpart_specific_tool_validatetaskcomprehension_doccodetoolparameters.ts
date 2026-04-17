@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLPARAMETERS: PromptPart = 
   'comprehensionArtifacts: CognitiveBundle, validationDepth: MetaCognitiveLevel, coherenceThreshold: AlignmentCriteria, integrationScope: HolisticBoundary, gapDetectionSensitivity: CognitivePrecision, verificationFramework: ValidationSchema, outputCompleteness: ComprehensionAssurance' as PromptPart;

@@ -1,8 +1,8 @@
-import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLNAME } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolname';
-import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLPURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolpurpose';
-import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLCAPABILITIES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolcapabilities';
-import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLPARAMETERS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolparameters';
-import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLOUTPUT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_replacefile_doccodetooloutput';
 /**
  * REPLACE FILE DOC-CODE-TOOL PROMPT
  * 
@@ -15,8 +15,8 @@ import { PROMPTPART_SPECIFIC_TOOL_REPLACEFILE_DOCCODETOOLOUTPUT } from '@engi/pr
  * Only meaningful content is imported as PromptParts from /raw_promptparts/.
  */
 
-import { DocCodeToolPrompt } from '@engi/tools-generics';
-import { PromptPart } from '@engi/prompts';
+import { DocCodeToolPrompt } from '@bitcode/tools-generics';
+import { PromptPart } from '@bitcode/prompts';
 
 // Import meaningful PromptParts from /raw_promptparts/specific/
 

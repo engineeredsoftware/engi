@@ -40,10 +40,10 @@ This document explains the Engi test architecture across layers, how tests are o
 
 ## Configuration Notes
 - pipelines‑generics/jest.config.cjs
-  - `moduleNameMapper` resolves monorepo packages to sources, including `@engi/orm`.
+  - `moduleNameMapper` resolves monorepo packages to sources, including `@bitcode/orm`.
 - uapi/jest.config.cjs
   - `testMatch` includes targeted deliverables tests.
-  - `moduleNameMapper` resolves `@engi/*` to monorepo packages and `@/*` to uapi paths.
+  - `moduleNameMapper` resolves `@bitcode/*` to monorepo packages and `@/*` to uapi paths.
 
 ## Determinism via “Trivial Agents”
 “Trivial agents” are minimal, deterministic agent functions used purely in tests to make event ordering, iteration counts, and metrics predictable. They are not production agents. Typical patterns:

@@ -6,7 +6,7 @@
  * When satisfied, user clicks "Ready to Develop" → transition to Develop phase.
  */
 
-import { createPhaseRunner } from '@engi/pipelines-generics';
+import { createPhaseRunner } from '@bitcode/pipelines-generics';
 
 export const designPhase = createPhaseRunner({
   phaseName: 'design',

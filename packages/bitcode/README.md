@@ -144,5 +144,12 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 - `../ENGI_SPEC_V20_PROPER.md` - historical full-canon reconstruction validation surface
 - `../ENGI_SPECIFYING.md` - current specifying standard
 - next-version draft work, when opened, lives in the matching `../ENGI_SPEC_VN*.md` family plus optional `../ENGI_SPEC_VN_NOTES.md`
+- `V26_APPLICATION_SYSTEMS.md` - supplementary non-canonical architecture map for the converged V26 application systems
+- `V26_PROOF_SURFACES.md` - supplementary non-canonical proof/test/spec assignment map for V26 code systems
 - `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` - host/runtime/container truth
 - `ARCHITECTURE_MAP.md` - preserved architecture map
+
+## Active module namespace
+
+The active internal module namespace is now `@bitcode/*`.
+New active imports and workspace package names should use that namespace rather than reintroducing older ENGI-scoped module references.

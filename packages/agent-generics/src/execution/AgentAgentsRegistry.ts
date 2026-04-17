@@ -10,9 +10,9 @@
  * pattern: registry-based-agent-composition
  */
 
-import { RegistryImpl } from '@engi/registry';
+import { RegistryImpl } from '@bitcode/registry';
 import { Agent } from '../types';
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 /**
  * ExecutionAgent - Agent that can be bound to execution context

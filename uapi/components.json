@@ -12,6 +12,6 @@
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@engi/utils"
+    "utils": "@bitcode/utils"
   }
 }

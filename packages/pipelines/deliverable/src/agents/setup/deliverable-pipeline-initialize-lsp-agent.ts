@@ -5,7 +5,7 @@
  * Critical for discovery, validation, and implementation phases.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { createDeliverablesPipelineSetupPhaseInitializeLSPAgentPrompt, DeliverablesPipelineSetupPhaseInitializeLSPAgentPromptSteps } from '../prompts/initialize-lsp-prompt';
 import { getDeliverablePipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';

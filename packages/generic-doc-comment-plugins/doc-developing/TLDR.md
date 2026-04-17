@@ -8,6 +8,6 @@
 - `@doc-comment-profile` - Code profiling
 
 **Note**: The actual -developing- plugins for prompts are in:
-`@engi/prompts/src/developing/doc-comment-developing.ts`
+`@bitcode/prompts/src/developing/doc-comment-developing.ts`
 
 **Usage**: Development only - not for production

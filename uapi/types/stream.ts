@@ -1,5 +1,5 @@
 // Import canonical ExecutionState from pipelines-generics (SSOT)
-import type { ExecutionState } from '@engi/pipelines-generics';
+import type { ExecutionState } from '@bitcode/pipelines-generics';
 export type { ExecutionState };
 
 export interface StreamStatus {

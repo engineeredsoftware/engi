@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Legacy Banking System Modernization: extractRequirements({ taskDescription: [codebase: "legacy-cobol-system/", architecture: "modernization-blueprint.drawio", compliance: "banking-regulations.xml"], extractionDepth: "architectural", requirementTypes: ["migration", "compliance", "integration", "risk"], contextualFramework: "financial-services", prioritizationStrategy: "risk-weighted", implicitInferenceLevel: "systemic" }) → Returns RequirementFramework with data migration paths, regulatory compliance mappings, architectural transformation requirements, risk mitigation specifications, and cognitive dependency cascade analysis for progressive modernization strategy' as PromptPart;

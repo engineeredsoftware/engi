@@ -64,10 +64,12 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
 - `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
 - `uapi/app/application/ApplicationClosureNativeSections.tsx`
 - `uapi/app/application/application-experience-architecture.ts`
+- `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
@@ -110,6 +112,10 @@ The current source now reflects that architecture more directly:
 - and `ApplicationWorkspaceRail.tsx` now frames conversations and orbitals as the other two experiences rather than as loose utility exits.
 - `OrbitalsProvider.tsx`, `OrbitalsCreditsPane.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, and `ExecutionsPageClient.tsx` now use the current app-owned `/api/orbitals/data` route instead of the stale `/api/orbitals/user/data` path on touched active surfaces.
 - live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
+- `uapi/app/api/vcs/[provider]/*` now exists as an app-owned VCS carrier family for connection status, OAuth entry, PAT fallback connection, and repository listing instead of letting active Bitcode UI fall through to missing HTML routes.
+- `ApplicationRepositoryContextPanel.tsx` now makes provider connection posture and selected repository supply explicit inside `/application` before the preserved deposit chain, using the app-owned `/api/vcs/*` contract and route state.
+- `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
+- the active internal module namespace is now `@bitcode/*` across workspace manifests, path aliases, and active source imports.
 
 ## Still driving V26 from V25 deferrals
 
@@ -170,6 +176,18 @@ Still open:
 - which parts of current marketing can remain untouched until after second-gate acceptance,
 - and what third-gate acceptance should require versus leave to later refinement.
 
+Current draft-only spine to preserve for that future gate:
+- where + when:
+  engineering economy participants
+- who:
+  producers, consumers, investors, partners, researchers
+- how:
+  auditable, proved, open
+- what:
+  observable, modular, hackable
+- why:
+  throughput, quality, trust
+
 ### 3. Fifth-gate debug and environment controls
 
 Still open:
@@ -215,8 +233,8 @@ Still open:
 
 Still open:
 - whether `.engi/*` remains the emitted namespace in V26,
-- whether `@engi/*` remains the internal package prefix in V26,
 - whether repo-local `ENGI_SPEC_*` remains stable through V26 promotion,
+- how far directory names, script names, and other non-module compatibility carriers should follow the now-active `@bitcode/*` module namespace,
 - and which compatibility carriers are worth changing during a productionizing version versus later dedicated migration work.
 
 ### 9. Fifth-gate proof precision and closure

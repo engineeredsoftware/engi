@@ -8,9 +8,9 @@
  * - Design Document Review: Review design document
  */
 
-import { createPhaseRunner, PhaseConfig, AgentStep } from '@engi/pipelines-generics';
-import { PipelineExecution } from '@engi/pipelines-generics';
-import { ExecutionAccumulator } from '@engi/execution-generics';
+import { createPhaseRunner, PhaseConfig, AgentStep } from '@bitcode/pipelines-generics';
+import { PipelineExecution } from '@bitcode/pipelines-generics';
+import { ExecutionAccumulator } from '@bitcode/execution-generics';
 
 /**
  * Create dynamic implementation sequence based on deliverable type

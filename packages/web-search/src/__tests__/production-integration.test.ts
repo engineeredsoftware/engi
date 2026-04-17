@@ -24,7 +24,7 @@ import {
 import { WEB_RESEARCH_AGENT } from '../../../generic-agents/web-researcher/src/index';
 
 // Mock external dependencies for integration testing
-jest.mock('@engi/logger');
+jest.mock('@bitcode/logger');
 jest.mock('../index');
 jest.mock('../providers/github');
 jest.mock('../providers/stackoverflow');
@@ -274,7 +274,7 @@ describe('Production Integration Tests', () => {
   describe('Revolutionary Web Research Agent Integration', () => {
     beforeEach(() => {
       // Mock global context for agent testing
-      const mockGetGlobalContext = require('@engi/context').getGlobalContext;
+      const mockGetGlobalContext = require('@bitcode/context').getGlobalContext;
       mockGetGlobalContext.mockReturnValue({
         taskContext: {
           task: 'Implement production-ready React authentication system with JWT refresh tokens',

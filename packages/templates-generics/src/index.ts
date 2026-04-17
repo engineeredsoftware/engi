@@ -4,7 +4,7 @@
  * GA-1 Production Ready
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 // Export all types

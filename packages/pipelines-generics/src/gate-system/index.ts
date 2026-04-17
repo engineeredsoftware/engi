@@ -1,7 +1,7 @@
 /**
  * Meta-Phases - Design → Develop → Digest (DDD) System
  *
- * @package @engi/pipelines-generics
+ * @package @bitcode/pipelines-generics
  */
 
 export * from './types';

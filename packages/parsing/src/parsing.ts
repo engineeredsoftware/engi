@@ -1,7 +1,7 @@
 // TODO:  gpt-4o-mini object generating could maybe be another fallback? aka call LLM to "parse" (must support "support structured object generation (like gpt-4o-mini) to generate objects." to be worth it, reliable)
 //
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 /**
  * Generic function to extract JSON content from LLM responses with fallbacks

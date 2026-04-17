@@ -2,10 +2,10 @@
 import '@/tests/setupTests';
 
 import { z } from 'zod';
-import { parseStructuredText } from '@engi/steps/sub';
+import { parseStructuredText } from '@bitcode/steps/sub';
 
 // Mock parseResponse and extractJsonFromResponse
-jest.mock('@engi/parsing', () => ({
+jest.mock('@bitcode/parsing', () => ({
   parseResponse: jest.fn(),
   extractJsonFromResponse: jest.fn(),
 }));
@@ -18,7 +18,7 @@ describe('parseStructuredText', () => {
   beforeEach(() => jest.clearAllMocks());
 
   it('returns parsed data when parseResponse succeeds', async () => {
-    const { parseResponse, extractJsonFromResponse } = require('@engi/parsing');
+    const { parseResponse, extractJsonFromResponse } = require('@bitcode/parsing');
     parseResponse.mockResolvedValue({ foo: 'A', bar: 1 });
     const res = await parseStructuredText(textValid, schema, () => ({ foo: 'X', bar: 0 }));
     expect(parseResponse).toHaveBeenCalledWith(
@@ -32,7 +32,7 @@ describe('parseStructuredText', () => {
   });
 
   it('falls back to extractJsonFromResponse when parseResponse fails', async () => {
-    const { parseResponse, extractJsonFromResponse } = require('@engi/parsing');
+    const { parseResponse, extractJsonFromResponse } = require('@bitcode/parsing');
     parseResponse.mockRejectedValue(new Error('fail parse'));    
     extractJsonFromResponse.mockReturnValue(JSON.stringify({ foo: 'B', bar: 2 }));
     const res = await parseStructuredText(textPartial, schema, () => ({ foo: 'X', bar: 0 }));
@@ -42,7 +42,7 @@ describe('parseStructuredText', () => {
   });
 
   it('returns fallback when both parseResponse and extract fail', async () => {
-    const { parseResponse, extractJsonFromResponse } = require('@engi/parsing');
+    const { parseResponse, extractJsonFromResponse } = require('@bitcode/parsing');
     parseResponse.mockRejectedValue(new Error('parse fail'));    
     extractJsonFromResponse.mockReturnValue('notjson');
     const fallbackVal = { foo: 'FALL', bar: 9 };

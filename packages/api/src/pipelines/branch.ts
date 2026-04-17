@@ -6,8 +6,8 @@
  * so the new run can resume with the same execution context.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 
 interface ForkOptions {
   title?: string; // optional run title, stored in context

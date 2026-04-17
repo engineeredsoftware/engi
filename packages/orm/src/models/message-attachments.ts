@@ -15,8 +15,8 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import {
   MessageAttachment,
   CreateMessageAttachmentInput
-} from '@engi/conversations-generics';
-import { AttachmentReference } from '@engi/attachments-generics';
+} from '@bitcode/conversations-generics';
+import { AttachmentReference } from '@bitcode/attachments-generics';
 
 export class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
   constructor(supabase: SupabaseClient<Database>) {

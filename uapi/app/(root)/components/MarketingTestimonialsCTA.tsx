@@ -1,12 +1,12 @@
 
 import { buttonVariants } from "@/components/base/shadcn/button";
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import Marquee from "@/components/base/engi/magicui/marquee";
 import { ChevronRight, HeartHandshake } from "lucide-react";
 import ShimmerButtonDemo from "./button-shimmer";
 import Logo from "@/components/base/engi/branding/logo";
 import { useState, useEffect, useMemo } from "react";
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 
 const reviews = [
   {

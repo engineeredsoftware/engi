@@ -19,7 +19,7 @@ import type {
   CodeDiffViewerData,
   ConversationRichResponse
 } from '../../types/conversations-rich-response';
-import { detectPipelineTriggers } from '@engi/conversations-generics';
+import { detectPipelineTriggers } from '@bitcode/conversations-generics';
 
 const baseTimestamp = new Date().toISOString();
 

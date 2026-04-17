@@ -5,7 +5,7 @@
  * to automatically evaluate procurement deliverables against MoM criteria.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type { 
   Procurement, 
   ProcurementFulfillment, 

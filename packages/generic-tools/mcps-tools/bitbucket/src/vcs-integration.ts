@@ -3,8 +3,8 @@
  * This file provides tools that use the unified VCS abstraction
  */
 
-import { createVCSTools } from '@engi/vcs';
-import { createClient as createSupabaseServerClient } from '@engi/supabase/ssr/server';
+import { createVCSTools } from '@bitcode/vcs';
+import { createClient as createSupabaseServerClient } from '@bitcode/supabase/ssr/server';
 
 // Export VCS-based tools for Bitbucket
 export const bitbucketVCSTools = createVCSTools('bitbucket', () => createSupabaseServerClient());

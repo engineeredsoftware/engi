@@ -1,5 +1,5 @@
 {
-  "name": "@engi/browser-storage",
+  "name": "@bitcode/browser-storage",
   "version": "1.0.0",
   "description": "Core browser storage utilities with versioning, migration, and multi-tab synchronization",
   "main": "dist/index.js",

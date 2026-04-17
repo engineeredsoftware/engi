@@ -1,19 +1,19 @@
 import '@/tests/setupTests';
 // Mock analytics and logging
 jest.mock('@vercel/analytics/server', () => ({ track: jest.fn() }));
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
 // Mock Supabase client
 const mockFrom = jest.fn();
-jest.mock('@engi/supabase', () => ({ supabaseAdmin: { from: mockFrom } }));
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: mockFrom } }));
 // Mock child_process.exec to simulate Docker invocation
 jest.mock('child_process', () => ({
   exec: jest.fn((cmd: string, cb: Function) => cb(null, { stdout: '', stderr: '' }))
 }));
 
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { track } from '@vercel/analytics/server';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { POST } from '@/app/api/webhook/route';
 
 const defaultExecImpl = (cmd: string, cb: Function) => cb(null, { stdout: '', stderr: '' });

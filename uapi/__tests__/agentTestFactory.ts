@@ -1,7 +1,7 @@
-import { initializeContext } from '@engi/context/context';
-import { executeAgentSteps } from '@engi/steps/runner';
-import * as sub from '@engi/steps/sub';
-import { resolveTool } from '@engi/generic-tools-registry';
+import { initializeContext } from '@bitcode/context/context';
+import { executeAgentSteps } from '@bitcode/steps/runner';
+import * as sub from '@bitcode/steps/sub';
+import { resolveTool } from '@bitcode/generic-tools-registry';
 import { jest } from '@jest/globals';
 import { z } from 'zod';
 
@@ -15,7 +15,7 @@ export function registerGenericMocks() {
 
   // Spy on tool resolution – return dummy fn that resolves instantly
   const dummy = jest.fn().mockResolvedValue({ ok: true });
-  jest.spyOn(require('@engi/generic-tools-registry'), 'resolveTool').mockImplementation((_name: string) => dummy);
+  jest.spyOn(require('@bitcode/generic-tools-registry'), 'resolveTool').mockImplementation((_name: string) => dummy);
 
   return { dummy };
 }

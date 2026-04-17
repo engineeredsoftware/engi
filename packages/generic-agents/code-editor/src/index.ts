@@ -15,16 +15,16 @@
 import { 
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import { ExecutionTool } from '@engi/execution-generics';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import { ExecutionTool } from '@bitcode/execution-generics';
 import { 
   TransactionalFileEditor,
   type EditCommandParams,
   type TextEdit,
   type Position,
   type Range
-} from '@engi/editing';
+} from '@bitcode/editing';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================

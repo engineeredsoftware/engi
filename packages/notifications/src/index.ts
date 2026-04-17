@@ -61,7 +61,7 @@ export async function sendEmail(opts: EmailOptions): Promise<void> {
 
 // ---------------------------------------------------------------------------
 // Re-export new notification/event helpers so consumers can do a single
-// import from '@engi/email'.
+// import from '@bitcode/email'.
 // ---------------------------------------------------------------------------
 
 export * from './types';

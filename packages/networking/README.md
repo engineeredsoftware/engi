@@ -1,4 +1,4 @@
-# @engi/networking
+# @bitcode/networking
 
 Industrial networking utilities providing standardized HTTP response handling and server-sent events infrastructure for enterprise applications.
 
@@ -30,7 +30,7 @@ Comprehensive networking abstraction layer implementing robust HTTP response pat
 
 ### Response Utilities
 ```typescript
-import { createErrorResponse, createJsonResponse, createAuthErrorResponse } from '@engi/networking';
+import { createErrorResponse, createJsonResponse, createAuthErrorResponse } from '@bitcode/networking';
 
 // Error responses with telemetry
 const errorResponse = createErrorResponse(error, 500, 'Operation failed');
@@ -44,7 +44,7 @@ const dataResponse = createJsonResponse({ data: results }, 200);
 
 ### Server-Sent Events
 ```typescript
-import { createSupabaseSSEPollStream } from '@engi/networking';
+import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
 const stream = createSupabaseSSEPollStream({
   fetchRows: (cursor) => database.getUpdatedRows(cursor),
@@ -59,7 +59,7 @@ const stream = createSupabaseSSEPollStream({
 
 ### API Route Error Handling
 ```typescript
-import { createErrorResponse, createAuthErrorResponse } from '@engi/networking';
+import { createErrorResponse, createAuthErrorResponse } from '@bitcode/networking';
 
 export async function handleAPIRequest(request: Request) {
   try {
@@ -83,7 +83,7 @@ export async function handleAPIRequest(request: Request) {
 
 ### Real-Time Data Streaming
 ```typescript
-import { createSupabaseSSEPollStream } from '@engi/networking';
+import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
 export function createDeliverableUpdatesStream(userId: string, signal: AbortSignal) {
   return createSupabaseSSEPollStream({
@@ -117,7 +117,7 @@ export function createDeliverableUpdatesStream(userId: string, signal: AbortSign
 
 ### WebSocket Alternative with SSE
 ```typescript
-import { createSupabaseSSEPollStream } from '@engi/networking';
+import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
 class RealtimeNotificationService {
   createNotificationStream(organizationId: string) {
@@ -183,7 +183,7 @@ class RealtimeNotificationService {
 
 ### HTTP Error Responses
 ```typescript
-import { createErrorResponse } from '@engi/networking';
+import { createErrorResponse } from '@bitcode/networking';
 
 // Automatic error categorization
 const response = createErrorResponse(error);

@@ -29,7 +29,7 @@ Industrial Model Context Protocol (MCP) integration for Amazon Aurora PostgreSQL
 
 ### Architecture Pattern
 ```typescript
-import { auroraNaturalLanguageToSqlTool, auroraExecuteSqlTool } from '@engi/generic-tools-mcps-aurora-postgres';
+import { auroraNaturalLanguageToSqlTool, auroraExecuteSqlTool } from '@bitcode/generic-tools-mcps-aurora-postgres';
 
 // Natural language to SQL conversion
 const sqlQuery = await auroraNaturalLanguageToSqlTool({

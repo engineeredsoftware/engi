@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { createSupabaseSSEPollStream } from '@engi/sse';
+import { createSupabaseSSEPollStream } from '@bitcode/sse';
 
 // Helper: collect chunks for up to `durationMs` or until the predicate returns true
 async function collectUntil(

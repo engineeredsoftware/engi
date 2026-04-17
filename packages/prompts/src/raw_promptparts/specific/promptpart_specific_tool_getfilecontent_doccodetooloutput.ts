@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns transcendent content intelligence including: content (raw and semantically processed file content), semantic_analysis (AI-powered code intent, architecture patterns, and quality metrics), relationship_graph (comprehensive dependency mapping and cross-repository connections), knowledge_synthesis (extracted insights, documentation gaps, and improvement opportunities), predictive_insights (evolution trends, technical debt accumulation, and optimization recommendations), collaboration_context (team ownership, change patterns, and knowledge distribution), security_assessment (vulnerability analysis, access patterns, and compliance status), performance_characteristics (content complexity, processing efficiency, and scalability indicators), ecosystem_impact (architectural influence, downstream dependencies, and integration health), autonomous_recommendations (automated improvement suggestions, refactoring opportunities, and modernization pathways), and intelligence_metadata (processing confidence, analysis depth, and continuous learning feedback loops for emergent system behavior optimization)' as PromptPart;

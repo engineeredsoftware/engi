@@ -7,7 +7,7 @@
  * factories after this core.
  */
 
-import { conditional, sequential, type Executor } from '@engi/execution-generics';
+import { conditional, sequential, type Executor } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import {
   factoryPrepareConciseContext,

@@ -137,8 +137,8 @@ for src in "${files[@]}"; do
       continue
     fi
 
-    # 3) Alias-preserving auto-fix for @engi/<pkg>/... → compute canonical suffix from actual path
-    if [[ "$imp" =~ ^@engi/([^/]+)(/.*)?$ ]]; then
+    # 3) Alias-preserving auto-fix for @bitcode/<pkg>/... → compute canonical suffix from actual path
+    if [[ "$imp" =~ ^@bitcode/([^/]+)(/.*)?$ ]]; then
       pkg="${BASH_REMATCH[1]}"; rest="${BASH_REMATCH[2]:-}"
       base="packages/$pkg/src${rest}"
       handled=0
@@ -161,9 +161,9 @@ print(rel)
 PY
 )
           if [[ "$suffix" == "." || "$suffix" == "" ]]; then
-            want="@engi/$pkg"
+            want="@bitcode/$pkg"
           else
-            want="@engi/$pkg/$suffix"
+            want="@bitcode/$pkg/$suffix"
           fi
           if [[ "$imp" != "$want" ]]; then
             echo "⚠️  Alias case mismatch in $src: '$imp' → '$want' (actual '$actual')"
@@ -192,9 +192,9 @@ print(rel)
 PY
 )
           if [[ "$suffix" == "." || "$suffix" == "" ]]; then
-            want="@engi/$pkg"
+            want="@bitcode/$pkg"
           else
-            want="@engi/$pkg/$suffix"
+            want="@bitcode/$pkg/$suffix"
           fi
           if [[ "$imp" != "$want" ]]; then
             echo "⚠️  Alias case mismatch in $src: '$imp' → '$want' (actual '$actual')"

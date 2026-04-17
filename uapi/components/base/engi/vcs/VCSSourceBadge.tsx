@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { VCSProviderType, VCSConnection, VCSRepository } from '@engi/vcs-core';
+import { VCSProviderType, VCSConnection, VCSRepository } from '@bitcode/vcs-core';
 import { Github, GitBranch, ChevronDown, X } from 'lucide-react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import {
   Popover,
   PopoverContent,

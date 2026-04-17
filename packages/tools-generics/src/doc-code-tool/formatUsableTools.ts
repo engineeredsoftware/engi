@@ -10,7 +10,7 @@
 
 import { Tool } from '../Tool';
 import { DocCodeToolPrompt } from './DocCodeToolPrompt';
-import { PromptFormatter } from '@engi/prompts';
+import { PromptFormatter } from '@bitcode/prompts';
 
 /**
  * Format an array of tools (Tools with doc-code-tools) into documentation suitable for LLM consumption

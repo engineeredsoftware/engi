@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEORUPDATEFILE_DOCCODETOOLPURPOSE: PromptPart = 
   'Orchestrates intelligent file lifecycle management through atomic create/update operations, leveraging content analysis, conflict resolution, and metadata preservation to maintain codebase integrity while supporting collaborative development workflows with automated backup, versioning, and rollback capabilities across distributed version control systems' as PromptPart;

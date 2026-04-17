@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Create new component file: textEditorTool({ filePath: "/src/components/NewFeature.tsx", operation: "create", content: "import React from \'react\';\n\nexport const NewFeature: React.FC = () => {\n  return <div>New Feature</div>;\n};" })' as PromptPart;

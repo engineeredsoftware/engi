@@ -4,17 +4,17 @@
  * Minimal, surgical integration of Design → Develop → Digest meta-phases.
  * Wraps existing deliverable pipeline with meta-phase awareness.
  *
- * @package @engi/pipelines/deliverable
+ * @package @bitcode/pipelines/deliverable
  */
 
-import { Execution, Executor } from '@engi/execution-generics';
+import { Execution, Executor } from '@bitcode/execution-generics';
 import {
   getCurrentMetaPhase,
   storeMetaPhaseState,
   attemptMetaPhaseTransition,
   initializeMetaPhaseState,
   metaPhasePreprocess,
-} from '@engi/pipelines-generics';
+} from '@bitcode/pipelines-generics';
 
 /**
  * Add meta-phase support to existing deliverable pipeline

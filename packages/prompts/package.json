@@ -1,5 +1,5 @@
 {
-  "name": "@engi/prompts",
+  "name": "@bitcode/prompts",
   "version": "1.0.0",
   "description": "The fundamental prompt primitives package for the Engi engineering system",
   "private": true,
@@ -34,8 +34,8 @@
     "directory": "packages/prompts"
   },
   "dependencies": {
-    "@engi/registry": "workspace:*",
-    "@engi/doc-comment": "workspace:*"
+    "@bitcode/registry": "workspace:*",
+    "@bitcode/doc-comment": "workspace:*"
   },
   "devDependencies": {
     "@jest/globals": "^29.0.0",

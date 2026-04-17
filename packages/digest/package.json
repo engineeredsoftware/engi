@@ -1,5 +1,5 @@
 {
-  "name": "@engi/digest",
+  "name": "@bitcode/digest",
   "version": "0.1.0",
   "private": true,
   "main": "run/index.ts",

@@ -27,12 +27,12 @@ jest.mock('ai', () => ({
 
 // Stub the step-name normaliser used deep inside stream helpers so tests don't
 // depend on the actual implementation.
-jest.doMock('@engi/agent-generics/phaseHelpers/normalizeStepName', () => ({
+jest.doMock('@bitcode/agent-generics/phaseHelpers/normalizeStepName', () => ({
   normalizeStepName: (s: string) => s,
 }), { virtual: true });
 
 // Provide lightweight JSON response helpers used across API routes
-jest.mock('@engi/responses', () => ({
+jest.mock('@bitcode/responses', () => ({
   createJsonResponse: (body: any = {}, status = 200) => new Response(
     typeof body === 'string' ? body : JSON.stringify(body),
     { status, headers: { 'Content-Type': 'application/json' } }
@@ -47,11 +47,11 @@ jest.mock('@engi/responses', () => ({
   )
 }), { virtual: true });
 
-// Mock the heavy `@engi/context` module to make `initializeContext` spy-able
+// Mock the heavy `@bitcode/context` module to make `initializeContext` spy-able
 // while still exporting *live* bindings for everything else so that
 // reassignments inside individual unit tests propagate across import paths.
 
-jest.doMock('@engi/context', () => {
+jest.doMock('@bitcode/context', () => {
   const globalContext = {
     repoPath: process.cwd(),
     dataStream: {
@@ -77,7 +77,7 @@ process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'test-key';
 process.env.EXA_API_KEY   = process.env.EXA_API_KEY   || 'test-key';
 // Silence logger during tests
 // Uses global jest provided by the test environment
-jest.mock('@engi/logger', () => ({
+jest.mock('@bitcode/logger', () => ({
   log: jest.fn(() => Promise.resolve()),
 }));
 // Mock NextResponse for API route tests (Next.js)
@@ -284,13 +284,13 @@ if (process.env.USE_REAL_DB !== 'true') {
     return builder;
   });
   // Provide mock supabaseClient module
-  jest.doMock('@engi/supabase', () => ({
+  jest.doMock('@bitcode/supabase', () => ({
     supabase: { from: createBuilder },
     supabaseAdmin: { from: createBuilder }
   }));
 } else {
   // Use real supabaseClient for integration tests
-  jest.unmock('@engi/supabase');
+  jest.unmock('@bitcode/supabase');
 }
 // Mock createClient from utils to avoid Supabase env errors
 // Mock both client and server variants of the Supabase helper so that unit
@@ -300,11 +300,11 @@ const mockCreateClient = jest.fn(() => ({
   auth: { getUser: async () => ({ data: { user: {} } }) }
 }));
 
-jest.doMock('@engi/supabase/ssr/client', () => ({
+jest.doMock('@bitcode/supabase/ssr/client', () => ({
   createClient: mockCreateClient
 }), { virtual: true });
 
-jest.doMock('@engi/supabase/ssr/server', () => ({
+jest.doMock('@bitcode/supabase/ssr/server', () => ({
   createClient: mockCreateClient
 }), { virtual: true });
 // Stub TransformStream

@@ -9,14 +9,14 @@
  * @specificity Generic
  */
 
-import { Tool } from '@engi/tools-generics';
-import { vcsTools } from '@engi/vcs-tools';
-import { log } from '@engi/logger';
+import { Tool } from '@bitcode/tools-generics';
+import { vcsTools } from '@bitcode/vcs-tools';
+import { log } from '@bitcode/logger';
 import { GIT_INTERACTOR_DOC_CODE_TOOL_PROMPT } from './prompts/GitInteractorDocCodeToolPrompt';
 
 // Import legacy functions for backward compatibility
 // These will use VCS abstraction underneath
-import { getRepository, listGitFiles, cloneRepository, createPullRequest, createReference, leaveCommentOnIssue, reviewPullRequest, createIssue, getAllBranches, getReferenceInfo, getFileInfo, isLatestCommentFromBot, createFileContent, updateFileContent, deleteFileContent, getIssueWithComments } from '@engi/git';
+import { getRepository, listGitFiles, cloneRepository, createPullRequest, createReference, leaveCommentOnIssue, reviewPullRequest, createIssue, getAllBranches, getReferenceInfo, getFileInfo, isLatestCommentFromBot, createFileContent, updateFileContent, deleteFileContent, getIssueWithComments } from '@bitcode/git';
 
 /**
  * Repository cloning with distributed version control intelligence and atomic archive operations
@@ -324,7 +324,7 @@ export {
 };
 
 // Export new VCS tools for future use
-export { vcsTools } from '@engi/vcs-tools';
+export { vcsTools } from '@bitcode/vcs-tools';
 
 // Log migration notice
 log('git-interactor tools loaded with VCS abstraction compatibility layer', 'info', {

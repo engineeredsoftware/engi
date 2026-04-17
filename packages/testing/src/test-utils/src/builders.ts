@@ -5,7 +5,7 @@
  * and type-safe construction patterns.
  */
 
-import { PTRRStep, FailsafeGenerationStep, GenerationGenerationStep } from '@engi/agent-generics';
+import { PTRRStep, FailsafeGenerationStep, GenerationGenerationStep } from '@bitcode/agent-generics';
 
 /**
  * Base builder class

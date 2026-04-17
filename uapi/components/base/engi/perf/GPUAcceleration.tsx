@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 export interface GPUAccelerationProps extends React.HTMLAttributes<HTMLDivElement> {}
 

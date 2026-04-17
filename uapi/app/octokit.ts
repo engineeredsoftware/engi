@@ -5,10 +5,10 @@
  * the new VCS abstraction layer underneath.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { VCSService, VCSConnections, VCSProviderFactory } from '@engi/vcs';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { VCSService, VCSConnections, VCSProviderFactory } from '@bitcode/vcs';
 // Removed vcsAgent import - using VCS primitives directly
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

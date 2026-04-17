@@ -14,7 +14,7 @@ import {
   ENTERPRISE_DELIVERABLE_SCENARIO,
   MINIMAL_DELIVERABLE_SCENARIO,
   type TestScenario
-} from '@engi/test-intelligence';
+} from '@bitcode/test-intelligence';
 
 // =============================================================================
 // EXAMPLE 1: DryRun Integration
@@ -396,7 +396,7 @@ function DeliverablePipeline(props: any) {
 }
 
 // Type imports for examples
-type MockableFeature = import('@engi/test-intelligence').MockableFeature;
+type MockableFeature = import('@bitcode/test-intelligence').MockableFeature;
 type Request = any;
 type Response = any;
 type AsyncGeneratorFunction = () => AsyncGenerator<any>;

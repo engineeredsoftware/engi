@@ -6,8 +6,8 @@
  */
 
 import { z } from 'zod';
-import { logger } from '@engi/logger';
-import { observability } from '@engi/observability';
+import { logger } from '@bitcode/logger';
+import { observability } from '@bitcode/observability';
 
 // Import Jira tools
 import {
@@ -28,7 +28,7 @@ import {
   jiraGetWorklogsTool,
   jiraAddWorklogTool,
   jiraBulkUpdateIssuesTool,
-} from '@engi/jira-tools';
+} from '@bitcode/jira-tools';
 
 // Import types
 import type { MCPAuthContext } from '../types';

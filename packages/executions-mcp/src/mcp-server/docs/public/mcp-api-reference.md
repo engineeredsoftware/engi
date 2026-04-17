@@ -451,11 +451,11 @@ interface WebhookEvent {
 
 ### JavaScript/TypeScript
 ```bash
-npm install @engi/mcp-client
+npm install @bitcode/mcp-client
 ```
 
 ```javascript
-import { EngiMCPClient } from '@engi/mcp-client';
+import { EngiMCPClient } from '@bitcode/mcp-client';
 
 const client = new EngiMCPClient({
   apiKey: process.env.ENGI_API_KEY,

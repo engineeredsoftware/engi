@@ -21,7 +21,7 @@ def fix_imports_in_file(file_path):
     changed = False
     
     # Pattern to match barrel imports from generic or specific
-    barrel_pattern = r"import\s+\{\s*(.*?)\s*\}\s+from\s+'@engi/prompts/raw_promptparts/(generic|specific)';"
+    barrel_pattern = r"import\s+\{\s*(.*?)\s*\}\s+from\s+'@bitcode/prompts/raw_promptparts/(generic|specific)';"
     
     def replace_barrel_import(match):
         imports = match.group(1)
@@ -34,7 +34,7 @@ def fix_imports_in_file(file_path):
         new_imports = []
         for import_name in import_names:
             filename = promptpart_name_to_filename(import_name)
-            new_import = f"import {{ {import_name} }} from '@engi/prompts/raw_promptparts/{directory}/{filename}';"
+            new_import = f"import {{ {import_name} }} from '@bitcode/prompts/raw_promptparts/{directory}/{filename}';"
             new_imports.append(new_import)
         
         return '\n'.join(new_imports)

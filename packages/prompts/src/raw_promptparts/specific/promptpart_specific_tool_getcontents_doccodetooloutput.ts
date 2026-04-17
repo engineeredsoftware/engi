@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLOUTPUT: PromptPart = 
   'Extracted content in requested format (markdown/HTML/text), page metadata including title, description, author, and publish date, extracted links array, detected images, and success/error status' as PromptPart;

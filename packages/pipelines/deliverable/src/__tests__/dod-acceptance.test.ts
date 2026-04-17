@@ -1,6 +1,6 @@
 // @ts-nocheck
 import deliverablePipeline from '../index';
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 describe('Deliverable pipeline - formal DoD acceptance criteria (pending full SDIVS enablement)', () => {
   const base = {

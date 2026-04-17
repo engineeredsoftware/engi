@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agents-figma",
+  "name": "@bitcode/generic-agents-figma",
   "version": "1.0.0",
   "description": "Figma design processor agent for artboard extraction and analysis",
   "main": "./src/index.js",
@@ -9,10 +9,10 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@engi/agent-generics": "workspace:*",
-    "@engi/figma-tools": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/observability": "workspace:*",
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/figma-tools": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/observability": "workspace:*",
     "zod": "^3.20.0"
   },
   "devDependencies": {

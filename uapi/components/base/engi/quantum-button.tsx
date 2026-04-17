@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, FC } from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 interface QuantumButtonProps {
   onClick: () => void;

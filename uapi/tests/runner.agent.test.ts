@@ -2,13 +2,13 @@
 import '@/tests/setupTests';
 
 import { z } from 'zod';
-import { getGlobalContext } from '@engi/context';
+import { getGlobalContext } from '@bitcode/context';
 // Mock getGlobalContext for this test
-jest.mock('@engi/context', () => ({ getGlobalContext: jest.fn() }));
-import { executeAgentSteps } from '@engi/steps/runner';
+jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+import { executeAgentSteps } from '@bitcode/steps/runner';
 
 // Stub structuredLLMCall to avoid real LLM calls
-jest.mock('@engi/steps/sub', () => ({
+jest.mock('@bitcode/steps/sub', () => ({
   structuredLLMCall: jest.fn(async () => ({ a: 'ok', success: true })),
 }));
 

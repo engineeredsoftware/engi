@@ -4,8 +4,8 @@ module.exports = {
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
   moduleNameMapper: {
-    '^@engi/registry$': '<rootDir>/__mocks__/engi-registry.ts',
-    '^@engi/prompts$': '<rootDir>/__mocks__/engi-prompts.ts'
+    '^@bitcode/registry$': '<rootDir>/__mocks__/engi-registry.ts',
+    '^@bitcode/prompts$': '<rootDir>/__mocks__/engi-prompts.ts'
   },
   globals: {
     'ts-jest': {

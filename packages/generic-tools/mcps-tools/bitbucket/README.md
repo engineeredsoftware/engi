@@ -46,7 +46,7 @@ Industrial Model Context Protocol (MCP) integration for Atlassian Bitbucket oper
 
 ### Architecture Pattern
 ```typescript
-import { bitbucketMCPTool } from '@engi/generic-tools-mcps-bitbucket';
+import { bitbucketMCPTool } from '@bitcode/generic-tools-mcps-bitbucket';
 
 // Repository operations
 const repositories = await bitbucketMCPTool.use('listRepositories', {

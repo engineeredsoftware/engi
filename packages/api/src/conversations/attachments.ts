@@ -3,9 +3,9 @@
  * Message-level attachment management
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { AttachmentReference, AttachmentCategory } from '@engi/attachments-generics';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { AttachmentReference, AttachmentCategory } from '@bitcode/attachments-generics';
+import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 
 export interface MessageAttachment {

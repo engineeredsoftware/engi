@@ -3,7 +3,7 @@
  * Enterprise-Level Error Handling, Circuit Breakers, and Fallback Strategies
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // ============================================================================
 // Circuit Breaker Pattern Implementation

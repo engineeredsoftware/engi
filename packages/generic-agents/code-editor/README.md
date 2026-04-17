@@ -29,7 +29,7 @@ The Code Editor Agent provides systematic, transactional code editing with autom
 ## Usage
 
 ```typescript
-import { codeEditorAgent } from '@engi/generic-agent-code-editor';
+import { codeEditorAgent } from '@bitcode/generic-agent-code-editor';
 
 // Multi-file editing with Divide|Conquer|Correct
 const result = await codeEditorAgent({
@@ -72,7 +72,7 @@ Direct single-file editing for simple changes without the full pattern.
 
 ## Integration
 
-The agent uses `TransactionalFileEditor` from `@engi/editing` for:
+The agent uses `TransactionalFileEditor` from `@bitcode/editing` for:
 - **Transactional Operations**: All edits can be rolled back as a unit
 - **File Locking**: Prevents concurrent modifications
 - **Automatic Backups**: Creates backups before changes
@@ -80,7 +80,7 @@ The agent uses `TransactionalFileEditor` from `@engi/editing` for:
 
 ## Testing
 
-The agent provides comprehensive test support through `@engi/testing`:
+The agent provides comprehensive test support through `@bitcode/testing`:
 - Mock file system operations
 - Dry-run mode for validation without changes
 - Scenario-based testing with expected outcomes
@@ -88,10 +88,10 @@ The agent provides comprehensive test support through `@engi/testing`:
 
 ## Dependencies
 
-- `@engi/agent-generics`: Agent factory and PTRR pattern
-- `@engi/execution-generics`: Execution context and tool management
-- `@engi/editing`: Transactional file editing primitives
-- `@engi/prompts`: Prompt management
+- `@bitcode/agent-generics`: Agent factory and PTRR pattern
+- `@bitcode/execution-generics`: Execution context and tool management
+- `@bitcode/editing`: Transactional file editing primitives
+- `@bitcode/prompts`: Prompt management
 
 ## Error Handling
 

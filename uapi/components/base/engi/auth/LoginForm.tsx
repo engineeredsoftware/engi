@@ -18,7 +18,7 @@ import TwitterIcon from '@/components/base/engi/icons/social/Twitter.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import ExecuteButton from '@/components/base/engi/execution/execute-button'
-import { createClient } from '@engi/supabase/ssr/client'
+import { createClient } from '@bitcode/supabase/ssr/client'
 import SocialLoginButton from '@/components/base/engi/auth/SocialLoginButton'
 
 // ---------------------------------------------------------------------------

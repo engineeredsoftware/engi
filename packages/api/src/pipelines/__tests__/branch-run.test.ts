@@ -1,6 +1,6 @@
 import { branchDeliverableRun } from '../../pipelines/branch';
 
-jest.mock('@engi/supabase', () => {
+jest.mock('@bitcode/supabase', () => {
   const tables: Record<string, any[]> = {
     executions: [],
     execution_events: [],
@@ -39,7 +39,7 @@ describe('branchDeliverableRun', () => {
 
   beforeEach(async () => {
     // @ts-ignore
-    const { supabaseAdmin } = await import('@engi/supabase');
+    const { supabaseAdmin } = await import('@bitcode/supabase');
     await supabaseAdmin
       .from('executions')
       .insert({
@@ -64,7 +64,7 @@ describe('branchDeliverableRun', () => {
     expect(branchedId).toBeTruthy();
 
     // @ts-ignore
-    const { supabaseAdmin } = await import('@engi/supabase');
+    const { supabaseAdmin } = await import('@bitcode/supabase');
     const res = await supabaseAdmin
       .from('executions')
       .select('*')

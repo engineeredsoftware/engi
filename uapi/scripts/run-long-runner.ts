@@ -5,13 +5,13 @@
  * via SupabaseStream, and records artifacts. Intended for containerized usage.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { SupabaseStream, flushAndExit } from '@engi/supabaseStream';
-import { initializeContext, getGlobalContext } from '@engi/context';
-import { runSDIVSPipeline } from '@engi/engine/pipeline/pipelineSDIVS';
-import { log } from '@engi/logger';
-import { saveArtifact } from '@engi/artifacts';
-import { serializeContext } from '@engi/context/serialize';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { SupabaseStream, flushAndExit } from '@bitcode/supabaseStream';
+import { initializeContext, getGlobalContext } from '@bitcode/context';
+import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
+import { log } from '@bitcode/logger';
+import { saveArtifact } from '@bitcode/artifacts';
+import { serializeContext } from '@bitcode/context/serialize';
 
 async function main() {
   const runId = process.argv[2] || process.env.RUN_ID;

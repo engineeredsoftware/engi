@@ -1,14 +1,14 @@
 {
-  "name": "@engi/pipelines-generics",
+  "name": "@bitcode/pipelines-generics",
   "version": "0.0.1",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@engi/execution-generics": "workspace:*",
-    "@engi/prompts": "workspace:*",
-    "@engi/registry": "workspace:*",
-    "@engi/agent-generics": "workspace:*"
+    "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/prompts": "workspace:*",
+    "@bitcode/registry": "workspace:*",
+    "@bitcode/agent-generics": "workspace:*"
   },
   "scripts": {
     "build": "tsc --noEmit",

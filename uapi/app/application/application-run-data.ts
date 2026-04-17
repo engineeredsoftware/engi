@@ -21,7 +21,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     type: 'pipeline:deliverables',
     status: 'completed',
     summary: 'Prepared the active branch artifact pack and bounded proof bundle for review.',
-    repository: 'bitcode-labs/application',
+    repository: 'bitcode/bitcode',
     branch: 'bitcode/application-refit',
     itemCount: 6,
     tokenTotal: 18420,
@@ -37,7 +37,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     type: 'pipeline:measure',
     status: 'completed',
     summary: 'Measured fit pressure, surfaced ranked verification evidence, and refreshed ledger posture.',
-    repository: 'bitcode-labs/application',
+    repository: 'bitcode/bitcode',
     branch: 'fit-pressure/review',
     itemCount: 4,
     tokenTotal: 10980,
@@ -53,7 +53,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     type: 'pipeline:proof',
     status: 'running',
     summary: 'Refreshing proof-family witnesses against the current V25 canon / V26 draft posture.',
-    repository: 'bitcode-labs/application',
+    repository: 'bitcode/bitcode',
     branch: 'proof-refresh/v26',
     itemCount: 3,
     tokenTotal: 7640,
@@ -68,7 +68,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
 export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
   'mock-run-branch-remediation': {
     pullRequest: {
-      url: 'https://github.com/bitcode-labs/application/pull/268',
+      url: 'https://github.com/bitcode/bitcode/pull/268',
       number: 268,
       title: 'Refactor Bitcode application branch-artifact detail workspace',
       description:
@@ -76,7 +76,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     },
     pullRequestReviews: [
       {
-        url: 'https://github.com/bitcode-labs/application/pull/268#pullrequestreview-1',
+        url: 'https://github.com/bitcode/bitcode/pull/268#pullrequestreview-1',
         number: 1,
         title: 'Review remediation workspace wiring',
         description: 'Confirms branch visibility, proof grouping, and run-detail entry posture for `/application`.',
@@ -84,7 +84,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     ],
     issues: [
       {
-        url: 'https://github.com/bitcode-labs/application/issues/411',
+        url: 'https://github.com/bitcode/bitcode/issues/411',
         number: 411,
         title: 'Tighten branch artifact disclosure grouping',
         description: 'Track final grouping rules for remediation bundles, visibility posture, and operator disclosure notes.',
@@ -92,7 +92,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     ],
     comments: [
       {
-        url: 'https://github.com/bitcode-labs/application/issues/411#issuecomment-1',
+        url: 'https://github.com/bitcode/bitcode/issues/411#issuecomment-1',
         number: 411,
         title: 'Operator note',
         description: 'The inward application workspace now reads the branch artifacts before leaving to compatibility routes.',
@@ -112,7 +112,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     pullRequestReviews: null,
     issues: [
       {
-        url: 'https://github.com/bitcode-labs/application/issues/412',
+        url: 'https://github.com/bitcode/bitcode/issues/412',
         number: 412,
         title: 'Calibrate fit-pressure display tiers',
         description: 'Capture the measurement adjustments surfaced by the latest deterministic review pass.',
@@ -120,7 +120,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     ],
     comments: [
       {
-        url: 'https://github.com/bitcode-labs/application/issues/412#issuecomment-1',
+        url: 'https://github.com/bitcode/bitcode/issues/412#issuecomment-1',
         number: 412,
         title: 'Measurement note',
         description: 'Normalization fit and decisive fit are now separated more clearly for operator reading.',

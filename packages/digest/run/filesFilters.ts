@@ -1,8 +1,8 @@
-import { log } from '@engi/logger';
-import { writeStreamMessage } from '@engi/streams';
+import { log } from '@bitcode/logger';
+import { writeStreamMessage } from '@bitcode/streams';
 import path from 'path';
 // Legacy import removed - buildSystemPrompt no longer exists in prompts package
-import { generateTextTraced as generateText } from '@engi/observability';
+import { generateTextTraced as generateText } from '@bitcode/observability';
 import { getModelInstance, MODEL_CONFIGS } from '@/lib/models';
 import { z } from 'zod';
 

@@ -92,8 +92,8 @@ function generateToolTemplate(toolKey: string, primitive: string): string {
   const className = toolKey.charAt(0).toUpperCase() + toolKey.slice(1) + 'Tool';
   const exportName = toolKey + 'Tool';
   
-  return `import { Tool } from '@engi/tools-generics';
-import { ${primitive} } from '@engi/your-primitive-package';
+  return `import { Tool } from '@bitcode/tools-generics';
+import { ${primitive} } from '@bitcode/your-primitive-package';
 
 ${jsdoc}
 class ${className} extends Tool<typeof ${primitive}> {

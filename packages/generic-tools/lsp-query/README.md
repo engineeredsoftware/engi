@@ -68,7 +68,7 @@ import {
   getWorkspaceSymbols,
   getCodeActions,
   formatDocument
-} from '@engi/lsp';
+} from '@bitcode/lsp';
 ```
 
 ### Schema Validation
@@ -88,7 +88,7 @@ import {
 
 ### Symbol Definition Discovery
 ```typescript
-import { definitionTool } from '@engi/generic-tools-lsp-query';
+import { definitionTool } from '@bitcode/generic-tools-lsp-query';
 
 const definition = await definitionTool.use({
   filePath: '/project/src/utils.ts',
@@ -100,7 +100,7 @@ const definition = await definitionTool.use({
 
 ### Code Completion
 ```typescript
-import { completionTool } from '@engi/generic-tools-lsp-query';
+import { completionTool } from '@bitcode/generic-tools-lsp-query';
 
 const completions = await completionTool.use({
   filePath: '/project/src/service.ts',
@@ -113,7 +113,7 @@ const completions = await completionTool.use({
 
 ### Symbol References
 ```typescript
-import { referencesTool } from '@engi/generic-tools-lsp-query';
+import { referencesTool } from '@bitcode/generic-tools-lsp-query';
 
 const references = await referencesTool.use({
   filePath: '/project/src/types.ts',
@@ -126,7 +126,7 @@ const references = await referencesTool.use({
 
 ### Document Symbols
 ```typescript
-import { documentSymbolsTool } from '@engi/generic-tools-lsp-query';
+import { documentSymbolsTool } from '@bitcode/generic-tools-lsp-query';
 
 const symbols = await documentSymbolsTool.use({
   filePath: '/project/src/components/Button.tsx',
@@ -137,7 +137,7 @@ const symbols = await documentSymbolsTool.use({
 
 ### Code Actions
 ```typescript
-import { codeActionsTool } from '@engi/generic-tools-lsp-query';
+import { codeActionsTool } from '@bitcode/generic-tools-lsp-query';
 
 const actions = await codeActionsTool.use({
   filePath: '/project/src/legacy.ts',

@@ -11,7 +11,7 @@ import {
   ChevronRightIcon,
 } from '@radix-ui/react-icons';
 import FileDiffViewer from './FileDiffViewer';
-import type { FileDiff, FileTreeChange } from '@engi/streams';
+import type { FileDiff, FileTreeChange } from '@bitcode/streams';
 
 // ---------------------------------------------------------------------------
 // Custom award-winning Engi icons

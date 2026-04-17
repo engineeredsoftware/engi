@@ -16,7 +16,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
   - Animation utilities (shine‑*, orbital‑glow‑*, pulse‑*, shimmer‑*, marquees)
   - Plugin utilities (glow‑*, text‑shiny, gpu‑accelerate, quantum‑dot, star‑cluster)
 - Class Composition (`cn`): `packages/styling/src/index.ts`
-  - Import only from `@engi/styling`
+  - Import only from `@bitcode/styling`
 
 ## Frontend Quickstart (Components + Styles)
 
@@ -45,7 +45,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 
 - Vendor Components (`components/base/shadcn`)
   - One file per component (button, card, dialog, select, tabs, table, command, popover, dropdown-menu, tooltip, checkbox, switch, avatar, textarea, progress, calendar, etc.)
-  - Tokenized classes, `cn` from `@engi/styling`, explicit exports only
+  - Tokenized classes, `cn` from `@bitcode/styling`, explicit exports only
 
 ### Component Placement & Naming
 
@@ -138,7 +138,7 @@ See also: `internal-docs/FRONTEND-ARCHITECTURE.md` for the high-level map and co
 
 ### Add a base component to a provider
 - Place in `uapi/components/base/<provider>/<component>.tsx` (proper noun provider, e.g., `shadcn`).
-- Use `cn` from `@engi/styling`, Tailwind tokens, explicit exports; no re‑exports.
+- Use `cn` from `@bitcode/styling`, Tailwind tokens, explicit exports; no re‑exports.
 
 ### Add a new scrollbar variant
 - Add rules to `uapi/styles/components.css` (Firefox + WebKit) with tokenized colors.
@@ -313,7 +313,7 @@ GA‑1 specializations (intentionally retained to avoid visual change):
 
 ## Class Composition
 
-- Always import `cn` from `@engi/styling`.
+- Always import `cn` from `@bitcode/styling`.
   - Divergent imports to fix (no behavior change): `uapi/components/vcs/*` currently import from `@/lib/utils`.
 
 ## Scrollbars — SSOT
@@ -350,7 +350,7 @@ GA‑1 specializations (intentionally retained to avoid visual change):
    - Static values should map to class utilities or CSS vars.
 
 5) Class Composition
-   - Use `cn` from `@engi/styling` only. No local `lib/utils` copies in uapi.
+   - Use `cn` from `@bitcode/styling` only. No local `lib/utils` copies in uapi.
 
 6) Accessibility & Perf
    - Respect `prefers-reduced-motion`; where continuous animations exist, add media queries or play‑state controls.
@@ -358,7 +358,7 @@ GA‑1 specializations (intentionally retained to avoid visual change):
 
 ## Consolidation Targets (No Visual Changes)
 
-- `cn` imports: unify VCS components to `@engi/styling`.
+- `cn` imports: unify VCS components to `@bitcode/styling`.
 - Color literals: replace `rgba(103, 254, 183, …)` occurrences with brand tokens / theme() in CSS.
 - Quantum Button: consolidate duplicated styles toward `app/styles/quantum-button.css` (tokenized); keep `radical-landing.css` as thin wrappers referring to tokens.
 - Orbital Rings: keep `orbital-rings.css` as SSOT for ring visuals; reduce overlap with `quantum-orb.css` while preserving look.
@@ -377,7 +377,7 @@ Before adding a new style:
 PR Validation:
 - [ ] No new hard‑coded brand colors; using tokens/theme().
 - [ ] No duplicate utility/classes introduced (search by class name).
-- [ ] `cn` only from `@engi/styling`.
+- [ ] `cn` only from `@bitcode/styling`.
 - [ ] Animations added to Tailwind SSOT when reusable; otherwise isolated to one CSS file.
 - [ ] Visual parity verified (no changed snapshots/screens in storybook/static sections as applicable).
 

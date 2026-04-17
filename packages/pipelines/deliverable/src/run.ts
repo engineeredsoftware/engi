@@ -1,8 +1,8 @@
 /**
- * Legacy compatibility export for @engi/engine/pipeline/pipelineSDIVS
+ * Legacy compatibility export for @bitcode/engine/pipeline/pipelineSDIVS
  * 
  * This file exists to maintain backward compatibility with existing imports
- * that use the @engi/engine/pipeline/pipelineSDIVS path mapping.
+ * that use the @bitcode/engine/pipeline/pipelineSDIVS path mapping.
  * 
  * The actual implementation is in index.ts
  */

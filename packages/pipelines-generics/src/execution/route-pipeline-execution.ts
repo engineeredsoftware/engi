@@ -5,10 +5,10 @@
  * Guides pipeline execution through gates, enforcing restrictions and transitions.
  * "Guiding" is what "gating" gives experientially.
  *
- * @package @engi/pipelines-generics
+ * @package @bitcode/pipelines-generics
  */
 
-import { Execution, Executor, switchExecutor } from '@engi/execution-generics';
+import { Execution, Executor, switchExecutor } from '@bitcode/execution-generics';
 import type { Gate, GateState, GateConfig } from '../gate-system/types';
 import { GATE_CONFIGS, initializeGateState } from '../gate-system/types';
 

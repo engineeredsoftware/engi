@@ -40,7 +40,7 @@ import {
   PROMPTPART_GENERIC_AGENT_GENERATION_REASON,
   PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,
   PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT
-} from '@engi/prompts';
+} from '@bitcode/prompts';
 EOF
     echo '```' >> "$outfile"
     echo "- Suggested usage (example keys):" >> "$outfile"

@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLOUTPUT: PromptPart = 
   'Structured ConstraintMatrix containing: technicalLimitations with system boundaries, resourceConstraints with capacity restrictions, temporalRestrictions with time-bound dependencies, regulatoryRequirements with compliance obligations, architecturalDependencies with structural interdependencies, emergentBehaviors with system-wide constraint implications, conflictAnalysis with constraint incompatibilities, and systemicComplexityMetrics with architectural constraint depth indicators for task planning optimization' as PromptPart;

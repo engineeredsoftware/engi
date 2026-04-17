@@ -1,10 +1,10 @@
 import { branchConversation } from '../../conversations/conversations';
 import { branchDeliverableRun } from '../../pipelines/branch';
-import { Execution } from '@engi/execution-generics';
-import { enablePipelineStreaming } from '@engi/pipelines-generics/src/streaming/pipeline-stream-integration';
+import { Execution } from '@bitcode/execution-generics';
+import { enablePipelineStreaming } from '@bitcode/pipelines-generics/src/streaming/pipeline-stream-integration';
 
 // Mock Streams to a simple in-memory Streamer
-jest.mock('@engi/streams', () => {
+jest.mock('@bitcode/streams', () => {
   class Streamer {
     private handlers = new Set<(e:any)=>void|Promise<void>>();
     constructor(public cfg: { streamId: string; userId?: string }) {}
@@ -16,7 +16,7 @@ jest.mock('@engi/streams', () => {
 });
 
 // Supabase admin mock shared across conversations + runs + events
-jest.mock('@engi/supabase', () => {
+jest.mock('@bitcode/supabase', () => {
   const tables: Record<string, any[]> = {
     conversations: [],
     messages: [],
@@ -64,7 +64,7 @@ describe('Conversation branching + Run branching + Resume from deep execution no
 
   it('branches from conversation with completed run history (messages copied)', async () => {
     // Seed conversation and completed run
-    const { supabaseAdmin } = await import('@engi/supabase');
+    const { supabaseAdmin } = await import('@bitcode/supabase');
     await supabaseAdmin.from('conversations').insert({ id: convId, user_id: userId, title: 'Hist', created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
     const completedRunId = 'run-101';
     await supabaseAdmin.from('executions').insert({ id: completedRunId, user_id: userId, type: 'deliverable', guide: 'Develop', status: 'completed', config: { a:1 }, input: { task: 'done' }, output: {}, metadata: {}, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
@@ -78,7 +78,7 @@ describe('Conversation branching + Run branching + Resume from deep execution no
   });
 
   it('branches from conversation with RUNNING run and resumes at deep execution node', async () => {
-    const { supabaseAdmin } = await import('@engi/supabase');
+    const { supabaseAdmin } = await import('@bitcode/supabase');
     // Seed running run and stream some deep execution events
     await supabaseAdmin.from('executions').insert({ id: runningRunId, user_id: userId, type: 'deliverable', guide: 'Develop', status: 'running', config: { a:2 }, input: { task: 'in-progress' }, output: {}, metadata: {}, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
 

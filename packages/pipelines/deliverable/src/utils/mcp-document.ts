@@ -1,8 +1,8 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
-import { Tool } from '@engi/tools-generics';
-import { log } from '@engi/logger';
+import { Tool } from '@bitcode/tools-generics';
+import { log } from '@bitcode/logger';
 
 const DOC_RELATIVE_PATH = path.join('.ai', 'MCPS.md');
 
@@ -34,26 +34,26 @@ export interface RegisterMcpToolsResult {
 }
 
 const MCP_MODULE_LOADERS: Record<string, () => Promise<Record<string, unknown>>> = {
-  aws: () => import('@engi/generic-tools-mcps-aws'),
-  'aws-location': () => import('@engi/generic-tools-mcps-aws-location'),
-  'aws-terraform': () => import('@engi/generic-tools-mcps-aws-terraform'),
-  'aurora-postgres': () => import('@engi/generic-tools-mcps-aurora-postgres'),
-  bitbucket: () => import('@engi/generic-tools-mcps-bitbucket'),
-  circleci: () => import('@engi/generic-tools-mcps-circleci'),
-  cloudflare: () => import('@engi/generic-tools-mcps-cloudflare'),
-  docker: () => import('@engi/generic-tools-mcps-docker'),
-  figma: () => import('@engi/generic-tools-mcps-figma'),
-  firebase: () => import('@engi/generic-tools-mcps-firebase'),
-  'git-repo-research': () => import('@engi/generic-tools-mcps-git-repo-research'),
-  github: () => import('@engi/generic-tools-mcps-github'),
-  gitlab: () => import('@engi/generic-tools-mcps-gitlab'),
-  jira: () => import('@engi/generic-tools-mcps-jira'),
-  kubernetes: () => import('@engi/generic-tools-mcps-kubernetes'),
-  mysql: () => import('@engi/generic-tools-mcps-mysql'),
-  notion: () => import('@engi/generic-tools-mcps-notion'),
-  postgresql: () => import('@engi/generic-tools-mcps-postgresql'),
-  supabase: () => import('@engi/generic-tools-mcps-supabase'),
-  vercel: () => import('@engi/generic-tools-mcps-vercel')
+  aws: () => import('@bitcode/generic-tools-mcps-aws'),
+  'aws-location': () => import('@bitcode/generic-tools-mcps-aws-location'),
+  'aws-terraform': () => import('@bitcode/generic-tools-mcps-aws-terraform'),
+  'aurora-postgres': () => import('@bitcode/generic-tools-mcps-aurora-postgres'),
+  bitbucket: () => import('@bitcode/generic-tools-mcps-bitbucket'),
+  circleci: () => import('@bitcode/generic-tools-mcps-circleci'),
+  cloudflare: () => import('@bitcode/generic-tools-mcps-cloudflare'),
+  docker: () => import('@bitcode/generic-tools-mcps-docker'),
+  figma: () => import('@bitcode/generic-tools-mcps-figma'),
+  firebase: () => import('@bitcode/generic-tools-mcps-firebase'),
+  'git-repo-research': () => import('@bitcode/generic-tools-mcps-git-repo-research'),
+  github: () => import('@bitcode/generic-tools-mcps-github'),
+  gitlab: () => import('@bitcode/generic-tools-mcps-gitlab'),
+  jira: () => import('@bitcode/generic-tools-mcps-jira'),
+  kubernetes: () => import('@bitcode/generic-tools-mcps-kubernetes'),
+  mysql: () => import('@bitcode/generic-tools-mcps-mysql'),
+  notion: () => import('@bitcode/generic-tools-mcps-notion'),
+  postgresql: () => import('@bitcode/generic-tools-mcps-postgresql'),
+  supabase: () => import('@bitcode/generic-tools-mcps-supabase'),
+  vercel: () => import('@bitcode/generic-tools-mcps-vercel')
 };
 
 export async function loadMcpDocumentFromWorkspace(workspacePath?: string): Promise<LoadedMcpDocument | null> {

@@ -88,7 +88,7 @@ export default function LoginCallbackClient({ code, nextPath = '/' }: LoginCallb
     let cleanup: (() => void) | undefined;
 
     (async () => {
-      const { createClient } = await import('@engi/supabase/ssr/client');
+      const { createClient } = await import('@bitcode/supabase/ssr/client');
       const supabase = createClient();
 
       let finished = false;

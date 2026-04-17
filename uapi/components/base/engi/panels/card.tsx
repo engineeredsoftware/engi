@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from "@/components/base/shadcn/button";
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 

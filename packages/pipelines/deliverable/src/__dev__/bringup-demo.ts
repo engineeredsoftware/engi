@@ -5,8 +5,8 @@
  *   pnpm -C packages/pipelines/deliverable exec ts-node src/dev/bringup-demo.ts
  */
 
-import { Execution } from '@engi/execution-generics';
-import { enablePipelineStreaming } from '@engi/pipelines-generics';
+import { Execution } from '@bitcode/execution-generics';
+import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 import deliverablePipeline from '../index';
 
 async function main() {

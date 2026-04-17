@@ -4,11 +4,11 @@
  * GitLab project and repository management tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   gitlabListProjectsTool as _gitlabListProjects,
   gitlabGetProjectTool as _gitlabGetProject,
-} from '@engi/gitlab';
+} from '@bitcode/gitlab';
 
 // Import DocCodeToolPrompt
 import { GITLAB_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/GitLabMCPDocCodeToolPrompt';

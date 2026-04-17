@@ -7,9 +7,9 @@ jest.mock('stripe', () => {
 });
 
 import { POST } from '@/app/api/create-checkout-session/route';
-jest.mock('@engi/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 
 const ORIGINAL_ENV = process.env;
 

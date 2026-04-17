@@ -30,7 +30,7 @@ import * as crypto from 'crypto';
 // Mock dependencies
 jest.mock('fs/promises');
 jest.mock('fs');
-jest.mock('@engi/logger');
+jest.mock('@bitcode/logger');
 jest.mock('@/lib/files');
 
 const mockFs = fs as jest.Mocked<typeof fs>;
@@ -50,7 +50,7 @@ const mockGlobalContext = {
   },
 };
 
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: () => mockGlobalContext,
 }));
 

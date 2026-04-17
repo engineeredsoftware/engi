@@ -1,5 +1,5 @@
 /**
- * @engi/attachments-generics - Universal attachment types and utilities
+ * @bitcode/attachments-generics - Universal attachment types and utilities
  * 
  * This package provides the single source of truth for attachment types
  * across the entire Engi codebase. All attachments fall into 4 categories:

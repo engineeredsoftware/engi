@@ -10,7 +10,7 @@
  * pattern: registry-aggregation
  */
 
-import { Execution, registerExecution } from '@engi/execution-generics';
+import { Execution, registerExecution } from '@bitcode/execution-generics';
 import { PipelinePromptRegistry } from './PipelinePromptRegistry';
 import { PipelineToolRegistry } from './PipelineToolRegistry';
 import { PipelineLLMRegistry } from './PipelineLLMRegistry';

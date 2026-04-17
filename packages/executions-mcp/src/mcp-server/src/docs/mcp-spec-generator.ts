@@ -393,7 +393,7 @@ export class MCPSpecificationGenerator {
   "mcpServers": {
     "engi": {
       "command": "npx",
-      "args": ["@engi/mcp-server"],
+      "args": ["@bitcode/mcp-server"],
       "env": { "ENGI_API_KEY": "your-api-key" }
     }
   }

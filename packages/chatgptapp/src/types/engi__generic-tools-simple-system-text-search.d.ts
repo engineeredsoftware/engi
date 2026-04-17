@@ -1,4 +1,4 @@
-declare module '@engi/generic-tools-simple-system-text-search' {
+declare module '@bitcode/generic-tools-simple-system-text-search' {
   export const simpleSystemTextSearch: {
     execute: (args: {
       pattern: string;

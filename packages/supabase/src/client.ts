@@ -1,5 +1,5 @@
 /**
- * @engi/supabase - Supabase client wrapper
+ * @bitcode/supabase - Supabase client wrapper
  * 
  * Provides a singleton Supabase client for the engi system
  */

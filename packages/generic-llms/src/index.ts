@@ -11,7 +11,7 @@ export { anthropicProvider } from './providers/anthropic';
 export { googleProvider } from './providers/google';
 
 // Factory for pre-configured registry
-import { factoryLLMRegistry, LLMRegistry } from '@engi/llm-generics';
+import { factoryLLMRegistry, LLMRegistry } from '@bitcode/llm-generics';
 
 export function factoryLLMRegistryWithProviders(): LLMRegistry {
   const registry = factoryLLMRegistry();

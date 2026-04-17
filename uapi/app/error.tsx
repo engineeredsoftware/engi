@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from 'react';
-import { reportError, EngiError } from '@engi/errors';
+import { reportError, EngiError } from '@bitcode/errors';
 
 export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {

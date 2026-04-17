@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSLOCATIONMCP_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Interactive map rendering with multiple data layers, geocoding and reverse geocoding services, route calculation and optimization, real-time device tracking and fleet management, geofencing with customizable boundaries, place indexing and search functionality, time zone resolution, coordinate system transformations, spatial data visualization, location-based analytics and insights, proximity analysis and spatial queries, batch geocoding operations, map tile generation and caching, custom map styling and branding, integration with AWS IoT for device positioning, location history tracking and analysis, traffic pattern recognition, and compliance with global privacy regulations.' as PromptPart;

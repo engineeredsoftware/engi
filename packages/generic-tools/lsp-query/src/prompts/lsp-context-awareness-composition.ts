@@ -1,6 +1,6 @@
-import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_HEADER } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_header';
-import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_FEATURES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_features';
-import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_footer';
+import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_HEADER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_header';
+import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_FEATURES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_features';
+import { PROMPTPART_SPECIFIC_TOOL_CONTEXT_AWARENESS_LSP_FOOTER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_context_awareness_lsp_footer';
 /**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.45.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
 /**
  * LSP CONTEXT AWARENESS COMPOSITION

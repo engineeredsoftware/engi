@@ -32,7 +32,7 @@ That's it. Everything else - agents, pipelines, phases - builds from these two p
   - `execution/correlationId` (trace id)
   - `execution/dataStream` ({ writeData, close? })
 - Namespaces are execution store sub‑maps (not TS namespaces). Always use constants from the typed registry rather than string literals.
-- See: `@engi/execution-generics/src/store/registry.ts` for canonical namespaces (`EXECUTION_NAMESPACES`) and typed helpers.
+- See: `@bitcode/execution-generics/src/store/registry.ts` for canonical namespaces (`EXECUTION_NAMESPACES`) and typed helpers.
 
 ### The Execution Tree
 Every AI operation in Engi creates a tree of executions that accumulate state:
@@ -331,7 +331,7 @@ const collectSamples = repeat(gatherSample, { times: 10 });
 
 ### Example: Code Generation Agent with PTRR
 ```typescript
-import { sequential, conditional, retry } from '@engi/execution-generics';
+import { sequential, conditional, retry } from '@bitcode/execution-generics';
 
 const codeGeneratorAgent = sequential(
   // Plan: Understand requirements
@@ -468,22 +468,22 @@ agent2.get('local', 'attempts');  // undefined - can't see agent1's state
 
 ## Integration Points
 
-### With @engi/agent-generics
+### With @bitcode/agent-generics
 - Provides `AgentSubStepperFailsafes` and `AgentSubStepperGenerations`
 - Implements PTRR pattern using execution combinators
 - Each substep creates child execution for tracking
 
-### With @engi/tools-generics  
+### With @bitcode/tools-generics  
 - Every tool extends `ExecutionTool` for automatic tracking
 - Tool execution creates child with metrics (duration, status, errors)
 - Tools registered in `ExecutionToolRegistry` for hierarchical access
 
-### With @engi/pipelines-generics
+### With @bitcode/pipelines-generics
 - Phases are executors that coordinate agents
 - Pipeline is top-level executor orchestrating phases
 - Execution tree preserves full intelligence history
 
-### With @engi/prompts
+### With @bitcode/prompts
 - `ExecutionPrompt` extends `Prompt` from prompts package
 - Hierarchical prompt accumulation through Registry pattern
 - Format at any level to get accumulated system prompt

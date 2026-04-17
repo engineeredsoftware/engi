@@ -1,4 +1,4 @@
-import { LLMProvider, LLMConfig, LLMInput, LLMOutput } from '@engi/llm-generics';
+import { LLMProvider, LLMConfig, LLMInput, LLMOutput } from '@bitcode/llm-generics';
 
 // Minimal type definitions for OpenAI API
 interface OpenAIRequest {

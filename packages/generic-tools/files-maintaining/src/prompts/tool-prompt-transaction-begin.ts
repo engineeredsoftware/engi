@@ -1,19 +1,19 @@
-import { createPromptPart, PromptPart } from '@engi/prompts';
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
-import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
-import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
-import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
-import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLPURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetoolpurpose';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLCAPABILITIES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetoolcapabilities';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLPARAMETERS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetoolparameters';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLOUTPUT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetooloutput';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_USAGE_BESTFOR_DETAILCONTENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_usage_bestfor_detailcontent';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_METADATA_NAME_DETAILCONTENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_metadata_name_detailcontent';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_METADATA_CATEGORY_DETAILCONTENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_metadata_category_detailcontent';
-import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_USAGE_BESTFOR_LABEL } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_usage_bestfor_label';
+import { createPromptPart, PromptPart } from '@bitcode/prompts';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
+import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
+import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
+import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_USAGE_BESTFOR_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_usage_bestfor_detailcontent';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_METADATA_NAME_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_metadata_name_detailcontent';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_METADATA_CATEGORY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_metadata_category_detailcontent';
+import { PROMPTPART_SPECIFIC_TOOL_BEGINTRANSACTION_USAGE_BESTFOR_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_begintransaction_usage_bestfor_label';
 
-import { DocCodeToolPrompt } from '@engi/tools-generics';
+import { DocCodeToolPrompt } from '@bitcode/tools-generics';
 
 /**
  * @doc-comment-developing-promptdevelopment

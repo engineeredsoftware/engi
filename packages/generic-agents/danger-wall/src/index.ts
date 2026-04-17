@@ -14,12 +14,12 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
+} from '@bitcode/agent-generics';
 import { z } from 'zod';
 
 // ==================== IMPORTS ====================
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for security validation

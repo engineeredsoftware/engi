@@ -4,13 +4,13 @@
  * Kubernetes cluster management and orchestration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   kubernetesListPodsTool as _kubernetesListPods,
   kubernetesListServicesTool as _kubernetesListServices,
   kubernetesListDeploymentsTool as _kubernetesListDeployments,
   kubernetesDescribeNodeTool as _kubernetesDescribeNode,
-} from '@engi/kubernetes';
+} from '@bitcode/kubernetes';
 
 // Import DocCodeToolPrompt
 import { KUBERNETES_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/KubernetesMCPDocCodeToolPrompt';

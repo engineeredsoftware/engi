@@ -7,8 +7,8 @@
 
 import { EventEmitter } from 'events';
 import { WebSocket, WebSocketServer } from 'ws';
-import { logger } from '@engi/logger';
-import { createClient as createAdminClient } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { createClient as createAdminClient } from '@bitcode/supabase';
 import type { PipelineStreamEvent, MCPAuthContext } from '../types';
 
 /**

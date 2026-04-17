@@ -1,5 +1,5 @@
-import { buildMessagesWithSystemPrompt } from '@engi/steps/meta';
-import { getGlobalContext } from '@engi/context/context';
+import { buildMessagesWithSystemPrompt } from '@bitcode/steps/meta';
+import { getGlobalContext } from '@bitcode/context/context';
 
 describe('buildMessagesWithSystemPrompt', () => {
   const realGetGlobal = getGlobalContext;

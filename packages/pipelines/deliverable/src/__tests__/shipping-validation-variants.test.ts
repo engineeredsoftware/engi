@@ -1,6 +1,6 @@
 // @ts-nocheck
 import deliverablePipeline from '../index';
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 describe('Deliverable pipeline - shipping & validation variants (test-mode stubs)', () => {
   const base = {

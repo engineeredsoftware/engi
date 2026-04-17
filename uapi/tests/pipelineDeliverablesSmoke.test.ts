@@ -3,22 +3,22 @@
  * Verifies that all phases are invoked and the final result is returned.
  */
 // Mock phase wrappers
-jest.mock('@engi/engine/pipeline/pipelineSetupPhaseWrapper', () => ({
+jest.mock('@bitcode/engine/pipeline/pipelineSetupPhaseWrapper', () => ({
   executeSetupPhase: jest.fn()
 }));
-jest.mock('@engi/engine/pipeline/iterationHandler', () => ({
+jest.mock('@bitcode/engine/pipeline/iterationHandler', () => ({
   executeIteration: jest.fn()
 }));
-jest.mock('@engi/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
+jest.mock('@bitcode/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
   executeShippingPhase: jest.fn(),
   handleShippingFailure: jest.fn()
 }));
 // Mock streaming
-jest.mock('@engi/streams', () => ({
+jest.mock('@bitcode/streams', () => ({
   writeStreamMessage: jest.fn()
 }));
 // Provide minimal global context
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: jest.fn(() => ({
     dataStream: {},
     abortSignal: {},
@@ -29,10 +29,10 @@ jest.mock('@engi/context', () => ({
   }))
 }));
 
-import { runSDIVSPipeline } from '@engi/engine/pipeline/pipelineSDIVS';
-import { executeSetupPhase } from '@engi/engine/pipeline/pipelineSetupPhaseWrapper';
-import { executeIteration } from '@engi/pipeline-engine-generics/iterations';
-import { executeShippingPhase } from '@engi/engine/pipeline/pipelineShippingPhaseWrapper';
+import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
+import { executeSetupPhase } from '@bitcode/engine/pipeline/pipelineSetupPhaseWrapper';
+import { executeIteration } from '@bitcode/pipeline-engine-generics/iterations';
+import { executeShippingPhase } from '@bitcode/engine/pipeline/pipelineShippingPhaseWrapper';
 
 describe('runSDIVSPipeline E2E smoke', () => {
   beforeEach(() => {

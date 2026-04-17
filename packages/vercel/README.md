@@ -1,4 +1,4 @@
-# @engi/vercel
+# @bitcode/vercel
 
 Fixture-driven helpers used by the Engi ChatGPT App to simulate Vercel’s MCP responses in the demo experience. The functions mirror the structure of Vercel’s official tools so transcripts feel authentic even when we are offline.
 
@@ -21,7 +21,7 @@ import {
   listDeployments,
   getDeployment,
   deployToVercel
-} from '@engi/vercel';
+} from '@bitcode/vercel';
 
 const deployments = await listDeployments({ projectId: 'prj_Yapper', teamId: 'team_engi' });
 const latest = await getDeployment({ idOrUrl: deployments.deployments[0].id, teamId: 'team_engi' });
@@ -33,4 +33,4 @@ const preview = await deployToVercel({
 });
 ```
 
-Downstream packages (`@engi/generic-tools-mcps-vercel`, `@engi/chatgptapp`) wrap these helpers in the `Tool` primitive so they can be exposed over MCP.
+Downstream packages (`@bitcode/generic-tools-mcps-vercel`, `@bitcode/chatgptapp`) wrap these helpers in the `Tool` primitive so they can be exposed over MCP.

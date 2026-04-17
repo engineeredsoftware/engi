@@ -4,8 +4,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { z } from 'zod';
 
-import { renameSymbolLsp, LspError, RenameSymbolParams } from '@engi/lsp';
-import { log } from '@engi/logger';
+import { renameSymbolLsp, LspError, RenameSymbolParams } from '@bitcode/lsp';
+import { log } from '@bitcode/logger';
 
 /**
  * Parameters for renameSymbol.

@@ -28,7 +28,7 @@ Industrial Model Context Protocol (MCP) integration for Amazon Location Service 
 
 ### Architecture Pattern
 ```typescript
-import { awsLocationGeospatialQueryTool } from '@engi/generic-tools-mcps-aws-location';
+import { awsLocationGeospatialQueryTool } from '@bitcode/generic-tools-mcps-aws-location';
 
 // Execute geospatial query
 const locationResults = await awsLocationGeospatialQueryTool({

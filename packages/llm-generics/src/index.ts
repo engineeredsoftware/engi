@@ -5,7 +5,7 @@
  * Configuration cascades through registries.
  */
 
-import { Registry, factoryRegistry, RegistryPathBuilder } from '@engi/registry';
+import { Registry, factoryRegistry, RegistryPathBuilder } from '@bitcode/registry';
 
 // ====================
 // Core Types

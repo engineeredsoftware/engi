@@ -30,7 +30,7 @@ import {
   verifyFunctionalityPreservation,
   composeObfuscationAnalysis
 } from './primitives';
-import { BaseExecutionContext } from '@engi/generics';
+import { BaseExecutionContext } from '@bitcode/generics';
 
 // ==================== SCHEMAS ====================
 

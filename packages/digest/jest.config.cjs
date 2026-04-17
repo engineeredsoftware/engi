@@ -12,7 +12,7 @@ module.exports = {
     '^@/lib/logger$': '<rootDir>/__mocks__/logger.ts',
     '^@/lib/engine/constants$': '<rootDir>/__mocks__/lib/engine/constants.ts',
     '^@/digest/streams$': '<rootDir>/__mocks__/streams.ts',
-    '^@engi/logger$': '<rootDir>/__mocks__/engi/logger.ts',
+    '^@bitcode/logger$': '<rootDir>/__mocks__/engi/logger.ts',
     '^@/llm/geminiClient$': '<rootDir>/__mocks__/llm/geminiClient.ts',
     '^@/llm/anthropicClient$': '<rootDir>/__mocks__/llm/anthropicClient.ts',
     '^@/lib/dryrun$': '<rootDir>/__mocks__/lib/dryrun.ts',

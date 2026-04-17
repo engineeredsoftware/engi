@@ -1,17 +1,17 @@
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
-import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
-import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
-import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
-import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
-import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLNAME } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolname';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLPURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolpurpose';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLCAPABILITIES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolcapabilities';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLPARAMETERS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolparameters';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLOUTPUT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetooloutput';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE1 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolexample1';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE2 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolexample2';
-import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE3 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolexample3';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
+import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
+import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
+import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
+import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE1 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolexample1';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolexample2';
+import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_postgresqlmcp_doccodetoolexample3';
 /**
  * POSTGRESQL MCP DOC-CODE-TOOL PROMPT
  * 
@@ -19,8 +19,8 @@ import { PROMPTPART_SPECIFIC_TOOL_POSTGRESQLMCP_DOCCODETOOLEXAMPLE3 } from '@eng
  * This tool provides comprehensive PostgreSQL database operations with advanced query optimization.
  */
 
-import { DocCodeToolPrompt } from '@engi/tools-generics';
-import { PromptPart } from '@engi/prompts';
+import { DocCodeToolPrompt } from '@bitcode/tools-generics';
+import { PromptPart } from '@bitcode/prompts';
 
 // Import generic labels from /raw_promptparts/generic/
 

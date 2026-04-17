@@ -44,7 +44,7 @@ interface GrepMatch {
 
 ### Basic Text Search
 ```typescript
-import { simpleSystemTextSearch } from '@engi/system-grep';
+import { simpleSystemTextSearch } from '@bitcode/system-grep';
 
 // Search for function definitions
 const matches = await simpleSystemTextSearch({

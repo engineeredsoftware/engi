@@ -2,7 +2,7 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState, useMemo } from 'react';
 import type { FC } from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import dynamic from 'next/dynamic';
 const ParticleEffect = dynamic(() => import('./particle-effect'), { ssr: false, loading: () => null });
 

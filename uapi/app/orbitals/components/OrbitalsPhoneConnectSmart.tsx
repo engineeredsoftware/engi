@@ -12,9 +12,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackEvent } from '@engi/google-analytics';
-import { createClient } from '@engi/supabase/ssr/client';
-import { reportError } from '@engi/errors';
+import { trackEvent } from '@bitcode/google-analytics';
+import { createClient } from '@bitcode/supabase/ssr/client';
+import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/base/shadcn/sonner';
 import { PhoneConnect } from './phone-connect';
 

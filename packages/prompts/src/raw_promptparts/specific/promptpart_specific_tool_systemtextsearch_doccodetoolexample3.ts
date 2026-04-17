@@ -14,4 +14,4 @@
 import { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_SYSTEMTEXTSEARCH_DOCCODETOOLEXAMPLE3: PromptPart = 
-  'Example 3 - Find imports from specific package: simpleSystemTextSearch({ pattern: "from.*@engi/prompts", directory: "/packages" })' as PromptPart;
+  'Example 3 - Find imports from specific package: simpleSystemTextSearch({ pattern: "from.*@bitcode/prompts", directory: "/packages" })' as PromptPart;

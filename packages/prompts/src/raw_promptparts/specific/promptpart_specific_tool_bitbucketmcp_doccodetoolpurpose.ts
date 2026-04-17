@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLPURPOSE: PromptPart = 
   'Comprehensive Bitbucket API operations with MCP integration for repository, pull request, issue, and branch management across distributed development teams with enterprise-grade security and workflow automation for mission-critical collaborative software development.' as PromptPart;

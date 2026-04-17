@@ -11,9 +11,9 @@
  */
 
 import { vi, expect } from 'vitest';
-import { PTRRStep, FailsafeGenerationStep, GenerationGenerationStep } from '@engi/agent-generics';
-import { Execution } from '@engi/execution-generics';
-import { Tool } from '@engi/tools-generics';
+import { PTRRStep, FailsafeGenerationStep, GenerationGenerationStep } from '@bitcode/agent-generics';
+import { Execution } from '@bitcode/execution-generics';
+import { Tool } from '@bitcode/tools-generics';
 
 // ==================== TEST BUILDERS ====================
 
@@ -523,7 +523,7 @@ export * from './integration';
  *   MockToolFactory, 
  *   expectPTRRResult,
  *   PerformanceTester 
- * } from '@engi/test-utils';
+ * } from '@bitcode/test-utils';
  * 
  * // Build test context
  * const context = new PTRRContextBuilder()

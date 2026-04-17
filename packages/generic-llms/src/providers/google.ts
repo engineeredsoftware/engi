@@ -1,4 +1,4 @@
-import { LLMProvider, LLMConfig, LLMInput, LLMOutput } from '@engi/llm-generics';
+import { LLMProvider, LLMConfig, LLMInput, LLMOutput } from '@bitcode/llm-generics';
 
 // Google provider implemented against the Vercel AI SDK when available.
 // Falls back to a lightweight mock if the SDK isn't present (e.g. tests).

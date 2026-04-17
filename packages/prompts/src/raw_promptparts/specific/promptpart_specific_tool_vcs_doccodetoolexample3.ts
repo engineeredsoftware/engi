@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - DEPRECATED file operations: Use vcsTools.createFile(), vcsTools.updateFile(), or vcsTools.deleteFile() instead of legacy file content tools' as PromptPart;

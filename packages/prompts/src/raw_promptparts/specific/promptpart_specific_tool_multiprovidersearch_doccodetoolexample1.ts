@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Basic multi-provider search: { query: "TypeScript async error handling best practices", options: { urgency: "normal", maxResults: 10 } }' as PromptPart;

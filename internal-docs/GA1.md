@@ -37,7 +37,7 @@ Single-source tracker for GA-1. Every bullet below maps to concrete source files
 - UI widgets (`uapi/app/executions/components/ExecutionsPageHeader.tsx`, `GuideIndicator`, `InstructionConfidenceTimer`, `WorkUpdatePanel`, `useExecutionState.ts`) surface live plan/try/refine/retry updates, tool usage, and gate transitions.
 
 ## Instruction, Attachments & Guard Rails
-- Iteration preprocess pulls Supabase instructions (`@engi/supabase`) and attachments, storing them under `instructions:list` and `context:enhancements`. `/api/executions/instructions` + `ExecutionsInstructions.tsx` provide the UX.
+- Iteration preprocess pulls Supabase instructions (`@bitcode/supabase`) and attachments, storing them under `instructions:list` and `context:enhancements`. `/api/executions/instructions` + `ExecutionsInstructions.tsx` provide the UX.
 - Files written by Design/Digest guides go through `packages/generic-tools/vcs/src/index.ts` + `createGatedTool`, ensuring out-of-scope repositories cannot be mutated.
 - Digest gate enforces `.ai/AGENTS.md` updates before Shipping (`uapi/app/api/executions/[runId]/route.ts` blocks Ship until ready-to-digest approves the diff).
 
@@ -48,7 +48,7 @@ Single-source tracker for GA-1. Every bullet below maps to concrete source files
 - Notifications & telemetry: `/api/notifications/*`, `packages/api/src/routes/deliverables.ts` (`sendServerEvent`) and `uapi/streaming/streaming-performance.ts` capture telemetry, credit depletion events, and SSE timing.
 
 ## Prompt + Documentation Systems
-- **Doc-comments** (`packages/doc-comment/*`, `packages/generic-doc-comment-plugins/doc-developing/*`, `packages/prompts/src/benchmarking/runner.ts`) only run at dev/build time for benchmarking, dry-runs, and coverage scripts. Nothing under `@engi/doc-comment` is imported by runtime agents.
+- **Doc-comments** (`packages/doc-comment/*`, `packages/generic-doc-comment-plugins/doc-developing/*`, `packages/prompts/src/benchmarking/runner.ts`) only run at dev/build time for benchmarking, dry-runs, and coverage scripts. Nothing under `@bitcode/doc-comment` is imported by runtime agents.
 - **Doc-code** (`packages/doc-code/src/index.ts` + loader) scans for `@doc-code-tool` comments, injects `instance.__docCodePrompt = PROMPT`, and is consumed by the tool registry/formatter above. Only doc-code prompts travel with Tool instances.
 - `packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.ts` validates metadata, while `formatToolsWithDocCodeToolsIntoUsableTools` renders the structured prompt that gets injected into PTRR steps whenever tools are requested.
 - Result: doc-comments stay in tooling/CI, doc-code prompts are the only documentation that reaches inference time, and every agent capable of invoking a tool receives doc-code-tool context automatically through `StepExecution.tools.getUsableTools()` + `factoryToolsExecution`.

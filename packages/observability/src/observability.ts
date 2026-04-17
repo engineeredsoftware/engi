@@ -1,4 +1,4 @@
-import { startSpan } from '@engi/sentry';
+import { startSpan } from '@bitcode/sentry';
 
 // Friendly helper to measure a block of async work.  Automatically becomes a
 // no-op when the Sentry SDK or DSN is not available.
@@ -22,7 +22,7 @@ export async function generateTextTraced<T = any>(args: any): Promise<T> {
 // Wrapper helper for Next.js route handlers
 // ---------------------------------------------------------------------------
 
-import { reportError, toHttpResponse } from '@engi/errors';
+import { reportError, toHttpResponse } from '@bitcode/errors';
 
 export function traceRoute<T extends (...args: any[]) => any>(name: string, fn: T): T {
   return (async (...args: any[]) => {

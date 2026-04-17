@@ -1,11 +1,11 @@
-import { executeValidationPhase } from '@engi/engine/pipeline/pipelineValidationPhaseWrapper';
-import { createContext, getGlobalContext, endContext } from '@engi/context';
-import { supabaseAdmin } from '@engi/supabase';
-import { writeStreamMessage } from '@engi/streams';
+import { executeValidationPhase } from '@bitcode/engine/pipeline/pipelineValidationPhaseWrapper';
+import { createContext, getGlobalContext, endContext } from '@bitcode/context';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { writeStreamMessage } from '@bitcode/streams';
 
-jest.mock('@engi/supabase');
-jest.mock('@engi/streams');
-jest.mock('@engi/pipeline-deliverable/src/phases/validation', () => ({
+jest.mock('@bitcode/supabase');
+jest.mock('@bitcode/streams');
+jest.mock('@bitcode/pipeline-deliverable/src/phases/validation', () => ({
   runValidation: jest.fn(async () => ({
     success: true,
     metrics: { tokensUsed: 0, score: 0.9, taskCompletion: 0.9, codeQuality: 0.9, securityScore: 0.9, contentQuality: 0.9 },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 interface CosmicMeteorsProps {
   number?: number;

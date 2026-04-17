@@ -7,7 +7,7 @@
  */
 
 import type { LLM, LLMInput, LLMOutput } from './index';
-import type { Prompt as PromptRegistry } from '@engi/prompts';
+import type { Prompt as PromptRegistry } from '@bitcode/prompts';
 
 export type GenerationPrompt = PromptRegistry;
 export type Generation<TOutput = any> = (prompt: GenerationPrompt) => Promise<TOutput>;

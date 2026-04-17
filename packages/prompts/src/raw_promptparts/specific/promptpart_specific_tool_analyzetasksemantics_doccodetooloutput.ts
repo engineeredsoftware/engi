@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLOUTPUT: PromptPart = 
   'Structured semantic analysis containing: intent classification, scope boundaries, complexity metrics, dependency graphs, cognitive patterns, ambiguity markers, temporal sequences, conditional logic trees, and confidence scores per dimension - formatted for agent consumption and pipeline integration' as PromptPart;

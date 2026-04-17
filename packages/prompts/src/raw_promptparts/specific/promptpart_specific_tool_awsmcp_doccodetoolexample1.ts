@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSMCP_DOCCODETOOLEXAMPLE1: PromptPart = 
   `**Example 1: Lambda Function Invocation**

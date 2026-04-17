@@ -5,7 +5,7 @@
  * Every doc-comment here becomes part of the prompt intelligence.
  */
 
-import { PromptPart, Prompt, hierarchicalFormatter } from '@engi/prompts';
+import { PromptPart, Prompt, hierarchicalFormatter } from '@bitcode/prompts';
 
 // ============================================================================
 // LEVEL 1: Basic PromptPart with Doc-Comment

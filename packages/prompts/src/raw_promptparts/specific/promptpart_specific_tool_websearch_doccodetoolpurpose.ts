@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLPURPOSE: PromptPart = 
   'Search the internet for current information, research topics, and discover relevant web content using advanced query processing and multi-provider orchestration' as PromptPart;

@@ -24,7 +24,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import { TextDocuments } from 'vscode-languageserver/node';
 
 import * as path from 'path';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { LspError, LspSessionOptions } from './index';
 
 // ---------------------------------------------------------------------------

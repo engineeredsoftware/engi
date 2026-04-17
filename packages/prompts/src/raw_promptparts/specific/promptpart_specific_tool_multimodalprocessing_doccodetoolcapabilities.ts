@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Text analysis and extraction, image recognition and description, audio transcription and analysis, video frame analysis, cross-modal content correlation, format conversion between modalities, content summarization and synthesis, metadata extraction across all supported formats' as PromptPart;

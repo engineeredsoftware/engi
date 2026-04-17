@@ -1,8 +1,8 @@
 /**
- * @deprecated Direct imports from @engi/git/src/git are deprecated.
+ * @deprecated Direct imports from @bitcode/git/src/git are deprecated.
  * 
  * This file is for backward compatibility only.
- * Please migrate to @engi/vcs.
+ * Please migrate to @bitcode/vcs.
  */
 
 import { deprecationNotice } from './index';

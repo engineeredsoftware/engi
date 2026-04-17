@@ -1,4 +1,4 @@
-import { createAppContext } from '@engi/bitcode';
+import { createAppContext } from '@bitcode/bitcode';
 import { NextResponse } from 'next/server';
 
 type StatusError = Error & { statusCode?: number | undefined };

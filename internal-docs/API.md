@@ -479,7 +479,7 @@ useOnboarding() // Get onboarding status
 
 ### TypeScript Client
 ```typescript
-import { createClient } from '@engi/api-client';
+import { createClient } from '@bitcode/api-client';
 
 const client = createClient({
   baseUrl: 'https://api.engi.software',

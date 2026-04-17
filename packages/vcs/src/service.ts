@@ -17,8 +17,8 @@ import { AbstractVCSProvider } from './interface';
 import { VCSAuth, VCSRepository, VCSBranch, VCSPullRequest, VCSIssue, VCSCommit, VCSTreeItem, ListReposOptions, ListPROptions, ListIssuesOptions } from './types';
 import { VCSProviderFactory } from './factory';
 import { VCSConnections } from './connections';
-import { log } from '@engi/logger';
-// TODO: Import from @engi/pipeline-recovery when package is available
+import { log } from '@bitcode/logger';
+// TODO: Import from @bitcode/pipeline-recovery when package is available
 interface CacheOptions {
   ttl?: number;
   maxSize?: number;

@@ -6,12 +6,12 @@
  */
 
 import { codeEditorAgent } from '../index';
-import { Execution } from '@engi/execution-generics';
-import { testIntelligence, DryRunAdapter, MockSystemAdapter } from '@engi/testing';
-import { createTestScenario, TestScenarioBuilder } from '@engi/testing';
+import { Execution } from '@bitcode/execution-generics';
+import { testIntelligence, DryRunAdapter, MockSystemAdapter } from '@bitcode/testing';
+import { createTestScenario, TestScenarioBuilder } from '@bitcode/testing';
 
 // Mock the editing module
-jest.mock('@engi/editing', () => ({
+jest.mock('@bitcode/editing', () => ({
   TransactionalFileEditor: jest.fn().mockImplementation(() => ({
     beginTransaction: jest.fn().mockResolvedValue('tx-123'),
     executeCommand: jest.fn().mockImplementation((params) => {
@@ -238,7 +238,7 @@ describe('Code Editor Agent', () => {
   describe('Error Handling', () => {
     test('should rollback on edit failure', async () => {
       // Mock a failure
-      const { TransactionalFileEditor } = require('@engi/editing');
+      const { TransactionalFileEditor } = require('@bitcode/editing');
       TransactionalFileEditor.mockImplementationOnce(() => ({
         beginTransaction: jest.fn().mockResolvedValue('tx-456'),
         executeCommand: jest.fn().mockRejectedValue(new Error('File not found')),

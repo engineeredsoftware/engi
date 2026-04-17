@@ -10,9 +10,9 @@
  * pattern: registry-based-polymorphism
  */
 
-import { RegistryImpl } from '@engi/registry';
-import { Agent } from '@engi/agent-generics';
-import { Execution } from '@engi/execution-generics';
+import { RegistryImpl } from '@bitcode/registry';
+import { Agent } from '@bitcode/agent-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 /**
  * ExecutionAgent - Agent that can be bound to execution context

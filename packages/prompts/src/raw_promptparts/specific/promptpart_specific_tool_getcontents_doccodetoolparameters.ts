@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLPARAMETERS: PromptPart = 
   'url: string (required) - Target webpage URL to extract content from; format: "markdown"|"html"|"text" (optional) - Desired output format; options: object (optional) - Additional extraction options including timeout, headers, and content filters' as PromptPart;

@@ -1,5 +1,5 @@
 {
-  "name": "@engi/figma-tools",
+  "name": "@bitcode/figma-tools",
   "version": "1.0.0",
   "description": "Figma MCP tool wrappers for Engi agents",
   "main": "./src/index.js",
@@ -9,8 +9,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@engi/figma": "workspace:*",
-    "@engi/tools-generics": "workspace:*",
+    "@bitcode/figma": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*",
     "ai": "^3.0.0",
     "zod": "^3.20.0"
   },

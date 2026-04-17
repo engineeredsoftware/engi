@@ -6,7 +6,7 @@
  * ALL agents use PTRR (Plan-Try-Refine-Retry) - no exceptions
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
   createDeliverablesPipelineDiscoveryPhaseUnderstandRequirementsAgentPrompt,

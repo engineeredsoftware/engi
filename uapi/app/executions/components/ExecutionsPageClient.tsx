@@ -20,10 +20,10 @@ import ExecutionsTaskInput from '@/components/base/engi/execution/ExecutionsTask
 import { OrbitalBackground } from '@/components/base/engi/execution/orbital-background';
 import { useVCSData } from '@/hooks/useVCSData';
 import { useVCSSelections } from '@/hooks/useVCSSelections';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { useExecutionState } from '@/hooks/useExecutionState';
 import { usePersistedState } from '@/app/executions/hooks/usePersistedState';
-import { DEFAULT_PROVIDER, DEFAULT_MODEL_API } from '@engi/models';
+import { DEFAULT_PROVIDER, DEFAULT_MODEL_API } from '@bitcode/models';
 import '@/styles/animations.css';
 import '@/styles/components.css';
 import type { UrlEntry } from '@/types/api';

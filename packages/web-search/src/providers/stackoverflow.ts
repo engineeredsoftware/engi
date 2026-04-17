@@ -3,7 +3,7 @@
  */
 
 import { SearchProviderBase, SearchQuery, SearchResult } from '../multi-provider';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 export class StackOverflowSearchProvider extends SearchProviderBase {
   readonly name = 'stackoverflow' as const;

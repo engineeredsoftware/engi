@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSTERRAFORMMCP_DOCCODETOOLPURPOSE: PromptPart = 
   'Orchestrates enterprise-scale AWS infrastructure through advanced Terraform automation with intelligent resource provisioning, state management, drift detection, policy enforcement, cost optimization, multi-environment deployment pipelines, and autonomous infrastructure healing for mission-critical cloud operations requiring 99.999% uptime and seamless scalability across global regions.' as PromptPart;

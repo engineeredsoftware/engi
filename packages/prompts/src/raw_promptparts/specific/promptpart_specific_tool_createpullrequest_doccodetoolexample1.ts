@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Simple feature PR: createPullRequest({ repository: "company/webapp", source_branch: "feature/user-authentication", target_branch: "develop", title: "Add OAuth2 authentication system", description: "Implements secure user authentication using OAuth2 providers", reviewers: ["security-team", "backend-lead"], labels: ["feature", "security"] }) → Creates PR #42 with auto-assigned security reviewers and appropriate labels' as PromptPart;

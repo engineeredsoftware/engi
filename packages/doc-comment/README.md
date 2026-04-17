@@ -1,4 +1,4 @@
-# @engi/doc-comment
+# @bitcode/doc-comment
 
 Pure infrastructure package for doc-comment plugins. This package contains ONLY:
 - Plugin interfaces and base classes
@@ -20,20 +20,20 @@ import {
   DocCommentPlugin,
   DocComment,
   ValidationResult 
-} from '@engi/doc-comment';
+} from '@bitcode/doc-comment';
 
 // Plugin registry
 import { 
   registerPlugin,
   getPlugin,
   getAllPlugins 
-} from '@engi/doc-comment';
+} from '@bitcode/doc-comment';
 ```
 
 ## Creating a Plugin
 
 ```typescript
-import { BaseDocCommentPlugin, ValidationResult } from '@engi/doc-comment';
+import { BaseDocCommentPlugin, ValidationResult } from '@bitcode/doc-comment';
 
 export class MyPlugin extends BaseDocCommentPlugin<MyMetadata> {
   name = 'doc-myplugin';
@@ -56,12 +56,12 @@ export class MyPlugin extends BaseDocCommentPlugin<MyMetadata> {
 ## Plugin Locations
 
 ### Doc-Comment Plugins (Metadata only)
-- `@engi/generic-doc-comment-plugins/doc-developing` - Development metadata (@doc-comment-developing-promptpartdevelopment, @doc-comment-developing-promptdevelopment)
-- `@engi/prompts/src/doc-plugins` - Prompt dry-run (@doc-comment-promptdryrun)
+- `@bitcode/generic-doc-comment-plugins/doc-developing` - Development metadata (@doc-comment-developing-promptpartdevelopment, @doc-comment-developing-promptdevelopment)
+- `@bitcode/prompts/src/doc-plugins` - Prompt dry-run (@doc-comment-promptdryrun)
 
 ### Doc-Code Plugins (Runtime injection)
-- `@engi/tools-generics/src/plugins` - Tool documentation (@doc-code-tool)
-- `@engi/generic-doc-code-plugins/doc-promptpart` - PromptPart injection (@doc-code-promptpart)
+- `@bitcode/tools-generics/src/plugins` - Tool documentation (@doc-code-tool)
+- `@bitcode/generic-doc-code-plugins/doc-promptpart` - PromptPart injection (@doc-code-promptpart)
 
 ## Philosophy
 

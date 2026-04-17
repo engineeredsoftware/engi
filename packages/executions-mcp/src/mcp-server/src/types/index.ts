@@ -10,7 +10,7 @@ import type {
   EngiPhase,
   PipelineSubType,
   DeliverablesSubType
-} from '@engi/pipelines-generics';
+} from '@bitcode/pipelines-generics';
 
 // Supported pipeline names exposed via MCP (align with supported pipelines only)
 export const PipelineNameValues = ['deliverable'] as const;
@@ -304,4 +304,4 @@ export type {
   EngiPhase,
   PipelineSubType,
   DeliverablesSubType
-} from '@engi/pipelines-generics';
+} from '@bitcode/pipelines-generics';

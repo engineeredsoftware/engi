@@ -6,7 +6,7 @@ import { Button } from '@/components/base/shadcn/button';
 import { Badge } from '@/components/base/shadcn/badge';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { GitBranch, Server, CheckCircle2, XCircle, RefreshCw, Trash2 } from 'lucide-react';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { VCSConnectionButton } from './VCSConnectionButton';
 import { toast } from '@/components/base/shadcn/sonner';
 import {
@@ -72,6 +72,15 @@ export function VCSConnectionCard({
   
   const config = providerConfig[provider];
   const Icon = config.icon;
+
+  const readJsonResponse = async (response: Response) => {
+    const contentType = response.headers?.get?.('content-type') || '';
+    if (contentType && !contentType.includes('application/json')) {
+      return null;
+    }
+
+    return response.json().catch(() => null);
+  };
   
   const checkConnection = async () => {
     try {
@@ -81,16 +90,25 @@ export function VCSConnectionCard({
       }
       
       const response = await fetch(url);
-      const data = await response.json();
+      const data = await readJsonResponse(response);
+
+      if (!response.ok) {
+        setStatus({ connected: false });
+        onConnectionChange?.(false);
+        return;
+      }
+
+      if (!data || typeof data.connected !== 'boolean') {
+        setStatus({ connected: false });
+        onConnectionChange?.(false);
+        return;
+      }
       
       setStatus(data);
-      
-      if (onConnectionChange) {
-        onConnectionChange(data.connected);
-      }
-    } catch (error) {
-      console.error('Failed to check connection:', error);
+      onConnectionChange?.(data.connected);
+    } catch {
       setStatus({ connected: false });
+      onConnectionChange?.(false);
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -109,20 +127,18 @@ export function VCSConnectionCard({
       const response = await fetch(url, {
         method: 'DELETE'
       });
+
+      const data = await readJsonResponse(response);
       
       if (!response.ok) {
-        throw new Error('Failed to disconnect');
+        throw new Error((data && typeof data.error === 'string' && data.error) || 'Failed to disconnect');
       }
       
       setStatus({ connected: false });
       toast.success(`Disconnected from ${config.label}`);
-      
-      if (onConnectionChange) {
-        onConnectionChange(false);
-      }
+      onConnectionChange?.(false);
     } catch (error) {
-      console.error('Failed to disconnect:', error);
-      toast.error(`Failed to disconnect from ${config.label}`);
+      toast.error(error instanceof Error ? error.message : `Failed to disconnect from ${config.label}`);
     } finally {
       setIsDisconnecting(false);
     }

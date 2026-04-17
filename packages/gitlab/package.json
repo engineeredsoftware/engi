@@ -1,5 +1,5 @@
 {
-  "name": "@engi/gitlab",
+  "name": "@bitcode/gitlab",
   "version": "1.0.0",
   "description": "GitLab provider implementation and MCP tools",
   "main": "dist/index.js",
@@ -9,9 +9,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@engi/vcs": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/supabase": "workspace:*"
+    "@bitcode/vcs": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/supabase": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

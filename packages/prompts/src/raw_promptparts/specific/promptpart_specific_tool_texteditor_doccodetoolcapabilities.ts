@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Complete file editing with atomic operations, multi-file transaction support, automatic backup creation, rollback capability, content validation, line-by-line editing, search and replace, file creation and deletion, directory management, and comprehensive error handling for production-grade reliability' as PromptPart;

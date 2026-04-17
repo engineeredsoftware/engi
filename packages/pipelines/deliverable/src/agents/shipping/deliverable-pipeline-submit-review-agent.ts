@@ -1,11 +1,11 @@
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
-import { Prompt } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
 import { 
   PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER,
   PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA,
   PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT
-} from '@engi/prompts';
+} from '@bitcode/prompts';
 
 const SubmitReviewInputSchema = z.object({
   provider: z.enum(['github','gitlab','bitbucket']).describe('VCS provider'),

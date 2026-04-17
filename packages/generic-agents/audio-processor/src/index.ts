@@ -12,17 +12,17 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
+} from '@bitcode/agent-generics';
 import { z } from 'zod';
 
 // ==================== IMPORTS ====================
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 
 // ==================== TOOLS ====================
 // Tools this agent can use - declared at agent level
-import { multimodalProcessingTool } from '@engi/generic-tools-multimodal-processing';
-import { webSearchTool } from '@engi/generic-tools-web-search';
+import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
+import { webSearchTool } from '@bitcode/generic-tools-web-search';
 
 // ==================== INPUT SCHEMA ====================
 const AudioProcessorInputSchema = z.object({

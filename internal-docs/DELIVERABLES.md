@@ -238,7 +238,7 @@ Each PTRR step automatically runs 7 substeps:
 
 ### Refund Processing
 
-Located in `@engi/credits` package (used by all pipelines):
+Located in `@bitcode/credits` package (used by all pipelines):
 
 ```typescript
 // Automatic refund on short-circuit

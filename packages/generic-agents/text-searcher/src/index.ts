@@ -12,16 +12,16 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for text searching
-import { grepTool } from '@engi/generic-tools/grep';
-import { globTool } from '@engi/generic-tools/glob';
-import { fileSystemTool } from '@engi/generic-tools/file-system';
+import { grepTool } from '@bitcode/generic-tools/grep';
+import { globTool } from '@bitcode/generic-tools/glob';
+import { fileSystemTool } from '@bitcode/generic-tools/file-system';
 
 // ==================== INPUT SCHEMA ====================
 const TextSearcherInputSchema = z.object({

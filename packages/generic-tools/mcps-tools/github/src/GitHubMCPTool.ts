@@ -5,8 +5,8 @@
  * a unified interface with proper DocCodeToolPrompt integration.
  */
 
-import { Tool } from '@engi/tools-generics';
-import { wrapMCPToolWithMetadata } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
+import { wrapMCPToolWithMetadata } from '@bitcode/tools-generics';
 import { GITHUB_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/GitHubMCPDocCodeToolPrompt';
 import {
   githubCreateRepositoryTool,
@@ -14,7 +14,7 @@ import {
   githubCreateIssueTool,
   githubGetIssueTool,
   githubCreatePullRequestTool,
-} from '@engi/github';
+} from '@bitcode/github';
 
 // GitHub operation types
 export type GitHubOperation = 

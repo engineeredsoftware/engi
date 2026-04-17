@@ -1,4 +1,4 @@
-# @engi/orm
+# @bitcode/orm
 
 Type-safe database access layer for ENGI platform. Provides 1:1 mapping with Supabase migrations, vector search support, and consistent read/write helpers.
 
@@ -12,7 +12,7 @@ Type-safe database access layer for ENGI platform. Provides 1:1 mapping with Sup
 ## Client Types
 
 ```typescript
-import { createClient, createAdminClient } from '@engi/orm';
+import { createClient, createAdminClient } from '@bitcode/orm';
 
 // User-scoped client (API routes)
 const client = createClient(authToken);
@@ -28,7 +28,7 @@ import {
   UsersModel, 
   DeliverablesModel, 
   ConversationsModel 
-} from '@engi/orm';
+} from '@bitcode/orm';
 
 // List user deliverables
 const deliverables = await client.deliverables.list({

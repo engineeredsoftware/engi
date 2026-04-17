@@ -11,8 +11,8 @@
  */
 
 import { z } from 'zod';
-import { logger } from '@engi/logger';
-import { createClient } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { createClient } from '@bitcode/supabase';
 import {
   OrganizationsModel,
   OrganizationMembersModel,
@@ -21,7 +21,7 @@ import {
   PipelineExecutionsModel,
   OrganizationCreditsModel,
   OrganizationCreditUsagesModel
-} from '@engi/orm';
+} from '@bitcode/orm';
 import type { MCPAuthContext } from '../types';
 
 /**

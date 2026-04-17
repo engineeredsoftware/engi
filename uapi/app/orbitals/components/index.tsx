@@ -4,7 +4,7 @@ import React, { startTransition, useCallback, useDeferredValue, useEffect, useMe
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 
 import { useOnboarding, useProfile, useUser } from '@/hooks/use-auth-query';
 import OrbitalRings from "@/components/base/engi/orbitals/orbital-rings";
@@ -12,11 +12,11 @@ import { GPUAcceleration } from '@/components/base/engi/perf/GPUAcceleration';
 import { ContentVisibility } from '@/components/base/engi/perf/ContentVisibility';
 
 const trackEvent = (...args: any[]) => {
-  import('@engi/google-analytics').then((module) => module.trackEvent(...args));
+  import('@bitcode/google-analytics').then((module) => module.trackEvent(...args));
 };
 
 const reportError = (...args: any[]) => {
-  import('@engi/errors').then((module) => module.reportError(...args));
+  import('@bitcode/errors').then((module) => module.reportError(...args));
 };
 
 const FlipText = dynamic(() => import("@/components/base/engi/layout/sidebars/FlipText"), {
@@ -344,7 +344,9 @@ export default function Orbital({
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('profile', isComplete)}
+            onCompletionStatusChange={
+              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('profile', isComplete)
+            }
             onSave={async (updated) => {
               try {
                 await updateProfileMutation.mutateAsync(updated);
@@ -360,7 +362,9 @@ export default function Orbital({
           <ConnectsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('connects', isComplete)}
+            onCompletionStatusChange={
+              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('connects', isComplete)
+            }
             onSave={async () => {
               await handleStepComplete('connects');
             }}
@@ -371,7 +375,9 @@ export default function Orbital({
           <CreditsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('credits', isComplete)}
+            onCompletionStatusChange={
+              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('credits', isComplete)
+            }
             onSave={async () => {
               await handleStepComplete('credits');
             }}
@@ -382,7 +388,9 @@ export default function Orbital({
           <ModelsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('models', isComplete)}
+            onCompletionStatusChange={
+              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('models', isComplete)
+            }
             onSave={async (updated) => {
               try {
                 await fetch('/api/orbitals/model-preferences', {
@@ -401,7 +409,17 @@ export default function Orbital({
       default:
         return null;
     }
-  }, [handleStepComplete, isUnlockedSurface, profileData, profileLoading, queryClient, sessionUser, updateProfileMutation]);
+  }, [
+    handleStepComplete,
+    handleStepCompletionChange,
+    isSettingsSurface,
+    isUnlockedSurface,
+    profileData,
+    profileLoading,
+    queryClient,
+    sessionUser,
+    updateProfileMutation,
+  ]);
 
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
 

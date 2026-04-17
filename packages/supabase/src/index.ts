@@ -3,7 +3,7 @@
  *
  * Consolidates the previous `uapi/lib/supabaseClient.ts` (client helpers) and
  * `uapi/lib/mcps/supabase.ts` (MCP tool implementations) into a single raw
- * package so that external code can simply depend on `@engi/supabase` for any
+ * package so that external code can simply depend on `@bitcode/supabase` for any
  * Supabase-related functionality.
  *
  * No behavioural changes – the code is moved verbatim except for import path
@@ -103,8 +103,8 @@ export async function supabaseDeleteTool(params: { table: string; match: any }):
 //
 // To avoid this, consumers should import the server helpers explicitly from
 // the corresponding sub-path:
-//   import { createClient } from '@engi/supabase/ssr/server';
-//   import { updateSession } from '@engi/supabase/ssr/middleware';
+//   import { createClient } from '@bitcode/supabase/ssr/server';
+//   import { updateSession } from '@bitcode/supabase/ssr/middleware';
 //
 // This keeps the public API clear while preventing accidental client-side
 // inclusion of server-only code.
@@ -115,7 +115,7 @@ export { createClient as createClient } from './ssr/client';
 
 // ---------------------------------------------------------------------------
 // Re-export typed entities so downstream packages can simply
-//   import { DeliverableRunSnapshot } from '@engi/supabase';
+//   import { DeliverableRunSnapshot } from '@bitcode/supabase';
 // ---------------------------------------------------------------------------
 
 export * from './deliverables';

@@ -12,15 +12,15 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for image processing
-import { multimodalProcessingTool } from '@engi/generic-tools-multimodal-processing';
-import { visionAnalysisTool } from '@engi/generic-tools/vision-analysis';
+import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
+import { visionAnalysisTool } from '@bitcode/generic-tools/vision-analysis';
 
 // ==================== INPUT SCHEMA ====================
 const ImageProcessorInputSchema = z.object({

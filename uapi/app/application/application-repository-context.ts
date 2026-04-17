@@ -1,0 +1,67 @@
+import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+
+export type ApplicationRepositoryConnectionStatus = {
+  connected: boolean;
+  provider: VCSProviderType;
+  valid: boolean;
+  username?: string;
+  instanceUrl?: string;
+  metadata?: {
+    repositories?: number;
+    account?: string;
+    status?: string;
+    mock_mode?: boolean;
+    supported?: boolean;
+  };
+};
+
+export type ApplicationRepositoryContextState = {
+  provider: VCSProviderType;
+  connectionStatus: ApplicationRepositoryConnectionStatus | null;
+  repositories: VCSRepository[];
+  selectedRepository: VCSRepository | null;
+};
+
+export const APPLICATION_REPOSITORY_PROVIDERS: VCSProviderType[] = ['github', 'gitlab', 'bitbucket'];
+
+export function normalizeRepositoryProvider(value?: string | null): VCSProviderType {
+  return APPLICATION_REPOSITORY_PROVIDERS.includes(value as VCSProviderType)
+    ? (value as VCSProviderType)
+    : 'github';
+}
+
+export function deriveSelectedRepository(
+  repositories: VCSRepository[],
+  requestedRepository?: string | null,
+  preferredRepository?: string | null,
+) {
+  if (!repositories.length) return null;
+
+  const byRequested =
+    requestedRepository &&
+    repositories.find(
+      (repository) =>
+        repository.fullName === requestedRepository ||
+        repository.id === requestedRepository ||
+        repository.name === requestedRepository,
+    );
+  if (byRequested) return byRequested;
+
+  const byPreferred =
+    preferredRepository &&
+    repositories.find(
+      (repository) =>
+        repository.fullName === preferredRepository ||
+        repository.id === preferredRepository ||
+        repository.name === preferredRepository,
+    );
+  if (byPreferred) return byPreferred;
+
+  return repositories[0];
+}
+
+export function getProviderLabel(provider: VCSProviderType) {
+  if (provider === 'gitlab') return 'GitLab';
+  if (provider === 'bitbucket') return 'Bitbucket';
+  return 'GitHub';
+}

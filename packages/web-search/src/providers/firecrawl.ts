@@ -6,8 +6,8 @@
  */
 
 import { SearchProviderBase, SearchQuery, SearchResult } from '../multi-provider';
-import { FirecrawlClient, FirecrawlSearchOptions, FirecrawlPageData } from '@engi/firecrawl';
-import { log } from '@engi/logger';
+import { FirecrawlClient, FirecrawlSearchOptions, FirecrawlPageData } from '@bitcode/firecrawl';
+import { log } from '@bitcode/logger';
 
 export class FirecrawlSearchProvider extends SearchProviderBase {
   readonly name = 'firecrawl' as const;

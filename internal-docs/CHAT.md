@@ -107,7 +107,7 @@ interface RepositoryAnalysisTools {
   digestRepository: {
     purpose: "Generate semantic understanding of repository structure";
     input: { path: string; depth?: number };
-    implementation: "@engi/digest";
+    implementation: "@bitcode/digest";
   };
   
   analyzeStructure: {
@@ -128,7 +128,7 @@ interface FileReadingTools {
   readFile: {
     purpose: "Read file contents with syntax highlighting";
     input: { path: string; lineRange?: [number, number] };
-    implementation: "@engi/vcs (getFileContent)";
+    implementation: "@bitcode/vcs (getFileContent)";
   };
   
   readFiles: {
@@ -149,7 +149,7 @@ interface SearchTools {
   searchPattern: {
     purpose: "Find patterns across codebase";
     input: { pattern: string; path?: string; options?: GrepOptions };
-    implementation: "@engi/simple-system-text-search";
+    implementation: "@bitcode/simple-system-text-search";
   };
   
   semanticSearch: {
@@ -161,7 +161,7 @@ interface SearchTools {
   findSymbol: {
     purpose: "Locate definitions, references, implementations";
     input: { symbol: string; type?: SymbolType };
-    implementation: "@engi/lsp-query";
+    implementation: "@bitcode/lsp-query";
   };
 }
 ```
@@ -172,7 +172,7 @@ interface VCSHistoryTools {
   getHistory: {
     purpose: "Retrieve commit history for understanding evolution";
     input: { path?: string; limit?: number; author?: string };
-    implementation: "@engi/vcs";
+    implementation: "@bitcode/vcs";
   };
   
   getBlame: {

@@ -10,9 +10,9 @@
  * - SubStepExecution: SubStep-level execution (7 substeps)
  */
 
-import { Execution } from '@engi/execution-generics';
-import { ExecutionPrompt } from '@engi/execution-generics';
-import type { PromptPart } from '@engi/prompts';
+import { Execution } from '@bitcode/execution-generics';
+import { ExecutionPrompt } from '@bitcode/execution-generics';
+import type { PromptPart } from '@bitcode/prompts';
 
 // Re-export the new AgentExecution and registries
 export { AgentExecution, createAgentExecution } from './AgentExecution';

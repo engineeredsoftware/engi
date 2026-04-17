@@ -2,7 +2,7 @@
 
 ## Overview
 
-Unified Version Control System (VCS) abstraction framework providing enterprise-grade operations across GitHub, GitLab, and Bitbucket providers. Implements consistent interfaces for repository management, pull request creation, file operations, and issue tracking with comprehensive authentication and connection management for production pipeline integration. Supabase access in all examples comes from `createClient` in `@engi/supabase/ssr/server`, which we alias locally as `createSupabaseServerClient()` for clarity.
+Unified Version Control System (VCS) abstraction framework providing enterprise-grade operations across GitHub, GitLab, and Bitbucket providers. Implements consistent interfaces for repository management, pull request creation, file operations, and issue tracking with comprehensive authentication and connection management for production pipeline integration. Supabase access in all examples comes from `createClient` in `@bitcode/supabase/ssr/server`, which we alias locally as `createSupabaseServerClient()` for clarity.
 
 ## Core Capabilities
 
@@ -505,7 +505,7 @@ class GetFileContentTool extends Tool<any> {
 ### Basic Repository Operations
 
 ```typescript
-import { listRepositoriesTool, createPullRequestTool } from '@engi/vcs';
+import { listRepositoriesTool, createPullRequestTool } from '@bitcode/vcs';
 
 // List repositories from GitHub connection
 const repositories = await listRepositoriesTool.use({
@@ -538,7 +538,7 @@ console.log(`Created pull request #${pullRequest.number}: ${pullRequest.html_url
 ### File Content Management
 
 ```typescript
-import { createOrUpdateFileTool, getFileContentTool } from '@engi/vcs';
+import { createOrUpdateFileTool, getFileContentTool } from '@bitcode/vcs';
 
 // Retrieve existing file content
 const existingFile = await getFileContentTool.use({
@@ -569,7 +569,7 @@ console.log(`Updated file: ${updatedFile.commit.html_url}`);
 ### Issue and Comment Management
 
 ```typescript
-import { createIssueTool, createCommentTool } from '@engi/vcs';
+import { createIssueTool, createCommentTool } from '@bitcode/vcs';
 
 // Create an issue
 const issue = await createIssueTool.use({

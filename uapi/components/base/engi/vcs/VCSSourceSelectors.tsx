@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import Select, { components, SingleValue } from 'react-select';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { VCSIconSelector } from '@/components/base/engi/vcs/VCSIconSelector';
 import { Github, GitBranch } from 'lucide-react';
 import { glassyStyles, glassyPillStyles } from '@/components/base/engi/selects/glassy-select-styles';

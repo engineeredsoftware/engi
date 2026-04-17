@@ -3,24 +3,24 @@ import { testAgent } from './agentTestFactory';
 // ------------------------------------------------------------------
 // Deliverables – Setup
 // ------------------------------------------------------------------
-import { COMPREHEND_TASK_AGENT } from '@engi/pipeline-deliverable';
-import { FAMILIARIZE_ATTACHMENTS_AGENT } from '@engi/pipeline-deliverable';
-import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY } from '@engi/pipeline-deliverable';
+import { COMPREHEND_TASK_AGENT } from '@bitcode/pipeline-deliverable';
+import { FAMILIARIZE_ATTACHMENTS_AGENT } from '@bitcode/pipeline-deliverable';
+import { SETUP_DELIVERABLES_AGENT_PREPARE_REPOSITORY } from '@bitcode/pipeline-deliverable';
 
 // ------------------------------------------------------------------
 // Discovery (subset)
 // ------------------------------------------------------------------
-import { SIMPLE_TEXT_SEARCH_AGENT } from '@engi/generic-agents-text-search';
+import { SIMPLE_TEXT_SEARCH_AGENT } from '@bitcode/generic-agents-text-search';
 
 // ------------------------------------------------------------------
 // Implementation (subset)
 // ------------------------------------------------------------------
-import { implementationOpenPRAgent } from '@engi/pipeline-deliverable';
+import { implementationOpenPRAgent } from '@bitcode/pipeline-deliverable';
 
 // ------------------------------------------------------------------
 // Shipping (subset)
 // ------------------------------------------------------------------
-import { SHIPPING_AGENTS } from '@engi/generic-agents-git';
+import { SHIPPING_AGENTS } from '@bitcode/generic-agents-git';
 
 
 // Matrix: [agentConst, phase, [expected tool names]]

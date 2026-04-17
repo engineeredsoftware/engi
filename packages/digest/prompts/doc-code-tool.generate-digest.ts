@@ -1,4 +1,4 @@
-import { Prompt } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
 import {
   PROMPTPART_SPECIFIC_TOOL_DIGEST_FILESUMMARIES_BASEPROMPT_CORE,
 } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_filesummaries_baseprompt_core';

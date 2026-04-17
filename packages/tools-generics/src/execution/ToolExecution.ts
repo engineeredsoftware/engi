@@ -13,7 +13,7 @@
  * pattern: layered-registry-execution
  */
 
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 import { ToolPromptRegistry } from './ToolPromptRegistry';
 
 /**

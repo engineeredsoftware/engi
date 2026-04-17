@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 import { factoryPrepareConciseContext } from '../substeps/factories';
 
 describe('PrepareConciseContext synthesizes full context from root', () => {

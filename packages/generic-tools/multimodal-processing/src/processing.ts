@@ -5,7 +5,7 @@
  */
 
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // Export schemas for reuse
 export const AttachmentSchema = z.object({

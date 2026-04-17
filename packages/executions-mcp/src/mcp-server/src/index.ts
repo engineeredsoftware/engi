@@ -12,7 +12,7 @@
  */
 
 import { EngiMCPServer } from './server';
-import { logger } from '@engi/logger';
+import { logger } from '@bitcode/logger';
 
 // Export the server class for programmatic usage
 export { EngiMCPServer };

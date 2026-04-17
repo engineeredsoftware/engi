@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-tools-task-comprehension",
+  "name": "@bitcode/generic-tools-task-comprehension",
   "version": "1.0.0",
   "description": "Generic tools for task comprehension and analysis",
   "main": "src/index.ts",

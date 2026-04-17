@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_SCRAPEURL_DOCCODETOOLPURPOSE: PromptPart = 
   'Extract clean, structured content from a single webpage including text, markdown, HTML, screenshots, and comprehensive metadata' as PromptPart;

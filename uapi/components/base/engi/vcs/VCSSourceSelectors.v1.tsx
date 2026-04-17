@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import Select, { components, SingleValue } from 'react-select';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { VCSProviderSelector } from './VCSProviderSelector';
 import { Github, GitBranch } from 'lucide-react';
 import { customStyles, pillStyles } from '@/styles/select-styles';

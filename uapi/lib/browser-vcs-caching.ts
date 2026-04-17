@@ -3,7 +3,7 @@
  * Ultra-specific naming and placement under uapi/lib/ per architecture rules.
  */
 
-import { VCSCache } from '@engi/vcs';
+import { VCSCache } from '@bitcode/vcs';
 
 /**
  * UAPI-specific cache with custom TTL for UI responsiveness

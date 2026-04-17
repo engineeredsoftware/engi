@@ -4,7 +4,7 @@
 import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
-import { createClient } from '@engi/supabase/ssr/client'
+import { createClient } from '@bitcode/supabase/ssr/client'
 import { AuthProvider } from '@/components/base/engi/auth/AuthProvider'
 import OrbitalsProvider from '@/app/orbitals/components/OrbitalsProvider'
 import { useQueryClient } from '@tanstack/react-query'

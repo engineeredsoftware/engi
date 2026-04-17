@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_VALIDATETASKCOMPREHENSION_DOCCODETOOLPURPOSE: PromptPart = 
   'Holistic validation and verification of task comprehension completeness across all cognitive dimensions, ensuring accurate understanding integration, requirement-constraint alignment, success criteria coherence, and meta-cognitive awareness to guarantee comprehensive task readiness before implementation planning and execution' as PromptPart;

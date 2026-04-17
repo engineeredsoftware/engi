@@ -1,42 +1,42 @@
-import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
-import { PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_chunk';
-import { PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_prepare_concise_context';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_chunk_then_sum';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_stitch_until_complete';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_reason';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_judge';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_structured_output';
-import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_tools_execution';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_prepare_concise_context';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_chunk_then_sum';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_stitch_until_complete';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_reason';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_judge';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_structured_output';
-import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_tools_execution';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_prepare_concise_context';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_chunk_then_sum';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_stitch_until_complete';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_reason';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_judge';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_structured_output';
-import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_tools_execution';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_prepare_concise_context';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_CHUNK_THEN_SUM } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_chunk_then_sum';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_stitch_until_complete';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_reason';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_judge';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_structured_output';
-import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_TOOLS_EXECUTION } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_tools_execution';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_single_object';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_top_level_keys_hint';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_chunk';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_CHUNK_THEN_SUM } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_PLAN_SUBSTEP_TOOLS_EXECUTION } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_substep_tools_execution';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_CHUNK_THEN_SUM } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_TRY_SUBSTEP_TOOLS_EXECUTION } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_substep_tools_execution';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_CHUNK_THEN_SUM } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_REFINE_SUBSTEP_TOOLS_EXECUTION } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_substep_tools_execution';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_PREPARE_CONCISE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_prepare_concise_context';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_CHUNK_THEN_SUM } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_chunk_then_sum';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_STITCH_UNTIL_COMPLETE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_stitch_until_complete';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_reason';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_judge';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_structured_output';
+import { PROMPTPART_GENERIC_PTRR_RETRY_SUBSTEP_TOOLS_EXECUTION } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_substep_tools_execution';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_single_object';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_top_level_keys_hint';
 /**
  * SubStep Executor Factories - PTRR Architecture Implementation
  * 
@@ -51,12 +51,12 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@engi/p
  * - 1 Tool SubStep (conditional based on Generation sequence output)
  */
 
-import { createContextSelectors, prepareConciseContext } from '@engi/context';
-import { Executor, Execution, sequential, parallel, conditional } from '@engi/execution-generics';
+import { createContextSelectors, prepareConciseContext } from '@bitcode/context';
+import { Executor, Execution, sequential, parallel, conditional } from '@bitcode/execution-generics';
 import { SubStepExecution, AgentExecution, FailsafeExecution, GenerationExecution } from '../execution';
-import { LLMInput } from '@engi/llm-generics';
-import { parseResponse } from '@engi/parsing';
-import { PromptPart } from '@engi/prompts';
+import { LLMInput } from '@bitcode/llm-generics';
+import { parseResponse } from '@bitcode/parsing';
+import { PromptPart } from '@bitcode/prompts';
 
 // Import generic agent PromptParts directly from their files
 // TODO: why are these imports used but below unused?
@@ -476,7 +476,7 @@ export function factoryChunkThenSum<T extends { preparedContexts: PreparedContex
       }
 
       try {
-        const { log } = require('@engi/logger');
+        const { log } = require('@bitcode/logger');
         const phase = (execution as any).findUp?.('phase', 'current');
         const agentName = (execution as any).findUp?.('agent', 'name');
         const step = (execution as any).findUp?.('step', 'name');
@@ -496,7 +496,7 @@ export function factoryChunkThenSum<T extends { preparedContexts: PreparedContex
       }
 
       try {
-        const { log } = require('@engi/logger');
+        const { log } = require('@bitcode/logger');
         const phase = (execution as any).findUp?.('phase', 'current');
         const agentName = (execution as any).findUp?.('agent', 'name');
         const step = (execution as any).findUp?.('step', 'name');
@@ -901,7 +901,7 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
         // Set execution context for gate-aware tools
         let output: any;
         try {
-          const { executionContext } = await import('@engi/generic-tools/files-maintaining');
+          const { executionContext } = await import('@bitcode/generic-tools/files-maintaining');
           output = await executionContext.run(execution, () => tool.execute(toolToUse.input));
         } catch (importError) {
           // Fallback if executionContext not available

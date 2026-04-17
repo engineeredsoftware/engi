@@ -54,7 +54,7 @@ Production-grade Bitbucket integration implementing the unified VCS abstraction 
 
 ### Provider Initialization
 ```typescript
-import { BitbucketProvider } from '@engi/bitbucket';
+import { BitbucketProvider } from '@bitcode/bitbucket';
 
 // Bitbucket Cloud configuration
 const provider = new BitbucketProvider({

@@ -6,7 +6,7 @@
  * @specificity Generic
  */
 
-import { Tool, attachDocCodeToolPrompt, factoryTool } from '@engi/tools-generics';
+import { Tool, attachDocCodeToolPrompt, factoryTool } from '@bitcode/tools-generics';
 import { z } from 'zod';
 import { TEXT_EDITOR_DOC_CODE_TOOL_PROMPT } from './prompts/TextEditorDocCodeToolPrompt';
 import { REPLACE_FILE_DOC_CODE_TOOL_PROMPT } from './prompts/ReplaceFileDocCodeToolPrompt';
@@ -19,10 +19,10 @@ import {
   EditCommandParams,
   TransactionalFileEditor,
   EditError,
-} from '@engi/editing';
+} from '@bitcode/editing';
 
 // Gate-aware file operations
-import type { Execution } from '@engi/execution-generics';
+import type { Execution } from '@bitcode/execution-generics';
 
 // Global execution context for gate checking (simple Map-based for Next.js compatibility)
 class ExecutionContextStore {
@@ -73,7 +73,7 @@ async function runEditCommandWithGates(params: EditCommandParams): Promise<strin
 
     if (allowedPatterns && params.command !== 'view') {
       // Import gate checking logic
-      const { isFileAllowed } = await import('@engi/pipelines-generics/src/gate-system/file-gates');
+      const { isFileAllowed } = await import('@bitcode/pipelines-generics/src/gate-system/file-gates');
       const allowed = isFileAllowed(params.path, currentGate || 'Develop');
 
       if (!allowed) {
@@ -260,10 +260,10 @@ export const renameFileTool = textEditorTool as typeof textEditorTool;
 export const directoryTool = textEditorTool as typeof textEditorTool;
 
 // ---------------------------------------------------------------------------
-// Type aliases (using the shared Tool brand from @engi/tools-generics).
+// Type aliases (using the shared Tool brand from @bitcode/tools-generics).
 // ---------------------------------------------------------------------------
 
-import type { Tool } from '@engi/tools-generics';
+import type { Tool } from '@bitcode/tools-generics';
 
 export type TextEditorToolFn = Tool<typeof textEditorTool>;
 export type DeleteFileToolFn = Tool<typeof deleteFileTool>;

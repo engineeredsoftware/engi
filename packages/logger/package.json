@@ -1,5 +1,5 @@
 {
-  "name": "@engi/logger",
+  "name": "@bitcode/logger",
   "version": "0.1.0",
   "description": "Shared logging utilities for the Engi monorepo.",
   "main": "src/logger.ts",
@@ -21,7 +21,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@engi/supabase": "workspace:*",
-    "@engi/sentry": "workspace:*"
+    "@bitcode/supabase": "workspace:*",
+    "@bitcode/sentry": "workspace:*"
   }
 }

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { generateDefaultResponse } from '@engi/dryrun';
+import { generateDefaultResponse } from '@bitcode/dryrun';
 
 describe.skip('generateDefaultResponse', () => {
   it('returns default values for a simple object schema', () => {

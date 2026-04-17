@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLPURPOSE: PromptPart = 
   'Establishes the foundational intelligence layer for all development operations through transcendent content access, analysis, and synthesis, orchestrating deep semantic understanding, contextual relationship mapping, and predictive insights across codebases to enable autonomous development workflows, intelligent decision-making, and emergent system behaviors that transform how teams interact with and evolve complex software architectures at enterprise scale' as PromptPart;

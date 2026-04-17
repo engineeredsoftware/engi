@@ -3,8 +3,8 @@
 
 import * as fs from 'fs/promises';
 import * as os from 'os';
-import { supabaseAdmin } from '@engi/supabase';
-import { putArtifactAtKey } from '@engi/artifacts';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { putArtifactAtKey } from '@bitcode/artifacts';
 
 const ORIGINAL_CONSOLE_ERROR = console.error.bind(console);
 const ORIGINAL_CONSOLE_WARN = console.warn.bind(console);
@@ -16,7 +16,7 @@ let sentryPromise: Promise<any> | null = null;
 function getSentry() {
   if (sentryPromise) return sentryPromise;
   if (process.env.NEXT_RUNTIME === 'edge') return Promise.resolve(null);
-  sentryPromise = import('@engi/sentry').catch(() => null);
+  sentryPromise = import('@bitcode/sentry').catch(() => null);
   return sentryPromise;
 }
 

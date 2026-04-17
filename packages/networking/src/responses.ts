@@ -1,6 +1,6 @@
 // Re-exported logger from the shared pipelines-generics package ensures
 // consistent formatting and single log sink across the monorepo.
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 export function createErrorResponse(
   error: unknown,

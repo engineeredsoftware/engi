@@ -1,5 +1,5 @@
-import { createClient } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { createClient } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 import type { GitLabConnection } from './types';
 import { GitLabAuth } from './auth';
 

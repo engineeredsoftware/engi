@@ -3,11 +3,11 @@
  * All message CRUD operations with attachment support
  */
 
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 // Use DB table type for strong alignment with current schema
-import type { Message } from '@engi/orm';
-import { AttachmentReference } from '@engi/attachments-generics';
-import { log } from '@engi/logger';
+import type { Message } from '@bitcode/orm';
+import { AttachmentReference } from '@bitcode/attachments-generics';
+import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 
 export interface CreateMessageOptions {

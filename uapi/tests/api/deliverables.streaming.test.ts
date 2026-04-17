@@ -6,34 +6,34 @@
  */
 
 // Mocks for dependency modules
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
-import { deductCredits } from '@engi/credits';
-import { runSDIVSPipeline } from '@engi/engine/pipeline';
-import { getGlobalContext, initializeContext } from '@engi/context';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { deductCredits } from '@bitcode/credits';
+import { runSDIVSPipeline } from '@bitcode/engine/pipeline';
+import { getGlobalContext, initializeContext } from '@bitcode/context';
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
 
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: { from: jest.fn() },
 }));
 
-jest.mock('@engi/credits', () => ({
+jest.mock('@bitcode/credits', () => ({
   deductCredits: jest.fn(),
 }));
 
-jest.mock('@engi/engine/pipeline', () => ({
+jest.mock('@bitcode/engine/pipeline', () => ({
   runSDIVSPipeline: jest.fn(),
 }));
 
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   initializeContext: jest.fn(),
   getGlobalContext: jest.fn(),
 }));
 // Mock Git integration modules to avoid loading ESM dependencies
-jest.mock('@engi/git/git', () => ({
+jest.mock('@bitcode/git/git', () => ({
   getInstallationAccounts: jest.fn().mockResolvedValue({ login: 'owner', type: 'User' }),
   getAllRepositories: jest.fn().mockResolvedValue([]),
   getAllBranches: jest.fn().mockResolvedValue([]),

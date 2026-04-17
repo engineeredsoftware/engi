@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLPARAMETERS: PromptPart = 
   'taskDescription: string | multimodal content, analysisDepth: "surface" | "semantic" | "cognitive" | "transcendent", targetDimensions: string[], contextualMetadata?: object, cognitiveFramework?: "PTRR" | "custom", outputGranularity: "structured" | "layered" | "graph"' as PromptPart;

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_TEXTEDITOR_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Multi-file refactoring with transaction: const txId = await beginTransactionTool(); await textEditorTool({ filePath: "/src/index.ts", operation: "replace", content: newContent, transactionId: txId }); await textEditorTool({ filePath: "/tests/index.test.ts", operation: "update", content: updatedTests, transactionId: txId }); await commitTransactionTool({ transactionId: txId })' as PromptPart;

@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Configured search: search({ query: "TypeScript performance optimization", options: { providers: ["exa", "perplexity"], limit: 20, extractContent: true } })' as PromptPart;

@@ -22,8 +22,8 @@ import {
   GetPromptRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { logger } from '@engi/logger';
-import { observability } from '@engi/observability';
+import { logger } from '@bitcode/logger';
+import { observability } from '@bitcode/observability';
 
 // Import our MCP implementations
 import { registerPipelineTools } from './tools/pipeline-tools';

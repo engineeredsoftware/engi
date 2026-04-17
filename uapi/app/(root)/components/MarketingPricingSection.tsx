@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
 // Note: bundle presets removed from the UI – only dynamic Flexible pricing remains.
 import { ProcessingIndicator } from '@/components/base/engi/indicators/ProcessingIndicator';

@@ -4,7 +4,7 @@
  * Manages file artifacts and attachments stored during pipeline execution.
  * Tracks files in S3/blob storage with metadata.
  *
- * @package @engi/orm
+ * @package @bitcode/orm
  */
 
 import { createClient } from '@supabase/supabase-js';

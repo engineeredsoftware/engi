@@ -34,7 +34,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 /**
  * Stream event types from the conversations streaming API.

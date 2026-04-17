@@ -57,7 +57,7 @@ import {
   circleciGetBuildFailureLogsTool,
   circleciFindFlakyTestsTool,
   circleciAddEnvVarTool
-} from '@engi/generic-tools-mcps-circleci';
+} from '@bitcode/generic-tools-mcps-circleci';
 
 // Pipeline monitoring
 const pipelineStatus = await circleciGetLatestPipelineStatusTool({

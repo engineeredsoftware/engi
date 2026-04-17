@@ -3,8 +3,8 @@
  */
 import 'openai/shims/node';
 import OpenAI from 'openai';
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 
 const PRE_CONTEXT_DELIVERABLE_COUNT = parseInt(process.env.PRE_CONTEXT_DELIVERABLE_COUNT ?? '5', 10);
 const POST_CONTEXT_DELIVERABLE_COUNT = parseInt(process.env.POST_CONTEXT_DELIVERABLE_COUNT ?? '10', 10);

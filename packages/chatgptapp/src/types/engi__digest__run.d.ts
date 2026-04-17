@@ -1,4 +1,4 @@
-declare module '@engi/digest/run' {
+declare module '@bitcode/digest/run' {
   export interface GenerateDigestOptions {
     owner: string;
     repo: string;

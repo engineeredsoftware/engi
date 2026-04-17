@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATECOMMENT_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Multi-platform escalation: createComment({ target_context: "ISSUE-456", content: "This performance issue is blocking the mobile release. We need immediate action on the database optimization work.", comment_type: "urgent", priority: "high", mentions: ["@platform-team", "@mobile-team", "@db-specialists"], auto_translate: true, visibility: "team", sentiment_tone: "direct", notification_settings: { "escalate_after": "2_hours", "cascade_to": ["team-leads", "product-owner"] } }) → Creates urgent issue comment with automatic translation to 3 languages, triggers escalation workflow, and coordinates response across multiple teams with sentiment-appropriate tone' as PromptPart;

@@ -169,7 +169,7 @@ if (agent === 'image' && processingOptions?.enableFigmaIntegration) {
 ### Basic Multimodal Processing
 
 ```typescript
-import { multimodalProcessingTool } from '@engi/multimodal-processing';
+import { multimodalProcessingTool } from '@bitcode/multimodal-processing';
 
 const result = await multimodalProcessingTool.use({
   attachments: [

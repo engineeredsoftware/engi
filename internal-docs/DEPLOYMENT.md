@@ -24,7 +24,7 @@ git add -A && git commit -m "fix(prompts): lowercase raw_promptparts paths"
 ### Detect and Fix Import Casing
 
 ```bash
-# Detect only (resolves tsconfig paths, @engi/* aliases, and relative imports)
+# Detect only (resolves tsconfig paths, @bitcode/* aliases, and relative imports)
 ./scripts/check-import-casing.sh
 
 # Auto-fix relative import specifiers to canonical casing

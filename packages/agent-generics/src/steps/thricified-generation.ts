@@ -6,7 +6,7 @@
  * (PTRR-specific) can execute this generation under different parents.
  */
 
-import { sequential, type Executor } from '@engi/execution-generics';
+import { sequential, type Executor } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { factoryReason, factoryJudge, factoryStructuredOutput } from '../substeps/factories';
 

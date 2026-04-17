@@ -1,5 +1,5 @@
 {
-  "name": "@engi/doc-code",
+  "name": "@bitcode/doc-code",
   "version": "1.0.0",
   "description": "Runtime documentation injection system - makes docs available IN CODE",
   "main": "dist/index.js",
@@ -28,7 +28,7 @@
     "metadata"
   ],
   "dependencies": {
-    "@engi/doc-comment": "workspace:*",
+    "@bitcode/doc-comment": "workspace:*",
     "glob": "^10.0.0"
   },
   "devDependencies": {

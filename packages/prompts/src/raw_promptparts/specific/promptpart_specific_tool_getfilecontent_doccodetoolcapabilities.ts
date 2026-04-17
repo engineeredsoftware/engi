@@ -18,7 +18,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Comprehensive file content access through three specialized capability areas: file access and format handling, code analysis and intelligence, and performance optimization with caching and indexing. Refer to specialized capability components for detailed technical specifications.' as PromptPart;

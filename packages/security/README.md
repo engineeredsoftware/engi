@@ -1,4 +1,4 @@
-# @engi/security
+# @bitcode/security
 
 Production-grade security utilities package for comprehensive credential management, authentication security, and protection against common web application vulnerabilities.
 
@@ -21,7 +21,7 @@ All security measures have been implemented to production excellence standards:
 ## 🏗️ Architecture
 
 ```
-@engi/security/
+@bitcode/security/
 ├── encryption.ts          # AES-256-GCM credential encryption
 ├── rate-limiting.ts        # Request throttling and abuse prevention
 ├── audit-logging.ts        # Security event auditing (credential-safe)
@@ -39,7 +39,7 @@ All security measures have been implemented to production excellence standards:
 ### Installation
 
 ```bash
-npm install @engi/security
+npm install @bitcode/security
 ```
 
 ### Environment Setup
@@ -66,7 +66,7 @@ import {
   SupabaseMCPConfigSchema,
   useSecureCredentialInput,
   securityMiddleware
-} from '@engi/security';
+} from '@bitcode/security';
 
 // Encrypt credentials before storage
 const encrypted = encryptCredential('sensitive-api-key');
@@ -94,7 +94,7 @@ await securityMiddleware.apply(request);
 **AES-256-GCM encryption** with key derivation and secure credential storage:
 
 ```typescript
-import { encryptCredential, decryptCredential } from '@engi/security';
+import { encryptCredential, decryptCredential } from '@bitcode/security';
 
 // Encrypt sensitive data
 const encrypted = encryptCredential('api-key-value');
@@ -114,7 +114,7 @@ const decrypted = decryptCredential(encrypted);
 **Configurable rate limiting** with multiple preset configurations:
 
 ```typescript
-import { rateLimitMiddleware, RateLimitPresets } from '@engi/security';
+import { rateLimitMiddleware, RateLimitPresets } from '@bitcode/security';
 
 // Apply to credential submission endpoints
 app.use('/api/credentials', rateLimitMiddleware(RateLimitPresets.CREDENTIAL_SUBMISSION));
@@ -139,7 +139,7 @@ app.use('/api/custom', rateLimitMiddleware({
 **Client-side security** preventing credential exposure in browser memory:
 
 ```typescript
-import { useSecureCredentialInput } from '@engi/security';
+import { useSecureCredentialInput } from '@bitcode/security';
 
 function CredentialForm() {
   const apiKeyInput = useSecureCredentialInput({
@@ -172,7 +172,7 @@ import {
   SupabaseMCPConfigSchema,
   AWSMCPConfigSchema,
   ValidationHelpers 
-} from '@engi/security';
+} from '@bitcode/security';
 
 // Validate Supabase configuration
 const config = ValidationHelpers.validateAndSanitize(
@@ -196,7 +196,7 @@ import {
   auditCredentialOperation,
   AuditEventType,
   ResourceType 
-} from '@engi/security';
+} from '@bitcode/security';
 
 // Audit credential operations
 await auditCredentialOperation(
@@ -225,7 +225,7 @@ import {
   CredentialExpirationChecker,
   CredentialRotationManager,
   DefaultRotationPolicies 
-} from '@engi/security';
+} from '@bitcode/security';
 
 const checker = new CredentialExpirationChecker();
 const rotationManager = new CredentialRotationManager();
@@ -253,7 +253,7 @@ const result = await rotationManager.rotateEncryption(
 **Advanced threat detection** and anomaly monitoring:
 
 ```typescript
-import { SecurityMonitoringService } from '@engi/security';
+import { SecurityMonitoringService } from '@bitcode/security';
 
 const monitor = new SecurityMonitoringService();
 
@@ -284,7 +284,7 @@ for (const alert of alerts) {
 **Information disclosure prevention** in error responses:
 
 ```typescript
-import { secureErrorHandler } from '@engi/security';
+import { secureErrorHandler } from '@bitcode/security';
 
 try {
   await sensitiveOperation();
@@ -305,7 +305,7 @@ try {
 **Comprehensive security headers** and CSRF protection:
 
 ```typescript
-import { securityMiddleware } from '@engi/security';
+import { securityMiddleware } from '@bitcode/security';
 
 // Apply in Next.js middleware
 export async function middleware(request: NextRequest) {
@@ -428,7 +428,7 @@ import {
   encryptCredential, 
   decryptCredential,
   ValidationHelpers 
-} from '@engi/security';
+} from '@bitcode/security';
 
 // Test encryption roundtrip
 const original = 'test-credential';

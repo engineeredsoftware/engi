@@ -18,7 +18,7 @@ import {
   ConversationListOptions,
   ConversationListResult,
   CreateConversationInput
-} from '@engi/conversations-generics';
+} from '@bitcode/conversations-generics';
 
 export class ConversationsModel extends BaseModel<'conversations'> {
   constructor(supabase: SupabaseClient<Database>) {

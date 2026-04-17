@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLNAME: PromptPart =
   'Get Contents Tool' as PromptPart;

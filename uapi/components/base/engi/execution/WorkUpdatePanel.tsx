@@ -7,7 +7,7 @@ import type {
   SDIVSPipelineUpdate,
   ToolUsageUpdate,
   FileChange,
-} from '@engi/execution-generics';
+} from '@bitcode/execution-generics';
 
 type WorkUpdateVariant = 'latest' | 'iteration';
 

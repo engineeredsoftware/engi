@@ -1,5 +1,5 @@
-import { initializeContext, getGlobalContext } from '@engi/context/context';
-import { prepareContextForPrompt } from '@engi/context/context';
+import { initializeContext, getGlobalContext } from '@bitcode/context/context';
+import { prepareContextForPrompt } from '@bitcode/context/context';
 
 describe('OTF instructions integration with context preparation', () => {
   beforeEach(async () => {

@@ -4,9 +4,9 @@
 echo "=== Updating imports from /raw/ to /raw_promptparts/ ==="
 echo ""
 
-# 1. Update package imports @engi/prompts/raw/
-echo "Updating package imports (@engi/prompts/raw/ -> @engi/prompts/raw_promptparts/)..."
-find packages/ -type f \( -name "*.ts" -o -name "*.tsx" \) -exec sed -i '' 's|@engi/prompts/raw/|@engi/prompts/raw_promptparts/|g' {} \;
+# 1. Update package imports @bitcode/prompts/raw/
+echo "Updating package imports (@bitcode/prompts/raw/ -> @bitcode/prompts/raw_promptparts/)..."
+find packages/ -type f \( -name "*.ts" -o -name "*.tsx" \) -exec sed -i '' 's|@bitcode/prompts/raw/|@bitcode/prompts/raw_promptparts/|g' {} \;
 
 # 2. Update relative imports from ../raw/ or ../../raw/
 echo "Updating relative imports (../raw/ -> ../raw_promptparts/)..."

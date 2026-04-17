@@ -2,13 +2,13 @@
  * @jest-environment node
  */
 import { POST } from '@/app/api/stripe/route';
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 // Provide a stub implementation for the singleton admin client used by the
 // API route. Each test case rewires the behaviour of `.from`, so we only need
 // to supply an object with that method mocked.
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     from: jest.fn(),
   },
@@ -17,7 +17,7 @@ jest.mock('@engi/supabase', () => ({
 // Stub the server-side Supabase client factory for all tests in this file. We
 // initialise it with `jest.fn()` so individual test cases can safely call
 // `.mockResolvedValue()` on it without worrying about TypeScript narrowing.
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
 

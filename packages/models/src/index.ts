@@ -2,8 +2,8 @@
 import { anthropic } from '@ai-sdk/anthropic';
 import { google } from '@ai-sdk/google';
 import { openai } from '@ai-sdk/openai';
-import { log } from '@engi/logger';
-import { trace } from '@engi/observability';
+import { log } from '@bitcode/logger';
+import { trace } from '@bitcode/observability';
 
 function instrumentModel(provider: string, modelName: string, base: any) {
   // Avoid double instrumentation

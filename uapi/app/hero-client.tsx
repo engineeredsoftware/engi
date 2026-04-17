@@ -45,7 +45,7 @@ function HeroClientInner() {
     let unsub: { unsubscribe: () => void } | undefined;
 
     const id = schedule(() => {
-      import('@engi/supabase/ssr/client').then(({ createClient }) => {
+      import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
         const supabase = createClient();
         supabase.auth.getSession().then(({ data: { session } }) => {
           setUser(session?.user ?? null);

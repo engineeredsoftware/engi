@@ -1,7 +1,7 @@
 
 import * as path from 'path';
 import * as fs from 'fs/promises';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // ---------------------------------------------------------------------------
 // Optional child_process helper

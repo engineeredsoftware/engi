@@ -5,7 +5,7 @@
  * leakage while maintaining useful debugging capabilities for development.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 /**
  * Error categories for different types of security-sensitive operations

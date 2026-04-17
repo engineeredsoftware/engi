@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSLAMBDAINVOKE_DOCCODETOOLPURPOSE: PromptPart = 
   'Enables direct invocation of AWS Lambda functions with comprehensive payload management, execution monitoring, error handling, and response processing for serverless application orchestration and event-driven computing workflows.' as PromptPart;

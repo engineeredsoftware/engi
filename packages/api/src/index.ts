@@ -6,9 +6,9 @@
  * 
  * Key principles:
  * - Business logic lives here, routes orchestrate
- * - All database operations use @engi/orm
- * - All auth uses @engi/auth
- * - All VCS operations use @engi/vcs
+ * - All database operations use @bitcode/orm
+ * - All auth uses @bitcode/auth
+ * - All VCS operations use @bitcode/vcs
  * 
  * Architecture:
  * - Each module exports business logic functions

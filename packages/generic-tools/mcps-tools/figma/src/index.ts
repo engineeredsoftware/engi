@@ -14,8 +14,8 @@
  */
 
 import { z } from 'zod';
-import { Tool } from '@engi/tools-generics';
-import { log } from '@engi/logger';
+import { Tool } from '@bitcode/tools-generics';
+import { log } from '@bitcode/logger';
 
 // ==================== FIGMA API INTEGRATION ====================
 

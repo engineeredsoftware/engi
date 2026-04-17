@@ -4,7 +4,7 @@
  * Tracks LLM API calls with token usage and costs.
  * Formerly called "llm_calls" - renamed to "generations" in GA-1.
  *
- * @package @engi/orm
+ * @package @bitcode/orm
  */
 
 import { createClient } from '@supabase/supabase-js';

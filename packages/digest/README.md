@@ -64,7 +64,7 @@ Direct digest generation without persistence layer.
 
 ### Basic Digest Generation
 ```typescript
-import { getDigest } from '@engi/digest/service';
+import { getDigest } from '@bitcode/digest/service';
 
 // Generate cached digest for repository
 const result = await getDigest({
@@ -91,7 +91,7 @@ console.log('Generation stats:', freshDigest.stats);
 
 ### Direct Generation API
 ```typescript
-import { generateDigest } from '@engi/digest/run';
+import { generateDigest } from '@bitcode/digest/run';
 
 // Low-level generation without persistence
 const result = await generateDigest({
@@ -109,7 +109,7 @@ const digestContent = fs.readFileSync(result.digestPath, 'utf8');
 
 ### LLM API Integration
 ```typescript
-import { callLLMAPI } from '@engi/digest/run';
+import { callLLMAPI } from '@bitcode/digest/run';
 
 // Direct LLM calls with digest prompts
 const analysis = await callLLMAPI({

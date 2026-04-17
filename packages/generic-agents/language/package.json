@@ -1,10 +1,10 @@
 {
-  "name": "@engi/generic-agents-language",
+  "name": "@bitcode/generic-agents-language",
   "version": "0.1.0",
   "main": "src/index.ts",
   "private": true,
   "dependencies": {
-    "@engi/agent-generics": "workspace:*",
-    "@engi/generic-tools-lsp-query": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/generic-tools-lsp-query": "workspace:*"
   }
 }

@@ -5,9 +5,9 @@
  * using advanced algorithms, real-time scoring, and quality assessment.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
-import { telemetry } from '@engi/observability';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
+import { telemetry } from '@bitcode/observability';
 import { ProcurementEngine } from './core';
 import { NotificationService } from './notifications-production';
 import { ProcurementErrorHandler, withErrorHandling } from './error-handling';

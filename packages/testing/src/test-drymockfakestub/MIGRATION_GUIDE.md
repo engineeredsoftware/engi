@@ -9,14 +9,14 @@ The Test Intelligence system unifies all testing infrastructure (fixtures, mocks
 ### 1. Install the Package
 
 ```bash
-pnpm add @engi/test-intelligence
+pnpm add @bitcode/test-intelligence
 ```
 
 ### 2. Add Webpack Plugin
 
 ```javascript
 // webpack.config.js
-import { TestIntelligencePlugin } from '@engi/test-intelligence';
+import { TestIntelligencePlugin } from '@bitcode/test-intelligence';
 
 export default {
   plugins: [
@@ -31,7 +31,7 @@ export default {
 ### 3. Basic Usage
 
 ```typescript
-import { testIntelligence, ENTERPRISE_DELIVERABLE_SCENARIO } from '@engi/test-intelligence';
+import { testIntelligence, ENTERPRISE_DELIVERABLE_SCENARIO } from '@bitcode/test-intelligence';
 
 // Generate test data
 const data = testIntelligence.generate('enterprise-deliverable-with-conflicts');

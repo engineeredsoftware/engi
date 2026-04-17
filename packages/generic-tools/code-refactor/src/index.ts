@@ -6,7 +6,7 @@
  * maximum elegance, Steve Wozniak-level engineering excellence.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   renameSymbol,
   extractMethod,
@@ -18,7 +18,7 @@ import {
   type OrganizeImportsParams,
   type InlineVariableParams,
   type MoveSymbolParams,
-} from '@engi/refactoring';
+} from '@bitcode/refactoring';
 import {
   RENAME_SYMBOL_DOC_CODE_TOOL_PROMPT,
   EXTRACT_METHOD_DOC_CODE_TOOL_PROMPT,

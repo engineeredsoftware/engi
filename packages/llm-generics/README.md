@@ -23,7 +23,7 @@ That's it. Everything else is configuration and organization.
 ## Usage
 
 ```typescript
-import { LLMRegistry, factoryLLMRegistry } from '@engi/llm-generics';
+import { LLMRegistry, factoryLLMRegistry } from '@bitcode/llm-generics';
 
 // Create registry
 const registry = factoryLLMRegistry();

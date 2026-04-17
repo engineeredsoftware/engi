@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Emergent AI Agent Orchestration Platform: extractRequirements({ taskDescription: [research: "AGI-safety-papers/", vision: "autonomous-agent-ecosystem.md", constraints: "ethical-ai-frameworks/"], extractionDepth: "meta-cognitive", requirementTypes: ["emergent", "ethical", "safety", "scalability", "consciousness"], stakeholderPerspectives: ["humans", "agents", "society"], contextualFramework: "AGI-transition", implicitInferenceLevel: "transcendent" }) → Returns RequirementFramework with emergent behavior specifications, consciousness detection protocols, ethical constraint hierarchies, multi-agent coordination requirements, and meta-cognitive complexity patterns enabling task comprehension tool synergy for unprecedented AI system development' as PromptPart;

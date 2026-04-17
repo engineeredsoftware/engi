@@ -9,7 +9,7 @@ for file in $(find packages/pipelines/deliverable/src/agents/prompts -name "*.ts
     sed -i '' '/^import { $/d' "$file"
     sed -i '' "/^  promptpart_.*';$/d" "$file"
     
-    # Fix line 6 pattern - remove closing } from '@engi/prompts';
+    # Fix line 6 pattern - remove closing } from '@bitcode/prompts';
     sed -i '' "s/^  \(PROMPTPART_.*\) } from '@engi\/prompts';$/  \1 } from '@engi\/prompts\/src\/raw_promptparts\/specific\/\L\1\E';/" "$file"
     
     # Actually, let's just fix it more directly
@@ -22,7 +22,7 @@ for file in $(find packages/pipelines/deliverable/src/agents/prompts -name "*.ts
         if (RSTART > 0) {
           part = substr($0, RSTART, RLENGTH)
           lower_part = tolower(part)
-          print "import { " part " } from '\''@engi/prompts/src/raw_promptparts/specific/" lower_part "'\'';";
+          print "import { " part " } from '\''@bitcode/prompts/src/raw_promptparts/specific/" lower_part "'\'';";
         }
         next
       }
@@ -42,7 +42,7 @@ for dir in setup discovery; do
           if (RSTART > 0) {
             part = substr($0, RSTART, RLENGTH)
             lower_part = tolower(part)
-            print "import { " part " } from '\''@engi/prompts/src/raw_promptparts/specific/" lower_part "'\'';";
+            print "import { " part " } from '\''@bitcode/prompts/src/raw_promptparts/specific/" lower_part "'\'';";
           }
           next
         }

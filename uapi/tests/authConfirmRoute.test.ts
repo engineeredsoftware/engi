@@ -4,9 +4,9 @@ import '@/tests/setupTests';
 const mockRedirect = jest.fn();
 jest.mock('next/navigation', () => ({ redirect: (url: string) => mockRedirect(url) }));
 // Mock Supabase server client
-jest.mock('@engi/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 import { GET } from '@/app/auth/confirm/route';
 
 describe('GET /auth/confirm', () => {

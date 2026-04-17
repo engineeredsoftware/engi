@@ -1,5 +1,5 @@
 {
-  "name": "@engi/notifications",
+  "name": "@bitcode/notifications",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",

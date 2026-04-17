@@ -10,12 +10,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@engi/supabase/ssr/server';
-import { traceRoute } from '@engi/observability';
-import { log } from '@engi/logger';
-import { createAdminClient } from '@engi/orm';
-import { sendServerEvent } from '@engi/google-analytics';
-import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@engi/responses';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { traceRoute } from '@bitcode/observability';
+import { log } from '@bitcode/logger';
+import { createAdminClient } from '@bitcode/orm';
+import { sendServerEvent } from '@bitcode/google-analytics';
+import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
 import * as crypto from 'crypto';
 
 // Initialize ORM models (admin client for server routes)
@@ -24,7 +24,7 @@ const userProfiles = orm.userProfiles;
 const userCredits = orm.userCredits;
 const creditUsages = orm.userCreditUsages;
 const modelPreferences = orm.userModelPreferences;
-const apiKeys = new (require('@engi/orm').UserApiKeysModel as any)( (require('@engi/supabase').supabaseAdmin) );
+const apiKeys = new (require('@bitcode/orm').UserApiKeysModel as any)( (require('@bitcode/supabase').supabaseAdmin) );
 const notifications = orm.notifications;
 
 /**

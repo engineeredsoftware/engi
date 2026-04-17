@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYCONSTRAINTS_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Quantum-Classical Hybrid Computation Platform: identifyConstraints({ taskContext: "quantum-advantage-transition", analysisScope: "paradigm-bridging", constraintTypes: ["decoherence", "classical-interface", "quantum-error", "scalability", "algorithmic"], systemArchitecture: "quantum-classical-bridge/", resourceInventory: "quantum-hardware-specs.json", temporalFramework: "coherence-windows", regulatoryContext: "quantum-computing-standards", interdependencyDepth: "transcendent" }) → Returns ConstraintMatrix with decoherence time limits, classical-quantum interface bottlenecks, error correction overhead constraints, qubit scaling boundaries, algorithmic complexity barriers, emergent quantum effects limitations, and transcendent systemic constraint patterns enabling task comprehension tool synergy for next-generation computing architecture' as PromptPart;

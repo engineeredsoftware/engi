@@ -1,32 +1,32 @@
-import { Prompt } from '@engi/prompts';
-import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_IDENTITY } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_system_identity';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_ROLE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_system_role';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_INSTRUCTIONS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_system_instructions';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_STRATEGY } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_plan_strategy';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_ANALYSIS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_plan_analysis';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_TRY_DIRECTIVES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_try_directives';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_OPTIMIZATION } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_refine_optimization';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_ASSESSMENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_refine_assessment';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_STRATEGY } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_retry_strategy';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_ERRORHANDLING } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_retry_errorhandling';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_CONTEXT_AWARENESS_DETAILCONTENT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_context_awareness_detailcontent';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_PLAN_LABEL } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_plan_label';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_TRY_LABEL } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_try_label';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_REFINE_LABEL } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_refine_label';
-import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_RETRY_LABEL } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_retry_label';
-import { PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_objective';
-import { PROMPTPART_GENERIC_PTRR_REFINE_OBJECTIVE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_objective';
-import { PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_objective';
-import { PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_formatting_giventhefollowing';
-import { PROMPTPART_GENERIC_FORMATTING_BASEDONTHE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_formatting_basedonthe';
-import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_formatting_afterencountering';
+import { Prompt } from '@bitcode/prompts';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_IDENTITY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_system_identity';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_ROLE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_system_role';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_SYSTEM_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_system_instructions';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_STRATEGY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_plan_strategy';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PLAN_ANALYSIS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_plan_analysis';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_TRY_DIRECTIVES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_try_directives';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_OPTIMIZATION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_refine_optimization';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_REFINE_ASSESSMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_refine_assessment';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_STRATEGY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_retry_strategy';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_RETRY_ERRORHANDLING } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_retry_errorhandling';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_CONTEXT_AWARENESS_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_context_awareness_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_PLAN_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_plan_label';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_TRY_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_try_label';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_REFINE_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_refine_label';
+import { PROMPTPART_SPECIFIC_AGENT_COMPREHENDTASK_PHASE_RETRY_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_comprehendtask_phase_retry_label';
+import { PROMPTPART_GENERIC_PTRR_PLAN_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_plan_objective';
+import { PROMPTPART_GENERIC_PTRR_REFINE_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_refine_objective';
+import { PROMPTPART_GENERIC_PTRR_RETRY_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_retry_objective';
+import { PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_giventhefollowing';
+import { PROMPTPART_GENERIC_FORMATTING_BASEDONTHE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_basedonthe';
+import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_afterencountering';
 
 
 // Import actual PromptParts with canonical naming
@@ -42,11 +42,11 @@ import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@engi/prompts/r
 
 
 
-import { PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_objective';
+import { PROMPTPART_GENERIC_PTRR_TRY_OBJECTIVE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_try_objective';
 
 
 
-import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_formatting_executethe_following';
+import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_executethe_following';
 
 
 

@@ -8,7 +8,7 @@
  * 4. Finalize pipeline execution
  */
 
-import { createPhaseRunner, PhaseConfig } from '@engi/pipelines-generics';
+import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 
 /**
  * Create shipping sequence based on deliverable type

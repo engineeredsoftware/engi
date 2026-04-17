@@ -1,4 +1,4 @@
-# @engi/time
+# @bitcode/time
 
 Time utility functions for ENGI platform. Provides time range parsing, duration formatting, and human-readable time calculations.
 
@@ -13,7 +13,7 @@ Time utility functions for ENGI platform. Provides time range parsing, duration 
 ## Time Range Parsing
 
 ```typescript
-import { parseTimeRange, TIME } from '@engi/time';
+import { parseTimeRange, TIME } from '@bitcode/time';
 
 // Parse time range strings
 const oneYear = parseTimeRange('1y');     // 365 * 24 * 60 * 60 * 1000
@@ -29,7 +29,7 @@ const oneDay = TIME.DAY;                 // 24 * 60 * 60 * 1000
 ## Duration Formatting
 
 ```typescript
-import { formatDuration, getElapsedTime } from '@engi/time';
+import { formatDuration, getElapsedTime } from '@bitcode/time';
 
 // Format durations
 const duration = formatDuration(7890000); // "2h 11m 30s"
@@ -43,7 +43,7 @@ const formatted = formatDuration(elapsed);
 ## Human-Readable Times
 
 ```typescript
-import { timeAgo, timeUntil } from '@engi/time';
+import { timeAgo, timeUntil } from '@bitcode/time';
 
 // Relative time from now
 const created = timeAgo(new Date('2023-12-01')); // "2 months ago"

@@ -5,7 +5,7 @@
  * multi-provider search orchestration system.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // ---------------------------------------------------------------------------
 // Core Types

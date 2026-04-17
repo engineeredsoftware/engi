@@ -10,7 +10,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETCONTENTS_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Extract with custom headers: getContents({ url: "https://app.example.com/content", format: "html", options: { headers: { "Authorization": "Bearer token" }, timeout: 10000 } })' as PromptPart;

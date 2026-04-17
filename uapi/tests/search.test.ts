@@ -1,6 +1,6 @@
 import { searchRelevantAI Documents } from '../lib/search';
 import OpenAI from 'openai';
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 // Mock OpenAI embeddings
 jest.mock('openai', () => {
@@ -14,7 +14,7 @@ jest.mock('openai', () => {
 });
 
 // Mock Supabase RPC
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     rpc: jest.fn().mockResolvedValue({
       data: [

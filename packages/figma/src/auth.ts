@@ -1,4 +1,4 @@
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type { FigmaOAuthData, FigmaConnection, FigmaUser } from './types';
 
 export class FigmaAuth {

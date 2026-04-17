@@ -3,7 +3,7 @@
 
 import { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 import Logo from '@/components/base/engi/branding/logo';
 import { motion, AnimatePresence } from 'framer-motion';
 

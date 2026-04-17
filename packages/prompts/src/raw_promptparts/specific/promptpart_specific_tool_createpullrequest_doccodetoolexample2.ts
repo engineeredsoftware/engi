@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Enterprise hotfix with compliance: createPullRequest({ repository: "enterprise/core-platform", source_branch: "hotfix/critical-security-patch", target_branch: "main", title: "SECURITY: Patch CVE-2024-1234 vulnerability", template: "security-hotfix", draft: false, auto_merge: true, reviewers: ["security-incident-team", "platform-architects"], labels: ["hotfix", "security", "P0"], milestone: "Q1-Security-Sprint", linked_issues: ["SEC-567"], merge_strategy: "squash" }) → Creates high-priority PR with security template, automatic compliance checks, and expedited review workflow' as PromptPart;

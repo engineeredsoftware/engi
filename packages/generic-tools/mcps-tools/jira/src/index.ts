@@ -5,7 +5,7 @@
  * with proper Tool objects from the 'ai' package and sophisticated prompt primitives integration.
  * 
  * Key Features:
- * ✅ Proper Tool objects using Tool class from '@engi/tools-generics'
+ * ✅ Proper Tool objects using Tool class from '@bitcode/tools-generics'
  * ✅ Comprehensive parameter schemas with Zod validation
  * ✅ Production-grade error handling and authentication
  * ✅ Support for both OAuth and API token authentication
@@ -15,8 +15,8 @@
  */
 
 import { z } from 'zod';
-import { Tool } from '@engi/tools-generics';
-import { log } from '@engi/logger';
+import { Tool } from '@bitcode/tools-generics';
+import { log } from '@bitcode/logger';
 import {
   JiraConnections,
   JiraClient,
@@ -32,7 +32,7 @@ import {
   JiraAddWorklogSchema,
   JiraUpdateWorklogSchema,
   JiraBulkUpdateSchema,
-} from '@engi/jira';
+} from '@bitcode/jira';
 
 // ==================== AUTHENTICATION AND CLIENT HELPERS ====================
 

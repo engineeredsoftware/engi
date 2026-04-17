@@ -1,6 +1,6 @@
-# @engi/generic-llms
+# @bitcode/generic-llms
 
-LLM provider implementations that conform to the pure LLM interface from `@engi/llm-generics`.
+LLM provider implementations that conform to the pure LLM interface from `@bitcode/llm-generics`.
 
 ## What it provides
 
@@ -14,7 +14,7 @@ Concrete implementations for:
 ## Usage
 
 ```typescript
-import { createOpenAIProvider } from '@engi/generic-llms';
+import { createOpenAIProvider } from '@bitcode/generic-llms';
 
 const llm = createOpenAIProvider({
   apiKey: process.env.OPENAI_API_KEY,

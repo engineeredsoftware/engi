@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2: Extract complex calculation with multiple variables\nInput: { filePath: "/src/finance/calculations.ts", startLine: 45, endLine: 67, targetLocation: "before", preserveComments: true }\nOutput: Generated calculateMonthlyPayment method with parameters (principal: number, rate: number, term: number, fees: number[]) returning PaymentResult. Preserved 3 inline comments. Method placed before line 45.' as PromptPart;

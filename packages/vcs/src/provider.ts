@@ -15,7 +15,7 @@
 
 import { AbstractVCSProvider } from './interface';
 import { VCSProviderType, VCSError, VCSConfig } from './types';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // Simple retry and timeout utilities
 // TODO: Move to proper resilience package when available

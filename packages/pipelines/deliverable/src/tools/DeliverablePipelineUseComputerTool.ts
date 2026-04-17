@@ -7,9 +7,9 @@
  * or quick validations during agents like Implementation:Correct.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { useComputerTool, UseComputerInputSchema, UseComputerOutputSchema } from '@engi/generic-tools/use-computer/src/index';
+import { useComputerTool, UseComputerInputSchema, UseComputerOutputSchema } from '@bitcode/generic-tools/use-computer/src/index';
 
 // Reuse generic schemas
 

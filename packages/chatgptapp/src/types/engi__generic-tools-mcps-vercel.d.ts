@@ -1,4 +1,4 @@
-declare module '@engi/generic-tools-mcps-vercel' {
+declare module '@bitcode/generic-tools-mcps-vercel' {
   type ToolResult = Promise<Record<string, unknown>>;
 
   export const vercelListTeamsTool: { execute: () => ToolResult };

@@ -15,7 +15,7 @@
  * ------------------------------------------------------------------------------------------------- */
 
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import * as crypto from 'crypto';

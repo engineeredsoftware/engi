@@ -18,7 +18,7 @@ import {
   CreateMessageInput,
   MessageListOptions,
   MessageListResult
-} from '@engi/conversations-generics';
+} from '@bitcode/conversations-generics';
 
 export class MessagesModel extends BaseModel<'messages'> {
   constructor(supabase: SupabaseClient<Database>) {

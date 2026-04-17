@@ -1,4 +1,4 @@
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 import { NextResponse } from 'next/server';
 
 import { buildMockOrbitalData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';

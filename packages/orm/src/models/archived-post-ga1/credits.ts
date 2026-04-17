@@ -9,7 +9,7 @@
 
 import { BaseModel } from './base';
 import { Tables, Database } from '../types/database';
-import { logger } from '@engi/logger';
+import { logger } from '@bitcode/logger';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 export class UserCreditsModel extends BaseModel<'user_credits'> {

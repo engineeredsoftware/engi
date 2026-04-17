@@ -15,7 +15,7 @@ import {
   DocComment, 
   DocCommentMetadata,
   ParseLocation 
-} from '@engi/doc-comment';
+} from '@bitcode/doc-comment';
 
 export interface PromptDryRunScenario {
   scenario: string;
@@ -196,5 +196,5 @@ export const docPromptDryRunPlugin = new DocPromptDryRunPlugin();
 export type { PromptDryRunScenario, PromptDryRunMetadata };
 
 // Auto-register when imported
-import { registerPlugin } from '@engi/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment';
 registerPlugin(docPromptDryRunPlugin);

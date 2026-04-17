@@ -10,10 +10,10 @@ import dotenv from 'dotenv';
 // import { register as tsNodeRegister } from 'ts-node'; // Removed - causing build issues
 import { FILE_SUMMARIES_PROMPT, FILE_SUMMARIES_TYPE_SPECIFIC_INSTRUCTIONS } from '@/digest/prompts/file-summaries-prompts';
 let debugMode = false;
-import { estimateTokens, deductGenerationCredits, GenerationTokens } from '@engi/credits';
-import { createClient } from '@engi/supabase';
+import { estimateTokens, deductGenerationCredits, GenerationTokens } from '@bitcode/credits';
+import { createClient } from '@bitcode/supabase';
 import * as git from '@/lib/git/git';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { filterFilesByTask } from './filesFilters';
 
 // Pull model constants and LLM wrapper from new digest/llm package

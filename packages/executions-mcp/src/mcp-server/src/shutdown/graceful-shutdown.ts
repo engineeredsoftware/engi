@@ -5,9 +5,9 @@
  * in-flight request completion, and state persistence.
  */
 
-import { logger } from '@engi/logger';
-import { observability } from '@engi/observability';
-import { supabaseAdmin } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { observability } from '@bitcode/observability';
+import { supabaseAdmin } from '@bitcode/supabase';
 import type { EngiMCPServer } from '../server';
 import { streamManager } from '../streaming/pipeline-stream';
 import { productionMonitor } from '../monitoring/alerts';

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3: Extraction with dependency conflicts\nInput: { filePath: "/src/data/processor.ts", startLine: 78, endLine: 85, methodName: "processData" }\nOutput: Warning: Selected code contains unresolvable dependencies on local variables (tempCache, connectionPool). Suggest expanding selection to include variable declarations or refactor variable scope before extraction.' as PromptPart;

@@ -1,15 +1,15 @@
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
-import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
-import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
-import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
-import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
-import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
-import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLNAME } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolname';
-import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLPURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolpurpose';
-import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLCAPABILITIES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolcapabilities';
-import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLPARAMETERS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolparameters';
-import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLOUTPUT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetooloutput';
-import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLEXAMPLE1 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolexample1';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
+import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
+import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
+import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
+import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
+import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLEXAMPLE1 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_bitbucketmcp_doccodetoolexample1';
 /**
  * BITBUCKET MCP DOC-CODE-TOOL PROMPT
  * 
@@ -22,8 +22,8 @@ import { PROMPTPART_SPECIFIC_TOOL_BITBUCKETMCP_DOCCODETOOLEXAMPLE1 } from '@engi
  * This tool enables sophisticated collaborative development with AI-driven workflow optimization.
  */
 
-import { DocCodeToolPrompt } from '@engi/tools-generics';
-import { PromptPart } from '@engi/prompts';
+import { DocCodeToolPrompt } from '@bitcode/tools-generics';
+import { PromptPart } from '@bitcode/prompts';
 
 // Import generic labels from /raw_promptparts/generic/
 

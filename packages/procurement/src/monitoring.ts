@@ -5,9 +5,9 @@
  * for the procurement marketplace system.
  */
 
-import { log } from '@engi/logger';
-import { telemetry } from '@engi/observability';
-import { supabaseAdmin } from '@engi/supabase';
+import { log } from '@bitcode/logger';
+import { telemetry } from '@bitcode/observability';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 export interface MetricData {
   name: string;

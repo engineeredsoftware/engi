@@ -12,7 +12,7 @@
 import { describe, test, expect, jest } from '@jest/globals';
 import { openAIProvider } from '../../src/providers/openai';
 import { anthropicProvider } from '../../src/providers/anthropic';
-import { LLMInput, LLMConfig } from '@engi/llm-generics';
+import { LLMInput, LLMConfig } from '@bitcode/llm-generics';
 
 // Mock external APIs
 jest.mock('openai');

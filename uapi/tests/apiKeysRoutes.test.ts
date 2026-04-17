@@ -1,9 +1,9 @@
 import { GET, POST, DELETE } from '@/app/api/orbitals/api-keys/route';
-import { authenticateRequest } from '@engi/auth';
-import { supabaseAdmin } from '@engi/supabase';
+import { authenticateRequest } from '@bitcode/auth';
+import { supabaseAdmin } from '@bitcode/supabase';
 
-jest.mock('@engi/auth', () => ({ authenticateRequest: jest.fn() }));
-jest.mock('@engi/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+jest.mock('@bitcode/auth', () => ({ authenticateRequest: jest.fn() }));
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
 const mockAuth = authenticateRequest as jest.Mock;
 const mockFrom = (supabaseAdmin.from as unknown) as jest.Mock;
 

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_INLINEVARIABLE_DOCCODETOOLPARAMETERS: PromptPart = 
   'filePath (target file), position (variable position), validateReferences (safety check), preserveComments (comment handling)' as PromptPart;

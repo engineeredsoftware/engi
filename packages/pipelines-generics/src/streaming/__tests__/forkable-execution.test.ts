@@ -1,4 +1,4 @@
-import { Execution, ExecutionStreamAdapter } from '@engi/execution-generics';
+import { Execution, ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { enablePipelineStreaming } from '../../streaming/pipeline-stream-integration';
 
 // Minimal streamer mock – we don't need SSE, we only want DB persistence path

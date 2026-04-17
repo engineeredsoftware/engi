@@ -5,7 +5,7 @@
  * PhaseDelegator/PhaseDelegation - The Executor/Execution pair for phase delegation to agents
  */
 
-import { Executor, Execution } from '@engi/execution-generics';
+import { Executor, Execution } from '@bitcode/execution-generics';
 import { PipelineExecution as PipelineExecutionBase } from './PipelineExecution';
 
 // Re-export the new PipelineExecution

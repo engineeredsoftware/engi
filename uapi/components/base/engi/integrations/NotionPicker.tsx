@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 interface NotionWorkspace {
   id: string;

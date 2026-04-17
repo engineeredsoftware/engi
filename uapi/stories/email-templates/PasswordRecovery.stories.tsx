@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PasswordRecoveryEmail } from '@engi/email-templates';
+import { PasswordRecoveryEmail } from '@bitcode/email-templates';
 import { createEmailStory } from './_helpers';
 
 const meta: Meta<typeof PasswordRecoveryEmail> = {

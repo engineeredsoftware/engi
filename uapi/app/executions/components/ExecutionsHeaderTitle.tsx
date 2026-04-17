@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
 import '@/styles/smooth-typing.css';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 type ExecType = 'pipeline:deliverables';
 

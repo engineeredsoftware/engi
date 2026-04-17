@@ -9,7 +9,7 @@
  * Pattern: database-mirror
  */
 
-import { AttachmentReference } from '@engi/attachments-generics';
+import { AttachmentReference } from '@bitcode/attachments-generics';
 
 // ==================== ENUMS (matching CHECK constraints) ====================
 export type ConversationMessageRole = 'user' | 'assistant';

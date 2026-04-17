@@ -6,7 +6,7 @@
  */
 
 // Mock auth
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn().mockResolvedValue({
     auth: { getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'user-1', email: 'u@example.com', user_metadata: {} } }, error: null }) }
   })
@@ -15,7 +15,7 @@ jest.mock('@engi/supabase/ssr/server', () => ({
 // Mock ORM
 const pipelineExecutionsCreate = jest.fn().mockResolvedValue({ id: 'fixed-corr' });
 const pipelineExecutionsUpdate = jest.fn();
-jest.mock('@engi/orm', () => ({
+jest.mock('@bitcode/orm', () => ({
   createAdminClient: () => ({
     pipelineExecutions: { create: pipelineExecutionsCreate, update: pipelineExecutionsUpdate },
     notifications: { create: jest.fn() },
@@ -25,11 +25,11 @@ jest.mock('@engi/orm', () => ({
 }));
 
 // Mock dependencies
-jest.mock('@engi/models', () => ({ getModelPricing: () => ({ multiplier: 1 }), defaultModelPricing: { provider: 'openai', model: 'gpt-4o' } }));
-jest.mock('@engi/google-analytics', () => ({ sendServerEvent: jest.fn() }));
-jest.mock('@engi/email', () => ({ sendEmail: jest.fn() }));
-jest.mock('@engi/pipeline-deliverable', () => ({ deliverablePipeline: jest.fn().mockResolvedValue({}) }));
-jest.mock('@engi/credits', () => ({ withCreditReservation: (_: any, fn: any) => fn() }));
+jest.mock('@bitcode/models', () => ({ getModelPricing: () => ({ multiplier: 1 }), defaultModelPricing: { provider: 'openai', model: 'gpt-4o' } }));
+jest.mock('@bitcode/google-analytics', () => ({ sendServerEvent: jest.fn() }));
+jest.mock('@bitcode/email', () => ({ sendEmail: jest.fn() }));
+jest.mock('@bitcode/pipeline-deliverable', () => ({ deliverablePipeline: jest.fn().mockResolvedValue({}) }));
+jest.mock('@bitcode/credits', () => ({ withCreditReservation: (_: any, fn: any) => fn() }));
 
 describe('POST /api/executions persistence', () => {
   beforeEach(() => {

@@ -9,9 +9,9 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../types/database';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 // TODO: metrics not yet implemented in observability package
-// import { metrics } from '@engi/observability';
+// import { metrics } from '@bitcode/observability';
 
 export interface VectorSearchParams {
   query: string | number[];

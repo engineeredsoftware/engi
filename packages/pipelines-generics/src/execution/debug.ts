@@ -7,8 +7,8 @@
  */
 
 import type { PipelineExecution } from './PipelineExecution';
-import { log } from '@engi/logger';
-import type { Executor } from '@engi/execution-generics';
+import { log } from '@bitcode/logger';
+import type { Executor } from '@bitcode/execution-generics';
 
 /**
  * Check whether debug logging is enabled for this execution.

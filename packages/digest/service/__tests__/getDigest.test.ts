@@ -24,7 +24,7 @@ const agentDoc = `###### What is this document?
 # AGENTS' SEEKING QUESTIONS:
 - What unknowns remain?`;
 
-jest.mock('@engi/supabase', () => {
+jest.mock('@bitcode/supabase', () => {
   const selectMock = jest.fn().mockReturnThis();
   const matchMock = jest.fn().mockReturnThis();
   const maybeSingleMock = jest.fn(async () => ({ data: null, error: null }));
@@ -103,7 +103,7 @@ describe('getDigest', () => {
   });
 
   it('returns cached documents on subsequent calls', async () => {
-    const { supabaseAdmin } = require('@engi/supabase');
+    const { supabaseAdmin } = require('@bitcode/supabase');
     (supabaseAdmin.from as jest.Mock).mockReturnValueOnce({
       select: jest.fn().mockReturnThis() as jest.Mock,
       match: jest.fn().mockReturnThis() as jest.Mock,

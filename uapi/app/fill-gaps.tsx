@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import GridPattern from "@/components/base/engi/magicui/grid-pattern";
 import RevealingSoonOverlay from "@/components/base/engi/overlays/RevealingSoonOverlay";
 

@@ -110,7 +110,7 @@ Engi MCP operates at the **absolute frontier** of AI-powered engineering. As a '
   "mcpServers": {
     "engi-engineering": {
       "command": "npx",
-      "args": ["@engi/mcp-server"],
+      "args": ["@bitcode/mcp-server"],
       "env": {
         "ENGI_API_KEY": "your-api-key"
       }
@@ -130,7 +130,7 @@ code --command "engi.configure"
 
 #### **API Integration**
 ```javascript
-import { EngiMCPClient } from '@engi/mcp-client';
+import { EngiMCPClient } from '@bitcode/mcp-client';
 
 const client = new EngiMCPClient({
   apiKey: process.env.ENGI_API_KEY,

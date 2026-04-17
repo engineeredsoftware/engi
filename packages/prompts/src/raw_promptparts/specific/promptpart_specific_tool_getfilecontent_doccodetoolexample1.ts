@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GETFILECONTENT_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Intelligent code analysis: getFileContent({ file_path: "src/services/payment-processor.ts", content_format: "semantic", semantic_understanding: true, analysis_scope: "with_context" }) → Returns TypeScript content with AI-powered analysis revealing 3 potential security vulnerabilities, 2 performance optimization opportunities, and architectural recommendations for improved testability, along with dependency analysis showing integration patterns with 7 other microservices' as PromptPart;

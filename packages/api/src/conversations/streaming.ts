@@ -12,8 +12,8 @@
  * - Memory-efficient token buffering
  */
 
-import { log } from '@engi/logger';
-import type { Execution } from '@engi/execution-generics';
+import { log } from '@bitcode/logger';
+import type { Execution } from '@bitcode/execution-generics';
 
 /**
  * Stream event types for conversation streaming

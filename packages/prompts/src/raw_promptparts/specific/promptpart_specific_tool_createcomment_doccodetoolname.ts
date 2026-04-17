@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 export const PROMPTPART_SPECIFIC_TOOL_CREATECOMMENT_DOCCODETOOLNAME: PromptPart =
   'Create Comment Tool' as PromptPart;

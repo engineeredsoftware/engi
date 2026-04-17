@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { AnimatedBeam } from "@/components/base/engi/magicui/animated-beam";
 import React, { forwardRef, useRef } from "react";
 import { NotionLogoIcon, FigmaLogoIcon, GitHubLogoIcon, CommitIcon, ChatBubbleIcon } from "@radix-ui/react-icons";

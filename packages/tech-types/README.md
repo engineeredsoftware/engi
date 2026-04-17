@@ -1,4 +1,4 @@
-# @engi/tech-types
+# @bitcode/tech-types
 
 Technology and stack type definitions for ENGI platform. Provides comprehensive technology identification, framework classification, and version management.
 
@@ -11,7 +11,7 @@ Technology and stack type definitions for ENGI platform. Provides comprehensive 
 ## Technology Categories
 
 ```typescript
-import { TechType, Framework, Language, Database } from '@engi/tech-types';
+import { TechType, Framework, Language, Database } from '@bitcode/tech-types';
 
 // Technology identification
 const techStack: TechType[] = [
@@ -31,7 +31,7 @@ const database: Database = 'postgresql';
 ## Unique Technology Identifiers
 
 ```typescript
-import { UniqueTech, getTechVersion } from '@engi/tech-types';
+import { UniqueTech, getTechVersion } from '@bitcode/tech-types';
 
 // Versioned technology identification
 const tech: UniqueTech = {

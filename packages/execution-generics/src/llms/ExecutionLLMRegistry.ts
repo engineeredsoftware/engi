@@ -5,8 +5,8 @@
  * LLMs can be configured at any execution level and resolved upward.
  */
 
-import { RegistryImpl } from '@engi/registry';
-import { LLM, LLMConfig, LLMInput, LLMOutput, LLMRegistry } from '@engi/llm-generics';
+import { RegistryImpl } from '@bitcode/registry';
+import { LLM, LLMConfig, LLMInput, LLMOutput, LLMRegistry } from '@bitcode/llm-generics';
 import { Execution } from '../Execution';
 
 /**

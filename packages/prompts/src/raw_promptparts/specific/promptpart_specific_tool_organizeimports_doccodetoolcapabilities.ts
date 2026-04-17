@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ORGANIZEIMPORTS_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Import sorting, unused import detection, duplicate removal, formatting standardization, and dependency optimization' as PromptPart;

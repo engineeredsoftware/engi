@@ -49,7 +49,7 @@ export type { PromptFormatter } from './prompt';
  * USAGE GUIDELINES:
  * 
  * 1. For raw prompts, import directly:
- *    import { PROMPT_NAME } from '@engi/prompts';
+ *    import { PROMPT_NAME } from '@bitcode/prompts';
  * 
  * 2. For prompt composition:
  *    const prompt = new Prompt();
@@ -149,5 +149,5 @@ export { PROMPTPART_SPECIFIC_AGENT_DELIVERABLESETUPCOMPREHENDTASK_PLAN_MODALITY_
 
 // Hoist all PromptParts to root for monorepo consumers
 // Raw promptparts re-exports removed. Import PromptParts via deep paths:
-//   @engi/prompts/raw_promptparts/generic/<file>
-//   @engi/prompts/raw_promptparts/specific/<file>
+//   @bitcode/prompts/raw_promptparts/generic/<file>
+//   @bitcode/prompts/raw_promptparts/specific/<file>

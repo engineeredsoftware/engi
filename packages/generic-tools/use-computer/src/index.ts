@@ -2,7 +2,7 @@
  * GENERIC TOOL: use-computer
  * Execute shell commands with timeout and capture stdio.
  */
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { USE_COMPUTER_DOC_CODE_TOOL_PROMPT } from './prompts/UseComputerDocCodeToolPrompt';
 import { z } from 'zod';
 import { spawn } from 'child_process';

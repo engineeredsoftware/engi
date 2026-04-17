@@ -5,10 +5,10 @@
  * supporting GitHub, GitLab, and Bitbucket with consistent interfaces.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { VCSProviderFactory, VCSConnections } from '@engi/vcs';
-import { createClient as createSupabaseServerClient } from '@engi/supabase/ssr/server';
+import { VCSProviderFactory, VCSConnections } from '@bitcode/vcs';
+import { createClient as createSupabaseServerClient } from '@bitcode/supabase/ssr/server';
 // Utility functions for retry and timeout logic
 const withTimeout = async <T>(fn: () => Promise<T>, timeoutMs: number): Promise<T> => {
   return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ import {
   LIST_BRANCHES_DOC_CODE_TOOL_PROMPT,
   GET_FILE_CONTENT_DOC_CODE_TOOL_PROMPT
 } from './prompts';
-import { executionContext } from '@engi/generic-tools/files-maintaining';
+import { executionContext } from '@bitcode/generic-tools/files-maintaining';
 
 /**
  * Base schema for VCS operations
@@ -94,7 +94,7 @@ class ListRepositoriesTool extends Tool<any> {
           execution.get?.('gate', 'current') ||
           execution.get?.('meta', 'phase') ||
           'Develop';
-        const { validateFileOperation } = await import('@engi/pipelines-generics/src/gate-system/file-gates');
+        const { validateFileOperation } = await import('@bitcode/pipelines-generics/src/gate-system/file-gates');
         const validation = validateFileOperation('write', input.path, metaPhase as any);
         if (!validation.allowed) {
           try {

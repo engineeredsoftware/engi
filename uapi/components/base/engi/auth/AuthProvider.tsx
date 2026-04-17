@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { createClient } from "@engi/supabase/ssr/client";
+import { createClient } from "@bitcode/supabase/ssr/client";
 
 import type { User } from "@supabase/supabase-js";
 

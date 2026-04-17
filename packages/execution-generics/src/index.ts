@@ -176,7 +176,7 @@ export {
  * Quick Start:
  * 
  * ```typescript
- * import { Execution, sequential, parallel, conditional } from '@engi/execution-generics';
+ * import { Execution, sequential, parallel, conditional } from '@bitcode/execution-generics';
  * 
  * // Compose executors (these are all just functions)
  * const pipeline = sequential(

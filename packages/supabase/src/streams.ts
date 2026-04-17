@@ -1,6 +1,6 @@
 
 import { DataStream } from 'ai';
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 /**
  * SupabaseStream is a thin adapter that fulfils the `DataStream` interface

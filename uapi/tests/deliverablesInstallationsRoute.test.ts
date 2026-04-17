@@ -1,25 +1,25 @@
 import { GET } from '@/app/api/executions/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({ createClient: jest.fn() }));
-jest.mock('@engi/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
-jest.mock('@engi/git/git', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
+jest.mock('@bitcode/git/git', () => ({
   createGitHubJWT: jest.fn(() => 'dummy-jwt'),
   getInstallationAccounts: jest.fn(),
 }));
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
-jest.mock('@engi/responses', () => ({
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/responses', () => ({
   createJsonResponse: (data: any, status: number = 200) => new Response(JSON.stringify(data), { status }),
   createErrorResponse: jest.fn(),
   createAuthErrorResponse: jest.fn(() => new Response('', { status: 401 })),
 }));
-jest.mock('@engi/context', () => ({ initializeContext: jest.fn() }));
-jest.mock('@engi/engine/pipeline', () => ({ runSDIVSPipeline: jest.fn() }));
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn() }));
-jest.mock('@engi/pipeline-ai_document/src/tools/vectorize', () => ({ searchRelevantAI Documents: jest.fn() }));
+jest.mock('@bitcode/context', () => ({ initializeContext: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline', () => ({ runSDIVSPipeline: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
+jest.mock('@bitcode/pipeline-ai_document/src/tools/vectorize', () => ({ searchRelevantAI Documents: jest.fn() }));
 
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
-import { getInstallationAccounts } from '@engi/git/git';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { getInstallationAccounts } from '@bitcode/git/git';
 
 describe('GET /api/executions?action=installations', () => {
   const mockUser = { id: 'user-1' };

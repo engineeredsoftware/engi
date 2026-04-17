@@ -71,7 +71,7 @@ import {
   runEditCommand,
   TransactionalFileEditor,
   EditError
-} from '@engi/editing';
+} from '@bitcode/editing';
 ```
 
 ### Error Handling
@@ -84,7 +84,7 @@ import {
 
 ### Atomic File Creation
 ```typescript
-import { createFileTool } from '@engi/generic-tools-editing';
+import { createFileTool } from '@bitcode/generic-tools-editing';
 
 const result = await createFileTool.use({
   operation: 'create',
@@ -100,7 +100,7 @@ import {
   beginTransactionTool,
   textEditorTool,
   commitTransactionTool 
-} from '@engi/generic-tools-editing';
+} from '@bitcode/generic-tools-editing';
 
 // Start transaction
 const transaction = await beginTransactionTool.use({
@@ -130,7 +130,7 @@ await commitTransactionTool.use({
 
 ### Atomic File Replacement
 ```typescript
-import { replaceFileTool } from '@engi/generic-tools-editing';
+import { replaceFileTool } from '@bitcode/generic-tools-editing';
 
 const result = await replaceFileTool.use({
   operation: 'replace',

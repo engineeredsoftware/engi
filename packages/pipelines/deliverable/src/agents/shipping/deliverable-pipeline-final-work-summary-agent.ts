@@ -1,5 +1,5 @@
-import { factoryAgentWithSingleStep } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // Header-expected shapes (aligned to DeliverablesPageHeader complete mode)

@@ -4,7 +4,7 @@ import 'openai/shims/node';
 import Exa from 'exa-js';
 import OpenAI from 'openai';
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // Configurable match counts for Exa search results – callers can override via options.
 

@@ -4,10 +4,10 @@
  * Git repository semantic search and analysis tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   gitRepoSemanticSearchTool as _gitRepoSemanticSearch,
-} from '@engi/git-repo-research';
+} from '@bitcode/git-repo-research';
 
 // Import DocCodeToolPrompt
 import { GIT_REPO_RESEARCH_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/GitRepoResearchMCPDocCodeToolPrompt';

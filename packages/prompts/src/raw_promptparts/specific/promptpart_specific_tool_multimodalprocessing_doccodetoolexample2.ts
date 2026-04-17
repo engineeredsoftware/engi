@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Audio Transcription: multimodalProcessingTool({ content: "meeting-recording.mp3", processingType: "extraction", modalities: ["audio", "text"], options: { includeTimestamps: true, speakerDetection: true } }) → Returns transcribed text with speaker labels and timestamps' as PromptPart;

@@ -119,7 +119,7 @@ import {
   dockerListContainersTool,
   dockerCreateContainerTool,
   dockerBuildImageTool
-} from '@engi/mcps-tools/docker';
+} from '@bitcode/mcps-tools/docker';
 
 // MCP server integration
 const dockerTools = [

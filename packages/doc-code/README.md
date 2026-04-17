@@ -1,4 +1,4 @@
-# @engi/doc-code
+# @bitcode/doc-code
 
 Runtime prompt injection system - automatically attaches prompt instances to classes based on @doc-code-* comment patterns.
 
@@ -81,7 +81,7 @@ export abstract class Tool<T extends ToolFunction = ToolFunction> {
 ## Usage with formatUsableTools
 
 ```typescript
-import { formatUsableTools } from '@engi/tools-generics';
+import { formatUsableTools } from '@bitcode/tools-generics';
 
 const tools = [searchTool, getContentsTool];
 const documentation = formatUsableTools(tools);

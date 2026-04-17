@@ -1,5 +1,5 @@
 {
-  "name": "@engi/bitbucket",
+  "name": "@bitcode/bitbucket",
   "version": "1.0.0",
   "description": "Bitbucket provider implementation, OAuth, and MCP tools",
   "main": "dist/index.js",
@@ -12,9 +12,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/vcs": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/supabase": "workspace:*"
+    "@bitcode/vcs": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/supabase": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",

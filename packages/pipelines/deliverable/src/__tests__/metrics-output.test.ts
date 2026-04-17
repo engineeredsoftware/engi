@@ -1,7 +1,7 @@
 // @ts-nocheck
 import deliverablePipeline from '../index';
-import { Execution } from '@engi/execution-generics';
-import { enablePipelineStreaming } from '@engi/pipelines-generics';
+import { Execution } from '@bitcode/execution-generics';
+import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 
 // Mock setup agents to ensure deterministic, fast dry-run
 jest.mock('../agents/setup/deliverable-pipeline-clone-vcs-repository-agent', () => ({ __esModule: true, default: jest.fn().mockResolvedValue({ success: true, repository: { owner: 'acme', name: 'repo', ref: 'main' } }) }));

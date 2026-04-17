@@ -1,4 +1,4 @@
-# @engi/tools-generics
+# @bitcode/tools-generics
 
 The foundational tool primitives for Engi. This package provides the `Tool` class and related infrastructure for building type-safe, doc-aware tools.
 
@@ -28,7 +28,7 @@ export abstract class Tool<T extends ToolFunction = ToolFunction> {
 ### Creating a Tool
 
 ```typescript
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
 
 // Define the tool function
@@ -67,7 +67,7 @@ The doc-code-tool plugin processes these comments at build time to generate tool
 The package provides MCP (Model Context Protocol) wrappers for external tools:
 
 ```typescript
-import { wrapMCPTool } from '@engi/tools-generics';
+import { wrapMCPTool } from '@bitcode/tools-generics';
 
 const mcpTool = wrapMCPTool({
   name: 'github-create-pr',

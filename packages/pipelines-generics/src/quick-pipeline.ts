@@ -6,7 +6,7 @@
  * Phase is SDIVS-specific; QuickPipeline has no phases.
  */
 
-import type { Executor } from '@engi/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
 import type { Pipeline } from './pipeline-factory';
 import { factoryPipelineExecution } from './execution/pipeline-types';
 

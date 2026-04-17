@@ -5,8 +5,8 @@
  * Tools can be registered at any execution level and resolved upward.
  */
 
-import { RegistryImpl } from '@engi/registry';
-import { Tool, ToolFunction } from '@engi/tools-generics';
+import { RegistryImpl } from '@bitcode/registry';
+import { Tool, ToolFunction } from '@bitcode/tools-generics';
 import { Execution } from '../Execution';
 
 /**

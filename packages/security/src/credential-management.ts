@@ -5,7 +5,7 @@
  * expiration monitoring, and security policy enforcement.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { 
   encryptCredential, 
   decryptCredential, 

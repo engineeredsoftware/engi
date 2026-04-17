@@ -9,7 +9,7 @@ General Rules
 - Explicit imports only; no re‑exports (no index barrels)
 - No app code imports from `uapi/components/ui/apps/www/registry/*` (they are fixtures)
 - Tokenized classes; avoid hard‑coded RGBA/hex for brand colors
-- Use `cn` from `@engi/styling`
+- Use `cn` from `@bitcode/styling`
 
 ## Provider Checklist (for adding a new vendor family or component)
 
@@ -21,7 +21,7 @@ When adding a new component to an existing provider (e.g., `shadcn`):
 
 2) Implementation
 - Self‑contained file; do not re‑export from an `index.ts`.
-- Import `cn` from `@engi/styling` and apply classes (Tailwind + tokens).
+- Import `cn` from `@bitcode/styling` and apply classes (Tailwind + tokens).
 - Avoid hex/rgba brand colors; use Tailwind tokens.
 - Keep API compatible with upstream where reasonable, but prefer Engi naming precision.
 

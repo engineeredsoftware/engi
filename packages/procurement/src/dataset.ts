@@ -5,8 +5,8 @@
  * and manages the global dataset for efficient searching.
  */
 
-import { log } from '@engi/logger';
-import { supabaseAdmin } from '@engi/supabase';
+import { log } from '@bitcode/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { generateSolutionEmbedding } from './vectorize';
 import type { 
   RepositoryOptIn, 

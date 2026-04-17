@@ -1,11 +1,11 @@
 {
-  "name": "@engi/generic-tools-mcps-postgresql",
+  "name": "@bitcode/generic-tools-mcps-postgresql",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@engi/postgresql": "workspace:*",
-    "@engi/tools-generics": "workspace:*"
+    "@bitcode/postgresql": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*"
   }
 }

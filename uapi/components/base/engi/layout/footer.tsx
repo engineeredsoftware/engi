@@ -12,7 +12,7 @@ import Image from 'next/image';
 // import AudioPlayer from './AudioPlayer';
 import { FEATURE_FLAGS } from '@/config/features';
 import { useEffect, useState, useMemo } from 'react';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
 
 const APPLICATION_URL = '/application';

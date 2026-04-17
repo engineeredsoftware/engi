@@ -84,17 +84,17 @@ The middleware system uses a composable pipeline architecture:
 
 ### Database Access
 ```typescript
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 ```
 
 ### Logging
 ```typescript
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 ```
 
 ### Types
 ```typescript
-import type { Database } from '@engi/database-types';
+import type { Database } from '@bitcode/database-types';
 ```
 
 ## Production Readiness

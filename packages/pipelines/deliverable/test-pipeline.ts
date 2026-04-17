@@ -4,7 +4,7 @@
  */
 
 import { deliverablePipeline } from './src/index';
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 async function testPipeline() {
   console.log('🚀 Testing deliverables pipeline E2E...\n');

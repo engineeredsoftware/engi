@@ -6,7 +6,7 @@ This package provides complete Figma design extraction and analysis integration 
 
 The Figma integration consists of three layers:
 
-### 1. Core Package (`@engi/figma`)
+### 1. Core Package (`@bitcode/figma`)
 - **Location**: `packages/figma/`
 - **Purpose**: Low-level Figma API client with authentication, rate limiting, and image extraction
 - **Key Functions**:
@@ -16,12 +16,12 @@ The Figma integration consists of three layers:
   - `figmaFindArtboardByName()` - Search for specific artboards
   - `figmaGetFile()` - Get complete file structure
 
-### 2. MCP Tools (`@engi/figma-tools`)
+### 2. MCP Tools (`@bitcode/figma-tools`)
 - **Location**: `packages/generic-tools/mcps-tools/figma/`
 - **Purpose**: Tool wrappers that expose Figma functions to AI agents
 - **Pattern**: Follows same structure as AWS MCP tools (`tool()` + type exports)
 
-### 3. Generic Agent (`@engi/figma-processor-agent`)
+### 3. Generic Agent (`@bitcode/figma-processor-agent`)
 - **Location**: `packages/generic-agents/figma-processor/`
 - **Purpose**: PTRR-based agent that orchestrates Figma extraction workflow
 - **Uses**: Modern `promptFn` + `tools` pattern with automatic tool execution

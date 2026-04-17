@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Provider-agnostic cloning (GitHub, GitLab, Bitbucket), intelligent cache management for repeated clones, authentication handling via connection IDs, branch and commit-specific cloning, shallow clone support for performance, submodule initialization, progress tracking and cancellation, automatic retry with exponential backoff' as PromptPart;

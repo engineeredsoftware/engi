@@ -1,4 +1,4 @@
-# @engi/doc-comment-developing
+# @bitcode/doc-comment-developing
 
 Development-time doc-comment plugins for testing and profiling. This package contains utility plugins for development workflows.
 
@@ -37,7 +37,7 @@ Profiling markers for performance analysis:
 ## Important Note
 
 The prompt-specific developing plugins (@doc-comment-developing-promptpartdevelopment and @doc-comment-developing-promptdevelopment) are located in:
-`@engi/prompts/src/developing/doc-comment-developing.ts`
+`@bitcode/prompts/src/developing/doc-comment-developing.ts`
 
 ## Usage
 
@@ -46,7 +46,7 @@ import {
   docDryRunPlugin,
   docBenchmarkPlugin,
   docProfilePlugin 
-} from '@engi/doc-comment-developing';
+} from '@bitcode/doc-comment-developing';
 ```
 
 ## When to Use

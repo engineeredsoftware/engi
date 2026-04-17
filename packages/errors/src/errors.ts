@@ -1,12 +1,12 @@
 /*
- * @engi/errors
+ * @bitcode/errors
  * ---------------------------------------------------------------------------
  * Canonical error primitives & helpers used across Engi codebases.  Provides a
  * single place to evolve error semantics (status codes, Sentry tagging, user
  * messages, etc.) without having to refactor dozens of call sites.
  */
 
-import { captureException } from '@engi/sentry';
+import { captureException } from '@bitcode/sentry';
 
 export interface EngiErrorOptions {
   /**

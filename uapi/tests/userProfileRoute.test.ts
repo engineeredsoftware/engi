@@ -1,9 +1,9 @@
 import { GET } from '@/app/api/orbitals/profile/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     from: jest.fn().mockReturnThis(),
     select: jest.fn().mockReturnThis(),
@@ -12,8 +12,8 @@ jest.mock('@engi/supabase', () => ({
   },
 }));
 
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { POST } from '@/app/api/orbitals/profile/route';
 
 describe('GET /api/orbitals/profile', () => {

@@ -12,16 +12,16 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for Figma processing
-import { figmaApiTool } from '@engi/generic-tools/figma-api';
-import { designParserTool } from '@engi/generic-tools/design-parser';
-import { codeGeneratorTool } from '@engi/generic-tools/code-generator';
+import { figmaApiTool } from '@bitcode/generic-tools/figma-api';
+import { designParserTool } from '@bitcode/generic-tools/design-parser';
+import { codeGeneratorTool } from '@bitcode/generic-tools/code-generator';
 
 // ==================== INPUT SCHEMA ====================
 const FigmaProcessorInputSchema = z.object({

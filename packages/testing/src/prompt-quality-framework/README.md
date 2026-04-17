@@ -20,7 +20,7 @@ The Engi Prompt Quality Framework provides:
 ### Basic Usage
 
 ```typescript
-import { PromptQualityEngine, AgentPromptTestSuite, ValidationRuleFactory } from '@engi/prompt-quality-framework';
+import { PromptQualityEngine, AgentPromptTestSuite, ValidationRuleFactory } from '@bitcode/prompt-quality-framework';
 
 // Initialize quality engine
 const qualityEngine = new PromptQualityEngine({
@@ -47,7 +47,7 @@ console.log(`Tests: ${summary.totalTests}, Passed: ${summary.passedTests}, Quali
 ### Pipeline Testing
 
 ```typescript
-import { PipelineTestOrchestrator } from '@engi/prompt-quality-framework';
+import { PipelineTestOrchestrator } from '@bitcode/prompt-quality-framework';
 
 // Configure pipeline testing
 const orchestrator = new PipelineTestOrchestrator({
@@ -79,7 +79,7 @@ const pipelineResult = await orchestrator.executePipelineTests(promptGenerators,
 ### Performance Benchmarking
 
 ```typescript
-import { PerformanceBenchmark } from '@engi/prompt-quality-framework';
+import { PerformanceBenchmark } from '@bitcode/prompt-quality-framework';
 
 // Configure performance benchmarking
 const benchmark = new PerformanceBenchmark({
@@ -110,7 +110,7 @@ console.log(`Token Efficiency: ${benchmarkResult.statistics.tokenAnalysis.effici
 ### Regression Testing
 
 ```typescript
-import { RegressionTestFramework } from '@engi/prompt-quality-framework';
+import { RegressionTestFramework } from '@bitcode/prompt-quality-framework';
 
 // Configure regression detection
 const regressionFramework = new RegressionTestFramework({

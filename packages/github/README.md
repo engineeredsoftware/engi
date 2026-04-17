@@ -54,7 +54,7 @@ Production-grade GitHub integration implementing the unified VCS abstraction lay
 
 ### Provider Initialization
 ```typescript
-import { GitHubProvider } from '@engi/github';
+import { GitHubProvider } from '@bitcode/github';
 
 // OAuth configuration
 const provider = new GitHubProvider({

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useId, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import LogoIcon from '@/components/base/engi/icons/LogoIcon';
 
 export interface IterationSliderProps {

@@ -12,17 +12,17 @@ ruleTester.run('no-write-tools-outside-conquer', noWriteToolsOutsideConquer, {
   valid: [
     {
       filename: DELIVERABLE_CONQUER,
-      code: "import { textEditorTool } from '@engi/generic-tools-files-maintaining';",
+      code: "import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';",
     },
     {
       filename: 'packages/pipelines/deliverable/src/agents/implementationDeliverablesAgentDivideByFile/foo.ts',
-      code: "import { definitionTool } from '@engi/generic-tools-lsp-query';",
+      code: "import { definitionTool } from '@bitcode/generic-tools-lsp-query';",
     },
   ],
   invalid: [
     {
       filename: 'packages/other-agent/foo.ts',
-      code: "import { textEditorTool, renameSymbolTool } from '@engi/generic-tools-files-maintaining';",
+      code: "import { textEditorTool, renameSymbolTool } from '@bitcode/generic-tools-files-maintaining';",
       errors: [
         {
           messageId: 'forbidden',

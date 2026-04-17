@@ -2,18 +2,18 @@
 import '@/tests/setupTests';
 
 // Mock dependencies
-jest.mock('@engi/logger', () => ({ log: jest.fn() }));
-jest.mock('@engi/context', () => ({ getGlobalContext: jest.fn() }));
-jest.mock('@engi/engine/pipeline/pipelineDiscoveryPhaseWrapper', () => ({ executeDiscoveryPhase: jest.fn() }));
-jest.mock('@engi/engine/pipeline/pipelineImplementationPhaseWrapper', () => ({ executeImplementationPhase: jest.fn() }));
-jest.mock('@engi/engine/pipeline/pipelineValidationPhaseWrapper', () => ({ executeValidationPhase: jest.fn(), handleValidationFailure: jest.fn() }));
+jest.mock('@bitcode/logger', () => ({ log: jest.fn() }));
+jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline/pipelineDiscoveryPhaseWrapper', () => ({ executeDiscoveryPhase: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline/pipelineImplementationPhaseWrapper', () => ({ executeImplementationPhase: jest.fn() }));
+jest.mock('@bitcode/engine/pipeline/pipelineValidationPhaseWrapper', () => ({ executeValidationPhase: jest.fn(), handleValidationFailure: jest.fn() }));
 
-import { getGlobalContext } from '@engi/context';
-import { executeDiscoveryPhase } from '@engi/engine/pipeline/pipelineDiscoveryPhaseWrapper';
-import { executeImplementationPhase } from '@engi/engine/pipeline/pipelineImplementationPhaseWrapper';
-import { executeValidationPhase, handleValidationFailure } from '@engi/engine/pipeline/pipelineValidationPhaseWrapper';
-import { executeIteration, canRecoverIteration } from '@engi/pipeline-engine-generics/iterations';
-import type { PipelineMetrics, PipelineState } from '@engi/engine/types';
+import { getGlobalContext } from '@bitcode/context';
+import { executeDiscoveryPhase } from '@bitcode/engine/pipeline/pipelineDiscoveryPhaseWrapper';
+import { executeImplementationPhase } from '@bitcode/engine/pipeline/pipelineImplementationPhaseWrapper';
+import { executeValidationPhase, handleValidationFailure } from '@bitcode/engine/pipeline/pipelineValidationPhaseWrapper';
+import { executeIteration, canRecoverIteration } from '@bitcode/pipeline-engine-generics/iterations';
+import type { PipelineMetrics, PipelineState } from '@bitcode/engine/types';
 
 describe('executeIteration', () => {
   const fakeCtx: any = { startNewIteration: jest.fn(), execution: { phases: { iterations: [] } } };

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLOUTPUT: PromptPart = 
   'Success status with cloned repository path, provider information, repository metadata (owner, name, ref, commit, size), cache information (hit status, age, refresh), timing data (clone, submodules, total duration), and detailed error information with retry suggestions if operation fails' as PromptPart;

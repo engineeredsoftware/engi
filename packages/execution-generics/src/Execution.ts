@@ -33,7 +33,7 @@ import { ExecutionStreamAdapter } from './storage/ExecutionStreamAdapter';
  * No registries - those belong at higher layers (PromptExecution, PipelineExecution).
  *
  * See also: store registry for canonical namespaces and typed helpers
- * `@engi/execution-generics/src/store/registry.ts`.
+ * `@bitcode/execution-generics/src/store/registry.ts`.
  * 
  * Used by:
  * - Agents: Store plans, results, refinements

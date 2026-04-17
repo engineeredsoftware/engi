@@ -3,22 +3,22 @@
  * Ensures all phases execute with default dry-run responses.
  */
 // Mock pipeline phase wrappers to isolate runSDIVSPipeline
-jest.mock('@engi/engine/pipeline/pipelineSetupPhaseWrapper', () => ({
+jest.mock('@bitcode/engine/pipeline/pipelineSetupPhaseWrapper', () => ({
   executeSetupPhase: jest.fn(() => Promise.resolve({ success: true }))
 }));
-jest.mock('@engi/engine/pipeline/iterationHandler', () => ({
+jest.mock('@bitcode/engine/pipeline/iterationHandler', () => ({
   executeIteration: jest.fn(() => Promise.resolve({ success: true, validationPassed: true })),
   canRecoverIteration: jest.fn(() => ({ canRecover: true }))
 }));
-jest.mock('@engi/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
+jest.mock('@bitcode/engine/pipeline/pipelineShippingPhaseWrapper', () => ({
   executeShippingPhase: jest.fn(() => Promise.resolve({ enhancedResult: { success: true } })),
   handleShippingFailure: jest.fn()
 }));
-import { configureDryRun } from '@engi/dryrun';
-import { runSDIVSPipeline } from '@engi/engine/pipeline/pipelineSDIVS';
+import { configureDryRun } from '@bitcode/dryrun';
+import { runSDIVSPipeline } from '@bitcode/engine/pipeline/pipelineSDIVS';
 
 // Mock global context to provide minimal data for pipeline
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: jest.fn(() => ({
     dataStream: { writeData: jest.fn(), close: jest.fn() },
     abortSignal: {},

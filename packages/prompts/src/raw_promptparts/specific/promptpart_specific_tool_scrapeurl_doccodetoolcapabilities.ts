@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_SCRAPEURL_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Advanced content extraction with markdown/HTML/screenshot formats, OpenGraph and metadata extraction, tag-based filtering for targeted content, main content isolation removing boilerplate, custom headers for authentication, configurable timeouts and wait times, link extraction, and intelligent content cleaning' as PromptPart;

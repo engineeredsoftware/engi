@@ -573,7 +573,7 @@ export const generateSuccessCriteriaTool = tool({
 ### Basic Task Analysis
 
 ```typescript
-import { analyzeTaskSemanticsTool, extractRequirementsTool } from '@engi/task-comprehension';
+import { analyzeTaskSemanticsTool, extractRequirementsTool } from '@bitcode/task-comprehension';
 
 // Analyze task semantics
 const semanticAnalysis = await analyzeTaskSemanticsTool({
@@ -608,7 +608,7 @@ import {
   identifyConstraintsTool,
   generateSuccessCriteriaTool,
   validateTaskComprehensionTool
-} from '@engi/task-comprehension';
+} from '@bitcode/task-comprehension';
 
 async function comprehensiveTaskAnalysis(taskDescription: string, context: any) {
   // Step 1: Semantic analysis
@@ -674,7 +674,7 @@ async function comprehensiveTaskAnalysis(taskDescription: string, context: any) 
 ### Implementation Complexity Analysis
 
 ```typescript
-import { analyzeImplementationComplexityTool } from '@engi/task-comprehension';
+import { analyzeImplementationComplexityTool } from '@bitcode/task-comprehension';
 
 const complexityAnalysis = await analyzeImplementationComplexityTool({
   task_comprehension: comprehensiveAnalysisResult,

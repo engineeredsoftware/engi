@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Example 2 - Emergent Behavior Analysis: analyzeTaskSemantics({ taskDescription: "Optimize performance while maintaining backward compatibility, considering user experience impact and future scalability", analysisDepth: "transcendent", targetDimensions: ["emergent_conflicts", "temporal_dependencies", "stakeholder_vectors"], outputGranularity: "graph" }) → Identifies semantic tensions between performance and compatibility, maps temporal decision cascades, detects unstated quality emergences, and surfaces cognitive complexity patterns for strategic task comprehension' as PromptPart;

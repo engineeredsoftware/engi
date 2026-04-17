@@ -30,7 +30,7 @@ process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'test-supabase-
 // ============================================================================
 
 // Mock Engi logger
-jest.mock('@engi/logger', () => ({
+jest.mock('@bitcode/logger', () => ({
   logger: {
     info: jest.fn(),
     warn: jest.fn(),
@@ -41,7 +41,7 @@ jest.mock('@engi/logger', () => ({
 }));
 
 // Mock Engi observability
-jest.mock('@engi/observability', () => ({
+jest.mock('@bitcode/observability', () => ({
   observability: {
     init: jest.fn().mockResolvedValue(undefined),
     recordMetric: jest.fn(),
@@ -308,7 +308,7 @@ jest.mock('@supabase/supabase-js', () => ({
 // ============================================================================
 
 // Mock Engi pipelines
-jest.mock('@engi/pipelines-generics', () => ({
+jest.mock('@bitcode/pipelines-generics', () => ({
   Pipeline: {
     DELIVERABLE: 'deliverable'
   },
@@ -334,7 +334,7 @@ jest.mock('@engi/pipelines-generics', () => ({
 }));
 
 // Mock dry run system
-jest.mock('@engi/pipelines-generics/src/llm/dry_running/config', () => ({
+jest.mock('@bitcode/pipelines-generics/src/llm/dry_running/config', () => ({
   createDryRunContext: jest.fn().mockReturnValue({
     isDryRun: true,
     features: {

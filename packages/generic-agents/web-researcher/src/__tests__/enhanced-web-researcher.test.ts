@@ -1,19 +1,19 @@
 import { WEB_RESEARCH_AGENT } from '../index';
-import { getGlobalContext } from '@engi/context';
+import { getGlobalContext } from '@bitcode/context';
 
 // Mock dependencies
-jest.mock('@engi/context');
-jest.mock('@engi/logger');
-jest.mock('@engi/generic-tools-web-search', () => ({
+jest.mock('@bitcode/context');
+jest.mock('@bitcode/logger');
+jest.mock('@bitcode/generic-tools-web-search', () => ({
   search: jest.fn(),
   searchWithUrlIntelligence: jest.fn(),
   analyzeUrlAttachments: jest.fn(),
 }));
 
 const mockGlobalContext = getGlobalContext as jest.MockedFunction<typeof getGlobalContext>;
-const mockSearch = require('@engi/generic-tools-web-search').search;
-const mockSearchWithUrlIntelligence = require('@engi/generic-tools-web-search').searchWithUrlIntelligence;
-const mockAnalyzeUrlAttachments = require('@engi/generic-tools-web-search').analyzeUrlAttachments;
+const mockSearch = require('@bitcode/generic-tools-web-search').search;
+const mockSearchWithUrlIntelligence = require('@bitcode/generic-tools-web-search').searchWithUrlIntelligence;
+const mockAnalyzeUrlAttachments = require('@bitcode/generic-tools-web-search').analyzeUrlAttachments;
 
 describe('Enhanced Web Research Agent', () => {
   beforeEach(() => {

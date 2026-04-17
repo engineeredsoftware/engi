@@ -3,12 +3,12 @@ import './env';
 import { Buffer } from 'node:buffer';
 import path from 'node:path';
 
-import { prepareConciseContext } from '@engi/context';
+import { prepareConciseContext } from '@bitcode/context';
 import { Octokit } from '@octokit/rest';
-import { awsCloudWatchLogTool, awsDynamoGetItemTool, awsDynamoPutItemTool, awsLambdaInvokeTool, awsMcpTool, awsS3GetObjectTool, awsS3PutObjectTool } from '@engi/generic-tools-mcps-aws';
-import { simpleSystemTextSearch } from '@engi/generic-tools-simple-system-text-search';
-import { search as webSearch } from '@engi/generic-tools-web-search';
-import { generateDigest } from '@engi/digest/run';
+import { awsCloudWatchLogTool, awsDynamoGetItemTool, awsDynamoPutItemTool, awsLambdaInvokeTool, awsMcpTool, awsS3GetObjectTool, awsS3PutObjectTool } from '@bitcode/generic-tools-mcps-aws';
+import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
+import { search as webSearch } from '@bitcode/generic-tools-web-search';
+import { generateDigest } from '@bitcode/digest/run';
 import {
   vercelGetDeploymentEventsTool,
   vercelGetDeploymentTool,
@@ -21,14 +21,14 @@ import {
   vercelDeployProjectTool,
   vercelBuyDomainTool,
   vercelCheckDomainAvailabilityTool
-} from '@engi/generic-tools-mcps-vercel';
-import { VERCEL_MCP_DOC_CODE_TOOL_PROMPT } from '@engi/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt';
-import { GitHubProvider } from '@engi/github';
-import { getVCSConfig, type VCSAuth } from '@engi/vcs';
+} from '@bitcode/generic-tools-mcps-vercel';
+import { VERCEL_MCP_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt';
+import { GitHubProvider } from '@bitcode/github';
+import { getVCSConfig, type VCSAuth } from '@bitcode/vcs';
 import { z } from 'zod';
-import { SIMPLE_SYSTEM_TEXT_SEARCH_DOC_CODE_TOOL_PROMPT } from '@engi/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt';
-import { WEB_SEARCH_DOC_CODE_TOOL_PROMPT } from '@engi/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt';
-import { AWS_MCP_DOC_CODE_TOOL_PROMPT } from '@engi/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt';
+import { SIMPLE_SYSTEM_TEXT_SEARCH_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt';
+import { WEB_SEARCH_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt';
+import { AWS_MCP_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt';
 import {
   DEPICT_DESIGN_ASSET_DOC_CODE_TOOL_PROMPT,
   DESIGN_CODE_DOC_CODE_TOOL_PROMPT,

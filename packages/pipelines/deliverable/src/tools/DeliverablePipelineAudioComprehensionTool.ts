@@ -1,13 +1,13 @@
-import { Tool } from '@engi/tools-generics';
-import type { Prompt } from '@engi/prompts';
-import { multimodalProcessingTool } from '@engi/generic-tools-multimodal-processing';
-import { multimodalProcessingDocCodeToolPrompt as MULTIMODAL_PROMPT } from '@engi/generic-tools-multimodal-processing';
+import { Tool } from '@bitcode/tools-generics';
+import type { Prompt } from '@bitcode/prompts';
+import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
+import { multimodalProcessingDocCodeToolPrompt as MULTIMODAL_PROMPT } from '@bitcode/generic-tools-multimodal-processing';
 
 
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE as DP_PIPELINE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP as DP_PHASE_SETUP } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
-import { PROMPTPART_SPECIFIC_TOOL_DELIVERABLES_AUDIOCOMPREHENSION_DOCCODETOOL_CAPABILITIES_ADDENDUM } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_deliverables_audiocomprehension_doccodetool_capabilities_addendum';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PIPELINE as DP_PIPELINE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_pipeline';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DELIVERABLES_METADATA_PHASE_SETUP as DP_PHASE_SETUP } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_deliverables_metadata_phase_setup';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_SPECIFIC_TOOL_DELIVERABLES_AUDIOCOMPREHENSION_DOCCODETOOL_CAPABILITIES_ADDENDUM } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_deliverables_audiocomprehension_doccodetool_capabilities_addendum';
 
 const OVERLAY: Prompt = (() => {
   const p = MULTIMODAL_PROMPT.clone();

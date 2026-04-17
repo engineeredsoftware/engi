@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Execution } from '@engi/execution-generics';
-import { ExecutionStorageDestination } from '@engi/execution-generics/src/storage/StorageDestination';
+import { Execution } from '@bitcode/execution-generics';
+import { ExecutionStorageDestination } from '@bitcode/execution-generics/src/storage/StorageDestination';
 
 // Mock artifacts to write to local filesystem instead of S3/Supabase
-jest.mock('@engi/artifacts', () => {
+jest.mock('@bitcode/artifacts', () => {
   const baseDir = path.resolve(process.cwd(), '.test-artifacts');
   if (!fs.existsSync(baseDir)) fs.mkdirSync(baseDir, { recursive: true });
   return {

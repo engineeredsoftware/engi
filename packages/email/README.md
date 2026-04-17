@@ -1,4 +1,4 @@
-# @engi/email
+# @bitcode/email
 
 Professional email service package for Engi team management and notifications.
 
@@ -14,7 +14,7 @@ Professional email service package for Engi team management and notifications.
 ## Installation
 
 ```bash
-npm install @engi/email
+npm install @bitcode/email
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install @engi/email
 ### Invitation Emails
 
 ```typescript
-import { invitationEmailService } from '@engi/email'
+import { invitationEmailService } from '@bitcode/email'
 
 await invitationEmailService.sendInvitationEmail({
   email: 'user@company.com',
@@ -62,7 +62,7 @@ await invitationEmailService.sendCreditAllocationEmail({
 ### Team Notifications
 
 ```typescript
-import { teamEmailService } from '@engi/email'
+import { teamEmailService } from '@bitcode/email'
 
 await teamEmailService.sendRoleChangeNotification(
   'user@company.com',
@@ -100,7 +100,7 @@ NEXT_PUBLIC_APP_URL=https://app.engi.software
 Or configure programmatically:
 
 ```typescript
-import { InvitationEmailService } from '@engi/email'
+import { InvitationEmailService } from '@bitcode/email'
 
 const emailService = new InvitationEmailService({
   supabaseUrl: 'your_supabase_url',

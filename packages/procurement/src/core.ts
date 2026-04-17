@@ -5,8 +5,8 @@
  * and crypto compensation based on Marks of Measurement (MoM).
  */
 
-import { log } from '@engi/logger';
-import { supabaseAdmin } from '@engi/supabase';
+import { log } from '@bitcode/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
 import type { 
   Procurement, 
   ProcurementFulfillment, 

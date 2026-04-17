@@ -1,8 +1,8 @@
-declare module '@engi/prompts' {
+declare module '@bitcode/prompts' {
   export type Prompt = Record<string, any>;
 }
 
-declare module '@engi/registry' {
+declare module '@bitcode/registry' {
   export type RegistryEntry<T> = { value: T; priority: number };
 
   export interface Registry<T extends Record<string, any>> {

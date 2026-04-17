@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEORUPDATEFILE_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Atomic file operations with transaction guarantees, intelligent content merging and conflict resolution, automated backup and snapshot creation, file encoding detection and preservation, metadata inheritance and custom attribute management, concurrent modification detection with pessimistic/optimistic locking, template-based file generation with variable substitution, syntax-aware formatting and linting integration, dependency tracking and impact analysis, file permission and security context management, multi-format content transformation (JSON, YAML, XML, etc.), and real-time collaboration conflict prevention' as PromptPart;

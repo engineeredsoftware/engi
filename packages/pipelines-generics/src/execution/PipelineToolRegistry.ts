@@ -10,9 +10,9 @@
  * pattern: registry-with-execution-binding
  */
 
-import { RegistryImpl } from '@engi/registry';
-import { Tool } from '@engi/tools-generics';
-import { Execution } from '@engi/execution-generics';
+import { RegistryImpl } from '@bitcode/registry';
+import { Tool } from '@bitcode/tools-generics';
+import { Execution } from '@bitcode/execution-generics';
 
 /**
  * ExecutionTool - Tool that integrates with execution context

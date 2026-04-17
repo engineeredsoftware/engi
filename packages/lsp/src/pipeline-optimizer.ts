@@ -14,7 +14,7 @@
  * - Operation deduplication and result sharing
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { 
   getPersistentLspServer, 
   executePersistentLspOperation,

@@ -1,8 +1,8 @@
 import React from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import LogoIcon from '@/components/base/engi/icons/LogoIcon';
 import { ReloadIcon, ArrowRightIcon } from '@radix-ui/react-icons';
-import { trackEvent } from '@engi/google-analytics';
+import { trackEvent } from '@bitcode/google-analytics';
 
 type ColorScheme = 'emerald' | 'purple' | 'orange';
 

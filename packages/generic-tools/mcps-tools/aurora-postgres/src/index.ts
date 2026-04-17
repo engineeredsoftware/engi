@@ -4,11 +4,11 @@
  * Aurora Postgres database integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   auroraNaturalLanguageToSqlTool as _auroraNaturalLanguageToSql,
   auroraExecuteSqlTool as _auroraExecuteSql,
-} from '@engi/aurora-postgres';
+} from '@bitcode/aurora-postgres';
 
 // Import DocCodeToolPrompt
 import { AURORA_POSTGRES_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/AuroraPostgresMCPDocCodeToolPrompt';

@@ -8,13 +8,13 @@ module.exports = {
   roots: ['<rootDir>'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^@engi/execution-generics$': '<rootDir>/../execution-generics/src/index.ts',
-    '^@engi/registry$': '<rootDir>/../registry/src/index.ts',
-    '^@engi/prompts$': '<rootDir>/../prompts/src/index.ts',
-    '^@engi/doc-comment$': '<rootDir>/src/__mocks__/doc-comment.ts',
-    '^@engi/tools-generics$': '<rootDir>/src/__mocks__/tools-generics.ts',
-    '^@engi/llm-generics$': '<rootDir>/../llm-generics/src/index.ts',
-    '^@engi/orm$': '<rootDir>/../orm/src/index.ts',
+    '^@bitcode/execution-generics$': '<rootDir>/../execution-generics/src/index.ts',
+    '^@bitcode/registry$': '<rootDir>/../registry/src/index.ts',
+    '^@bitcode/prompts$': '<rootDir>/../prompts/src/index.ts',
+    '^@bitcode/doc-comment$': '<rootDir>/src/__mocks__/doc-comment.ts',
+    '^@bitcode/tools-generics$': '<rootDir>/src/__mocks__/tools-generics.ts',
+    '^@bitcode/llm-generics$': '<rootDir>/../llm-generics/src/index.ts',
+    '^@bitcode/orm$': '<rootDir>/../orm/src/index.ts',
   },
   globals: {
     'ts-jest': {

@@ -1,18 +1,18 @@
-import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
-import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
-import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
-import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
-import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
-import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLNAME } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolname';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLPURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolpurpose';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLCAPABILITIES } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolcapabilities';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLPARAMETERS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolparameters';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLOUTPUT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetooloutput';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE1 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolexample1';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE2 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolexample2';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE3 } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolexample3';
-import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLMIGRATION } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolmigration';
+import { PROMPTPART_GENERIC_DOCCODE_METADATA_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_metadata_label';
+import { PROMPTPART_GENERIC_DOCCODE_PURPOSE_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_purpose_label';
+import { PROMPTPART_GENERIC_DOCCODE_CAPABILITIES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_capabilities_label';
+import { PROMPTPART_GENERIC_DOCCODE_PARAMETERS_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_parameters_label';
+import { PROMPTPART_GENERIC_DOCCODE_OUTPUT_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_output_label';
+import { PROMPTPART_GENERIC_DOCCODE_EXAMPLES_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_doccode_examples_label';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLNAME } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolname';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLPURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolpurpose';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLCAPABILITIES } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolcapabilities';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLPARAMETERS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolparameters';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLOUTPUT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetooloutput';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE1 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolexample1';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE2 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolexample2';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLEXAMPLE3 } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolexample3';
+import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLMIGRATION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_tool_gitinteractor_doccodetoolmigration';
 /**
  * GIT INTERACTOR DOC-CODE-TOOL PROMPT (DEPRECATED)
  * 
@@ -25,8 +25,8 @@ import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLMIGRATION } from '@en
  * This prompt exists for backward compatibility only.
  */
 
-import { DocCodeToolPrompt } from '@engi/tools-generics';
-import { PromptPart } from '@engi/prompts';
+import { DocCodeToolPrompt } from '@bitcode/tools-generics';
+import { PromptPart } from '@bitcode/prompts';
 
 // Import generic labels from /raw_promptparts/generic/
 

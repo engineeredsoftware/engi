@@ -1,5 +1,5 @@
 {
-  "name": "@engi/execution-generics",
+  "name": "@bitcode/execution-generics",
   "version": "1.0.0",
   "description": "Core execution primitives and combinators",
   "main": "dist/index.js",

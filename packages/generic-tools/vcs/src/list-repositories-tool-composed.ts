@@ -4,11 +4,11 @@
  * Unified interface for listing repositories across VCS providers.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { VCSProviderFactory, VCSConnections } from '@engi/vcs';
-import { createClient } from '@engi/supabase';
-import { withRetry, withTimeout } from '@engi/pipeline-recovery';
+import { VCSProviderFactory, VCSConnections } from '@bitcode/vcs';
+import { createClient } from '@bitcode/supabase';
+import { withRetry, withTimeout } from '@bitcode/pipeline-recovery';
 import { LIST_REPOSITORIES_DOC_CODE_TOOL_PROMPT } from './prompts/ListRepositoriesDocCodeToolPrompt';
 
 /**

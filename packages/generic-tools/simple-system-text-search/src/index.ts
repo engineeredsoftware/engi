@@ -6,8 +6,8 @@
  * @specificity Generic
  */
 
-import { Tool } from '@engi/tools-generics';
-import { simpleSystemTextSearch as _simpleSystemTextSearch } from '@engi/system-grep';
+import { Tool } from '@bitcode/tools-generics';
+import { simpleSystemTextSearch as _simpleSystemTextSearch } from '@bitcode/system-grep';
 import { SIMPLE_SYSTEM_TEXT_SEARCH_DOC_CODE_TOOL_PROMPT } from './prompts/SimpleSystemTextSearchDocCodeToolPrompt';
 
 /**

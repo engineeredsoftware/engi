@@ -21,7 +21,7 @@ Clean pipeline execution primitives for orchestrating phase sequences.
 
 ### Identity & Namespaces
 
-- Pipelines and phases rely on Execution identity and store namespaces defined in `@engi/execution-generics`:
+- Pipelines and phases rely on Execution identity and store namespaces defined in `@bitcode/execution-generics`:
   - Use `execution/id` (not legacy `runId`) and `execution/correlationId`.
   - Use canonical agent namespaces for pipeline/phase/agent stores: `execution-<pipeline>-pipeline-phase-<phase>-<agent>`.
   - See `internal-docs/EXECUTABLE-PIPELINES.md` for SDIVS sequencing, pre/post processing, and the postprocessed SSOT.
@@ -79,7 +79,7 @@ export enum SDIVSPhase {
 For non-SDIVS flows that are a single agent sequence or loop, use a QuickPipeline:
 
 ```typescript
-import { factoryQuickPipeline, type QuickPhase } from '@engi/pipelines-generics';
+import { factoryQuickPipeline, type QuickPhase } from '@bitcode/pipelines-generics';
 
 const quickPhase: QuickPhase<any, any> = async (input, exec) => {
   // compose agents/executors freely – no phase semantics
@@ -98,7 +98,7 @@ Notes:
 ### Creating a Pipeline
 
 ```typescript
-import { factoryPipeline, factoryPhaseDelegator } from '@engi/pipelines-generics';
+import { factoryPipeline, factoryPhaseDelegator } from '@bitcode/pipelines-generics';
 
 // Create phase delegators
 const setupPhase = factoryPhaseDelegator('setup', setupAgent);
@@ -117,7 +117,7 @@ const deliverablePipeline = factoryPipeline(
 ### Creating a Pipeline with DIV Loop
 
 ```typescript
-import { factoryPipelineWithDIVLoop } from '@engi/pipelines-generics';
+import { factoryPipelineWithDIVLoop } from '@bitcode/pipelines-generics';
 
 // DIV loop iterates Discovery-Implementation-Validation until validation passes
 const analysisPipeline = factoryPipelineWithDIVLoop('analysis', {
@@ -137,7 +137,7 @@ const analysisPipeline = factoryPipelineWithDIVLoop('analysis', {
 Use `factorySDIVSExecutorPipeline` when you need a preprocess/postprocess and a per‑iteration hook:
 
 ```ts
-import { factorySDIVSExecutorPipeline } from '@engi/pipelines-generics';
+import { factorySDIVSExecutorPipeline } from '@bitcode/pipelines-generics';
 
 const pipeline = factorySDIVSExecutorPipeline('deliverable', {
   preprocess,
@@ -155,8 +155,8 @@ const pipeline = factorySDIVSExecutorPipeline('deliverable', {
 ### Creating Phase Delegators
 
 ```typescript
-import { factoryPhaseDelegator, factorySequentialPhaseDelegator } from '@engi/pipelines-generics';
-import { codeAnalyzerAgent, codeGeneratorAgent } from '@engi/generic-agents';
+import { factoryPhaseDelegator, factorySequentialPhaseDelegator } from '@bitcode/pipelines-generics';
+import { codeAnalyzerAgent, codeGeneratorAgent } from '@bitcode/generic-agents';
 
 // Single agent delegation
 const analysisPhase = factoryPhaseDelegator('discovery', codeAnalyzerAgent);
@@ -183,7 +183,7 @@ const validationPhase = factoryParallelPhaseDelegator(
 ### Using SDIVS Factory
 
 ```typescript
-import { factorySDIVSPhaseDelegators } from '@engi/pipelines-generics';
+import { factorySDIVSPhaseDelegators } from '@bitcode/pipelines-generics';
 
 // Create all 5 phases at once
 const phases = factorySDIVSPhaseDelegators({
@@ -203,7 +203,7 @@ const pipeline = factoryPipeline('measure', phases);
 The generic prompt for Pipeline EE:
 
 ```typescript
-import { PipelinePrompt } from '@engi/pipelines-generics';
+import { PipelinePrompt } from '@bitcode/pipelines-generics';
 
 // Create pipeline-specific prompt
 const prompt = PipelinePrompt.create('deliverable');
@@ -251,7 +251,7 @@ factoryPhaseDelegation(phase: string, parent: Execution)
 Enable real-time streaming of pipeline execution progress:
 
 ```typescript
-import { createStreamingExecution, emitPhaseTransition, emitAgentActivity } from '@engi/pipelines-generics';
+import { createStreamingExecution, emitPhaseTransition, emitAgentActivity } from '@bitcode/pipelines-generics';
 import { createClient } from '@supabase/supabase-js';
 
 // Example: Starting a deliverables pipeline with streaming

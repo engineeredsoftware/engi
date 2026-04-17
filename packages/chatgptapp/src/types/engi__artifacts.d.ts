@@ -1,4 +1,4 @@
-declare module '@engi/artifacts' {
+declare module '@bitcode/artifacts' {
   export interface ArtifactInfo {
     url: string;
     size: number;

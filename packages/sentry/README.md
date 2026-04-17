@@ -1,4 +1,4 @@
-# @engi/sentry
+# @bitcode/sentry
 
 Error monitoring and performance tracking for ENGI platform. Provides graceful Sentry SDK wrapper with automatic instrumentation and environment detection.
 
@@ -12,7 +12,7 @@ Error monitoring and performance tracking for ENGI platform. Provides graceful S
 ## Error Tracking
 
 ```typescript
-import { captureException, captureMessage, withScope } from '@engi/sentry';
+import { captureException, captureMessage, withScope } from '@bitcode/sentry';
 
 // Capture exceptions
 try {
@@ -39,7 +39,7 @@ withScope(scope => {
 ## Performance Monitoring
 
 ```typescript
-import { startSpan } from '@engi/sentry';
+import { startSpan } from '@bitcode/sentry';
 
 const result = await startSpan(
   { name: 'database-query', op: 'db' },

@@ -9,10 +9,10 @@ import '@testing-library/jest-dom';
 global.fetch = jest.fn();
 
 // Mock Supabase client
-jest.mock('@engi/supabase/ssr/client', () => ({
+jest.mock('@bitcode/supabase/ssr/client', () => ({
   createClient: jest.fn()
 }));
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 
 import { NotificationsWidget } from '@/components/base/engi/notifications/NotificationsWidget';
 

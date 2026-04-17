@@ -61,7 +61,7 @@ import {
   FirecrawlSearchOptions,
   FirecrawlPageData,
   FirecrawlResponse
-} from '@engi/firecrawl';
+} from '@bitcode/firecrawl';
 ```
 
 ### Content Processing Pipeline
@@ -81,7 +81,7 @@ import {
 
 ### Single Page Scraping
 ```typescript
-import { scrapeUrlTool } from '@engi/generic-tools-firecrawl';
+import { scrapeUrlTool } from '@bitcode/generic-tools-firecrawl';
 
 const result = await scrapeUrlTool.use({
   url: 'https://example.com/documentation',
@@ -96,7 +96,7 @@ const result = await scrapeUrlTool.use({
 
 ### Website Crawling
 ```typescript
-import { crawlWebsiteTool } from '@engi/generic-tools-firecrawl';
+import { crawlWebsiteTool } from '@bitcode/generic-tools-firecrawl';
 
 const crawlResult = await crawlWebsiteTool.use({
   baseUrl: 'https://docs.example.com',
@@ -113,7 +113,7 @@ const crawlResult = await crawlWebsiteTool.use({
 
 ### Web Search with Content Extraction
 ```typescript
-import { searchWebTool } from '@engi/generic-tools-firecrawl';
+import { searchWebTool } from '@bitcode/generic-tools-firecrawl';
 
 const searchResults = await searchWebTool.use({
   query: 'TypeScript best practices 2024',

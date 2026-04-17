@@ -135,7 +135,7 @@ await log('Pipeline phase started', 'info', {
 ### Error Reporting Integration
 ```typescript
 // Automatic Sentry Integration
-import { captureException, captureMessage } from '@engi/sentry';
+import { captureException, captureMessage } from '@bitcode/sentry';
 
 // Error level logs automatically sent to Sentry
 await log('Critical system failure', 'error', {

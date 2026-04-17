@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTREQUIREMENTS_DOCCODETOOLPARAMETERS: PromptPart = 
   'taskDescription: MultiModalInput, extractionDepth: AnalyticalLevel, requirementTypes: CategoryArray, stakeholderPerspectives: ViewpointSet, contextualFramework: DomainContext, prioritizationStrategy: HierarchyMethod, implicitInferenceLevel: CognitiveDepth, outputStructure: RequirementSchema' as PromptPart;

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { createClient } from '@engi/supabase/ssr/client'
+import { createClient } from '@bitcode/supabase/ssr/client'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import ChatGPTIcon from '@/components/base/engi/icons/social/ChatGPTIcon'

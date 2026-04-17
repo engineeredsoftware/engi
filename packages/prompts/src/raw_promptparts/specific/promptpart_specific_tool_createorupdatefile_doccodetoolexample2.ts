@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEORUPDATEFILE_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Template-based component generation: createOrUpdateFile({ file_path: "src/components/{{componentName}}.tsx", content: componentTemplate, operation_mode: "create", template_variables: { componentName: "UserProfile", author: "dev-team", timestamp: "2024-08-02" }, validation_rules: ["typescript-syntax", "react-component"], conflict_resolution: "fail", atomic: true, metadata: { "generator": "component-scaffolder", "version": "GA1.01.0" } }) → Creates React component file with template expansion, TypeScript validation, and prevents overwriting existing files' as PromptPart;

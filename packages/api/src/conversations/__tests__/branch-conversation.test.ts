@@ -1,6 +1,6 @@
 import { branchConversation } from '../conversations';
 
-jest.mock('@engi/supabase', () => {
+jest.mock('@bitcode/supabase', () => {
   const tables: Record<string, any[]> = {
     conversations: [],
     messages: [],
@@ -46,7 +46,7 @@ describe('branchConversation', () => {
   beforeEach(async () => {
     // seed conversation and messages
     // @ts-ignore
-    const { supabaseAdmin } = await import('@engi/supabase');
+    const { supabaseAdmin } = await import('@bitcode/supabase');
     await supabaseAdmin.from('conversations').insert({ id: sourceConversationId, user_id: userId, title: 'Source', created_at: new Date().toISOString(), updated_at: new Date().toISOString() }).select('*').single();
     for (let i = 0; i < 3; i++) {
       await supabaseAdmin.from('messages').insert({ id: `m${i+1}`, conversation_id: sourceConversationId, role: 'user', content: `msg-${i+1}`, created_at: new Date(Date.now() + i).toISOString() }).select('*').single();

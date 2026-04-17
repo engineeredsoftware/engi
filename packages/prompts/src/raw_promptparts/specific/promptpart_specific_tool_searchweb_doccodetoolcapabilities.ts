@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Web search with automatic content extraction from results, time-based filtering for recent content, language and country-specific localization, location-based search parameters, configurable result limits, integrated scraping workflow, full page content retrieval, and combined search-scrape operation for efficient information gathering' as PromptPart;

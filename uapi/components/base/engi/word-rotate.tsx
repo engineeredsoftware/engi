@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, HTMLMotionProps } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 interface WordRotateProps {
   words: string[];

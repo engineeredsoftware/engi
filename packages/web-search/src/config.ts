@@ -3,7 +3,7 @@
  * Enterprise-Level Environment Setup, Validation, and Runtime Configuration
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { z } from 'zod';
 
 // ============================================================================

@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
-import { VCSProviderType } from '@engi/vcs';
+import { VCSProviderType } from '@bitcode/vcs';
 import { useVCSSelections } from './useVCSSelections';
 import {
   Account,

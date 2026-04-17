@@ -1,11 +1,11 @@
 {
-  "name": "@engi/generic-tools-mcps-aws-location",
+  "name": "@bitcode/generic-tools-mcps-aws-location",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@engi/aws": "workspace:*",
-    "@engi/tools-generics": "workspace:*"
+    "@bitcode/aws": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*"
   }
 }

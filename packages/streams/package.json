@@ -1,5 +1,5 @@
 {
-  "name": "@engi/streams",
+  "name": "@bitcode/streams",
   "version": "0.1.0",
   "private": true,
   "description": "Streaming helpers (JS stub build).",
@@ -23,8 +23,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/supabase": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/supabase": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.0.0"

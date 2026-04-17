@@ -4,10 +4,10 @@
  * Sequences Design → Develop → Digest meta-phases.
  * Each meta-phase runs full SDIVS with appropriate file gates.
  *
- * @package @engi/pipelines-generics
+ * @package @bitcode/pipelines-generics
  */
 
-import { Execution, Executor, sequential } from '@engi/execution-generics';
+import { Execution, Executor, sequential } from '@bitcode/execution-generics';
 import type { MetaPhase, MetaPhaseState } from './types';
 import {
   initializeMetaPhaseState,

@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Fix barrel imports from @engi/prompts/raw_promptparts/generic
+# Fix barrel imports from @bitcode/prompts/raw_promptparts/generic
 
 echo "Fixing barrel imports in prompts package..."
 
 # Find all TypeScript files with barrel imports
-FILES=$(grep -r "from '@engi/prompts'" --include="*.ts" --include="*.tsx" packages/ | cut -d: -f1 | sort -u)
+FILES=$(grep -r "from '@bitcode/prompts'" --include="*.ts" --include="*.tsx" packages/ | cut -d: -f1 | sort -u)
 
 for FILE in $FILES; do
   echo "Processing: $FILE"
   
   # Extract the imported names
-  IMPORTS=$(grep "from '@engi/prompts'" "$FILE" | sed -E "s/.*\{([^}]+)\}.*/\1/" | tr ',' '\n' | sed 's/^ *//;s/ *$//')
+  IMPORTS=$(grep "from '@bitcode/prompts'" "$FILE" | sed -E "s/.*\{([^}]+)\}.*/\1/" | tr ',' '\n' | sed 's/^ *//;s/ *$//')
   
   # Build replacement imports
   REPLACEMENT=""
@@ -27,7 +27,7 @@ for FILE in $FILES; do
       if [ -n "$REPLACEMENT" ]; then
         REPLACEMENT="$REPLACEMENT\n"
       fi
-      REPLACEMENT="${REPLACEMENT}import { $CLEAN_IMPORT } from '@engi/prompts';"
+      REPLACEMENT="${REPLACEMENT}import { $CLEAN_IMPORT } from '@bitcode/prompts';"
     fi
   done <<< "$IMPORTS"
   

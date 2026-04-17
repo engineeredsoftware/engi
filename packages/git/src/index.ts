@@ -1,5 +1,5 @@
 /**
- * @deprecated This package is deprecated. Use @engi/vcs instead.
+ * @deprecated This package is deprecated. Use @bitcode/vcs instead.
  * 
  * This file provides minimal exports for backward compatibility only.
  * All functionality has been moved to the VCS abstraction layer.
@@ -7,12 +7,12 @@
 
 export const deprecationNotice = () => {
   throw new Error(`
-    @engi/git is deprecated and has been removed.
+    @bitcode/git is deprecated and has been removed.
     
     Please update your imports:
-    - For VCS operations: import from '@engi/vcs'
-    - For git tools: import from '@engi/vcs-tools'
-    - For VCS agent: import from '@engi/generic-agents-vcs'
+    - For VCS operations: import from '@bitcode/vcs'
+    - For git tools: import from '@bitcode/vcs-tools'
+    - For VCS agent: import from '@bitcode/generic-agents-vcs'
     
     The VCS abstraction supports GitHub, GitLab, and Bitbucket.
   `);

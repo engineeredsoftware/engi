@@ -1,9 +1,9 @@
 import { GET as getNotifications } from '@/app/api/orbitals/notifications/route';
 import { PATCH as patchNotification, DELETE as deleteNotification } from '@/app/api/orbitals/notifications/[notificationId]/route';
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 
 // Mock createClient to provide supabase auth and from
-jest.mock('@engi/supabase/ssr/server', () => ({ createClient: jest.fn() }));
+jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 const mockCreateClient = createClient as jest.Mock;
 
 describe('Notifications API Routes', () => {

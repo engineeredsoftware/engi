@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { VCSProviderType, VCSRepository } from '@engi/vcs-core';
+import { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 import { VCSProviderSelector } from './VCSProviderSelector';
 import { VCSRepositorySelector } from './VCSRepositorySelector';
 import { Github, GitBranch, GitCommit, Folder } from 'lucide-react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { Badge } from '@/components/base/shadcn/badge';
 
 interface VCSRepositorySourceProps {

@@ -1,5 +1,5 @@
 {
-  "name": "@engi/multimodal-utils",
+  "name": "@bitcode/multimodal-utils",
   "version": "1.0.0",
   "description": "Utilities for multimodal processing with error handling and performance optimizations",
   "main": "src/index.ts",
@@ -15,9 +15,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/observability": "workspace:*",
-    "@engi/errors": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/observability": "workspace:*",
+    "@bitcode/errors": "workspace:*",
     "zod": "^3.22.0",
     "p-limit": "^5.0.0",
     "p-retry": "^6.2.0"

@@ -3,9 +3,9 @@
  * All conversation CRUD operations
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { Conversation } from '@engi/conversations-generics';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { Conversation } from '@bitcode/conversations-generics';
+import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 
 export async function createConversation(userId: string, title?: string): Promise<Conversation> {

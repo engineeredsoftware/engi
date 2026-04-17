@@ -11,13 +11,13 @@
  * This agent decides if the system needs user guidance before next iteration.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
   buildSDIVSPipelineUpdate,
   storeIterationWorkUpdate,
   type ToolUsageUpdate,
-} from '@engi/execution-generics';
+} from '@bitcode/execution-generics';
 
 const ReadyToInstructInputSchema = z.object({
   validationResults: z.object({

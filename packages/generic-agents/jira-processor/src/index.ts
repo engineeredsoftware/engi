@@ -4,12 +4,12 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
-import { log } from '@engi/logger';
-import { telemetry } from '@engi/observability';
+import { log } from '@bitcode/logger';
+import { telemetry } from '@bitcode/observability';
 
 import {
   jiraListProjectsTool,
@@ -40,7 +40,7 @@ import {
   type JiraGetIssueTypesToolFn,
   type JiraGetPrioritiesToolFn,
   type JiraCreateIssueLinkToolFn,
-} from '@engi/jira-tools';
+} from '@bitcode/jira-tools';
 
 // ==================== SOPHISTICATED SCHEMAS ====================
 

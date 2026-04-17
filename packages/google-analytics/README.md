@@ -1,4 +1,4 @@
-# @engi/google-analytics
+# @bitcode/google-analytics
 
 Type-safe Google Analytics (GA4) wrapper for ENGI platform. Provides robust analytics tracking with graceful degradation and server-side support.
 
@@ -13,7 +13,7 @@ Type-safe Google Analytics (GA4) wrapper for ENGI platform. Provides robust anal
 ## Client-Side API
 
 ```typescript
-import { trackEvent, setUserProperties, init } from '@engi/google-analytics';
+import { trackEvent, setUserProperties, init } from '@bitcode/google-analytics';
 
 // Initialize GA4
 init({ measurementId: 'G-XXXXXXXXXX' });
@@ -34,7 +34,7 @@ setUserProperties({
 ## Server-Side API
 
 ```typescript
-import { sendServerEvent } from '@engi/google-analytics';
+import { sendServerEvent } from '@bitcode/google-analytics';
 
 // Send critical backend events
 await sendServerEvent('purchase', {

@@ -1,5 +1,5 @@
 // Canonical location for all generic streaming helpers used across Engi.
-// All callers should import from `@engi/streams`. No legacy re-exports remain.
+// All callers should import from `@bitcode/streams`. No legacy re-exports remain.
 
 // DataStream type - properly typed for streaming data chunks
 export interface DataStream {
@@ -7,8 +7,8 @@ export interface DataStream {
   flush?(): Promise<void>;
 }
 
-import { log } from '@engi/logger';
-import { supabaseAdmin } from '@engi/supabase';
+import { log } from '@bitcode/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 // Import canonical types from pipelines-generics (SSOT)
 import type {
@@ -18,7 +18,7 @@ import type {
   MetaStep,
   SubStep,
   ExecutionState as PipelineExecutionState
-} from '@engi/pipelines-generics';
+} from '@bitcode/pipelines-generics';
 
 // Re-export for backwards compatibility (streams used to define these)
 export type ExecutionPhase = PhaseTitle;

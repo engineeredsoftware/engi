@@ -3,7 +3,7 @@
  * Enterprise-Level Performance Optimization for Multi-Provider Search
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { SearchResult, SearchQuery } from './multi-provider';
 
 // ============================================================================

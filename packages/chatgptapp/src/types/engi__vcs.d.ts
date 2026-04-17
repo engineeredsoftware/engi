@@ -1,4 +1,4 @@
-declare module '@engi/vcs' {
+declare module '@bitcode/vcs' {
   export type VCSAuth = {
     accessToken: string;
     tokenType: string;

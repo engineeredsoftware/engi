@@ -6,7 +6,7 @@
  */
 
 import FirecrawlApp from '@mendable/firecrawl-js';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // ---------------------------------------------------------------------------
 // Types and Interfaces

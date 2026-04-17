@@ -64,7 +64,7 @@ Example: `1.95.0` = First generation, 95% quality, initial variant
 These plugins are auto-registered when imported:
 
 ```typescript
-import '@engi/prompts/src/developing/doc-comment-developing';
+import '@bitcode/prompts/src/developing/doc-comment-developing';
 ```
 
 ## Key Features

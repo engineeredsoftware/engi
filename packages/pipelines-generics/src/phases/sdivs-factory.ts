@@ -5,7 +5,7 @@
  * with automatic iteration support.
  */
 
-import { Executor, Execution, sequential } from '@engi/execution-generics';
+import { Executor, Execution, sequential } from '@bitcode/execution-generics';
 import { PhaseDelegator } from './phase-factory';
 import { PipelineExecution, factoryPipelineExecution } from '../execution/pipeline-types';
 import { Pipeline } from '../pipeline-factory';

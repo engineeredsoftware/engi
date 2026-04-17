@@ -120,15 +120,15 @@ export async function loadPlugins(config: PluginLoaderConfig): Promise<void> {
  * Well-known plugin packages that can be auto-discovered
  */
 export const WELL_KNOWN_PLUGIN_PACKAGES = [
-  '@engi/prompts',                    // doc-prompt, doc-promptpart
-  '@engi/pipelines-generics',         // doc-pgri
-  '@engi/pipelines/awareness',        // doc-sient
-  '@engi/doc-field',                  // doc-field
-  '@engi/doc-typescript',             // doc-typescript
-  '@engi/doc-dryrun',                 // doc-dryrun
-  '@engi/doc-comment-developing',             // base for development plugins
-  '@engi/doc-comment-developing-promptpart',  // development prompt part
-  '@engi/doc-comment-developing-prompt'       // development prompt
+  '@bitcode/prompts',                    // doc-prompt, doc-promptpart
+  '@bitcode/pipelines-generics',         // doc-pgri
+  '@bitcode/pipelines/awareness',        // doc-sient
+  '@bitcode/doc-field',                  // doc-field
+  '@bitcode/doc-typescript',             // doc-typescript
+  '@bitcode/doc-dryrun',                 // doc-dryrun
+  '@bitcode/doc-comment-developing',             // base for development plugins
+  '@bitcode/doc-comment-developing-promptpart',  // development prompt part
+  '@bitcode/doc-comment-developing-prompt'       // development prompt
 ] as const;
 
 /**

@@ -4,8 +4,8 @@
  * This script demonstrates how to use dry run mode to test the system without making actual LLM calls.
  */
 
-import { configureDryRun, isDryRunEnabled } from '@engi/dryrun';
-import { structuredLLMCall } from '@engi/steps/sub';
+import { configureDryRun, isDryRunEnabled } from '@bitcode/dryrun';
+import { structuredLLMCall } from '@bitcode/steps/sub';
 import { z } from 'zod';
 
 async function testDryRunMode() {

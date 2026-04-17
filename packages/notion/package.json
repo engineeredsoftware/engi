@@ -1,5 +1,5 @@
 {
-  "name": "@engi/notion",
+  "name": "@bitcode/notion",
   "version": "1.0.0",
   "description": "Notion API integration package for Engi",
   "main": "dist/index.js",
@@ -13,8 +13,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/supabase": "workspace:*",
-    "@engi/logger": "workspace:*",
+    "@bitcode/supabase": "workspace:*",
+    "@bitcode/logger": "workspace:*",
     "@notionhq/client": "^2.3.0",
     "notion-md-crawler": "^0.0.2"
   },

@@ -69,7 +69,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
               ) : (
                 <button
                   type="button"
-                  onClick={() => openOrbital('account')}
+                  onClick={() => openOrbital('account', 'connects')}
                   className="rounded-[1.3rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                 >
                   Open orbitals

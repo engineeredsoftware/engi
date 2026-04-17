@@ -1,4 +1,4 @@
-# @engi/attachments-generics
+# @bitcode/attachments-generics
 
 Universal attachment types and utilities for the Engi platform.
 
@@ -47,7 +47,7 @@ import {
   isVCSAttachment,
   getFileAttachmentType,
   formatFileSize
-} from '@engi/attachments-generics';
+} from '@bitcode/attachments-generics';
 
 // Type guards for narrowing attachment types
 if (isVCSAttachment(attachment)) {

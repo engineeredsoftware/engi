@@ -1,4 +1,4 @@
-# @engi/notion
+# @bitcode/notion
 
 Production-grade Notion integration package for Engi, providing comprehensive OAuth authentication, API client functionality, and tool interfaces for AI agents.
 
@@ -15,7 +15,7 @@ This package provides:
 ## Architecture
 
 ```
-@engi/notion/
+@bitcode/notion/
 ├── src/
 │   ├── auth.ts          # OAuth authentication flows
 │   ├── client.ts        # Main Notion API client
@@ -35,7 +35,7 @@ This package is part of the Engi monorepo and uses workspace dependencies:
 ```json
 {
   "dependencies": {
-    "@engi/notion": "workspace:*"
+    "@bitcode/notion": "workspace:*"
   }
 }
 ```
@@ -55,7 +55,7 @@ NOTION_REDIRECT_URI=https://yourdomain.com/api/integrations/notion/callback
 ### Basic Usage
 
 ```typescript
-import { createNotionClient, NotionConnections } from '@engi/notion';
+import { createNotionClient, NotionConnections } from '@bitcode/notion';
 
 // Create authenticated client for a user
 const client = await createNotionClient(userId);
@@ -68,7 +68,7 @@ if (client) {
 ### OAuth Integration
 
 ```typescript
-import { NotionAuth } from '@engi/notion';
+import { NotionAuth } from '@bitcode/notion';
 
 const auth = new NotionAuth(clientId, clientSecret, redirectUri);
 
@@ -90,7 +90,7 @@ import {
   notionGetPageTool, 
   notionSearchTool, 
   notionCreatePageTool 
-} from '@engi/notion';
+} from '@bitcode/notion';
 
 const context = { user_id: 'user123' };
 
@@ -122,7 +122,7 @@ import {
   blocksToMarkdown, 
   extractTitle,
   extractPlainText 
-} from '@engi/notion';
+} from '@bitcode/notion';
 
 // Convert page to readable text
 const pageText = pageToText(page, blocks);
@@ -270,7 +270,7 @@ npm run type-check
 This package can be integrated with Engi's existing pipeline system by adding Notion source handlers to discovery phases. For example, in the deliverable pipeline:
 
 ```typescript
-import { createNotionClient, notionSearchTool, notionGetPageContentTool } from '@engi/notion';
+import { createNotionClient, notionSearchTool, notionGetPageContentTool } from '@bitcode/notion';
 
 // Add to discovery phase for content comprehension
 const client = await createNotionClient(userId);
@@ -297,6 +297,6 @@ When contributing to this package:
 
 ## Related Packages
 
-- `@engi/mcps-tools-notion` - MCP tool exports
-- `@engi/supabase` - Database operations
-- `@engi/logger` - Logging infrastructure
+- `@bitcode/mcps-tools-notion` - MCP tool exports
+- `@bitcode/supabase` - Database operations
+- `@bitcode/logger` - Logging infrastructure

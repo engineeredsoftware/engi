@@ -337,8 +337,8 @@ Client Response
 
 ```typescript
 // Direct integration with existing pipeline runners
-import { runDeliverablePipeline } from '@engi/pipeline-deliverable';
-import { runUpgradesPipeline } from '@engi/pipeline-ai_document';
+import { runDeliverablePipeline } from '@bitcode/pipeline-deliverable';
+import { runUpgradesPipeline } from '@bitcode/pipeline-ai_document';
 
 // MCP tools wrap pipeline execution with:
 // - Authentication and authorization

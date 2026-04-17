@@ -19,9 +19,9 @@ import {
 import { WEB_RESEARCH_AGENT } from '../index';
 
 // Mock external dependencies
-jest.mock('@engi/logger');
-jest.mock('@engi/generic-tools-web-search');
-jest.mock('@engi/context');
+jest.mock('@bitcode/logger');
+jest.mock('@bitcode/generic-tools-web-search');
+jest.mock('@bitcode/context');
 
 // Production-grade mock data for comprehensive testing
 const createMockContextAnalysis = (): ContextAnalysis => ({
@@ -171,7 +171,7 @@ describe('Revolutionary Multi-Wave Research System', () => {
   describe('PTRR Plan Phase - Revolutionary Context Analysis', () => {
     beforeEach(() => {
       // Mock global context
-      const mockGetGlobalContext = require('@engi/context').getGlobalContext;
+      const mockGetGlobalContext = require('@bitcode/context').getGlobalContext;
       mockGetGlobalContext.mockReturnValue({
         taskContext: {
           task: 'Implement React authentication with JWT tokens and refresh functionality',
@@ -184,7 +184,7 @@ describe('Revolutionary Multi-Wave Research System', () => {
       });
 
       // Mock URL analysis
-      const mockAnalyzeUrlAttachments = require('@engi/generic-tools-web-search').analyzeUrlAttachments;
+      const mockAnalyzeUrlAttachments = require('@bitcode/generic-tools-web-search').analyzeUrlAttachments;
       mockAnalyzeUrlAttachments.mockResolvedValue({
         suggestedDomains: ['reactjs.org', 'auth0.com'],
         contentTopics: ['react', 'authentication', 'jwt', 'hooks'],
@@ -231,7 +231,7 @@ describe('Revolutionary Multi-Wave Research System', () => {
     });
 
     test('should gracefully handle URL analysis failures', async () => {
-      const mockAnalyzeUrlAttachments = require('@engi/generic-tools-web-search').analyzeUrlAttachments;
+      const mockAnalyzeUrlAttachments = require('@bitcode/generic-tools-web-search').analyzeUrlAttachments;
       mockAnalyzeUrlAttachments.mockRejectedValue(new Error('Network timeout'));
 
       const planFn = WEB_RESEARCH_AGENT.researchWeb.ptrrConfig.plan.promptFn;

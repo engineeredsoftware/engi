@@ -1,5 +1,5 @@
 import React from 'react';
-import { trackEvent } from '@engi/google-analytics';
+import { trackEvent } from '@bitcode/google-analytics';
 
 interface ToggleButtonProps {
   enabled: boolean;

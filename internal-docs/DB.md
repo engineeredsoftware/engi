@@ -287,8 +287,8 @@ job_status: 'pending' | 'claimed' | 'running' | 'completed' | 'failed'
 
 ### Usage Pattern
 ```typescript
-import { supabase } from '@engi/orm/client';
-import type { Tables } from '@engi/orm/types/database';
+import { supabase } from '@bitcode/orm/client';
+import type { Tables } from '@bitcode/orm/types/database';
 
 // Type-safe queries
 const deliverable: Tables<'deliverables'> = await supabase

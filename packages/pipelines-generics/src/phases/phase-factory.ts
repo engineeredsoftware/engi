@@ -6,8 +6,8 @@
  * They delegate work to agents and accumulate results.
  */
 
-import { Executor, Execution, sequential, parallel } from '@engi/execution-generics';
-import { Agent } from '@engi/agent-generics';
+import { Executor, Execution, sequential, parallel } from '@bitcode/execution-generics';
+import { Agent } from '@bitcode/agent-generics';
 import { PhaseDelegation, factoryPhaseDelegation } from '../execution/pipeline-types';
 
 // ==================== PHASE DELEGATOR ====================

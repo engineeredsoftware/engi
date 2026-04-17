@@ -25,7 +25,7 @@ import * as path from 'path';
 // Mock dependencies
 jest.mock('fs/promises');
 jest.mock('fs');
-jest.mock('@engi/logger');
+jest.mock('@bitcode/logger');
 jest.mock('vscode-languageserver/node');
 jest.mock('vscode-languageserver-textdocument');
 

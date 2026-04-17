@@ -5,7 +5,7 @@
  * This is the first step in the Divide|Conquer|Correct pattern.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { DivideCodeChangePrompts } from '../prompts/divide-code-change-prompt';
 

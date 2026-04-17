@@ -1,8 +1,8 @@
-import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_IDENTITY } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_identity';
-import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRPLAN_PURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrplan_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRTRY_PURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrtry_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRREFINE_PURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrrefine_purpose';
-import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRRETRY_PURPOSE } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrretry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_IDENTITY } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_identity';
+import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRPLAN_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrplan_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRTRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrtry_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRREFINE_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrrefine_purpose';
+import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_digester_ptrrretry_purpose';
 
 
 /**
@@ -19,8 +19,8 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 // TODO: Import actual prompt parts when they exist
 
 
@@ -31,8 +31,8 @@ import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for repository analysis
-import { generateDigest as generateDigestCore } from '@engi/digest/run';
-import { ExecutionTool } from '@engi/execution-generics';
+import { generateDigest as generateDigestCore } from '@bitcode/digest/run';
+import { ExecutionTool } from '@bitcode/execution-generics';
 import * as fs from 'fs';
 
 // Create a proper tool wrapper for the digest generation

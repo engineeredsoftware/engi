@@ -8,7 +8,7 @@
 
 import { 
   SDIVSPhase
-} from '@engi/pipelines-generics';
+} from '@bitcode/pipelines-generics';
 import {
   ExecutionState,
   ExecutionPhase,
@@ -16,7 +16,7 @@ import {
   StreamMessage,
   writeStreamMessage
 } from './streams';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // ==================== GENERIC STREAM TYPES ====================
 

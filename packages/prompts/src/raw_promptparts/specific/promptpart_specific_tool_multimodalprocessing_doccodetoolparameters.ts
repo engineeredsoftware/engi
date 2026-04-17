@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLPARAMETERS: PromptPart = 
   'content (required): Input content or file path, processingType (required): analysis|extraction|conversion|synthesis, modalities (optional): Array of target modalities to process, outputFormat (optional): Desired output format, options (optional): Processing-specific configuration object' as PromptPart;

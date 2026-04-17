@@ -10,9 +10,9 @@
  * pattern: connection-management
  */
 
-import { UserConnectionsModel, type Database } from '@engi/orm';
+import { UserConnectionsModel, type Database } from '@bitcode/orm';
 import { VCSProviderType, VCSAuth, VCSError } from './types';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 export interface SaveConnectionData {
@@ -176,7 +176,7 @@ export class VCSConnections {
           
           // Regenerate installation token
           try {
-            const { GitHubAppAuth } = await import('@engi/github');
+            const { GitHubAppAuth } = await import('@bitcode/github');
             const appId = process.env.GITHUB_APP_ID;
             const privateKey = process.env.GITHUB_PRIVATE_KEY;
             

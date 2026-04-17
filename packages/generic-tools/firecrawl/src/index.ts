@@ -45,7 +45,7 @@ export type {
   FirecrawlSearchResponse,
   FirecrawlMapResponse,
   FirecrawlBatchResponse
-} from '@engi/firecrawl';
+} from '@bitcode/firecrawl';
 
 /**
  * MIGRATION STATUS

@@ -1,4 +1,4 @@
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { ANALYZE_TASK_SEMANTICS_DOC_CODE_TOOL_PROMPT } from './prompts/AnalyzeTaskSemanticsDocCodeToolPrompt';
 
 /**

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLPARAMETERS: PromptPart = 
   'query: string (required) - Search query text; urlAttachments: string[] (optional) - URLs to include in search context; options: object (optional) - Provider preferences, urgency level, result limits, timeout settings' as PromptPart;

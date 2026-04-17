@@ -1,5 +1,5 @@
 {
-  "name": "@engi/jira-tools",
+  "name": "@bitcode/jira-tools",
   "version": "1.0.0",
   "description": "Jira MCP tool wrappers for Engi agents",
   "main": "./src/index.js",
@@ -9,9 +9,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@engi/jira": "workspace:*",
-    "@engi/tools-generics": "workspace:*",
-    "@engi/logger": "workspace:*",
+    "@bitcode/jira": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/logger": "workspace:*",
     "ai": "^3.0.0",
     "zod": "^3.20.0"
   },

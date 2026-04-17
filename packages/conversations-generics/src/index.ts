@@ -1,5 +1,5 @@
 /**
- * @engi/conversations-generics - Conversation domain types and utilities
+ * @bitcode/conversations-generics - Conversation domain types and utilities
  * 
  * This package provides type definitions that exactly match the GA-1 database schema
  * for conversations, messages, and attachments. No database access here - that's in ORM.

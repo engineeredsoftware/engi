@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSLAMBDAINVOKE_DOCCODETOOLCAPABILITIES: PromptPart = 
   `• **Function Invocation**: Execute Lambda functions with synchronous (RequestResponse) and asynchronous (Event) invocation types

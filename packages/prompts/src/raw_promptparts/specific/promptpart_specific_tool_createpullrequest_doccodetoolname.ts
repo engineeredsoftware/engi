@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLNAME: PromptPart =
   'Create Pull Request Tool' as PromptPart;

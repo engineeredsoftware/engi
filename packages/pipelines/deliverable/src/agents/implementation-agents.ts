@@ -10,7 +10,7 @@
  * Pattern: DeliverablesPipelineImplementationPhase{Action}Agent
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { DivideCodeChangePrompts } from './prompts/divide-code-change-prompt';
 import { ConquerFilePrompts } from './prompts/conquer-file-prompt';
@@ -26,7 +26,7 @@ import {
 } from './prompts/comment-on-issue-prompt';
 
 // Import code editor for file operations
-import { codeEditorAgent } from '@engi/generic-agent-code-editor';
+import { codeEditorAgent } from '@bitcode/generic-agent-code-editor';
 
 // ==================== CODE CHANGE (PULL REQUEST) AGENTS ====================
 

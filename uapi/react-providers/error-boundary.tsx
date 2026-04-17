@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Component, ReactNode } from 'react';
-import { reportError } from '@engi/errors';
+import { reportError } from '@bitcode/errors';
 
 interface Props {
   children: ReactNode;

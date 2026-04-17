@@ -491,14 +491,14 @@ export const PROMPTPART_GENERIC_FORMATTING_BASEDONANALYSIS: PromptPart =
 ### Building Prompts
 
 ```typescript
-import { Prompt, createPrompt } from '@engi/prompts';
-import { hierarchicalFormatter } from '@engi/prompts/formatters';
+import { Prompt, createPrompt } from '@bitcode/prompts';
+import { hierarchicalFormatter } from '@bitcode/prompts/formatters';
 
 // Import specific PromptParts directly
 import { PROMPTPART_GENERIC_FORMATTING_YOUARE } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 import { PROMPTPART_SPECIFIC_TOOL_CODESEARCH_PURPOSE } 
-  from '@engi/prompts';
+  from '@bitcode/prompts';
 
 export function buildCodeSearchToolPrompt(): Prompt {
   const prompt = createPrompt();
@@ -615,7 +615,7 @@ The dry run system enables mocking LLM responses for testing:
 ### Using Dry Run Mode
 
 ```typescript
-import { DryRunManager } from '@engi/prompts/dry-run';
+import { DryRunManager } from '@bitcode/prompts/dry-run';
 
 // Enable dry run mode
 const dryRun = new DryRunManager();
@@ -826,7 +826,7 @@ All agent prompts for system/plan/try/refine/retry must set the following regist
 - generation:structured_output — Third substep (StructuredOutput)
 - failsafe:prepare_context — Parent failsafe to prepare concise context
 
-These are PromptParts imported from `@engi/prompts` (generic raw_promptparts). The same keys are used across Generic Agents and Deliverable overlays. Keys are added to each Prompt registry via `.set(key, PromptPart)` calls.
+These are PromptParts imported from `@bitcode/prompts` (generic raw_promptparts). The same keys are used across Generic Agents and Deliverable overlays. Keys are added to each Prompt registry via `.set(key, PromptPart)` calls.
 
 Validation scripts:
 - `bash scripts/generate-prompts-report.sh` — master inventory

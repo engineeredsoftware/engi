@@ -12,18 +12,18 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
+} from '@bitcode/agent-generics';
 import { z } from 'zod';
 
 // ==================== IMPORTS ====================
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for video processing
-import { multimodalProcessingTool } from '@engi/generic-tools-multimodal-processing';
-import { whisperTool } from '@engi/generic-tools/whisper';
-import { ffmpegTool } from '@engi/generic-tools/ffmpeg';
+import { multimodalProcessingTool } from '@bitcode/generic-tools-multimodal-processing';
+import { whisperTool } from '@bitcode/generic-tools/whisper';
+import { ffmpegTool } from '@bitcode/generic-tools/ffmpeg';
 
 // ==================== INPUT SCHEMA ====================
 const VideoProcessorInputSchema = z.object({

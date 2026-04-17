@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import createGlobe, { COBEOptions } from "cobe";
 import { useCallback, useEffect, useRef } from "react";
 import { useSpring } from "react-spring";

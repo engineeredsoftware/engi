@@ -6,7 +6,7 @@ Production-ready Vercel platform integration tool implementing Model Context Pro
 
 ## Supported helpers (fixtures)
 
-This package wraps the following async helpers from `@engi/vercel` in the `Tool` primitive so they can be surfaced over MCP:
+This package wraps the following async helpers from `@bitcode/vercel` in the `Tool` primitive so they can be surfaced over MCP:
 
 - `vercelGetDeploymentTool`
 - `vercelGetDeploymentEventsTool`

@@ -5,7 +5,7 @@
  * in a complete end-to-end workflow from request to token compensation.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { 
   ProcurementEngine,
   AdvancedMatchingEngine,

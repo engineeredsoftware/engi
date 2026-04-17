@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_INLINEVARIABLE_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Inlining a temporary variable in a calculation function: replaces "const result = data.length * 2" used once with direct expression, removing unnecessary intermediate variable and improving code flow readability' as PromptPart;

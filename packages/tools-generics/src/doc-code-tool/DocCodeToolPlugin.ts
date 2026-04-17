@@ -1,4 +1,4 @@
-import { BaseDocCommentPlugin, DocComment, ValidationResult } from '@engi/doc-comment';
+import { BaseDocCommentPlugin, DocComment, ValidationResult } from '@bitcode/doc-comment';
 
 /**
  * Metadata structure for @doc-code-tool

@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 interface GridPatternProps {
   width?: any;

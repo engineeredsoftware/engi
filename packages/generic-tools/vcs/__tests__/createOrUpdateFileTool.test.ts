@@ -1,16 +1,16 @@
 import { createOrUpdateFileTool } from '../src/index';
 
-jest.mock('@engi/generic-tools/files-maintaining', () => ({
+jest.mock('@bitcode/generic-tools/files-maintaining', () => ({
   executionContext: {
     getStore: jest.fn(),
   },
 }));
 
-jest.mock('@engi/pipelines-generics/src/gate-system/file-gates', () => ({
+jest.mock('@bitcode/pipelines-generics/src/gate-system/file-gates', () => ({
   validateFileOperation: jest.fn(),
 }));
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn().mockResolvedValue({}),
 }));
 
@@ -24,16 +24,16 @@ const mockProvider = {
   createOrUpdateFile: jest.fn(),
 };
 
-jest.mock('@engi/vcs', () => ({
+jest.mock('@bitcode/vcs', () => ({
   VCSConnections: jest.fn().mockImplementation(() => mockConnectionManager),
   VCSProviderFactory: {
     create: jest.fn().mockResolvedValue(mockProvider),
   },
 }));
 
-const { executionContext } = require('@engi/generic-tools/files-maintaining');
-const { validateFileOperation } = require('@engi/pipelines-generics/src/gate-system/file-gates');
-const { VCSConnections, VCSProviderFactory } = require('@engi/vcs');
+const { executionContext } = require('@bitcode/generic-tools/files-maintaining');
+const { validateFileOperation } = require('@bitcode/pipelines-generics/src/gate-system/file-gates');
+const { VCSConnections, VCSProviderFactory } = require('@bitcode/vcs');
 
 const baseInput = {
   provider: 'github' as const,

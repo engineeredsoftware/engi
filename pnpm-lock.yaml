@@ -45,19 +45,19 @@ importers:
 
   packages/agent-generics:
     dependencies:
-      '@engi/execution-generics':
+      '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/pipelines-generics':
+      '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../pipelines-generics
-      '@engi/prompts':
+      '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../tools-generics
       zod:
@@ -82,82 +82,82 @@ importers:
 
   packages/api:
     dependencies:
-      '@engi/attachments-generics':
+      '@bitcode/attachments-generics':
         specifier: workspace:*
         version: link:../attachments-generics
-      '@engi/auth':
+      '@bitcode/auth':
         specifier: workspace:*
         version: link:../auth
-      '@engi/bitbucket':
+      '@bitcode/bitbucket':
         specifier: workspace:*
         version: link:../bitbucket
-      '@engi/conversations-generics':
+      '@bitcode/conversations-generics':
         specifier: workspace:*
         version: link:../conversations-generics
-      '@engi/credits':
+      '@bitcode/credits':
         specifier: workspace:*
         version: link:../credits
-      '@engi/email':
+      '@bitcode/email':
         specifier: workspace:*
         version: link:../email
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
-      '@engi/execution-generics':
+      '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
-      '@engi/figma':
+      '@bitcode/figma':
         specifier: workspace:*
         version: link:../figma
-      '@engi/git':
+      '@bitcode/git':
         specifier: workspace:*
         version: link:../git
-      '@engi/gitlab':
+      '@bitcode/gitlab':
         specifier: workspace:*
         version: link:../gitlab
-      '@engi/google-analytics':
+      '@bitcode/google-analytics':
         specifier: workspace:*
         version: link:../google-analytics
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/mcp':
+      '@bitcode/mcp':
         specifier: workspace:*
         version: link:../executions-mcp
-      '@engi/models':
+      '@bitcode/models':
         specifier: workspace:*
         version: link:../models
-      '@engi/networking':
+      '@bitcode/networking':
         specifier: workspace:*
         version: link:../networking
-      '@engi/notion':
+      '@bitcode/notion':
         specifier: workspace:*
         version: link:../notion
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../observability
-      '@engi/orm':
+      '@bitcode/orm':
         specifier: workspace:*
         version: link:../orm
-      '@engi/pipeline-deliverable':
+      '@bitcode/pipeline-deliverable':
         specifier: workspace:*
         version: link:../pipelines/deliverable
-      '@engi/procurement':
+      '@bitcode/procurement':
         specifier: workspace:*
         version: link:../procurement
-      '@engi/responses':
+      '@bitcode/responses':
         specifier: workspace:*
         version: link:../responses
-      '@engi/security':
+      '@bitcode/security':
         specifier: workspace:*
         version: link:../security
-      '@engi/streams':
+      '@bitcode/streams':
         specifier: workspace:*
         version: link:../streams
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../vcs
       '@supabase/supabase-js':
@@ -190,7 +190,7 @@ importers:
 
   packages/attachments-generics:
     dependencies:
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../vcs
 
@@ -198,7 +198,7 @@ importers:
 
   packages/auth:
     dependencies:
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
 
@@ -206,13 +206,13 @@ importers:
 
   packages/bitbucket:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../vcs
     devDependencies:
@@ -244,25 +244,25 @@ importers:
 
   packages/chatgptapp:
     dependencies:
-      '@engi/digest':
+      '@bitcode/digest':
         specifier: workspace:*
         version: link:../digest
-      '@engi/generic-tools-mcps-aws':
+      '@bitcode/generic-tools-mcps-aws':
         specifier: workspace:*
         version: link:../generic-tools/mcps-tools/aws
-      '@engi/generic-tools-mcps-vercel':
+      '@bitcode/generic-tools-mcps-vercel':
         specifier: workspace:*
         version: link:../generic-tools/mcps-tools/vercel
-      '@engi/generic-tools-simple-system-text-search':
+      '@bitcode/generic-tools-simple-system-text-search':
         specifier: workspace:*
         version: link:../generic-tools/simple-system-text-search
-      '@engi/generic-tools-web-search':
+      '@bitcode/generic-tools-web-search':
         specifier: workspace:*
         version: link:../generic-tools/web-search
-      '@engi/github':
+      '@bitcode/github':
         specifier: workspace:*
         version: link:../github
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../vcs
       '@modelcontextprotocol/sdk':
@@ -296,13 +296,13 @@ importers:
 
   packages/conversations-generics:
     dependencies:
-      '@engi/attachments-generics':
+      '@bitcode/attachments-generics':
         specifier: workspace:*
         version: link:../attachments-generics
 
   packages/credits:
     dependencies:
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
 
@@ -323,7 +323,7 @@ importers:
 
   packages/doc-code:
     dependencies:
-      '@engi/doc-comment':
+      '@bitcode/doc-comment':
         specifier: workspace:*
         version: link:../doc-comment
       glob:
@@ -372,7 +372,7 @@ importers:
 
   packages/editing:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
 
@@ -397,7 +397,7 @@ importers:
 
   packages/errors:
     dependencies:
-      '@engi/sentry':
+      '@bitcode/sentry':
         specifier: workspace:*
         version: link:../sentry
 
@@ -429,37 +429,37 @@ importers:
 
   packages/executions-mcp/src/mcp-server:
     dependencies:
-      '@engi/auth':
+      '@bitcode/auth':
         specifier: workspace:*
         version: link:../../../auth
-      '@engi/credits':
+      '@bitcode/credits':
         specifier: workspace:*
         version: link:../../../credits
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../../logger
-      '@engi/mcp':
+      '@bitcode/mcp':
         specifier: workspace:*
         version: link:../..
-      '@engi/networking':
+      '@bitcode/networking':
         specifier: workspace:*
         version: link:../../../networking
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../../observability
-      '@engi/pipeline-deliverable':
+      '@bitcode/pipeline-deliverable':
         specifier: workspace:*
         version: link:../../../pipelines/deliverable
-      '@engi/pipelines-generics':
+      '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../../../pipelines-generics
-      '@engi/security':
+      '@bitcode/security':
         specifier: workspace:*
         version: link:../../../security
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../../../supabase
       '@modelcontextprotocol/sdk':
@@ -523,7 +523,7 @@ importers:
 
   packages/figma:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
       zod:
@@ -548,7 +548,7 @@ importers:
 
   packages/files:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
 
@@ -556,7 +556,7 @@ importers:
 
   packages/firecrawl:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
       '@mendable/firecrawl-js':
@@ -565,16 +565,16 @@ importers:
 
   packages/generic-agents/audio-processor:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../observability
       axios:
@@ -617,16 +617,16 @@ importers:
 
   packages/generic-agents/code-editor:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/editing':
+      '@bitcode/editing':
         specifier: workspace:*
         version: link:../../editing
-      '@engi/execution-generics':
+      '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../execution-generics
-      '@engi/prompts':
+      '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../prompts
       zod:
@@ -645,37 +645,37 @@ importers:
 
   packages/generic-agents/code-searcher:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
 
   packages/generic-agents/danger-wall:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/streams':
+      '@bitcode/streams':
         specifier: workspace:*
         version: link:../../streams
 
   packages/generic-agents/digester:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
 
   packages/generic-agents/document-processor:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../observability
       axios:
@@ -742,16 +742,16 @@ importers:
 
   packages/generic-agents/figma-processor:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/figma-tools':
+      '@bitcode/figma-tools':
         specifier: workspace:*
         version: link:../../generic-tools/mcps-tools/figma
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../observability
       zod:
@@ -776,25 +776,25 @@ importers:
 
   packages/generic-agents/file-pick:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/digest':
+      '@bitcode/digest':
         specifier: workspace:*
         version: link:../../digest
 
   packages/generic-agents/image-processor:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../observability
       axios:
@@ -837,13 +837,13 @@ importers:
 
   packages/generic-agents/jira-processor:
     dependencies:
-      '@engi/jira-tools':
+      '@bitcode/jira-tools':
         specifier: workspace:*
         version: link:../../generic-tools/mcps-tools/jira
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../observability
       zod:
@@ -868,10 +868,10 @@ importers:
 
   packages/generic-agents/language:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/generic-tools-lsp-query':
+      '@bitcode/generic-tools-lsp-query':
         specifier: workspace:*
         version: link:../../generic-tools/lsp-query
 
@@ -879,7 +879,7 @@ importers:
 
   packages/generic-agents/ready-to-short-circuit:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
 
@@ -887,28 +887,28 @@ importers:
 
   packages/generic-agents/text-searcher:
     dependencies:
-      '@engi/generic-tools-simple-system-text-search':
+      '@bitcode/generic-tools-simple-system-text-search':
         specifier: workspace:*
         version: link:../../generic-tools/simple-system-text-search
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
 
   packages/generic-agents/vcs:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../../supabase
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../../vcs
       zod:
@@ -924,16 +924,16 @@ importers:
 
   packages/generic-agents/video-processor:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../../observability
       axios:
@@ -982,25 +982,25 @@ importers:
 
   packages/generic-agents/web-researcher:
     dependencies:
-      '@engi/generic-tools-firecrawl':
+      '@bitcode/generic-tools-firecrawl':
         specifier: workspace:*
         version: link:../../generic-tools/firecrawl
-      '@engi/generic-tools-web-search':
+      '@bitcode/generic-tools-web-search':
         specifier: workspace:*
         version: link:../../generic-tools/web-search
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
 
   packages/generic-agents/web-search:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
 
   packages/generic-doc-comment-plugins/doc-developing:
     dependencies:
-      '@engi/doc-comment':
+      '@bitcode/doc-comment':
         specifier: workspace:*
         version: link:../../doc-comment
     devDependencies:
@@ -1022,7 +1022,7 @@ importers:
 
   packages/generic-llms:
     dependencies:
-      '@engi/llm-generics':
+      '@bitcode/llm-generics':
         specifier: workspace:*
         version: link:../llm-generics
     devDependencies:
@@ -1041,7 +1041,7 @@ importers:
 
   packages/generic-tools/code-refactor:
     dependencies:
-      '@engi/refactoring':
+      '@bitcode/refactoring':
         specifier: workspace:*
         version: link:../../refactoring
       ai:
@@ -1053,19 +1053,19 @@ importers:
 
   packages/generic-tools/files-maintaining:
     dependencies:
-      '@engi/editing':
+      '@bitcode/editing':
         specifier: workspace:*
         version: link:../../editing
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
 
   packages/generic-tools/firecrawl:
     dependencies:
-      '@engi/firecrawl':
+      '@bitcode/firecrawl':
         specifier: workspace:*
         version: link:../../firecrawl
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
       ai:
@@ -1074,13 +1074,13 @@ importers:
 
   packages/generic-tools/git-interactor:
     dependencies:
-      '@engi/git':
+      '@bitcode/git':
         specifier: workspace:*
         version: link:../../git
 
   packages/generic-tools/lsp-query:
     dependencies:
-      '@engi/lsp':
+      '@bitcode/lsp':
         specifier: workspace:*
         version: link:../../lsp
       ai:
@@ -1092,79 +1092,79 @@ importers:
 
   packages/generic-tools/mcps-tools/aurora-postgres:
     dependencies:
-      '@engi/aurora-postgres':
+      '@bitcode/aurora-postgres':
         specifier: workspace:*
         version: link:../../../aurora-postgres
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/aws:
     dependencies:
-      '@engi/aws':
+      '@bitcode/aws':
         specifier: workspace:*
         version: link:../../../aws
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/aws-location:
     dependencies:
-      '@engi/aws':
+      '@bitcode/aws':
         specifier: workspace:*
         version: link:../../../aws
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/aws-terraform:
     dependencies:
-      '@engi/aws':
+      '@bitcode/aws':
         specifier: workspace:*
         version: link:../../../aws
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/bitbucket:
     dependencies:
-      '@engi/bitbucket':
+      '@bitcode/bitbucket':
         specifier: workspace:*
         version: link:../../../bitbucket
 
   packages/generic-tools/mcps-tools/circleci:
     dependencies:
-      '@engi/circleci':
+      '@bitcode/circleci':
         specifier: workspace:*
         version: link:../../../circleci
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/cloudflare:
     dependencies:
-      '@engi/cloudflare':
+      '@bitcode/cloudflare':
         specifier: workspace:*
         version: link:../../../cloudflare
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/docker:
     dependencies:
-      '@engi/docker':
+      '@bitcode/docker':
         specifier: workspace:*
         version: link:../../../docker
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/figma:
     dependencies:
-      '@engi/figma':
+      '@bitcode/figma':
         specifier: workspace:*
         version: link:../../../figma
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
       ai:
@@ -1192,43 +1192,43 @@ importers:
 
   packages/generic-tools/mcps-tools/firebase:
     dependencies:
-      '@engi/firebase':
+      '@bitcode/firebase':
         specifier: workspace:*
         version: link:../../../firebase
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/git-repo-research:
     dependencies:
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/github:
     dependencies:
-      '@engi/github':
+      '@bitcode/github':
         specifier: workspace:*
         version: link:../../../github
 
   packages/generic-tools/mcps-tools/gitlab:
     dependencies:
-      '@engi/gitlab':
+      '@bitcode/gitlab':
         specifier: workspace:*
         version: link:../../../gitlab
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/jira:
     dependencies:
-      '@engi/jira':
+      '@bitcode/jira':
         specifier: workspace:*
         version: link:../../../jira
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../../logger
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
       ai:
@@ -1256,25 +1256,25 @@ importers:
 
   packages/generic-tools/mcps-tools/kubernetes:
     dependencies:
-      '@engi/kubernetes':
+      '@bitcode/kubernetes':
         specifier: workspace:*
         version: link:../../../kubernetes
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/mysql:
     dependencies:
-      '@engi/mysql':
+      '@bitcode/mysql':
         specifier: workspace:*
         version: link:../../../mysql
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/notion:
     dependencies:
-      '@engi/notion':
+      '@bitcode/notion':
         specifier: workspace:*
         version: link:../../../notion
     devDependencies:
@@ -1296,37 +1296,37 @@ importers:
 
   packages/generic-tools/mcps-tools/postgresql:
     dependencies:
-      '@engi/postgresql':
+      '@bitcode/postgresql':
         specifier: workspace:*
         version: link:../../../postgresql
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/supabase:
     dependencies:
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../../../supabase
 
   packages/generic-tools/mcps-tools/vercel:
     dependencies:
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
-      '@engi/vercel':
+      '@bitcode/vercel':
         specifier: workspace:*
         version: link:../../../vercel
 
   packages/generic-tools/multimodal-processing:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/multimodal-utils':
+      '@bitcode/multimodal-utils':
         specifier: workspace:*
         version: link:../../multimodal-utils
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
       ai:
@@ -1354,16 +1354,16 @@ importers:
 
   packages/generic-tools/repository-setup:
     dependencies:
-      '@engi/files':
+      '@bitcode/files':
         specifier: workspace:*
         version: link:../../files
-      '@engi/git':
+      '@bitcode/git':
         specifier: workspace:*
         version: link:../../git
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
       ai:
@@ -1391,10 +1391,10 @@ importers:
 
   packages/generic-tools/simple-system-text-search:
     dependencies:
-      '@engi/simple-system-text-search':
+      '@bitcode/simple-system-text-search':
         specifier: workspace:*
         version: link:../../system-grep
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
 
@@ -1425,16 +1425,16 @@ importers:
 
   packages/generic-tools/vcs:
     dependencies:
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../../errors
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../../supabase
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../../vcs
       zod:
@@ -1450,10 +1450,10 @@ importers:
 
   packages/generic-tools/web-search:
     dependencies:
-      '@engi/tools-generics':
+      '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
-      '@engi/web-search':
+      '@bitcode/web-search':
         specifier: workspace:*
         version: link:../../web-search
 
@@ -1461,10 +1461,10 @@ importers:
 
   packages/github:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../vcs
       '@octokit/auth-app':
@@ -1495,13 +1495,13 @@ importers:
 
   packages/gitlab:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
-      '@engi/vcs':
+      '@bitcode/vcs':
         specifier: workspace:*
         version: link:../vcs
     devDependencies:
@@ -1523,19 +1523,19 @@ importers:
 
   packages/google-analytics:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/sentry':
+      '@bitcode/sentry':
         specifier: workspace:*
         version: link:../sentry
 
   packages/jira:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
       zod:
@@ -1562,7 +1562,7 @@ importers:
 
   packages/llm-generics:
     dependencies:
-      '@engi/registry':
+      '@bitcode/registry':
         specifier: workspace:*
         version: link:../registry
     devDependencies:
@@ -1587,10 +1587,10 @@ importers:
 
   packages/logger:
     dependencies:
-      '@engi/sentry':
+      '@bitcode/sentry':
         specifier: workspace:*
         version: link:../sentry
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
 
@@ -1611,10 +1611,10 @@ importers:
 
   packages/models:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../observability
     devDependencies:
@@ -1624,13 +1624,13 @@ importers:
 
   packages/multimodal-utils:
     dependencies:
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../observability
       p-limit:
@@ -1663,7 +1663,7 @@ importers:
 
   packages/networking:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
 
@@ -1671,10 +1671,10 @@ importers:
 
   packages/notion:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
       '@notionhq/client':
@@ -1706,16 +1706,16 @@ importers:
 
   packages/observability:
     dependencies:
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/sentry':
+      '@bitcode/sentry':
         specifier: workspace:*
         version: link:../sentry
-      '@engi/streams':
+      '@bitcode/streams':
         specifier: workspace:*
         version: link:../streams
 
@@ -1749,22 +1749,22 @@ importers:
 
   packages/parsing:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
 
   packages/pipelines-generics:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../agent-generics
-      '@engi/execution-generics':
+      '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
-      '@engi/prompts':
+      '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
-      '@engi/registry':
+      '@bitcode/registry':
         specifier: workspace:*
         version: link:../registry
     devDependencies:
@@ -1783,43 +1783,43 @@ importers:
 
   packages/pipelines/deliverable:
     dependencies:
-      '@engi/agent-generics':
+      '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@engi/execution-generics':
+      '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../execution-generics
-      '@engi/generic-agent-code-editor':
+      '@bitcode/generic-agent-code-editor':
         specifier: workspace:*
         version: link:../../generic-agents/code-editor
-      '@engi/generic-agents-danger-wall':
+      '@bitcode/generic-agents-danger-wall':
         specifier: workspace:*
         version: link:../../generic-agents/danger-wall
-      '@engi/generic-agents-digesting':
+      '@bitcode/generic-agents-digesting':
         specifier: workspace:*
         version: link:../../generic-agents/digester
-      '@engi/generic-agents-file-pick':
+      '@bitcode/generic-agents-file-pick':
         specifier: workspace:*
         version: link:../../generic-agents/file-pick
-      '@engi/generic-agents-rag-snippets':
+      '@bitcode/generic-agents-rag-snippets':
         specifier: workspace:*
         version: link:../../generic-agents/code-searcher
-      '@engi/generic-agents-tech-types-identifier':
+      '@bitcode/generic-agents-tech-types-identifier':
         specifier: workspace:*
         version: link:../../generic-agents/tech-types-identifier
-      '@engi/generic-agents-vcs':
+      '@bitcode/generic-agents-vcs':
         specifier: workspace:*
         version: link:../../generic-agents/vcs
-      '@engi/generic-agents-web-research':
+      '@bitcode/generic-agents-web-research':
         specifier: workspace:*
         version: link:../../generic-agents/web-researcher
-      '@engi/pipelines-generics':
+      '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../../pipelines-generics
-      '@engi/prompts':
+      '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../prompts
-      '@engi/registry':
+      '@bitcode/registry':
         specifier: workspace:*
         version: link:../../registry
       zod:
@@ -1849,16 +1849,16 @@ importers:
 
   packages/procurement:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
 
   packages/prompts:
     dependencies:
-      '@engi/doc-comment':
+      '@bitcode/doc-comment':
         specifier: workspace:*
         version: link:../doc-comment
-      '@engi/registry':
+      '@bitcode/registry':
         specifier: workspace:*
         version: link:../registry
     devDependencies:
@@ -1886,7 +1886,7 @@ importers:
 
   packages/refactoring:
     dependencies:
-      '@engi/lsp':
+      '@bitcode/lsp':
         specifier: workspace:*
         version: link:../lsp
       zod:
@@ -1912,7 +1912,7 @@ importers:
 
   packages/security:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
     devDependencies:
@@ -1933,10 +1933,10 @@ importers:
 
   packages/streams:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
     devDependencies:
@@ -1968,10 +1968,10 @@ importers:
 
   packages/templates-generics:
     dependencies:
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@engi/supabase':
+      '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
     devDependencies:
@@ -1984,7 +1984,7 @@ importers:
 
   packages/testing/src/test-drymockfakestub:
     dependencies:
-      '@engi/doc-comment':
+      '@bitcode/doc-comment':
         specifier: workspace:*
         version: link:../../../doc-comment
       '@storybook/react':
@@ -2021,10 +2021,10 @@ importers:
 
   packages/tools-generics:
     dependencies:
-      '@engi/doc-code':
+      '@bitcode/doc-code':
         specifier: workspace:*
         version: link:../doc-code
-      '@engi/prompts':
+      '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
       zod:
@@ -2043,10 +2043,10 @@ importers:
 
   packages/vcs:
     dependencies:
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
       zod:
@@ -2073,10 +2073,10 @@ importers:
 
   packages/web-search:
     dependencies:
-      '@engi/firecrawl':
+      '@bitcode/firecrawl':
         specifier: workspace:*
         version: link:../firecrawl
-      '@engi/logger':
+      '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
 
@@ -2097,19 +2097,19 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.408.0
         version: 3.840.0
-      '@engi/email':
+      '@bitcode/email':
         specifier: workspace:*
         version: link:../packages/email
-      '@engi/errors':
+      '@bitcode/errors':
         specifier: workspace:*
         version: link:../packages/errors
-      '@engi/google-analytics':
+      '@bitcode/google-analytics':
         specifier: workspace:*
         version: link:../packages/google-analytics
-      '@engi/observability':
+      '@bitcode/observability':
         specifier: workspace:*
         version: link:../packages/observability
-      '@engi/prompts':
+      '@bitcode/prompts':
         specifier: workspace:*
         version: link:../packages/prompts
       '@headlessui/react':

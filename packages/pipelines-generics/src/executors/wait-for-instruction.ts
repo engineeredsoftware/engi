@@ -5,7 +5,7 @@
  * Used after validation when selfInstruction confidence < threshold.
  */
 
-import { Execution, Executor } from '@engi/execution-generics';
+import { Execution, Executor } from '@bitcode/execution-generics';
 
 export interface WaitForInstructionOptions {
   confidence: number;

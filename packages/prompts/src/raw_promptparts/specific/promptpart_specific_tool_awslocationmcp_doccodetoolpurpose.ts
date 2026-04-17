@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_AWSLOCATIONMCP_DOCCODETOOLPURPOSE: PromptPart = 
   'Delivers comprehensive AWS Location Services integration with advanced geospatial analytics, real-time tracking, mapping visualization, geocoding, route optimization, geofencing, and location-based intelligence for applications requiring precise spatial data processing and global positioning capabilities.' as PromptPart;

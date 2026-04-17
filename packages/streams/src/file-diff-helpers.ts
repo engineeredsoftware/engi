@@ -4,7 +4,7 @@
  * Utilities for streaming file changes through the execution pipeline.
  * Integrates with the core streaming system to show code diffs in real-time.
  *
- * @package @engi/streams
+ * @package @bitcode/streams
  */
 
 import type { StreamMessage, FileDiff, FileTreeChange } from './streams';

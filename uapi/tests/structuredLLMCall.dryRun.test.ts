@@ -1,7 +1,7 @@
 /**
  * Test dry-run behavior of structuredLLMCall in uapi/lib/steps/sub.ts
  */
-import { configureDryRun } from '@engi/dryrun';
+import { configureDryRun } from '@bitcode/dryrun';
 import { z } from 'zod';
 
 describe.skip('structuredLLMCall dry-run mode', () => {
@@ -11,7 +11,7 @@ describe.skip('structuredLLMCall dry-run mode', () => {
   });
 
   it('returns a default structured response based on schema', async () => {
-    const { structuredLLMCall } = await import('@engi/steps/sub');
+    const { structuredLLMCall } = await import('@bitcode/steps/sub');
     const schema = z.object({ foo: z.string(), bar: z.number().optional() });
     const result = await structuredLLMCall(
       [{ role: 'user', content: 'prompt' }],

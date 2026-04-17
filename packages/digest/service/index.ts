@@ -18,7 +18,7 @@
 import * as crypto from 'crypto';
 import { generateDigest } from '@/digest/run/digest';
 import { saveArtifact } from '@/artifacts';
-import { supabaseAdmin } from '@engi/supabase';
+import { supabaseAdmin } from '@bitcode/supabase';
 
 // ---------------------------------------------------------------------------
 // Types

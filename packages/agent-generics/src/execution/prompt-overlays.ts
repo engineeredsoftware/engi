@@ -1,6 +1,6 @@
-import type { Execution } from '@engi/execution-generics';
-import type { Prompt as PromptRegistry, createPromptPart } from '@engi/prompts';
-import { createPromptPart as cpp } from '@engi/prompts';
+import type { Execution } from '@bitcode/execution-generics';
+import type { Prompt as PromptRegistry, createPromptPart } from '@bitcode/prompts';
+import { createPromptPart as cpp } from '@bitcode/prompts';
 
 /**
  * Apply prompt overlays from Execution state into a Prompt registry.

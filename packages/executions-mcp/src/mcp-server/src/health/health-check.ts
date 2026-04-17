@@ -4,8 +4,8 @@
  * Provides comprehensive health monitoring for production readiness
  */
 
-import { logger } from '@engi/logger';
-import { supabaseAdmin } from '@engi/supabase';
+import { logger } from '@bitcode/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
 import { CircuitBreaker } from '../middleware/rate-limit';
 import { streamManager } from '../streaming/pipeline-stream';
 

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Clone GitHub repository: cloneRepositoryTool({ provider: "github", owner: "microsoft", name: "typescript", ref: "main", connectionId: 12345 })' as PromptPart;

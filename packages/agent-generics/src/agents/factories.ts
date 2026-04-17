@@ -10,7 +10,7 @@
  * pattern: factory-functions
  */
 
-import { Executor, Execution } from '@engi/execution-generics';
+import { Executor, Execution } from '@bitcode/execution-generics';
 import { 
   AgentExecution, 
   StepExecution 

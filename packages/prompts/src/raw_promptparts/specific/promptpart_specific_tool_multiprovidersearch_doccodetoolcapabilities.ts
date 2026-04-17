@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIPROVIDERSEARCH_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Provider selection optimization, automatic failover, result deduplication, cross-provider result aggregation, urgency-based prioritization, parallel search execution, error resilience, cache management' as PromptPart;

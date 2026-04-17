@@ -1,4 +1,4 @@
-# @engi/styling
+# @bitcode/styling
 
 Tailwind CSS styling utilities for ENGI platform. Provides optimized class composition with duplicate resolution and Tailwind CSS integration.
 
@@ -9,7 +9,7 @@ Tailwind CSS styling utilities for ENGI platform. Provides optimized class compo
 ## Usage
 
 ```typescript
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 // Compose classes with conflict resolution
 const buttonClasses = cn(

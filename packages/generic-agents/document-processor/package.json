@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agents-document-processor",
+  "name": "@bitcode/generic-agents-document-processor",
   "version": "1.0.0",
   "description": "Advanced document processing agent for PDFs, spreadsheets, and structured data",
   "main": "src/index.ts",
@@ -15,10 +15,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/agent-generics": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/observability": "workspace:*",
-    "@engi/errors": "workspace:*",
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/observability": "workspace:*",
+    "@bitcode/errors": "workspace:*",
     "zod": "^3.22.0",
     "pdf-parse": "^1.1.1",
     "pdf2pic": "^3.1.0",

@@ -10,8 +10,8 @@
  * pattern: registry-with-execution-context
  */
 
-import { RegistryImpl } from '@engi/registry';
-import { Execution } from '@engi/execution-generics';
+import { RegistryImpl } from '@bitcode/registry';
+import { Execution } from '@bitcode/execution-generics';
 
 /**
  * AgentPromptsRegistry - Hierarchical prompt registry for agents

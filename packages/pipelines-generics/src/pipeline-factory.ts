@@ -5,7 +5,7 @@
  * SDIVS phase sequence. They are just sequential executors of phases.
  */
 
-import { Executor, Execution, sequential, conditional, repeat } from '@engi/execution-generics';
+import { Executor, Execution, sequential, conditional, repeat } from '@bitcode/execution-generics';
 import { PhaseDelegator } from './phases/phase-factory';
 import { PipelineExecution, factoryPipelineExecution } from './execution/pipeline-types';
 

@@ -1,7 +1,7 @@
 import { POST } from '@/app/api/executions/route';
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
-import { deductCredits, InsufficientCreditsError } from '@engi/credits';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { deductCredits, InsufficientCreditsError } from '@bitcode/credits';
 
 // Mock Next.js Request
 function createRequest(body: any) {
@@ -12,29 +12,29 @@ function createRequest(body: any) {
   });
 }
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     from: jest.fn(),
     rpc: jest.fn(),
   }
 }));
-jest.mock('@engi/credits', () => {
-  const actual = jest.requireActual('@engi/credits');
+jest.mock('@bitcode/credits', () => {
+  const actual = jest.requireActual('@bitcode/credits');
   return {
     ...actual,
     deductCredits: jest.fn(),
   };
 });
-jest.mock('@engi/engine/pipeline', () => ({
+jest.mock('@bitcode/engine/pipeline', () => ({
   runSDIVSPipeline: jest.fn().mockResolvedValue({}),
 }));
-jest.mock('@engi/pipeline-ai_document/src/tools/vectorize', () => ({
+jest.mock('@bitcode/pipeline-ai_document/src/tools/vectorize', () => ({
   searchRelevantAI Documents: jest.fn().mockResolvedValue([])
 }));
-jest.mock('@engi/pipeline-deliverable/src/tools/search', () => ({
+jest.mock('@bitcode/pipeline-deliverable/src/tools/search', () => ({
   searchRelevantDeliverables: jest.fn().mockResolvedValue([])
 }));
 

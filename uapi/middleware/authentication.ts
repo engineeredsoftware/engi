@@ -6,9 +6,9 @@
  */
 
 import { NextResponse } from 'next/server';
-import { createClient } from '@engi/supabase/ssr/server';
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 import type { MiddlewareContext, MiddlewareHandler } from './index';
 import type { NextRequest } from 'next/server';

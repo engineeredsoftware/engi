@@ -244,7 +244,7 @@ export default function Nav() {
                   user={user}
                   onManageAccount={() => openOrbital('account')}
                   onSignOut={() => {
-                    import('@engi/supabase/ssr/client').then(({ createClient }) => {
+                    import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                       const client = createClient();
                       client.auth.signOut().finally(() => {
                         // Show login pane after sign out

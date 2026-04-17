@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_INLINEVARIABLE_DOCCODETOOLEXAMPLE2: PromptPart = 
   'Simplifying a boolean check in a React component: inlines "const isValid = user && user.id > 0" used in single condition, replacing with direct expression in JSX, reducing cognitive load and eliminating unnecessary variable declaration' as PromptPart;

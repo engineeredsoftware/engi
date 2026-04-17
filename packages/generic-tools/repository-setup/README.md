@@ -387,7 +387,7 @@ async function executeFileFiltering(params: FileFilterParams) {
 ### Basic Repository Setup
 
 ```typescript
-import { cloneRepositoryTool } from '@engi/repository-setup';
+import { cloneRepositoryTool } from '@bitcode/repository-setup';
 
 const result = await cloneRepositoryTool.use({
   repositories: [
@@ -420,7 +420,7 @@ console.log(`Setup ${result.setupMetrics.successfulSetups} repositories`);
 ### Advanced File Filtering
 
 ```typescript
-import { filterRelevantFilesTool } from '@engi/repository-setup';
+import { filterRelevantFilesTool } from '@bitcode/repository-setup';
 
 const filterResult = await filterRelevantFilesTool.use({
   allFiles: repositoryAnalysis.files,

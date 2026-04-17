@@ -3,7 +3,7 @@
 import React, { PropsWithChildren, useRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 export interface DockProps extends VariantProps<typeof dockVariants> {
   className?: string;

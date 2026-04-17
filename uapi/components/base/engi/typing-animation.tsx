@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, FC } from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import ParticleEffect from './particle-effect';
 import '@/styles/highlight-transition.css';
 import '@/styles/shiny-text.css';

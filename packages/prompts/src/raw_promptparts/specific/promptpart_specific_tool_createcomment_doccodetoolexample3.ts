@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATECOMMENT_DOCCODETOOLEXAMPLE3: PromptPart = 
   'AI-orchestrated architectural decision record: createComment({ target_context: "ADR-789", content: "After analyzing performance benchmarks across 15 microservices, I recommend migrating to event-driven architecture. See attached analysis and migration timeline.", comment_type: "discussion", mentions: ["@architecture-council", "@performance-team", "@dev-leads"], attachments: [performanceReport.pdf, migrationPlan.md], auto_translate: true, thread_id: "architecture-migration-discussion", sentiment_tone: "professional", notification_settings: { "digest_mode": "daily", "expert_routing": true, "context_preservation": true } }) → Creates comprehensive architectural comment with AI-analyzed attachments, routes to relevant experts based on content analysis, preserves discussion context across multiple platforms, generates executive summary for stakeholders, and establishes follow-up workflows with automated progress tracking across 8 development teams and 4 business units' as PromptPart;

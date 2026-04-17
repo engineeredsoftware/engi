@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CREATEPULLREQUEST_DOCCODETOOLPURPOSE: PromptPart = 
   'Streamlines pull request creation across version control platforms, enabling seamless code review workflows through automated branch analysis, intelligent commit grouping, template application, and reviewer assignment based on code ownership patterns and team collaboration metrics' as PromptPart;

@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLPARAMETERS: PromptPart = 
   'filePath: absolute path to the source file; startLine: beginning line number of code selection; endLine: ending line number of code selection; methodName: name for the extracted method (optional, will be generated if not provided); targetLocation: where to place the new method (before/after current method, or specific line); preserveComments: boolean to include comments in extraction' as PromptPart;

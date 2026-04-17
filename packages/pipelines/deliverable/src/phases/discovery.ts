@@ -10,7 +10,7 @@
  * 6. Assesses complexity for validation phase
  */
 
-import { createPhaseRunner, PhaseConfig } from '@engi/pipelines-generics';
+import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 
 /**
  * Discovery phase configuration with parallel execution groups

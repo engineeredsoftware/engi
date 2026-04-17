@@ -4,8 +4,8 @@
  * Defines the structure and validation for @doc-code-tool comments
  */
 
-import type { Tool } from '@engi/tools-generics';
-import type { DocCodeToolPrompt } from '@engi/tools-generics';
+import type { Tool } from '@bitcode/tools-generics';
+import type { DocCodeToolPrompt } from '@bitcode/tools-generics';
 
 /**
  * Structure of a @doc-code-tool comment

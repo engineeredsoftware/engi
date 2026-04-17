@@ -10,13 +10,13 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@engi/supabase/ssr/server';
-import { traceRoute } from '@engi/observability';
-import { log } from '@engi/logger';
-import { createAdminClient } from '@engi/orm';
-import { sendServerEvent } from '@engi/google-analytics';
-import { createJsonResponse, createErrorResponse } from '@engi/responses';
-import { sendEmail } from '@engi/email';
+import { createClient } from '@bitcode/supabase/ssr/server';
+import { traceRoute } from '@bitcode/observability';
+import { log } from '@bitcode/logger';
+import { createAdminClient } from '@bitcode/orm';
+import { sendServerEvent } from '@bitcode/google-analytics';
+import { createJsonResponse, createErrorResponse } from '@bitcode/responses';
+import { sendEmail } from '@bitcode/email';
 import * as crypto from 'crypto';
 
 const orm = createAdminClient();

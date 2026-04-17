@@ -1,11 +1,11 @@
 {
-  "name": "@engi/web-search",
+  "name": "@bitcode/web-search",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/firecrawl": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/firecrawl": "workspace:*"
   }
 }

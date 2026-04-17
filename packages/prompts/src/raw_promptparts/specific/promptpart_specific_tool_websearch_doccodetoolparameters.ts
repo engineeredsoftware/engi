@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLPARAMETERS: PromptPart = 
   'query: string (required) - Search query text; options: object (optional) - Search configuration including providers, filters, result count, urgency level, and content extraction preferences' as PromptPart;

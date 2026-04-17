@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_CRAWLWEBSITE_DOCCODETOOLEXAMPLE3: PromptPart = 
   'Example 3 - Fast mode crawl with subdomains: crawlWebsiteTool({ url: "https://company.com", options: { mode: "fast", allowSubdomains: true, limit: 1000, ignoreSitemap: false } })' as PromptPart;

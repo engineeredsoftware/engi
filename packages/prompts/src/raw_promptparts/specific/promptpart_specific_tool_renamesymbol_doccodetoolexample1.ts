@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1: Rename a function across the codebase\nInput: { filePath: "/src/utils/helpers.ts", position: { line: 5, column: 10 }, newName: "calculateTotalPrice", atomic: true }\nOutput: Successfully renamed getUserData to calculateTotalPrice in 15 files with 42 total occurrences updated. No conflicts detected.' as PromptPart;

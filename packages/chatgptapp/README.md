@@ -1,4 +1,4 @@
-# @engi/chatgptapp
+# @bitcode/chatgptapp
 
 Engi’s ChatGPT App MCP package lets product-minded builders ship software without touching a code editor. Inside a single ChatGPT thread, Engi captures your intent, keeps AI design documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps changes with explicit confirmation.
 
@@ -28,10 +28,10 @@ The headline: *“Design your app in chat. Engi keeps the documents honest, draf
 pnpm install
 
 # start Engi MCP server (logs muted for inspector)
-ENGI_LOG_STDOUT=0 pnpm --silent --filter @engi/chatgptapp start
+ENGI_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start
 
 # optional: hot reload during development
-pnpm --filter @engi/chatgptapp dev
+pnpm --filter @bitcode/chatgptapp dev
 ```
 
 > Environment variables in `.env` / `.env.local` files (repo root or any parent directory) are auto-loaded before tools initialise, so flags like `ENGI_MOCK_EXA=true` take effect without exporting them manually.
@@ -40,7 +40,7 @@ pnpm --filter @engi/chatgptapp dev
 
 1. **Start the server** in one terminal:
    ```bash
-   ENGI_LOG_STDOUT=0 pnpm --silent --filter @engi/chatgptapp start
+   ENGI_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start
    ```
 2. **Launch the inspector UI** in another terminal:
    ```bash
@@ -51,7 +51,7 @@ pnpm --filter @engi/chatgptapp dev
    - Browser DevTools → `localStorage.clear()` + reload; or use the gear icon → “Clear STDIO configuration”.
 4. Connect via STDIO:
    - Command: `pnpm`
-   - Arguments: `--silent`, `--filter=@engi/chatgptapp`, `start`
+   - Arguments: `--silent`, `--filter=@bitcode/chatgptapp`, `start`
    - Environment: `ENGI_LOG_STDOUT=0`
    - Click **Connect** (optionally tick “Remember”).
 
@@ -64,11 +64,11 @@ The `tools/list` call should display the canonical identifiers below (no `engi:`
 | `answer_codebase_query` | Run high-signal repository searches and answer targeted questions. | “Engi, where do we validate Yapper posts before save?” | Returns newline-delimited hits plus structured metadata. |
 | `answer_codeweb_query` | Research external references, examples, or docs. | “Engi, find guidance on building optimistic UI timelines.” | Defaults to Exa search; honours `ENGI_MOCK_EXA`. |
 | `depict_design_asset` | Describe screenshots/diagrams for later recall. | “Engi, narrate this wireframe—focus on onboarding.” | Accepts base64 assets, optional focus and notes. |
-| `design_code` | Update `.ai/PRODUCT.md` from conversational ideas. | “Engi, add a flow for muting noisy Yapper feeds.” | Creates the doc if missing, appends a `### Proposed Updates` block; set `regenerateFromDigest: true` to refresh the baseline via `@engi/digest`. |
+| `design_code` | Update `.ai/PRODUCT.md` from conversational ideas. | “Engi, add a flow for muting noisy Yapper feeds.” | Creates the doc if missing, appends a `### Proposed Updates` block; set `regenerateFromDigest: true` to refresh the baseline via `@bitcode/digest`. |
 | `code_design` | Translate design updates into actionable implementation steps. | “Engi, draft the edits to implement the mute-feed feature.” | Emits task bullets and patch stubs for targeted files. |
 | `read_code_changes_from_vcs` | Summarise recent GitHub activity for a repo/branch. | “Engi, what shipped on `main` over the last five commits?” | Requires repo-scoped token; outputs author-tagged lines. |
 | `write_code_changes_to_vcs` | Create repositories or push file updates. | “Engi, commit the generated Yapper seed data to `main`.” | Confirmation-gated; leverages Octokit for file writes. |
-| `improve_developing_behavior` | Capture collaboration learnings in `.ai/AGENTS.md`. | “Engi, note that we always reference file paths with line numbers.” | Returns both the delta block and the latest agent doc; set `regenerateFromDigest: true` to refresh via `@engi/digest`. |
+| `improve_developing_behavior` | Capture collaboration learnings in `.ai/AGENTS.md`. | “Engi, note that we always reference file paths with line numbers.” | Returns both the delta block and the latest agent doc; set `regenerateFromDigest: true` to refresh via `@bitcode/digest`. |
 | `use_vercel_read_external_mcp` | Narrate Vercel teams, projects, deployments, or docs. | “Engi, list deployments for Yapper and flag the prod URL.” | Payload: `request` (e.g. `list_deployments`) + `payload` (tool args). |
 | `use_vercel_write_external_mcp` | Demo Vercel mutations (deploy, domains) with believable fixtures. | “Engi, kick off a fresh preview deploy—confirm with me first.” | Returns realistic responses while reminding viewers to use real creds live. |
 | `use_aws_read_external_mcp` | Run AWS health checks (Lambda invoke, S3/Dynamo reads, CloudWatch logs). | “Engi, run the `yap-transcribe` lambda and share the response.” | Payload: `request` (e.g. `lambda.invoke`) + `payload` (CLI-style args). |
@@ -118,7 +118,7 @@ All templates live in `src/tools.ts` so new sessions can bootstrap immediately.
 ## QA checklist
 
 1. **MCP Inspector**
-   - Start the server: `ENGI_LOG_STDOUT=0 pnpm --silent --filter @engi/chatgptapp start`.
+   - Start the server: `ENGI_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start`.
    - Launch the inspector: `pnpm exec mcp-inspector`.
    - Clear cached STDIO config if necessary.
    - Call every tool with sample payloads to validate schema + output shapes.

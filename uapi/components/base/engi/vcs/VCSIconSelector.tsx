@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { VCSProviderType } from '@engi/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-core';
 import { Github, GitBranch } from 'lucide-react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { pillStyles } from '@/styles/select-styles';
 
 interface VCSIconSelectorProps {

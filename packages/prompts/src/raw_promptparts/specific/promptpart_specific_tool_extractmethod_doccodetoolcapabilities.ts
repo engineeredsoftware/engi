@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_EXTRACTMETHOD_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Code selection analysis, variable scope detection, parameter inference, return type determination, method name generation, refactoring preview, semantic validation, dependency analysis, multi-language support, and rollback functionality' as PromptPart;

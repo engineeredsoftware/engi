@@ -5,8 +5,8 @@
  * Returns the original input unchanged; downstream phases read from stores.
  */
 
-import { Executor } from '@engi/execution-generics';
-import { createPhaseRunner, type PhaseConfig } from '@engi/pipelines-generics';
+import { Executor } from '@bitcode/execution-generics';
+import { createPhaseRunner, type PhaseConfig } from '@bitcode/pipelines-generics';
 
 const setupPhaseConfig: PhaseConfig = {
   phaseName: 'setup',

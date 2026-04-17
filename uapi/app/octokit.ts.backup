@@ -1,5 +1,5 @@
 import fs, { createReadStream } from 'fs';
-import { supabaseAdmin } from "@engi/supabase";
+import { supabaseAdmin } from "@bitcode/supabase";
 import { App } from "@octokit/app";
 import decompress from 'decompress'
 import { arrayBuffer } from 'stream/consumers';

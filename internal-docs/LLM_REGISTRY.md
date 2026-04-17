@@ -22,7 +22,7 @@ Defaults and Env Variables
 
 Pipeline Integration
 - Deliverables bootstrap: `packages/pipelines/deliverable/src/initialize.ts`
-  - Builds an `LLMRegistry` with providers from `@engi/generic-llms`.
+  - Builds an `LLMRegistry` with providers from `@bitcode/generic-llms`.
   - Sets default provider/model from env (falls back to Gemini Flash).
   - Configures global model at path `*` so `ExecutionLLMRegistry.getDefaultLLM(execution)` resolves without per‑phase overrides.
 

@@ -21,6 +21,6 @@ export default defineConfig({
   target: 'es2020',
   platform: 'node',
   banner: {
-    js: '/** @engi/test-intelligence - Unified testing infrastructure for Engi */'
+    js: '/** @bitcode/test-intelligence - Unified testing infrastructure for Engi */'
   }
 });

@@ -5,8 +5,8 @@
  * for deliverables pipeline. Signals full refund if dangerous content detected.
  */
 
-import { dangerWallAgent } from '@engi/generic-agents-danger-wall';
-import { ShortCircuitSignal } from '@engi/execution-generics';
+import { dangerWallAgent } from '@bitcode/generic-agents-danger-wall';
+import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { z } from 'zod';
 
 /**

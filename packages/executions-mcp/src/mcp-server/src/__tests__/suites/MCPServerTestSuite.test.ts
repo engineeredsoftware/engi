@@ -43,7 +43,7 @@ describe('Engi MCP Server Test Suite', () => {
     setupGlobalMocks();
     
     // Initialize observability for testing
-    const { observability } = require('@engi/observability');
+    const { observability } = require('@bitcode/observability');
     await observability.init({
       serviceName: 'mcp-server-test',
       environment: 'test',
@@ -551,7 +551,7 @@ describe('Engi MCP Server Test Suite', () => {
  */
 function setupGlobalMocks(): void {
   // Mock external dependencies
-  jest.mock('@engi/logger', () => ({
+  jest.mock('@bitcode/logger', () => ({
     logger: {
       info: jest.fn(),
       warn: jest.fn(),
@@ -560,7 +560,7 @@ function setupGlobalMocks(): void {
     }
   }));
   
-  jest.mock('@engi/observability', () => ({
+  jest.mock('@bitcode/observability', () => ({
     observability: {
       init: jest.fn(),
       recordMetric: jest.fn(),

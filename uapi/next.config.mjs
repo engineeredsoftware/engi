@@ -43,36 +43,36 @@ let nextConfig = {
   // Transpile workspace packages that the Next app imports directly or
   // transitively so webpack/SWC can handle TS/ESM + monorepo paths.
   transpilePackages: [
-    '@engi/styling',
-    '@engi/prompts',
-    '@engi/pipeline-deliverable',
-    '@engi/pipelines-generics',
-    '@engi/agent-generics',
+    '@bitcode/styling',
+    '@bitcode/prompts',
+    '@bitcode/pipeline-deliverable',
+    '@bitcode/pipelines-generics',
+    '@bitcode/agent-generics',
     // Generic agents used by pipelines
-    '@engi/generic-agent-code-editor',
-    '@engi/generic-agents-ready-to-short-circuit',
-    '@engi/generic-agents-language',
-    '@engi/generic-agents-text-search',
-    '@engi/generic-agents-danger-wall',
+    '@bitcode/generic-agent-code-editor',
+    '@bitcode/generic-agents-ready-to-short-circuit',
+    '@bitcode/generic-agents-language',
+    '@bitcode/generic-agents-text-search',
+    '@bitcode/generic-agents-danger-wall',
     // Generic tools used by pipelines/agents
-    '@engi/generic-tools-editing',
-    '@engi/generic-tools-git',
-    '@engi/generic-tools-simple-system-text-search',
-    '@engi/generic-tools-repository-setup',
-    '@engi/generic-tools-lsp-query',
-    '@engi/vcs-tools',
+    '@bitcode/generic-tools-editing',
+    '@bitcode/generic-tools-git',
+    '@bitcode/generic-tools-simple-system-text-search',
+    '@bitcode/generic-tools-repository-setup',
+    '@bitcode/generic-tools-lsp-query',
+    '@bitcode/vcs-tools',
     // Core shared libs commonly imported in app/server code
-    '@engi/models',
-    '@engi/files',
-    '@engi/logger',
-    '@engi/streams',
-    '@engi/observability',
-    '@engi/mcp',
-    '@engi/git',
-    '@engi/notion',
-    '@engi/security',
-    '@engi/gitlab',
-    '@engi/bitbucket',
+    '@bitcode/models',
+    '@bitcode/files',
+    '@bitcode/logger',
+    '@bitcode/streams',
+    '@bitcode/observability',
+    '@bitcode/mcp',
+    '@bitcode/git',
+    '@bitcode/notion',
+    '@bitcode/security',
+    '@bitcode/gitlab',
+    '@bitcode/bitbucket',
   ],
   compiler: {
     // Remove console.* calls in production builds
@@ -120,7 +120,7 @@ let nextConfig = {
     // Stub Sentry for Edge Runtime and client builds
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      '@engi/sentry$': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
+      '@bitcode/sentry$': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
     };
 
     // Resolve TS path aliases based on tsconfig.json
@@ -134,9 +134,9 @@ let nextConfig = {
     });
     
     // Add doc-code-tool loader for automatic prompt attachment.
-    // Resolve from @engi/doc-code package export (built to dist at dev start).
+    // Resolve from @bitcode/doc-code package export (built to dist at dev start).
     try {
-      const docCodeLoader = require.resolve('@engi/doc-code/loader');
+      const docCodeLoader = require.resolve('@bitcode/doc-code/loader');
       config.module.rules.push({
         test: /\.(ts|tsx)$/,
         include: [
@@ -152,7 +152,7 @@ let nextConfig = {
       });
     } catch (e) {
       // If the loader isn't built yet, skip silently; prompts will still work without runtime attachments.
-      // The dev script should build @engi/doc-code before starting dev to enable the loader.
+      // The dev script should build @bitcode/doc-code before starting dev to enable the loader.
     }
     // For client builds and edge runtime, stub out server-only modules
     if (!isServer || isEdge) {
@@ -189,7 +189,7 @@ let nextConfig = {
       // Replace problematic Node.js packages with stubs for Edge Runtime and client builds
       config.resolve.alias = {
         ...(config.resolve.alias || {}),
-        '@engi/sentry': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
+        '@bitcode/sentry': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
         '@sentry/node': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
         '@sentry/nextjs': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
         diagnostics_channel: path.resolve(__dirname, '..', 'admin', 'lib', 'stubs', 'diagnostics_channel.ts'),
@@ -218,11 +218,11 @@ let nextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Single top-level alias for prompts – root-only import
-      '@engi/prompts': path.resolve(__dirname, '..', 'packages', 'prompts', 'src', 'index.ts'),
+      '@bitcode/prompts': path.resolve(__dirname, '..', 'packages', 'prompts', 'src', 'index.ts'),
       // Security package: server-safe root and explicit client entry
-      '@engi/security': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'index.ts'),
-      '@engi/security/client': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'client.ts'),
-      '@engi/engine/pipeline/pipelineSDIVS': path.resolve(
+      '@bitcode/security': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'index.ts'),
+      '@bitcode/security/client': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'client.ts'),
+      '@bitcode/engine/pipeline/pipelineSDIVS': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -231,7 +231,7 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@engi/engine/pipeline/pipelineMeasureSDIVS': path.resolve(
+      '@bitcode/engine/pipeline/pipelineMeasureSDIVS': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -240,7 +240,7 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@engi/engine/pipeline/pipelineAI DocumentsSDIVS': path.resolve(
+      '@bitcode/engine/pipeline/pipelineAI DocumentsSDIVS': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -249,13 +249,13 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@engi/mcp/validation': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
-      '@engi/git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
-      '@engi/mcp': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
-      '@engi/mcp$': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
+      '@bitcode/mcp/validation': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
+      '@bitcode/git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
+      '@bitcode/mcp': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
+      '@bitcode/mcp$': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
       // Legacy generic-agents umbrella alias
-      '@engi/generic-agents': path.resolve(__dirname, '..', 'packages', 'agent-generics', 'src', 'index.ts'),
-      '@engi/generic-tools-files-maintaining': path.resolve(
+      '@bitcode/generic-agents': path.resolve(__dirname, '..', 'packages', 'agent-generics', 'src', 'index.ts'),
+      '@bitcode/generic-tools-files-maintaining': path.resolve(
         __dirname,
         '..',
         'packages',

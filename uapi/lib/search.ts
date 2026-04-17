@@ -1,9 +1,9 @@
 import OpenAI from 'openai';
-let supabaseModulePromise: Promise<typeof import('@engi/supabase')> | null = null;
+let supabaseModulePromise: Promise<typeof import('@bitcode/supabase')> | null = null;
 
 async function getSupabaseAdmin() {
   if (!supabaseModulePromise) {
-    supabaseModulePromise = import('@engi/supabase');
+    supabaseModulePromise = import('@bitcode/supabase');
   }
   const mod = await supabaseModulePromise;
   return mod.supabaseAdmin;

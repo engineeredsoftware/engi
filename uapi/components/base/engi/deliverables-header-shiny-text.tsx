@@ -2,7 +2,7 @@
 
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import type { HTMLAttributes } from 'react';
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import '@/styles/deliverables-header-shiny-text.css';
 
 interface DeliverablesHeaderShinyTextProps

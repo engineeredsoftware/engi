@@ -28,7 +28,7 @@ Promise<{
 
 **Usage:**
 ```typescript
-import { auroraNaturalLanguageToSqlTool } from '@engi/aurora-postgres';
+import { auroraNaturalLanguageToSqlTool } from '@bitcode/aurora-postgres';
 
 const result = await auroraNaturalLanguageToSqlTool({
   naturalLanguageQuery: "Find all users created in the last 30 days"
@@ -54,7 +54,7 @@ Promise<{
 
 **Usage:**
 ```typescript
-import { auroraExecuteSqlTool } from '@engi/aurora-postgres';
+import { auroraExecuteSqlTool } from '@bitcode/aurora-postgres';
 
 const result = await auroraExecuteSqlTool({
   sql: "SELECT id, name, email FROM users LIMIT 10"

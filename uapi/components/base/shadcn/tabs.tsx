@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
-import { cn } from '@engi/styling'
+import { cn } from '@bitcode/styling'
 
 const Tabs = TabsPrimitive.Root
 

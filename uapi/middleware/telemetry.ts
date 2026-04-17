@@ -5,7 +5,7 @@
  * Integrates with logging and metrics systems.
  */
 
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import type { MiddlewareContext, MiddlewareHandler } from './index';
 
 interface RequestMetrics {

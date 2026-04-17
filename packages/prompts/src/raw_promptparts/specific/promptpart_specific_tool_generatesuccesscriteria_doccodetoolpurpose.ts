@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_GENERATESUCCESSCRITERIA_DOCCODETOOLPURPOSE: PromptPart = 
   'Dynamic generation of measurable, multi-dimensional success criteria that capture both explicit objectives and emergent quality indicators, creating comprehensive validation frameworks that enable precise task completion assessment, quality assurance, and continuous improvement through adaptive benchmarking and cognitive performance metrics' as PromptPart;

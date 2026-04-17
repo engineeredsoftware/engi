@@ -4,7 +4,7 @@
  * intent: "Prompt for generating Task Guides (JSON output)"
  * current_version: "GA1.00.0"
  */
-import { Prompt, hierarchicalFormatter } from '@engi/prompts';
+import { Prompt, hierarchicalFormatter } from '@bitcode/prompts';
 import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_BASE_CORE } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_base_core';
 import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_IDENTITY_CORESTATEMENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_identity_corestatement';
 import { PROMPTPART_SPECIFIC_TOOL_DIGEST_TASKGUIDES_PHASE_TITLES_DIRECTIVE_DETAILCONTENT } from '../../prompts/src/raw_promptparts/specific/promptpart_specific_tool_digest_taskguides_phase_titles_directive_detailcontent';

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { mountBitcodeApplicationShell } from '@engi/bitcode/src/client-entry.js';
+import { mountBitcodeApplicationShell } from '@bitcode/bitcode/src/client-entry.js';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
@@ -13,9 +13,11 @@ import ApplicationClosureNativeSections from './ApplicationClosureNativeSections
 import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
 import ApplicationExperienceFrame from './ApplicationExperienceFrame';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
+import ApplicationRepositoryContextPanel from './ApplicationRepositoryContextPanel';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationRunWorkspace from './ApplicationRunWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
+import type { ApplicationRepositoryContextState } from './application-repository-context';
 import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
 
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
@@ -50,6 +52,7 @@ export default function ApplicationPageClient() {
   const [runs, setRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
   const [runsError, setRunsError] = useState<string | null>(null);
+  const [repositoryContext, setRepositoryContext] = useState<ApplicationRepositoryContextState | null>(null);
 
   useEffect(() => {
     let disposed = false;
@@ -198,9 +201,13 @@ export default function ApplicationPageClient() {
 
           <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
           <ApplicationCommandDeck />
+          <ApplicationRepositoryContextPanel
+            preferredRepository={selectedRun?.repository || null}
+            onContextChange={setRepositoryContext}
+          />
           <ApplicationLiveSummaryStrip />
           <ApplicationSectionAtlas />
-          <ApplicationCoreNativeSections />
+          <ApplicationCoreNativeSections repositoryContext={repositoryContext} />
           <ApplicationClosureNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">

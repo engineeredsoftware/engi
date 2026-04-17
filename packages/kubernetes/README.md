@@ -1,4 +1,4 @@
-# @engi/kubernetes
+# @bitcode/kubernetes
 
 Kubernetes cluster management tools for ENGI platform. Provides essential cluster introspection and resource management capabilities.
 
@@ -16,7 +16,7 @@ import {
   kubernetesListPodsTool,
   kubernetesListServicesTool,
   kubernetesDescribeNodeTool 
-} from '@engi/kubernetes';
+} from '@bitcode/kubernetes';
 
 // List cluster resources
 const pods = await kubernetesListPodsTool();

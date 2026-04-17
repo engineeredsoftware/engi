@@ -5,7 +5,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import MarketingButtonShimmer from '@/components/base/engi/effects/button-shimmer';
 import MarketingTextShimmer from './MarketingTextShimmer'
 import { ChevronRight } from 'lucide-react'
-import { createClient } from '@engi/supabase/ssr/client'
+import { createClient } from '@bitcode/supabase/ssr/client'
 import Steps from './MarketingSteps'
 
 export default function MarketingHero() {

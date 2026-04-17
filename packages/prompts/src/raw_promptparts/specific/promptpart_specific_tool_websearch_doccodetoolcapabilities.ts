@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_WEBSEARCH_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Multi-provider search orchestration with intelligent result aggregation, automatic failover, content extraction from results, URL intelligence analysis, real-time optimization, provider health monitoring, and enterprise-grade resilience for comprehensive information retrieval' as PromptPart;

@@ -2,31 +2,31 @@
 import '@/tests/setupTests';
 
 import { z } from 'zod';
-import { structuredLLMCall } from '@engi/steps/sub';
+import { structuredLLMCall } from '@bitcode/steps/sub';
 
 // Mock dependencies
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: jest.fn().mockReturnValue({
     getCurrentIteration: () => ({ correlationId: 'cid', llmCalls: [] }),
     execution: { phases: { setup: { name: 'setup', agents: [] } } }
   })
 }));
-jest.mock('@engi/dryrun', () => ({
+jest.mock('@bitcode/dryrun', () => ({
   isDryRunEnabled: jest.fn(),
   logDryRunPrompt: jest.fn(),
   logDryRunResponse: jest.fn(),
   generateDefaultResponse: jest.fn((schema) => ({ foo: 'default' }))
 }));
 jest.mock('ai', () => ({ generateText: jest.fn() }));
-jest.mock('@engi/parsing', () => ({ extractJsonFromResponse: jest.fn(), parseResponse: jest.fn() }));
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn(), writeStreamGeneration: jest.fn() }));
-jest.mock('@engi/models', () => ({ getModelInstance: jest.fn(() => ({ provider: 'testModel' })) }));
-jest.mock('@engi/credits', () => ({ estimateTokens: jest.fn(() => 1), deductLLMCredits: jest.fn() }));
+jest.mock('@bitcode/parsing', () => ({ extractJsonFromResponse: jest.fn(), parseResponse: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn(), writeStreamGeneration: jest.fn() }));
+jest.mock('@bitcode/models', () => ({ getModelInstance: jest.fn(() => ({ provider: 'testModel' })) }));
+jest.mock('@bitcode/credits', () => ({ estimateTokens: jest.fn(() => 1), deductLLMCredits: jest.fn() }));
 
 describe('structuredLLMCall dry-run', () => {
   beforeEach(() => jest.clearAllMocks());
   it('uses fallback in dry-run mode', async () => {
-    const { isDryRunEnabled, logDryRunPrompt, logDryRunResponse, generateDefaultResponse } = require('@engi/dryrun');
+    const { isDryRunEnabled, logDryRunPrompt, logDryRunResponse, generateDefaultResponse } = require('@bitcode/dryrun');
     isDryRunEnabled.mockReturnValue(true);
     const schema = z.object({ foo: z.string() }).describe('test');
     const config = { schema, fallback: () => ({ foo: 'fb' }) };
@@ -44,14 +44,14 @@ describe('structuredLLMCall non-dry-run parsing', () => {
   let isDryRunEnabled: jest.Mock;
   beforeEach(() => {
     jest.clearAllMocks();
-    const dryrun = require('@engi/dryrun');
+    const dryrun = require('@bitcode/dryrun');
     isDryRunEnabled = dryrun.isDryRunEnabled;
     isDryRunEnabled.mockReturnValue(false);
-    parseResponse = require('@engi/parsing').parseResponse;
-    extractJsonFromResponse = require('@engi/parsing').extractJsonFromResponse;
+    parseResponse = require('@bitcode/parsing').parseResponse;
+    extractJsonFromResponse = require('@bitcode/parsing').extractJsonFromResponse;
     generateText = require('ai').generateText;
     // Stub context
-    require('@engi/context').getGlobalContext.mockReturnValue({
+    require('@bitcode/context').getGlobalContext.mockReturnValue({
       getCurrentIteration: () => ({ correlationId: 'cid', llmCalls: [] }),
       execution: { phases: { setup: { name: 'setup', agents: [] } } },
       dataStream: {}

@@ -19,10 +19,10 @@ Enterprise API orchestration layer providing unified route handling and request 
 - **Response Standardization**: Consistent API response structures across all endpoints
 
 ### Integration Points
-- **Database Operations**: All persistence via `@engi/orm` package integration
-- **Authentication**: Complete delegation to `@engi/auth` subsystem
-- **VCS Operations**: Repository interactions through `@engi/vcs` abstraction
-- **Streaming**: Real-time updates via `@engi/streams` infrastructure
+- **Database Operations**: All persistence via `@bitcode/orm` package integration
+- **Authentication**: Complete delegation to `@bitcode/auth` subsystem
+- **VCS Operations**: Repository interactions through `@bitcode/vcs` abstraction
+- **Streaming**: Real-time updates via `@bitcode/streams` infrastructure
 
 ## API Reference
 
@@ -111,10 +111,10 @@ interface MiddlewareOptions {
 ### Package Dependencies
 ```typescript
 // Core infrastructure dependencies
-import { authenticateRequest } from '@engi/auth';
-import { deductCredits } from '@engi/credits';
-import { log } from '@engi/logger';
-import { writeStreamMessage } from '@engi/streams';
+import { authenticateRequest } from '@bitcode/auth';
+import { deductCredits } from '@bitcode/credits';
+import { log } from '@bitcode/logger';
+import { writeStreamMessage } from '@bitcode/streams';
 ```
 
 ### Error Handling

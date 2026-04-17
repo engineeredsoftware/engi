@@ -12,7 +12,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZETASKSEMANTICS_DOCCODETOOLEXAMPLE1: PromptPart = 
   'Example 1 - Multi-modal Code Architecture Analysis: analyzeTaskSemantics({ taskDescription: [text: "Refactor authentication system", image: "architecture-diagram.png", code: "auth-module.ts"], analysisDepth: "cognitive", targetDimensions: ["intent", "scope", "dependencies"], cognitiveFramework: "PTRR" }) → Returns structured semantic breakdown identifying security intent, module scope boundaries, dependency cascades, and cognitive complexity patterns for task comprehension agent processing' as PromptPart;

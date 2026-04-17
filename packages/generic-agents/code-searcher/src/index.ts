@@ -13,12 +13,12 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
+} from '@bitcode/agent-generics';
 import { z } from 'zod';
 
 // ==================== IMPORTS ====================
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for code searching
@@ -26,7 +26,7 @@ import {
   workspaceSymbolsTool,
   documentSymbolsTool,
   hoverInfoTool
-} from '@engi/generic-tools-lsp-query';
+} from '@bitcode/generic-tools-lsp-query';
 
 // ==================== INPUT SCHEMA ====================
 const CodeSearchInputSchema = z.object({

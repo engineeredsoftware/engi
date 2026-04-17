@@ -12,16 +12,16 @@ import {
    
   factoryAgentWithPTRR,
   factoryAgentWithSingleStep
-} from '@engi/agent-generics';
-import { AgentPrompt, AgentStepPrompt } from '@engi/agent-generics';
-import type { PromptPart } from '@engi/prompts';
+} from '@bitcode/agent-generics';
+import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
+import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for web searching
-import { webSearchTool } from '@engi/generic-tools-web-search';
-import { webScrapingTool } from '@engi/generic-tools/web-scraping';
-import { urlValidationTool } from '@engi/generic-tools/url-validation';
+import { webSearchTool } from '@bitcode/generic-tools-web-search';
+import { webScrapingTool } from '@bitcode/generic-tools/web-scraping';
+import { urlValidationTool } from '@bitcode/generic-tools/url-validation';
 
 // ==================== INPUT SCHEMA ====================
 const WebSearchInputSchema = z.object({

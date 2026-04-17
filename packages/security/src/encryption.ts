@@ -6,7 +6,7 @@
  */
 
 import crypto from 'crypto';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 // Encryption configuration
 const ALGORITHM = 'aes-256-gcm';

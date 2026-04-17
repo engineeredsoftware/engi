@@ -1,10 +1,10 @@
 /**
  * @jest-environment node
  */
-import { supabaseAdmin } from '@engi/supabase';
-import { deductCredits, InsufficientCreditsError } from '@engi/credits';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { deductCredits, InsufficientCreditsError } from '@bitcode/credits';
 
-jest.mock('@engi/supabase', () => ({
+jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
     rpc: jest.fn(),
     from: jest.fn()

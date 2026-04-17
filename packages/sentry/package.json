@@ -1,5 +1,5 @@
 {
-  "name": "@engi/sentry",
+  "name": "@bitcode/sentry",
   "version": "0.1.0",
   "description": "Sentry integration with edge-safe conditional exports",
   "main": "src/sentry.ts",

@@ -5,9 +5,9 @@
  * full DocCodeToolPrompt integration.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { multimodalProcessingDocCodeToolPrompt } from './prompts/MultimodalProcessingDocCodeToolPrompt';
 
 // Import the processing logic from the original file

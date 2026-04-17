@@ -5,9 +5,9 @@
  * Agents organize Actions, Actions sequence Steps, Steps sequence GenerationSteps.
  */
 
-import type { PreparedContext } from '@engi/context';
-import { Executor, Execution } from '@engi/execution-generics';
-import { Tool } from '@engi/tools-generics';
+import type { PreparedContext } from '@bitcode/context';
+import { Executor, Execution } from '@bitcode/execution-generics';
+import { Tool } from '@bitcode/tools-generics';
 
 // ==================== PTRR ENUMS ====================
 

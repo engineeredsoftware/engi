@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useQueryClient, QueryClient } from '@tanstack/react-query';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 import type { User } from '@supabase/supabase-js';
 
 import {

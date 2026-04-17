@@ -1,5 +1,5 @@
 {
-  "name": "@engi/models",
+  "name": "@bitcode/models",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
@@ -9,8 +9,8 @@
     "prebuild": "npm run generate-prompt-configs"
   },
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/observability": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/observability": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.0.0"

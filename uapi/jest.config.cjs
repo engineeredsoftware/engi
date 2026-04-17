@@ -27,26 +27,26 @@ module.exports = {
 
     // ---------- explicit maps for shared pipeline libs ----------
     // -------------------------------------------------------------------
-    // New @engi/* package namespace redirects. These replace the historical
+    // New @bitcode/* package namespace redirects. These replace the historical
     // "@/lib/*" imports that lived inside the uapi codebase. As we migrate
     // source files over to the new package-scoped imports, Jest also needs
     // to know how to resolve them when running the TS output. Wherever
     // possible we mirror the old explicit mappings to keep the runtime
     // resolution behaviour identical.
     // -------------------------------------------------------------------
-    '^@engi/logger$': '<rootDir>/../packages/logger/src/logger.ts',
-    '^@engi/context$': '<rootDir>/../packages/context/src/index.ts',
-    '^@engi/context/(.*)$': '<rootDir>/../packages/context/src/$1',
-    '^@engi/observability$': '<rootDir>/tests/mocks/observability.js',
-    '^@engi/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
-    '^@engi/supabase/ssr/client$': '<rootDir>/tests/mocks/supabaseBrowserClient.ts',
-    '^@engi/supabase/ssr/(.*)$': '<rootDir>/../packages/supabase/src/ssr/$1',
-    '^@engi/supabase$': '<rootDir>/../packages/supabase/src/index.ts',
-    '^@engi/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',
-    '^@engi/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
-    // Fallback – treat other @engi/<pkg> references as pointing into packages/<pkg>/src
-    '^@engi/([^/]+)$': '<rootDir>/../packages/$1/src/index.ts',
-    '^@engi/([^/]+)/(.+)$': '<rootDir>/../packages/$1/src/$2',
+    '^@bitcode/logger$': '<rootDir>/../packages/logger/src/logger.ts',
+    '^@bitcode/context$': '<rootDir>/../packages/context/src/index.ts',
+    '^@bitcode/context/(.*)$': '<rootDir>/../packages/context/src/$1',
+    '^@bitcode/observability$': '<rootDir>/tests/mocks/observability.js',
+    '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
+    '^@bitcode/supabase/ssr/client$': '<rootDir>/tests/mocks/supabaseBrowserClient.ts',
+    '^@bitcode/supabase/ssr/(.*)$': '<rootDir>/../packages/supabase/src/ssr/$1',
+    '^@bitcode/supabase$': '<rootDir>/../packages/supabase/src/index.ts',
+    '^@bitcode/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',
+    '^@bitcode/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
+    // Fallback – treat other @bitcode/<pkg> references as pointing into packages/<pkg>/src
+    '^@bitcode/([^/]+)$': '<rootDir>/../packages/$1/src/index.ts',
+    '^@bitcode/([^/]+)/(.+)$': '<rootDir>/../packages/$1/src/$2',
 
     // -------------------------------------------------------------------
     // Legacy @/lib/* aliases – kept temporarily to avoid breaking any files

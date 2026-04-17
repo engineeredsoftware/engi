@@ -5,8 +5,8 @@
  * code quality declines or technical debt accumulates.
  */
 
-import { supabaseAdmin } from '@engi/supabase';
-import { log } from '@engi/logger';
+import { supabaseAdmin } from '@bitcode/supabase';
+import { log } from '@bitcode/logger';
 
 export interface RepositoryHealthMetrics {
   repository: string;

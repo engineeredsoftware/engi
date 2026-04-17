@@ -1,11 +1,11 @@
 {
-  "name": "@engi/generic-tools-mcps-vercel",
+  "name": "@bitcode/generic-tools-mcps-vercel",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@engi/vercel": "workspace:*",
-    "@engi/tools-generics": "workspace:*"
+    "@bitcode/vercel": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*"
   }
 }

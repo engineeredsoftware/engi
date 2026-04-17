@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 export const PROMPTPART_SPECIFIC_TOOL_SEARCHWEB_DOCCODETOOLNAME: PromptPart =
   'Search Web Tool' as PromptPart;

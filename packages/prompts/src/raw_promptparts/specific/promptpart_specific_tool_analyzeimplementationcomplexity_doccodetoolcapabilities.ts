@@ -18,7 +18,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_ANALYZEIMPLEMENTATIONCOMPLEXITY_DOCCODETOOLCAPABILITIES: PromptPart = 
   'Cyclomatic complexity calculation using McCabe metrics, Halstead complexity measures for program difficulty, Lines of Code (LOC) analysis with SLOC and CLOC integration, dependency graph analysis with circular dependency detection, architectural pattern recognition through static analysis, code maintainability index calculation, technical debt estimation using SonarQube rules, performance impact assessment through Conversations notation analysis, resource allocation modeling with time and space complexity, risk assessment matrix with probability and impact scoring, refactoring effort estimation based on code change patterns, and implementation timeline prediction using historical data analysis' as PromptPart;

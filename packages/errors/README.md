@@ -1,4 +1,4 @@
-# @engi/errors
+# @bitcode/errors
 
 Canonical error handling primitives for enterprise-grade error management across distributed systems.
 
@@ -29,7 +29,7 @@ Standardized error abstraction layer providing consistent error semantics, autom
 
 ### Core Error Class
 ```typescript
-import { EngiError } from '@engi/errors';
+import { EngiError } from '@bitcode/errors';
 
 throw new EngiError('Operation failed', {
   code: 'OPERATION_FAILED',
@@ -41,7 +41,7 @@ throw new EngiError('Operation failed', {
 
 ### Error Conversion
 ```typescript
-import { asEngiError } from '@engi/errors';
+import { asEngiError } from '@bitcode/errors';
 
 try {
   await riskyOperation();
@@ -53,14 +53,14 @@ try {
 
 ### Telemetry Functions
 ```typescript
-import { reportError } from '@engi/errors';
+import { reportError } from '@bitcode/errors';
 
 const normalizedError = reportError(error); // auto-reports to Sentry
 ```
 
 ### Assertion Utilities
 ```typescript
-import { invariant, unreachable } from '@engi/errors';
+import { invariant, unreachable } from '@bitcode/errors';
 
 invariant(user.isAuthenticated, 'User must be authenticated');
 
@@ -75,7 +75,7 @@ switch (status) {
 
 ### API Error Handling
 ```typescript
-import { EngiError, toHttpResponse } from '@engi/errors';
+import { EngiError, toHttpResponse } from '@bitcode/errors';
 
 export async function handleRequest(req: Request): Promise<Response> {
   try {
@@ -90,7 +90,7 @@ export async function handleRequest(req: Request): Promise<Response> {
 
 ### Service Layer Errors
 ```typescript
-import { EngiError, reportError } from '@engi/errors';
+import { EngiError, reportError } from '@bitcode/errors';
 
 class UserService {
   async getUserById(id: string) {
@@ -114,7 +114,7 @@ class UserService {
 
 ### Pipeline Error Boundaries
 ```typescript
-import { asEngiError, reportError } from '@engi/errors';
+import { asEngiError, reportError } from '@bitcode/errors';
 
 export function withErrorBoundary<T>(operation: () => Promise<T>) {
   return async (): Promise<T> => {

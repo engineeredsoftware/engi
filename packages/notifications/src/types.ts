@@ -2,8 +2,8 @@
  * Shared Notification & Event domain types used across the monorepo.
  *
  * NOTE:  This file purposefully lives inside the existing
- * `@engi/notifications` package so consumers can simply
- *   import { NotificationType, NotificationChannel, RunEvent, CreditEvent } from '@engi/email';
+ * `@bitcode/notifications` package so consumers can simply
+ *   import { NotificationType, NotificationChannel, RunEvent, CreditEvent } from '@bitcode/email';
  * without having to learn yet-another alias.
  */
 

@@ -1,13 +1,13 @@
-import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_INSTRUCTIONS } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_instructions';
-import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_ANALYSIS_APPROACH } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_analysis_approach';
-import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_OUTPUT_FORMAT } from '@engi/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_output_format';
-import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_INSTRUCTIONS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_instructions';
+import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_ANALYSIS_APPROACH } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_analysis_approach';
+import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_OUTPUT_FORMAT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_output_format';
+import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 /**\n * @doc-comment-developing-promptdevelopment\n * domain: agent\n * intent: "(fill intent)"\n * current_version: "GA1.50.0"\n * dependencies: { }\n * benchmarks: [\n *   { "name": "technical_accuracy", "test": "Concrete directives and purpose", "score": 0.46 },\n *   { "name": "implementation_ready", "test": "Usable by registry formatter", "score": 0.46 }\n * ]\n */
 /**
  * Audio Processor Agent - Plan Step Prompt
@@ -16,7 +16,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@engi/pro
  * analysis, and insight extraction from audio content.
  */
 
-import { Prompt } from '@engi/prompts';
+import { Prompt } from '@bitcode/prompts';
 
 
 

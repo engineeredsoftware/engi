@@ -3,37 +3,37 @@
  * Verifies that each phase wrapper is invoked and a scalar Engi is returned.
  */
 // Mock phase wrappers so we don’t execute real agent logic during unit test.
-jest.mock('@engi/pipelines/measure/src/phases/setup', () => ({
+jest.mock('@bitcode/pipelines/measure/src/phases/setup', () => ({
   runSetupMeasure: jest.fn(async () => ({ success: true })),
 }));
-jest.mock('@engi/pipelines/measure/src/phases/discovery', () => ({
+jest.mock('@bitcode/pipelines/measure/src/phases/discovery', () => ({
   runDiscoveryMeasure: jest.fn(async () => ({ success: true })),
 }));
-jest.mock('@engi/pipelines/measure/src/phases/implementation', () => ({
+jest.mock('@bitcode/pipelines/measure/src/phases/implementation', () => ({
   runMeasureImplementation: jest.fn(async () => ({ engi: 42, shown_work: 'stub' })),
 }));
-jest.mock('@engi/pipelines/measure/src/phases/validation', () => ({
+jest.mock('@bitcode/pipelines/measure/src/phases/validation', () => ({
   runValidationMeasure: jest.fn(async () => ({ success: true })),
 }));
-jest.mock('@engi/pipelines/measure/src/phases/shipping', () => ({
+jest.mock('@bitcode/pipelines/measure/src/phases/shipping', () => ({
   runShippingMeasure: jest.fn(async () => ({ engi: 42, explanation: 'ok' })),
 }));
 
-jest.mock('@engi/streams', () => ({ writeStreamMessage: jest.fn() }));
+jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn() }));
 
-jest.mock('@engi/context', () => ({
+jest.mock('@bitcode/context', () => ({
   getGlobalContext: () => ({
     dataStream: {},
     abortSignal: {},
   }),
 }));
 
-import { runMeasurePipeline } from '@engi/engine/pipeline/pipelineMeasureSDIVS';
-import { runSetupMeasure } from '@engi/pipelines/measure';
-import { runDiscoveryMeasure } from '@engi/pipelines/measure';
-import { runMeasureImplementation } from '@engi/pipelines/measure';
-import { runValidationMeasure } from '@engi/pipelines/measure';
-import { runShippingMeasure } from '@engi/pipelines/measure';
+import { runMeasurePipeline } from '@bitcode/engine/pipeline/pipelineMeasureSDIVS';
+import { runSetupMeasure } from '@bitcode/pipelines/measure';
+import { runDiscoveryMeasure } from '@bitcode/pipelines/measure';
+import { runMeasureImplementation } from '@bitcode/pipelines/measure';
+import { runValidationMeasure } from '@bitcode/pipelines/measure';
+import { runShippingMeasure } from '@bitcode/pipelines/measure';
 
 describe('Measure pipeline smoke', () => {
   it('invokes all phase wrappers and returns Engi scalar', async () => {

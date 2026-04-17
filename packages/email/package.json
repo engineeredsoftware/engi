@@ -1,5 +1,5 @@
 {
-  "name": "@engi/email",
+  "name": "@bitcode/email",
   "version": "1.0.0",
   "description": "Email service for Engi team management and notifications",
   "main": "src/index.ts",

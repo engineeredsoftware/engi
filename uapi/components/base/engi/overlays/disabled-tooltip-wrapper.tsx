@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC } from "react";
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 
 interface DisabledTooltipWrapperProps {
   /** Tooltip text shown while the child element is hovered */

@@ -1,5 +1,5 @@
 {
-  "name": "@engi/mcps-tools-notion",
+  "name": "@bitcode/mcps-tools-notion",
   "version": "1.0.0",
   "description": "MCP tools for Notion integration",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/notion": "workspace:*"
+    "@bitcode/notion": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

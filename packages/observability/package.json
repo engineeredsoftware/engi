@@ -1,5 +1,5 @@
 {
-  "name": "@engi/observability",
+  "name": "@bitcode/observability",
   "version": "0.1.0",
   "private": true,
   "description": "Tracing helpers for Engi (JS build).",
@@ -20,9 +20,9 @@
     "src"
   ],
   "dependencies": {
-    "@engi/logger": "workspace:*",
-    "@engi/streams": "workspace:*",
-    "@engi/sentry": "workspace:*",
-    "@engi/errors": "workspace:*"
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/streams": "workspace:*",
+    "@bitcode/sentry": "workspace:*",
+    "@bitcode/errors": "workspace:*"
   }
 }

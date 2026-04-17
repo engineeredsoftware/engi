@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { ArrowUpRight, GitBranch, Lock, ShieldCheck } from 'lucide-react';
 import {
   readDepositSectionCard,
   readPrimaryText,
@@ -16,6 +17,7 @@ import {
   getApplicationAction,
   getApplicationExperience,
 } from './application-experience-architecture';
+import type { ApplicationRepositoryContextState } from './application-repository-context';
 
 const CORE_PANEL_CONFIG = [
   { id: 'panelOperatingPicture', fallbackLabel: 'Operating picture' },
@@ -41,8 +43,16 @@ function readPanel(panelId: string, fallbackLabel: string): NativePanel {
   return { id: panelId, label, badge, cards };
 }
 
-export default function ApplicationCoreNativeSections() {
+interface ApplicationCoreNativeSectionsProps {
+  repositoryContext?: ApplicationRepositoryContextState | null;
+}
+
+export default function ApplicationCoreNativeSections({
+  repositoryContext = null,
+}: ApplicationCoreNativeSectionsProps) {
   const [panels, setPanels] = useState<NativePanel[]>([]);
+  const selectedRepository = repositoryContext?.selectedRepository || null;
+  const connectionStatus = repositoryContext?.connectionStatus || null;
 
   const refreshFromShell = useCallback(() => {
     setPanels(CORE_PANEL_CONFIG.map((panel) => readPanel(panel.id, panel.fallbackLabel)));
@@ -104,6 +114,62 @@ export default function ApplicationCoreNativeSections() {
               </span>
             </div>
             <p className="mt-3 text-sm leading-6 text-neutral-300">{action.description}</p>
+            {action.id === 'give' ? (
+              selectedRepository ? (
+                <div className="mt-4 rounded-[1.2rem] border border-emerald-400/20 bg-emerald-400/10 px-4 py-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[0.64rem] uppercase tracking-[0.18em] text-emerald-200/80">Selected repository supply</p>
+                      <p className="mt-2 text-base font-semibold text-white">{selectedRepository.fullName}</p>
+                    </div>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
+                      {connectionStatus?.metadata?.mock_mode ? 'mock' : 'live'}
+                    </span>
+                  </div>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-[1rem] border border-white/8 bg-black/20 px-3 py-3">
+                      <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Branch</p>
+                      <p className="mt-2 flex items-center gap-2 text-sm font-medium text-white">
+                        <GitBranch className="h-4 w-4 text-emerald-200" />
+                        {selectedRepository.defaultBranch || 'main'}
+                      </p>
+                    </div>
+                    <div className="rounded-[1rem] border border-white/8 bg-black/20 px-3 py-3">
+                      <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Visibility</p>
+                      <p className="mt-2 flex items-center gap-2 text-sm font-medium text-white">
+                        {selectedRepository.private ? (
+                          <Lock className="h-4 w-4 text-amber-200" />
+                        ) : (
+                          <ShieldCheck className="h-4 w-4 text-emerald-200" />
+                        )}
+                        {selectedRepository.private ? 'private' : 'public'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
+                      {selectedRepository.language || 'n/a'}
+                    </span>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
+                      {connectionStatus?.username || connectionStatus?.metadata?.account || 'connected'}
+                    </span>
+                    <a
+                      href={selectedRepository.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
+                    >
+                      open repo
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
+                  Connect and select a repository above to make Bitcode give-side supply explicit before the deposit chain.
+                </div>
+              )
+            ) : null}
             <div className="mt-5">
               <button
                 type="button"
@@ -160,7 +226,39 @@ export default function ApplicationCoreNativeSections() {
             </div>
 
             <div className="mt-5 grid gap-4 xl:grid-cols-2">
-              {panel.cards.map((card, cardIndex) => (
+              {(panel.id === 'panelDepositing' && selectedRepository
+                ? [
+                    {
+                      title: selectedRepository.fullName,
+                      eyebrow: 'Selected repository supply',
+                      subtitle:
+                        selectedRepository.description ||
+                        'Application-owned repository context now anchors the Bitcode give-side before the preserved deposit surfaces.',
+                      help:
+                        connectionStatus?.connected && connectionStatus.valid
+                          ? `Connected as ${connectionStatus.username || connectionStatus.metadata?.account || 'bitcode'}.`
+                          : 'Repository connection posture is not currently validated.',
+                      badge: connectionStatus?.metadata?.mock_mode ? 'mock' : 'connected',
+                      metrics: [
+                        { label: 'Default branch', value: selectedRepository.defaultBranch || 'main' },
+                        { label: 'Visibility', value: selectedRepository.private ? 'private' : 'public' },
+                      ],
+                      rows: [
+                        { label: 'Language', value: selectedRepository.language || 'n/a' },
+                        {
+                          label: 'Owner',
+                          value: selectedRepository.owner.username || selectedRepository.owner.id,
+                        },
+                        {
+                          label: 'Topics',
+                          value: selectedRepository.topics?.length ? selectedRepository.topics.join(', ') : 'no tagged topics',
+                        },
+                      ],
+                    },
+                    ...panel.cards,
+                  ]
+                : panel.cards
+              ).map((card, cardIndex) => (
                 <article key={`${panel.id}-${cardIndex}-${card.title}`} className="rounded-[1.45rem] border border-white/8 bg-black/20 px-5 py-5">
                   <div className="flex flex-col gap-3">
                     <div>

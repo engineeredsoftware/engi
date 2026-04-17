@@ -10,6 +10,6 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 export const PROMPTPART_SPECIFIC_TOOL_MYSQLMCP_DOCCODETOOLNAME: PromptPart =
   'MySQL MCP Tool' as PromptPart;

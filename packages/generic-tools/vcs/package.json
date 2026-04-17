@@ -1,5 +1,5 @@
 {
-  "name": "@engi/vcs-tools",
+  "name": "@bitcode/vcs-tools",
   "version": "1.0.0",
   "description": "VCS tools using unified VCS abstraction layer",
   "main": "src/index.ts",
@@ -9,10 +9,10 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@engi/tools-generics": "workspace:*",
-    "@engi/vcs": "workspace:*",
-    "@engi/errors": "workspace:*",
-    "@engi/supabase": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/vcs": "workspace:*",
+    "@bitcode/errors": "workspace:*",
+    "@bitcode/supabase": "workspace:*",
     "zod": "^3.21.4"
   },
   "devDependencies": {

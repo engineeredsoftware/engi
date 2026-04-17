@@ -4,10 +4,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import SocialLoginButton from '@/components/base/engi/auth/SocialLoginButton';
 import SocialAccountLinker from '@/components/base/engi/auth/SocialAccountLinker';
 import LoadingSpinner from '@/components/base/engi/indicators/LoadingSpinner';
-import { trackEvent } from '@engi/google-analytics';
-import { reportError } from '@engi/errors';
+import { trackEvent } from '@bitcode/google-analytics';
+import { reportError } from '@bitcode/errors';
 // import DataSharingPanel from './data-sharing-panel';
-import { createClient } from '@engi/supabase/ssr/client';
+import { createClient } from '@bitcode/supabase/ssr/client';
 // Use Supabase client for OTP flows instead of manual fetch
 import { motion, AnimatePresence } from 'framer-motion';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
@@ -122,7 +122,6 @@ export default function ProfileStep({ onSave,
         if (!verifiedRef.current) {
           verifiedRef.current = true;
           setIsVerified(true);
-          onCompletionStatusChange?.(true);
         }
       }
     };
@@ -148,7 +147,6 @@ export default function ProfileStep({ onSave,
         if (!verifiedRef.current) {
           verifiedRef.current = true;
           setIsVerified(true);
-          onCompletionStatusChange?.(true);
         }
       }
     });
@@ -220,7 +218,6 @@ export default function ProfileStep({ onSave,
       } else {
         setIsVerified(true);
         verifiedRef.current = true;
-        onCompletionStatusChange?.(true);
         trackEvent('onboarding_profile_verified');
         
         // Save verification status to profile
@@ -293,7 +290,7 @@ export default function ProfileStep({ onSave,
   useEffect(() => {
     if (onCompletionStatusChange && prevIsVerifiedRef.current !== isVerified) {
       prevIsVerifiedRef.current = isVerified;
-      onCompletionStatusChange(isVerified);
+      queueMicrotask(() => onCompletionStatusChange(isVerified));
     }
   }, [isVerified, onCompletionStatusChange]);
 

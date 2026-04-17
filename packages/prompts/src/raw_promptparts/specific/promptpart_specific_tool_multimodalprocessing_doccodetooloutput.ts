@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_MULTIMODALPROCESSING_DOCCODETOOLOUTPUT: PromptPart = 
   'Returns ProcessingResult object containing: processedContent (primary output), modality (detected/processed type), metadata (extracted information), transformations (applied operations), confidence (processing confidence score), alternativeFormats (when applicable)' as PromptPart;

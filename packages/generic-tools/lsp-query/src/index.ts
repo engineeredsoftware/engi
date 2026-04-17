@@ -5,7 +5,7 @@
  * and intelligence capabilities for advanced development workflows.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
 
 // Import composed prompts from local prompts directory
@@ -45,7 +45,7 @@ import {
   CodeActionParams,
   FormatDocumentParams,
   LspError,
-} from '@engi/lsp';
+} from '@bitcode/lsp';
 import { LSP_QUERY_DOC_CODE_TOOL_PROMPT } from './prompts/LspQueryDocCodeToolPrompt';
 
 // ---------------------- Schemas ---------------------------

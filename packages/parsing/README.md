@@ -1,4 +1,4 @@
-# @engi/parsing
+# @bitcode/parsing
 
 Industrial-grade parsing utilities for structured data extraction and validation with enterprise-level error handling and fallback mechanisms.
 
@@ -30,7 +30,7 @@ Comprehensive parsing framework designed for reliable extraction and validation 
 
 ### Core Parsing Functions
 ```typescript
-import { extractJsonFromResponse, parseResponse } from '@engi/parsing';
+import { extractJsonFromResponse, parseResponse } from '@bitcode/parsing';
 
 // Raw JSON extraction
 const jsonString = extractJsonFromResponse(llmResponse);
@@ -41,7 +41,7 @@ const result = await parseResponse(response, schema, fallbackFn);
 
 ### Fallback Generation
 ```typescript
-import { createFallbackResponse } from '@engi/parsing';
+import { createFallbackResponse } from '@bitcode/parsing';
 
 const fallback = createFallbackResponse(schema, error, 'task-type');
 ```
@@ -50,7 +50,7 @@ const fallback = createFallbackResponse(schema, error, 'task-type');
 
 ### LLM Response Processing
 ```typescript
-import { parseResponse } from '@engi/parsing';
+import { parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
 const TaskResultSchema = z.object({
@@ -80,7 +80,7 @@ async function processLLMResponse(response: string) {
 
 ### API Response Validation
 ```typescript
-import { parseResponse } from '@engi/parsing';
+import { parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
 const APIResponseSchema = z.object({
@@ -107,7 +107,7 @@ export async function validateAPIResponse(rawResponse: string) {
 
 ### Complex Object Parsing
 ```typescript
-import { extractJsonFromResponse, parseResponse } from '@engi/parsing';
+import { extractJsonFromResponse, parseResponse } from '@bitcode/parsing';
 import { z } from 'zod';
 
 const DeliverableSchema = z.object({
@@ -166,7 +166,7 @@ class DeliverableParser {
 
 ### Batch Processing with Error Recovery
 ```typescript
-import { parseResponse } from '@engi/parsing';
+import { parseResponse } from '@bitcode/parsing';
 
 class BatchParser {
   async parseMultipleResponses<T>(

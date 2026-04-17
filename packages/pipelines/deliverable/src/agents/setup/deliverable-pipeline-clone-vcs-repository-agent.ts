@@ -6,15 +6,15 @@
  * cumulative over any generic base expectations.
  */
 
-import { factoryAgentWithPTRR } from '@engi/agent-generics';
-import { Prompt } from '@engi/prompts';
+import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { Prompt } from '@bitcode/prompts';
 
 // Import generic VCS agent prompts to extend (system + step prompts)
-import { SYSTEM_PROMPT_VCS } from '@engi/generic-agents-vcs/src/prompts/system-prompt-vcs';
-import { VCS_PLAN_PROMPT } from '@engi/generic-agents-vcs/src/prompts/plan-prompt-vcs';
-import { VCS_TRY_PROMPT } from '@engi/generic-agents-vcs/src/prompts/try-prompt-vcs';
-import { VCS_REFINE_PROMPT } from '@engi/generic-agents-vcs/src/prompts/refine-prompt-vcs';
-import { VCS_RETRY_PROMPT } from '@engi/generic-agents-vcs/src/prompts/retry-prompt-vcs';
+import { SYSTEM_PROMPT_VCS } from '@bitcode/generic-agents-vcs/src/prompts/system-prompt-vcs';
+import { VCS_PLAN_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/plan-prompt-vcs';
+import { VCS_TRY_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/try-prompt-vcs';
+import { VCS_REFINE_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/refine-prompt-vcs';
+import { VCS_RETRY_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/retry-prompt-vcs';
 
 // Deliverables prompts (system + steps) using registry append semantics
 import {
@@ -116,7 +116,7 @@ export const DeliverablePipelineCloneVCSRepositoryAgent = factoryAgentWithPTRR<
 });
 
 // Wrapper default export adds execution-state normalization using EE stores.
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 
 export default async function runDeliverablePipelineCloneVCSRepositoryAgent(input: any, execution: any) {
   const out = await DeliverablePipelineCloneVCSRepositoryAgent(input, execution);

@@ -617,7 +617,7 @@ export const getProductionHealth = factoryTool(
 ### Basic Web Search
 
 ```typescript
-import { search } from '@engi/web-search';
+import { search } from '@bitcode/web-search';
 
 const searchResult = await search.use({
   query: 'React TypeScript best practices 2024',
@@ -641,7 +641,7 @@ searchResult.results.forEach(result => {
 ### Enhanced Search with URL Intelligence
 
 ```typescript
-import { searchWithUrlIntelligence } from '@engi/web-search';
+import { searchWithUrlIntelligence } from '@bitcode/web-search';
 
 const enhancedSearch = await searchWithUrlIntelligence.use({
   query: 'dashboard component implementation',
@@ -666,7 +666,7 @@ console.log('Query Enhancements:', enhancedSearch.intelligence.queryEnhancements
 ### Multi-Provider Search with Resilience
 
 ```typescript
-import { productionMultiProviderSearch } from '@engi/web-search';
+import { productionMultiProviderSearch } from '@bitcode/web-search';
 
 const resilientSearch = await productionMultiProviderSearch.use({
   query: 'microservices architecture patterns',
@@ -698,7 +698,7 @@ if (orchestration.failedProviders.length > 0) {
 ### Content Retrieval and Analysis
 
 ```typescript
-import { getContents, analyzeUrlAttachments } from '@engi/web-search';
+import { getContents, analyzeUrlAttachments } from '@bitcode/web-search';
 
 // Analyze URL attachments for context
 const urlAnalysis = await analyzeUrlAttachments.use({
@@ -741,7 +741,7 @@ import {
   getProductionHealth, 
   getProductionMetrics, 
   getProviderStatistics 
-} from '@engi/web-search';
+} from '@bitcode/web-search';
 
 // Check overall system health
 const healthStatus = await getProductionHealth.use();

@@ -34,13 +34,13 @@ for (const scope of ['generic', 'specific']) {
     let m;
     while ((m = re.exec(content)) !== null) {
       const name = m[1];
-      const pkgPath = `@engi/prompts/raw_promptparts/${scope}/${path.basename(file, '.ts')}`;
+      const pkgPath = `@bitcode/prompts/raw_promptparts/${scope}/${path.basename(file, '.ts')}`;
       mapping.set(name, pkgPath);
     }
   }
 }
 
-// Whitelist of root exports to keep importing from '@engi/prompts'
+// Whitelist of root exports to keep importing from '@bitcode/prompts'
 const keepAtRoot = new Set([
   'Prompt', 'createPrompt', 'PromptFormatter', 'createPromptPart', 'PromptPart',
   'hierarchicalFormatter',
@@ -52,7 +52,7 @@ const keepAtRoot = new Set([
   'DevelopingBenchmarkDefinition','DevelopingPromptDocComment'
 ]);
 
-// Find all TS/TSX files importing from '@engi/prompts'
+// Find all TS/TSX files importing from '@bitcode/prompts'
 function listFilesWithImports(rootDir) {
   const all = [];
   const stack = [rootDir];
@@ -66,7 +66,7 @@ function listFilesWithImports(rootDir) {
         stack.push(p);
       } else if (ent.isFile() && (p.endsWith('.ts') || p.endsWith('.tsx'))) {
         const txt = fs.readFileSync(p, 'utf8');
-        if (txt.includes("from '@engi/prompts'")) all.push(p);
+        if (txt.includes("from '@bitcode/prompts'")) all.push(p);
       }
     }
   }
@@ -81,7 +81,7 @@ for (const file of files) {
   let src = fs.readFileSync(file, 'utf8');
   let updated = src;
 
-  // Find all import lines from '@engi/prompts'
+  // Find all import lines from '@bitcode/prompts'
   const importRe = /import\s+\{([^}]+)\}\s+from\s+'@engi\/prompts';/g;
   const imports = [];
   let mi;
@@ -125,7 +125,7 @@ for (const file of files) {
     const after = updated.slice(imp.end + offset);
     let replacement = '';
     if (keepNames.length > 0) {
-      replacement = `import { ${keepNames.join(', ')} } from '@engi/prompts';`;
+      replacement = `import { ${keepNames.join(', ')} } from '@bitcode/prompts';`;
     } // else: drop the line entirely
     updated = before + replacement + after;
     offset += replacement.length - (imp.end - imp.start);

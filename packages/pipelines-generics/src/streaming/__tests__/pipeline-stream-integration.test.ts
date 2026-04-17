@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { Execution } from '@engi/execution-generics';
+import { Execution } from '@bitcode/execution-generics';
 import { enablePipelineStreaming } from '../../streaming/pipeline-stream-integration';
 
 // Mock ORM model so we can assert persistence without a real DB
 const createdEvents: any[] = [];
-jest.mock('@engi/orm', () => ({
+jest.mock('@bitcode/orm', () => ({
   ExecutionEventsModel: class {
     constructor() {}
     async create(row: any) {

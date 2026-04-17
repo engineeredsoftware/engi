@@ -1,4 +1,4 @@
-import { supabaseAdmin as supabase } from '@engi/supabase';
+import { supabaseAdmin as supabase } from '@bitcode/supabase';
 import { DomainEvent, NotificationChannel, NotificationPayload, NotificationRecord, NotificationType } from './types';
 import { sendEmail } from './index';
 

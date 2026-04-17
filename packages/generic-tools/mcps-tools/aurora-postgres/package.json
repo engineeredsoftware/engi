@@ -1,11 +1,11 @@
 {
-  "name": "@engi/generic-tools-mcps-aurora-postgres",
+  "name": "@bitcode/generic-tools-mcps-aurora-postgres",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@engi/aurora-postgres": "workspace:*",
-    "@engi/tools-generics": "workspace:*"
+    "@bitcode/aurora-postgres": "workspace:*",
+    "@bitcode/tools-generics": "workspace:*"
   }
 }

@@ -4,10 +4,10 @@
  * AWS Location Service integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   awsLocationGeospatialQueryTool as _awsLocationGeospatialQuery,
-} from '@engi/aws';
+} from '@bitcode/aws';
 
 // Import DocCodeToolPrompt
 import { AWS_LOCATION_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/AWSLocationMCPDocCodeToolPrompt';

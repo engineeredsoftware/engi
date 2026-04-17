@@ -1,5 +1,5 @@
 {
-  "name": "@engi/generic-agents-audio-processor",
+  "name": "@bitcode/generic-agents-audio-processor",
   "version": "1.0.0",
   "description": "Advanced audio processing agent with speech-to-text capabilities",
   "main": "src/index.ts",
@@ -15,10 +15,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@engi/agent-generics": "workspace:*",
-    "@engi/logger": "workspace:*",
-    "@engi/observability": "workspace:*",
-    "@engi/errors": "workspace:*",
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/logger": "workspace:*",
+    "@bitcode/observability": "workspace:*",
+    "@bitcode/errors": "workspace:*",
     "zod": "^3.22.0",
     "openai": "^4.0.0",
     "axios": "^1.6.0",

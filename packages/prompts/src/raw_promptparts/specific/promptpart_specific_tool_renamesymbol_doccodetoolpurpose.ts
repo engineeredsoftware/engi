@@ -11,7 +11,7 @@
  * ]
  */
 
-import { PromptPart } from '@engi/prompts';
+import { PromptPart } from '@bitcode/prompts';
 
 export const PROMPTPART_SPECIFIC_TOOL_RENAMESYMBOL_DOCCODETOOLPURPOSE: PromptPart = 
   'Safely rename symbols (variables, functions, classes, types) across an entire codebase, automatically updating all references while preserving behavior and maintaining consistency' as PromptPart;

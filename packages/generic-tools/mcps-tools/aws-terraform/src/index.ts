@@ -4,13 +4,13 @@
  * AWS Terraform infrastructure-as-code integration tools using the Tool class pattern.
  */
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 import {
   awsTerraformSecurityScanTool as _awsTerraformSecurityScan,
   awsTerraformModuleSuggestionTool as _awsTerraformModuleSuggestion,
   awsTerraformCheckovScanTool as _awsTerraformCheckovScan,
   awsTerraformGenerateAwsModuleTool as _awsTerraformGenerateAwsModule,
-} from '@engi/aws';
+} from '@bitcode/aws';
 
 // Import DocCodeToolPrompt
 import { AWS_TERRAFORM_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/AWSTerraformMCPDocCodeToolPrompt';

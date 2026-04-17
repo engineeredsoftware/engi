@@ -3,9 +3,9 @@
  * into an Executor compatible with execution-generics composition.
  */
 
-import { Executor } from '@engi/execution-generics';
+import { Executor } from '@bitcode/execution-generics';
 import { PipelineExecution } from './PipelineExecution';
-import { log } from '@engi/logger';
+import { log } from '@bitcode/logger';
 import { isExecutionDebugEnabled } from './debug';
 
 export function createAgentExecutor(agentName: string): Executor<any, any> {

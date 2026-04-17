@@ -5,8 +5,8 @@
  * circuit breakers, and recovery strategies.
  */
 
-import { logger } from '@engi/logger';
-import { observability } from '@engi/observability';
+import { logger } from '@bitcode/logger';
+import { observability } from '@bitcode/observability';
 
 /**
  * Error classification for recovery strategies

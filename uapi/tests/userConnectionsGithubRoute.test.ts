@@ -1,10 +1,10 @@
 import { POST } from '@/app/api/orbitals/connections/github/route';
 
-jest.mock('@engi/supabase/ssr/server', () => ({
+jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
 
-import { createClient } from '@engi/supabase/ssr/server';
+import { createClient } from '@bitcode/supabase/ssr/server';
 
   describe('POST /api/orbitals/connections/github', () => {
   const mockUser = { id: 'user-1' };

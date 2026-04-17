@@ -1,7 +1,7 @@
 // AI tool wrappers around Notion utilities for AI agents to interact with
 // Notion workspaces, pages, databases, blocks, comments, and search functionality.
 
-import { Tool } from '@engi/tools-generics';
+import { Tool } from '@bitcode/tools-generics';
 
 import {
   notionGetPageTool as _notionGetPage,
@@ -22,7 +22,7 @@ import {
   notionCreateCommentTool as _notionCreateComment,
   notionSearchTool as _notionSearch,
   notionGetAllPagesTool as _notionGetAllPages,
-} from '@engi/notion';
+} from '@bitcode/notion';
 
 // ---------------------------------------------------------------------------
 // Page Operations

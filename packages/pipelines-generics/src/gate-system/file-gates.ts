@@ -6,7 +6,7 @@
  * - Develop: Codebase files (not .ai/, except PRODUCT.md updates)
  * - Digest: Only .ai/AGENTS.md and .ai/PRODUCT.md
  *
- * @package @engi/pipelines-generics
+ * @package @bitcode/pipelines-generics
  */
 
 import { minimatch } from 'minimatch';

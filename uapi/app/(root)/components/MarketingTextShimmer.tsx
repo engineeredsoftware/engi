@@ -1,5 +1,5 @@
 
-import { cn } from '@engi/styling';
+import { cn } from '@bitcode/styling';
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { CSSProperties, FC, ReactNode } from "react";
 

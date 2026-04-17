@@ -52,8 +52,8 @@ All phases use execution‑generics (EE) primitives to declare order and paralle
 
 Snippet – Sequential phase (Discovery):
 ```ts
-import { Executor, sequential } from '@engi/execution-generics';
-import { createAgentExecutor } from '@engi/pipelines-generics';
+import { Executor, sequential } from '@bitcode/execution-generics';
+import { createAgentExecutor } from '@bitcode/pipelines-generics';
 
 const discoveryExec: Executor<any, any> = sequential(
   createAgentExecutor('discovery:gather-context'),
@@ -85,7 +85,7 @@ const iterationPreprocess = async (input, execution) => {
   const processedInput = gatePreprocess(input, execution);
 
   // Fetch user instructions from Supabase and expose them
-  const { supabaseAdmin } = await import('@engi/supabase');
+  const { supabaseAdmin } = await import('@bitcode/supabase');
   const { data: instructions } = await supabaseAdmin
     .from('instructions')
     .select('*')
@@ -269,7 +269,7 @@ Common namespaces/keys:
   - Deliverables: `execution-deliverable-pipeline-phase-validation-ready-to-ship-agent`
   - Measure placeholder: `execution-measure-pipeline-phase-validation-ready-to-ship-agent`
 
-Typed helpers (from `@engi/execution-generics`):
+Typed helpers (from `@bitcode/execution-generics`):
 - Identity: `setExecutionIdentity(exec,{ id, correlationId })`, `getExecutionId(exec)`, `getCorrelationId(exec)`
 - RTS: `setValidationReadyToShip(exec, value, pipelineType)`, `getValidationReadyToShip(exec, ...)` (`pipelineType` is `'deliverable'` today; the Measure pipeline reuses the same helpers when enabled)
 - Agent namespace computation: `nsAgent(pipeline, phase, agent)`
@@ -412,4 +412,4 @@ postprocessed = { ...postprocessed, validationReady: { approved: !!approved } };
 
 ---
 
-This section is authoritative. When adding a namespace or structured result, update the typed registry in `@engi/execution-generics/src/store/registry.ts` and this document, use constants, reference the agent `Output` type in inline comments, and keep postprocessed shapes uniform.
+This section is authoritative. When adding a namespace or structured result, update the typed registry in `@bitcode/execution-generics/src/store/registry.ts` and this document, use constants, reference the agent `Output` type in inline comments, and keep postprocessed shapes uniform.
