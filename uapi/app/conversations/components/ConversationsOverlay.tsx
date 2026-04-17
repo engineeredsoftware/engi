@@ -77,6 +77,7 @@ import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDeta
 // Data hooks
 import { useConversationPages } from '@/hooks/useConversationPages';
 import { useConversationStream, StreamToken } from '@/hooks/useConversationStream';
+import { OPEN_CONVERSATIONS_OVERLAY_EVENT } from './conversations-overlay-events';
 
 // Backend types from generics packages
 import type { 
@@ -207,7 +208,12 @@ interface ConversationProps {
   size?: number;
   inSidebar?: boolean;
   isOpen?: boolean;
+  forceOpen?: boolean;
+  forceFullscreen?: boolean;
   onToggle?: () => void;
+  onCloseRequest?: () => void;
+  showFloatingOrb?: boolean;
+  listenForGlobalOpen?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -219,7 +225,12 @@ const Conversation = memo(function Conversation({
   size = 60,
   inSidebar = false,
   isOpen: isOpenProp,
-  onToggle
+  forceOpen,
+  forceFullscreen = false,
+  onToggle,
+  onCloseRequest,
+  showFloatingOrb = true,
+  listenForGlobalOpen = false,
 }: ConversationProps) {
   // Core state
   const [isOpenInternal, setIsOpenInternal] = useState(false);
@@ -227,7 +238,8 @@ const Conversation = memo(function Conversation({
   const [splitScreenMode, setSplitScreenMode] = useState(false);
   
   // Determine actual open state
-  const isOpen = inSidebar ? (isOpenProp ?? false) : isOpenInternal;
+  const isControlledOpen = !inSidebar && typeof forceOpen === 'boolean';
+  const isOpen = inSidebar ? (isOpenProp ?? false) : (isControlledOpen ? forceOpen : isOpenInternal);
   
   // Chat state management (using UI-specific types)
   const {
@@ -274,6 +286,34 @@ const Conversation = memo(function Conversation({
       didPlayEntrance = false; // Reset for floating mode
     }
   }, [inSidebar]);
+
+  useEffect(() => {
+    if (inSidebar || !listenForGlobalOpen || typeof window === 'undefined') return;
+
+    const handleOpen = (event: Event) => {
+      const detail = (event as CustomEvent<{ fullscreen?: boolean }>).detail;
+      setIsOpenInternal(true);
+      setIsFullscreen(Boolean(detail?.fullscreen));
+    };
+
+    window.addEventListener(OPEN_CONVERSATIONS_OVERLAY_EVENT, handleOpen as EventListener);
+    return () => {
+      window.removeEventListener(OPEN_CONVERSATIONS_OVERLAY_EVENT, handleOpen as EventListener);
+    };
+  }, [inSidebar, listenForGlobalOpen]);
+
+  useEffect(() => {
+    if (inSidebar || !isControlledOpen) return;
+
+    if (forceOpen) {
+      setIsFullscreen(forceFullscreen);
+      return;
+    }
+
+    setIsFullscreen(false);
+    setSplitScreenMode(false);
+    setSelectedRunDetailsId(null);
+  }, [forceFullscreen, forceOpen, inSidebar, isControlledOpen]);
 
   // Handle embed process logs in sidebar mode
   useEffect(() => {
@@ -460,10 +500,12 @@ const Conversation = memo(function Conversation({
   const handleClose = useCallback(() => {
     if (inSidebar && onToggle) {
       onToggle();
+    } else if (isControlledOpen && onCloseRequest) {
+      onCloseRequest();
     } else {
       setIsOpenInternal(false);
     }
-  }, [inSidebar, onToggle]);
+  }, [inSidebar, isControlledOpen, onCloseRequest, onToggle]);
 
   // Render token in message helper
   const renderTokenInMessage = useCallback((content: string, tokens?: any[]): string => {
@@ -506,6 +548,9 @@ const Conversation = memo(function Conversation({
 
   // Render main component
   if (!isOpen && !inSidebar) {
+    if (!showFloatingOrb) {
+      return null;
+    }
     // Floating orb mode
     return (
       <FloatingOrb

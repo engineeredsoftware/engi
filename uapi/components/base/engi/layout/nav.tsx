@@ -9,20 +9,12 @@ import { openOrbital, prefetchOrbital } from '@/app/orbitals/components/Orbitals
 import { NotificationsWidget } from "@/components/base/engi/notifications/NotificationsWidget"
 import { OrbitalUseButton } from "@/components/base/engi/nav/OrbitalUseButton";
 import { FEATURE_FLAGS } from "@/config/features"
-import { ENABLE_MEASURE } from "@/config/featureFlags";
 import { UserMenu } from "@/components/base/engi/layout/user-menu";
-import Image from "next/image";
 import { usePathname, useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
 
 const MemoCreditsTracker = React.memo(CreditsTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
-
-const NavProcessingIndicator = dynamic(
-  () => import('@/components/base/engi/indicators/NavProcessingIndicator').then(m => ({ default: m.NavProcessingIndicator })),
-  { ssr: false, loading: () => null }
-);
 
 const baseShadow = '[text-shadow:_0_0_6px_rgba(255,255,255,0.33)]';
 const hoverShadowClass = 'hover:[text-shadow:_0_0_12px_rgba(101,254,183,0.66),_0_0_20px_rgba(101,254,183,0.66)]';
@@ -60,7 +52,7 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, loading: loadingSession } = useAuth();
-  const { data: aggregatedData, credits, hasGitHubConnection, isLoading: userDataLoading } = useUserData();
+  const { credits } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
@@ -72,11 +64,6 @@ export default function Nav() {
   const particleElements = useMemo(() => [...Array(5)].map((_, i) => (
     <div key={i} className="neo-particle" style={{ '--index': i } as React.CSSProperties} />
   )), []);
-
-  const isMidOnboarding = useMemo(() => {
-    if (!user || userDataLoading) return false;
-    return !hasGitHubConnection || credits <= 0;
-  }, [user, userDataLoading, hasGitHubConnection, credits]);
 
   // Initialize nav use visibility
   useEffect(() => {
@@ -174,16 +161,14 @@ export default function Nav() {
               <ul className="flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center tablet:ml-[130px]">
                 {[
                   { href: '/application', label: 'application' },
-                  { href: '/executions?type=pipeline:deliverables&postprocessingType=pipeline:deliverables', label: 'deliverables' },
-                  { href: '/executions?type=pipeline:measure&postprocessingType=pipeline:measure', label: 'measure' },
                 ].map(({ href, label }, index) => {
-                  // Check if this nav item should be disabled
-                  const isMeasureItem = label === 'measure';
-                  const isDisabledByFeatureFlag = isMeasureItem && !ENABLE_MEASURE;
-                  const isDisabled = isMidOnboarding || isDisabledByFeatureFlag;
-                  const shouldAnimate = !isDisabled;
-                  const isApplicationItem = label === 'application';
-                  const isActiveRoute = isApplicationItem ? pathname === '/application' : pathname?.startsWith('/executions');
+                  const isDisabled = false;
+                  const shouldAnimate = true;
+                  const isActiveRoute =
+                    pathname === '/application' ||
+                    pathname?.startsWith('/executions') ||
+                    pathname?.startsWith('/conversations') ||
+                    pathname?.startsWith('/orbitals');
                   return (
                     <li key={href}
                       className={`${shouldAnimate ? 'nav-item-animated' : ''}`.trim()}
@@ -203,7 +188,7 @@ export default function Nav() {
                             <span className="inline-block">{label}</span>
                             <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 hidden group-hover:block">
                               <div className="bg-black/90 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
-                                {isDisabledByFeatureFlag ? 'Coming Soon' : 'Complete Onboarding'}
+                                Complete Onboarding
                               </div>
                               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/90 rotate-45"></div>
                             </div>
@@ -227,15 +212,6 @@ export default function Nav() {
                         `}>
                               {label}
                             </span>
-
-                            {!isApplicationItem && pathname?.startsWith('/executions') && FEATURE_FLAGS.NAV_PROCESSING_INDICATOR && (
-                              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 scale-75 opacity-80">
-                                <NavProcessingIndicator
-                                  isActive={false}
-                                  isAuthenticated={Boolean(user)}
-                                />
-                              </div>
-                            )}
                           </a>
                         )}
                       </div>

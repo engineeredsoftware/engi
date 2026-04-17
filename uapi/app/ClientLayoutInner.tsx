@@ -233,7 +233,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
             {authLoaded && user && !mockMode && FEATURE_FLAGS.SIDEBAR_LEFT && (
               <LeftSidebar />
             )}
-            {authLoaded && user && !mockMode && isOnboardingComplete && FEATURE_FLAGS.CONVERSATIONS_WIDGET && (
+            {authLoaded && user && !mockMode && pathname !== '/application' && isOnboardingComplete && FEATURE_FLAGS.CONVERSATIONS_WIDGET && (
               <>
                 <Conversation
                   position="bottom-right"

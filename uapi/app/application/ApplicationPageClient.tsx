@@ -1,13 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { mountBitcodeApplicationShell } from '@engi/bitcode/src/client-entry.js';
+import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
+
+import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
 
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
 const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 
 export default function ApplicationPageClient() {
+  const [isConversationOverlayOpen, setIsConversationOverlayOpen] = useState(false);
+
   useEffect(() => {
     let disposed = false;
     let cleanup: (() => void) | undefined;
@@ -41,8 +46,58 @@ export default function ApplicationPageClient() {
   }, []);
 
   return (
-    <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
-      <div className="page">
+    <>
+      <ConversationsOverlay
+        forceOpen={isConversationOverlayOpen}
+        forceFullscreen={isConversationOverlayOpen}
+        onCloseRequest={() => setIsConversationOverlayOpen(false)}
+        showFloatingOrb={false}
+      />
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
+        <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-4 pb-24 pt-40 tablet:px-6 desktop:px-8">
+          <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
+            <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+              <div className="max-w-3xl">
+                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode application</p>
+                <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
+                  Single-surface Bitcode workspace
+                </h1>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
+                  The preserved Bitcode operator flow remains mounted here while second-gate converges the application
+                  frame, fullscreen overlays, and inward run-detail reuse around it.
+                </p>
+              </div>
+              <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
+                <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+                  <p className="text-emerald-300/85">Primary surface</p>
+                  <p className="mt-2 text-neutral-200">/application</p>
+                </div>
+                <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+                  <p className="text-emerald-300/85">Fullscreen overlays</p>
+                  <p className="mt-2 text-neutral-200">conversations + orbitals</p>
+                </div>
+                <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+                  <p className="text-emerald-300/85">Inward reuse</p>
+                  <p className="mt-2 text-neutral-200">runs + deliverables detail</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">
+            <section className="min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(4,8,18,0.9)] shadow-[0_30px_90px_rgba(0,0,0,0.42)]">
+              <div className="border-b border-white/8 px-6 py-5">
+                <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Operator workspace</p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">Repo supply to settlement</h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
+                  First-gate semantics remain intact here while the application-owned frame, overlays, and run-detail
+                  workspace converge around the Bitcode system.
+                </p>
+              </div>
+
+              <div className="p-2 tablet:p-4">
+                <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
+                  <div className="page">
         <header className="hero" id="hero">
           <p className="eyebrow" id="heroEyebrow">
             Bitcode deterministic local prototype
@@ -276,9 +331,9 @@ export default function ApplicationPageClient() {
             <div id="ledger" className="stack" />
           </section>
         </main>
-      </div>
+                  </div>
 
-      <div id="tutorialLayer" className="tutorial-layer" hidden>
+                  <div id="tutorialLayer" className="tutorial-layer" hidden>
         <section
           id="tutorialCard"
           className="tutorial-card"
@@ -310,7 +365,17 @@ export default function ApplicationPageClient() {
             </button>
           </div>
         </section>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <aside className="min-w-0">
+              <ApplicationWorkspaceRail onOpenConversations={() => setIsConversationOverlayOpen(true)} />
+            </aside>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
