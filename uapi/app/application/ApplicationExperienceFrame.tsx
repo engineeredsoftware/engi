@@ -2,6 +2,8 @@
 
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { APPLICATION_ACTIONS, APPLICATION_EXPERIENCES } from './application-experience-architecture';
 import { jumpToShellSection } from './application-shell-reading';
 
@@ -11,28 +13,20 @@ interface ApplicationExperienceFrameProps {
 
 export default function ApplicationExperienceFrame({ onOpenConversations }: ApplicationExperienceFrameProps) {
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">V26 application architecture</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Three main experiences. Two main actions.
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            The read experience is the Bitcode transactions master-detail window inside `/application`. Conversations and
-            orbitals are fullscreen modes entered from here. The write experience moves through Give, Need, and configuring.
-          </p>
+    <ApplicationOperatorCard
+      kicker="Experience map"
+      title="How the operator workspace is organized"
+      summary="Keep the ledger window primary, then open conversations or orbitals only when you need deeper writing, coordination, or configuration."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.experienceMap}
+    >
+      <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Read window</p>
+          <p className="mt-2 text-neutral-200">transactions + selected detail</p>
         </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Read experience</p>
-            <p className="mt-2 text-neutral-200">transactions master detail</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Write experience</p>
-            <p className="mt-2 text-neutral-200">give + need + configuring</p>
-          </div>
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Write posture</p>
+          <p className="mt-2 text-neutral-200">give + need + configuring</p>
         </div>
       </div>
 
@@ -112,20 +106,18 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
       <div className="mt-6 rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Closure stages</p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Verification, branch artifacts, settlement, proofs, deliverables, and history remain first-class Bitcode
-          surfaces, but they are closure stages within master detail rather than separate top-level experiences or actions.
-          Inside that master-detail experience, transactions, deliverables, proofs, and history remain the four key substructures.
+          Verification, branch artifacts, settlement, proofs, deliverables, and history stay first-class Bitcode
+          surfaces, but they read as closure stages inside one central workspace instead of scattering across separate destinations.
         </p>
       </div>
 
       <div className="mt-6 rounded-[1.6rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.92),rgba(5,10,20,0.9))] px-5 py-5">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/80">Production realism</p>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          V26 is not a softened demo pass. It is Bitcode production realism: open, auditable, and formal operation for
-          producers, consumers, investors, partners, and researchers, with modular, observable, hackable system surfaces
-          optimized toward throughput, quality, cost, and trust.
+          Bitcode is built for open, auditable, formal operation across producers, consumers, investors, partners, and
+          researchers, with modular and observable system surfaces tuned toward throughput, quality, cost, and trust.
         </p>
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

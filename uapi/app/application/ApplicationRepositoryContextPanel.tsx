@@ -8,6 +8,8 @@ import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import { VCSRepositorySelector } from '@/components/base/engi/vcs/VCSRepositorySelector';
 
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import {
   APPLICATION_REPOSITORY_PROVIDERS,
   type ApplicationRepositoryConnectionStatus,
@@ -165,36 +167,28 @@ export default function ApplicationRepositoryContextPanel({
   };
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.96),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Give-side repository context</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Application-owned repo supply selection
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate now exposes repository supply as a native `/application` control. The connection posture and
-            repository inventory are read through the app-owned `/api/vcs/*` contract, while the preserved Bitcode shell
-            below remains the semantic source for the give chain itself.
-          </p>
+    <ApplicationOperatorCard
+      kicker="Repository supply"
+      title="Connect and select searchable supply"
+      summary="Choose the provider and repository that will anchor give-side supply before you move deeper into deposit, need, and closure."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.repositorySupply}
+      tone="emerald"
+    >
+      <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
+        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+          <p className="text-emerald-300/85">Main action</p>
+          <p className="mt-2 text-neutral-200">give</p>
         </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-            <p className="text-emerald-300/85">Main action</p>
-            <p className="mt-2 text-neutral-200">give</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-            <p className="text-emerald-300/85">Carrier</p>
-            <p className="mt-2 text-neutral-200">app-owned repo context</p>
-          </div>
+        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+          <p className="text-emerald-300/85">Boundary</p>
+          <p className="mt-2 text-neutral-200">repository supply</p>
         </div>
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.3fr)_minmax(19rem,0.7fr)]">
         <div className="space-y-5">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Provider selection</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Provider and repository</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {APPLICATION_REPOSITORY_PROVIDERS.map((option) => {
                 const isActive = provider === option;
@@ -249,7 +243,7 @@ export default function ApplicationRepositoryContextPanel({
                 onClick={() => jumpToShellSection('panelDepositing')}
                 className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
               >
-                Focus give
+                Continue to give
               </button>
             </div>
           </div>
@@ -267,7 +261,7 @@ export default function ApplicationRepositoryContextPanel({
               </div>
 
               {isLoadingConnection ? (
-                <p className="mt-4 text-sm leading-6 text-neutral-400">Loading application-owned VCS posture…</p>
+                <p className="mt-4 text-sm leading-6 text-neutral-400">Loading repository connection posture…</p>
               ) : connectionStatus?.connected && connectionStatus.valid ? (
                 <div className="mt-4 space-y-4">
                   <div className="flex items-center gap-2 text-sm text-emerald-100">
@@ -382,7 +376,7 @@ export default function ApplicationRepositoryContextPanel({
                 </div>
               ) : (
                 <p className="mt-4 text-sm leading-6 text-neutral-400">
-                  Select a connected repository to make repo supply explicit in the application frame.
+                  Select a connected repository to make the current give-side supply boundary explicit.
                 </p>
               )}
             </article>
@@ -393,8 +387,8 @@ export default function ApplicationRepositoryContextPanel({
           <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Give-side guidance</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
-              Repository connection, repository selection, and deposit focus are now visible before the preserved shell.
-              That makes repo supply an application behavior instead of a buried demo-era detail.
+              Keep repository connection, repository selection, and deposit focus visible before you move deeper into
+              supply, need, and closure.
             </p>
             <div className="mt-4 grid gap-3">
               <button
@@ -427,7 +421,7 @@ export default function ApplicationRepositoryContextPanel({
               </button>
             </div>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
-              Re-read the app-owned repository context if connection posture or inventory changed.
+              Re-read the repository context if connection posture or inventory changed.
             </p>
             {error ? (
               <p className="mt-4 rounded-[1.1rem] border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
@@ -443,6 +437,6 @@ export default function ApplicationRepositoryContextPanel({
           </article>
         </div>
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

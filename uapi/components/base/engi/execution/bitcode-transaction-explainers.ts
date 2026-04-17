@@ -1,108 +1,168 @@
+import type { BitcodeExplainer } from './bitcode-transaction-types';
+
+const sourceReferences = ['uapi/app/application/*', 'uapi/components/base/engi/execution/*'];
+const canonReferences = ['ENGI_SPEC_V26.md', 'ENGI_SPEC_V26_DELTA.md'];
+
+function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
+  return {
+    references: {
+      source: sourceReferences,
+      canon: canonReferences,
+      ...explainer.references,
+    },
+    ...explainer,
+  };
+}
+
 export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
-  search: {
+  search: buildExplainer({
+    kicker: 'Master table control',
     title: 'Search transactions',
-    description:
-      'Searches transaction id, type, repository, branch, participant, proof posture, and summary text so the master table stays terminal-fast without leaving `/application`.',
-  },
-  status: {
+    summary: 'Find transactions by id, repository, branch, participant, proof posture, or summary language from one terminal-style search field.',
+    detail:
+      'Use this first when you know the transaction context but not the exact row position. The selected detail route stays intact while the master window narrows around it.',
+    points: [
+      'Searches across core surfaced transaction fields',
+      'Keeps the transactions window fast without route changes',
+    ],
+  }),
+  status: buildExplainer({
+    kicker: 'Lifecycle filter',
     title: 'Status filter',
-    description:
-      'Narrows the master table by current transaction lifecycle state such as completed, running, or failed.',
-  },
-  ownership: {
+    summary: 'Narrow the ledger to transactions that are running, completed, or fail-closed.',
+    detail: 'Use status when the question is operational posture rather than repository or participant ownership.',
+    points: ['Running work stays distinct from settled history', 'Fail-closed rows remain easy to isolate'],
+  }),
+  ownership: buildExplainer({
+    kicker: 'Perspective filter',
     title: 'Ownership filter',
-    description:
-      'Separates the operator’s own Bitcode transactions from broader network-visible activity while preserving the same detail surface.',
-  },
-  transactionLens: {
+    summary: 'Switch between your own transactions and broader network-visible activity without changing the detail workspace.',
+    detail: 'This keeps one shared read surface while still letting operators separate personal work from wider participation.',
+    points: ['Supports mine vs network posture', 'Preserves the same detail route and tools'],
+  }),
+  transactionLens: buildExplainer({
+    kicker: 'Action filter',
     title: 'Action lens filter',
-    description:
-      'Focuses the master table on Give, Need, or Closure posture so the two primary Bitcode actions and their closure path stay legible.',
-  },
-  repository: {
+    summary: 'Focus the master table on Give, Need, or Closure posture so the main Bitcode actions stay readable.',
+    detail: 'Use lens when you want the table to read by intent rather than by raw pipeline type names.',
+    points: ['Give is searchable supply', 'Need is measured demand', 'Closure is consequence and proof'],
+  }),
+  repository: buildExplainer({
+    kicker: 'Boundary filter',
     title: 'Repository filter',
-    description:
-      'Limits the table to one repository boundary when the application is reading multiple Bitcode transaction contexts.',
-  },
-  participant: {
+    summary: 'Limit the table to one repository boundary when multiple Bitcode contexts are visible.',
+    detail: 'Repository filtering is useful when one operator is reading several repos but needs one coherent chain at a time.',
+    points: ['Keeps branch and repo context explicit', 'Reduces cross-repo noise in live or review windows'],
+  }),
+  participant: buildExplainer({
+    kicker: 'Principal filter',
     title: 'Participant filter',
-    description:
-      'Filters by the producer, consumer, partner, or researcher label attached to the surfaced transaction rows.',
-  },
-  proofStatus: {
+    summary: 'Filter by the surfaced producer, consumer, partner, researcher, or operator label attached to each row.',
+    detail: 'Participant is the easiest way to read the master table as a shared operating ledger instead of a private queue.',
+    points: ['Supports principal-scoped review', 'Works alongside ownership and repository filters'],
+  }),
+  proofStatus: buildExplainer({
+    kicker: 'Closure filter',
     title: 'Proof posture filter',
-    description:
-      'Reduces the table by bounded proof state so operators can isolate refreshes, witness checks, and ready-for-review transaction rows.',
-  },
-  sort: {
+    summary: 'Reduce the table by witness, verification, or ready-for-review posture so closure work can be isolated quickly.',
+    detail: 'Use this when the question is not “what happened?” but “which transactions are ready, blocked, or still proving?”.',
+    points: ['Useful for settlement review', 'Useful for proof refresh and replay inspection'],
+  }),
+  sort: buildExplainer({
+    kicker: 'Ordering control',
     title: 'Sort order',
-    description:
-      'Re-orders the master table by recency or economic weight without changing the selected-transaction detail route.',
-  },
-  pageSize: {
+    summary: 'Re-order the transactions window by recency or economic weight without changing what transaction is selected.',
+    detail: 'Sorting changes the view, not the route. Operators can compare the ledger from multiple angles without losing detail context.',
+    points: ['Supports newest, oldest, token-heavy, and spend-heavy reads'],
+  }),
+  pageSize: buildExplainer({
+    kicker: 'Window control',
     title: 'Page size',
-    description:
-      'Controls how many Bitcode transaction rows the master table shows at once while preserving route-owned pagination state.',
-  },
+    summary: 'Change how much of the ledger is visible at once while keeping pagination shareable in the route.',
+    detail: 'Use a smaller window for fast investigation and a larger window when reading several related rows in sequence.',
+    points: ['Pagination remains route-owned', 'Good for both live operations and review posture'],
+  }),
 } as const;
 
 export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
-  transaction: {
+  transaction: buildExplainer({
+    kicker: 'Master column',
     title: 'Transaction column',
-    description:
-      'Shows the transaction id, type, and summary. Selecting a row here loads the central transaction detail workspace.',
-  },
-  lens: {
+    summary: 'Shows the transaction id, transaction type, and one-line summary that anchors the selected detail view.',
+    detail: 'Selecting a row here loads the central detail workspace without pushing the operator out to another surface.',
+    points: ['Primary row selector', 'Carries the human-readable summary'],
+  }),
+  lens: buildExplainer({
+    kicker: 'Intent column',
     title: 'Lens column',
-    description:
-      'Shows whether the row currently reads most strongly as Give, Need, or Closure posture inside the Bitcode flow.',
-  },
-  status: {
+    summary: 'Shows whether the row currently reads as Give, Need, or Closure posture inside the Bitcode chain.',
+    detail: 'Lens is for fast interpretation. It lets the table read by intent instead of forcing pipeline names to do all the work.',
+    points: ['Maps the row back to the main Bitcode actions', 'Supports quick triage at table scale'],
+  }),
+  status: buildExplainer({
+    kicker: 'Lifecycle column',
     title: 'Status column',
-    description:
-      'Shows the current lifecycle state for the transaction so active work and completed closure stay distinguishable.',
-  },
-  participant: {
+    summary: 'Shows whether the row is active, completed, or failed closed.',
+    detail: 'Status keeps the master window readable as a live ledger instead of a flat archive.',
+    points: ['Use with proof posture for deeper closure triage'],
+  }),
+  participant: buildExplainer({
+    kicker: 'Principal column',
     title: 'Participant column',
-    description:
-      'Shows the surfaced principal label and whether the transaction is your own or broader network activity.',
-  },
-  repository: {
+    summary: 'Shows the surfaced principal plus whether the transaction is yours or broader network activity.',
+    detail: 'This is the quickest way to see who the row belongs to before reading proofs, history, or deliverables.',
+    points: ['Carries both label and mine/network context'],
+  }),
+  repository: buildExplainer({
+    kicker: 'Boundary column',
     title: 'Repository column',
-    description:
-      'Shows the repository boundary plus the active branch or ref associated with the transaction row.',
-  },
-  proof: {
+    summary: 'Shows the repository and branch or ref tied to the transaction row.',
+    detail: 'Repository context keeps the transaction ledger tied back to concrete source boundaries.',
+    points: ['Useful during multi-repo review', 'Useful during branch artifact inspection'],
+  }),
+  proof: buildExplainer({
+    kicker: 'Closure column',
     title: 'Proof column',
-    description:
-      'Shows the bounded proof posture and current closure focus carried by the transaction before opening detail.',
-  },
-  started: {
+    summary: 'Shows the bounded proof posture and current closure focus before the row is opened in detail.',
+    detail: 'Read this column when you want the table to answer “how close to closure is this?” at a glance.',
+    points: ['Pairs proof posture with closure focus', 'Supports witness and settlement triage'],
+  }),
+  started: buildExplainer({
+    kicker: 'Time column',
     title: 'Started column',
-    description:
-      'Shows the surfaced transaction start timestamp so the master table can be read as a live operations ledger.',
-  },
+    summary: 'Shows the surfaced start time so the master table reads as a time-aware operating ledger.',
+    detail: 'Time ordering matters when the same repository or participant has multiple adjacent runs in motion.',
+    points: ['Useful with newest/oldest sort', 'Useful during incident or replay review'],
+  }),
 } as const;
 
 export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
-  modes: {
+  modes: buildExplainer({
+    kicker: 'Detail reader',
     title: 'Visual and raw modes',
-    description:
-      'Visual mode renders curated Bitcode cards for fast reading. Raw JSON exposes the exact payload feeding the application-owned detail surface.',
-  },
-  structuredPayload: {
+    summary: 'Switch between a curated operator read and the exact JSON payload that powers the detail card.',
+    detail: 'Visual mode is for rapid interpretation. Raw JSON is for proving, typing, and exact inspection.',
+    points: ['Visual mode favors fast consequence reading', 'Raw mode preserves the exact application payload'],
+  }),
+  structuredPayload: buildExplainer({
+    kicker: 'Shape summary',
     title: 'Structured payload shape',
-    description:
-      'Summarizes the payload root kind, top-level fields, and composite sections so transaction detail can be read quickly before dropping into raw JSON.',
-  },
-  payloadTree: {
+    summary: 'Summarizes the payload root kind, top-level sections, and visible counts before you expand the full tree.',
+    detail: 'This is the fastest way to answer “what kind of payload is this?” without reading raw JSON.',
+    points: ['Surface-first structural summary', 'Useful before tree or raw inspection'],
+  }),
+  payloadTree: buildExplainer({
+    kicker: 'Field tree',
     title: 'Payload field tree',
-    description:
-      'Expands the payload into a bounded nested field tree with type badges so transaction detail can be read structurally without dropping immediately to raw JSON.',
-  },
-  rawPayload: {
+    summary: 'Expands the payload into a bounded nested field tree with type badges and readable paths.',
+    detail: 'The tree is designed for structural inspection when raw JSON is too dense but the operator still needs exact field visibility.',
+    points: ['Shows nested shape without dropping into raw JSON', 'Keeps type and hierarchy visible together'],
+  }),
+  rawPayload: buildExplainer({
+    kicker: 'Exact payload',
     title: 'Raw payload view',
-    description:
-      'The raw view is intended for exact payload inspection, proving, typing, and debugging when the visual carrier is not precise enough.',
-  },
+    summary: 'Shows the exact JSON payload used by the selected detail surface and makes it copyable for proving or debugging.',
+    detail: 'Use this when the operator needs exact field values, witness material, schema alignment, or external debugging support.',
+    points: ['Copyable exact payload', 'Preserves the truth feeding the UI'],
+  }),
 } as const;

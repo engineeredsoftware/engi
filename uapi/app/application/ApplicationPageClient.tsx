@@ -26,6 +26,7 @@ import ApplicationSurfaceSection from './ApplicationSurfaceSection';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
 import ApplicationTransactionWorkspace from './ApplicationTransactionWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
+import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
 import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import {
@@ -255,9 +256,8 @@ export default function ApplicationPageClient() {
                   Bitcode transactions master-detail workspace
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  The preserved Bitcode operator flow remains mounted here while second-gate converges `/application` into
-                  the Bitcode transactions master-detail experience, keeps conversations and orbitals as fullscreen
-                  modes, and makes give and need explicit in the application frame.
+                  Search and read Bitcode transactions from one operator workspace, open the selected transaction into
+                  deliverables, proofs, and history, and move into conversations or orbitals without losing context.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
@@ -277,28 +277,42 @@ export default function ApplicationPageClient() {
             </div>
           </section>
 
-          <ApplicationTransactionWorkspace
-            runs={runs}
-            selectedRun={selectedRun}
-            isLoadingRuns={isLoadingRuns}
-            runsError={runsError}
-            transactionDataMode={transactionDataMode}
-            onSelectTransaction={handleSelectTransaction}
-            filters={transactionFilters}
-            onFiltersChange={handleTransactionFiltersChange}
-            onResetFilters={handleTransactionFiltersReset}
-            pagination={transactionPagination}
-            onPaginationChange={handleTransactionPaginationChange}
-            detailSection={selectedTransactionDetailSection}
-            onDetailSectionChange={handleTransactionDetailSectionChange}
-          />
-
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">
             <div className="min-w-0">
+              <ApplicationTransactionWorkspace
+                runs={runs}
+                selectedRun={selectedRun}
+                isLoadingRuns={isLoadingRuns}
+                runsError={runsError}
+                transactionDataMode={transactionDataMode}
+                onSelectTransaction={handleSelectTransaction}
+                filters={transactionFilters}
+                onFiltersChange={handleTransactionFiltersChange}
+                onResetFilters={handleTransactionFiltersReset}
+                pagination={transactionPagination}
+                onPaginationChange={handleTransactionPaginationChange}
+                detailSection={selectedTransactionDetailSection}
+                onDetailSectionChange={handleTransactionDetailSectionChange}
+              />
+            </div>
+            <aside className="min-w-0">
+              <ApplicationWorkspaceRail
+                onOpenConversations={() => setIsConversationOverlayOpen(true)}
+                runs={runs}
+                isLoadingRuns={isLoadingRuns}
+                runsError={runsError}
+                selectedRun={selectedRun}
+                transactionDataMode={transactionDataMode}
+              />
+            </aside>
+          </div>
+
+          <div className="grid gap-6">
+            <div className="min-w-0">
               <ApplicationSurfaceSection
-                kicker="Frame and orchestration"
-                title="Application-owned operator frame"
-                summary="Second-gate closure prioritizes the transactions master-detail workspace first, then uses shared application sections to keep orchestration, runtime posture, and supporting systems aligned under one operator-facing Bitcode frame."
+                kicker={APPLICATION_SURFACE_COPY.frame.kicker}
+                title={APPLICATION_SURFACE_COPY.frame.title}
+                summary={APPLICATION_SURFACE_COPY.frame.summary}
               >
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
                 <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
@@ -314,9 +328,9 @@ export default function ApplicationPageClient() {
               </ApplicationSurfaceSection>
 
               <ApplicationSurfaceSection
-                kicker="Give and need systems"
-                title="Supply, need, and transaction configuration"
-                summary="Give and need remain explicit Bitcode actions, but their controls now sit inside a calmer, reusable application section layout instead of reading as unrelated page sprawl."
+                kicker={APPLICATION_SURFACE_COPY.supply.kicker}
+                title={APPLICATION_SURFACE_COPY.supply.title}
+                summary={APPLICATION_SURFACE_COPY.supply.summary}
                 tone="emerald"
               >
                 <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
@@ -337,26 +351,15 @@ export default function ApplicationPageClient() {
               </ApplicationSurfaceSection>
 
               <ApplicationSurfaceSection
-                kicker="Closure and provenance"
-                title="Closure posture, semantic bridges, and preserved shell provenance"
-                summary="Second-gate closure still needs exact closure controls and semantic bridge readings, while the preserved shell remains mounted as the auditable provenance layer feeding the native application carriers."
+                kicker={APPLICATION_SURFACE_COPY.closure.kicker}
+                title={APPLICATION_SURFACE_COPY.closure.title}
+                summary={APPLICATION_SURFACE_COPY.closure.summary}
               >
                 <ApplicationClosureControlDeck />
                 <ApplicationClosureNativeSections />
                 <ApplicationPreservedShellSurface />
               </ApplicationSurfaceSection>
             </div>
-
-            <aside className="min-w-0">
-              <ApplicationWorkspaceRail
-                onOpenConversations={() => setIsConversationOverlayOpen(true)}
-                runs={runs}
-                isLoadingRuns={isLoadingRuns}
-                runsError={runsError}
-                selectedRun={selectedRun}
-                transactionDataMode={transactionDataMode}
-              />
-            </aside>
           </div>
           </div>
         </div>

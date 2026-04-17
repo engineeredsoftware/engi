@@ -34,10 +34,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Search transactions</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search} />
         </span>
         <input
           aria-label="Search transactions"
@@ -51,10 +48,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Status</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status} />
         </span>
         <select
           aria-label="Status"
@@ -74,10 +68,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Ownership</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership} />
         </span>
         <select
           aria-label="Ownership"
@@ -94,10 +85,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Action lens</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens} />
         </span>
         <select
           aria-label="Action lens"
@@ -115,10 +103,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Repository</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository} />
         </span>
         <select
           aria-label="Repository"
@@ -138,10 +123,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Participant</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant} />
         </span>
         <select
           aria-label="Participant"
@@ -161,10 +143,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Proof posture</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus} />
         </span>
         <select
           aria-label="Proof posture"
@@ -184,10 +163,7 @@ export default function BitcodeTransactionsFilterBar({
       <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 xl:col-start-7">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
           <span>Sort</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort} />
         </span>
         <select
           aria-label="Sort"

@@ -231,7 +231,7 @@ Its current content spine is intentionally only a draft anchor rather than a ful
 - how:
   open, auditable, formal
 - what:
-  observable, modular, hackable
+  modular, observable, hackable
 - why:
   throughput, quality, cost, trust
 
@@ -242,6 +242,8 @@ It ports the retained non-Bitcode-first-gate application systems into the V26 Bi
 It includes:
 - conversations and the chat-based / ChatGPT-like application interface,
 - executions, runs, pipelines, and the new Bitcode meaning of deliverables,
+- PostgreSQL persistence and Supabase-hosted storage/API convergence, including the `/edgetimes` application/API posture,
+- initial migration closure, active schema ownership, ORM/query-layer ownership, generated types, and their test/documentation/comment carriers,
 - prompt abstraction and the proved prompt space,
 - retained agent and tool abstraction layers where those remain useful,
 - and retained package admissibility for the packages V26 keeps.
@@ -252,6 +254,7 @@ Fifth-gate is the proof precision, closure, and promotion-finalization gate.
 V26 is not acceptable without complete proof precision and closure across the gates and retained packages it keeps.
 It includes:
 - proof closure for the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
+- proof closure for migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries,
 - the debug setting and floating debug widget,
 - at minimum an environment toggle that switches environment posture and refreshes the application coherently,
 - full production/staging/development mode completeness in the new application expression,
@@ -507,6 +510,7 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 | --- | --- | --- |
 | conversations and chat-based application interface | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
 | executions, runs, and pipeline workspace | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | converge on a V26 runs/pipelines system that expresses Bitcode operations totalistically |
+| PostgreSQL and Supabase persistence | `supabase/*`, `packages/supabase/*`, active database-facing API carriers, and the required `/edgetimes` storage/API posture | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, and application/API boundaries that are no longer informal |
 | prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
 | deliverable semantics | `packages/api/src/routes/deliverables.ts`, `uapi/app/executions/*`, current execution components | are redefined under Bitcode V26 so “deliverable” means a Bitcode run/pipeline output surface rather than an isolated ENGI-era pipeline noun |
@@ -520,9 +524,11 @@ Fourth-gate requires:
 4. deliverable semantics become part of Bitcode V26 run/pipeline semantics,
 5. all retained prompt text must route through prompt abstraction rather than ad hoc inline prompt strings,
 6. the proved prompt space must cover retained conversation and pipeline prompts,
-7. retained agent/tool abstractions must have explicit V26 roles or be excluded from retained-package status,
-8. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
-9. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
+7. PostgreSQL and Supabase persistence, including `/edgetimes`, must have one explicit Bitcode V26 owner rather than floating across informal API glue,
+8. active migrations, schema contracts, ORM/query carriers, and generated types must be explicit retained-system owners with tests, docs, and comments rather than incidental infrastructure residue,
+9. retained agent/tool abstractions must have explicit V26 roles or be excluded from retained-package status,
+10. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
+11. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
 
 ### Fourth-gate acceptance matrix
 
@@ -532,9 +538,11 @@ Fourth-gate is accepted only when:
 3. conversations operate as a fullscreen application mode and not as a separate product reservoir,
 4. execution/deliverable master-detail patterns are ported inward to `/application`,
 5. prompt abstraction is the direct source for retained prompt text,
-6. retained package roles and boundaries are explicit,
-7. deliverable, run, and pipeline meaning are explicit under V26,
-8. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
+6. persistence ownership across `supabase/*`, `packages/supabase/*`, storage-facing API carriers, and `/edgetimes` is explicit,
+7. active migrations, schema contracts, ORM/query carriers, and generated types are explicit retained-system owners with test/spec/doc obligations,
+8. retained package roles and boundaries are explicit,
+9. deliverable, run, and pipeline meaning are explicit under V26,
+10. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
 
 ## V26 fifth-gate proof precision and closure contract
 
@@ -548,6 +556,7 @@ No part of V26 is considered complete until proof precision and closure are expl
 | second-gate application composition | `.engi/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `packages/bitcode/public/app.js` |
 | conversations continuity | `.engi/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
 | runs and pipelines totality | `.engi/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
+| persistence and schema totality | `.engi/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `packages/supabase/*`, retained storage-facing API carriers, and generated database types |
 | prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` |
 | retained package admissibility | `.engi/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, and justification | retained `packages/*` admitted by V26 |
 | whole-repository production satisfaction | `.engi/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |

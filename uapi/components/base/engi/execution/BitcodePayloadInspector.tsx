@@ -96,10 +96,7 @@ export default function BitcodePayloadInspector({
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">{kicker}</p>
           <div className="mt-2 flex items-center gap-2">
             <h3 className="text-lg font-semibold text-white">{title}</h3>
-            <BitcodeInlineExplainer
-              title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.modes.title}
-              description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.modes.description}
-            />
+            <BitcodeInlineExplainer explainer={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.modes} />
           </div>
           <p className="mt-2 text-sm leading-6 text-neutral-300">{summary}</p>
         </div>
@@ -128,10 +125,7 @@ export default function BitcodePayloadInspector({
             </button>
           </div>
 
-          <BitcodeInlineExplainer
-            title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.title}
-            description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.description}
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload} />
         </div>
       </div>
 
@@ -148,11 +142,7 @@ export default function BitcodePayloadInspector({
               <div>
                 <div className="flex items-center gap-2">
                   <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">{rawLabel}</p>
-                  <BitcodeInlineExplainer
-                    title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.title}
-                    description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload.description}
-                    side="top"
-                  />
+                  <BitcodeInlineExplainer explainer={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.rawPayload} side="top" />
                 </div>
                 <p className="mt-2 text-[0.68rem] uppercase tracking-[0.16em] text-neutral-500">
                   {payloadMeta.lineCount} lines · {payloadMeta.characterCount.toLocaleString('en-US')} chars

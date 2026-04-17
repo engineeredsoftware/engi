@@ -8,6 +8,8 @@ import {
 import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './application-run-data';
+import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
+import ApplicationWorkspaceRailCard from './ApplicationWorkspaceRailCard';
 
 function formatRunTimestamp(value: string) {
   try {
@@ -49,14 +51,12 @@ export default function ApplicationWorkspaceRail({
 
   return (
     <div className="space-y-5 xl:sticky xl:top-40">
-      <section className="overflow-hidden rounded-[1.75rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.96),rgba(4,8,18,0.94))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
-        <p className="text-[0.68rem] uppercase tracking-[0.3em] text-emerald-300/80">Application control</p>
-        <h2 className="mt-3 text-xl font-semibold tracking-tight text-white">Three experiences, one route</h2>
-        <p className="mt-3 text-sm leading-6 text-neutral-300">
-          Master detail is active here in `/application`. Conversations and orbitals are entered from here as fullscreen
-          modes, while the central workspace now treats Bitcode transactions as the master surface and transaction detail
-          as the detail surface.
-        </p>
+      <ApplicationWorkspaceRailCard
+        kicker={APPLICATION_SURFACE_COPY.rail.control.kicker}
+        title={APPLICATION_SURFACE_COPY.rail.control.title}
+        summary={APPLICATION_SURFACE_COPY.rail.control.summary}
+        tone="emerald"
+      >
         <div className="mt-5 grid gap-3">
           <button
             type="button"
@@ -73,14 +73,14 @@ export default function ApplicationWorkspaceRail({
             Open orbitals settings
           </button>
         </div>
-      </section>
+      </ApplicationWorkspaceRailCard>
 
-      <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
+      <ApplicationWorkspaceRailCard
+        kicker={APPLICATION_SURFACE_COPY.rail.support.kicker}
+        title={APPLICATION_SURFACE_COPY.rail.support.title}
+        summary={APPLICATION_SURFACE_COPY.rail.support.summary}
+      >
         <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.26em] text-neutral-400">Transaction support</p>
-            <h3 className="mt-2 text-lg font-semibold text-white">Master-table support rail</h3>
-          </div>
           {usesMockTransactions ? (
             <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200">
               {getTransactionDataModeLabel(transactionDataMode)}
@@ -127,16 +127,14 @@ export default function ApplicationWorkspaceRail({
             </div>
           )}
         </div>
-      </section>
+      </ApplicationWorkspaceRailCard>
 
       {selectedRun ? (
-        <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected transaction focus</p>
-          <h3 className="mt-2 text-lg font-semibold text-white">Central transaction detail lives in master detail</h3>
-          <p className="mt-3 text-sm leading-6 text-neutral-300">
-            The rail now stays focused on support and orientation. Rich transaction detail, deliverable reading, proof
-            posture, and activity logs are carried centrally inside `/application`.
-          </p>
+        <ApplicationWorkspaceRailCard
+          kicker={APPLICATION_SURFACE_COPY.rail.focus.kicker}
+          title={APPLICATION_SURFACE_COPY.rail.focus.title}
+          summary={APPLICATION_SURFACE_COPY.rail.focus.summary}
+        >
           <dl className="mt-4 space-y-3 text-sm">
             <div>
               <dt className="text-neutral-500">Transaction id</dt>
@@ -149,7 +147,7 @@ export default function ApplicationWorkspaceRail({
               </dd>
             </div>
           </dl>
-        </section>
+        </ApplicationWorkspaceRailCard>
       ) : null}
     </div>
   );

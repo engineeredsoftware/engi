@@ -36,9 +36,9 @@ export default function ApplicationSupplySelectionPanel() {
             Native give-side intake control
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This second-gate layer moves authenticated intake control inward. Session binding, inventory filtering, search,
-            and artifact selection now operate through an application-owned bridge into the mounted Bitcode shell instead
-            of requiring the preserved shell UI as the only control surface.
+            Bind an authenticated session, search the available supply, and select the material you want Bitcode to
+            carry forward into Give. The application keeps the controls close while the underlying shell keeps the exact
+            intake semantics stable.
           </p>
         </div>
 
@@ -106,10 +106,10 @@ export default function ApplicationSupplySelectionPanel() {
         </div>
 
         <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Shell continuity</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Source continuity</p>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            These controls proxy the mounted Bitcode shell rather than re-implementing intake semantics. The preserved
-            shell remains the semantic owner while `/application` becomes the stronger operator surface.
+            These controls drive the live Bitcode intake path directly. Work here in the operator workspace, then open
+            the exact deposit section only when you need the lower source path.
           </p>
           <button
             type="button"

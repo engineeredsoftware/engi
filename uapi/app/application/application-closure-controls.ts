@@ -35,12 +35,12 @@ export function normalizeApplicationClosureControlState(
   commandState: ApplicationCommandState | null,
   closureState: ApplicationClosureState | null,
 ): ApplicationClosureControlState {
-  const status = commandState?.status || 'Application command state is syncing from the preserved shell.';
+  const status = commandState?.status || 'Workspace controls are syncing.';
   const statusLower = status.toLowerCase();
   const tutorialDetail =
     commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'open' : 'closed'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
-      : commandState?.tutorialLabel || 'Toggle tutorial';
+      ? `${commandState.tutorialOpen ? 'open' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+      : 'available';
 
   const hasClosureArtifacts = Boolean(closureState?.branch.chips.length);
   const bundleId = closureState ? rowValue(closureState.settlement, 'Bundle') : '—';

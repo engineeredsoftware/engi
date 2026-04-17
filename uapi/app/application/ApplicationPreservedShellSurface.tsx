@@ -6,11 +6,11 @@ export default function ApplicationPreservedShellSurface() {
   return (
     <section className="min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(4,8,18,0.9)] shadow-[0_30px_90px_rgba(0,0,0,0.42)]">
       <div className="border-b border-white/8 px-6 py-5">
-        <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Preserved operator shell</p>
-        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">Repo supply to settlement provenance</h3>
+        <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Source path view</p>
+        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">Repo supply to settlement source path</h3>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-          The preserved Bitcode shell remains mounted as the exact semantic substrate while second-gate converges more of
-          the operator experience into native application-owned carriers.
+          Open the exact Bitcode source path when you need to inspect the lower deterministic flow from supply through
+          settlement.
         </p>
       </div>
 
@@ -19,7 +19,7 @@ export default function ApplicationPreservedShellSurface() {
           <div className="page">
             <header className="hero" id="hero">
               <p className="eyebrow" id="heroEyebrow">
-                Bitcode deterministic local prototype
+                Bitcode operator workspace
               </p>
               <h1>Operate Bitcode from repo supply to settlement.</h1>
               <p className="lede" id="heroLede">
@@ -59,7 +59,7 @@ export default function ApplicationPreservedShellSurface() {
                   Make Bitcode branch
                 </button>
                 <button id="tutorialToggleButton" className="ghost" type="button">
-                  Hide tutorial
+                  Hide guide
                 </button>
                 <button id="resetButton" className="ghost" type="button">
                   Reset application
@@ -270,9 +270,9 @@ export default function ApplicationPreservedShellSurface() {
                 </button>
               </div>
               <p id="tutorialKicker" className="tutorial-kicker">
-                Stepwise shell guide
+                Stepwise flow guide
               </p>
-              <h2 id="tutorialTitle">Start with current canon posture</h2>
+              <h2 id="tutorialTitle">Start with the current workspace posture</h2>
               <p id="tutorialBody" className="tutorial-body" />
               <p id="tutorialTargetHint" className="tutorial-target-hint" />
               <div className="tutorial-actions">

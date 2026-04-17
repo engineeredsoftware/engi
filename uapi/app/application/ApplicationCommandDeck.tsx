@@ -2,6 +2,8 @@
 
 import { useMemo } from 'react';
 
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
 import {
@@ -24,41 +26,39 @@ export default function ApplicationCommandDeck() {
   const scenarioOptions = commandState?.scenarioOptions || [];
   const projectionOptions = commandState?.projectionOptions || [];
   const branchOptions = commandState?.branchOptions || [];
-  const scenario = commandState?.scenario || '';
-  const projection = commandState?.projection || '';
-  const branchMode = commandState?.branchMode || '';
-  const heroLede = commandState?.heroLede || 'Awaiting preserved Bitcode shell posture…';
-  const heroTip = commandState?.heroTip || 'Waiting for current appendix and report posture…';
-  const status = commandState?.status || 'Loading application command state…';
-  const tutorialLabel = commandState?.tutorialLabel || 'Toggle tutorial';
+  const scenario = commandState?.scenario || 'waiting';
+  const projection = commandState?.projection || 'waiting';
+  const branchMode = commandState?.branchMode || 'waiting';
+  const heroLede = commandState?.heroLede || 'Preparing the operator controls…';
+  const heroTip = commandState?.heroTip || 'Waiting for the current flow guidance and runtime signals.';
+  const status = commandState?.status || 'Loading control state…';
+  const guideActionLabel = commandState?.tutorialOpen
+    ? 'Hide flow guide'
+    : commandState?.tutorialStepCount
+      ? 'Resume flow guide'
+      : 'Open flow guide';
   const shellReady = commandState?.shellReady || false;
-  const tutorialDetail =
+  const guideDetail =
     commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'open' : 'closed'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
-      : tutorialLabel.replace(/\s+/g, ' ');
+      ? `${commandState.tutorialOpen ? 'open' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+      : 'available';
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(7,12,24,0.97),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Application command deck</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.1rem]">
-            Master-detail control surface
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate lifts scenario, projection, branch, tutorial, and reset controls into the application frame while
-            keeping the give and need actions explicit and leaving the preserved Bitcode shell as the semantic source.
-          </p>
+    <ApplicationOperatorCard
+      kicker="Operator controls"
+      title="Give, need, and closure controls"
+      summary="Set scenario, projection, and branch mode, then run closure or resume the flow from the same workspace you use to read the ledger."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.controls}
+      tone="emerald"
+    >
+      <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
+        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+          <p className="text-emerald-300/85">Workspace sync</p>
+          <p className="mt-2 text-neutral-200">{shellReady ? 'live' : 'syncing'}</p>
         </div>
-        <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-            <p className="text-emerald-300/85">Shell bridge</p>
-            <p className="mt-2 text-neutral-200">{shellReady ? 'live' : 'syncing'}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-            <p className="text-emerald-300/85">Tutorial state</p>
-            <p className="mt-2 text-neutral-200">{tutorialDetail}</p>
-          </div>
+        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+          <p className="text-emerald-300/85">Guide state</p>
+          <p className="mt-2 text-neutral-200">{guideDetail}</p>
         </div>
       </div>
 
@@ -149,7 +149,7 @@ export default function ApplicationCommandDeck() {
               }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
-              {tutorialLabel}
+              {guideActionLabel}
             </button>
             <button
               type="button"
@@ -163,7 +163,7 @@ export default function ApplicationCommandDeck() {
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Action and section index</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Jump links</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {APPLICATION_ACTIONS.map((action) => (
                 <button
@@ -193,18 +193,37 @@ export default function ApplicationCommandDeck() {
 
         <div className="space-y-4">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Current canon posture</p>
+            <div className="flex items-center gap-2">
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Working draft</p>
+              <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-emerald-100">
+                resumable
+              </span>
+            </div>
             <p className="mt-3 text-sm leading-6 text-neutral-200">{heroLede}</p>
-            <p className="mt-3 text-xs leading-6 text-neutral-400">{heroTip}</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
+                <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Scenario</p>
+                <p className="mt-2 text-sm font-medium text-white">{scenario}</p>
+              </div>
+              <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
+                <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Projection</p>
+                <p className="mt-2 text-sm font-medium text-white">{projection}</p>
+              </div>
+              <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
+                <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Branch mode</p>
+                <p className="mt-2 text-sm font-medium text-white">{branchMode}</p>
+              </div>
+            </div>
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Shell command status</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Guide and continuation</p>
             <p className="mt-3 text-sm leading-6 text-neutral-200">{status}</p>
-            <p className="mt-3 text-xs leading-6 text-neutral-400">Tutorial posture: {tutorialDetail}</p>
+            <p className="mt-3 text-xs leading-6 text-neutral-400">{heroTip}</p>
+            <p className="mt-3 text-xs leading-6 text-neutral-400">Guide posture: {guideDetail}</p>
           </div>
         </div>
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

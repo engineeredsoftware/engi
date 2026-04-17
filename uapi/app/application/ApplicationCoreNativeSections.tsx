@@ -31,25 +31,23 @@ export default function ApplicationCoreNativeSections({
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application core composition</p>
+          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Give and need overview</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native master-detail give / need read
+            Supply, need, and fit map
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This is a semantic shell-bridge replacement inside `/application`. The cards below are application-owned
-            readings of the mounted Bitcode core surface for the master-detail sections that set up the two main Bitcode
-            actions: give and need.
+            Keep the live give-side source, measured need, and fit posture readable without leaving the main workspace.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Native owner</p>
-            <p className="mt-2 text-neutral-200">route-local core cards</p>
+            <p className="text-emerald-300/85">Primary actions</p>
+            <p className="mt-2 text-neutral-200">give + need</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Semantic source</p>
-            <p className="mt-2 text-neutral-200">mounted Bitcode core surface</p>
+            <p className="text-emerald-300/85">Source</p>
+            <p className="mt-2 text-neutral-200">live Bitcode flow</p>
           </div>
         </div>
       </div>
@@ -144,7 +142,7 @@ export default function ApplicationCoreNativeSections({
                 <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Core Bitcode section</p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{panel.label}</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  {panel.cards[0]?.help || panel.cards[0]?.subtitle || 'This section is live in the mounted Bitcode core surface below.'}
+                  {panel.cards[0]?.help || panel.cards[0]?.subtitle || 'This section stays connected to the live Bitcode flow below.'}
                 </p>
               </div>
 
@@ -186,7 +184,7 @@ export default function ApplicationCoreNativeSections({
                       eyebrow: 'Selected repository supply',
                       subtitle:
                         selectedRepository.description ||
-                        'Application-owned repository context now anchors the Bitcode give-side before the preserved deposit surfaces.',
+                        'Selected repository supply is the current give-side source before deposit and fit.',
                       help:
                         connectionStatus?.connected && connectionStatus.valid
                           ? `Connected as ${connectionStatus.username || connectionStatus.metadata?.account || 'bitcode'}.`

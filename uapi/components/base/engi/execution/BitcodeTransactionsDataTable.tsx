@@ -60,64 +60,43 @@ export default function BitcodeTransactionsDataTable({
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Transaction</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.transaction.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.transaction.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.transaction} />
                   </span>
                 </th>
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Lens</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.lens.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.lens.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.lens} />
                   </span>
                 </th>
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Status</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.status.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.status.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.status} />
                   </span>
                 </th>
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Participant</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.participant.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.participant.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.participant} />
                   </span>
                 </th>
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Repository</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.repository.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.repository.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.repository} />
                   </span>
                 </th>
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Proof</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.proof.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.proof.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.proof} />
                   </span>
                 </th>
                 <th className="px-4 py-3">
                   <span className="inline-flex items-center gap-2">
                     <span>Started</span>
-                    <BitcodeInlineExplainer
-                      title={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.started.title}
-                      description={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.started.description}
-                    />
+                    <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_COLUMN_EXPLAINERS.started} />
                   </span>
                 </th>
               </tr>

@@ -79,6 +79,7 @@ Required system families:
 - conversations continuity
 - runs and pipelines totalization
 - Bitcode-native deliverable meaning
+- PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated database types
 - prompt abstraction and prompt-space routing
 - retained package admissibility
 
@@ -95,6 +96,7 @@ Required coverage posture:
 Required system families:
 - environment/debug coherence
 - production/staging/development mode completeness
+- migration/schema/type/API closure for retained storage systems
 - retained-package admissibility proof
 - total V26 closure proof
 

@@ -66,10 +66,10 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
     const branch = normalizeWhitespace(run.branch) || 'n/a';
     const participant = normalizeWhitespace(run.participant) || repository.split('/')[0] || 'connected operator';
     const summary =
-      normalizeWhitespace(run.summary) || 'Inspect this Bitcode transaction inside the application-owned detail surface.';
+      normalizeWhitespace(run.summary) || 'Inspect this Bitcode transaction from the central workspace detail.';
     const status = normalizeStatus(run.status);
     const proofStatus = normalizeWhitespace(run.proofStatus) || 'closure state in flight';
-    const closureFocus = normalizeWhitespace(run.closureFocus) || 'application consequence reading';
+    const closureFocus = normalizeWhitespace(run.closureFocus) || 'closure consequence reading';
     const transactionLens = inferTransactionLens(run);
     const type = normalizeRunType(run.type);
     const searchableText = [

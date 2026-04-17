@@ -26,6 +26,7 @@ import {
   type ApplicationRunDetailSnapshot,
 } from './application-transaction-detail-snapshot';
 import { MASTER_DETAIL_SUBSTRUCTURES } from './application-experience-architecture';
+import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
 import { MOCK_RUN_DELIVERABLES, type WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
 
@@ -93,7 +94,7 @@ function buildMasterDetailSubstructures(
         summary:
           detail?.summary ||
           selectedRun.summary ||
-          'This selected transaction is the active master-detail detail surface inside the Bitcode application.',
+          'This selected transaction is the active detail surface inside the Bitcode workspace.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
@@ -111,7 +112,7 @@ function buildMasterDetailSubstructures(
         ...substructure,
         summary:
           detail?.deliverables?.summary ||
-          'Deliverable surfaces stay inside the selected transaction context so the operator can inspect output without leaving `/application`.',
+          'Deliverable surfaces stay inside the selected transaction context so the operator can inspect output without leaving the workspace.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
@@ -157,7 +158,7 @@ function buildMasterDetailSubstructures(
     return {
       ...substructure,
       summary:
-        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode application workspace.',
+        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode workspace.',
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
@@ -260,8 +261,8 @@ export default function ApplicationTransactionWorkspace({
         setRunDetail(fallbackDetail);
         setRunDetailError(
           error instanceof Error
-            ? `${error.message}. Falling back to the route-owned workspace summary while live detail stays unavailable.`
-            : 'Unable to load live selected-transaction detail. Falling back to the route-owned workspace summary.',
+            ? `${error.message}. Falling back to the workspace summary while live detail stays unavailable.`
+            : 'Unable to load live selected-transaction detail. Falling back to the workspace summary.',
         );
       })
       .finally(() => {
@@ -291,9 +292,8 @@ export default function ApplicationTransactionWorkspace({
               Master-detail transactions, deliverables, proofs, and history
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-              This is the inward master-detail carrier V26 second-gate calls for. Bitcode transactions now act as the
-              master surface, while the selected transaction, its deliverables, proof posture, and history read as one
-              application-owned Bitcode detail workspace.
+              Use the central ledger as the main read surface: select a transaction, inspect its deliverables, proofs,
+              and history, and keep the full operating chain readable without leaving the page.
             </p>
           </div>
           {selectedRun ? (
@@ -328,7 +328,7 @@ export default function ApplicationTransactionWorkspace({
           </div>
         ) : !selectedRun ? (
           <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-            Select a Bitcode transaction to inspect its application-owned detail surface.
+            {APPLICATION_SURFACE_COPY.workspace.emptySelection}
           </div>
         ) : (
           <div className="space-y-6">

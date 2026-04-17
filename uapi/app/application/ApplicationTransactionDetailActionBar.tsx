@@ -45,8 +45,7 @@ export default function ApplicationTransactionDetailActionBar({
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Transaction interaction</p>
           <h3 className="mt-2 text-lg font-semibold text-white">Route-owned detail focus and closure actions</h3>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-            Transaction detail focus is now part of the application route state. Closure execution and refresh stay
-            application-owned here while the preserved Bitcode shell remains the semantic executor.
+            Switch detail focus, rerun closure, and refresh the selected transaction from the same place you read it.
           </p>
         </div>
 

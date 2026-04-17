@@ -221,6 +221,7 @@ It must now also assign proof/test/spec coverage expectations to any new second-
 The fourth-gate collaboration pack must now include:
 - a conversations and chat-interface retention map,
 - a runs/pipelines/deliverables total-system map,
+- a PostgreSQL/Supabase storage convergence map covering `/edgetimes`, active migrations, schema owners, ORM/query owners, generated types, and API boundaries,
 - an inward-port map from current executions/deliverables surfaces into `/application`,
 - a retained prompt-space map,
 - a retained package admissibility ledger,
@@ -276,6 +277,8 @@ Still open:
 - how ChatGPT-like interaction should survive as a fullscreen first-class application mode,
 - how deliverables should be redefined under Bitcode runs/pipelines,
 - how far executions/runs should absorb current pipeline-specific APIs and data while porting their strongest master-detail patterns into `/application`,
+- how PostgreSQL/Supabase ownership should be cut between `supabase/*`, `packages/supabase/*`, retained API carriers, and the required `/edgetimes` posture,
+- which migration family is treated as the initial V26 baseline and how schema drift is proven from there,
 - which retained packages are admissible,
 - and what proof obligations each retained package must satisfy to stay in V26.
 
@@ -315,6 +318,7 @@ Still open:
 Still open:
 - the exact theorem/member structure for the new V26 proof families,
 - how retained-package admissibility verdicts should be generated,
+- how migration/schema/ORM/type closure should be emitted as a generated proof family rather than a hand-waved infrastructure note,
 - how prompt-space proofs and application-composition proofs should join the existing Bitcode proof family catalog,
 - and what minimum closure signal is required before V26 can be considered formally complete.
 

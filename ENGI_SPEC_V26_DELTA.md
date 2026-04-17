@@ -73,7 +73,7 @@ Its current draft-only content spine is:
 - how:
   open, auditable, formal
 - what:
-  observable, modular, hackable
+  modular, observable, hackable
 - why:
   throughput, quality, cost, trust
 
@@ -85,6 +85,7 @@ Its rule is:
 - keep those systems mounted from the application context rather than as the finished product topology,
 - port those systems into Bitcode V26 semantics,
 - converge runs, pipelines, and deliverable meaning onto a V26 total system,
+- converge PostgreSQL/Supabase storage, `/edgetimes`, migrations, schemas, ORM/query carriers, and generated types onto an explicit Bitcode owner,
 - treat current executions/deliverables surfaces as reusable master-detail/workspace carriers to port into `/application`,
 - require prompt abstraction to directly own retained prompt text,
 - and admit retained packages only where V26 gives them an explicit role.
@@ -95,6 +96,7 @@ Fifth-gate is the proof precision, closure, and promotion-finalization gate.
 Its rule is:
 - close V26 only under explicit proof-family precision,
 - prove the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
+- prove migrations, schema contracts, ORM/query carriers, generated types, storage/API contracts, and retained package boundaries rather than leaving persistence informal,
 - add the debug setting and floating debug widget,
 - ensure the environment toggle refreshes the application coherently,
 - prove production/staging/development mode behavior,

@@ -34,11 +34,7 @@ export default function BitcodeTransactionsPagination({
       <div className="flex flex-wrap items-center gap-2">
         <label className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2">
           <span>Page size</span>
-          <BitcodeInlineExplainer
-            title={BITCODE_TRANSACTION_FILTER_EXPLAINERS.pageSize.title}
-            description={BITCODE_TRANSACTION_FILTER_EXPLAINERS.pageSize.description}
-            side="top"
-          />
+          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.pageSize} side="top" />
           <select
             aria-label="Transaction page size"
             value={pagination.pageSize}

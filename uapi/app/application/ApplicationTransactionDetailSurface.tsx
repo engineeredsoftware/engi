@@ -82,7 +82,7 @@ export default function ApplicationTransactionDetailSurface({
   const showActivity = detailSection === 'activity';
   const showConsole = detailSection === 'console' && !usesMockTransactions;
   const normalizedSummary =
-    detail?.summary || 'The selected transaction now reads through an inward Bitcode detail carrier inside `/application`.';
+    detail?.summary || 'The selected transaction is loaded into the main Bitcode detail workspace.';
   const sectionSummary = useMemo(() => {
     if (showTransaction) {
       return `${normalizedSummary} Transaction identity, repository, and timing posture are the active detail focus.`;
@@ -100,7 +100,7 @@ export default function ApplicationTransactionDetailSurface({
       return `${normalizedSummary} Activity streaming, work updates, and retained execution posture are the active detail focus.`;
     }
     if (showConsole) {
-      return `${normalizedSummary} Compatibility execution console remains available as the active detail focus during second-gate convergence.`;
+      return `${normalizedSummary} The compatibility execution console remains available when you need the lower execution view.`;
     }
     return `${normalizedSummary} Deliverables, reviews, issues, comments, and summary text are the active detail focus.`;
   }, [normalizedSummary, showActivity, showClosure, showConsole, showHistory, showProofs, showTransaction]);
@@ -166,7 +166,7 @@ export default function ApplicationTransactionDetailSurface({
   if (isLoadingDetail && !detail) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-        Loading application-owned transaction detail…
+        Loading transaction detail…
       </div>
     );
   }
@@ -233,8 +233,8 @@ export default function ApplicationTransactionDetailSurface({
                 <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Deliverable surfaces</p>
                 <h3 className="mt-2 text-lg font-semibold text-white">Transaction outputs stay inside `/application`</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Pull requests, reviews, issues, comments, and summary text now read through the application-owned detail
-                  carrier in both mock and live posture.
+                  Pull requests, reviews, issues, comments, and summary text stay attached to the selected transaction in
+                  both mock and live posture.
                 </p>
               </div>
               <DeliverablesDocPanel
@@ -312,8 +312,7 @@ export default function ApplicationTransactionDetailSurface({
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Compatibility console</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Detailed execution console</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-300">
-              This remains available during second-gate convergence, but it is now secondary to the application-owned
-              transaction detail surface above.
+              Use this lower execution view when you need compatibility-level detail beyond the main transaction cards.
             </p>
           </div>
           <div className="p-5">

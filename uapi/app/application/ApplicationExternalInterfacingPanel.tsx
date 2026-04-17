@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
   normalizeExternalRuntimePayload,
@@ -87,29 +89,20 @@ export default function ApplicationExternalInterfacingPanel() {
   const counts = snapshot?.counts;
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">External interfacing posture</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native boundary and actuality read
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate now exposes the V24 external-realization contract directly in the application frame. This makes
-            boundary honesty, environment posture, and interface actuality legible from `/application` instead of leaving
-            them buried inside the preserved shell.
-          </p>
+    <ApplicationOperatorCard
+      kicker="Boundary runtime"
+      title="External interface readiness"
+      summary="Check what is live, modeled, or blocked before you trust the rest of the operating chain."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.boundaryRuntime}
+    >
+      <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Runtime scope</p>
+          <p className="mt-2 text-neutral-200">connected interfaces</p>
         </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Hardening scope</p>
-            <p className="mt-2 text-neutral-200">application-facing interfaces</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Semantic source</p>
-            <p className="mt-2 text-neutral-200">app-owned V24 route</p>
-          </div>
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Read posture</p>
+          <p className="mt-2 text-neutral-200">boundary honesty</p>
         </div>
       </div>
 
@@ -267,6 +260,6 @@ export default function ApplicationExternalInterfacingPanel() {
           </div>
         </div>
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

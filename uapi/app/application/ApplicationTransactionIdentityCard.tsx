@@ -21,7 +21,7 @@ export default function ApplicationTransactionIdentityCard({
     <BitcodePayloadRowsCard
       kicker="Selected transaction"
       title="Transaction identity and payload"
-      summary="The selected transaction now carries both a compact visual identity read and a raw Bitcode payload view inside the same application-owned detail card."
+      summary="Read the transaction identity in one compact card, then switch straight into the raw Bitcode payload when you need the underlying shape."
       payload={payload}
       rawLabel="Transaction payload"
       rows={identityRows}

@@ -61,7 +61,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     created_at: '2026-04-16T10:34:00.000Z',
     type: 'pipeline:proof',
     status: 'running',
-    summary: 'Refreshing proof-family witnesses against the current V25 canon / V26 draft posture.',
+    summary: 'Refreshing proof-family witnesses for the current Bitcode operating posture.',
     repository: 'bitcode/bitcode',
     branch: 'proof-refresh/v26',
     participant: 'garrett',
@@ -90,7 +90,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       number: 268,
       title: 'Refactor Bitcode application branch-artifact detail workspace',
       description:
-        'Pulls the remediated branch artifact pack into the application-owned detail surface and tightens bounded proof grouping.',
+        'Pulls the remediated branch artifact pack into the selected transaction detail and tightens bounded proof grouping.',
     },
     pullRequestReviews: [
       {

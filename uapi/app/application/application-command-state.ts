@@ -119,16 +119,16 @@ export function normalizeApplicationCommandState(snapshot: ShellSnapshot): Appli
     branchOptions,
     heroLede:
       String(snapshot.commandSurface?.heroLede || '').trim() ||
-      'Awaiting preserved Bitcode shell posture…',
+      'Awaiting current Bitcode posture…',
     heroTip:
       String(snapshot.commandSurface?.heroTip || '').trim() ||
-      'Waiting for current appendix and report posture…',
+      'Current appendix and report posture is loading.',
     status:
       String(snapshot.commandSurface?.status || '').trim() ||
-      'Application command state is syncing from the preserved shell.',
+      'Workspace controls are syncing.',
     tutorialLabel:
       String(snapshot.commandSurface?.tutorialLabel || '').trim() ||
-      'Toggle tutorial',
+      'Toggle guide',
     tutorialOpen: Boolean(snapshot.commandSurface?.tutorialOpen),
     tutorialStepIndex:
       typeof snapshot.commandSurface?.tutorialStepIndex === 'number'

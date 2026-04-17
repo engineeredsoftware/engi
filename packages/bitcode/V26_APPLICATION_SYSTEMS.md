@@ -5,7 +5,7 @@
 - Scope: non-canonical supplementary system document for the V26 Bitcode application architecture
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
 - Active draft target: `ENGI_SPEC_V26.md`
-- Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the application, overlay systems, and retained package owners
+- Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the application, overlay systems, retained package owners, and storage/persistence ownership
 
 ## Rule
 
@@ -554,6 +554,23 @@ Current major retained owners:
   Version-control provider abstraction and connection ownership.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/pipelines/*`
   Run/pipeline execution carriers being converged into Bitcode V26 semantics.
+
+## Persistence and storage convergence
+
+Fourth-gate must also converge the retained storage layer into explicit Bitcode ownership.
+
+Current major retained owners:
+- `supabase/*`
+  Migration history, hosted-storage posture, auth/storage config, and database-side operational baseline.
+- `packages/supabase/*`
+  Typed client, SSR helpers, and retained Supabase package ownership.
+- storage-facing app/API carriers including the required `/edgetimes` posture
+  Application and API surfaces that expose the retained storage system upward into Bitcode.
+
+Required convergence rule:
+- V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.
+- One explicit Bitcode storage contract must name the migration baseline, active schema owners, ORM or query-layer owners, generated database types, and the API boundaries that expose them.
+- Tests, comments, docs, and proof-surface ownership must follow those storage carriers rather than accumulating as infrastructure residue.
 
 ## Module namespace direction
 

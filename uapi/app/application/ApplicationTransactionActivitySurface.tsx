@@ -39,7 +39,7 @@ export default function ApplicationTransactionActivitySurface({
   if (!activity) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-8 text-sm text-neutral-400">
-        No application-owned activity surface is available for this selected transaction yet.
+        No activity stream is available for this selected transaction yet.
       </div>
     );
   }
@@ -47,12 +47,11 @@ export default function ApplicationTransactionActivitySurface({
   return (
     <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
       <div className="border-b border-white/8 px-5 py-4">
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Application-owned activity</p>
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Transaction activity</p>
         <h3 className="mt-2 text-lg font-semibold text-white">Transaction activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
-          This elevates the older execution/log system into Bitcode’s application-owned detail space. The central
-          workspace now reads the selected transaction’s stream, state, and iteration updates directly instead of leaving
-          that as a compatibility-only page behavior.
+          Read the selected transaction’s stream, state, and iteration updates directly from the workspace so execution
+          context stays beside deliverables, proofs, and history.
         </p>
       </div>
       <BitcodeExecutionStreamPanel

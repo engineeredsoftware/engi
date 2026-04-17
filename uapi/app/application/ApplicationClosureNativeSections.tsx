@@ -157,16 +157,15 @@ export default function ApplicationClosureNativeSections() {
             Native verification, branch, settlement, and ledger semantics
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            The closure side now reads directly from the mounted Bitcode shell snapshot instead of reconstructing itself
-            from rendered panel markup. Verification, branch artifacts, settlement proof, and ledger history are now
-            application-owned closure surfaces with exact semantic continuity.
+            Read verification, branch artifacts, settlement proof, and ledger history as one continuous closure surface.
+            The source path stays exact without forcing you back into fragmented lower-level panels.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Closure owner</p>
-            <p className="mt-2 text-neutral-200">native application surfaces</p>
+            <p className="text-emerald-300/85">Closure mode</p>
+            <p className="mt-2 text-neutral-200">workspace reading</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Semantic source</p>

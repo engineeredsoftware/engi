@@ -2,6 +2,8 @@
 
 import { useMemo } from 'react';
 
+import ApplicationOperatorCard from './ApplicationOperatorCard';
+import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
 import { normalizeApplicationSectionAtlas } from './application-section-atlas';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
@@ -23,29 +25,20 @@ export default function ApplicationSectionAtlas() {
   );
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,11,22,0.96),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application section atlas</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Route-local body read
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Second-gate is now lifting the main Bitcode body into the application frame through semantic shell bridges.
-            These cards summarize the current Bitcode sections so operators can read the workspace at application level
-            before diving into the deeper underlying surfaces.
-          </p>
+    <ApplicationOperatorCard
+      kicker="Workspace map"
+      title="Preview the deeper flow"
+      summary="Scan give, need, fit, verification, artifacts, settlement, and ledger sections before you open the exact source path below."
+      explainer={APPLICATION_OPERATOR_EXPLAINERS.workspaceMap}
+    >
+      <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Coverage</p>
+          <p className="mt-2 text-neutral-200">core + closure sections</p>
         </div>
-
-        <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Body owner</p>
-            <p className="mt-2 text-neutral-200">route-local atlas cards</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Semantic source</p>
-            <p className="mt-2 text-neutral-200">semantic core + closure surfaces</p>
-          </div>
+        <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
+          <p className="text-emerald-300/85">Interaction</p>
+          <p className="mt-2 text-neutral-200">open exact section</p>
         </div>
       </div>
 
@@ -88,12 +81,12 @@ export default function ApplicationSectionAtlas() {
                 onClick={() => jumpToShellSection(section.id)}
                 className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
               >
-                Open {section.label}
+                Open section
               </button>
             </div>
           </article>
         ))}
       </div>
-    </section>
+    </ApplicationOperatorCard>
   );
 }

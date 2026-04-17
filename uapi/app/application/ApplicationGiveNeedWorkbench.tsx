@@ -32,8 +32,8 @@ export default function ApplicationGiveNeedWorkbench({
   if (!workbench) {
     return (
       <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
-        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application give / need workbench</p>
-        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the mounted Bitcode shell snapshot…</p>
+        <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Give / need workbench</p>
+        <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode workbench…</p>
       </section>
     );
   }
@@ -42,14 +42,13 @@ export default function ApplicationGiveNeedWorkbench({
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application give / need workbench</p>
+          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Give / need workbench</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Route-owned action detail from the live Bitcode shell
+            Give and Need as one operating chain
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This second-gate layer reads the mounted shell through a semantic snapshot instead of shell markup. Give and
-            need now surface as application-owned action detail while the preserved Bitcode shell remains the semantic
-            source of truth underneath.
+            Keep Give and Need readable as one operating chain: what supply is being offered, what demand is being
+            measured, and why the current fit is or is not strong enough to carry forward.
           </p>
         </div>
 

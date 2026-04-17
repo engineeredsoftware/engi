@@ -7,6 +7,20 @@ export type TransactionDataMode = 'live' | 'mock-review' | 'review-fallback';
 export const BITCODE_TRANSACTION_PAGE_SIZES = [10, 25, 50] as const;
 export type TransactionPageSize = typeof BITCODE_TRANSACTION_PAGE_SIZES[number];
 
+export interface BitcodeExplainerReferences {
+  source?: string[];
+  canon?: string[];
+}
+
+export interface BitcodeExplainer {
+  kicker?: string;
+  title: string;
+  summary: string;
+  detail?: string;
+  points?: string[];
+  references?: BitcodeExplainerReferences;
+}
+
 export interface TransactionFilters {
   searchTerm: string;
   status: string;

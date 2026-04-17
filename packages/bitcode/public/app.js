@@ -212,7 +212,7 @@ function canonPosture(state) {
     operatorLabel: state?.specVersion || 'current canon posture',
     documentTitle: 'Bitcode Application',
     inheritedCanonSurfaceLabel: 'current inherited canon',
-    heroEyebrow: 'Bitcode deterministic local prototype',
+    heroEyebrow: 'Bitcode operator workspace',
     heroLede: 'Current canon posture is loading.',
     heroTip: 'Current generated appendix and report posture is loading.'
   };
@@ -970,7 +970,7 @@ function inheritedCanonSurfaceLabel(state) {
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
   document.title = posture['documentTitle'] || `Bitcode Application — ${canonOperatorLabel(state)}`;
-  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode deterministic local prototype';
+  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode operator workspace';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
 }
@@ -4036,7 +4036,7 @@ function tutorialSteps(state) {
       selector: '#panelDepositing',
       kicker: 'Step 4',
       title: 'Bind supply into a deposit',
-      body: 'The tutorial becomes real here. Choose an authenticated repo session, select inventory artifacts, add any operator note or raw fallback material, and deposit a candidate asset into the flow.',
+      body: 'The guide becomes active here. Choose an authenticated repo session, select inventory artifacts, add any operator note or raw fallback material, and deposit a candidate asset into the flow.',
       targetHint: 'This panel answers: what did we present to Bitcode, from which repo/auth boundary, and in what artifact shape?'
     },
     {
@@ -4065,8 +4065,8 @@ function tutorialSteps(state) {
       kicker: 'Step 8',
       title: 'Inspect the realized branch stack',
       body: branchUnlocked
-        ? 'The branch panel is the artifact-heavy core of the demo: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and deliverables.'
-        : 'This panel stays intentionally thin until you run “Make Bitcode branch”. Once realized, it becomes the artifact-heavy core of the demo.',
+        ? 'The branch panel is the artifact-heavy core of the flow: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and deliverables.'
+        : 'This panel stays intentionally thin until you run “Make Bitcode branch”. Once realized, it becomes the artifact-heavy core of the flow.',
       targetHint: 'After a run, this is where you inspect the private remediation branch as a structured artifact system rather than a vague “output”.'
     },
     {
@@ -4082,7 +4082,7 @@ function tutorialSteps(state) {
       selector: '#panelLedger',
       kicker: 'Step 10',
       title: 'End on balances, policy, and history',
-      body: 'Finish the tutorial here. Ledger and policy surfaces let you show account consequences, bounded metadata, and run history after the branch and settlement story is complete.',
+      body: 'Finish the guide here. Ledger and policy surfaces let you show account consequences, bounded metadata, and run history after the branch and settlement story is complete.',
       targetHint: 'This is the closing step: what changed, what remained bounded, and what prior runs are now part of the visible canon path?'
     }
   ];
@@ -4126,7 +4126,7 @@ function highlightTutorialTarget(target, scrollTarget = false) {
  * @returns {void}
  */
 function updateTutorialToggleButton() {
-  tutorialToggleButtonEl.textContent = tutorialOpen ? 'Hide tutorial' : 'Show tutorial';
+  tutorialToggleButtonEl.textContent = tutorialOpen ? 'Hide guide' : 'Show guide';
 }
 
 /**
@@ -4160,7 +4160,7 @@ function renderTutorialOverlay(state, options = {}) {
   tutorialBodyEl.textContent = step.body;
   tutorialTargetHintEl.textContent = step.targetHint;
   tutorialPrevButtonEl.disabled = tutorialStepIndex === 0;
-  tutorialNextButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Finish tutorial' : 'Next step';
+  tutorialNextButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Finish guide' : 'Next step';
   tutorialCloseButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Close' : 'Dismiss';
   highlightTutorialTarget(target, options.scrollTarget === true);
 }

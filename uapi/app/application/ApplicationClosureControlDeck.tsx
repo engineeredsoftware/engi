@@ -57,8 +57,8 @@ export default function ApplicationClosureControlDeck() {
             Route-local closure operation
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Verification, branch execution, settlement review, and ledger follow-through now have an application-owned
-            control surface. The Bitcode shell still executes the exact closure semantics underneath.
+            Run verification, branch execution, settlement review, and ledger follow-through from the same workspace
+            where you read the transaction detail.
           </p>
         </div>
 
@@ -143,7 +143,7 @@ export default function ApplicationClosureControlDeck() {
           <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
             <p className="text-neutral-500">Shell status</p>
             <p className="mt-2 text-neutral-100">{state.status}</p>
-            <p className="mt-3 text-neutral-500">Tutorial posture</p>
+            <p className="mt-3 text-neutral-500">Guide posture</p>
             <p className="mt-1 text-neutral-100">{state.tutorialDetail}</p>
           </div>
         </article>

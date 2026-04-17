@@ -171,8 +171,7 @@ export default function BitcodePayloadTree({
       <div className="flex items-center gap-2">
         <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Payload field tree</p>
         <BitcodeInlineExplainer
-          title={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.payloadTree.title}
-          description={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.payloadTree.description}
+          explainer={BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS.payloadTree}
           side="top"
         />
       </div>
