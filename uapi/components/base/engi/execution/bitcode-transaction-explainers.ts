@@ -90,6 +90,16 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     description:
       'Visual mode renders curated Bitcode cards for fast reading. Raw JSON exposes the exact payload feeding the application-owned detail surface.',
   },
+  structuredPayload: {
+    title: 'Structured payload shape',
+    description:
+      'Summarizes the payload root kind, top-level fields, and composite sections so transaction detail can be read quickly before dropping into raw JSON.',
+  },
+  payloadTree: {
+    title: 'Payload field tree',
+    description:
+      'Expands the payload into a bounded nested field tree with type badges so transaction detail can be read structurally without dropping immediately to raw JSON.',
+  },
   rawPayload: {
     title: 'Raw payload view',
     description:

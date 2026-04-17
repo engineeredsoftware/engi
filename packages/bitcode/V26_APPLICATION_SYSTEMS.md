@@ -93,8 +93,12 @@ Current active carriers:
 - `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
 - `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadTree.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
@@ -209,9 +213,12 @@ Current active carriers:
 Operational rule:
 - selected-transaction identity, closure, proofs, and history should all expose one shared visual-vs-raw payload reading carrier
 - raw payload reading should include copy support and payload metadata instead of falling back to an unstructured `<pre>` block
+- visual payload reading should also expose a structured payload summary with root kind, top-level counts, and previewed sections before operators drop into raw JSON
+- visual payload reading should also expose a bounded nested payload tree so operators can inspect structural JSON fields and types without leaving the shared detail carrier
 - shared inline explainers should document visual-vs-raw posture, filter meaning, column meaning, and page-size behavior without reverting to browser-only `title` hints
 - transaction-terminal controls should keep stable accessible names even when explainer triggers are introduced beside labels
 - selected-transaction rows, metric grids, and chip clouds should converge on reusable execution-level base carriers instead of being re-authored per card
+- selected-transaction action rows and payload-card shells should also converge on reusable execution-level carriers instead of each card reauthoring its own inspector-plus-button structure
 - proof/history collection cards and workspace substructure preview cards should converge on shared collection/panel carriers instead of repeating page-local list/article markup
 - future transaction-detail, closure, and conversation payload views should extend this base carrier instead of rebuilding raw-view toggles ad hoc
 

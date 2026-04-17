@@ -163,8 +163,12 @@ The current active second-gate source additions are now explicitly:
 - `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
 - `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
 - `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
 - `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
+- `uapi/components/base/engi/execution/BitcodePayloadTree.tsx`
 - `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`

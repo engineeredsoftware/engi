@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { OrbitalPane } from './index';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
@@ -42,18 +42,16 @@ interface OrbitalContextType {
 export default function OrbitalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [windowState, setWindowState] = useState<OrbitalWindow>('SignUpWindow');
-  const containerRef = useRef<HTMLElement | null>(null);
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current) {
-      const el = document.createElement('div');
-      el.id = 'orbital-portal';
-      containerRef.current = el;
-      document.body.appendChild(el);
-    }
+    const el = document.createElement('div');
+    el.id = 'orbital-portal';
+    document.body.appendChild(el);
+    setPortalContainer(el);
     return () => {
-      const el = containerRef.current;
       if (el && el.parentNode) el.parentNode.removeChild(el);
+      setPortalContainer(null);
     };
   }, []);
 
@@ -116,12 +114,12 @@ export default function OrbitalProvider({ children }: { children: React.ReactNod
   return (
     <OrbitalContext.Provider value={ctx}>
       {children}
-      {isOpen && containerRef.current
+      {isOpen && portalContainer
         ? createPortal(
             <div className="orbital-portal orbital-open">
               <Orbital window={windowState} onClose={closeOrbital} initialStep={deepLinkStep ?? undefined} />
             </div>,
-            containerRef.current,
+            portalContainer,
           )
         : null}
     </OrbitalContext.Provider>

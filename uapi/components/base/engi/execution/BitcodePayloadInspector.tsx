@@ -4,6 +4,8 @@ import React from 'react';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import BitcodeInlineExplainer from './BitcodeInlineExplainer';
+import BitcodePayloadShape from './BitcodePayloadShape';
+import BitcodePayloadTree from './BitcodePayloadTree';
 import { BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS } from './bitcode-transaction-explainers';
 
 type BitcodePayloadInspectorMode = 'visual' | 'raw';
@@ -135,7 +137,11 @@ export default function BitcodePayloadInspector({
 
       <div className="mt-4">
         {mode === 'visual' ? (
-          children
+          <div className="space-y-4">
+            {children}
+            {payload !== undefined ? <BitcodePayloadShape payload={payload} /> : null}
+            {payload !== undefined ? <BitcodePayloadTree payload={payload} /> : null}
+          </div>
         ) : rawPayload ? (
           <div className="rounded-[1.1rem] border border-white/8 bg-[rgba(2,6,16,0.92)] px-4 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

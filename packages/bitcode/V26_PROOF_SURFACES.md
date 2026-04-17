@@ -164,6 +164,11 @@ Current active assignments:
   live `/application` verification with fullscreen orbitals entry exercised from the running app
   proof surface:
   second-gate orbitals renderability from `/application`, including the active data-sharing pane hookup required to avoid missing-overlay crashes
+- `uapi/app/orbitals/components/OrbitalsProvider.tsx`
+  test coverage:
+  `uapi/tests/orbitalsProvider.test.tsx` plus live `/application` verification with orbitals entry exercised from the running app
+  proof surface:
+  second-gate fullscreen orbitals portal readiness from `/application`, including first-open rendering when the shared event bridge fires before the overlay container would otherwise be visible to React
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
@@ -328,7 +333,17 @@ Current active assignments:
   test coverage:
   `uapi/tests/bitcodePayloadInspector.test.tsx`
   proof surface:
-  reusable visual-vs-raw payload carrier with copy support, payload metadata, and shared explainers for selected-transaction detail
+  reusable visual-vs-raw payload carrier with copy support, payload metadata, structured payload summaries, and shared explainers for selected-transaction detail
+- `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
+  test coverage:
+  `uapi/tests/bitcodePayloadShape.test.tsx`
+  proof surface:
+  reusable structured payload summary carrier for selected-transaction detail, exposing root kind, top-level counts, and previewable field/item posture before raw JSON inspection
+- `uapi/components/base/engi/execution/BitcodePayloadTree.tsx`
+  test coverage:
+  `uapi/tests/bitcodePayloadTree.test.tsx`
+  proof surface:
+  reusable bounded nested payload-tree carrier for selected-transaction detail, exposing structural JSON fields and types before raw inspection
 - `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
   test coverage:
   `uapi/tests/bitcodeDetailRowList.test.tsx`
@@ -344,11 +359,21 @@ Current active assignments:
   browser verification and card-level integration through `uapi/tests/applicationTransactionDetailCards.test.tsx`
   proof surface:
   reusable chip-cloud carrier for branch artifacts and later selected-transaction detail token clouds
+- `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
+  test coverage:
+  `uapi/tests/bitcodeActionPillRow.test.tsx`
+  proof surface:
+  reusable action-pill carrier for selected-transaction verification, settlement, branch, and history follow-through inside transaction detail
 - `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
   test coverage:
-  covered indirectly through `uapi/tests/bitcodeInlineExplainer.test.tsx`, `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`, and `uapi/tests/bitcodePayloadInspector.test.tsx`
+  covered indirectly through `uapi/tests/bitcodeInlineExplainer.test.tsx`, `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`, `uapi/tests/bitcodePayloadInspector.test.tsx`, `uapi/tests/bitcodePayloadShape.test.tsx`, and `uapi/tests/bitcodePayloadTree.test.tsx`
   proof surface:
-  centralized explainer-copy contract for transaction filters, headers, pagination, and payload modes
+  centralized explainer-copy contract for transaction filters, headers, pagination, raw payload posture, structured payload posture, and nested payload-tree posture
+- `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
+  test coverage:
+  `uapi/tests/bitcodePayloadDetailCard.test.tsx`
+  proof surface:
+  reusable selected-transaction card shell that composes payload inspection and action pills into one execution-level carrier
 - `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
   test coverage:
   imported through `uapi/tests/applicationTransactions.test.ts`, `uapi/tests/applicationTransactionQuery.test.ts`, and `uapi/tests/bitcodeTransactionsPagination.test.tsx`

@@ -3,7 +3,7 @@
 import React from 'react';
 
 import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
-import BitcodePayloadInspector from '@/components/base/engi/execution/BitcodePayloadInspector';
+import BitcodePayloadDetailCard from '@/components/base/engi/execution/BitcodePayloadDetailCard';
 
 interface ApplicationTransactionIdentityCardProps {
   startedAt: string;
@@ -19,7 +19,7 @@ export default function ApplicationTransactionIdentityCard({
   const identityRows = [...rows, { label: 'Started', value: startedAt }];
 
   return (
-    <BitcodePayloadInspector
+    <BitcodePayloadDetailCard
       kicker="Selected transaction"
       title="Transaction identity and payload"
       summary="The selected transaction now carries both a compact visual identity read and a raw Bitcode payload view inside the same application-owned detail card."
@@ -27,6 +27,6 @@ export default function ApplicationTransactionIdentityCard({
       rawLabel="Transaction payload"
     >
       <BitcodeDetailRowList rows={identityRows} />
-    </BitcodePayloadInspector>
+    </BitcodePayloadDetailCard>
   );
 }

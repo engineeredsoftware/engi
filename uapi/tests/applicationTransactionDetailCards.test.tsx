@@ -84,8 +84,9 @@ describe('application transaction detail cards', () => {
     expect(screen.getByText('Closure posture')).toBeTruthy();
     expect(screen.getByText('Proof families')).toBeTruthy();
     expect(screen.getByText('History')).toBeTruthy();
-    expect(screen.getByText('selection-materialization')).toBeTruthy();
-    expect(screen.getByText('run-001')).toBeTruthy();
+    expect(screen.getAllByText('Structured payload shape').length).toBeGreaterThanOrEqual(3);
+    expect(screen.getAllByText('selection-materialization').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('run-001').length).toBeGreaterThan(0);
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Raw JSON' })[0]);
     expect(screen.getByText(/"settlementMetrics"/)).toBeTruthy();
