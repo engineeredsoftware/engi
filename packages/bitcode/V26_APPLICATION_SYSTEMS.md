@@ -109,6 +109,7 @@ Current active carriers:
 
 Operational rule:
 - master detail means a rich Bitcode transactions table as master and transaction detail as detail
+- the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and configuring from application context
 - `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
 - route-local application orchestration owns normalization and selection while the base component library owns the reusable table UI carrier

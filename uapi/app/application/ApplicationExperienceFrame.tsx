@@ -19,19 +19,19 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
             Three main experiences. Two main actions.
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            `/application` is the Bitcode transactions master-detail experience. Conversations and orbitals are fullscreen
-            modes entered from here. Inside master detail, the operator primarily works through two actions: give and need.
+            The read experience is the Bitcode transactions master-detail window inside `/application`. Conversations and
+            orbitals are fullscreen modes entered from here. The write experience moves through Give, Need, and configuring.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Primary experience</p>
+            <p className="text-emerald-300/85">Read experience</p>
             <p className="mt-2 text-neutral-200">transactions master detail</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Primary actions</p>
-            <p className="mt-2 text-neutral-200">give + need</p>
+            <p className="text-emerald-300/85">Write experience</p>
+            <p className="mt-2 text-neutral-200">give + need + configuring</p>
           </div>
         </div>
       </div>
@@ -115,6 +115,15 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
           Verification, branch artifacts, settlement, proofs, deliverables, and history remain first-class Bitcode
           surfaces, but they are closure stages within master detail rather than separate top-level experiences or actions.
           Inside that master-detail experience, transactions, deliverables, proofs, and history remain the four key substructures.
+        </p>
+      </div>
+
+      <div className="mt-6 rounded-[1.6rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.92),rgba(5,10,20,0.9))] px-5 py-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/80">Production realism</p>
+        <p className="mt-3 text-sm leading-6 text-neutral-300">
+          V26 is not a softened demo pass. It is Bitcode production realism: open, auditable, and formal operation for
+          producers, consumers, investors, partners, and researchers, with modular, observable, hackable system surfaces
+          optimized toward throughput, quality, cost, and trust.
         </p>
       </div>
     </section>

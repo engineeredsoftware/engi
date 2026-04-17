@@ -1,57 +1,9 @@
 'use client';
 
-type TransactionOwnership = 'all' | 'mine' | 'network';
-type TransactionLens = 'all' | 'give' | 'need' | 'closure';
-type TransactionSort = 'newest' | 'oldest' | 'most-tokens' | 'highest-usd';
-
-interface TransactionFilters {
-  searchTerm: string;
-  status: string;
-  ownership: TransactionOwnership;
-  transactionLens: TransactionLens;
-  repository: string;
-  participant: string;
-  proofStatus: string;
-  sort: TransactionSort;
-}
-
-interface TransactionRecord {
-  id: string;
-  summary: string;
-  type: string;
-  status: string;
-  participant: string;
-  repository: string;
-  branch: string;
-  proofStatus: string;
-  closureFocus: string;
-  createdAt: string;
-  isOwnTransaction: boolean;
-  transactionLens: Exclude<TransactionLens, 'all'>;
-}
-
-function formatTimestamp(value: string) {
-  try {
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-    }).format(new Date(value));
-  } catch {
-    return value;
-  }
-}
-
-function formatTypeLabel(value: string) {
-  return value.replace(/^pipeline:/, '').replace(/[-_]/g, ' ');
-}
-
-function statusTone(status: string) {
-  if (status === 'completed') return 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200';
-  if (status === 'error' || status === 'failed') return 'border-red-500/30 bg-red-500/10 text-red-200';
-  return 'border-amber-500/30 bg-amber-500/10 text-amber-100';
-}
+import BitcodeTransactionsDataTable from './BitcodeTransactionsDataTable';
+import BitcodeTransactionsFilterBar from './BitcodeTransactionsFilterBar';
+import BitcodeTransactionsOverview from './BitcodeTransactionsOverview';
+import type { TransactionFilters, TransactionRecord } from './bitcode-transaction-types';
 
 interface BitcodeTransactionsTableProps {
   records: TransactionRecord[];
@@ -82,10 +34,6 @@ export default function BitcodeTransactionsTable({
   error,
   mockMode,
 }: BitcodeTransactionsTableProps) {
-  const updateFilter = <K extends keyof TransactionFilters>(key: K, value: TransactionFilters[K]) => {
-    onFiltersChange({ ...filters, [key]: value });
-  };
-
   const ownTransactionCount = records.filter((record) => record.isOwnTransaction).length;
   const visibleTokenTotal = records.reduce((total, record) => total + (record.tokenTotal ?? 0), 0);
 
@@ -100,220 +48,32 @@ export default function BitcodeTransactionsTable({
             transaction detail, deliverables, proofs, history, and activity in the central workspace.
           </p>
         </div>
-        <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-3">
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-emerald-300/85">Transactions</p>
-            <p className="mt-2 text-neutral-100">{records.length}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-emerald-300/85">Own visible</p>
-            <p className="mt-2 text-neutral-100">{ownTransactionCount}</p>
-          </div>
-          <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
-            <p className="text-emerald-300/85">Visible tokens</p>
-            <p className="mt-2 text-neutral-100">{visibleTokenTotal.toLocaleString('en-US')}</p>
-          </div>
-        </div>
+
+        <BitcodeTransactionsOverview
+          recordCount={records.length}
+          ownTransactionCount={ownTransactionCount}
+          visibleTokenTotal={visibleTokenTotal}
+          selectedTransactionId={selectedTransactionId}
+          mockMode={mockMode}
+        />
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-          selected {selectedTransactionId ? 'transaction active' : 'none'}
-        </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-          mode {mockMode ? 'mock review' : 'live detail'}
-        </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
-          search spans ids, repos, branches, participants, proof posture, and summaries
-        </span>
-      </div>
+      <BitcodeTransactionsFilterBar
+        filters={filters}
+        onFiltersChange={onFiltersChange}
+        statusOptions={statusOptions}
+        repositoryOptions={repositoryOptions}
+        participantOptions={participantOptions}
+        proofStatusOptions={proofStatusOptions}
+      />
 
-      <div className="mt-5 grid gap-3 xl:grid-cols-[minmax(0,1.4fr)_repeat(6,minmax(0,0.76fr))]">
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Search transactions</span>
-          <input
-            value={filters.searchTerm}
-            onChange={(event) => updateFilter('searchTerm', event.target.value)}
-            placeholder="Search ids, repos, branches, proof posture, participants…"
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
-          />
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Status</span>
-          <select
-            value={filters.status}
-            onChange={(event) => updateFilter('status', event.target.value)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="all">All statuses</option>
-            {statusOptions.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Ownership</span>
-          <select
-            value={filters.ownership}
-            onChange={(event) => updateFilter('ownership', event.target.value as TransactionOwnership)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="all">All participants</option>
-            <option value="mine">My transactions</option>
-            <option value="network">Network transactions</option>
-          </select>
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Action lens</span>
-          <select
-            value={filters.transactionLens}
-            onChange={(event) => updateFilter('transactionLens', event.target.value as TransactionLens)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="all">All lenses</option>
-            <option value="give">Give</option>
-            <option value="need">Need</option>
-            <option value="closure">Closure</option>
-          </select>
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Repository</span>
-          <select
-            value={filters.repository}
-            onChange={(event) => updateFilter('repository', event.target.value)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="all">All repositories</option>
-            {repositoryOptions.map((repository) => (
-              <option key={repository} value={repository}>
-                {repository}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Participant</span>
-          <select
-            value={filters.participant}
-            onChange={(event) => updateFilter('participant', event.target.value)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="all">All participants</option>
-            {participantOptions.map((participant) => (
-              <option key={participant} value={participant}>
-                {participant}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Proof posture</span>
-          <select
-            value={filters.proofStatus}
-            onChange={(event) => updateFilter('proofStatus', event.target.value)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="all">All proof states</option>
-            {proofStatusOptions.map((proofStatus) => (
-              <option key={proofStatus} value={proofStatus}>
-                {proofStatus}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">Sort</span>
-          <select
-            value={filters.sort}
-            onChange={(event) => updateFilter('sort', event.target.value as TransactionSort)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
-          >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="most-tokens">Most tokens</option>
-            <option value="highest-usd">Highest USD</option>
-          </select>
-        </label>
-      </div>
-
-      <div className="mt-5 overflow-hidden rounded-[1.35rem] border border-white/8 bg-[rgba(4,8,18,0.84)]">
-        {isLoading ? (
-          <div className="px-5 py-10 text-sm text-neutral-400">Loading Bitcode transactions…</div>
-        ) : error ? (
-          <div className="px-5 py-5 text-sm text-red-200">{error}</div>
-        ) : records.length === 0 ? (
-          <div className="px-5 py-10 text-sm text-neutral-400">No Bitcode transactions match the current filters.</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-left">
-              <thead className="border-b border-white/8 bg-white/5 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-                <tr>
-                  <th className="px-4 py-3">Transaction</th>
-                  <th className="px-4 py-3">Lens</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Participant</th>
-                  <th className="px-4 py-3">Repository</th>
-                  <th className="px-4 py-3">Proof</th>
-                  <th className="px-4 py-3">Started</th>
-                </tr>
-              </thead>
-              <tbody>
-                {records.map((record) => {
-                  const isSelected = record.id === selectedTransactionId;
-                  return (
-                    <tr
-                      key={record.id}
-                      className={`border-t border-white/6 transition ${isSelected ? 'bg-emerald-400/10' : 'hover:bg-white/5'}`}
-                    >
-                      <td className="px-4 py-4 align-top">
-                        <button type="button" onClick={() => onSelectTransaction(record.id)} className="w-full text-left">
-                          <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.id}</p>
-                          <p className="mt-2 text-sm font-medium text-white">{formatTypeLabel(record.type)}</p>
-                          <p className="mt-1 max-w-[24rem] text-sm leading-6 text-neutral-300">{record.summary}</p>
-                        </button>
-                      </td>
-                      <td className="px-4 py-4 align-top">
-                        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200">
-                          {record.transactionLens}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 align-top">
-                        <span className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] ${statusTone(record.status)}`}>
-                          {record.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 align-top text-sm text-neutral-200">
-                        <p>{record.participant}</p>
-                        <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">
-                          {record.isOwnTransaction ? 'mine' : 'network'}
-                        </p>
-                      </td>
-                      <td className="px-4 py-4 align-top text-sm text-neutral-200">
-                        <p>{record.repository}</p>
-                        <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.branch}</p>
-                      </td>
-                      <td className="px-4 py-4 align-top text-sm text-neutral-200">
-                        <p>{record.proofStatus}</p>
-                        <p className="mt-1 text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.closureFocus}</p>
-                      </td>
-                      <td className="px-4 py-4 align-top text-sm text-neutral-200">{formatTimestamp(record.createdAt)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <BitcodeTransactionsDataTable
+        records={records}
+        selectedTransactionId={selectedTransactionId}
+        onSelectTransaction={onSelectTransaction}
+        isLoading={isLoading}
+        error={error}
+      />
     </section>
   );
 }

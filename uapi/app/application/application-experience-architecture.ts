@@ -6,7 +6,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Master detail',
     badge: 'primary',
     description:
-      'The central Bitcode operator workspace inside `/application`, carrying the give/need chain, a rich transactions master table, and transaction detail with deliverables, proofs, and history.',
+      'The central Bitcode read workspace inside `/application`, carrying a rich transactions master table and transaction detail with deliverables, proofs, and history.',
     targetId: 'bitcodeApplicationRoot',
   },
   {
@@ -14,7 +14,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Conversations',
     badge: 'fullscreen',
     description:
-      'The fullscreen chat workspace entered from `/application`, retaining tool usage, agentic continuity, and run attachment as first-class Bitcode behavior.',
+      'The fullscreen natural-language Bitcode workspace entered from `/application`, retaining tool usage, read/write continuity, and run attachment as first-class Bitcode behavior.',
     targetId: 'conversations',
   },
   {
@@ -22,7 +22,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Orbitals',
     badge: 'fullscreen',
     description:
-      'The fullscreen settings workspace entered from `/application`, retaining the ringed overlay while owning account, connects, models, and the credits-to-wallet cutover.',
+      'The fullscreen Bitcode configuration space entered from `/application`, retaining the ringed overlay while owning account, connects, models, and the credits-to-wallet cutover.',
     targetId: 'orbitals',
   },
 ] as const;
@@ -33,7 +33,7 @@ export const APPLICATION_ACTIONS = [
     label: 'Give',
     badge: 'repo supply',
     description:
-      'Supply authenticated repo material, candidate assets, and deposit decisions into the Bitcode operating chain.',
+      'Contribute searchable supply into Bitcode so a future Need can satisfy against it, even where the immediate return is deferred, thin, or absent.',
     targetId: 'panelDepositing',
   },
   {
@@ -41,7 +41,7 @@ export const APPLICATION_ACTIONS = [
     label: 'Need',
     badge: 'measured demand',
     description:
-      'Frame scenario demand, measured need, and fit pressure before verification, settlement, and proof closure.',
+      'Frame scenario demand, measured need, and fit pressure so Bitcode can verify, satisfy, settle, and prove against it.',
     targetId: 'panelNeeding',
   },
 ] as const;

@@ -126,6 +126,7 @@ The V26 application architecture is now explicitly locked in the draft family as
 The current source now reflects that architecture more directly:
 
 - `ApplicationExperienceFrame.tsx` names the three main experiences and the two main actions inside `/application`,
+- the live application framing now explicitly distinguishes the read experience (transactions master detail) from the write experience (give, need, and configuring through conversations/orbitals),
 - `ApplicationCommandDeck.tsx` plus `application-command-state.ts` now carry direct give/need focus controls and route-local command posture through the Bitcode shell bridge instead of raw DOM scraping,
 - `ApplicationLiveSummaryStrip.tsx` plus `application-live-summary.ts` now read route-local operating posture from the shell summary bridge instead of rendered summary-card markup,
 - `ApplicationCoreNativeSections.tsx` now reads as the master-detail give/need core instead of only as generic core shell mirroring,
@@ -224,13 +225,13 @@ Current draft-only spine to preserve for that future gate:
 - where + when:
   engineering economy participants
 - who:
-  producers, consumers, investors, partners, researchers
+  producers, consumers + investors, partners, researchers
 - how:
-  auditable, proved, open
+  open, auditable, formal
 - what:
   observable, modular, hackable
 - why:
-  throughput, quality, trust
+  throughput, quality, cost, trust
 
 ### 3. Fifth-gate debug and environment controls
 

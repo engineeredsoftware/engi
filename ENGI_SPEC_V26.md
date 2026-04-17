@@ -185,13 +185,13 @@ Its current content spine is intentionally only a draft anchor rather than a ful
 - where + when:
   engineering economy participants
 - who:
-  producers, consumers, investors, partners, researchers
+  producers, consumers + investors, partners, researchers
 - how:
-  auditable, proved, open
+  open, auditable, formal
 - what:
   observable, modular, hackable
 - why:
-  throughput, quality, trust
+  throughput, quality, cost, trust
 
 ### Fourth-gate
 
@@ -289,6 +289,8 @@ For V26, those mean:
   Scenario framing, measured demand, fit pressure, selection pressure, and the operator actions that make explicit what the system is trying to satisfy before settlement and proof closure.
 
 The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main operator actions.
+The read experience is the transactions master-detail window inside `/application`.
+The write experience moves through `give`, `need`, and configuring via conversations and orbitals entered from application context.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
 Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
 

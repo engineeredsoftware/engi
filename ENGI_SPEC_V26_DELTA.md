@@ -69,13 +69,13 @@ Its current draft-only content spine is:
 - where + when:
   engineering economy participants
 - who:
-  producers, consumers, investors, partners, researchers
+  producers, consumers + investors, partners, researchers
 - how:
-  auditable, proved, open
+  open, auditable, formal
 - what:
   observable, modular, hackable
 - why:
-  throughput, quality, trust
+  throughput, quality, cost, trust
 
 ### Fourth-gate
 
@@ -280,6 +280,7 @@ Second-gate acceptance is reached only when:
 - `/application` uses `transactionId` as the primary application query carrier for master-detail selection while preserving inbound `runId` compatibility,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
+- the read experience clearly centers on the transactions master-detail window while the write experience moves through give, need, and configuring,
 - transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
 - the transactions master surface supports direct transaction-field filtering, participant ownership filtering, and explicit sort posture,
 - route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
