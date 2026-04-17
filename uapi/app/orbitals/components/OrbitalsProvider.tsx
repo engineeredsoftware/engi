@@ -22,7 +22,7 @@ const prefetchOrbital = () => {
     import('./OrbitalsContent').catch(() => {});
     import('@/hooks/use-auth-query').catch(() => {});
     if (typeof fetch !== 'undefined') {
-      fetch('/api/orbitals/user/data', { method: 'HEAD', credentials: 'same-origin' }).catch(() => {});
+      fetch('/api/orbitals/data', { method: 'HEAD', credentials: 'same-origin' }).catch(() => {});
     }
   }
 };

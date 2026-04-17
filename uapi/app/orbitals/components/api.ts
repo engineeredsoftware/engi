@@ -58,7 +58,7 @@ export const updateModelPreferences = async (modelData: any) => {
 
 // Get current user data (could be used to pre-populate fields)
 export const getUserData = async () => {
-  const res = await fetch('/api/orbitals/user/data');
+  const res = await fetch('/api/orbitals/data');
   if (!res.ok) {
     const errorData = await res.json().catch(() => null);
     throw new Error(errorData?.error || 'Failed to fetch user data');

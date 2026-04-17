@@ -180,7 +180,7 @@ export function ExecutionsClient() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch('/api/orbitals/user/data');
+        const res = await fetch('/api/orbitals/data');
         if (res.ok && !cancelled) {
           const data = await res.json();
           if (data.vcsConnections?.length > 0 && data.credits > 0) setOnboardingAllowed(true);

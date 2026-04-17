@@ -116,7 +116,7 @@ export default function CreditsPane({
       if (cancelled) return;
       
       try {
-        const res = await fetch('/api/orbitals/user/data');
+        const res = await fetch('/api/orbitals/data');
         if (!res.ok) return;
         const data = await res.json();
         if (typeof data.credits === 'number') {

@@ -9,7 +9,9 @@ import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
 import ApplicationCommandDeck from './ApplicationCommandDeck';
+import ApplicationClosureNativeSections from './ApplicationClosureNativeSections';
 import ApplicationCoreNativeSections from './ApplicationCoreNativeSections';
+import ApplicationExperienceFrame from './ApplicationExperienceFrame';
 import ApplicationLiveSummaryStrip from './ApplicationLiveSummaryStrip';
 import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationRunWorkspace from './ApplicationRunWorkspace';
@@ -136,34 +138,37 @@ export default function ApplicationPageClient() {
               <div className="max-w-3xl">
                 <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode application</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
-                  Single-surface Bitcode workspace
+                  Master-detail Bitcode workspace
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  The preserved Bitcode operator flow remains mounted here while second-gate converges the application
-                  frame, fullscreen overlays, and inward run-detail reuse around it.
+                  The preserved Bitcode operator flow remains mounted here while second-gate converges `/application` into
+                  the master-detail experience, keeps conversations and orbitals as fullscreen modes, and makes give and
+                  need explicit in the application frame.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-                  <p className="text-emerald-300/85">Primary surface</p>
-                  <p className="mt-2 text-neutral-200">/application</p>
+                  <p className="text-emerald-300/85">Primary experience</p>
+                  <p className="mt-2 text-neutral-200">master detail</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-                  <p className="text-emerald-300/85">Fullscreen overlays</p>
+                  <p className="text-emerald-300/85">Fullscreen modes</p>
                   <p className="mt-2 text-neutral-200">conversations + orbitals</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-                  <p className="text-emerald-300/85">Inward reuse</p>
-                  <p className="mt-2 text-neutral-200">runs + deliverables detail</p>
+                  <p className="text-emerald-300/85">Primary actions</p>
+                  <p className="mt-2 text-neutral-200">give + need</p>
                 </div>
               </div>
             </div>
           </section>
 
+          <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
           <ApplicationCommandDeck />
           <ApplicationLiveSummaryStrip />
           <ApplicationSectionAtlas />
           <ApplicationCoreNativeSections />
+          <ApplicationClosureNativeSections />
 
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">
             <section className="min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(4,8,18,0.9)] shadow-[0_30px_90px_rgba(0,0,0,0.42)]">

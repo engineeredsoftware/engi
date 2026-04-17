@@ -1,51 +1,70 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+
 import {
-  readDepositSectionCard,
+  jumpToShellSection,
+  readGenericCard,
   readPrimaryText,
   readSurfaceArticle,
   toneForPanel,
+  type NativeCard,
   type NativePanel,
-  jumpToShellSection,
 } from './application-shell-reading';
-import {
-  APPLICATION_ACTIONS,
-  CORE_PANEL_ACTION,
-  CORE_PANEL_EXPERIENCE,
-  getApplicationAction,
-  getApplicationExperience,
-} from './application-experience-architecture';
 
-const CORE_PANEL_CONFIG = [
-  { id: 'panelOperatingPicture', fallbackLabel: 'Operating picture' },
-  { id: 'panelDepositing', fallbackLabel: 'Depositing' },
-  { id: 'panelNeeding', fallbackLabel: 'Needing + measured demand' },
-  { id: 'panelFit', fallbackLabel: 'Depositing-to-needing fit' },
+const CLOSURE_PANEL_CONFIG = [
+  { id: 'panelEvaluations', fallbackLabel: 'Verification + ranked candidates' },
+  { id: 'panelBranchArtifacts', fallbackLabel: 'Branch artifacts' },
+  { id: 'panelSettlement', fallbackLabel: 'Settlement + proof' },
+  { id: 'panelLedger', fallbackLabel: 'Ledger + run history' },
 ] as const;
 
-function readPanel(panelId: string, fallbackLabel: string): NativePanel {
-  const panel = document.getElementById(panelId);
+function readFallbackCard(panel: HTMLElement, title: string, eyebrow: string): NativeCard[] {
+  const fallback = panel.querySelector('.card');
+  if (!fallback) return [];
+  return [readGenericCard(fallback, title, eyebrow)];
+}
+
+function readClosurePanel(panelId: string, fallbackLabel: string): NativePanel {
+  const panel = document.getElementById(panelId) as HTMLElement | null;
   if (!panel) {
     return { id: panelId, label: fallbackLabel, badge: '', cards: [] };
   }
 
   const label = readPrimaryText(panel.querySelector('.panel-head h2')) || fallbackLabel;
   const badge = readPrimaryText(panel.querySelector('.panel-head .badge'));
+  const articles = Array.from(panel.querySelectorAll('article.json-surface')).map((element) => readSurfaceArticle(element));
 
-  const cards =
-    panelId === 'panelDepositing'
-      ? Array.from(panel.querySelectorAll('#depositForm > .section-card')).map((element) => readDepositSectionCard(element))
-      : Array.from(panel.querySelectorAll('article.json-surface')).map((element) => readSurfaceArticle(element));
+  let cards: NativeCard[] = [];
+  if (panelId === 'panelBranchArtifacts') {
+    const introCards = Array.from(panel.querySelectorAll('.intro-card')).map((element) =>
+      readGenericCard(element, 'Branch artifact stack', 'Branch artifact'),
+    );
+    const markdownCards = Array.from(panel.querySelectorAll(':scope > .card:not(.intro-card)'))
+      .filter((element) => !element.querySelector('article.json-surface'))
+      .map((element) => readGenericCard(element, 'Materialized markdown artifacts', 'Branch artifact'));
+    cards = [...introCards, ...articles, ...markdownCards];
+  } else {
+    cards = articles;
+  }
 
-  return { id: panelId, label, badge, cards };
+  if (!cards.length) {
+    cards = readFallbackCard(panel, fallbackLabel, 'Bitcode closure');
+  }
+
+  return {
+    id: panelId,
+    label,
+    badge,
+    cards: cards.slice(0, 4),
+  };
 }
 
-export default function ApplicationCoreNativeSections() {
+export default function ApplicationClosureNativeSections() {
   const [panels, setPanels] = useState<NativePanel[]>([]);
 
   const refreshFromShell = useCallback(() => {
-    setPanels(CORE_PANEL_CONFIG.map((panel) => readPanel(panel.id, panel.fallbackLabel)));
+    setPanels(CLOSURE_PANEL_CONFIG.map((panel) => readClosurePanel(panel.id, panel.fallbackLabel)));
   }, []);
 
   useEffect(() => {
@@ -68,53 +87,27 @@ export default function ApplicationCoreNativeSections() {
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
-          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application core composition</p>
+          <p className="text-[0.72rem] uppercase tracking-[0.34em] text-neutral-400">Application closure composition</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.05rem]">
-            Native master-detail give / need read
+            Native verification, artifact, settlement, and ledger read
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            This is the first real second-gate body replacement inside `/application`. The cards below are application-owned
-            readings of the live Bitcode shell for the master-detail sections that set up the two main Bitcode actions:
-            give and need.
+            This layer lifts the consequence side of Bitcode into the application frame. Ranked verification, branch
+            materialization, settlement proof, and ledger history now read as route-owned cards while the preserved shell
+            below remains the live semantic source.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Native owner</p>
-            <p className="mt-2 text-neutral-200">route-local core cards</p>
+            <p className="text-emerald-300/85">Closure owner</p>
+            <p className="mt-2 text-neutral-200">native application cards</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
-            <p className="text-emerald-300/85">Shell source</p>
-            <p className="mt-2 text-neutral-200">live operating panels</p>
+            <p className="text-emerald-300/85">System source</p>
+            <p className="mt-2 text-neutral-200">live verification + settlement panels</p>
           </div>
         </div>
-      </div>
-
-      <div className="mt-6 grid gap-4 xl:grid-cols-2">
-        {APPLICATION_ACTIONS.map((action) => (
-          <article key={action.id} className="rounded-[1.55rem] border border-emerald-400/15 bg-black/20 px-5 py-5">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">{action.badge}</p>
-                <h3 className="mt-2 text-xl font-semibold text-white">{action.label}</h3>
-              </div>
-              <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-200">
-                action
-              </span>
-            </div>
-            <p className="mt-3 text-sm leading-6 text-neutral-300">{action.description}</p>
-            <div className="mt-5">
-              <button
-                type="button"
-                onClick={() => jumpToShellSection(action.targetId)}
-                className="rounded-[1.25rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
-              >
-                Focus {action.label.toLowerCase()}
-              </button>
-            </div>
-          </article>
-        ))}
       </div>
 
       <div className="mt-6 grid gap-5">
@@ -122,33 +115,22 @@ export default function ApplicationCoreNativeSections() {
           <div key={panel.id} className={`rounded-[1.75rem] border px-5 py-5 ${toneForPanel(panel.id)}`}>
             <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
               <div className="min-w-0 max-w-3xl">
-                <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Core Bitcode section</p>
+                <p className="text-[0.68rem] uppercase tracking-[0.2em] text-neutral-400">Closure Bitcode section</p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{panel.label}</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  {panel.cards[0]?.help || panel.cards[0]?.subtitle || 'This section is live in the preserved Bitcode shell below.'}
+                  {panel.cards[0]?.help ||
+                    panel.cards[0]?.subtitle ||
+                    'This closure-stage section is live in the preserved Bitcode shell below.'}
                 </p>
               </div>
 
               <div className="flex shrink-0 flex-wrap items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-300">
-                {(() => {
-                  const experience = getApplicationExperience(CORE_PANEL_EXPERIENCE[panel.id]);
-                  return experience ? (
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{experience.label}</span>
-                  ) : null;
-                })()}
-                {(() => {
-                  const actionId = CORE_PANEL_ACTION[panel.id];
-                  const action = actionId ? getApplicationAction(actionId) : null;
-                  return action ? (
-                    <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-emerald-100">
-                      {action.label}
-                    </span>
-                  ) : null;
-                })()}
                 {panel.badge ? (
                   <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{panel.badge}</span>
                 ) : null}
-                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{panel.cards.length} surfaces</span>
+                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
+                  {panel.cards.length} surfaced reads
+                </span>
                 <button
                   type="button"
                   onClick={() => jumpToShellSection(panel.id)}
@@ -199,12 +181,6 @@ export default function ApplicationCoreNativeSections() {
                           </div>
                         ))}
                       </dl>
-                    ) : null}
-
-                    {card.help && !card.metrics.length && !card.rows.length ? (
-                      <p className="rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300">
-                        {card.help}
-                      </p>
                     ) : null}
                   </div>
                 </article>

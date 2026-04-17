@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import React, { startTransition, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -165,6 +165,14 @@ export default function Orbital({
   }, [onboardingData, isSettingsSurface, initialStep, routeStep]);
 
   const currentStepIndex = useMemo(() => STEPS.indexOf(currentStep), [currentStep]);
+
+  const handleStepCompletionChange = useCallback((step: ConcreteOrbitalPane, isComplete: boolean) => {
+    queueMicrotask(() => {
+      startTransition(() => {
+        setStepCompletionStates((previous) => ({ ...previous, [step]: isComplete }));
+      });
+    });
+  }, []);
 
   const availableSteps = useMemo(() => {
     if (isSettingsSurface) {
@@ -336,7 +344,7 @@ export default function Orbital({
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => setStepCompletionStates((previous) => ({ ...previous, profile: isComplete }))}
+            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('profile', isComplete)}
             onSave={async (updated) => {
               try {
                 await updateProfileMutation.mutateAsync(updated);
@@ -352,7 +360,7 @@ export default function Orbital({
           <ConnectsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => setStepCompletionStates((previous) => ({ ...previous, connects: isComplete }))}
+            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('connects', isComplete)}
             onSave={async () => {
               await handleStepComplete('connects');
             }}
@@ -363,7 +371,7 @@ export default function Orbital({
           <CreditsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => setStepCompletionStates((previous) => ({ ...previous, credits: isComplete }))}
+            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('credits', isComplete)}
             onSave={async () => {
               await handleStepComplete('credits');
             }}
@@ -374,7 +382,7 @@ export default function Orbital({
           <ModelsPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
-            onCompletionStatusChange={(isComplete) => setStepCompletionStates((previous) => ({ ...previous, models: isComplete }))}
+            onCompletionStatusChange={(isComplete) => handleStepCompletionChange('models', isComplete)}
             onSave={async (updated) => {
               try {
                 await fetch('/api/orbitals/model-preferences', {

@@ -62,16 +62,26 @@ This is the current V26 source carrier, even while V25 remains the only active c
 The current active second-gate application additions now explicitly include:
 
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-shell-sections.ts`
+- `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `/api/conversations`
+
+The next closure-side second-gate milestone is now partially implemented in source:
+
+- `/application` carries native application-owned reading for ranked verification, branch artifacts, settlement/proof, and ledger/history through `ApplicationClosureNativeSections.tsx`,
+- the shared DOM-reading contract for native application sections is centralized in `application-shell-reading.ts`,
+- and live browser verification now confirms those route-local closure cards populate after `Make Bitcode branch` without console or request failures.
 - `/api/conversations/branch`
 - `/api/conversations/stream`
 - `/api/conversations/[conversationId]/stream`
@@ -81,6 +91,24 @@ They also place a central run-and-deliverable master-detail workspace directly i
 They also place route-local command and live-summary carriers above the preserved shell, with browser-verified proxying from the application frame into preserved-shell scenario/projection/branch state.
 They now also place a route-local body atlas above the preserved shell, with browser-verified card labels and deterministic jump behavior into the live operating, depositing, needing, fit, verification, artifact, settlement, and ledger panels.
 They now also place the first native route-local body replacement layer above the preserved shell: application-owned operating, deposit, need, and fit cards that read the live shell surfaces directly and remain browser-verified against the underlying Bitcode panels.
+
+The V26 application architecture is now explicitly locked in the draft family as:
+
+- `master detail`, `conversations`, and `orbitals` as the three main Bitcode experiences,
+- `give` and `need` as the two main Bitcode actions,
+- `/application` as the master-detail carrier,
+- conversations as the fullscreen chat workspace entered from `/application`,
+- orbitals as the fullscreen settings workspace entered from `/application`,
+- and runs/deliverables/proofs/history as master-detail substructures rather than separate primary experiences.
+
+The current source now reflects that architecture more directly:
+
+- `ApplicationExperienceFrame.tsx` names the three main experiences and the two main actions inside `/application`,
+- `ApplicationCommandDeck.tsx` now carries direct give/need focus controls alongside the preserved-shell command bridge,
+- `ApplicationCoreNativeSections.tsx` now reads as the master-detail give/need core instead of only as generic core shell mirroring,
+- and `ApplicationWorkspaceRail.tsx` now frames conversations and orbitals as the other two experiences rather than as loose utility exits.
+- `OrbitalsProvider.tsx`, `OrbitalsCreditsPane.tsx`, `app/orbitals/components/api.ts`, `credits-tracker.tsx`, and `ExecutionsPageClient.tsx` now use the current app-owned `/api/orbitals/data` route instead of the stale `/api/orbitals/user/data` path on touched active surfaces.
+- live browser verification now confirms the architecture frame is visible, `give` focus lands on the live deposit section, and both conversations and orbitals open from `/application` without console or request failures.
 
 ## Still driving V26 from V25 deferrals
 

@@ -48,10 +48,10 @@ export default function ApplicationWorkspaceRail({
     <div className="space-y-5 xl:sticky xl:top-40">
       <section className="overflow-hidden rounded-[1.75rem] border border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.96),rgba(4,8,18,0.94))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
         <p className="text-[0.68rem] uppercase tracking-[0.3em] text-emerald-300/80">Application control</p>
-        <h2 className="mt-3 text-xl font-semibold tracking-tight text-white">Primary Bitcode surface</h2>
+        <h2 className="mt-3 text-xl font-semibold tracking-tight text-white">Three experiences, one route</h2>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
-          `/application` carries the operating workspace. Conversations and orbitals are entered from here, while run and
-          deliverable inspection is being ported inward as master-detail behavior.
+          Master detail is active here in `/application`. Conversations and orbitals are entered from here as fullscreen
+          modes, while run and deliverable inspection keeps converging inward as master-detail behavior.
         </p>
         <div className="mt-5 grid gap-3">
           <button

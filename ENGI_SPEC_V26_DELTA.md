@@ -167,6 +167,8 @@ The remaining V26 delta is now concentrated in:
 Second-gate is now specified as:
 - route-local native application composition for `/application`,
 - `/application` as the only primary Bitcode destination,
+- `master detail`, `conversations`, and `orbitals` as the three main Bitcode application experiences,
+- `give` and `need` as the two main Bitcode operator actions,
 - fullscreen conversations and orbitals entered from within `/application`,
 - inward porting of executions/deliverables master-detail reuse patterns,
 - retention of the late-Engi navbar as the application frame,
@@ -177,10 +179,14 @@ Second-gate is now specified as:
 
 The current active second-gate source file additions are:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
+- `uapi/app/application/ApplicationExperienceFrame.tsx`
 - `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
 - `uapi/app/application/ApplicationSectionAtlas.tsx`
 - `uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `uapi/app/application/application-experience-architecture.ts`
 - `uapi/app/application/application-shell-sections.ts`
+- `uapi/app/application/application-shell-reading.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationRunWorkspace.tsx`
 - `uapi/app/application/ApplicationMockRunDetails.tsx`
@@ -201,6 +207,10 @@ The second-gate mandatory design outputs are:
 Second-gate acceptance is reached only when:
 - `/application` is no longer primarily a carried monolithic shell implementation,
 - `/application` is the primary Bitcode destination and carries the converged workspace,
+- `/application` clearly reads as the master-detail experience,
+- conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
+- the give and need actions are explicit in the master-detail workspace,
+- route-local architecture framing names the three experiences and two actions directly in the live application UI,
 - conversations and orbitals are entered as fullscreen overlays without leaving application context,
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,

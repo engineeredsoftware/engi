@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
 
 type SelectOption = {
@@ -90,11 +91,11 @@ export default function ApplicationCommandDeck() {
         <div className="max-w-3xl">
           <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Application command deck</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-[2.1rem]">
-            Route-local control surface
+            Master-detail control surface
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
             Second-gate lifts scenario, projection, branch, tutorial, and reset controls into the application frame while
-            the preserved Bitcode shell continues to own the underlying semantics.
+            keeping the give and need actions explicit and leaving the preserved Bitcode shell as the semantic source.
           </p>
         </div>
         <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -207,7 +208,19 @@ export default function ApplicationCommandDeck() {
           </div>
 
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Section index</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Action and section index</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {APPLICATION_ACTIONS.map((action) => (
+                <button
+                  key={action.id}
+                  type="button"
+                  onClick={() => jumpToShellSection(action.targetId)}
+                  className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
+                >
+                  {action.label}
+                </button>
+              ))}
+            </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {APPLICATION_SHELL_SECTIONS.map((section) => (
                 <button
