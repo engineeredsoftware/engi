@@ -38,11 +38,12 @@ V26 opens because the renamed system still has an architectural split that is to
 - the application route had to replace the embedded-demo posture,
 - and several external and internal interfaces still remain short of the level expected of a live application.
 
-V26 therefore centers four coordinated workstreams:
-1. demonstration-to-application integration,
-2. marketing and application-facing UI refurbishment,
-3. interface and subsystem hardening,
-4. organizational refurbishment.
+V26 therefore centers five coordinated gates:
+1. first-gate ownership migration,
+2. second-gate application UX/UI plus external interfacing hardening,
+3. third-gate marketing refurbishment,
+4. fourth-gate retained-system convergence,
+5. fifth-gate proof precision, closure, and promotion finalization.
 
 The intended result is not "micro-app the demo into `uapi/`."
 The intended result is:
@@ -50,11 +51,16 @@ The intended result is:
 - land first-gate Bitcode ownership under `packages/bitcode` plus app-owned route surfaces,
 - preserve the useful Bitcode operator UX chain while replacing demonstration ownership first and deeper UI implementation second,
 - remove the homepage embedded-demo posture in favor of a full-page application route,
+- keep `/application` as the only primary Bitcode destination in the live app,
+- keep orbitals and conversations as fullscreen application overlays rather than peer product destinations,
+- port reusable executions/deliverables master-detail patterns inward to `/application` instead of preserving them as the lasting product topology,
+- keep the established late-Engi navbar and app-shell navigation frame as the application-facing Bitcode frame,
+- maximize precise reuse of the retained active package/app code where those owners fit the new Bitcode totality,
 - and harden auth, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation to a live-application-ready level.
 
-## V26 first-gate and second-gate structure
+## V26 gate structure
 
-V26 is now explicitly split into two gates.
+V26 is now explicitly split into five gates.
 
 ### First-gate
 
@@ -90,10 +96,266 @@ First-gate closure means:
 
 ### Second-gate
 
-Second-gate is the application-experience gate.
+Second-gate is the application UX/UI and external-interfacing hardening gate.
 It does not reopen the first-gate ownership migration.
 It replaces the preserved shell implementation with deeper native application-facing composition while keeping Bitcode semantics intact.
-It also includes ensuring the new application expression functions coherently across production, staging, and development modes.
+It hardens the live application-facing external interfacings up to stable readiness within the new `/application` expression.
+Its aesthetic atmosphere remains the design system of late-Engi, but the product itself is entirely Bitcode.
+
+### Third-gate
+
+Third-gate is the marketing refurbishment gate.
+It is separate from second-gate so the application surface and the marketing surface can be specified and accepted independently.
+It refurbishes the public marketing page only after the application route and its hardening work are stable.
+
+### Fourth-gate
+
+Fourth-gate is the retained-system convergence gate.
+It ports the retained non-Bitcode-first-gate application systems into the V26 Bitcode total system instead of leaving them as adjacent ENGI-era reservoirs.
+It includes:
+- conversations and the chat-based / ChatGPT-like application interface,
+- executions, runs, pipelines, and the new Bitcode meaning of deliverables,
+- prompt abstraction and the proved prompt space,
+- retained agent and tool abstraction layers where those remain useful,
+- and retained package admissibility for the packages V26 keeps.
+
+### Fifth-gate
+
+Fifth-gate is the proof precision, closure, and promotion-finalization gate.
+V26 is not acceptable without complete proof precision and closure across the gates and retained packages it keeps.
+It includes:
+- the debug setting and floating debug widget,
+- at minimum an environment toggle that switches environment posture and refreshes the application coherently,
+- full production/staging/development mode completeness in the new application expression,
+- explicit proof-family closure for second-gate and fourth-gate retained systems,
+- second-gate and fourth-gate rename-completion follow-through where compatibility carriers are no longer justified,
+- and final repo/spec/documentation cleanup needed for V26 promotion.
+
+## V26 second-gate application design contract
+
+Second-gate must be specified before it is implemented.
+The design contract below is the minimum collaboration surface required before code moves beyond first-gate preservation.
+
+### Required second-gate design artifacts
+
+Before second-gate implementation is accepted, the draft must carry:
+1. a section-by-section application wireframe pack for `/application`,
+2. a semantic non-regression ledger for the carried first-gate Bitcode flow,
+3. a component adoption matrix that maps each carried section onto route-local app composition and current `uapi/components/base/*` carriers,
+4. an external interfacing hardening matrix covering the application-facing GitHub/auth/bitcoin/sidechain/repeated-read/compute/storage surfaces,
+5. and a second-gate acceptance matrix that separates UI acceptance from third-gate marketing work and fourth-gate cleanup work.
+
+### Second-gate route and ownership frame
+
+Second-gate keeps `/application` as the Bitcode route carrier.
+It does not move the product to a different route and it does not reopen first-gate package ownership.
+
+Second-gate changes:
+- the route-local rendering owner,
+- the component composition strategy,
+- the application-facing behavior of the route,
+- and the stability of the route’s external interfacings.
+
+Second-gate does not change:
+- the core Bitcode operating semantics,
+- the orbitals-as-settings ownership rule,
+- the first-gate route/API owner locations,
+- or the fact that Bitcode remains the product identity while the aesthetic atmosphere stays aligned to the late-Engi design system.
+
+### Second-gate primary route, navbar, and overlay rule
+
+Second-gate locks the live Bitcode application posture as:
+- `/application` is the only primary Bitcode destination,
+- the late-Engi navbar and app-shell navigation frame remain the integrated navigation carrier for Bitcode,
+- orbitals remain the fullscreen/settings overlay owner entered from within `/application`,
+- conversations remain a fullscreen conversational workspace entered from within `/application`,
+- and current executions/deliverables surfaces are treated as reusable master-detail reservoirs to port inward rather than as the final product topology.
+
+Parallel routes may remain during convergence for compatibility and migration, but V26 does not treat them as the finished product posture once second-gate and fourth-gate are closed.
+
+### Second-gate target file-structure direction
+
+The second-gate target structure is:
+- `uapi/app/application/*`
+  The only primary Bitcode destination and the master-detail carrier for operating, runs, deliverables, proofs, and history.
+- `uapi/components/base/engi/layout/nav.tsx`
+  The retained late-Engi navigation frame that continues to anchor the application.
+- `uapi/app/orbitals/components/*`
+  The settings overlay system mounted from within the application context.
+- `uapi/app/conversations/components/*`
+  The fullscreen conversation system mounted from within the application context.
+- `uapi/app/executions/components/*`
+  Master-detail, run-inspection, log, and deliverable-reading patterns to be ported into `/application`.
+- `packages/api/src/routes/deliverables.ts`, `packages/api/src/conversations/*`, `packages/api/src/pipelines/*`
+  Current service and orchestration carriers that continue to feed the converged application surfaces.
+- `packages/prompts/src/*`, `packages/execution-generics/*`, `packages/conversations-generics/*`, `packages/pipelines/*`
+  Retained package carriers that must be woven into the converged V26 Bitcode system with explicit roles and proof obligations.
+
+### Second-gate application composition map
+
+| Second-gate surface | Current semantic source | Second-gate target owner | Required semantic invariants | Required UI direction |
+| --- | --- | --- | --- | --- |
+| global navbar and app frame | `uapi/components/base/engi/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established late-Engi navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
+| shell frame, command rail, summary, hero posture | `uapi/app/application/ApplicationPageClient.tsx`, `packages/bitcode/public/app.js` | route-local `uapi/app/application/*` composition using current app shell carriers | scenario/projection/branch controls, run status, reset, and canon posture remain explicit | read as a first-class Bitcode application page instead of a carried static shell |
+| tutorial overlay and explainer system | `packages/bitcode/public/app.js` tutorial and explainer contract | route-local tutorial/explainer composition plus current overlay primitives where appropriate | stepwise onboarding, keyboard progression, and targeted explainers remain available | use current overlay/panel language without losing the tutorial’s operator-guide role |
+| conversations fullscreen workspace | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*` | application-mounted fullscreen overlay launched from `/application` | chat-based interaction, tool usage, and conversational continuity remain first-class without leaving application context | read as a fullscreen Bitcode conversation workspace over the application rather than as a separate product destination |
+| operating picture | `renderOperatingPicture()` and related first-gate visual surfaces | route-local section with package-fed data and app-native cards/lists | repo-supply to settlement reading remains the opening systems view | denser application-grade cards and system summaries, not a demo-only tableau |
+| depositing and repo supply | `renderRepoInventory()`, `renderAssets()`, deposit form semantics | route-local section plus current VCS/integration/input carriers | authenticated repo session, inventory filtering, deposit overrides, and raw fallback remain intact | application-grade form layout and inventory browsing using current input, card, and integration patterns |
+| needing and measured demand | `renderScenario()`, need/measurement surfaces | route-local section with app-native panels | active scenario, benchmark/need framing, and measured-demand reading remain explicit | clearer scenario framing and demand readability while preserving semantic output |
+| depositing-to-needing fit | `renderFit()` and fit/asset-pack surfaces | route-local section with app-native comparison and explanation composition | fit must remain legible before proof/settlement | stronger decisive-vs-normalization readability using native comparison panels |
+| ranked candidates and verification determinisms | `renderEvaluations()` and verification report surfaces | route-local section using current execution/log/panel carriers where useful | ranking, use tiers, verification determinisms, and report reading remain intact | application-grade ranking and verification panels rather than preserved shell blocks |
+| branch artifacts and materialization | `renderBranchArtifacts()` and artifact bundle surfaces | route-local section with package-fed artifact data and app-native detail panels | branch mode, projection visibility, artifact bundle reading, and materialization proof remain intact | clearer private-remediation workspace reading with richer panels and evidence grouping |
+| settlement, proofs, and journal/accounting closure | `renderSettlement()` and settlement/proof visuals | route-local section with app-native proof/accounting composition | exact accounting, source-to-shares, proof family, and journal diff semantics remain intact | structured settlement/proof reading suitable for a production-initial application page |
+| ledger, run history, and policy surfaces | `renderLedger()` and policy/ledger/history visuals | route-local section plus application-owned execution/history linkages and reused execution carriers | ledger accounts, run history, and bounded proof metadata remain explicit | read as a live application workspace/history surface instead of a shell appendix |
+| run detail and deliverable master-detail surfaces | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, execution/log/deliverable panels | inward-ported master-detail sections, drawers, and detail surfaces within `/application` | run inspection, logs, work updates, and deliverable/proof reading remain available without semantic loss | reuse the strongest execution/deliverable interaction patterns inside `/application` rather than preserving peer destinations |
+| orbitals/settings relationship | `uapi/app/orbitals/*` and `uapi/app/api/orbitals/data/route.ts` | existing orbitals ownership with stronger application-page entry points and state coherence | orbitals remain the user/settings owner and are not flattened into `/application` | the ringed overlay stays intact and feels like the application’s settings layer |
+
+### Second-gate semantic non-regression rule
+
+Second-gate implementation must preserve:
+- scenario selection,
+- projection selection,
+- branch-mode selection,
+- deposit submission and repo inventory filtering,
+- need and fit interpretation,
+- ranking and verification reading,
+- branch artifact and materialization reading,
+- settlement and exact-accounting reading,
+- bounded proof and disclosure reading,
+- tutorial progression,
+- and fail-closed boundary honesty.
+
+If any of those semantics change, the change must be explicit in V26 rather than hidden inside UI refactoring.
+
+### Second-gate external interfacing hardening scope
+
+Second-gate must harden the application-facing external interfacings that are visible from or directly drive `/application`.
+At minimum this includes:
+- authenticated repo and GitHub-adjacent interaction carriers,
+- account/auth-connected application entry posture,
+- current bitcoin-demonstration-service and V24 external-realization route surfaces as they appear through the application page,
+- compute/storage/repeated-read/sidechain boundary readability and failure posture,
+- and application-visible error/loading/empty-state handling for those surfaces.
+
+Second-gate stable readiness means:
+- the route behaves coherently under the supported second-gate posture,
+- external-boundary failures are legible and fail closed,
+- the user can understand what is modeled, what is observed, and what remains boundary-only,
+- and the new application page no longer reads like a preserved prototype shell with production concerns merely stapled onto it.
+
+### Second-gate acceptance matrix
+
+Second-gate is accepted only when all of the following hold:
+
+1. Design acceptance
+   - the section wireframe pack is approved,
+   - the semantic non-regression ledger is explicit,
+   - the component adoption matrix is explicit,
+   - and the external interfacing hardening matrix is explicit.
+
+2. UI acceptance
+   - `/application` is primarily route-local app composition rather than a carried monolithic shell DOM/CSS contract,
+   - `/application` is the only primary Bitcode destination,
+   - the retained late-Engi navbar frames the Bitcode application,
+   - the page reads as Bitcode inside the app shell,
+   - and the late-Engi aesthetic atmosphere is preserved without reverting product identity to ENGI.
+
+3. UX acceptance
+   - the repo-supply to settlement journey remains understandable,
+   - conversations and orbitals are reachable as fullscreen overlays without abandoning application context,
+   - run/detail and deliverable-reading workflows are available from within `/application` through master-detail reuse,
+   - tutorial and explainer guidance remain useful,
+   - settings entry and account state remain coherent with the application page,
+   - and first-gate semantic regressions are not introduced.
+
+4. External hardening acceptance
+   - the application-facing external interfacings used by the page are stable enough to be considered second-gate-ready,
+   - boundary honesty remains explicit,
+   - and failure states are deliberate rather than incidental.
+
+5. Separation acceptance
+   - third-gate marketing work is not required for second-gate acceptance,
+   - and fourth-gate debug/environment controls are not treated as substitutes for second-gate interface hardening.
+
+### Second-gate implementation order
+
+The intended second-gate implementation order is:
+1. navbar/app-frame and shell-frame convergence,
+2. tutorial/command-rail replacement,
+3. depositing and repo-supply replacement,
+4. needing and fit replacement,
+5. ranking/verification replacement,
+6. branch-artifact and settlement/proof replacement,
+7. ledger/history/policy plus run-detail master-detail convergence,
+8. orbitals/settings and conversations overlay convergence tightening,
+9. external interfacing hardening and final second-gate verification.
+
+## V26 fourth-gate retained-system convergence contract
+
+Fourth-gate ports the retained application systems into the Bitcode V26 total system instead of leaving them as neighboring platforms with only loose shared UI or API glue.
+
+### Fourth-gate retained system owners
+
+| Retained system | Current source basis | Fourth-gate target requirement |
+| --- | --- | --- |
+| conversations and chat-based application interface | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
+| executions, runs, and pipeline workspace | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | converge on a V26 runs/pipelines system that expresses Bitcode operations totalistically |
+| prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
+| retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
+| deliverable semantics | `packages/api/src/routes/deliverables.ts`, `uapi/app/executions/*`, current execution components | are redefined under Bitcode V26 so “deliverable” means a Bitcode run/pipeline output surface rather than an isolated ENGI-era pipeline noun |
+
+### Fourth-gate convergence rules
+
+Fourth-gate requires:
+1. the conversations interface remains and ports into the Bitcode V26 system model,
+2. the chat-based and ChatGPT-like application interaction model remains available as a fullscreen application mode entered from `/application` rather than being displaced by it,
+3. non-chat and non-orbital execution surfaces converge onto a V26 runs/pipelines system centered inside `/application`,
+4. deliverable semantics become part of Bitcode V26 run/pipeline semantics,
+5. all retained prompt text must route through prompt abstraction rather than ad hoc inline prompt strings,
+6. the proved prompt space must cover retained conversation and pipeline prompts,
+7. retained agent/tool abstractions must have explicit V26 roles or be excluded from retained-package status,
+8. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
+9. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
+
+### Fourth-gate acceptance matrix
+
+Fourth-gate is accepted only when:
+1. conversations, chat, and execution/runs surfaces still function as first-class application systems,
+2. those systems are specified as Bitcode V26 systems rather than as adjacent ENGI-era subsystems,
+3. conversations operate as a fullscreen application mode and not as a separate product reservoir,
+4. execution/deliverable master-detail patterns are ported inward to `/application`,
+5. prompt abstraction is the direct source for retained prompt text,
+6. retained package roles and boundaries are explicit,
+7. deliverable, run, and pipeline meaning are explicit under V26,
+8. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
+
+## V26 fifth-gate proof precision and closure contract
+
+Fifth-gate is the formal closure gate for V26.
+No part of V26 is considered complete until proof precision and closure are explicit for the systems V26 keeps.
+
+### Fifth-gate proof families required for promotion
+
+| Proof family | Required artifact path | Closure obligation | Current source basis |
+| --- | --- | --- | --- |
+| second-gate application composition | `.engi/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `packages/bitcode/public/app.js` |
+| conversations continuity | `.engi/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
+| runs and pipelines totality | `.engi/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
+| prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` |
+| retained package admissibility | `.engi/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, and justification | retained `packages/*` admitted by V26 |
+| environment mode coherence | `.engi/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
+| v26 total closure | `.engi/v26-total-closure-proof.json` | prove that the gated V26 system closes as one coherent Bitcode system suitable for promotion | all promoted V26 systems and generated artifacts |
+
+### Fifth-gate formal acceptance rule
+
+V26 is acceptable for promotion only when:
+1. second-gate acceptance holds,
+2. third-gate acceptance holds,
+3. fourth-gate acceptance holds,
+4. fifth-gate proof families are generated with explicit closure verdicts,
+5. environment controls and environment-mode completeness are proven rather than assumed,
+6. retained package admissibility is explicit,
+7. and the kept system is described totalistically enough that ENGI-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together.
 
 ## Canonical ENGI executive summary
 
@@ -198,6 +460,11 @@ When V26 says "implemented prerequisite," it means existing source already suppl
 8. Keep Bitcode and BTD rename closure stable while the system is reorganized.
 9. Keep proof-bearing, fail-closed, exact-accounting, and disclosure-bounded semantics intact through the reorganization.
 10. Produce a full-canon V26 specification family that can stand alone for re-implementation, audit, and promotion.
+11. Keep the second-gate application atmosphere visually aligned with the late-Engi design system even while the product naming and system identity are entirely Bitcode.
+12. Add a debug-owned environment control surface before promotion so environment posture can be toggled and reviewed explicitly inside the application.
+13. Make `/application` the only primary Bitcode destination while conversations and orbitals operate as fullscreen application overlays.
+14. Port the strongest executions/deliverables master-detail patterns into `/application` rather than preserving peer product destinations.
+15. Maximize precise reuse of the active retained package/app code where those owners fit the Bitcode V26 total system.
 
 ### Non-goals
 
@@ -211,6 +478,8 @@ When V26 says "implemented prerequisite," it means existing source already suppl
 
 - Preserve the operator UX chain while replacing the operator UI owner.
 - Prefer package-first ownership and explicit app composition over demo-local concentration.
+- Keep `/application` as the single primary Bitcode destination and treat overlay/workspace systems as application-mounted modes.
+- Pull the strongest existing execution, deliverable, conversation, and settings patterns inward rather than duplicating them.
 - Reuse existing packages when the current owner already fits.
 - Keep application routing and product posture explicit rather than iframe-dependent.
 - Keep every external effect auditable and fail closed.

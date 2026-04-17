@@ -28,7 +28,7 @@ The concrete V26 delta is:
 - the preserved operator UX had to survive the ownership move,
 - and production hardening had to continue beyond V25’s first rename gate.
 
-## First-Gate and Second-Gate Structure
+## Gate Structure
 
 ### First-gate
 
@@ -44,12 +44,47 @@ It requires exact preservation while ownership moves.
 
 ### Second-gate
 
-Second-gate is the application-experience gate.
+Second-gate is the application UX/UI and external-interfacing hardening gate.
 Its rule is:
 - keep the first-gate operator semantics,
 - replace preserved shell implementation surfaces with native application-facing composition,
+- keep `/application` as the only primary Bitcode destination,
+- keep conversations and orbitals as fullscreen overlays entered from within `/application`,
+- port the strongest executions/deliverables master-detail patterns inward to `/application`,
+- retain the late-Engi navbar as the application navigation frame,
 - converge more of the page onto `uapi/components/base/*`,
-- and complete the more thorough Bitcode application refit.
+- keep the visual atmosphere aligned to the late-Engi design system while the product itself is entirely Bitcode,
+- and harden the new application page plus its external interfacings up to stable readiness.
+
+### Third-gate
+
+Third-gate is the marketing refurbishment gate.
+Its rule is:
+- keep marketing work separate from application-route acceptance,
+- refurbish the public website only after second-gate application work is stable,
+- and avoid letting marketing-page changes blur application acceptance criteria.
+
+### Fourth-gate
+
+Fourth-gate is the retained-system convergence gate.
+Its rule is:
+- keep conversations and the chat-based application interface as first-class systems,
+- keep those systems mounted from the application context rather than as the finished product topology,
+- port those systems into Bitcode V26 semantics,
+- converge runs, pipelines, and deliverable meaning onto a V26 total system,
+- treat current executions/deliverables surfaces as reusable master-detail/workspace carriers to port into `/application`,
+- require prompt abstraction to directly own retained prompt text,
+- and admit retained packages only where V26 gives them an explicit role.
+
+### Fifth-gate
+
+Fifth-gate is the proof precision, closure, and promotion-finalization gate.
+Its rule is:
+- close V26 only under explicit proof-family precision,
+- add the debug setting and floating debug widget,
+- ensure the environment toggle refreshes the application coherently,
+- prove production/staging/development mode behavior,
+- and finish rename/finalization cleanup required for promotion.
 
 ## Current First-Gate File Structure
 
@@ -98,14 +133,26 @@ The accepted V26 decisions are now:
 6. First-gate preserves the old Bitcode operator UX and deterministic state/API contract under new package/app ownership.
 7. First-gate uses `packages/bitcode` as the immediate package owner.
 8. First-gate review must work through `/application` in mock mode so interface quality can be inspected without live external data.
-9. Second-gate remains the deeper application-facing component and styling refit.
-10. Existing packages such as `packages/github`, `packages/auth`, and `packages/api` still remain convergence targets where that ownership is the correct long-term fit.
-11. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
+9. Second-gate is application UX/UI plus external-interfacing hardening, not marketing refurbishment.
+10. Third-gate is the marketing refurbishment gate.
+11. Fourth-gate ports retained conversations, runs/pipelines, deliverables, prompt abstraction, and retained agent/tool layers into the V26 total system.
+12. `/application` is the only primary Bitcode destination in the finished V26 product posture.
+13. Orbitals and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
+14. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
+15. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
+16. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
+17. Existing packages such as `packages/github`, `packages/auth`, and `packages/api` still remain convergence targets where that ownership is the correct long-term fit.
+18. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
 
 ## Remaining V26 delta after first-gate
 
 The remaining V26 delta is now concentrated in:
-- second-gate application-experience refit of the preserved Bitcode shell,
+- second-gate application UX/UI refit of the preserved Bitcode shell,
+- second-gate external-interfacing hardening for stable readiness in the new application page,
+- second-gate single-surface application composition around `/application`,
+- third-gate marketing refurbishment,
+- fourth-gate retained-system convergence for conversations, runs/pipelines, deliverables, prompts, and retained agent/tool layers,
+- fifth-gate debug/finalization work including the floating debug widget and environment toggle,
 - production, staging, and development mode completeness within the new application expression,
 - deeper package splitting beyond the immediate `packages/bitcode` consolidation owner,
 - GitHub convergence onto longer-term package/API owners,
@@ -114,6 +161,71 @@ The remaining V26 delta is now concentrated in:
 - richer external-interface hardening,
 - telemetry and reconciliation hardening,
 - and repo/documentation cleanup that removes stale standalone-demo language.
+
+## Precise second-gate specification targets
+
+Second-gate is now specified as:
+- route-local native application composition for `/application`,
+- `/application` as the only primary Bitcode destination,
+- fullscreen conversations and orbitals entered from within `/application`,
+- inward porting of executions/deliverables master-detail reuse patterns,
+- retention of the late-Engi navbar as the application frame,
+- semantic preservation of the carried first-gate Bitcode operator flow,
+- explicit reuse of current `uapi/components/base/*` and orbitals/settings carriers where those owners fit,
+- preservation of the late-Engi aesthetic atmosphere while the product identity remains entirely Bitcode,
+- and stable-readiness hardening for the application-facing external interfacings visible through the new page.
+
+The second-gate mandatory design outputs are:
+1. section wireframes,
+2. semantic non-regression ledger,
+3. component adoption matrix,
+4. external interfacing hardening matrix,
+5. and second-gate acceptance matrix.
+
+Second-gate acceptance is reached only when:
+- `/application` is no longer primarily a carried monolithic shell implementation,
+- `/application` is the primary Bitcode destination and carries the converged workspace,
+- conversations and orbitals are entered as fullscreen overlays without leaving application context,
+- run/detail and deliverable-reading behavior is reachable within `/application`,
+- the page is composed through application-native route-local sections and current component-system carriers,
+- the route still preserves Bitcode semantics,
+- the external interfacings used by the page behave with stable readiness,
+- and orbitals still read as the settings owner rather than as displaced onboarding residue.
+
+## Precise fourth-gate specification targets
+
+Fourth-gate is now specified as:
+- porting conversations and the chat-based application interface into Bitcode V26 semantics,
+- keeping conversations as a fullscreen application mode rather than a peer product destination,
+- converging non-orbital execution/API/data systems onto Bitcode runs and pipelines,
+- redefining deliverable as a Bitcode V26 run/pipeline output meaning,
+- porting current executions/deliverables master-detail and inspection patterns inward to `/application`,
+- routing retained prompt text through prompt abstraction and the proved prompt space,
+- and retaining packages only when V26 explicitly admits and proves their role.
+
+Fourth-gate acceptance is reached only when:
+- conversations remain first-class,
+- conversations operate from application context as a fullscreen Bitcode mode,
+- runs/pipelines form a coherent Bitcode V26 system,
+- execution/deliverable workspace reuse is ported inward to `/application`,
+- prompt abstraction directly owns retained prompt text,
+- retained agent/tool abstractions have explicit V26 roles,
+- and retained packages are admitted intentionally with proof obligations.
+
+## Precise fifth-gate specification targets
+
+Fifth-gate is now specified as:
+- complete proof precision and closure for the kept V26 system,
+- debug/environment controls required for proving mode coherence,
+- full production/staging/development mode completeness,
+- retained-package admissibility proof,
+- and promotion-finalization cleanup.
+
+Fifth-gate acceptance is reached only when:
+- the required proof families are generated,
+- their closure verdicts are explicit,
+- debug/environment behavior is proven coherent,
+- and V26 can be promoted without relying on informal interpretation across merged systems.
 
 ## Explicitly deferred
 
@@ -129,9 +241,12 @@ The current V26 sequencing is now:
 1. keep the now-landed first-gate route/package migration stable,
 2. keep spec, parity, and generated tooling synchronized to the new file structure,
 3. preserve anonymous and signed-in first-gate app/interface behavior while deeper V26 hardening proceeds,
-4. execute second-gate application-facing refit,
-5. refresh generated evidence and promotion checks,
-6. and promote only after V26 closure is proven end-to-end.
+4. execute second-gate application UX/UI plus external-interfacing hardening,
+5. execute third-gate marketing refurbishment,
+6. execute fourth-gate retained-system convergence,
+7. execute fifth-gate proof/finalization including debug/environment controls,
+8. refresh generated evidence and promotion checks,
+9. and promote only after V26 closure is proven end-to-end.
 
 ## Commit-Body Direction
 
