@@ -23,6 +23,7 @@ import ApplicationSectionAtlas from './ApplicationSectionAtlas';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
 import ApplicationRunWorkspace from './ApplicationRunWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
+import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import { MOCK_RUNS, type WorkspaceRun } from './application-run-data';
 
@@ -46,6 +47,12 @@ function deriveProofStatus(type?: string | null, status?: string | null) {
   if (status === 'error' || status === 'failed') return 'proof posture failed closed';
   if (type?.includes('proof')) return 'proof witness in flight';
   return 'closure state in flight';
+}
+
+function deriveTransactionLens(type?: string | null): 'give' | 'need' | 'closure' {
+  if (type?.includes('deliverable')) return 'give';
+  if (type?.includes('measure')) return 'need';
+  return 'closure';
 }
 
 export default function ApplicationPageClient() {
@@ -122,6 +129,10 @@ export default function ApplicationPageClient() {
                 ? `${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org}/${(run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.repo}`
                 : null,
             branch: (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.branch || null,
+            participant:
+              (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org || 'connected operator',
+            isOwnTransaction: true,
+            transactionLens: deriveTransactionLens(run.type),
             itemCount: run.items?.length || 0,
             tokenTotal:
               run.processing_stats?.tokens?.total ?? run.final_work_summary?.processingStats?.tokens?.total ?? null,
@@ -173,25 +184,26 @@ export default function ApplicationPageClient() {
         onCloseRequest={() => setIsConversationOverlayOpen(false)}
         showFloatingOrb={false}
       />
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
-        <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-4 pb-24 pt-40 tablet:px-6 desktop:px-8">
+      <ApplicationShellBridgeProvider>
+        <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(73,203,146,0.16),transparent_26%),linear-gradient(180deg,#050915_0%,#02050d_100%)] text-neutral-100">
+          <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-4 pb-24 pt-40 tablet:px-6 desktop:px-8">
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-3xl">
                 <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode application</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
-                  Master-detail Bitcode workspace
+                  Bitcode transactions master-detail workspace
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
                   The preserved Bitcode operator flow remains mounted here while second-gate converges `/application` into
-                  the master-detail experience, keeps conversations and orbitals as fullscreen modes, and makes give and
-                  need explicit in the application frame.
+                  the Bitcode transactions master-detail experience, keeps conversations and orbitals as fullscreen
+                  modes, and makes give and need explicit in the application frame.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Primary experience</p>
-                  <p className="mt-2 text-neutral-200">master detail</p>
+                  <p className="mt-2 text-neutral-200">transactions master detail</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Fullscreen modes</p>
@@ -509,15 +521,14 @@ export default function ApplicationPageClient() {
             </section>
 
             <aside className="min-w-0">
-              <ApplicationWorkspaceRail
-                onOpenConversations={() => setIsConversationOverlayOpen(true)}
-                runs={runs}
-                isLoadingRuns={isLoadingRuns}
-                runsError={runsError}
-                selectedRun={selectedRun}
-                onSelectRun={handleSelectRun}
-                mockMode={mockMode}
-              />
+                <ApplicationWorkspaceRail
+                  onOpenConversations={() => setIsConversationOverlayOpen(true)}
+                  runs={runs}
+                  isLoadingRuns={isLoadingRuns}
+                  runsError={runsError}
+                  selectedRun={selectedRun}
+                  mockMode={mockMode}
+                />
             </aside>
           </div>
 
@@ -529,8 +540,9 @@ export default function ApplicationPageClient() {
             mockMode={mockMode}
             onSelectRun={handleSelectRun}
           />
+          </div>
         </div>
-      </div>
+      </ApplicationShellBridgeProvider>
     </>
   );
 }

@@ -19,15 +19,15 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
             Three main experiences. Two main actions.
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            `/application` is the Bitcode master-detail experience. Conversations and orbitals are fullscreen modes entered
-            from here. Inside master detail, the operator primarily works through two actions: give and need.
+            `/application` is the Bitcode transactions master-detail experience. Conversations and orbitals are fullscreen
+            modes entered from here. Inside master detail, the operator primarily works through two actions: give and need.
           </p>
         </div>
 
         <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Primary experience</p>
-            <p className="mt-2 text-neutral-200">master detail</p>
+            <p className="mt-2 text-neutral-200">transactions master detail</p>
           </div>
           <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
             <p className="text-emerald-300/85">Primary actions</p>
@@ -114,7 +114,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Verification, branch artifacts, settlement, proofs, deliverables, and history remain first-class Bitcode
           surfaces, but they are closure stages within master detail rather than separate top-level experiences or actions.
-          Inside that master-detail experience, runs, deliverables, proofs, and history remain the four key substructures.
+          Inside that master-detail experience, transactions, deliverables, proofs, and history remain the four key substructures.
         </p>
       </div>
     </section>

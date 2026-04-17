@@ -1,49 +1,22 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-
-import {
-  readBitcodeApplicationShellControls,
-  readBitcodeApplicationShellSnapshot,
-} from '@bitcode/bitcode/src/client-entry.js';
+import { useEffect, useMemo, useState } from 'react';
 
 import { normalizeApplicationSupplySelection, type ApplicationSupplySelectionState } from './application-supply-selection';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
 
-type ShellControls = {
-  setAuthSession?: (value: string) => unknown;
-  setInventoryKind?: (value: string) => unknown;
-  setInventorySearch?: (value: string) => unknown;
-  toggleInventoryEntry?: (entryId: string) => unknown;
-} | null;
-
 export default function ApplicationSupplySelectionPanel() {
-  const [selection, setSelection] = useState<ApplicationSupplySelectionState | null>(null);
+  const { snapshot, runControl } = useApplicationShellBridge();
   const [searchValue, setSearchValue] = useState('');
-
-  const refresh = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    const nextSelection = normalizeApplicationSupplySelection(snapshot);
-    setSelection(nextSelection);
-    setSearchValue(nextSelection?.searchTerm || '');
-  }, []);
+  const selection = useMemo<ApplicationSupplySelectionState | null>(
+    () => normalizeApplicationSupplySelection(snapshot),
+    [snapshot],
+  );
 
   useEffect(() => {
-    void refresh();
-    const intervalId = window.setInterval(() => {
-      void refresh();
-    }, 900);
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refresh]);
-
-  const runControl = useCallback(async (callback: (controls: NonNullable<ShellControls>) => unknown) => {
-    const controls = await readBitcodeApplicationShellControls();
-    if (!controls) return;
-    callback(controls);
-    await refresh();
-  }, [refresh]);
+    setSearchValue(selection?.searchTerm || '');
+  }, [selection?.searchTerm]);
 
   if (!selection) {
     return (

@@ -1,11 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-
-import {
-  readBitcodeApplicationShellControls,
-  readBitcodeApplicationShellSnapshot,
-} from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo } from 'react';
 
 import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
@@ -13,49 +8,18 @@ import {
   normalizeApplicationCommandState,
   type ApplicationCommandState,
 } from './application-command-state';
-
-type ShellControls = {
-  setScenario?: (value: string) => unknown;
-  setProjection?: (value: string) => unknown;
-  setBranchMode?: (value: string) => unknown;
-  toggleTutorial?: () => unknown;
-  makeBranch?: () => unknown;
-  resetApplication?: () => unknown;
-};
+import { useApplicationShellBridge } from './application-shell-bridge';
 
 function jumpToShellSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'auto', block: 'start' });
 }
 
 export default function ApplicationCommandDeck() {
-  const [commandState, setCommandState] = useState<ApplicationCommandState | null>(null);
-
-  const refreshFromShell = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    setCommandState(normalizeApplicationCommandState(snapshot));
-  }, []);
-
-  const runControl = useCallback(
-    async (callback: (controls: ShellControls) => unknown) => {
-      const controls = await readBitcodeApplicationShellControls();
-      if (!controls) return;
-      callback(controls);
-      await refreshFromShell();
-    },
-    [refreshFromShell],
+  const { snapshot, runControl } = useApplicationShellBridge();
+  const commandState = useMemo<ApplicationCommandState | null>(
+    () => normalizeApplicationCommandState(snapshot),
+    [snapshot],
   );
-
-  useEffect(() => {
-    void refreshFromShell();
-
-    const intervalId = window.setInterval(() => {
-      void refreshFromShell();
-    }, 700);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refreshFromShell]);
 
   const scenarioOptions = commandState?.scenarioOptions || [];
   const projectionOptions = commandState?.projectionOptions || [];

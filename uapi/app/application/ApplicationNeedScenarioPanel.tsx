@@ -1,44 +1,23 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-
-import {
-  readBitcodeApplicationShellControls,
-  readBitcodeApplicationShellSnapshot,
-} from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo } from 'react';
 
 import {
   normalizeApplicationNeedScenarios,
   type ApplicationNeedScenariosState,
 } from './application-need-scenarios';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
 
-type ShellControls = {
-  setScenario?: (value: string) => unknown;
-};
-
 export default function ApplicationNeedScenarioPanel() {
-  const [needState, setNeedState] = useState<ApplicationNeedScenariosState | null>(null);
-
-  const refresh = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    setNeedState(normalizeApplicationNeedScenarios(snapshot));
-  }, []);
-
-  useEffect(() => {
-    void refresh();
-    const intervalId = window.setInterval(() => {
-      void refresh();
-    }, 900);
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refresh]);
+  const { snapshot, runControl } = useApplicationShellBridge();
+  const needState = useMemo<ApplicationNeedScenariosState | null>(
+    () => normalizeApplicationNeedScenarios(snapshot),
+    [snapshot],
+  );
 
   const selectScenario = async (scenarioId: string) => {
-    const controls = (await readBitcodeApplicationShellControls()) as ShellControls | null;
-    controls?.setScenario?.(scenarioId);
-    await refresh();
+    await runControl((controls) => controls.setScenario?.(scenarioId));
   };
 
   if (!needState) {

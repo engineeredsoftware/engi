@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo } from 'react';
 
 import { normalizeApplicationSectionAtlas } from './application-section-atlas';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
 
 type SectionPreview = {
@@ -16,24 +16,11 @@ type SectionPreview = {
 };
 
 export default function ApplicationSectionAtlas() {
-  const [sections, setSections] = useState<SectionPreview[]>([]);
-
-  const refreshFromShell = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    setSections(normalizeApplicationSectionAtlas(snapshot));
-  }, []);
-
-  useEffect(() => {
-    void refreshFromShell();
-
-    const intervalId = window.setInterval(() => {
-      void refreshFromShell();
-    }, 900);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refreshFromShell]);
+  const { snapshot } = useApplicationShellBridge();
+  const sections = useMemo<SectionPreview[]>(
+    () => normalizeApplicationSectionAtlas(snapshot),
+    [snapshot],
+  );
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,11,22,0.96),rgba(4,8,18,0.94))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">

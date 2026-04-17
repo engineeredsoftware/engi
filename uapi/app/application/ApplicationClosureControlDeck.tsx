@@ -1,11 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-
-import {
-  readBitcodeApplicationShellControls,
-  readBitcodeApplicationShellSnapshot,
-} from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo, useState } from 'react';
 
 import { jumpToShellSection } from './application-shell-reading';
 import {
@@ -16,16 +11,11 @@ import {
   normalizeApplicationCommandState,
   type ApplicationCommandState,
 } from './application-command-state';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import {
   normalizeApplicationClosureControlState,
   type ApplicationClosureControlState,
 } from './application-closure-controls';
-
-type ShellControls = {
-  makeBranch?: () => unknown;
-  resetApplication?: () => unknown;
-  refresh?: () => unknown;
-};
 
 function toneClasses(tone: ApplicationClosureControlState['statusTone']) {
   if (tone === 'settled') return 'border-emerald-500/25 bg-emerald-500/10 text-emerald-100';
@@ -35,40 +25,26 @@ function toneClasses(tone: ApplicationClosureControlState['statusTone']) {
 }
 
 export default function ApplicationClosureControlDeck() {
-  const [commandState, setCommandState] = useState<ApplicationCommandState | null>(null);
-  const [closureState, setClosureState] = useState<ApplicationClosureState | null>(null);
+  const { snapshot, runControl } = useApplicationShellBridge();
   const [isActing, setIsActing] = useState(false);
-
-  const refreshFromShell = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    setCommandState(normalizeApplicationCommandState(snapshot));
-    setClosureState(normalizeApplicationClosureState(snapshot));
-  }, []);
-
-  const runControl = useCallback(
-    async (callback: (controls: ShellControls) => unknown | Promise<unknown>) => {
-      const controls = (await readBitcodeApplicationShellControls()) as ShellControls | null;
-      if (!controls) return;
-      setIsActing(true);
-      try {
-        await callback(controls);
-      } finally {
-        await refreshFromShell();
-        setIsActing(false);
-      }
-    },
-    [refreshFromShell],
+  const commandState = useMemo<ApplicationCommandState | null>(
+    () => normalizeApplicationCommandState(snapshot),
+    [snapshot],
   );
-
-  useEffect(() => {
-    void refreshFromShell();
-    const intervalId = window.setInterval(() => {
-      void refreshFromShell();
-    }, 900);
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refreshFromShell]);
+  const closureState = useMemo<ApplicationClosureState | null>(
+    () => normalizeApplicationClosureState(snapshot),
+    [snapshot],
+  );
+  const handleControlAction = async (
+    callback: Parameters<typeof runControl>[0],
+  ) => {
+    setIsActing(true);
+    try {
+      await runControl(callback);
+    } finally {
+      setIsActing(false);
+    }
+  };
 
   const state = normalizeApplicationClosureControlState(commandState, closureState);
 
@@ -136,7 +112,7 @@ export default function ApplicationClosureControlDeck() {
               type="button"
               disabled={isActing || !state.shellReady}
               onClick={() => {
-                void runControl((controls) => controls.makeBranch?.());
+                void handleControlAction((controls) => controls.makeBranch?.());
               }}
               className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-4 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -146,7 +122,7 @@ export default function ApplicationClosureControlDeck() {
               type="button"
               disabled={isActing || !state.shellReady}
               onClick={() => {
-                void runControl((controls) => controls.refresh?.());
+                void handleControlAction((controls) => controls.refresh?.());
               }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -156,7 +132,7 @@ export default function ApplicationClosureControlDeck() {
               type="button"
               disabled={isActing || !state.shellReady}
               onClick={() => {
-                void runControl((controls) => controls.resetApplication?.());
+                void handleControlAction((controls) => controls.resetApplication?.());
               }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
             >

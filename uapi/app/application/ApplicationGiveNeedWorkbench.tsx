@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-
-import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo } from 'react';
 
 import ApplicationActionWorkbenchCard from './ApplicationActionWorkbenchCard';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
@@ -10,6 +8,7 @@ import {
   normalizeApplicationGiveNeedWorkbench,
   type ApplicationGiveNeedWorkbench as ApplicationGiveNeedWorkbenchState,
 } from './application-give-need-workbench';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
 
 interface ApplicationGiveNeedWorkbenchProps {
@@ -19,27 +18,11 @@ interface ApplicationGiveNeedWorkbenchProps {
 export default function ApplicationGiveNeedWorkbench({
   repositoryContext = null,
 }: ApplicationGiveNeedWorkbenchProps) {
-  const [workbench, setWorkbench] = useState<ApplicationGiveNeedWorkbenchState | null>(null);
-
-  useEffect(() => {
-    let disposed = false;
-
-    const refresh = async () => {
-      const snapshot = await readBitcodeApplicationShellSnapshot();
-      if (disposed) return;
-      setWorkbench(normalizeApplicationGiveNeedWorkbench(snapshot, repositoryContext));
-    };
-
-    void refresh();
-    const intervalId = window.setInterval(() => {
-      void refresh();
-    }, 900);
-
-    return () => {
-      disposed = true;
-      window.clearInterval(intervalId);
-    };
-  }, [repositoryContext]);
+  const { snapshot } = useApplicationShellBridge();
+  const workbench = useMemo<ApplicationGiveNeedWorkbenchState | null>(
+    () => normalizeApplicationGiveNeedWorkbench(snapshot, repositoryContext),
+    [repositoryContext, snapshot],
+  );
 
   const selectedEntryChips = useMemo(() => {
     if (!workbench?.give.selectedEntries.length) return [];

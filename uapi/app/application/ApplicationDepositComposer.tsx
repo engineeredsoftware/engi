@@ -1,21 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-import {
-  readBitcodeApplicationShellControls,
-  readBitcodeApplicationShellSnapshot,
-} from '@bitcode/bitcode/src/client-entry.js';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   normalizeApplicationDepositComposer,
   type ApplicationDepositComposerState,
 } from './application-deposit-composer';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
-
-type ShellControls = {
-  refresh?: () => Promise<unknown> | unknown;
-};
 
 type SubmitState =
   | { kind: 'idle' }
@@ -35,7 +27,7 @@ async function parseErrorMessage(response: Response) {
 }
 
 export default function ApplicationDepositComposer() {
-  const [composer, setComposer] = useState<ApplicationDepositComposerState | null>(null);
+  const { snapshot, runControl } = useApplicationShellBridge();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [artifactKind, setArtifactKind] = useState('');
@@ -49,24 +41,15 @@ export default function ApplicationDepositComposer() {
   const [tags, setTags] = useState('');
   const [content, setContent] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: 'idle' });
-
-  const refresh = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    const nextComposer = normalizeApplicationDepositComposer(snapshot);
-    setComposer(nextComposer);
-    setSignerAddress((current) => current || nextComposer?.signerAddress || '');
-    setSourceRepo((current) => current || nextComposer?.sourceRepo || '');
-  }, []);
+  const composer = useMemo<ApplicationDepositComposerState | null>(
+    () => normalizeApplicationDepositComposer(snapshot),
+    [snapshot],
+  );
 
   useEffect(() => {
-    void refresh();
-    const intervalId = window.setInterval(() => {
-      void refresh();
-    }, 900);
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refresh]);
+    setSignerAddress((current) => current || composer?.signerAddress || '');
+    setSourceRepo((current) => current || composer?.sourceRepo || '');
+  }, [composer?.signerAddress, composer?.sourceRepo]);
 
   const selectedEntryLabels = useMemo(() => {
     return composer?.selectedEntries.slice(0, 5).map((entry) => entry.title) || [];
@@ -116,9 +99,7 @@ export default function ApplicationDepositComposer() {
         return;
       }
 
-      const controls = (await readBitcodeApplicationShellControls()) as ShellControls | null;
-      await controls?.refresh?.();
-      await refresh();
+      await runControl((controls) => controls.refresh?.());
       setTitle('');
       setAuthor('');
       setArtifactKind('');

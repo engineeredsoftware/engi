@@ -6,7 +6,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Master detail',
     badge: 'primary',
     description:
-      'The central Bitcode operator workspace inside `/application`, carrying the give/need chain, runs, deliverables, proofs, and history.',
+      'The central Bitcode operator workspace inside `/application`, carrying the give/need chain, a rich transactions master table, and transaction detail with deliverables, proofs, and history.',
     targetId: 'bitcodeApplicationRoot',
   },
   {
@@ -48,11 +48,11 @@ export const APPLICATION_ACTIONS = [
 
 export const MASTER_DETAIL_SUBSTRUCTURES = [
   {
-    id: 'runs',
-    label: 'Runs',
-    badge: 'selection',
+    id: 'transactions',
+    label: 'Transactions',
+    badge: 'master',
     description:
-      'Select and inspect the active Bitcode run inside `/application` without handing master detail back to a peer route.',
+      'Search, filter, and inspect Bitcode transactions inside `/application` without handing master detail back to a peer route.',
     targetId: 'applicationRunWorkspace',
   },
   {

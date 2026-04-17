@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
 
 import ApplicationRunDetailSurface from './ApplicationRunDetailSurface';
+import ApplicationTransactionsTable from './ApplicationTransactionsTable';
 import {
   buildApplicationRunDetailFromSelectedRun,
   normalizeApplicationRunDetailPayload,
@@ -64,17 +65,19 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: Appli
   const deliverableSurfaceCount = countDeliverableSurfaces(detail?.deliverables) || detail?.historyItemCount || selectedRun.itemCount || 0;
 
   return MASTER_DETAIL_SUBSTRUCTURES.map((substructure) => {
-    if (substructure.id === 'runs') {
+    if (substructure.id === 'transactions') {
       return {
         ...substructure,
         summary:
-          detail?.summary || selectedRun.summary || 'This selected run is the active master-detail detail surface inside the Bitcode application.',
+          detail?.summary ||
+          selectedRun.summary ||
+          'This selected transaction is the active master-detail detail surface inside the Bitcode application.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
         ],
         rows: [
-          { label: 'Run id', value: selectedRun.id },
+          { label: 'Transaction id', value: selectedRun.id },
           ...(selectedRun.repository ? [{ label: 'Repository', value: selectedRun.repository }] : []),
           ...(selectedRun.branch ? [{ label: 'Branch', value: selectedRun.branch }] : []),
         ],
@@ -86,7 +89,7 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: Appli
         ...substructure,
         summary:
           detail?.deliverables?.summary ||
-          'Deliverable surfaces stay inside the selected run context so the operator can inspect output without leaving `/application`.',
+          'Deliverable surfaces stay inside the selected transaction context so the operator can inspect output without leaving `/application`.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
@@ -110,7 +113,7 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: Appli
         summary:
           detail?.proofStatus ||
           selectedRun.proofStatus ||
-          'Verification, settlement, and bounded proof remain explicit closure stages of the selected run.',
+          'Verification, settlement, and bounded proof remain explicit closure stages of the selected transaction.',
         metrics: [
           { label: 'Proof posture', value: detail?.proofStatus || selectedRun.proofStatus || 'in flight' },
           { label: 'Tokens', value: formatNumber(detail?.processingStats.tokenTotal ?? selectedRun.tokenTotal) },
@@ -132,7 +135,7 @@ function buildMasterDetailSubstructures(selectedRun: WorkspaceRun, detail: Appli
     return {
       ...substructure,
       summary:
-        'Run history, ledger reading, and processing posture remain part of the same Bitcode application workspace.',
+        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode application workspace.',
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
@@ -207,7 +210,7 @@ export default function ApplicationRunWorkspace({
     fetch(`/api/executions/history/${selectedRun.id}`)
       .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`Unable to load selected run detail (${response.status})`);
+          throw new Error(`Unable to load selected transaction detail (${response.status})`);
         }
         return response.json();
       })
@@ -221,7 +224,7 @@ export default function ApplicationRunWorkspace({
         setRunDetailError(
           error instanceof Error
             ? `${error.message}. Falling back to the route-owned workspace summary while live detail stays unavailable.`
-            : 'Unable to load live selected-run detail. Falling back to the route-owned workspace summary.',
+            : 'Unable to load live selected-transaction detail. Falling back to the route-owned workspace summary.',
         );
       })
       .finally(() => {
@@ -246,14 +249,14 @@ export default function ApplicationRunWorkspace({
       <div className="border-b border-white/8 px-6 py-5">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-3xl">
-            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Run workspace</p>
+            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Transaction workspace</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
-              Master-detail run, deliverable, proof, and history detail
+              Master-detail transactions, deliverables, proofs, and history
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-              This is the inward master-detail carrier V26 second-gate calls for. The run selection stays accessible in the
-              rail, but the selected run, its deliverables, proof posture, and history now read as one application-owned
-              Bitcode workspace.
+              This is the inward master-detail carrier V26 second-gate calls for. Bitcode transactions now act as the
+              master surface, while the selected transaction, its deliverables, proof posture, and history read as one
+              application-owned Bitcode detail workspace.
             </p>
           </div>
           {selectedRun ? (
@@ -277,7 +280,7 @@ export default function ApplicationRunWorkspace({
       <div className="px-6 py-6">
         {isLoadingRuns ? (
           <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-            Loading inward run workspace…
+            Loading Bitcode transactions…
           </div>
         ) : runsError ? (
           <div className="rounded-[1.5rem] border border-red-500/20 bg-red-500/10 px-5 py-5 text-sm text-red-200">
@@ -285,47 +288,18 @@ export default function ApplicationRunWorkspace({
           </div>
         ) : !selectedRun ? (
           <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-            Select a Bitcode run to inspect its application-owned detail surface.
+            Select a Bitcode transaction to inspect its application-owned detail surface.
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="grid gap-3 xl:grid-cols-3">
-              {runs.slice(0, 3).map((run) => {
-                const isSelected = run.id === selectedRun.id;
-                return (
-                  <button
-                    key={run.id}
-                    type="button"
-                    onClick={() => onSelectRun(run.id)}
-                    className={`rounded-[1.5rem] border px-4 py-4 text-left transition ${
-                      isSelected
-                        ? 'border-emerald-400/35 bg-emerald-400/10'
-                        : 'border-white/8 bg-black/20 hover:border-white/16 hover:bg-white/5'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-white">{run.type || 'pipeline:deliverables'}</p>
-                        <p className="mt-1 text-xs leading-5 text-neutral-400">
-                          {run.summary || 'Inspect this run inside the application-owned Bitcode workspace.'}
-                        </p>
-                      </div>
-                      <span
-                        className={`shrink-0 rounded-full border px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] ${getRunStatusTone(
-                          run.status,
-                        )}`}
-                      >
-                        {run.status || 'running'}
-                      </span>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between text-[0.68rem] uppercase tracking-[0.16em] text-neutral-500">
-                      <span className="font-mono">{run.id.slice(0, 8)}</span>
-                      <span>{formatRunTimestamp(run.created_at)}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            <ApplicationTransactionsTable
+              runs={runs}
+              selectedRunId={selectedRun.id}
+              onSelectRun={onSelectRun}
+              isLoadingRuns={isLoadingRuns}
+              runsError={runsError}
+              mockMode={mockMode}
+            />
 
             <div className="grid gap-4 2xl:grid-cols-4">
               {masterDetailSubstructures.map((substructure) => (

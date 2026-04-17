@@ -75,7 +75,7 @@ export default function ApplicationRunDetailSurface({
   if (isLoadingDetail && !detail) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-        Loading application-owned run detail…
+        Loading application-owned transaction detail…
       </div>
     );
   }
@@ -83,7 +83,7 @@ export default function ApplicationRunDetailSurface({
   if (!detail) {
     return (
       <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-        Selected run detail is not available yet for this application context.
+        Selected transaction detail is not available yet for this application context.
       </div>
     );
   }
@@ -101,10 +101,10 @@ export default function ApplicationRunDetailSurface({
           <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Application-owned run detail</p>
+                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Application-owned transaction detail</p>
                 <h3 className="mt-2 text-xl font-semibold text-white">{selectedRun.type || 'pipeline:deliverables'}</h3>
                 <p className="mt-3 text-sm leading-6 text-neutral-300">
-                  {detail.summary || 'The selected run now reads through an inward Bitcode detail carrier inside `/application`.'}
+                  {detail.summary || 'The selected transaction now reads through an inward Bitcode detail carrier inside `/application`.'}
                 </p>
               </div>
               <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
@@ -139,7 +139,7 @@ export default function ApplicationRunDetailSurface({
             >
               <div className="px-2">
                 <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Deliverable surfaces</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">Run outputs stay inside `/application`</h3>
+                <h3 className="mt-2 text-lg font-semibold text-white">Transaction outputs stay inside `/application`</h3>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
                   Pull requests, reviews, issues, comments, and summary text now read through the application-owned detail
                   carrier in both mock and live posture.
@@ -161,8 +161,8 @@ export default function ApplicationRunDetailSurface({
             </section>
           ) : (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized deliverable surfaces are attached to this selected run yet. The run still remains part of the
-              same master-detail Bitcode workspace for proof and history reading.
+              No materialized deliverable surfaces are attached to this selected transaction yet. The transaction still
+              remains part of the same master-detail Bitcode workspace for proof and history reading.
             </div>
           )}
         </div>
@@ -172,7 +172,7 @@ export default function ApplicationRunDetailSurface({
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected run</p>
             <dl className="mt-3 space-y-3 text-sm">
               <div>
-                <dt className="text-neutral-500">Run id</dt>
+                <dt className="text-neutral-500">Transaction id</dt>
                 <dd className="mt-1 font-mono text-neutral-100">{selectedRun.id}</dd>
               </div>
               <div>

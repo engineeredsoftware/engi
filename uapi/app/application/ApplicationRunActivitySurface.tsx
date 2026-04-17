@@ -51,11 +51,11 @@ export default function ApplicationRunActivitySurface({
     <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
       <div className="border-b border-white/8 px-5 py-4">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Application-owned activity</p>
-        <h3 className="mt-2 text-lg font-semibold text-white">Run activity and work updates</h3>
+        <h3 className="mt-2 text-lg font-semibold text-white">Transaction activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
           This elevates the older execution/log system into Bitcode’s application-owned detail space. The central
-          workspace now reads the selected run’s stream, state, and iteration updates directly instead of leaving that as
-          a compatibility-only page behavior.
+          workspace now reads the selected transaction’s stream, state, and iteration updates directly instead of leaving
+          that as a compatibility-only page behavior.
         </p>
       </div>
       <div className="relative">

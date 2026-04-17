@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-
-import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo } from 'react';
 
 import { CLOSURE_PANEL_SUBSTRUCTURE, getMasterDetailSubstructure } from './application-experience-architecture';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection, toneForPanel } from './application-shell-reading';
 import {
   normalizeApplicationClosureState,
@@ -129,27 +128,11 @@ function renderClosurePanelCard(panel: ApplicationClosurePanel) {
 }
 
 export default function ApplicationClosureNativeSections() {
-  const [closureState, setClosureState] = useState<ApplicationClosureState | null>(null);
-
-  useEffect(() => {
-    let disposed = false;
-
-    const refresh = async () => {
-      const snapshot = await readBitcodeApplicationShellSnapshot();
-      if (disposed) return;
-      setClosureState(normalizeApplicationClosureState(snapshot));
-    };
-
-    void refresh();
-    const intervalId = window.setInterval(() => {
-      void refresh();
-    }, 900);
-
-    return () => {
-      disposed = true;
-      window.clearInterval(intervalId);
-    };
-  }, []);
+  const { snapshot } = useApplicationShellBridge();
+  const closureState = useMemo<ApplicationClosureState | null>(
+    () => normalizeApplicationClosureState(snapshot),
+    [snapshot],
+  );
 
   const panels = useMemo(() => {
     if (!closureState) return [];

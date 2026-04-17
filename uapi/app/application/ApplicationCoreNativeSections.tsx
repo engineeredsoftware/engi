@@ -1,8 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ArrowUpRight, GitBranch, Lock, ShieldCheck } from 'lucide-react';
-import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
 
 import { toneForPanel, type NativePanel, jumpToShellSection } from './application-shell-reading';
 import {
@@ -12,6 +11,7 @@ import {
   getApplicationAction,
   getApplicationExperience,
 } from './application-experience-architecture';
+import { useApplicationShellBridge } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import { normalizeApplicationCorePanels } from './application-core-surface';
 
@@ -22,26 +22,10 @@ interface ApplicationCoreNativeSectionsProps {
 export default function ApplicationCoreNativeSections({
   repositoryContext = null,
 }: ApplicationCoreNativeSectionsProps) {
-  const [panels, setPanels] = useState<NativePanel[]>([]);
+  const { snapshot } = useApplicationShellBridge();
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const connectionStatus = repositoryContext?.connectionStatus || null;
-
-  const refreshFromShell = useCallback(async () => {
-    const snapshot = await readBitcodeApplicationShellSnapshot();
-    setPanels(normalizeApplicationCorePanels(snapshot));
-  }, []);
-
-  useEffect(() => {
-    void refreshFromShell();
-
-    const intervalId = window.setInterval(() => {
-      void refreshFromShell();
-    }, 900);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refreshFromShell]);
+  const panels = useMemo<NativePanel[]>(() => normalizeApplicationCorePanels(snapshot), [snapshot]);
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,8,18,0.95))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.42)]">

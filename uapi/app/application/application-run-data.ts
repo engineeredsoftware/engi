@@ -5,6 +5,9 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   summary?: string | null;
   repository?: string | null;
   branch?: string | null;
+  participant?: string | null;
+  isOwnTransaction?: boolean;
+  transactionLens?: 'give' | 'need' | 'closure';
   itemCount?: number;
   tokenTotal?: number | null;
   creditsTotal?: number | null;
@@ -23,6 +26,9 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     summary: 'Prepared the active branch artifact pack and bounded proof bundle for review.',
     repository: 'bitcode/bitcode',
     branch: 'bitcode/application-refit',
+    participant: 'garrett',
+    isOwnTransaction: true,
+    transactionLens: 'give',
     itemCount: 6,
     tokenTotal: 18420,
     creditsTotal: 148.4,
@@ -39,6 +45,9 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     summary: 'Measured fit pressure, surfaced ranked verification evidence, and refreshed ledger posture.',
     repository: 'bitcode/bitcode',
     branch: 'fit-pressure/review',
+    participant: 'research-partner',
+    isOwnTransaction: false,
+    transactionLens: 'need',
     itemCount: 4,
     tokenTotal: 10980,
     creditsTotal: 82.1,
@@ -55,6 +64,9 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     summary: 'Refreshing proof-family witnesses against the current V25 canon / V26 draft posture.',
     repository: 'bitcode/bitcode',
     branch: 'proof-refresh/v26',
+    participant: 'garrett',
+    isOwnTransaction: true,
+    transactionLens: 'closure',
     itemCount: 3,
     tokenTotal: 7640,
     creditsTotal: 54.6,

@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
-import { readBitcodeApplicationShellSnapshot } from '@bitcode/bitcode/src/client-entry.js';
+import { useMemo } from 'react';
 
 import {
   normalizeApplicationLiveSummary,
   type ApplicationLiveSummaryItem,
 } from './application-live-summary';
+import { useApplicationShellBridge } from './application-shell-bridge';
 
 const PINNED_LABELS = new Set([
   'Active scenario',
@@ -19,27 +18,11 @@ const PINNED_LABELS = new Set([
 ]);
 
 export default function ApplicationLiveSummaryStrip() {
-  const [items, setItems] = useState<ApplicationLiveSummaryItem[]>([]);
-
-  useEffect(() => {
-    let disposed = false;
-
-    const refresh = async () => {
-      const snapshot = await readBitcodeApplicationShellSnapshot();
-      if (disposed) return;
-      setItems(normalizeApplicationLiveSummary(snapshot));
-    };
-
-    void refresh();
-    const intervalId = window.setInterval(() => {
-      void refresh();
-    }, 700);
-
-    return () => {
-      disposed = true;
-      window.clearInterval(intervalId);
-    };
-  }, []);
+  const { snapshot } = useApplicationShellBridge();
+  const items = useMemo<ApplicationLiveSummaryItem[]>(
+    () => normalizeApplicationLiveSummary(snapshot),
+    [snapshot],
+  );
 
   const pinnedItems = items.filter((item) => PINNED_LABELS.has(item.label));
 

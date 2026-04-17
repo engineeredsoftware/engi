@@ -28,7 +28,6 @@ interface ApplicationWorkspaceRailProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   selectedRun: WorkspaceRun | null;
-  onSelectRun: (runId: string) => void;
   mockMode: boolean;
 }
 
@@ -38,7 +37,6 @@ export default function ApplicationWorkspaceRail({
   isLoadingRuns,
   runsError,
   selectedRun,
-  onSelectRun,
   mockMode,
 }: ApplicationWorkspaceRailProps) {
   return (
@@ -48,7 +46,8 @@ export default function ApplicationWorkspaceRail({
         <h2 className="mt-3 text-xl font-semibold tracking-tight text-white">Three experiences, one route</h2>
         <p className="mt-3 text-sm leading-6 text-neutral-300">
           Master detail is active here in `/application`. Conversations and orbitals are entered from here as fullscreen
-          modes, while run and deliverable inspection keeps converging inward as master-detail behavior.
+          modes, while the central workspace now treats Bitcode transactions as the master surface and transaction detail
+          as the detail surface.
         </p>
         <div className="mt-5 grid gap-3">
           <button
@@ -71,8 +70,8 @@ export default function ApplicationWorkspaceRail({
       <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.26em] text-neutral-400">Run inspector</p>
-            <h3 className="mt-2 text-lg font-semibold text-white">Recent Bitcode runs</h3>
+            <p className="text-[0.68rem] uppercase tracking-[0.26em] text-neutral-400">Transaction support</p>
+            <h3 className="mt-2 text-lg font-semibold text-white">Master-table support rail</h3>
           </div>
           {mockMode ? (
             <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200">
@@ -84,49 +83,39 @@ export default function ApplicationWorkspaceRail({
         <div className="mt-4 space-y-3">
           {isLoadingRuns ? (
             <div className="rounded-2xl border border-white/6 bg-black/20 px-4 py-6 text-sm text-neutral-400">
-              Loading recent runs…
+              Loading transaction support…
             </div>
           ) : runsError ? (
             <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-4 text-sm text-red-200">
               {runsError}
             </div>
-          ) : runs.length === 0 ? (
+          ) : !selectedRun ? (
             <div className="rounded-2xl border border-white/6 bg-black/20 px-4 py-6 text-sm text-neutral-400">
-              No runs available yet for this application context.
+              Select a Bitcode transaction in the central master table to load support context here.
             </div>
           ) : (
-            <div className="space-y-2">
-              {runs.slice(0, 6).map((run) => {
-                const isSelected = run.id === selectedRun?.id;
-                return (
-                  <button
-                    key={run.id}
-                    type="button"
-                    onClick={() => onSelectRun(run.id)}
-                    className={`w-full rounded-2xl border px-4 py-3 text-left transition ${
-                      isSelected
-                        ? 'border-emerald-400/35 bg-emerald-400/10'
-                        : 'border-white/6 bg-black/20 hover:border-white/15 hover:bg-white/5'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-white">{run.type || 'pipeline:deliverables'}</p>
-                        <p className="mt-1 text-xs leading-5 text-neutral-400">
-                          {run.summary || 'Open this run to inspect logs, work updates, and resulting deliverable surfaces.'}
-                        </p>
-                      </div>
-                      <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] ${getRunStatusTone(run.status)}`}>
-                        {run.status || 'running'}
-                      </span>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between text-[0.68rem] uppercase tracking-[0.16em] text-neutral-500">
-                      <span className="font-mono">{run.id.slice(0, 8)}</span>
-                      <span>{formatRunTimestamp(run.created_at)}</span>
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="rounded-2xl border border-white/6 bg-black/20 px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-white">{selectedRun.type || 'pipeline:deliverables'}</p>
+                  <p className="mt-1 text-xs leading-5 text-neutral-400">
+                    {selectedRun.summary || 'The selected Bitcode transaction is now loaded in the central detail surface.'}
+                  </p>
+                </div>
+                <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] ${getRunStatusTone(selectedRun.status)}`}>
+                  {selectedRun.status || 'running'}
+                </span>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
+                  <p className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">Transactions loaded</p>
+                  <p className="mt-2 text-sm font-semibold text-white">{runs.length}</p>
+                </div>
+                <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
+                  <p className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">Started</p>
+                  <p className="mt-2 text-sm font-semibold text-white">{formatRunTimestamp(selectedRun.created_at)}</p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -135,20 +124,20 @@ export default function ApplicationWorkspaceRail({
       {selectedRun ? (
         <section className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(6,10,20,0.92)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.38)]">
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Selected run focus</p>
-          <h3 className="mt-2 text-lg font-semibold text-white">Central detail lives in master detail</h3>
+          <h3 className="mt-2 text-lg font-semibold text-white">Central transaction detail lives in master detail</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            The rail now stays focused on selection and orientation. Rich run detail, deliverable reading, proof posture,
-            and activity logs are carried centrally inside `/application`.
+            The rail now stays focused on support and orientation. Rich transaction detail, deliverable reading, proof
+            posture, and activity logs are carried centrally inside `/application`.
           </p>
           <dl className="mt-4 space-y-3 text-sm">
             <div>
-              <dt className="text-neutral-500">Run id</dt>
+              <dt className="text-neutral-500">Transaction id</dt>
               <dd className="mt-1 font-mono text-neutral-100">{selectedRun.id}</dd>
             </div>
             <div>
               <dt className="text-neutral-500">Summary</dt>
               <dd className="mt-1 text-neutral-100">
-                {selectedRun.summary || 'Select the central Bitcode detail surface to inspect this run.'}
+                {selectedRun.summary || 'Select the central Bitcode detail surface to inspect this transaction.'}
               </dd>
             </div>
           </dl>

@@ -39,6 +39,7 @@ module.exports = {
     '^@bitcode/context/(.*)$': '<rootDir>/../packages/context/src/$1',
     '^@bitcode/observability$': '<rootDir>/tests/mocks/observability.js',
     '^@bitcode/bitcode$': '<rootDir>/../packages/bitcode/src/index.js',
+    '^@bitcode/([^/]+)/src/(.+)$': '<rootDir>/../packages/$1/src/$2',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
     '^@bitcode/supabase/ssr/client$': '<rootDir>/tests/mocks/supabaseBrowserClient.ts',
     '^@bitcode/supabase/ssr/(.*)$': '<rootDir>/../packages/supabase/src/ssr/$1',
