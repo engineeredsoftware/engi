@@ -300,6 +300,8 @@
 
 :is(.orbital-system-application, .orbital-system-route) .orbital-workspace-stage {
   min-width: 0;
+  min-height: 0;
+  display: flex;
 }
 
 :is(.orbital-system-application, .orbital-system-route) .orbital-rings-container {
@@ -627,14 +629,29 @@
   gap: 0.75rem;
 }
 
+.orbital-system-application .orbital-auth-grid,
+.orbital-system-route .orbital-auth-grid {
+  min-height: 100%;
+}
+
 .orbital-system-application .orbital-auth-form,
 .orbital-system-route .orbital-auth-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
   border-radius: 1.6rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
     radial-gradient(circle at top left, rgba(101, 254, 183, 0.05), transparent 30%),
     rgba(4, 8, 18, 0.82);
   padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.orbital-system-application .orbital-auth-form > .login-form-surface-contained,
+.orbital-system-route .orbital-auth-form > .login-form-surface-contained {
+  width: min(100%, 34rem);
+  margin-inline: auto;
 }
 
 .orbital-system-application .orbital-auth-form .form-input,
@@ -3465,6 +3482,41 @@ to {
   /* Use minimum of 90% width or default calc for larger screens */
   width: min(90%, calc(55vw + 56px)) !important;
 }
+
+/* V26 second-gate containment hardening */
+.orbital-system-application,
+.orbital-system-route {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.orbital-system-application .content-vis,
+.orbital-system-route .content-vis {
+  width: 100%;
+}
+
+.orbital-system-application .orbital-content-container,
+.orbital-system-route .orbital-content-container {
+  position: relative !important;
+  inset: auto !important;
+  width: min(100%, 88rem) !important;
+  max-width: min(100%, 88rem) !important;
+  height: auto !important;
+  max-height: min(48rem, calc(100vh - 8rem)) !important;
+  margin: 0 auto !important;
+  align-self: flex-start !important;
+}
+
+.orbital-system-application .orbital-workspace-shell,
+.orbital-system-route .orbital-workspace-shell {
+  grid-template-columns: minmax(18.5rem, 23rem) minmax(0, 1fr);
+}
+
+.orbital-system-application .orbital-workspace-stage > .orbital-content-container,
+.orbital-system-route .orbital-workspace-stage > .orbital-content-container {
+  flex: 1 1 auto;
+}
+
 @media (max-width: 640px) {
   /* Hide orbital ring background decorations on small screens */
   .orbital-rings-container,

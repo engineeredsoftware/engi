@@ -213,17 +213,22 @@ Current active assignments:
   test coverage:
   `uapi/tests/userMenu.test.tsx`
   proof surface:
-  second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals` with the fixed Connects/Interfaces/Profile/$BTD ring model instead of settings/account wording
+  second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals fullscreen` with the fixed Connects/Interfaces/Profile/$BTD ring model instead of settings/account wording
 - `uapi/app/orbitals/components/OrbitalsLoginPane.tsx`, `uapi/app/orbitals/components/OrbitalsContent.tsx`, `uapi/app/orbitals/components/shared/OrbitalsPaneTabs.tsx`, `uapi/app/orbitals/OrbitalsRouteClient.tsx`
   test coverage:
-  `uapi/tests/orbitalsLoginPane.test.tsx` and `uapi/tests/orbitalsContent.test.tsx`
+  `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, and `uapi/tests/orbitalsRouteClient.test.tsx`
   proof surface:
-  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language instead of generic workspace/settings/account furniture
+  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep contained operator workspace posture, and retain direct-route link discipline instead of generic workspace/settings/account furniture
 - `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
   test coverage:
   `uapi/tests/notificationsWidget.test.tsx`
   proof surface:
-  second-gate operator-facing notification posture so proofs, repository events, and review prompts remain part of the workspace chrome rather than generic account furniture
+  second-gate operator-facing notification posture so proof closure, repository activity, and review prompts remain part of the workspace chrome rather than generic account furniture
+- `uapi/styles/orbital.css`
+  test coverage:
+  live browser verification on `host.docker.internal:3000/application?...` and `host.docker.internal:3000/orbitals/profile`
+  proof surface:
+  second-gate contained-operator-shell stability so application-opened orbitals no longer collapse back to modal-width access furniture and both contained/direct orbital surfaces stay renderable with no error-level console output
 - `uapi/components/base/engi/layout/workspace-surface.ts`
   test coverage:
   `uapi/tests/workspaceSurface.test.ts`

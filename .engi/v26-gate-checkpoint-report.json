@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "4221a3f809bde5e944fda1519ffee82c63954aab",
-  "generatedAt": "2026-04-18T11:40:36-03:00",
+  "proofSourceCommit": "dcb446102a26f6eb488610b583419145ff292d16",
+  "generatedAt": "2026-04-18T12:45:12-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V25",
@@ -63,20 +63,22 @@
         "checkId": "second-gate-application-carriers",
         "label": "Second-gate application and orbital carriers",
         "passed": true,
-        "detail": "12 required files present",
+        "detail": "14 required files present",
         "requiredFiles": [
           "uapi/app/application/ApplicationPageClient.tsx",
           "uapi/app/application/ApplicationTransactionWorkspace.tsx",
           "uapi/app/application/ApplicationTransactionDetailSurface.tsx",
           "uapi/app/application/ApplicationCommandDeck.tsx",
           "uapi/app/application/ApplicationWorkspaceRail.tsx",
+          "uapi/app/orbitals/OrbitalsRouteClient.tsx",
           "uapi/app/orbitals/components/OrbitalsProvider.tsx",
           "uapi/app/orbitals/components/OrbitalsConnectsPane.tsx",
           "uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx",
           "uapi/app/orbitals/components/OrbitalsBTDPane.tsx",
           "uapi/components/base/engi/layout/nav.tsx",
           "uapi/components/base/engi/layout/user-menu.tsx",
-          "uapi/components/base/engi/notifications/NotificationsWidget.tsx"
+          "uapi/components/base/engi/notifications/NotificationsWidget.tsx",
+          "uapi/styles/orbital.css"
         ],
         "missingFiles": []
       },
@@ -84,14 +86,20 @@
         "checkId": "second-gate-proof-carriers",
         "label": "Second-gate proof and test carriers",
         "passed": true,
-        "detail": "6 required files present",
+        "detail": "12 required files present",
         "requiredFiles": [
+          "packages/bitcode/test/v26-public-copy.test.js",
           "uapi/tests/orbitalsProvider.test.tsx",
           "uapi/tests/orbitalsInterfacesPane.test.tsx",
           "uapi/tests/orbitalsBTDPane.test.tsx",
           "uapi/tests/navWorkspaceChrome.test.tsx",
           "uapi/tests/notificationsWidget.test.tsx",
-          "uapi/tests/orbitalsLoginPane.test.tsx"
+          "uapi/tests/orbitalsLoginPane.test.tsx",
+          "uapi/tests/orbitalsContent.test.tsx",
+          "uapi/tests/orbitalsPaneTabs.test.tsx",
+          "uapi/tests/orbitalsRouteClient.test.tsx",
+          "uapi/tests/userMenu.test.tsx",
+          "uapi/tests/workspaceSurface.test.ts"
         ],
         "missingFiles": []
       },
@@ -99,7 +107,7 @@
         "checkId": "second-gate-documentation-carriers",
         "label": "Second-gate documentation and README carriers",
         "passed": true,
-        "detail": "7 required files present",
+        "detail": "9 required files present",
         "requiredFiles": [
           "README.md",
           "uapi/README.md",
@@ -107,7 +115,9 @@
           "uapi/app/application/README.md",
           "uapi/app/orbitals/README.md",
           "uapi/components/base/engi/README.md",
-          "uapi/components/base/engi/execution/README.md"
+          "uapi/components/base/engi/execution/README.md",
+          "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
+          "packages/bitcode/V26_PROOF_SURFACES.md"
         ],
         "missingFiles": []
       }

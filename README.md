@@ -27,6 +27,7 @@ The active orbital model is fixed as:
 Second-gate closure also requires the live product and docs to stay aligned:
 - operator-facing copy is user-referencing and Bitcode-first
 - orbitals entry surfaces read as orbitals access, not generic settings/account furniture
+- application-opened orbitals hold a contained operator shell rather than collapsing back to modal-width account furniture
 - the README and markdown set for root, packages, routes, and shared systems is treated as required implementation scope
 
 ## Repository rules

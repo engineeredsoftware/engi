@@ -47,6 +47,7 @@ First-and-second-gate checkpoint confidence requires `/application` to be:
 - user-facing in copy and help posture,
 - free of demo/tutorial/gate narration in the visible product surface,
 - free of generic settings/configuration language when the live surface is really expressing orbitals or interface posture,
+- able to reopen orbitals as a full-width contained operator shell without collapsing the workspace into modal-width account furniture,
 - supported by shared execution carriers instead of growing page-local duplication,
 - documented alongside the root/package/shared-component README family as required second-gate implementation scope,
 - and backed by proof/test/doc carriers that reflect the real route shape.

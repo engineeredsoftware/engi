@@ -209,7 +209,7 @@ export function NotificationsWidget() {
             <div>
               <h3>Notifications</h3>
               <p className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] text-neutral-400">
-                Proofs, repository events, and review prompts
+                Proof closure, repository activity, and review prompts
               </p>
             </div>
             {notifications.length > 0 && (
@@ -283,7 +283,7 @@ export function NotificationsWidget() {
                 openOrbital('SignUpWindow', 'profile');
               }}
             >
-              Open Orbitals
+              Open Orbitals fullscreen
             </button>
           </div>
         </div>

@@ -509,7 +509,7 @@ Second-gate is accepted only when all of the following hold:
    - selected-transaction detail and deliverable-reading workflows are available from within `/application` through master-detail reuse in both live and mock posture,
    - flow-guide and explainer guidance remain useful,
    - orbital entry and account state remain coherent with the application page,
-   - contained orbital access shells and focused orbital routes keep orbitals-first wording rather than regressing to generic workspace/settings/account furniture,
+   - contained orbital access shells and focused orbital routes keep orbitals-first wording, read as contained operator workspaces, and remain width-stable when entered from `/application` rather than regressing to generic workspace/settings/account furniture,
    - preserved-runtime help, reference chips, and telemetry labels stay Bitcode-facing instead of leaking canon, source-path, or `engi-demo`-era language into operator-visible surfaces,
    - and first-gate semantic regressions are not introduced.
 

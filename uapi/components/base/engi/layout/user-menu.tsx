@@ -120,7 +120,7 @@ export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
               >
                 <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
                 <div className="min-w-0">
-                  <span className="block">Open Orbitals</span>
+                  <span className="block">Open Orbitals fullscreen</span>
                   <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-emerald-200/60">
                     Connects, Interfaces, Profile, $BTD
                   </span>

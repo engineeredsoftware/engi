@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 
 import Orbital from '@/app/orbitals/components';
@@ -28,15 +29,15 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                Focused orbital route
+                {descriptor.label} orbital
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                {descriptor.routeTitle} in one contained workspace.
+                {descriptor.routeTitle} in a contained operator workspace.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                {descriptor.routeDescription} Use this route when you want one focused orbital for
-                repository connections, interface defaults, profile posture, or $BTD detail without
-                losing the wider application context.
+                {descriptor.routeDescription} Stay in one focused orbital when you want a dedicated
+                read surface for repository connections, interface posture, wallet identity, or
+                $BTD detail, then step back into the full transactions workspace only when needed.
               </p>
             </div>
 
@@ -44,7 +45,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
               href="/application"
               className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
             >
-              Back to application
+              Open transactions workspace
             </Link>
           </div>
         </section>
@@ -54,9 +55,11 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
             const isActive = orbital.routeSegment === descriptor.routeSegment;
 
             return (
-              <article
+              <Link
                 key={orbital.routeSegment}
-                className={`rounded-[22px] border px-4 py-4 transition-colors ${
+                href={`/orbitals/${orbital.routeSegment}`}
+                aria-current={isActive ? 'page' : undefined}
+                className={`rounded-[22px] border px-4 py-4 transition-colors hover:border-white/18 hover:bg-white/8 ${
                   isActive
                     ? 'border-emerald-300/28 bg-emerald-400/10'
                     : 'border-white/8 bg-white/5'
@@ -66,10 +69,10 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
                   {orbital.label}
                 </p>
                 <p className="mt-2 text-sm font-medium text-white">
-                  {isActive ? 'Current orbital' : 'Available orbital'}
+                  {isActive ? 'Current route' : 'Open orbital'}
                 </p>
                 <p className="mt-2 text-sm leading-7 text-white/68">{orbital.routeDescription}</p>
-              </article>
+              </Link>
             );
           })}
         </section>

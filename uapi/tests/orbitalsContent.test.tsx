@@ -23,7 +23,7 @@ describe('OrbitalsContent', () => {
     );
 
     expect(screen.getAllByText('Orbitals access')).toHaveLength(2);
-    expect(screen.getByText(/sign in once, then keep profile, connects, interfaces, and \$btd in one contained orbital workspace/i)).toBeTruthy();
+    expect(screen.getByText(/sign in once, then keep profile, connects, interfaces, and \$btd in one contained operator workspace/i)).toBeTruthy();
     expect(screen.getByText(/Active orbital:/i)).toBeTruthy();
     expect(screen.getByText('Pane connects')).toBeTruthy();
   });

@@ -121,7 +121,7 @@ describe('NotificationsWidget', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(await screen.findByText('Proofs, repository events, and review prompts')).toBeInTheDocument();
+    expect(await screen.findByText('Proof closure, repository activity, and review prompts')).toBeInTheDocument();
     expect(screen.getByText('Witness bundle')).toBeInTheDocument();
     expect(screen.getByText('Repository event')).toBeInTheDocument();
 
@@ -152,7 +152,7 @@ describe('NotificationsWidget', () => {
 
     render(<NotificationsWidget />);
     fireEvent.click(screen.getByRole('button', { name: 'Notifications' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'Open Orbitals' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Open Orbitals fullscreen' }));
 
     expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow', 'profile');
   });

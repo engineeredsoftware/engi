@@ -1,7 +1,7 @@
 # `/orbitals`
 
 The V26 orbital system is a fullscreen Bitcode workspace entered from `/application`.
-It also supports direct focused routes for reading one orbital in isolation.
+It also supports direct focused routes for reading one orbital in a contained operator workspace.
 
 The active orbital ring model is fixed:
 - `Connects`
@@ -50,7 +50,8 @@ The contained orbital shell used inside the application and direct orbital route
 - stay visually stable,
 - keep ring/background motion subordinate to reading,
 - preserve the active pane in a contained workspace,
-- read as orbitals access and orbital workspaces rather than generic settings/account furniture,
+- keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
+- read as orbitals access and contained operator workspaces rather than generic settings/account furniture,
 - and remain aligned to the same operator atmosphere as `/application`.
 
 ## Related files

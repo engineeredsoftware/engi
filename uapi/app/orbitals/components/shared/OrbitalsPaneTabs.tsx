@@ -34,8 +34,8 @@ export default function OrbitalsPaneTabs({
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
             {isOrbitalMode
-              ? 'Move between Connects, Interfaces, Profile, and $BTD without losing your place in the workspace.'
-              : 'Sign in to unlock the four orbitals, then keep Profile, Connects, Interfaces, and $BTD in one contained orbital workspace.'}
+              ? 'Move between Connects, Interfaces, Profile, and $BTD without losing your place in the operator workspace.'
+              : 'Sign in to unlock the four orbitals, then keep Profile, Connects, Interfaces, and $BTD in one contained operator workspace.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">

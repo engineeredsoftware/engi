@@ -15,8 +15,10 @@ export default function OrbitalsLoginPane({
   onToggle,
   surfaceVariant = 'default',
 }: OrbitalsLoginPaneProps) {
+  const isContainedSurface = surfaceVariant === 'contained';
+
   return (
-    <div className={`orbital-auth-shell ${surfaceVariant === 'contained' ? 'orbital-auth-shell-contained' : ''}`}>
+    <div className={`orbital-auth-shell ${isContainedSurface ? 'orbital-auth-shell-contained' : ''}`}>
       <div className="orbital-auth-grid">
         <aside className="orbital-auth-aside">
           <div className="rounded-[1.6rem] border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
@@ -32,7 +34,7 @@ export default function OrbitalsLoginPane({
             </p>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className={`grid gap-3 ${isContainedSurface ? '' : 'sm:grid-cols-2'}`}>
             <div className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-emerald-200/74">
                 Primary path
@@ -43,7 +45,11 @@ export default function OrbitalsLoginPane({
               </p>
             </div>
 
-            <div className="rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4 sm:col-span-2">
+            <div
+              className={`rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4 ${
+                isContainedSurface ? '' : 'sm:col-span-2'
+              }`}
+            >
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Active account providers
               </p>

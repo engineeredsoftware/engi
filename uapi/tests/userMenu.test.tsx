@@ -52,10 +52,10 @@ describe('UserMenu', () => {
     );
 
     expect(screen.getByText('Workspace account')).toBeInTheDocument();
-    expect(screen.getByText('Open Orbitals')).toBeInTheDocument();
+    expect(screen.getByText('Open Orbitals fullscreen')).toBeInTheDocument();
     expect(screen.getByText('Connects, Interfaces, Profile, $BTD')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('Open Orbitals'));
+    fireEvent.click(screen.getByText('Open Orbitals fullscreen'));
 
     expect(onOpenOrbitals).toHaveBeenCalledTimes(1);
     expect(onSignOut).not.toHaveBeenCalled();
