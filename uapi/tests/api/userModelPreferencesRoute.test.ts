@@ -1,4 +1,4 @@
-import { POST } from '@/app/api/orbitals/model-preferences/route';
+import { GET, POST } from '@/app/api/orbitals/model-preferences/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
@@ -25,6 +25,22 @@ beforeEach(() => {
 });
 
 describe('POST /api/orbitals/model-preferences RBAC', () => {
+  it('returns stored preferences on GET for an authenticated user', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+
+    const prefsBuilder = createQueryBuilder({ preferences: { defaultModel: 'claude-3-7-sonnet' } });
+    (supabaseAdmin.from as jest.Mock).mockReturnValueOnce(prefsBuilder);
+
+    const res = await GET();
+    const payload = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(payload).toEqual({
+      success: true,
+      preferences: { defaultModel: 'claude-3-7-sonnet' },
+    });
+  });
+
   it('rejects unauthenticated user with 401', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
     const res = await POST(new Request('http://localhost', { method: 'POST', body: '{}' }));

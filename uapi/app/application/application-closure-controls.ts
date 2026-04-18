@@ -7,7 +7,7 @@ export type ApplicationClosureControlState = {
   statusTone: 'ready' | 'running' | 'settled' | 'attention';
   branchMode: string;
   scenario: string;
-  tutorialDetail: string;
+  flowGuideDetail: string;
   primaryActionLabel: string;
   primaryActionSummary: string;
   hasClosureArtifacts: boolean;
@@ -37,9 +37,9 @@ export function normalizeApplicationClosureControlState(
 ): ApplicationClosureControlState {
   const status = commandState?.status || 'Workspace controls are syncing.';
   const statusLower = status.toLowerCase();
-  const tutorialDetail =
-    commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+  const flowGuideDetail =
+    commandState && commandState.flowGuideStepCount > 0
+      ? `${commandState.flowGuideOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
       : 'ready';
 
   const hasClosureArtifacts = Boolean(closureState?.branch.chips.length);
@@ -75,7 +75,7 @@ export function normalizeApplicationClosureControlState(
     statusTone,
     branchMode: commandState?.branchMode || 'patch',
     scenario: commandState?.scenario || '—',
-    tutorialDetail,
+    flowGuideDetail,
     primaryActionLabel,
     primaryActionSummary,
     hasClosureArtifacts,

@@ -143,7 +143,7 @@ export default function ApplicationClosureControlDeck() {
             <p className="text-neutral-500">Runtime status</p>
             <p className="mt-2 text-neutral-100">{state.status}</p>
             <p className="mt-3 text-neutral-500">Draft continuity</p>
-            <p className="mt-1 text-neutral-100">{state.tutorialDetail}</p>
+            <p className="mt-1 text-neutral-100">{state.flowGuideDetail}</p>
           </div>
         </article>
 

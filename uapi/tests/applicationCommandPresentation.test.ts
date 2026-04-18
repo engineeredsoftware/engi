@@ -24,10 +24,10 @@ describe('deriveApplicationCommandPresentation', () => {
       heroLede: 'legacy shell copy',
       heroTip: 'legacy shell tip',
       status: 'legacy shell status',
-      tutorialLabel: 'Flow guide',
-      tutorialOpen: false,
-      tutorialStepIndex: 1,
-      tutorialStepCount: 4,
+      flowGuideLabel: 'Flow guide',
+      flowGuideOpen: false,
+      flowGuideStepIndex: 1,
+      flowGuideStepCount: 4,
       shellReady: true,
     };
 

@@ -173,6 +173,21 @@ Current active assignments:
   `uapi/tests/orbitalsProvider.test.tsx` plus live `/application` verification with orbitals entry exercised from the running app
   proof surface:
   second-gate fullscreen orbitals portal readiness from `/application`, including first-open rendering when the shared event bridge fires before the overlay container would otherwise be visible to React
+- `uapi/app/api/orbitals/model-preferences/route.ts`
+  test coverage:
+  `uapi/tests/api/userModelPreferencesRoute.test.ts`
+  proof surface:
+  second-gate application-owned signed-in orbital preference persistence, including authenticated read posture, lead/admin write posture, mock-mode fallback, and app-owned save ownership for orbital defaults
+- `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
+  test coverage:
+  `uapi/tests/orbitalsInterfacesPane.test.tsx`
+  proof surface:
+  second-gate `Interfaces` orbital ownership, including shared orbital workspace section, stat, and preference carriers plus model, prompt, and operator-default posture
+- `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
+  test coverage:
+  `uapi/tests/orbitalsBTDPane.test.tsx`
+  proof surface:
+  second-gate `$BTD` orbital ownership, including wallet and share posture, settlement and history return defaults, and app-owned preference saving through the orbital route carrier
 - `uapi/components/base/engi/layout/nav.tsx`
   test coverage:
   `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/application` verification
@@ -187,7 +202,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
   proof surface:
-  deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state
+  deterministic normalization of shell command posture, flow-guide continuity, preserved-shell tutorial compatibility input, and option sets into route-local application command state
 - `uapi/app/application/ApplicationOperatorCard.tsx`
   test coverage:
   `uapi/tests/applicationOperatorCard.test.tsx`

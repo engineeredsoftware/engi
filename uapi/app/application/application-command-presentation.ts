@@ -34,14 +34,14 @@ export function deriveApplicationCommandPresentation(
   );
   const branchLabel = findLabel(commandState.branchOptions, commandState.branchMode, commandState.branchMode);
   const guideStep =
-    commandState.tutorialStepCount > 0
-      ? `step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+    commandState.flowGuideStepCount > 0
+      ? `step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
       : null;
 
   return {
     draftSummary: `Work from ${scenarioLabel} with ${projectionLabel} projection and ${branchLabel} branch handling while the selected transaction stays in view.`,
     continuationStatus: guideStep
-      ? `${commandState.tutorialOpen ? 'Flow guide is open' : 'Flow guide is saved'} at ${guideStep}.`
+      ? `${commandState.flowGuideOpen ? 'Flow guide is open' : 'Flow guide is saved'} at ${guideStep}.`
       : 'Controls are ready. Continue into give, need, or closure from this workspace.',
     continuationTip:
       'Use the flow guide when you want stepwise give-to-closure follow-through, or jump directly into give, need, and closure when the current transaction already has enough context.',

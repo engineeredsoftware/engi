@@ -1,4 +1,5 @@
 export const ONBOARDING_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
+export const ORBITAL_FLOW_STEPS = ONBOARDING_FLOW_STEPS;
 export const ORBITAL_RING_STEPS = ['connects', 'interfaces', 'profile', 'btd'] as const;
 
 export type ConcreteOrbitalPane = (typeof ONBOARDING_FLOW_STEPS)[number];

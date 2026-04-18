@@ -13,10 +13,10 @@ describe('normalizeApplicationClosureControlState', () => {
         heroLede: '',
         heroTip: '',
         status: 'Measuring need, resolving the active deposit/need profile, staging branch artifacts, and settling journal diff…',
-        tutorialLabel: 'Hide tutorial',
-        tutorialOpen: true,
-        tutorialStepIndex: 1,
-        tutorialStepCount: 6,
+        flowGuideLabel: 'Hide flow guide',
+        flowGuideOpen: true,
+        flowGuideStepIndex: 1,
+        flowGuideStepCount: 6,
         shellReady: true,
       },
       {
@@ -92,7 +92,7 @@ describe('normalizeApplicationClosureControlState', () => {
     expect(state.primaryActionLabel).toBe('Re-run closure');
     expect(state.hasSettlementBundle).toBe(true);
     expect(state.bundleId).toBe('bundle-001');
-    expect(state.tutorialDetail).toContain('step 2 of 6');
+    expect(state.flowGuideDetail).toContain('step 2 of 6');
   });
 
   it('falls back safely when closure state is missing', () => {

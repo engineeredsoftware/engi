@@ -1,2 +1,2 @@
 // Canonical Interfaces Orbital component
-export { default } from './models-pane';
+export { default } from './OrbitalsInterfacesPane';

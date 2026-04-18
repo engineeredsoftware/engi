@@ -389,8 +389,17 @@ export default function Orbital({
             onCompletionStatusChange={
               isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('btd', isComplete)
             }
-            onSave={async () => {
-              await handleStepComplete('btd');
+            onSave={async (updated) => {
+              try {
+                await fetch('/api/orbitals/model-preferences', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(updated),
+                });
+                await handleStepComplete('btd');
+              } catch (err) {
+                console.error('BTD defaults save error:', err);
+              }
             }}
           />
         );

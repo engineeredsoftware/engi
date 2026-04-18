@@ -21,10 +21,10 @@ describe('deriveApplicationFlowGuide', () => {
       heroLede: 'shell posture',
       heroTip: 'shell tip',
       status: 'ready',
-      tutorialLabel: 'Flow guide',
-      tutorialOpen: true,
-      tutorialStepIndex: 6,
-      tutorialStepCount: 10,
+      flowGuideLabel: 'Flow guide',
+      flowGuideOpen: true,
+      flowGuideStepIndex: 6,
+      flowGuideStepCount: 10,
       shellReady: true,
     };
 

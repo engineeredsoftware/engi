@@ -31,7 +31,7 @@ interface TeamMember {
 }
 
 /**
- * Data-share settings per GitHub repository: consent toggle and last analysis results.
+ * Data-share posture per GitHub repository: consent toggle and last analysis results.
  */
 interface DataShareRepo {
   fullName: string;
@@ -892,7 +892,7 @@ export default function ProfileStep({ onSave,
           </div>
 
           {isOnboardingComplete && (
-            <div className="settings-section mt-12">
+            <div className="orbital-section mt-12">
               <div className="rounded-[24px] border border-white/10 bg-white/[0.045] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
                 <div className="mb-5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
@@ -912,7 +912,7 @@ export default function ProfileStep({ onSave,
           )}
 
           {/* Data Sharing Section – revamped */}
-          <div className="settings-section mt-12">
+          <div className="orbital-section mt-12">
             <DataSharingPanel className="pt-4" overlayed={!isOnboardingComplete} />
           </div>
           {/* Hidden submit button that will be triggered by the global action button */}

@@ -95,10 +95,16 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/api/executions/history/route.ts`
 - `uapi/app/api/executions/history/[runId]/route.ts`
 - `uapi/app/api/client-error/route.ts`
+- `uapi/app/api/orbitals/model-preferences/route.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationMockTransactionDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
+- `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
+- `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
+- `uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx`
+- `uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx`
+- `uapi/app/orbitals/components/shared/OrbitalsPreferenceCards.tsx`
 - `uapi/app/conversations/components/ConversationsOverlay.tsx`
 - `/api/conversations`
 
@@ -164,7 +170,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationWorkspaceRail.tsx`, `ApplicationWorkspaceRailCard.tsx`, and `ApplicationSupplySelectionPanel.tsx` now also sit inside that same shared workspace/help grammar, which keeps the right rail and give-side supply terminal aligned with the rest of the application surface instead of reading like standalone utility shells.
 - the active application workspace now treats stepwise guidance as resumable give/need flow and working-draft continuity rather than tutorial/demo residue, and the visible application copy is being tightened to stay user-referencing instead of narrating gates, routes, or canon posture.
 - visible application copy now explicitly removes self-referential shell/source-path phrasing from live rail, experience-map, give-side supply, and give-draft surfaces unless the user intentionally enters a lower-level runtime read.
-- `uapi/tests/applicationCommandState.test.ts` now proves deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state.
+- `uapi/tests/applicationCommandState.test.ts` now proves deterministic normalization of shell command posture, flow-guide continuity, preserved-shell tutorial compatibility input, and option sets into route-local application command state.
 - `uapi/tests/applicationDepositComposer.test.ts` now proves deterministic normalization of deposit-auth session defaults, selected inventory continuity, and signer/source repo defaults into route-local deposit-composer state.
 - `uapi/tests/applicationNeedScenarios.test.ts` now proves deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state.
 - `uapi/tests/applicationSupplySelection.test.ts` now proves deterministic normalization of authenticated intake session, artifact filter, search, and selected inventory entry detail into route-local application supply selection.
@@ -188,6 +194,8 @@ The current source now reflects that architecture more directly:
 - `BitcodeDetailRowList.tsx`, `BitcodeMetricGrid.tsx`, `BitcodeDetailCollection.tsx`, `BitcodeDetailPanel.tsx`, `BitcodeChipCloud.tsx`, `bitcodeDetailRowList.test.tsx`, `bitcodeMetricGrid.test.tsx`, `bitcodeDetailCollection.test.tsx`, and `bitcodeDetailPanel.test.tsx` now move selected-transaction rows, metric grids, proof/history collections, workspace substructure cards, and artifact chips onto reusable base carriers, with `ApplicationTransactionProofsCard.tsx`, `ApplicationTransactionHistoryCard.tsx`, and `ApplicationTransactionWorkspace.tsx` now consuming those shared execution components instead of hand-built page-local markup.
 - `OrbitalsProfilePane.tsx` now reconnects the data-sharing overlay carrier so orbitals entered from `/application` remain renderable during second-gate convergence rather than crashing on missing-pane reference drift.
 - `OrbitalsProvider.tsx` plus `orbitalsProvider.test.tsx` now keep the overlay portal target in state instead of a silent ref-only mutation, so `openOrbital()` can render a real fullscreen surface on first interaction instead of failing quietly when the container is created after the open event.
+- `OrbitalsInterfacesPane.tsx`, `OrbitalsBTDPane.tsx`, `OrbitalsWorkspaceSection.tsx`, `OrbitalsStatGrid.tsx`, and `OrbitalsPreferenceCards.tsx` now give signed-in orbitals real `Interfaces` and `$BTD` pane ownership instead of leaving those rings as model or credits wrappers.
+- `uapi/app/api/orbitals/model-preferences/route.ts` plus `uapi/tests/api/userModelPreferencesRoute.test.ts` now restore application-owned orbital preference persistence with authenticated read and lead/admin write posture.
 - `uapi/app/api/executions/_shared.ts`, `uapi/app/api/executions/history/route.ts`, and `uapi/app/api/executions/history/[runId]/route.ts` now restore the active app-owned execution-history JSON carrier the transactions master, selected-transaction detail, and retained execution readers depend on, so those flows no longer collapse into missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review.
 - `packages/bitcode/src/client-entry.js` now applies the host-wait guard to snapshot and control reads as well as shell mount, so the application shell bridge no longer imports the preserved shell module before `bitcodeApplicationRoot` and `heroEyebrow` exist.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.

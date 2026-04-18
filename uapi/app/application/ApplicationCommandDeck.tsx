@@ -39,15 +39,15 @@ export default function ApplicationCommandDeck() {
   const scenario = commandState?.scenario || 'waiting';
   const projection = commandState?.projection || 'waiting';
   const branchMode = commandState?.branchMode || 'waiting';
-  const guideActionLabel = commandState?.tutorialOpen
+  const guideActionLabel = commandState?.flowGuideOpen
     ? 'Hide flow guide'
-    : commandState?.tutorialStepCount
+    : commandState?.flowGuideStepCount
       ? 'Resume flow guide'
       : 'Open flow guide';
   const shellReady = commandState?.shellReady || false;
   const guideDetail =
-    commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+    commandState && commandState.flowGuideStepCount > 0
+      ? `${commandState.flowGuideOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
       : 'ready';
   const currentScenarioLabel = optionLabel(scenarioOptions, scenario, scenario);
   const currentProjectionLabel = optionLabel(projectionOptions, projection, projection);

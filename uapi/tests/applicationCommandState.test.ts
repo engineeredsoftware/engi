@@ -20,10 +20,10 @@ describe('normalizeApplicationCommandState', () => {
         heroLede: 'V25 active canon / V26 second-gate',
         heroTip: 'Current appendix posture is aligned.',
         status: 'Viewing reviewer projection.',
-        tutorialLabel: 'Hide tutorial',
-        tutorialOpen: true,
-        tutorialStepIndex: 2,
-        tutorialStepCount: 7,
+        flowGuideLabel: 'Hide flow guide',
+        flowGuideOpen: true,
+        flowGuideStepIndex: 2,
+        flowGuideStepCount: 7,
         projectionOptions: [
           { value: 'buyer', label: 'buyer' },
           { value: 'reviewer', label: 'reviewer' },
@@ -39,8 +39,8 @@ describe('normalizeApplicationCommandState', () => {
     expect(state?.scenarioOptions[0]?.label).toBe('monorepo-auth-rollback · Targeted deposit');
     expect(state?.projection).toBe('reviewer');
     expect(state?.branchMode).toBe('context');
-    expect(state?.tutorialOpen).toBe(true);
-    expect(state?.tutorialStepCount).toBe(7);
+    expect(state?.flowGuideOpen).toBe(true);
+    expect(state?.flowGuideStepCount).toBe(7);
     expect(state?.shellReady).toBe(true);
   });
 
@@ -57,6 +57,6 @@ describe('normalizeApplicationCommandState', () => {
     expect(state?.branchMode).toBe('patch');
     expect(state?.heroLede).toBe('Awaiting current Bitcode posture…');
     expect(state?.heroTip).toBe('The current flow guidance and runtime signals are loading.');
-    expect(state?.tutorialLabel).toBe('Flow guide');
+    expect(state?.flowGuideLabel).toBe('Flow guide');
   });
 });

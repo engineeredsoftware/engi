@@ -1,0 +1,87 @@
+"use client";
+
+import type { BitcodeExplainer } from "@/components/base/engi/execution/bitcode-transaction-types";
+
+export const orbitalsPaneExplainers: Record<
+  "interfacesDefaults" | "interfacesPrompt" | "interfacesModels" | "btdWallet" | "btdShares" | "btdAdvanced",
+  BitcodeExplainer
+> = {
+  interfacesDefaults: {
+    kicker: "Interfaces orbital",
+    title: "Workspace defaults",
+    summary:
+      "Keep the transactions window, conversations, and proof reading aligned to one operator posture.",
+    detail:
+      "These defaults shape how the main workspace opens, how detail is emphasized, and how evidence is read before closure.",
+    points: [
+      "Choose the master-detail density you want to read first",
+      "Keep conversation entry and continuity predictable",
+      "Decide whether proofs open visually, mixed, or as raw evidence",
+    ],
+  },
+  interfacesPrompt: {
+    kicker: "Interfaces orbital",
+    title: "Instruction baseline",
+    summary:
+      "The global prompt baseline carries the user-visible posture the application should keep when it reasons or explains.",
+    detail:
+      "Use a bounded baseline here when you want calmer, more exact application behavior without rewriting every transaction or conversation locally.",
+    points: [
+      "Keep formal or decisive tone consistent",
+      "Bias toward throughput, quality, or balanced review",
+      "Preserve one reusable default instruction surface",
+    ],
+  },
+  interfacesModels: {
+    kicker: "Interfaces orbital",
+    title: "Model posture",
+    summary:
+      "Global model posture lets you decide what provider family should anchor the current workspace by default.",
+    detail:
+      "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across master-detail and conversation work.",
+    points: [
+      "Apply one default model family to the current workspace",
+      "Review visible cost and context posture before switching",
+      "Keep model choice explicit rather than implicit",
+    ],
+  },
+  btdWallet: {
+    kicker: "$BTD orbital",
+    title: "Wallet posture",
+    summary:
+      "Keep identity, balances, account trust, and membership posture legible before you lean on heavier Bitcode throughput.",
+    detail:
+      "The inner orbital should make wallet-facing posture readable at a glance instead of hiding it behind account menus or detached account pages.",
+    points: [
+      "Review current BTD balance and live access posture",
+      "Surface whether BTC and wallet binding are already attached",
+      "Keep team and membership posture visible beside balances",
+    ],
+  },
+  btdShares: {
+    kicker: "$BTD orbital",
+    title: "Share posture",
+    summary:
+      "Share reading controls how you want ownership, settlement, and organization participation to surface in the workspace.",
+    detail:
+      "Use this when you want the operator view to bias toward organization-level, network-level, or account-level share reading.",
+    points: [
+      "Choose the share lens that matches the current operating context",
+      "Keep settlement reading explicit before closure",
+      "Control how BTD-specific detail re-enters master-detail surfaces",
+    ],
+  },
+  btdAdvanced: {
+    kicker: "$BTD orbital",
+    title: "Advanced defaults",
+    summary:
+      "Advanced $BTD defaults shape how the inner orbital biases replay, automation, and settlement follow-through.",
+    detail:
+      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking the application reading posture.",
+    points: [
+      "Bias toward review-first or more decisive settlement handling",
+      "Decide how BTD detail should open back into transaction views",
+      "Keep replay and closure posture aligned to one account preference",
+    ],
+  },
+};

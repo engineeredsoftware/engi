@@ -45,22 +45,22 @@ const FLOW_STAGE_BLUEPRINT: Array<Pick<ApplicationFlowGuideStage, 'id' | 'label'
 
 function resolveCurrentStageIndex(commandState: ApplicationCommandState | null) {
   if (!commandState?.shellReady) return 0;
-  if (commandState.tutorialStepCount <= 1) return 0;
+  if (commandState.flowGuideStepCount <= 1) return 0;
 
-  const progress = commandState.tutorialStepIndex / Math.max(commandState.tutorialStepCount - 1, 1);
+  const progress = commandState.flowGuideStepIndex / Math.max(commandState.flowGuideStepCount - 1, 1);
   return Math.min(FLOW_STAGE_BLUEPRINT.length - 1, Math.floor(progress * FLOW_STAGE_BLUEPRINT.length));
 }
 
 export function deriveApplicationFlowGuide(commandState: ApplicationCommandState | null): ApplicationFlowGuide {
   const currentStageIndex = resolveCurrentStageIndex(commandState);
   const guideStep =
-    commandState && commandState.tutorialStepCount > 0
-      ? `step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+    commandState && commandState.flowGuideStepCount > 0
+      ? `step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
       : null;
 
   const readinessLabel = !commandState?.shellReady
     ? 'syncing'
-    : commandState.tutorialOpen
+    : commandState.flowGuideOpen
       ? 'drafting'
       : guideStep
         ? 'saved'
@@ -69,7 +69,7 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
   const statusSummary = !commandState?.shellReady
     ? 'The flow guide is syncing to the current transaction workspace.'
     : guideStep
-      ? `The flow guide is ${commandState.tutorialOpen ? 'open' : 'saved'} at ${guideStep}.`
+      ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
       : 'The workspace is ready for a fresh give-to-closure flow.';
 
   const stages = FLOW_STAGE_BLUEPRINT.map((stage, index) => ({

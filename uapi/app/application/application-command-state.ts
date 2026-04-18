@@ -15,6 +15,10 @@ type ShellSnapshot = {
     heroLede?: string | null;
     heroTip?: string | null;
     status?: string | null;
+    flowGuideLabel?: string | null;
+    flowGuideOpen?: boolean | null;
+    flowGuideStepIndex?: number | null;
+    flowGuideStepCount?: number | null;
     tutorialLabel?: string | null;
     tutorialOpen?: boolean | null;
     tutorialStepIndex?: number | null;
@@ -45,10 +49,10 @@ export type ApplicationCommandState = {
   heroLede: string;
   heroTip: string;
   status: string;
-  tutorialLabel: string;
-  tutorialOpen: boolean;
-  tutorialStepIndex: number;
-  tutorialStepCount: number;
+  flowGuideLabel: string;
+  flowGuideOpen: boolean;
+  flowGuideStepIndex: number;
+  flowGuideStepCount: number;
   shellReady: boolean;
 };
 
@@ -126,17 +130,25 @@ export function normalizeApplicationCommandState(snapshot: ShellSnapshot): Appli
     status:
       String(snapshot.commandSurface?.status || '').trim() ||
       'Workspace controls are syncing.',
-    tutorialLabel:
-      String(snapshot.commandSurface?.tutorialLabel || '').trim() ||
+    flowGuideLabel:
+      String(snapshot.commandSurface?.flowGuideLabel || snapshot.commandSurface?.tutorialLabel || '').trim() ||
       'Flow guide',
-    tutorialOpen: Boolean(snapshot.commandSurface?.tutorialOpen),
-    tutorialStepIndex:
-      typeof snapshot.commandSurface?.tutorialStepIndex === 'number'
-        ? snapshot.commandSurface.tutorialStepIndex
+    flowGuideOpen: Boolean(
+      typeof snapshot.commandSurface?.flowGuideOpen === 'boolean'
+        ? snapshot.commandSurface.flowGuideOpen
+        : snapshot.commandSurface?.tutorialOpen,
+    ),
+    flowGuideStepIndex:
+      typeof snapshot.commandSurface?.flowGuideStepIndex === 'number'
+        ? snapshot.commandSurface.flowGuideStepIndex
+        : typeof snapshot.commandSurface?.tutorialStepIndex === 'number'
+          ? snapshot.commandSurface.tutorialStepIndex
         : 0,
-    tutorialStepCount:
-      typeof snapshot.commandSurface?.tutorialStepCount === 'number'
-        ? snapshot.commandSurface.tutorialStepCount
+    flowGuideStepCount:
+      typeof snapshot.commandSurface?.flowGuideStepCount === 'number'
+        ? snapshot.commandSurface.flowGuideStepCount
+        : typeof snapshot.commandSurface?.tutorialStepCount === 'number'
+          ? snapshot.commandSurface.tutorialStepCount
         : 0,
     shellReady: Boolean(scenarioOptions.length && projectionOptions.length && branchOptions.length),
   };

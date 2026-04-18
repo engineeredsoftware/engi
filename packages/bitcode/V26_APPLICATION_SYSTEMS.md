@@ -352,7 +352,7 @@ Current active carriers:
 - `uapi/app/application/application-command-state.ts`
 
 Operational rule:
-- scenario, projection, branch mode, tutorial visibility, make-branch, and reset remain preserved-shell semantics
+- scenario, projection, branch mode, flow-guide visibility fed from preserved-shell tutorial compatibility, make-branch, and reset remain preserved-shell semantics
 - `/application` drives those semantics through the shell control bridge rather than direct DOM reads and synthetic document listeners
 - command posture is normalized into route-local application state before rendering
 - stepwise guide posture is presented to operators as flow guidance and resumable draft continuity rather than tutorial residue
@@ -564,6 +564,22 @@ Operational rule:
 - they are fullscreen application overlays entered from the application frame
 - unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
 - application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
+- signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
+
+## Active orbital-pane carriers
+
+Current active carriers:
+- `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
+- `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
+- `uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx`
+- `uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx`
+- `uapi/app/orbitals/components/shared/OrbitalsPreferenceCards.tsx`
+
+Operational rule:
+- `Connects` remains the closest retained canonical orbital pane
+- `Interfaces` owns application visual and default-behavioral posture for master detail, conversations, and related reads
+- `$BTD` owns wallet-adjacent share posture, settlement-view bias, and `$BTD`-specific default return posture
+- shared orbital workspace carriers should absorb new pane layout work before new one-off pane-local section chrome is introduced
 
 ## Active application-owned API carriers
 
@@ -575,6 +591,7 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/orbitals/data/route.ts`
+- `uapi/app/api/orbitals/model-preferences/route.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`

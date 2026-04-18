@@ -40,7 +40,7 @@ export function PaneTitle({
             data-testid={badgeTestId}
             className="onboarding-badge"
           >
-            Draft step {stepNumber}
+            Orbital step {stepNumber}
           </span>
         )}
       </h2>
