@@ -569,10 +569,14 @@ Operational rule:
 - application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
 - contained orbital access shells and focused orbital routes must keep orbitals-first wording rather than reverting to generic workspace/settings/account entry furniture
 - `uapi/app/orbitals/components/orbital-pane-meta.ts` is the shared orbital naming/copy owner for fullscreen orbital entry labels, targeted orbital-open actions, and the direct-route return action into the transactions terminal
+- signed-in orbital reopen actions now flow through the shared `orbitals` entry alias in `uapi/app/orbitals/components/OrbitalsProvider.tsx` rather than older active `account`-named callers
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
 - contained orbital surfaces now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
+- contained orbital rails now converge on shared panel plus tabs carriers instead of mixing floating sequence cards with older absolute-position ring-label furniture
+- profile-owned repository knowledge sharing now reads through an app-owned fail-closed orbital route instead of 404ing inside the contained workspace
 - signed-in workspace chrome now exposes Orbitals through the user menu as `Open Orbitals fullscreen`, while notifications stay operator-facing and describe proof closure, repository activity, and review prompts rather than generic account/settings chrome
+- the homepage/operator-shell CTA now returns onboarded operators to `/application` instead of dispatching stale overlay-only modes
 - preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
 - preserved-runtime telemetry now reports through Bitcode-facing `[bitcode-runtime]` labeling rather than `engi-demo`-era visible prefixes
 
@@ -593,6 +597,8 @@ Operational rule:
 Current active carriers:
 - `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
 - `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
+- `uapi/app/api/orbitals/user/data-share/route.ts`
+- `uapi/app/orbitals/components/shared/OrbitalsWorkspacePanels.tsx`
 - `uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx`
 - `uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx`
 - `uapi/app/orbitals/components/shared/OrbitalsPreferenceCards.tsx`
@@ -601,6 +607,8 @@ Operational rule:
 - `Connects` remains the closest retained canonical orbital pane
 - `Interfaces` owns application visual and default-behavioral posture for master detail, conversations, and related reads
 - `$BTD` owns wallet-adjacent share posture, settlement-view bias, and `$BTD`-specific default return posture
+- `Profile` keeps repository knowledge-sharing posture readable without requiring a missing backend carrier or missing asset bundle
+- contained orbital rails should reuse one shared panel list plus one shared tab carrier before any new pane-local navigation furniture is introduced
 - shared orbital workspace carriers should absorb new pane layout work before new one-off pane-local section chrome is introduced
 
 ## Documentation and route/package legibility

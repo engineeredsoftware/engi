@@ -28,6 +28,19 @@ const prefetchOrbital = () => {
 };
 
 type OrbitalWindow = 'SignInWindow' | 'SignUpWindow';
+type OrbitalOpenMode = OrbitalWindow | 'login' | 'account' | 'orbitals';
+
+function normalizeOrbitalWindow(winOrLegacy: OrbitalOpenMode = 'SignUpWindow'): OrbitalWindow {
+  if (winOrLegacy === 'login') {
+    return 'SignInWindow';
+  }
+
+  if (winOrLegacy === 'account' || winOrLegacy === 'orbitals') {
+    return 'SignUpWindow';
+  }
+
+  return winOrLegacy;
+}
 
 interface OrbitalContextType {
   isOpen: boolean;
@@ -68,9 +81,13 @@ export default function OrbitalProvider({ children }: { children: React.ReactNod
   useEffect(() => {
     const onOpen = (e: Event) => {
       // @ts-ignore detail may carry window/step (or legacy mode)
-      const detail = (e as CustomEvent)?.detail as { window?: OrbitalWindow, mode?: 'login' | 'account', step?: OrbitalPane } | undefined;
+      const detail = (e as CustomEvent)?.detail as {
+        window?: OrbitalWindow;
+        mode?: 'login' | 'account' | 'orbitals';
+        step?: OrbitalPane;
+      } | undefined;
       if (detail?.window) setWindowState(detail.window);
-      else if (detail?.mode) setWindowState(detail.mode === 'login' ? 'SignInWindow' : 'SignUpWindow');
+      else if (detail?.mode) setWindowState(normalizeOrbitalWindow(detail.mode));
       setDeepLinkStep(detail?.step ?? null);
       setIsOpen(true);
     };
@@ -141,9 +158,9 @@ export function useOrbital() {
   return ctx;
 }
 
-export function openOrbital(winOrLegacy: OrbitalWindow | 'login' | 'account' = 'SignUpWindow', step?: OrbitalPane) {
+export function openOrbital(winOrLegacy: OrbitalOpenMode = 'SignUpWindow', step?: OrbitalPane) {
   prefetchOrbital();
-  const win: OrbitalWindow = winOrLegacy === 'login' ? 'SignInWindow' : winOrLegacy === 'account' ? 'SignUpWindow' : winOrLegacy;
+  const win = normalizeOrbitalWindow(winOrLegacy);
   const ev = new CustomEvent('open-orbitals', { detail: { window: win, step } });
   window.dispatchEvent(ev);
 }

@@ -106,6 +106,21 @@ export function getOrbitalDescriptor(step: ConcreteOrbitalPane) {
   return ORBITAL_DESCRIPTORS[step];
 }
 
+export function getOrbitalLayerLabel(step: ConcreteOrbitalPane) {
+  switch (step) {
+    case 'connects':
+      return 'outer ring';
+    case 'interfaces':
+      return 'mid ring';
+    case 'profile':
+      return 'inner ring';
+    case 'btd':
+      return 'core ring';
+    default:
+      return 'orbital';
+  }
+}
+
 export function getOrbitalOpenActionLabel(step?: ConcreteOrbitalPane | null) {
   if (!step) return OPEN_ORBITALS_FULLSCREEN_LABEL;
   return `Open ${labelForOrbitalPane(step)} fullscreen`;

@@ -42,6 +42,28 @@ interface DataShareRepo {
   latestAnalysisResult: any;
 }
 
+function buildAvatarDataUri(seed: string, background: string, accent: string) {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+      <rect width="96" height="96" rx="28" fill="${background}"/>
+      <circle cx="48" cy="34" r="16" fill="${accent}" fill-opacity="0.94"/>
+      <path d="M20 80c3-18 16-28 28-28s25 10 28 28" fill="${accent}" fill-opacity="0.76"/>
+      <text x="48" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" fill-opacity="0.72">${seed}</text>
+    </svg>
+  `;
+
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+const AVATAR_OPTIONS = [
+  buildAvatarDataUri('A1', '#0f172a', '#67feb7'),
+  buildAvatarDataUri('A2', '#111827', '#38bdf8'),
+  buildAvatarDataUri('A3', '#1f2937', '#f9c855'),
+  buildAvatarDataUri('A4', '#172033', '#c084fc'),
+  buildAvatarDataUri('A5', '#0b1324', '#fb7185'),
+  buildAvatarDataUri('A6', '#112131', '#22d3ee'),
+];
+
 interface ProfileStepProps {
   onSave: (data: any) => void;
   loading: boolean;
@@ -276,14 +298,7 @@ export default function ProfileStep({ onSave,
   const [teamSectionExpanded, setTeamSectionExpanded] = useState(false);
 
   // Sample avatar options
-  const avatarOptions = [
-    '/images/avatars/avatar-1.png',
-    '/images/avatars/avatar-2.png',
-    '/images/avatars/avatar-3.png',
-    '/images/avatars/avatar-4.png',
-    '/images/avatars/avatar-5.png',
-    '/images/avatars/avatar-6.png',
-  ];
+  const avatarOptions = AVATAR_OPTIONS;
 
   // Update completion status when verification status changes
   const prevIsVerifiedRef = useRef(isVerified);

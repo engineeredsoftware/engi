@@ -194,6 +194,11 @@ Current active assignments:
   `uapi/tests/api/userModelPreferencesRoute.test.ts`
   proof surface:
   second-gate application-owned signed-in orbital preference persistence, including authenticated read posture, lead/admin write posture, mock-mode fallback, and app-owned save ownership for orbital defaults
+- `uapi/app/api/orbitals/user/data-share/route.ts`
+  test coverage:
+  `uapi/tests/api/orbitalsUserDataShareRoute.test.ts`
+  proof surface:
+  second-gate profile-owned repository knowledge-sharing carrier so contained orbital routes fail closed to JSON instead of missing-route HTML during onboarding and review posture
 - `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
   test coverage:
   `uapi/tests/orbitalsInterfacesPane.test.tsx`
@@ -213,17 +218,17 @@ Current active assignments:
   test coverage:
   `uapi/tests/userMenu.test.tsx`
   proof surface:
-  second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals fullscreen` with the fixed Connects/Interfaces/Profile/$BTD ring model instead of settings/account wording
-- `uapi/app/orbitals/components/OrbitalsLoginPane.tsx`, `uapi/app/orbitals/components/OrbitalsContent.tsx`, `uapi/app/orbitals/components/shared/OrbitalsPaneTabs.tsx`, `uapi/app/orbitals/OrbitalsRouteClient.tsx`
+  second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals fullscreen` with the fixed Connects/Interfaces/Profile/$BTD ring model and the shared `orbitals` entry alias instead of settings/account wording
+- `uapi/app/orbitals/components/OrbitalsLoginPane.tsx`, `uapi/app/orbitals/components/OrbitalsContent.tsx`, `uapi/app/orbitals/components/shared/OrbitalsPaneTabs.tsx`, `uapi/app/orbitals/components/shared/OrbitalsWorkspacePanels.tsx`, `uapi/app/orbitals/OrbitalsRouteClient.tsx`
   test coverage:
-  `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, `uapi/tests/orbitalsRouteClient.test.tsx`, and `uapi/tests/orbitalPaneMeta.test.ts`
+  `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, `uapi/tests/orbitalsWorkspacePanels.test.tsx`, `uapi/tests/orbitalsRouteClient.test.tsx`, and `uapi/tests/orbitalPaneMeta.test.ts`
   proof surface:
-  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep contained operator workspace posture, and retain shared fullscreen/open/return wording instead of generic workspace/settings/account furniture
+  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep contained operator workspace posture, route contained rails through shared panel/tabs carriers instead of older floating ring-label sequence furniture, and retain shared fullscreen/open/return wording instead of generic workspace/settings/account furniture
 - `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
   test coverage:
   `uapi/tests/notificationsWidget.test.tsx`
   proof surface:
-  second-gate operator-facing notification posture so proof closure, repository activity, and review prompts remain part of the workspace chrome rather than generic account furniture
+  second-gate operator-facing notification posture so proof closure, repository activity, and review prompts remain part of the workspace chrome rather than generic account furniture, and signed-in follow-through reopens Orbitals instead of the sign-up window
 - `uapi/styles/orbital.css`
   test coverage:
   live browser verification on `host.docker.internal:3000/application?...` and `host.docker.internal:3000/orbitals/profile`

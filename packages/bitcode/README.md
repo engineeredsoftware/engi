@@ -1,4 +1,9 @@
-# `packages/bitcode`
+# Bitcode Demo - V25 canonical deterministic local prototype
+
+This demo is governed by the active V25 canonical spec.
+
+- `ENGI_SPEC.txt -> V25`
+- current generated appendix: `ENGI_SPEC_V25_PROVEN.md`
 
 `packages/bitcode` is the preserved Bitcode runtime package that survived first-gate ownership migration and now feeds the application-owned V26 workspace.
 

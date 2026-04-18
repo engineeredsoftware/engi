@@ -4,8 +4,6 @@ import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   getOrbitalDescriptor,
-  getOrbitalLabelPosition,
-  getOrbitalRingIndex,
   getOrbitalsWorkspaceDescription,
   getOrbitalsWorkspaceHeading,
   labelForOrbitalPane,
@@ -13,6 +11,7 @@ import {
   type OrbitalPane,
 } from './orbital-pane-meta';
 import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
+import OrbitalsWorkspacePanels from './shared/OrbitalsWorkspacePanels';
 
 export interface OrbitalContentProps {
   mode?: 'onboarding' | 'orbitals';
@@ -61,12 +60,14 @@ function OrbitalContent(props: OrbitalContentProps) {
   }, [steps, currentStep, completedSteps]);
 
   const ringElements = useMemo(
-    () =>
-      steps.map((step) => {
+    () => {
+      if (usesContainedLayout) return null;
+
+      return steps.map((step) => {
         if (!step) return null;
 
         const stepPosition = stepMeta.pos.get(step)!;
-        const ringIndex = getOrbitalRingIndex(step);
+        const ringIndex = getOrbitalDescriptor(step).ringIndex;
         const isAvailable = availableSteps.includes(step);
         const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
         const isNext = !isOrbitalMode && stepPosition === highest + 1;
@@ -95,7 +96,7 @@ function OrbitalContent(props: OrbitalContentProps) {
             onClick={() => isAvailable && onStepClick(step)}
           >
             <div
-              className={`orbital-label position-${getOrbitalLabelPosition(step)} ${
+              className={`orbital-label position-${descriptor.labelPosition} ${
                 currentStep === step ? 'orbital-label-active' : ''
               }`}
               style={{ '--index': ringIndex } as React.CSSProperties}
@@ -104,7 +105,8 @@ function OrbitalContent(props: OrbitalContentProps) {
             </div>
           </div>
         );
-      }),
+      });
+    },
     [
       availableSteps,
       currentStep,
@@ -114,6 +116,7 @@ function OrbitalContent(props: OrbitalContentProps) {
       stepMeta.lastCompletedIdx,
       stepMeta.pos,
       steps,
+      usesContainedLayout,
     ],
   );
 
@@ -222,39 +225,12 @@ function OrbitalContent(props: OrbitalContentProps) {
               <h3 className="orbital-workspace-title">{getOrbitalsWorkspaceHeading(mode)}</h3>
               <p className="orbital-workspace-description">{getOrbitalsWorkspaceDescription(mode)}</p>
             </div>
-            <div className="orbital-workspace-sequence" role="list" aria-label="Orbital sequence">
-              {steps.map((step) => {
-                if (!step) return null;
-
-                const descriptor = getOrbitalDescriptor(step);
-                const isActive = currentStep === step;
-                const isAvailable = availableSteps.includes(step);
-
-                return (
-                  <div
-                    key={step}
-                    role="listitem"
-                    className={`orbital-workspace-sequence-item ${
-                      isActive
-                        ? 'orbital-workspace-sequence-item-active'
-                        : isAvailable
-                          ? 'orbital-workspace-sequence-item-available'
-                          : 'orbital-workspace-sequence-item-locked'
-                    }`}
-                  >
-                    <div className="orbital-workspace-sequence-topline">
-                      <span className="orbital-workspace-sequence-index">Ring {descriptor.ringIndex + 1}</span>
-                      <span className="orbital-workspace-sequence-state">
-                        {isActive ? 'active' : isAvailable ? 'ready' : 'locked'}
-                      </span>
-                    </div>
-                    <p className="orbital-workspace-sequence-label">{descriptor.label}</p>
-                    <p className="orbital-workspace-sequence-copy">{descriptor.routeDescription}</p>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="orbital-rings-container orbital-rings-contained">{ringElements}</div>
+            <OrbitalsWorkspacePanels
+              steps={steps}
+              currentStep={currentStep}
+              availableSteps={availableSteps}
+              onStepClick={onStepClick}
+            />
             <OrbitalsPaneTabs
               mode={mode}
               steps={steps}

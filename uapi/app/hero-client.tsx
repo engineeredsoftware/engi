@@ -1,8 +1,9 @@
 // @ts-nocheck
+/* eslint-disable react/no-multi-comp */
 "use client";
 
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useState, useRef, useMemo, Suspense } from 'react';
 import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
 import QuantumButton from '@/components/base/engi/quantum-button';
@@ -27,6 +28,7 @@ import '@/styles/highlight-transition.css';
 import '@/styles/marketing-animations.css';
 
 function HeroClientInner() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams?.get('code') ?? '';
   const connectionId = searchParams?.get('connection_id') ?? '';
@@ -175,11 +177,11 @@ function HeroClientInner() {
       user: user?.id || 'unknown',
       onboarded: isOnboardingComplete 
     }));
-    // Open Orbital in appropriate mode based on onboarding status
+    // Signed-in operators should land in the transactions terminal.
     if (isOnboardingComplete) {
-      openOrbital('deliverables' as any);
+      router.push('/application');
     } else {
-      openOrbital('account');
+      openOrbital('orbitals');
     }
   };
 
@@ -314,7 +316,6 @@ function HeroClientInner() {
 
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

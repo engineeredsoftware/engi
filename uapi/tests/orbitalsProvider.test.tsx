@@ -56,7 +56,7 @@ describe('OrbitalsProvider', () => {
     expect(document.getElementById('orbital-portal')).toBeTruthy();
 
     act(() => {
-      openOrbital('account', 'connects');
+      openOrbital('orbitals', 'connects');
     });
 
     expect(document.documentElement.classList.contains('orbital-open')).toBe(true);
@@ -77,7 +77,7 @@ describe('OrbitalsProvider', () => {
     );
 
     act(() => {
-      openOrbital('account', 'connects');
+      openOrbital('orbitals', 'connects');
     });
 
     expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignUpWindow:connects');

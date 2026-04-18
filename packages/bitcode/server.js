@@ -569,6 +569,15 @@ export function createAppContext({
   }
 
   /**
+   * @param {ServerResponse} res
+   * @returns {void}
+   */
+  function sendDefaultState(res) {
+    const state = readState();
+    return sendJson(res, 200, { ok: true, state: buildPublicState(state) });
+  }
+
+  /**
    * @returns {{ ok: true, specVersion: string, service: unknown }}
    */
   function getBitcoinDemonstrationService() {
@@ -625,6 +634,7 @@ export function createAppContext({
       if (req.method === 'GET' && req.url?.startsWith('/api/state')) {
         const url = new URL(req.url, 'http://127.0.0.1');
         const principal = normalizePrincipal(url.searchParams.get('principal') || undefined);
+        if (!principal) return sendDefaultState(res);
         return sendJson(res, 200, getState(principal));
       }
 

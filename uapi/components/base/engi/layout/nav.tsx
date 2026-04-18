@@ -259,7 +259,7 @@ export default function Nav() {
 
                 <UserMenu
                   user={user}
-                  onOpenOrbitals={() => openOrbital('account', 'profile')}
+                  onOpenOrbitals={() => openOrbital('orbitals', 'profile')}
                   onSignOut={() => {
                     import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                       const client = createClient();
@@ -285,7 +285,7 @@ export default function Nav() {
                   ) : (
                     <OrbitalUseButton
                       onHoverPrefetch={() => prefetchOrbital()}
-                      onClick={() => openOrbital(user ? 'account' : 'login')}
+                      onClick={() => openOrbital(user ? 'orbitals' : 'login')}
                       orbitals={orbitalElements}
                       particles={particleElements}
                     />

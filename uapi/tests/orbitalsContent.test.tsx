@@ -28,6 +28,8 @@ describe('OrbitalsContent', () => {
         /sign in once, then keep connects, interfaces, profile, and \$btd in one contained operator workspace/i,
       ),
     ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Connects orbital' })).toBeTruthy();
+    expect(screen.queryByText(/Ring 1/i)).toBeNull();
     expect(screen.getByText(/Active orbital:/i)).toBeTruthy();
     expect(screen.getByText('Pane connects')).toBeTruthy();
   });

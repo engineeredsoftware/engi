@@ -34,12 +34,18 @@ Those aliases are not the enduring V26 naming model.
   Fullscreen overlay provider and portal/event bridge.
 - `components/OrbitalsContent.tsx`
   Shared ring/contained-workspace content shell.
+- `components/shared/OrbitalsWorkspacePanels.tsx`
+  Shared contained-workspace orbital rail for the application overlay and direct orbital routes.
+- `components/shared/OrbitalsPaneTabs.tsx`
+  Shared contained-workspace orbital tabs for direct and overlay reading.
 - `components/OrbitalsConnectsPane.tsx`
   Repository and external connection posture.
 - `components/OrbitalsInterfacesPane.tsx`
   Master-detail, conversation, proof, and operator-default posture.
 - `components/OrbitalsProfilePane.tsx`
   Wallet identity, roles, balances, membership, and authentication posture.
+- `../api/orbitals/user/data-share/route.ts`
+  Fail-closed repository knowledge-sharing carrier used by the Profile orbital.
 - `components/OrbitalsBTDPane.tsx`
   Share posture, `$BTD` defaults, and BTD-specific follow-through.
 
@@ -52,9 +58,11 @@ The contained orbital shell used inside the application and direct orbital route
 - stay visually stable,
 - keep ring/background motion subordinate to reading,
 - preserve the active pane in a contained workspace,
+- route contained navigation through shared orbital panels plus tabs instead of floating sequence cards and free-position ring labels,
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
 - read as orbitals access and contained operator workspaces rather than generic settings/account furniture,
 - keep shared entry labels such as `Open Orbitals fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions terminal` aligned across the application,
+- reopen signed-in orbital overlays through `openOrbital('orbitals', step?)` instead of older account-named active callers,
 - and remain aligned to the same operator atmosphere as `/application`.
 
 ## Related files

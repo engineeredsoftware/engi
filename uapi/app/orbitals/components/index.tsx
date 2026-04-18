@@ -444,7 +444,6 @@ export default function Orbital({
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
   const usesApplicationOverlay = isApplicationRoute;
   const usesContainedOrbitalSurface = usesApplicationOverlay || isDedicatedOrbitalRoute;
-  const usesOrbitalRingNavigation = isOrbitalSurface || !usesApplicationOverlay;
   const orbitalSurfaceClass = isDedicatedOrbitalRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const orbitalBackgroundClass = usesContainedOrbitalSurface
     ? 'orbital-application-background'
@@ -535,8 +534,8 @@ export default function Orbital({
             completedSteps={completedSteps}
             availableSteps={availableSteps}
             showContent
-            showSuccessAnimation={!isOrbitalSurface && !usesApplicationOverlay}
-            navigationMode={usesOrbitalRingNavigation ? 'orbital' : 'tabs'}
+            showSuccessAnimation={!isOrbitalSurface && !usesContainedOrbitalSurface}
+            navigationMode={usesContainedOrbitalSurface ? 'tabs' : 'orbital'}
             surfaceVariant={usesContainedOrbitalSurface ? 'contained' : 'default'}
             onStepClick={handleStepClick}
             renderStepContent={renderStepContent}

@@ -154,6 +154,6 @@ describe('NotificationsWidget', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Notifications' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Open Orbitals fullscreen' }));
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow', 'profile');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('orbitals', 'profile');
   });
 });

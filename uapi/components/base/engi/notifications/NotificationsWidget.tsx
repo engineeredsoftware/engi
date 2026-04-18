@@ -281,7 +281,7 @@ export function NotificationsWidget() {
               className="notifications-footer-action"
               onClick={() => {
                 setOpen(false);
-                openOrbital('SignUpWindow', 'profile');
+                openOrbital('orbitals', 'profile');
               }}
             >
               {OPEN_ORBITALS_FULLSCREEN_LABEL}

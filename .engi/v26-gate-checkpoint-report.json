@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "7c8d4b1cef44738da9d382af3edea5b69bfd7204",
-  "generatedAt": "2026-04-18T13:51:16-03:00",
+  "proofSourceCommit": "2faa4728e3759ab70365eede5f9456bb4d53b48f",
+  "generatedAt": "2026-04-18T18:53:50-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V25",
