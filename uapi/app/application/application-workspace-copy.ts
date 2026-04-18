@@ -7,9 +7,9 @@ export const APPLICATION_WORKSPACE_COPY = {
   },
   supply: {
     kicker: 'Give and need systems',
-    title: 'Supply, need, and transaction configuration',
+    title: 'Supply, need, and transaction posture',
     summary:
-      'Move from searchable supply into measured need, fit, and transaction configuration without leaving the main workspace.',
+      'Move from searchable supply into measured need, fit, and transaction posture without leaving the main workspace.',
   },
   closure: {
     kicker: 'Closure and provenance',
@@ -28,7 +28,7 @@ export const APPLICATION_WORKSPACE_COPY = {
       kicker: 'Workspace modes',
       title: 'Read here, open deeper modes when needed',
       summary:
-        'Stay in the transaction workspace by default, then open conversations or Orbitals when you need deeper writing or configuration.',
+        'Stay in the transaction workspace by default, then open conversations or Orbitals when you need deeper writing or interface changes.',
     },
     support: {
       kicker: 'Transaction support',

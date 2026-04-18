@@ -9,12 +9,12 @@ describe('ApplicationPreservedShellSurface', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'Keep the mounted runtime available without letting it take over the workspace',
+        name: 'Open the proof and settlement runtime only when deeper closure detail is required',
       }),
     ).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Open the mounted Bitcode runtime' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Open proof and settlement runtime' })).toBeTruthy();
     expect(document.getElementById('bitcodeApplicationRoot')).toBeTruthy();
     expect(document.getElementById('heroEyebrow')).toBeTruthy();
-    expect(document.getElementById('tutorialLayer')).toBeTruthy();
+    expect(document.getElementById('flowGuideLayer')).toBeTruthy();
   });
 });

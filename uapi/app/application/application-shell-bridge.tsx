@@ -27,6 +27,7 @@ export type BitcodeApplicationShellControls = {
   setInventoryKind?: (value: string) => unknown | Promise<unknown>;
   setInventorySearch?: (value: string) => unknown | Promise<unknown>;
   toggleInventoryEntry?: (entryId: string) => unknown | Promise<unknown>;
+  toggleFlowGuide?: () => unknown | Promise<unknown>;
   toggleTutorial?: () => unknown | Promise<unknown>;
   makeBranch?: () => unknown | Promise<unknown>;
   resetApplication?: () => unknown | Promise<unknown>;

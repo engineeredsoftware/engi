@@ -7,7 +7,12 @@
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
+import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import '@/styles/notifications-widget.css';
+import {
+  formatNotificationTimestamp,
+  getNotificationPresentation,
+} from '@/components/base/engi/notifications/notification-presentation';
 
 type Notification = {
   id: string;
@@ -228,24 +233,59 @@ export function NotificationsWidget() {
             </div>
           ) : (
             <div className="notifications-list">
-              {notifications.map((n) => (
+              {notifications.map((n) => {
+                const presentation = getNotificationPresentation(n.type, n.title);
+
+                return (
                 <div key={n.id} className={`notification-item ${n.read ? '' : 'notification-unread'}`}>
                   <div className="notification-content">
+                    <div className="notification-meta">
+                      <span
+                        className={`notification-type-pill notification-type-${presentation.tone}`}
+                      >
+                        {presentation.label}
+                      </span>
+                      <div className="notification-time">
+                        {formatNotificationTimestamp(n.created_at)}
+                      </div>
+                    </div>
+                    <div className="notification-title">{presentation.title}</div>
                     <div className="notification-message">{n.message}</div>
-                    <div className="notification-time">{new Date(n.created_at).toLocaleString()}</div>
                   </div>
-                  <div className="flex-shrink-0 ml-3 flex space-x-2">
-                    <button type="button" onClick={() => toggleRead(n.id, !n.read)} className="text-[11px] text-emerald-400 hover:text-white transition-colors">
+                  {!n.read ? <div className="unread-indicator" aria-hidden="true" /> : null}
+                  <div className="notification-actions">
+                    <button
+                      type="button"
+                      onClick={() => toggleRead(n.id, !n.read)}
+                      className="notification-action-button"
+                    >
                       {n.read ? 'Unread' : 'Read'}
                     </button>
-                    <button type="button" onClick={() => deleteNotification(n.id)} className="text-[11px] text-red-400 hover:text-white transition-colors">
-                      ×
+                    <button
+                      type="button"
+                      onClick={() => deleteNotification(n.id)}
+                      className="notification-action-button notification-action-danger"
+                    >
+                      Dismiss
                     </button>
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
           )}
+
+          <div className="notifications-footer">
+            <button
+              type="button"
+              className="notifications-footer-action"
+              onClick={() => {
+                setOpen(false);
+                openOrbital('SignUpWindow', 'profile');
+              }}
+            >
+              Open Orbitals
+            </button>
+          </div>
         </div>
       )}
     </div>

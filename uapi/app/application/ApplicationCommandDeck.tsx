@@ -159,7 +159,9 @@ export default function ApplicationCommandDeck() {
             <button
               type="button"
               onClick={() => {
-                void runControl((controls) => controls.toggleTutorial?.());
+                void runControl((controls) =>
+                  controls.toggleFlowGuide?.() ?? controls.toggleTutorial?.(),
+                );
               }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >

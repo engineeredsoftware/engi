@@ -13,7 +13,7 @@
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
-- Source parity state: V26 first-gate source closure is now materially in place while second-gate application-facing refit remains open
+- Source parity state: V26 first-gate source closure is now materially in place while second-gate application-facing refit, contained-orbital stabilization, and documentation refurbishment continue toward checkpoint closure
 - V26 state: active draft family opened; V25 remains the only active canonical truth
 
 ## Why V26 exists
@@ -56,7 +56,10 @@ Its rule is:
 - converge more of the page onto `uapi/components/base/*`,
 - lock the read experience onto a rich transactions master-detail workspace and the write experience onto Give/Need draft flow,
 - keep live application copy user-facing rather than demo-facing, canon-facing, or source-path-facing,
+- keep preserved-runtime guidance user-facing as a `flow guide` rather than a visible `tutorial`,
 - fix the orbital model as `Connects`, `Interfaces`, `Profile`, and `$BTD`,
+- stabilize the contained orbital shell so ring visuals, pane layout, and motion remain subordinate to reading,
+- treat README and markdown refurbishment for the active route/package/component owners as part of second-gate implementation,
 - keep the visual atmosphere aligned to the late-Engi design system while the product itself is entirely Bitcode,
 - and harden the new application page plus its external interfacings up to stable readiness.
 
@@ -174,6 +177,7 @@ The accepted V26 decisions are now:
 19. Existing packages such as `packages/github`, `packages/auth`, `packages/api`, `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/conversations-generics`, and `packages/execution-generics` remain convergence targets where that ownership is the correct long-term fit.
 20. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
 21. Transaction source posture inside `/application` is now explicitly three-state rather than binary: `live`, `mock-review`, and `review-fallback`, with review-fallback kept labeled when mock transaction review URLs land on empty live history.
+22. Second-gate checkpoint closure now explicitly includes README/markdown refurbishment for the active Bitcode route, orbital, execution, and package owners, and the generated checkpoint must fail if those documentation carriers disappear.
 
 ## Remaining V26 delta after first-gate
 
@@ -208,6 +212,8 @@ Second-gate is now specified as:
 - semantic preservation of the carried first-gate Bitcode flow,
 - explicit reuse of current `uapi/components/base/*` and orbital carriers where those owners fit,
 - live copy that is user-facing rather than demo-facing or gate-facing,
+- flow-guide naming and contained-orbital shell behavior as production-facing surfaces rather than incidental implementation details,
+- markdown/readme refurbishment for the active route/package/component owners so the growing Bitcode system remains legible while it is being componentized,
 - preservation of the late-Engi aesthetic atmosphere while the product identity remains entirely Bitcode,
 - and stable-readiness hardening for the application-facing external interfacings visible through the new page.
 
@@ -352,7 +358,7 @@ Second-gate acceptance is reached only when:
 - application command normalization now uses flow-guide continuity while preserved-shell tutorial fields survive only as compatibility input,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
-- the read experience clearly centers on the transactions master-detail window while the write experience moves through give, need, and configuring,
+- the read experience clearly centers on the transactions master-detail window while the write experience moves through give, need, and orbitals/interfaces posture,
 - transactions, deliverables, proofs, and history are explicit as the four master-detail substructures inside `/application`,
 - the transactions master surface supports direct transaction-field filtering, participant ownership filtering, and explicit sort posture,
 - the transactions master surface also supports route-owned pagination rather than component-local row-window state,
@@ -363,7 +369,9 @@ Second-gate acceptance is reached only when:
 - second-gate workspace chrome now replaces disabled marketing-era unauthenticated nav CTA behavior on `/application` and `/orbitals` with deliberate access/create-account actions that keep the operator shell clean,
 - shared workspace-route classification now governs navbar surface posture and footer suppression for `/application`, `/orbitals`, and `/conversations`, so operator chrome cannot drift route-by-route,
 - stepwise workspace guidance now reads as a Give + Need flow guide and working-flow continuity rather than tutorial/demo residue,
+- contained orbital entry shells and focused orbital routes now read as orbitals access and contained orbital workspaces instead of generic workspace/settings/account furniture,
 - preserved-runtime help/reference rendering is now user-facing, using live-surface and reference-topic labels instead of canon/version self-reference in the visible runtime tooltip/footer layer,
+- preserved-runtime telemetry and diagnostics now use Bitcode-facing runtime labeling instead of `engi-demo`-era visible prefixes,
 - preserved-runtime HTML fallback copy now matches the React-owned closure-runtime and flow-guide wording instead of leaking prototype/tutorial text,
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,
 - active `Interfaces` and `$BTD` panes now use live `interfaces`/`btd` naming and orbital-entry classing instead of exposing model/credits/settings residue in the active orbital surface,
@@ -384,6 +392,7 @@ Second-gate acceptance is reached only when:
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,
 - second-gate repository documents stay synchronized to active source, with supplementary modular docs identified where the canon is not the correct carrier,
+- the active second-gate README and markdown refurbishment set is required implementation/proof scope for the root, package, route, and shared-component owners,
 - the active module namespace is `@bitcode/*` across package manifests, path aliases, and active source imports,
 - new second-gate code systems are assigned proof/test/spec coverage rather than being treated as incidental glue,
 - the external interfacings used by the page behave with stable readiness,

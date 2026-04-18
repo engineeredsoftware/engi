@@ -16,7 +16,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
     <ApplicationWorkspaceCard
       kicker="Workspace model"
       title="Read the ledger, then open deeper modes only when needed"
-      summary="Keep transactions and selected detail primary, then move into conversations or orbitals only when you need drafting, coordination, or configuration."
+      summary="Keep transactions and selected detail primary, then move into conversations or orbitals only when you need drafting, coordination, or interface changes."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -26,7 +26,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Write posture</p>
-          <p className="mt-2 text-neutral-200">give + need + configuring</p>
+          <p className="mt-2 text-neutral-200">give + need + orbitals</p>
         </div>
       </div>
 

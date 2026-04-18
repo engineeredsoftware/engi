@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "7a6315011383c11cd2ffbb774ad29b250a1bcef5",
-  "generatedAt": "2026-04-18T11:11:21-03:00",
+  "proofSourceCommit": "4221a3f809bde5e944fda1519ffee82c63954aab",
+  "generatedAt": "2026-04-18T11:40:36-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V25",
@@ -92,6 +92,22 @@
           "uapi/tests/navWorkspaceChrome.test.tsx",
           "uapi/tests/notificationsWidget.test.tsx",
           "uapi/tests/orbitalsLoginPane.test.tsx"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "second-gate-documentation-carriers",
+        "label": "Second-gate documentation and README carriers",
+        "passed": true,
+        "detail": "7 required files present",
+        "requiredFiles": [
+          "README.md",
+          "uapi/README.md",
+          "packages/bitcode/README.md",
+          "uapi/app/application/README.md",
+          "uapi/app/orbitals/README.md",
+          "uapi/components/base/engi/README.md",
+          "uapi/components/base/engi/execution/README.md"
         ],
         "missingFiles": []
       }

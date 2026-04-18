@@ -76,7 +76,7 @@ export default function ApplicationPreservedShellSurface() {
                 <button id="makeBranchButton" type="button">
                   Make Bitcode branch
                 </button>
-                <button id="tutorialToggleButton" className="ghost" type="button">
+                <button id="flowGuideToggleButton" className="ghost" type="button">
                   Hide flow guide
                 </button>
                 <button id="resetButton" className="ghost" type="button">
@@ -270,34 +270,34 @@ export default function ApplicationPreservedShellSurface() {
             </main>
           </div>
 
-          <div id="tutorialLayer" className="tutorial-layer" hidden>
+          <div id="flowGuideLayer" className="flow-guide-layer" hidden>
             <section
-              id="tutorialCard"
-              className="tutorial-card"
+              id="flowGuideCard"
+              className="flow-guide-card"
               role="dialog"
               aria-modal="false"
-              aria-labelledby="tutorialTitle"
-              aria-describedby="tutorialBody"
+              aria-labelledby="flowGuideTitle"
+              aria-describedby="flowGuideBody"
             >
-              <div className="tutorial-progress">
-                <span id="tutorialStepCounter" className="badge">
+              <div className="flow-guide-progress">
+                <span id="flowGuideStepCounter" className="badge">
                   Flow step 1 of 10
                 </span>
-                <button id="tutorialCloseButton" className="ghost tutorial-button" type="button">
+                <button id="flowGuideCloseButton" className="ghost flow-guide-button" type="button">
                   Pause
                 </button>
               </div>
-              <p id="tutorialKicker" className="tutorial-kicker">
+              <p id="flowGuideKicker" className="flow-guide-kicker">
                 Give + Need flow guide
               </p>
-              <h2 id="tutorialTitle">Start with the active give and need context</h2>
-              <p id="tutorialBody" className="tutorial-body" />
-              <p id="tutorialTargetHint" className="tutorial-target-hint" />
-              <div className="tutorial-actions">
-                <button id="tutorialPrevButton" className="ghost tutorial-button" type="button">
+              <h2 id="flowGuideTitle">Start with the active give and need context</h2>
+              <p id="flowGuideBody" className="flow-guide-body" />
+              <p id="flowGuideTargetHint" className="flow-guide-target-hint" />
+              <div className="flow-guide-actions">
+                <button id="flowGuidePrevButton" className="ghost flow-guide-button" type="button">
                   Back
                 </button>
-                <button id="tutorialNextButton" className="tutorial-button" type="button">
+                <button id="flowGuideNextButton" className="flow-guide-button" type="button">
                   Next step
                 </button>
               </div>

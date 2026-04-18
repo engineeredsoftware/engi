@@ -164,7 +164,7 @@ function OrbitalContent(props: OrbitalContentProps) {
           }}
         >
           <div className="step-indicator-content">
-            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital rings' : 'Workspace access'}</h3>
+            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital rings' : 'Orbitals access'}</h3>
             <div className="step-indicator-steps">
               {steps.map((step) => {
                 const index = stepMeta.pos.get(step)!;
@@ -215,16 +215,16 @@ function OrbitalContent(props: OrbitalContentProps) {
         <div className="orbital-workspace-shell">
           <aside className="orbital-workspace-nav">
             <div className="orbital-workspace-nav-copy">
-              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital workspace' : 'Workspace access'}</p>
+              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital workspace' : 'Orbitals access'}</p>
               <h3 className="orbital-workspace-title">
                 {isOrbitalMode
-                  ? `Keep ${steps.map((step) => labelForOrbitalPane(step)).filter(Boolean).join(', ')} in one contained workspace.`
-                  : 'Sign in once, then move through the four orbitals without losing the active pane.'}
+                  ? 'Keep Connects, Interfaces, Profile, and $BTD in one contained orbital workspace.'
+                  : 'Sign in once, then keep Profile, Connects, Interfaces, and $BTD in one contained orbital workspace.'}
               </h3>
               <p className="orbital-workspace-description">
                 {isOrbitalMode
-                  ? 'The four-ring model stays visible while the active pane opens in a stable reading workspace tuned for Bitcode transactions, conversations, and orbital follow-through.'
-                  : 'Keep the current orbital, the next available orbital, and the active access form readable in one contained workspace.'}
+                  ? 'The four-ring model stays visible while the active orbital opens in a stable reading workspace tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
+                  : 'Open Bitcode access in a stable orbital workspace, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.'}
               </p>
             </div>
             <div className="orbital-workspace-sequence" role="list" aria-label="Orbital sequence">

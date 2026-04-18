@@ -1,155 +1,100 @@
-# Bitcode Package - V25 canonical first-gate deterministic shell and runtime
+# `packages/bitcode`
 
-This package is governed by the active V25 canonical spec and serves as the current deterministic first-gate realization of the Bitcode operating chain while V26 drafts and lands the productionizing hardening pass.
+`packages/bitcode` is the preserved Bitcode runtime package that survived first-gate ownership migration and now feeds the application-owned V26 workspace.
 
-Current spec/doc truth for this repo:
-- Canonical pointer is `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
-- V25 is the current canonical/latest target and governing full-system spec
-- `ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix
-- the next-version draft family opens in the matching `ENGI_SPEC_VN.md`, `ENGI_SPEC_VN_DELTA.md`, and `ENGI_SPEC_VN_PARITY_MATRIX.md` files when that work begins
-- optional `ENGI_SPEC_VN_NOTES.md` files are non-canonical working notes only
+Active canon remains `V25`.
+V26 uses this package as:
+- the deterministic runtime/state owner,
+- the preserved lower runtime mounted inside `/application`,
+- the semantic shell snapshot/control bridge,
+- and one of the generators of checkpoint/proof artifacts used to judge first-and-second-gate closure.
 
-## What this prototype demonstrates
+## What this package owns
 
-The local deterministic prototype models the Bitcode operating chain as:
+- deterministic Bitcode state, settlement, proof, and branch-materialization logic
+- the preserved runtime shell under `public/`
+- the browser bridge consumed by `uapi/app/application/application-shell-bridge.tsx`
+- standalone local validation runtime via `server.js`
+- proof/checkpoint generation inputs used by the V26 spec family
 
-1. repo supply and modeled GitHub App-authenticated inventory,
-2. depositing candidate supply against a measured need,
-3. needing as benchmark/parser/repo-derived demand,
-4. explicit deposit-to-need fit before deep proof inspection,
-5. ranked candidates plus separate verification and use-tiering,
-6. asset-pack assembly and private branch artifact materialization,
-7. proof closure, bounded public proof, and disclosure/redaction policy,
-8. exact source-to-shares settlement with journal diff conservation,
-9. BTD-denominated bitcoin-facing settlement intent and observation carriers,
-10. prototype compute/storage reality manifests and public/private commitment receipts.
+## Main files
 
-The demo is intentionally centered on:
-- depositing,
-- needing,
-- fit,
-- identity/auth as spine,
-- repo-to-settlement closure,
-- proof and settlement as necessary consequences,
-- and explicit boundary honesty.
+- `src/engi-demo.js`
+  Deterministic state engine and local Bitcode chain modeling.
+- `src/client-entry.js`
+  App-facing mount/snapshot/control bridge.
+- `src/canonical/proven-generator.js`
+  Generated proof and checkpoint appendix builder.
+- `public/app.js`
+  Preserved runtime behavior mounted inside `/application`.
+- `public/index.html`
+  Direct package runtime shell for local validation and parity checks.
+- `public/styles.css`
+  Preserved runtime styling, including flow-guide and payload/help layers.
+- `public/telemetry.js`
+  Preserved runtime diagnostics and operator-visible telemetry labeling.
+- `server.js`
+  Local standalone runtime for direct package validation.
 
-## What remains modeled rather than live
+## Relationship to `/application`
 
-This repo does not:
-- mint live GitHub installation tokens,
-- fetch live workflow artifacts from the network,
-- push real remediation branches or PR updates,
-- run live LLM evaluators,
-- publish proof artifacts to an external system,
-- execute live mainnet or third-party network settlement effects.
+The primary review surface is no longer the package-local standalone runtime.
+The primary review surface is:
+- `/application`
 
-At the same time, V23 now does execute deterministic stubbed-testnet demonstration service code for:
-- PSBT-shaped audited base-layer purchase carriers,
-- BOLT11-shaped repeated-read payment carriers,
-- sidechain checkpoint stand-ins,
-- and anchor publication receipts bound back to Bitcode bundle and settlement surfaces.
+`packages/bitcode` remains essential because `/application` still mounts and reads:
+- preserved runtime markup,
+- flow-guide/runtime semantics,
+- closure/detail snapshot data,
+- and deterministic controls needed during second-gate convergence.
 
-Those surfaces are represented deterministically in local state, called out explicitly in the boundary surfaces, and separated from any claim that live mainnet or third-party execution is active in this repo.
+Direct package validation remains useful for:
+- lower runtime parity checks,
+- bridge debugging,
+- proof/checkpoint generation confidence,
+- preserved-runtime copy/style verification,
+- and preserved-runtime telemetry-label verification.
 
-## Main implementation surfaces
+## Local commands
 
-Primary source files:
-- `src/engi-demo.js` - core state, need measurement, evaluation, proof, settlement, projection, and branch artifact builders
-- `src/demo-shell-state.js` - preserved first-gate shell/public-state projection shaping, profile composition surfaces, and bounded projection summaries
-- `src/realization-profile.js` - canonical realization-profile discriminants and profile builders
-- `src/settlement-structs.js` - source-to-shares and settlement participation discriminants
-- `src/canonical/projections.js` - bounded public proof, redaction, disclosure, and projection-policy builders
-- `src/canonical/proof-materialization.js` - materialization, witness-manifest, and accounting-precision builders
-- `src/canonical/v23-bitcoin-demonstration-service.js` - deterministic stubbed-testnet spend, observation, sidechain, and anchor publication service carriers
-- `server.js` - deterministic API/runtime context and atomic local persistence
-- `public/app.js` - preserved first-gate operator shell behavior, visual/raw surfaces, explainers, and panel ordering
-- `public/index.html` - canonical first-gate shell structure for standalone/package-local validation
-
-Primary tests:
-- `test/core.test.js` - subsystem invariants and artifact consistency
-- `test/api.test.js` - route semantics, projection behavior, persistence safety
-- `test/e2e.test.js` - browser ordering and end-to-end operator flows
-
-## Current first-gate review path
-
-The primary first-gate Bitcode review surface is no longer the package-local standalone shell.
-It is the application-owned route at `/application`, mounted by:
-
-- `uapi/app/application/page.tsx`
-- `uapi/app/application/ApplicationPageClient.tsx`
-- `uapi/app/api/*`
-
-For review without live external data, run the app in mock mode:
+Run the package-local validation runtime:
 
 ```bash
-cd /Users/garrettmaring/Developer/ENGI/uapi
-NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_ORBITAL=true NEXT_PUBLIC_MOCK_USER_ORBITAL_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_ISSUES=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_GITHUB_FILES=true PORT=3000 pnpm dev:remote
-```
-
-Open <http://127.0.0.1:3000/application>.
-
-## Package-local runtime validation
-
-```bash
-cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
+cd packages/bitcode
 npm start
 ```
 
-Open <http://127.0.0.1:4318>.
-
-## Test
+Run package tests:
 
 ```bash
-cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
+cd packages/bitcode
 npm test
+node --test test/v26-public-copy.test.js
 ```
 
-## Main API
+Run V26 proof/checkpoint generation from the repo root:
 
-Primary first-gate app-owned API carriers:
+```bash
+node scripts/check-engi-spec-family.mjs --version V26
+node scripts/generate-engi-proven.mjs --version V26 --allow-dirty
+```
 
-- `GET /api/state`
-- `GET /api/bitcoin-demonstration-service`
-- `POST /api/deposits`
-- `POST /api/make-bitcode-branch`
-- `POST /api/make-engi-branch`
-- `POST /api/reset`
+## External-reality posture
 
-Package-local validation runtime exposes the same preserved contract on its local port.
+This package intentionally distinguishes:
+- deterministic local Bitcode modeling,
+- explicit preserved-runtime review surfaces,
+- and later live external integrations that V26 continues to harden.
 
-## Canonical branch artifact families
+It should not silently imply that GitHub, wallet, bitcoin, storage, or settlement effects are already fully live just because lower runtime surfaces are readable.
+V26 keeps those boundaries explicit and provable.
 
-The latest run emits branch-scoped artifacts under `.engi/`, including:
-- need and need-measurement artifacts
-- depositing, needing, and deposit-to-need fit surfaces
-- match, verification, and eval manifests
-- asset-pack lock and selected source material manifest
-- identity, policy, authz, and GitHub boundary artifacts
-- prompt, measurement, verification, and proof artifacts
-- materialization proof and exclusions
-- source-to-shares, settlement participation, accounting precision, settlement proof, and journal diff
-- compute-reality, storage-reality, bitcoin commitment, treasury-policy, anchor, bounded-public anchor, settlement intent, and settlement observation manifests
-- scenario fixture manifest and test coverage report
-- projection policy, bounded public proof, redaction proof, and disclosure proof
-- deliverables manifest
-- `ENGI_NEED.md`
+## Required doc companions
 
-## Repo documentation for the current pass
+Second-gate closure now expects this package readme to stay aligned with:
 
-- `../ENGI_SPEC.txt` - pointer to the active canonical version
-- `../ENGI_SPEC_V25.md` - active full-system canonical spec
-- `../ENGI_SPEC_V25_DELTA.md` - active version-local delta
-- `../ENGI_SPEC_V25_PARITY_MATRIX.md` - active parity ledger
-- `../ENGI_SPEC_V25_PROVEN.md` - active generated proof appendix
-- `../ENGI_SPEC_V20_PROPER.md` - historical full-canon reconstruction validation surface
-- `../ENGI_SPECIFYING.md` - current specifying standard
-- next-version draft work, when opened, lives in the matching `../ENGI_SPEC_VN*.md` family plus optional `../ENGI_SPEC_VN_NOTES.md`
-- `V26_APPLICATION_SYSTEMS.md` - supplementary non-canonical architecture map for the converged V26 application systems
-- `V26_PROOF_SURFACES.md` - supplementary non-canonical proof/test/spec assignment map for V26 code systems
-- `HOST_CAPABILITIES.md` / `HOST_CAPABILITIES.json` - host/runtime/container truth
-- `ARCHITECTURE_MAP.md` - preserved architecture map
-
-## Active module namespace
-
-The active internal module namespace is now `@bitcode/*`.
-New active imports and workspace package names should use that namespace rather than reintroducing older ENGI-scoped module references.
+- [../../README.md](../../README.md)
+- [../../uapi/README.md](../../uapi/README.md)
+- [../../uapi/app/application/README.md](../../uapi/app/application/README.md)
+- [V26_APPLICATION_SYSTEMS.md](V26_APPLICATION_SYSTEMS.md)
+- [V26_PROOF_SURFACES.md](V26_PROOF_SURFACES.md)

@@ -28,15 +28,15 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                Focused orbital workspace
+                Focused orbital route
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                {descriptor.routeTitle} in one focused workspace.
+                {descriptor.routeTitle} in one contained workspace.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
                 {descriptor.routeDescription} Use this route when you want one focused orbital for
-                repository connections, interface defaults, wallet posture, or $BTD detail without
-                splitting attention away from the active application.
+                repository connections, interface defaults, profile posture, or $BTD detail without
+                losing the wider application context.
               </p>
             </div>
 

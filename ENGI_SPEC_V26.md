@@ -14,7 +14,7 @@
 - Draft companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Draft companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V25'` and `DRAFT_TARGET_VERSION = 'V26'`
-- Source parity state: current source now carries first-gate V26 migration under `packages/bitcode`, `uapi/app/application/*`, and app-owned `uapi/app/api/*` routes; second-gate application-facing component refit and later hardening remain open
+- Source parity state: current source now carries first-gate V26 migration under `packages/bitcode`, `uapi/app/application/*`, and app-owned `uapi/app/api/*` routes; second-gate operator-workspace hardening, orbital rehabilitation, and documentation refurbishment are materially advanced but not yet promoted canon
 - V26 state: active draft family opened; V25 remains the only active canonical system specification
 
 ## Drafting and acceptance state
@@ -102,6 +102,7 @@ It does not reopen the first-gate ownership migration.
 It replaces the preserved shell implementation with deeper native application-facing composition while keeping Bitcode semantics intact.
 It hardens the live application-facing external interfacings up to stable readiness within the new `/application` expression.
 Its aesthetic atmosphere remains the design system of late-Engi, but the product itself is entirely Bitcode.
+It also includes markdown and README refurbishment for the active route, orbital, execution, and package owners so the growing V26 system stays legible and provable.
 
 The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
@@ -215,6 +216,17 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/api/externalRealizationRoute.test.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
+- `packages/bitcode/public/index.html`
+- `packages/bitcode/public/styles.css`
+- `uapi/styles/orbital.css`
+- `uapi/styles/orbital-rings.css`
+- `README.md`
+- `uapi/README.md`
+- `packages/bitcode/README.md`
+- `uapi/app/application/README.md`
+- `uapi/app/orbitals/README.md`
+- `uapi/components/base/engi/README.md`
+- `uapi/components/base/engi/execution/README.md`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
 - `packages/bitcode/V26_PROOF_SURFACES.md`
 
@@ -355,7 +367,7 @@ For V26, those mean:
 
 The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main Bitcode actions.
 The read experience is the transactions master-detail window inside `/application`.
-The write experience moves through `give`, `need`, and configuring via conversations and orbitals entered from application context.
+The write experience moves through `give`, `need`, and orbitals/interfaces posture via conversations and orbitals entered from application context.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
 Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
 The transactions master itself must stay query-owned, searchable, filterable, and paginatable rather than falling back to component-local table state.
@@ -497,6 +509,8 @@ Second-gate is accepted only when all of the following hold:
    - selected-transaction detail and deliverable-reading workflows are available from within `/application` through master-detail reuse in both live and mock posture,
    - flow-guide and explainer guidance remain useful,
    - orbital entry and account state remain coherent with the application page,
+   - contained orbital access shells and focused orbital routes keep orbitals-first wording rather than regressing to generic workspace/settings/account furniture,
+   - preserved-runtime help, reference chips, and telemetry labels stay Bitcode-facing instead of leaking canon, source-path, or `engi-demo`-era language into operator-visible surfaces,
    - and first-gate semantic regressions are not introduced.
 
 4. External hardening acceptance
@@ -508,6 +522,7 @@ Second-gate is accepted only when all of the following hold:
 
 5. Documentation and parity acceptance
    - second-gate repository/specification documents stay synchronized to active source state,
+   - the active second-gate markdown set includes the root, package, route, and shared-component README carriers and is treated as required implementation scope rather than optional cleanup,
    - supplementary modular docs are identified wherever the canon is not the right long-form carrier,
    - active supplementary carriers such as `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` stay synchronized to the converged source topology,
    - `.engi/v26-gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,

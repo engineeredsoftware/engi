@@ -165,19 +165,6 @@ function requireElement(id) {
 }
 
 /**
- * @template {HTMLElement} T
- * @param {string[]} ids
- * @returns {T}
- */
-function requireElementAny(ids) {
-  for (const id of ids) {
-    const element = document.getElementById(id);
-    if (element) return /** @type {T} */ (element);
-  }
-  throw new Error(`Missing required element: ${ids.join(' or ')}`);
-}
-
-/**
  * @param {EventTarget | null} target
  * @param {string} selector
  * @returns {HTMLElement | null}
@@ -955,12 +942,16 @@ const bitcodeApplicationShellControls = {
       renderFit(lastLoadedState);
       decorateStaticExplainers();
       syncExplainerAlignment();
-      renderTutorialOverlay(lastLoadedState);
+      renderFlowGuideOverlay(lastLoadedState);
     }
     return getBitcodeApplicationShellSnapshot();
   },
+  toggleFlowGuide() {
+    flowGuideToggleButtonEl.click();
+    return getBitcodeApplicationShellSnapshot();
+  },
   toggleTutorial() {
-    tutorialToggleButtonEl.click();
+    flowGuideToggleButtonEl.click();
     return getBitcodeApplicationShellSnapshot();
   },
   makeBranch() {
@@ -1036,19 +1027,19 @@ const inventoryKindFilterEl = requireElement('inventoryKindFilter');
 const repoInventoryListEl = requireElement('repoInventoryList');
 const inventorySelectionSummaryEl = requireElement('inventorySelectionSummary');
 const makeBranchButtonEl = requireElement('makeBranchButton');
-const tutorialToggleButtonEl = requireElement('tutorialToggleButton');
+const flowGuideToggleButtonEl = requireElement('flowGuideToggleButton');
 const resetButtonEl = requireElement('resetButton');
 /** @type {HTMLFormElement} */
 const depositFormEl = requireElement('depositForm');
-const tutorialLayerEl = requireElement('tutorialLayer');
-const tutorialStepCounterEl = requireElement('tutorialStepCounter');
-const tutorialKickerEl = requireElement('tutorialKicker');
-const tutorialTitleEl = requireElement('tutorialTitle');
-const tutorialBodyEl = requireElement('tutorialBody');
-const tutorialTargetHintEl = requireElement('tutorialTargetHint');
-const tutorialPrevButtonEl = requireElement('tutorialPrevButton');
-const tutorialNextButtonEl = requireElement('tutorialNextButton');
-const tutorialCloseButtonEl = requireElement('tutorialCloseButton');
+const flowGuideLayerEl = requireElement('flowGuideLayer');
+const flowGuideStepCounterEl = requireElement('flowGuideStepCounter');
+const flowGuideKickerEl = requireElement('flowGuideKicker');
+const flowGuideTitleEl = requireElement('flowGuideTitle');
+const flowGuideBodyEl = requireElement('flowGuideBody');
+const flowGuideTargetHintEl = requireElement('flowGuideTargetHint');
+const flowGuidePrevButtonEl = requireElement('flowGuidePrevButton');
+const flowGuideNextButtonEl = requireElement('flowGuideNextButton');
+const flowGuideCloseButtonEl = requireElement('flowGuideCloseButton');
 
 const EXPLAINERS = {
   'repo-supply': {
@@ -4053,11 +4044,11 @@ function setStatus(text) {
  * @param {boolean} dismissed
  * @returns {void}
  */
-function persistTutorialDismissal(dismissed) {
+function persistFlowGuideDismissal(dismissed) {
   try {
-    window.localStorage.setItem(TUTORIAL_STORAGE_KEY, dismissed ? '1' : '0');
+    window.localStorage.setItem(FLOW_GUIDE_STORAGE_KEY, dismissed ? '1' : '0');
   } catch {
-    // Tutorial persistence is best-effort only.
+    // Flow-guide persistence is best-effort only.
   }
 }
 
@@ -4065,7 +4056,7 @@ function persistTutorialDismissal(dismissed) {
  * @param {AppState | null | undefined} state
  * @returns {Array<{ selector: string, kicker: string, title: string, body: string, targetHint: string }>}
  */
-function tutorialSteps(state) {
+function flowGuideSteps(state) {
   const scenario = currentScenario(state);
   const latestRun = state?.latestRun;
   const profileLabel = latestRun?.realizationProfile?.shortLabel || scenario?.realizationProfile?.shortLabel || 'Targeted deposit';
@@ -4157,10 +4148,10 @@ function tutorialSteps(state) {
 /**
  * @returns {void}
  */
-function clearTutorialHighlight() {
-  if (tutorialHighlightedEl) {
-    tutorialHighlightedEl.classList.remove('tutorial-focus-ring');
-    tutorialHighlightedEl = null;
+function clearFlowGuideHighlight() {
+  if (flowGuideHighlightedEl) {
+    flowGuideHighlightedEl.classList.remove('flow-guide-focus-ring');
+    flowGuideHighlightedEl = null;
   }
 }
 
@@ -4168,7 +4159,7 @@ function clearTutorialHighlight() {
  * @param {{ selector: string }} step
  * @returns {HTMLElement | null}
  */
-function resolveTutorialTarget(step) {
+function resolveFlowGuideTarget(step) {
   const target = document.querySelector(step.selector);
   return target instanceof HTMLElement ? target : null;
 }
@@ -4178,21 +4169,21 @@ function resolveTutorialTarget(step) {
  * @param {boolean} [scrollTarget=false]
  * @returns {void}
  */
-function highlightTutorialTarget(target, scrollTarget = false) {
-  clearTutorialHighlight();
+function highlightFlowGuideTarget(target, scrollTarget = false) {
+  clearFlowGuideHighlight();
   if (!target) return;
-  tutorialHighlightedEl = target;
-  tutorialHighlightedEl.classList.add('tutorial-focus-ring');
+  flowGuideHighlightedEl = target;
+  flowGuideHighlightedEl.classList.add('flow-guide-focus-ring');
   if (scrollTarget) {
-    tutorialHighlightedEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    flowGuideHighlightedEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
 
 /**
  * @returns {void}
  */
-function updateTutorialToggleButton() {
-  tutorialToggleButtonEl.textContent = tutorialOpen ? 'Hide flow guide' : 'Show flow guide';
+function updateFlowGuideToggleButton() {
+  flowGuideToggleButtonEl.textContent = flowGuideOpen ? 'Hide flow guide' : 'Show flow guide';
 }
 
 /**
@@ -4200,55 +4191,55 @@ function updateTutorialToggleButton() {
  * @param {{ scrollTarget?: boolean | undefined }} [options={}]
  * @returns {void}
  */
-function renderTutorialOverlay(state, options = {}) {
-  updateTutorialToggleButton();
-  if (!state || !tutorialOpen) {
-    tutorialLayerEl.hidden = true;
-    clearTutorialHighlight();
+function renderFlowGuideOverlay(state, options = {}) {
+  updateFlowGuideToggleButton();
+  if (!state || !flowGuideOpen) {
+    flowGuideLayerEl.hidden = true;
+    clearFlowGuideHighlight();
     return;
   }
 
-  const steps = tutorialSteps(state);
+  const steps = flowGuideSteps(state);
   if (!steps.length) {
-    tutorialLayerEl.hidden = true;
-    clearTutorialHighlight();
+    flowGuideLayerEl.hidden = true;
+    clearFlowGuideHighlight();
     return;
   }
 
-  tutorialStepIndex = Math.max(0, Math.min(tutorialStepIndex, steps.length - 1));
-  const step = steps[tutorialStepIndex];
-  const target = resolveTutorialTarget(step);
+  flowGuideStepIndex = Math.max(0, Math.min(flowGuideStepIndex, steps.length - 1));
+  const step = steps[flowGuideStepIndex];
+  const target = resolveFlowGuideTarget(step);
 
-  tutorialLayerEl.hidden = false;
-  tutorialStepCounterEl.textContent = `Flow step ${tutorialStepIndex + 1} of ${steps.length}`;
-  tutorialKickerEl.textContent = step.kicker;
-  tutorialTitleEl.textContent = step.title;
-  tutorialBodyEl.textContent = step.body;
-  tutorialTargetHintEl.textContent = step.targetHint;
-  tutorialPrevButtonEl.disabled = tutorialStepIndex === 0;
-  tutorialNextButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Finish flow guide' : 'Next step';
-  tutorialCloseButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Close' : 'Pause';
-  highlightTutorialTarget(target, options.scrollTarget === true);
+  flowGuideLayerEl.hidden = false;
+  flowGuideStepCounterEl.textContent = `Flow step ${flowGuideStepIndex + 1} of ${steps.length}`;
+  flowGuideKickerEl.textContent = step.kicker;
+  flowGuideTitleEl.textContent = step.title;
+  flowGuideBodyEl.textContent = step.body;
+  flowGuideTargetHintEl.textContent = step.targetHint;
+  flowGuidePrevButtonEl.disabled = flowGuideStepIndex === 0;
+  flowGuideNextButtonEl.textContent = flowGuideStepIndex === steps.length - 1 ? 'Finish flow guide' : 'Next step';
+  flowGuideCloseButtonEl.textContent = flowGuideStepIndex === steps.length - 1 ? 'Close' : 'Pause';
+  highlightFlowGuideTarget(target, options.scrollTarget === true);
 }
 
 /**
  * @param {{ reset?: boolean | undefined, scrollTarget?: boolean | undefined }} [options={}]
  * @returns {void}
  */
-function openTutorial(options = {}) {
-  tutorialOpen = true;
-  if (options.reset) tutorialStepIndex = 0;
-  persistTutorialDismissal(false);
-  renderTutorialOverlay(lastLoadedState, { scrollTarget: options.scrollTarget === true });
+function openFlowGuide(options = {}) {
+  flowGuideOpen = true;
+  if (options.reset) flowGuideStepIndex = 0;
+  persistFlowGuideDismissal(false);
+  renderFlowGuideOverlay(lastLoadedState, { scrollTarget: options.scrollTarget === true });
 }
 
 /**
  * @returns {void}
  */
-function closeTutorial() {
-  tutorialOpen = false;
-  persistTutorialDismissal(true);
-  renderTutorialOverlay(lastLoadedState);
+function closeFlowGuide() {
+  flowGuideOpen = false;
+  persistFlowGuideDismissal(true);
+  renderFlowGuideOverlay(lastLoadedState);
 }
 
 /**
@@ -7395,7 +7386,7 @@ async function refresh() {
   renderLedger(state);
   decorateStaticExplainers();
   syncExplainerAlignment();
-  renderTutorialOverlay(state);
+  renderFlowGuideOverlay(state);
   return state;
 }
 
@@ -7457,7 +7448,7 @@ branchModePickerEl?.addEventListener('change', () => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
-    renderTutorialOverlay(lastLoadedState);
+    renderFlowGuideOverlay(lastLoadedState);
   }
   setStatus(`Selected branch mode ${selectedBranchMode}.`);
 }, eventListenerOptions);
@@ -7475,7 +7466,7 @@ scenarioPickerEl?.addEventListener('change', () => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
-    renderTutorialOverlay(lastLoadedState);
+    renderFlowGuideOverlay(lastLoadedState);
   }
   const selectedScenario = lastLoadedState?.needScenarios?.find((entry) => entry.scenarioId === selectedScenarioId);
   setStatus(`Selected scenario ${selectedScenarioId} (${selectedScenario?.realizationProfile?.shortLabel || 'profile pending'}).`);
@@ -7492,7 +7483,7 @@ authSessionPickerEl?.addEventListener('change', () => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
-    renderTutorialOverlay(lastLoadedState);
+    renderFlowGuideOverlay(lastLoadedState);
   }
   setStatus(`Bound intake to authenticated repo session ${selectedAuthSessionId}.`);
 }, eventListenerOptions);
@@ -7503,7 +7494,7 @@ inventoryKindFilterEl?.addEventListener('change', () => {
     renderRepoInventory(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
-    renderTutorialOverlay(lastLoadedState);
+    renderFlowGuideOverlay(lastLoadedState);
   }
 }, eventListenerOptions);
 
@@ -7513,7 +7504,7 @@ inventorySearchInputEl?.addEventListener('input', () => {
     renderRepoInventory(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
-    renderTutorialOverlay(lastLoadedState);
+    renderFlowGuideOverlay(lastLoadedState);
   }
 }, eventListenerOptions);
 
@@ -7543,53 +7534,53 @@ document.addEventListener('click', (event) => {
     renderFit(lastLoadedState);
     decorateStaticExplainers();
     syncExplainerAlignment();
-    renderTutorialOverlay(lastLoadedState);
+    renderFlowGuideOverlay(lastLoadedState);
   }
 }, eventListenerOptions);
 
-tutorialToggleButtonEl.addEventListener('click', () => {
-  if (tutorialOpen) closeTutorial();
-  else openTutorial({ scrollTarget: true });
+flowGuideToggleButtonEl.addEventListener('click', () => {
+  if (flowGuideOpen) closeFlowGuide();
+  else openFlowGuide({ scrollTarget: true });
 }, eventListenerOptions);
 
-tutorialPrevButtonEl.addEventListener('click', () => {
-  if (!tutorialOpen || tutorialStepIndex === 0) return;
-  tutorialStepIndex -= 1;
-  renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+flowGuidePrevButtonEl.addEventListener('click', () => {
+  if (!flowGuideOpen || flowGuideStepIndex === 0) return;
+  flowGuideStepIndex -= 1;
+  renderFlowGuideOverlay(lastLoadedState, { scrollTarget: true });
 }, eventListenerOptions);
 
-tutorialNextButtonEl.addEventListener('click', () => {
-  if (!tutorialOpen || !lastLoadedState) return;
-  const steps = tutorialSteps(lastLoadedState);
-  if (tutorialStepIndex >= steps.length - 1) {
-    closeTutorial();
+flowGuideNextButtonEl.addEventListener('click', () => {
+  if (!flowGuideOpen || !lastLoadedState) return;
+  const steps = flowGuideSteps(lastLoadedState);
+  if (flowGuideStepIndex >= steps.length - 1) {
+    closeFlowGuide();
     return;
   }
-  tutorialStepIndex += 1;
-  renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+  flowGuideStepIndex += 1;
+  renderFlowGuideOverlay(lastLoadedState, { scrollTarget: true });
 }, eventListenerOptions);
 
-tutorialCloseButtonEl.addEventListener('click', () => closeTutorial(), eventListenerOptions);
+flowGuideCloseButtonEl.addEventListener('click', () => closeFlowGuide(), eventListenerOptions);
 
 document.addEventListener('keydown', (event) => {
-  if (!tutorialOpen) return;
+  if (!flowGuideOpen) return;
   if (event.key === 'Escape') {
-    closeTutorial();
+    closeFlowGuide();
     return;
   }
-  if (event.key === 'ArrowLeft' && tutorialStepIndex > 0) {
-    tutorialStepIndex -= 1;
-    renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+  if (event.key === 'ArrowLeft' && flowGuideStepIndex > 0) {
+    flowGuideStepIndex -= 1;
+    renderFlowGuideOverlay(lastLoadedState, { scrollTarget: true });
     return;
   }
   if (event.key === 'ArrowRight') {
-    const steps = tutorialSteps(lastLoadedState);
-    if (tutorialStepIndex >= steps.length - 1) {
-      closeTutorial();
+    const steps = flowGuideSteps(lastLoadedState);
+    if (flowGuideStepIndex >= steps.length - 1) {
+      closeFlowGuide();
       return;
     }
-    tutorialStepIndex += 1;
-    renderTutorialOverlay(lastLoadedState, { scrollTarget: true });
+    flowGuideStepIndex += 1;
+    renderFlowGuideOverlay(lastLoadedState, { scrollTarget: true });
   }
 }, eventListenerOptions);
 
@@ -7632,7 +7623,7 @@ decorateStaticExplainers();
 syncExplainerAlignment();
 window.addEventListener('resize', () => {
   syncExplainerAlignment();
-  renderTutorialOverlay(lastLoadedState);
+  renderFlowGuideOverlay(lastLoadedState);
 }, eventListenerOptions);
 
 refresh().then(() => {

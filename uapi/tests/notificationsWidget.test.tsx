@@ -8,10 +8,14 @@ import '@testing-library/jest-dom';
 
 // Mock fetch for initial notifications and PATCH/DELETE calls
 global.fetch = jest.fn();
+const mockOpenOrbital = jest.fn();
 
 // Mock Supabase client
 jest.mock('@bitcode/supabase/ssr/client', () => ({
   createClient: jest.fn()
+}));
+jest.mock('@/app/orbitals/components/OrbitalsProvider', () => ({
+  openOrbital: (...args: unknown[]) => mockOpenOrbital(...args),
 }));
 import { createClient } from '@bitcode/supabase/ssr/client';
 
@@ -31,6 +35,7 @@ describe('NotificationsWidget', () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
+    mockOpenOrbital.mockReset();
     mockChannel.on.mockReturnThis();
     mockChannel.subscribe.mockReturnThis();
     // Default fetch to return empty list
@@ -95,7 +100,7 @@ describe('NotificationsWidget', () => {
     render(<NotificationsWidget />);
     fireEvent.click(screen.getByRole('button'));
     expect(await screen.findByText('DeleteMe')).toBeInTheDocument();
-    const deleteBtn = await screen.findByText('×');
+    const deleteBtn = await screen.findByText('Dismiss');
     fireEvent.click(deleteBtn);
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
@@ -105,9 +110,9 @@ describe('NotificationsWidget', () => {
     });
   });
 
-  it('shows operator-facing header copy and marks every unread notification as read', async () => {
+  it('shows operator-facing header copy, presents typed rows, and marks every unread notification as read', async () => {
     const notifications = [
-      { id: 'n1', user_id: 'user-1', type: 'proof', message: 'Proof bundle ready', data: {}, read: false, created_at: '2023-01-01T00:00:00Z' },
+      { id: 'n1', user_id: 'user-1', type: 'proof', title: 'Witness bundle', message: 'Proof bundle ready', data: {}, read: false, created_at: '2023-01-01T00:00:00Z' },
       { id: 'n2', user_id: 'user-1', type: 'repo', message: 'Repository needs review', data: {}, read: false, created_at: '2023-01-02T00:00:00Z' }
     ];
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => notifications });
@@ -117,6 +122,8 @@ describe('NotificationsWidget', () => {
     fireEvent.click(screen.getByRole('button'));
 
     expect(await screen.findByText('Proofs, repository events, and review prompts')).toBeInTheDocument();
+    expect(screen.getByText('Witness bundle')).toBeInTheDocument();
+    expect(screen.getByText('Repository event')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Mark all read' }));
 
@@ -138,5 +145,15 @@ describe('NotificationsWidget', () => {
         })
       );
     });
+  });
+
+  it('offers an explicit orbital follow-through action from the dropdown footer', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => [] });
+
+    render(<NotificationsWidget />);
+    fireEvent.click(screen.getByRole('button', { name: 'Notifications' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Open Orbitals' }));
+
+    expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow', 'profile');
   });
 });

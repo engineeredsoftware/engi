@@ -15,7 +15,7 @@ export default function OrbitalsInterfacesOrbitalHeader({
       completedTitle="Interfaces Orbital"
       description={!isOnboardingComplete
         ? 'Choose interface defaults now or keep the standard Bitcode workspace behavior.'
-        : 'Configure transaction, conversation, prompt, and default workspace behavior in this orbital.'}
+        : 'Set transaction, conversation, prompt, and default workspace behavior in this orbital.'}
       stepNumber={3}
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="interfaces-step-badge"

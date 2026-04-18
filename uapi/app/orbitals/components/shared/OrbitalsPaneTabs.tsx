@@ -30,17 +30,17 @@ export default function OrbitalsPaneTabs({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
-            {isOrbitalMode ? 'Orbitals' : 'Workspace access'}
+            {isOrbitalMode ? 'Orbitals' : 'Orbitals access'}
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
             {isOrbitalMode
               ? 'Move between Connects, Interfaces, Profile, and $BTD without losing your place in the workspace.'
-              : 'Sign in to unlock the four orbitals, then keep Profile, Connects, Interfaces, and $BTD in one contained access flow.'}
+              : 'Sign in to unlock the four orbitals, then keep Profile, Connects, Interfaces, and $BTD in one contained orbital workspace.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-            {isOrbitalMode ? 'orbitals' : 'access'}
+            {isOrbitalMode ? 'orbitals' : 'orbital access'}
           </span>
           <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
             {completedCount}/{totalCount} complete

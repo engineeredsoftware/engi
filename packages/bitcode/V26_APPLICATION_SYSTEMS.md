@@ -178,7 +178,7 @@ Current active carriers:
 
 Operational rule:
 - master detail means a rich Bitcode transactions table as master and transaction detail as detail
-- the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and configuring from application context
+- the read experience centers on that transactions master-detail window, while the write experience moves through give, need, and orbitals/interfaces posture from application context
 - `/application` prefers `transactionId` as the master-detail query carrier while continuing to accept inbound `runId` for compatibility convergence
 - transaction selection and rich master-table filters are route-owned and shareable through application query state
 - transaction filtering must support free-text search, transaction-field filtering, participant ownership filtering, proof-posture filtering, and explicit sort posture
@@ -567,11 +567,13 @@ Operational rule:
 - marketing footer chrome does not render on operator workspace routes
 - `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/orbital transitions
 - application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
+- contained orbital access shells and focused orbital routes must keep orbitals-first wording rather than reverting to generic workspace/settings/account entry furniture
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
 - contained orbital surfaces now reset stale deep-link pane state on close, suppress free-floating background animation, and reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture
 - signed-in workspace chrome now exposes Orbitals through the user menu as `Open Orbitals`, while notifications stay operator-facing and describe proofs, repository events, and review prompts rather than generic account/settings chrome
 - preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
+- preserved-runtime telemetry now reports through Bitcode-facing `[bitcode-runtime]` labeling rather than `engi-demo`-era visible prefixes
 
 ## First-and-second-gate checkpoint artifact
 
@@ -599,6 +601,26 @@ Operational rule:
 - `Interfaces` owns application visual and default-behavioral posture for master detail, conversations, and related reads
 - `$BTD` owns wallet-adjacent share posture, settlement-view bias, and `$BTD`-specific default return posture
 - shared orbital workspace carriers should absorb new pane layout work before new one-off pane-local section chrome is introduced
+
+## Documentation and route/package legibility
+
+Second-gate now treats markdown and README refurbishment as part of implementation, not post-hoc prose.
+
+Current active documentation carriers:
+- `README.md`
+- `uapi/README.md`
+- `packages/bitcode/README.md`
+- `uapi/app/application/README.md`
+- `uapi/app/orbitals/README.md`
+- `uapi/components/base/engi/README.md`
+- `uapi/components/base/engi/execution/README.md`
+
+Operational rule:
+- the active route, orbital, execution, and package owners that define second-gate Bitcode reality must have current markdown carriers
+- that active markdown set includes the root, package, route, and shared-component README family and is a required second-gate implementation/proof surface
+- those docs must use the same product naming the live workspace uses: `/application`, `Connects`, `Interfaces`, `Profile`, `$BTD`, and `flow guide`
+- generated checkpoint artifacts should fail if this documentation set disappears
+- third-gate marketing work remains separate from this operator-facing documentation set
 
 ## Active application-owned API carriers
 

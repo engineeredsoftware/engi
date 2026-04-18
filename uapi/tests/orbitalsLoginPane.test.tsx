@@ -14,13 +14,13 @@ jest.mock('@/components/base/engi/auth/LoginForm', () => ({
 import OrbitalsLoginPane from '@/app/orbitals/components/OrbitalsLoginPane';
 
 describe('OrbitalsLoginPane', () => {
-  it('renders the application-owned workspace access shell', () => {
+  it('renders the application-owned orbital access shell', () => {
     render(<OrbitalsLoginPane />);
 
-    expect(screen.getByText('Open your Bitcode workspace')).toBeTruthy();
-    expect(screen.getByText('Primary access')).toBeTruthy();
-    expect(screen.getByText('Active providers')).toBeTruthy();
-    expect(screen.getByText('What opens next')).toBeTruthy();
+    expect(screen.getByText('Open Connects, Interfaces, Profile, and $BTD')).toBeTruthy();
+    expect(screen.getByText('Primary path')).toBeTruthy();
+    expect(screen.getByText('Active account providers')).toBeTruthy();
+    expect(screen.getByText('Orbitals after sign-in')).toBeTruthy();
     expect(screen.getByTestId('login-form')).toBeTruthy();
   });
 

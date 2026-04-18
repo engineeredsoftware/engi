@@ -13,7 +13,7 @@
     .orbitals-users-input-row-responsive > button { width: 100% !important; margin-top: 8px !important; }
   }
 }
-:global { .orbital-description, .orbital-pane-description, .settings-description { margin-top: 4px; color: rgba(200, 200, 200, 0.85); font-size: 0.95rem; } }
+:global { .orbital-description, .orbital-pane-description, .orbital-profile-description { margin-top: 4px; color: rgba(200, 200, 200, 0.85); font-size: 0.95rem; } }
 :global { .data-share-actions { margin-top: 12px; } }
 :global { .data-share-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; } }
 :global { .data-share-item { display: grid; grid-template-columns: 1fr auto auto; align-items: center; } }
@@ -21,7 +21,7 @@
 :global { .repo-name { font-size: 0.95rem; color: #fff; overflow-wrap: anywhere; } }
 :global { .re-scan-button { background: transparent; border: none; color: rgba(103, 254, 183, 0.9); cursor: pointer; font-size: 1.1rem; } }
 /* Orbital Users prefixed aliases */
-:global { .orbitals-users-orbital-description, .orbitals-users-pane-description, .orbitals-users-settings-description { margin-top: 4px; color: rgba(200, 200, 200, 0.85); font-size: 0.95rem; } }
+:global { .orbitals-users-orbital-description, .orbitals-users-pane-description, .orbitals-users-profile-description { margin-top: 4px; color: rgba(200, 200, 200, 0.85); font-size: 0.95rem; } }
 :global { .orbitals-users-data-share-actions { margin-top: 12px; } }
 :global { .orbitals-users-data-share-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; } }
 :global { .orbitals-users-data-share-item { display: grid; grid-template-columns: 1fr auto auto; align-items: center; } }

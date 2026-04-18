@@ -9,7 +9,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     kicker: 'Workspace read model',
     title: 'Workspace experience map',
     summary:
-      'The workspace is organized around one central ledger window, with dedicated writing and configuration modes available only when deeper action is needed.',
+      'The workspace is organized around one central ledger window, with dedicated writing and orbital modes available only when deeper action is needed.',
     detail:
       'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and orbitals remain deliberate mode changes instead of parallel destinations.',
     points: [
@@ -24,7 +24,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'Scenario, projection, branch mode, guide progress, and closure controls stay in one shared control surface.',
     detail:
-      'This card is where the working flow becomes resumable. You should be able to see the current configuration, reopen the guide, and continue without reconstructing context.',
+      'This card is where the working flow becomes resumable. You should be able to see the current posture, reopen the guide, and continue without reconstructing context.',
     points: [
       'Guide progress is resumable instead of one-shot',
       'Scenario, projection, and branch mode remain explicit',

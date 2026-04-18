@@ -36,7 +36,7 @@
             </select>
           </label>
           <button id="makeBranchButton">Make Bitcode branch</button>
-          <button id="tutorialToggleButton" class="ghost" type="button">Hide flow guide</button>
+          <button id="flowGuideToggleButton" class="ghost" type="button">Hide flow guide</button>
           <button id="resetButton" class="ghost">Reset runtime</button>
         </div>
         <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -192,26 +192,26 @@
       </main>
     </div>
 
-    <div id="tutorialLayer" class="tutorial-layer" hidden>
+    <div id="flowGuideLayer" class="flow-guide-layer" hidden>
       <section
-        id="tutorialCard"
-        class="tutorial-card"
+        id="flowGuideCard"
+        class="flow-guide-card"
         role="dialog"
         aria-modal="false"
-        aria-labelledby="tutorialTitle"
-        aria-describedby="tutorialBody"
+        aria-labelledby="flowGuideTitle"
+        aria-describedby="flowGuideBody"
       >
-        <div class="tutorial-progress">
-          <span id="tutorialStepCounter" class="badge">Flow step 1 of 10</span>
-          <button id="tutorialCloseButton" class="ghost tutorial-button" type="button">Pause</button>
+        <div class="flow-guide-progress">
+          <span id="flowGuideStepCounter" class="badge">Flow step 1 of 10</span>
+          <button id="flowGuideCloseButton" class="ghost flow-guide-button" type="button">Pause</button>
         </div>
-        <p id="tutorialKicker" class="tutorial-kicker">Give + Need flow guide</p>
-        <h2 id="tutorialTitle">Start with the active give and need context</h2>
-        <p id="tutorialBody" class="tutorial-body"></p>
-        <p id="tutorialTargetHint" class="tutorial-target-hint"></p>
-        <div class="tutorial-actions">
-          <button id="tutorialPrevButton" class="ghost tutorial-button" type="button">Back</button>
-          <button id="tutorialNextButton" class="tutorial-button" type="button">Next step</button>
+        <p id="flowGuideKicker" class="flow-guide-kicker">Give + Need flow guide</p>
+        <h2 id="flowGuideTitle">Start with the active give and need context</h2>
+        <p id="flowGuideBody" class="flow-guide-body"></p>
+        <p id="flowGuideTargetHint" class="flow-guide-target-hint"></p>
+        <div class="flow-guide-actions">
+          <button id="flowGuidePrevButton" class="ghost flow-guide-button" type="button">Back</button>
+          <button id="flowGuideNextButton" class="flow-guide-button" type="button">Next step</button>
         </div>
       </section>
     </div>

@@ -71,11 +71,11 @@ test.describe('Notifications Widget', () => {
     expect(req1.method()).toBe('PATCH');
     expect(req1.postDataJSON()).toEqual({ read: true });
 
-    // Click '×' to delete second notification and capture DELETE request
+    // Click 'Dismiss' to delete second notification and capture DELETE request
     const deleteReq = page.waitForRequest(req =>
       req.url().endsWith('/api/orbitals/notifications/n2') && req.method() === 'DELETE'
     );
-    await page.click('button:has-text("×")');
+    await page.click('button:has-text("Dismiss")');
     const req2 = await deleteReq;
     expect(req2.method()).toBe('DELETE');
   });

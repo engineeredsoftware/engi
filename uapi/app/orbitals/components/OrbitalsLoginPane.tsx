@@ -21,30 +21,31 @@ export default function OrbitalsLoginPane({
         <aside className="orbital-auth-aside">
           <div className="rounded-[1.6rem] border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
             <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-200/78">
-              Workspace access
+              Orbitals access
             </p>
             <h2 className="mt-3 text-[1.65rem] font-semibold tracking-[-0.04em] text-white">
-              Open your Bitcode workspace
+              Open Connects, Interfaces, Profile, and $BTD
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Sign in to reopen transactions, conversations, and Orbitals without losing the
-              current working context.
+              Sign in to reopen the transaction terminal, conversations, and the four Bitcode
+              orbitals without losing the current working context.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-emerald-200/74">
-                Primary access
+                Primary path
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
-                Email code remains the most direct way to continue working from the application.
+                Email code remains the most direct way to reopen Bitcode and continue from the
+                current transaction context.
               </p>
             </div>
 
             <div className="rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4 sm:col-span-2">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
-                Active providers
+                Active account providers
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
                 GitHub and Google stay available here. Wallet binding continues inside Profile and
@@ -54,12 +55,12 @@ export default function OrbitalsLoginPane({
 
             <div className="rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
-                What opens next
+                Orbitals after sign-in
               </p>
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
-                <li>Transactions and selected detail stay where you left them.</li>
-                <li>Conversations reopen as a dedicated writing surface when needed.</li>
-                <li>Connects, Interfaces, Profile, and $BTD stay available as Orbitals.</li>
+                <li>The transaction terminal and selected detail stay where you left them.</li>
+                <li>Conversations reopen only when you need deeper writing or coordination.</li>
+                <li>Connects, Interfaces, Profile, and $BTD stay available as the four orbitals.</li>
               </ul>
             </div>
           </div>

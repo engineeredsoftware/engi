@@ -1,16 +1,44 @@
-ENGI Base Primitives
+# `uapi/components/base/engi`
 
-- panels/ScrollContainer: Standardized scroll region with SSOT scrollbar classes (`custom-scrollbar` + variants). Keeps layout neutral.
-- perf/ContentVisibility: Adds `content-vis` utility and optional containIntrinsicSize hint. Wrap heavy content regions.
-- perf/GPUAcceleration: Applies GPU-friendly transform hints to reduce jank in animated regions.
-- page-header/PageHeaderSection: Neutral shell for page headers with optional meta/actions; no padding or margins by default.
+This directory holds the shared Bitcode operator component systems used by `/application`, orbitals, conversations, and the retained workspace chrome.
 
-Usage
-- Prefer `ScrollContainer` for scrollable regions. Add variant classes via `className` for theme-specific scrollbar thumbs.
-- Prefer `ContentVisibility` for large, off-screen content blocks; set `containSize` when known.
-- Wrap highly animated containers in `GPUAcceleration` to hint the compositor.
-- Compose header sections with `PageHeaderSection` and pass existing content as children for zero visual change.
+In V26 second-gate work, this directory is not a grab-bag.
+It is the reusable carrier layer for:
+- workspace chrome,
+- notifications and menus,
+- execution/master-detail components,
+- and the supporting primitives needed to keep `/application` cleanly componentized.
 
-SSOT CSS
-- app/styles/components.css defines base scrollbar styles and variants; avoid redefining in feature-specific stylesheets.
+## Main system areas
 
+- `layout/`
+  Navbar, user menu, workspace-surface classification, and related chrome carriers.
+- `notifications/`
+  Operator notification surfaces tied to the workspace shell.
+- `execution/`
+  Shared transaction tables, payload readers, detail panels, explainers, activity streams, and field/metric carriers.
+- `orbitals/`
+  Shared orbital visual and ring-adjacent primitives reused by app-owned orbitals.
+
+## V26 second-gate rule
+
+New product behavior should prefer this shared layer when the result is:
+- reusable across `/application`, `/orbitals`, and `/conversations`,
+- typed and provable,
+- cleaner than page-local duplication,
+- and aligned to Bitcode operator UX rather than marketing or demo posture.
+
+Do not use this directory to hide page-local uncertainty.
+If a concern is only meaningful for one route and has not stabilized, keep it route-local until the abstraction is real.
+
+This shared layer is also part of the second-gate markdown/refurbishment requirement.
+If shared operator chrome or execution carriers change materially, their README carriers are expected to stay current in the same checkpoint.
+
+## Key docs
+
+- [execution/README.md](execution/README.md)
+  Shared transaction/detail/payload carrier map.
+- [../../../app/application/README.md](../../../app/application/README.md)
+  Route-local `/application` ownership.
+- [../../../app/orbitals/README.md](../../../app/orbitals/README.md)
+  Orbitals route and overlay ownership.

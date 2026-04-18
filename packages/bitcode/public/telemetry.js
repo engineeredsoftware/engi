@@ -30,7 +30,7 @@ function emit(level, event, fields = {}) {
     ...fields
   };
   const logger = level === 'error' ? console.error : console.log;
-  logger('[engi-demo]', payload);
+  logger('[bitcode-runtime]', payload);
 }
 
 export function telemetry(event, fields = {}) {

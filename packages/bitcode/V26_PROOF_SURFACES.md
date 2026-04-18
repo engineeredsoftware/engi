@@ -73,7 +73,7 @@ Required coverage posture:
 - tests:
   route tests, UI tests, and browser verification for active entry flows
 - proof surface:
-  parity ledger rows and explicit closure statements for second-gate acceptance
+  parity ledger rows, explicit closure statements for second-gate acceptance, and generated checkpoint checks that include active README/markdown carriers
 
 ### Gate 3: marketing refurbishment preparation
 
@@ -214,6 +214,11 @@ Current active assignments:
   `uapi/tests/userMenu.test.tsx`
   proof surface:
   second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals` with the fixed Connects/Interfaces/Profile/$BTD ring model instead of settings/account wording
+- `uapi/app/orbitals/components/OrbitalsLoginPane.tsx`, `uapi/app/orbitals/components/OrbitalsContent.tsx`, `uapi/app/orbitals/components/shared/OrbitalsPaneTabs.tsx`, `uapi/app/orbitals/OrbitalsRouteClient.tsx`
+  test coverage:
+  `uapi/tests/orbitalsLoginPane.test.tsx` and `uapi/tests/orbitalsContent.test.tsx`
+  proof surface:
+  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language instead of generic workspace/settings/account furniture
 - `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
   test coverage:
   `uapi/tests/notificationsWidget.test.tsx`
@@ -230,6 +235,11 @@ Current active assignments:
   `packages/bitcode/test/v26-public-copy.test.js`
   proof surface:
   preserved-runtime user-facing copy discipline, including live-surface/reference-topic tooltip labels, friendly reference-chip naming, and removal of demo-era language from visible help surfaces
+- `packages/bitcode/public/telemetry.js`
+  test coverage:
+  `packages/bitcode/test/v26-public-copy.test.js`
+  proof surface:
+  preserved-runtime telemetry labeling discipline so operator-visible diagnostics report as `[bitcode-runtime]` instead of leaking `[engi-demo]`
 - `packages/bitcode/public/index.html`
   test coverage:
   live `/application` verification through the preserved runtime drawer and direct runtime load expectations
@@ -250,6 +260,11 @@ Current active assignments:
   `packages/bitcode/test/proven-generator.test.js`
   proof surface:
   explicit first+second-gate closure witness for the near-term V26 commit boundary, including third-gate preparation posture before full V26 promotion
+- `README.md`, `uapi/README.md`, `packages/bitcode/README.md`, `uapi/app/application/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/engi/README.md`, `uapi/components/base/engi/execution/README.md`
+  test coverage:
+  generated file-presence checks inside `.engi/v26-gate-checkpoint-report.json` plus spec-family validation
+  proof surface:
+  second-gate documentation/refurbishment closure for the active Bitcode root, route, orbital, execution, shared-component, and package owners
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`

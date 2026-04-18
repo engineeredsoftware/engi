@@ -22,7 +22,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Orbitals',
     badge: 'dedicated mode',
     description:
-      'The dedicated Bitcode orbital space for Profile, Connects, Interfaces, $BTD, and the rest of the configuration surface.',
+      'The dedicated Bitcode orbital space for Connects, Interfaces, Profile, $BTD, and the rest of the connection, wallet, and interface-default surface.',
     targetId: 'orbitals',
   },
 ] as const;

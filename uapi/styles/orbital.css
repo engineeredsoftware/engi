@@ -3189,8 +3189,8 @@ to {
 }
 /* User Orbital Interface - Fixes for regression issues */
 
-/* Ensure persistent background rings fill the full viewport */
-.orbital-system-background {
+/* Fullscreen overlay rings should fill the viewport without affecting contained surfaces. */
+.orbital-system-overlay:not(.orbital-system-application) .orbital-system-background {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
