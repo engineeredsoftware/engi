@@ -257,7 +257,7 @@ export default function ApplicationPageClient() {
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
                   Search and read Bitcode transactions in one ledger window, open the selected transaction into
-                  deliverables, proofs, and history, and move into conversations or settings without losing your place.
+                  deliverables, proofs, and history, and move into conversations or orbitals without losing your place.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
@@ -267,7 +267,7 @@ export default function ApplicationPageClient() {
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Fullscreen modes</p>
-                  <p className="mt-2 text-neutral-200">conversations + settings</p>
+                  <p className="mt-2 text-neutral-200">conversations + orbitals</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Primary actions</p>

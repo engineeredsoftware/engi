@@ -6,10 +6,10 @@ import Orbital from '@/app/orbitals/components';
 import type { OrbitalPane } from '@/app/orbitals/components';
 
 const stepLabels: Record<Exclude<OrbitalPane, null>, string> = {
-  profile: 'Account & Team',
+  profile: 'Account & Team Orbital',
   connects: 'Connections',
-  credits: 'Credits & Usage',
-  models: 'Model Settings',
+  credits: 'Credits & Usage Orbital',
+  models: 'Models Orbital',
 };
 
 interface OrbitalsRouteClientProps {
@@ -24,13 +24,13 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                Settings route
+                Orbitals route
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                Open {stepLabels[step]} directly when you need focused settings work.
+                Open {stepLabels[step]} directly when you need focused orbital work.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                Use this direct settings route for account, connections, credits, and model
+                Use this direct orbital route for account, connections, credits, and model
                 preferences when you want a dedicated fullscreen surface outside the transaction
                 workspace.
               </p>

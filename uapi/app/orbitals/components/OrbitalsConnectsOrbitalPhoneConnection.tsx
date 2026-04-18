@@ -320,13 +320,13 @@ export function OrbitalsConnectsOrbitalPhoneConnection({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="orbitals-connects-action-icon">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth={1.5} />
-                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
-                  </svg>
-                </div>
-                <span>SMS Settings</span>
+              <div className="orbitals-connects-action-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth={1.5} />
+                  <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
+                </svg>
+              </div>
+                <span>SMS orbital</span>
                 <div className="orbitals-connects-action-arrow">→</div>
               </motion.a>
               

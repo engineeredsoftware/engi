@@ -320,7 +320,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
             <div className="orbitals-connects-email-body">
               <p>Trigger the application-deliverables pipeline for the Bitcode workspace:</p>
               <ul>
-                <li>Attach updated operator settings copy</li>
+                <li>Attach updated operator orbital copy</li>
                 <li>Generate migration plan for production DB</li>
                 <li>Run post-deliverable regression tests</li>
               </ul>
@@ -358,7 +358,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
                   <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
                 </svg>
               </div>
-              <span>Email settings</span>
+              <span>Email orbital</span>
               <div className="orbitals-connects-action-arrow">→</div>
             </motion.a>
             <motion.a

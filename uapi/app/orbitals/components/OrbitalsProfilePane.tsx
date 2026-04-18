@@ -924,7 +924,7 @@ export default function ProfileStep({ onSave,
           {isOnboardingComplete && (
             <div className="mt-6 flex justify-end">
               <button type="submit" className="primary-button save-button enhanced-contrast">
-                Save account settings
+                Save account profile
               </button>
             </div>
           )}

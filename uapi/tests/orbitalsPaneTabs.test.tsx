@@ -19,7 +19,7 @@ describe('OrbitalsPaneTabs', () => {
       />,
     );
 
-    expect(screen.getByText('Settings')).toBeTruthy();
+    expect(screen.getByText('Orbitals')).toBeTruthy();
     expect(screen.getByText(/Current section:/i)).toBeTruthy();
     expect(screen.getByText('1/4 ready')).toBeTruthy();
     expect(screen.getByRole('button', { name: /2 Connects/i })).toBeTruthy();

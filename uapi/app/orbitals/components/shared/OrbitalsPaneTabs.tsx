@@ -5,7 +5,7 @@ import React from 'react';
 import type { OrbitalPane } from '../index';
 
 interface OrbitalsPaneTabsProps {
-  mode?: 'onboarding' | 'settings';
+  mode?: 'onboarding' | 'orbitals';
   steps: OrbitalPane[];
   currentStep: OrbitalPane;
   completedSteps: OrbitalPane[];
@@ -34,17 +34,17 @@ export default function OrbitalsPaneTabs({
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
-            {mode === 'settings' ? 'Settings' : 'Account setup'}
+            {mode === 'orbitals' ? 'Orbitals' : 'Account setup'}
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
-            {mode === 'settings'
+            {mode === 'orbitals'
               ? 'Move between account areas without losing your place in the workspace.'
               : 'Move through account setup in a clear step-by-step layout.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-            {mode === 'settings' ? 'settings' : 'setup'}
+            {mode === 'orbitals' ? 'orbitals' : 'setup'}
           </span>
           <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
             {completedCount}/{totalCount} ready

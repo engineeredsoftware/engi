@@ -240,7 +240,7 @@ export default function ModelsPane({
           />
 
           <button type="submit" className="primary-button save-button">
-            {isSettingsSurface ? 'Save model settings' : 'Continue'}
+            {isSettingsSurface ? 'Save models orbital' : 'Continue'}
           </button>
         </form>
       </motion.div>

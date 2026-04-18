@@ -51,7 +51,7 @@ export default function ConnectsPane({
             <div className="grid gap-3 tablet:grid-cols-2">
               <div className="rounded-2xl border border-emerald-300/16 bg-emerald-400/8 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-200/78">
-                  Bitcode settings
+                  Bitcode orbitals
                 </p>
                 <p className="mt-2 text-sm leading-7 text-white/74">
                   GitHub is still the primary required integration for the current Bitcode
@@ -75,7 +75,7 @@ export default function ConnectsPane({
                 href="/orbitals/users"
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
-                Open account settings
+                Open account orbitals
               </Link>
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function ConnectsPane({
                   <h3 className="text-lg font-semibold text-white">Connect GitHub for Bitcode execution</h3>
                   <p className="text-sm leading-7 text-white/68">
                     Manage the repository connection that Bitcode reuses across executions,
-                    deliverables, and future application-owned settings surfaces.
+                    deliverables, and future application-owned orbital surfaces.
                   </p>
                 </div>
 
@@ -178,7 +178,7 @@ export default function ConnectsPane({
                     Additional connections
                   </p>
                   <ul className="mt-3 space-y-2 text-sm leading-7 text-white/68">
-                    <li>Wallet and signer access are not yet available from this settings surface.</li>
+                    <li>Wallet and signer access are not yet available from this orbital surface.</li>
                     <li>Phone and email trigger surfaces are still unavailable here today.</li>
                     <li>GitHub remains the primary required connection for current Bitcode execution.</li>
                   </ul>

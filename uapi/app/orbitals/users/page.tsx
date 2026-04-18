@@ -4,7 +4,7 @@ import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
 
 export const metadata: Metadata = {
   title: '$BTD • Account & Team',
-  description: 'Application-owned Bitcode account and team settings route.',
+  description: 'Application-owned Bitcode account and team orbital route.',
   alternates: {
     canonical: '/orbitals/users',
   },

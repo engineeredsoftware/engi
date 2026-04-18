@@ -11,10 +11,10 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     summary:
       'The operator workspace is organized around one central ledger window, with fullscreen writing and configuration available only when deeper action is needed.',
     detail:
-      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and settings remain deliberate mode changes instead of parallel destinations.',
+      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and orbitals remain deliberate mode changes instead of parallel destinations.',
     points: [
       'Keeps the ledger and selected transaction central',
-      'Treats conversations and settings as fullscreen follow-through modes',
+      'Treats conversations and orbitals as fullscreen follow-through modes',
       'Keeps Give and Need legible as the two primary actions',
     ],
   }),
@@ -190,7 +190,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     summary:
       'The right rail should keep mode changes obvious without competing with the central transaction window.',
     detail:
-      'Use the rail to open conversations or settings deliberately, while the ledger and selected transaction remain the primary read surface.',
+      'Use the rail to open conversations or orbitals deliberately, while the ledger and selected transaction remain the primary read surface.',
     points: [
       'Keeps fullscreen drafting deliberate',
       'Avoids splitting attention away from the transaction window',

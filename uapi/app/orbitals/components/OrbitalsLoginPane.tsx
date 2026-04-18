@@ -25,7 +25,7 @@ export default function OrbitalsLoginPane({
               Open your Bitcode workspace
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Sign in to return to transactions, conversations, and settings without losing the
+              Sign in to return to transactions, conversations, and orbitals without losing the
               current working context.
             </p>
           </div>
@@ -57,7 +57,7 @@ export default function OrbitalsLoginPane({
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>
                 <li>Conversations reopen as a fullscreen writing surface when needed.</li>
-                <li>Settings stay available for connections, models, and credits.</li>
+                <li>Orbitals stay available for connections, models, and credits.</li>
               </ul>
             </div>
           </div>

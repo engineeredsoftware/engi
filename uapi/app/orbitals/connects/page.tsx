@@ -4,7 +4,7 @@ import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
 
 export const metadata: Metadata = {
   title: '$BTD • Connections',
-  description: 'Application-owned Bitcode connections settings route.',
+  description: 'Application-owned Bitcode connections orbital route.',
   alternates: {
     canonical: '/orbitals/connects',
   },

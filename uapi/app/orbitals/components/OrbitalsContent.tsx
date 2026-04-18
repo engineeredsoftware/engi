@@ -6,7 +6,7 @@ import type { OrbitalPane } from './index';
 import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
 
 export interface OrbitalContentProps {
-  mode?: 'onboarding' | 'settings';
+  mode?: 'onboarding' | 'orbitals';
   steps: OrbitalPane[];
   currentStep: OrbitalPane;
   completedSteps: OrbitalPane[];
@@ -33,7 +33,7 @@ function OrbitalContent(props: OrbitalContentProps) {
     renderStepContent = (_: OrbitalPane) => null,
     isOnboardingComplete = false,
   } = props;
-  const isSettingsMode = mode === 'settings';
+  const isOrbitalMode = mode === 'orbitals';
   const usesTabNavigation = navigationMode === 'tabs';
 
   const stepMeta = useMemo(() => {
@@ -50,7 +50,7 @@ function OrbitalContent(props: OrbitalContentProps) {
 
   return (
     <>
-      {showSuccessAnimation && !isSettingsMode && currentStep && !completedSteps.includes(currentStep) && (
+      {showSuccessAnimation && !isOrbitalMode && currentStep && !completedSteps.includes(currentStep) && (
         <div className="step-completion-success">
           <div className="success-icon">✓</div>
           <div className="success-ring-outer" />
@@ -71,7 +71,7 @@ function OrbitalContent(props: OrbitalContentProps) {
         />
       ) : null}
 
-      {currentStep && (isSettingsMode || !isOnboardingComplete) && !usesTabNavigation && (
+      {currentStep && (isOrbitalMode || !isOnboardingComplete) && !usesTabNavigation && (
         <motion.div
           className="orbital-step-indicator"
           initial={{ opacity: 0, x: -20 }}
@@ -82,19 +82,19 @@ function OrbitalContent(props: OrbitalContentProps) {
           }}
         >
           <div className="step-indicator-content">
-            <h3 className="step-indicator-title">{isSettingsMode ? 'Settings Areas' : 'Onboarding Progress'}</h3>
+            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital Areas' : 'Onboarding Progress'}</h3>
             <div className="step-indicator-steps">
               {steps.map((step) => {
                 const index = stepMeta.pos.get(step)!;
                 const isActive = step === currentStep;
-                const isCompleted = isSettingsMode
+                const isCompleted = isOrbitalMode
                   ? completedSteps.includes(step)
                   : step === 'models' && !isOnboardingComplete
                   ? completedSteps.includes('connects') && completedSteps.includes('models')
                   : completedSteps.includes(step);
                 const isAvailable = availableSteps.includes(step);
                 const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-                const isNext = !isSettingsMode && index === highest + 1;
+                const isNext = !isOrbitalMode && index === highest + 1;
                 const classes = ['step-indicator-item'];
                 if (isActive) classes.push('active');
                 if (isCompleted) classes.push('completed');
@@ -107,7 +107,7 @@ function OrbitalContent(props: OrbitalContentProps) {
                       if (isAvailable) {
                         try {
                           const { trackEvent } = require('@bitcode/google-analytics');
-                          trackEvent(isSettingsMode ? 'settings_step_click' : 'onboarding_step_click', { step });
+                          trackEvent(isOrbitalMode ? 'settings_step_click' : 'onboarding_step_click', { step });
                         } catch {}
                         onStepClick(step);
                       }
@@ -140,7 +140,7 @@ function OrbitalContent(props: OrbitalContentProps) {
             const i = stepMeta.pos.get(step)!;
             const isAvailable = availableSteps.includes(step);
             const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-            const isNext = !isSettingsMode && i === highest + 1;
+            const isNext = !isOrbitalMode && i === highest + 1;
             const size = 30 + i * 15;
             const style: React.CSSProperties = {
               position: 'absolute',

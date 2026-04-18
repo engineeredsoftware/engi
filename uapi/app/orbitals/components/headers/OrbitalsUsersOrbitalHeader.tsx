@@ -8,8 +8,8 @@ export default function OrbitalsUsersOrbitalHeader({
   isVerified = false,
 }: { isOnboardingComplete?: boolean; isVerified?: boolean }) {
   const description = !isVerified
-    ? "Verify your email to secure Bitcode access and unlock the rest of your settings."
-    : "Manage your profile, organization, and team settings.";
+    ? "Verify your email to secure Bitcode access and unlock the rest of your orbitals."
+    : "Manage your profile, organization, and team orbitals.";
   return (
     <OrbitalsOrbitalHeader
       title="Account & Team"

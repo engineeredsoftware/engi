@@ -523,7 +523,7 @@ export default function CreditsPane({
 
         {isSettingsSurface && (
           <div className="mb-6 rounded-[22px] border border-white/10 bg-white/[0.045] px-5 py-4 text-sm leading-7 text-white/74 shadow-[0_18px_45px_rgba(0,0,0,0.2)]">
-            Use this settings area to top up capacity, review provider premiums, and inspect how
+            Use this orbital to top up capacity, review provider premiums, and inspect how
             Bitcode spends credits across repository analysis, execution, and delivery work.
           </div>
         )}

@@ -5,7 +5,7 @@ import ApplicationPageClient from './ApplicationPageClient';
 export const metadata: Metadata = {
   title: '$BTD • Bitcode Application',
   description:
-    'Bitcode operator workspace for transactions, deliverables, proofs, history, conversations, and settings.',
+    'Bitcode operator workspace for transactions, deliverables, proofs, history, conversations, and orbitals.',
   alternates: {
     canonical: '/application',
   },

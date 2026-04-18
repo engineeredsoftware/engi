@@ -19,10 +19,10 @@ export const APPLICATION_EXPERIENCES = [
   },
   {
     id: 'orbitals',
-    label: 'Settings',
+    label: 'Orbitals',
     badge: 'fullscreen',
     description:
-      'The fullscreen Bitcode settings space for account, connects, models, credits, and the rest of the configuration surface.',
+      'The fullscreen Bitcode orbital space for account, connects, models, credits, and the rest of the configuration surface.',
     targetId: 'orbitals',
   },
 ] as const;

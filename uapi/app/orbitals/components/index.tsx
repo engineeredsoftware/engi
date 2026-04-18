@@ -108,8 +108,8 @@ export default function Orbital({
   const [isCompletingStep, setIsCompletingStep] = useState(false);
 
   const canonicalOnboardingComplete = onboardingData?.isOnboardingComplete || false;
-  const isSettingsSurface = Boolean(sessionUser);
-  const isUnlockedSurface = canonicalOnboardingComplete || isSettingsSurface;
+  const isOrbitalSurface = Boolean(sessionUser);
+  const isUnlockedSurface = canonicalOnboardingComplete || isOrbitalSurface;
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -160,10 +160,10 @@ export default function Orbital({
 
     setCompletedSteps((onboardingData.completedSteps || []) as ConcreteOrbitalPane[]);
 
-    if (!isSettingsSurface && onboardingData.currentStep && !initialStep && !routeStep) {
+    if (!isOrbitalSurface && onboardingData.currentStep && !initialStep && !routeStep) {
       setCurrentStep(onboardingData.currentStep as ConcreteOrbitalPane);
     }
-  }, [onboardingData, isSettingsSurface, initialStep, routeStep]);
+  }, [onboardingData, isOrbitalSurface, initialStep, routeStep]);
 
   const currentStepIndex = useMemo(() => STEPS.indexOf(currentStep), [currentStep]);
 
@@ -176,7 +176,7 @@ export default function Orbital({
   }, []);
 
   const availableSteps = useMemo(() => {
-    if (isSettingsSurface) {
+    if (isOrbitalSurface) {
       return STEPS;
     }
 
@@ -206,7 +206,7 @@ export default function Orbital({
     }
 
     return available;
-  }, [completedSteps, currentStep, isSettingsSurface]);
+  }, [completedSteps, currentStep, isOrbitalSurface]);
 
   const updateOnboardingMutation = useMutation({
     mutationFn: async (step: OrbitalPane) => {
@@ -275,7 +275,7 @@ export default function Orbital({
     setIsCompletingStep(true);
     const newCompletedSteps = [...completedSteps, step];
     setCompletedSteps(newCompletedSteps);
-    trackEvent(isSettingsSurface ? 'settings_step_completed' : 'onboarding_step_completed', { step });
+    trackEvent(isOrbitalSurface ? 'settings_step_completed' : 'onboarding_step_completed', { step });
 
     try {
       await updateOnboardingMutation.mutateAsync(step);
@@ -285,7 +285,7 @@ export default function Orbital({
       setIsCompletingStep(false);
     }
 
-    if (!isSettingsSurface) {
+    if (!isOrbitalSurface) {
       if (!newCompletedSteps.includes('profile')) {
         setCurrentStep('profile');
       } else if (!newCompletedSteps.includes('connects')) {
@@ -294,7 +294,7 @@ export default function Orbital({
         setCurrentStep('credits');
       }
     }
-  }, [completedSteps, isCompletingStep, isSettingsSurface, updateOnboardingMutation]);
+  }, [completedSteps, isCompletingStep, isOrbitalSurface, updateOnboardingMutation]);
 
   const handleStepClick = useCallback((step: OrbitalPane) => {
     if (!step || !availableSteps.includes(step as ConcreteOrbitalPane)) {
@@ -302,8 +302,8 @@ export default function Orbital({
     }
 
     setCurrentStep(step as ConcreteOrbitalPane);
-    trackEvent(isSettingsSurface ? 'settings_step_click' : 'onboarding_step_click', { step });
-  }, [availableSteps, isSettingsSurface]);
+    trackEvent(isOrbitalSurface ? 'settings_step_click' : 'onboarding_step_click', { step });
+  }, [availableSteps, isOrbitalSurface]);
 
   const toggleWindow = useCallback(() => {
     setActiveWindow((value) => (value === 'SignInWindow' ? 'SignUpWindow' : 'SignInWindow'));
@@ -315,14 +315,14 @@ export default function Orbital({
 
   useEffect(() => {
     if (
-      !isSettingsSurface &&
+      !isOrbitalSurface &&
       stepCompletionStates[currentStep] &&
       !completedSteps.includes(currentStep) &&
       !isCompletingStep
     ) {
       handleStepComplete(currentStep);
     }
-  }, [completedSteps, currentStep, handleStepComplete, isCompletingStep, isSettingsSurface, stepCompletionStates]);
+  }, [completedSteps, currentStep, handleStepComplete, isCompletingStep, isOrbitalSurface, stepCompletionStates]);
 
   useEffect(() => {
     if (canonicalOnboardingComplete) {
@@ -346,7 +346,7 @@ export default function Orbital({
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('profile', isComplete)
+              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('profile', isComplete)
             }
             onSave={async (updated) => {
               try {
@@ -364,7 +364,7 @@ export default function Orbital({
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('connects', isComplete)
+              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('connects', isComplete)
             }
             onSave={async () => {
               await handleStepComplete('connects');
@@ -377,7 +377,7 @@ export default function Orbital({
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('credits', isComplete)
+              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('credits', isComplete)
             }
             onSave={async () => {
               await handleStepComplete('credits');
@@ -390,7 +390,7 @@ export default function Orbital({
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isSettingsSurface ? undefined : (isComplete) => handleStepCompletionChange('models', isComplete)
+              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('models', isComplete)
             }
             onSave={async (updated) => {
               try {
@@ -413,7 +413,7 @@ export default function Orbital({
   }, [
     handleStepComplete,
     handleStepCompletionChange,
-    isSettingsSurface,
+    isOrbitalSurface,
     isUnlockedSurface,
     profileData,
     profileLoading,
@@ -428,7 +428,7 @@ export default function Orbital({
   return (
     <div
       ref={containerRef}
-      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isSettingsSurface ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isOrbitalSurface ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
@@ -498,13 +498,13 @@ export default function Orbital({
         ) : (
           <OrbitalContent
             key="account"
-            mode={isSettingsSurface ? 'settings' : 'onboarding'}
+            mode={isOrbitalSurface ? 'orbitals' : 'onboarding'}
             steps={STEPS}
             currentStep={currentStep}
             completedSteps={completedSteps}
             availableSteps={availableSteps}
             showContent
-            showSuccessAnimation={!isSettingsSurface && !usesApplicationOverlay}
+            showSuccessAnimation={!isOrbitalSurface && !usesApplicationOverlay}
             navigationMode={usesApplicationOverlay ? 'tabs' : 'orbital'}
             onStepClick={handleStepClick}
             renderStepContent={renderStepContent}
