@@ -9,9 +9,10 @@ import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explaine
 export default function ApplicationPreservedShellSurface() {
   return (
     <ApplicationOperatorCard
+      id="applicationLowerRuntime"
       kicker="Lower runtime"
-      title="Keep the mounted runtime available without letting it take over the workspace"
-      summary="Stay in the application terminal for normal reading and drafting. Open the lower runtime only when you need exact follow-through, replay detail, or mount-level verification."
+      title="Open live runtime detail only when you need exact replay or proof follow-through"
+      summary="Stay in the application terminal for normal reading and drafting. Open the live runtime only when you need exact follow-through, replay detail, or mount-level verification."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.sourcePath}
       className="min-w-0"
       childrenClassName="space-y-5"
@@ -28,8 +29,8 @@ export default function ApplicationPreservedShellSurface() {
       </div>
 
       <ApplicationRuntimeDrawer
-        title="Open the mounted Bitcode runtime"
-        summary="This preserves the original runtime contract for inspection and closure follow-through while the main application keeps the cleaner master-detail surface."
+        title="Open live runtime detail"
+        summary="This keeps the live runtime available for inspection and closure follow-through while the main application stays centered on the cleaner master-detail workspace."
       >
         <div className="min-w-0 p-2 tablet:p-4">
         <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">

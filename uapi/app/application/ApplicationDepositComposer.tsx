@@ -130,6 +130,7 @@ export default function ApplicationDepositComposer() {
   if (!composer) {
     return (
       <ApplicationOperatorCard
+        id="applicationDepositComposer"
         kicker="Give intake"
         title="Draft and submit a give-side deposit"
         summary="Reading selected supply, issuer continuity, and the current deposit draft posture."
@@ -142,6 +143,7 @@ export default function ApplicationDepositComposer() {
 
   return (
     <ApplicationOperatorCard
+      id="applicationDepositComposer"
       kicker="Give intake"
       title="Draft and submit a give-side deposit"
       summary="Build the deposit from selected supply, add provenance overrides where needed, and keep the working draft resumable before fit and closure."

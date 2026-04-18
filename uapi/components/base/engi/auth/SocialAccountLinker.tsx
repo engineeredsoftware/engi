@@ -173,7 +173,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
               Disconnect
             </button>
           ) : !isSupported ? (
-            <span className="text-xs text-white/45">V26 hardening</span>
+            <span className="text-xs text-white/45">Unavailable</span>
           ) : (
             <button
               type="button"
@@ -204,7 +204,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
               ? 'Connected to your Bitcode account'
               : isSupported
               ? 'Available for sign-in and account linking'
-              : 'Reserved for later V26 hardening'}
+              : 'Not yet available from this settings surface'}
           </div>
         </div>
       </div>

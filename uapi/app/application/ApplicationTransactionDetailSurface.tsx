@@ -261,53 +261,66 @@ export default function ApplicationTransactionDetailSurface({
 
         <div className="space-y-5">
           {showTransaction ? (
-            <ApplicationTransactionIdentityCard
-              startedAt={formatRunTimestamp(selectedRun.created_at)}
-              rows={identityRows}
-              payload={transactionPayload}
-            />
+            <div id="applicationTransactionTransaction">
+              <ApplicationTransactionIdentityCard
+                startedAt={formatRunTimestamp(selectedRun.created_at)}
+                rows={identityRows}
+                payload={transactionPayload}
+              />
+            </div>
           ) : null}
 
           {showClosure ? (
-            <ApplicationTransactionClosureCard
-              rows={closureRows}
-              settlementMetrics={closureFollowThrough.settlementMetrics}
-              branchArtifacts={closureFollowThrough.branchArtifacts}
-              payload={closurePayload}
-              onOpenVerification={() => jumpToShellSection('panelEvaluations')}
-              onOpenBranch={() => jumpToShellSection('panelBranchArtifacts')}
-              onOpenSettlement={() => jumpToShellSection('panelSettlement')}
-            />
+            <div id="applicationTransactionClosure">
+              <ApplicationTransactionClosureCard
+                rows={closureRows}
+                settlementMetrics={closureFollowThrough.settlementMetrics}
+                branchArtifacts={closureFollowThrough.branchArtifacts}
+                payload={closurePayload}
+                onOpenVerification={() => jumpToShellSection('panelEvaluations')}
+                onOpenBranch={() => jumpToShellSection('panelBranchArtifacts')}
+                onOpenSettlement={() => jumpToShellSection('panelSettlement')}
+              />
+            </div>
           ) : null}
 
           {showProofs ? (
-            <ApplicationTransactionProofsCard
-              proofFamilies={closureFollowThrough.proofFamilies}
-              onOpenVerification={() => jumpToShellSection('panelEvaluations')}
-              onOpenSettlement={() => jumpToShellSection('panelSettlement')}
-              payload={proofsPayload}
-            />
+            <div id="applicationTransactionProofs">
+              <ApplicationTransactionProofsCard
+                proofFamilies={closureFollowThrough.proofFamilies}
+                onOpenVerification={() => jumpToShellSection('panelEvaluations')}
+                onOpenSettlement={() => jumpToShellSection('panelSettlement')}
+                payload={proofsPayload}
+              />
+            </div>
           ) : null}
 
           {showHistory ? (
-            <ApplicationTransactionHistoryCard
-              recentHistory={closureFollowThrough.recentHistory}
-              onOpenHistory={() => jumpToShellSection('panelLedger')}
-              payload={historyPayload}
-            />
+            <div id="applicationTransactionHistory">
+              <ApplicationTransactionHistoryCard
+                recentHistory={closureFollowThrough.recentHistory}
+                onOpenHistory={() => jumpToShellSection('panelLedger')}
+                payload={historyPayload}
+              />
+            </div>
           ) : null}
         </div>
       </div>
 
       {showActivity ? (
-        <ApplicationTransactionActivitySurface
-          selectedRun={selectedRun}
-          transactionDataMode={transactionDataMode}
-        />
+        <div id="applicationTransactionActivity">
+          <ApplicationTransactionActivitySurface
+            selectedRun={selectedRun}
+            transactionDataMode={transactionDataMode}
+          />
+        </div>
       ) : null}
 
       {showConsole ? (
-        <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
+        <section
+          id="applicationTransactionConsole"
+          className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]"
+        >
           <div className="border-b border-white/8 px-5 py-4">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Compatibility console</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Detailed execution console</h3>

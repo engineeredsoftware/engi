@@ -9,6 +9,7 @@ import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGri
 import { jumpToShellSection } from './application-shell-reading';
 
 interface ApplicationActionWorkbenchCardProps {
+  id?: string;
   badge: string;
   title: string;
   summary: string;
@@ -20,6 +21,7 @@ interface ApplicationActionWorkbenchCardProps {
 }
 
 export default function ApplicationActionWorkbenchCard({
+  id,
   badge,
   title,
   summary,
@@ -30,7 +32,7 @@ export default function ApplicationActionWorkbenchCard({
   actionTarget,
 }: ApplicationActionWorkbenchCardProps) {
   return (
-    <article className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
+    <article id={id} className="rounded-[1.6rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">{badge}</p>

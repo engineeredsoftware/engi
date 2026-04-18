@@ -11,10 +11,19 @@ import {
   type ApplicationCommandState,
 } from './application-command-state';
 import { deriveApplicationCommandPresentation } from './application-command-presentation';
+import ApplicationFlowGuideCard from './ApplicationFlowGuideCard';
 import { useApplicationShellBridge } from './application-shell-bridge';
 
 function jumpToShellSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'auto', block: 'start' });
+}
+
+function optionLabel(
+  options: Array<{ value: string; label: string }>,
+  value: string,
+  fallback: string,
+) {
+  return options.find((option) => option.value === value)?.label || fallback;
 }
 
 export default function ApplicationCommandDeck() {
@@ -40,6 +49,9 @@ export default function ApplicationCommandDeck() {
     commandState && commandState.tutorialStepCount > 0
       ? `${commandState.tutorialOpen ? 'active' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
       : 'available';
+  const currentScenarioLabel = optionLabel(scenarioOptions, scenario, scenario);
+  const currentProjectionLabel = optionLabel(projectionOptions, projection, projection);
+  const currentBranchLabel = optionLabel(branchOptions, branchMode, branchMode);
   const presentation = useMemo(
     () => deriveApplicationCommandPresentation(commandState),
     [commandState],
@@ -205,25 +217,23 @@ export default function ApplicationCommandDeck() {
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
                 <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Scenario</p>
-                <p className="mt-2 text-sm font-medium text-white">{scenario}</p>
+                <p className="mt-2 text-sm font-medium text-white">{currentScenarioLabel}</p>
               </div>
               <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
                 <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Projection</p>
-                <p className="mt-2 text-sm font-medium text-white">{projection}</p>
+                <p className="mt-2 text-sm font-medium text-white">{currentProjectionLabel}</p>
               </div>
               <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3">
                 <p className="text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">Branch mode</p>
-                <p className="mt-2 text-sm font-medium text-white">{branchMode}</p>
+                <p className="mt-2 text-sm font-medium text-white">{currentBranchLabel}</p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Guide and continuation</p>
-            <p className="mt-3 text-sm leading-6 text-neutral-200">{presentation.continuationStatus}</p>
-            <p className="mt-3 text-xs leading-6 text-neutral-400">{presentation.continuationTip}</p>
-            <p className="mt-3 text-xs leading-6 text-neutral-400">Guide posture: {guideDetail}</p>
-          </div>
+          <ApplicationFlowGuideCard
+            commandState={commandState}
+            continuationTip={presentation.continuationTip}
+          />
         </div>
       </div>
     </ApplicationOperatorCard>

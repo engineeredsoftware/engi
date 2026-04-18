@@ -27,6 +27,7 @@ export default function ApplicationNeedScenarioPanel() {
   if (!needState) {
     return (
       <ApplicationOperatorCard
+        id="applicationNeedScenarios"
         kicker="Need scenarios"
         title="Choose the active demand frame"
         summary="Reading the current demand frame, parser posture, and target structure."
@@ -39,6 +40,7 @@ export default function ApplicationNeedScenarioPanel() {
 
   return (
     <ApplicationOperatorCard
+      id="applicationNeedScenarios"
       kicker="Need scenarios"
       title="Choose the active demand frame"
       summary="Keep the current need scenario explicit before reading fit, proof, or closure posture."
@@ -61,17 +63,17 @@ export default function ApplicationNeedScenarioPanel() {
       <div className="mt-6 flex flex-wrap gap-3">
         <button
           type="button"
-          onClick={() => jumpToShellSection('panelNeeding')}
+          onClick={() => jumpToShellSection('applicationNeedScenarios')}
           className="rounded-[1.4rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
         >
-          Open need path
+          Focus need scenarios
         </button>
         <button
           type="button"
-          onClick={() => jumpToShellSection('panelFit')}
+          onClick={() => jumpToShellSection('applicationGiveNeedWorkbench')}
           className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
         >
-          Open fit path
+          Focus fit read
         </button>
       </div>
 

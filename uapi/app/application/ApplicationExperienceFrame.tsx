@@ -16,7 +16,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
     <ApplicationOperatorCard
       kicker="Workspace model"
       title="Read the ledger, then open deeper modes only when needed"
-      summary="Keep transactions and selected detail primary, then move into conversations or orbitals only when you need drafting, coordination, or settings."
+      summary="Keep transactions and selected detail primary, then move into conversations or settings only when you need drafting, coordination, or configuration."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -66,7 +66,7 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
                   onClick={() => openOrbital('account', 'connects')}
                   className="rounded-[1.3rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                 >
-                  Open orbitals
+                  Open settings
                 </button>
               )}
             </div>

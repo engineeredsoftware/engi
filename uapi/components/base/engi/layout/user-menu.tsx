@@ -4,7 +4,6 @@ import * as React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Avatar from "@radix-ui/react-avatar";
 import classNames from "classnames";
-import { popoverSurfaceClass } from '@/components/base/engi/styles/surfaces';
 import menuStyles from '@/components/base/engi/menus/glassy-menu.module.css';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { OrbitalIcon } from './orbital-icon';
@@ -41,19 +40,6 @@ const contentStyles = `${menuStyles.menu}`;
  * Increased padding, smooth colour transitions and active/hover feedback that
  * follow the emerald accent used across interactive elements.
  */
-const itemStyles = [
-  'px-4 py-3 flex items-center gap-3',
-  'text-neutral-200 hover:text-white',
-  'transition-colors duration-150 ease-elegant',
-  'hover:bg-white/5 active:bg-white/10',
-  'cursor-pointer',
-  // Subtle divider between stacked items (horizontal line) – no left/right
-  'border-b border-white/5 last:border-none',
-  // Remove default focus rings to avoid being clipped by border-radius
-  'focus:outline-none focus-visible:outline-none focus:ring-0',
-  'last:rounded-b-lg'
-].join(' ');
-
 export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
   const avatarUrl =
     (user.user_metadata && (user.user_metadata.avatar_url as string)) || "";
@@ -130,7 +116,7 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
                 className={`${menuStyles.item}`}
               >
                 <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
-                <span>Orbital</span>
+                <span>Settings</span>
               </DropdownMenu.Item>
             )}
 

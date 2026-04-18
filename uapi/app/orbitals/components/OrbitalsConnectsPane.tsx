@@ -175,11 +175,11 @@ export default function ConnectsPane({
 
                 <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
-                    Staged follow-ons
+                    Additional connections
                   </p>
                   <ul className="mt-3 space-y-2 text-sm leading-7 text-white/68">
-                    <li>Wallet and signer settings remain part of V26 hardening, not this route pass.</li>
-                    <li>Phone and email trigger surfaces still need their own productionizing repair.</li>
+                    <li>Wallet and signer access are not yet available from this settings surface.</li>
+                    <li>Phone and email trigger surfaces are still unavailable here today.</li>
                     <li>GitHub remains the primary required connection for current Bitcode execution.</li>
                   </ul>
                 </div>

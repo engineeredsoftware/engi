@@ -34,7 +34,7 @@ export default function BitcodeInlineExplainer({
           triggerClassName,
         )}
       >
-        ?
+        i
       </button>
 
       <span
@@ -46,21 +46,34 @@ export default function BitcodeInlineExplainer({
             : 'bottom-full left-1/2 mb-3 -translate-x-1/2',
         )}
       >
+        <span
+          className={cn(
+            'absolute left-1/2 h-3.5 w-3.5 -translate-x-1/2 rotate-45 border border-white/10 bg-[rgba(4,8,18,0.98)]',
+            side === 'bottom' ? '-top-2' : '-bottom-2',
+          )}
+        />
         {explainer.kicker ? (
-          <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/80">{explainer.kicker}</span>
+          <span className="relative block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/80">{explainer.kicker}</span>
         ) : null}
-        <strong className="mt-2 block text-sm font-semibold tracking-[0.01em] text-white">{title}</strong>
-        <span className="mt-2 block text-sm leading-6 text-neutral-200">{summary}</span>
-        {detail ? <span className="mt-2 block text-sm leading-6 text-neutral-400">{detail}</span> : null}
+        <strong className="relative mt-2 block text-sm font-semibold tracking-[0.01em] text-white">{title}</strong>
+        <span className="relative mt-2 block text-sm leading-6 text-neutral-200">{summary}</span>
+        {detail ? (
+          <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm leading-6 text-neutral-400">
+            {detail}
+          </span>
+        ) : null}
         {points.length ? (
-          <ul className="mt-3 space-y-1.5 text-sm leading-6 text-neutral-200">
+          <div className="relative mt-3 border-t border-white/8 pt-3">
+            <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">Use this to</span>
+            <ul className="mt-2 space-y-1.5 text-sm leading-6 text-neutral-200">
             {points.map((point) => (
               <li key={`${title}-${point}`} className="flex gap-2">
                 <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/70" />
                 <span>{point}</span>
               </li>
             ))}
-          </ul>
+            </ul>
+          </div>
         ) : null}
       </span>
     </span>

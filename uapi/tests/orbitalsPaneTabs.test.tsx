@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
@@ -19,6 +20,8 @@ describe('OrbitalsPaneTabs', () => {
     );
 
     expect(screen.getByText('Orbital settings')).toBeTruthy();
+    expect(screen.getByText('Current section:')).toBeTruthy();
+    expect(screen.getByText('1/4 ready')).toBeTruthy();
     expect(screen.getByRole('button', { name: /2 Connects/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /4 Credits/i })).toBeDisabled();
 

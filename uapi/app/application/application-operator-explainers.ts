@@ -80,7 +80,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     points: [
       'Keeps give and need in one workspace read',
       'Makes fit legible before proof and settlement',
-      'Supports quick orientation before deeper source-path reading',
+      'Supports quick orientation before opening the lower runtime detail',
     ],
   }),
   closureControls: buildExplainer({
@@ -106,7 +106,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     points: [
       'Keeps closure stages in one readable sequence',
       'Brings proof and history closer to the operator workspace',
-      'Makes exact source-path reads deliberate instead of mandatory',
+      'Makes lower runtime reads deliberate instead of mandatory',
     ],
   }),
   ledgerPulse: buildExplainer({
@@ -140,10 +140,10 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the lower runtime detail.',
     detail:
-      'The map should act like a readable table of contents for the lower flow, not like an engineering note about implementation layers.',
+      'The map should act like a readable table of contents for the lower flow, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
-      'Keeps lower source-path navigation legible',
+      'Keeps lower runtime navigation legible',
     ],
   }),
   repositorySupply: buildExplainer({
@@ -163,7 +163,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     kicker: 'Give and need map',
     title: 'Supply, need, and fit overview',
     summary:
-      'The operator should be able to read the live give-side source, measured need, and fit posture without dropping immediately into lower source-path detail.',
+      'The operator should be able to read the live give-side source, measured need, and fit posture without dropping immediately into lower runtime detail.',
     detail:
       'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active workspace.',
     points: [
@@ -186,7 +186,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
   }),
   railModes: buildExplainer({
     kicker: 'Workspace modes',
-    title: 'Read here, draft in fullscreen',
+    title: 'Read here, open fullscreen when needed',
     summary:
       'The right rail should keep mode changes obvious without competing with the central transaction window.',
     detail:

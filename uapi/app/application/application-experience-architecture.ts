@@ -7,7 +7,7 @@ export const APPLICATION_EXPERIENCES = [
     badge: 'primary',
     description:
       'The central Bitcode ledger window: a searchable transactions table with the selected transaction opened into deliverables, proofs, and history.',
-    targetId: 'bitcodeApplicationRoot',
+    targetId: 'applicationTransactionWorkspace',
   },
   {
     id: 'conversations',
@@ -34,7 +34,7 @@ export const APPLICATION_ACTIONS = [
     badge: 'repo supply',
     description:
       'Contribute searchable supply into Bitcode so a future Need can satisfy against it, even where the immediate return is deferred, thin, or absent.',
-    targetId: 'panelDepositing',
+    targetId: 'applicationSupplySelection',
   },
   {
     id: 'need',
@@ -42,7 +42,7 @@ export const APPLICATION_ACTIONS = [
     badge: 'measured demand',
     description:
       'Frame scenario demand, measured need, and fit pressure so Bitcode can verify, satisfy, settle, and prove against it.',
-    targetId: 'panelNeeding',
+    targetId: 'applicationNeedScenarios',
   },
 ] as const;
 
@@ -69,7 +69,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     badge: 'closure',
     description:
       'Keep verification, settlement proof, and bounded disclosure inside the same consequence chain as the selected transaction.',
-    targetId: 'panelSettlement',
+    targetId: 'applicationTransactionProofs',
   },
   {
     id: 'history',
@@ -77,7 +77,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     badge: 'ledger',
     description:
       'Retain run history, ledger state, policy metadata, and execution accounting as first-class read surfaces in the same window.',
-    targetId: 'panelLedger',
+    targetId: 'applicationTransactionHistory',
   },
 ] as const;
 

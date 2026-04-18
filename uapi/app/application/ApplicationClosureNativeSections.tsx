@@ -84,7 +84,7 @@ function renderClosurePanelCard(panel: ApplicationClosurePanel) {
             onClick={() => jumpToShellSection(shellPanelId)}
             className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Open live section
+            Open lower runtime section
           </button>
         </div>
       </div>
@@ -134,6 +134,7 @@ export default function ApplicationClosureNativeSections() {
   if (!closureState) {
     return (
       <ApplicationOperatorCard
+        id="applicationClosureSequence"
         kicker="Closure map"
         title="Verification, branch, settlement, and ledger"
         summary="Reading the current closure sequence and runtime posture."
@@ -146,6 +147,7 @@ export default function ApplicationClosureNativeSections() {
 
   return (
     <ApplicationOperatorCard
+      id="applicationClosureSequence"
       kicker="Closure map"
       title="Verification, branch, settlement, and ledger"
       summary="Read closure as one sequence from verification through ledger continuity, then open the lower runtime detail only when needed."
@@ -154,7 +156,7 @@ export default function ApplicationClosureNativeSections() {
         <BitcodeMetricGrid
           metrics={[
             { label: 'Read posture', value: 'workspace sequence' },
-            { label: 'Runtime posture', value: closureState.canonLabel },
+            { label: 'Closure surfaces', value: String(panels.length) },
           ]}
           columnsClassName="tablet:grid-cols-2"
           itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"

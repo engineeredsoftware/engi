@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Logo from "@/components/base/engi/branding/logo";
 import { CreditsTracker } from "@/components/base/engi/credits/credits-tracker";
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
@@ -51,7 +51,7 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, loading: loadingSession } = useAuth();
+  const { user } = useAuth();
   const { credits } = useUserData();
 
   const [showNavUse, setShowNavUse] = useState(false);
@@ -84,19 +84,6 @@ export default function Nav() {
       document.removeEventListener('open-orbitals', openLogin);
       document.removeEventListener('start-onboarding', openOnboarding);
     };
-  }, []);
-
-  // Handle notification callbacks
-  const handleMarkAsRead = useCallback((id: string) => {
-    console.log('Marked as read:', id);
-  }, []);
-
-  const handleMarkAllAsRead = useCallback(() => {
-    console.log('Marked all as read');
-  }, []);
-
-  const handleNotificationClick = useCallback((notification: any) => {
-    console.log('Clicked notification:', notification);
   }, []);
 
   // Animation timing
@@ -163,11 +150,19 @@ export default function Nav() {
         <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${isApplicationRoute ? 'py-4' : 'py-4 pb-6'}`}>
           <div className="flex items-center w-full">
             <div onClick={handleLogoClick} className={`flex items-center gap-3 cursor-pointer ${isAnimated ? 'nav-logo-animated' : 'opacity-0'}`}>
-              <Logo beta={!isApplicationRoute} height="h-9" width="w-9" />
+              <div
+                className={
+                  isApplicationRoute
+                    ? 'flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-400/18 bg-emerald-400/10 shadow-[0_10px_24px_rgba(0,0,0,0.18)]'
+                    : ''
+                }
+              >
+                <Logo beta={!isApplicationRoute} height="h-9" width="w-9" />
+              </div>
               {isApplicationRoute ? (
                 <div className="hidden sm:block">
                   <p className="text-xs uppercase tracking-[0.24em] text-emerald-300/80">Bitcode</p>
-                  <p className="mt-1 text-sm text-neutral-200">operator terminal</p>
+                  <p className="mt-1 text-sm text-neutral-200">operator workspace</p>
                 </div>
               ) : null}
             </div>
@@ -250,11 +245,7 @@ export default function Nav() {
                 )}
 
                 {FEATURE_FLAGS.NOTIFICATIONS && (
-                  <MemoNotificationsWidget
-                    onMarkAsRead={handleMarkAsRead}
-                    onMarkAllAsRead={handleMarkAllAsRead}
-                    onNotificationClick={handleNotificationClick}
-                  />
+                  <MemoNotificationsWidget />
                 )}
 
                 <UserMenu

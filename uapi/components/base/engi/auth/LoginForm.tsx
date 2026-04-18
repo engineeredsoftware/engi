@@ -612,7 +612,7 @@ function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
           <>
             <div className="mx-auto mb-6 max-w-[28rem] rounded-[24px] border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
               Email code remains the primary Bitcode sign-in path. GitHub and Google are active
-              account providers, and wallet connection is staged for V26 closure hardening.
+              account providers, and wallet connection is not yet available for direct sign-in.
             </div>
 
             {/* Inner ring: active providers plus primary email-code posture and staged wallet. */}

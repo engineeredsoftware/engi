@@ -26,7 +26,7 @@ export const APPLICATION_SURFACE_COPY = {
   rail: {
     control: {
       kicker: 'Workspace modes',
-      title: 'Read here, draft in fullscreen',
+      title: 'Read here, open fullscreen when needed',
       summary:
         'Stay in the transaction workspace by default, then open conversations or orbitals when you need fullscreen writing or configuration.',
     },

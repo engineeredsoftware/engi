@@ -579,8 +579,7 @@ export default function ProfileStep({ onSave,
                   </div>
                   <p className="mt-3 text-sm leading-7 text-white/66">
                     GitHub and Google are the active Bitcode sign-in providers here today. Wallet
-                    connection remains staged for V26 closure hardening rather than being treated
-                    as live account access already.
+                    connection is not yet available as direct account access from this surface.
                   </p>
                   </>
                 )}

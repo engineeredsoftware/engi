@@ -168,6 +168,7 @@ export default function ApplicationRepositoryContextPanel({
 
   return (
     <ApplicationOperatorCard
+      id="applicationRepositorySupply"
       kicker="Repository supply"
       title="Connect and select searchable supply"
       summary="Choose the provider and repository that will anchor give-side supply before you move deeper into deposit, need, and closure."
@@ -240,7 +241,7 @@ export default function ApplicationRepositoryContextPanel({
 
               <button
                 type="button"
-                onClick={() => jumpToShellSection('panelDepositing')}
+                onClick={() => jumpToShellSection('applicationSupplySelection')}
                 className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
               >
                 Continue to give
@@ -296,7 +297,7 @@ export default function ApplicationRepositoryContextPanel({
                     onClick={() => openOrbital('account', 'connects')}
                     className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                   >
-                    Open orbitals connects
+                    Open connection settings
                   </button>
                 </div>
               )}
@@ -358,10 +359,10 @@ export default function ApplicationRepositoryContextPanel({
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
-                      onClick={() => jumpToShellSection('panelDepositing')}
+                      onClick={() => jumpToShellSection('applicationDepositComposer')}
                       className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
                     >
-                      Open depositing surface
+                      Open deposit draft
                     </button>
                     <a
                       href={selectedRepository.url}
@@ -393,14 +394,14 @@ export default function ApplicationRepositoryContextPanel({
             <div className="mt-4 grid gap-3">
               <button
                 type="button"
-                onClick={() => jumpToShellSection('panelDepositing')}
+                onClick={() => jumpToShellSection('applicationSupplySelection')}
                 className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
               >
                 Focus repo supply
               </button>
               <button
                 type="button"
-                onClick={() => jumpToShellSection('panelNeeding')}
+                onClick={() => jumpToShellSection('applicationNeedScenarios')}
                 className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
               >
                 Continue to need

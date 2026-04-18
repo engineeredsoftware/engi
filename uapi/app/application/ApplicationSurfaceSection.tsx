@@ -3,6 +3,7 @@
 import React, { type ReactNode } from 'react';
 
 interface ApplicationSurfaceSectionProps {
+  id?: string;
   kicker: string;
   title: string;
   summary: string;
@@ -14,6 +15,7 @@ interface ApplicationSurfaceSectionProps {
 }
 
 export default function ApplicationSurfaceSection({
+  id,
   kicker,
   title,
   summary,
@@ -29,7 +31,10 @@ export default function ApplicationSurfaceSection({
       : 'border-white/10 bg-[linear-gradient(180deg,rgba(6,10,20,0.96),rgba(4,8,16,0.94))] shadow-[0_30px_100px_rgba(0,0,0,0.38)]';
 
   return (
-    <section className={`overflow-hidden rounded-[2rem] border px-6 py-6 ${toneClassName} ${className || ''}`.trim()}>
+    <section
+      id={id}
+      className={`overflow-hidden rounded-[2rem] border px-6 py-6 ${toneClassName} ${className || ''}`.trim()}
+    >
       <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
         <div className="max-w-3xl">
           <p className="text-[0.72rem] uppercase tracking-[0.3em] text-emerald-300/80">{kicker}</p>

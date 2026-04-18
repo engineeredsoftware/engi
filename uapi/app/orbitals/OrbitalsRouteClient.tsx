@@ -30,9 +30,9 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
                 {stepLabels[step]} now resolves inside Bitcode’s app shell.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                V26 keeps the ringed orbital experience reachable by direct route while treating it
-                as the account/settings surface for Bitcode rather than an implicit onboarding-only
-                pathname contract.
+                This direct route keeps account, connects, credits, and model settings reachable as
+                a dedicated Bitcode settings surface without pushing you back through onboarding-only
+                navigation.
               </p>
             </div>
 

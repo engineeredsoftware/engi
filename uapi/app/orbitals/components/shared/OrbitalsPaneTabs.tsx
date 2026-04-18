@@ -26,6 +26,9 @@ export default function OrbitalsPaneTabs({
   availableSteps,
   onStepClick,
 }: OrbitalsPaneTabsProps) {
+  const completedCount = completedSteps.length;
+  const totalCount = steps.filter(Boolean).length;
+
   return (
     <div className="mb-6 rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
@@ -39,9 +42,18 @@ export default function OrbitalsPaneTabs({
               : 'Work through the account steps from this calmer application overlay instead of the older orbital ring layout.'}
           </p>
         </div>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-          {mode === 'settings' ? 'settings' : 'guided'}
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
+            {mode === 'settings' ? 'settings' : 'guided'}
+          </span>
+          <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
+            {completedCount}/{totalCount} ready
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
+        Current section: <span className="text-white">{labelForStep(currentStep)}</span>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">

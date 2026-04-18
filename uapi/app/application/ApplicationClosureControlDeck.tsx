@@ -54,6 +54,7 @@ export default function ApplicationClosureControlDeck() {
 
   return (
     <ApplicationOperatorCard
+      id="applicationClosureControls"
       kicker="Closure controls"
       title="Run closure and settlement follow-through"
       summary="Keep verification, branch execution, settlement review, and ledger follow-through adjacent to the active transaction detail."
@@ -154,28 +155,28 @@ export default function ApplicationClosureControlDeck() {
               onClick={() => jumpToShellSection('panelEvaluations')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open verification path
+              Open lower runtime verification
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelBranchArtifacts')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open branch path
+              Open lower runtime branch
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelSettlement')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open settlement path
+              Open lower runtime settlement
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelLedger')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open ledger path
+              Open lower runtime ledger
             </button>
           </div>
         </article>

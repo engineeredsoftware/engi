@@ -31,6 +31,7 @@ export default function ApplicationSupplySelectionPanel() {
   if (!selection) {
     return (
       <ApplicationOperatorCard
+        id="applicationSupplySelection"
         kicker="Give-side supply"
         title="Search and select supply for the current give draft"
         summary="Loading repository-bound supply, selected inventory, and intake controls."
@@ -43,6 +44,7 @@ export default function ApplicationSupplySelectionPanel() {
 
   return (
     <ApplicationOperatorCard
+      id="applicationSupplySelection"
       kicker="Give-side supply"
       title="Search and select supply for the current give draft"
       summary="Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current give draft before moving into deposit and need."
@@ -129,10 +131,10 @@ export default function ApplicationSupplySelectionPanel() {
           ) : null}
           <button
             type="button"
-            onClick={() => jumpToShellSection('panelDepositing')}
+            onClick={() => jumpToShellSection('applicationDepositComposer')}
             className="mt-4 rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Continue to give draft
+            Continue to deposit draft
           </button>
         </div>
       </div>

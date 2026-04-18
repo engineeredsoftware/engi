@@ -6,6 +6,7 @@ import BitcodeInlineExplainer from '@/components/base/engi/execution/BitcodeInli
 import type { BitcodeExplainer } from '@/components/base/engi/execution/bitcode-transaction-types';
 
 interface ApplicationOperatorCardProps {
+  id?: string;
   kicker: string;
   title: string;
   summary?: string;
@@ -19,6 +20,7 @@ interface ApplicationOperatorCardProps {
 }
 
 export default function ApplicationOperatorCard({
+  id,
   kicker,
   title,
   summary,
@@ -41,7 +43,10 @@ export default function ApplicationOperatorCard({
     size === 'compact' ? 'text-sm leading-6 text-neutral-300' : 'text-sm leading-7 text-neutral-300';
 
   return (
-    <section className={`overflow-hidden border ${sizeClassName} ${toneClassName} ${className || ''}`.trim()}>
+    <section
+      id={id}
+      className={`overflow-hidden border ${sizeClassName} ${toneClassName} ${className || ''}`.trim()}
+    >
       <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div className="max-w-3xl">
           <div className="flex flex-wrap items-center gap-2">

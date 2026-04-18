@@ -6,16 +6,16 @@
     "draftTargetVersion": "V26",
     "operatorLabel": "V25 active canon / V26 system draft",
     "specVersionLabel": "Bitcode Spec V25 active canon / V26 system draft",
-    "documentTitle": "Bitcode Application — V25 canon / V26 system draft",
+    "documentTitle": "Bitcode Application",
     "policyRef": "policy://engi/spec-v25-active-v26-system-draft/current",
     "activeProvenAppendixPath": "ENGI_SPEC_V25_PROVEN.md",
     "draftSpecPath": "ENGI_SPEC_V26.md",
     "draftDeltaPath": "ENGI_SPEC_V26_DELTA.md",
     "draftParityPath": "ENGI_SPEC_V26_PARITY_MATRIX.md",
     "inheritedCanonSurfaceLabel": "V16/V17/V18/V19/V20/V21/V22/V23/V24",
-    "heroEyebrow": "Bitcode deterministic local prototype",
-    "heroLede": "Active canon is V25: full-system current canon, generated-only proof appendix discipline, exact proof-family inventories, and executable promotion truth. V26 is the current system draft target, and runtime, API, browser shell, tests, and demo-local docs must stay aligned to this posture source so canon drift fails closed under Bitcode.",
-    "heroTip": "Hover or focus the info badges beside core Bitcode terms to get plain-language explainers. The active generated appendix target is ENGI_SPEC_V25_PROVEN.md; current posture checks fail closed when runtime, API, browser shell, tests, or demo-local docs drift from the pointed canon."
+    "heroEyebrow": "Bitcode operator workspace",
+    "heroLede": "Set the working scenario, select supply, and follow the flow from give through settlement.",
+    "heroTip": "Use the guide and lower runtime surfaces when you need exact replay, proof, or settlement detail."
   },
   "conformanceProfiles": {
     "active": "Profile A — targeted deposit / bounded need",
