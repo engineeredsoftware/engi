@@ -370,6 +370,7 @@ Second-gate acceptance is reached only when:
 - shared workspace-route classification now governs navbar surface posture and footer suppression for `/application`, `/orbitals`, and `/conversations`, so operator chrome cannot drift route-by-route,
 - stepwise workspace guidance now reads as a Give + Need flow guide and working-flow continuity rather than tutorial/demo residue,
 - contained orbital entry shells and focused orbital routes now read as orbitals access and contained operator workspaces instead of generic workspace/settings/account furniture,
+- shared orbital-entry copy now flows from one orbital metadata layer so application buttons, notifications, the signed-in user menu, and direct orbital routes stay aligned on `Open Orbitals fullscreen`, `Open Connects fullscreen`, and `Open transactions terminal`,
 - application-triggered orbital entry now holds a full-width contained operator shell instead of collapsing back to modal-width access furniture,
 - preserved-runtime help/reference rendering is now user-facing, using live-surface and reference-topic labels instead of canon/version self-reference in the visible runtime tooltip/footer layer,
 - preserved-runtime telemetry and diagnostics now use Bitcode-facing runtime labeling instead of `engi-demo`-era visible prefixes,

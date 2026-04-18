@@ -568,6 +568,7 @@ Operational rule:
 - `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/orbital transitions
 - application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
 - contained orbital access shells and focused orbital routes must keep orbitals-first wording rather than reverting to generic workspace/settings/account entry furniture
+- `uapi/app/orbitals/components/orbital-pane-meta.ts` is the shared orbital naming/copy owner for fullscreen orbital entry labels, targeted orbital-open actions, and the direct-route return action into the transactions terminal
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
 - contained orbital surfaces now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`

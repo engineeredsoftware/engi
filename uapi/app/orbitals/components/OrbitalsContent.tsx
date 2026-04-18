@@ -10,7 +10,6 @@ import {
   getOrbitalsWorkspaceHeading,
   labelForOrbitalPane,
   ORBITALS_ACCESS_LABEL,
-  ORBITALS_LABEL,
   type OrbitalPane,
 } from './orbital-pane-meta';
 import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
@@ -219,7 +218,7 @@ function OrbitalContent(props: OrbitalContentProps) {
         <div className="orbital-workspace-shell">
           <aside className="orbital-workspace-nav">
             <div className="orbital-workspace-nav-copy">
-              <p className="orbital-workspace-kicker">{isOrbitalMode ? `${ORBITALS_LABEL} workspace` : ORBITALS_ACCESS_LABEL}</p>
+              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital workspace' : ORBITALS_ACCESS_LABEL}</p>
               <h3 className="orbital-workspace-title">{getOrbitalsWorkspaceHeading(mode)}</h3>
               <p className="orbital-workspace-description">{getOrbitalsWorkspaceDescription(mode)}</p>
             </div>

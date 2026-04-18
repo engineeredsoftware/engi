@@ -216,9 +216,9 @@ Current active assignments:
   second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals fullscreen` with the fixed Connects/Interfaces/Profile/$BTD ring model instead of settings/account wording
 - `uapi/app/orbitals/components/OrbitalsLoginPane.tsx`, `uapi/app/orbitals/components/OrbitalsContent.tsx`, `uapi/app/orbitals/components/shared/OrbitalsPaneTabs.tsx`, `uapi/app/orbitals/OrbitalsRouteClient.tsx`
   test coverage:
-  `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, and `uapi/tests/orbitalsRouteClient.test.tsx`
+  `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, `uapi/tests/orbitalsRouteClient.test.tsx`, and `uapi/tests/orbitalPaneMeta.test.ts`
   proof surface:
-  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep contained operator workspace posture, and retain direct-route link discipline instead of generic workspace/settings/account furniture
+  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep contained operator workspace posture, and retain shared fullscreen/open/return wording instead of generic workspace/settings/account furniture
 - `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
   test coverage:
   `uapi/tests/notificationsWidget.test.tsx`

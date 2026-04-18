@@ -34,7 +34,7 @@ export default function NavBrand({ animated = true, onClick, surface }: NavBrand
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-w-0 items-center gap-3 cursor-pointer bg-transparent text-left ${animated ? "nav-logo-animated" : "opacity-0"}`}
+      className={`flex min-w-0 items-center gap-3 cursor-pointer appearance-none border-0 bg-transparent p-0 text-left ${animated ? "nav-logo-animated" : "opacity-0"}`}
     >
       <div
         className={

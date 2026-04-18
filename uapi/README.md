@@ -20,6 +20,7 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
 
 Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` are convergence-only entry points and should not be treated as the enduring V26 naming model.
 Focused orbital routes and contained orbital entry shells should also keep orbitals-first wording, read as contained operator workspaces, and avoid regressing to generic workspace/settings/account language.
+The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Orbitals fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions terminal`.
 
 ## Main route systems
 

@@ -28,6 +28,8 @@ Those aliases are not the enduring V26 naming model.
 
 - `OrbitalsRouteClient.tsx`
   Focused direct-route shell.
+- `components/orbital-pane-meta.ts`
+  Shared orbital naming, route, and user-facing copy owner for entry buttons and direct-route return actions.
 - `components/OrbitalsProvider.tsx`
   Fullscreen overlay provider and portal/event bridge.
 - `components/OrbitalsContent.tsx`
@@ -52,6 +54,7 @@ The contained orbital shell used inside the application and direct orbital route
 - preserve the active pane in a contained workspace,
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
 - read as orbitals access and contained operator workspaces rather than generic settings/account furniture,
+- keep shared entry labels such as `Open Orbitals fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions terminal` aligned across the application,
 - and remain aligned to the same operator atmosphere as `/application`.
 
 ## Related files
