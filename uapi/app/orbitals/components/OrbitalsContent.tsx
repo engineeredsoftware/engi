@@ -6,7 +6,11 @@ import {
   getOrbitalDescriptor,
   getOrbitalLabelPosition,
   getOrbitalRingIndex,
+  getOrbitalsWorkspaceDescription,
+  getOrbitalsWorkspaceHeading,
   labelForOrbitalPane,
+  ORBITALS_ACCESS_LABEL,
+  ORBITALS_LABEL,
   type OrbitalPane,
 } from './orbital-pane-meta';
 import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
@@ -164,7 +168,7 @@ function OrbitalContent(props: OrbitalContentProps) {
           }}
         >
           <div className="step-indicator-content">
-            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital rings' : 'Orbitals access'}</h3>
+            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital rings' : ORBITALS_ACCESS_LABEL}</h3>
             <div className="step-indicator-steps">
               {steps.map((step) => {
                 const index = stepMeta.pos.get(step)!;
@@ -215,17 +219,9 @@ function OrbitalContent(props: OrbitalContentProps) {
         <div className="orbital-workspace-shell">
           <aside className="orbital-workspace-nav">
             <div className="orbital-workspace-nav-copy">
-              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital workspace' : 'Orbitals access'}</p>
-              <h3 className="orbital-workspace-title">
-                {isOrbitalMode
-                  ? 'Keep Connects, Interfaces, Profile, and $BTD in one contained operator workspace.'
-                  : 'Sign in once, then keep Profile, Connects, Interfaces, and $BTD in one contained operator workspace.'}
-              </h3>
-              <p className="orbital-workspace-description">
-                {isOrbitalMode
-                  ? 'The four-ring model stays visible while the active orbital opens in a stable reading workspace tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
-                  : 'Open Bitcode access in a stable operator workspace, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.'}
-              </p>
+              <p className="orbital-workspace-kicker">{isOrbitalMode ? `${ORBITALS_LABEL} workspace` : ORBITALS_ACCESS_LABEL}</p>
+              <h3 className="orbital-workspace-title">{getOrbitalsWorkspaceHeading(mode)}</h3>
+              <p className="orbital-workspace-description">{getOrbitalsWorkspaceDescription(mode)}</p>
             </div>
             <div className="orbital-workspace-sequence" role="list" aria-label="Orbital sequence">
               {steps.map((step) => {

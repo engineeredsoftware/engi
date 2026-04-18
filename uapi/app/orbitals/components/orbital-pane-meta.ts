@@ -1,6 +1,13 @@
 export const ONBOARDING_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
 export const ORBITAL_FLOW_STEPS = ONBOARDING_FLOW_STEPS;
 export const ORBITAL_RING_STEPS = ['connects', 'interfaces', 'profile', 'btd'] as const;
+export const ORBITAL_ROUTE_SEQUENCE = ORBITAL_RING_STEPS;
+export const ORBITALS_ACCESS_LABEL = 'Orbitals access';
+export const ORBITALS_LABEL = 'Orbitals';
+export const ORBITALS_LIST_LABEL = 'Connects, Interfaces, Profile, and $BTD';
+export const ORBITALS_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $BTD';
+export const OPEN_ORBITALS_FULLSCREEN_LABEL = 'Open Orbitals fullscreen';
+export const OPEN_TRANSACTIONS_TERMINAL_LABEL = 'Open transactions terminal';
 
 export type ConcreteOrbitalPane = (typeof ONBOARDING_FLOW_STEPS)[number];
 export type OrbitalPane = ConcreteOrbitalPane | null;
@@ -97,4 +104,27 @@ export function getOrbitalLabelPosition(step: ConcreteOrbitalPane) {
 
 export function getOrbitalDescriptor(step: ConcreteOrbitalPane) {
   return ORBITAL_DESCRIPTORS[step];
+}
+
+export function getOrbitalOpenActionLabel(step?: ConcreteOrbitalPane | null) {
+  if (!step) return OPEN_ORBITALS_FULLSCREEN_LABEL;
+  return `Open ${labelForOrbitalPane(step)} fullscreen`;
+}
+
+export function getOrbitalsWorkspaceHeading(mode: 'onboarding' | 'orbitals') {
+  return mode === 'orbitals'
+    ? `Keep ${ORBITALS_LIST_LABEL} in one contained operator workspace.`
+    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained operator workspace.`;
+}
+
+export function getOrbitalsWorkspaceDescription(mode: 'onboarding' | 'orbitals') {
+  return mode === 'orbitals'
+    ? 'The four-ring model stays visible while the active orbital opens in a stable reading workspace tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
+    : 'Open Bitcode access in a stable operator workspace, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
+}
+
+export function getOrbitalsTabsDescription(mode: 'onboarding' | 'orbitals') {
+  return mode === 'orbitals'
+    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the operator workspace.`
+    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained operator workspace.`;
 }

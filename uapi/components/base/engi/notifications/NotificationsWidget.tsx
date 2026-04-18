@@ -8,6 +8,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { OPEN_ORBITALS_FULLSCREEN_LABEL } from '@/app/orbitals/components/orbital-pane-meta';
 import '@/styles/notifications-widget.css';
 import {
   formatNotificationTimestamp,
@@ -283,7 +284,7 @@ export function NotificationsWidget() {
                 openOrbital('SignUpWindow', 'profile');
               }}
             >
-              Open Orbitals fullscreen
+              {OPEN_ORBITALS_FULLSCREEN_LABEL}
             </button>
           </div>
         </div>

@@ -2,7 +2,13 @@
 
 import React from 'react';
 
-import { labelForOrbitalPane, type OrbitalPane } from '../orbital-pane-meta';
+import {
+  getOrbitalsTabsDescription,
+  labelForOrbitalPane,
+  ORBITALS_ACCESS_LABEL,
+  ORBITALS_LABEL,
+  type OrbitalPane,
+} from '../orbital-pane-meta';
 
 interface OrbitalsPaneTabsProps {
   mode?: 'onboarding' | 'orbitals';
@@ -30,12 +36,10 @@ export default function OrbitalsPaneTabs({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
-            {isOrbitalMode ? 'Orbitals' : 'Orbitals access'}
+            {isOrbitalMode ? ORBITALS_LABEL : ORBITALS_ACCESS_LABEL}
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
-            {isOrbitalMode
-              ? 'Move between Connects, Interfaces, Profile, and $BTD without losing your place in the operator workspace.'
-              : 'Sign in to unlock the four orbitals, then keep Profile, Connects, Interfaces, and $BTD in one contained operator workspace.'}
+            {getOrbitalsTabsDescription(mode)}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">

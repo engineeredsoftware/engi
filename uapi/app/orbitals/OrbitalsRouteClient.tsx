@@ -6,6 +6,9 @@ import Link from 'next/link';
 import Orbital from '@/app/orbitals/components';
 import {
   getOrbitalDescriptor,
+  OPEN_TRANSACTIONS_TERMINAL_LABEL,
+  ORBITAL_ROUTE_SEQUENCE,
+  type OrbitalPaneDescriptor,
   type ConcreteOrbitalPane,
 } from '@/app/orbitals/components/orbital-pane-meta';
 
@@ -15,12 +18,9 @@ interface OrbitalsRouteClientProps {
 
 export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) {
   const descriptor = getOrbitalDescriptor(step);
-  const orbitals = [
-    getOrbitalDescriptor('connects'),
-    getOrbitalDescriptor('interfaces'),
-    getOrbitalDescriptor('profile'),
-    getOrbitalDescriptor('btd'),
-  ];
+  const orbitals: OrbitalPaneDescriptor[] = ORBITAL_ROUTE_SEQUENCE.map((orbitalStep) =>
+    getOrbitalDescriptor(orbitalStep),
+  );
 
   return (
     <div className="min-h-[calc(100vh-9rem)] bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),transparent_26%),radial-gradient(circle_at_86%_18%,rgba(56,189,248,0.1),transparent_18%),linear-gradient(180deg,#050d15_0%,#02060d_44%,#010309_100%)] text-white">
@@ -45,7 +45,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
               href="/application"
               className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
             >
-              Open transactions workspace
+              {OPEN_TRANSACTIONS_TERMINAL_LABEL}
             </Link>
           </div>
         </section>

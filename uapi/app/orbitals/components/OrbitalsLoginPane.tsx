@@ -3,6 +3,10 @@
 import React from 'react';
 
 import LoginForm from '@/components/base/engi/auth/LoginForm';
+import {
+  ORBITALS_ACCESS_LABEL,
+  ORBITALS_LIST_LABEL,
+} from './orbital-pane-meta';
 
 interface OrbitalsLoginPaneProps {
   onClose?: () => void;
@@ -23,10 +27,10 @@ export default function OrbitalsLoginPane({
         <aside className="orbital-auth-aside">
           <div className="rounded-[1.6rem] border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
             <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-200/78">
-              Orbitals access
+              {ORBITALS_ACCESS_LABEL}
             </p>
             <h2 className="mt-3 text-[1.65rem] font-semibold tracking-[-0.04em] text-white">
-              Open Connects, Interfaces, Profile, and $BTD
+              Open {ORBITALS_LIST_LABEL}
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
               Sign in to reopen the transaction terminal, conversations, and the four Bitcode
