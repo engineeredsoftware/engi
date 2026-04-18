@@ -3,17 +3,17 @@
 import Link from 'next/link';
 
 import Orbital from '@/app/orbitals/components';
-import type { OrbitalPane } from '@/app/orbitals/components';
+import type { ConcreteOrbitalPane } from '@/app/orbitals/components/orbital-pane-meta';
 
-const stepLabels: Record<Exclude<OrbitalPane, null>, string> = {
-  profile: 'Account & Team Orbital',
-  connects: 'Connections',
-  credits: 'Credits & Usage Orbital',
-  models: 'Models Orbital',
+const stepLabels: Record<ConcreteOrbitalPane, string> = {
+  profile: 'Profile Orbital',
+  connects: 'Connects Orbital',
+  interfaces: 'Interfaces Orbital',
+  btd: '$BTD Orbital',
 };
 
 interface OrbitalsRouteClientProps {
-  step: Exclude<OrbitalPane, null>;
+  step: ConcreteOrbitalPane;
 }
 
 export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) {
@@ -30,9 +30,8 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
                 Open {stepLabels[step]} directly when you need focused orbital work.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                Use this direct orbital route for account, connections, credits, and model
-                preferences when you want a dedicated fullscreen surface outside the transaction
-                workspace.
+                Use this direct orbital route when you want a dedicated fullscreen surface for
+                profile, connects, interfaces, or $BTD work outside the transactions terminal.
               </p>
             </div>
 
@@ -40,7 +39,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
               href="/application"
               className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
             >
-              Back to application
+              Back to transactions
             </Link>
           </div>
         </section>

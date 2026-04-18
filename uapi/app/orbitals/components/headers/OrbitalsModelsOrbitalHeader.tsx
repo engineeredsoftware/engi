@@ -8,17 +8,17 @@ export default function OrbitalsModelsOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="Models Orbital"
-      completedTitle="Models Orbital"
+      title="Interfaces Orbital"
+      completedTitle="Interfaces Orbital"
       description={!isOnboardingComplete
-        ? 'Choose defaults now or keep the standard Bitcode model profile.'
-        : 'Configure model defaults, prompts, and execution behavior in this orbital.'}
+        ? 'Choose interface defaults now or keep the standard Bitcode workspace profile.'
+        : 'Configure transaction, conversation, prompt, and execution defaults in this orbital.'}
       stepNumber={3}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
-      infoTitle="Configure model defaults"
-      infoDescription="Use the default Bitcode model profile or tailor it to your team."
-      infoNote="You can revise this orbital at any time."
+      infoTitle="Shape interface defaults"
+      infoDescription="Use the default Bitcode interface profile or tailor transactions, conversations, and prompts to your team."
+      infoNote="You can revise this orbital any time."
     />
   );
 }

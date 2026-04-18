@@ -21,6 +21,6 @@
   ],
   "credits": 1000,
   "modelPreferences": [],
-  "onboarded_steps": ["profile", "connects", "models", "credits"],
+  "onboarded_steps": ["profile", "connects", "interfaces", "btd"],
   "isOnboardingComplete": true
 }

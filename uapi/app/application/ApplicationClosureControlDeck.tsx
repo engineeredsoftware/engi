@@ -4,8 +4,8 @@ import { useMemo, useState } from 'react';
 
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
   normalizeApplicationClosureState,
@@ -53,12 +53,12 @@ export default function ApplicationClosureControlDeck() {
   const state = normalizeApplicationClosureControlState(commandState, closureState);
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationClosureControls"
       kicker="Closure controls"
       title="Run closure and settlement follow-through"
       summary="Keep verification, branch execution, settlement review, and ledger follow-through adjacent to the active transaction detail."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.closureControls}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureControls}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
@@ -181,6 +181,6 @@ export default function ApplicationClosureControlDeck() {
           </div>
         </article>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

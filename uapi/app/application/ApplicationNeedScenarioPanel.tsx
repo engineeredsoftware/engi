@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   normalizeApplicationNeedScenarios,
   type ApplicationNeedScenariosState,
@@ -26,25 +26,25 @@ export default function ApplicationNeedScenarioPanel() {
 
   if (!needState) {
     return (
-      <ApplicationOperatorCard
+      <ApplicationWorkspaceCard
         id="applicationNeedScenarios"
         kicker="Need scenarios"
         title="Choose the active demand frame"
         summary="Reading the current demand frame, parser posture, and target structure."
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.needScenarios}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.needScenarios}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Loading need scenarios…</p>
-      </ApplicationOperatorCard>
+      </ApplicationWorkspaceCard>
     );
   }
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationNeedScenarios"
       kicker="Need scenarios"
       title="Choose the active demand frame"
       summary="Keep the current need scenario explicit before reading fit, proof, or closure posture."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.needScenarios}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.needScenarios}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
@@ -110,6 +110,6 @@ export default function ApplicationNeedScenarioPanel() {
           </button>
         ))}
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

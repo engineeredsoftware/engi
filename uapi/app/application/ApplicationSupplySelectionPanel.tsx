@@ -5,8 +5,8 @@ import { useEffect, useMemo, useState } from 'react';
 import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { normalizeApplicationSupplySelection, type ApplicationSupplySelectionState } from './application-supply-selection';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
@@ -30,25 +30,25 @@ export default function ApplicationSupplySelectionPanel() {
 
   if (!selection) {
     return (
-      <ApplicationOperatorCard
+      <ApplicationWorkspaceCard
         id="applicationSupplySelection"
         kicker="Give-side supply"
         title="Search and select supply for the current give draft"
         summary="Loading repository-bound supply, selected inventory, and intake controls."
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.supplyInventory}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory}
       >
         <p className="text-sm leading-6 text-neutral-300">Loading give-side supply…</p>
-      </ApplicationOperatorCard>
+      </ApplicationWorkspaceCard>
     );
   }
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationSupplySelection"
       kicker="Give-side supply"
       title="Search and select supply for the current give draft"
       summary="Bind the active auth session, narrow the available inventory, and keep only the supply you want in the current give draft before moving into deposit and need."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.supplyInventory}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.supplyInventory}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
@@ -184,6 +184,6 @@ export default function ApplicationSupplySelectionPanel() {
           </button>
         ))}
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

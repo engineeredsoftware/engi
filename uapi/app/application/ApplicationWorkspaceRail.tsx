@@ -8,8 +8,8 @@ import {
 import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './application-run-data';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
-import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
+import { APPLICATION_WORKSPACE_COPY } from './application-workspace-copy';
 import ApplicationWorkspaceRailCard from './ApplicationWorkspaceRailCard';
 
 function formatRunTimestamp(value: string) {
@@ -53,11 +53,11 @@ export default function ApplicationWorkspaceRail({
   return (
     <div className="space-y-5 xl:sticky xl:top-28">
       <ApplicationWorkspaceRailCard
-        kicker={APPLICATION_SURFACE_COPY.rail.control.kicker}
-        title={APPLICATION_SURFACE_COPY.rail.control.title}
-        summary={APPLICATION_SURFACE_COPY.rail.control.summary}
+        kicker={APPLICATION_WORKSPACE_COPY.rail.control.kicker}
+        title={APPLICATION_WORKSPACE_COPY.rail.control.title}
+        summary={APPLICATION_WORKSPACE_COPY.rail.control.summary}
         tone="emerald"
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.railModes}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.railModes}
       >
         <div className="mt-5 grid gap-3">
           <button
@@ -78,10 +78,10 @@ export default function ApplicationWorkspaceRail({
       </ApplicationWorkspaceRailCard>
 
       <ApplicationWorkspaceRailCard
-        kicker={APPLICATION_SURFACE_COPY.rail.support.kicker}
-        title={APPLICATION_SURFACE_COPY.rail.support.title}
-        summary={APPLICATION_SURFACE_COPY.rail.support.summary}
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.railSupport}
+        kicker={APPLICATION_WORKSPACE_COPY.rail.support.kicker}
+        title={APPLICATION_WORKSPACE_COPY.rail.support.title}
+        summary={APPLICATION_WORKSPACE_COPY.rail.support.summary}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.railSupport}
       >
         <div className="flex items-center justify-between gap-3">
           {usesMockTransactions ? (
@@ -134,10 +134,10 @@ export default function ApplicationWorkspaceRail({
 
       {selectedRun ? (
         <ApplicationWorkspaceRailCard
-          kicker={APPLICATION_SURFACE_COPY.rail.focus.kicker}
-          title={APPLICATION_SURFACE_COPY.rail.focus.title}
-          summary={APPLICATION_SURFACE_COPY.rail.focus.summary}
-          explainer={APPLICATION_OPERATOR_EXPLAINERS.railFocus}
+          kicker={APPLICATION_WORKSPACE_COPY.rail.focus.kicker}
+          title={APPLICATION_WORKSPACE_COPY.rail.focus.title}
+          summary={APPLICATION_WORKSPACE_COPY.rail.focus.summary}
+          explainer={APPLICATION_WORKSPACE_EXPLAINERS.railFocus}
         >
           <dl className="mt-4 space-y-3 text-sm">
             <div>

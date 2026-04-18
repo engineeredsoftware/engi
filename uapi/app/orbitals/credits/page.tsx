@@ -3,13 +3,13 @@ import type { Metadata } from 'next';
 import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
 
 export const metadata: Metadata = {
-  title: '$BTD • Credits & Usage',
-  description: 'Application-owned Bitcode credits and usage orbital route.',
+  title: 'Bitcode • $BTD Orbital',
+  description: 'Legacy route for the Bitcode $BTD orbital.',
   alternates: {
-    canonical: '/orbitals/credits',
+    canonical: '/orbitals/btd',
   },
 };
 
-export default function OrbitalsCreditsPage() {
-  return <OrbitalsRouteClient step="credits" />;
+export default function OrbitalsBTDLegacyPage() {
+  return <OrbitalsRouteClient step="btd" />;
 }

@@ -315,7 +315,7 @@ export function OrbitalsConnectsOrbitalPhoneConnection({
             
             <div className="quick-actions">
               <motion.a
-                href="/settings/sms"
+                href="/orbitals/connects"
                 className="action-card settings"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

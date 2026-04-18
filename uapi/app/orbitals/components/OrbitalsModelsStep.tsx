@@ -1,1 +1,1 @@
-export { default } from './OrbitalsModels';
+export { default } from './OrbitalsInterfaces';

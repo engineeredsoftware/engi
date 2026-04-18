@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import type { OrbitalPane } from '../index';
+import { labelForOrbitalPane, type OrbitalPane } from '../orbital-pane-meta';
 
 interface OrbitalsPaneTabsProps {
   mode?: 'onboarding' | 'orbitals';
@@ -11,11 +11,6 @@ interface OrbitalsPaneTabsProps {
   completedSteps: OrbitalPane[];
   availableSteps: OrbitalPane[];
   onStepClick: (step: OrbitalPane) => void;
-}
-
-function labelForStep(step: OrbitalPane) {
-  if (!step) return '';
-  return step.charAt(0).toUpperCase() + step.slice(1);
 }
 
 export default function OrbitalsPaneTabs({
@@ -34,17 +29,17 @@ export default function OrbitalsPaneTabs({
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
-            {mode === 'orbitals' ? 'Orbitals' : 'Account setup'}
+            {mode === 'orbitals' ? 'Orbitals' : 'Orbital guide'}
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
             {mode === 'orbitals'
-              ? 'Move between account areas without losing your place in the workspace.'
-              : 'Move through account setup in a clear step-by-step layout.'}
+              ? 'Move between Connects, Interfaces, Profile, and $BTD without losing your place in the workspace.'
+              : 'Move through Profile, Connects, Interfaces, and $BTD in a clear step-by-step flow.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-            {mode === 'orbitals' ? 'orbitals' : 'setup'}
+            {mode === 'orbitals' ? 'orbitals' : 'guide'}
           </span>
           <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
             {completedCount}/{totalCount} ready
@@ -53,7 +48,7 @@ export default function OrbitalsPaneTabs({
       </div>
 
       <div className="mt-4 rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
-        Current section: <span className="text-white">{labelForStep(currentStep)}</span>
+        Current orbital: <span className="text-white">{labelForOrbitalPane(currentStep)}</span>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
@@ -83,7 +78,7 @@ export default function OrbitalsPaneTabs({
               }`}
             >
               <span className="mr-2 text-neutral-400">{index + 1}</span>
-              <span>{labelForStep(step)}</span>
+              <span>{labelForOrbitalPane(step)}</span>
               {isCompleted ? <span className="ml-2 text-emerald-300">done</span> : null}
             </button>
           );

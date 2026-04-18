@@ -1,2 +1,2 @@
-// Canonical Models Orbital component
-export { default } from './models-pane';
+// Legacy compatibility re-export for the Interfaces Orbital component
+export { default } from './OrbitalsInterfaces';

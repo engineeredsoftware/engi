@@ -10,6 +10,16 @@ import { useOnboarding, useProfile, useUser } from '@/hooks/use-auth-query';
 import OrbitalRings from "@/components/base/engi/orbitals/orbital-rings";
 import { GPUAcceleration } from '@/components/base/engi/perf/GPUAcceleration';
 import { ContentVisibility } from '@/components/base/engi/perf/ContentVisibility';
+import {
+  getOrbitalRingIndex,
+  normalizeOrbitalPane,
+  normalizeOrbitalSteps,
+  ORBITAL_FLOW_STEPS,
+  type ConcreteOrbitalPane,
+  type OrbitalPane,
+} from './orbital-pane-meta';
+
+export type { ConcreteOrbitalPane, OrbitalPane } from './orbital-pane-meta';
 
 const trackEvent = (...args: any[]) => {
   import('@bitcode/google-analytics').then((module) => module.trackEvent(...args));
@@ -44,27 +54,21 @@ const ConnectsPane = dynamic(() => import("./OrbitalsConnectsPane"), {
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const CreditsPane = dynamic(() => import("./OrbitalsCreditsPane"), {
+const BTDPane = dynamic(() => import("./OrbitalsBTDPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const ModelsPane = dynamic(() => import("./OrbitalsModelsPane"), {
+const InterfacesPane = dynamic(() => import("./OrbitalsInterfacesPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
-
-export type OrbitalPane = "profile" | "connects" | "credits" | "models" | null;
-
-type ConcreteOrbitalPane = Exclude<OrbitalPane, null>;
-
-const STEPS: ConcreteOrbitalPane[] = ['profile', 'connects', 'models', 'credits'];
 
 function parseOrbitalPath(pathname: string | null): ConcreteOrbitalPane | null {
   if (!pathname) return null;
-  const match = pathname.match(/\/orbitals\/(users|connects|models|credits)\b/i);
+  const match = pathname.match(/\/orbitals\/(users|connects|interfaces|btd|models|credits)\b/i);
   if (!match) return null;
-  return match[1] === 'users' ? 'profile' : (match[1] as ConcreteOrbitalPane);
+  return normalizeOrbitalPane(match[1]);
 }
 
 export interface OrbitalProps {
@@ -97,13 +101,15 @@ export default function Orbital({
   const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
-  const [currentStep, setCurrentStep] = useState<ConcreteOrbitalPane>(initialStep ?? routeStep ?? 'profile');
+  const [currentStep, setCurrentStep] = useState<ConcreteOrbitalPane>(
+    normalizeOrbitalPane(initialStep) ?? routeStep ?? 'profile',
+  );
   const [completedSteps, setCompletedSteps] = useState<ConcreteOrbitalPane[]>([]);
   const [stepCompletionStates, setStepCompletionStates] = useState<Record<ConcreteOrbitalPane, boolean>>({
     profile: false,
     connects: false,
-    models: true,
-    credits: false,
+    interfaces: false,
+    btd: false,
   });
   const [isCompletingStep, setIsCompletingStep] = useState(false);
 
@@ -140,7 +146,7 @@ export default function Orbital({
   }, [windowProp]);
 
   useEffect(() => {
-    const requestedStep = (initialStep ?? routeStep) as ConcreteOrbitalPane | null;
+    const requestedStep = normalizeOrbitalPane(initialStep) ?? routeStep;
     if (!requestedStep) return;
 
     if (sessionUser) {
@@ -158,14 +164,17 @@ export default function Orbital({
   useEffect(() => {
     if (!onboardingData) return;
 
-    setCompletedSteps((onboardingData.completedSteps || []) as ConcreteOrbitalPane[]);
+    setCompletedSteps(normalizeOrbitalSteps(onboardingData.completedSteps));
 
     if (!isOrbitalSurface && onboardingData.currentStep && !initialStep && !routeStep) {
-      setCurrentStep(onboardingData.currentStep as ConcreteOrbitalPane);
+      setCurrentStep(normalizeOrbitalPane(onboardingData.currentStep) || 'profile');
     }
   }, [onboardingData, isOrbitalSurface, initialStep, routeStep]);
 
-  const currentStepIndex = useMemo(() => STEPS.indexOf(currentStep), [currentStep]);
+  const currentStepIndex = useMemo(
+    () => ORBITAL_FLOW_STEPS.indexOf(currentStep),
+    [currentStep],
+  );
 
   const handleStepCompletionChange = useCallback((step: ConcreteOrbitalPane, isComplete: boolean) => {
     queueMicrotask(() => {
@@ -177,15 +186,15 @@ export default function Orbital({
 
   const availableSteps = useMemo(() => {
     if (isOrbitalSurface) {
-      return STEPS;
+      return ORBITAL_FLOW_STEPS;
     }
 
     const available: ConcreteOrbitalPane[] = [];
 
     for (const step of completedSteps) {
-      if (step === 'models') {
+      if (step === 'interfaces') {
         if (completedSteps.includes('connects')) {
-          available.push('models');
+          available.push('interfaces');
         }
       } else {
         available.push(step);
@@ -193,11 +202,11 @@ export default function Orbital({
     }
 
     if (completedSteps.includes('connects')) {
-      if (!available.includes('models')) {
-        available.push('models');
+      if (!available.includes('interfaces')) {
+        available.push('interfaces');
       }
-      if (!available.includes('credits')) {
-        available.push('credits');
+      if (!available.includes('btd')) {
+        available.push('btd');
       }
     }
 
@@ -209,7 +218,7 @@ export default function Orbital({
   }, [completedSteps, currentStep, isOrbitalSurface]);
 
   const updateOnboardingMutation = useMutation({
-    mutationFn: async (step: OrbitalPane) => {
+    mutationFn: async (step: ConcreteOrbitalPane) => {
       const response = await fetch('/api/orbitals/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -227,7 +236,7 @@ export default function Orbital({
     },
     onError: (_error, step) => {
       setCompletedSteps((previous) => previous.filter((existingStep) => existingStep !== step));
-      if (step && step !== 'models') {
+      if (step) {
         setStepCompletionStates((previous) => ({ ...previous, [step]: false }));
       }
     },
@@ -275,7 +284,7 @@ export default function Orbital({
     setIsCompletingStep(true);
     const newCompletedSteps = [...completedSteps, step];
     setCompletedSteps(newCompletedSteps);
-    trackEvent(isOrbitalSurface ? 'settings_step_completed' : 'onboarding_step_completed', { step });
+    trackEvent(isOrbitalSurface ? 'orbital_step_completed' : 'onboarding_step_completed', { step });
 
     try {
       await updateOnboardingMutation.mutateAsync(step);
@@ -290,8 +299,10 @@ export default function Orbital({
         setCurrentStep('profile');
       } else if (!newCompletedSteps.includes('connects')) {
         setCurrentStep('connects');
-      } else if (!newCompletedSteps.includes('credits')) {
-        setCurrentStep('credits');
+      } else if (!newCompletedSteps.includes('interfaces')) {
+        setCurrentStep('interfaces');
+      } else if (!newCompletedSteps.includes('btd')) {
+        setCurrentStep('btd');
       }
     }
   }, [completedSteps, isCompletingStep, isOrbitalSurface, updateOnboardingMutation]);
@@ -302,7 +313,7 @@ export default function Orbital({
     }
 
     setCurrentStep(step as ConcreteOrbitalPane);
-    trackEvent(isOrbitalSurface ? 'settings_step_click' : 'onboarding_step_click', { step });
+    trackEvent(isOrbitalSurface ? 'orbital_step_click' : 'onboarding_step_click', { step });
   }, [availableSteps, isOrbitalSurface]);
 
   const toggleWindow = useCallback(() => {
@@ -371,26 +382,26 @@ export default function Orbital({
             }}
           />
         );
-      case 'credits':
+      case 'btd':
         return (
-          <CreditsPane
+          <BTDPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('credits', isComplete)
+              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('btd', isComplete)
             }
             onSave={async () => {
-              await handleStepComplete('credits');
+              await handleStepComplete('btd');
             }}
           />
         );
-      case 'models':
+      case 'interfaces':
         return (
-          <ModelsPane
+          <InterfacesPane
             loading={false}
             isOnboardingComplete={isUnlockedSurface}
             onCompletionStatusChange={
-              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('models', isComplete)
+              isOrbitalSurface ? undefined : (isComplete) => handleStepCompletionChange('interfaces', isComplete)
             }
             onSave={async (updated) => {
               try {
@@ -400,7 +411,7 @@ export default function Orbital({
                   body: JSON.stringify(updated),
                 });
                 queryClient.invalidateQueries({ queryKey: ['auth', 'profile'] });
-                await handleStepComplete('models');
+                await handleStepComplete('interfaces');
               } catch (err) {
                 console.error('Model preferences save error:', err);
               }
@@ -428,7 +439,7 @@ export default function Orbital({
   return (
     <div
       ref={containerRef}
-      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isOrbitalSurface ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isOrbitalSurface && !usesApplicationOverlay ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
@@ -477,7 +488,7 @@ export default function Orbital({
             count={4}
             baseSize={30}
             sizeIncrement={15}
-            activeIndex={showLoginPane ? 0 : currentStepIndex}
+            activeIndex={showLoginPane ? 0 : getOrbitalRingIndex(currentStep)}
             className={`orbital-system-background ${showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
           />
         </GPUAcceleration>
@@ -499,7 +510,7 @@ export default function Orbital({
           <OrbitalContent
             key="account"
             mode={isOrbitalSurface ? 'orbitals' : 'onboarding'}
-            steps={STEPS}
+            steps={ORBITAL_FLOW_STEPS}
             currentStep={currentStep}
             completedSteps={completedSteps}
             availableSteps={availableSteps}

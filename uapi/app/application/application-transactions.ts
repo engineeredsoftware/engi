@@ -64,7 +64,7 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
   return runs.map((run) => {
     const repository = normalizeWhitespace(run.repository) || 'bitcode/bitcode';
     const branch = normalizeWhitespace(run.branch) || 'n/a';
-    const participant = normalizeWhitespace(run.participant) || repository.split('/')[0] || 'connected operator';
+    const participant = normalizeWhitespace(run.participant) || repository.split('/')[0] || 'connected account';
     const summary =
       normalizeWhitespace(run.summary) || 'Inspect this Bitcode transaction from the central workspace detail.';
     const status = normalizeStatus(run.status);

@@ -204,7 +204,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
               ? 'Connected to your Bitcode account'
               : isSupported
               ? 'Available for sign-in and account linking'
-              : 'Not yet available from this settings surface'}
+              : 'Not yet available from this orbital surface'}
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ import {
   type ApplicationRunDetailSnapshot,
 } from './application-transaction-detail-snapshot';
 import { MASTER_DETAIL_SUBSTRUCTURES } from './application-experience-architecture';
-import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
+import { APPLICATION_WORKSPACE_COPY } from './application-workspace-copy';
 import { MOCK_RUN_DELIVERABLES, type WorkspaceRun } from './application-run-data';
 import { jumpToShellSection } from './application-shell-reading';
 
@@ -112,7 +112,7 @@ function buildMasterDetailSubstructures(
         ...substructure,
         summary:
           detail?.deliverables?.summary ||
-          'Deliverable surfaces stay inside the selected transaction context so the operator can inspect output without leaving the workspace.',
+          'Deliverable surfaces stay inside the selected transaction context so you can inspect output without leaving the workspace.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
@@ -162,7 +162,7 @@ function buildMasterDetailSubstructures(
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
-          label: 'Credits',
+          label: 'BTD throughput',
           value: formatNumber(detail?.processingStats.credits ?? selectedRun.creditsTotal, { maximumFractionDigits: 1 }),
         },
       ],
@@ -328,7 +328,7 @@ export default function ApplicationTransactionWorkspace({
           </div>
         ) : !selectedRun ? (
           <div className="rounded-[1.5rem] border border-white/6 bg-black/20 px-5 py-10 text-sm text-neutral-400">
-            {APPLICATION_SURFACE_COPY.workspace.emptySelection}
+            {APPLICATION_WORKSPACE_COPY.workspace.emptySelection}
           </div>
         ) : (
           <div className="space-y-6">

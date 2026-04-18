@@ -162,7 +162,7 @@ export default function Nav() {
               {isApplicationRoute ? (
                 <div className="hidden sm:block">
                   <p className="text-xs uppercase tracking-[0.24em] text-emerald-300/80">Bitcode</p>
-                  <p className="mt-1 text-sm text-neutral-200">application workspace</p>
+                  <p className="mt-1 text-sm text-neutral-200">transactions terminal</p>
                 </div>
               ) : null}
             </div>
@@ -250,7 +250,7 @@ export default function Nav() {
 
                 <UserMenu
                   user={user}
-                  onManageAccount={() => openOrbital('account')}
+                  onManageAccount={() => openOrbital('account', 'profile')}
                   onSignOut={() => {
                     import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                       const client = createClient();

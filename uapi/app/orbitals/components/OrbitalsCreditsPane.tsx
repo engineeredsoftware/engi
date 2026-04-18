@@ -11,7 +11,7 @@ import { Cog6ToothIcon, MagnifyingGlassIcon, CodeBracketIcon, ShieldCheckIcon, A
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { creditBundleList } from '@bitcode/credits';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
-import OrbitalsCreditsOrbitalHeader from './headers/OrbitalsCreditsOrbitalHeader';
+import OrbitalsBTDOrbitalHeader from './headers/OrbitalsBTDOrbitalHeader';
 
 interface UsageDataPoint {
   date: string;
@@ -20,7 +20,7 @@ interface UsageDataPoint {
   balance: number;
 }
 
-interface CreditsPaneProps {
+interface BTDPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
   isOnboardingComplete?: boolean;
@@ -36,13 +36,13 @@ interface ModelProvider {
 }
 import { SUPPORTED_LLM_MODELS } from '@/utils/model-pricing';
 
-export default function CreditsPane({
+export default function BTDPane({
   onSave,
   isOnboardingComplete = false,
   onCompletionStatusChange,
   initialCredits = 0
-}: CreditsPaneProps) {
-  const isSettingsSurface = isOnboardingComplete;
+}: BTDPaneProps) {
+  const isBTDSurface = isOnboardingComplete;
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [customCredits, setCustomCredits] = useState<number>(5000);
   const [currentCredits, setCurrentCredits] = useState(initialCredits);
@@ -349,7 +349,7 @@ export default function CreditsPane({
     ctx.translate(20, chartTop + chartHeight / 2);
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = 'center';
-    ctx.fillText('Credits', 0, 0);
+    ctx.fillText('BTD', 0, 0);
     ctx.restore();
 
     // Draw bars and collect points for line
@@ -500,7 +500,7 @@ export default function CreditsPane({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <OrbitalsCreditsOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
+        <OrbitalsBTDOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
 
         <motion.div
           className="current-credits-display"
@@ -515,16 +515,17 @@ export default function CreditsPane({
           </div>
           <div className="credits-info">
             <div className="credits-label-container">
-              <span className="credits-label">Current Balance</span>
+              <span className="credits-label">Current BTD / throughput balance</span>
             </div>
-            <span className="credits-amount">{currentCredits.toLocaleString()} Credits</span>
+            <span className="credits-amount">{currentCredits.toLocaleString()} BTD</span>
           </div>
         </motion.div>
 
-        {isSettingsSurface && (
+        {isBTDSurface && (
           <div className="mb-6 rounded-[22px] border border-white/10 bg-white/[0.045] px-5 py-4 text-sm leading-7 text-white/74 shadow-[0_18px_45px_rgba(0,0,0,0.2)]">
-            Use this orbital to top up capacity, review provider premiums, and inspect how
-            Bitcode spends credits across repository analysis, execution, and delivery work.
+            Use this orbital to top up capacity, review wallet-facing throughput, and inspect how
+            Bitcode spends balance across repository analysis, execution, delivery, and $BTD
+            posture.
           </div>
         )}
 
@@ -730,7 +731,7 @@ export default function CreditsPane({
                         <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" />
                       </svg>
                     </div>
-                    <div className="expire-text"><span className="credit-benefit">Credits never expire</span> — Purchase once, use anytime</div>
+                    <div className="expire-text"><span className="credit-benefit">BTD balance persists</span> — fund once, use across future work</div>
                   </div>
                 </div>
               </div>
@@ -750,12 +751,12 @@ export default function CreditsPane({
                 <div className="offer-badge">LIMITED TIME OFFER</div>
                 <h3 className="special-offer-title">Special Launch-Month Offer</h3>
                 <p className="offer-description">
-                  During launch month, you're eligible for a special discount on your first credit purchase.
-                  Get 10% more credits with any plan you choose today!
+                  During launch month, you're eligible for a special bonus on your first balance top-up.
+                  Get 10% more BTD with any plan you choose today.
                 </p>
               </div>
               <div className="special-offer-badge">
-                <span>+10%</span> BONUS CREDITS
+                <span>+10%</span> BONUS BTD
               </div>
             </motion.div>
 
@@ -766,7 +767,7 @@ export default function CreditsPane({
               transition={{ delay: 0.4, duration: 0.5 }}
             >
               <h3 className="promo-title">Have a Promo Code?</h3>
-              <p className="promo-description">Enter your promotional code to receive additional credits or discounts</p>
+              <p className="promo-description">Enter a promotional code to receive additional BTD or pricing adjustments</p>
               <div className="promo-input-container">
                 <input
                   type="text"
@@ -789,12 +790,12 @@ export default function CreditsPane({
 
         <div className="credits-usage-info">
           <h3 className="credits-usage-title">
-            {isSettingsSurface ? 'How Bitcode uses credits' : 'Advanced Bitcode Agents: Autonomous Deliverables'}
+            {isBTDSurface ? 'How Bitcode spends balance' : 'Advanced Bitcode Agents: Autonomous Deliverables'}
           </h3>
           <div className="value-proposition">
             <p className="value-proposition p">
-              {isSettingsSurface
-                ? 'Credits fund repository analysis, execution, validation, and delivery work across Bitcode. Review balance, premium adjustments, and historical consumption here before launching additional work.'
+              {isBTDSurface
+                ? 'Balances fund repository analysis, execution, validation, and delivery work across Bitcode. Review throughput, provider premiums, and historical consumption here before launching additional work.'
                 : "Bitcode's vertically integrated engineering platform transforms software development through specialized systems working in concert. Our advanced pipeline delivers production-ready solutions through a comprehensive process:"}
             </p>
             <div className="value-proposition-grid">
@@ -805,10 +806,10 @@ export default function CreditsPane({
                       <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
                     </svg>
                   </div>
-                  <h5>{isSettingsSurface ? 'Repository analysis' : 'Deep Analysis'}</h5>
+                  <h5>{isBTDSurface ? 'Repository analysis' : 'Deep Analysis'}</h5>
                 </div>
                 <div className="value-prop-item-content">
-                  <p>{isSettingsSurface ? 'Initial repository mapping, planning, and execution setup' : 'Architectural understanding and strategic planning'}</p>
+                  <p>{isBTDSurface ? 'Initial repository mapping, planning, and execution setup' : 'Architectural understanding and strategic planning'}</p>
                 </div>
               </div>
               <div className="value-prop-item">
@@ -818,10 +819,10 @@ export default function CreditsPane({
                       <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
                     </svg>
                   </div>
-                  <h5>{isSettingsSurface ? 'Execution work' : 'Intelligent Coding'}</h5>
+                  <h5>{isBTDSurface ? 'Execution work' : 'Intelligent Coding'}</h5>
                 </div>
                 <div className="value-prop-item-content">
-                  <p>{isSettingsSurface ? 'Model-backed implementation, edits, and iterative refinement' : 'Clean, maintainable code following best practices'}</p>
+                  <p>{isBTDSurface ? 'Model-backed implementation, edits, and iterative refinement' : 'Clean, maintainable code following best practices'}</p>
                 </div>
               </div>
               <div className="value-prop-item">
@@ -831,10 +832,10 @@ export default function CreditsPane({
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                     </svg>
                   </div>
-                  <h5>{isSettingsSurface ? 'Validation and delivery' : 'Rigorous Validation'}</h5>
+                  <h5>{isBTDSurface ? 'Validation and delivery' : 'Rigorous Validation'}</h5>
                 </div>
                 <div className="value-prop-item-content">
-                  <p>{isSettingsSurface ? 'Testing, review, reconciliation, and final delivery surfaces' : 'Automated testing and quality assurance'}</p>
+                  <p>{isBTDSurface ? 'Testing, review, reconciliation, and final delivery surfaces' : 'Automated testing and quality assurance'}</p>
                 </div>
               </div>
             </div>
@@ -845,7 +846,7 @@ export default function CreditsPane({
         <div className="model-provider-premium">
           <h3 className="model-selection-title">Model Provider Premium</h3>
           <p className="model-selection-description">
-            Different model providers have different pricing structures. Your credit usage will be adjusted based on the model premium.
+            Different model providers have different pricing structures. Your BTD usage will be adjusted based on the model premium.
           </p>
 
           <div className="model-providers-grid">
@@ -869,7 +870,7 @@ export default function CreditsPane({
         {/* Usage Chart - disabled during onboarding */}
         <AfterOnboardingOverlay disabled={!isOnboardingComplete}>
           <div className="credits-usage-chart-container">
-            <h3 className="credits-usage-title">Credit Usage History</h3>
+            <h3 className="credits-usage-title">BTD Balance History</h3>
             <div className="usage-interval-switcher">
               {(['daily', 'weekly', 'monthly'] as const).map(interval => (
                 <button
@@ -894,13 +895,13 @@ export default function CreditsPane({
               <div className="summary-item">
                 <span className="summary-label">Total Spent ({usageInterval.charAt(0).toUpperCase() + usageInterval.slice(1)})</span>
                 <span className="summary-value spent-value">
-                  {usageData.reduce((sum, d) => sum + d.spent, 0).toLocaleString()} Credits
+                  {usageData.reduce((sum, d) => sum + d.spent, 0).toLocaleString()} BTD
                 </span>
               </div>
               <div className="summary-item">
-                <span className="summary-label">Total Purchased ({usageInterval.charAt(0).toUpperCase() + usageInterval.slice(1)})</span>
+                <span className="summary-label">Total Added ({usageInterval.charAt(0).toUpperCase() + usageInterval.slice(1)})</span>
                 <span className="summary-value purchased-value">
-                  {usageData.reduce((sum, d) => sum + d.purchased, 0).toLocaleString()} Credits
+                  {usageData.reduce((sum, d) => sum + d.purchased, 0).toLocaleString()} BTD
                 </span>
               </div>
               <div className="summary-item">
@@ -908,7 +909,7 @@ export default function CreditsPane({
                 <span className="summary-value average-value">
                   {usageData.length > 0
                     ? Math.round(usageData.reduce((sum, d) => sum + d.spent, 0) / usageData.length).toLocaleString()
-                    : '0'} Credits
+                    : '0'} BTD
                 </span>
               </div>
             </div>

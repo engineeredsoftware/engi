@@ -209,10 +209,10 @@ function canonPosture(state) {
     return /** @type {Record<string, string>} */ (posture);
   }
   return {
-    operatorLabel: state?.specVersion || 'current canon posture',
+    operatorLabel: 'active workspace posture',
     documentTitle: 'Bitcode Application',
-    inheritedCanonSurfaceLabel: 'current inherited canon',
-    heroEyebrow: 'Bitcode operator workspace',
+    inheritedCanonSurfaceLabel: 'shared Bitcode shell surfaces',
+    heroEyebrow: 'Bitcode transactions workspace',
     heroLede: 'Set the working scenario, select supply, and follow the flow from give through settlement.',
     heroTip: 'The guide and exact source-path surfaces stay available here whenever you need lower-level inspection.'
   };
@@ -223,7 +223,7 @@ function canonPosture(state) {
  * @returns {string}
  */
 function canonOperatorLabel(state) {
-  return canonPosture(state)['operatorLabel'] || state?.specVersion || 'current canon posture';
+  return canonPosture(state)['operatorLabel'] || 'active workspace posture';
 }
 
 function compactInventoryEntry(entry) {
@@ -544,7 +544,7 @@ function buildApplicationCoreSurface(state) {
             compactApplicationRow('Latest bundle', latestBundleId),
             compactApplicationRow('Status', statusEl.textContent?.trim() || '—'),
             compactApplicationRow('Proof posture', proofCatalog?.proofFamilyCount ? 'proof families surfaced' : 'awaiting proof family read'),
-            compactApplicationRow('Closure owner', 'native application + preserved Bitcode shell')
+            compactApplicationRow('Closure owner', 'workspace composition + shared Bitcode shell')
           ]
         },
         {
@@ -1555,15 +1555,15 @@ const EXPLAINERS = {
     summary: 'Human-readable summary text Bitcode shows in visual surfaces.',
     detail: 'It makes the deposited asset legible at a glance without replacing raw content or proof-bearing metadata.',
     points: [
-      'Optimized for operator readability',
-      'Separate from raw fallback content and operator note'
+      'Optimized for quick workspace readability',
+      'Separate from raw fallback content and the working note'
     ]
   },
   'operator-note': {
     kicker: 'Deposit surface',
-    title: 'Operator note',
-    summary: 'Optional operator-authored note appended to selected repo artifacts at intake.',
-    detail: 'When present, the intake mode becomes repo-artifact-selection-plus-note because the operator is adding new narrative context.',
+    title: 'Working note',
+    summary: 'Optional note appended to selected repo artifacts at intake.',
+    detail: 'When present, the intake mode becomes repo-artifact-selection-plus-note because you are adding new narrative context.',
     points: [
       'Useful for framing why a selection matters',
       'Does not replace the selected repo artifact evidence'
@@ -4012,8 +4012,8 @@ function tutorialSteps(state) {
     {
       selector: '#hero',
       kicker: 'Step 1',
-      title: 'Start from the active canon posture',
-      body: `${canonOperatorLabel(state)} opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the shell is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
+      title: 'Start from the active workspace posture',
+      body: `The current workspace opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the shell is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
       targetHint: 'Use the top controls to set the walkthrough context before you deposit or branch.'
     },
     {
@@ -4028,15 +4028,15 @@ function tutorialSteps(state) {
     {
       selector: '#panelOperatingPicture',
       kicker: 'Step 3',
-      title: 'Orient the operator story',
-      body: 'This panel is the compressed V24 operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole Bitcode path before you dive into any one artifact family.',
+      title: 'Orient the working chain',
+      body: 'This panel is the compressed operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole Bitcode path before you dive into any one artifact family.',
       targetHint: 'If someone is lost, come back here first and then continue stepwise.'
     },
     {
       selector: '#panelDepositing',
       kicker: 'Step 4',
       title: 'Bind supply into a deposit',
-      body: 'The guide becomes active here. Choose an authenticated repo session, select inventory artifacts, add any operator note or raw fallback material, and deposit a candidate asset into the flow.',
+      body: 'The guide becomes active here. Choose an authenticated repo session, select inventory artifacts, add any working note or raw fallback material, and deposit a candidate asset into the flow.',
       targetHint: 'This panel answers: what did we present to Bitcode, from which repo/auth boundary, and in what artifact shape?'
     },
     {
@@ -6489,7 +6489,7 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">${escapeHtml(canonOperatorLabel(state))} foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
+      <p class="meta">The current workspace foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
     ${needingSurface ? renderJsonSurface({
       title: 'Needing surface',
@@ -7088,7 +7088,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the ${escapeHtml(canonOperatorLabel(state))} demo. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the current workspace. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
     </div>
     ${artifactDefs.filter((artifact) => hasSurfaceContent(artifact.data, artifact.raw)).map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -7556,7 +7556,7 @@ depositFormEl.addEventListener('submit', async (event) => {
     selectedInventoryKind = 'all';
     formEl.reset();
     await refresh();
-    setStatus(`Candidate asset deposited into the ${canonOperatorLabel(lastLoadedState)} repo-authenticated flow. Re-run “Make Bitcode branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.`);
+    setStatus('Candidate asset deposited into the repo-authenticated flow. Re-run “Make Bitcode branch” to see whether it sharpens a bounded need or broadens normalization for a composite one.');
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -7571,7 +7571,7 @@ window.addEventListener('resize', () => {
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the ${canonOperatorLabel(lastLoadedState)} deposit-to-need closure path. Inherited surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
+  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. Shared shell surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
 }).catch((error) => {
   const applicationRootEl = document.getElementById('bitcodeApplicationRoot');
   (applicationRootEl || document.body).innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;

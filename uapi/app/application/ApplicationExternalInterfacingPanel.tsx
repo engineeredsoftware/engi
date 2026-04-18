@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
   normalizeExternalRuntimePayload,
@@ -89,11 +89,11 @@ export default function ApplicationExternalInterfacingPanel() {
   const counts = snapshot?.counts;
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       kicker="Boundary runtime"
       title="External interface readiness"
       summary="Check what is live, modeled, or blocked before you trust the rest of the operating chain."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.boundaryRuntime}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
@@ -260,6 +260,6 @@ export default function ApplicationExternalInterfacingPanel() {
           </div>
         </div>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

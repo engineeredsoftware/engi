@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { APPLICATION_ACTIONS } from './application-experience-architecture';
 import { APPLICATION_SHELL_SECTIONS } from './application-shell-sections';
 import {
@@ -58,11 +58,11 @@ export default function ApplicationCommandDeck() {
   );
 
   return (
-    <ApplicationOperatorCard
-      kicker="Operator controls"
+    <ApplicationWorkspaceCard
+      kicker="Workspace controls"
       title="Give, need, and closure controls"
       summary="Set scenario, projection, and branch mode, then run closure or resume the working draft from the same workspace you use to read the ledger."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.controls}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.controls}
       tone="emerald"
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -236,6 +236,6 @@ export default function ApplicationCommandDeck() {
           />
         </div>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

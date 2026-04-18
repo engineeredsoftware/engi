@@ -2,18 +2,18 @@
 
 import React from 'react';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import ApplicationRuntimeDrawer from './ApplicationRuntimeDrawer';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 
 export default function ApplicationPreservedShellSurface() {
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationLowerRuntime"
       kicker="Exact detail view"
       title="Open the live proof and settlement view only when you need exact follow-through"
       summary="Stay in the application workspace for normal reading and drafting. Open this exact view only when you need replay detail, mount-level verification, or proof follow-through."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.sourcePath}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.sourcePath}
       className="min-w-0"
       childrenClassName="space-y-5"
     >
@@ -188,7 +188,7 @@ export default function ApplicationPreservedShellSurface() {
                     />
                   </label>
                   <label className="field-stack">
-                    <span data-explainer-key="operator-note">Operator note</span>
+                    <span data-explainer-key="operator-note">Working note</span>
                     <textarea
                       name="operatorNote"
                       rows={3}
@@ -306,6 +306,6 @@ export default function ApplicationPreservedShellSurface() {
         </div>
         </div>
       </ApplicationRuntimeDrawer>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

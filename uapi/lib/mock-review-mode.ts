@@ -5,7 +5,7 @@ import { ENABLE_MOCKS, MOCK_USER_ORBITAL, MOCK_USER_ORBITAL_SCENARIO } from '@/c
 
 const REVIEW_USER_ID = 'mock-bitcode-review-user';
 const REVIEW_TIMESTAMP = '2026-04-16T12:00:00.000Z';
-const REVIEW_COMPLETED_STEPS = ['profile', 'connects', 'models', 'credits'] as const;
+const REVIEW_COMPLETED_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
 
 export function isUserOrbitalMockMode() {
   return ENABLE_MOCKS && MOCK_USER_ORBITAL;

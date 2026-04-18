@@ -6,6 +6,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
+import { normalizeOrbitalSteps } from '@/app/orbitals/components/orbital-pane-meta';
+
 export interface AggregatedUserData {
   profile?: any | null;
   vcsConnections?: any[];
@@ -21,7 +23,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   githubConnection: null,
   credits: 0,
   modelPreferences: null,
-  onboarded_steps: ['models'],
+  onboarded_steps: [],
   isOnboardingComplete: false,
 };
 
@@ -137,7 +139,7 @@ export function useUserData() {
   const credits = typeof data?.credits === 'number' ? data.credits : hydratedCredits;
 
   // Use onboarded_steps from backend
-  const onboardedSteps = data?.onboarded_steps || ['models'];
+  const onboardedSteps = normalizeOrbitalSteps(data?.onboarded_steps || []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
 
   return {

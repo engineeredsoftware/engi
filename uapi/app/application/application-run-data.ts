@@ -105,14 +105,14 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
         url: 'https://github.com/bitcode/bitcode/issues/411',
         number: 411,
         title: 'Tighten branch artifact disclosure grouping',
-        description: 'Track final grouping rules for remediation bundles, visibility posture, and operator disclosure notes.',
+        description: 'Track final grouping rules for remediation bundles, visibility posture, and working disclosure notes.',
       },
     ],
     comments: [
       {
         url: 'https://github.com/bitcode/bitcode/issues/411#issuecomment-1',
         number: 411,
-        title: 'Operator note',
+        title: 'Working note',
         description: 'Branch artifacts can now be reviewed directly before opening deeper execution detail.',
       },
     ],
@@ -123,7 +123,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       paths: ['uapi/app/application/ApplicationTransactionWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
     },
     summary:
-      'The branch remediation pack now reads as one operator workspace surface. Operators can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
+      'The branch remediation pack now reads as one transactions workspace surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
   },
   'mock-run-measurement-pass': {
     pullRequest: null,
@@ -141,7 +141,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
         url: 'https://github.com/bitcode/bitcode/issues/412#issuecomment-1',
         number: 412,
         title: 'Measurement note',
-        description: 'Normalization fit and decisive fit are now separated more clearly for operator reading.',
+        description: 'Normalization fit and decisive fit are now separated more clearly for workspace reading.',
       },
     ],
     summary:
@@ -153,7 +153,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     issues: null,
     comments: null,
     summary:
-      'Proof-family witnesses are still refreshing. Mock review keeps the operator workspace legible while the final proof bundle remains in-flight.',
+      'Proof-family witnesses are still refreshing. Mock review keeps the transactions workspace legible while the final proof bundle remains in-flight.',
   },
 };
 
@@ -203,7 +203,7 @@ export const MOCK_RUN_ACTIVITY: Record<
       id: 'wu-1',
       iteration: 2,
       confidence: 0.94,
-      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for operator review.',
+      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for workspace review.',
       timestamp: '2026-04-16T12:01:40.000Z',
     },
     iterationUpdates: [
@@ -218,7 +218,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-2',
         iteration: 2,
         confidence: 0.94,
-        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for operator review.',
+        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for workspace review.',
         timestamp: '2026-04-16T12:01:40.000Z',
       },
     ],

@@ -5,8 +5,8 @@ import { useMemo } from 'react';
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
 
 import ApplicationActionWorkbenchCard from './ApplicationActionWorkbenchCard';
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import {
   normalizeApplicationGiveNeedWorkbench,
@@ -35,25 +35,25 @@ export default function ApplicationGiveNeedWorkbench({
 
   if (!workbench) {
     return (
-      <ApplicationOperatorCard
+      <ApplicationWorkspaceCard
         id="applicationGiveNeedWorkbench"
         kicker="Give + need chain"
         title="Read supply, demand, and fit together"
         summary="Reading the live give-side source, demand frame, and fit posture."
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.giveNeedChain}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.giveNeedChain}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode workbench…</p>
-      </ApplicationOperatorCard>
+      </ApplicationWorkspaceCard>
     );
   }
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationGiveNeedWorkbench"
       kicker="Give + need chain"
       title="Read supply, demand, and fit together"
       summary="Keep the give-side source, active demand frame, and fit posture readable as one operating chain."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.giveNeedChain}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.giveNeedChain}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
@@ -132,6 +132,6 @@ export default function ApplicationGiveNeedWorkbench({
           ))}
         </dl>
       </article>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

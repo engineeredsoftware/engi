@@ -116,7 +116,7 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
                 className={`${menuStyles.item}`}
               >
                 <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
-                <span>Account orbitals</span>
+                <span>Profile orbitals</span>
               </DropdownMenu.Item>
             )}
 

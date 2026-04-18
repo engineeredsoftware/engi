@@ -11,9 +11,9 @@ import { SUPPORTED_LLM_MODELS, ProviderId } from '@/utils/model-pricing';
 // import ModelCallConfiguration from './models/_legacy_ModelCallConfiguration'; // Legacy - not used
 import SystemPromptSection from './models/SystemPromptSection';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
-import OrbitalsModelsOrbitalHeader from './headers/OrbitalsModelsOrbitalHeader';
+import OrbitalsInterfacesOrbitalHeader from './headers/OrbitalsInterfacesOrbitalHeader';
 
-interface ModelsPaneProps {
+interface InterfacesPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
   isOnboardingComplete?: boolean;
@@ -46,14 +46,14 @@ interface ModelCall {
   fullName: string;
 }
 
-export default function ModelsPane({ 
+export default function InterfacesPane({ 
   onSave, 
   loading: _loading,
   isOnboardingComplete = false,
   onCompletionStatusChange, 
   initialModelPreferences
-}: ModelsPaneProps) {
-  const isSettingsSurface = isOnboardingComplete;
+}: InterfacesPaneProps) {
+  const isInterfacesSurface = isOnboardingComplete;
 
   // Available model options: generated from centralized catalog
   const modelOptions: ModelOption[] = useMemo(() => {
@@ -164,7 +164,7 @@ export default function ModelsPane({
 
   const applyGlobalModel = (modelId: string) => {
     setModelCalls(prev => prev.map(call => ({ ...call, model: modelId })));
-    trackEvent('models_global_applied', { model: modelId });
+    trackEvent('interfaces_global_applied', { model: modelId });
   };
 
   const updateTokenCounter = (text: string) => {
@@ -196,17 +196,17 @@ export default function ModelsPane({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <OrbitalsModelsOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
+        <OrbitalsInterfacesOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
 
-        {isSettingsSurface && (
+        {isInterfacesSurface && (
           <div className="mb-6 rounded-[22px] border border-emerald-300/18 bg-emerald-400/10 px-5 py-4 text-white/82 shadow-[0_20px_50px_rgba(0,0,0,0.18)]">
             <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-100/76">
-              Execution defaults
+              Interfaces defaults
             </div>
             <p className="mt-3 text-sm leading-7 text-white/78">
-              Model routing and system prompts here apply to future Bitcode executions and operator
-              workflows. Update these defaults before starting new work when you need a different
-              provider mix or instruction baseline.
+              Routing, prompts, and execution defaults here shape how transactions, conversations,
+              and follow-through behave the next time you work in Bitcode. Update these defaults
+              when you need a different provider mix or instruction baseline.
             </p>
           </div>
         )}
@@ -240,7 +240,7 @@ export default function ModelsPane({
           />
 
           <button type="submit" className="primary-button save-button">
-            {isSettingsSurface ? 'Save models orbital' : 'Continue'}
+            {isInterfacesSurface ? 'Save interfaces orbital' : 'Continue'}
           </button>
         </form>
       </motion.div>

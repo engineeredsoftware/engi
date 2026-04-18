@@ -1,2 +1,2 @@
-// Canonical Credits Orbital component
-export { default } from './credits-pane';
+// Legacy compatibility re-export for the $BTD Orbital component
+export { default } from './OrbitalsBTD';

@@ -2,7 +2,11 @@
 
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { OrbitalPane } from './index';
+import {
+  getOrbitalRingIndex,
+  labelForOrbitalPane,
+  type OrbitalPane,
+} from './orbital-pane-meta';
 import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
 
 export interface OrbitalContentProps {
@@ -89,8 +93,6 @@ function OrbitalContent(props: OrbitalContentProps) {
                 const isActive = step === currentStep;
                 const isCompleted = isOrbitalMode
                   ? completedSteps.includes(step)
-                  : step === 'models' && !isOnboardingComplete
-                  ? completedSteps.includes('connects') && completedSteps.includes('models')
                   : completedSteps.includes(step);
                 const isAvailable = availableSteps.includes(step);
                 const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
@@ -107,7 +109,7 @@ function OrbitalContent(props: OrbitalContentProps) {
                       if (isAvailable) {
                         try {
                           const { trackEvent } = require('@bitcode/google-analytics');
-                          trackEvent(isOrbitalMode ? 'settings_step_click' : 'onboarding_step_click', { step });
+                          trackEvent(isOrbitalMode ? 'orbital_step_click' : 'onboarding_step_click', { step });
                         } catch {}
                         onStepClick(step);
                       }
@@ -121,10 +123,7 @@ function OrbitalContent(props: OrbitalContentProps) {
                       )}
                     </div>
                     <div className="step-indicator-label">
-                      {step.charAt(0).toUpperCase() + step.slice(1)}
-                      {step === 'models' && (
-                        <span className="optional-label">(Optional)</span>
-                      )}
+                      {labelForOrbitalPane(step)}
                     </div>
                   </div>
                 );
@@ -137,11 +136,12 @@ function OrbitalContent(props: OrbitalContentProps) {
       {!usesTabNavigation ? (
         <div className="orbital-rings-container">
           {steps.map((step) => {
-            const i = stepMeta.pos.get(step)!;
+            const stepPosition = stepMeta.pos.get(step)!;
+            const ringIndex = getOrbitalRingIndex(step);
             const isAvailable = availableSteps.includes(step);
             const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-            const isNext = !isOrbitalMode && i === highest + 1;
-            const size = 30 + i * 15;
+            const isNext = !isOrbitalMode && stepPosition === highest + 1;
+            const size = 30 + ringIndex * 15;
             const style: React.CSSProperties = {
               position: 'absolute',
               left: '50%',
@@ -154,7 +154,7 @@ function OrbitalContent(props: OrbitalContentProps) {
               boxSizing: 'border-box',
               cursor: isAvailable ? 'pointer' : 'default',
               pointerEvents: isAvailable ? 'auto' : 'none',
-              zIndex: steps.length - i,
+              zIndex: steps.length - ringIndex,
             };
             return (
               <div
@@ -163,8 +163,8 @@ function OrbitalContent(props: OrbitalContentProps) {
                 style={style}
                 onClick={() => isAvailable && onStepClick(step)}
               >
-                <div className="orbital-label" style={{ '--index': i } as React.CSSProperties}>
-                  {step.charAt(0).toUpperCase() + step.slice(1)}
+                <div className="orbital-label" style={{ '--index': ringIndex } as React.CSSProperties}>
+                  {labelForOrbitalPane(step)}
                 </div>
               </div>
             );

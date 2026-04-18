@@ -22,7 +22,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Orbitals',
     badge: 'fullscreen',
     description:
-      'The fullscreen Bitcode orbital space for account, connects, models, credits, and the rest of the configuration surface.',
+      'The fullscreen Bitcode orbital space for Profile, Connects, Interfaces, $BTD, and the rest of the configuration surface.',
     targetId: 'orbitals',
   },
 ] as const;

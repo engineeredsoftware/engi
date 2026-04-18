@@ -5,8 +5,8 @@ import { useEffect, useMemo, useState } from 'react';
 import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   normalizeApplicationDepositComposer,
   type ApplicationDepositComposerState,
@@ -42,7 +42,7 @@ export default function ApplicationDepositComposer() {
   const [workflowRunId, setWorkflowRunId] = useState('');
   const [signerAddress, setSignerAddress] = useState('');
   const [visualPreview, setVisualPreview] = useState('');
-  const [operatorNote, setOperatorNote] = useState('');
+  const [workingNote, setWorkingNote] = useState('');
   const [tags, setTags] = useState('');
   const [content, setContent] = useState('');
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: 'idle' });
@@ -90,7 +90,7 @@ export default function ApplicationDepositComposer() {
           workflowRunId,
           signerAddress,
           visualPreview,
-          operatorNote,
+          operatorNote: workingNote,
           tags: tags
             .split(',')
             .map((entry) => entry.trim())
@@ -113,7 +113,7 @@ export default function ApplicationDepositComposer() {
       setSourceCommit('');
       setWorkflowRunId('');
       setVisualPreview('');
-      setOperatorNote('');
+      setWorkingNote('');
       setTags('');
       setContent('');
       setSubmitState({
@@ -129,25 +129,25 @@ export default function ApplicationDepositComposer() {
 
   if (!composer) {
     return (
-      <ApplicationOperatorCard
+      <ApplicationWorkspaceCard
         id="applicationDepositComposer"
         kicker="Give intake"
         title="Draft and submit a give-side deposit"
         summary="Reading selected supply, issuer continuity, and the current deposit draft posture."
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.depositComposer}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.depositComposer}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Loading the current give draft…</p>
-      </ApplicationOperatorCard>
+      </ApplicationWorkspaceCard>
     );
   }
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationDepositComposer"
       kicker="Give intake"
       title="Draft and submit a give-side deposit"
       summary="Build the deposit from selected supply, add provenance overrides where needed, and keep the working draft resumable before fit and closure."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.depositComposer}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.depositComposer}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
@@ -258,12 +258,12 @@ export default function ApplicationDepositComposer() {
           </label>
 
           <label className="rounded-[1.5rem] border border-white/8 bg-black/20 px-4 py-4">
-            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Operator note</span>
+            <span className="text-[0.66rem] uppercase tracking-[0.24em] text-neutral-400">Working note</span>
             <textarea
-              value={operatorNote}
-              onChange={(event) => setOperatorNote(event.target.value)}
+              value={workingNote}
+              onChange={(event) => setWorkingNote(event.target.value)}
               rows={3}
-              placeholder="Operator-authored intake note"
+              placeholder="Optional intake note for the active draft"
               className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
             />
           </label>
@@ -349,6 +349,6 @@ export default function ApplicationDepositComposer() {
           </div>
         </aside>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

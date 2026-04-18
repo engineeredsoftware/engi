@@ -1,6 +1,7 @@
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { NextResponse } from 'next/server';
 
+import { ORBITAL_FLOW_STEPS, normalizeOrbitalSteps } from '@/app/orbitals/components/orbital-pane-meta';
 import { buildMockOrbitalData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
 export const runtime = 'nodejs';
@@ -11,26 +12,31 @@ function buildAnonymousOrbitalData() {
     githubConnection: null,
     credits: 0,
     modelPreferences: null,
-    onboarded_steps: ['models'],
+    onboarded_steps: [],
     isOnboardingComplete: false,
   };
 }
 
 function parseOnboardedSteps(value: unknown): string[] {
   if (Array.isArray(value)) {
-    return value.map((entry) => String(entry || '').trim()).filter(Boolean);
+    const normalized = normalizeOrbitalSteps(value);
+    return normalized;
   }
   if (typeof value === 'string' && value.trim()) {
     try {
       const parsed = JSON.parse(value);
       if (Array.isArray(parsed)) {
-        return parsed.map((entry) => String(entry || '').trim()).filter(Boolean);
+        const normalized = normalizeOrbitalSteps(parsed);
+        return normalized;
       }
     } catch {
-      return [value.trim()];
+      const normalized = normalizeOrbitalSteps([value.trim()]);
+      if (normalized.length) {
+        return normalized;
+      }
     }
   }
-  return ['models'];
+  return [];
 }
 
 export async function GET(_request: Request) {
@@ -72,6 +78,6 @@ export async function GET(_request: Request) {
     credits,
     modelPreferences,
     onboarded_steps,
-    isOnboardingComplete: onboarded_steps.length === 4,
+    isOnboardingComplete: onboarded_steps.length === ORBITAL_FLOW_STEPS.length,
   });
 }

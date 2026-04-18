@@ -8,8 +8,8 @@ import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import { VCSRepositorySelector } from '@/components/base/engi/vcs/VCSRepositorySelector';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   APPLICATION_REPOSITORY_PROVIDERS,
   type ApplicationRepositoryConnectionStatus,
@@ -167,12 +167,12 @@ export default function ApplicationRepositoryContextPanel({
   };
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationRepositorySupply"
       kicker="Repository supply"
       title="Connect and select searchable supply"
       summary="Choose the provider and repository that will anchor give-side supply before you move deeper into deposit, need, and closure."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.repositorySupply}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply}
       tone="emerald"
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
@@ -438,6 +438,6 @@ export default function ApplicationRepositoryContextPanel({
           </article>
         </div>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

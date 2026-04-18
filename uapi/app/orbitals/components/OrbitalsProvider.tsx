@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import type { OrbitalPane } from './index';
+import type { OrbitalPane } from './orbital-pane-meta';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 

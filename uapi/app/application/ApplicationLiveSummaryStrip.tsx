@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   normalizeApplicationLiveSummary,
   type ApplicationLiveSummaryItem,
@@ -29,11 +29,11 @@ export default function ApplicationLiveSummaryStrip() {
   const pinnedItems = items.filter((item) => PINNED_LABELS.has(item.label));
 
   return (
-    <ApplicationOperatorCard
-      kicker="Operator pulse"
+    <ApplicationWorkspaceCard
+      kicker="Workspace pulse"
       title="Pinned operating signals"
       summary="Keep scenario, proof pressure, and blocking interfaces close to the ledger before you dive into deeper deliverable, proof, or history detail."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.ledgerPulse}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
@@ -76,6 +76,6 @@ export default function ApplicationLiveSummaryStrip() {
           </div>
         </div>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

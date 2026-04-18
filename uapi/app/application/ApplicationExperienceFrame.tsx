@@ -2,8 +2,8 @@
 
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { APPLICATION_ACTIONS, APPLICATION_EXPERIENCES } from './application-experience-architecture';
 import { jumpToShellSection } from './application-shell-reading';
 
@@ -13,11 +13,11 @@ interface ApplicationExperienceFrameProps {
 
 export default function ApplicationExperienceFrame({ onOpenConversations }: ApplicationExperienceFrameProps) {
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       kicker="Workspace model"
       title="Read the ledger, then open deeper modes only when needed"
       summary="Keep transactions and selected detail primary, then move into conversations or orbitals only when you need drafting, coordination, or configuration."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.experienceMap}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.experienceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
@@ -118,6 +118,6 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
           researchers, with modular and observable system surfaces tuned toward throughput, quality, cost, and trust.
         </p>
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

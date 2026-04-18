@@ -27,7 +27,7 @@ describe('GET /api/orbitals/data', () => {
       githubConnection: null,
       credits: 0,
       modelPreferences: null,
-      onboarded_steps: ['models'],
+      onboarded_steps: [],
       isOnboardingComplete: false,
     });
     expect(mockFrom).not.toHaveBeenCalled();
@@ -36,7 +36,7 @@ describe('GET /api/orbitals/data', () => {
   it('returns user data with only GitHub connection', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     // Mock profile
-    const profileData = { user_id: 'user-1', name: 'Test' };
+    const profileData = { user_id: 'user-1', name: 'Test', onboarded_steps: '["profile","models","credits"]' };
     const profileBuilder: any = {
       select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), maybeSingle: jest.fn().mockResolvedValue({ data: profileData, error: null })
     };
@@ -72,7 +72,7 @@ describe('GET /api/orbitals/data', () => {
       githubConnection: connectionData,
       credits: 50,
       modelPreferences: prefData.preferences,
-      onboarded_steps: ['models'],
+      onboarded_steps: ['profile', 'interfaces', 'btd'],
       isOnboardingComplete: false,
     });
     // Ensure queries were scoped correctly

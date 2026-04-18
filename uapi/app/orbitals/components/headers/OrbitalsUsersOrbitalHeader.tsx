@@ -9,18 +9,18 @@ export default function OrbitalsUsersOrbitalHeader({
 }: { isOnboardingComplete?: boolean; isVerified?: boolean }) {
   const description = !isVerified
     ? "Verify your email to secure Bitcode access and unlock the rest of your orbitals."
-    : "Manage your profile, organization, and team orbitals.";
+    : "Manage your profile, wallet identity, organization roles, and team posture.";
   return (
     <OrbitalsOrbitalHeader
-      title="Account & Team"
-      completedTitle="Account & Team"
+      title="Profile Orbital"
+      completedTitle="Profile Orbital"
       description={description}
       stepNumber={1}
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="profile-step-badge"
       showInfoBox
-      infoTitle="Secure account access"
-      infoDescription="Verify your email to secure your Bitcode account before connecting repositories, configuring models, or funding usage."
+      infoTitle="Secure profile access"
+      infoDescription="Verify your email before opening Connects, shaping Interfaces defaults, or reviewing $BTD posture."
     />
   );
 }

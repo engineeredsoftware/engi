@@ -26,7 +26,7 @@ import ApplicationSurfaceSection from './ApplicationSurfaceSection';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
 import ApplicationTransactionWorkspace from './ApplicationTransactionWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
-import { APPLICATION_SURFACE_COPY } from './application-operator-copy';
+import { APPLICATION_WORKSPACE_COPY } from './application-workspace-copy';
 import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import {
@@ -165,7 +165,7 @@ export default function ApplicationPageClient() {
                 : null,
             branch: (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.branch || null,
             participant:
-              (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org || 'connected operator',
+              (run.repo_snapshot || run.final_work_summary?.repoSnapshot)?.org || 'connected account',
             isOwnTransaction: true,
             transactionLens: deriveTransactionLens(run.type),
             itemCount: run.items?.length || 0,
@@ -251,13 +251,14 @@ export default function ApplicationPageClient() {
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
               <div className="max-w-3xl">
-                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode operator workspace</p>
+                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode transactions terminal</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
-                  Bitcode transactions master-detail workspace
+                  Read transactions, then move deeper only when you need to
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-                  Search and read Bitcode transactions in one ledger window, open the selected transaction into
-                  deliverables, proofs, and history, and move into conversations or orbitals without losing your place.
+                  Search and filter Bitcode transactions in one ledger window, open the selected
+                  transaction into deliverables, proofs, and history, and move into conversations
+                  or orbitals without losing your place.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">
@@ -311,9 +312,9 @@ export default function ApplicationPageClient() {
             <div className="min-w-0">
               <ApplicationSurfaceSection
                 id="applicationFrameSurface"
-                kicker={APPLICATION_SURFACE_COPY.frame.kicker}
-                title={APPLICATION_SURFACE_COPY.frame.title}
-                summary={APPLICATION_SURFACE_COPY.frame.summary}
+                kicker={APPLICATION_WORKSPACE_COPY.frame.kicker}
+                title={APPLICATION_WORKSPACE_COPY.frame.title}
+                summary={APPLICATION_WORKSPACE_COPY.frame.summary}
               >
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
                 <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
@@ -330,9 +331,9 @@ export default function ApplicationPageClient() {
 
               <ApplicationSurfaceSection
                 id="applicationSupplySurface"
-                kicker={APPLICATION_SURFACE_COPY.supply.kicker}
-                title={APPLICATION_SURFACE_COPY.supply.title}
-                summary={APPLICATION_SURFACE_COPY.supply.summary}
+                kicker={APPLICATION_WORKSPACE_COPY.supply.kicker}
+                title={APPLICATION_WORKSPACE_COPY.supply.title}
+                summary={APPLICATION_WORKSPACE_COPY.supply.summary}
                 tone="emerald"
               >
                 <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
@@ -354,9 +355,9 @@ export default function ApplicationPageClient() {
 
               <ApplicationSurfaceSection
                 id="applicationClosureSurface"
-                kicker={APPLICATION_SURFACE_COPY.closure.kicker}
-                title={APPLICATION_SURFACE_COPY.closure.title}
-                summary={APPLICATION_SURFACE_COPY.closure.summary}
+                kicker={APPLICATION_WORKSPACE_COPY.closure.kicker}
+                title={APPLICATION_WORKSPACE_COPY.closure.title}
+                summary={APPLICATION_WORKSPACE_COPY.closure.summary}
               >
                 <ApplicationClosureControlDeck />
                 <ApplicationClosureNativeSections />

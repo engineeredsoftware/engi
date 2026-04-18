@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { normalizeApplicationSectionAtlas } from './application-section-atlas';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection } from './application-shell-reading';
@@ -25,11 +25,11 @@ export default function ApplicationSectionAtlas() {
   );
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       kicker="Workspace map"
       title="Preview the deeper flow"
       summary="Scan give, need, fit, verification, artifacts, settlement, and ledger sections before you open the next deeper stage."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.workspaceMap}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.workspaceMap}
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
@@ -87,6 +87,6 @@ export default function ApplicationSectionAtlas() {
           </article>
         ))}
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

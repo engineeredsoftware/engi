@@ -4,7 +4,7 @@ import React, { type ReactNode } from 'react';
 
 import type { BitcodeExplainer } from '@/components/base/engi/execution/bitcode-transaction-types';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 
 interface ApplicationWorkspaceRailCardProps {
   kicker: string;
@@ -24,7 +24,7 @@ export default function ApplicationWorkspaceRailCard({
   explainer,
 }: ApplicationWorkspaceRailCardProps) {
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       kicker={kicker}
       title={title}
       summary={summary}
@@ -34,6 +34,6 @@ export default function ApplicationWorkspaceRailCard({
       explainer={explainer}
     >
       {children}
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

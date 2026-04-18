@@ -66,7 +66,7 @@ export default function ApplicationMockTransactionDetails({ run }: { run: Worksp
           <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Carry forward</p>
           <p className="mt-2 leading-6 text-neutral-200">
             This panel stands in for the inward-ported executions and deliverables detail surface that lives directly
-            in the main operator workspace.
+            in the main transactions workspace.
           </p>
         </div>
         <div className="rounded-2xl border border-white/6 bg-black/20 p-4">

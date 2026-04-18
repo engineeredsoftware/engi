@@ -8,15 +8,15 @@ export default function OrbitalsConnectsOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="Connections"
-      completedTitle="Connections"
+      title="Connects Orbital"
+      completedTitle="Connects Orbital"
       description={!isOnboardingComplete
-        ? "Connect GitHub and related tools so Bitcode can operate on live repositories."
-        : "Manage GitHub and future application integrations."}
+        ? 'Connect GitHub and related interfaces so Bitcode can operate on live repositories.'
+        : 'Manage GitHub and future Bitcode interfaces from one orbital.'}
       stepNumber={2}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
-      infoTitle="Connect repositories"
+      infoTitle="Connect live repositories"
       infoDescription="Attach GitHub so Bitcode can read source context, create deliverables, and stay aligned with your live workflow."
     />
   );

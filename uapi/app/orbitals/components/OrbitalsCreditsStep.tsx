@@ -1,1 +1,1 @@
-export { default } from './OrbitalsCredits';
+export { default } from './OrbitalsBTD';

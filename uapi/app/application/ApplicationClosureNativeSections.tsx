@@ -6,8 +6,8 @@ import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud'
 import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
 import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
 
-import ApplicationOperatorCard from './ApplicationOperatorCard';
-import { APPLICATION_OPERATOR_EXPLAINERS } from './application-operator-explainers';
+import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { CLOSURE_PANEL_SUBSTRUCTURE, getMasterDetailSubstructure } from './application-experience-architecture';
 import { useApplicationShellBridge } from './application-shell-bridge';
 import { jumpToShellSection, toneForPanel } from './application-shell-reading';
@@ -133,25 +133,25 @@ export default function ApplicationClosureNativeSections() {
 
   if (!closureState) {
     return (
-      <ApplicationOperatorCard
+      <ApplicationWorkspaceCard
         id="applicationClosureSequence"
         kicker="Closure map"
         title="Verification, branch, settlement, and ledger"
         summary="Reading the current closure sequence and runtime posture."
-        explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
+        explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap}
       >
         <p className="mt-4 text-sm leading-6 text-neutral-300">Reading the live Bitcode closure snapshot…</p>
-      </ApplicationOperatorCard>
+      </ApplicationWorkspaceCard>
     );
   }
 
   return (
-    <ApplicationOperatorCard
+    <ApplicationWorkspaceCard
       id="applicationClosureSequence"
       kicker="Closure map"
       title="Verification, branch, settlement, and ledger"
       summary="Read closure as one sequence from verification through ledger continuity, then open the exact proof view only when needed."
-      explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
+      explainer={APPLICATION_WORKSPACE_EXPLAINERS.closureMap}
       headerAside={
         <BitcodeMetricGrid
           metrics={[
@@ -169,6 +169,6 @@ export default function ApplicationClosureNativeSections() {
       <div className="mt-6 grid gap-5">
         {panels.map((panel) => renderClosurePanelCard(panel))}
       </div>
-    </ApplicationOperatorCard>
+    </ApplicationWorkspaceCard>
   );
 }

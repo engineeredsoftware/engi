@@ -320,7 +320,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
             <div className="orbitals-connects-email-body">
               <p>Trigger the application-deliverables pipeline for the Bitcode workspace:</p>
               <ul>
-                <li>Attach updated operator orbital copy</li>
+                <li>Attach updated orbital copy</li>
                 <li>Generate migration plan for production DB</li>
                 <li>Run post-deliverable regression tests</li>
               </ul>
@@ -347,7 +347,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
 
           <div className="orbitals-connects-quick-actions">
             <motion.a
-              href="/settings/email"
+              href="/orbitals/connects"
               className="orbitals-connects-action-card settings"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
