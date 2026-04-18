@@ -294,10 +294,10 @@ export default function ApplicationRepositoryContextPanel({
                   </p>
                   <button
                     type="button"
-                    onClick={() => openOrbital('account', 'connects')}
+                    onClick={() => openOrbital('login', 'connects')}
                     className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
                   >
-                    Open connection orbitals
+                    Open Connects Orbital
                   </button>
                 </div>
               )}

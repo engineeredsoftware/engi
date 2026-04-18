@@ -6,7 +6,7 @@ import type { ApplicationCommandState } from '@/app/application/application-comm
 describe('deriveApplicationCommandPresentation', () => {
   it('returns loading copy when controls are not ready', () => {
     expect(deriveApplicationCommandPresentation(null)).toEqual({
-      draftSummary: 'Loading the current Bitcode working posture.',
+      draftSummary: 'Loading the current Bitcode working flow.',
       continuationStatus: 'Controls are syncing to the current workspace state.',
       continuationTip:
         'Stay in the transaction terminal while scenario, projection, and branch mode become available.',
@@ -36,7 +36,7 @@ describe('deriveApplicationCommandPresentation', () => {
     expect(presentation.draftSummary).toContain('priority need · producer');
     expect(presentation.draftSummary).toContain('reviewer projection');
     expect(presentation.draftSummary).toContain('patch branch handling');
-    expect(presentation.continuationStatus).toBe('Draft guide is saved at step 2 of 4.');
-    expect(presentation.continuationTip).toContain('Use the draft guide');
+    expect(presentation.continuationStatus).toBe('Flow guide is saved at step 2 of 4.');
+    expect(presentation.continuationTip).toContain('Use the flow guide');
   });
 });

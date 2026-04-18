@@ -31,7 +31,7 @@ describe('deriveApplicationFlowGuide', () => {
     const guide = deriveApplicationFlowGuide(commandState);
 
     expect(guide.readinessLabel).toBe('drafting');
-    expect(guide.statusSummary).toBe('The draft guide is open at step 7 of 10.');
+    expect(guide.statusSummary).toBe('The flow guide is open at step 7 of 10.');
     expect(guide.stages[0].status).toBe('done');
     expect(guide.stages[3].status).toBe('current');
     expect(guide.stages[4].status).toBe('next');

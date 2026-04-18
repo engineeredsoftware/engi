@@ -36,7 +36,7 @@ Required system families:
 - `/application` architecture framing
 - native master-detail sections
 - conversations overlay entry and app-owned routes
-- orbitals/settings overlay entry and app-owned settings data
+- orbitals overlay entry, four-ring orbital semantics, and app-owned orbital data
 - app-owned VCS surfaces required for connections and repository context
 
 Current active carriers:
@@ -173,6 +173,16 @@ Current active assignments:
   `uapi/tests/orbitalsProvider.test.tsx` plus live `/application` verification with orbitals entry exercised from the running app
   proof surface:
   second-gate fullscreen orbitals portal readiness from `/application`, including first-open rendering when the shared event bridge fires before the overlay container would otherwise be visible to React
+- `uapi/components/base/engi/layout/nav.tsx`
+  test coverage:
+  `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/application` verification
+  proof surface:
+  second-gate workspace-chrome discipline for unauthenticated application and orbital routes, replacing disabled marketing CTA behavior with deliberate access/create-account actions
+- `packages/bitcode/public/app.js`
+  test coverage:
+  live `/application` verification through the preserved runtime tooltip/footer layer
+  proof surface:
+  preserved-runtime user-facing copy discipline, including live-surface/reference-topic tooltip labels instead of canon/version self-reference in visible help surfaces
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
@@ -182,17 +192,17 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationOperatorCard.test.tsx`
   proof surface:
-  second-gate shared operator shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
+  second-gate shared application workspace shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`
   proof surface:
-  second-gate compact shared operator-shell/help carrier for the right-rail posture, including explainer continuity and user-facing copy framing
+  second-gate compact shared application-shell/help carrier for the right-rail posture, including explainer continuity and user-facing copy framing
 - `uapi/app/application/application-operator-explainers.ts`
   test coverage:
   consumed through component tests and lint plus live `/application` verification
   proof surface:
-  shared operator explainer catalog for give, need, deposit, closure, and workspace-map help posture carried forward into the production application
+  shared application explainer catalog for give, need, deposit, closure, and workspace-map help posture carried forward into the production application
 - `uapi/app/application/ApplicationCommandDeck.tsx`
   test coverage:
   lint plus live `/application` verification through the shell command/control bridge
@@ -222,7 +232,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationSupplySelection.test.ts` for normalized supply-selection state plus lint and live `/application` verification for the shared operator-shell framing
   proof surface:
-  second-gate give-side supply terminal with shared operator-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/application`
+  second-gate give-side supply terminal with shared application-shell/help posture, user-facing copy discipline, and explicit auth/filter/search/inventory continuity inside `/application`
 - `uapi/app/application/application-core-surface.ts`
   test coverage:
   `uapi/tests/applicationCoreSurface.test.ts`

@@ -390,7 +390,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-300/90 transition-colors hover:text-white"
-                  title={`Current canonical spec ${CURRENT_SPEC_CANON}`}
+                  title={`Bitcode specification ${CURRENT_SPEC_CANON}`}
                 >
                   {CURRENT_SPEC_CANON}
                 </a>

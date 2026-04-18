@@ -11,21 +11,21 @@ describe('OrbitalsPaneTabs', () => {
     render(
       <OrbitalsPaneTabs
         mode="orbitals"
-        steps={['profile', 'connects', 'interfaces', 'btd']}
+        steps={['connects', 'interfaces', 'profile', 'btd']}
         currentStep="connects"
-        completedSteps={['profile']}
-        availableSteps={['profile', 'connects', 'interfaces']}
+        completedSteps={['connects']}
+        availableSteps={['connects', 'interfaces', 'profile']}
         onStepClick={onStepClick}
       />,
     );
 
     expect(screen.getByText('Orbitals')).toBeTruthy();
-    expect(screen.getByText(/Current section:/i)).toBeTruthy();
-    expect(screen.getByText('1/4 ready')).toBeTruthy();
-    expect(screen.getByRole('button', { name: /2 Connects/i })).toBeTruthy();
+    expect(screen.getByText(/Active orbital:/i)).toBeTruthy();
+    expect(screen.getByText('1/4 complete')).toBeTruthy();
+    expect(screen.getByRole('button', { name: /1 Connects/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /4 \$BTD/i })).toBeDisabled();
 
-    fireEvent.click(screen.getByRole('button', { name: /3 Interfaces/i }));
+    fireEvent.click(screen.getByRole('button', { name: /2 Interfaces/i }));
     fireEvent.click(screen.getByRole('button', { name: /4 \$BTD/i }));
 
     expect(onStepClick).toHaveBeenCalledTimes(1);

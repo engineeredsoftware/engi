@@ -42,9 +42,8 @@ export default function ConnectsPane({
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white">Sign in to open Connects</h3>
               <p className="text-sm leading-7 text-white/68">
-                The Connects orbital stays inside the same application workspace. Sign in first,
-                then attach GitHub so transactions, deliverables, and follow-through can operate
-                against a live repository source.
+                Sign in first, then attach GitHub so transactions, deliverables, and closure
+                follow-through can operate against a live repository source.
               </p>
             </div>
 
@@ -63,15 +62,15 @@ export default function ConnectsPane({
                   Current posture
                 </p>
                 <p className="mt-2 text-sm leading-7 text-white/74">
-                  Email access remains the default entry path here before deeper repository tools
-                  are linked.
+                  Email code or a linked provider gets you back into Bitcode first. Connects then
+                  takes over live repository attachment and scope review.
                 </p>
               </div>
             </div>
 
             <div>
               <Link
-                href="/orbitals/users"
+                href="/orbitals/profile"
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
                 Open Profile orbital

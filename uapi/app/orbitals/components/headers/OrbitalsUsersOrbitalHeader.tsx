@@ -9,7 +9,7 @@ export default function OrbitalsUsersOrbitalHeader({
 }: { isOnboardingComplete?: boolean; isVerified?: boolean }) {
   const description = !isVerified
     ? "Verify your email to secure Bitcode access and unlock the rest of your orbitals."
-    : "Manage profile identity, wallet posture, organization roles, and multi-sig membership from one orbital.";
+    : "Manage wallet identity, balances, organization roles, and multi-sig membership from one orbital.";
   return (
     <OrbitalsOrbitalHeader
       title="Profile Orbital"
@@ -19,7 +19,7 @@ export default function OrbitalsUsersOrbitalHeader({
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="profile-step-badge"
       showInfoBox
-      infoTitle="Secure profile access"
+      infoTitle="Secure wallet profile access"
       infoDescription="Verify your email before opening Connects, shaping Interfaces, or reviewing $BTD posture."
     />
   );

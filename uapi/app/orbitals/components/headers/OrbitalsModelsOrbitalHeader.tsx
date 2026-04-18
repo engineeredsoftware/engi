@@ -17,7 +17,7 @@ export default function OrbitalsModelsOrbitalHeader({
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
       infoTitle="Shape interface defaults"
-      infoDescription="Set how transactions, conversations, prompts, and the workspace behave by default for your team."
+      infoDescription="Set how transactions, conversations, proofs, and default workspace behavior read for your team."
       infoNote="You can revise this orbital any time."
     />
   );

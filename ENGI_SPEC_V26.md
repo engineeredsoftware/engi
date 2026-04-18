@@ -223,7 +223,7 @@ The current active second-gate source additions are now explicitly:
 Third-gate is the marketing refurbishment gate.
 It is separate from second-gate so the application surface and the marketing surface can be specified and accepted independently.
 It refurbishes the public marketing page only after the application route and its hardening work are stable.
-Its current content spine is intentionally only a draft anchor rather than a full implementation spec:
+Its content spine is now a production-facing contract rather than a loose slogan set:
 - where + when:
   engineering economy participants
 - who:
@@ -234,6 +234,20 @@ Its current content spine is intentionally only a draft anchor rather than a ful
   modular, observable, hackable
 - why:
   throughput, quality, cost, trust
+
+Third-gate must now also:
+- inherit stabilized application language from second-gate rather than preserving demo narration,
+- keep all public product language user-facing rather than gate-facing, canon-facing, or source-path-facing,
+- align the landing, navigation, tooltip/help posture, and application shell mood into one thematic Bitcode system,
+- preserve the strongest prior guidance UX, including rich tooltip content and resumable guide/draft posture,
+- and prepare the public site to read as the outer frame of the production Bitcode application rather than as a detached marketing skin.
+
+Third-gate acceptance is reached only when:
+- public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
+- the main public entry points inherit the same Give/Need, transactions, conversations, and Orbitals vocabulary used by the application,
+- navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
+- tooltip/help content is preserved or improved rather than flattened during visual cleanup,
+- and third-gate can be proven without reopening second-gate application ownership work.
 
 ### Fourth-gate
 
@@ -291,7 +305,7 @@ Second-gate changes:
 
 Second-gate does not change:
 - the core Bitcode operating semantics,
-- the orbitals-as-settings ownership rule,
+- the orbitals ownership rule,
 - the first-gate route/API owner locations,
 - or the fact that Bitcode remains the product identity while the aesthetic atmosphere stays aligned to the late-Engi design system.
 
@@ -300,7 +314,8 @@ Second-gate does not change:
 Second-gate locks the live Bitcode application posture as:
 - `/application` is the only primary Bitcode destination,
 - the late-Engi navbar and app-shell navigation frame remain the integrated navigation carrier for Bitcode,
-- orbitals remain the fullscreen/settings overlay owner entered from within `/application`,
+- unauthenticated workspace chrome uses deliberate access/create-account actions rather than disabled marketing-era CTA behavior,
+- orbitals remain the fullscreen orbital overlay owner entered from within `/application`,
 - conversations remain a fullscreen conversational workspace entered from within `/application`,
 - and current executions/deliverables surfaces are treated as reusable master-detail reservoirs to port inward rather than as the final product topology.
 
@@ -315,14 +330,16 @@ The V26 application architecture is centered on exactly three main experiences:
 
 For V26, those mean:
 - `master detail`
-  The primary Bitcode operator workspace inside `/application`, carrying the give/need operating chain, a rich transactions master surface, transaction detail, deliverables, proofs, history, and consequence reading.
+  The primary Bitcode application workspace inside `/application`, carrying the give/need operating chain, a rich transactions master surface, transaction detail, deliverables, proofs, history, and consequence reading.
 - `conversations`
   The fullscreen conversational workspace entered from within `/application`, retaining chat-based and ChatGPT-like interaction, tool usage, and run/pipeline attachment as first-class Bitcode behavior.
 - `orbitals`
-  The fullscreen settings workspace entered from within `/application`, retaining the ringed overlay experience while owning user/account/connects/models and the transitional credits-to-wallet cutover.
+  The fullscreen orbital workspace entered from within `/application`, retaining the ringed overlay experience while owning Connects, Interfaces, Profile, and `$BTD`.
 
-V26 does not treat executions, deliverables, proofs, history, settings, or chat as separate peer product destinations once the converged architecture is closed.
+V26 does not treat executions, deliverables, proofs, history, orbitals, or chat as separate peer product destinations once the converged architecture is closed.
 Those surfaces must resolve into one of the three experiences above.
+
+Stepwise guidance inside the second-gate application is specified as a user-facing Give + Need flow guide and resumable working-flow continuity, not as tutorial/demo residue.
 
 The V26 application is also centered on exactly two main actions:
 1. `give`
@@ -330,17 +347,22 @@ The V26 application is also centered on exactly two main actions:
 
 For V26, those mean:
 - `give`
-  Repo supply, candidate deposits, artifact inventory, and the operator actions that place authenticated material into the Bitcode operating chain.
+  Repo supply, candidate deposits, artifact inventory, and the actions that place authenticated material into the Bitcode operating chain.
 - `need`
-  Scenario framing, measured demand, fit pressure, selection pressure, and the operator actions that make explicit what the system is trying to satisfy before settlement and proof closure.
+  Scenario framing, measured demand, fit pressure, selection pressure, and the actions that make explicit what the system is trying to satisfy before settlement and proof closure.
 
-The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main operator actions.
+The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main Bitcode actions.
 The read experience is the transactions master-detail window inside `/application`.
 The write experience moves through `give`, `need`, and configuring via conversations and orbitals entered from application context.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
 Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
 The transactions master itself must stay query-owned, searchable, filterable, and paginatable rather than falling back to component-local table state.
 Selected-transaction proof, history, and identity detail must also support a reusable visual-vs-raw payload reading posture rather than leaving JSON-bearing detail stranded in ad hoc prose cards.
+The orbital ring model is also fixed for V26:
+- `Connects` is the outer orbital and the closest retained canonical pane,
+- `Interfaces` owns application visual/default-behavioral posture for master-detail, conversations, and related reads,
+- `Profile` owns wallet identity, address/balance posture, organization roles, multi-sig membership, and authentication state,
+- `$BTD` is the inner orbital for share information, wallet-adjacent throughput posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
 
 ### Second-gate target file-structure direction
 
@@ -350,7 +372,7 @@ The second-gate target structure is:
 - `uapi/components/base/engi/layout/nav.tsx`
   The retained late-Engi navigation frame that continues to anchor the application.
 - `uapi/app/orbitals/components/*`
-  The settings overlay system mounted from within the application context.
+  The orbital overlay system mounted from within the application context.
 - `uapi/app/conversations/components/*`
   The fullscreen conversation system mounted from within the application context.
 - `uapi/app/executions/components/*`
@@ -390,7 +412,7 @@ The second-gate target structure is:
 | closure operation control | preserved-shell make-branch/reset/refresh posture previously lived only in shared command controls and underlying shell actions | `ApplicationClosureControlDeck.tsx`, `application-closure-controls.ts`, and the shell command/control bridge | branch execution, closure refresh, reset, and follow-through focus remain semantically aligned to Bitcode closure | the operator should experience a native closure operation deck rather than treating closure as an opaque lower-body shell action |
 | ledger, run history, and policy surfaces | `renderLedger()` and policy/ledger/history visuals | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then route-local section plus application-owned execution/history linkages and reused execution carriers | ledger accounts, run history, and bounded proof metadata remain explicit | read as a live application workspace/history surface instead of a shell appendix |
 | run detail and deliverable master-detail surfaces | `uapi/app/executions/*`, `packages/api/src/routes/deliverables.ts`, execution/log/deliverable panels | inward-ported master-detail sections, drawers, and detail surfaces within `/application` | run inspection, logs, work updates, and deliverable/proof reading remain available without semantic loss | reuse the strongest execution/deliverable interaction patterns inside `/application` rather than preserving peer destinations |
-| orbitals/settings relationship | `uapi/app/orbitals/*` and `uapi/app/api/orbitals/data/route.ts` | existing orbitals ownership with stronger application-page entry points and state coherence | orbitals remain the user/settings owner and are not flattened into `/application` | the ringed overlay stays intact and feels like the application’s settings layer |
+| orbitals relationship | `uapi/app/orbitals/*` and `uapi/app/api/orbitals/data/route.ts` | existing orbitals ownership with stronger application-page entry points and state coherence | orbitals remain the Connects/Interfaces/Profile/`$BTD` owner and are not flattened into `/application` | the ringed overlay stays intact and feels like the application’s orbital layer |
 
 ### Second-gate semantic non-regression rule
 
@@ -448,7 +470,7 @@ Second-gate is accepted only when all of the following hold:
    - the route-local command deck reads and drives scenario/projection/branch/tutorial/reset posture through the shell bridge rather than direct DOM scraping,
    - route-local deposit submission is available through an application-owned Bitcode composer that posts to the app-owned deposit route and refreshes shell state coherently,
    - route-local need selection is available through an application-owned scenario carrier that drives active Bitcode need posture through the shell bridge,
-   - route-local support rail and give-side supply terminal both use the same shared operator-shell/help grammar as the rest of the operator workspace rather than bespoke section shells,
+   - route-local support rail and give-side supply terminal both use the same shared application-shell/help grammar as the rest of the application workspace rather than bespoke section shells,
    - the retained late-Engi navbar frames the Bitcode application,
    - the page reads as Bitcode inside the app shell,
    - and the late-Engi aesthetic atmosphere is preserved without reverting product identity to ENGI.
@@ -469,7 +491,7 @@ Second-gate is accepted only when all of the following hold:
    - conversations and orbitals are reachable as fullscreen overlays without abandoning application context,
    - selected-transaction detail and deliverable-reading workflows are available from within `/application` through master-detail reuse in both live and mock posture,
    - tutorial and explainer guidance remain useful,
-   - settings entry and account state remain coherent with the application page,
+   - orbital entry and account state remain coherent with the application page,
    - and first-gate semantic regressions are not introduced.
 
 4. External hardening acceptance
@@ -500,7 +522,7 @@ The intended second-gate implementation order is:
 5. ranking/verification replacement,
 6. branch-artifact and settlement/proof replacement,
 7. ledger/history/policy plus run-detail master-detail convergence,
-8. orbitals/settings and conversations overlay convergence tightening,
+8. orbitals and conversations overlay convergence tightening,
 9. external interfacing hardening and final second-gate verification.
 
 ## V26 fourth-gate retained-system convergence contract
@@ -699,7 +721,7 @@ When V26 says "implemented prerequisite," it means existing source already suppl
 - Preserve the operator UX chain while replacing the operator UI owner.
 - Prefer package-first ownership and explicit app composition over demo-local concentration.
 - Keep `/application` as the single primary Bitcode destination and treat overlay/workspace systems as application-mounted modes.
-- Pull the strongest existing execution, deliverable, conversation, and settings patterns inward rather than duplicating them.
+- Pull the strongest existing execution, deliverable, conversation, and orbital patterns inward rather than duplicating them.
 - Reuse existing packages when the current owner already fits.
 - Keep application routing and product posture explicit rather than iframe-dependent.
 - Keep every external effect auditable and fail closed.

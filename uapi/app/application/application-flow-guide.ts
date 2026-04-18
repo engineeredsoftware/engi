@@ -19,7 +19,7 @@ const FLOW_STAGE_BLUEPRINT: Array<Pick<ApplicationFlowGuideStage, 'id' | 'label'
   {
     id: 'context',
     label: 'Source',
-    summary: 'Confirm repository source, selected transaction context, and the working posture before drafting.',
+    summary: 'Confirm repository source, selected transaction context, and the working posture before you continue the flow.',
   },
   {
     id: 'give',
@@ -67,10 +67,10 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
         : 'ready';
 
   const statusSummary = !commandState?.shellReady
-    ? 'The draft guide is syncing to the current transaction workspace.'
+    ? 'The flow guide is syncing to the current transaction workspace.'
     : guideStep
-      ? `The draft guide is ${commandState.tutorialOpen ? 'open' : 'saved'} at ${guideStep}.`
-      : 'The workspace is ready for a fresh give-to-closure draft.';
+      ? `The flow guide is ${commandState.tutorialOpen ? 'open' : 'saved'} at ${guideStep}.`
+      : 'The workspace is ready for a fresh give-to-closure flow.';
 
   const stages = FLOW_STAGE_BLUEPRINT.map((stage, index) => ({
     ...stage,

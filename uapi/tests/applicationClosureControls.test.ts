@@ -20,7 +20,7 @@ describe('normalizeApplicationClosureControlState', () => {
         shellReady: true,
       },
       {
-        canonLabel: 'V25 active canon / V26 system draft',
+        canonLabel: 'production workspace posture',
         verification: {
           id: 'verification',
           label: 'Verification + ranked candidates',

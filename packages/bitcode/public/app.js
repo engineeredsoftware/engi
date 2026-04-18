@@ -206,15 +206,26 @@ function activeBranchMode(state) {
 function canonPosture(state) {
   const posture = state?.canonPosture;
   if (posture && typeof posture === 'object') {
-    return /** @type {Record<string, string>} */ (posture);
+    const resolved = /** @type {Record<string, string>} */ ({ ...posture });
+    resolved.operatorLabel = 'production workspace posture';
+    resolved.specVersionLabel = 'Bitcode production workspace';
+    resolved.inheritedCanonSurfaceLabel = 'live Bitcode workspace surfaces';
+    resolved.heroEyebrow = resolved.heroEyebrow || 'Bitcode transactions workspace';
+    resolved.heroLede =
+      resolved.heroLede ||
+      'Set the working scenario, select supply, and follow the flow from give through settlement.';
+    resolved.heroTip =
+      resolved.heroTip ||
+      'The flow guide and closure runtime stay available here whenever you need lower-level inspection.';
+    return resolved;
   }
   return {
-    operatorLabel: 'active workspace posture',
+    operatorLabel: 'production workspace posture',
     documentTitle: 'Bitcode Application',
-    inheritedCanonSurfaceLabel: 'shared Bitcode shell surfaces',
+    inheritedCanonSurfaceLabel: 'live Bitcode workspace surfaces',
     heroEyebrow: 'Bitcode transactions workspace',
     heroLede: 'Set the working scenario, select supply, and follow the flow from give through settlement.',
-    heroTip: 'The guide and exact source-path surfaces stay available here whenever you need lower-level inspection.'
+    heroTip: 'The flow guide and closure runtime stay available here whenever you need lower-level inspection.'
   };
 }
 
@@ -223,7 +234,7 @@ function canonPosture(state) {
  * @returns {string}
  */
 function canonOperatorLabel(state) {
-  return canonPosture(state)['operatorLabel'] || 'active workspace posture';
+  return canonPosture(state)['operatorLabel'] || 'production workspace posture';
 }
 
 function compactInventoryEntry(entry) {
@@ -960,7 +971,7 @@ globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ = bitcodeApplicationShellContr
  * @returns {string}
  */
 function inheritedCanonSurfaceLabel(state) {
-  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'shared Bitcode shell surfaces';
+  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'live Bitcode workspace surfaces';
 }
 
 /**
@@ -1121,27 +1132,27 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Repo-to-settlement path',
     summary: 'The staged operating path from repo selection through branch artifacts, proof closure, and final accounting.',
-    detail: 'This compresses the whole demo into one timeline so an operator can see where a run currently is and what each stage means.',
+    detail: 'This compresses the whole transaction path into one timeline so you can see where a run currently is and what each stage means.',
     points: [
       'Starts with deposit + need + fit',
       'Ends with proof-backed settlement and replayable accounting'
     ]
   },
   'operating-picture': {
-    kicker: 'Canonical shell',
+    kicker: 'Workspace surface',
     title: 'Operating picture',
     summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
-    detail: 'This panel is not a separate feature. It is the high-level operator map for how the canonical demo is supposed to read end to end.',
+    detail: 'This panel is the high-level application map for how repo supply, need, fit, proof, settlement, and boundary posture connect end to end.',
     points: [
       'Keeps the thesis legible before deep artifacts',
-      'Lets an operator place every later section in one chain'
+      'Keeps every later section anchored in one readable chain'
     ]
   },
   'boundary-reality': {
     kicker: 'Glossary',
     title: 'Boundary reality',
     summary: 'The explicit split between what is modeled locally, what runs locally, and what remains a real external dependency.',
-    detail: 'This keeps the demo honest. Bitcode can center the operator story on deposit/need/fit without pretending the external world disappeared.',
+    detail: 'This keeps Bitcode honest. The application can center deposit, need, and fit without pretending external systems disappeared.',
     points: [
       'Prevents profile semantics from being confused with integration truth',
       'Shows where a live system would still need real external execution'
@@ -1184,7 +1195,7 @@ const EXPLAINERS = {
     detail: 'This surface explains how raw contribution units are clipped, normalized, tie-broken, and turned into credited shares.',
     points: [
       'Especially important for normalization-heavy Profile B flows',
-      'Lets operators inspect why two participating assets received different credit'
+      'Lets you inspect why two participating assets received different credit'
     ]
   },
   addressing: {
@@ -1230,10 +1241,10 @@ const EXPLAINERS = {
   'origin-kind': {
     kicker: 'Glossary',
     title: 'Origin kind',
-    summary: 'The source lineage of an artifact, such as repo file, workflow run output, benchmark evidence, or operator note.',
+    summary: 'The source lineage of an artifact, such as repo file, workflow run output, benchmark evidence, or working note.',
     detail: 'Origin kind explains provenance rather than functional role. Two artifacts can share an artifact kind but come from different origins.',
     points: [
-      'Helps operators read supply diversity',
+      'Helps you read supply diversity',
       'Useful when deciding how much trust or normalization pressure to apply'
     ]
   },
@@ -1302,11 +1313,11 @@ const EXPLAINERS = {
   'scenario-coverage': {
     kicker: 'Corpus',
     title: 'Scenario coverage',
-    summary: 'Which seeded scenario families the current repo supply is meant to support in this demo corpus.',
+    summary: 'Which seeded scenario families the current repo supply is meant to support in the active Bitcode corpus.',
     detail: 'This is derived from the scenario fixture set matched to the repo, not from the currently selected deposit.',
     points: [
       'Shows which need families are represented for this repo',
-      'Useful for understanding why a repo appears in both targeted and normalization demos'
+      'Useful for understanding why a repo appears in both targeted and normalization flows'
     ]
   },
   'profile-coverage': {
@@ -1356,7 +1367,7 @@ const EXPLAINERS = {
     detail: 'This is the human-readable account login carried with the installation session. It tells you which account the repo-bound installation belongs to.',
     points: [
       'Shown alongside installation ID and account ID',
-      'Distinct from the acting signer or operator note author'
+      'Distinct from the acting signer or working-note author'
     ]
   },
   'repository-id': {
@@ -1385,7 +1396,7 @@ const EXPLAINERS = {
     summary: 'The modeled GitHub App permissions Bitcode carries from the installation session.',
     detail: 'Permissions are hashed into the permissions root and split into readable and writable scopes so later proof surfaces can reference the same envelope.',
     points: [
-      'Modeled only in this demo; no live token is minted',
+      'Modeled locally here; no live token is minted',
       'Writable scopes show what a live flow would be allowed to change'
     ]
   },
@@ -1422,17 +1433,17 @@ const EXPLAINERS = {
   'external-boundary': {
     kicker: 'Boundary reality',
     title: 'External boundary',
-    summary: 'The live system contract that still sits outside this deterministic local demo.',
+    summary: 'The live system contract that still sits outside this deterministic local runtime.',
     detail: 'These are the steps that would require real GitHub APIs, remote evaluators, signer verification, or settlement networks in production.',
     points: [
-      'Kept explicit so the demo stays honest',
+      'Kept explicit so the runtime stays honest',
       'Not the same thing as profile A/B semantics'
     ]
   },
   'local-boundary': {
     kicker: 'Boundary reality',
     title: 'Local boundary',
-    summary: 'What the demo actually models or executes locally right now.',
+    summary: 'What the runtime actually models or executes locally right now.',
     detail: 'This tells you which surfaces are already materialized here as deterministic artifacts before any live system hand-off happens.',
     points: [
       'Complements external boundary rather than replacing it',
@@ -1440,10 +1451,10 @@ const EXPLAINERS = {
     ]
   },
   'supporting-surfaces': {
-    kicker: 'Canonical shell',
+    kicker: 'Workspace surface',
     title: 'Supporting surfaces',
-    summary: 'Secondary boundary, policy, or lineage surfaces that support the main operator story without becoming the headline.',
-    detail: 'The canonical shell keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
+    summary: 'Secondary boundary, policy, or lineage surfaces that support the main transaction read without becoming the headline.',
+    detail: 'The workspace keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
     points: [
       'Important for honesty and depth',
       'Intentionally downstream of the main deposit-to-need read'
@@ -1486,7 +1497,7 @@ const EXPLAINERS = {
     detail: 'This is a convenience filter over the active repo session inventory, not a semantic ranking step.',
     points: [
       'Bound to the current authenticated repo session',
-      'Helps operators find supply entries before selection'
+      'Helps you find supply entries before selection'
     ]
   },
   'deposit-title-override': {
@@ -1503,9 +1514,9 @@ const EXPLAINERS = {
     kicker: 'Deposit override',
     title: 'Author override',
     summary: 'Optional display author or issuer label for the deposited asset.',
-    detail: 'If omitted, the demo falls back to the bound session or derived author naming.',
+    detail: 'If omitted, the runtime falls back to the bound session or derived author naming.',
     points: [
-      'Useful for clarifying operator intent in demo surfaces',
+      'Useful for clarifying working intent in the runtime surfaces',
       'Separate from signer address and attestation identity'
     ]
   },
@@ -1593,9 +1604,9 @@ const EXPLAINERS = {
     kicker: 'Branch stack',
     title: 'Asset pack and branch artifacts',
     summary: 'The exact private artifact stack materialized behind the high-level deposit/need/fit story.',
-    detail: 'This is where the canonical demo keeps the dense manifests, proofs, policy surfaces, and deterministic files that justify the run.',
+    detail: 'This is where the dense manifests, proofs, policy surfaces, and deterministic files that justify the run remain available.',
     points: [
-      'Materialized locally in this demo',
+      'Materialized locally in this workspace',
       'Carries the evidence behind branch, proof, and settlement'
     ]
   },
@@ -1656,14 +1667,14 @@ const EXPLAINERS = {
     detail: 'These accounts show durable state after settlement closes instead of replaying the whole proof and branch story again.',
     points: [
       'Shows the current account balances after the latest run',
-      'Lets the operator inspect downstream accounting consequences quickly'
+      'Keeps downstream accounting consequences readable at a glance'
     ]
   },
   'run-history': {
     kicker: 'History surface',
     title: 'Run history',
     summary: 'The public projection of prior runs: which need closed, which branch was staged, and which bundle was produced.',
-    detail: 'Run history is the durable record of what this demo has already materialized and settled, without reopening every private artifact.',
+    detail: 'Run history is the durable record of what this workspace has already materialized and settled, without reopening every private artifact.',
     points: [
       'Shows prior need lifecycle and bundle progression',
       'Keeps history readable without exposing private branch payloads'
@@ -1683,7 +1694,7 @@ const EXPLAINERS = {
     kicker: 'Scenario surface',
     title: 'Scenario preview',
     summary: 'The preview read of the active seeded scenario before a run materializes deeper branch, proof, and settlement artifacts.',
-    detail: 'This preview is meant to make the demand surface and profile semantics consequential before the operator reads private branch artifacts.',
+    detail: 'This preview is meant to make the demand surface and profile semantics consequential before you read private branch artifacts.',
     points: [
       'Shows the active measured-demand shape before a run',
       'Keeps scenario meaning legible even without a latest run'
@@ -1693,7 +1704,7 @@ const EXPLAINERS = {
     kicker: 'Need surface',
     title: 'Detailed need surface',
     summary: 'The full need and measurement read that expands the compact needing surface into task, parser, failure, derivation, and closure detail.',
-    detail: 'This is the deeper need-facing artifact for operators who want to inspect exactly how the active demand was measured.',
+    detail: 'This is the deeper need-facing artifact for inspecting exactly how the active demand was measured.',
     points: [
       'Builds on the compact needing surface rather than replacing it',
       'Preserves the exact need object in raw mode for inspection'
@@ -1703,7 +1714,7 @@ const EXPLAINERS = {
     kicker: 'Settlement semantics',
     title: 'Settlement participation',
     summary: 'The explicit classification of assets as selected, participating, credited, zero-credit participating, or excluded during settlement.',
-    detail: 'This surface keeps branch selection and economic credit distinct so operators can see why an asset mattered without assuming it always earned credit.',
+    detail: 'This surface keeps branch selection and economic credit distinct so you can see why an asset mattered without assuming it always earned credit.',
     points: [
       'Separates branch selection from settlement participation',
       'Makes zero-credit participation explicit instead of implicit'
@@ -1713,7 +1724,7 @@ const EXPLAINERS = {
     kicker: 'Accounting artifact',
     title: 'Journal diff',
     summary: 'The exact debit/credit event that closes the run into ledger state.',
-    detail: 'This is the accounting event the operator can replay to confirm that shares, debits, credits, and balances all stay conserved.',
+    detail: 'This is the accounting event you can replay to confirm that shares, debits, credits, and balances all stay conserved.',
     points: [
       'Shows the before/after accounting consequence of settlement',
       'Carries the invariants behind exact-accounting closure'
@@ -1733,7 +1744,7 @@ const EXPLAINERS = {
     kicker: 'Disclosure surface',
     title: 'Bounded public proof',
     summary: 'The redacted public proof surface derived from the private proof bundle without leaking private branch artifacts.',
-    detail: 'This is the operator-facing proof projection intended to remain public while the deeper private proof and branch materials stay bounded.',
+    detail: 'This is the public proof projection intended to remain inspectable while the deeper private proof and branch materials stay bounded.',
     points: [
       'Separates public inspection from private branch payloads',
       'Depends on the private proof chain without exposing all of it'
@@ -1743,7 +1754,7 @@ const EXPLAINERS = {
     kicker: 'Term',
     title: 'Proof',
     summary: 'Marks an artifact or tag as proof-bearing or proof-oriented, not merely implementation code.',
-    detail: 'In this demo proof surfaces include witness manifests, formal logs, redaction proofs, disclosure proofs, and settlement proof artifacts.',
+    detail: 'In this runtime proof surfaces include witness manifests, formal logs, redaction proofs, disclosure proofs, and settlement proof artifacts.',
     points: [
       'Proof closure binds deposit, need, rights, and settlement together',
       'A proof tag usually signals evidence-heavy rather than code-only material'
@@ -1846,7 +1857,7 @@ const EXTRA_EXPLAINERS = {
     summary: 'The total number of public run-history entries currently visible in the shell.',
     detail: 'This is the replayable public projection count, not the count of private branch artifacts or one repo inventory selection.',
     points: [
-      'Lets an operator gauge how much prior closure history the demo already carries',
+      'Lets you gauge how much prior closure history the runtime already carries',
       'Pairs with settled runs to separate mere history from completed closure'
     ],
     references: {
@@ -1858,10 +1869,10 @@ const EXTRA_EXPLAINERS = {
     kicker: 'History metric',
     title: 'Settled runs',
     summary: 'The subset of run history that actually reached settled lifecycle closure.',
-    detail: 'This metric helps the operator separate staged or partial history from runs whose proof and settlement path already closed.',
+    detail: 'This metric helps you separate staged or partial history from runs whose proof and settlement path already closed.',
     points: [
       'Counts closed economic outcomes, not just attempted runs',
-      'Useful for reading whether the demo has already demonstrated full closure'
+      'Useful for reading whether the runtime has already demonstrated full closure'
     ],
     references: {
       code: ['public/app.js -> renderRunHistoryVisual()'],
@@ -1872,7 +1883,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Closure staging',
     title: 'Before proof',
     summary: 'This surface is intentionally upstream of proof inspection.',
-    detail: 'Bitcode requires deposit-to-need fit to be legible before the operator is asked to read deeper proof bundles or exact accounting internals.',
+    detail: 'Bitcode requires deposit-to-need fit to be legible before you are asked to read deeper proof bundles or exact accounting internals.',
     points: [
       'Makes the fit story obvious first',
       'Keeps proof and settlement as downstream closure rather than upfront burden'
@@ -1914,7 +1925,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Addressing field',
     title: 'Ref / commit',
     summary: 'The exact source ref and commit Bitcode is binding into the current address.',
-    detail: 'This is where the operator can see which branch, tag, or pinned commit the asset was taken from before later proofs hash it into roots.',
+    detail: 'This is where you can see which branch, tag, or pinned commit the asset was taken from before later proofs hash it into roots.',
     points: [
       'Separates version identity from artifact title',
       'Feeds the explicit repo address carried through later proofs'
@@ -1997,10 +2008,10 @@ const EXTRA_EXPLAINERS = {
   'key-source': {
     kicker: 'Signing field',
     title: 'Key source',
-    summary: 'Where the signer key material is modeled as coming from in this demo.',
+    summary: 'Where the signer key material is modeled as coming from in this runtime.',
     detail: 'This is the provenance claim behind the signer, not the signer address itself and not the payload hash the signature covers.',
     points: [
-      'Useful for demo honesty about signer provenance',
+      'Keeps signer provenance explicit',
       'Complements signer address and algorithm rather than replacing them'
     ],
     references: {
@@ -2054,7 +2065,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Profile meaning',
     title: 'Composition',
     summary: 'The short list of characteristics that make the current profile operationally distinct.',
-    detail: 'Composition is the compact operator read of why a profile exists: deposit shape, need posture, proof burden, and settlement story.',
+    detail: 'Composition is the compact read of why a profile exists: deposit shape, need posture, proof burden, and settlement story.',
     points: [
       'Should make Profile A and Profile B feel different immediately',
       'Keeps profile semantics readable without opening raw source fixtures'
@@ -2068,7 +2079,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Need measurement',
     title: 'Failing cases',
     summary: 'The concrete benchmark or parser failure slices the active need still carries.',
-    detail: 'These chips are the exact visible failure names Bitcode wants operators to understand before they start reading branch artifacts.',
+    detail: 'These chips are the exact visible failure names Bitcode wants you to understand before you start reading branch artifacts.',
     points: [
       'Upstream of proof closure',
       'One of the clearest ways needing stays consequential in the shell'
@@ -2117,8 +2128,8 @@ const EXTRA_EXPLAINERS = {
   'modeled-local-stages': {
     kicker: 'Boundary metric',
     title: 'Modeled local stages',
-    summary: 'Stages the demo represents locally as deterministic models rather than executing as live external contracts.',
-    detail: 'This count helps the operator see where the prototype is honest about modeling an interface locally while still preserving the production boundary story.',
+    summary: 'Stages the runtime represents locally as deterministic models rather than executing as live external contracts.',
+    detail: 'This count helps you see where the prototype is honest about modeling an interface locally while still preserving the production boundary story.',
     points: [
       'Part of boundary honesty, not profile semantics',
       'Different from executed-local stages'
@@ -2131,7 +2142,7 @@ const EXTRA_EXPLAINERS = {
   'executed-local-stages': {
     kicker: 'Boundary metric',
     title: 'Executed local stages',
-    summary: 'Stages the demo actually executes here as deterministic local behavior.',
+    summary: 'Stages the runtime actually executes here as deterministic local behavior.',
     detail: 'This count is the strongest quick read of how much of the repo-to-settlement path already runs inside the local prototype.',
     points: [
       'Useful for understanding prototype strength',
@@ -3428,13 +3439,38 @@ function resolveExplainer(label = '', explainerKey = '', options = {}) {
  * @param {readonly string[]} [refs=[]]
  * @returns {string}
  */
+function formatExplainerReference(ref) {
+  const trimmed = String(ref ?? '').trim();
+  if (!trimmed) return '';
+
+  return trimmed
+    .replace(/^V\d+\s+canon\s*->\s*/i, '')
+    .replace(/\bcanonical promotion\b/gi, 'promotion review');
+}
+
+/**
+ * @param {string} label
+ * @returns {string}
+ */
+function formatExplainerReferenceLabel(label) {
+  if (label === 'Current source') return 'Live surfaces';
+  if (label === 'Current canon') return 'Reference topics';
+  return label;
+}
+
+/**
+ * @param {string} label
+ * @param {readonly string[]} [refs=[]]
+ * @returns {string}
+ */
 function renderExplainerReferenceGroup(label, refs = []) {
-  if (!refs.length) return '';
+  const visibleRefs = refs.map((ref) => formatExplainerReference(ref)).filter(Boolean);
+  if (!visibleRefs.length) return '';
   return `
     <div class="explainer-reference-group">
-      <span class="explainer-reference-label">${escapeHtml(label)}</span>
+      <span class="explainer-reference-label">${escapeHtml(formatExplainerReferenceLabel(label))}</span>
       <div class="explainer-reference-list">
-        ${refs.map((ref) => `<span class="explainer-reference-chip">${escapeHtml(ref)}</span>`).join('')}
+        ${visibleRefs.map((ref) => `<span class="explainer-reference-chip">${escapeHtml(ref)}</span>`).join('')}
       </div>
     </div>
   `;
@@ -4011,58 +4047,58 @@ function tutorialSteps(state) {
   return [
     {
       selector: '#hero',
-      kicker: 'Step 1',
+      kicker: 'Flow step 1',
       title: 'Start from the active workspace posture',
-      body: `The current workspace opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the shell is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
-      targetHint: 'Use the top controls to set the walkthrough context before you deposit or branch.'
+      body: `The current workspace opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the runtime is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
+      targetHint: 'Use the top controls to set the draft context before you deposit or branch.'
     },
     {
       selector: '#summary',
-      kicker: 'Step 2',
+      kicker: 'Flow step 2',
       title: 'Read the shell at a glance',
       body: bundleId
-        ? `The summary cards tell you that the shell has already crossed into a realized run. The current bundle is ${bundleId}, so this row is your fastest “where are we now?” check.`
-        : 'The summary row tells you whether you are still in preview or have crossed into a realized run. Before branching, treat it as the shell-wide instrument panel.',
-      targetHint: 'Watch candidate count, selected deposit refs, visible proof families, and latest bundle as the shell advances.'
+        ? `The summary cards tell you that the runtime has already crossed into a realized run. The current bundle is ${bundleId}, so this row is your fastest “where are we now?” check.`
+        : 'The summary row tells you whether you are still in preview or have crossed into a realized run. Before branching, treat it as the runtime-wide instrument panel.',
+      targetHint: 'Watch candidate count, selected deposit refs, visible proof families, and latest bundle as the runtime advances.'
     },
     {
       selector: '#panelOperatingPicture',
-      kicker: 'Step 3',
+      kicker: 'Flow step 3',
       title: 'Orient the working chain',
       body: 'This panel is the compressed operating map: repo supply -> deposit -> need -> fit -> proof -> settlement. Use it to explain the whole Bitcode path before you dive into any one artifact family.',
       targetHint: 'If someone is lost, come back here first and then continue stepwise.'
     },
     {
       selector: '#panelDepositing',
-      kicker: 'Step 4',
+      kicker: 'Flow step 4',
       title: 'Bind supply into a deposit',
-      body: 'The guide becomes active here. Choose an authenticated repo session, select inventory artifacts, add any working note or raw fallback material, and deposit a candidate asset into the flow.',
+      body: 'The flow guide becomes active here. Choose an authenticated repo session, select inventory artifacts, add any working note or raw fallback material, and deposit a candidate asset into the flow.',
       targetHint: 'This panel answers: what did we present to Bitcode, from which repo/auth boundary, and in what artifact shape?'
     },
     {
       selector: '#panelNeeding',
-      kicker: 'Step 5',
+      kicker: 'Flow step 5',
       title: 'Measure the need before proving anything',
       body: 'Need comes before proof. This panel is the measured demand surface: task, failure modes, closure criteria, parser contract, and scenario corpus.',
       targetHint: 'Use this step to explain why the problem is bounded or composite before you justify any candidate asset.'
     },
     {
       selector: '#panelFit',
-      kicker: 'Step 6',
+      kicker: 'Flow step 6',
       title: 'Make deposit-to-need fit explicit',
       body: 'This is the first decisive checkpoint. Bitcode should say why the active deposit matters for the active need before ranking, proof, or settlement start carrying weight.',
       targetHint: 'The fit panel should answer “why these artifacts for this need?” in one readable pass.'
     },
     {
       selector: '#panelEvaluations',
-      kicker: 'Step 7',
+      kicker: 'Flow step 7',
       title: 'Separate ranking from verification',
       body: 'Here Bitcode turns candidate recall into evaluated candidates, then separately binds use tiers and rights. Ranking strength alone is not enough to materialize or settle an asset.',
       targetHint: 'Use this panel to show why a high-signal candidate can still be context-only, patch-eligible, or fully rejected.'
     },
     {
       selector: '#panelBranchArtifacts',
-      kicker: 'Step 8',
+      kicker: 'Flow step 8',
       title: 'Inspect the realized branch stack',
       body: branchUnlocked
         ? 'The branch panel is the artifact-heavy core of the flow: lockfiles, policy release, prompt/proof artifacts, projection policy, witness manifest, and deliverables.'
@@ -4071,7 +4107,7 @@ function tutorialSteps(state) {
     },
     {
       selector: '#panelSettlement',
-      kicker: 'Step 9',
+      kicker: 'Flow step 9',
       title: 'Close the value path',
       body: branchUnlocked
         ? 'Settlement is where Bitcode explains contribution with exact accounting: source-to-shares, zero-credit participants, journal diff, bounded proof, and proof-family closure.'
@@ -4080,9 +4116,9 @@ function tutorialSteps(state) {
     },
     {
       selector: '#panelLedger',
-      kicker: 'Step 10',
+      kicker: 'Flow step 10',
       title: 'End on balances, policy, and history',
-      body: 'Finish the guide here. Ledger and policy surfaces let you show account consequences, bounded metadata, and run history after the branch and settlement story is complete.',
+      body: 'Finish the flow guide here. Ledger and policy surfaces let you show account consequences, bounded metadata, and run history after the branch and settlement story is complete.',
       targetHint: 'This is the closing step: what changed, what remained bounded, and what prior runs are now part of the visible canon path?'
     }
   ];
@@ -4126,7 +4162,7 @@ function highlightTutorialTarget(target, scrollTarget = false) {
  * @returns {void}
  */
 function updateTutorialToggleButton() {
-  tutorialToggleButtonEl.textContent = tutorialOpen ? 'Hide guide' : 'Show guide';
+  tutorialToggleButtonEl.textContent = tutorialOpen ? 'Hide flow guide' : 'Show flow guide';
 }
 
 /**
@@ -4154,14 +4190,14 @@ function renderTutorialOverlay(state, options = {}) {
   const target = resolveTutorialTarget(step);
 
   tutorialLayerEl.hidden = false;
-  tutorialStepCounterEl.textContent = `Step ${tutorialStepIndex + 1} of ${steps.length}`;
+  tutorialStepCounterEl.textContent = `Flow step ${tutorialStepIndex + 1} of ${steps.length}`;
   tutorialKickerEl.textContent = step.kicker;
   tutorialTitleEl.textContent = step.title;
   tutorialBodyEl.textContent = step.body;
   tutorialTargetHintEl.textContent = step.targetHint;
   tutorialPrevButtonEl.disabled = tutorialStepIndex === 0;
-  tutorialNextButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Finish guide' : 'Next step';
-  tutorialCloseButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Close' : 'Dismiss';
+  tutorialNextButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Finish flow guide' : 'Next step';
+  tutorialCloseButtonEl.textContent = tutorialStepIndex === steps.length - 1 ? 'Close' : 'Pause';
   highlightTutorialTarget(target, options.scrollTarget === true);
 }
 
@@ -4777,7 +4813,7 @@ function renderProfileCompositionVisual(profileState) {
       </div>
       <div class="mini-grid two-up">
         <div class="section-card">
-          <div class="section-head"><h4>Operator walkthrough</h4><span class="badge">Demo script</span></div>
+          <div class="section-head"><h4>Working sequence</h4><span class="badge">Flow guide</span></div>
           <div class="badge-row">${chipList(guidance.recommendedWalkthrough || [])}</div>
           ${guidance.boundaryTruthPlacement ? `<p class="meta">${escapeHtml(guidance.boundaryTruthPlacement)}</p>` : ''}
         </div>
@@ -4798,7 +4834,7 @@ function renderProfileCompositionVisual(profileState) {
             </div>
             <div class="kv-grid">
               ${kvRow('Who this is', profile.identity?.whoItIs || '—')}
-              ${kvRow('How to demonstrate', profile.identity?.operatorRole || '—')}
+              ${kvRow('How to use it', profile.identity?.operatorRole || '—')}
               ${kvRow('Audience should understand', profile.identity?.audienceMeaning || '—')}
               ${kvRow('Deposit mode', profile.depositMode || profile.metadata?.depositMode || '—', { explainerKey: modeExplainers.deposit })}
               ${kvRow('Need mode', profile.needMode || profile.metadata?.needMode || '—', { explainerKey: modeExplainers.need })}
@@ -7571,7 +7607,7 @@ window.addEventListener('resize', () => {
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. Shared surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
+  setStatus('Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. The closure runtime stays available below when you need deeper proof, replay, or settlement follow-through. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.');
 }).catch((error) => {
   const applicationRootEl = document.getElementById('bitcodeApplicationRoot');
   (applicationRootEl || document.body).innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;

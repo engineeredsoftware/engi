@@ -122,13 +122,13 @@ export function normalizeApplicationCommandState(snapshot: ShellSnapshot): Appli
       'Awaiting current Bitcode posture…',
     heroTip:
       String(snapshot.commandSurface?.heroTip || '').trim() ||
-      'The current draft guidance and runtime signals are loading.',
+      'The current flow guidance and runtime signals are loading.',
     status:
       String(snapshot.commandSurface?.status || '').trim() ||
       'Workspace controls are syncing.',
     tutorialLabel:
       String(snapshot.commandSurface?.tutorialLabel || '').trim() ||
-      'Draft guide',
+      'Flow guide',
     tutorialOpen: Boolean(snapshot.commandSurface?.tutorialOpen),
     tutorialStepIndex:
       typeof snapshot.commandSurface?.tutorialStepIndex === 'number'

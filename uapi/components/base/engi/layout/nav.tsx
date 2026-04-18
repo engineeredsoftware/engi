@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
-import Logo from "@/components/base/engi/branding/logo";
 import { CreditsTracker } from "@/components/base/engi/credits/credits-tracker";
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
@@ -10,6 +9,7 @@ import { NotificationsWidget } from "@/components/base/engi/notifications/Notifi
 import { OrbitalUseButton } from "@/components/base/engi/nav/OrbitalUseButton";
 import { FEATURE_FLAGS } from "@/config/features"
 import { UserMenu } from "@/components/base/engi/layout/user-menu";
+import NavBrand, { type NavSurface } from "@/components/base/engi/layout/NavBrand";
 import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
 
@@ -95,28 +95,38 @@ export default function Nav() {
   const isScrolled = useScrollPosition();
   const shouldCollapse = shouldApplyCollapseAnimation(pathname);
   const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
+  const isOrbitalRoute = Boolean(pathname?.startsWith('/orbitals'));
+  const isConversationRoute = Boolean(pathname?.startsWith('/conversations'));
+  const navSurface: NavSurface = isApplicationRoute
+    ? 'application'
+    : isOrbitalRoute
+      ? 'orbitals'
+      : isConversationRoute
+        ? 'conversations'
+        : null;
+  const usesWorkspaceChrome = navSurface !== null;
 
   // Determine if the nav should be fixed
   const shouldBeFixed = useMemo(() => {
-    if (isApplicationRoute) return false;
+    if (usesWorkspaceChrome) return false;
     if (user) return true;
     if (!pathname) return true;
     if (pathname === '/') return false;
     return true;
-  }, [isApplicationRoute, user, pathname]);
+  }, [usesWorkspaceChrome, user, pathname]);
 
   // Determine if the nav should be visually collapsed
   const isCollapsed = shouldCollapse && isScrolled;
 
   // Compute positioning class
-  const positionClass = isApplicationRoute
+  const positionClass = usesWorkspaceChrome
     ? 'sticky inset-x-0 top-0'
     : shouldBeFixed
       ? 'fixed inset-x-0 top-0 mx-auto'
       : 'relative';
 
   // Compute translateY for expanded (offset) or collapsed (pinned) state
-  const transformValue = isApplicationRoute
+  const transformValue = usesWorkspaceChrome
     ? 'none'
     : isCollapsed
       ? 'translateY(0)'
@@ -126,50 +136,55 @@ export default function Nav() {
     router.push('/')
   }
 
+  const workspaceGuestActions = usesWorkspaceChrome && !user ? (
+    <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
+      <button
+        type="button"
+        onMouseEnter={() => prefetchOrbital()}
+        onClick={() => openOrbital('login')}
+        className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
+      >
+        Access Workspace
+      </button>
+      <button
+        type="button"
+        onMouseEnter={() => prefetchOrbital()}
+        onClick={() => openOrbital('SignUpWindow')}
+        className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+      >
+        Create Account
+      </button>
+    </div>
+  ) : null;
+
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${isApplicationRoute ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${!isApplicationRoute && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!isApplicationRoute && isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${!usesWorkspaceChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,
-          width: !isApplicationRoute && isCollapsed ? '80%' : '100%',
-          transition: isApplicationRoute
+          width: !usesWorkspaceChrome && isCollapsed ? '80%' : '100%',
+          transition: usesWorkspaceChrome
             ? 'opacity 250ms ease-out'
             : shouldCollapse
             ? isCollapsed
               ? 'transform 500ms ease-in-out, width 250ms ease-in-out'
               : 'transform 250ms ease-in-out, width 500ms ease-in-out'
             : undefined,
-          padding: isApplicationRoute ? '0px' : '2px',
-          paddingBottom: isApplicationRoute ? '0px' : '16px',
+          padding: usesWorkspaceChrome ? '0px' : '2px',
+          paddingBottom: usesWorkspaceChrome ? '0px' : '16px',
           isolation: 'isolate',
           border: 'none',
         }}
       >
-        <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${isApplicationRoute ? 'py-3.5' : 'py-4 pb-6'}`}>
+        <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${usesWorkspaceChrome ? 'py-3.5' : 'py-4 pb-6'}`}>
           <div className="flex items-center w-full">
-            <div onClick={handleLogoClick} className={`flex items-center gap-3 cursor-pointer ${isAnimated ? 'nav-logo-animated' : 'opacity-0'}`}>
-              <div
-                className={
-                  isApplicationRoute
-                    ? 'flex h-12 w-12 items-center justify-center rounded-[1.35rem] border border-emerald-400/18 bg-[linear-gradient(180deg,rgba(101,254,183,0.16),rgba(101,254,183,0.06))] shadow-[0_10px_24px_rgba(0,0,0,0.18)]'
-                    : ''
-                }
-              >
-                <Logo beta={!isApplicationRoute} height="h-9" width="w-9" />
-              </div>
-              {isApplicationRoute ? (
-                <div className="hidden sm:block">
-                  <p className="text-xs uppercase tracking-[0.24em] text-emerald-300/80">Bitcode</p>
-                  <p className="mt-1 text-sm text-neutral-200">transactions terminal</p>
-                </div>
-              ) : null}
-            </div>
+            <NavBrand animated={isAnimated} onClick={handleLogoClick} surface={navSurface} />
             {/* Nav links shown only when signed in */}
             {!user && <div className="flex-1" />}
             {user && (
-              <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${isApplicationRoute ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
+              <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
                   { href: '/application', label: 'application' },
                 ].map(({ href, label }, index) => {
@@ -235,7 +250,9 @@ export default function Nav() {
           </div>
 
           <div className="flex items-center justify-center space-x-4">
-            {user ? (
+            {workspaceGuestActions ? (
+              workspaceGuestActions
+            ) : user ? (
               <div className={isAnimated ? 'nav-controls-animated flex items-center space-x-3.5' : 'opacity-0 flex items-center space-x-3.5'}>
                 {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (
                   <MemoCreditsTracker

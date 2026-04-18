@@ -3,7 +3,7 @@ import { normalizeApplicationClosureState } from '@/app/application/application-
 describe('normalizeApplicationClosureState', () => {
   it('builds native closure panels from the shell closure snapshot', () => {
     const closure = normalizeApplicationClosureState({
-      canonLabel: 'V25 active canon / V26 system draft',
+      canonLabel: 'production workspace posture',
       closureSurface: {
         verification: {
           label: 'Verification + ranked candidates',
@@ -87,7 +87,7 @@ describe('normalizeApplicationClosureState', () => {
 
   it('fails safely when closure data is missing', () => {
     const closure = normalizeApplicationClosureState({
-      canonLabel: 'V25 active canon / V26 system draft',
+      canonLabel: 'production workspace posture',
     });
 
     expect(closure).toBeNull();

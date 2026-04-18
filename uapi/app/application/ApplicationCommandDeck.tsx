@@ -40,10 +40,10 @@ export default function ApplicationCommandDeck() {
   const projection = commandState?.projection || 'waiting';
   const branchMode = commandState?.branchMode || 'waiting';
   const guideActionLabel = commandState?.tutorialOpen
-    ? 'Hide draft guide'
+    ? 'Hide flow guide'
     : commandState?.tutorialStepCount
-      ? 'Resume draft guide'
-      : 'Open draft guide';
+      ? 'Resume flow guide'
+      : 'Open flow guide';
   const shellReady = commandState?.shellReady || false;
   const guideDetail =
     commandState && commandState.tutorialStepCount > 0
@@ -61,7 +61,7 @@ export default function ApplicationCommandDeck() {
     <ApplicationWorkspaceCard
       kicker="Workspace controls"
       title="Give, need, and closure controls"
-      summary="Set scenario, projection, and branch mode, then run closure or resume the working draft from the same workspace you use to read the ledger."
+      summary="Set scenario, projection, and branch mode, then run closure or resume the working flow from the same workspace you use to read the ledger."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.controls}
       tone="emerald"
     >
@@ -172,7 +172,7 @@ export default function ApplicationCommandDeck() {
               }}
               className="rounded-[1.4rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10"
             >
-              Reset application
+              Reset runtime
             </button>
           </div>
 
@@ -208,7 +208,7 @@ export default function ApplicationCommandDeck() {
         <div className="space-y-4">
           <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
             <div className="flex items-center gap-2">
-              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Current working draft</p>
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Current working flow</p>
               <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-emerald-100">
                 resumable
               </span>

@@ -38,7 +38,7 @@ export default function ApplicationSectionAtlas() {
         </div>
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Interaction</p>
-          <p className="mt-2 text-neutral-200">open the next section</p>
+          <p className="mt-2 text-neutral-200">focus the next live stage</p>
         </div>
       </div>
 
@@ -81,7 +81,7 @@ export default function ApplicationSectionAtlas() {
                 onClick={() => jumpToShellSection(section.id)}
                 className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
               >
-                Open section
+                Focus live detail
               </button>
             </div>
           </article>

@@ -2,6 +2,7 @@
 
 import React, { startTransition, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from 'next/dynamic';
+import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '@bitcode/supabase/ssr/client';
@@ -14,7 +15,8 @@ import {
   getOrbitalRingIndex,
   normalizeOrbitalPane,
   normalizeOrbitalSteps,
-  ORBITAL_FLOW_STEPS,
+  ONBOARDING_FLOW_STEPS,
+  ORBITAL_RING_STEPS,
   type ConcreteOrbitalPane,
   type OrbitalPane,
 } from './orbital-pane-meta';
@@ -66,7 +68,7 @@ const InterfacesPane = dynamic(() => import("./OrbitalsInterfacesPane"), {
 
 function parseOrbitalPath(pathname: string | null): ConcreteOrbitalPane | null {
   if (!pathname) return null;
-  const match = pathname.match(/\/orbitals\/(users|connects|interfaces|btd|models|credits)\b/i);
+  const match = pathname.match(/\/orbitals\/(profile|users|connects|interfaces|btd|models|credits)\b/i);
   if (!match) return null;
   return normalizeOrbitalPane(match[1]);
 }
@@ -99,6 +101,7 @@ export default function Orbital({
   const pathname = usePathname();
   const routeStep = useMemo(() => parseOrbitalPath(pathname), [pathname]);
   const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
+  const isDedicatedOrbitalRoute = Boolean(pathname?.startsWith('/orbitals'));
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteOrbitalPane>(
@@ -116,6 +119,7 @@ export default function Orbital({
   const canonicalOnboardingComplete = onboardingData?.isOnboardingComplete || false;
   const isOrbitalSurface = Boolean(sessionUser);
   const isUnlockedSurface = canonicalOnboardingComplete || isOrbitalSurface;
+  const visibleSteps = isOrbitalSurface ? ORBITAL_RING_STEPS : ONBOARDING_FLOW_STEPS;
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -171,11 +175,6 @@ export default function Orbital({
     }
   }, [onboardingData, isOrbitalSurface, initialStep, routeStep]);
 
-  const currentStepIndex = useMemo(
-    () => ORBITAL_FLOW_STEPS.indexOf(currentStep),
-    [currentStep],
-  );
-
   const handleStepCompletionChange = useCallback((step: ConcreteOrbitalPane, isComplete: boolean) => {
     queueMicrotask(() => {
       startTransition(() => {
@@ -186,7 +185,7 @@ export default function Orbital({
 
   const availableSteps = useMemo(() => {
     if (isOrbitalSurface) {
-      return ORBITAL_FLOW_STEPS;
+      return visibleSteps;
     }
 
     const available: ConcreteOrbitalPane[] = [];
@@ -215,7 +214,7 @@ export default function Orbital({
     }
 
     return available;
-  }, [completedSteps, currentStep, isOrbitalSurface]);
+  }, [completedSteps, currentStep, isOrbitalSurface, visibleSteps]);
 
   const updateOnboardingMutation = useMutation({
     mutationFn: async (step: ConcreteOrbitalPane) => {
@@ -435,11 +434,14 @@ export default function Orbital({
 
   const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser;
   const usesApplicationOverlay = isApplicationRoute;
+  const usesContainedOrbitalSurface = usesApplicationOverlay || isDedicatedOrbitalRoute;
+  const usesOrbitalRingNavigation = isOrbitalSurface || !usesApplicationOverlay;
+  const orbitalSurfaceClass = isDedicatedOrbitalRoute ? 'orbital-system-route' : 'orbital-system-overlay';
 
   return (
     <div
       ref={containerRef}
-      className={`orbital-system orbital-system-overlay ${activeWindow === 'SignUpWindow' && !isOrbitalSurface && !usesApplicationOverlay ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system ${orbitalSurfaceClass} ${activeWindow === 'SignUpWindow' && !isOrbitalSurface && !usesApplicationOverlay ? 'orbital-system-onboarding' : ''} ${usesApplicationOverlay ? 'orbital-system-application' : ''} ${isDedicatedOrbitalRoute ? 'orbital-system-route-surface' : ''} ${deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
@@ -482,17 +484,17 @@ export default function Orbital({
         )}
       </div>
 
-      {!usesApplicationOverlay ? (
+      {showLoginPane ? null : (
         <GPUAcceleration>
           <OrbitalRings
             count={4}
             baseSize={30}
             sizeIncrement={15}
             activeIndex={showLoginPane ? 0 : getOrbitalRingIndex(currentStep)}
-            className={`orbital-system-background ${showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
+            className={`orbital-system-background ${usesApplicationOverlay ? 'orbital-application-background' : showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${!usesApplicationOverlay && deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
           />
         </GPUAcceleration>
-      ) : null}
+      )}
 
       <ContentVisibility containSize="600px 400px">
         {showLoginPane ? (
@@ -510,13 +512,14 @@ export default function Orbital({
           <OrbitalContent
             key="account"
             mode={isOrbitalSurface ? 'orbitals' : 'onboarding'}
-            steps={ORBITAL_FLOW_STEPS}
+            steps={visibleSteps}
             currentStep={currentStep}
             completedSteps={completedSteps}
             availableSteps={availableSteps}
             showContent
             showSuccessAnimation={!isOrbitalSurface && !usesApplicationOverlay}
-            navigationMode={usesApplicationOverlay ? 'tabs' : 'orbital'}
+            navigationMode={usesOrbitalRingNavigation ? 'orbital' : 'tabs'}
+            surfaceVariant={usesContainedOrbitalSurface ? 'contained' : 'default'}
             onStepClick={handleStepClick}
             renderStepContent={renderStepContent}
             isOnboardingComplete={isUnlockedSurface}

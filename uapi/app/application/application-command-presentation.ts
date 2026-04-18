@@ -19,7 +19,7 @@ export function deriveApplicationCommandPresentation(
 ): ApplicationCommandPresentation {
   if (!commandState || !commandState.shellReady) {
     return {
-      draftSummary: 'Loading the current Bitcode working posture.',
+      draftSummary: 'Loading the current Bitcode working flow.',
       continuationStatus: 'Controls are syncing to the current workspace state.',
       continuationTip:
         'Stay in the transaction terminal while scenario, projection, and branch mode become available.',
@@ -41,9 +41,9 @@ export function deriveApplicationCommandPresentation(
   return {
     draftSummary: `Work from ${scenarioLabel} with ${projectionLabel} projection and ${branchLabel} branch handling while the selected transaction stays in view.`,
     continuationStatus: guideStep
-      ? `${commandState.tutorialOpen ? 'Draft guide is open' : 'Draft guide is saved'} at ${guideStep}.`
+      ? `${commandState.tutorialOpen ? 'Flow guide is open' : 'Flow guide is saved'} at ${guideStep}.`
       : 'Controls are ready. Continue into give, need, or closure from this workspace.',
     continuationTip:
-      'Use the draft guide when you want stepwise follow-through, or jump directly into give, need, and closure when the current transaction already has enough context.',
+      'Use the flow guide when you want stepwise give-to-closure follow-through, or jump directly into give, need, and closure when the current transaction already has enough context.',
   };
 }

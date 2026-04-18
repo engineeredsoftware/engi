@@ -26,7 +26,7 @@ The following items are no longer open draft questions:
 - `packages/bitcode` is the immediate first-gate package owner.
 - the preserved first-gate shell now mounts through `uapi/app/application/ApplicationPageClient.tsx`.
 - the preserved first-gate JSON contract now runs through app-owned `uapi/app/api/*` route handlers.
-- the ringed orbital overlay remains the settings owner for user/account areas.
+- the ringed orbital overlay remains the orbital owner for Connects, Interfaces, Profile, and `$BTD`.
 - conversations remain a fullscreen application workspace entered from within `/application`.
 - current executions and deliverables surfaces are reuse reservoirs for inward master-detail porting into `/application`.
 - the late-Engi navbar remains the integrated application navigation frame for Bitcode.
@@ -127,7 +127,8 @@ The V26 application architecture is now explicitly locked in the draft family as
 - `give` and `need` as the two main Bitcode actions,
 - `/application` as the master-detail carrier,
 - conversations as the fullscreen chat workspace entered from `/application`,
-- orbitals as the fullscreen settings workspace entered from `/application`,
+- orbitals as the fullscreen orbital workspace entered from `/application`,
+- `Connects`, `Interfaces`, `Profile`, and `$BTD` as the fixed orbital ring model,
 - and runs/deliverables/proofs/history as master-detail substructures rather than separate primary experiences.
 
 The current source now reflects that architecture more directly:
@@ -159,10 +160,10 @@ The current source now reflects that architecture more directly:
 - `uapi/app/api/vcs/[provider]/*` now exists as an app-owned VCS carrier family for connection status, OAuth entry, PAT fallback connection, and repository listing instead of letting active Bitcode UI fall through to missing HTML routes.
 - `ApplicationRepositoryContextPanel.tsx` now makes provider connection posture and selected repository supply explicit inside `/application` before the preserved deposit chain, using the app-owned `/api/vcs/*` contract and route state.
 - `ApplicationGiveNeedWorkbench.tsx` plus `application-give-need-workbench.ts` now make give/need action detail explicit from a semantic shell snapshot bridge rather than generic shell markup, which is a stronger second-gate step toward application-owned Bitcode composition.
-- `ApplicationOperatorCard.tsx`, `application-operator-explainers.ts`, `ApplicationActionWorkbenchCard.tsx`, `ApplicationNeedScenarioPanel.tsx`, `ApplicationDepositComposer.tsx`, `ApplicationGiveNeedWorkbench.tsx`, `ApplicationClosureNativeSections.tsx`, and `ApplicationClosureControlDeck.tsx` now move the operator workspace toward one shared shell/help grammar with reusable metric, row, and chip carriers instead of per-panel hero/stat markup drift.
-- `ApplicationWorkspaceRail.tsx`, `ApplicationWorkspaceRailCard.tsx`, and `ApplicationSupplySelectionPanel.tsx` now also sit inside that same shared operator-shell/help grammar, which keeps the right rail and give-side supply terminal aligned with the rest of the operator surface instead of reading like standalone utility shells.
-- the active operator workspace now treats stepwise guidance as resumable give/need flow and working-draft continuity rather than tutorial/demo residue, and the visible application copy is being tightened to stay user-referencing instead of narrating gates, routes, or canon posture.
-- visible operator copy now explicitly removes self-referential shell/source-path phrasing from live rail, experience-map, give-side supply, and give-draft surfaces unless the operator intentionally enters a lower-level runtime read.
+- `ApplicationOperatorCard.tsx`, `application-operator-explainers.ts`, `ApplicationActionWorkbenchCard.tsx`, `ApplicationNeedScenarioPanel.tsx`, `ApplicationDepositComposer.tsx`, `ApplicationGiveNeedWorkbench.tsx`, `ApplicationClosureNativeSections.tsx`, and `ApplicationClosureControlDeck.tsx` now move the application workspace toward one shared help grammar with reusable metric, row, and chip carriers instead of per-panel hero/stat markup drift.
+- `ApplicationWorkspaceRail.tsx`, `ApplicationWorkspaceRailCard.tsx`, and `ApplicationSupplySelectionPanel.tsx` now also sit inside that same shared workspace/help grammar, which keeps the right rail and give-side supply terminal aligned with the rest of the application surface instead of reading like standalone utility shells.
+- the active application workspace now treats stepwise guidance as resumable give/need flow and working-draft continuity rather than tutorial/demo residue, and the visible application copy is being tightened to stay user-referencing instead of narrating gates, routes, or canon posture.
+- visible application copy now explicitly removes self-referential shell/source-path phrasing from live rail, experience-map, give-side supply, and give-draft surfaces unless the user intentionally enters a lower-level runtime read.
 - `uapi/tests/applicationCommandState.test.ts` now proves deterministic normalization of shell command posture, tutorial state, and option sets into route-local application command state.
 - `uapi/tests/applicationDepositComposer.test.ts` now proves deterministic normalization of deposit-auth session defaults, selected inventory continuity, and signer/source repo defaults into route-local deposit-composer state.
 - `uapi/tests/applicationNeedScenarios.test.ts` now proves deterministic normalization of active scenario cards, parser posture, closure counts, and target-kind counts into route-local need-scenario state.
@@ -211,7 +212,7 @@ The second-gate collaboration pack must now include:
 - a full `/application` wireframe set,
 - a section decomposition map from first-gate shell sections to second-gate application sections,
 - a semantic non-regression ledger,
-- a component adoption matrix keyed to `uapi/components/base/*`, route-local app sections, and orbitals/settings carriers,
+- a component adoption matrix keyed to `uapi/components/base/*`, route-local app sections, and orbital carriers,
 - an overlay choreography map for fullscreen conversations and orbitals within `/application`,
 - a master-detail reuse map for executions and deliverables patterns being ported inward,
 - an external interfacing hardening matrix,
@@ -227,6 +228,7 @@ The fourth-gate collaboration pack must now include:
 - a conversations and chat-interface retention map,
 - a runs/pipelines/deliverables total-system map,
 - a PostgreSQL/Supabase storage convergence map covering `/edgetimes`, active migrations, schema owners, ORM/query owners, generated types, and API boundaries,
+- a schema and package admissibility map covering `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/api`, `packages/conversations-generics`, and `packages/execution-generics`,
 - an inward-port map from current executions/deliverables surfaces into `/application`,
 - a retained prompt-space map,
 - a retained package admissibility ledger,

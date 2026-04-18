@@ -33,11 +33,29 @@ Those map as follows:
 - `conversations`
   The fullscreen chat workspace entered from within `/application`.
 - `orbitals`
-  The fullscreen settings workspace entered from within `/application`, including the transitional credits-to-wallet cutover.
+  The fullscreen orbital workspace entered from within `/application`, fixed as `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `give`
-  Repo supply, deposits, authenticated material intake, and operator actions that place material into the Bitcode chain.
+  Repo supply, deposits, authenticated material intake, and actions that place material into the Bitcode chain.
 - `need`
-  Scenario framing, measured demand, fit pressure, and operator actions that express what Bitcode is trying to satisfy.
+  Scenario framing, measured demand, fit pressure, and actions that express what Bitcode is trying to satisfy.
+
+The orbital ring model is fixed for V26:
+- `Connects`
+  Repository and other connection posture, with the closest retained canonical inner-pane UX/UI.
+- `Interfaces`
+  Visual, behavioral, and default application posture for transactions, conversations, and related reads.
+- `Profile`
+  Wallet identity, address, balances, organization roles, multi-sig membership, and authentication posture.
+- `$BTD`
+  Share information, throughput posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
+
+Direct orbital routes should prefer:
+- `/orbitals/profile`
+- `/orbitals/connects`
+- `/orbitals/interfaces`
+- `/orbitals/btd`
+
+Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` may survive only as convergence redirects until fourth-gate rename cleanup closes.
 
 ## Master-detail inner structure
 
@@ -297,9 +315,9 @@ Operational rule:
 - route-local give/need action detail should prefer the semantic snapshot bridge over generic DOM scraping where possible
 - this bridge is read-only and does not reopen first-gate ownership
 
-## Operator workspace shell and explainer carrier
+## Application workspace shell and explainer carrier
 
-Second-gate now treats the operator workspace shell, help posture, and visible copy discipline as shared application composition rather than one-off per-panel chrome.
+Second-gate now treats the application workspace shell, help posture, and visible copy discipline as shared application composition rather than one-off per-panel chrome.
 
 Current active carriers:
 - `uapi/app/application/ApplicationOperatorCard.tsx`
@@ -315,12 +333,13 @@ Current active carriers:
 - `uapi/app/application/ApplicationClosureControlDeck.tsx`
 
 Operational rule:
-- operator-facing workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
-- the support rail and give-side supply terminal are part of that same shared operator shell and may not drift into one-off section chrome
-- live application copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the operator
-- live application copy should also avoid shell-plumbing, mounted-state, or source-path narration unless the operator deliberately enters a bounded lower-level runtime view
+- application workspace cards should converge on one shared shell and explainer carrier rather than reauthoring hero, summary, and stat framing per panel
+- the support rail and give-side supply terminal are part of that same shared application shell and may not drift into one-off section chrome
+- live application copy must stay user-referencing and may not narrate gates, route ownership, canon posture, or implementation mechanics back to the user
+- live application copy should also avoid shell-plumbing, mounted-state, or source-path narration unless the user deliberately enters a bounded lower-level runtime view
 - stepwise workspace guidance should read as resumable give/need flow guidance and working-draft continuity rather than tutorial or demo residue
-- the shared operator shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
+- the shared application shell should absorb carried-forward tooltip/help posture from the strongest prior demonstration surfaces instead of leaving that UX behind
+- client component modularization should keep expanding through base carriers, route-local state normalizers, and orbital descriptors rather than growing new page-local monoliths
 
 ## Command-state and control bridge
 
@@ -543,6 +562,8 @@ Current active carriers:
 Operational rule:
 - conversations and orbitals are not peer product destinations
 - they are fullscreen application overlays entered from the application frame
+- unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
+- application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
 
 ## Active application-owned API carriers
 

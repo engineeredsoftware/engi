@@ -20,15 +20,15 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
   }),
   controls: buildExplainer({
     kicker: 'Workspace control posture',
-    title: 'Controls, guide, and draft state',
+    title: 'Controls, flow guide, and working posture',
     summary:
       'Scenario, projection, branch mode, guide progress, and closure controls stay in one shared control surface.',
     detail:
-      'This card is where working draft posture becomes resumable. You should be able to see the current configuration, reopen the guide, and continue the flow without reconstructing context.',
+      'This card is where the working flow becomes resumable. You should be able to see the current configuration, reopen the guide, and continue without reconstructing context.',
     points: [
       'Guide progress is resumable instead of one-shot',
       'Scenario, projection, and branch mode remain explicit',
-      'Closure control stays adjacent to the active draft state',
+      'Closure control stays adjacent to the active working posture',
     ],
   }),
   needScenarios: buildExplainer({
@@ -59,7 +59,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
   }),
   depositComposer: buildExplainer({
     kicker: 'Give-side intake',
-    title: 'Deposit drafting and submission',
+    title: 'Deposit flow and submission',
     summary:
       'A give-side deposit should read like a resumable working draft built from selected supply, not like infrastructure plumbing.',
     detail:
@@ -173,12 +173,12 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     ],
   }),
   sourcePath: buildExplainer({
-    kicker: 'Exact detail view',
-    title: 'Proof and settlement follow-through',
+    kicker: 'Closure runtime',
+    title: 'Proof and settlement runtime',
     summary:
-      'Open the exact proof view when you need the dense give-to-settlement follow-through, proofs, or replay detail.',
+      'Open the runtime when you need the dense give-to-settlement follow-through, proofs, or replay detail.',
     detail:
-      'This exact-detail view remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
+      'This runtime remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
     points: [
       'Supports deep proof and flow inspection',
       'Keeps the main workspace uncluttered',

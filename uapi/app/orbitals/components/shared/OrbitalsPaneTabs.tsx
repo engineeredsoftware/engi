@@ -23,35 +23,36 @@ export default function OrbitalsPaneTabs({
 }: OrbitalsPaneTabsProps) {
   const completedCount = completedSteps.length;
   const totalCount = steps.filter(Boolean).length;
+  const isOrbitalMode = mode === 'orbitals';
 
   return (
-    <div className="mb-6 rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+    <div className="orbital-pane-tabs mb-6 rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
-            {mode === 'orbitals' ? 'Orbitals' : 'Orbital guide'}
+            {isOrbitalMode ? 'Orbitals' : 'Workspace access'}
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
-            {mode === 'orbitals'
+            {isOrbitalMode
               ? 'Move between Connects, Interfaces, Profile, and $BTD without losing your place in the workspace.'
-              : 'Move through Profile, Connects, Interfaces, and $BTD in a clear step-by-step flow.'}
+              : 'Sign in to unlock the four orbitals, then keep Profile, Connects, Interfaces, and $BTD in one contained access flow.'}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-            {mode === 'orbitals' ? 'orbitals' : 'guide'}
+            {isOrbitalMode ? 'orbitals' : 'access'}
           </span>
           <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
-            {completedCount}/{totalCount} ready
+            {completedCount}/{totalCount} complete
           </span>
         </div>
       </div>
 
       <div className="mt-4 rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
-        Current orbital: <span className="text-white">{labelForOrbitalPane(currentStep)}</span>
+        Active orbital: <span className="text-white">{labelForOrbitalPane(currentStep)}</span>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="orbital-pane-tab-grid mt-4 flex flex-wrap gap-2">
         {steps.map((step, index) => {
           if (!step) return null;
 
@@ -69,17 +70,20 @@ export default function OrbitalsPaneTabs({
                 }
               }}
               disabled={!isAvailable}
-              className={`rounded-full border px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] transition ${
+              aria-label={`${index + 1} ${labelForOrbitalPane(step)}`}
+              className={`orbital-pane-tab ${
                 isCurrent
-                  ? 'border-emerald-300/45 bg-emerald-400/12 text-emerald-100'
+                  ? 'orbital-pane-tab-current'
                   : isAvailable
-                    ? 'border-white/10 bg-white/5 text-neutral-200 hover:border-white/20 hover:bg-white/10'
-                    : 'border-white/6 bg-black/20 text-neutral-500'
+                    ? 'orbital-pane-tab-available'
+                    : 'orbital-pane-tab-locked'
               }`}
             >
-              <span className="mr-2 text-neutral-400">{index + 1}</span>
-              <span>{labelForOrbitalPane(step)}</span>
-              {isCompleted ? <span className="ml-2 text-emerald-300">done</span> : null}
+              <span className="orbital-pane-tab-index">{index + 1}</span>
+              <span className="orbital-pane-tab-label">{labelForOrbitalPane(step)}</span>
+              <span className="orbital-pane-tab-status">
+                {isCurrent ? 'active' : isCompleted ? 'ready' : isAvailable ? 'open' : 'locked'}
+              </span>
             </button>
           );
         })}

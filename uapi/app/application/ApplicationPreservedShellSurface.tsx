@@ -10,9 +10,9 @@ export default function ApplicationPreservedShellSurface() {
   return (
     <ApplicationWorkspaceCard
       id="applicationLowerRuntime"
-      kicker="Exact detail view"
-      title="Open the live proof and settlement view only when you need exact follow-through"
-      summary="Stay in the application workspace for normal reading and drafting. Open this exact view only when you need replay detail, mount-level verification, or proof follow-through."
+      kicker="Closure runtime"
+      title="Open the proof and settlement runtime only when deeper closure detail is required"
+      summary="Stay in the transactions workspace for normal reading and drafting. Open this runtime only when you need replay detail, mount-level verification, or dense proof follow-through."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.sourcePath}
       className="min-w-0"
       childrenClassName="space-y-5"
@@ -29,15 +29,15 @@ export default function ApplicationPreservedShellSurface() {
       </div>
 
       <ApplicationRuntimeDrawer
-        title="Open live proof and settlement detail"
-        summary="This keeps the exact proof and settlement view available for inspection and closure follow-through while the main application stays centered on the cleaner master-detail workspace."
+        title="Open proof and settlement runtime"
+        summary="This keeps the dense proof and settlement runtime available for inspection and closure follow-through while the main application stays centered on the cleaner master-detail workspace."
       >
         <div className="min-w-0 p-2 tablet:p-4">
         <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
           <div className="page">
             <header className="hero" id="hero">
               <p className="eyebrow" id="heroEyebrow">
-                Bitcode exact proof view
+                Bitcode closure runtime
               </p>
               <h1>Inspect the live Bitcode runtime from give through settlement.</h1>
               <p className="lede" id="heroLede">
@@ -77,10 +77,10 @@ export default function ApplicationPreservedShellSurface() {
                   Make Bitcode branch
                 </button>
                 <button id="tutorialToggleButton" className="ghost" type="button">
-                  Hide guide
+                  Hide flow guide
                 </button>
                 <button id="resetButton" className="ghost" type="button">
-                  Reset application
+                  Reset runtime
                 </button>
               </div>
               <div id="status" className="status" role="status" aria-live="polite" aria-atomic="true" />
@@ -93,7 +93,7 @@ export default function ApplicationPreservedShellSurface() {
                 <div className="panel-head">
                   <h2 data-explainer-key="operating-picture">0. Operating picture</h2>
                   <span className="badge" data-explainer-key="repo-to-settlement">
-                    repo supply -&gt; settlement
+                    give -&gt; settlement
                   </span>
                 </div>
                 <div id="operatingPicture" className="stack" />
@@ -101,7 +101,7 @@ export default function ApplicationPreservedShellSurface() {
 
               <section className="panel" id="panelDepositing">
                 <div className="panel-head">
-                  <h2 data-explainer-key="depositing">1. Depositing + candidate assets</h2>
+                  <h2 data-explainer-key="depositing">1. Give draft + selected supply</h2>
                   <span className="badge" data-explainer-key="candidate-asset">
                     artifact-kind-native deposit
                   </span>
@@ -210,7 +210,7 @@ export default function ApplicationPreservedShellSurface() {
 
               <section className="panel" id="panelNeeding">
                 <div className="panel-head">
-                  <h2 data-explainer-key="needing">2. Needing + measured demand</h2>
+                  <h2 data-explainer-key="needing">2. Need draft + measured demand</h2>
                   <span className="badge" data-explainer-key="scenario-preview">
                     scenario preview
                   </span>
@@ -220,7 +220,7 @@ export default function ApplicationPreservedShellSurface() {
 
               <section className="panel wide" id="panelFit">
                 <div className="panel-head">
-                  <h2 data-explainer-key="deposit-fit">3. Depositing-to-needing fit</h2>
+                  <h2 data-explainer-key="deposit-fit">3. Give-to-need fit</h2>
                   <span className="badge" data-explainer-key="deposit-fit">
                     fit before proof
                   </span>
@@ -230,7 +230,7 @@ export default function ApplicationPreservedShellSurface() {
 
               <section className="panel wide" id="panelEvaluations">
                 <div className="panel-head">
-                  <h2 data-explainer-key="verification-rights">4. Ranked candidates + verification determinisms</h2>
+                  <h2 data-explainer-key="verification-rights">4. Ranked candidates + verification</h2>
                   <span className="badge" data-explainer-key="verification-rights">
                     ranking + use tiers
                   </span>
@@ -240,7 +240,7 @@ export default function ApplicationPreservedShellSurface() {
 
               <section className="panel" id="panelBranchArtifacts">
                 <div className="panel-head">
-                  <h2 data-explainer-key="branch-artifacts">5. Asset pack + branch artifacts</h2>
+                  <h2 data-explainer-key="branch-artifacts">5. Deliverables + branch artifacts</h2>
                   <span className="badge private" data-explainer-key="private-remediation-branch">
                     private remediation branch
                   </span>
@@ -281,14 +281,14 @@ export default function ApplicationPreservedShellSurface() {
             >
               <div className="tutorial-progress">
                 <span id="tutorialStepCounter" className="badge">
-                  Step 1 of 10
+                  Flow step 1 of 10
                 </span>
                 <button id="tutorialCloseButton" className="ghost tutorial-button" type="button">
-                  Dismiss
+                  Pause
                 </button>
               </div>
               <p id="tutorialKicker" className="tutorial-kicker">
-                Resumable draft guide
+                Give + Need flow guide
               </p>
               <h2 id="tutorialTitle">Start with the active give and need context</h2>
               <p id="tutorialBody" className="tutorial-body" />
@@ -298,7 +298,7 @@ export default function ApplicationPreservedShellSurface() {
                   Back
                 </button>
                 <button id="tutorialNextButton" className="tutorial-button" type="button">
-                  Continue
+                  Next step
                 </button>
               </div>
             </section>

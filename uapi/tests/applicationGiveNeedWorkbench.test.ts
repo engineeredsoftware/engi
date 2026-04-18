@@ -4,7 +4,7 @@ describe('normalizeApplicationGiveNeedWorkbench', () => {
   it('builds give, need, and fit sections from the shell snapshot', () => {
     const workbench = normalizeApplicationGiveNeedWorkbench(
       {
-        canonLabel: 'V25 active canon / V26 system draft',
+        canonLabel: 'production workspace posture',
         selection: {
           projectionPrincipal: 'buyer',
           branchMode: 'patch',

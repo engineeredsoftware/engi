@@ -64,9 +64,9 @@ export const DockContainer = ({ className }: DockContainerProps) => {
     },
     {
       icon: <CogIcon className="w-6 h-6" />,
-      label: "Settings",
-      path: "/settings",
-      tooltip: account ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}` : "Settings"
+      label: "Orbitals",
+      path: "/orbitals/profile",
+      tooltip: account ? `Orbitals • ${account.slice(0, 6)}...${account.slice(-4)}` : "Orbitals"
     }
   ];
 

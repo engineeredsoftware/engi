@@ -54,7 +54,7 @@ const detail: ApplicationRunDetailSnapshot = {
 };
 
 const closureState: ApplicationClosureState = {
-  canonLabel: 'V25 active canon / V26 system draft',
+  canonLabel: 'production workspace posture',
   verification: {
     id: 'verification',
     label: 'Verification + ranked candidates',
@@ -138,7 +138,7 @@ describe('application-transaction-detail helpers', () => {
       { label: 'Closure focus', value: 'bounded disclosure' },
       { label: 'Processing time', value: '4m 12s' },
       { label: 'Token total', value: '2,200' },
-      { label: 'Credits', value: '24.5' },
+      { label: 'BTD throughput', value: '24.5' },
       { label: 'Spend', value: '$1.62' },
       { label: 'Latency', value: '930 ms' },
     ]);
@@ -179,7 +179,7 @@ describe('application-transaction-detail helpers', () => {
         closureFocus: 'bounded disclosure',
       },
       closure: {
-        canonLabel: 'V25 active canon / V26 system draft',
+        canonLabel: 'production workspace posture',
         processingStats: {
           time: '4m 12s',
           tokenTotal: 2200,
@@ -192,7 +192,7 @@ describe('application-transaction-detail helpers', () => {
           { label: 'Closure focus', value: 'bounded disclosure' },
           { label: 'Processing time', value: '4m 12s' },
           { label: 'Token total', value: '2,200' },
-          { label: 'Credits', value: '24.5' },
+          { label: 'BTD throughput', value: '24.5' },
           { label: 'Spend', value: '$1.62' },
           { label: 'Latency', value: '930 ms' },
         ],

@@ -3,6 +3,8 @@
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
+  getOrbitalDescriptor,
+  getOrbitalLabelPosition,
   getOrbitalRingIndex,
   labelForOrbitalPane,
   type OrbitalPane,
@@ -18,6 +20,7 @@ export interface OrbitalContentProps {
   showContent: boolean;
   showSuccessAnimation: boolean;
   navigationMode?: 'orbital' | 'tabs';
+  surfaceVariant?: 'default' | 'contained';
   onStepClick: (step: OrbitalPane) => void;
   renderStepContent: (step: OrbitalPane) => React.ReactNode;
   isOnboardingComplete?: boolean;
@@ -32,6 +35,7 @@ function OrbitalContent(props: OrbitalContentProps) {
     showContent = false,
     showSuccessAnimation = false,
     navigationMode = 'orbital',
+    surfaceVariant = 'default',
     mode = 'onboarding',
     onStepClick = (_: OrbitalPane) => {},
     renderStepContent = (_: OrbitalPane) => null,
@@ -39,6 +43,7 @@ function OrbitalContent(props: OrbitalContentProps) {
   } = props;
   const isOrbitalMode = mode === 'orbitals';
   const usesTabNavigation = navigationMode === 'tabs';
+  const usesContainedLayout = surfaceVariant === 'contained';
 
   const stepMeta = useMemo(() => {
     const pos = new Map<OrbitalPane, number>();
@@ -52,6 +57,79 @@ function OrbitalContent(props: OrbitalContentProps) {
     return { pos, currentIdx, lastCompletedIdx };
   }, [steps, currentStep, completedSteps]);
 
+  const ringElements = useMemo(
+    () =>
+      steps.map((step) => {
+        if (!step) return null;
+
+        const stepPosition = stepMeta.pos.get(step)!;
+        const ringIndex = getOrbitalRingIndex(step);
+        const isAvailable = availableSteps.includes(step);
+        const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
+        const isNext = !isOrbitalMode && stepPosition === highest + 1;
+        const descriptor = getOrbitalDescriptor(step);
+        const size = 30 + ringIndex * 15;
+        const style: React.CSSProperties = {
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: `${size}%`,
+          height: `${size}%`,
+          borderRadius: '50%',
+          border: isAvailable ? '2px solid rgba(103,254,183,0.05)' : 'none',
+          boxSizing: 'border-box',
+          cursor: isAvailable ? 'pointer' : 'default',
+          pointerEvents: isAvailable ? 'auto' : 'none',
+          zIndex: steps.length - ringIndex,
+        };
+
+        return (
+          <div
+            key={step}
+            className={`clickable-ring ${isAvailable ? 'available' : ''} ${isNext ? 'next-available' : ''}`}
+            style={style}
+            onClick={() => isAvailable && onStepClick(step)}
+          >
+            <div
+              className={`orbital-label position-${getOrbitalLabelPosition(step)} ${
+                currentStep === step ? 'orbital-label-active' : ''
+              }`}
+              style={{ '--index': ringIndex } as React.CSSProperties}
+            >
+              {descriptor.label}
+            </div>
+          </div>
+        );
+      }),
+    [
+      availableSteps,
+      currentStep,
+      isOrbitalMode,
+      onStepClick,
+      stepMeta.currentIdx,
+      stepMeta.lastCompletedIdx,
+      stepMeta.pos,
+      steps,
+    ],
+  );
+
+  const contentPanel =
+    showContent && currentStep ? (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentStep}
+          className="orbital-content-container"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {renderStepContent(currentStep)}
+        </motion.div>
+      </AnimatePresence>
+    ) : null;
+
   return (
     <>
       {showSuccessAnimation && !isOrbitalMode && currentStep && !completedSteps.includes(currentStep) && (
@@ -64,7 +142,7 @@ function OrbitalContent(props: OrbitalContentProps) {
         </div>
       )}
 
-      {usesTabNavigation ? (
+      {usesTabNavigation && !usesContainedLayout ? (
         <OrbitalsPaneTabs
           mode={mode}
           steps={steps}
@@ -75,7 +153,7 @@ function OrbitalContent(props: OrbitalContentProps) {
         />
       ) : null}
 
-      {currentStep && (isOrbitalMode || !isOnboardingComplete) && !usesTabNavigation && (
+      {currentStep && (isOrbitalMode || !isOnboardingComplete) && !usesTabNavigation && !usesContainedLayout && (
         <motion.div
           className="orbital-step-indicator"
           initial={{ opacity: 0, x: -20 }}
@@ -86,7 +164,7 @@ function OrbitalContent(props: OrbitalContentProps) {
           }}
         >
           <div className="step-indicator-content">
-            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital Areas' : 'Onboarding Progress'}</h3>
+            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital rings' : 'Workspace access'}</h3>
             <div className="step-indicator-steps">
               {steps.map((step) => {
                 const index = stepMeta.pos.get(step)!;
@@ -133,52 +211,40 @@ function OrbitalContent(props: OrbitalContentProps) {
         </motion.div>
       )}
 
-      {!usesTabNavigation ? (
-        <div className="orbital-rings-container">
-          {steps.map((step) => {
-            const stepPosition = stepMeta.pos.get(step)!;
-            const ringIndex = getOrbitalRingIndex(step);
-            const isAvailable = availableSteps.includes(step);
-            const highest = Math.max(stepMeta.currentIdx, stepMeta.lastCompletedIdx);
-            const isNext = !isOrbitalMode && stepPosition === highest + 1;
-            const size = 30 + ringIndex * 15;
-            const style: React.CSSProperties = {
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: `${size}%`,
-              height: `${size}%`,
-              borderRadius: '50%',
-              border: isAvailable ? '2px solid rgba(103,254,183,0.05)' : 'none',
-              boxSizing: 'border-box',
-              cursor: isAvailable ? 'pointer' : 'default',
-              pointerEvents: isAvailable ? 'auto' : 'none',
-              zIndex: steps.length - ringIndex,
-            };
-            return (
-              <div
-                key={step}
-                className={`clickable-ring ${isAvailable ? 'available' : ''} ${isNext ? 'next-available' : ''}`}
-                style={style}
-                onClick={() => isAvailable && onStepClick(step)}
-              >
-                <div className="orbital-label" style={{ '--index': ringIndex } as React.CSSProperties}>
-                  {labelForOrbitalPane(step)}
-                </div>
-              </div>
-            );
-          })}
+      {usesContainedLayout ? (
+        <div className="orbital-workspace-shell">
+          <aside className="orbital-workspace-nav">
+            <div className="orbital-workspace-nav-copy">
+              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital rings' : 'Workspace access'}</p>
+              <h3 className="orbital-workspace-title">
+                {isOrbitalMode
+                  ? `Move between ${steps.map((step) => labelForOrbitalPane(step)).filter(Boolean).join(', ')}.`
+                  : 'Sign in once, then move through the four orbitals without losing the active pane.'}
+              </h3>
+              <p className="orbital-workspace-description">
+                {isOrbitalMode
+                  ? 'The four-ring model stays visible while the active pane opens in a stable reading workspace.'
+                  : 'Keep the current orbital, the next available orbital, and the active access form readable in one contained workspace.'}
+              </p>
+            </div>
+            <div className="orbital-rings-container orbital-rings-contained">{ringElements}</div>
+            <OrbitalsPaneTabs
+              mode={mode}
+              steps={steps}
+              currentStep={currentStep}
+              completedSteps={completedSteps}
+              availableSteps={availableSteps}
+              onStepClick={onStepClick}
+            />
+          </aside>
+          <div className="orbital-workspace-stage">{contentPanel}</div>
         </div>
-      ) : null}
-
-      <AnimatePresence mode="wait">
-        {showContent && currentStep && (
-          <motion.div key={currentStep} className="orbital-content-container" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-            {renderStepContent(currentStep)}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      ) : (
+        <>
+          {!usesTabNavigation ? <div className="orbital-rings-container">{ringElements}</div> : null}
+          {contentPanel}
+        </>
+      )}
     </>
   );
 }

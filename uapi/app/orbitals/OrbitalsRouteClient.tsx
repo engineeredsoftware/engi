@@ -25,12 +25,12 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
                 Fullscreen orbital
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                Open {descriptor.routeTitle} directly when the workspace needs full attention.
+                {descriptor.routeTitle} in one focused workspace.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                {descriptor.routeDescription} Use this direct route when you want a dedicated
-                fullscreen orbital outside the transactions window without losing the surrounding
-                application posture.
+                {descriptor.routeDescription} Use this route when you want one dedicated orbital for
+                repository connections, interface defaults, wallet posture, or $BTD detail without
+                splitting attention away from the active pane.
               </p>
             </div>
 
@@ -38,7 +38,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
               href="/application"
               className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
             >
-              Back to application
+              Back to transactions
             </Link>
           </div>
         </section>

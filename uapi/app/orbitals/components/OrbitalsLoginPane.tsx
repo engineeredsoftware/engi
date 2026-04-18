@@ -57,7 +57,7 @@ export default function OrbitalsLoginPane({
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>
                 <li>Conversations reopen as a fullscreen writing surface when needed.</li>
-                <li>Profile, Connects, Interfaces, and $BTD stay available as fullscreen orbitals.</li>
+                <li>Connects, Interfaces, Profile, and $BTD stay available as fullscreen orbitals.</li>
               </ul>
             </div>
           </div>

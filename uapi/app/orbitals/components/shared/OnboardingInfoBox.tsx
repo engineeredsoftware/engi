@@ -15,7 +15,7 @@ export default function OnboardingInfoBox({ step, title, description, note, visi
   return (
     <div className="onboarding-info">
       <div className="info-header">
-        <span className="info-step">Step {step}</span>
+        <span className="info-step">Draft step {step}</span>
         <strong className="info-title">{title}</strong>
       </div>
       <p className="info-description">{description}</p>

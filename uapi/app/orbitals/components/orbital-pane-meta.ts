@@ -1,12 +1,14 @@
-export const ORBITAL_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
+export const ONBOARDING_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
+export const ORBITAL_RING_STEPS = ['connects', 'interfaces', 'profile', 'btd'] as const;
 
-export type ConcreteOrbitalPane = (typeof ORBITAL_FLOW_STEPS)[number];
+export type ConcreteOrbitalPane = (typeof ONBOARDING_FLOW_STEPS)[number];
 export type OrbitalPane = ConcreteOrbitalPane | null;
 
 export interface OrbitalPaneDescriptor {
   label: string;
   routeSegment: string;
   ringIndex: number;
+  labelPosition: 'top' | 'right' | 'bottom' | 'left';
   routeTitle: string;
   routeDescription: string;
 }
@@ -14,35 +16,39 @@ export interface OrbitalPaneDescriptor {
 export const ORBITAL_DESCRIPTORS: Record<ConcreteOrbitalPane, OrbitalPaneDescriptor> = {
   profile: {
     label: 'Profile',
-    routeSegment: 'users',
+    routeSegment: 'profile',
     ringIndex: 1,
+    labelPosition: 'left',
     routeTitle: 'Profile Orbital',
     routeDescription:
-      'Keep account identity, wallet posture, team roles, and access state in one focused orbital.',
+      'Keep wallet identity, balances, team roles, multi-sig posture, and access state in one focused orbital.',
   },
   connects: {
     label: 'Connects',
     routeSegment: 'connects',
     ringIndex: 3,
+    labelPosition: 'top',
     routeTitle: 'Connects Orbital',
     routeDescription:
-      'Attach GitHub and the live repository interfaces Bitcode reuses across transactions, deliverables, and follow-through.',
+      'Attach GitHub and the live repository connections Bitcode reuses across transactions, deliverables, and closure follow-through.',
   },
   interfaces: {
     label: 'Interfaces',
     routeSegment: 'interfaces',
     ringIndex: 2,
+    labelPosition: 'right',
     routeTitle: 'Interfaces Orbital',
     routeDescription:
-      'Shape how the transactions window, conversations, proofs, and default model behavior read and operate.',
+      'Shape how the transactions window, conversations, proofs, and default application behavior read and operate.',
   },
   btd: {
     label: '$BTD',
     routeSegment: 'btd',
     ringIndex: 0,
+    labelPosition: 'bottom',
     routeTitle: '$BTD Orbital',
     routeDescription:
-      'Review balance, share posture, and advanced $BTD defaults in the innermost orbital.',
+      'Review balances, share posture, and advanced $BTD defaults in the innermost orbital.',
   },
 };
 
@@ -82,6 +88,10 @@ export function getOrbitalRouteSegment(step: ConcreteOrbitalPane) {
 
 export function getOrbitalRingIndex(step: ConcreteOrbitalPane) {
   return ORBITAL_DESCRIPTORS[step].ringIndex;
+}
+
+export function getOrbitalLabelPosition(step: ConcreteOrbitalPane) {
+  return ORBITAL_DESCRIPTORS[step].labelPosition;
 }
 
 export function getOrbitalDescriptor(step: ConcreteOrbitalPane) {
