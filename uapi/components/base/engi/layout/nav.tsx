@@ -12,6 +12,7 @@ import { UserMenu } from "@/components/base/engi/layout/user-menu";
 import NavBrand, { type NavSurface } from "@/components/base/engi/layout/NavBrand";
 import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
+import { getWorkspaceSurface } from "@/components/base/engi/layout/workspace-surface";
 
 const MemoCreditsTracker = React.memo(CreditsTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
@@ -94,16 +95,7 @@ export default function Nav() {
 
   const isScrolled = useScrollPosition();
   const shouldCollapse = shouldApplyCollapseAnimation(pathname);
-  const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
-  const isOrbitalRoute = Boolean(pathname?.startsWith('/orbitals'));
-  const isConversationRoute = Boolean(pathname?.startsWith('/conversations'));
-  const navSurface: NavSurface = isApplicationRoute
-    ? 'application'
-    : isOrbitalRoute
-      ? 'orbitals'
-      : isConversationRoute
-        ? 'conversations'
-        : null;
+  const navSurface: NavSurface = getWorkspaceSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
 
   // Determine if the nav should be fixed

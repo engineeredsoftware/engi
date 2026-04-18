@@ -1,12 +1,13 @@
 "use client";
 
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
 } from '@/components/base/engi/execution/bitcode-transaction-data-mode';
 import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
 
+import ApplicationOpenConversationsButton from './ApplicationOpenConversationsButton';
+import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
 import type { WorkspaceRun } from './application-run-data';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { APPLICATION_WORKSPACE_COPY } from './application-workspace-copy';
@@ -60,20 +61,8 @@ export default function ApplicationWorkspaceRail({
         explainer={APPLICATION_WORKSPACE_EXPLAINERS.railModes}
       >
         <div className="mt-5 grid gap-3">
-          <button
-            type="button"
-            onClick={onOpenConversations}
-            className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-left text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
-          >
-            Open conversations fullscreen
-          </button>
-          <button
-            type="button"
-            onClick={() => openOrbital('login', 'connects')}
-            className="rounded-2xl border border-white/12 bg-white/5 px-4 py-3 text-left text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
-          >
-            Open Orbitals fullscreen
-          </button>
+          <ApplicationOpenConversationsButton onOpen={onOpenConversations} />
+          <ApplicationOpenOrbitalsButton />
         </div>
       </ApplicationWorkspaceRailCard>
 

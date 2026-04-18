@@ -39,8 +39,8 @@ export function normalizeApplicationClosureControlState(
   const statusLower = status.toLowerCase();
   const flowGuideDetail =
     commandState && commandState.flowGuideStepCount > 0
-      ? `${commandState.flowGuideOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
-      : 'ready';
+      ? `${commandState.flowGuideOpen ? 'active flow' : 'paused flow'} · step ${Math.min(commandState.flowGuideStepIndex + 1, commandState.flowGuideStepCount)} of ${commandState.flowGuideStepCount}`
+      : 'flow ready';
 
   const hasClosureArtifacts = Boolean(closureState?.branch.chips.length);
   const bundleId = closureState ? rowValue(closureState.settlement, 'Bundle') : '—';

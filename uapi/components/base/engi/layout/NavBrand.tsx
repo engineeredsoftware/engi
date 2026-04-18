@@ -19,11 +19,11 @@ const SURFACE_COPY: Record<Exclude<NavSurface, null>, { eyebrow: string; title: 
   },
   orbitals: {
     eyebrow: "Bitcode",
-    title: "fullscreen orbitals",
+    title: "orbitals",
   },
   conversations: {
     eyebrow: "Bitcode",
-    title: "conversation workspace",
+    title: "conversations",
   },
 };
 

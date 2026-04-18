@@ -26,9 +26,9 @@ export const APPLICATION_WORKSPACE_COPY = {
   rail: {
     control: {
       kicker: 'Workspace modes',
-      title: 'Read here, open fullscreen when needed',
+      title: 'Read here, open deeper modes when needed',
       summary:
-        'Stay in the transaction workspace by default, then open conversations or orbitals when you need fullscreen writing or configuration.',
+        'Stay in the transaction workspace by default, then open conversations or Orbitals when you need deeper writing or configuration.',
     },
     support: {
       kicker: 'Transaction support',

@@ -117,9 +117,9 @@ export default function ApplicationSupplySelectionPanel() {
         </div>
 
         <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Draft continuity</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Flow continuity</p>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
-            Selected supply stays attached to the current give draft. Continue into give when you are ready to describe
+            Selected supply stays attached to the current give flow. Continue into Give when you are ready to describe
             issuer, provenance, and intent.
           </p>
           {selectedEntryLabels.length ? (
@@ -134,7 +134,7 @@ export default function ApplicationSupplySelectionPanel() {
             onClick={() => jumpToShellSection('applicationDepositComposer')}
             className="mt-4 rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Continue to deposit draft
+            Continue to Give flow
           </button>
         </div>
       </div>

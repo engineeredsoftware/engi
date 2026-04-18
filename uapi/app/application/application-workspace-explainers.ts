@@ -9,12 +9,12 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     kicker: 'Workspace read model',
     title: 'Workspace experience map',
     summary:
-      'The workspace is organized around one central ledger window, with fullscreen writing and configuration available only when deeper action is needed.',
+      'The workspace is organized around one central ledger window, with dedicated writing and configuration modes available only when deeper action is needed.',
     detail:
       'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and orbitals remain deliberate mode changes instead of parallel destinations.',
     points: [
       'Keeps the ledger and selected transaction central',
-      'Treats conversations and orbitals as fullscreen follow-through modes',
+      'Treats conversations and orbitals as deliberate follow-through modes',
       'Keeps Give and Need legible as the two primary actions',
     ],
   }),
@@ -186,13 +186,13 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
   }),
   railModes: buildExplainer({
     kicker: 'Workspace modes',
-    title: 'Read here, open fullscreen when needed',
+    title: 'Read here, open deeper modes when needed',
     summary:
       'The right rail should keep mode changes obvious without competing with the central transaction window.',
     detail:
       'Use the rail to open conversations or orbitals deliberately, while the ledger and selected transaction remain the primary read surface.',
     points: [
-      'Keeps fullscreen drafting deliberate',
+      'Keeps deeper drafting deliberate',
       'Avoids splitting attention away from the transaction window',
       'Preserves orientation when switching modes',
     ],
@@ -214,7 +214,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     kicker: 'Selected detail anchor',
     title: 'Reconfirm the active transaction',
     summary:
-      'The rail should make it easy to confirm which transaction is active before you continue reading or switch into a fullscreen mode.',
+      'The rail should make it easy to confirm which transaction is active before you continue reading or switch into a dedicated mode.',
     detail:
       'This card keeps the transaction id and short summary close at hand so you can safely resume work after changing filters, modes, or detail tabs.',
     points: [

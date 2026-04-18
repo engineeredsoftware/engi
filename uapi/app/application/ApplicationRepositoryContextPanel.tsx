@@ -5,9 +5,9 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import { VCSRepositorySelector } from '@/components/base/engi/vcs/VCSRepositorySelector';
 
+import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
@@ -292,13 +292,10 @@ export default function ApplicationRepositoryContextPanel({
                     No active {getProviderLabel(provider)} connection is available for repository supply in this application
                     context.
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => openOrbital('login', 'connects')}
+                  <ApplicationOpenOrbitalsButton
+                    label="Open Connects Orbital"
                     className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
-                  >
-                    Open Connects Orbital
-                  </button>
+                  />
                 </div>
               )}
             </article>

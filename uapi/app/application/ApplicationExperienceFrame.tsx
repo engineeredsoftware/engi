@@ -1,8 +1,8 @@
 'use client';
 
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
-
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import ApplicationOpenConversationsButton from './ApplicationOpenConversationsButton';
+import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { APPLICATION_ACTIONS, APPLICATION_EXPERIENCES } from './application-experience-architecture';
 import { jumpToShellSection } from './application-shell-reading';
@@ -53,21 +53,14 @@ export default function ApplicationExperienceFrame({ onOpenConversations }: Appl
                   Focus transactions
                 </button>
               ) : experience.id === 'conversations' ? (
-                <button
-                  type="button"
-                  onClick={onOpenConversations}
+                <ApplicationOpenConversationsButton
+                  onOpen={onOpenConversations}
                   className="rounded-[1.3rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
-                >
-                  Open conversations
-                </button>
+                />
               ) : (
-                <button
-                  type="button"
-                  onClick={() => openOrbital('login', 'connects')}
+                <ApplicationOpenOrbitalsButton
                   className="rounded-[1.3rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
-                >
-                  Open Orbitals fullscreen
-                </button>
+                />
               )}
             </div>
           </article>

@@ -17,7 +17,6 @@ import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-s
 
 const APPLICATION_URL = '/application';
 const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
-const CURRENT_SPEC_CANON = 'V25';
 const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
 
 const footerNavs = [
@@ -104,14 +103,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   const footerLinks = useMemo(() => [
     {
       name: 'Bitcode app',
-      label: (
-        <>
-          <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-            $BTD
-          </span>
-          <span>&apos;s Application</span>
-        </>
-      ),
+      label: <>Bitcode application</>,
       href: APPLICATION_URL,
       icon: (
         <span
@@ -139,15 +131,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      name: 'Demo video',
-      label: (
-        <>
-          <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-            $BTD
-          </span>
-          <span>&apos;s Bitcode Demo Video</span>
-        </>
-      ),
+      name: 'Overview video',
+      label: <>Bitcode overview</>,
       href: DEFAULT_DEMO_VIDEO_URL,
       icon: (
         <span
@@ -174,14 +159,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     },
     {
       name: 'Bluesky',
-      label: (
-        <>
-          <span className="super-shiny-text special-text font-semibold text-[rgba(103,254,183,0.95)]">
-            Bitcode
-          </span>
-          <span> Social Media</span>
-        </>
-      ),
+      label: <>Bitcode on Bluesky</>,
       href: 'https://bsky.app/profile/engicomms.bsky.social',
       icon: (
         <span
@@ -390,9 +368,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-300/90 transition-colors hover:text-white"
-                  title={`Bitcode specification ${CURRENT_SPEC_CANON}`}
+                  title="Bitcode protocol specification"
                 >
-                  {CURRENT_SPEC_CANON}
+                  Protocol spec
                 </a>
               </span>
             </div>

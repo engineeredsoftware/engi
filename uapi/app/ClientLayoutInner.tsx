@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
 import { buildMockReviewUser, isUserOrbitalMockMode } from '@/lib/mock-review-mode'
+import { shouldHideWorkspaceFooter } from '@/components/base/engi/layout/workspace-surface'
 
 // Lazy-load toast infrastructure to avoid increasing initial JS bundle – the
 // component itself is tiny but pulls in Radix primitives.
@@ -219,6 +220,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
   // Get onboarding status to determine if Conversations should show
   const { data: onboardingData } = useOnboarding();
   const isOnboardingComplete = onboardingData?.isOnboardingComplete ?? false;
+  const hideFooter = shouldHideWorkspaceFooter(pathname);
 
   return (
     <AuthProvider>
@@ -226,7 +228,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         <>
         {FEATURE_FLAGS.NAV_BAR && <Nav />}
         <PageContent>{children}</PageContent>
-        {pathname !== '/' && <Footer />}
+        {pathname !== '/' && !hideFooter && <Footer />}
         <React.Suspense fallback={null}>
           {/* Sidebars on desktop (md+): left runs/items and right Conversations chat */}
           <div className="hidden laptop:block">

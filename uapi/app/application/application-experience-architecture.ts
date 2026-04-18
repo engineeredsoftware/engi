@@ -12,17 +12,17 @@ export const APPLICATION_EXPERIENCES = [
   {
     id: 'conversations',
     label: 'Conversations',
-    badge: 'fullscreen',
+    badge: 'dedicated mode',
     description:
-      'The fullscreen natural-language workspace for writing, coordination, and tool-assisted follow-through without losing the current transaction context.',
+      'The dedicated natural-language workspace for writing, coordination, and tool-assisted follow-through without losing the current transaction context.',
     targetId: 'conversations',
   },
   {
     id: 'orbitals',
     label: 'Orbitals',
-    badge: 'fullscreen',
+    badge: 'dedicated mode',
     description:
-      'The fullscreen Bitcode orbital space for Profile, Connects, Interfaces, $BTD, and the rest of the configuration surface.',
+      'The dedicated Bitcode orbital space for Profile, Connects, Interfaces, $BTD, and the rest of the configuration surface.',
     targetId: 'orbitals',
   },
 ] as const;
