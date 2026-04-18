@@ -3,25 +3,47 @@ export const ORBITAL_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] a
 export type ConcreteOrbitalPane = (typeof ORBITAL_FLOW_STEPS)[number];
 export type OrbitalPane = ConcreteOrbitalPane | null;
 
-const ORBITAL_LABELS: Record<ConcreteOrbitalPane, string> = {
-  profile: 'Profile',
-  connects: 'Connects',
-  interfaces: 'Interfaces',
-  btd: '$BTD',
-};
+export interface OrbitalPaneDescriptor {
+  label: string;
+  routeSegment: string;
+  ringIndex: number;
+  routeTitle: string;
+  routeDescription: string;
+}
 
-const ORBITAL_ROUTE_SEGMENTS: Record<ConcreteOrbitalPane, string> = {
-  profile: 'users',
-  connects: 'connects',
-  interfaces: 'interfaces',
-  btd: 'btd',
-};
-
-const ORBITAL_RING_INDEX: Record<ConcreteOrbitalPane, number> = {
-  btd: 0,
-  profile: 1,
-  interfaces: 2,
-  connects: 3,
+export const ORBITAL_DESCRIPTORS: Record<ConcreteOrbitalPane, OrbitalPaneDescriptor> = {
+  profile: {
+    label: 'Profile',
+    routeSegment: 'users',
+    ringIndex: 1,
+    routeTitle: 'Profile Orbital',
+    routeDescription:
+      'Keep account identity, wallet posture, team roles, and access state in one focused orbital.',
+  },
+  connects: {
+    label: 'Connects',
+    routeSegment: 'connects',
+    ringIndex: 3,
+    routeTitle: 'Connects Orbital',
+    routeDescription:
+      'Attach GitHub and the live repository interfaces Bitcode reuses across transactions, deliverables, and follow-through.',
+  },
+  interfaces: {
+    label: 'Interfaces',
+    routeSegment: 'interfaces',
+    ringIndex: 2,
+    routeTitle: 'Interfaces Orbital',
+    routeDescription:
+      'Shape how the transactions window, conversations, proofs, and default model behavior read and operate.',
+  },
+  btd: {
+    label: '$BTD',
+    routeSegment: 'btd',
+    ringIndex: 0,
+    routeTitle: '$BTD Orbital',
+    routeDescription:
+      'Review balance, share posture, and advanced $BTD defaults in the innermost orbital.',
+  },
 };
 
 const ORBITAL_COMPATIBILITY_MAP: Record<string, ConcreteOrbitalPane> = {
@@ -51,13 +73,17 @@ export function normalizeOrbitalSteps(value: unknown): ConcreteOrbitalPane[] {
 
 export function labelForOrbitalPane(step: OrbitalPane) {
   if (!step) return '';
-  return ORBITAL_LABELS[step];
+  return ORBITAL_DESCRIPTORS[step].label;
 }
 
 export function getOrbitalRouteSegment(step: ConcreteOrbitalPane) {
-  return ORBITAL_ROUTE_SEGMENTS[step];
+  return ORBITAL_DESCRIPTORS[step].routeSegment;
 }
 
 export function getOrbitalRingIndex(step: ConcreteOrbitalPane) {
-  return ORBITAL_RING_INDEX[step];
+  return ORBITAL_DESCRIPTORS[step].ringIndex;
+}
+
+export function getOrbitalDescriptor(step: ConcreteOrbitalPane) {
+  return ORBITAL_DESCRIPTORS[step];
 }

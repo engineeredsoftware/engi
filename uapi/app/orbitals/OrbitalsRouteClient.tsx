@@ -3,20 +3,18 @@
 import Link from 'next/link';
 
 import Orbital from '@/app/orbitals/components';
-import type { ConcreteOrbitalPane } from '@/app/orbitals/components/orbital-pane-meta';
-
-const stepLabels: Record<ConcreteOrbitalPane, string> = {
-  profile: 'Profile Orbital',
-  connects: 'Connects Orbital',
-  interfaces: 'Interfaces Orbital',
-  btd: '$BTD Orbital',
-};
+import {
+  getOrbitalDescriptor,
+  type ConcreteOrbitalPane,
+} from '@/app/orbitals/components/orbital-pane-meta';
 
 interface OrbitalsRouteClientProps {
   step: ConcreteOrbitalPane;
 }
 
 export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) {
+  const descriptor = getOrbitalDescriptor(step);
+
   return (
     <div className="min-h-[calc(100vh-9rem)] bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),transparent_26%),radial-gradient(circle_at_86%_18%,rgba(56,189,248,0.1),transparent_18%),linear-gradient(180deg,#050d15_0%,#02060d_44%,#010309_100%)] text-white">
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-10 phone:px-5 tablet:px-6 laptop:px-8">
@@ -24,14 +22,15 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                Orbitals route
+                Fullscreen orbital
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                Open {stepLabels[step]} directly when you need focused orbital work.
+                Open {descriptor.routeTitle} directly when the workspace needs full attention.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                Use this direct orbital route when you want a dedicated fullscreen surface for
-                profile, connects, interfaces, or $BTD work outside the transactions terminal.
+                {descriptor.routeDescription} Use this direct route when you want a dedicated
+                fullscreen orbital outside the transactions window without losing the surrounding
+                application posture.
               </p>
             </div>
 
@@ -39,7 +38,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
               href="/application"
               className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
             >
-              Back to transactions
+              Back to application
             </Link>
           </div>
         </section>

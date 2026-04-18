@@ -22,7 +22,7 @@ export default function OrbitalsLoginPane({
               Workspace access
             </p>
             <h2 className="mt-3 text-[1.65rem] font-semibold tracking-[-0.04em] text-white">
-              Open your Bitcode workspace
+              Return to Bitcode
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
               Sign in to return to transactions, conversations, and orbitals without losing the
@@ -45,8 +45,8 @@ export default function OrbitalsLoginPane({
                 Active providers
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
-                GitHub and Google stay available here. Wallet connection is still unavailable for
-                direct account access.
+                GitHub and Google stay available here. Wallet binding continues inside Profile and
+                $BTD after access opens.
               </p>
             </div>
 
@@ -57,7 +57,7 @@ export default function OrbitalsLoginPane({
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>
                 <li>Conversations reopen as a fullscreen writing surface when needed.</li>
-                <li>Orbitals stay available for Connects, Interfaces, Profile, and $BTD work.</li>
+                <li>Profile, Connects, Interfaces, and $BTD stay available as fullscreen orbitals.</li>
               </ul>
             </div>
           </div>

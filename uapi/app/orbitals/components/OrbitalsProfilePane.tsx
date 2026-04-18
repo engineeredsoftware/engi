@@ -579,7 +579,7 @@ export default function ProfileStep({ onSave,
                   </div>
                   <p className="mt-3 text-sm leading-7 text-white/66">
                     GitHub and Google are the active Bitcode sign-in providers here today. Wallet
-                    connection is not yet available as direct account access from this surface.
+                    binding opens after access is established inside Profile and $BTD.
                   </p>
                   </>
                 )}
@@ -896,11 +896,11 @@ export default function ProfileStep({ onSave,
               <div className="rounded-[24px] border border-white/10 bg-white/[0.045] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
                 <div className="mb-5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                    Connected accounts
+                    Access providers
                   </div>
                   <p className="mt-3 max-w-[44rem] text-sm leading-7 text-white/72">
                     Manage sign-in methods linked to this Bitcode account. Repository and workflow
-                    integrations remain in the Connections orbital.
+                    integrations remain in the Connects orbital.
                   </p>
                 </div>
                 <div className="grid gap-3 tablet:grid-cols-2">
@@ -924,7 +924,7 @@ export default function ProfileStep({ onSave,
           {isOnboardingComplete && (
             <div className="mt-6 flex justify-end">
               <button type="submit" className="primary-button save-button enhanced-contrast">
-                Save account profile
+                Save Profile orbital
               </button>
             </div>
           )}

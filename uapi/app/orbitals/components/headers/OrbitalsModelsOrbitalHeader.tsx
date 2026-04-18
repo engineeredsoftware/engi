@@ -11,13 +11,13 @@ export default function OrbitalsModelsOrbitalHeader({
       title="Interfaces Orbital"
       completedTitle="Interfaces Orbital"
       description={!isOnboardingComplete
-        ? 'Choose interface defaults now or keep the standard Bitcode workspace profile.'
-        : 'Configure transaction, conversation, prompt, and execution defaults in this orbital.'}
+        ? 'Choose interface defaults now or keep the standard Bitcode workspace behavior.'
+        : 'Configure transaction, conversation, prompt, and default workspace behavior in this orbital.'}
       stepNumber={3}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
       infoTitle="Shape interface defaults"
-      infoDescription="Use the default Bitcode interface profile or tailor transactions, conversations, and prompts to your team."
+      infoDescription="Set how transactions, conversations, prompts, and the workspace behave by default for your team."
       infoNote="You can revise this orbital any time."
     />
   );

@@ -129,18 +129,19 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
     <AfterOnboardingOverlay disabled={overlayed} className={className}>
       <div className="relative w-full">
         <h3 className="text-lg font-heading mb-2 text-white flex items-center gap-2">
-          Data Sharing
+          Repository knowledge sharing
           {loading && <span className="text-sm text-slate-400">loading…</span>}
         </h3>
       <p className="text-sm text-slate-400 mb-4">
-        Select repositories to opt into knowledge procurement. You can earn extra
-        <span className="text-teal-300 font-semibold mx-1">$BTD</span> by sharing
-        code snapshots.
+        Choose which repositories can contribute snapshots into the shared Bitcode knowledge base.
+        This is where repository-level sharing consent stays explicit alongside your
+        <span className="text-teal-300 font-semibold mx-1">$BTD</span>
+        posture.
       </p>
 
       {/* Enable All toggle */}
       <div className="flex items-center mb-6">
-        <span className="mr-3 font-medium text-slate-200">Enable All Repositories</span>
+        <span className="mr-3 font-medium text-slate-200">Share all repositories</span>
         <label className="relative inline-flex items-center cursor-pointer select-none">
           <input
             type="checkbox"

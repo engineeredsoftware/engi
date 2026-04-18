@@ -960,7 +960,7 @@ globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ = bitcodeApplicationShellContr
  * @returns {string}
  */
 function inheritedCanonSurfaceLabel(state) {
-  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'current inherited canon';
+  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'shared Bitcode shell surfaces';
 }
 
 /**
@@ -970,7 +970,7 @@ function inheritedCanonSurfaceLabel(state) {
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
   document.title = posture['documentTitle'] || `Bitcode Application — ${canonOperatorLabel(state)}`;
-  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode operator workspace';
+  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode transactions workspace';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
 }
@@ -1031,7 +1031,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Repo supply',
     summary: 'The authenticated inventory Bitcode can legally draw from for the current repository.',
-    detail: 'Supply means "available to select", not "already proven useful". It becomes a deposit only after the operator binds selected artifacts to the active need.',
+    detail: 'Supply means "available to select", not "already proven useful". It becomes a deposit only after you bind selected artifacts to the active need.',
     points: [
       'Built from GitHub App sessions plus repo artifact inventory',
       'Can span multiple artifact kinds and origins inside one repo boundary'
@@ -1040,7 +1040,7 @@ const EXPLAINERS = {
   depositing: {
     kicker: 'Glossary',
     title: 'Depositing',
-    summary: 'Depositing is the operator act of presenting source material to Bitcode as candidate supply for a need.',
+    summary: 'Depositing is the act of presenting source material to Bitcode as candidate supply for a need.',
     detail: 'A deposit says "these are the artifacts I want Bitcode to consider". It does not by itself guarantee fit, proof, or settlement credit.',
     points: [
       'Starts from selected repo artifacts or raw fallback content',
@@ -1061,7 +1061,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Deposit-to-need fit',
     summary: 'The explicit relation between the active deposit and the active need before deeper proof or settlement.',
-    detail: 'This answers the first operator question: why should these selected artifacts matter for this measured demand at all?',
+    detail: 'This answers the first question in the workspace: why should these selected artifacts matter for this measured demand at all?',
     points: [
       'Surfaces overlap in artifact kinds and evidence coverage',
       'Drives the branch, proof, and settlement intent that follows'
@@ -6304,8 +6304,8 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Repo supply',
     subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-    eyebrow: 'Canonical shell surface',
-    help: 'The canonical shell starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+    eyebrow: 'Workspace surface',
+    help: 'The workspace starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
     explainerKey: 'repo-supply',
     data: state.repoSupplySurface,
     visual: renderRepoSupplyVisual,
@@ -6316,7 +6316,7 @@ function renderOperatingPicture(state) {
       title: 'Depositing surface',
       subtitle: 'The active repo-authenticated deposit, before branch/proof/settlement detail',
       eyebrow: state.latestRun?.depositingSurface ? 'Run surface' : 'Shell preview',
-      help: 'This is the opening operator action in the canonical system: what was deposited, from where, and with which bound roots.',
+      help: 'This is the opening action in the workspace: what was deposited, from where, and with which bound roots.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -6340,7 +6340,7 @@ function renderOperatingPicture(state) {
       title: 'Depositing-to-needing surface',
       subtitle: 'Why this deposit fits this need before deeper closure inspection',
       eyebrow: state.latestRun?.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
-      help: 'The canonical system makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      help: 'The workspace makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
@@ -6396,7 +6396,7 @@ function renderOperatingPicture(state) {
       title: 'External realization',
       subtitle: 'Which external interfaces are actually configured, observed, or blocked in this run',
       eyebrow: 'V24 actuality surface',
-      help: 'This is the quickest operator read of whether Bitcoin, sidechain, compute, storage, and GitHub are still modeled, configured, observed, or blocked.',
+      help: 'This is the quickest read of whether Bitcoin, sidechain, compute, storage, and GitHub are modeled, configured, observed, or blocked.',
       explainerKey: 'external-realization',
       data: state.latestRun.externalRealizationSummary,
       raw: JSON.stringify(state.latestRun.externalRealizationSummary, null, 2),
@@ -6496,7 +6496,7 @@ function renderScenario(state) {
       subtitle: 'Measured demand before deeper proof and settlement inspection',
       eyebrow: state.latestRun?.needingSurface ? 'Run surface' : 'Scenario preview',
       eyebrowExplainerKey: state.latestRun?.needingSurface ? 'needing' : 'scenario-preview',
-      help: 'This is the compact canonical read of what is needed, why it matters, and what closure should look like.',
+      help: 'This is the compact read of what is needed, why it matters, and what closure should look like.',
       explainerKey: 'needing',
       data: needingSurface,
       visual: renderNeedingSurfaceVisual,
@@ -6515,7 +6515,7 @@ function renderScenario(state) {
     })}
     ${renderJsonSurface({
       title: 'Scenario corpus',
-      subtitle: 'Seeded GitHub-shaped scenario families available in this demo',
+      subtitle: 'Seeded GitHub-shaped scenario families available in this corpus',
       eyebrow: 'Corpus surface',
       help: 'The corpus now covers auth rollback, proof-heavy Rust, config policy, unsafe review, deployment drift, privacy-boundary proof export, a polyglot gateway rollback, and a normalization-heavy auth scenario for source-to-shares replay.',
       data: scenarios,
@@ -6523,7 +6523,7 @@ function renderScenario(state) {
       accent: 'accent-green'
     })}
     ${renderJsonSurface({
-      title: 'Operational profiles + demo semantics',
+      title: 'Operational profiles + deposit semantics',
       subtitle: 'Targeted deposit versus normalization deposit',
       eyebrow: 'Profile surface',
       help: 'The profile distinction is about how Bitcode deposits against need. Boundary reality remains explicit in the supporting boundary surfaces.',
@@ -6573,9 +6573,9 @@ function renderAssets(state) {
   assetsEl.innerHTML = `
     ${depositingSurface ? renderJsonSurface({
       title: 'Depositing surface',
-      subtitle: 'What the operator has deposited or is previewing right now',
+      subtitle: 'What is deposited or previewed right now',
       eyebrow: state.latestRun?.depositingSurface ? 'Run surface' : 'Shell preview',
-      help: 'The canonical system treats depositing as the beginning of the operator story, not as a side form.',
+      help: 'Depositing is treated as the beginning of the working chain, not as a side form.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -7094,7 +7094,7 @@ function renderBranchArtifacts(state) {
       title: artifact.title,
       subtitle: artifact.subtitle,
       eyebrow: 'Branch artifact',
-      help: 'Visual mode is tuned for demo readability; Raw preserves the exact artifact JSON.',
+      help: 'Visual mode is tuned for quick reading; Raw preserves the exact artifact JSON.',
       explainerKey: artifact.explainerKey,
       data: artifact.data,
       raw: artifact.raw,
@@ -7171,7 +7171,7 @@ function renderSettlement(state) {
       title: 'Accounting precision report',
       subtitle: '.engi/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
-      help: 'The canonical system keeps exact accounting replayable while making settlement read as the final operational stage rather than a side artifact.',
+      help: 'Exact accounting stays replayable here while settlement still reads as the final operating stage rather than a side artifact.',
       explainerKey: 'exact-accounting',
       data: run.accountingPrecisionReport,
       raw: branchFiles['.engi/accounting-precision-report.json'],
@@ -7456,7 +7456,7 @@ resetButtonEl.addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus(`Demo reset to the seeded ${canonOperatorLabel(lastLoadedState)} scenario state.`);
+    setStatus(`Workspace reset to the seeded ${canonOperatorLabel(lastLoadedState)} scenario state.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
@@ -7571,7 +7571,7 @@ window.addEventListener('resize', () => {
 
 refresh().then(() => {
   syncExplainerAlignment();
-  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. Shared shell surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
+  setStatus(`Ready. Start from repo supply, choose a scenario profile, deposit authenticated repo artifacts or use raw fallback, then run “Make Bitcode branch” to execute the deposit-to-need closure path. Shared surfaces: ${inheritedCanonSurfaceLabel(lastLoadedState)}. Artifact surfaces default to Visual mode and can flip to Raw JSON at any time.`);
 }).catch((error) => {
   const applicationRootEl = document.getElementById('bitcodeApplicationRoot');
   (applicationRootEl || document.body).innerHTML = `<pre>${escapeHtml(error.message)}</pre>`;

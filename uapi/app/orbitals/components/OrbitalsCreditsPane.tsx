@@ -515,7 +515,7 @@ export default function BTDPane({
           </div>
           <div className="credits-info">
             <div className="credits-label-container">
-              <span className="credits-label">Current BTD / throughput balance</span>
+              <span className="credits-label">Current $BTD / throughput balance</span>
             </div>
             <span className="credits-amount">{currentCredits.toLocaleString()} BTD</span>
           </div>
@@ -523,9 +523,8 @@ export default function BTDPane({
 
         {isBTDSurface && (
           <div className="mb-6 rounded-[22px] border border-white/10 bg-white/[0.045] px-5 py-4 text-sm leading-7 text-white/74 shadow-[0_18px_45px_rgba(0,0,0,0.2)]">
-            Use this orbital to top up capacity, review wallet-facing throughput, and inspect how
-            Bitcode spends balance across repository analysis, execution, delivery, and $BTD
-            posture.
+            Use this orbital to review balance, wallet-facing throughput, share posture, and the
+            advanced defaults that shape how $BTD moves through Bitcode.
           </div>
         )}
 
@@ -790,12 +789,12 @@ export default function BTDPane({
 
         <div className="credits-usage-info">
           <h3 className="credits-usage-title">
-            {isBTDSurface ? 'How Bitcode spends balance' : 'Advanced Bitcode Agents: Autonomous Deliverables'}
+            {isBTDSurface ? 'How $BTD moves through Bitcode' : 'Advanced Bitcode Agents: Autonomous Deliverables'}
           </h3>
           <div className="value-proposition">
             <p className="value-proposition p">
               {isBTDSurface
-                ? 'Balances fund repository analysis, execution, validation, and delivery work across Bitcode. Review throughput, provider premiums, and historical consumption here before launching additional work.'
+                ? 'Balances fund repository analysis, execution, validation, and delivery across Bitcode. Review throughput, provider premiums, and historical consumption here before launching additional work.'
                 : "Bitcode's vertically integrated engineering platform transforms software development through specialized systems working in concert. Our advanced pipeline delivers production-ready solutions through a comprehensive process:"}
             </p>
             <div className="value-proposition-grid">
@@ -846,7 +845,7 @@ export default function BTDPane({
         <div className="model-provider-premium">
           <h3 className="model-selection-title">Model Provider Premium</h3>
           <p className="model-selection-description">
-            Different model providers have different pricing structures. Your BTD usage will be adjusted based on the model premium.
+            Different model providers move balance at different rates. Your $BTD usage adjusts according to the selected provider premium.
           </p>
 
           <div className="model-providers-grid">
@@ -870,7 +869,7 @@ export default function BTDPane({
         {/* Usage Chart - disabled during onboarding */}
         <AfterOnboardingOverlay disabled={!isOnboardingComplete}>
           <div className="credits-usage-chart-container">
-            <h3 className="credits-usage-title">BTD Balance History</h3>
+            <h3 className="credits-usage-title">$BTD Balance History</h3>
             <div className="usage-interval-switcher">
               {(['daily', 'weekly', 'monthly'] as const).map(interval => (
                 <button
@@ -919,7 +918,7 @@ export default function BTDPane({
         {/* Transaction History - disabled during onboarding */}
         <AfterOnboardingOverlay disabled={!isOnboardingComplete}>
           <div className="credits-transactions-container mt-6">
-            <h3 className="credits-usage-title">Transaction History</h3>
+            <h3 className="credits-usage-title">$BTD Transaction History</h3>
             {txLoading ? (
               <ProcessingIndicator />
             ) : txError ? (

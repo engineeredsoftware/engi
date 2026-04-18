@@ -201,12 +201,12 @@ export default function InterfacesPane({
         {isInterfacesSurface && (
           <div className="mb-6 rounded-[22px] border border-emerald-300/18 bg-emerald-400/10 px-5 py-4 text-white/82 shadow-[0_20px_50px_rgba(0,0,0,0.18)]">
             <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-100/76">
-              Interfaces defaults
+              Interfaces posture
             </div>
             <p className="mt-3 text-sm leading-7 text-white/78">
-              Routing, prompts, and execution defaults here shape how transactions, conversations,
-              and follow-through behave the next time you work in Bitcode. Update these defaults
-              when you need a different provider mix or instruction baseline.
+              Routing, prompts, and workspace defaults here shape how the transactions window,
+              conversations, proofs, and follow-through behave the next time you work in Bitcode.
+              Update these defaults when you need a different provider mix or instruction baseline.
             </p>
           </div>
         )}
@@ -240,7 +240,7 @@ export default function InterfacesPane({
           />
 
           <button type="submit" className="primary-button save-button">
-            {isInterfacesSurface ? 'Save interfaces orbital' : 'Continue'}
+            {isInterfacesSurface ? 'Save Interfaces orbital' : 'Continue'}
           </button>
         </form>
       </motion.div>

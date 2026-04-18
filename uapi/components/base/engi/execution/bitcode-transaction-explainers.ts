@@ -27,7 +27,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
     kicker: 'Perspective filter',
     title: 'Ownership filter',
     summary: 'Switch between your own transactions and broader network-visible activity without changing the detail workspace.',
-    detail: 'This keeps one shared read surface while still letting operators separate personal work from wider participation.',
+    detail: 'This keeps one shared read surface while still letting you separate personal work from wider participation.',
     points: ['Supports mine vs network posture', 'Preserves the same detail route and tools'],
   }),
   transactionLens: buildExplainer({
@@ -41,13 +41,13 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
     kicker: 'Boundary filter',
     title: 'Repository filter',
     summary: 'Limit the table to one repository boundary when multiple Bitcode contexts are visible.',
-    detail: 'Repository filtering is useful when one operator is reading several repos but needs one coherent chain at a time.',
+    detail: 'Repository filtering is useful when several repos are visible but one coherent chain matters at a time.',
     points: ['Keeps branch and repo context explicit', 'Reduces cross-repo noise in live or review windows'],
   }),
   participant: buildExplainer({
     kicker: 'Principal filter',
     title: 'Participant filter',
-    summary: 'Filter by the surfaced producer, consumer, partner, researcher, or operator label attached to each row.',
+    summary: 'Filter by the surfaced producer, consumer, partner, researcher, or participant label attached to each row.',
     detail: 'Participant is the easiest way to read the master table as a shared operating ledger instead of a private queue.',
     points: ['Supports principal-scoped review', 'Works alongside ownership and repository filters'],
   }),
@@ -62,7 +62,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
     kicker: 'Ordering control',
     title: 'Sort order',
     summary: 'Re-order the transactions window by recency or economic weight without changing what transaction is selected.',
-    detail: 'Sorting changes the view, not the route. Operators can compare the ledger from multiple angles without losing detail context.',
+    detail: 'Sorting changes the view, not the route. You can compare the ledger from multiple angles without losing detail context.',
     points: ['Supports newest, oldest, token-heavy, and spend-heavy reads'],
   }),
   pageSize: buildExplainer({
@@ -79,7 +79,7 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
     kicker: 'Master column',
     title: 'Transaction column',
     summary: 'Shows the transaction id, transaction type, and one-line summary that anchors the selected detail view.',
-    detail: 'Selecting a row here loads the central detail workspace without pushing the operator out to another surface.',
+    detail: 'Selecting a row here loads the central detail workspace without pushing you out to another surface.',
     points: ['Primary row selector', 'Carries the human-readable summary'],
   }),
   lens: buildExplainer({
@@ -130,7 +130,7 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
   modes: buildExplainer({
     kicker: 'Detail reader',
     title: 'Visual and raw modes',
-    summary: 'Switch between a curated operator read and the exact JSON payload that powers the detail card.',
+    summary: 'Switch between a curated visual read and the exact JSON payload that powers the detail card.',
     detail: 'Visual mode is for rapid interpretation. Raw JSON is for proving, typing, and exact inspection.',
     points: ['Visual mode favors fast consequence reading', 'Raw mode preserves the exact application payload'],
   }),
@@ -145,14 +145,14 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     kicker: 'Field tree',
     title: 'Payload field tree',
     summary: 'Expands the payload into a bounded nested field tree with type badges and readable paths.',
-    detail: 'The tree is designed for structural inspection when raw JSON is too dense but the operator still needs exact field visibility.',
+    detail: 'The tree is designed for structural inspection when raw JSON is too dense but you still need exact field visibility.',
     points: ['Shows nested shape without dropping into raw JSON', 'Keeps type and hierarchy visible together'],
   }),
   rawPayload: buildExplainer({
     kicker: 'Exact payload',
     title: 'Raw payload view',
     summary: 'Shows the exact JSON payload used by the selected detail surface and makes it copyable for proving or debugging.',
-    detail: 'Use this when the operator needs exact field values, witness material, schema alignment, or external debugging support.',
+    detail: 'Use this when you need exact field values, witness material, schema alignment, or external debugging support.',
     points: ['Copyable exact payload', 'Preserves the truth feeding the UI'],
   }),
 } as const;
