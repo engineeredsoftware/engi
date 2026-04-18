@@ -310,7 +310,7 @@ export default function ApplicationTransactionWorkspace({
                 href={`/executions?runId=${encodeURIComponent(selectedRun.id)}`}
                 className="rounded-full border border-white/12 bg-white/5 px-3 py-2 text-[0.7rem] uppercase tracking-[0.2em] text-neutral-200 transition hover:border-white/20 hover:bg-white/10"
               >
-                Compatibility route
+                Open execution route
               </Link>
             </div>
           ) : null}

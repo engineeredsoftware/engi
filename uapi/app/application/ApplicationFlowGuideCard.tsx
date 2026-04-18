@@ -23,10 +23,10 @@ export default function ApplicationFlowGuideCard({
   return (
     <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-center gap-2">
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Resumable flow guide</p>
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Resumable draft guide</p>
         <span
           className={`rounded-full border px-2 py-1 text-[0.58rem] uppercase tracking-[0.18em] ${toneClasses(
-            guide.readinessLabel === 'active'
+            guide.readinessLabel === 'drafting'
               ? 'current'
               : guide.readinessLabel === 'ready'
                 ? 'done'

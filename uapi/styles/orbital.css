@@ -83,8 +83,53 @@
   animation: none;
 }
 
+.orbital-system-application .orbital-auth-container {
+  overflow: hidden;
+}
+
+.orbital-auth-shell {
+  min-height: 100%;
+}
+
+.orbital-auth-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.orbital-auth-aside,
+.orbital-auth-form {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .orbital-auth-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+}
+
 .orbital-system-application .orbital-rings-container,
 .orbital-system-application .orbital-step-indicator {
+  display: none !important;
+}
+
+.orbital-system-application .step-completion-success,
+.orbital-system-application .success-ring-outer,
+.orbital-system-application .success-ring-middle,
+.orbital-system-application .success-ring-inner,
+.orbital-system-application .success-glow,
+.orbital-system-application .success-icon,
+.orbital-system-application .login-decor,
+.orbital-system-application .orbitals-connects-success-rings,
+.orbital-system-application .orbitals-connects-success-waves,
+.orbital-system-application .orbitals-connects-ring,
+.orbital-system-application .orbitals-connects-wave,
+.orbital-system-application .orbitals-connects-orbital-ring,
+.orbital-system-application .orbitals-connects-quantum-dot,
+.orbital-system-application .orbitals-connects-loading-glow,
+.orbital-system-application .orbitals-connects-button-glow,
+.orbital-system-application .orbitals-connects-button-shimmer,
+.orbital-system-application .orbitals-connects-icon-glow {
   display: none !important;
 }
 
@@ -128,11 +173,56 @@
   animation: none;
 }
 
+.orbital-system-application .orbitals-connects-phone-connected-container,
+.orbital-system-application .orbitals-connects-phone-connect-loading,
+.orbital-system-application .orbitals-connects-phone-connected-container *,
+.orbital-system-application .orbitals-connects-phone-connect-loading * {
+  animation: none !important;
+  transform: none !important;
+}
+
 .orbital-system-application .orbital-close-button,
 .orbital-system-application .orbital-toggle-button,
 .orbital-system-application .signout-button {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
+
+.orbital-system-application .orbital-auth-shell {
+  display: block;
+}
+
+.orbital-system-application .orbital-auth-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.orbital-system-application .orbital-auth-form {
+  border-radius: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.05), transparent 30%),
+    rgba(4, 8, 18, 0.82);
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.orbital-system-application .orbital-auth-form .form-input {
+  background: rgba(6, 12, 24, 0.9);
+}
+
+.orbital-system-application .orbital-auth-form .login-planet,
+.orbital-system-application .orbital-auth-form .login-decor,
+.orbital-system-application .orbital-auth-form .orbiting-particles {
+  display: none !important;
+}
+
+.orbital-system-application .orbital-auth-form .success-ring-outer,
+.orbital-system-application .orbital-auth-form .success-ring-middle,
+.orbital-system-application .orbital-auth-form .success-ring-inner,
+.orbital-system-application .orbital-auth-form .success-glow {
+  display: none !important;
+}
+
 
 /* Header buttons container */
 .orbital-header-buttons {

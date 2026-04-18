@@ -142,7 +142,7 @@ export default function ApplicationClosureControlDeck() {
           <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
             <p className="text-neutral-500">Runtime status</p>
             <p className="mt-2 text-neutral-100">{state.status}</p>
-            <p className="mt-3 text-neutral-500">Guide continuity</p>
+            <p className="mt-3 text-neutral-500">Draft continuity</p>
             <p className="mt-1 text-neutral-100">{state.tutorialDetail}</p>
           </div>
         </article>
@@ -155,28 +155,28 @@ export default function ApplicationClosureControlDeck() {
               onClick={() => jumpToShellSection('panelEvaluations')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open lower runtime verification
+              Open live verification detail
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelBranchArtifacts')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open lower runtime branch
+              Open live branch detail
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelSettlement')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open lower runtime settlement
+              Open live settlement detail
             </button>
             <button
               type="button"
               onClick={() => jumpToShellSection('panelLedger')}
               className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4 text-left text-sm font-medium text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
             >
-              Open lower runtime ledger
+              Open live ledger detail
             </button>
           </div>
         </article>

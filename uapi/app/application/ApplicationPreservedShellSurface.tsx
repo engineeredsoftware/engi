@@ -10,9 +10,9 @@ export default function ApplicationPreservedShellSurface() {
   return (
     <ApplicationOperatorCard
       id="applicationLowerRuntime"
-      kicker="Lower runtime"
-      title="Open live runtime detail only when you need exact replay or proof follow-through"
-      summary="Stay in the application terminal for normal reading and drafting. Open the live runtime only when you need exact follow-through, replay detail, or mount-level verification."
+      kicker="Exact detail view"
+      title="Open the live proof and settlement view only when you need exact follow-through"
+      summary="Stay in the application workspace for normal reading and drafting. Open this exact view only when you need replay detail, mount-level verification, or proof follow-through."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.sourcePath}
       className="min-w-0"
       childrenClassName="space-y-5"
@@ -29,22 +29,22 @@ export default function ApplicationPreservedShellSurface() {
       </div>
 
       <ApplicationRuntimeDrawer
-        title="Open live runtime detail"
-        summary="This keeps the live runtime available for inspection and closure follow-through while the main application stays centered on the cleaner master-detail workspace."
+        title="Open live proof and settlement detail"
+        summary="This keeps the exact proof and settlement view available for inspection and closure follow-through while the main application stays centered on the cleaner master-detail workspace."
       >
         <div className="min-w-0 p-2 tablet:p-4">
         <div id="bitcodeApplicationRoot" className="bitcode-first-gate-root">
           <div className="page">
             <header className="hero" id="hero">
               <p className="eyebrow" id="heroEyebrow">
-                Bitcode lower runtime detail
+                Bitcode exact proof view
               </p>
               <h1>Inspect the live Bitcode runtime from give through settlement.</h1>
               <p className="lede" id="heroLede">
-                Use this lower runtime when you need deterministic follow-through beyond the main application workspace.
+                Use this view when you need deterministic follow-through beyond the main application workspace.
               </p>
               <p className="meta hero-tip" id="heroTip">
-                The application terminal stays primary. This runtime view is for exact inspection, replay, and closure follow-through.
+                The application workspace stays primary. This view is for exact inspection, replay, and closure follow-through.
               </p>
               <div className="hero-actions">
                 <label>
@@ -288,9 +288,9 @@ export default function ApplicationPreservedShellSurface() {
                 </button>
               </div>
               <p id="tutorialKicker" className="tutorial-kicker">
-                Stepwise flow guide
+                Resumable draft guide
               </p>
-              <h2 id="tutorialTitle">Start with the current workspace posture</h2>
+              <h2 id="tutorialTitle">Start with the active give and need context</h2>
               <p id="tutorialBody" className="tutorial-body" />
               <p id="tutorialTargetHint" className="tutorial-target-hint" />
               <div className="tutorial-actions">
@@ -298,7 +298,7 @@ export default function ApplicationPreservedShellSurface() {
                   Back
                 </button>
                 <button id="tutorialNextButton" className="tutorial-button" type="button">
-                  Next step
+                  Continue
                 </button>
               </div>
             </section>

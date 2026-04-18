@@ -485,7 +485,16 @@ export default function Orbital({
 
       <ContentVisibility containSize="600px 400px">
         {showLoginPane ? (
-          <LoginPane key="login" onClose={onClose} onToggle={showSignup} />
+          <motion.div
+            key="login"
+            className="orbital-content-container orbital-auth-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <LoginPane onClose={onClose} onToggle={showSignup} />
+          </motion.div>
         ) : (
           <OrbitalContent
             key="account"

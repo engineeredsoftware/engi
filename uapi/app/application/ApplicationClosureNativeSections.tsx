@@ -84,7 +84,7 @@ function renderClosurePanelCard(panel: ApplicationClosurePanel) {
             onClick={() => jumpToShellSection(shellPanelId)}
             className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15"
           >
-            Open lower runtime section
+            Open live detail
           </button>
         </div>
       </div>
@@ -150,7 +150,7 @@ export default function ApplicationClosureNativeSections() {
       id="applicationClosureSequence"
       kicker="Closure map"
       title="Verification, branch, settlement, and ledger"
-      summary="Read closure as one sequence from verification through ledger continuity, then open the lower runtime detail only when needed."
+      summary="Read closure as one sequence from verification through ledger continuity, then open the exact proof view only when needed."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.closureMap}
       headerAside={
         <BitcodeMetricGrid

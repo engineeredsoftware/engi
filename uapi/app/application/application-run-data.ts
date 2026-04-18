@@ -113,7 +113,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
         url: 'https://github.com/bitcode/bitcode/issues/411#issuecomment-1',
         number: 411,
         title: 'Operator note',
-        description: 'Branch artifacts can now be reviewed directly before dropping into deeper compatibility context.',
+        description: 'Branch artifacts can now be reviewed directly before opening deeper execution detail.',
       },
     ],
     fileChanges: {

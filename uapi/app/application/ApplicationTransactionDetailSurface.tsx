@@ -322,10 +322,10 @@ export default function ApplicationTransactionDetailSurface({
           className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]"
         >
           <div className="border-b border-white/8 px-5 py-4">
-            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Compatibility console</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">Execution console</p>
             <h3 className="mt-2 text-lg font-semibold text-white">Detailed execution console</h3>
             <p className="mt-2 text-sm leading-6 text-neutral-300">
-              Use this lower execution view when you need compatibility-level detail beyond the main transaction cards.
+              Use this execution view when you need exact runtime detail beyond the main transaction cards.
             </p>
           </div>
           <div className="p-5">

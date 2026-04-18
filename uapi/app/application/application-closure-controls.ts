@@ -39,8 +39,8 @@ export function normalizeApplicationClosureControlState(
   const statusLower = status.toLowerCase();
   const tutorialDetail =
     commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'active' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
-      : 'available';
+      ? `${commandState.tutorialOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+      : 'ready';
 
   const hasClosureArtifacts = Boolean(closureState?.branch.chips.length);
   const bundleId = closureState ? rowValue(closureState.settlement, 'Bundle') : '—';

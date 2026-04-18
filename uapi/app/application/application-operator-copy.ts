@@ -28,7 +28,7 @@ export const APPLICATION_SURFACE_COPY = {
       kicker: 'Workspace modes',
       title: 'Read here, open fullscreen when needed',
       summary:
-        'Stay in the transaction workspace by default, then open conversations or orbitals when you need fullscreen writing or configuration.',
+        'Stay in the transaction workspace by default, then open conversations or settings when you need fullscreen writing or configuration.',
     },
     support: {
       kicker: 'Transaction support',

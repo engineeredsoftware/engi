@@ -41,9 +41,9 @@ export function deriveApplicationCommandPresentation(
   return {
     draftSummary: `Work from ${scenarioLabel} with ${projectionLabel} projection and ${branchLabel} branch handling while the selected transaction stays in view.`,
     continuationStatus: guideStep
-      ? `${commandState.tutorialOpen ? 'Flow guide is open' : 'Flow guide is paused'} at ${guideStep}.`
+      ? `${commandState.tutorialOpen ? 'Draft guide is open' : 'Draft guide is saved'} at ${guideStep}.`
       : 'Controls are ready. Continue into give, need, or closure from this workspace.',
     continuationTip:
-      'Use the guide when you want stepwise follow-through, or jump directly into give, need, and closure when the current transaction already has enough context.',
+      'Use the draft guide when you want stepwise follow-through, or jump directly into give, need, and closure when the current transaction already has enough context.',
   };
 }

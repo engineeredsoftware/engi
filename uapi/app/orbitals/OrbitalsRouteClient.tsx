@@ -24,15 +24,15 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                Application-owned settings route
+                Settings route
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                {stepLabels[step]} now resolves inside Bitcode’s app shell.
+                Open {stepLabels[step]} directly when you need focused settings work.
               </h1>
               <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
-                This direct route keeps account, connects, credits, and model settings reachable as
-                a dedicated Bitcode settings surface without pushing you back through onboarding-only
-                navigation.
+                Use this direct settings route for account, connections, credits, and model
+                preferences when you want a dedicated fullscreen surface outside the transaction
+                workspace.
               </p>
             </div>
 

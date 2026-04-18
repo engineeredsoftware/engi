@@ -18,28 +18,28 @@ export type ApplicationFlowGuide = {
 const FLOW_STAGE_BLUEPRINT: Array<Pick<ApplicationFlowGuideStage, 'id' | 'label' | 'summary'>> = [
   {
     id: 'context',
-    label: 'Context',
-    summary: 'Set repository supply, operator posture, and the working scenario before drafting.',
+    label: 'Source',
+    summary: 'Confirm repository source, selected transaction context, and the working posture before drafting.',
   },
   {
     id: 'give',
-    label: 'Give',
-    summary: 'Select supply, shape the deposit draft, and keep provenance explicit.',
+    label: 'Give draft',
+    summary: 'Select supply, shape the give draft, and keep provenance explicit.',
   },
   {
     id: 'need',
-    label: 'Need',
-    summary: 'Choose the active demand frame and keep the measured scenario readable.',
+    label: 'Need draft',
+    summary: 'Choose the active need and keep the measured demand readable.',
   },
   {
     id: 'fit-proof',
     label: 'Fit + proof',
-    summary: 'Read fit pressure, ranked candidates, and bounded proof posture before closure.',
+    summary: 'Read fit pressure, candidate posture, and proof readiness before closure.',
   },
   {
     id: 'closure',
     label: 'Closure',
-    summary: 'Run branch, settlement, and ledger follow-through without losing the selected transaction.',
+    summary: 'Run branch, settlement, deliverables, and history follow-through without losing the selected transaction.',
   },
 ];
 
@@ -61,16 +61,16 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
   const readinessLabel = !commandState?.shellReady
     ? 'syncing'
     : commandState.tutorialOpen
-      ? 'active'
+      ? 'drafting'
       : guideStep
-        ? 'paused'
+        ? 'saved'
         : 'ready';
 
   const statusSummary = !commandState?.shellReady
-    ? 'The resumable guide is syncing to the current transaction workspace.'
+    ? 'The draft guide is syncing to the current transaction workspace.'
     : guideStep
-      ? `Guide posture is ${readinessLabel} at ${guideStep}.`
-      : 'The workspace is ready for a fresh give-to-closure pass.';
+      ? `The draft guide is ${commandState.tutorialOpen ? 'open' : 'saved'} at ${guideStep}.`
+      : 'The workspace is ready for a fresh give-to-closure draft.';
 
   const stages = FLOW_STAGE_BLUEPRINT.map((stage, index) => ({
     ...stage,

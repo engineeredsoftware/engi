@@ -21,6 +21,7 @@ describe('BitcodeInlineExplainer', () => {
     expect(screen.getByRole('tooltip')).toBeTruthy();
     expect(screen.getByText('Closure column')).toBeTruthy();
     expect(screen.getByText('Explains the current bounded-proof state carried by the transaction row.')).toBeTruthy();
+    expect(screen.getByText('Use this to')).toBeTruthy();
     expect(screen.getByText('Shows witness readiness')).toBeTruthy();
   });
 });

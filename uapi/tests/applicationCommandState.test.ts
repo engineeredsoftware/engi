@@ -56,7 +56,7 @@ describe('normalizeApplicationCommandState', () => {
     expect(state?.projection).toBe('buyer');
     expect(state?.branchMode).toBe('patch');
     expect(state?.heroLede).toBe('Awaiting current Bitcode posture…');
-    expect(state?.heroTip).toBe('The current flow guidance and runtime signals are loading.');
-    expect(state?.tutorialLabel).toBe('Flow guide');
+    expect(state?.heroTip).toBe('The current draft guidance and runtime signals are loading.');
+    expect(state?.tutorialLabel).toBe('Draft guide');
   });
 });

@@ -48,7 +48,7 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
   const fallbackLabel = (user.email || "?").charAt(0).toUpperCase();
 
   return (
-    <DropdownMenu.Root modal={false}>
+    <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
           aria-label="User menu"
@@ -116,7 +116,7 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
                 className={`${menuStyles.item}`}
               >
                 <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
-                <span>Settings</span>
+                <span>Account settings</span>
               </DropdownMenu.Item>
             )}
 

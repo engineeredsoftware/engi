@@ -75,7 +75,7 @@ export default function ConnectsPane({
                 href="/orbitals/users"
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
-                Start at users orbital
+                Open account settings
               </Link>
             </div>
           </div>

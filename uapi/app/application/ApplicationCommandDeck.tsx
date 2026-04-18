@@ -40,15 +40,15 @@ export default function ApplicationCommandDeck() {
   const projection = commandState?.projection || 'waiting';
   const branchMode = commandState?.branchMode || 'waiting';
   const guideActionLabel = commandState?.tutorialOpen
-    ? 'Hide flow guide'
+    ? 'Hide draft guide'
     : commandState?.tutorialStepCount
-      ? 'Resume flow guide'
-      : 'Open flow guide';
+      ? 'Resume draft guide'
+      : 'Open draft guide';
   const shellReady = commandState?.shellReady || false;
   const guideDetail =
     commandState && commandState.tutorialStepCount > 0
-      ? `${commandState.tutorialOpen ? 'active' : 'paused'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
-      : 'available';
+      ? `${commandState.tutorialOpen ? 'drafting' : 'saved'} · step ${Math.min(commandState.tutorialStepIndex + 1, commandState.tutorialStepCount)} of ${commandState.tutorialStepCount}`
+      : 'ready';
   const currentScenarioLabel = optionLabel(scenarioOptions, scenario, scenario);
   const currentProjectionLabel = optionLabel(projectionOptions, projection, projection);
   const currentBranchLabel = optionLabel(branchOptions, branchMode, branchMode);
@@ -61,7 +61,7 @@ export default function ApplicationCommandDeck() {
     <ApplicationOperatorCard
       kicker="Operator controls"
       title="Give, need, and closure controls"
-      summary="Set scenario, projection, and branch mode, then run closure or resume the flow from the same workspace you use to read the ledger."
+      summary="Set scenario, projection, and branch mode, then run closure or resume the working draft from the same workspace you use to read the ledger."
       explainer={APPLICATION_OPERATOR_EXPLAINERS.controls}
       tone="emerald"
     >

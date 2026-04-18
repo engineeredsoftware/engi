@@ -147,13 +147,13 @@ export default function Nav() {
           border: 'none',
         }}
       >
-        <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${isApplicationRoute ? 'py-4' : 'py-4 pb-6'}`}>
+        <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${isApplicationRoute ? 'py-3.5' : 'py-4 pb-6'}`}>
           <div className="flex items-center w-full">
             <div onClick={handleLogoClick} className={`flex items-center gap-3 cursor-pointer ${isAnimated ? 'nav-logo-animated' : 'opacity-0'}`}>
               <div
                 className={
                   isApplicationRoute
-                    ? 'flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-400/18 bg-emerald-400/10 shadow-[0_10px_24px_rgba(0,0,0,0.18)]'
+                    ? 'flex h-12 w-12 items-center justify-center rounded-[1.35rem] border border-emerald-400/18 bg-[linear-gradient(180deg,rgba(101,254,183,0.16),rgba(101,254,183,0.06))] shadow-[0_10px_24px_rgba(0,0,0,0.18)]'
                     : ''
                 }
               >
@@ -162,7 +162,7 @@ export default function Nav() {
               {isApplicationRoute ? (
                 <div className="hidden sm:block">
                   <p className="text-xs uppercase tracking-[0.24em] text-emerald-300/80">Bitcode</p>
-                  <p className="mt-1 text-sm text-neutral-200">operator workspace</p>
+                  <p className="mt-1 text-sm text-neutral-200">application workspace</p>
                 </div>
               ) : null}
             </div>
@@ -236,7 +236,7 @@ export default function Nav() {
 
           <div className="flex items-center justify-center space-x-4">
             {user ? (
-              <div className={isAnimated ? 'nav-controls-animated flex space-x-4' : 'opacity-0 flex space-x-4'}>
+              <div className={isAnimated ? 'nav-controls-animated flex items-center space-x-3.5' : 'opacity-0 flex items-center space-x-3.5'}>
                 {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (
                   <MemoCreditsTracker
                     credits={credits}

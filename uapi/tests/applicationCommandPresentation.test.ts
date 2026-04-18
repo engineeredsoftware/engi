@@ -36,7 +36,7 @@ describe('deriveApplicationCommandPresentation', () => {
     expect(presentation.draftSummary).toContain('priority need · producer');
     expect(presentation.draftSummary).toContain('reviewer projection');
     expect(presentation.draftSummary).toContain('patch branch handling');
-    expect(presentation.continuationStatus).toBe('Flow guide is paused at step 2 of 4.');
-    expect(presentation.continuationTip).toContain('Use the guide');
+    expect(presentation.continuationStatus).toBe('Draft guide is saved at step 2 of 4.');
+    expect(presentation.continuationTip).toContain('Use the draft guide');
   });
 });

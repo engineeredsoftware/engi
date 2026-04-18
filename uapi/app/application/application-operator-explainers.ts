@@ -11,10 +11,10 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     summary:
       'The operator workspace is organized around one central ledger window, with fullscreen writing and configuration available only when deeper action is needed.',
     detail:
-      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and orbitals remain deliberate mode changes instead of parallel destinations.',
+      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and settings remain deliberate mode changes instead of parallel destinations.',
     points: [
       'Keeps the ledger and selected transaction central',
-      'Treats conversations and orbitals as fullscreen follow-through modes',
+      'Treats conversations and settings as fullscreen follow-through modes',
       'Keeps Give and Need legible as the two primary actions',
     ],
   }),
@@ -48,11 +48,11 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     kicker: 'Give-side inventory',
     title: 'Search and select supply',
     summary:
-      'Give-side supply should be searchable, reviewable, and selectable without turning the operator terminal into an infrastructure note.',
+      'Give-side supply should be searchable, reviewable, and selectable without turning the workspace into an infrastructure note.',
     detail:
       'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active give draft before moving into deposit, fit, and closure.',
     points: [
-      'Keeps searchable supply inside the main operator terminal',
+      'Keeps searchable supply inside the main workspace',
       'Makes selected inventory explicit before deposit drafting',
       'Preserves continuity into the give draft instead of forcing context rebuilds',
     ],
@@ -80,7 +80,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     points: [
       'Keeps give and need in one workspace read',
       'Makes fit legible before proof and settlement',
-      'Supports quick orientation before opening the lower runtime detail',
+      'Supports quick orientation before opening the exact proof view',
     ],
   }),
   closureControls: buildExplainer({
@@ -102,18 +102,18 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     summary:
       'Closure should read as one sequence from verification through ledger continuity rather than as isolated panels.',
     detail:
-      'Use this map to preview the closure sequence, inspect the strongest metrics and rows for each stage, and open the lower runtime detail only when you need deeper proof.',
+      'Use this map to preview the closure sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you need deeper proof.',
     points: [
       'Keeps closure stages in one readable sequence',
       'Brings proof and history closer to the operator workspace',
-      'Makes lower runtime reads deliberate instead of mandatory',
+      'Makes exact-detail reads deliberate instead of mandatory',
     ],
   }),
   ledgerPulse: buildExplainer({
     kicker: 'At-a-glance read',
     title: 'Pinned operating signals',
     summary:
-      'Keep the few live signals that most quickly change operator judgment visible without reopening the lower runtime detail.',
+      'Keep the few live signals that most quickly change operator judgment visible without reopening the exact proof view.',
     detail:
       'These signals should help answer whether the current workspace is moving, blocked, proving, or ready for closure before the operator opens proofs, history, or source-path detail.',
     points: [
@@ -138,12 +138,12 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     kicker: 'Section navigation',
     title: 'Workspace body map',
     summary:
-      'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the lower runtime detail.',
+      'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
       'The map should act like a readable table of contents for the lower flow, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
-      'Keeps lower runtime navigation legible',
+      'Keeps exact-detail navigation legible',
     ],
   }),
   repositorySupply: buildExplainer({
@@ -163,7 +163,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     kicker: 'Give and need map',
     title: 'Supply, need, and fit overview',
     summary:
-      'The operator should be able to read the live give-side source, measured need, and fit posture without dropping immediately into lower runtime detail.',
+      'The operator should be able to read the live give-side source, measured need, and fit posture without dropping immediately into the exact proof view.',
     detail:
       'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active workspace.',
     points: [
@@ -173,12 +173,12 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     ],
   }),
   sourcePath: buildExplainer({
-    kicker: 'Lower runtime detail',
-    title: 'Deterministic runtime follow-through',
+    kicker: 'Exact detail view',
+    title: 'Proof and settlement follow-through',
     summary:
-      'Open the mounted runtime when you need the dense give-to-settlement follow-through, proofs, or replay detail.',
+      'Open the exact proof view when you need the dense give-to-settlement follow-through, proofs, or replay detail.',
     detail:
-      'This lower runtime remains available for exact inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
+      'This exact-detail view remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
     points: [
       'Supports deep proof and flow inspection',
       'Keeps the main operator workspace uncluttered',
@@ -190,7 +190,7 @@ export const APPLICATION_OPERATOR_EXPLAINERS = {
     summary:
       'The right rail should keep mode changes obvious without competing with the central transaction window.',
     detail:
-      'Use the rail to open conversations or orbitals deliberately, while the ledger and selected transaction remain the primary read surface.',
+      'Use the rail to open conversations or settings deliberately, while the ledger and selected transaction remain the primary read surface.',
     points: [
       'Keeps fullscreen drafting deliberate',
       'Avoids splitting attention away from the transaction window',
