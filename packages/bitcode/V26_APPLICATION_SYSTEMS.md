@@ -562,9 +562,13 @@ Current active carriers:
 Operational rule:
 - conversations and orbitals are not peer product destinations
 - they are fullscreen application overlays entered from the application frame
+- `uapi/components/base/engi/layout/workspace-surface.ts` is the shared route-classification owner for navbar surface posture and footer suppression across `/application`, `/orbitals`, and `/conversations`
 - unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
+- marketing footer chrome does not render on operator workspace routes
+- `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/orbital transitions
 - application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
+- active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
 
 ## Active orbital-pane carriers
 

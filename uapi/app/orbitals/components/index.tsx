@@ -500,7 +500,7 @@ export default function Orbital({
             baseSize={30}
             sizeIncrement={15}
             activeIndex={showLoginPane ? 0 : getOrbitalRingIndex(currentStep)}
-            className={`orbital-system-background ${usesApplicationOverlay ? 'orbital-application-background' : showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${!usesApplicationOverlay && deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
+            className={`${usesApplicationOverlay ? 'orbital-application-background' : showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${!usesApplicationOverlay && deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
           />
         </GPUAcceleration>
       )}

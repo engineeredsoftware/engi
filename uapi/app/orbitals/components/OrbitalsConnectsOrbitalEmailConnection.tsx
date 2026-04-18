@@ -348,7 +348,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
           <div className="orbitals-connects-quick-actions">
             <motion.a
               href="/orbitals/connects"
-              className="orbitals-connects-action-card settings"
+              className="orbitals-connects-action-card orbital-entry"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

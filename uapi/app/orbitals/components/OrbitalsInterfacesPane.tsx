@@ -326,7 +326,7 @@ export default function OrbitalsInterfacesPane({
 
   return (
     <div data-testid="interfaces-pane-container">
-      <div className="orbital-step-content models-step">
+      <div className="orbital-step-content interfaces-step">
         <OrbitalsInterfacesOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
 
         <div className="space-y-5">

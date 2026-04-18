@@ -314,6 +314,7 @@ Second-gate does not change:
 Second-gate locks the live Bitcode application posture as:
 - `/application` is the only primary Bitcode destination,
 - the late-Engi navbar and app-shell navigation frame remain the integrated navigation carrier for Bitcode,
+- shared workspace-route classification owns navbar surface posture and footer suppression for `/application`, `/orbitals`, and `/conversations`,
 - unauthenticated workspace chrome uses deliberate access/create-account actions rather than disabled marketing-era CTA behavior,
 - orbitals remain the fullscreen orbital overlay owner entered from within `/application`,
 - conversations remain a fullscreen conversational workspace entered from within `/application`,
@@ -340,6 +341,7 @@ V26 does not treat executions, deliverables, proofs, history, orbitals, or chat 
 Those surfaces must resolve into one of the three experiences above.
 
 Stepwise guidance inside the second-gate application is specified as a user-facing Give + Need flow guide and resumable working-flow continuity, not as tutorial/demo residue.
+Visible mode-entry controls inside the live operator shell must also use user-facing deeper-mode wording rather than narrating fullscreen mechanics to the operator.
 
 The V26 application is also centered on exactly two main actions:
 1. `give`

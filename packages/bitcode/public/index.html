@@ -10,10 +10,10 @@
   <body>
     <div class="page">
       <header class="hero" id="hero">
-        <p class="eyebrow" id="heroEyebrow">Bitcode deterministic local prototype</p>
-        <h1>Operate Bitcode from repo supply to settlement.</h1>
-        <p class="lede" id="heroLede">Loading current canon posture…</p>
-        <p class="meta hero-tip" id="heroTip">Loading current generated appendix and report posture…</p>
+        <p class="eyebrow" id="heroEyebrow">Bitcode closure runtime</p>
+        <h1>Inspect the live Bitcode runtime from give through settlement.</h1>
+        <p class="lede" id="heroLede">Use this view when you need deterministic follow-through beyond the main application workspace.</p>
+        <p class="meta hero-tip" id="heroTip">The application workspace stays primary. This view is for exact inspection, replay, and closure follow-through.</p>
         <div class="hero-actions">
           <label>
             <span data-explainer-key="needing" data-explainer-side="bottom">Scenario</span>
@@ -36,8 +36,8 @@
             </select>
           </label>
           <button id="makeBranchButton">Make Bitcode branch</button>
-          <button id="tutorialToggleButton" class="ghost" type="button">Hide tutorial</button>
-          <button id="resetButton" class="ghost">Reset application</button>
+          <button id="tutorialToggleButton" class="ghost" type="button">Hide flow guide</button>
+          <button id="resetButton" class="ghost">Reset runtime</button>
         </div>
         <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
       </header>
@@ -48,14 +48,14 @@
         <section class="panel wide" id="panelOperatingPicture">
           <div class="panel-head">
             <h2 data-explainer-key="operating-picture">0. Operating picture</h2>
-            <span class="badge" data-explainer-key="repo-to-settlement">repo supply -> settlement</span>
+            <span class="badge" data-explainer-key="repo-to-settlement">give -> settlement</span>
           </div>
           <div id="operatingPicture" class="stack"></div>
         </section>
 
         <section class="panel" id="panelDepositing">
           <div class="panel-head">
-            <h2 data-explainer-key="depositing">1. Depositing + candidate assets</h2>
+            <h2 data-explainer-key="depositing">1. Give draft + selected supply</h2>
             <span class="badge" data-explainer-key="candidate-asset">artifact-kind-native deposit</span>
           </div>
           <form id="depositForm" class="stack compact">
@@ -130,7 +130,7 @@
               <textarea name="visualPreview" rows="3" placeholder="Human-readable summary used in visual mode"></textarea>
             </label>
             <label class="field-stack">
-              <span data-explainer-key="operator-note">Operator note</span>
+              <span data-explainer-key="operator-note">Working note</span>
               <textarea name="operatorNote" rows="3" placeholder="Optional note appended to selected repo artifacts"></textarea>
             </label>
             <label class="field-stack">
@@ -144,7 +144,7 @@
 
         <section class="panel" id="panelNeeding">
           <div class="panel-head">
-            <h2 data-explainer-key="needing">2. Needing + measured demand</h2>
+            <h2 data-explainer-key="needing">2. Need draft + measured demand</h2>
             <span class="badge" data-explainer-key="scenario-preview">scenario preview</span>
           </div>
           <div id="scenario" class="stack"></div>
@@ -152,7 +152,7 @@
 
         <section class="panel wide" id="panelFit">
           <div class="panel-head">
-            <h2 data-explainer-key="deposit-fit">3. Depositing-to-needing fit</h2>
+            <h2 data-explainer-key="deposit-fit">3. Give-to-need fit</h2>
             <span class="badge" data-explainer-key="deposit-fit">fit before proof</span>
           </div>
           <div id="fit" class="stack"></div>
@@ -160,7 +160,7 @@
 
         <section class="panel wide" id="panelEvaluations">
           <div class="panel-head">
-            <h2 data-explainer-key="verification-rights">4. Ranked candidates + verification determinisms</h2>
+            <h2 data-explainer-key="verification-rights">4. Ranked candidates + verification</h2>
             <span class="badge" data-explainer-key="verification-rights">ranking + use tiers</span>
           </div>
           <div id="evaluations" class="stack"></div>
@@ -168,7 +168,7 @@
 
         <section class="panel" id="panelBranchArtifacts">
           <div class="panel-head">
-            <h2 data-explainer-key="branch-artifacts">5. Asset pack + branch artifacts</h2>
+            <h2 data-explainer-key="branch-artifacts">5. Deliverables + branch artifacts</h2>
             <span class="badge private" data-explainer-key="private-remediation-branch">private remediation branch</span>
           </div>
           <div id="branchArtifacts" class="stack"></div>
@@ -202,11 +202,11 @@
         aria-describedby="tutorialBody"
       >
         <div class="tutorial-progress">
-          <span id="tutorialStepCounter" class="badge">Step 1 of 10</span>
-          <button id="tutorialCloseButton" class="ghost tutorial-button" type="button">Dismiss</button>
+          <span id="tutorialStepCounter" class="badge">Flow step 1 of 10</span>
+          <button id="tutorialCloseButton" class="ghost tutorial-button" type="button">Pause</button>
         </div>
-        <p id="tutorialKicker" class="tutorial-kicker">Stepwise shell guide</p>
-        <h2 id="tutorialTitle">Start with current canon posture</h2>
+        <p id="tutorialKicker" class="tutorial-kicker">Give + Need flow guide</p>
+        <h2 id="tutorialTitle">Start with the active give and need context</h2>
         <p id="tutorialBody" class="tutorial-body"></p>
         <p id="tutorialTargetHint" class="tutorial-target-hint"></p>
         <div class="tutorial-actions">

@@ -18,6 +18,7 @@ export default function OrbitalsInterfacesOrbitalHeader({
         : 'Configure transaction, conversation, prompt, and default workspace behavior in this orbital.'}
       stepNumber={3}
       isOnboardingComplete={isOnboardingComplete}
+      badgeTestId="interfaces-step-badge"
       showInfoBox
       infoTitle="Shape interface defaults"
       infoDescription="Set how transactions, conversations, proofs, and default workspace behavior read for your team."

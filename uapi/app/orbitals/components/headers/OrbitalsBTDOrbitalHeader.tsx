@@ -18,7 +18,7 @@ export default function OrbitalsBTDOrbitalHeader({
         : 'Review balances, share posture, throughput history, and advanced $BTD defaults.'}
       stepNumber={4}
       isOnboardingComplete={isOnboardingComplete}
-      badgeTestId="credits-step-badge"
+      badgeTestId="btd-step-badge"
       showInfoBox
       infoTitle="Review wallet + $BTD posture"
       infoDescription="Keep wallet balances, share posture, throughput history, and advanced $BTD configuration visible in one orbital."

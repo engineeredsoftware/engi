@@ -35,15 +35,15 @@ test.describe('Full Onboarding Flow', () => {
     // Wait for repo chips and items
     await page.waitForSelector('[data-testid="connections-repo-chip-user/repo-1"]');
     await page.waitForSelector('[data-testid="connections-repo-item-user/repo-1"]');
-    await page.waitForSelector('[data-testid="models-step-badge"]');
-    await expect(page.locator('[data-testid="models-step-badge"]')).toHaveText('Step 3 of 4');
+    await page.waitForSelector('[data-testid="interfaces-step-badge"]');
+    await expect(page.locator('[data-testid="interfaces-step-badge"]')).toHaveText('Step 3 of 4');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-models.png');
 
     // Models Step (auto-advances)
     // Wait for Credits Step
-    await page.waitForSelector('[data-testid="credits-step-badge"]');
-    await expect(page.locator('[data-testid="credits-step-badge"]')).toHaveText('Step 4 of 4');
+    await page.waitForSelector('[data-testid="btd-step-badge"]');
+    await expect(page.locator('[data-testid="btd-step-badge"]')).toHaveText('Step 4 of 4');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true })).toMatchSnapshot('onboarding-full-credits.png');
   });

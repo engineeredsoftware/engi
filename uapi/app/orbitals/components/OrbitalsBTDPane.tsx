@@ -263,7 +263,7 @@ export default function OrbitalsBTDPane({
 
   return (
     <div data-testid="btd-pane-container">
-      <div className="orbital-step-content credits-step">
+      <div className="orbital-step-content btd-step">
         <OrbitalsBTDOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
 
         {!user ? (

@@ -18,7 +18,7 @@ test.describe('Orbital - Credits Step', () => {
     await setOnboardingState(page, 'credits', ['profile', 'connections', 'models']);
     await page.reload();
     // Wait for credits badge
-    await page.waitForSelector('[data-testid="credits-step-badge"]');
+    await page.waitForSelector('[data-testid="btd-step-badge"]');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('orbital-credits-first-load.png');

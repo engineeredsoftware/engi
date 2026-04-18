@@ -47,7 +47,7 @@ test.describe('@profile UI Visual - Auth and Onboarding Flows', () => {
     await page.click('[data-testid="orbital-label-connections"]');
     await page.click('[data-testid="orbital-label-models"]');
     // Wait for models step elements
-    await page.waitForSelector('[data-testid="models-step-badge"]');
+    await page.waitForSelector('[data-testid="interfaces-step-badge"]');
     await page.waitForSelector('[data-testid="models-prompt-input"]');
     await page.waitForTimeout(500);
     expect(await page.screenshot({ fullPage: true }))
@@ -63,7 +63,7 @@ test.describe('@profile UI Visual - Auth and Onboarding Flows', () => {
     await page.click('[data-testid="orbital-label-models"]');
     await page.click('[data-testid="orbital-label-credits"]');
     // Wait for credits step elements
-    await page.waitForSelector('[data-testid="credits-step-badge"]');
+    await page.waitForSelector('[data-testid="btd-step-badge"]');
     await page.waitForSelector('[data-testid="credits-promo-input"]');
     await page.waitForTimeout(500);
     expect(await page.screenshot({ fullPage: true }))

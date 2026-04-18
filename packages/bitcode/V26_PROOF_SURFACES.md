@@ -193,11 +193,21 @@ Current active assignments:
   `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/application` verification
   proof surface:
   second-gate workspace-chrome discipline for unauthenticated application and orbital routes, replacing disabled marketing CTA behavior with deliberate access/create-account actions
+- `uapi/components/base/engi/layout/workspace-surface.ts`
+  test coverage:
+  `uapi/tests/workspaceSurface.test.ts`
+  proof surface:
+  shared second-gate route classification for application/orbital/conversation chrome, including footer suppression on operator routes and stable navbar-surface selection
 - `packages/bitcode/public/app.js`
   test coverage:
   live `/application` verification through the preserved runtime tooltip/footer layer
   proof surface:
   preserved-runtime user-facing copy discipline, including live-surface/reference-topic tooltip labels instead of canon/version self-reference in visible help surfaces
+- `packages/bitcode/public/index.html`
+  test coverage:
+  live `/application` verification through the preserved runtime drawer and direct runtime load expectations
+  proof surface:
+  preserved-runtime HTML parity for closure-runtime, flow-guide, give, need, and deliverables wording so direct runtime inspection does not regress to prototype/tutorial copy
 - `uapi/app/application/application-command-state.ts`
   test coverage:
   `uapi/tests/applicationCommandState.test.ts`
