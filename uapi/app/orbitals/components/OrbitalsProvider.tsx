@@ -43,6 +43,7 @@ export default function OrbitalProvider({ children }: { children: React.ReactNod
   const [isOpen, setIsOpen] = useState(false);
   const [windowState, setWindowState] = useState<OrbitalWindow>('SignUpWindow');
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
+  const [deepLinkStep, setDeepLinkStep] = useState<OrbitalPane | null>(null);
 
   useEffect(() => {
     const el = document.createElement('div');
@@ -54,8 +55,6 @@ export default function OrbitalProvider({ children }: { children: React.ReactNod
       setPortalContainer(null);
     };
   }, []);
-
-  const [deepLinkStep, setDeepLinkStep] = useState<OrbitalPane | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -72,10 +71,13 @@ export default function OrbitalProvider({ children }: { children: React.ReactNod
       const detail = (e as CustomEvent)?.detail as { window?: OrbitalWindow, mode?: 'login' | 'account', step?: OrbitalPane } | undefined;
       if (detail?.window) setWindowState(detail.window);
       else if (detail?.mode) setWindowState(detail.mode === 'login' ? 'SignInWindow' : 'SignUpWindow');
-      if (detail?.step) setDeepLinkStep(detail.step);
+      setDeepLinkStep(detail?.step ?? null);
       setIsOpen(true);
     };
-    const onClose = () => setIsOpen(false);
+    const onClose = () => {
+      setIsOpen(false);
+      setDeepLinkStep(null);
+    };
     // Support both new and legacy event names for backwards-compat
     window.addEventListener('open-orbitals', onOpen as EventListener);
     window.addEventListener('close-orbitals', onClose as EventListener);
@@ -96,11 +98,18 @@ export default function OrbitalProvider({ children }: { children: React.ReactNod
 
   const closeOrbital = useCallback(() => {
     setIsOpen(false);
+    setDeepLinkStep(null);
   }, []);
 
   const toggleOrbital = useCallback((win?: OrbitalWindow) => {
     if (typeof win !== 'undefined') setWindowState(win);
-    setIsOpen((prev) => !prev);
+    setIsOpen((prev) => {
+      const next = !prev;
+      if (!next) {
+        setDeepLinkStep(null);
+      }
+      return next;
+    });
   }, []);
 
   const ctx: OrbitalContextType = {

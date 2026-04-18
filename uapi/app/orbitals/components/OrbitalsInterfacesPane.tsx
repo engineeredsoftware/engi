@@ -207,7 +207,7 @@ export default function OrbitalsInterfacesPane({
           {
             value: "overlay",
             label: "Overlay",
-            hint: "Open the conversation workspace as a fresh fullscreen surface.",
+            hint: "Open the conversation workspace as a dedicated surface anchored to the current flow.",
           },
           {
             value: "focused",
@@ -387,7 +387,7 @@ export default function OrbitalsInterfacesPane({
             <OrbitalsWorkspaceSection
               kicker="Workspace defaults"
               title="Master-detail and conversation defaults"
-              description="Set the opening behavior the operator should see when moving between transactions, proofs, and fullscreen conversation work."
+              description="Set the opening behavior the operator should see when moving between transactions, proofs, and dedicated conversation work."
               explainer={orbitalsPaneExplainers.interfacesDefaults}
             >
               <OrbitalsPreferenceCards items={preferenceCards} />

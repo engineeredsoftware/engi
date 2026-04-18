@@ -569,6 +569,20 @@ Operational rule:
 - application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
+- contained orbital surfaces now reset stale deep-link pane state on close, suppress free-floating background animation, and reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture
+- signed-in workspace chrome now exposes Orbitals through the user menu as `Open Orbitals`, while notifications stay operator-facing and describe proofs, repository events, and review prompts rather than generic account/settings chrome
+
+## First-and-second-gate checkpoint artifact
+
+Current active carriers:
+- `.engi/v26-gate-checkpoint-report.json`
+- `packages/bitcode/src/canonical/proven-generator.js`
+- `packages/bitcode/test/proven-generator.test.js`
+
+Operational rule:
+- V26 now treats first-gate plus second-gate closure as an explicit generated checkpoint, not an implied reading of scattered reports
+- the checkpoint artifact records inherited first-gate proof/canon closure, second-gate structural workspace closure, and third-gate preparation posture
+- this checkpoint is required for the near-term V26 commit boundary even while `V25` remains the active promoted canon
 
 ## Active orbital-pane carriers
 

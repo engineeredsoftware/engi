@@ -22,7 +22,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                Fullscreen orbital
+                Dedicated orbital
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
                 {descriptor.routeTitle} in one focused workspace.

@@ -68,4 +68,28 @@ describe('OrbitalsProvider', () => {
 
     expect(screen.queryByTestId('orbital-overlay')).toBeNull();
   });
+
+  it('clears deep-linked pane state after close so later opens do not reuse a stale orbital pane', () => {
+    render(
+      <OrbitalsProvider>
+        <div>Application</div>
+      </OrbitalsProvider>,
+    );
+
+    act(() => {
+      openOrbital('account', 'connects');
+    });
+
+    expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignUpWindow:connects');
+
+    act(() => {
+      closeOrbital();
+    });
+
+    act(() => {
+      openOrbital('login');
+    });
+
+    expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignInWindow:none');
+  });
 });

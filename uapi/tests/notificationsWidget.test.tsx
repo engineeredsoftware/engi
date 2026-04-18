@@ -99,4 +99,39 @@ describe('NotificationsWidget', () => {
       );
     });
   });
+
+  it('shows operator-facing header copy and marks every unread notification as read', async () => {
+    const notifications = [
+      { id: 'n1', user_id: 'user-1', type: 'proof', message: 'Proof bundle ready', data: {}, read: false, created_at: '2023-01-01T00:00:00Z' },
+      { id: 'n2', user_id: 'user-1', type: 'repo', message: 'Repository needs review', data: {}, read: false, created_at: '2023-01-02T00:00:00Z' }
+    ];
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => notifications });
+    render(<NotificationsWidget />);
+    expect(await screen.findByText('2')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button'));
+
+    expect(await screen.findByText('Proofs, repository events, and review prompts')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Mark all read' }));
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        '/api/orbitals/notifications/n1',
+        expect.objectContaining({
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ read: true })
+        })
+      );
+      expect(global.fetch).toHaveBeenCalledWith(
+        '/api/orbitals/notifications/n2',
+        expect.objectContaining({
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ read: true })
+        })
+      );
+    });
+  });
 });

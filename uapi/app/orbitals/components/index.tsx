@@ -446,6 +446,13 @@ export default function Orbital({
   const usesContainedOrbitalSurface = usesApplicationOverlay || isDedicatedOrbitalRoute;
   const usesOrbitalRingNavigation = isOrbitalSurface || !usesApplicationOverlay;
   const orbitalSurfaceClass = isDedicatedOrbitalRoute ? 'orbital-system-route' : 'orbital-system-overlay';
+  const orbitalBackgroundClass = usesContainedOrbitalSurface
+    ? 'orbital-application-background'
+    : showLoginPane
+      ? 'login-background-glow'
+      : 'account-background-highlight';
+  const orbitalBackgroundAnimationClass =
+    !usesContainedOrbitalSurface && deferredAnimationsEnabled ? 'animations-enabled' : '';
 
   return (
     <div
@@ -473,10 +480,10 @@ export default function Orbital({
             data-orbital-testid="orbital-toggle-button"
             onClick={toggleWindow}
             className="orbital-toggle-button"
-            aria-label={activeWindow === 'SignInWindow' ? 'Create Account' : 'Login'}
+            aria-label={activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
           >
             <FlipText
-              text={activeWindow === 'SignInWindow' ? 'Create Account' : 'Login'}
+              text={activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
               className="inline-block"
             />
           </button>
@@ -493,17 +500,15 @@ export default function Orbital({
         )}
       </div>
 
-      {showLoginPane ? null : (
-        <GPUAcceleration>
-          <OrbitalRings
-            count={4}
-            baseSize={30}
-            sizeIncrement={15}
-            activeIndex={showLoginPane ? 0 : getOrbitalRingIndex(currentStep)}
-            className={`${usesApplicationOverlay ? 'orbital-application-background' : showLoginPane ? 'login-background-glow' : 'account-background-highlight'} ${!usesApplicationOverlay && deferredAnimationsEnabled ? 'animations-enabled' : ''}`}
-          />
-        </GPUAcceleration>
-      )}
+      <GPUAcceleration>
+        <OrbitalRings
+          count={4}
+          baseSize={30}
+          sizeIncrement={15}
+          activeIndex={showLoginPane ? 0 : getOrbitalRingIndex(currentStep)}
+          className={`${orbitalBackgroundClass} ${orbitalBackgroundAnimationClass}`.trim()}
+        />
+      </GPUAcceleration>
 
       <ContentVisibility containSize="600px 400px">
         {showLoginPane ? (
@@ -515,7 +520,11 @@ export default function Orbital({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <LoginPane onClose={onClose} onToggle={showSignup} />
+            <LoginPane
+              onClose={onClose}
+              onToggle={showSignup}
+              surfaceVariant={usesContainedOrbitalSurface ? 'contained' : 'default'}
+            />
           </motion.div>
         ) : (
           <OrbitalContent

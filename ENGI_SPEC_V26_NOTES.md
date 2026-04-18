@@ -9,6 +9,7 @@
 - Draft spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Draft delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
 - Draft parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
+- Current preview checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.engi/v26-gate-checkpoint-report.json`
 - V26 state: active draft family opened; V25 remains the only active canonical truth
 
 ## Notes companion rule
@@ -32,6 +33,7 @@ The following items are no longer open draft questions:
 - the late-Engi navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
+- the near-term V26 checkpoint is first-gate plus second-gate closure with explicit third-gate preparation, not full V26 promotion.
 
 ## Current first-gate source reminders
 
@@ -88,6 +90,8 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/application/application-give-need-workbench.ts`
 - `uapi/app/application/application-run-activity.ts`
 - `uapi/app/application/application-transaction-detail-snapshot.ts`
+- `uapi/components/base/engi/layout/user-menu.tsx`
+- `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-shell-sections.ts`
 - `uapi/app/application/application-shell-reading.ts`

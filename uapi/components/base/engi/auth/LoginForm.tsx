@@ -193,14 +193,19 @@ interface LoginFormProps {
   onClose?: () => void;
   /** Called to switch to account creation (signup) view */
   onToggle?: () => void;
+  surfaceVariant?: 'default' | 'contained';
 }
-function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
+function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: LoginFormProps) {
   // Using manual fetch for OTP flows; supabase client not used
   const router = useRouter()
   // Preserve next path including any query params
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const nextParam = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
+  const isContainedSurface = surfaceVariant === 'contained'
+  const nextWorkspacePath = nextParam.startsWith('/orbitals') || nextParam.startsWith('/application')
+    ? nextParam
+    : '/application'
   
   // Check for invite token in URL params
   const inviteToken = searchParams.get('invite')
@@ -374,12 +379,12 @@ function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
             completedOnboarding = false
           }
           if (completedOnboarding) {
-            // Close modal and navigate to deliverables
+            // Return to the live workspace surface instead of the legacy demo route.
             onClose?.()
             try {
-              router.push('/deliverables')
+              router.push(nextWorkspacePath)
             } catch {
-              window.location.href = '/deliverables'
+              window.location.href = nextWorkspacePath
             }
           } else {
             // Continue onboarding in-place
@@ -411,7 +416,7 @@ function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
   };
 
   return (
-    <div className="relative">
+    <div className={`relative ${isContainedSurface ? 'login-form-surface-contained' : ''}`}>
       <form
         onSubmit={stage === 'request' ? handleRequest : handleVerify}
         className=""
@@ -507,34 +512,38 @@ function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
                 style={{ willChange: 'opacity, transform' }}
-                className="fixed inset-0 flex flex-col items-center justify-center text-center text-green-primary gap-2 transform-gpu"
+                className={`${isContainedSurface ? 'relative min-h-[14rem]' : 'fixed inset-0'} flex flex-col items-center justify-center gap-2 text-center text-green-primary transform-gpu`}
               >
                 {/* Decorative success orbital particle animation */}
-                <div className="login-decor login-decor-left">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="login-decor-particle"
-                      style={{ '--angle': `${i * 72}deg` } as React.CSSProperties}
-                    />
-                  ))}
-                </div>
-                <div className="login-decor login-decor-right">
-                  {Array.from({ length: 7 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="login-decor-particle"
-                      style={{ '--angle': `${(360 / 7) * i}deg` } as React.CSSProperties}
-                    />
-                  ))}
-                </div>
+                {isContainedSurface ? null : (
+                  <>
+                    <div className="login-decor login-decor-left">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className="login-decor-particle"
+                          style={{ '--angle': `${i * 72}deg` } as React.CSSProperties}
+                        />
+                      ))}
+                    </div>
+                    <div className="login-decor login-decor-right">
+                      {Array.from({ length: 7 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className="login-decor-particle"
+                          style={{ '--angle': `${(360 / 7) * i}deg` } as React.CSSProperties}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
                   className="text-xl font-semibold text-green-primary tracking-wide drop-shadow-glow-emerald"
                 >
-                  Success! Preparing application…
+                  Success! Opening your workspace…
                 </motion.span>
               </motion.div>
             )}
@@ -615,28 +624,32 @@ function LoginFormInner({ onClose, onToggle }: LoginFormProps) {
               account providers, and wallet connection is not yet available for direct sign-in.
             </div>
 
-            {/* Inner ring: active providers plus primary email-code posture and staged wallet. */}
-            <OrbitPlanet angleDeg={35} provider="github" delay={0.7} />
-            <OrbitPlanet angleDeg={71.67} delay={0.85}>
-              <div
-                className="absolute inset-0 flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/10 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-100/90 backdrop-blur-lg"
-                aria-hidden="true"
-              >
-                OTP
-              </div>
-            </OrbitPlanet>
-            <OrbitPlanet angleDeg={108.33} provider="google" delay={1.0} />
-            <OrbitPlanet angleDeg={145} provider="metamask" delay={1.15} />
+            {isContainedSurface ? null : (
+              <>
+                {/* Inner ring: active providers plus primary email-code posture and staged wallet. */}
+                <OrbitPlanet angleDeg={35} provider="github" delay={0.7} />
+                <OrbitPlanet angleDeg={71.67} delay={0.85}>
+                  <div
+                    className="absolute inset-0 flex items-center justify-center rounded-full border border-emerald-300/24 bg-emerald-400/10 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-100/90 backdrop-blur-lg"
+                    aria-hidden="true"
+                  >
+                    OTP
+                  </div>
+                </OrbitPlanet>
+                <OrbitPlanet angleDeg={108.33} provider="google" delay={1.0} />
+                <OrbitPlanet angleDeg={145} provider="metamask" delay={1.15} />
 
-            {/* Outer ring reserved-provider carriers. */}
-            <OuterOrbitCircle provider="apple" angleDeg={10} delay={1.4} />
-            <OuterOrbitCircle provider="microsoft" angleDeg={32.5} delay={1.55} />
-            <OuterOrbitCircle provider="bitbucket" angleDeg={55} delay={1.7} />
-            <OuterOrbitCircle provider="facebook" angleDeg={77.5} delay={1.85} />
-            <OuterOrbitCircle provider="figma" angleDeg={102.5} delay={2.0} />
-            <OuterOrbitCircle provider="notion" angleDeg={125} delay={2.15} />
-            <OuterOrbitCircle provider="gitlab" angleDeg={147.5} delay={2.3} />
-            <OuterOrbitCircle provider="twitter" angleDeg={170} delay={2.45} />
+                {/* Outer ring reserved-provider carriers. */}
+                <OuterOrbitCircle provider="apple" angleDeg={10} delay={1.4} />
+                <OuterOrbitCircle provider="microsoft" angleDeg={32.5} delay={1.55} />
+                <OuterOrbitCircle provider="bitbucket" angleDeg={55} delay={1.7} />
+                <OuterOrbitCircle provider="facebook" angleDeg={77.5} delay={1.85} />
+                <OuterOrbitCircle provider="figma" angleDeg={102.5} delay={2.0} />
+                <OuterOrbitCircle provider="notion" angleDeg={125} delay={2.15} />
+                <OuterOrbitCircle provider="gitlab" angleDeg={147.5} delay={2.3} />
+                <OuterOrbitCircle provider="twitter" angleDeg={170} delay={2.45} />
+              </>
+            )}
           </>
         )}
       </AnimatePresence>

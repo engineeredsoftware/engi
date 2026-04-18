@@ -9,7 +9,7 @@
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 requires `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, and `ENGI_SPEC_V26_PROVEN.md` before promotion, but those artifacts are not yet promoted truth
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 checkpoint and promotion artifacts are `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md`, but those artifacts remain preview-only until V26 promotion
 - Draft companion delta: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
 - Draft companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Draft companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
@@ -510,6 +510,7 @@ Second-gate is accepted only when all of the following hold:
    - second-gate repository/specification documents stay synchronized to active source state,
    - supplementary modular docs are identified wherever the canon is not the right long-form carrier,
    - active supplementary carriers such as `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` stay synchronized to the converged source topology,
+   - `.engi/v26-gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,
    - the active internal module namespace is `@bitcode/*` across package manifests, path aliases, and active source imports,
    - and new second-gate code systems are assigned proof/test/spec coverage rather than being treated as unproven incidental glue.
 
@@ -1188,7 +1189,7 @@ Current validating commands and parity basis include:
 V26 promotion requires all of the following:
 - `ENGI_SPEC.txt` advancing deliberately and only when V26 is the chosen active canon,
 - `ENGI_SPEC_V26.md`, `ENGI_SPEC_V26_DELTA.md`, `ENGI_SPEC_V26_PARITY_MATRIX.md`, and `ENGI_SPEC_V26_PROVEN.md` agreeing,
-- `.engi/v26-spec-family-report.json` and `.engi/v26-canonical-input-report.json` existing and matching the promoted V26 structure,
+- `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, and `.engi/v26-gate-checkpoint-report.json` existing and matching the promoted V26 structure,
 - Bitcode application-native routing existing as source truth rather than as draft-target-only prose,
 - package extraction and existing-package convergence being reflected in source sufficiently to satisfy the parity ledger,
 - and no fail-closed condition remaining open for any interface V26 claims as hardened.
@@ -1442,5 +1443,5 @@ V26 is complete only when:
 4. Demonstration UX is preserved while demonstration UI is replaced by application-facing components.
 5. Bitcode system ownership is materially re-homed into packages and app/API owners rather than remaining concentrated in `engi-demo/`.
 6. GitHub, auth, wallet, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation hardening are explicit, fail-closed, and test-backed.
-7. `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, and `ENGI_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
+7. `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
 8. The promoted V26 main spec stands alone for re-implementation, audit, operator comprehension, and promotion without semantic dependence on prior versions.

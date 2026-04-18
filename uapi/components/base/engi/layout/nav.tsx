@@ -259,7 +259,7 @@ export default function Nav() {
 
                 <UserMenu
                   user={user}
-                  onManageAccount={() => openOrbital('account', 'profile')}
+                  onOpenOrbitals={() => openOrbital('account', 'profile')}
                   onSignOut={() => {
                     import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                       const client = createClient();

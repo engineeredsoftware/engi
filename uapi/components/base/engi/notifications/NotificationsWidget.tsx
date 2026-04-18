@@ -25,7 +25,6 @@ export function NotificationsWidget() {
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [open, setOpen] = useState(false);
-  const [initialised, setInitialised] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   // Fetch helper
@@ -58,7 +57,6 @@ export function NotificationsWidget() {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) {
-        setInitialised(true);
         return;
       }
 
@@ -82,7 +80,7 @@ export function NotificationsWidget() {
             });
           },
         )
-        .subscribe(() => setInitialised(true));
+        .subscribe();
     })();
 
     const handleOutside = (e: MouseEvent) => {
@@ -144,8 +142,22 @@ export function NotificationsWidget() {
     }
   };
 
+  const markAllRead = async () => {
+    await Promise.all(
+      notifications
+        .filter((n) => !n.read)
+        .map((n) =>
+          fetch(`/api/orbitals/notifications/${n.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ read: true }),
+          }),
+        ),
+    );
+  };
+
   return (
-    <div className="notifications-widget-container" ref={ref}>
+    <div className="notifications-widget-container" ref={ref} data-state={open ? 'open' : 'closed'}>
       <button
         type="button"
         className={['notifications-bell', unread > 0 ? 'has-unread' : '', arrival ? 'new-arrival' : ''].filter(Boolean).join(' ')}
@@ -179,17 +191,17 @@ export function NotificationsWidget() {
       {open && (
         <div id="notifications-dropdown" className="notifications-dropdown shadow-popover" role="dialog" aria-label="Notifications">
           <div className="notifications-header">
-            <h3>Notifications</h3>
+            <div>
+              <h3>Notifications</h3>
+              <p className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] text-neutral-400">
+                Proofs, repository events, and review prompts
+              </p>
+            </div>
             {notifications.length > 0 && (
               <button
+                type="button"
                 className="mark-all-read"
-                onClick={async () => {
-                  await Promise.all(
-                    notifications
-                      .filter((n) => !n.read)
-                      .map((n) => fetch(`/api/orbitals/notifications/${n.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ read: true }) })),
-                  );
-                }}
+                onClick={markAllRead}
               >
                 Mark all read
               </button>
@@ -213,10 +225,10 @@ export function NotificationsWidget() {
                     <div className="notification-time">{new Date(n.created_at).toLocaleString()}</div>
                   </div>
                   <div className="flex-shrink-0 ml-3 flex space-x-2">
-                    <button onClick={() => toggleRead(n.id, !n.read)} className="text-[11px] text-emerald-400 hover:text-white transition-colors">
+                    <button type="button" onClick={() => toggleRead(n.id, !n.read)} className="text-[11px] text-emerald-400 hover:text-white transition-colors">
                       {n.read ? 'Unread' : 'Read'}
                     </button>
-                    <button onClick={() => deleteNotification(n.id)} className="text-[11px] text-red-400 hover:text-white transition-colors">
+                    <button type="button" onClick={() => deleteNotification(n.id)} className="text-[11px] text-red-400 hover:text-white transition-colors">
                       ×
                     </button>
                   </div>

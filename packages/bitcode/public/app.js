@@ -520,9 +520,9 @@ function buildApplicationCoreSurface(state) {
       cards: [
         {
           title: 'Repo supply',
-          eyebrow: 'Canonical shell surface',
+          eyebrow: 'Workspace surface',
           subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-          help: 'The canonical shell starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+          help: 'The workspace starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
           badge: `${state.repoSupplySurface?.repoCount || 0} repos`,
           metrics: [
             compactApplicationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0),
@@ -685,7 +685,7 @@ function buildApplicationCoreSurface(state) {
           subtitle: 'Why this deposit fits this need before deeper closure inspection',
           help:
             fitSurface?.fitSummary
-            || 'The canonical system makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+            || 'The workspace makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
           badge: fitSurface?.normalizationPressure || 'pending',
           metrics: [
             compactApplicationMetric('Decisive kinds', decisiveKinds.length),
@@ -1374,7 +1374,7 @@ const EXPLAINERS = {
     kicker: 'GitHub identity',
     title: 'Repository ID',
     summary: 'Stable repository identity bound into auth and addressing surfaces.',
-    detail: 'This is the canonical repo identifier Bitcode hashes into roots so the flow stays tied to one exact repository, not just owner/name text.',
+    detail: 'This is the repo identifier Bitcode hashes into roots so the flow stays tied to one exact repository, not just owner/name text.',
     points: [
       'Shows up in GitHub auth, addressing, and buyer bindings',
       'Separate from installation account identity'
@@ -1614,7 +1614,7 @@ const EXPLAINERS = {
     kicker: 'Branch capsule',
     title: 'Private remediation branch',
     summary: 'The run materializes its working artifacts on a private remediation branch before any bounded public proof is projected outward.',
-    detail: 'In the current canon the branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
+    detail: 'The branch stays a dense private evidence surface. Public proof is derived later and should not leak the private branch payloads.',
     points: [
       'Carries the exact branch artifact stack behind the higher-level story',
       'Separates private remediation work from bounded public proof'
@@ -2037,7 +2037,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Profile meaning',
     title: 'Settlement shape',
     summary: 'The characteristic economic closure pattern the active profile is supposed to produce.',
-    detail: 'The current canon wants Profile A and Profile B to feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
+    detail: 'Profile A and Profile B should feel different first through deposit mode, need mode, and settlement shape rather than through infrastructure trivia.',
     points: [
       'Profile A should read as concentrated and direct',
       'Profile B should read as normalized and source-to-shares aware'
@@ -2421,7 +2421,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Privacy',
     summary: 'Marks scenarios or assets where disclosure boundaries and private artifact handling are first-class concerns.',
-    detail: 'Privacy capsules matter because the canonical system keeps branch/proof richness while still requiring bounded public disclosure.',
+    detail: 'Privacy capsules matter because Bitcode keeps branch/proof richness while still requiring bounded public disclosure.',
     points: [
       'Often pairs with redaction or disclosure tags',
       'Lives close to bounded public proof surfaces'
@@ -4119,7 +4119,7 @@ function tutorialSteps(state) {
       kicker: 'Flow step 10',
       title: 'End on balances, policy, and history',
       body: 'Finish the flow guide here. Ledger and policy surfaces let you show account consequences, bounded metadata, and run history after the branch and settlement story is complete.',
-      targetHint: 'This is the closing step: what changed, what remained bounded, and what prior runs are now part of the visible canon path?'
+      targetHint: 'This is the closing step: what changed, what remained bounded, and which prior runs are now part of the visible transaction path?'
     }
   ];
 }
@@ -6575,7 +6575,7 @@ function renderScenario(state) {
       title: 'Prompt surfaces + lineage',
       subtitle: 'Templates, interpolated context, and downstream derivation bindings',
       eyebrow: 'Prompt artifact',
-      help: 'The canonical system keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
+      help: 'Bitcode keeps prompts first-class, but they now support the deposit/need/fit story instead of competing with it.',
       data: source.promptSurfaces,
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'

@@ -11,8 +11,8 @@ import { OrbitalIcon } from './orbital-icon';
 interface UserMenuProps {
   /** Supabase user object */
   user: import("@supabase/supabase-js").User;
-  /** Callback when the user selects “Manage account” */
-  onManageAccount?: () => void;
+  /** Callback when the user selects “Orbitals” */
+  onOpenOrbitals?: () => void;
   /** Callback when the user selects “Sign out” */
   onSignOut: () => void;
 }
@@ -40,7 +40,7 @@ const contentStyles = `${menuStyles.menu}`;
  * Increased padding, smooth colour transitions and active/hover feedback that
  * follow the emerald accent used across interactive elements.
  */
-export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
+export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
   const avatarUrl =
     (user.user_metadata && (user.user_metadata.avatar_url as string)) || "";
 
@@ -99,24 +99,32 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
                 </Avatar.Fallback>
               </Avatar.Root>
             </div>
-            <div className="min-w-0">
-              <p className="truncate font-medium text-neutral-100">
-                {user.email}
-              </p>
-            </div>
+          <div className="min-w-0">
+            <p className="text-[0.58rem] uppercase tracking-[0.22em] text-emerald-300/70">
+              Workspace account
+            </p>
+            <p className="truncate font-medium text-neutral-100">
+              {user.email}
+            </p>
           </div>
+        </div>
 
-          <div className="flex flex-col">
-            {onManageAccount && (
+        <div className="flex flex-col">
+            {onOpenOrbitals && (
               <DropdownMenu.Item
                 onSelect={(e) => {
                   e.preventDefault();
-                  onManageAccount();
+                  onOpenOrbitals();
                 }}
                 className={`${menuStyles.item}`}
               >
                 <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
-                <span>Orbitals</span>
+                <div className="min-w-0">
+                  <span className="block">Open Orbitals</span>
+                  <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-emerald-200/60">
+                    Connects, Interfaces, Profile, $BTD
+                  </span>
+                </div>
               </DropdownMenu.Item>
             )}
 
@@ -128,7 +136,12 @@ export function UserMenu({ user, onManageAccount, onSignOut }: UserMenuProps) {
               className={classNames(menuStyles.item, menuStyles.danger)}
             >
               <ArrowRightOnRectangleIcon className={classNames("h-5 w-5 flex-shrink-0 mr-2", menuStyles.dangerIcon)} aria-hidden="true" />
-              <span>Sign Out</span>
+              <div className="min-w-0">
+                <span className="block">Sign out</span>
+                <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-red-200/60">
+                  Leave the current workspace
+                </span>
+              </div>
             </DropdownMenu.Item>
           </div>
 

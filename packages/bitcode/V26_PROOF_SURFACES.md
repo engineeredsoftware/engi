@@ -75,6 +75,22 @@ Required coverage posture:
 - proof surface:
   parity ledger rows and explicit closure statements for second-gate acceptance
 
+### Gate 3: marketing refurbishment preparation
+
+Required system families:
+- public website refurbishment carriers
+- tooltip/help posture preservation
+- separation between application acceptance and marketing iteration
+- generated checkpoint artifacts that leave third-gate work explicit instead of implied complete
+
+Required coverage posture:
+- spec:
+  third-gate scope, timing, and separation remain explicit in `ENGI_SPEC_V26*`
+- tests:
+  application acceptance does not depend on third-gate marketing work
+- proof surface:
+  first+second-gate closure artifacts must still report third-gate preparation clearly
+
 ### Gate 4: retained-system convergence
 
 Required system families:
@@ -193,6 +209,16 @@ Current active assignments:
   `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/application` verification
   proof surface:
   second-gate workspace-chrome discipline for unauthenticated application and orbital routes, replacing disabled marketing CTA behavior with deliberate access/create-account actions
+- `uapi/components/base/engi/layout/user-menu.tsx`
+  test coverage:
+  `uapi/tests/userMenu.test.tsx`
+  proof surface:
+  second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals` with the fixed Connects/Interfaces/Profile/$BTD ring model instead of settings/account wording
+- `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
+  test coverage:
+  `uapi/tests/notificationsWidget.test.tsx`
+  proof surface:
+  second-gate operator-facing notification posture so proofs, repository events, and review prompts remain part of the workspace chrome rather than generic account furniture
 - `uapi/components/base/engi/layout/workspace-surface.ts`
   test coverage:
   `uapi/tests/workspaceSurface.test.ts`
@@ -218,6 +244,11 @@ Current active assignments:
   `uapi/tests/applicationOperatorCard.test.tsx`
   proof surface:
   second-gate shared application workspace shell/help carrier for route-local workspace framing, reusable header posture, and user-facing copy discipline
+- `.engi/v26-gate-checkpoint-report.json`
+  test coverage:
+  `packages/bitcode/test/proven-generator.test.js`
+  proof surface:
+  explicit first+second-gate closure witness for the near-term V26 commit boundary, including third-gate preparation posture before full V26 promotion
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`

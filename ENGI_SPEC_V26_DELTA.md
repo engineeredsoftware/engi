@@ -9,7 +9,7 @@
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 preview artifacts remain `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, and `ENGI_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 preview artifacts now include `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
@@ -69,6 +69,11 @@ Its rule is:
 - avoid letting marketing-page changes blur application acceptance criteria,
 - preserve rich tooltip/help posture instead of flattening it during cleanup,
 - and keep public product language aligned to Give, Need, transactions, conversations, and Orbitals rather than demo or gate narration.
+
+The current V26 near-term checkpoint is explicitly earlier than third-gate closure:
+- first-gate and second-gate closure are carried by `.engi/v26-gate-checkpoint-report.json`,
+- that checkpoint must leave third-gate preparation explicit,
+- and third-gate promotion work must remain separate from second-gate application acceptance.
 
 Its current draft-only content spine is:
 - where + when:
