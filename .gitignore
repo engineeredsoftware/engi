@@ -65,6 +65,7 @@ uapi/stories/**/*.js
 admin/tailwind.config.js
 packages/**/tests/**/*.js
 packages/**/test/**/*.js
+!packages/bitcode/test/v26-public-copy.test.js
 packages/**/examples/**/*.js
 packages/**/run/**/*.js
 packages/**/prompts/**/*.js

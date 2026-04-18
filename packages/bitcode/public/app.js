@@ -165,6 +165,19 @@ function requireElement(id) {
 }
 
 /**
+ * @template {HTMLElement} T
+ * @param {string[]} ids
+ * @returns {T}
+ */
+function requireElementAny(ids) {
+  for (const id of ids) {
+    const element = document.getElementById(id);
+    if (element) return /** @type {T} */ (element);
+  }
+  throw new Error(`Missing required element: ${ids.join(' or ')}`);
+}
+
+/**
  * @param {EventTarget | null} target
  * @param {string} selector
  * @returns {HTMLElement | null}
@@ -775,7 +788,7 @@ function buildApplicationSummarySurface(state) {
 
 const DEFAULT_SURFACE_MODE = 'visual';
 const EXPLAINER_PANEL_MAX_WIDTH = 360;
-const TUTORIAL_STORAGE_KEY = 'bitcode-application:first-gate:tutorial-overlay-dismissed:v26';
+const FLOW_GUIDE_STORAGE_KEY = 'bitcode-application:first-gate:flow-guide-overlay-dismissed:v26';
 let surfaceCounter = 0;
 let explainerCounter = 0;
 let selectedScenarioId = '';
@@ -788,15 +801,15 @@ let inventorySearchTerm = '';
 let selectedInventoryKind = 'all';
 /** @type {AppState | null} */
 let lastLoadedState = null;
-let tutorialStepIndex = 0;
-let tutorialOpen = true;
+let flowGuideStepIndex = 0;
+let flowGuideOpen = true;
 /** @type {HTMLElement | null} */
-let tutorialHighlightedEl = null;
+let flowGuideHighlightedEl = null;
 
 try {
-  tutorialOpen = window.localStorage.getItem(TUTORIAL_STORAGE_KEY) !== '1';
+  flowGuideOpen = window.localStorage.getItem(FLOW_GUIDE_STORAGE_KEY) !== '1';
 } catch {
-  tutorialOpen = true;
+  flowGuideOpen = true;
 }
 
 function getBitcodeApplicationShellSnapshot() {
@@ -877,10 +890,10 @@ function getBitcodeApplicationShellSnapshot() {
       heroLede: heroLedeEl.textContent?.trim() || '',
       heroTip: heroTipEl.textContent?.trim() || '',
       status: statusEl.textContent?.trim() || '',
-      tutorialLabel: tutorialToggleButtonEl.textContent?.trim() || '',
-      tutorialOpen,
-      tutorialStepIndex,
-      tutorialStepCount: tutorialSteps(state).length,
+      flowGuideLabel: flowGuideToggleButtonEl.textContent?.trim() || '',
+      flowGuideOpen,
+      flowGuideStepIndex,
+      flowGuideStepCount: flowGuideSteps(state).length,
       projectionOptions: compactSelectOptions(projectionPickerEl),
       branchModeOptions: compactSelectOptions(branchModePickerEl)
     },
@@ -1981,7 +1994,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Need / asset guardrail',
     title: 'Constraints',
     summary: 'Hard rules the current asset or measured need expects Bitcode to preserve while closing the scenario.',
-    detail: 'Constraints keep the demo from reading like “fix it however you want.” They state what must stay true while the branch, proof, and settlement path proceeds.',
+    detail: 'Constraints keep the active transaction from reading like “fix it however you want.” They state what must stay true while the branch, proof, and settlement path proceeds.',
     points: [
       'Can be declared on assets or on the measured need',
       'Different from closure criteria, which describe what counts as closed'
@@ -2234,7 +2247,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Receipt binding',
     summary: 'The requirement that evidence, remediation, or settlement stay attached to replayable receipts.',
-    detail: 'Receipt-binding capsules matter whenever the demo must prove not just what happened, but which receipt trail proves it happened.',
+    detail: 'Receipt-binding capsules matter whenever Bitcode must prove not just what happened, but which receipt trail proves it happened.',
     points: [
       'Often paired with auditability and workflow binding',
       'Can show up in both constraints and closure criteria'
@@ -2325,7 +2338,7 @@ const EXTRA_EXPLAINERS = {
     detail: 'This is one of the clearest signals that the need is composite and may push toward normalization-heavy closure.',
     points: [
       'Often implies broader proof or settlement burden',
-      'Common in Profile B demonstrations'
+      'Common in Profile B scenarios'
     ],
     references: NEED_CAPSULE_REFERENCES
   },
@@ -2333,7 +2346,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Deployment',
     summary: 'Marks remediation work whose closure depends on deployment sequencing, release safety, or environment parity.',
-    detail: 'Deployment capsules matter because the demo has to show not only code changes, but safe rollout and rollback posture.',
+    detail: 'Deployment capsules matter because Bitcode has to show not only code changes, but safe rollout and rollback posture.',
     points: [
       'Often paired with infra, helm, terraform, or policy concerns',
       'Can shift the scenario toward broader operational proof'
@@ -2366,7 +2379,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Stack tag',
     title: 'Helm',
     summary: 'Marks Helm-bearing deployment or infrastructure material in the current corpus.',
-    detail: 'Helm tags usually matter when deployment parity or version drift needs to stay explicit in the demo.',
+    detail: 'Helm tags usually matter when deployment parity or version drift needs to stay explicit in the workspace.',
     points: [
       'A concrete deployment artifact signal',
       'Often paired with Terraform or Kubernetes tags'
@@ -2443,7 +2456,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Projection',
     summary: 'Marks public-facing projections derived from deeper private artifacts.',
-    detail: 'Projection capsules matter whenever the demo needs to show bounded public inspection without exposing the private branch payloads.',
+    detail: 'Projection capsules matter whenever Bitcode needs to show bounded public inspection without exposing the private branch payloads.',
     points: [
       'Closely tied to bounded public proof',
       'Useful for privacy-boundary scenarios'
@@ -2487,7 +2500,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Governance',
     summary: 'Marks policy, approval, or procedural control surfaces that the remediation path must respect.',
-    detail: 'Governance capsules keep the demo focused on operator-quality closure instead of treating process controls as optional garnish.',
+    detail: 'Governance capsules keep the workspace focused on operator-quality closure instead of treating process controls as optional garnish.',
     points: [
       'Often pairs with policy, review, or auditability',
       'Can appear in both need constraints and asset metadata'
@@ -2534,7 +2547,7 @@ const EXTRA_EXPLAINERS = {
     detail: 'Formal-methods capsules are a signal that the proof burden is higher and the operator may need to read theorem or validator surfaces.',
     points: [
       'Often paired with validator, Creusot, or Rust tags',
-      'Important in proof-heavy Bitcode demonstrations'
+      'Important in proof-heavy Bitcode scenarios'
     ],
     references: ASSET_CAPSULE_REFERENCES
   },
@@ -2588,7 +2601,7 @@ const EXTRA_EXPLAINERS = {
     summary: 'Marks a scenario whose supply or closure path spans one multi-surface repository.',
     detail: 'Monorepo capsules matter because they often combine code, config, docs, and proofs inside one repo-bound deposit.',
     points: [
-      'Useful for mixed-bundle demonstrations',
+      'Useful for mixed-bundle scenarios',
       'Can increase artifact-kind diversity and normalization pressure'
     ],
     references: NEED_CAPSULE_REFERENCES
@@ -3376,7 +3389,7 @@ function buildDynamicExplainer(label = '', domainKey = '') {
     detail = `${domainTitle} is the primary domain behind the failing slice, which is why the phrase appears directly in the needing surface before deeper proof inspection.`;
   } else if (normalized.includes('-')) {
     kicker = 'Scenario / corpus capsule';
-    summary = 'This capsule is part of the seeded Bitcode corpus vocabulary used to keep the demo’s need and asset surfaces legible at a glance.';
+    summary = 'This capsule is part of the seeded Bitcode corpus vocabulary used to keep the active need and asset surfaces legible at a glance.';
     detail = `${domainTitle} is the closest domain anchor for this phrase in the current corpus.`;
   }
 
@@ -3443,7 +3456,24 @@ function formatExplainerReference(ref) {
   const trimmed = String(ref ?? '').trim();
   if (!trimmed) return '';
 
-  return trimmed
+  const friendlyReference = {
+    'public/app.js -> renderRunHistoryVisual()': 'Run history surface',
+    'public/app.js -> renderDepositingToNeedingVisual()': 'Give and need surface',
+    'public/app.js -> renderRepoToSettlementVisual()': 'Repo supply to settlement surface',
+    'public/app.js -> renderAssetVisual()': 'Asset detail surface',
+    'public/app.js -> renderNeedVisual()': 'Need detail surface',
+    'public/app.js -> renderProfileCompositionVisual()': 'Profile composition surface',
+    'public/app.js -> renderBoundaryRealityVisual()': 'Boundary reality surface',
+    'src/bitcode-runtime.js -> buildDepositingToNeedingSurface()': 'Give and need runtime',
+    'src/bitcode-runtime.js -> makeCandidateAsset()': 'Asset addressing runtime',
+    'src/bitcode-runtime.js -> buildNeedDescriptor()': 'Need measurement runtime',
+    'src/bitcode-runtime.js -> recallCandidates()': 'Recall channel runtime',
+    'src/bitcode-runtime.js -> buildBoundaryRealitySurface()': 'Boundary reality runtime',
+    'src/demo-shell-state.js -> buildProfileCompositions()': 'Seeded profile compositions',
+    'src/demo-shell-state.js -> buildPublicAssetSummary()': 'Seeded asset summary'
+  }[trimmed] || trimmed;
+
+  return friendlyReference
     .replace(/^V\d+\s+canon\s*->\s*/i, '')
     .replace(/\bcanonical promotion\b/gi, 'promotion review');
 }
@@ -4799,7 +4829,7 @@ function renderSelectedSourceMaterialManifestVisual(manifest) {
  */
 function renderProfileCompositionVisual(profileState) {
   const profiles = profileState?.profiles || profileState?.profileCompositions?.profiles || [];
-  const guidance = profileState?.demoOperatorGuidance || {};
+  const guidance = profileState?.operatorGuidance || profileState?.demoOperatorGuidance || {};
   const activeScenarioProfileId = profileState?.activeScenarioProfileId || '';
   return `
     <div class="visual-stack">

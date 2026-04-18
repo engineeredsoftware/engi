@@ -571,6 +571,7 @@ Operational rule:
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
 - contained orbital surfaces now reset stale deep-link pane state on close, suppress free-floating background animation, and reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture
 - signed-in workspace chrome now exposes Orbitals through the user menu as `Open Orbitals`, while notifications stay operator-facing and describe proofs, repository events, and review prompts rather than generic account/settings chrome
+- preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
 
 ## First-and-second-gate checkpoint artifact
 

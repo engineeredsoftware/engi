@@ -98,10 +98,7 @@ module.exports = {
   testPathIgnorePatterns: [
     // Do not run Playwright e2e tests in Jest
     '<rootDir>/tests/e2e/',
-    // Skip notificationsWidget tests until testing-library/react is added
-    'notificationsWidget\\.test\\.tsx?$',
     // 'pipeline.*\.test\.[jt]sx?$', // allow pipelineDiscoveryGetAI Documents.test.ts
-    '<rootDir>/tests/notificationsWidget.test.tsx',
     'setupDeliverablesAgents\.test\.[jt]sx?$',
     '.*Step\.test\.[jt]sx?$',
     '.*\.integration\.test\.[jt]sx?$',

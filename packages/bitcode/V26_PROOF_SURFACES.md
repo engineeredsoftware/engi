@@ -226,9 +226,10 @@ Current active assignments:
   shared second-gate route classification for application/orbital/conversation chrome, including footer suppression on operator routes and stable navbar-surface selection
 - `packages/bitcode/public/app.js`
   test coverage:
-  live `/application` verification through the preserved runtime tooltip/footer layer
+  live `/application` verification through the preserved runtime tooltip/footer layer and
+  `packages/bitcode/test/v26-public-copy.test.js`
   proof surface:
-  preserved-runtime user-facing copy discipline, including live-surface/reference-topic tooltip labels instead of canon/version self-reference in visible help surfaces
+  preserved-runtime user-facing copy discipline, including live-surface/reference-topic tooltip labels, friendly reference-chip naming, and removal of demo-era language from visible help surfaces
 - `packages/bitcode/public/index.html`
   test coverage:
   live `/application` verification through the preserved runtime drawer and direct runtime load expectations

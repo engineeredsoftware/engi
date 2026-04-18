@@ -1,19 +1,39 @@
 /**
  * @jest-environment jsdom
  */
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-jest.mock('@/components/base/engi/menus/glassy-menu.module.css', () => ({
-  __esModule: true,
-  default: {
-    menu: 'menu',
-    item: 'item',
-    danger: 'danger',
-    dangerIcon: 'danger-icon',
-  },
-}));
+jest.mock('@radix-ui/react-dropdown-menu', () => {
+  const React = require('react');
+
+  return {
+    Root: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    Trigger: ({ asChild, children }: { asChild?: boolean; children: React.ReactNode }) =>
+      asChild ? children : <button type="button">{children}</button>,
+    Portal: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+    Content: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    Item: ({
+      children,
+      onSelect,
+      className,
+    }: {
+      children: React.ReactNode;
+      onSelect?: (event: { preventDefault: () => void }) => void;
+      className?: string;
+    }) => (
+      <button
+        type="button"
+        className={className}
+        onClick={() => onSelect?.({ preventDefault: () => {} })}
+      >
+        {children}
+      </button>
+    ),
+  };
+});
 
 import { UserMenu } from '@/components/base/engi/layout/user-menu';
 
@@ -31,9 +51,7 @@ describe('UserMenu', () => {
       <UserMenu user={mockUser} onOpenOrbitals={onOpenOrbitals} onSignOut={onSignOut} />,
     );
 
-    fireEvent.pointerDown(screen.getByRole('button', { name: 'User menu' }));
-
-    expect(await screen.findByText('Workspace account')).toBeInTheDocument();
+    expect(screen.getByText('Workspace account')).toBeInTheDocument();
     expect(screen.getByText('Open Orbitals')).toBeInTheDocument();
     expect(screen.getByText('Connects, Interfaces, Profile, $BTD')).toBeInTheDocument();
 

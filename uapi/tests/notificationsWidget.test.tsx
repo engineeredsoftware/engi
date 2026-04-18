@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -17,17 +18,21 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import { NotificationsWidget } from '@/components/base/engi/notifications/NotificationsWidget';
 
 describe('NotificationsWidget', () => {
+  const mockChannel = {
+    on: jest.fn().mockReturnThis(),
+    subscribe: jest.fn().mockReturnThis(),
+  };
+
   const mockSupabase = {
     auth: { getUser: jest.fn() },
-    channel: jest.fn().mockReturnValue({
-      on: jest.fn().mockReturnValue({ subscribe: jest.fn() }),
-      subscribe: jest.fn()
-    }),
+    channel: jest.fn().mockReturnValue(mockChannel),
     removeChannel: jest.fn()
   };
 
   beforeEach(() => {
     jest.resetAllMocks();
+    mockChannel.on.mockReturnThis();
+    mockChannel.subscribe.mockReturnThis();
     // Default fetch to return empty list
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => [] });
     // Supabase auth returns a user
@@ -67,8 +72,8 @@ describe('NotificationsWidget', () => {
     ];
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => notifications });
     render(<NotificationsWidget />);
-    await screen.findByText('Test');
     fireEvent.click(screen.getByRole('button'));
+    expect(await screen.findByText('Test')).toBeInTheDocument();
     const markBtn = await screen.findByText('Read');
     fireEvent.click(markBtn);
     await waitFor(() => {
@@ -88,8 +93,8 @@ describe('NotificationsWidget', () => {
     ];
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => notifications });
     render(<NotificationsWidget />);
-    await screen.findByText('DeleteMe');
     fireEvent.click(screen.getByRole('button'));
+    expect(await screen.findByText('DeleteMe')).toBeInTheDocument();
     const deleteBtn = await screen.findByText('×');
     fireEvent.click(deleteBtn);
     await waitFor(() => {

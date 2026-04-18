@@ -1,9 +1,9 @@
 {
   "reportId": "v26-canonical-input-report",
   "version": "V26",
-  "proofSourceCommit": "fd508b95caa4f10d37ab7eb20ba3c8dc41d4554f",
-  "generatedAt": "2026-04-15T23:14:44-03:00",
-  "generatorId": "engi-demo.proven-generator.v1",
+  "proofSourceCommit": "7a6315011383c11cd2ffbb774ad29b250a1bcef5",
+  "generatedAt": "2026-04-18T11:11:21-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedTargetVersion": "V26",
   "pointerVersion": "V25",
@@ -15,7 +15,8 @@
   "parityPath": "ENGI_SPEC_V26_PARITY_MATRIX.md",
   "requiredGeneratedArtifactPaths": [
     ".engi/v26-spec-family-report.json",
-    ".engi/v26-canonical-input-report.json"
+    ".engi/v26-canonical-input-report.json",
+    ".engi/v26-gate-checkpoint-report.json"
   ],
-  "requiredGeneratedArtifactCount": 2
+  "requiredGeneratedArtifactCount": 3
 }

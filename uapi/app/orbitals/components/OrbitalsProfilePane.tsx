@@ -11,7 +11,7 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
 import stylesProfilePane from './profile-pane.module.css';
-import OrbitalsUsersOrbitalHeader from './headers/OrbitalsUsersOrbitalHeader';
+import OrbitalsProfileOrbitalHeader from './headers/OrbitalsProfileOrbitalHeader';
 import DataSharingPanel from './OrbitalsDataSharingPanel';
 
 interface TeamMember {
@@ -353,7 +353,7 @@ export default function ProfileStep({ onSave,
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="step-header">
-          <OrbitalsUsersOrbitalHeader
+          <OrbitalsProfileOrbitalHeader
             isOnboardingComplete={isOnboardingComplete}
             isVerified={isVerified}
           />

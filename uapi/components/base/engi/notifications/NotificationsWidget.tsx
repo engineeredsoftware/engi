@@ -5,7 +5,7 @@
  * paths remain compatible with current app routes.
  */
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import '@/styles/notifications-widget.css';
 
@@ -60,27 +60,37 @@ export function NotificationsWidget() {
         return;
       }
 
-      channel = supabase
-        .channel('notifications')
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'notifications',
-            filter: `user_id=eq.${user.id}`,
-          },
-          (payload) => {
-            const { eventType, new: newRow, old: oldRow } = payload as any;
-            setNotifications((prev) => {
-              if (eventType === 'INSERT' && newRow) return [normalize([newRow])[0], ...prev];
-              if (eventType === 'UPDATE' && newRow) return prev.map((n) => (n.id === newRow.id ? normalize([newRow])[0] : n));
-              if (eventType === 'DELETE' && oldRow) return prev.filter((n) => n.id !== oldRow.id);
-              return prev;
-            });
-          },
-        )
-        .subscribe();
+      const notificationsChannel =
+        typeof supabase.channel === 'function' ? supabase.channel('notifications') : null;
+
+      if (!notificationsChannel || typeof notificationsChannel.on !== 'function') {
+        return;
+      }
+
+      notificationsChannel.on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const { eventType, new: newRow, old: oldRow } = payload as any;
+          setNotifications((prev) => {
+            if (eventType === 'INSERT' && newRow) return [normalize([newRow])[0], ...prev];
+            if (eventType === 'UPDATE' && newRow) return prev.map((n) => (n.id === newRow.id ? normalize([newRow])[0] : n));
+            if (eventType === 'DELETE' && oldRow) return prev.filter((n) => n.id !== oldRow.id);
+            return prev;
+          });
+        },
+      );
+
+      if (typeof notificationsChannel.subscribe === 'function') {
+        notificationsChannel.subscribe();
+      }
+
+      channel = notificationsChannel;
     })();
 
     const handleOutside = (e: MouseEvent) => {
@@ -89,7 +99,7 @@ export function NotificationsWidget() {
     document.addEventListener('mousedown', handleOutside);
 
     return () => {
-      if (channel) supabase.removeChannel(channel);
+      if (channel && typeof supabase.removeChannel === 'function') supabase.removeChannel(channel);
       document.removeEventListener('mousedown', handleOutside);
     };
   }, [supabase, fetchNotifications, normalize]);

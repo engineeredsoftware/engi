@@ -215,17 +215,49 @@ function OrbitalContent(props: OrbitalContentProps) {
         <div className="orbital-workspace-shell">
           <aside className="orbital-workspace-nav">
             <div className="orbital-workspace-nav-copy">
-              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital rings' : 'Workspace access'}</p>
+              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbital workspace' : 'Workspace access'}</p>
               <h3 className="orbital-workspace-title">
                 {isOrbitalMode
-                  ? `Move between ${steps.map((step) => labelForOrbitalPane(step)).filter(Boolean).join(', ')}.`
+                  ? `Keep ${steps.map((step) => labelForOrbitalPane(step)).filter(Boolean).join(', ')} in one contained workspace.`
                   : 'Sign in once, then move through the four orbitals without losing the active pane.'}
               </h3>
               <p className="orbital-workspace-description">
                 {isOrbitalMode
-                  ? 'The four-ring model stays visible while the active pane opens in a stable reading workspace.'
+                  ? 'The four-ring model stays visible while the active pane opens in a stable reading workspace tuned for Bitcode transactions, conversations, and orbital follow-through.'
                   : 'Keep the current orbital, the next available orbital, and the active access form readable in one contained workspace.'}
               </p>
+            </div>
+            <div className="orbital-workspace-sequence" role="list" aria-label="Orbital sequence">
+              {steps.map((step) => {
+                if (!step) return null;
+
+                const descriptor = getOrbitalDescriptor(step);
+                const isActive = currentStep === step;
+                const isAvailable = availableSteps.includes(step);
+
+                return (
+                  <div
+                    key={step}
+                    role="listitem"
+                    className={`orbital-workspace-sequence-item ${
+                      isActive
+                        ? 'orbital-workspace-sequence-item-active'
+                        : isAvailable
+                          ? 'orbital-workspace-sequence-item-available'
+                          : 'orbital-workspace-sequence-item-locked'
+                    }`}
+                  >
+                    <div className="orbital-workspace-sequence-topline">
+                      <span className="orbital-workspace-sequence-index">Ring {descriptor.ringIndex + 1}</span>
+                      <span className="orbital-workspace-sequence-state">
+                        {isActive ? 'active' : isAvailable ? 'ready' : 'locked'}
+                      </span>
+                    </div>
+                    <p className="orbital-workspace-sequence-label">{descriptor.label}</p>
+                    <p className="orbital-workspace-sequence-copy">{descriptor.routeDescription}</p>
+                  </div>
+                );
+              })}
             </div>
             <div className="orbital-rings-container orbital-rings-contained">{ringElements}</div>
             <OrbitalsPaneTabs

@@ -1,0 +1,122 @@
+{
+  "reportId": "v26-gate-checkpoint-report",
+  "version": "V26",
+  "proofSourceCommit": "7a6315011383c11cd2ffbb774ad29b250a1bcef5",
+  "generatedAt": "2026-04-18T11:11:21-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "activeCanonicalTarget": "V25",
+  "draftPreview": true,
+  "checkpointId": "v26-first-second-gate-checkpoint",
+  "checkpointFocus": "first-and-second-gate-closure",
+  "nextGate": "Gate 3: marketing refurbishment",
+  "passed": true,
+  "firstGate": {
+    "gateId": "gate-1",
+    "label": "Ownership migration baseline",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "v19-deterministic-replay",
+        "label": "Inherited V19 deterministic replay report",
+        "passed": true,
+        "detail": "Deterministic replay remains closed"
+      },
+      {
+        "checkId": "v19-volatility-inventory",
+        "label": "Inherited V19 volatility inventory",
+        "passed": true,
+        "detail": "Volatility inventory remains closed"
+      },
+      {
+        "checkId": "v19-contract-change-ledger",
+        "label": "Inherited V19 contract change ledger",
+        "passed": true,
+        "detail": "Contract change ledger remains closed"
+      },
+      {
+        "checkId": "v20-operator-quality",
+        "label": "Inherited V20 operator quality summary",
+        "passed": true,
+        "detail": "Operator quality summary remains closed"
+      },
+      {
+        "checkId": "v26-spec-family",
+        "label": "V26 spec-family report",
+        "passed": true,
+        "detail": "Spec-family report passes in draft mode"
+      },
+      {
+        "checkId": "v26-canonical-input",
+        "label": "V26 canonical-input report",
+        "passed": true,
+        "detail": "Canonical-input report passes for the V26 draft family"
+      }
+    ]
+  },
+  "secondGate": {
+    "gateId": "gate-2",
+    "label": "Application UX/UI and external interfacing hardening",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "second-gate-application-carriers",
+        "label": "Second-gate application and orbital carriers",
+        "passed": true,
+        "detail": "12 required files present",
+        "requiredFiles": [
+          "uapi/app/application/ApplicationPageClient.tsx",
+          "uapi/app/application/ApplicationTransactionWorkspace.tsx",
+          "uapi/app/application/ApplicationTransactionDetailSurface.tsx",
+          "uapi/app/application/ApplicationCommandDeck.tsx",
+          "uapi/app/application/ApplicationWorkspaceRail.tsx",
+          "uapi/app/orbitals/components/OrbitalsProvider.tsx",
+          "uapi/app/orbitals/components/OrbitalsConnectsPane.tsx",
+          "uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx",
+          "uapi/app/orbitals/components/OrbitalsBTDPane.tsx",
+          "uapi/components/base/engi/layout/nav.tsx",
+          "uapi/components/base/engi/layout/user-menu.tsx",
+          "uapi/components/base/engi/notifications/NotificationsWidget.tsx"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "second-gate-proof-carriers",
+        "label": "Second-gate proof and test carriers",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "uapi/tests/orbitalsProvider.test.tsx",
+          "uapi/tests/orbitalsInterfacesPane.test.tsx",
+          "uapi/tests/orbitalsBTDPane.test.tsx",
+          "uapi/tests/navWorkspaceChrome.test.tsx",
+          "uapi/tests/notificationsWidget.test.tsx",
+          "uapi/tests/orbitalsLoginPane.test.tsx"
+        ],
+        "missingFiles": []
+      }
+    ]
+  },
+  "thirdGatePreparation": {
+    "gateId": "gate-3-preparation",
+    "label": "Marketing refurbishment preparation",
+    "prepared": true,
+    "checks": [
+      {
+        "checkId": "third-gate-preparation-docs",
+        "label": "Third-gate preparation and separation artifacts",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "uapi/app/(root)/components/MarketingLandingPage.tsx",
+          "ENGI_SPEC_V26_DELTA.md",
+          "ENGI_SPEC_V26_NOTES.md",
+          "ENGI_SPEC_V26_PARITY_MATRIX.md",
+          "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
+          "packages/bitcode/V26_PROOF_SURFACES.md"
+        ],
+        "missingFiles": []
+      }
+    ]
+  }
+}
