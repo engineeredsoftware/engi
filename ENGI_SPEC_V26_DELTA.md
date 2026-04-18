@@ -375,6 +375,7 @@ Second-gate acceptance is reached only when:
 - preserved-runtime help/reference rendering is now user-facing, using live-surface and reference-topic labels instead of canon/version self-reference in the visible runtime tooltip/footer layer,
 - preserved-runtime telemetry and diagnostics now use Bitcode-facing runtime labeling instead of `engi-demo`-era visible prefixes,
 - preserved-runtime HTML fallback copy now matches the React-owned closure-runtime and flow-guide wording instead of leaking prototype/tutorial text,
+- the mounted public shell has now started third-gate through one shared `bitcode-public-copy.ts` owner feeding the landing page, footer, and stable `/demo-video` guide route, so public entry copy inherits `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals` vocabulary from the application instead of preserving demo-era CTA language,
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,
 - active `Interfaces` and `$BTD` panes now use live `interfaces`/`btd` naming and orbital-entry classing instead of exposing model/credits/settings residue in the active orbital surface,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,

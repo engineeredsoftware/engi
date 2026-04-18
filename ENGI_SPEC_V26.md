@@ -254,6 +254,20 @@ Third-gate must now also:
 - preserve the strongest prior guidance UX, including rich tooltip content and resumable guide/draft posture,
 - and prepare the public site to read as the outer frame of the production Bitcode application rather than as a detached marketing skin.
 
+The current mounted third-gate start carriers are now explicitly:
+- `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/footer.tsx`
+- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+
+Those owners now carry the public-shell vocabulary for:
+- `transactions terminal`
+- `operator guide`
+- `give`
+- `need`
+- `orbitals`
+
 Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
 - the main public entry points inherit the same Give/Need, transactions, conversations, and Orbitals vocabulary used by the application,
@@ -1303,6 +1317,10 @@ The current canonical source map includes:
 - `uapi/app/api/v24/executors/[interfaceId]/route.ts`
 - `uapi/lib/bitcode-app-context.ts`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/footer.tsx`
+- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 - `uapi/components/base/README.md`
 - `packages/github`
 - `packages/auth`

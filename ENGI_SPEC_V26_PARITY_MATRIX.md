@@ -149,7 +149,7 @@ This ledger is grounded in:
 | First-gate API migration | preserved shell JSON contract is app-owned | implemented |
 | Second-gate application experience | preserved shell is replaced with deeper app-facing component composition and stable external interfacing behavior, according to the explicit design/acceptance contract | substantially advanced |
 | Single primary application route and overlay posture | `/application` is the primary Bitcode destination and conversations/orbitals/runs flow inward from that context | substantially advanced |
-| Third-gate marketing refurbishment | marketing surface is refurbished after application acceptance stabilizes, using the later-gate content spine already captured in the V26 draft family | drafted |
+| Third-gate marketing refurbishment | mounted public-shell owners now inherit application vocabulary through shared public copy while the broader marketing surface remains a later-gate refurbishment | started |
 | Fourth-gate retained-system convergence | conversations, runs/pipelines, deliverables, prompts, and retained abstractions are ported into the V26 total system | drafted |
 | Fifth-gate debug/environment and proof closure | application includes the debug widget, environment toggle, proof-family closure, retained-package admissibility, and final cleanup controls needed for promotion | drafted |
 | Orbital ring rehabilitation | orbitals behave like the real Connects/Interfaces/Profile/`$BTD` owner while preserving the ring overlay shell | substantially advanced |

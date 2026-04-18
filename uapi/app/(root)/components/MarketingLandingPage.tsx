@@ -22,6 +22,7 @@ import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-s
 import Logo from '@/components/base/engi/branding/logo';
 import { QuantumOrb, minimalPreset } from '@/components/base/engi/effects/quantum-orb';
 import Footer from '@/components/base/engi/layout/footer';
+import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
 
 import '../../../styles/coming-soon-fix.css';
@@ -63,17 +64,17 @@ const BACKGROUND_PARTICLES: readonly Particle[] = Array.from({ length: 14 }, (_,
 const productPillars = [
   {
     title: 'Deposit',
-    description: 'Public deposits turn technical assets into source material for later measurement.',
+    description: 'Give contributes code, docs, and context into searchable supply.',
     Icon: CubeTransparentIcon,
   },
   {
     title: 'Measure',
-    description: 'Provable measurement makes raw source economically legible to licensed reads.',
+    description: 'Need reads against measurable quality, fit, and proof-bearing context.',
     Icon: ScaleIcon,
   },
   {
     title: 'EARN $BTD',
-    description: 'Deposited contributions become live, licensable depot supply. Metered consumption issues $BTD.',
+    description: 'Settlement and licensed consumption allocate $BTD across contributors and rights holders.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
@@ -137,7 +138,6 @@ const previewRows = [
   },
 ] as const;
 
-const surfaceModes = ['Assess', 'Deposit', 'License*', 'Earnings'] as const;
 const measuremintCandles = [
   { left: '8%', wickTop: '38%', wickHeight: '28%', bodyTop: '49%', bodyHeight: '12%', bullish: true },
   { left: '18%', wickTop: '44%', wickHeight: '20%', bodyTop: '52%', bodyHeight: '10%', bullish: false },
@@ -181,19 +181,11 @@ const verifiedAccessOrbConfig = {
   showShadow: true,
   speed: 18,
 } as const;
-const canonicalPathStages = [
-  { number: '01', stage: 'deposit' },
-  { number: '02', stage: 'ingestion' },
-  { number: '03', stage: 'index' },
-  { number: '04', stage: 'measure' },
-  { number: '05', stage: 'retrieve' },
-  { number: '06', stage: 'allocate' },
-] as const;
-const headlineText = 'Bitcode is auditable market infrastructure for engineering knowledge.';
+const headlineText = BITCODE_PUBLIC_COPY.headline;
 const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 const headlineHighlights = [
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
-  { text: 'market infrastructure for engineering', className: heroHighlightClass },
+  { text: 'transactions terminal', className: heroHighlightClass },
 ] as const;
 
 function renderOrbitalBullet(className = '', variant: 'purple' | 'orange' | 'green' = 'purple') {
@@ -365,31 +357,23 @@ const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
     >
       <div className="pointer-events-none absolute left-0 top-0 -translate-x-3 -translate-y-1/2 phone:-translate-x-4">
         <div className="inline-flex items-center rounded-full border border-emerald-300/10 bg-emerald-400/[0.05] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-100/58 shadow-[0_10px_24px_rgba(0,0,0,0.18)] backdrop-blur-xl">
-          <span>Next</span>
+          <span>{BITCODE_PUBLIC_COPY.guide.badge}</span>
         </div>
       </div>
 
       <div className="border-b border-emerald-300/10 pb-3 laptop:grid laptop:grid-cols-[minmax(0,1fr)_auto] laptop:items-center laptop:gap-4">
         <div className="min-w-0 laptop:pr-2">
           <p className="bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.18em] text-transparent phone:text-[12px] phone:tracking-[0.22em]">
-            Bitcode&apos;s Self-Evolution, Now
+            {BITCODE_PUBLIC_COPY.guide.title}
           </p>
         </div>
         <div className="mt-3 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start">
-          <span>2026 March</span>
-          <span className="text-emerald-200/28">•</span>
-          <span>Garrett Maring</span>
+          <span>{BITCODE_PUBLIC_COPY.guide.meta}</span>
         </div>
       </div>
 
       <p className="mt-3 text-[13px] leading-6 text-emerald-100/72">
-        <span className={heroHighlightClass}>$BTD</span>
-        <span>&apos;s purpose is to hoard valuable technical information and compensate contributors
-          fairly. Provable knowledge measuring algorithms build the foundations for collection and
-          issuance. Ideal long-term partnerships for asset management and infrastructure will be
-          finalized to empower the secure and thriving future of </span>
-        <span className={heroHighlightClass}>$BTD</span>
-        <span>.</span>
+        {BITCODE_PUBLIC_COPY.guide.body}
       </p>
     </motion.article>
   );
@@ -542,7 +526,7 @@ export default function MarketingLandingPage() {
 
                 <div className="mt-4 max-w-2xl space-y-4 phone:mt-5">
                   <p className="max-w-xl text-[11px] uppercase tracking-[0.26em] text-emerald-200/70">
-                    Compensating knowledge freely, fairly
+                    {BITCODE_PUBLIC_COPY.eyebrow}
                   </p>
                   <h1 className="text-[2.35rem] font-semibold leading-[0.96] text-white phone:text-[2.9rem] tablet:text-[3.6rem] laptop:text-[4.35rem]">
                     <div className="relative max-w-[13ch] phone:max-w-[14ch] tablet:max-w-[15ch] laptop:max-w-[16ch]">
@@ -557,12 +541,12 @@ export default function MarketingLandingPage() {
                     </div>
                   </h1>
                   <p className="max-w-[42rem] text-[17px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[19px] tablet:text-[21px]">
-                    Deposit code and other technical assets. Quality is provably measured. Consumption distributes rewards. Value accrues to contributors.
+                    {BITCODE_PUBLIC_COPY.description}
                   </p>
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.22em] text-emerald-200/68 phone:mt-5">
-                  {['PUBLIC WRITES', 'PUBLIC PROOFS', 'LICENSED READS', 'MEASUREMINTING'].map((item) => (
+                  {BITCODE_PUBLIC_COPY.capabilityChips.map((item) => (
                     <span
                       key={item}
                       className="relative overflow-hidden rounded-[18px] border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
@@ -627,7 +611,7 @@ export default function MarketingLandingPage() {
                             <div className="relative">
                               <div className="relative min-h-[58px] pr-16 text-violet-100 phone:min-h-[68px] phone:pr-20">
                                 <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
-                                  source
+                                  give
                                 </span>
                                 <div className="flex min-w-0 items-start gap-2">
                                   <Icon className="h-4 w-4 text-purple-300" />
@@ -636,7 +620,7 @@ export default function MarketingLandingPage() {
                                       {title}
                                     </p>
                                     <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-violet-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                                      depot material intake
+                                      give-side intake
                                     </p>
                                   </div>
                                 </div>
@@ -724,7 +708,7 @@ export default function MarketingLandingPage() {
                                       {title}
                                     </p>
                                     <p className="mt-1 max-w-[16ch] text-[9px] uppercase tracking-[0.16em] text-emerald-100/52 phone:max-w-[18ch] phone:text-[10px]">
-                                      quantity + quality + valence
+                                      need fit + quality + valence
                                     </p>
                                   </div>
                                 </div>
@@ -751,7 +735,7 @@ export default function MarketingLandingPage() {
                               </div>
                               <div className="mt-4 rounded-2xl border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
                                 <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-emerald-200/62">
-                                  read need
+                                  active need
                                 </p>
                                 <p className="mt-1 font-mono text-[10px] leading-4 text-emerald-50/84 phone:text-[11px]">
                                   {measureCardReadNeed}
@@ -793,7 +777,7 @@ export default function MarketingLandingPage() {
                                       {title}
                                     </p>
                                     <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-orange-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                                      supplier issuance
+                                      settlement + issuance
                                     </p>
                                   </div>
                                 </div>
@@ -836,17 +820,17 @@ export default function MarketingLandingPage() {
 
                 <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
                   <a
-                    href="/application"
+                    href={BITCODE_PUBLIC_COPY.primaryCta.href}
                     className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
-                    Open application
+                    {BITCODE_PUBLIC_COPY.primaryCta.label}
                     <ArrowRightIcon className="h-4 w-4" />
                   </a>
                   <a
-                    href="/demo-video"
+                    href={BITCODE_PUBLIC_COPY.secondaryCta.href}
                     className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
                   >
-                    Watch walkthrough
+                    {BITCODE_PUBLIC_COPY.secondaryCta.label}
                     <ArrowRightIcon className="h-4 w-4" />
                   </a>
                 </div>
@@ -869,10 +853,10 @@ export default function MarketingLandingPage() {
                   <div className="flex items-center justify-between gap-3">
                     <EngiPill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
                       <CircleStackIcon className="h-3.5 w-3.5" />
-                      Data Depot
+                      {BITCODE_PUBLIC_COPY.terminalPreview.pill}
                     </EngiPill>
                     <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-200/58">
-                      depot surface
+                      {BITCODE_PUBLIC_COPY.terminalPreview.kicker}
                     </p>
                   </div>
 
@@ -884,11 +868,11 @@ export default function MarketingLandingPage() {
                         <span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" />
                       </div>
                       <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-emerald-200/60">
-                        <span>write</span>
+                        <span>{BITCODE_PUBLIC_COPY.terminalPreview.rail[0]}</span>
                         <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-                        <span>measure</span>
+                        <span>{BITCODE_PUBLIC_COPY.terminalPreview.rail[1]}</span>
                         <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-                        <span>read</span>
+                        <span>{BITCODE_PUBLIC_COPY.terminalPreview.rail[2]}</span>
                       </div>
                     </div>
 
@@ -935,28 +919,28 @@ export default function MarketingLandingPage() {
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0 flex-1">
                               <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
-                                Surface
+                                {BITCODE_PUBLIC_COPY.operatorFrame.title}
                               </p>
                               <p className="mt-1 text-[9px] uppercase tracking-[0.08em] text-emerald-100/52">
-                                depot-first screens
+                                {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
                               </p>
                             </div>
                             <span className="inline-flex min-w-[128px] shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 px-2.5 py-2 text-center text-[10px] uppercase leading-4 tracking-[0.18em] text-white/60">
-                              single surface
+                              {BITCODE_PUBLIC_COPY.operatorFrame.badge}
                             </span>
                           </div>
                           <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 laptop:gap-x-4 laptop:gap-y-3">
-                            {surfaceModes.map((surface) => (
+                            {BITCODE_PUBLIC_COPY.operatorFrame.modes.map((surface) => (
                               <li
                                 key={surface}
                                 className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-3 tablet:grid-cols-[32px_minmax(0,1fr)] tablet:gap-4 laptop:grid-cols-[24px_minmax(0,1fr)] laptop:gap-3"
                               >
                                 {renderOrbitalBullet(
                                   'scale-110 tablet:scale-[1.25] laptop:scale-100',
-                                  surface === 'Earnings' ? 'green' : 'purple',
+                                  surface === 'Give + Need' ? 'green' : 'purple',
                                 )}
                                 <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-sm">
-                                  {renderTrailingOrangeAsterisk(surface)}
+                                  {surface}
                                 </span>
                               </li>
                             ))}
@@ -1026,7 +1010,7 @@ export default function MarketingLandingPage() {
                       <div className="space-y-3">
                         <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                            Depot contribution
+                            {BITCODE_PUBLIC_COPY.giveContribution.title}
                           </p>
                           <div className="mt-4 space-y-2 font-mono text-[11px] leading-5 text-emerald-100/78">
                             {previewRows.map(
@@ -1084,27 +1068,27 @@ export default function MarketingLandingPage() {
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <p className="bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
-                                Canonical path
+                                {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
                               </p>
                               <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-emerald-100/52">
-                                technical value pipeline
+                                {BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle}
                               </p>
                             </div>
                             <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
-                              6 phases
+                              {BITCODE_PUBLIC_COPY.sourceToSettlement.badge}
                             </span>
                           </div>
                           <p className="mt-3 text-[13px] leading-5 text-emerald-100/70">
-                            Commits, citations, authorship, and metadata enter as context at deposit.
+                            Commits, citations, authorship, and metadata stay attached as give-side context for later proof and settlement.
                           </p>
                           <div className="mt-4 rounded-[20px] border border-emerald-300/12 bg-emerald-400/6 p-3">
                             <div className="grid gap-3">
                               <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
-                                <span className="text-emerald-200/52">{canonicalPathStages[0].number}</span>
-                                {canonicalPathStages[0].stage}
+                                <span className="text-emerald-200/52">{BITCODE_PUBLIC_COPY.sourceToSettlement.stages[0].number}</span>
+                                {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[0].stage}
                               </span>
                               <div className="grid gap-2">
-                                {[canonicalPathStages.slice(1, 3), canonicalPathStages.slice(3, 5)].map((row, rowIndex) => (
+                                {[BITCODE_PUBLIC_COPY.sourceToSettlement.stages.slice(1, 3), BITCODE_PUBLIC_COPY.sourceToSettlement.stages.slice(3, 5)].map((row, rowIndex) => (
                                   <div
                                     key={`canonical-middle-row-${rowIndex}`}
                                     className="grid items-center gap-2 grid-cols-[minmax(0,1fr)_18px_minmax(0,1fr)]"
@@ -1122,8 +1106,8 @@ export default function MarketingLandingPage() {
                                 ))}
                               </div>
                               <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
-                                <span className="text-emerald-200/52">{canonicalPathStages[5].number}</span>
-                                {canonicalPathStages[5].stage}
+                                <span className="text-emerald-200/52">{BITCODE_PUBLIC_COPY.sourceToSettlement.stages[5].number}</span>
+                                {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[5].stage}
                               </span>
                             </div>
                           </div>

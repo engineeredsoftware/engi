@@ -280,6 +280,20 @@ Still open:
 - which parts of current marketing can remain untouched until after second-gate acceptance,
 - and what third-gate acceptance should require versus leave to later refinement.
 
+Mounted public-shell owners are no longer ambiguous:
+- `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/footer.tsx`
+- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+
+Those files now carry the active third-gate start for public-facing:
+- `transactions terminal`
+- `operator guide`
+- `give`
+- `need`
+- `orbitals`
+
 Current draft-only spine to preserve for that future gate:
 - where + when:
   engineering economy participants

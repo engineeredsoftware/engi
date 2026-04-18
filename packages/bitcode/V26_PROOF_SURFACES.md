@@ -75,10 +75,11 @@ Required coverage posture:
 - proof surface:
   parity ledger rows, explicit closure statements for second-gate acceptance, and generated checkpoint checks that include active README/markdown carriers
 
-### Gate 3: marketing refurbishment preparation
+### Gate 3: marketing refurbishment
 
 Required system families:
 - public website refurbishment carriers
+- mounted public-shell vocabulary carriers for landing, footer, and the stable operator-guide route
 - tooltip/help posture preservation
 - separation between application acceptance and marketing iteration
 - generated checkpoint artifacts that leave third-gate work explicit instead of implied complete
@@ -87,9 +88,9 @@ Required coverage posture:
 - spec:
   third-gate scope, timing, and separation remain explicit in `ENGI_SPEC_V26*`
 - tests:
-  application acceptance does not depend on third-gate marketing work
+  mounted public-shell copy, CTA posture, and guide-route continuity are covered without making second-gate application acceptance depend on the full marketing backlog
 - proof surface:
-  first+second-gate closure artifacts must still report third-gate preparation clearly
+  first+second-gate closure artifacts must still report mounted third-gate start clearly while leaving broader marketing/public-shell refurbishment explicitly incomplete
 
 ### Gate 4: retained-system convergence
 
@@ -275,6 +276,11 @@ Current active assignments:
   generated file-presence checks inside `.engi/v26-gate-checkpoint-report.json` plus spec-family validation
   proof surface:
   second-gate documentation/refurbishment closure for the active Bitcode root, route, orbital, execution, shared-component, and package owners
+- `uapi/app/(root)/components/MarketingLandingPage.tsx`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-copy.ts`, `uapi/app/demo-video/page.tsx`, `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+  test coverage:
+  `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, and `uapi/tests/marketingEngiVideoCard.test.tsx`
+  proof surface:
+  mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, and a stable guide route that no longer narrates Bitcode through demo-era copy
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`

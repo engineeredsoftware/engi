@@ -57,6 +57,21 @@ Direct orbital routes should prefer:
 
 Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` may survive only as convergence redirects until fourth-gate rename cleanup closes.
 
+## Public shell carriers
+
+Third-gate now has one explicit mounted public-shell owner set rather than an implicit marketing backlog:
+- `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/footer.tsx`
+- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+
+Operational rule:
+- the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
+- stable public entry copy should prefer `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`
+- the stable `/demo-video` route remains a public guide URL, not a demo-era narrative fallback
+- broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance
+
 ## Master-detail inner structure
 
 Within the master-detail experience, V26 treats these as required substructures:

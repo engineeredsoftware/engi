@@ -14,9 +14,14 @@ import { FEATURE_FLAGS } from '@/config/features';
 import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
+import { openOrbital, prefetchOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 
 const APPLICATION_URL = '/application';
-const DEFAULT_DEMO_VIDEO_URL = process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() || '/demo-video';
+const DEFAULT_OPERATOR_GUIDE_URL =
+  process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() ||
+  process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() ||
+  '/demo-video';
 const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
 
 const footerNavs = [
@@ -99,11 +104,13 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       listener.subscription.unsubscribe();
     };
   }, [supabase]);
-  const text = user ? 'Subscribe' : 'Use';
+  const footerCtaLabel = user
+    ? BITCODE_PUBLIC_COPY.footer.userCta
+    : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinks = useMemo(() => [
     {
       name: 'Bitcode app',
-      label: <>Bitcode application</>,
+      label: <>{BITCODE_PUBLIC_COPY.footer.links.application}</>,
       href: APPLICATION_URL,
       icon: (
         <span
@@ -131,9 +138,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      name: 'Overview video',
-      label: <>Bitcode overview</>,
-      href: DEFAULT_DEMO_VIDEO_URL,
+      name: 'Operator guide',
+      label: <>{BITCODE_PUBLIC_COPY.footer.links.guide}</>,
+      href: DEFAULT_OPERATOR_GUIDE_URL,
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -159,7 +166,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     },
     {
       name: 'Bluesky',
-      label: <>Bitcode on Bluesky</>,
+      label: <>{BITCODE_PUBLIC_COPY.footer.links.bluesky}</>,
       href: 'https://bsky.app/profile/engicomms.bsky.social',
       icon: (
         <span
@@ -197,21 +204,24 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 <div className="max-w-lg">
                   <div className="z-10 mt-2 flex w-full flex-col items-start text-left whitespace-nowrap">
                     <ol className="mt-2 flex gap-x-2 text-base">
-                      <li className="step-item">
-                        <span className="text-green-primary step-number">1.</span>
-                        <span className="step-text">Install</span>
-                      </li>
-                      <li className="step-item">
-                        <span className="text-green-primary step-number">2.</span>
-                        <span className="step-text">Fund</span>
-                      </li>
-                      <li className="step-item">
-                        <span className="dragon-icon [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]" style={{ display: 'inline-block', transform: 'scaleX(-1)' }}>🐉</span>
-                        <span className="relative inline-block">
-                          <span className="relative z-10 engi-text">Accelerate</span>
-                          <span className="absolute left-0 top-0 z-0 engi-text-glow">Accelerate</span>
-                        </span>
-                      </li>
+                      {BITCODE_PUBLIC_COPY.footer.steps.map((step, index) => (
+                        <li key={step} className="step-item">
+                          {index < 2 ? (
+                            <>
+                              <span className="text-green-primary step-number">{index + 1}.</span>
+                              <span className="step-text">{step}</span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="dragon-icon [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]" style={{ display: 'inline-block', transform: 'scaleX(-1)' }}>🐉</span>
+                              <span className="relative inline-block">
+                                <span className="relative z-10 engi-text">{step}</span>
+                                <span className="absolute left-0 top-0 z-0 engi-text-glow">{step}</span>
+                              </span>
+                            </>
+                          )}
+                        </li>
+                      ))}
                     </ol>
                   </div>
                 </div>
@@ -221,7 +231,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       disabled
                       className="w-full mt-3 opacity-50 cursor-not-allowed pointer-events-none filter grayscale px-4 py-2 bg-blue-600 text-white rounded flex items-center justify-center gap-1"
                     >
-                      {text}
+                      {BITCODE_PUBLIC_COPY.footer.guestCta}
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"
@@ -237,10 +247,12 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   </div>
                 ) : (
                   <button
-                    onClick={() => document.dispatchEvent(new Event('open-orbitals'))}
+                    type="button"
+                    onMouseEnter={() => prefetchOrbital()}
+                    onClick={() => openOrbital(user ? 'orbitals' : 'login', user ? 'profile' : undefined)}
                     className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-1 font-medium"
                   >
-                    {text}
+                    {footerCtaLabel}
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"

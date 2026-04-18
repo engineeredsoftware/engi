@@ -111,3 +111,8 @@ It is a deliberate first-and-second-gate closure boundary with:
 - route/package documentation refreshed to current Bitcode reality,
 - generated checkpoint/proof artifacts reflecting that closure,
 - and explicit third-gate marketing preparation still left open on purpose.
+
+Current post-checkpoint third-gate start is intentionally narrow:
+- the mounted public shell now converges through shared public-copy ownership in `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+- the live landing, footer, and stable `/demo-video` guide route now use `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals` vocabulary
+- broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary
