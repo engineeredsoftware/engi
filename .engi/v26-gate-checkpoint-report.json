@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "270f4c4dee0454fe20dfba3212b2366f64cf75ac",
-  "generatedAt": "2026-04-19T18:24:57-03:00",
+  "proofSourceCommit": "9d0733fed5f63d2f977900384d4103f9fd887f03",
+  "generatedAt": "2026-04-19T18:57:20-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -10,11 +10,11 @@
   "checkpointId": "v26-through-fourth-gate-promotion-boundary",
   "checkpointFocus": "through-fourth-gate-promotion-boundary",
   "nextGate": "Gate 5: proof precision, schema refinement, and promotion finalization",
-  "passed": false,
+  "passed": true,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
-    "passed": false,
+    "passed": true,
     "checks": [
       {
         "checkId": "v19-deterministic-replay",
@@ -43,8 +43,8 @@
       {
         "checkId": "v26-spec-family",
         "label": "V26 spec-family report",
-        "passed": false,
-        "detail": "Spec-family report remains open"
+        "passed": true,
+        "detail": "Spec-family report passes in promoted mode"
       },
       {
         "checkId": "v26-canonical-input",

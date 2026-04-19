@@ -7,6 +7,7 @@
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
+- Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
 - Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `ENGI_SPEC_V26_PROVEN.md`
@@ -1532,7 +1533,7 @@ The following reopen conditions apply:
 ## completion condition
 
 V26 is complete only when:
-1. V25-active discipline is preserved until deliberate promotion.
+1. V26-active discipline is preserved until deliberate V27 drafting and later promotion.
 2. The four V26 workstreams are explicitly present in the promoted canon and reflected in source.
 3. The Bitcode operator experience is a first-class application page rather than an embedded or standalone-primary demo.
 4. Demonstration UX is preserved while demonstration UI is replaced by application-facing components.
