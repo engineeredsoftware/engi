@@ -169,7 +169,7 @@ export function CreditsTracker({ credits }: CreditsTrackerProps) {
     }
     // Refresh displayed credits from server
     try {
-      const res = await fetch('/api/orbitals/data');
+      const res = await fetch('/api/auxillaries/data');
       if (res.ok) {
         const data = await res.json();
         if (typeof data.credits === 'number') {

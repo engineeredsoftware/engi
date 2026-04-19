@@ -21,7 +21,7 @@ interface DockContainerProps {
 
 export const DockContainer = ({ className }: DockContainerProps) => {
   const router = useRouter();
-  const { account, engiBalance } = { account: 'XXXX', engiBalance: 100 }
+  const { account, bitcodeBalance } = { account: 'XXXX', bitcodeBalance: 100 }
   const [notifications, setNotifications] = useState(0);
 
   // Animation variants for the notification badge
@@ -42,7 +42,7 @@ export const DockContainer = ({ className }: DockContainerProps) => {
       icon: <ChartBarIcon className="w-6 h-6" />,
       label: "Dashboard",
       path: "/dashboard",
-      tooltip: `Dashboard - ${engiBalance ? engiBalance : '0'} BTD`
+      tooltip: `Dashboard - ${bitcodeBalance ? bitcodeBalance : '0'} BTD`
     },
     {
       icon: <ShoppingCartIcon className="w-6 h-6" />,
@@ -74,7 +74,7 @@ export const DockContainer = ({ className }: DockContainerProps) => {
     // Example of how to fetch notifications
     const fetchNotifications = async () => {
       try {
-        const response = await fetch('/api/orbitals/notifications?unread_only=1');
+        const response = await fetch('/api/auxillaries/notifications?unread_only=1');
         if (!response.ok) throw new Error('Failed to load notifications');
         const data = await response.json();
         const items = Array.isArray(data) ? data : [];

@@ -1,8 +1,8 @@
-# Base Components (Engi UI)
+# Base Components (Bitcode UI)
 
-This folder contains the canonical base layers for Engi’s UI. App code imports ONLY from here (and Engi primitives), never from vendored demo registries.
+This folder contains the canonical base layers for Bitcode UI. App code imports ONLY from here (and Bitcode primitives), never from vendored demo registries.
 
-- First‑party: `engi/` — Engi’s own base primitives (perf + layout + neutral composition)
+- First‑party: `engi/` — Bitcode’s current shared base primitives (perf + layout + neutral composition)
 - Vendor providers: `<provider>/` — Proper‑noun folders for vendored component families (e.g., `shadcn`)
 
 General Rules
@@ -23,7 +23,7 @@ When adding a new component to an existing provider (e.g., `shadcn`):
 - Self‑contained file; do not re‑export from an `index.ts`.
 - Import `cn` from `@bitcode/styling` and apply classes (Tailwind + tokens).
 - Avoid hex/rgba brand colors; use Tailwind tokens.
-- Keep API compatible with upstream where reasonable, but prefer Engi naming precision.
+- Keep API compatible with upstream where reasonable, but prefer Bitcode naming precision.
 
 3) Exports
 - Export explicit symbols only (no `export *`).
@@ -40,7 +40,7 @@ export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription };
 - Import from `@/components/base/<provider>/<component>` directly.
 - Do not import from `@/components/ui/...`.
 
-## Engi Primitives (first‑party)
+## Bitcode Primitives (first‑party)
 
 Use these to standardize efficient behavior without imposing looks:
 - `engi/panels/ScrollContainer.tsx` — SSOT scrollbars for all scroll regions
@@ -50,9 +50,9 @@ Use these to standardize efficient behavior without imposing looks:
 
 See `internal-docs/STYLE.md` for full guidance.
 
-## Engi Base Components (shared UI)
+## Bitcode Base Components (shared UI)
 
-Reusable Engi-branded UI that is shared across features lives flat under `engi/` (no `ui/` nesting):
+Reusable Bitcode-branded UI that is shared across features lives flat under `engi/` (no `ui/` nesting):
 - `engi/typing-animation.tsx`, `engi/multi-line-typing-animation.tsx`
 - `engi/quantum-button.tsx`, `engi/word-rotate.tsx`
 - `engi/metal-plate.tsx`, `engi/dock.tsx`, `engi/multi-agents-icon.tsx`, `engi/particle-effect.tsx`

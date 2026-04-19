@@ -380,7 +380,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
           // Normal flow - check onboarding status
           let completedOnboarding = false
           try {
-            const res = await fetch('/api/orbitals/data')
+            const res = await fetch('/api/auxillaries/data')
             if (res.ok) {
               const data = await res.json()
               completedOnboarding = Boolean(data.githubConnection && data.credits > 0)

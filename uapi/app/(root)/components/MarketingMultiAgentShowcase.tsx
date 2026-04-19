@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -11,7 +13,7 @@ import MarketingPlaceholderImage from './MarketingPlaceholderImage';
 import MarketingThumbnailStack from './MarketingThumbnailStack';
 import type { Screenshot } from './marketing-types';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-import EngiPill from '@/components/base/engi/branding/engi-pill';
+import BitcodePill from '@/components/base/engi/branding/bitcode-pill';
 import { SmsPhonePreview } from './marketing-sms-phone-preview';
 
 // Re-use core Conversations styles so the preview matches the real overlay.
@@ -613,19 +615,19 @@ function MarketingMultiAgentShowcase() {
                         {showGroupLabel ? (
                           <>
                             {/* Desktop / tablet */}
-                            <EngiPill
+                            <BitcodePill
                               className={`hidden wide:inline-flex absolute right-0 top-1/2 -translate-y-1/2 whitespace-nowrap ${groupPillClasses}`}
                             >
                               {tab.group.toUpperCase()}
                               <span className={`ml-1 w-2 h-2 rounded-full ${groupColorClass}`} />
-                            </EngiPill>
+                            </BitcodePill>
 
                             {/* Mobile */}
-                            <EngiPill
+                            <BitcodePill
                               className={`wide:hidden absolute left-1/2 -translate-x-1/2 -top-6 whitespace-nowrap ${groupPillClasses}`}
                             >
                               {tab.group.toUpperCase()}
-                            </EngiPill>
+                            </BitcodePill>
                           </>
                         ) : (
                           <div className={`w-2 h-2 rounded-full ${groupColorClass}`} />

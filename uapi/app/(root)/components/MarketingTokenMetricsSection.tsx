@@ -3,7 +3,7 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import styles from './marketing-token-metrics-section.module.css';
 import useSWR from "swr";
-import EngiPill from "@/components/base/engi/branding/engi-pill";
+import BitcodePill from "@/components/base/engi/branding/bitcode-pill";
 import RevealingSoonOverlay from "@/components/base/engi/overlays/RevealingSoonOverlay";
 
 // small fetch util (placeholder coin id)
@@ -339,15 +339,15 @@ export default function MarketingTokenMetricsSection() {
           </ul>
 
           <div className="flex flex-wrap gap-4 mt-12">
-            <EngiPill className="opacity-50 pointer-events-none">
+            <BitcodePill className="opacity-50 pointer-events-none">
               Whitepaper ↗
-            </EngiPill>
-            <EngiPill className="opacity-50 pointer-events-none">
+            </BitcodePill>
+            <BitcodePill className="opacity-50 pointer-events-none">
               Dashboard ↗
-            </EngiPill>
-            <EngiPill className="opacity-50 pointer-events-none">
+            </BitcodePill>
+            <BitcodePill className="opacity-50 pointer-events-none">
               Etherscan ↗
-            </EngiPill>
+            </BitcodePill>
           </div>
         </div>
 

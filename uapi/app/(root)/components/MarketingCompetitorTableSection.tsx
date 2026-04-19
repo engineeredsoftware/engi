@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+
 "use client";
 
 import React, { useState } from "react";
@@ -14,7 +16,7 @@ import {
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
 
 import Logo from "@/components/base/engi/branding/logo";
-import EngiSoftwareSvgLogo from "@/components/base/engi/branding/engi-software-svg-logo";
+import BitcodeSoftwareSvgLogo from "@/components/base/engi/branding/bitcode-software-svg-logo";
 
 // Re-use the established EducationCard styling from deliverables/ai_documents headers.
 
@@ -791,7 +793,7 @@ export default function MarketingCompetitorTableSection() {
                       }`}
                   >
                     {row.name === "Bitcode" ? (
-                      <EngiSoftwareSvgLogo
+                      <BitcodeSoftwareSvgLogo
                         width="92px"
                         height="auto"
                         softwareClassName="hidden"

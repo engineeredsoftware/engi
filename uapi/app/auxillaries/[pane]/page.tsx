@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
+import AuxillariesRouteClient from '@/app/auxillaries/AuxillariesRouteClient';
 import {
   buildAuxillariesRoutePath,
-  getOrbitalDescriptor,
-  normalizeOrbitalPane,
-} from '@/app/orbitals/components/orbital-pane-meta';
+  getAuxillaryDescriptor,
+  normalizeAuxillaryPane,
+} from '@/app/auxillaries/components/auxillary-pane-meta';
 
 type AuxillariesPanePageProps = {
   params: {
@@ -15,12 +15,12 @@ type AuxillariesPanePageProps = {
 };
 
 function resolveAuxillaryPane(pane: string) {
-  const step = normalizeOrbitalPane(pane);
+  const step = normalizeAuxillaryPane(pane);
   if (!step) return null;
 
   return {
     step,
-    descriptor: getOrbitalDescriptor(step),
+    descriptor: getAuxillaryDescriptor(step),
   };
 }
 
@@ -52,5 +52,5 @@ export default function AuxillariesPanePage({ params }: AuxillariesPanePageProps
     redirect(buildAuxillariesRoutePath(resolved.step));
   }
 
-  return <OrbitalsRouteClient step={resolved.step} />;
+  return <AuxillariesRouteClient step={resolved.step} />;
 }

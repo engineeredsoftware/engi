@@ -14,8 +14,8 @@ const mockOpenOrbital = jest.fn();
 jest.mock('@bitcode/supabase/ssr/client', () => ({
   createClient: jest.fn()
 }));
-jest.mock('@/app/orbitals/components/OrbitalsProvider', () => ({
-  openOrbital: (...args: unknown[]) => mockOpenOrbital(...args),
+jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+  openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
 }));
 import { createClient } from '@bitcode/supabase/ssr/client';
 
@@ -83,7 +83,7 @@ describe('NotificationsWidget', () => {
     fireEvent.click(markBtn);
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        '/api/orbitals/notifications/n1',
+        '/api/auxillaries/notifications/n1',
         expect.objectContaining({ method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ read: true })
@@ -104,7 +104,7 @@ describe('NotificationsWidget', () => {
     fireEvent.click(deleteBtn);
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        '/api/orbitals/notifications/n1',
+        '/api/auxillaries/notifications/n1',
         expect.objectContaining({ method: 'DELETE' })
       );
     });
@@ -130,7 +130,7 @@ describe('NotificationsWidget', () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        '/api/orbitals/notifications/n1',
+        '/api/auxillaries/notifications/n1',
         expect.objectContaining({
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -138,7 +138,7 @@ describe('NotificationsWidget', () => {
         })
       );
       expect(global.fetch).toHaveBeenCalledWith(
-        '/api/orbitals/notifications/n2',
+        '/api/auxillaries/notifications/n2',
         expect.objectContaining({
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -155,6 +155,6 @@ describe('NotificationsWidget', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Notifications' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Open Auxillaries fullscreen' }));
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('orbitals', 'profile');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'profile');
   });
 });

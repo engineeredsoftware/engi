@@ -26,12 +26,12 @@ jest.mock('next/dynamic', () => {
   };
 });
 
-import OrbitalsProvider, {
-  closeOrbital,
-  openOrbital,
-} from '@/app/orbitals/components/OrbitalsProvider';
+import AuxillariesProvider, {
+  closeAuxillaries,
+  openAuxillaries,
+} from '@/app/auxillaries/components/AuxillariesProvider';
 
-describe('OrbitalsProvider', () => {
+describe('AuxillariesProvider', () => {
   beforeEach(() => {
     Object.defineProperty(window, '__orbitalPrefetched', {
       configurable: true,
@@ -42,28 +42,28 @@ describe('OrbitalsProvider', () => {
 
   afterEach(() => {
     act(() => {
-      closeOrbital();
+      closeAuxillaries();
     });
   });
 
-  it('creates a portal container and renders orbitals when opened through the shared event bridge', () => {
+  it('creates a portal container and renders auxillaries when opened through the shared event bridge', () => {
     render(
-      <OrbitalsProvider>
+      <AuxillariesProvider>
         <div>Application</div>
-      </OrbitalsProvider>,
+      </AuxillariesProvider>,
     );
 
     expect(document.getElementById('orbital-portal')).toBeTruthy();
 
     act(() => {
-      openOrbital('orbitals', 'connects');
+      openAuxillaries('auxillaries', 'connects');
     });
 
     expect(document.documentElement.classList.contains('orbital-open')).toBe(true);
     expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignUpWindow:connects');
 
     act(() => {
-      closeOrbital();
+      closeAuxillaries();
     });
 
     expect(screen.queryByTestId('orbital-overlay')).toBeNull();
@@ -71,23 +71,23 @@ describe('OrbitalsProvider', () => {
 
   it('clears deep-linked pane state after close so later opens do not reuse a stale orbital pane', () => {
     render(
-      <OrbitalsProvider>
+      <AuxillariesProvider>
         <div>Application</div>
-      </OrbitalsProvider>,
+      </AuxillariesProvider>,
     );
 
     act(() => {
-      openOrbital('orbitals', 'connects');
+      openAuxillaries('auxillaries', 'connects');
     });
 
     expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignUpWindow:connects');
 
     act(() => {
-      closeOrbital();
+      closeAuxillaries();
     });
 
     act(() => {
-      openOrbital('login');
+      openAuxillaries('login');
     });
 
     expect(screen.getByTestId('orbital-overlay').textContent).toContain('SignInWindow:none');

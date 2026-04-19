@@ -7,8 +7,8 @@
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
-import { OPEN_ORBITALS_FULLSCREEN_LABEL } from '@/app/orbitals/components/orbital-pane-meta';
+import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
+import { OPEN_AUXILLARIES_FULLSCREEN_LABEL } from '@/app/auxillaries/components/auxillary-pane-meta';
 import {
   buildBitcodeActivityRecordFromNotification,
   getBitcodeActivityScopeLabel,
@@ -47,7 +47,7 @@ export function NotificationsWidget() {
 
   const fetchNotifications = useCallback(async () => {
     try {
-      const res = await fetch('/api/orbitals/notifications');
+      const res = await fetch('/api/auxillaries/notifications');
       if (res.ok) {
         const raw: any[] = await res.json();
         setNotifications(normalize(raw));
@@ -144,7 +144,7 @@ export function NotificationsWidget() {
   // Mutations
   const toggleRead = async (id: string, read: boolean) => {
     try {
-      await fetch(`/api/orbitals/notifications/${id}`, {
+      await fetch(`/api/auxillaries/notifications/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ read }),
@@ -156,7 +156,7 @@ export function NotificationsWidget() {
 
   const deleteNotification = async (id: string) => {
     try {
-      await fetch(`/api/orbitals/notifications/${id}`, { method: 'DELETE' });
+      await fetch(`/api/auxillaries/notifications/${id}`, { method: 'DELETE' });
     } catch (err) {
       console.error('[notifications] delete failed', err);
     }
@@ -167,7 +167,7 @@ export function NotificationsWidget() {
       notifications
         .filter((n) => !n.read)
         .map((n) =>
-          fetch(`/api/orbitals/notifications/${n.id}`, {
+          fetch(`/api/auxillaries/notifications/${n.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ read: true }),
@@ -289,10 +289,10 @@ export function NotificationsWidget() {
               className="notifications-footer-action"
               onClick={() => {
                 setOpen(false);
-                openOrbital('orbitals', 'profile');
+                openAuxillaries('auxillaries', 'profile');
               }}
             >
-              {OPEN_ORBITALS_FULLSCREEN_LABEL}
+              {OPEN_AUXILLARIES_FULLSCREEN_LABEL}
             </button>
           </div>
         </div>

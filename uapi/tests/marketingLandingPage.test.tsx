@@ -26,12 +26,12 @@ jest.mock('@/components/base/engi/layout/footer', () => ({
   default: () => <div>Footer</div>,
 }));
 
-jest.mock('@/components/base/engi/branding/engi-pill', () => ({
+jest.mock('@/components/base/engi/branding/bitcode-pill', () => ({
   __esModule: true,
   default: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
 }));
 
-jest.mock('@/components/base/engi/branding/engi-software-svg-logo', () => ({
+jest.mock('@/components/base/engi/branding/bitcode-software-svg-logo', () => ({
   __esModule: true,
   default: () => <div>Software logo</div>,
 }));

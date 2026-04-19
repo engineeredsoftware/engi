@@ -25,9 +25,9 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: () => ({ credits: 0 }),
 }));
 
-jest.mock('@/app/orbitals/components/OrbitalsProvider', () => ({
-  openOrbital: (...args: unknown[]) => mockOpenOrbital(...args),
-  prefetchOrbital: () => mockPrefetchOrbital(),
+jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+  openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
+  prefetchAuxillaries: () => mockPrefetchOrbital(),
 }));
 
 jest.mock('@/config/features', () => ({
@@ -87,7 +87,7 @@ describe('Nav workspace chrome', () => {
   it('shows focused workspace access actions for unauthenticated application routes', () => {
     render(<Nav />);
 
-    const accessButton = screen.getByRole('button', { name: 'Access Workspace' });
+    const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
     fireEvent.mouseEnter(accessButton);
@@ -100,7 +100,7 @@ describe('Nav workspace chrome', () => {
     expect(mockOpenOrbital).toHaveBeenNthCalledWith(2, 'SignUpWindow');
   });
 
-  it('reopens orbitals from signed-in workspace chrome through the orbitals alias', () => {
+  it('reopens auxillaries from signed-in workspace chrome through the canonical auxillaries mode', () => {
     mockUseAuth.mockReturnValue({
       user: {
         id: 'user-1',
@@ -110,11 +110,11 @@ describe('Nav workspace chrome', () => {
 
     render(<Nav />);
 
-    expect(screen.queryByRole('button', { name: 'Access Workspace' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'User menu' }));
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('orbitals', 'profile');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'profile');
   });
 });

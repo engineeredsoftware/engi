@@ -3,11 +3,11 @@
 import React from "react";
 import { cn } from '@bitcode/styling';
 
-interface EngiPillProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface BitcodePillProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
 }
 
-export default function EngiPill({ children, className, ...props }: EngiPillProps) {
+export default function BitcodePill({ children, className, ...props }: BitcodePillProps) {
   return (
     <span
       {...props}

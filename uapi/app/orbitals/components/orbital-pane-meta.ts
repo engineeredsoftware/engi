@@ -1,161 +1,72 @@
-export const ONBOARDING_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
-export const ORBITAL_FLOW_STEPS = ONBOARDING_FLOW_STEPS;
-export const ORBITAL_RING_STEPS = ['connects', 'interfaces', 'profile', 'btd'] as const;
-export const ORBITAL_ROUTE_SEQUENCE = ORBITAL_RING_STEPS;
-export const ORBITALS_ACCESS_LABEL = 'Auxillaries access';
-export const ORBITALS_LABEL = 'Auxillaries';
-export const ORBITALS_LIST_LABEL = 'Connects, Interfaces, Profile, and $BTD';
-export const ORBITALS_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $BTD';
-export const OPEN_ORBITALS_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
-export const OPEN_TRANSACTIONS_LABEL = 'Open transactions';
-export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
-export const ORBITALS_COMPATIBILITY_ROUTE_ROOT = '/orbitals';
+import {
+  AUXILLARIES_ACCESS_LABEL as ORBITALS_ACCESS_LABEL,
+  AUXILLARIES_LABEL as ORBITALS_LABEL,
+  AUXILLARIES_LIST_COMPACT_LABEL as ORBITALS_LIST_COMPACT_LABEL,
+  AUXILLARIES_LIST_LABEL as ORBITALS_LIST_LABEL,
+  AUXILLARIES_ROUTE_ROOT,
+  AUXILLARY_DESCRIPTORS as ORBITAL_DESCRIPTORS,
+  AUXILLARY_FLOW_STEPS as ONBOARDING_FLOW_STEPS,
+  AUXILLARY_FLOW_STEPS as ORBITAL_FLOW_STEPS,
+  AUXILLARY_RING_STEPS as ORBITAL_RING_STEPS,
+  AUXILLARY_ROUTE_SEQUENCE as ORBITAL_ROUTE_SEQUENCE,
+  OPEN_AUXILLARIES_FULLSCREEN_LABEL as OPEN_ORBITALS_FULLSCREEN_LABEL,
+  OPEN_TRANSACTIONS_LABEL,
+  ORBITALS_COMPATIBILITY_ROUTE_ROOT,
+  buildAuxillariesRoutePath,
+  getAuxillariesTabsDescription,
+  getAuxillariesWorkspaceDescription,
+  getAuxillariesWorkspaceHeading,
+  getAuxillaryDescriptor,
+  getAuxillaryLabelPosition,
+  getAuxillaryLayerLabel,
+  getAuxillaryOpenActionLabel,
+  getAuxillaryRingIndex,
+  getAuxillaryRouteSegment,
+  isAuxillariesPath,
+  isOrbitalsCompatibilityPath,
+  labelForAuxillaryPane,
+  normalizeAuxillaryPane,
+  normalizeAuxillarySteps,
+  type AuxillaryPane,
+  type AuxillaryPaneDescriptor,
+  type ConcreteAuxillaryPane,
+} from '@/app/auxillaries/components/auxillary-pane-meta';
 
-export type ConcreteOrbitalPane = (typeof ONBOARDING_FLOW_STEPS)[number];
-export type OrbitalPane = ConcreteOrbitalPane | null;
-
-export interface OrbitalPaneDescriptor {
-  label: string;
-  routeSegment: string;
-  ringIndex: number;
-  labelPosition: 'top' | 'right' | 'bottom' | 'left';
-  routeTitle: string;
-  routeDescription: string;
-}
-
-export const ORBITAL_DESCRIPTORS: Record<ConcreteOrbitalPane, OrbitalPaneDescriptor> = {
-  profile: {
-    label: 'Profile',
-    routeSegment: 'profile',
-    ringIndex: 1,
-    labelPosition: 'left',
-    routeTitle: 'Profile Auxillary',
-    routeDescription:
-      'Keep wallet identity, balances, team roles, multi-sig posture, and access state in one focused auxillary.',
-  },
-  connects: {
-    label: 'Connects',
-    routeSegment: 'connects',
-    ringIndex: 3,
-    labelPosition: 'top',
-    routeTitle: 'Connects Auxillary',
-    routeDescription:
-      'Attach GitHub and the live repository connections Bitcode reuses across transactions, executions, deliverables, and closure follow-through in one focused auxillary.',
-  },
-  interfaces: {
-    label: 'Interfaces',
-    routeSegment: 'interfaces',
-    ringIndex: 2,
-    labelPosition: 'right',
-    routeTitle: 'Interfaces Auxillary',
-    routeDescription:
-      'Shape how the transactions surface, conversations, proofs, and default application behavior read and operate through one focused auxillary.',
-  },
-  btd: {
-    label: '$BTD',
-    routeSegment: 'btd',
-    ringIndex: 0,
-    labelPosition: 'bottom',
-    routeTitle: '$BTD Auxillary',
-    routeDescription:
-      'Review balances, share posture, and advanced $BTD defaults in the innermost auxillary.',
-  },
+export {
+  AUXILLARIES_ROUTE_ROOT,
+  ONBOARDING_FLOW_STEPS,
+  OPEN_ORBITALS_FULLSCREEN_LABEL,
+  OPEN_TRANSACTIONS_LABEL,
+  ORBITAL_DESCRIPTORS,
+  ORBITAL_FLOW_STEPS,
+  ORBITAL_RING_STEPS,
+  ORBITAL_ROUTE_SEQUENCE,
+  ORBITALS_ACCESS_LABEL,
+  ORBITALS_COMPATIBILITY_ROUTE_ROOT,
+  ORBITALS_LABEL,
+  ORBITALS_LIST_COMPACT_LABEL,
+  ORBITALS_LIST_LABEL,
+  buildAuxillariesRoutePath,
+  isAuxillariesPath,
+  isOrbitalsCompatibilityPath,
 };
 
-const ORBITAL_COMPATIBILITY_MAP: Record<string, ConcreteOrbitalPane> = {
-  users: 'profile',
-  profile: 'profile',
-  connects: 'connects',
-  models: 'interfaces',
-  interfaces: 'interfaces',
-  credits: 'btd',
-  btd: 'btd',
-};
+export type ConcreteOrbitalPane = ConcreteAuxillaryPane;
+export type OrbitalPane = AuxillaryPane;
+export type OrbitalPaneDescriptor = AuxillaryPaneDescriptor;
 
-export function normalizeOrbitalPane(value: string | null | undefined): ConcreteOrbitalPane | null {
-  if (!value) return null;
-  return ORBITAL_COMPATIBILITY_MAP[value.trim().toLowerCase()] || null;
-}
-
-export function normalizeOrbitalSteps(value: unknown): ConcreteOrbitalPane[] {
-  if (!Array.isArray(value)) return [];
-
-  const normalized = value
-    .map((entry) => normalizeOrbitalPane(String(entry || '')))
-    .filter((entry): entry is ConcreteOrbitalPane => Boolean(entry));
-
-  return Array.from(new Set(normalized));
-}
-
-export function labelForOrbitalPane(step: OrbitalPane) {
-  if (!step) return '';
-  return ORBITAL_DESCRIPTORS[step].label;
-}
-
-export function getOrbitalRouteSegment(step: ConcreteOrbitalPane) {
-  return ORBITAL_DESCRIPTORS[step].routeSegment;
-}
-
-export function buildAuxillariesRoutePath(stepOrSegment: ConcreteOrbitalPane | string) {
-  const normalizedStep = normalizeOrbitalPane(stepOrSegment);
-  const routeSegment = normalizedStep ? getOrbitalRouteSegment(normalizedStep) : stepOrSegment.trim().toLowerCase();
-  return `${AUXILLARIES_ROUTE_ROOT}/${routeSegment}`;
-}
-
-export function isAuxillariesPath(pathname: string | null | undefined) {
-  return Boolean(pathname?.startsWith(AUXILLARIES_ROUTE_ROOT));
-}
-
-export function isOrbitalsCompatibilityPath(pathname: string | null | undefined) {
-  return Boolean(pathname?.startsWith(ORBITALS_COMPATIBILITY_ROUTE_ROOT));
-}
-
-export function getOrbitalRingIndex(step: ConcreteOrbitalPane) {
-  return ORBITAL_DESCRIPTORS[step].ringIndex;
-}
-
-export function getOrbitalLabelPosition(step: ConcreteOrbitalPane) {
-  return ORBITAL_DESCRIPTORS[step].labelPosition;
-}
-
-export function getOrbitalDescriptor(step: ConcreteOrbitalPane) {
-  return ORBITAL_DESCRIPTORS[step];
-}
-
-export function getOrbitalLayerLabel(step: ConcreteOrbitalPane) {
-  switch (step) {
-    case 'connects':
-      return 'outer ring';
-    case 'interfaces':
-      return 'mid ring';
-    case 'profile':
-      return 'inner ring';
-    case 'btd':
-      return 'core ring';
-    default:
-      return 'orbital';
-  }
-}
-
-export function getOrbitalOpenActionLabel(step?: ConcreteOrbitalPane | null) {
-  if (!step) return OPEN_ORBITALS_FULLSCREEN_LABEL;
-  return `Open ${labelForOrbitalPane(step)} fullscreen`;
-}
-
-export function getOrbitalsWorkspaceHeading(mode: 'onboarding' | 'orbitals') {
-  return mode === 'orbitals'
-    ? `Keep ${ORBITALS_LIST_LABEL} in one contained auxillary read.`
-    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained auxillary read.`;
-}
-
-export function getOrbitalsWorkspaceDescription(mode: 'onboarding' | 'orbitals') {
-  return mode === 'orbitals'
-    ? 'The four-ring model stays visible while the active auxillary opens in a stable reading surface tuned for Bitcode transactions, executions, conversations, wallet posture, and auxillary follow-through.'
-    : 'Open Bitcode access in a stable auxillary read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
-}
-
-export function getOrbitalsTabsDescription(mode: 'onboarding' | 'orbitals') {
-  return mode === 'orbitals'
-    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the auxillary read.`
-    : `Sign in to unlock the four auxillaries, then keep ${ORBITALS_LIST_LABEL} in one contained auxillary read.`;
-}
+export const normalizeOrbitalPane = normalizeAuxillaryPane;
+export const normalizeOrbitalSteps = normalizeAuxillarySteps;
+export const labelForOrbitalPane = labelForAuxillaryPane;
+export const getOrbitalRouteSegment = getAuxillaryRouteSegment;
+export const getOrbitalRingIndex = getAuxillaryRingIndex;
+export const getOrbitalLabelPosition = getAuxillaryLabelPosition;
+export const getOrbitalDescriptor = getAuxillaryDescriptor;
+export const getOrbitalLayerLabel = getAuxillaryLayerLabel;
+export const getOrbitalOpenActionLabel = getAuxillaryOpenActionLabel;
+export const getOrbitalsWorkspaceHeading = (mode: 'onboarding' | 'orbitals') =>
+  getAuxillariesWorkspaceHeading(mode === 'orbitals' ? 'auxillaries' : mode);
+export const getOrbitalsWorkspaceDescription = (mode: 'onboarding' | 'orbitals') =>
+  getAuxillariesWorkspaceDescription(mode === 'orbitals' ? 'auxillaries' : mode);
+export const getOrbitalsTabsDescription = (mode: 'onboarding' | 'orbitals') =>
+  getAuxillariesTabsDescription(mode === 'orbitals' ? 'auxillaries' : mode);

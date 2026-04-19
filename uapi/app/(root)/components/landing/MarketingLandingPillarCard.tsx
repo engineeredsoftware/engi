@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
+import BitcodeSoftwareSvgLogo from '@/components/base/engi/branding/bitcode-software-svg-logo';
 
 import {
   entranceEase,
@@ -231,7 +231,7 @@ export function MarketingLandingPillarCard({
                 </div>
               </div>
               <div className="absolute right-0 top-0">
-                <EngiSoftwareSvgLogo width="44px" softwareClassName="hidden" className="opacity-90" />
+                <BitcodeSoftwareSvgLogo width="44px" softwareClassName="hidden" className="opacity-90" />
               </div>
             </div>
             <p className="mt-3 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">

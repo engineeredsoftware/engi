@@ -7,6 +7,7 @@ import { useAuth } from "@/components/base/engi/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 
 import OrbitalsBTDOrbitalHeader from "./headers/OrbitalsBTDOrbitalHeader";
+import DataSharingPanel from "./OrbitalsDataSharingPanel";
 import { orbitalsPaneExplainers } from "./orbital-pane-explainers";
 import OrbitalsPreferenceCards, {
   type OrbitalsPreferenceCardItem,
@@ -348,6 +349,20 @@ export default function OrbitalsBTDPane({
               tone="sky"
             >
               <OrbitalsPreferenceCards items={preferenceCards.slice(3)} />
+            </OrbitalsWorkspaceSection>
+
+            <OrbitalsWorkspaceSection
+              kicker="Need-space knowledge"
+              title="Set it and forget it repository knowledge sharing"
+              description="Once Connects has authenticated GitHub and repository access, this setting decides whether connected repository activity continuously re-syncs into need-space by default."
+              tone="amber"
+            >
+              <div className="space-y-4">
+                <p className="text-sm leading-7 text-white/68">
+                  This is the larger $BTD-side consent setting for connected knowledge. Turn it on once when you want Connects-approved repositories to keep contributing their latest synced activity into Bitcode need-space without reopening per-repository review every time.
+                </p>
+                <DataSharingPanel overlayed={!isOnboardingComplete} />
+              </div>
             </OrbitalsWorkspaceSection>
 
             <OrbitalsWorkspaceSection

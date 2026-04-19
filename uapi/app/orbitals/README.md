@@ -33,7 +33,7 @@ Those aliases are not the enduring V26 naming model.
 - `components/orbital-pane-meta.ts`
   Shared orbital naming, canonical auxillary route building, compatibility detection, and user-facing copy owner for entry buttons and direct-route return actions.
 - `components/OrbitalsProvider.tsx`
-  Fullscreen overlay provider and portal/event bridge.
+  Compatibility wrapper over the canonical fullscreen auxillary provider and portal/event bridge.
 - `components/OrbitalsContent.tsx`
   Shared ring/contained-orbital content shell.
 - `components/shared/OrbitalsWorkspacePanels.tsx`
@@ -46,8 +46,8 @@ Those aliases are not the enduring V26 naming model.
   Master-detail, conversation, proof, and operator-default posture.
 - `components/OrbitalsProfilePane.tsx`
   Wallet identity, roles, balances, membership, and authentication posture.
-- `../api/orbitals/user/data-share/route.ts`
-  Fail-closed repository knowledge-sharing carrier used by the Profile orbital.
+- `../api/auxillaries/user/data-share/route.ts`
+  Fail-closed repository knowledge-sharing carrier now surfaced from the `$BTD` auxillary.
 - `components/OrbitalsBTDPane.tsx`
   Share posture, `$BTD` defaults, and BTD-specific follow-through.
 
@@ -65,7 +65,7 @@ The contained auxillary shell used inside the application and direct orbital rou
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
 - read as retained auxillaries access and contained auxillary reads rather than generic settings/account furniture,
 - keep shared entry labels such as `Open Auxillaries fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions` aligned across the application,
-- reopen signed-in orbital overlays through `openOrbital('orbitals', step?)` instead of older account-named active callers,
+- reopen signed-in overlays through `openAuxillaries('auxillaries', step?)` from active callers, with `openOrbital('orbitals', step?)` retained only as a compatibility alias,
 - and remain aligned to the same operator atmosphere as `/application`.
 
 ## Related files

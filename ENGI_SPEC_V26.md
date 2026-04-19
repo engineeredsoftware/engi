@@ -81,7 +81,6 @@ The current first-gate source file structure is:
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/make-engi-branch/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/orbitals/data/route.ts`
@@ -1364,7 +1363,6 @@ The current canonical source map includes:
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/make-engi-branch/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/orbitals/data/route.ts`

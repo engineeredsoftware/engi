@@ -1,10 +1,12 @@
+/* eslint-disable react/no-multi-comp */
+
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import './marketing-marketplace-section.module.css';
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import EngiPill from "@/components/base/engi/branding/engi-pill";
+import BitcodePill from "@/components/base/engi/branding/bitcode-pill";
 import {
   ArrowTrendingUpIcon,
   WrenchScrewdriverIcon,
@@ -28,7 +30,7 @@ import {
   SiSwift,
 } from "react-icons/si";
 
-import EngiSoftwareSvgLogo from "@/components/base/engi/branding/engi-software-svg-logo";
+import BitcodeSoftwareSvgLogo from "@/components/base/engi/branding/bitcode-software-svg-logo";
 
 /* ------------------------------------------------------------------
    Marketplace Color Constants - Design System Integration
@@ -584,7 +586,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                     ].map((h) => (
                       <th key={h} className="px-4 py-2 font-semibold whitespace-nowrap text-left">
                         {h === "engi" ? (
-                          <EngiSoftwareSvgLogo
+                          <BitcodeSoftwareSvgLogo
                             width="60px"
                             softwareClassName="hidden"
                             className="mx-auto"
@@ -623,7 +625,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                           {l.side}
                         </td>
 
-                        {/* Engi measure */}
+                        {/* Bitcode measure */}
                         <td className="px-4 py-2 font-semibold text-emerald-300">{l.measure}</td>
 
                         {/* Tech */}
@@ -641,9 +643,9 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                         {/* Type */}
                         <td className="px-4 py-2 capitalize">
                           {l.type === "ai_document" ? (
-                            <EngiPill className="bg-amber-500/20 text-amber-300">AI Document</EngiPill>
+                            <BitcodePill className="bg-amber-500/20 text-amber-300">AI Document</BitcodePill>
                           ) : (
-                            <EngiPill className="bg-sky-500/20 text-sky-300">Deliverable</EngiPill>
+                            <BitcodePill className="bg-sky-500/20 text-sky-300">Deliverable</BitcodePill>
                           )}
                         </td>
                       </motion.tr>
@@ -724,9 +726,9 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                     {/* Type & Side */}
                     <div className="flex items-center gap-3 ml-auto text-sm tablet:text-base text-gray-100">
                       {detail.type === "ai_document" ? (
-                        <EngiPill className="px-3 py-1 border-amber-500/30 bg-amber-500/20 text-amber-300">AI Document</EngiPill>
+                        <BitcodePill className="px-3 py-1 border-amber-500/30 bg-amber-500/20 text-amber-300">AI Document</BitcodePill>
                       ) : (
-                        <EngiPill className="px-3 py-1 border-sky-500/30 bg-sky-500/20 text-sky-300">Deliverable</EngiPill>
+                        <BitcodePill className="px-3 py-1 border-sky-500/30 bg-sky-500/20 text-sky-300">Deliverable</BitcodePill>
                       )}
                       <span className={`px-3 py-1 rounded-full ${detail.side === "buy" ? "bg-green-600/20 text-green-400 text-sm tablet:text-base" : "bg-red-600/20 text-red-400 text-sm tablet:text-base"}`}>{detail.side}</span>
                     </div>

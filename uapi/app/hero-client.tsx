@@ -8,8 +8,8 @@ import { useEffect, useLayoutEffect, useState, useRef, useMemo, Suspense } from 
 import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
 import QuantumButton from '@/components/base/engi/quantum-button';
 import ScrollDown from './(root)/components/MarketingScrollDown';
-const OrbitalRings = dynamic(() => import('@/components/base/engi/orbitals/orbital-rings'), { loading: () => null });
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+const OrbitalRings = dynamic(() => import('@/components/base/engi/auxillaries/orbital-rings'), { loading: () => null });
+import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { FEATURE_FLAGS } from '@/config/features';
 import { useUserData } from '@/hooks/useUserData';
 
@@ -181,7 +181,7 @@ function HeroClientInner() {
     if (isOnboardingComplete) {
       router.push('/application');
     } else {
-      openOrbital('orbitals');
+      openAuxillaries('auxillaries');
     }
   };
 
@@ -328,7 +328,7 @@ function HeroClientInner() {
         style={{ '--mouse-x': '0px', '--mouse-y': '0px' }}
       >
         <div className="quantum-field">{particles.map((s, i) => <div key={i} className="quantum-particle" style={s}></div>)}</div>
-        <div className="hidden tablet:block fixed inset-0 z-1 pointer-events-none homepage-background-orbitals">
+        <div className="hidden tablet:block fixed inset-0 z-1 pointer-events-none homepage-background-auxillaries">
           <OrbitalRings count={4} baseSize={30} sizeIncrement={15} />
         </div>
 

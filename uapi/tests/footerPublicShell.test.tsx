@@ -23,9 +23,9 @@ jest.mock('@bitcode/supabase/ssr/client', () => ({
   }),
 }));
 
-jest.mock('@/app/orbitals/components/OrbitalsProvider', () => ({
-  openOrbital: (...args: unknown[]) => mockOpenOrbital(...args),
-  prefetchOrbital: () => mockPrefetchOrbital(),
+jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+  openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
+  prefetchAuxillaries: () => mockPrefetchOrbital(),
 }));
 
 jest.mock('@/config/features', () => ({
@@ -34,7 +34,7 @@ jest.mock('@/config/features', () => ({
   },
 }));
 
-jest.mock('@/components/base/engi/branding/engi-software-svg-logo', () => ({
+jest.mock('@/components/base/engi/branding/bitcode-software-svg-logo', () => ({
   __esModule: true,
   default: () => <div>Software logo</div>,
 }));

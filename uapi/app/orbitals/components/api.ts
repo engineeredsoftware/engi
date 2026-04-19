@@ -2,7 +2,7 @@
 
 // Save user profile information
 export const saveUserProfile = async (profileData: any) => {
-  const res = await fetch('/api/orbitals/user/profile', {
+  const res = await fetch('/api/auxillaries/user/profile', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(profileData)
@@ -16,7 +16,7 @@ export const saveUserProfile = async (profileData: any) => {
 
 // Connect to GitHub
 export const connectGitHub = async (connectionData: any) => {
-  const res = await fetch('/api/orbitals/user/connections/github', {
+  const res = await fetch('/api/auxillaries/user/connections/github', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(connectionData)
@@ -30,7 +30,7 @@ export const connectGitHub = async (connectionData: any) => {
 
 // Purchase credits
 export const purchaseCredits = async (purchaseData: any) => {
-  const res = await fetch('/api/orbitals/user/credits', {
+  const res = await fetch('/api/auxillaries/user/credits', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(purchaseData)
@@ -44,7 +44,7 @@ export const purchaseCredits = async (purchaseData: any) => {
 
 // Update model preferences
 export const updateModelPreferences = async (modelData: any) => {
-  const res = await fetch('/api/orbitals/model-preferences', {
+  const res = await fetch('/api/auxillaries/model-preferences', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(modelData)
@@ -58,7 +58,7 @@ export const updateModelPreferences = async (modelData: any) => {
 
 // Get current user data (could be used to pre-populate fields)
 export const getUserData = async () => {
-  const res = await fetch('/api/orbitals/data');
+  const res = await fetch('/api/auxillaries/data');
   if (!res.ok) {
     const errorData = await res.json().catch(() => null);
     throw new Error(errorData?.error || 'Failed to fetch user data');

@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon, CircleStackIcon, EyeIcon } from '@heroicons/react/24/outline';
 
-import EngiPill from '@/components/base/engi/branding/engi-pill';
+import BitcodePill from '@/components/base/engi/branding/bitcode-pill';
 import { QuantumOrb } from '@/components/base/engi/effects/quantum-orb';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 
@@ -37,10 +37,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
 
       <div className="relative">
         <div className="flex items-center justify-between gap-3">
-          <EngiPill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
+          <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
             <CircleStackIcon className="h-3.5 w-3.5" />
             {BITCODE_PUBLIC_COPY.terminalPreview.pill}
-          </EngiPill>
+          </BitcodePill>
           <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-200/58">
             {BITCODE_PUBLIC_COPY.terminalPreview.kicker}
           </p>

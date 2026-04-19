@@ -55,7 +55,6 @@ In current source, the app-owned first-gate API surface now explicitly includes:
 - `/api/state`
 - `/api/deposits`
 - `/api/make-bitcode-branch`
-- `/api/make-engi-branch`
 - `/api/reset`
 - `/api/bitcoin-demonstration-service`
 - `/api/orbitals/data`

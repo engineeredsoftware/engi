@@ -1,10 +1,10 @@
 "use client";
 import { useEffect } from 'react';
-import { prefetchOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 
 export default function AddOrbitalToApp() {
   useEffect(() => {
-    prefetchOrbital?.();
+    prefetchAuxillaries?.();
   }, []);
   return null;
 }

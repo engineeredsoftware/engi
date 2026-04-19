@@ -1,4 +1,4 @@
-This folder hosts vendored Shadcn UI components as the canonical base surface for ENGI UI.
+This folder hosts vendored Shadcn UI components as the canonical base surface for Bitcode UI.
 
 Plan (non-breaking, staged):
 - Migrate components (button, badge, card, input, label, select, table, tabs, tooltip, etc.) from `uapi/components/ui/` into `components/base/shadcn/`.

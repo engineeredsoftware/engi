@@ -26,9 +26,9 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: () => ({ credits: 0 }),
 }));
 
-jest.mock('@/app/orbitals/components/OrbitalsProvider', () => ({
-  openOrbital: (...args: unknown[]) => mockOpenOrbital(...args),
-  prefetchOrbital: () => mockPrefetchOrbital(),
+jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+  openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
+  prefetchAuxillaries: () => mockPrefetchOrbital(),
 }));
 
 jest.mock('@/config/features', () => ({
@@ -133,7 +133,7 @@ describe('Nav public shell', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'User menu' }));
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('orbitals', 'profile');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'profile');
   });
 
   it('renders docs brand posture on docs routes', () => {

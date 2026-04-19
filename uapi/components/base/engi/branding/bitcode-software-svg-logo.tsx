@@ -1,6 +1,6 @@
 import React from 'react';
 
-type EngiSoftwareSvgLogoProps = {
+type BitcodeSoftwareSvgLogoProps = {
   width?: string;
   height?: string;
   className?: string;
@@ -37,7 +37,7 @@ function computeWordmarkMetrics(width: string) {
   };
 }
 
-export default function EngiSoftwareSvgLogo({
+export default function BitcodeSoftwareSvgLogo({
   width = '115px',
   height = 'auto',
   className = '',
@@ -46,7 +46,7 @@ export default function EngiSoftwareSvgLogo({
   fill = 'white',
   glow = true,
   softwareOffsetY,
-}: EngiSoftwareSvgLogoProps) {
+}: BitcodeSoftwareSvgLogoProps) {
   const resolvedFill = normalizeLogoColor(fill);
   const hideWordmark = /\bhidden\b/.test(softwareClassName);
   const glyphWidth = hideWordmark ? width : computeWordmarkMetrics(width).glyphWidth;

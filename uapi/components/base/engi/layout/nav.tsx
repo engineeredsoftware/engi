@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CreditsTracker } from "@/components/base/engi/credits/credits-tracker";
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
-import { openOrbital, prefetchOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { NotificationsWidget } from "@/components/base/engi/notifications/NotificationsWidget"
 import { OrbitalUseButton } from "@/components/base/engi/nav/OrbitalUseButton";
 import { FEATURE_FLAGS } from "@/config/features"
@@ -81,12 +81,12 @@ export default function Nav() {
 
   // Global event listeners for opening orbital
   useEffect(() => {
-    const openLogin = () => openOrbital('SignInWindow');
-    const openOnboarding = () => openOrbital('SignUpWindow');
-    document.addEventListener('open-orbitals', openLogin);
+    const openLogin = () => openAuxillaries('SignInWindow');
+    const openOnboarding = () => openAuxillaries('SignUpWindow');
+    document.addEventListener('open-auxillaries', openLogin);
     document.addEventListener('start-onboarding', openOnboarding);
     return () => {
-      document.removeEventListener('open-orbitals', openLogin);
+      document.removeEventListener('open-auxillaries', openLogin);
       document.removeEventListener('start-onboarding', openOnboarding);
     };
   }, []);
@@ -140,16 +140,16 @@ export default function Nav() {
     <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
       <button
         type="button"
-        onMouseEnter={() => prefetchOrbital()}
-        onClick={() => openOrbital('login')}
+        onMouseEnter={() => prefetchAuxillaries()}
+        onClick={() => openAuxillaries('login')}
         className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
       >
         Open Auxillaries
       </button>
       <button
         type="button"
-        onMouseEnter={() => prefetchOrbital()}
-        onClick={() => openOrbital('SignUpWindow')}
+        onMouseEnter={() => prefetchAuxillaries()}
+        onClick={() => openAuxillaries('SignUpWindow')}
         className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
       >
         Create Account
@@ -161,16 +161,16 @@ export default function Nav() {
     <div className={isAnimated ? 'nav-controls-animated flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5' : 'opacity-0 flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5'}>
       <button
         type="button"
-        onMouseEnter={() => prefetchOrbital()}
-        onClick={() => openOrbital('login')}
+        onMouseEnter={() => prefetchAuxillaries()}
+        onClick={() => openAuxillaries('login')}
         className="flex-1 rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18 tablet:flex-none"
       >
         {BITCODE_PUBLIC_COPY.publicNav.guestPrimaryCta}
       </button>
       <button
         type="button"
-        onMouseEnter={() => prefetchOrbital()}
-        onClick={() => openOrbital('SignUpWindow')}
+        onMouseEnter={() => prefetchAuxillaries()}
+        onClick={() => openAuxillaries('SignUpWindow')}
         className="flex-1 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none"
       >
         {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
@@ -275,7 +275,7 @@ export default function Nav() {
                     pathname?.startsWith('/executions') ||
                     pathname?.startsWith('/conversations') ||
                     pathname?.startsWith('/auxillaries') ||
-                    pathname?.startsWith('/orbitals');
+                    pathname?.startsWith('/auxillaries');
                   return (
                     <li key={href}
                       className={`${shouldAnimate ? 'nav-item-animated' : ''}`.trim()}
@@ -350,13 +350,13 @@ export default function Nav() {
 
                 <UserMenu
                   user={user}
-                  onOpenOrbitals={() => openOrbital('orbitals', 'profile')}
+                  onOpenOrbitals={() => openAuxillaries('auxillaries', 'profile')}
                   onSignOut={() => {
                     import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                       const client = createClient();
                       client.auth.signOut().finally(() => {
                         // Show login pane after sign out
-                        openOrbital('login');
+                        openAuxillaries('login');
                         // Redirect from authenticated pages
                         if (pathname && (pathname.startsWith('/deliverables') || pathname.startsWith('/upgrades'))) {
                           router.replace('/');
@@ -371,13 +371,13 @@ export default function Nav() {
                 <div className={isAnimated ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
                   {FEATURE_FLAGS.DISABLE_USING ? (
                     <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
-                      <OrbitalUseButton isDisabled orbitals={orbitalElements} particles={particleElements} />
+                      <OrbitalUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
                     </DisabledTooltipWrapper>
                   ) : (
                     <OrbitalUseButton
-                      onHoverPrefetch={() => prefetchOrbital()}
-                      onClick={() => openOrbital(user ? 'orbitals' : 'login')}
-                      orbitals={orbitalElements}
+                      onHoverPrefetch={() => prefetchAuxillaries()}
+                      onClick={() => openAuxillaries(user ? 'auxillaries' : 'login')}
+                      auxillaries={orbitalElements}
                       particles={particleElements}
                     />
                   )}

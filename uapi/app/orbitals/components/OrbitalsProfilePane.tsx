@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
 import stylesProfilePane from './profile-pane.module.css';
 import OrbitalsProfileOrbitalHeader from './headers/OrbitalsProfileOrbitalHeader';
-import DataSharingPanel from './OrbitalsDataSharingPanel';
+
 
 interface TeamMember {
   id: string;
@@ -244,7 +244,7 @@ export default function ProfileStep({ onSave,
         
         // Save verification status to profile
         try {
-          await fetch('/api/orbitals/profile', {
+          await fetch('/api/auxillaries/profile', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -274,8 +274,7 @@ export default function ProfileStep({ onSave,
   const [selectedAvatar, setSelectedAvatar] = useState(0);
   const [showAvatarSelector, setShowAvatarSelector] = useState(false);
 
-  // Data sharing UI now lives in a dedicated child component (<DataSharingPanel>).  Any
-  // legacy state hooks were removed.
+  // Repository knowledge sharing now lives under the $BTD auxillary.
 
   // Team management state
   /* 
@@ -326,7 +325,7 @@ export default function ProfileStep({ onSave,
     setShowAvatarSelector(!showAvatarSelector);
   };
 
-  // (legacy data-share useEffect removed – handled by DataSharingPanel)
+  // (legacy repository-sharing state removed; the control now lives under $BTD)
 
   const selectAvatar = (index: number) => {
 
@@ -926,10 +925,6 @@ export default function ProfileStep({ onSave,
             </div>
           )}
 
-          {/* Data Sharing Section – revamped */}
-          <div className="orbital-section mt-12">
-            <DataSharingPanel className="pt-4" overlayed={!isOnboardingComplete} />
-          </div>
           {/* Hidden submit button that will be triggered by the global action button */}
           <button
             type="submit"

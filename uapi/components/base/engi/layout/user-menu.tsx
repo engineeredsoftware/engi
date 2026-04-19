@@ -8,9 +8,9 @@ import menuStyles from '../menus/glassy-menu.module.css';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { OrbitalIcon } from './orbital-icon';
 import {
-  OPEN_ORBITALS_FULLSCREEN_LABEL,
-  ORBITALS_LIST_COMPACT_LABEL,
-} from '@/app/orbitals/components/orbital-pane-meta';
+  OPEN_AUXILLARIES_FULLSCREEN_LABEL,
+  AUXILLARIES_LIST_COMPACT_LABEL,
+} from '@/app/auxillaries/components/auxillary-pane-meta';
 
 interface UserMenuProps {
   /** Supabase user object */
@@ -124,9 +124,9 @@ export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
               >
                 <OrbitalIcon className="h-5 w-5 flex-shrink-0 mr-2" variant="green" />
                 <div className="min-w-0">
-                  <span className="block">{OPEN_ORBITALS_FULLSCREEN_LABEL}</span>
+                  <span className="block">{OPEN_AUXILLARIES_FULLSCREEN_LABEL}</span>
                   <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-emerald-200/60">
-                    {ORBITALS_LIST_COMPACT_LABEL}
+                    {AUXILLARIES_LIST_COMPACT_LABEL}
                   </span>
                 </div>
               </DropdownMenu.Item>

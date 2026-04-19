@@ -220,7 +220,7 @@ export default function Orbital({
 
   const updateOnboardingMutation = useMutation({
     mutationFn: async (step: ConcreteOrbitalPane) => {
-      const response = await fetch('/api/orbitals/onboarding', {
+      const response = await fetch('/api/auxillaries/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ completedStep: step }),
@@ -245,7 +245,7 @@ export default function Orbital({
 
   const updateProfileMutation = useMutation({
     mutationFn: async (updated: any) => {
-      const response = await fetch('/api/orbitals/profile', {
+      const response = await fetch('/api/auxillaries/profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updated),
@@ -393,7 +393,7 @@ export default function Orbital({
             }
             onSave={async (updated) => {
               try {
-                await fetch('/api/orbitals/model-preferences', {
+                await fetch('/api/auxillaries/model-preferences', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(updated),
@@ -415,7 +415,7 @@ export default function Orbital({
             }
             onSave={async (updated) => {
               try {
-                await fetch('/api/orbitals/model-preferences', {
+                await fetch('/api/auxillaries/model-preferences', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(updated),

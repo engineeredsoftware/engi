@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Toaster as SonnerToaster, toast as sonnerToast } from 'sonner';
-import { EngiStatusIcon } from '@/components/base/engi/icons/StatusIcon';
-import { EngiPhaseIcon } from '@/components/base/engi/icons/PhaseIcon';
+import { BitcodeStatusIcon } from '@/components/base/engi/icons/StatusIcon';
+import { BitcodePhaseIcon } from '@/components/base/engi/icons/PhaseIcon';
 
-// Engi-styled Toaster wrapper
+// Bitcode-styled Toaster wrapper
 // Aesthetic: Dark, glassy surface with neon mint glow accents (#65FEB7 / #67feb7),
 // subtle border, and elegant contrast for title/description.
 type ToasterProps = {
@@ -50,7 +50,7 @@ export const Toaster: React.FC<ToasterProps> = ({ position = 'bottom-right', cla
   );
 };
 
-// Engi toast helpers for consistent usage across the app
+// Bitcode toast helpers for consistent usage across the app
 type ToastOptions = {
   description?: string;
   duration?: number;
@@ -65,15 +65,15 @@ const withDurations = (variant: 'info'|'success'|'warning'|'error', opts: ToastO
 
 export const toast = {
   info: (message: string, opts: ToastOptions = {}) =>
-    sonnerToast(message, { ...withDurations('info', opts), icon: <EngiStatusIcon variant="info" /> }),
+    sonnerToast(message, { ...withDurations('info', opts), icon: <BitcodeStatusIcon variant="info" /> }),
   success: (message: string, opts: ToastOptions = {}) =>
-    sonnerToast.success(message, { ...withDurations('success', opts), icon: <EngiStatusIcon variant="success" /> }),
+    sonnerToast.success(message, { ...withDurations('success', opts), icon: <BitcodeStatusIcon variant="success" /> }),
   error: (message: string, opts: ToastOptions = {}) =>
-    sonnerToast.error(message, { ...withDurations('error', opts), icon: <EngiStatusIcon variant="error" /> }),
+    sonnerToast.error(message, { ...withDurations('error', opts), icon: <BitcodeStatusIcon variant="error" /> }),
   warning: (message: string, opts: ToastOptions = {}) =>
     (sonnerToast as any).warning
-      ? (sonnerToast as any).warning(message, { ...withDurations('warning', opts), icon: <EngiStatusIcon variant="warning" /> })
-      : sonnerToast(message, { ...withDurations('warning', opts), icon: <EngiStatusIcon variant="warning" /> }),
+      ? (sonnerToast as any).warning(message, { ...withDurations('warning', opts), icon: <BitcodeStatusIcon variant="warning" /> })
+      : sonnerToast(message, { ...withDurations('warning', opts), icon: <BitcodeStatusIcon variant="warning" /> }),
   raw: sonnerToast,
 };
 
@@ -93,7 +93,7 @@ export const toastPhase = (
 ) => {
   const { phase, ...rest } = opts;
   const base = withDurations('info', rest);
-  const icon = <EngiPhaseIcon phase={phase} />;
+  const icon = <BitcodePhaseIcon phase={phase} />;
   const v = phasePalette[phase]?.variant || 'info';
   if (v === 'success') return sonnerToast.success(message, { ...base, icon });
   if (v === 'warning') return (sonnerToast as any).warning

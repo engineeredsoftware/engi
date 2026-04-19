@@ -9,7 +9,7 @@ const AnimatedBeam = dynamic(
   () => import("@/components/base/engi/magicui/animated-beam").then((mod) => mod.AnimatedBeam),
   { ssr: false }
 );
-import EngiPill from "@/components/base/engi/branding/engi-pill";
+import BitcodePill from "@/components/base/engi/branding/bitcode-pill";
 import {
   ArrowRightIcon,
   CursorArrowRaysIcon,
@@ -736,7 +736,7 @@ export default function MarketingWalkthroughSection() {
                   />
                 </div>
                 <div className="relative flex justify-center w-full">
-                  <EngiPill>1000+ LLM Calls</EngiPill>
+                  <BitcodePill>1000+ LLM Calls</BitcodePill>
                   <span
                     ref={topAnchorRefs[id - 1]}
                     className="absolute left-1/2 top-full -translate-x-1/2 w-px h-px"
@@ -818,7 +818,7 @@ export default function MarketingWalkthroughSection() {
                       animationPaused={!isSectionVisible}
                     />
                   </div>
-                  <EngiPill className="text-[10px] px-2">1000+ LLM Calls</EngiPill>
+                  <BitcodePill className="text-[10px] px-2">1000+ LLM Calls</BitcodePill>
                 </div>
               </motion.div>
             ))}

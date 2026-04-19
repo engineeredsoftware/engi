@@ -1,6 +1,4 @@
 "use client";
-// moved to orbital/data-sharing-panel
-
 import React, { useEffect, useState } from "react";
 import { AfterOnboardingOverlay } from './shared/after-onboarding-overlay';
 
@@ -26,12 +24,6 @@ interface DataSharingPanelProps {
   overlayed?: boolean;
 }
 
-/**
- * Stand-alone panel that fetches the user’s data-sharing preferences and allows
- * blanket opt-in/out or granular repo-level toggles.  Styled to match the
- * Procurement / Alt-Crypto marketing aesthetic while living inside the
- * Orbital dark theme.
- */
 export default function DataSharingPanel({ className = "", overlayed = false }: DataSharingPanelProps) {
   const [repos, setRepos] = useState<DataShareRepo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +35,7 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/orbitals/user/data-share");
+        const res = await fetch("/api/auxillaries/user/data-share");
         const json = await res.json();
         if (!cancelled && json.success && Array.isArray(json.repos)) {
           setRepos(json.repos);
@@ -71,7 +63,7 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
       // remain backward-compatible while the backend endpoint catches up.
       await Promise.all(
         repos.map((repo) =>
-          fetch("/api/orbitals/user/data-share", {
+          fetch("/api/auxillaries/user/data-share", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -103,7 +95,7 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
       return updated;
     });
     try {
-      await fetch("/api/orbitals/user/data-share", {
+      await fetch("/api/auxillaries/user/data-share", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -129,19 +121,19 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
     <AfterOnboardingOverlay disabled={overlayed} className={className}>
       <div className="relative w-full">
         <h3 className="text-lg font-heading mb-2 text-white flex items-center gap-2">
-          Repository knowledge sharing
+          Need-space knowledge sharing
           {loading && <span className="text-sm text-slate-400">loading…</span>}
         </h3>
-      <p className="text-sm text-slate-400 mb-4">
-        Choose which repositories can contribute snapshots into the shared Bitcode knowledge base.
-        This is where repository-level sharing consent stays explicit alongside your
-        <span className="text-teal-300 font-semibold mx-1">$BTD</span>
-        posture.
-      </p>
+        <p className="text-sm text-slate-400 mb-4">
+          Set once whether Connects-approved repositories should keep contributing synchronized repository knowledge into Bitcode need-space.
+          This is the larger
+          <span className="text-teal-300 font-semibold mx-1">$BTD</span>
+          setting that governs ongoing connected-knowledge contribution after repository access is already approved.
+        </p>
 
       {/* Enable All toggle */}
       <div className="flex items-center mb-6">
-        <span className="mr-3 font-medium text-slate-200">Share all repositories</span>
+        <span className="mr-3 font-medium text-slate-200">Set it and forget it</span>
         <label className="relative inline-flex items-center cursor-pointer select-none">
           <input
             type="checkbox"
@@ -159,9 +151,9 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
         </label>
       </div>
 
-      {enableAll ? (
+        {enableAll ? (
         <div className="text-sm text-yellow-300/80 font-medium bg-yellow-300/10 border border-yellow-300/20 rounded-lg px-4 py-3">
-          All current and future repositories will be shared automatically.
+          All current and future Connects-approved repositories will sync into need-space automatically.
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
@@ -212,7 +204,7 @@ export default function DataSharingPanel({ className = "", overlayed = false }: 
             </tbody>
           </table>
         </div>
-      )}
+        )}
       </div>
     </AfterOnboardingOverlay>
   );

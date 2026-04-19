@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@bitcode/supabase/ssr/client'
 import { AuthProvider } from '@/components/base/engi/auth/AuthProvider'
-import OrbitalsProvider from '@/app/orbitals/components/OrbitalsProvider'
+import AuxillariesProvider from '@/app/auxillaries/components/AuxillariesProvider'
 import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
@@ -224,7 +224,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
 
   return (
     <AuthProvider>
-      <OrbitalsProvider>
+      <AuxillariesProvider>
         <>
         {FEATURE_FLAGS.NAV_BAR && <Nav />}
         <PageContent>{children}</PageContent>
@@ -257,7 +257,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         {/* Global toast portal */}
         <Toaster />
         </>
-      </OrbitalsProvider>
+      </AuxillariesProvider>
     </AuthProvider>
   )
 }

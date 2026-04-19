@@ -682,7 +682,6 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/make-engi-branch/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/orbitals/data/route.ts`

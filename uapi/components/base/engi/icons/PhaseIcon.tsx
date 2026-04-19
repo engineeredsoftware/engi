@@ -12,7 +12,7 @@ const palette: Record<Phase, { glow: string; fill: string; stroke: string }> = {
   shipping:       { glow: 'drop-shadow(0 0 12px rgba(59,130,246,.45))',  fill: '#3b82f6', stroke: 'rgba(59,130,246,.85)' },  // blue
 };
 
-export function EngiPhaseIcon({ phase, size = 18, className = '' }: { phase: Phase; size?: number; className?: string }) {
+export function BitcodePhaseIcon({ phase, size = 18, className = '' }: { phase: Phase; size?: number; className?: string }) {
   const theme = palette[phase];
   const s = size;
   return (
@@ -32,4 +32,3 @@ export function EngiPhaseIcon({ phase, size = 18, className = '' }: { phase: Pha
     </svg>
   );
 }
-

@@ -18,12 +18,12 @@ export const APPLICATION_EXPERIENCES = [
     targetId: 'conversations',
   },
   {
-    id: 'orbitals',
+    id: 'auxillaries',
     label: 'Auxillaries',
     badge: 'dedicated mode',
     description:
       'The dedicated Bitcode auxillary space for Connects, Interfaces, Profile, $BTD, and the rest of the connection, wallet, and interface-default surface.',
-    targetId: 'orbitals',
+    targetId: 'auxillaries',
   },
 ] as const;
 

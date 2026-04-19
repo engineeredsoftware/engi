@@ -11,7 +11,7 @@ const palette: Record<Variant, { glow: string; fill: string; stroke: string }> =
   error:   { glow: 'drop-shadow(0 0 12px rgba(244, 63, 94, .45))',  fill: '#f43f5e', stroke: 'rgba(244,63,94,.85)' },    // rose
 };
 
-export function EngiStatusIcon({ variant = 'info', size = 18, className = '' }: { variant?: Variant; size?: number; className?: string }) {
+export function BitcodeStatusIcon({ variant = 'info', size = 18, className = '' }: { variant?: Variant; size?: number; className?: string }) {
   const theme = palette[variant];
   const s = size;
   return (
@@ -49,4 +49,3 @@ export function EngiStatusIcon({ variant = 'info', size = 18, className = '' }: 
     </svg>
   );
 }
-

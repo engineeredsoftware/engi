@@ -17,12 +17,14 @@ Legacy `/orbitals/*` links are compatibility-only and should redirect here witho
 
 - `[pane]/page.tsx`
   Canonical direct-route owner, canonical metadata, and redirect normalization for pane aliases.
-- `../orbitals/OrbitalsRouteClient.tsx`
-  Shared focused auxillary shell and contained read surface.
-- `../orbitals/components/orbital-pane-meta.ts`
-  Canonical auxillary route builder and compatibility path owner.
+- `AuxillariesRouteClient.tsx`
+  Canonical focused auxillary shell and direct-route owner for contained auxillary reads.
+- `components/auxillary-pane-meta.ts`
+  Canonical auxillary route builder, metadata owner, and compatibility-path bridge.
+- `components/AuxillariesProvider.tsx`
+  Canonical fullscreen auxillary overlay provider, event bridge, and portal owner.
 - `../orbitals/components/*`
-  Shared pane implementations, tabs, panels, and fullscreen overlay content.
+  Retained pane implementations, tabs, panels, and fullscreen content reused by the canonical auxillary shell during the V26 convergence period.
 
 ## Canonical rule
 

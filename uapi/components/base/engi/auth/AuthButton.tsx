@@ -1,7 +1,7 @@
 'use client'
 
 import { createClient } from '@bitcode/supabase/ssr/client'
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider'
+import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import ExecuteButton from '@/components/base/engi/execution/execute-button'
@@ -52,7 +52,7 @@ export default function AuthButton() {
   const handleLogout = async () => {
     await supabase.auth.signOut()
     // Open login pane and redirect off authed routes
-    openOrbital('SignInWindow')
+    openAuxillaries('SignInWindow')
     router.replace('/')
   }
 

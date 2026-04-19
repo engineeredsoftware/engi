@@ -19,6 +19,11 @@ const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
 describe('OrbitalsBTDPane', () => {
   beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, repos: [] }),
+    }) as jest.Mock;
+
     mockUseAuth.mockReturnValue({
       user: {
         id: 'user-1',
@@ -56,6 +61,10 @@ describe('OrbitalsBTDPane', () => {
       isOnboardingComplete: true,
       onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
     } as any);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('renders wallet and share posture and submits merged btd defaults', () => {

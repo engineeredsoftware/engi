@@ -162,7 +162,7 @@ const MarketingCtaContactSection: React.FC = () => {
                           }
                           innerClassName="text-base leading-none tracking-wider font-light text-white"
                           disabled={DISABLE_USING}
-                          onClick={() => document.dispatchEvent(new CustomEvent('open-orbitals'))}
+                          onClick={() => document.dispatchEvent(new CustomEvent('open-auxillaries'))}
                         >
                           Sign In
                         </MarketingButtonShimmer>

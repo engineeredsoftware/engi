@@ -165,7 +165,7 @@ export function TestimonialsCallToAction() {
               <MarketingButtonShimmer medium={true} className="relative mt-8 bg-green-primary">
                 {/* Overlay button to open authentication orbital */}
                 <button
-                  onClick={() => document.dispatchEvent(new Event('open-orbitals'))}
+                  onClick={() => document.dispatchEvent(new Event('open-auxillaries'))}
                   className="inset-0 z-10 absolute text-transparent"
                 >{text}</button>
                 <span className="flex items-center">

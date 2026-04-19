@@ -23,7 +23,11 @@ interface AppShellProps {
 }
 
 export const AppShell = ({ children }: AppShellProps) => {
-  const { account, engiBalance, networkStatus } = useWeb3();
+  const { account, networkStatus } = useWeb3() as {
+    account?: string;
+    networkStatus?: string;
+  };
+  const bitcodeBalance = 0;
   const { aiStatus, activeAgents } = useAI();
   const [showCommandPalette, setShowCommandPalette] = React.useState(false);
   const [notifications, setNotifications] = React.useState<any[]>([]);
@@ -105,7 +109,7 @@ export const AppShell = ({ children }: AppShellProps) => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Blocks className="w-5 h-5 text-purple-500" />
-              <span className="text-white font-medium">Engi Enterprise</span>
+              <span className="text-white font-medium">Bitcode Enterprise</span>
             </div>
             <div className="hidden laptop:flex items-center space-x-4 text-sm">
               {Object.entries(systemStatus).map(([key, status]) => (
@@ -121,6 +125,11 @@ export const AppShell = ({ children }: AppShellProps) => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            {account ? (
+              <span className="hidden laptop:inline text-xs text-gray-500">
+                {bitcodeBalance} BTD
+              </span>
+            ) : null}
             <button
               onClick={() => setShowCommandPalette(true)}
               className="flex items-center space-x-2 px-3 py-1.5 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700"

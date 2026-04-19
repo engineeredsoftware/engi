@@ -643,7 +643,7 @@ export function createAppContext({
         return sendJson(res, 200, createDeposit(body));
       }
 
-      if (req.method === 'POST' && (req.url === '/api/make-bitcode-branch' || req.url === '/api/make-engi-branch')) {
+      if (req.method === 'POST' && req.url === '/api/make-bitcode-branch') {
         const body = await readBody(req);
         return sendJson(res, 200, await makeBitcodeBranch(body));
       }

@@ -43,10 +43,10 @@ export default function MarketingHero() {
           <MarketingButtonShimmer large={true} className="relative w-fit border-green-primary pr-4" innerClassName='flex items-center'>
             {/* Overlay button to open authentication orbital */}
             <button
-              onClick={() => document.dispatchEvent(new Event('open-orbitals'))}
+              onClick={() => document.dispatchEvent(new Event('open-auxillaries'))}
               onMouseEnter={() => {
                 // Prefetch Orbital on hover
-                import('@/app/orbitals/components/OrbitalsProvider').then(mod => (mod as any).prefetchOrbital?.());
+                import('@/app/auxillaries/components/AuxillariesProvider').then(mod => (mod as any).prefetchAuxillaries?.());
               }}
               className="inset-0 z-10 absolute text-transparent"
             >{text}</button>

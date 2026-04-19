@@ -1,22 +1,22 @@
 import React from 'react';
 import Image from 'next/image';
 
-type EngiSoftwareLogoProps = {
+type BitcodeSoftwareLogoProps = {
   width?: number;
   height?: number;
   className?: string;
   softwareClassName?: string;
 }
 
-export default function EngiSoftwareLogo({
+export default function BitcodeSoftwareLogo({
   width = 115,
   height = 51.5,
   className = "",
   softwareClassName = "text-gray-300 ml-1 font-light"
-}: EngiSoftwareLogoProps) {
+}: BitcodeSoftwareLogoProps) {
   return (
     <div className={`flex items-center ${className}`}>
-      <Image src="/engi-typelogo.png" width={width} height={height} alt="engi logo" />
+      <Image src="/bitcode.svg" width={width} height={height} alt="Bitcode logo" />
       <span className={softwareClassName}>.software</span>
     </div>
   );

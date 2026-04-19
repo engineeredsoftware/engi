@@ -14,8 +14,8 @@ import Link from 'next/link';
 import { FEATURE_FLAGS } from '@/config/features';
 import { useEffect, useState, useMemo } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
-import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
-import { openOrbital, prefetchOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import BitcodeSoftwareSvgLogo from '@/components/base/engi/branding/bitcode-software-svg-logo';
+import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 import BitcodeInlineExplainer from '@/components/base/engi/execution/BitcodeInlineExplainer';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/engi/layout/bitcode-public-explainers';
@@ -232,7 +232,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
             <div className="flex flex-col gap-10 p-4 py-12 tablet:gap-12 tablet:pb-16 laptop:flex-row laptop:justify-between">
               <div className="flex max-w-lg flex-col gap-4">
                 <Link href="/" className="flex items-center gap-8">
-                  <EngiSoftwareSvgLogo
+                  <BitcodeSoftwareSvgLogo
                     width="115px"
                     height="auto"
                     softwareOffsetY="-4px"
@@ -285,8 +285,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 ) : (
                   <button
                     type="button"
-                    onMouseEnter={() => prefetchOrbital()}
-                    onClick={() => openOrbital(user ? 'orbitals' : 'login', user ? 'profile' : undefined)}
+                    onMouseEnter={() => prefetchAuxillaries()}
+                    onClick={() => openAuxillaries(user ? 'auxillaries' : 'login', user ? 'profile' : undefined)}
                     className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-full bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
                   >
                     {footerCtaLabel}
@@ -417,7 +417,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 </span>
                 <div className="flex w-full flex-col items-start gap-3 tablet:w-auto tablet:items-end">
                   <Link href="/" className="cursor-pointer">
-                    <EngiSoftwareSvgLogo
+                    <BitcodeSoftwareSvgLogo
                       width="50px"
                       height="auto"
                       className="-mb-0.5"

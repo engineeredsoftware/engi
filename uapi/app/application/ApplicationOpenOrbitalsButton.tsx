@@ -1,15 +1,15 @@
 'use client';
 
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import {
-  getOrbitalOpenActionLabel,
-  type ConcreteOrbitalPane,
-} from '@/app/orbitals/components/orbital-pane-meta';
+  getAuxillaryOpenActionLabel,
+  type ConcreteAuxillaryPane,
+} from '@/app/auxillaries/components/auxillary-pane-meta';
 
 interface ApplicationOpenOrbitalsButtonProps {
   className?: string;
   label?: string;
-  step?: ConcreteOrbitalPane;
+  step?: ConcreteAuxillaryPane;
 }
 
 export default function ApplicationOpenOrbitalsButton({
@@ -17,12 +17,12 @@ export default function ApplicationOpenOrbitalsButton({
   label,
   step,
 }: ApplicationOpenOrbitalsButtonProps) {
-  const resolvedLabel = label || getOrbitalOpenActionLabel(step);
+  const resolvedLabel = label || getAuxillaryOpenActionLabel(step);
 
   return (
     <button
       type="button"
-      onClick={() => openOrbital('login', step ?? 'connects')}
+      onClick={() => openAuxillaries('login', step ?? 'connects')}
       className={className}
     >
       {resolvedLabel}

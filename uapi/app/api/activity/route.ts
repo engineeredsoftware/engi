@@ -12,7 +12,7 @@ import { MOCK_RUNS } from '@/app/application/application-run-data';
 import {
   getMockOrbitalNotifications,
   isOrbitalNotificationsMockMode,
-} from '@/app/api/orbitals/notifications/_shared';
+} from '@/app/api/auxillaries/notifications/_shared';
 import { normalizeExecutionHistoryRow } from '@/app/api/executions/_shared';
 
 export const runtime = 'nodejs';
