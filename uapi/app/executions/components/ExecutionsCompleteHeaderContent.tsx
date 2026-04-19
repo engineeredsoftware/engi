@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 "use client";
 
 import React from "react";
@@ -157,53 +158,28 @@ export function CompleteHeaderContent({
         <h1 className="text-4xl font-bold tracking-tight leading-normal">{headerTitle}</h1>
         <div className="flex items-center gap-2">
           {/* Kind pill */}
-          <span className={`px-2 py-0.5 text-[11px] rounded-full border ${
-            false
-              ? 'border-purple-400/40 text-purple-300 bg-purple-900/20'
-              : 'border-emerald-400/40 text-emerald-300 bg-emerald-900/20'
-          }`}>
-            {'Deliverable'}
+          <span className="px-2 py-0.5 text-[11px] rounded-full border border-emerald-400/40 text-emerald-300 bg-emerald-900/20">
+            Deliverable
           </span>
           {/* Quick action chips: prefill toggles */}
-          {false ? (
-            <>
-              <button
-                className="px-2 py-0.5 text-[11px] rounded border border-purple-500/30 text-purple-200 hover:bg-purple-900/20"
-                onClick={() => {
-                  const params = new URLSearchParams(Array.from(search.entries()));
-                  params.set('reprocess', 'sync');
-                  router.replace(`/executions?${params.toString()}`);
-                }}
-              >Sync</button>
-              <button
-                className="px-2 py-0.5 text-[11px] rounded border border-purple-500/30 text-purple-200 hover:bg-purple-900/20"
-                onClick={() => {
-                  const params = new URLSearchParams(Array.from(search.entries()));
-                  params.set('reprocess', 'spawn');
-                  router.replace(`/executions?${params.toString()}`);
-                }}
-              >Spawn</button>
-            </>
-          ) : (
-            <>
-              <button
-                className="px-2 py-0.5 text-[11px] rounded border border-emerald-500/30 text-emerald-200 hover:bg-emerald-900/20"
-                onClick={() => {
-                  const params = new URLSearchParams(Array.from(search.entries()));
-                  params.set('preprocess', 'multi');
-                  router.replace(`/executions?${params.toString()}`);
-                }}
-              >Multi</button>
-              <button
-                className="px-2 py-0.5 text-[11px] rounded border border-emerald-500/30 text-emerald-200 hover:bg-emerald-900/20"
-                onClick={() => {
-                  const params = new URLSearchParams(Array.from(search.entries()));
-                  params.set('preprocess', 'compute');
-                  router.replace(`/executions?${params.toString()}`);
-                }}
-              >Compute</button>
-            </>
-          )}
+          <>
+            <button
+              className="px-2 py-0.5 text-[11px] rounded border border-emerald-500/30 text-emerald-200 hover:bg-emerald-900/20"
+              onClick={() => {
+                const params = new URLSearchParams(Array.from(search.entries()));
+                params.set('preprocess', 'multi');
+                router.replace(`/executions?${params.toString()}`);
+              }}
+            >Multi</button>
+            <button
+              className="px-2 py-0.5 text-[11px] rounded border border-emerald-500/30 text-emerald-200 hover:bg-emerald-900/20"
+              onClick={() => {
+                const params = new URLSearchParams(Array.from(search.entries()));
+                params.set('preprocess', 'compute');
+                router.replace(`/executions?${params.toString()}`);
+              }}
+            >Compute</button>
+          </>
         </div>
       </div>
 
@@ -408,7 +384,7 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
 
   const isDeliverable = postprocessed?.kind === 'deliverable';
   const isMultiDeliverable = postprocessed?.kind === 'multi-deliverable';
-  const isAI Document = postprocessed?.kind === 'ai_document';
+  const isAIDocument = postprocessed?.kind === 'ai_document';
   const series: any[] = Array.isArray(postprocessed?.entries)
     ? postprocessed.entries
     : (Array.isArray(postprocessed?.series) ? postprocessed.series : []);
@@ -525,7 +501,7 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
           )}
         </div>
       )}
-      {isAI Document && (
+      {isAIDocument && (
         <div className="text-sm text-gray-300">
           <div className="text-emerald-200 mb-1">{postprocessed?.title || 'AI Document'}</div>
           {postprocessed?.ai_documentType && (

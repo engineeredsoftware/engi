@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 import ExecutionsPage from '@/app/executions/components/ExecutionsPage';
 
 export const metadata: Metadata = {
-  title: '$BTD • Executions',
+  title: 'Bitcode Executions',
   description:
-    'Application-owned Bitcode execution workspace for deliverables, measurement, and run inspection.',
+    'Retained Bitcode executions route for runs, deliverables, and pipeline inspection during fourth-gate convergence.',
   alternates: {
     canonical: '/executions',
   },

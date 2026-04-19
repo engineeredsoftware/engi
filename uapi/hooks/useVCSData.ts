@@ -7,7 +7,7 @@ import {
   IssueOrPR,
   RepoFile
 } from '../types/api';
-import { fetchIssuesAndPRs as fetchIssuesAPI, fetchFiles as fetchFilesAPI, fetchAccounts } from '../utils/api-client';
+import { fetchIssuesAndPRs as fetchIssuesAPI, fetchFiles as fetchFilesAPI, fetchAccounts } from '@/networking/api-client';
 
 /**
  * Simplified VCS data interface

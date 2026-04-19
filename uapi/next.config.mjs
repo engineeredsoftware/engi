@@ -52,13 +52,17 @@ let nextConfig = {
     '@bitcode/generic-agent-code-editor',
     '@bitcode/generic-agents-ready-to-short-circuit',
     '@bitcode/generic-agents-language',
+    '@bitcode/generic-agents-vcs',
     '@bitcode/generic-agents-text-search',
     '@bitcode/generic-agents-danger-wall',
     // Generic tools used by pipelines/agents
     '@bitcode/generic-tools-editing',
     '@bitcode/generic-tools-git',
+    '@bitcode/generic-tools-lsp-query',
+    '@bitcode/generic-tools-multimodal-processing',
     '@bitcode/generic-tools-simple-system-text-search',
     '@bitcode/generic-tools-repository-setup',
+    '@bitcode/vcs-tools',
     '@bitcode/generic-tools-lsp-query',
     '@bitcode/vcs-tools',
     // Core shared libs commonly imported in app/server code
@@ -123,8 +127,17 @@ let nextConfig = {
       '@bitcode/sentry$': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
     };
 
-    // Resolve TS path aliases based on tsconfig.json
-    config.resolve.plugins = config.resolve.plugins || {};
+    // Resolve TS path aliases based on tsconfig.json and prefer TS siblings over stale JS artifacts.
+    if (Array.isArray(config.resolve.extensions)) {
+      config.resolve.extensions = Array.from(new Set([
+        '.ts',
+        '.tsx',
+        '.js',
+        '.jsx',
+        ...config.resolve.extensions,
+      ]));
+    }
+    config.resolve.plugins = config.resolve.plugins || [];
     config.resolve.plugins.push(new TsconfigPathsPlugin({ extensions: config.resolve.extensions }));
     // Removed deep-src resolver to rely on single alias + tsconfig paths
     // Inline .txt imports as raw source
@@ -219,6 +232,23 @@ let nextConfig = {
       ...(config.resolve.alias || {}),
       // Single top-level alias for prompts – root-only import
       '@bitcode/prompts': path.resolve(__dirname, '..', 'packages', 'prompts', 'src', 'index.ts'),
+      '@bitcode/execution-generics': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'execution-generics',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/pipeline-deliverable': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'deliverable',
+        'src',
+        'index.ts'
+      ),
       // Security package: server-safe root and explicit client entry
       '@bitcode/security': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'index.ts'),
       '@bitcode/security/client': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'client.ts'),
@@ -249,18 +279,72 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@bitcode/mcp/validation': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
+      '@bitcode/mcp/validation': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
       '@bitcode/git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
-      '@bitcode/mcp': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
-      '@bitcode/mcp$': path.resolve(__dirname, '..', 'packages', 'mcp', 'src', 'index.ts'),
+      '@bitcode/mcp': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
+      '@bitcode/mcp$': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
       // Legacy generic-agents umbrella alias
       '@bitcode/generic-agents': path.resolve(__dirname, '..', 'packages', 'agent-generics', 'src', 'index.ts'),
+      '@bitcode/generic-agents-vcs': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-agents',
+        'vcs',
+        'src',
+        'index.ts'
+      ),
       '@bitcode/generic-tools-files-maintaining': path.resolve(
         __dirname,
         '..',
         'packages',
         'generic-tools',
         'files-maintaining',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/generic-tools-lsp-query': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'lsp-query',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/generic-tools-multimodal-processing': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'multimodal-processing',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/generic-tools-repository-setup': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'repository-setup',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/vcs-tools': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'vcs',
+        'src',
+        'index.ts'
+      ),
+      '@bitcode/generic-tools/use-computer/src/index': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-tools',
+        'use-computer',
         'src',
         'index.ts'
       ),

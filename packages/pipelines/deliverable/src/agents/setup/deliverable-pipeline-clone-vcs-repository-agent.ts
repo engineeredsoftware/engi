@@ -10,11 +10,13 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts';
 
 // Import generic VCS agent prompts to extend (system + step prompts)
-import { SYSTEM_PROMPT_VCS } from '@bitcode/generic-agents-vcs/src/prompts/system-prompt-vcs';
-import { VCS_PLAN_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/plan-prompt-vcs';
-import { VCS_TRY_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/try-prompt-vcs';
-import { VCS_REFINE_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/refine-prompt-vcs';
-import { VCS_RETRY_PROMPT } from '@bitcode/generic-agents-vcs/src/prompts/retry-prompt-vcs';
+import {
+  SYSTEM_PROMPT_VCS,
+  VCS_PLAN_PROMPT,
+  VCS_TRY_PROMPT,
+  VCS_REFINE_PROMPT,
+  VCS_RETRY_PROMPT,
+} from '@bitcode/generic-agents-vcs';
 
 // Deliverables prompts (system + steps) using registry append semantics
 import {

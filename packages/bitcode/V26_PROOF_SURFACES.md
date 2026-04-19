@@ -109,8 +109,8 @@ Required coverage posture:
   retained packages and converged routes are covered by behavior tests
 - proof surface:
   retained systems are named in the eventual V26 proof family rather than implied
-  current live fourth-gate starter owners include `uapi/app/edgetimes/edgetimes-topology.ts`, `uapi/app/edgetimes/EdgetimesPageContent.tsx`, `uapi/app/edgetimes/page.tsx`, `uapi/app/api/edgetimes/route.ts`, `uapi/tests/edgetimesPageContent.test.tsx`, and `uapi/tests/api/edgetimesRoute.test.ts`
-  current generated fourth-gate proof starters are `.engi/conversations-continuity-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
+  current live fourth-gate starter owners include `uapi/app/conversations/page.tsx`, `uapi/app/conversations/ConversationsRouteClient.tsx`, `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/api/executions/route.ts`, `uapi/app/edgetimes/edgetimes-topology.ts`, `uapi/app/edgetimes/EdgetimesPageContent.tsx`, `uapi/app/edgetimes/page.tsx`, `uapi/app/api/edgetimes/route.ts`, and the focused route/API tests proving those surfaces
+  current generated fourth-gate proof starters are `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
 
 ### Gate 5: proof precision and final closure
 

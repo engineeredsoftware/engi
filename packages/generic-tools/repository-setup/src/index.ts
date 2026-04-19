@@ -26,6 +26,7 @@ import {
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+export { REPOSITORY_SETUP_DOC_CODE_TOOL_PROMPT } from './prompts/RepositorySetupDocCodeToolPrompt';
 // NOTE: Removed imports of non-existent Prompt modules. Descriptions below
 // embed clear, industrial language strings directly to avoid compile-time
 // coupling on prompt files. This preserves GA-1 patterns (no re-exports,

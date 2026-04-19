@@ -35,6 +35,27 @@
       // Allow importing tool packages using the new
       // "@bitcode/generic-tools/<tool>" pattern.
       "@bitcode/generic-tools/*": ["../packages/generic-tools/*/src/index.ts"],
+      "@bitcode/generic-tools-multimodal-processing": [
+        "../packages/generic-tools/multimodal-processing/src/index.ts"
+      ],
+      "@bitcode/generic-tools-multimodal-processing/*": [
+        "../packages/generic-tools/multimodal-processing/src/*"
+      ],
+      "@bitcode/generic-tools-repository-setup": [
+        "../packages/generic-tools/repository-setup/src/index.ts"
+      ],
+      "@bitcode/generic-tools-repository-setup/*": [
+        "../packages/generic-tools/repository-setup/src/*"
+      ],
+      "@bitcode/generic-tools-lsp-query": [
+        "../packages/generic-tools/lsp-query/src/index.ts"
+      ],
+      "@bitcode/generic-tools-lsp-query/*": [
+        "../packages/generic-tools/lsp-query/src/*"
+      ],
+      "@bitcode/generic-tools/use-computer/src/index": [
+        "../packages/generic-tools/use-computer/src/index.ts"
+      ],
 
 
       "@/lib/engine": ["../packages/pipelines-generics/src/pipeline/index.ts"],
@@ -91,6 +112,7 @@
       "@/lib/dryrun/*": ["../packages/observability/src/dryrun/*"],
 
 
+      "@bitcode/pipeline-deliverable": ["../packages/pipelines/deliverable/src/index.ts"],
       "@bitcode/pipeline-deliverable/*": ["../packages/pipelines/deliverable/*"],
 
 
@@ -109,12 +131,20 @@
       "@bitcode/generic-agents-language": [
         "../packages/generic-agents/language/src/index.ts"
       ],
+      "@bitcode/generic-agents-vcs": [
+        "../packages/generic-agents/vcs/src/index.ts"
+      ],
+      "@bitcode/generic-agents-vcs/*": [
+        "../packages/generic-agents/vcs/src/*"
+      ],
       "@bitcode/generic-agents-web-search": [
         "../packages/generic-agents/web-search/src/index.ts"
       ],
       "@bitcode/pipeline-engine-generics/*": ["../packages/pipelines-generics/src/*"],
       "@bitcode/generic-tools-registry": ["../packages/tools-generics/src/registry.ts"],
       "@bitcode/generic-tools-editing": ["../packages/generic-tools/files-maintaining/src/index.ts"],
+      "@bitcode/vcs-tools": ["../packages/generic-tools/vcs/src/index.ts"],
+      "@bitcode/vcs-tools/*": ["../packages/generic-tools/vcs/src/*"],
       "@bitcode/generic-tools/repository": ["../packages/generic-tools/git-interactor/src/index.ts"],
       "@bitcode/generic-tools/file-tracker": ["../packages/pipelines-generics/src/context/context.ts"],
       "@bitcode/generic-agents-git": ["../packages/generic-agents/git-interactor/src/index.ts"],
@@ -126,6 +156,7 @@
       // New @bitcode/* aliases replacing the historical @/lib/* imports.
       // -------------------------------------------------------------------
       "@bitcode/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
+      "@bitcode/mcp": ["../packages/executions-mcp/src/index.ts"],
       "@bitcode/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
       "@bitcode/context/*": ["../packages/context/src/*"],
       "@bitcode/context": ["../packages/context/src/index.ts"],

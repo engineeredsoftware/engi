@@ -16,8 +16,10 @@ import { Tool } from '@bitcode/tools-generics';
 import type { Prompt } from '@bitcode/prompts';
 
 // Base generic tool + its DocCodeToolPrompt
-import { cloneRepositoryTool } from '@bitcode/generic-tools-repository-setup';
-import { REPOSITORY_SETUP_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-repository-setup/src/prompts/RepositorySetupDocCodeToolPrompt';
+import {
+  cloneRepositoryTool,
+  REPOSITORY_SETUP_DOC_CODE_TOOL_PROMPT,
+} from '@bitcode/generic-tools-repository-setup';
 
 // PromptParts for Deliverables overlay
 

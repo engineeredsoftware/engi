@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { CompletionData, UrlEntry } from '../types/api';
-import { parseStreamChunk } from '../utils/stream-parser';
+import { parseStreamChunk } from '@/streaming/stream-parser';
 import { callDeliverablesAPI } from '../networking/api-client';
 import { ENABLE_COMPUTE_TOGGLE } from '@/config/featureFlags';
 
@@ -153,11 +153,13 @@ export const useExecutionState = () => {
 
       const processStream = async () => {
         try {
-          while (true) {
+          let streamDone = false;
+          while (!streamDone) {
             const { done, value } = await reader.read();
             if (done) {
               dlog('Stream done signal received');
-              break;
+              streamDone = true;
+              continue;
             }
 
             const chunk = decoder.decode(value, { stream: true });
@@ -293,15 +295,14 @@ export const useExecutionState = () => {
         ...prev,
         error: (error as Error).message || 'An unexpected error occurred'
       }));
-    } finally {
-      dlog('handleDoSubmit finally');
-      setState(prev => ({
-        ...prev,
-        isProcessing: false,
-        isStreamingComplete: !hasError
-      }));
-      return finalCompletion;
     }
+    dlog('handleDoSubmit finally');
+    setState(prev => ({
+      ...prev,
+      isProcessing: false,
+      isStreamingComplete: !hasError
+    }));
+    return finalCompletion;
   }, [state.definitionOfDone]);
 
   /**

@@ -132,7 +132,8 @@ Current post-checkpoint third-gate start is intentionally narrow:
 
 Current fourth-gate start is now explicit too:
 - `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry
+- `/executions` remains the retained direct runs-and-deliverables route, with `/api/executions` now mounted from the canonical deliverables business-logic owner
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
-- `.engi/conversations-continuity-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate proof starters
-- the retained persistence and conversations basis is now surfaced through explicit route/API owners instead of living only in spec prose while broader fourth-gate convergence remains open
+- `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate proof starters
+- the retained persistence, conversations, and runs/pipelines basis is now surfaced through explicit route/API owners instead of living only in spec prose while broader fourth-gate convergence remains open

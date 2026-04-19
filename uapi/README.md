@@ -16,6 +16,8 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
   Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
 - `/conversations`
   Fullscreen conversation mode entered from `/application`.
+- `/executions`
+  Retained runs-and-deliverables route kept explicit during fourth-gate inward convergence.
 - `/edgetimes`
   Fourth-gate storage/schema/package ownership read mounted as a docs-branded Bitcode route.
 - `/orbitals/profile`
@@ -39,10 +41,12 @@ Contained orbital rails should also converge on the shared panel-plus-tabs carri
   Fullscreen ring overlay plus focused orbital routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `app/conversations/`
   Fullscreen conversation mode.
+- `app/executions/`
+  Retained runs, deliverables, and execution-detail route owners kept explicit during fourth-gate convergence.
 - `app/edgetimes/`
   Fourth-gate storage/schema/package ownership route and shared topology owner for `/edgetimes`.
 - `app/api/`
-  App-owned Bitcode JSON contracts, including history, conversations, VCS, orbital preferences, client-error intake, preserved-runtime endpoints, and the `/api/edgetimes` storage/API witness.
+  App-owned Bitcode JSON contracts, including executions, history, conversations, VCS, orbital preferences, client-error intake, preserved-runtime endpoints, and the `/api/edgetimes` storage/API witness.
 - `components/base/engi/`
   Shared operator chrome, execution carriers, explainers, notifications, and reusable app primitives.
 

@@ -9,6 +9,11 @@ import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
 import { log } from '@bitcode/logger';
+export { SYSTEM_PROMPT_VCS } from './prompts/system-prompt-vcs';
+export { VCS_PLAN_PROMPT } from './prompts/plan-prompt-vcs';
+export { VCS_TRY_PROMPT } from './prompts/try-prompt-vcs';
+export { VCS_REFINE_PROMPT } from './prompts/refine-prompt-vcs';
+export { VCS_RETRY_PROMPT } from './prompts/retry-prompt-vcs';
 
 // ==================== SCHEMAS ====================
 

@@ -1,9 +1,19 @@
+const delegatedGet = jest.fn();
+const delegatedPost = jest.fn();
+const delegatedDelete = jest.fn();
+
+jest.mock('@bitcode/api/src/routes/deliverables', () => ({
+  GET: delegatedGet,
+  POST: delegatedPost,
+  DELETE: delegatedDelete,
+}));
+
 import * as route from '@/app/api/executions/route';
 
-describe('deliverables route delegation', () => {
-  it('exports GET and POST handlers', () => {
-    expect(typeof (route as any).GET).toBe('function');
-    expect(typeof (route as any).POST).toBe('function');
+describe('/api/executions route delegation', () => {
+  it('re-exports the canonical deliverables handlers', () => {
+    expect(route.GET).toBe(delegatedGet);
+    expect(route.POST).toBe(delegatedPost);
+    expect(route.DELETE).toBe(delegatedDelete);
   });
 });
-
