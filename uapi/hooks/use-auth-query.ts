@@ -74,7 +74,7 @@ async function fetchProfile() {
     return buildMockOrbitalData().profile;
   }
 
-  const response = await fetch('/api/orbitals/data', {
+  const response = await fetch('/api/auxillaries/data', {
     credentials: 'same-origin',
   });
   if (!response.ok) return null;
@@ -105,7 +105,7 @@ async function fetchOnboarding() {
     return buildMockOnboardingData();
   }
 
-  const response = await fetch('/api/orbitals/onboarding', {
+  const response = await fetch('/api/auxillaries/onboarding', {
     credentials: 'same-origin',
   });
   if (!response.ok) return null;

@@ -1,4 +1,4 @@
-import { GET, POST } from '@/app/api/orbitals/onboarding/route';
+import { GET, POST } from '@/app/api/auxillaries/onboarding/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
@@ -6,7 +6,7 @@ jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 
-describe('/api/orbitals/onboarding', () => {
+describe('/api/auxillaries/onboarding', () => {
   const mockUser = { id: 'user-1' };
   const mockGetUser = jest.fn();
 
@@ -61,7 +61,7 @@ describe('/api/orbitals/onboarding', () => {
       .mockReturnValueOnce(selectBuilder)
       .mockReturnValueOnce(updateBuilder);
 
-    const request = new Request('http://localhost/api/orbitals/onboarding', {
+    const request = new Request('http://localhost/api/auxillaries/onboarding', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ completedStep: 'credits' }),

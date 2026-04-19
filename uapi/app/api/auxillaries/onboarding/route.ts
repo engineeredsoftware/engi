@@ -1,1 +1,121 @@
-export { GET, POST, runtime } from '@/app/api/orbitals/onboarding/route';
+import { NextResponse } from 'next/server';
+
+import { supabaseAdmin } from '@bitcode/supabase';
+import { createClient } from '@bitcode/supabase/ssr/server';
+
+import {
+  AUXILLARY_FLOW_STEPS,
+  normalizeAuxillaryPane,
+  normalizeAuxillarySteps,
+} from '@/app/auxillaries/components/auxillary-pane-meta';
+import { buildMockOnboardingData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
+
+export const runtime = 'nodejs';
+
+const DEFAULT_COMPLETED_STEPS = [] as const;
+
+function parseStoredSteps(value: unknown) {
+  if (Array.isArray(value)) {
+    return normalizeAuxillarySteps(value);
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) {
+        return normalizeAuxillarySteps(parsed);
+      }
+    } catch {
+      const normalized = normalizeAuxillarySteps([value]);
+      if (normalized.length) {
+        return normalized;
+      }
+    }
+  }
+
+  return [];
+}
+
+function buildOnboardingPayload(completedSteps: string[]) {
+  const currentStep = AUXILLARY_FLOW_STEPS.find((step) => !completedSteps.includes(step)) || null;
+  return {
+    completedSteps,
+    currentStep,
+    isOnboardingComplete: completedSteps.length === AUXILLARY_FLOW_STEPS.length,
+  };
+}
+
+export async function GET() {
+  if (isUserOrbitalMockMode()) {
+    return NextResponse.json(buildMockOnboardingData());
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (!user || userError) {
+    return NextResponse.json(buildOnboardingPayload([...DEFAULT_COMPLETED_STEPS]), { status: 401 });
+  }
+
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles')
+    .select('onboarded_steps')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  return NextResponse.json(buildOnboardingPayload(parseStoredSteps(profile?.onboarded_steps)));
+}
+
+export async function POST(request: Request) {
+  if (isUserOrbitalMockMode()) {
+    return NextResponse.json(buildMockOnboardingData());
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (!user || userError) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  let body: { completedStep?: string } = {};
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
+  const completedStep = normalizeAuxillaryPane(body.completedStep);
+
+  const { data: profile } = await supabaseAdmin
+    .from('user_profiles')
+    .select('onboarded_steps')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  const completedSteps = parseStoredSteps(profile?.onboarded_steps);
+  const nextCompletedSteps =
+    completedStep && !completedSteps.includes(completedStep)
+      ? [...completedSteps, completedStep]
+      : completedSteps;
+
+  const { error: updateError } = await supabaseAdmin
+    .from('user_profiles')
+    .update({
+      onboarded_steps: JSON.stringify(nextCompletedSteps),
+      updated_at: new Date().toISOString(),
+    })
+    .eq('user_id', user.id);
+
+  if (updateError) {
+    return NextResponse.json({ error: updateError.message }, { status: 500 });
+  }
+
+  return NextResponse.json(buildOnboardingPayload(nextCompletedSteps));
+}

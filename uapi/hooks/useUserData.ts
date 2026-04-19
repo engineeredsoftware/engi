@@ -6,7 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-import { normalizeOrbitalSteps } from '@/app/orbitals/components/orbital-pane-meta';
+import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
 
 export interface AggregatedUserData {
   profile?: any | null;
@@ -47,7 +47,7 @@ async function fetchUserData(): Promise<AggregatedUserData> {
 
   inFlight = (async () => {
     try {
-      const res = await fetch('/api/orbitals/data');
+      const res = await fetch('/api/auxillaries/data');
       if (res.status === 401) {
         cached = ANONYMOUS_USER_DATA;
         return cached;
@@ -139,7 +139,7 @@ export function useUserData() {
   const credits = typeof data?.credits === 'number' ? data.credits : hydratedCredits;
 
   // Use onboarded_steps from backend
-  const onboardedSteps = normalizeOrbitalSteps(data?.onboarded_steps || []);
+  const onboardedSteps = normalizeAuxillarySteps(data?.onboarded_steps || []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
 
   return {

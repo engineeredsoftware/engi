@@ -134,7 +134,7 @@ Current post-checkpoint third-gate start is intentionally narrow:
 Current fourth-gate promotion boundary is now explicit too:
 - `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry
 - `/executions` remains the retained direct compatibility route for Bitcode execution primitives inside the broader activity family, with `/api/executions` mounted from the canonical deliverables business-logic owner
-- `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are now explicit retained compatibility carriers that keep `/executions` healthy while run/pipeline patterns continue porting inward to `/application`
+- `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` are now explicit retained compatibility carriers that keep `/executions` healthy while run/pipeline patterns continue porting inward to `/application`
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
 - `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs

@@ -1,10 +1,10 @@
-import { GET } from '@/app/api/orbitals/data/route';
+import { GET } from '@/app/api/auxillaries/data/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 
-describe('GET /api/orbitals/data', () => {
+describe('GET /api/auxillaries/data', () => {
   const mockUser = { id: 'user-1' };
   const mockGetUser = jest.fn();
 
@@ -18,7 +18,7 @@ describe('GET /api/orbitals/data', () => {
 
   it('returns anonymous orbital data if unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
-    const req = new Request('http://localhost/api/orbitals/data');
+    const req = new Request('http://localhost/api/auxillaries/data');
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -63,7 +63,7 @@ describe('GET /api/orbitals/data', () => {
       if (table === 'user_model_preferences') return prefBuilder;
       throw new Error('Unexpected table ' + table);
     });
-    const req = new Request('http://localhost/api/orbitals/data');
+    const req = new Request('http://localhost/api/auxillaries/data');
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();

@@ -19,13 +19,13 @@ jest.mock('@bitcode/supabase', () => ({
   },
 }));
 
-describe('/api/orbitals/template-preferences route', () => {
+describe('/api/auxillaries/template-preferences route', () => {
   beforeEach(() => {
     jest.resetModules();
   });
 
   it('fails closed to empty template preferences when no user session is present', async () => {
-    const { GET } = await import('@/app/api/orbitals/template-preferences/route');
+    const { GET } = await import('@/app/api/auxillaries/template-preferences/route');
 
     const response = await GET();
     const payload = await response.json();

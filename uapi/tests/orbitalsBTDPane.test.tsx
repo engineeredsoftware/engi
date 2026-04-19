@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import OrbitalsBTDPane from '@/app/orbitals/components/OrbitalsBTDPane';
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
@@ -67,7 +67,7 @@ describe('OrbitalsBTDPane', () => {
     jest.restoreAllMocks();
   });
 
-  it('renders wallet and share posture and submits merged btd defaults', () => {
+  it('renders wallet and share posture and submits merged btd defaults', async () => {
     const onSave = jest.fn();
 
     render(
@@ -77,6 +77,10 @@ describe('OrbitalsBTDPane', () => {
         isOnboardingComplete={false}
       />,
     );
+
+    await waitFor(() => {
+      expect(screen.queryByText('loading…')).not.toBeInTheDocument();
+    });
 
     expect(screen.getByTestId('btd-step-badge')).toHaveTextContent('Orbital step 4');
     expect(screen.getByText(/Keep balances, identity, and membership readable together/i)).toBeTruthy();

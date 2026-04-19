@@ -26,7 +26,7 @@ export function UserDataProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     async function fetchData() {
       try {
-        const res = await fetch('/api/orbitals/data');
+        const res = await fetch('/api/auxillaries/data');
         if (!res.ok) throw new Error(`Failed to fetch user data: ${res.status}`);
         const json = await res.json();
         if (!cancelled) {

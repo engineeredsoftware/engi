@@ -22,7 +22,7 @@ interface UseTemplatePreferencesHook {
 
 /**
  * Client-side hook that fetches the current user's saved template
- * preferences (deliverable & AI Document) from `/api/orbitals/template-preferences`.
+ * preferences (deliverable & AI Document) from `/api/auxillaries/template-preferences`.
  *
  * It automatically fetches once on mount but also returns a `reload`
  * function should the caller need to refresh the data (e.g. after a
@@ -37,7 +37,7 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/orbitals/template-preferences');
+      const res = await fetch('/api/auxillaries/template-preferences');
       if (res.status === 401 || res.status === 404) {
         setPreferences({
           deliverable_templates: {},

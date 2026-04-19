@@ -59,6 +59,7 @@ module.exports = {
     // sweep is complete.
     // -------------------------------------------------------------------
     '^@/lib/bitcode-app-context$': '<rootDir>/lib/bitcode-app-context.ts',
+    '^@/lib/mock-review-mode$': '<rootDir>/lib/mock-review-mode.ts',
     '^@/lib/logger$': '<rootDir>/../packages/pipelines-generics/src/logger.ts',
     '^@/lib/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',
     '^@/lib/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',

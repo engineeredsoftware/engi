@@ -25,7 +25,7 @@ Current owners:
   Retained compatibility carrier for provider/account/repository/branch/commit/issue reads required by the execution selectors.
 - `../api/templates/deliverables/route.ts`
   Retained compatibility carrier for deliverable template reads used by the execution composer.
-- `../api/orbitals/template-preferences/route.ts`
+- `../api/auxillaries/template-preferences/route.ts`
   Retained compatibility carrier for saved deliverable-template preferences used by the execution composer.
 
 This route should stay explicit about:
