@@ -131,6 +131,8 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary
 
 Current fourth-gate start is now explicit too:
+- `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
-- the retained persistence basis is now surfaced through one explicit route/API owner instead of living only in spec prose while broader fourth-gate convergence remains open
+- `.engi/conversations-continuity-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate proof starters
+- the retained persistence and conversations basis is now surfaced through explicit route/API owners instead of living only in spec prose while broader fourth-gate convergence remains open

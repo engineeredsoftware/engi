@@ -1,0 +1,88 @@
+{
+  "reportId": "v26-conversations-continuity-proof",
+  "version": "V26",
+  "proofSourceCommit": "5586a17beb749c875887417e1443255360fec0ea",
+  "generatedAt": "2026-04-19T13:56:03-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "routeWitnesses": [
+    "/conversations",
+    "/application"
+  ],
+  "apiWitnesses": [
+    "/api/conversations",
+    "/api/conversations/stream",
+    "/api/conversations/[conversationId]/stream",
+    "/api/conversations/branch"
+  ],
+  "requiredFiles": [
+    "uapi/app/conversations/page.tsx",
+    "uapi/app/conversations/ConversationsRouteClient.tsx",
+    "uapi/app/conversations/README.md",
+    "uapi/app/conversations/components/ConversationsOverlay.tsx",
+    "uapi/app/ClientLayoutInner.tsx",
+    "uapi/app/application/ApplicationPageClient.tsx",
+    "uapi/app/api/conversations/route.ts",
+    "uapi/app/api/conversations/stream/route.ts",
+    "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+    "uapi/app/api/conversations/branch/route.ts",
+    "uapi/app/api/conversations/_shared.ts",
+    "packages/conversations-generics/src/index.ts",
+    "packages/conversations-generics/src/agent/ConversationAgent.ts",
+    "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
+    "packages/api/src/conversations/conversations.ts",
+    "packages/api/src/conversations/streaming.ts",
+    "uapi/tests/api/conversationsRoute.test.ts",
+    "uapi/tests/api/chatStreamRoute.test.ts",
+    "uapi/tests/conversationsRouteClient.test.tsx"
+  ],
+  "checks": [
+    {
+      "checkId": "conversations-route-and-overlay-owners",
+      "label": "Direct conversations route and fullscreen overlay owners",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "uapi/app/conversations/page.tsx",
+        "uapi/app/conversations/ConversationsRouteClient.tsx",
+        "uapi/app/conversations/README.md",
+        "uapi/app/conversations/components/ConversationsOverlay.tsx",
+        "uapi/app/ClientLayoutInner.tsx",
+        "uapi/app/application/ApplicationPageClient.tsx"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "conversations-api-carriers",
+      "label": "Conversations API and mock-mode carriers",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "uapi/app/api/conversations/route.ts",
+        "uapi/app/api/conversations/stream/route.ts",
+        "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "uapi/app/api/conversations/branch/route.ts",
+        "uapi/app/api/conversations/_shared.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "conversations-retained-package-basis",
+      "label": "Retained conversations package and proof carriers",
+      "passed": true,
+      "detail": "8 required files present",
+      "requiredFiles": [
+        "packages/conversations-generics/src/index.ts",
+        "packages/conversations-generics/src/agent/ConversationAgent.ts",
+        "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts",
+        "packages/api/src/conversations/conversations.ts",
+        "packages/api/src/conversations/streaming.ts",
+        "uapi/tests/api/conversationsRoute.test.ts",
+        "uapi/tests/api/chatStreamRoute.test.ts",
+        "uapi/tests/conversationsRouteClient.test.tsx"
+      ],
+      "missingFiles": []
+    }
+  ]
+}
