@@ -57,7 +57,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/(root)/components/landing/marketing-landing-shared.tsx`
   Shared landing-shell constants and visual helpers for the mounted public shell.
 - `app/(root)/components/MarketingOperatorGuideCard.tsx`
-  Stable recorded walkthrough card with user-facing fallback back into `/application` when guide media is absent.
+  Stable docs-owned walkthrough card with user-facing fallback forward into `/application` when guide media is absent.
 - `app/(root)/components/PublicDocsPageContent.tsx`
   Public docs hub content with route cards, inline widgets, walkthrough embedding, and public CTA posture.
 - `app/docs/page.tsx`
@@ -67,7 +67,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `components/base/engi/layout/nav.tsx`
   Public-route navigation and access CTA chrome shared with product surfaces.
 - `components/base/engi/layout/NavBrand.tsx`
-  Bitcode public-route brand posture and Network/public surface naming.
+  Bitcode public-route brand posture and explicit `network` / `docs` route naming.
 - `components/base/engi/layout/footer.tsx`
   Shared public footer CTA and public-route link posture.
 - `components/base/engi/layout/bitcode-public-copy.ts`

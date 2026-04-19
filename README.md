@@ -119,6 +119,7 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live landing shell no longer carries active `ComingSoon*` owners or `coming-soon-*` stylesheet imports
 - the live landing owner now breaks hero, guide, preview, and shared public-shell data into `uapi/app/(root)/components/landing/*` carriers instead of one oversized mixed-surface file
 - the public shell now owns a real `/docs` hub with route cards, inline widgets, and the recorded walkthrough, while `/demo-video` remains only a compatibility alias into that docs-owned content
+- the mounted public routes now identify themselves explicitly as `Bitcode Network`, `Bitcode Docs`, and `Bitcode Transactions` instead of inheriting the older global `$BTD` shell title
 - the live public nav now stays progressive on small screens by stacking visible entry links and guest actions instead of hiding them behind a separate menu layer
 - the live public shell now uses shared inline explainers for its key entry links and protocol reference instead of a thin footer browser-tooltip fallback
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered demo-era media compatibility

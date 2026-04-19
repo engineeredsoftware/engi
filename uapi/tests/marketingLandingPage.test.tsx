@@ -76,7 +76,7 @@ describe('MarketingLandingPage', () => {
       'href',
       '/docs',
     );
-    expect(screen.getByText('Read the docs before you transact')).toBeInTheDocument();
+    expect(screen.getByText('Study the docs before you transact')).toBeInTheDocument();
     expect(screen.getByText('Compact network view')).toBeInTheDocument();
     expect(screen.getAllByText('Transactions').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Source to settlement').length).toBeGreaterThan(0);

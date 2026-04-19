@@ -14,7 +14,7 @@ import NavBrand, { type NavSurface } from "@/components/base/engi/layout/NavBran
 import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
 import { BITCODE_PUBLIC_COPY } from "@/components/base/engi/layout/bitcode-public-copy";
-import { getWorkspaceSurface, usesPublicShellChrome } from "@/components/base/engi/layout/workspace-surface";
+import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } from "@/components/base/engi/layout/workspace-surface";
 import BitcodeInlineExplainer from "@/components/base/engi/execution/BitcodeInlineExplainer";
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/base/engi/layout/bitcode-public-explainers";
 
@@ -100,6 +100,7 @@ export default function Nav() {
   const isScrolled = useScrollPosition();
   const shouldCollapse = shouldApplyCollapseAnimation(pathname);
   const navSurface: NavSurface = getWorkspaceSurface(pathname);
+  const publicSurface = getPublicShellSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
 
@@ -258,7 +259,7 @@ export default function Nav() {
             <NavBrand
               animated={isAnimated}
               onClick={handleLogoClick}
-              surface={usesWorkspaceChrome ? navSurface : usesPublicChrome ? 'public' : null}
+              surface={usesWorkspaceChrome ? navSurface : publicSurface}
             />
             {usesPublicChrome ? publicRouteLinks : null}
             {!usesPublicChrome && !user && <div className="flex-1" />}

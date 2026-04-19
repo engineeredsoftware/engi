@@ -20,7 +20,7 @@ describe('PublicDocsPageContent', () => {
   it('renders docs-owned public teaching surfaces', () => {
     render(<PublicDocsPageContent sourcePlayable={false} />);
 
-    expect(screen.getByText('Read the Bitcode docs.')).toBeInTheDocument();
+    expect(screen.getByText('Study Bitcode step by step.')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Read the live Bitcode market frame' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Move into full give-to-settle detail' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Shape identity, interfaces, and $BTD posture' })).toHaveAttribute('href', '/orbitals/profile');

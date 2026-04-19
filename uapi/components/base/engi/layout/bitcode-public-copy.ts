@@ -19,10 +19,10 @@ export const BITCODE_PUBLIC_COPY = {
   },
   guide: {
     badge: 'Docs',
-    title: 'Read the docs before you transact',
-    meta: 'stepwise guide',
+    title: 'Study the docs before you transact',
+    meta: 'Docs hub',
     body:
-      'Docs collects the walkthrough, route maps, inline widgets, and system explainers in one public teaching surface before you step into live transactions.',
+      'Docs teaches Bitcode step by step with route maps, inline widgets, the walkthrough, and direct links into Network, Transactions, and Orbitals.',
   },
   terminalPreview: {
     pill: 'Network',
@@ -73,9 +73,9 @@ export const BITCODE_PUBLIC_COPY = {
   },
   guideRoute: {
     eyebrow: 'Bitcode docs',
-    heading: 'Read the Bitcode docs.',
+    heading: 'Study Bitcode step by step.',
     body:
-      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into live transactions and Orbitals.',
+      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into live Network, Transactions, and Orbitals.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

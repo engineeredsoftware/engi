@@ -317,6 +317,11 @@ Mounted public-shell chrome is also now explicit:
 - the mounted landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of carrying the full animated backdrop everywhere
 - the mounted public footer now treats route links as card carriers and protocol/version metadata as product chips on smaller shells instead of compressing them into one dense inline footer strip
 - the mounted public shell now carries shared inline explainers for its main entry links and protocol reference instead of falling back to a thin browser `title` tooltip in the footer
+- mounted public and selected application routes now keep explicit `Bitcode Network`, `Bitcode Docs`, and `Bitcode Transactions` title posture instead of inheriting one global shell title
+
+This now constitutes mounted third-gate closure for the public shell:
+- public route ownership, naming, metadata/title posture, docs-route authority, walkthrough fallback, and public orbital entry all hold under live verification
+- remaining V26 work should now shift primarily into fourth-gate retained-system convergence and fifth-gate proof/finalization rather than reopening mounted public-shell identity work without cause
 
 Current draft-only spine to preserve for that future gate:
 - where + when:

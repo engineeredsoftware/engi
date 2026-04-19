@@ -98,7 +98,7 @@ describe('Nav public shell', () => {
     const accessButton = screen.getByRole('button', { name: 'Open Orbitals' });
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
-    expect(screen.getByText('Brand public')).toBeInTheDocument();
+    expect(screen.getByText('Brand network')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Network' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Transactions' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
@@ -126,7 +126,7 @@ describe('Nav public shell', () => {
 
     render(<Nav />);
 
-    expect(screen.getByText('Brand public')).toBeInTheDocument();
+    expect(screen.getByText('Brand network')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Transactions' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('button', { name: 'Explain Transactions' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
@@ -134,5 +134,14 @@ describe('Nav public shell', () => {
     fireEvent.click(screen.getByRole('button', { name: 'User menu' }));
 
     expect(mockOpenOrbital).toHaveBeenCalledWith('orbitals', 'profile');
+  });
+
+  it('renders docs brand posture on docs routes', () => {
+    mockPathname = '/docs';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand docs')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
   });
 });

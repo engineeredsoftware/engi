@@ -12,12 +12,20 @@ describe('NavBrand', () => {
     expect(screen.getByText('transactions')).toBeTruthy();
   });
 
-  it('renders public-shell copy for mounted public routes', () => {
-    render(<NavBrand surface="public" onClick={() => {}} />);
+  it('renders network copy for mounted network routes', () => {
+    render(<NavBrand surface="network" onClick={() => {}} />);
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();
     expect(screen.getByText('network')).toBeTruthy();
+  });
+
+  it('renders docs copy for mounted docs routes', () => {
+    render(<NavBrand surface="docs" onClick={() => {}} />);
+
+    expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
+    expect(screen.getByText('Bitcode')).toBeTruthy();
+    expect(screen.getByText('docs')).toBeTruthy();
   });
 
   it('renders beta posture outside the product workspace and remains clickable', () => {

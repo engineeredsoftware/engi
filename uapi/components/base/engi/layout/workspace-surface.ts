@@ -1,4 +1,5 @@
 export type WorkspaceSurface = 'application' | 'orbitals' | 'conversations' | null;
+export type PublicShellSurface = 'network' | 'docs' | null;
 
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
@@ -13,8 +14,14 @@ export function usesWorkspaceChrome(pathname: string | null | undefined): boolea
 }
 
 export function usesPublicShellChrome(pathname: string | null | undefined): boolean {
-  if (!pathname) return false;
-  return pathname === '/' || pathname.startsWith('/docs') || pathname.startsWith('/demo-video');
+  return getPublicShellSurface(pathname) !== null;
+}
+
+export function getPublicShellSurface(pathname: string | null | undefined): PublicShellSurface {
+  if (!pathname) return null;
+  if (pathname === '/') return 'network';
+  if (pathname.startsWith('/docs') || pathname.startsWith('/demo-video')) return 'docs';
+  return null;
 }
 
 export function shouldHideWorkspaceFooter(pathname: string | null | undefined): boolean {

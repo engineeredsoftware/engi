@@ -311,6 +311,7 @@ Third-gate acceptance is reached only when:
 - tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
 - the real `/docs` route resolves one Bitcode-owned walkthrough asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
 - `/demo-video` remains only a compatibility alias into that docs-owned content,
+- mounted public and selected application routes keep explicit `Bitcode Network`, `Bitcode Docs`, and `Bitcode Transactions` title posture instead of inheriting one global shell title,
 - the public protocol reference resolves through the stable canonical pointer rather than a version-specific public spec URL,
 - and third-gate can be proven without reopening second-gate application ownership work.
 

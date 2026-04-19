@@ -92,6 +92,7 @@ Operational rule:
 - the stable docs walkthrough should resolve one Bitcode-owned guide asset rather than preserving ordered demo-era media compatibility
 - the mounted public footer should resolve the walkthrough/docs route through Bitcode-owned route/env ownership rather than legacy `ENGI_DEMO` fallbacks
 - the mounted public footer should link protocol spec through the stable canonical pointer rather than a version-specific public spec URL
+- the mounted public routes should carry explicit `Bitcode Network`, `Bitcode Docs`, and `Bitcode Transactions` title/brand posture rather than inheriting one global shell title
 - stable public entry copy should prefer `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching posture
 - `/docs` should remain the real public teaching surface while `/demo-video` remains a compatibility alias instead of a separate guide product surface
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance

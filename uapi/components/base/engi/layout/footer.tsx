@@ -173,7 +173,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     {
       ariaLabel: 'Docs',
       label: BITCODE_PUBLIC_COPY.footer.links.docs,
-      meta: 'Guide + walkthrough',
+      meta: 'Docs hub',
       href: DEFAULT_OPERATOR_GUIDE_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.docs,
       icon: (

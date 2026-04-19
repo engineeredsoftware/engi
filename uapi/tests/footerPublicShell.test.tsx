@@ -77,7 +77,7 @@ describe('Footer public shell', () => {
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
     expect(screen.getByText('Public route')).toBeInTheDocument();
     expect(screen.getByText('Bitcode app')).toBeInTheDocument();
-    expect(screen.getByText('Guide + walkthrough')).toBeInTheDocument();
+    expect(screen.getByText('Docs hub')).toBeInTheDocument();
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);

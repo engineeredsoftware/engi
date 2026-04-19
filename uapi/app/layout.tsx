@@ -31,7 +31,7 @@ initSentry({
 // Disable Google Font fetching in offline / CI environments.
 const inter = { className: '' } as const;
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.bitcode.ai';
-const metadataTitle = "$BTD • The Bitcode Engineering Knowledge Asset";
+const metadataTitle = "Bitcode";
 const metadataDescription =
   "Bitcode is auditable market infrastructure for engineering knowledge, with BTD-denominated settlement over the networked Bitcode system.";
 
