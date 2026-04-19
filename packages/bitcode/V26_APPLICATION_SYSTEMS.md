@@ -62,6 +62,11 @@ Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbit
 Third-gate now has one explicit mounted public-shell owner set rather than an implicit marketing backlog:
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
+- `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
 - `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
@@ -73,6 +78,7 @@ Operational rule:
 - the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
 - the mounted public shell must also mount live public-route nav and orbital-entry behavior instead of relying on page-local CTA copy alone
 - the mounted public shell must not preserve live `ComingSoon*` owners, `coming-soon-*` stylesheet imports, or dormant access-gate shells once the route is serving as the Bitcode public entry
+- the mounted public shell should decompose stabilized landing hero, guide, preview, and shared marketing-shell data into clearer carriers rather than preserving one oversized mixed-surface landing owner
 - the mounted public shell should keep core entry links and guest access CTAs directly visible on smaller screens through stacked/wrapped layout rather than introducing another menu-state dependency
 - stable public entry copy should prefer `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`
 - the stable `/demo-video` route remains a public guide URL, not a demo-era narrative fallback

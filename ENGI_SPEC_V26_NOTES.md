@@ -302,6 +302,7 @@ Mounted public-shell chrome is also now explicit:
 - public routes expose stable `Transactions terminal` / `Operator guide` links plus `Access Workspace` / `Create Account`
 - public-route orbital access now opens the contained Bitcode orbital shell instead of stopping at page-local CTA copy
 - the mounted landing shell now uses Bitcode marketing-shell owners and selectors rather than live `ComingSoon*`/`coming-soon-*` residue
+- the mounted landing owner now delegates to `app/(root)/components/landing/*` carriers for hero, preview, guide, and shared landing-shell data instead of keeping those surfaces fused into one file
 - the stable guide route now fails closed with user-facing operator fallback copy and a direct `Open transactions terminal` path instead of exposing asset-path instructions
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
 

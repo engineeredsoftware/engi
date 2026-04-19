@@ -257,6 +257,11 @@ Third-gate must now also:
 The current mounted third-gate start carriers are now explicitly:
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
+- `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
+- `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
 - `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
@@ -279,6 +284,7 @@ They also now carry the mounted public-shell chrome contract:
 Mounted third-gate hardening must also retire stale public-shell residue from the live route owners:
 - no live `coming-soon` component, class, or stylesheet naming in the mounted public shell,
 - no unused access-gate or incantation code preserved inside the live landing owner,
+- no oversized monolithic landing owner that keeps hero, guide, preview, and shared marketing-shell data fused into one file once those sections have stabilized enough to be assigned clearer Bitcode carriers,
 - and no developer-path fallback copy on the operator-guide route when guide media is absent.
 
 Mounted third-gate public chrome should also prefer progressive simplification over extra menu state:

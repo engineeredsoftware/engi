@@ -44,7 +44,17 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/(root)/components/PublicShellFrame.tsx`
   Mounted public-route provider shell for nav, auth, query, and orbitals access.
 - `app/(root)/components/MarketingLandingPage.tsx`
-  Mounted homepage shell.
+  Mounted homepage shell coordinator.
+- `app/(root)/components/landing/MarketingLandingHero.tsx`
+  Hero copy, pillar cards, and primary public entry actions.
+- `app/(root)/components/landing/MarketingLandingPillarCard.tsx`
+  Individual Bitcode give/measure/$BTD pillar card owner.
+- `app/(root)/components/landing/MarketingLandingGuideCard.tsx`
+  Resumable guide posture card inside the landing hero.
+- `app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
+  Public transactions-terminal preview surface.
+- `app/(root)/components/landing/marketing-landing-shared.tsx`
+  Shared landing-shell constants and visual helpers for the mounted public shell.
 - `app/(root)/components/MarketingEngiVideoCard.tsx`
   Stable recorded operator-guide card with user-facing fallback back into `/application` when guide media is absent.
 - `app/demo-video/page.tsx`
@@ -59,6 +69,7 @@ Third-gate public-shell work is now explicitly carried by:
   Shared public-shell vocabulary for `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`.
 
 Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
+They should also keep landing hero, guide, preview, and shared public-shell data split into clearer carriers once those sections stabilize rather than regressing to one oversized owner file.
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 
 ## Development
