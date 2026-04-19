@@ -20,9 +20,16 @@ Current owners:
   Active app-owned `/api/executions` route mounted from the canonical deliverables business-logic owner.
 - `../api/executions/history/*`
   App-owned retained history JSON carriers for selected-run hydration.
+- `../api/vcs/route.ts`
+  Retained compatibility carrier for provider/account/repository/branch/commit/issue reads required by the execution selectors.
+- `../api/templates/deliverables/route.ts`
+  Retained compatibility carrier for deliverable template reads used by the execution composer.
+- `../api/orbitals/template-preferences/route.ts`
+  Retained compatibility carrier for saved deliverable-template preferences used by the execution composer.
 
 This route should stay explicit about:
 - retained runs and pipeline continuity,
 - deliverable and execution inspection semantics,
+- retained compatibility API ownership required to keep the route healthy during inward convergence,
 - direct route/API ownership during fourth-gate,
 - and inward convergence toward `/application` rather than peer-product permanence.

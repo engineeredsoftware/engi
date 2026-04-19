@@ -206,7 +206,6 @@ async function _figmaListArtboards({ fileKey, includeComponents, includeInstance
         executionTime
       };
     }
-  }
 }
 
 /**
@@ -299,7 +298,6 @@ async function _figmaGetArtboardPNG({ fileKey, nodeIds, scale = 2, format = 'png
         executionTime
       };
     }
-  }
 }
 
 /**
@@ -428,7 +426,6 @@ async function _figmaFindArtboardByName({ fileKey, searchName, exactMatch = fals
         executionTime
       };
     }
-  }
 }
 
 /**
@@ -534,7 +531,6 @@ async function _figmaGetFile({ fileKey, includeVersions = false, includeComments
         executionTime
       };
     }
-  }
 }
 
 /**

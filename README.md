@@ -130,10 +130,12 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live public footer now collapses its route links into mobile-first cards and presents protocol/version metadata as explicit product chips instead of cramped inline microcopy on narrow shells
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary
 
-Current fourth-gate start is now explicit too:
+Current fourth-gate promotion boundary is now explicit too:
 - `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry
 - `/executions` remains the retained direct runs-and-deliverables route, with `/api/executions` now mounted from the canonical deliverables business-logic owner
+- `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are now explicit retained compatibility carriers that keep `/executions` healthy while run/pipeline patterns continue porting inward to `/application`
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
-- `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate proof starters
-- the retained persistence, conversations, and runs/pipelines basis is now surfaced through explicit route/API owners instead of living only in spec prose while broader fourth-gate convergence remains open
+- `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs
+- retained Jira and GitHub old-world ports are now explicitly admitted only under Bitcode-owned fourth-gate roles: Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
+- the retained persistence, conversations, runs/pipelines, and old-world port basis is now surfaced through explicit route/API/package owners instead of living only in spec prose while fifth-gate proving remains open

@@ -724,7 +724,9 @@ Current major retained owners:
 - `packages/orm/*`
   Active ORM model/query ownership and generated database typing under `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`.
 - storage-facing app/API carriers including `/edgetimes` and `/api/edgetimes`
-  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate Bitcode storage/API witness starter rather than remaining draft-only posture.
+  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate Bitcode storage/API witness for through-fourth-gate promotion rather than remaining draft-only posture.
+- retained execution compatibility carriers including `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences`
+  Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fourth-gate convergence ports those behaviors inward to `/application`.
 
 Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.
@@ -741,3 +743,17 @@ That means:
 - and active source imports should no longer introduce older ENGI-scoped module references.
 
 Compatibility work that still keeps older ENGI-named files or directories does not justify reintroducing older ENGI-scoped module usage in active source.
+
+## Retained old-world tool and agent ports
+
+Fourth-gate keeps only the old-world ports that have explicit Bitcode roles:
+
+- Jira read-first ingestion
+  `packages/generic-tools/mcps-tools/jira/*`, `packages/generic-agents/jira-processor/*`, and their prompt parts remain admitted only for authenticated Jira reads that normalize issues, worklogs, comments, and project state into Bitcode need context.
+- Git/GH initial settle-write
+  `packages/generic-tools/mcps-tools/github/*` remains admitted as the first explicit settle-write boundary for Git/GH-centric branch and pull-request settlement during testnet-ready fourth-gate promotion.
+
+These are not equivalent roles.
+Jira is a need-ingestion and measurement port in fourth-gate.
+Git/GH is the initial admitted settle-write surface in fourth-gate.
+Broader multi-surface settle writes stay later-gate or later-version work.

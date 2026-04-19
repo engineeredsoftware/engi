@@ -321,7 +321,7 @@ Mounted public-shell chrome is also now explicit:
 
 This now constitutes mounted third-gate closure for the public shell:
 - public route ownership, naming, metadata/title posture, docs-route authority, walkthrough fallback, and public orbital entry all hold under live verification
-- remaining V26 work should now shift primarily into fourth-gate retained-system convergence and fifth-gate proof/finalization rather than reopening mounted public-shell identity work without cause
+- remaining V26 work should now shift primarily into fourth-gate retained-system convergence toward the promotion boundary and fifth-gate proof/finalization rather than reopening mounted public-shell identity work without cause
 - `/edgetimes` and `/api/edgetimes` now exist as the first live fourth-gate storage/API witness so retained persistence convergence can proceed from explicit route/API ownership rather than only planning notes
 
 Current draft-only spine to preserve for that future gate:
@@ -425,3 +425,7 @@ The following remain non-goals for this notes companion:
 - pretending first-gate already completes second-gate application experience work,
 - widening V26 into economics redesign,
 - or treating `_legacy/` code as current truth.
+
+Current fourth-gate reminders:
+- retained `/executions` health now explicitly depends on `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` as compatibility API owners rather than invisible glue, and those carriers are part of the promotion boundary
+- old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion

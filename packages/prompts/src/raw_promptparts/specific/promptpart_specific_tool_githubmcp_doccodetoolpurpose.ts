@@ -15,4 +15,4 @@ import { PromptPart } from '../../parts/PromptPart';
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITHUBMCP_DOCCODETOOLPURPOSE: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Expose retained GitHub MCP operations for Bitcode repository reads and the initial Git/GH-centric settle-write boundary, while failing closed whenever the fourth-gate runtime does not admit live GitHub execution.' as PromptPart;

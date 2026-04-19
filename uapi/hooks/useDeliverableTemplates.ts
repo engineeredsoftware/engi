@@ -25,6 +25,15 @@ export const useDeliverableTemplates = (): Hook => {
     setError(null);
     try {
       const res = await fetch('/api/templates/deliverables');
+      if (res.status === 401 || res.status === 404) {
+        setTemplates({
+          pullRequests: [],
+          pullRequestReviews: [],
+          issues: [],
+          comments: [],
+        });
+        return;
+      }
       if (!res.ok) throw new Error(`Failed to load templates (${res.status})`);
       const data = await res.json();
       const grouped: DeliverableTemplates = {
@@ -40,6 +49,12 @@ export const useDeliverableTemplates = (): Hook => {
       });
       setTemplates(grouped);
     } catch (err) {
+      setTemplates({
+        pullRequests: [],
+        pullRequestReviews: [],
+        issues: [],
+        comments: [],
+      });
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setIsLoading(false);

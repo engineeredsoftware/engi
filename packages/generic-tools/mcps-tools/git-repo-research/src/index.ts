@@ -5,9 +5,37 @@
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import {
-  gitRepoSemanticSearchTool as _gitRepoSemanticSearch,
-} from '@bitcode/git-repo-research';
+// Inline a fail-closed placeholder so this retained MCP package does not
+// require a missing @bitcode/git-repo-research workspace package at compile time.
+async function _gitRepoSemanticSearch(input: {
+  repository?: string;
+  query?: string;
+  branch?: string;
+  path?: string;
+  limit?: number;
+  [key: string]: unknown;
+}): Promise<{
+  ok: false;
+  unavailable: true;
+  tool: 'gitRepoSemanticSearch';
+  reason: string;
+  input: {
+    repository?: string;
+    query?: string;
+    branch?: string;
+    path?: string;
+    limit?: number;
+    [key: string]: unknown;
+  };
+}> {
+  return {
+    ok: false,
+    unavailable: true,
+    tool: 'gitRepoSemanticSearch',
+    reason: 'git repository research is not available in this retained runtime',
+    input,
+  };
+}
 
 // Import DocCodeToolPrompt
 import { GIT_REPO_RESEARCH_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/GitRepoResearchMCPDocCodeToolPrompt';

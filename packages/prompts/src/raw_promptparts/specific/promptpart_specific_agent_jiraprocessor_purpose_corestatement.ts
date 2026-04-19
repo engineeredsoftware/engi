@@ -26,4 +26,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Execute JIRA REST API v3 operations for issue lifecycle management, sprint automation, and project data synchronization with OAuth 2.0 authentication and rate limit compliance' as PromptPart;
+  'Execute JIRA REST API v3 reads for Bitcode need ingestion, requirement measurement, and project-context normalization, while keeping Jira write operations explicit, bounded, and non-default during fourth-gate promotion.' as PromptPart;

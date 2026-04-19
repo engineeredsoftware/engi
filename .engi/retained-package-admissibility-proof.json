@@ -1,12 +1,12 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "eaf91f1e63f0003495ba93ed3d4347fdd314405e",
-  "generatedAt": "2026-04-19T14:10:14-03:00",
+  "proofSourceCommit": "b94172cb16d27249ad8854b36575030b1d41bcf9",
+  "generatedAt": "2026-04-19T14:52:00-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,
-  "admittedPackageCount": 5,
+  "admittedPackageCount": 8,
   "packages": [
     {
       "packageName": "@bitcode/supabase",
@@ -61,11 +61,60 @@
     {
       "packageName": "@bitcode/execution-generics",
       "rationale": "retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics",
+      "role": "retained runs-and-pipelines abstractions",
+      "writeBoundary": "execution orchestration only; settle-write meaning is owned by Bitcode routes and Git/GH-facing carriers",
       "requiredFiles": [
         "packages/execution-generics/src/index.ts",
         "packages/execution-generics/src/Execution.ts",
         "packages/execution-generics/src/execution-registry.ts",
         "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/jira-tools",
+      "rationale": "retained Jira MCP tools remain admitted only as reader-first need-ingestion and need-measurement carriers during fourth-gate promotion",
+      "role": "old-world Jira read-first ingestion port",
+      "writeBoundary": "default scope is authenticated read and normalization; expansive settle-write to Jira comments or attachments is deferred beyond fourth-gate",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/jira/package.json",
+        "packages/generic-tools/mcps-tools/jira/src/index.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-agents-jira",
+      "rationale": "retained Jira agent prompt ownership remains admitted only where it repurposes Jira data into Bitcode need context instead of generic project-management automation",
+      "role": "old-world Jira prompt-owned ingestion agent",
+      "writeBoundary": "reader-first Jira scope; propose writes only when explicitly requested and never as the default Bitcode settlement path",
+      "requiredFiles": [
+        "packages/generic-agents/jira-processor/package.json",
+        "packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts",
+        "packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jira_processor_system_identity.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jira_processor_system_role.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jira_processor_system_instructions.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_jiraprocessor_executionpattern_detailcontent.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/generic-tools-mcps-github",
+      "rationale": "retained GitHub MCP tooling remains admitted as the initial Git/GH-centric settle-write and repository-read boundary for fourth-gate testnet-ready Bitcode",
+      "role": "Git/GH-centric initial settle-write port",
+      "writeBoundary": "Git/GH branch and PR settlement is admitted in fourth-gate; multi-surface settle writes to other systems remain later-gate work",
+      "requiredFiles": [
+        "packages/generic-tools/mcps-tools/github/package.json",
+        "packages/generic-tools/mcps-tools/github/src/GitHubMCPTool.ts",
+        "packages/generic-tools/mcps-tools/github/src/prompts/GitHubMCPDocCodeToolPrompt.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetoolpurpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetoolcapabilities.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_githubmcp_doccodetooloutput.ts"
       ],
       "missingFiles": [],
       "passed": true

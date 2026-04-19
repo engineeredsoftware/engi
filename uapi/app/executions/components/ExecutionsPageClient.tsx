@@ -188,10 +188,6 @@ export function ExecutionsClient() {
     return () => { cancelled = true; };
   }, []);
 
-  useEffect(() => {
-    if (onboardingChecked && !onboardingAllowed) router.replace('/');
-  }, [onboardingChecked, onboardingAllowed, router]);
-
   // Attachments and inputs, toggles, errors — unchanged
   const [attachedUrls, setAttachedUrls] = useState<UrlEntry[]>([]);
   const [loadingUrls, setLoadingUrls] = useState<Set<string>>(new Set());
@@ -352,6 +348,7 @@ export function ExecutionsClient() {
 
 
   const deliverablesForPanels = historyFWS?.deliverables || headerPostprocessed?.deliverables || null;
+  const runLog = typeof output === 'string' ? output : '';
   const processLogOutputDetails = useMemo(() => {
     const map: Record<string, any> = {};
     runLog.split('\n').forEach((line) => {
@@ -361,12 +358,6 @@ export function ExecutionsClient() {
     });
     return map;
   }, [runLog]);
-
-  const handleRetry = useCallback(() => {
-    if (!isProcessing) {
-      onExecuteSubmit();
-    }
-  }, [isProcessing, onExecuteSubmit]);
 
   const handleDismissError = useCallback(() => {
     setUiError(null);
@@ -415,7 +406,41 @@ export function ExecutionsClient() {
     if (typeof window === 'undefined') return; const params = new URLSearchParams(window.location.search); const preprocess = (params.get('preprocess') || '').toLowerCase(); if (!preprocess) return; if (preprocess === 'multi') setMultiAgentEnabled(true); if (preprocess === 'compute') setComputeEnabled(true); }, []);
 
   if (!onboardingChecked) return (<><div className="h-[calc(100vh-9rem)]" /><div className="fixed inset-x-0 top-36 bottom-0 skeleton-shine" /></>);
-  if (!onboardingAllowed) return null;
+  if (!onboardingAllowed) {
+    return (
+      <div className="mx-auto flex min-h-[calc(100vh-9rem)] max-w-5xl items-center px-4 py-16">
+        <section className="w-full rounded-[2rem] border border-white/10 bg-[#06131b]/88 p-8 text-[#d6e7f2] shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+          <p className="text-[11px] font-medium uppercase tracking-[0.34em] text-[#75d7ff]">
+            Retained fourth-gate route
+          </p>
+          <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
+            Bitcode executions stays explicit while runs and deliverables keep converging into transactions.
+          </h1>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#9db6c8] md:text-base">
+            This route remains a live retained surface for run, deliverable, and pipeline inspection. Connect source
+            context in Orbitals to execute here, or continue in Transactions when you want the converged Bitcode
+            master-detail flow.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => router.push('/application')}
+              className="inline-flex items-center rounded-full border border-[#7fd0ff]/30 bg-[#0c1e29] px-5 py-3 text-sm font-medium text-white transition hover:border-[#7fd0ff]/60 hover:bg-[#133244]"
+            >
+              Open transactions
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push('/orbitals/connects')}
+              className="inline-flex items-center rounded-full border border-white/12 bg-transparent px-5 py-3 text-sm font-medium text-[#d6e7f2] transition hover:border-white/30 hover:bg-white/5"
+            >
+              Open Orbitals
+            </button>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   // Submit/cancel handlers (identical to previous implementation)
   const onExecuteSubmit = async () => {
@@ -462,6 +487,12 @@ export function ExecutionsClient() {
       console.error('Cancel error', e);
     }
   };
+
+  const handleRetry = useCallback(() => {
+    if (!isProcessing) {
+      void onExecuteSubmit();
+    }
+  }, [isProcessing, onExecuteSubmit]);
 
   // Render
   return (

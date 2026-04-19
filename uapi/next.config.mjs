@@ -7,6 +7,7 @@
 // --------------------------------------
 
 import dotenv from 'dotenv';
+import fs from 'node:fs';
 import path from 'path';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
@@ -24,6 +25,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // the path relative to this config file so it works no matter where `next`
 // is started from (monorepo root, IDE, etc.).
 dotenv.config({ path: path.resolve(__dirname, '.env.local'), override: true });
+
+const mcpsToolsRoot = path.resolve(__dirname, '..', 'packages', 'generic-tools', 'mcps-tools');
+const mcpToolPackageDirs = fs.existsSync(mcpsToolsRoot)
+  ? fs
+      .readdirSync(mcpsToolsRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+  : [];
+const mcpToolTranspilePackages = mcpToolPackageDirs.map(
+  (name) => `@bitcode/generic-tools-mcps-${name}`
+);
+const mcpToolAliases = Object.fromEntries(
+  mcpToolPackageDirs.map((name) => [
+    `@bitcode/generic-tools-mcps-${name}`,
+    path.resolve(mcpsToolsRoot, name, 'src', 'index.ts'),
+  ])
+);
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -63,6 +81,7 @@ let nextConfig = {
     '@bitcode/generic-tools-simple-system-text-search',
     '@bitcode/generic-tools-repository-setup',
     '@bitcode/vcs-tools',
+    ...mcpToolTranspilePackages,
     '@bitcode/generic-tools-lsp-query',
     '@bitcode/vcs-tools',
     // Core shared libs commonly imported in app/server code
@@ -285,6 +304,15 @@ let nextConfig = {
       '@bitcode/mcp$': path.resolve(__dirname, '..', 'packages', 'executions-mcp', 'src', 'index.ts'),
       // Legacy generic-agents umbrella alias
       '@bitcode/generic-agents': path.resolve(__dirname, '..', 'packages', 'agent-generics', 'src', 'index.ts'),
+      '@bitcode/generic-agent-code-editor': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'generic-agents',
+        'code-editor',
+        'src',
+        'index.ts'
+      ),
       '@bitcode/generic-agents-vcs': path.resolve(
         __dirname,
         '..',
@@ -348,6 +376,7 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
+      ...mcpToolAliases,
       'require-in-the-middle': path.resolve(__dirname, 'config', 'stubs', 'require-in-the-middle.js'),
       '@opentelemetry/instrumentation': path.resolve(__dirname, 'config', 'stubs', 'opentelemetry-instrumentation.js'),
       '@opentelemetry/instrumentation/build/esm/index.js': path.resolve(

@@ -17,7 +17,7 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
 - `/conversations`
   Fullscreen conversation mode entered from `/application`.
 - `/executions`
-  Retained runs-and-deliverables route kept explicit during fourth-gate inward convergence.
+  Retained runs-and-deliverables route kept explicit as a fourth-gate promotion-boundary owner.
 - `/edgetimes`
   Fourth-gate storage/schema/package ownership read mounted as a docs-branded Bitcode route.
 - `/orbitals/profile`
@@ -42,7 +42,7 @@ Contained orbital rails should also converge on the shared panel-plus-tabs carri
 - `app/conversations/`
   Fullscreen conversation mode.
 - `app/executions/`
-  Retained runs, deliverables, and execution-detail route owners kept explicit during fourth-gate convergence.
+  Retained runs, deliverables, and execution-detail route owners kept explicit during fourth-gate convergence and promotion-boundary proofing.
 - `app/edgetimes/`
   Fourth-gate storage/schema/package ownership route and shared topology owner for `/edgetimes`.
 - `app/api/`
@@ -95,6 +95,18 @@ They should keep `/docs` as the real public teaching surface and `/demo-video` o
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 They should keep footer entry links and protocol/version metadata progressive on smaller shells, using card/chip presentation instead of compressed inline microcopy.
 They should now also keep `/edgetimes` aligned with the docs-branded public shell while treating it as a fourth-gate retained-system owner rather than brochure content.
+
+Fourth-gate retained `/executions` health also now depends on explicit compatibility API carriers:
+
+- `app/api/vcs/route.ts`
+  Reader-first VCS compatibility carrier for retained execution selectors and repo context.
+- `app/api/templates/deliverables/route.ts`
+  Deliverable-template compatibility carrier for retained execution composition.
+- `app/api/orbitals/template-preferences/route.ts`
+  Saved template-preference compatibility carrier for retained execution personalization.
+
+Those routes are not brochure compatibility leftovers.
+They are current fourth-gate promotion-boundary owners and should stay fail-closed, tested, and documented until inward convergence removes the retained dependency.
 
 ## Development
 

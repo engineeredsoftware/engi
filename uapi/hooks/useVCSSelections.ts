@@ -103,6 +103,9 @@ const fetchVCSData = async <T,>(url: string): Promise<T | null> => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      if (response.status === 401 || response.status === 404) {
+        return null;
+      }
       const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
       throw new Error(errorData.error || `Failed to fetch from ${url}`);
     }
@@ -149,9 +152,15 @@ export function useVCSSelections({
   // Load VCS connections on mount
   useEffect(() => {
     const loadConnections = async () => {
-      const data = await fetchVCSData<any>(buildApiUrl('connections'));
-      if (data?.connections) {
-        setConnections(data.connections);
+      try {
+        const data = await fetchVCSData<any>(buildApiUrl('connections'));
+        if (data?.connections) {
+          setConnections(data.connections);
+        } else {
+          setConnections([]);
+        }
+      } catch {
+        setConnections([]);
       }
     };
     
@@ -170,10 +179,16 @@ export function useVCSSelections({
 
     const loadAccounts = async () => {
       setIsLoadingAccounts(true);
-      const data = await fetchVCSData<any>(buildApiUrl('accounts', { provider }));
-      
-      if (data && transformers[provider]) {
-        setAccounts(transformers[provider].accounts(data));
+      try {
+        const data = await fetchVCSData<any>(buildApiUrl('accounts', { provider }));
+        
+        if (data && transformers[provider]) {
+          setAccounts(transformers[provider].accounts(data));
+        } else {
+          setAccounts([]);
+        }
+      } catch {
+        setAccounts([]);
       }
       setIsLoadingAccounts(false);
     };
@@ -228,16 +243,24 @@ export function useVCSSelections({
 
     const loadBranches = async () => {
       setIsLoadingBranches(true);
-      const data = await fetchVCSData<any>(
-        buildApiUrl('branches', { provider, owner: account, repo })
-      );
-      
-      if (data) {
-        setBranches(data.branches.map((b: any) => ({
-          label: typeof b === 'string' ? b : b.name,
-          value: typeof b === 'string' ? b : b.name
-        })));
-        setDefaultBranch(data.defaultBranch || null);
+      try {
+        const data = await fetchVCSData<any>(
+          buildApiUrl('branches', { provider, owner: account, repo })
+        );
+        
+        if (data) {
+          setBranches(data.branches.map((b: any) => ({
+            label: typeof b === 'string' ? b : b.name,
+            value: typeof b === 'string' ? b : b.name
+          })));
+          setDefaultBranch(data.defaultBranch || null);
+        } else {
+          setBranches([]);
+          setDefaultBranch(null);
+        }
+      } catch {
+        setBranches([]);
+        setDefaultBranch(null);
       }
       setIsLoadingBranches(false);
     };
@@ -256,15 +279,21 @@ export function useVCSSelections({
 
     const loadCommits = async () => {
       setIsLoadingCommits(true);
-      const data = await fetchVCSData<any>(
-        buildApiUrl('commits', { provider, owner: account, repo, branch })
-      );
-      
-      if (data) {
-        setCommits(data.commits.map((commit: any) => ({
-          label: commit.sha.slice(0, 7),
-          value: commit.sha
-        })));
+      try {
+        const data = await fetchVCSData<any>(
+          buildApiUrl('commits', { provider, owner: account, repo, branch })
+        );
+        
+        if (data) {
+          setCommits(data.commits.map((commit: any) => ({
+            label: commit.sha.slice(0, 7),
+            value: commit.sha
+          })));
+        } else {
+          setCommits([]);
+        }
+      } catch {
+        setCommits([]);
       }
       setIsLoadingCommits(false);
     };

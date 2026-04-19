@@ -1,15 +1,15 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "eaf91f1e63f0003495ba93ed3d4347fdd314405e",
-  "generatedAt": "2026-04-19T14:10:14-03:00",
+  "proofSourceCommit": "b94172cb16d27249ad8854b36575030b1d41bcf9",
+  "generatedAt": "2026-04-19T14:52:00-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V25",
   "draftPreview": true,
-  "checkpointId": "v26-first-second-gate-checkpoint",
-  "checkpointFocus": "first-and-second-gate-closure",
-  "nextGate": "Gate 3: marketing refurbishment",
+  "checkpointId": "v26-through-fourth-gate-promotion-boundary",
+  "checkpointFocus": "through-fourth-gate-promotion-boundary",
+  "nextGate": "Gate 5: proof precision, schema refinement, and promotion finalization",
   "passed": true,
   "firstGate": {
     "gateId": "gate-1",
@@ -144,5 +144,100 @@
         "missingFiles": []
       }
     ]
+  },
+  "thirdGate": {
+    "gateId": "gate-3",
+    "label": "Mounted public-shell closure",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "third-gate-public-shell-carriers",
+        "label": "Mounted public-shell and docs-route carriers",
+        "passed": true,
+        "detail": "12 required files present",
+        "requiredFiles": [
+          "uapi/app/page.tsx",
+          "uapi/app/docs/page.tsx",
+          "uapi/app/demo-video/page.tsx",
+          "uapi/app/(root)/components/PublicShellFrame.tsx",
+          "uapi/app/(root)/components/MarketingLandingPage.tsx",
+          "uapi/app/(root)/components/PublicDocsPageContent.tsx",
+          "uapi/app/(root)/components/MarketingOperatorGuideCard.tsx",
+          "uapi/components/base/engi/layout/nav.tsx",
+          "uapi/components/base/engi/layout/footer.tsx",
+          "uapi/components/base/engi/layout/NavBrand.tsx",
+          "uapi/components/base/engi/layout/bitcode-public-copy.ts",
+          "uapi/components/base/engi/layout/bitcode-public-explainers.ts"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "third-gate-public-proof-carriers",
+        "label": "Mounted public-shell proof and test carriers",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "uapi/tests/marketingLandingPage.test.tsx",
+          "uapi/tests/marketingOperatorGuideCard.test.tsx",
+          "uapi/tests/publicDocsPageContent.test.tsx",
+          "uapi/tests/navPublicShell.test.tsx",
+          "uapi/tests/footerPublicShell.test.tsx",
+          "uapi/tests/navBrand.test.tsx"
+        ],
+        "missingFiles": []
+      },
+      {
+        "checkId": "third-gate-public-documentation-carriers",
+        "label": "Mounted public-shell documentation carriers",
+        "passed": true,
+        "detail": "6 required files present",
+        "requiredFiles": [
+          "README.md",
+          "uapi/README.md",
+          "ENGI_SPEC_V26_DELTA.md",
+          "ENGI_SPEC_V26_NOTES.md",
+          "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
+          "packages/bitcode/V26_PROOF_SURFACES.md"
+        ],
+        "missingFiles": []
+      }
+    ]
+  },
+  "fourthGate": {
+    "gateId": "gate-4",
+    "label": "Merged-world application and retained-system convergence",
+    "passed": true,
+    "checks": [
+      {
+        "checkId": "fourth-gate-conversations-continuity",
+        "label": "Fourth-gate conversations continuity proof",
+        "passed": true,
+        "detail": "Conversations and fullscreen chat continuity are explicit and generated"
+      },
+      {
+        "checkId": "fourth-gate-runs-pipelines-totality",
+        "label": "Fourth-gate runs and pipelines totality proof",
+        "passed": true,
+        "detail": "Retained runs, deliverables, and pipeline systems totalize under Bitcode"
+      },
+      {
+        "checkId": "fourth-gate-persistence-schema-totality",
+        "label": "Fourth-gate persistence and schema totality proof",
+        "passed": true,
+        "detail": "Persistence, schema, `/edgetimes`, and typed storage carriers are explicit"
+      },
+      {
+        "checkId": "fourth-gate-retained-package-admissibility",
+        "label": "Fourth-gate retained package admissibility proof",
+        "passed": true,
+        "detail": "Retained non-Bitcode packages have explicit admitted roles"
+      }
+    ]
+  },
+  "subsequentGates": {
+    "gateId": "gate-5+",
+    "label": "Proof precision, schema refinement, and full provation",
+    "open": true,
+    "detail": "Subsequent gates remain intentionally open after through-fourth-gate promotion."
   }
 }

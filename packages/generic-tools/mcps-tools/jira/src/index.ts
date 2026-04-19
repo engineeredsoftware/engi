@@ -176,7 +176,6 @@ async function _jiraListProjects({ context, includeArchived = false, recent = fa
       'listProjects'
     );
   }
-}
 
 /**
  * List all projects accessible to the user
@@ -242,7 +241,6 @@ async function _jiraGetProject({ context, projectKey, includeComponents = true, 
       'getProject'
     );
   }
-}
 
 /**
  * Get detailed information about a specific project

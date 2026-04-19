@@ -107,7 +107,7 @@ Its rule is:
 
 ### Fifth-gate
 
-Fifth-gate is the proof precision, closure, and promotion-finalization gate.
+Fifth-gate is the post-promotion proof precision, schema-refinement, and full-provation gate.
 Its rule is:
 - close V26 only under explicit proof-family precision,
 - prove the retained and repurposed whole repository that survives into V26 production canon rather than only the old demo-equivalent core,
@@ -168,16 +168,18 @@ The accepted V26 decisions are now:
 10. Third-gate is the marketing refurbishment gate.
 11. Fourth-gate ports retained conversations, runs/pipelines, deliverables, prompt abstraction, and retained agent/tool layers into the V26 total system.
 12. Fourth-gate also explicitly owns PostgreSQL/Supabase, `/edgetimes`, migrations, schema contracts, ORM/query carriers, generated database types, and their proof/test/doc/comment closure.
-13. `/application` is the only primary Bitcode destination in the finished V26 product posture.
-14. Orbitals and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
-15. Orbitals are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
-16. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
-17. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
-18. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
-19. Existing packages such as `packages/github`, `packages/auth`, `packages/api`, `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/conversations-generics`, and `packages/execution-generics` remain convergence targets where that ownership is the correct long-term fit.
-20. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
-21. Transaction source posture inside `/application` is now explicitly three-state rather than binary: `live`, `mock-review`, and `review-fallback`, with review-fallback kept labeled when mock transaction review URLs land on empty live history.
-22. Second-gate checkpoint closure now explicitly includes README/markdown refurbishment for the active Bitcode route, orbital, execution, and package owners, and the generated checkpoint must fail if those documentation carriers disappear.
+13. Fourth-gate retained `/executions` compatibility APIs are explicit promotion-boundary owners rather than incidental glue.
+14. Old-world port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
+15. `/application` is the only primary Bitcode destination in the finished V26 product posture.
+16. Orbitals and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
+17. Orbitals are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
+18. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
+19. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
+20. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
+21. Existing packages such as `packages/github`, `packages/auth`, `packages/api`, `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/conversations-generics`, and `packages/execution-generics` remain convergence targets where that ownership is the correct long-term fit.
+22. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
+23. Transaction source posture inside `/application` is now explicitly three-state rather than binary: `live`, `mock-review`, and `review-fallback`, with review-fallback kept labeled when mock transaction review URLs land on empty live history.
+24. Second-gate checkpoint closure now explicitly includes README/markdown refurbishment for the active Bitcode route, orbital, execution, and package owners, and the generated checkpoint must fail if those documentation carriers disappear.
 
 ## Remaining V26 delta after first-gate
 
@@ -186,7 +188,7 @@ The remaining V26 delta is now concentrated in:
 - second-gate external-interfacing hardening for stable readiness in the new application page,
 - second-gate single-surface application composition around `/application`,
 - third-gate marketing refurbishment,
-- fourth-gate retained-system convergence for conversations, runs/pipelines, deliverables, prompts, and retained agent/tool layers,
+- fourth-gate retained-system convergence for conversations, runs/pipelines, retained execution compatibility APIs, deliverables, prompts, and retained agent/tool layers,
 - fifth-gate debug/finalization work including the floating debug widget and environment toggle,
 - production, staging, and development mode completeness within the new application expression,
 - deeper package splitting beyond the immediate `packages/bitcode` consolidation owner,
@@ -417,7 +419,7 @@ Second-gate acceptance is reached only when:
 
 Persistence note:
 - Supabase-hosted PostgreSQL ownership, `/edgetimes`, `/api/edgetimes`, migrations, ORM/query carriers, generated database types, and storage/API proof closure remain explicit fourth-gate work even while second-gate application UX/UI is being tightened.
-- `/edgetimes` and `/api/edgetimes` now exist as the live fourth-gate storage/API witness starter so later convergence can build from active route/API ownership instead of only draft prose.
+- `/edgetimes` and `/api/edgetimes` now exist as the live fourth-gate storage/API witness for the through-fourth-gate promotion boundary so later convergence can build from active route/API ownership instead of only draft prose.
 
 ## Precise fourth-gate specification targets
 
@@ -428,6 +430,8 @@ Fourth-gate is now specified as:
 - redefining deliverable as a Bitcode V26 run/pipeline output meaning,
 - porting current executions/deliverables master-detail and inspection patterns inward to `/application`,
 - routing retained prompt text through prompt abstraction and the proved prompt space,
+- reprompting old-world tools and agents for Bitcode canonical use with reader-first fourth-gate scope such as Jira need ingestion,
+- keeping initial testnet-ready settle-write focused on Git/GH asset settlement while broader write surfaces stay later,
 - and retaining packages only when V26 explicitly admits and proves their role.
 
 Fourth-gate acceptance is reached only when:
@@ -437,6 +441,7 @@ Fourth-gate acceptance is reached only when:
 - execution/deliverable workspace reuse is ported inward to `/application`,
 - prompt abstraction directly owns retained prompt text,
 - retained agent/tool abstractions have explicit V26 roles,
+- old-world tool ports are scoped clearly enough that read/measure behavior closes now while broader settle-write expansion can wait,
 - and retained packages are admitted intentionally with proof obligations.
 
 ## Precise fifth-gate specification targets
@@ -446,13 +451,13 @@ Fifth-gate is now specified as:
 - debug/environment controls required for proving mode coherence,
 - full production/staging/development mode completeness,
 - retained-package admissibility proof,
-- and promotion-finalization cleanup.
+- and post-promotion final provation/refinement cleanup.
 
 Fifth-gate acceptance is reached only when:
 - the required proof families are generated,
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,
-- and V26 can be promoted without relying on informal interpretation across merged systems.
+- and V26 can be treated as fully proven without relying on informal interpretation across merged systems.
 
 ## Explicitly deferred
 

@@ -5,10 +5,57 @@
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import {
-  gitlabListProjectsTool as _gitlabListProjects,
-  gitlabGetProjectTool as _gitlabGetProject,
-} from '@bitcode/gitlab';
+// Inline fail-closed placeholders so retained MCP compilation does not depend on
+// absent project-operation exports from the provider package.
+async function _gitlabListProjects(input: {
+  host?: string;
+  group?: string;
+  search?: string;
+  [key: string]: unknown;
+}): Promise<{
+  success: false;
+  unavailable: true;
+  tool: 'gitlabListProjects';
+  reason: string;
+  input: {
+    host?: string;
+    group?: string;
+    search?: string;
+    [key: string]: unknown;
+  };
+}> {
+  return {
+    success: false,
+    unavailable: true,
+    tool: 'gitlabListProjects',
+    reason: 'GitLab MCP project enumeration is not available in this retained runtime',
+    input,
+  };
+}
+
+async function _gitlabGetProject(input: {
+  projectId?: string | number;
+  path?: string;
+  [key: string]: unknown;
+}): Promise<{
+  success: false;
+  unavailable: true;
+  tool: 'gitlabGetProject';
+  reason: string;
+  input: {
+    projectId?: string | number;
+    path?: string;
+    [key: string]: unknown;
+  };
+}> {
+  return {
+    success: false,
+    unavailable: true,
+    tool: 'gitlabGetProject',
+    reason: 'GitLab MCP project inspection is not available in this retained runtime',
+    input,
+  };
+}
 
 // Import DocCodeToolPrompt
 import { GITLAB_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/GitLabMCPDocCodeToolPrompt';

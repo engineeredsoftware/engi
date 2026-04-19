@@ -26,13 +26,13 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_CAPABILITIES_LIST: PromptPart = 
-  `- JIRA REST API v3 INTEGRATION: Execute HTTP requests to /rest/api/3/ endpoints with OAuth 2.0/Bearer token authentication and rate limit handling (300 req/min)
-- ISSUE LIFECYCLE AUTOMATION: POST/PUT operations for issue creation, field updates, workflow transitions with schema validation and error handling
-- JQL QUERY EXECUTION: Parse and execute JIRA Query Language with pagination (startAt/maxResults), field expansion, and result filtering
-- AGILE SPRINT OPERATIONS: Interface with /rest/agile/1.0/ endpoints for sprint management, velocity calculations, and burndown chart data
-- CUSTOM FIELD PROCESSING: Parse field schemas, validate cascading selects, handle multi-value fields, and process option values
-- BULK DATA OPERATIONS: Execute batch updates via /rest/api/3/issue/bulk with transaction handling (max 1000 issues per request)
-- ATTACHMENT MANAGEMENT: Upload/download binary files using multipart/form-data with MIME type validation and size limits (10MB)
-- WEBHOOK EVENT PROCESSING: Parse incoming webhook payloads, validate signatures, and trigger automated responses to issue events
-- REPORTING API INTEGRATION: Generate project metrics using JIRA reporting endpoints, custom JQL queries, and dashboard data aggregation
-- PERMISSION MATRIX VALIDATION: Query user permissions, project roles, and access rights before executing write operations` as PromptPart;
+  `- JIRA REST API v3 INGESTION: Execute authenticated reads against /rest/api/3/ endpoints with OAuth 2.0/Bearer token handling and rate limit awareness
+- ISSUE AND PROJECT NORMALIZATION: Read issues, epics, projects, fields, comments, and worklogs into structured Bitcode need context
+- JQL REQUIREMENT DISCOVERY: Parse and execute JQL with pagination (startAt/maxResults), field expansion, and result filtering to scope measurable need
+- AGILE CONTEXT READING: Read sprint and board state through /rest/agile/1.0/ endpoints when sprint posture materially informs need timing or closure expectations
+- CUSTOM FIELD EXTRACTION: Parse custom field schemas, cascading selects, multi-value fields, and option values without assuming Jira-native semantics are already Bitcode-native
+- ATTACHMENT AND COMMENT INSPECTION: Read attachment metadata, descriptions, comments, and linked references as need evidence
+- PERMISSION MATRIX VALIDATION: Query user permissions, project roles, and access rights before proposing or attempting any write operation
+- OPTIONAL WRITE ESCALATION: Keep issue creation, field updates, transitions, comments, and attachments outside the default retained role and surface them only when explicitly requested
+- REPORTING AND TRACEABILITY: Generate requirement summaries and project metrics through JQL and reporting endpoints while preserving audit-ready provenance
+- FAIL-CLOSED BOUNDARY: Return structured, explicit insufficiency when Jira context is missing, stale, or permission-blocked rather than fabricating Bitcode need measurements` as PromptPart;

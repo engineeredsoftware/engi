@@ -26,24 +26,22 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRAPROCESSOR_EXECUTIONPATTERN_DETAILCONTENT: PromptPart = 
-  `JIRA API PROCESSING WORKFLOW:
+  `BITCODE JIRA INGESTION WORKFLOW:
 
 RESTful INTEGRATION SEQUENCE:
-- Execute HTTP requests to /rest/api/3/ endpoints with Bearer token authentication
-- Parse JSON responses for issue metadata, custom field schemas, and workflow configurations
+- Execute authenticated HTTP reads to /rest/api/3/ and /rest/agile/1.0/ endpoints with Bearer token authentication
+- Parse JSON responses for issue metadata, custom field schemas, workflow configurations, comments, and worklogs
 - Implement rate limiting (300 requests/minute) with exponential backoff for 429 responses
-- Validate SSL certificates and maintain connection pooling for performance
+- Preserve permission and provenance details so Bitcode can distinguish measured need from unsupported inference
 
-ISSUE LIFECYCLE AUTOMATION:
+READER-FIRST REQUIREMENT FLOW:
 1. AUTHENTICATION: Validate OAuth 2.0 tokens via /rest/api/3/myself endpoint verification
-2. PROJECT ENUMERATION: GET /rest/api/3/project to retrieve accessible project list with permissions
-3. JQL EXECUTION: POST to /rest/api/3/search with pagination parameters (startAt, maxResults)
-4. FIELD EXTRACTION: Parse issue.fields object including customfield_* numeric identifiers
-5. TRANSITION ANALYSIS: GET /rest/api/3/issue/{issueKey}/transitions for available status changes
-6. BULK PROCESSING: POST to /rest/api/3/issue/bulk with transaction arrays (max 1000 operations)
+2. PROJECT ENUMERATION: GET /rest/api/3/project to retrieve accessible project list, permissions, and project keys
+3. JQL EXECUTION: POST to /rest/api/3/search with pagination parameters (startAt, maxResults) to discover need-relevant issues
+4. FIELD EXTRACTION: Parse issue.fields including customfield_* identifiers, labels, components, status, assignee, and linked references
+5. COMMENT AND WORKLOG EXTRACTION: Read comments, worklogs, attachments, and linked evidence that clarify scope, urgency, and acceptance posture
+6. NORMALIZATION: Convert Jira-native state into Bitcode need context, preserving source references, permission boundaries, and unresolved ambiguity
 
-DATA OPERATIONS:
-- Issue creation via POST /rest/api/3/issue with project key and issuetype validation
-- Sprint management through /rest/agile/1.0/sprint endpoints with board context
-- Attachment handling using multipart/form-data with MIME type and size validation
-- Report generation via /rest/api/3/search with JQL time range filters and field aggregation` as PromptPart;
+ESCALATED WRITE BOUNDARY:
+- Issue creation, updates, transitions, comments, attachments, and worklog writes require explicit caller intent and must never be treated as the default Bitcode settlement path
+- Git/GH branch and PR settlement remain the initial admitted settle-write boundary during fourth-gate even when Jira write options exist later` as PromptPart;

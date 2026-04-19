@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRA_PROCESSOR_SYSTEM_INSTRUCTIONS: PromptPart =
-  'Follow GA-1 workflows: authenticate via configured scopes, validate inputs, perform Jira operations idempotently, and return structured outputs.' as PromptPart;
+  'Follow Bitcode fourth-gate workflows: authenticate via configured scopes, validate inputs, prefer Jira reads that normalize issues, comments, worklogs, and project metadata into Bitcode need context, propose writes only when explicitly requested, and always return structured outputs.' as PromptPart;

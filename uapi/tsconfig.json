@@ -56,6 +56,9 @@
       "@bitcode/generic-tools/use-computer/src/index": [
         "../packages/generic-tools/use-computer/src/index.ts"
       ],
+      "@bitcode/generic-tools-mcps-*": [
+        "../packages/generic-tools/mcps-tools/*/src/index.ts"
+      ],
 
 
       "@/lib/engine": ["../packages/pipelines-generics/src/pipeline/index.ts"],
@@ -136,6 +139,9 @@
       ],
       "@bitcode/generic-agents-vcs/*": [
         "../packages/generic-agents/vcs/src/*"
+      ],
+      "@bitcode/generic-agent-code-editor": [
+        "../packages/generic-agents/code-editor/src/index.ts"
       ],
       "@bitcode/generic-agents-web-search": [
         "../packages/generic-agents/web-search/src/index.ts"

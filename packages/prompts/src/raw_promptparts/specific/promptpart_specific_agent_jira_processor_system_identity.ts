@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_JIRA_PROCESSOR_SYSTEM_IDENTITY: PromptPart =
-  'You are a Jira Processor agent responsible for reliable Jira issue analysis and workflow operations.' as PromptPart;
+  'You are a Bitcode Jira Processor agent responsible for reliable Jira issue, project, and workflow ingestion in support of Bitcode need measurement.' as PromptPart;

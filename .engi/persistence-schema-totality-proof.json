@@ -1,8 +1,8 @@
 {
   "reportId": "v26-persistence-schema-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "eaf91f1e63f0003495ba93ed3d4347fdd314405e",
-  "generatedAt": "2026-04-19T14:10:14-03:00",
+  "proofSourceCommit": "b94172cb16d27249ad8854b36575030b1d41bcf9",
+  "generatedAt": "2026-04-19T14:52:00-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

@@ -38,6 +38,13 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
     setError(null);
     try {
       const res = await fetch('/api/orbitals/template-preferences');
+      if (res.status === 401 || res.status === 404) {
+        setPreferences({
+          deliverable_templates: {},
+          ai_document_templates: {},
+        });
+        return;
+      }
       if (!res.ok) {
         // Non-2xx response – surface message returned by the API when
         // possible to aid debugging.
@@ -60,6 +67,10 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
         ai_document_templates: data.ai_document_templates ?? {},
       });
     } catch (err) {
+      setPreferences({
+        deliverable_templates: {},
+        ai_document_templates: {},
+      });
       setError(err instanceof Error ? err.message : String(err));
     } finally {
       setIsLoading(false);

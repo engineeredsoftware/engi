@@ -15,4 +15,4 @@ import { PromptPart } from '../../parts/PromptPart';
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_GITHUBMCP_DOCCODETOOLOUTPUT: PromptPart = 
-  'Provide concrete, domain‑appropriate content for this specific prompt segment. Use precise, operational language and ensure it integrates coherently with adjacent prompt parts.' as PromptPart;
+  'Return structured success or unavailable payloads containing the requested operation, params, owner/repo metadata, timestamped runtime context, and explicit error detail whenever GitHub execution is outside the admitted fourth-gate boundary.' as PromptPart;
