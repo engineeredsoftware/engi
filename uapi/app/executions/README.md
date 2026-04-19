@@ -1,15 +1,16 @@
-# `/app/executions` Bitcode Executions
+# `/app/executions` retained Bitcode Activity route
 
-`/executions` remains the retained runs-and-deliverables route during V26 fourth-gate convergence.
+`/executions` remains the retained compatibility route during V26 fourth-gate convergence.
 
-It is not the final Bitcode product topology, but it must remain explicit and healthy while the
-strongest run, deliverable, and inspection patterns continue porting inward to `/application`.
+It is not the final Bitcode product topology.
+Merged-world V26 converges this retained route on `activity`, with transactions as the dominant initial activity class and later non-transactional activity such as notifications or public/personal system usage joining the same master-detail family.
+The compatibility route must remain explicit and healthy while the strongest run, deliverable, and inspection patterns continue porting inward to `/application`.
 
 Current owners:
 - `page.tsx`
-  Direct route metadata for the retained executions surface.
+  Direct route metadata for the retained activity compatibility surface.
 - `[runId]/page.tsx`
-  Direct retained execution-detail route for one run.
+  Direct retained activity-detail route for one run.
 - `components/ExecutionsPage.tsx`
   Route-level shell for the main retained executions read.
 - `components/ExecutionsPageClient.tsx`
@@ -28,8 +29,9 @@ Current owners:
   Retained compatibility carrier for saved deliverable-template preferences used by the execution composer.
 
 This route should stay explicit about:
-- retained runs and pipeline continuity,
+- retained runs, pipeline continuity, and transactions-first activity naming,
+- later admission of notifications and public/personal system usage as additional activity classes,
 - deliverable and execution inspection semantics,
 - retained compatibility API ownership required to keep the route healthy during inward convergence,
 - direct route/API ownership during fourth-gate,
-- and inward convergence toward `/application` rather than peer-product permanence.
+- and inward convergence toward `/application` and final `activity` ownership rather than peer-product permanence.

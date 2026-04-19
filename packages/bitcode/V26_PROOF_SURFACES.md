@@ -637,6 +637,11 @@ Current active assignments:
   `uapi/tests/applicationTransactionActivity.test.ts`
   proof surface:
   deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
+- `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/orbitals/*/page.tsx`
+  test coverage:
+  route metadata verification plus live browser checks on retained compatibility routes
+  proof surface:
+  fourth-gate merged-world naming discipline so retained `/executions` teaches `activity` and retained `/orbitals` teaches `auxiliaries` before compatibility URLs disappear
 - `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
   test coverage:
   browser verification and UI coverage around live and mock selected-transaction detail rendering

@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
 
 export const metadata: Metadata = {
-  title: 'Bitcode • Connects Orbital',
-  description: 'Application-owned Bitcode connections orbital route.',
+  title: 'Bitcode • Connects Auxiliary',
+  description:
+    'Retained /orbitals compatibility route converging on Bitcode auxiliaries through the Connects auxiliary read.',
   alternates: {
     canonical: '/orbitals/connects',
   },

@@ -27,36 +27,36 @@ export const ORBITAL_DESCRIPTORS: Record<ConcreteOrbitalPane, OrbitalPaneDescrip
     routeSegment: 'profile',
     ringIndex: 1,
     labelPosition: 'left',
-    routeTitle: 'Profile Orbital',
+    routeTitle: 'Profile Auxiliary',
     routeDescription:
-      'Keep wallet identity, balances, team roles, multi-sig posture, and access state in one focused orbital.',
+      'Keep wallet identity, balances, team roles, multi-sig posture, and access state in one focused auxiliary.',
   },
   connects: {
     label: 'Connects',
     routeSegment: 'connects',
     ringIndex: 3,
     labelPosition: 'top',
-    routeTitle: 'Connects Orbital',
+    routeTitle: 'Connects Auxiliary',
     routeDescription:
-      'Attach GitHub and the live repository connections Bitcode reuses across transactions, deliverables, and closure follow-through.',
+      'Attach GitHub and the live repository connections Bitcode reuses across transactions, deliverables, and closure follow-through in one focused auxiliary.',
   },
   interfaces: {
     label: 'Interfaces',
     routeSegment: 'interfaces',
     ringIndex: 2,
     labelPosition: 'right',
-    routeTitle: 'Interfaces Orbital',
+    routeTitle: 'Interfaces Auxiliary',
     routeDescription:
-      'Shape how the transactions surface, conversations, proofs, and default application behavior read and operate.',
+      'Shape how the transactions surface, conversations, proofs, and default application behavior read and operate through one focused auxiliary.',
   },
   btd: {
     label: '$BTD',
     routeSegment: 'btd',
     ringIndex: 0,
     labelPosition: 'bottom',
-    routeTitle: '$BTD Orbital',
+    routeTitle: '$BTD Auxiliary',
     routeDescription:
-      'Review balances, share posture, and advanced $BTD defaults in the innermost orbital.',
+      'Review balances, share posture, and advanced $BTD defaults in the innermost auxiliary.',
   },
 };
 
@@ -128,18 +128,18 @@ export function getOrbitalOpenActionLabel(step?: ConcreteOrbitalPane | null) {
 
 export function getOrbitalsWorkspaceHeading(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? `Keep ${ORBITALS_LIST_LABEL} in one contained orbital read.`
-    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained orbital read.`;
+    ? `Keep ${ORBITALS_LIST_LABEL} in one contained auxiliary read.`
+    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained auxiliary read.`;
 }
 
 export function getOrbitalsWorkspaceDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? 'The four-ring model stays visible while the active orbital opens in a stable reading surface tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
-    : 'Open Bitcode access in a stable orbital read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
+    ? 'The four-ring model stays visible while the active auxiliary opens in a stable reading surface tuned for Bitcode transactions, conversations, wallet posture, and auxiliary follow-through.'
+    : 'Open Bitcode access in a stable auxiliary read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
 }
 
 export function getOrbitalsTabsDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the orbital read.`
-    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained orbital read.`;
+    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the auxiliary read.`
+    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained auxiliary read.`;
 }

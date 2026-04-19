@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
 
 export const metadata: Metadata = {
-  title: 'Bitcode • $BTD Orbital',
-  description: 'Legacy route for the Bitcode $BTD orbital.',
+  title: 'Bitcode • $BTD Auxiliary',
+  description: 'Legacy route for the Bitcode $BTD auxiliary.',
   alternates: {
     canonical: '/orbitals/btd',
   },

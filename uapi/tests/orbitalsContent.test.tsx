@@ -25,12 +25,12 @@ describe('OrbitalsContent', () => {
     expect(screen.getAllByText('Orbitals access')).toHaveLength(2);
     expect(
       screen.getByText(
-        /sign in once, then keep connects, interfaces, profile, and \$btd in one contained orbital read/i,
+        /sign in once, then keep connects, interfaces, profile, and \$btd in one contained auxiliary read/i,
       ),
     ).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Connects orbital' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Connects auxiliary' })).toBeTruthy();
     expect(screen.queryByText(/Ring 1/i)).toBeNull();
-    expect(screen.getByText(/Active orbital:/i)).toBeTruthy();
+    expect(screen.getByText(/Active auxiliary:/i)).toBeTruthy();
     expect(screen.getByText('Pane connects')).toBeTruthy();
   });
 });

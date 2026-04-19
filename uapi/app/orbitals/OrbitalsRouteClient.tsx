@@ -21,8 +21,8 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
   const orbitals: OrbitalPaneDescriptor[] = ORBITAL_ROUTE_SEQUENCE.map((orbitalStep) =>
     getOrbitalDescriptor(orbitalStep),
   );
-  const routeHeading = `${descriptor.label} in one contained orbital read.`;
-  const routeBody = `${descriptor.routeDescription} Use one focused orbital when you want a dedicated read surface, then step back into transactions only when you need the full ledger context.`;
+  const routeHeading = `${descriptor.label} in one contained auxiliary read.`;
+  const routeBody = `${descriptor.routeDescription} Use one focused auxiliary when you want a dedicated extra-network read surface, then step back into transactions only when you need the full ledger context.`;
 
   return (
     <div className="min-h-[calc(100vh-9rem)] bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),transparent_26%),radial-gradient(circle_at_86%_18%,rgba(56,189,248,0.1),transparent_18%),linear-gradient(180deg,#050d15_0%,#02060d_44%,#010309_100%)] text-white">
@@ -31,7 +31,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
           <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                {descriptor.label} orbital
+                {descriptor.label} auxiliary
               </p>
               <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
                 {routeHeading}
@@ -69,7 +69,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
                   {orbital.label}
                 </p>
                 <p className="mt-2 text-sm font-medium text-white">
-                  {isActive ? 'Current route' : 'Open orbital'}
+                  {isActive ? 'Current route' : 'Open auxiliary'}
                 </p>
                 <p className="mt-2 text-sm leading-7 text-white/68">{orbital.routeDescription}</p>
               </Link>

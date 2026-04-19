@@ -614,7 +614,8 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 | Retained system | Current source basis | Fourth-gate target requirement |
 | --- | --- | --- |
 | conversations and chat-based application interface | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
-| executions, runs, pipelines, and retained compatibility APIs | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/orbitals/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | converge on a V26 runs/pipelines system that expresses Bitcode operations totalistically and keeps retained selectors/template personalization healthy until inward convergence removes the dependency |
+| executions, runs, pipelines, and retained compatibility APIs | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/orbitals/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | converge on merged-world `activity`, with transactions as the dominant initial activity class and later notifications plus public/personal system usage admitted into the same Bitcode activity family while retained selectors/template personalization stay healthy until inward convergence removes the dependency |
+| retained orbitals routes, preferences, and companion panes | `uapi/app/orbitals/*`, `uapi/app/api/orbitals/data/route.ts`, `uapi/app/api/orbitals/model-preferences/route.ts`, `uapi/app/api/orbitals/user/data-share/route.ts` | converge on merged-world `auxiliaries`: extra-network, non-transactional, still-proven user preference, interface, identity, and external-connection surfaces that remain around the Bitcode core without being treated as the network/activity center |
 | PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
 | prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
@@ -635,8 +636,10 @@ Fourth-gate requires:
 10. old-world tool and agent ports must be reprompted and repurposed for Bitcode canonical use, with systems such as Jira scoped first to need-ingestion and need-measurement reads rather than expansive settle-write semantics,
 11. initial testnet-ready settle-write closure may remain Git/GH-branch/GH-PR centric even when later multi-surface settle writes are planned,
 12. retained `/executions` compatibility APIs such as `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are treated as explicit fourth-gate promotion-boundary owners rather than incidental glue,
-13. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
-14. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
+13. retained `/executions` naming must converge on merged-world `activity`, where transactions dominate first and later notifications plus public/personal system usage enter the same searchable master-detail activity family,
+14. retained `/orbitals` naming must converge on merged-world `auxiliaries`, where extra-network, non-transactional preference/interface/identity/connection surfaces stay proven without displacing the core network/activity topology,
+15. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
+16. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
 
 ### Fourth-gate acceptance matrix
 
@@ -653,7 +656,8 @@ Fourth-gate is accepted only when:
 10. old-world tools and agents are Bitcode-purposed with prompt ownership and reader-first fourth-gate scope,
 11. Git/GH-based settle-write carries the required initial testnet-ready asset settlement posture,
 12. retained executions compatibility APIs are explicit promotion-boundary owners instead of invisible route glue,
-13. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
+13. retained `/executions` and `/orbitals` compatibility routes visibly teach `activity` and `auxiliaries` as the merged-world target without requiring compatibility URLs to disappear yet,
+14. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
 
 ## V26 fifth-gate proof precision and closure contract
 

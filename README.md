@@ -12,7 +12,7 @@ Bitcode now centers on one primary application route:
 V26 defines three main experiences:
 - `master detail`
 - `conversations`
-- `orbitals`
+- `orbitals` retained compatibility path converging on auxiliaries
 
 V26 defines two main operator actions:
 - `give`
@@ -26,7 +26,7 @@ The active orbital model is fixed as:
 
 Second-gate closure also requires the live product and docs to stay aligned:
 - operator-facing copy is user-referencing and Bitcode-first
-- orbitals entry surfaces read as orbitals access, not generic settings/account furniture
+- retained `/orbitals` entry surfaces now act as compatibility carriers converging on Bitcode auxiliaries, not generic settings/account furniture
 - application-opened orbitals hold a contained operator shell rather than collapsing back to modal-width account furniture
 - the README and markdown set for root, packages, routes, and shared systems is treated as required implementation scope
 
@@ -132,7 +132,7 @@ Current post-checkpoint third-gate start is intentionally narrow:
 
 Current fourth-gate promotion boundary is now explicit too:
 - `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry
-- `/executions` remains the retained direct runs-and-deliverables route, with `/api/executions` now mounted from the canonical deliverables business-logic owner
+- `/executions` remains the retained direct compatibility route converging on Bitcode activity, with `/api/executions` mounted from the canonical deliverables business-logic owner
 - `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are now explicit retained compatibility carriers that keep `/executions` healthy while run/pipeline patterns continue porting inward to `/application`
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology

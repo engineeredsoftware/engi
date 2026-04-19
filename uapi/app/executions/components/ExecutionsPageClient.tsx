@@ -411,10 +411,10 @@ export function ExecutionsClient() {
       <div className="mx-auto flex min-h-[calc(100vh-9rem)] max-w-5xl items-center px-4 py-16">
         <section className="w-full rounded-[2rem] border border-white/10 bg-[#06131b]/88 p-8 text-[#d6e7f2] shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
           <p className="text-[11px] font-medium uppercase tracking-[0.34em] text-[#75d7ff]">
-            Retained fourth-gate route
+            Retained fourth-gate activity route
           </p>
           <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
-            Bitcode executions stays explicit while runs and deliverables keep converging into transactions.
+            The retained /executions path stays explicit while Bitcode activity keeps converging on transactions-first reads, deliverable follow-through, and later non-transactional activity such as notifications.
           </h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#9db6c8] md:text-base">
             This route remains a live retained surface for run, deliverable, and pipeline inspection. Connect source

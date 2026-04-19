@@ -9,8 +9,9 @@ type ExecutionRunPageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Bitcode Execution',
-  description: 'Retained Bitcode execution details route for fourth-gate run and deliverable continuity.',
+  title: 'Bitcode Activity Detail',
+  description:
+    'Retained /executions detail compatibility route converging on Bitcode activity detail during fourth-gate run and deliverable continuity.',
 };
 
 export default function ExecutionRunPage({ params }: ExecutionRunPageProps) {

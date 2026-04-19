@@ -30,6 +30,7 @@ The following items are no longer open draft questions:
 - the ringed orbital overlay remains the orbital owner for Connects, Interfaces, Profile, and `$BTD`.
 - conversations remain a fullscreen application workspace entered from within `/application`.
 - current executions and deliverables surfaces are reuse reservoirs for inward master-detail porting into `/application`.
+- fourth-gate merged-world naming now converges retained `/executions` on `activity` and retained `/orbitals` on `auxiliaries`, with transactions-first activity and later notifications/public/personal usage explicitly admitted as the broader activity family.
 - the late-Engi navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
