@@ -280,12 +280,12 @@ Current active assignments:
   test coverage:
   `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, `uapi/tests/marketingOperatorGuideCard.test.tsx`, and `uapi/tests/e2e/landing.mobile-scroll.spec.ts`
   proof surface:
-  mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, and a stable guide route that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
+  mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, a progressive terminal preview that collapses into a compact public/mobile summary before wider-shell detail, and a stable guide route that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
 - `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/engi/layout/nav.tsx`, `uapi/components/base/engi/layout/NavBrand.tsx`, `uapi/components/base/engi/layout/workspace-surface.ts`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
   proof surface:
-  mounted third-gate public-route chrome, including live Bitcode nav on `/` and `/demo-video`, stable public-route entry links, shared public-shell explainers for key entry links and the protocol reference, public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy, and a responsive stacked public-nav posture that avoids hiding the primary entry paths behind extra menu state
+  mounted third-gate public-route chrome, including live Bitcode nav on `/` and `/demo-video`, stable public-route entry links, shared public-shell explainers for key entry links and the protocol reference, a protocol-spec link that resolves through the stable canonical pointer instead of a version-specific public spec URL, public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy, and a responsive stacked public-nav posture that avoids hiding the primary entry paths behind extra menu state
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`

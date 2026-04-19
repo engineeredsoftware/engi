@@ -141,6 +141,24 @@ export const verificationRows = [
   },
 ] as const;
 
+export const compactPreviewCards = [
+  {
+    title: 'Measurement vector',
+    body: 'Quantity 92 • Quality 96 • Valence 73',
+    detail: 'Compact public read on how Bitcode scores measurable supply.',
+  },
+  {
+    title: 'Give contribution',
+    body: 'Assets • Context • Chunks • Issuance',
+    detail: 'Deposit keeps source, authorship, citations, and issuance attached.',
+  },
+  {
+    title: 'Source to settlement',
+    body: 'Give → Measure → Fit → Prove → Settle → Issue',
+    detail: 'One operator path from deposit to proof-bearing settlement.',
+  },
+] as const;
+
 export const verifiedAccessOrbConfig = {
   ...minimalPreset,
   backgroundColors: ['#0d2f29', '#0f766e', '#6ee7b7'],

@@ -77,6 +77,10 @@ describe('Footer public shell', () => {
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
     const protocolSpecLink = screen.getByRole('link', { name: 'Protocol spec' });
     expect(protocolSpecLink).not.toHaveAttribute('title');
+    expect(protocolSpecLink).toHaveAttribute(
+      'href',
+      'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC.txt',
+    );
     expect(screen.getByRole('button', { name: 'Explain Protocol specification' })).toBeInTheDocument();
 
     const button = screen.getByRole('button', { name: 'Access Workspace' });

@@ -291,6 +291,7 @@ Mounted third-gate hardening must also retire stale public-shell residue from th
 
 Mounted third-gate public chrome should also prefer progressive simplification over extra menu state:
 - responsive public-route nav should stack and wrap cleanly on smaller screens rather than introducing hamburger-only access for the primary Bitcode entry links,
+- dense operator-preview content on the mounted landing should collapse into a compact public/mobile summary before wider-shell detail is shown,
 - and public-route access CTAs should remain immediately visible without requiring additional taps to discover the transactions terminal or operator guide.
 
 Third-gate acceptance is reached only when:
@@ -299,6 +300,7 @@ Third-gate acceptance is reached only when:
 - navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
 - tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
 - the stable operator-guide route resolves one Bitcode-owned guide asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
+- the public protocol reference resolves through the stable canonical pointer rather than a version-specific public spec URL,
 - and third-gate can be proven without reopening second-gate application ownership work.
 
 ### Fourth-gate

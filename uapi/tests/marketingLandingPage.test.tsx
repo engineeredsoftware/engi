@@ -77,7 +77,8 @@ describe('MarketingLandingPage', () => {
       '/demo-video',
     );
     expect(screen.getByText('Start with the transactions terminal')).toBeInTheDocument();
-    expect(screen.getByText('Operator frame')).toBeInTheDocument();
-    expect(screen.getByText('Source to settlement')).toBeInTheDocument();
+    expect(screen.getByText('Compact terminal view')).toBeInTheDocument();
+    expect(screen.getAllByText('Operator frame').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Source to settlement').length).toBeGreaterThan(0);
   });
 });

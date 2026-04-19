@@ -23,7 +23,7 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/engi/layout/bitcode
 const APPLICATION_URL = '/application';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/demo-video';
-const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
+const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC.txt';
 
 const footerNavs = [
   {
@@ -409,7 +409,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 {process.env.NEXT_PUBLIC_APP_VERSION && <span aria-hidden="true">•</span>}
                 <span className="inline-flex items-center gap-1.5">
                   <a
-                    href={CURRENT_SPEC_CANON_URL}
+                    href={CURRENT_PROTOCOL_SPEC_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-300/90 transition-colors hover:text-white"

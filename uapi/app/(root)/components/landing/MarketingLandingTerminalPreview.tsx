@@ -10,6 +10,7 @@ import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-publi
 
 import {
   animatedMotionStyle,
+  compactPreviewCards,
   entranceEase,
   measurementAxes,
   measuremintCandles,
@@ -61,7 +62,70 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             </div>
           </div>
 
-          <div className="grid gap-4 p-4 desktop:grid-cols-[0.9fr_1.1fr]">
+          <div className="grid gap-3 p-4 laptop:hidden">
+            <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                    Compact terminal view
+                  </p>
+                  <p className="mt-1 text-[11px] leading-5 text-emerald-100/62">
+                    Public routes keep the operator frame legible first, then expand into the denser terminal on wider screens.
+                  </p>
+                </div>
+                <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
+                  mobile-first
+                </span>
+              </div>
+              <div className="mt-4 grid gap-3">
+                {compactPreviewCards.map((card) => (
+                  <div
+                    key={card.title}
+                    className="rounded-[20px] border border-white/8 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                  >
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-200/72">
+                      {card.title}
+                    </p>
+                    <p className="mt-2 text-[13px] font-medium leading-5 text-white/88">
+                      {card.body}
+                    </p>
+                    <p className="mt-2 text-[11px] leading-5 text-emerald-100/60">
+                      {card.detail}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
+                    {BITCODE_PUBLIC_COPY.operatorFrame.title}
+                  </p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-emerald-100/52">
+                    {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
+                  </p>
+                </div>
+                <span className="inline-flex min-w-[104px] shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.18em] text-white/60">
+                  {BITCODE_PUBLIC_COPY.operatorFrame.badge}
+                </span>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {BITCODE_PUBLIC_COPY.operatorFrame.modes.map((surface) => (
+                  <span
+                    key={surface}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/84"
+                  >
+                    {renderOrbitalBullet('scale-100', surface === 'Give + Need' ? 'green' : 'purple')}
+                    {surface}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden gap-4 p-4 laptop:grid desktop:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-3">
               <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">

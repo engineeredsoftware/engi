@@ -306,7 +306,9 @@ Mounted public-shell chrome is also now explicit:
 - the stable guide route now fails closed with user-facing operator fallback copy and a direct `Open transactions terminal` path instead of exposing asset-path instructions
 - the stable guide route now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
 - the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
+- the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec file path
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
+- the mounted public terminal preview now leads with a compact public/mobile summary and only expands into the denser operator-grade preview on wider shells
 - the mounted public shell now carries shared inline explainers for its main entry links and protocol reference instead of falling back to a thin browser `title` tooltip in the footer
 
 Current draft-only spine to preserve for that future gate:
