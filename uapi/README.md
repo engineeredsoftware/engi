@@ -41,12 +41,18 @@ Contained orbital rails should also converge on the shared panel-plus-tabs carri
 
 Third-gate public-shell work is now explicitly carried by:
 
+- `app/(root)/components/PublicShellFrame.tsx`
+  Mounted public-route provider shell for nav, auth, query, and orbitals access.
 - `app/(root)/components/MarketingLandingPage.tsx`
   Mounted homepage shell.
 - `app/(root)/components/MarketingEngiVideoCard.tsx`
   Stable recorded operator-guide card.
 - `app/demo-video/page.tsx`
   Stable guide route that remains public while live Bitcode work happens in `/application`.
+- `components/base/engi/layout/nav.tsx`
+  Public-route navigation and access CTA chrome shared with product surfaces.
+- `components/base/engi/layout/NavBrand.tsx`
+  Bitcode public-route brand posture and workspace/public surface naming.
 - `components/base/engi/layout/footer.tsx`
   Shared public footer CTA and public-route link posture.
 - `components/base/engi/layout/bitcode-public-copy.ts`

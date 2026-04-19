@@ -12,6 +12,14 @@ describe('NavBrand', () => {
     expect(screen.getByText('transactions terminal')).toBeTruthy();
   });
 
+  it('renders public-shell copy for mounted public routes', () => {
+    render(<NavBrand surface="public" onClick={() => {}} />);
+
+    expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
+    expect(screen.getByText('Bitcode')).toBeTruthy();
+    expect(screen.getByText('operator entry')).toBeTruthy();
+  });
+
   it('renders beta posture outside the product workspace and remains clickable', () => {
     const onClick = jest.fn();
 

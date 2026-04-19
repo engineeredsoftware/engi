@@ -60,14 +60,18 @@ Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbit
 ## Public shell carriers
 
 Third-gate now has one explicit mounted public-shell owner set rather than an implicit marketing backlog:
+- `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
 - `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
 - `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/nav.tsx`
+- `uapi/components/base/engi/layout/NavBrand.tsx`
 - `uapi/components/base/engi/layout/footer.tsx`
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 
 Operational rule:
 - the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
+- the mounted public shell must also mount live public-route nav and orbital-entry behavior instead of relying on page-local CTA copy alone
 - stable public entry copy should prefer `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`
 - the stable `/demo-video` route remains a public guide URL, not a demo-era narrative fallback
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance

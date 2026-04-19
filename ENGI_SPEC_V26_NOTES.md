@@ -281,9 +281,12 @@ Still open:
 - and what third-gate acceptance should require versus leave to later refinement.
 
 Mounted public-shell owners are no longer ambiguous:
+- `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
 - `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
 - `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/nav.tsx`
+- `uapi/components/base/engi/layout/NavBrand.tsx`
 - `uapi/components/base/engi/layout/footer.tsx`
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 
@@ -293,6 +296,11 @@ Those files now carry the active third-gate start for public-facing:
 - `give`
 - `need`
 - `orbitals`
+
+Mounted public-shell chrome is also now explicit:
+- `/` and `/demo-video` mount live Bitcode nav through `PublicShellFrame`
+- public routes expose stable `Transactions terminal` / `Operator guide` links plus `Access Workspace` / `Create Account`
+- public-route orbital access now opens the contained Bitcode orbital shell instead of stopping at page-local CTA copy
 
 Current draft-only spine to preserve for that future gate:
 - where + when:

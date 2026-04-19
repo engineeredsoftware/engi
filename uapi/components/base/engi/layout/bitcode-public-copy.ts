@@ -61,11 +61,19 @@ export const BITCODE_PUBLIC_COPY = {
       bluesky: 'Bitcode on Bluesky',
     },
   },
+  publicNav: {
+    links: [
+      { href: '/application', label: 'Transactions terminal' },
+      { href: '/demo-video', label: 'Operator guide' },
+    ],
+    guestPrimaryCta: 'Access Workspace',
+    guestSecondaryCta: 'Create Account',
+  },
   guideRoute: {
     eyebrow: 'Recorded operator guide',
     heading: 'Review the Bitcode operator guide.',
     body:
-      'This stable guide URL keeps the recorded operator walkthrough available while the live transactions terminal, conversations, and orbitals continue in /application.',
+      'This stable guide URL keeps the recorded operator walkthrough available while live transactions, conversations, and orbitals stay accessible through the Bitcode workspace.',
     checkingVideoTitle: 'Operator guide',
     checkingVideoBody:
       'Checking the recorded Bitcode operator guide for inline playback.',

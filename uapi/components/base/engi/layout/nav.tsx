@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
+import Link from "next/link";
 import { CreditsTracker } from "@/components/base/engi/credits/credits-tracker";
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
@@ -12,7 +13,8 @@ import { UserMenu } from "@/components/base/engi/layout/user-menu";
 import NavBrand, { type NavSurface } from "@/components/base/engi/layout/NavBrand";
 import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
-import { getWorkspaceSurface } from "@/components/base/engi/layout/workspace-surface";
+import { BITCODE_PUBLIC_COPY } from "@/components/base/engi/layout/bitcode-public-copy";
+import { getWorkspaceSurface, usesPublicShellChrome } from "@/components/base/engi/layout/workspace-surface";
 
 const MemoCreditsTracker = React.memo(CreditsTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
@@ -97,15 +99,16 @@ export default function Nav() {
   const shouldCollapse = shouldApplyCollapseAnimation(pathname);
   const navSurface: NavSurface = getWorkspaceSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
+  const usesPublicChrome = usesPublicShellChrome(pathname);
 
   // Determine if the nav should be fixed
   const shouldBeFixed = useMemo(() => {
     if (usesWorkspaceChrome) return false;
+    if (usesPublicChrome) return true;
     if (user) return true;
     if (!pathname) return true;
-    if (pathname === '/') return false;
     return true;
-  }, [usesWorkspaceChrome, user, pathname]);
+  }, [usesWorkspaceChrome, usesPublicChrome, user, pathname]);
 
   // Determine if the nav should be visually collapsed
   const isCollapsed = shouldCollapse && isScrolled;
@@ -120,6 +123,8 @@ export default function Nav() {
   // Compute translateY for expanded (offset) or collapsed (pinned) state
   const transformValue = usesWorkspaceChrome
     ? 'none'
+    : usesPublicChrome
+      ? 'translateY(0)'
     : isCollapsed
       ? 'translateY(0)'
       : 'translateY(calc(var(--banner-offset,0px) + 4rem))';
@@ -149,16 +154,71 @@ export default function Nav() {
     </div>
   ) : null;
 
+  const publicGuestActions = usesPublicChrome && !user ? (
+    <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
+      <button
+        type="button"
+        onMouseEnter={() => prefetchOrbital()}
+        onClick={() => openOrbital('login')}
+        className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
+      >
+        {BITCODE_PUBLIC_COPY.publicNav.guestPrimaryCta}
+      </button>
+      <button
+        type="button"
+        onMouseEnter={() => prefetchOrbital()}
+        onClick={() => openOrbital('SignUpWindow')}
+        className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+      >
+        {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
+      </button>
+    </div>
+  ) : null;
+
+  const publicRouteLinks = usesPublicChrome ? (
+    <ul className="flex w-full items-center justify-center gap-2 phone:gap-4 tablet:gap-6 laptop:ml-12">
+      {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
+        const isActiveRoute =
+          href === '/'
+            ? pathname === '/'
+            : pathname === href || pathname?.startsWith(`${href}/`);
+
+        return (
+          <li
+            key={href}
+            className="nav-item-animated"
+            style={{ '--item-index': index } as React.CSSProperties}
+          >
+            <Link
+              href={href}
+              aria-current={isActiveRoute ? 'page' : undefined}
+              className={`
+                rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                ${isActiveRoute
+                  ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
+                  : 'border-white/10 bg-white/[0.03] text-neutral-200 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
+              `}
+            >
+              {label}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  ) : null;
+
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${!usesWorkspaceChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesPublicChrome ? 'border-b border-white/8 bg-[rgba(3,8,18,0.82)] shadow-[0_20px_50px_rgba(0,0,0,0.18)] backdrop-blur-xl' : ''} ${!usesWorkspaceChrome && !usesPublicChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${isAnimated ? 'nav-container-animated' : 'opacity-0'} ${!usesWorkspaceChrome && !usesPublicChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,
-          width: !usesWorkspaceChrome && isCollapsed ? '80%' : '100%',
+          width: !usesWorkspaceChrome && !usesPublicChrome && isCollapsed ? '80%' : '100%',
           transition: usesWorkspaceChrome
             ? 'opacity 250ms ease-out'
+            : usesPublicChrome
+              ? 'opacity 250ms ease-out'
             : shouldCollapse
             ? isCollapsed
               ? 'transform 500ms ease-in-out, width 250ms ease-in-out'
@@ -172,10 +232,14 @@ export default function Nav() {
       >
         <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${usesWorkspaceChrome ? 'py-3.5' : 'py-4 pb-6'}`}>
           <div className="flex items-center w-full">
-            <NavBrand animated={isAnimated} onClick={handleLogoClick} surface={navSurface} />
-            {/* Nav links shown only when signed in */}
-            {!user && <div className="flex-1" />}
-            {user && (
+            <NavBrand
+              animated={isAnimated}
+              onClick={handleLogoClick}
+              surface={usesWorkspaceChrome ? navSurface : usesPublicChrome ? 'public' : null}
+            />
+            {usesPublicChrome ? publicRouteLinks : null}
+            {!usesPublicChrome && !user && <div className="flex-1" />}
+            {!usesPublicChrome && user && (
               <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
                   { href: '/application', label: 'application' },
@@ -244,6 +308,8 @@ export default function Nav() {
           <div className="flex items-center justify-center space-x-4">
             {workspaceGuestActions ? (
               workspaceGuestActions
+            ) : publicGuestActions ? (
+              publicGuestActions
             ) : user ? (
               <div className={isAnimated ? 'nav-controls-animated flex items-center space-x-3.5' : 'opacity-0 flex items-center space-x-3.5'}>
                 {!FEATURE_FLAGS.HIDE_CREDITS_TRACKER && (

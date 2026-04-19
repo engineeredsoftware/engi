@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 
@@ -109,8 +110,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinks = useMemo(() => [
     {
-      name: 'Bitcode app',
-      label: <>{BITCODE_PUBLIC_COPY.footer.links.application}</>,
+      ariaLabel: 'Transactions terminal',
+      label: BITCODE_PUBLIC_COPY.footer.links.application,
+      meta: 'Bitcode app',
       href: APPLICATION_URL,
       icon: (
         <span
@@ -138,8 +140,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      name: 'Operator guide',
-      label: <>{BITCODE_PUBLIC_COPY.footer.links.guide}</>,
+      ariaLabel: 'Operator guide',
+      label: BITCODE_PUBLIC_COPY.footer.links.guide,
+      meta: 'Recorded guide',
       href: DEFAULT_OPERATOR_GUIDE_URL,
       icon: (
         <span
@@ -165,8 +168,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      name: 'Bluesky',
-      label: <>{BITCODE_PUBLIC_COPY.footer.links.bluesky}</>,
+      ariaLabel: 'Bitcode on Bluesky',
+      label: BITCODE_PUBLIC_COPY.footer.links.bluesky,
+      meta: 'Bluesky',
       href: 'https://bsky.app/profile/engicomms.bsky.social',
       icon: (
         <span
@@ -186,6 +190,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
   ], []);
+  const isExternalHref = (href: string) => href.startsWith('http');
 
   return (
     <>
@@ -194,13 +199,13 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
           {showPrimaryContent && (
             <div className="gap-4 p-4 py-16 tablet:pb-16 laptop:flex laptop:justify-between">
               <div className="mb-12 flex flex-col gap-4">
-                <a href="/" className="flex items-center gap-8">
+                <Link href="/" className="flex items-center gap-8">
                   <EngiSoftwareSvgLogo
                     width="115px"
                     height="auto"
                     softwareOffsetY="-4px"
                   />
-                </a>
+                </Link>
                 <div className="max-w-lg">
                   <div className="z-10 mt-2 flex w-full flex-col items-start text-left whitespace-nowrap">
                     <ol className="mt-2 flex gap-x-2 text-base">
@@ -317,17 +322,35 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
             <div className="flex w-full items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 {footerLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target={social.href.startsWith('http') ? '_blank' : undefined}
-                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
-                  >
-                    {social.icon}
-                    <span className="whitespace-nowrap">{social.label}</span>
-                    <span className="sr-only">{social.name}</span>
-                  </a>
+                  isExternalHref(social.href) ? (
+                    <a
+                      key={social.ariaLabel}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.ariaLabel}
+                      className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                    >
+                      {social.icon}
+                      <span className="whitespace-nowrap">{social.label}</span>
+                      <span aria-hidden="true" className="text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                        {social.meta}
+                      </span>
+                    </a>
+                  ) : (
+                    <Link
+                      key={social.ariaLabel}
+                      href={social.href}
+                      aria-label={social.ariaLabel}
+                      className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                    >
+                      {social.icon}
+                      <span className="whitespace-nowrap">{social.label}</span>
+                      <span aria-hidden="true" className="text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                        {social.meta}
+                      </span>
+                    </Link>
+                  )
                 ))}
                 {/* FEATURE_FLAGS.FOOTER_MUSIC_PLAYER && (
                   <AudioPlayer
@@ -336,7 +359,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   />
                 ) */}
               </div>
-              <a href="/" className="cursor-pointer">
+              <Link href="/" className="cursor-pointer">
                 <EngiSoftwareSvgLogo
                   width="50px"
                   height="auto"
@@ -344,7 +367,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   softwareClassName="ml-0.5 font-light text-xs tracking-wide bg-gradient-to-r from-[#65FEB7] via-white to-[#65FEB7] text-transparent bg-clip-text"
                   softwareOffsetY="-2px"
                 />
-              </a>
+              </Link>
             </div>
             <div className="mt-2 flex w-full items-center justify-between gap-4">
               <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">

@@ -255,9 +255,12 @@ Third-gate must now also:
 - and prepare the public site to read as the outer frame of the production Bitcode application rather than as a detached marketing skin.
 
 The current mounted third-gate start carriers are now explicitly:
+- `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
 - `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
 - `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/nav.tsx`
+- `uapi/components/base/engi/layout/NavBrand.tsx`
 - `uapi/components/base/engi/layout/footer.tsx`
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 
@@ -267,6 +270,11 @@ Those owners now carry the public-shell vocabulary for:
 - `give`
 - `need`
 - `orbitals`
+
+They also now carry the mounted public-shell chrome contract:
+- explicit public-route navigation,
+- stable public-route access CTAs,
+- and live orbital-entry behavior on `/` and `/demo-video` rather than page-local copy alone.
 
 Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
@@ -1317,8 +1325,11 @@ The current canonical source map includes:
 - `uapi/app/api/v24/executors/[interfaceId]/route.ts`
 - `uapi/lib/bitcode-app-context.ts`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
 - `uapi/app/demo-video/page.tsx`
+- `uapi/components/base/engi/layout/nav.tsx`
+- `uapi/components/base/engi/layout/NavBrand.tsx`
 - `uapi/components/base/engi/layout/footer.tsx`
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 - `uapi/components/base/README.md`

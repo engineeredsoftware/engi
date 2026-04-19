@@ -5,17 +5,22 @@ import React from "react";
 import Logo from "@/components/base/engi/branding/logo";
 
 export type NavSurface = "application" | "orbitals" | "conversations" | null;
+export type NavBrandSurface = Exclude<NavSurface, null> | 'public' | null;
 
 interface NavBrandProps {
   animated?: boolean;
   onClick: () => void;
-  surface: NavSurface;
+  surface: NavBrandSurface;
 }
 
-const SURFACE_COPY: Record<Exclude<NavSurface, null>, { eyebrow: string; title: string }> = {
+const SURFACE_COPY: Record<Exclude<NavBrandSurface, null>, { eyebrow: string; title: string }> = {
   application: {
     eyebrow: "Bitcode",
     title: "transactions terminal",
+  },
+  public: {
+    eyebrow: "Bitcode",
+    title: "operator entry",
   },
   orbitals: {
     eyebrow: "Bitcode",

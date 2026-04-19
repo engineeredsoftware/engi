@@ -56,14 +56,20 @@ describe('Footer public shell', () => {
   it('renders third-gate public labels and opens workspace access for guests', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('link', { name: /Transactions terminal/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Transactions terminal' })).toHaveAttribute(
       'href',
       '/application',
     );
-    expect(screen.getByRole('link', { name: /Operator guide/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Operator guide' })).toHaveAttribute(
       'href',
       '/demo-video',
     );
+    expect(screen.getByRole('link', { name: 'Bitcode on Bluesky' })).toHaveAttribute(
+      'href',
+      'https://bsky.app/profile/engicomms.bsky.social',
+    );
+    expect(screen.getByText('Bitcode app')).toBeInTheDocument();
+    expect(screen.getByText('Recorded guide')).toBeInTheDocument();
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);

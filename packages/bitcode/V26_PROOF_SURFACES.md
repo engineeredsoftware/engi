@@ -281,6 +281,11 @@ Current active assignments:
   `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, and `uapi/tests/marketingEngiVideoCard.test.tsx`
   proof surface:
   mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, and a stable guide route that no longer narrates Bitcode through demo-era copy
+- `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/engi/layout/nav.tsx`, `uapi/components/base/engi/layout/NavBrand.tsx`, `uapi/components/base/engi/layout/workspace-surface.ts`
+  test coverage:
+  `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
+  proof surface:
+  mounted third-gate public-route chrome, including live Bitcode nav on `/` and `/demo-video`, stable public-route entry links, and public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`
