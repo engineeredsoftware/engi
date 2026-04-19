@@ -285,7 +285,7 @@ export default function ApplicationTransactionWorkspace({
       className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,10,20,0.96),rgba(4,8,16,0.94))] shadow-[0_32px_110px_rgba(0,0,0,0.48)]"
     >
       <div className="border-b border-white/8 px-6 py-5">
-          <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+        <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-4xl">
             <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Transactions</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">

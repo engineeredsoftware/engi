@@ -25,7 +25,7 @@ export default function OrbitalsLoginPane({
     <div className={`orbital-auth-shell ${isContainedSurface ? 'orbital-auth-shell-contained' : ''}`}>
       <div className="orbital-auth-grid">
         <aside className="orbital-auth-aside">
-          <div className="rounded-[1.6rem] border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
+          <div className="orbital-auth-intro-card rounded-[1.6rem] border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
             <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-200/78">
               {ORBITALS_ACCESS_LABEL}
             </p>
@@ -34,12 +34,12 @@ export default function OrbitalsLoginPane({
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
               Sign in to reopen transactions, conversations, and the four Bitcode orbitals without
-              losing the current working context.
+              losing the current transaction context.
             </p>
           </div>
 
-          <div className={`grid gap-3 ${isContainedSurface ? '' : 'sm:grid-cols-2'}`}>
-            <div className="rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
+          <div className={`orbital-auth-support-grid ${isContainedSurface ? 'orbital-auth-support-grid-contained' : ''}`}>
+            <div className="orbital-auth-support-card rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-emerald-200/74">
                 Primary path
               </p>
@@ -49,11 +49,7 @@ export default function OrbitalsLoginPane({
               </p>
             </div>
 
-            <div
-              className={`rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4 ${
-                isContainedSurface ? '' : 'sm:col-span-2'
-              }`}
-            >
+            <div className="orbital-auth-support-card rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Connected providers
               </p>
@@ -63,7 +59,7 @@ export default function OrbitalsLoginPane({
               </p>
             </div>
 
-            <div className="rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
+            <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Orbitals after sign-in
               </p>

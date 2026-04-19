@@ -15,7 +15,7 @@ describe('OrbitalsRouteClient', () => {
 
     expect(screen.getByText('Profile orbital')).toBeTruthy();
     expect(
-      screen.getByRole('heading', { name: /Profile Orbital in a contained orbital surface\./i }),
+      screen.getByRole('heading', { name: /Profile in one contained orbital read\./i }),
     ).toBeTruthy();
     expect(screen.getByRole('link', { name: /Open transactions/i })).toHaveAttribute(
       'href',

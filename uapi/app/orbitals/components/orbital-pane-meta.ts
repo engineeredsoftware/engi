@@ -47,7 +47,7 @@ export const ORBITAL_DESCRIPTORS: Record<ConcreteOrbitalPane, OrbitalPaneDescrip
     labelPosition: 'right',
     routeTitle: 'Interfaces Orbital',
     routeDescription:
-      'Shape how the transactions window, conversations, proofs, and default application behavior read and operate.',
+      'Shape how the transactions surface, conversations, proofs, and default application behavior read and operate.',
   },
   btd: {
     label: '$BTD',
@@ -128,18 +128,18 @@ export function getOrbitalOpenActionLabel(step?: ConcreteOrbitalPane | null) {
 
 export function getOrbitalsWorkspaceHeading(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? `Keep ${ORBITALS_LIST_LABEL} in one contained orbital surface.`
-    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained orbital surface.`;
+    ? `Keep ${ORBITALS_LIST_LABEL} in one contained orbital read.`
+    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained orbital read.`;
 }
 
 export function getOrbitalsWorkspaceDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
     ? 'The four-ring model stays visible while the active orbital opens in a stable reading surface tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
-    : 'Open Bitcode access in a stable orbital surface, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
+    : 'Open Bitcode access in a stable orbital read, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
 }
 
 export function getOrbitalsTabsDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the orbital surface.`
-    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained orbital surface.`;
+    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the orbital read.`
+    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained orbital read.`;
 }

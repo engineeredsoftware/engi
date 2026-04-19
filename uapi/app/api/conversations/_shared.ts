@@ -172,7 +172,7 @@ function buildPipelineEvents(tokens: ConversationToken[]) {
             type: 'phase',
             phase: 'mock_execution',
             title: 'Mock Bitcode pipeline execution',
-            summary: `Prepared ${pipelineType} evidence under the application-owned V26 workspace.`,
+            summary: `Prepared ${pipelineType} evidence under the current Bitcode transactions surface.`,
           },
         },
       },

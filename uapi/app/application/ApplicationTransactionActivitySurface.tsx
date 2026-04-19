@@ -50,7 +50,7 @@ export default function ApplicationTransactionActivitySurface({
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Transaction activity</p>
         <h3 className="mt-2 text-lg font-semibold text-white">Transaction activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
-          Read the selected transaction’s stream, state, and iteration updates directly from transactions so execution
+          Read the selected transaction’s stream, state, and iteration updates directly from the transactions surface so execution
           context stays beside deliverables, proofs, and history.
         </p>
       </div>

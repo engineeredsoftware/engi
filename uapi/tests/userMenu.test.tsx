@@ -51,7 +51,7 @@ describe('UserMenu', () => {
       <UserMenu user={mockUser} onOpenOrbitals={onOpenOrbitals} onSignOut={onSignOut} />,
     );
 
-    expect(screen.getByText('Workspace account')).toBeInTheDocument();
+    expect(screen.getByText('Bitcode account')).toBeInTheDocument();
     expect(screen.getByText('Open Orbitals fullscreen')).toBeInTheDocument();
     expect(screen.getByText('Connects, Interfaces, Profile, $BTD')).toBeInTheDocument();
 

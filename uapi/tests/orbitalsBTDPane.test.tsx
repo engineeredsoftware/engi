@@ -71,7 +71,7 @@ describe('OrbitalsBTDPane', () => {
 
     expect(screen.getByTestId('btd-step-badge')).toHaveTextContent('Orbital step 4');
     expect(screen.getByText(/Keep balances, identity, and membership readable together/i)).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /Choose how \$BTD detail should read back into the workspace/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /Choose how \$BTD detail should read back into transactions/i })).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: /organization/i }));
     fireEvent.click(

@@ -318,7 +318,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
               </div>
             </header>
             <div className="orbitals-connects-email-body">
-              <p>Trigger the application-deliverables pipeline for the Bitcode workspace:</p>
+              <p>Trigger the application-deliverables pipeline for Bitcode transactions:</p>
               <ul>
                 <li>Attach updated orbital copy</li>
                 <li>Generate migration plan for production DB</li>

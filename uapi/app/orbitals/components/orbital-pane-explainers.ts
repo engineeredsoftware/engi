@@ -10,7 +10,7 @@ export const orbitalsPaneExplainers: Record<
     kicker: "Interfaces orbital",
     title: "Interface defaults",
     summary:
-      "Keep the transactions window, conversations, and proof reading aligned to one operator posture.",
+      "Keep the transactions surface, conversations, and proof reading aligned to one operator posture.",
     detail:
       "These defaults shape how the main transactions surface opens, how detail is emphasized, and how evidence is read before closure.",
     points: [

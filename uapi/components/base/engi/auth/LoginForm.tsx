@@ -221,6 +221,13 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   // Cooldown timer (seconds) after hitting rate limit
   const [cooldown, setCooldown] = React.useState(0)
   const [inviteDetails, setInviteDetails] = React.useState<any>(null)
+  const isVerificationStage = stage === 'verify'
+  const containedStageTitle = isVerificationStage
+    ? 'Enter the code we sent to your email'
+    : 'Email code is the fastest way back into Bitcode'
+  const containedStageCopy = isVerificationStage
+    ? `We sent a one-time code to ${email}. Verify it here to reopen transactions, Orbitals, and the active detail context.`
+    : 'Use one email step to reopen transactions, Orbitals, and the exact detail surface you were reading.'
 
   // Decrease cooldown every second
   React.useEffect(() => {
@@ -423,7 +430,16 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
       >
         <input type="hidden" name="next" value={nextParam} />
 
-        <div className="relative pt-12 pb-8">
+        <div className={`relative ${isContainedSurface ? 'pb-4' : 'pt-12 pb-8'}`}>
+          {isContainedSurface && stage !== 'success' ? (
+            <div className="orbital-login-stage-header">
+              <p className="orbital-login-stage-kicker">
+                {isVerificationStage ? 'Verification step' : 'Primary path'}
+              </p>
+              <h3 className="orbital-login-stage-title">{containedStageTitle}</h3>
+              <p className="orbital-login-stage-copy">{containedStageCopy}</p>
+            </div>
+          ) : null}
           {/* Stage-specific content */}
           <AnimatePresence initial={false} mode="wait">
             {stage !== 'success' ? (
@@ -468,9 +484,15 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 {stage === 'verify' && (
                   <div className="flex flex-col gap-4">
                     {/* Sent to info at top */}
-                    <div className="absolute top-5 inset-x-0 text-right text-xs text-gray-400 px-2">
-                      Sent to <span className="font-medium text-white truncate" title={email}>{email}</span>
-                    </div>
+                    {isContainedSurface ? (
+                      <p className="orbital-login-inline-meta">
+                        Sent to <span className="font-medium text-white" title={email}>{email}</span>
+                      </p>
+                    ) : (
+                      <div className="absolute top-5 inset-x-0 text-right text-xs text-gray-400 px-2">
+                        Sent to <span className="font-medium text-white truncate" title={email}>{email}</span>
+                      </div>
+                    )}
                     <label htmlFor="otp" className="form-label ml-[19px]">Verification Code</label>
                     <input
                       data-testid="login-otp-input"
@@ -485,23 +507,43 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                       autoFocus
                     />
                     {/* Bottom actions: Change and Resend */}
-                    <div className="absolute -bottom-6 inset-x-0 flex justify-between text-xs text-gray-400 px-2">
-                      <button
-                        type="button"
-                        onClick={handleChangeEmail}
-                        className="underline text-green-primary"
-                      >
-                        Change Email
-                      </button>
+                    {isContainedSurface ? (
+                      <div className="orbital-login-inline-actions">
                         <button
-                        type="button"
-                        onClick={handleRequest}
-                          disabled={cooldown>0}
-                        className="underline text-green-primary"
-                      >
-                        Resend Code
-                      </button>
-                    </div>
+                          type="button"
+                          onClick={handleChangeEmail}
+                          className="orbital-login-inline-action"
+                        >
+                          Change Email
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleRequest}
+                          disabled={cooldown > 0}
+                          className="orbital-login-inline-action"
+                        >
+                          Resend Code
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="absolute -bottom-6 inset-x-0 flex justify-between text-xs text-gray-400 px-2">
+                        <button
+                          type="button"
+                          onClick={handleChangeEmail}
+                          className="underline text-green-primary"
+                        >
+                          Change Email
+                        </button>
+                          <button
+                          type="button"
+                          onClick={handleRequest}
+                            disabled={cooldown>0}
+                          className="underline text-green-primary"
+                        >
+                          Resend Code
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </motion.div>
@@ -571,7 +613,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 data-testid="login-error"
-                className="absolute inset-x-0 -bottom-3 text-red-500 text-sm text-center"
+                className={`${isContainedSurface ? 'mt-3 text-red-400 text-sm text-center' : 'absolute inset-x-0 -bottom-3 text-red-500 text-sm text-center'}`}
                 style={{ willChange: 'opacity' }}
               >
                 {error}
@@ -584,7 +626,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
           {stage !== 'success' && (
             <motion.div
               key="dobutton"
-              className="relative flex items-center justify-center mt-0 mb-0 pb-2"
+              className={`relative flex items-center justify-center ${isContainedSurface ? 'mt-2 pb-0' : 'mt-0 mb-0 pb-2'}`}
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
@@ -606,9 +648,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 allowCancel={false}
                 compact
                 transformOnProcessing={false}
-                className="!w-max !block mx-auto
-                  rounded-full border border-green-primary bg-slate-900/80 text-green-primary
-                  shadow-glow-emerald-subtle hover:border-green-primary/60 hover:shadow-glow-emerald"
+                className="!w-max !block mx-auto rounded-full border border-emerald-300/28 bg-[linear-gradient(180deg,rgba(4,16,22,0.96),rgba(3,10,18,0.94))] text-emerald-50 shadow-[0_18px_44px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.08)_inset] hover:border-emerald-200/40 hover:shadow-[0_20px_48px_rgba(0,0,0,0.28),0_0_0_1px_rgba(110,231,183,0.12)_inset]"
               />
             </motion.div>
           )}

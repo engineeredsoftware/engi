@@ -606,16 +606,17 @@ Operational rule:
 - marketing footer chrome does not render on operator workspace routes
 - `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/orbital transitions
 - application-triggered orbital entry opens a contained, login-first orbital surface while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
-- contained orbital access shells and focused orbital routes must keep orbitals-first wording rather than reverting to generic workspace/settings/account entry furniture
+- contained orbital access shells and focused orbital routes must keep orbitals-first wording and contained orbital reads rather than reverting to generic workspace/settings/account entry furniture
 - `uapi/app/orbitals/components/orbital-pane-meta.ts` is the shared orbital naming/copy owner for fullscreen orbital entry labels, targeted orbital-open actions, and the direct-route return action into transactions
 - signed-in orbital reopen actions now flow through the shared `orbitals` entry alias in `uapi/app/orbitals/components/OrbitalsProvider.tsx` rather than older active `account`-named callers
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
-- contained orbital surfaces now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
+- contained orbital reads now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
 - contained orbital rails now converge on shared panel plus tabs carriers instead of mixing floating sequence cards with older absolute-position ring-label furniture
 - profile-owned repository knowledge sharing now reads through an app-owned fail-closed orbital route instead of 404ing inside the contained workspace
 - signed-in workspace chrome now exposes Orbitals through the user menu as `Open Orbitals fullscreen`, while notifications stay operator-facing and describe proof closure, repository activity, and review prompts rather than generic account/settings chrome
 - the homepage/operator-shell CTA now returns onboarded operators to `/application` instead of dispatching stale overlay-only modes
+- selected application and orbital review surfaces now keep visible `Transactions` / `Orbitals` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
 - preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
 - preserved-runtime telemetry now reports through Bitcode-facing `[bitcode-runtime]` labeling rather than `engi-demo`-era visible prefixes
 

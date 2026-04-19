@@ -224,7 +224,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, `uapi/tests/orbitalsWorkspacePanels.test.tsx`, `uapi/tests/orbitalsRouteClient.test.tsx`, and `uapi/tests/orbitalPaneMeta.test.ts`
   proof surface:
-  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep contained operator workspace posture, route contained rails through shared panel/tabs carriers instead of older floating ring-label sequence furniture, and retain shared fullscreen/open/return wording instead of generic workspace/settings/account furniture
+  second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep a contained operator shell with contained orbital reads, route contained rails through shared panel/tabs carriers instead of older floating ring-label sequence furniture, and retain shared fullscreen/open/return wording instead of generic workspace/settings/account furniture
 - `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
   test coverage:
   `uapi/tests/notificationsWidget.test.tsx`
@@ -261,6 +261,19 @@ Current active assignments:
   `uapi/tests/applicationCommandState.test.ts`
   proof surface:
   deterministic normalization of shell command posture, flow-guide continuity, preserved-shell tutorial compatibility input, and option sets into route-local application command state
+- `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/ApplicationSectionAtlas.tsx`, `uapi/app/application/ApplicationPreservedShellSurface.tsx`, `uapi/app/application/ApplicationTransactionWorkspace.tsx`, `uapi/app/application/application-run-data.ts`, `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`, `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`, `uapi/app/orbitals/components/OrbitalsModelsPane.tsx`, `uapi/components/base/engi/notifications/notification-presentation.ts`, `uapi/components/base/engi/layout/user-menu.tsx`
+  test coverage:
+  `uapi/tests/applicationCommandPresentation.test.ts`,
+  `uapi/tests/applicationFlowGuide.test.ts`,
+  `uapi/tests/applicationWorkspaceRailCard.test.tsx`,
+  `uapi/tests/orbitalsInterfacesPane.test.tsx`,
+  `uapi/tests/orbitalsBTDPane.test.tsx`,
+  `uapi/tests/orbitalsContent.test.tsx`,
+  `uapi/tests/orbitalsRouteClient.test.tsx`,
+  `uapi/tests/notificationsWidget.test.tsx`,
+  `uapi/tests/userMenu.test.tsx`
+  proof surface:
+  third-gate review-surface wording discipline on active `/application` and `/orbitals` carriers so visible product copy reads as `Transactions` and `Orbitals` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
 - `uapi/app/application/ApplicationOperatorCard.tsx`
   test coverage:
   `uapi/tests/applicationOperatorCard.test.tsx`

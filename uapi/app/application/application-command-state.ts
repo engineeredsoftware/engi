@@ -129,7 +129,7 @@ export function normalizeApplicationCommandState(snapshot: ShellSnapshot): Appli
       'The current flow guidance and runtime signals are loading.',
     status:
       String(snapshot.commandSurface?.status || '').trim() ||
-      'Workspace controls are syncing.',
+      'Flow controls are syncing.',
     flowGuideLabel:
       String(snapshot.commandSurface?.flowGuideLabel || snapshot.commandSurface?.tutorialLabel || '').trim() ||
       'Flow guide',

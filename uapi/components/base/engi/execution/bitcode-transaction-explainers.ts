@@ -13,7 +13,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
       'Use this first when you know the transaction context but not the exact row position. The selected detail route stays intact while the master window narrows around it.',
     points: [
       'Searches across core surfaced transaction fields',
-      'Keeps the transactions window fast without route changes',
+      'Keeps the transactions surface fast without route changes',
     ],
   }),
   status: buildExplainer({
@@ -61,7 +61,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
   sort: buildExplainer({
     kicker: 'Ordering control',
     title: 'Sort order',
-    summary: 'Re-order the transactions window by recency or economic weight without changing what transaction is selected.',
+    summary: 'Re-order the transactions surface by recency or economic weight without changing what transaction is selected.',
     detail: 'Sorting changes the view, not the route. You can compare the ledger from multiple angles without losing detail context.',
     points: ['Supports newest, oldest, token-heavy, and spend-heavy reads'],
   }),

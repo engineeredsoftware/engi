@@ -11,7 +11,7 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
 - `/application`
   Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
 - `/conversations`
-  Fullscreen conversation workspace entered from `/application`.
+  Fullscreen conversation mode entered from `/application`.
 - `/orbitals/profile`
 - `/orbitals/connects`
 - `/orbitals/interfaces`
@@ -19,7 +19,8 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
   Focused orbital routes for direct orbital reading without losing the application framing.
 
 Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` are convergence-only entry points and should not be treated as the enduring V26 naming model.
-Focused orbital routes and contained orbital entry shells should also keep orbitals-first wording, read as contained orbital surfaces, and avoid regressing to generic workspace/settings/account language.
+Focused orbital routes and contained orbital entry shells should also keep orbitals-first wording, read as contained orbital reads, and avoid regressing to generic workspace/settings/account language.
+Selected `/application` and `/orbitals` review surfaces should also keep live product wording on `Transactions` and `Orbitals` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Orbitals fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions`.
 Signed-in orbital reopen actions should flow through the shared `openOrbital('orbitals', step?)` contract rather than older account-named caller aliases.
 Contained orbital rails should also converge on the shared panel-plus-tabs carriers in `app/orbitals/components/shared/` rather than reintroducing floating ring-label or sequence-only furniture per route or pane.
@@ -31,7 +32,7 @@ Contained orbital rails should also converge on the shared panel-plus-tabs carri
 - `app/orbitals/`
   Fullscreen ring overlay plus focused orbital routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `app/conversations/`
-  Fullscreen conversation overlay/workspace.
+  Fullscreen conversation mode.
 - `app/api/`
   App-owned Bitcode JSON contracts, including history, conversations, VCS, orbital preferences, client-error intake, and preserved-runtime endpoints.
 - `components/base/engi/`
@@ -84,7 +85,7 @@ They should keep footer entry links and protocol/version metadata progressive on
 
 ## Development
 
-Install dependencies from the repo root, then use the app workspace for focused commands:
+Install dependencies from the repo root, then use the app directory for focused commands:
 
 ```bash
 pnpm install

@@ -14,7 +14,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Conversations',
     badge: 'dedicated mode',
     description:
-      'The dedicated natural-language workspace for writing, coordination, and tool-assisted follow-through without losing the current transaction context.',
+      'The dedicated natural-language mode for writing, coordination, and tool-assisted follow-through without losing the current transaction context.',
     targetId: 'conversations',
   },
   {

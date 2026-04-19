@@ -145,7 +145,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       },
     ],
     summary:
-      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the main ledger transactions surface.',
+      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the main transactions read.',
   },
   'mock-run-proof-refresh': {
     pullRequest: null,

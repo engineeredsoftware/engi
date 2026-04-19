@@ -1,7 +1,7 @@
 # `/orbitals`
 
 The V26 orbital system is a fullscreen Bitcode surface entered from `/application`.
-It also supports direct focused routes for reading one orbital in a contained orbital surface.
+It also supports direct focused routes for reading one orbital in a contained orbital read.
 
 The active orbital ring model is fixed:
 - `Connects`
@@ -33,11 +33,11 @@ Those aliases are not the enduring V26 naming model.
 - `components/OrbitalsProvider.tsx`
   Fullscreen overlay provider and portal/event bridge.
 - `components/OrbitalsContent.tsx`
-  Shared ring/contained-workspace content shell.
+  Shared ring/contained-orbital content shell.
 - `components/shared/OrbitalsWorkspacePanels.tsx`
-  Shared contained-workspace orbital rail for the application overlay and direct orbital routes.
+  Shared contained-orbital rail for the application overlay and direct orbital routes.
 - `components/shared/OrbitalsPaneTabs.tsx`
-  Shared contained-workspace orbital tabs for direct and overlay reading.
+  Shared contained-orbital tabs for direct and overlay reading.
 - `components/OrbitalsConnectsPane.tsx`
   Repository and external connection posture.
 - `components/OrbitalsInterfacesPane.tsx`
@@ -57,10 +57,10 @@ They are a Bitcode operator mode with four rings and clear responsibilities.
 The contained orbital shell used inside the application and direct orbital routes should:
 - stay visually stable,
 - keep ring/background motion subordinate to reading,
-- preserve the active pane in a contained workspace,
+- preserve the active pane in a contained orbital read,
 - route contained navigation through shared orbital panels plus tabs instead of floating sequence cards and free-position ring labels,
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
-- read as orbitals access and contained orbital surfaces rather than generic settings/account furniture,
+- read as orbitals access and contained orbital reads rather than generic settings/account furniture,
 - keep shared entry labels such as `Open Orbitals fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions` aligned across the application,
 - reopen signed-in orbital overlays through `openOrbital('orbitals', step?)` instead of older account-named active callers,
 - and remain aligned to the same operator atmosphere as `/application`.

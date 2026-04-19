@@ -406,7 +406,7 @@ const SCENARIOS = {
         Icon: WrenchScrewdriverIcon,
       },
       {
-        title: "Publish to Workspace",
+        title: "Publish to Bitcode",
         desc: "New expertise instantly available to all runs.",
         Icon: ArrowRightIcon,
       },

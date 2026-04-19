@@ -174,7 +174,7 @@ export default function OrbitalsBTDPane({
           {
             value: "transactions",
             label: "Transactions",
-            hint: "Return to the main transactions window first.",
+            hint: "Return to the main transactions surface first.",
           },
           {
             value: "proofs",

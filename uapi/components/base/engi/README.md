@@ -1,10 +1,10 @@
 # `uapi/components/base/engi`
 
-This directory holds the shared Bitcode operator component systems used by `/application`, orbitals, conversations, and the retained workspace chrome.
+This directory holds the shared Bitcode operator component systems used by `/application`, orbitals, conversations, and the retained route chrome.
 
 In V26 second-gate work, this directory is not a grab-bag.
 It is the reusable carrier layer for:
-- workspace chrome,
+- route chrome,
 - notifications and menus,
 - execution/master-detail components,
 - and the supporting primitives needed to keep `/application` cleanly componentized.
@@ -12,9 +12,9 @@ It is the reusable carrier layer for:
 ## Main system areas
 
 - `layout/`
-  Navbar, user menu, workspace-surface classification, and related chrome carriers.
+  Navbar, user menu, route-surface classification, and related chrome carriers.
 - `notifications/`
-  Operator notification surfaces tied to the workspace shell.
+  Operator notification surfaces tied to the transactions and orbital shell.
 - `execution/`
   Shared transaction tables, payload readers, detail panels, explainers, activity streams, and field/metric carriers.
 - `orbitals/`

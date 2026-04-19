@@ -19,7 +19,7 @@ describe('OrbitalsLoginPane', () => {
 
     expect(screen.getByText('Open Connects, Interfaces, Profile, and $BTD')).toBeTruthy();
     expect(screen.getByText('Primary path')).toBeTruthy();
-    expect(screen.getByText('Active account providers')).toBeTruthy();
+    expect(screen.getByText('Connected providers')).toBeTruthy();
     expect(screen.getByText('Orbitals after sign-in')).toBeTruthy();
     expect(screen.getByTestId('login-form')).toBeTruthy();
   });

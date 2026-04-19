@@ -306,6 +306,7 @@ Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
 - the main public entry points inherit the same Give/Need, Transactions, conversations, and Orbitals vocabulary used by the application,
 - the mounted public shell clearly reads as `Network`, `Transactions`, `Docs`, and `Orbitals` rather than drifting across overlapping `workspace`, `guide`, or terminal-only naming,
+- selected `/application` and `/orbitals` review surfaces shown during third-gate hardening also keep that same `Transactions` / `Orbitals` naming discipline instead of leaking `workspace` or `transaction terminal` residue,
 - navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
 - tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
 - the real `/docs` route resolves one Bitcode-owned walkthrough asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
@@ -432,7 +433,7 @@ The orbital ring model is also fixed for V26:
 - `$BTD` is the inner orbital for share information, wallet-adjacent throughput posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
 
 Signed-in orbital preference persistence is also application-owned for V26 through `/api/orbitals/model-preferences`, and the active `Interfaces` and `$BTD` panes are no longer treated as transitional model or credits wrappers.
-Contained orbital surfaces inside `/application` and direct orbital routes should now read through shared panel/tabs carriers rather than floating sequence cards plus older absolute-position ring-label furniture.
+Contained orbital reads inside `/application` and direct orbital routes should now read through shared panel/tabs carriers rather than floating sequence cards plus older absolute-position ring-label furniture.
 Profile-owned repository knowledge sharing should also fail closed through an app-owned orbital route carrier rather than falling through to missing-route HTML inside the contained workspace.
 
 ### Second-gate target file-structure direction
@@ -565,7 +566,7 @@ Second-gate is accepted only when all of the following hold:
    - flow-guide and explainer guidance remain useful,
    - orbital entry and account state remain coherent with the application page,
    - shared orbital-entry copy remains coherent across application buttons, notifications, user-menu chrome, and focused orbital routes,
-   - contained orbital access shells and focused orbital routes keep orbitals-first wording, read as contained orbital surfaces, and remain width-stable when entered from `/application` rather than regressing to generic workspace/settings/account furniture,
+   - contained orbital access shells and focused orbital routes keep orbitals-first wording, read as contained orbital reads, and remain width-stable when entered from `/application` rather than regressing to generic workspace/settings/account furniture,
    - preserved-runtime help, reference chips, and telemetry labels stay Bitcode-facing instead of leaking canon, source-path, or `engi-demo`-era language into operator-visible surfaces,
    - and first-gate semantic regressions are not introduced.
 

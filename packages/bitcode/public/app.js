@@ -207,10 +207,10 @@ function canonPosture(state) {
   const posture = state?.canonPosture;
   if (posture && typeof posture === 'object') {
     const resolved = /** @type {Record<string, string>} */ ({ ...posture });
-    resolved.operatorLabel = 'production workspace posture';
-    resolved.specVersionLabel = 'Bitcode production workspace';
-    resolved.inheritedCanonSurfaceLabel = 'live Bitcode workspace surfaces';
-    resolved.heroEyebrow = resolved.heroEyebrow || 'Bitcode transactions workspace';
+    resolved.operatorLabel = 'Bitcode active posture';
+    resolved.specVersionLabel = 'Bitcode production surface';
+    resolved.inheritedCanonSurfaceLabel = 'live Bitcode surfaces';
+    resolved.heroEyebrow = resolved.heroEyebrow || 'Bitcode transactions';
     resolved.heroLede =
       resolved.heroLede ||
       'Set the working scenario, select supply, and follow the flow from give through settlement.';
@@ -220,10 +220,10 @@ function canonPosture(state) {
     return resolved;
   }
   return {
-    operatorLabel: 'production workspace posture',
+    operatorLabel: 'Bitcode active posture',
     documentTitle: 'Bitcode Application',
-    inheritedCanonSurfaceLabel: 'live Bitcode workspace surfaces',
-    heroEyebrow: 'Bitcode transactions workspace',
+    inheritedCanonSurfaceLabel: 'live Bitcode surfaces',
+    heroEyebrow: 'Bitcode transactions',
     heroLede: 'Set the working scenario, select supply, and follow the flow from give through settlement.',
     heroTip: 'The flow guide and closure runtime stay available here whenever you need lower-level inspection.'
   };
@@ -234,7 +234,7 @@ function canonPosture(state) {
  * @returns {string}
  */
 function canonOperatorLabel(state) {
-  return canonPosture(state)['operatorLabel'] || 'production workspace posture';
+  return canonPosture(state)['operatorLabel'] || 'Bitcode active posture';
 }
 
 function compactInventoryEntry(entry) {
@@ -520,9 +520,9 @@ function buildApplicationCoreSurface(state) {
       cards: [
         {
           title: 'Repo supply',
-          eyebrow: 'Workspace surface',
+          eyebrow: 'Transactions surface',
           subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-          help: 'The workspace starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+          help: 'Transactions start from repo supply, then immediately read the active deposit, need, and fit before deeper closure surfaces.',
           badge: `${state.repoSupplySurface?.repoCount || 0} repos`,
           metrics: [
             compactApplicationMetric('Authenticated repos', state.repoSupplySurface?.repoCount || 0),
@@ -555,7 +555,7 @@ function buildApplicationCoreSurface(state) {
             compactApplicationRow('Latest bundle', latestBundleId),
             compactApplicationRow('Status', statusEl.textContent?.trim() || '—'),
             compactApplicationRow('Proof posture', proofCatalog?.proofFamilyCount ? 'proof families surfaced' : 'awaiting proof family read'),
-            compactApplicationRow('Closure owner', 'workspace composition + shared Bitcode shell')
+            compactApplicationRow('Closure owner', 'transactions composition + shared Bitcode shell')
           ]
         },
         {
@@ -685,7 +685,7 @@ function buildApplicationCoreSurface(state) {
           subtitle: 'Why this deposit fits this need before deeper closure inspection',
           help:
             fitSurface?.fitSummary
-            || 'The workspace makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+            || 'Transactions make the deposit-to-need fit explicit before deeper proof and settlement sections.',
           badge: fitSurface?.normalizationPressure || 'pending',
           metrics: [
             compactApplicationMetric('Decisive kinds', decisiveKinds.length),
@@ -975,7 +975,7 @@ globalThis.__BITCODE_APPLICATION_SHELL_CONTROLS__ = bitcodeApplicationShellContr
  * @returns {string}
  */
 function inheritedCanonSurfaceLabel(state) {
-  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'live Bitcode workspace surfaces';
+  return canonPosture(state)['inheritedCanonSurfaceLabel'] || 'live Bitcode surfaces';
 }
 
 /**
@@ -985,7 +985,7 @@ function inheritedCanonSurfaceLabel(state) {
 function renderCanonPosture(state) {
   const posture = canonPosture(state);
   document.title = posture['documentTitle'] || `Bitcode Application — ${canonOperatorLabel(state)}`;
-  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode transactions workspace';
+  heroEyebrowEl.textContent = posture['heroEyebrow'] || 'Bitcode transactions';
   heroLedeEl.textContent = posture['heroLede'] || canonOperatorLabel(state);
   heroTipEl.textContent = posture['heroTip'] || 'Current generated appendix and report posture is loading.';
 }
@@ -1076,7 +1076,7 @@ const EXPLAINERS = {
     kicker: 'Glossary',
     title: 'Deposit-to-need fit',
     summary: 'The explicit relation between the active deposit and the active need before deeper proof or settlement.',
-    detail: 'This answers the first question in the workspace: why should these selected artifacts matter for this measured demand at all?',
+    detail: 'This answers the first question in transactions: why should these selected artifacts matter for this measured demand at all?',
     points: [
       'Surfaces overlap in artifact kinds and evidence coverage',
       'Drives the branch, proof, and settlement intent that follows'
@@ -1143,7 +1143,7 @@ const EXPLAINERS = {
     ]
   },
   'operating-picture': {
-    kicker: 'Workspace surface',
+    kicker: 'Transactions surface',
     title: 'Operating picture',
     summary: 'The top-level shell read that compresses repo supply, deposit, need, fit, proof, settlement, and boundary truth into one operating chain.',
     detail: 'This panel is the high-level application map for how repo supply, need, fit, proof, settlement, and boundary posture connect end to end.',
@@ -1455,10 +1455,10 @@ const EXPLAINERS = {
     ]
   },
   'supporting-surfaces': {
-    kicker: 'Workspace surface',
+    kicker: 'Transactions surface',
     title: 'Supporting surfaces',
     summary: 'Secondary boundary, policy, or lineage surfaces that support the main transaction read without becoming the headline.',
-    detail: 'The workspace keeps deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
+    detail: 'Transactions keep deposit, need, and fit primary. Supporting surfaces stay available so deeper truth does not get hidden.',
     points: [
       'Important for honesty and depth',
       'Intentionally downstream of the main deposit-to-need read'
@@ -1570,7 +1570,7 @@ const EXPLAINERS = {
     summary: 'Human-readable summary text Bitcode shows in visual surfaces.',
     detail: 'It makes the deposited asset legible at a glance without replacing raw content or proof-bearing metadata.',
     points: [
-      'Optimized for quick workspace readability',
+      'Optimized for quick transaction readability',
       'Separate from raw fallback content and the working note'
     ]
   },
@@ -1610,7 +1610,7 @@ const EXPLAINERS = {
     summary: 'The exact private artifact stack materialized behind the high-level deposit/need/fit story.',
     detail: 'This is where the dense manifests, proofs, policy surfaces, and deterministic files that justify the run remain available.',
     points: [
-      'Materialized locally in this workspace',
+      'Materialized locally in this transactions read',
       'Carries the evidence behind branch, proof, and settlement'
     ]
   },
@@ -1678,7 +1678,7 @@ const EXPLAINERS = {
     kicker: 'History surface',
     title: 'Run history',
     summary: 'The public projection of prior runs: which need closed, which branch was staged, and which bundle was produced.',
-    detail: 'Run history is the durable record of what this workspace has already materialized and settled, without reopening every private artifact.',
+    detail: 'Run history is the durable record of what this transactions read has already materialized and settled, without reopening every private artifact.',
     points: [
       'Shows prior need lifecycle and bundle progression',
       'Keeps history readable without exposing private branch payloads'
@@ -2370,7 +2370,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Stack tag',
     title: 'Helm',
     summary: 'Marks Helm-bearing deployment or infrastructure material in the current corpus.',
-    detail: 'Helm tags usually matter when deployment parity or version drift needs to stay explicit in the workspace.',
+    detail: 'Helm tags usually matter when deployment parity or version drift needs to stay explicit in transactions.',
     points: [
       'A concrete deployment artifact signal',
       'Often paired with Terraform or Kubernetes tags'
@@ -2491,7 +2491,7 @@ const EXTRA_EXPLAINERS = {
     kicker: 'Capsule term',
     title: 'Governance',
     summary: 'Marks policy, approval, or procedural control surfaces that the remediation path must respect.',
-    detail: 'Governance capsules keep the workspace focused on operator-quality closure instead of treating process controls as optional garnish.',
+    detail: 'Governance capsules keep transactions focused on operator-quality closure instead of treating process controls as optional garnish.',
     points: [
       'Often pairs with policy, review, or auditability',
       'Can appear in both need constraints and asset metadata'
@@ -4069,8 +4069,8 @@ function flowGuideSteps(state) {
     {
       selector: '#hero',
       kicker: 'Flow step 1',
-      title: 'Start from the active workspace posture',
-      body: `The current workspace opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the runtime is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
+      title: 'Start from the active Bitcode posture',
+      body: `The current transactions read opens in the hero, not in the branch stack. Pick a scenario, projection, and branch mode here before you ask Bitcode to realize anything. Right now the runtime is framed as ${profileLabel} in ${projectionLabel} projection and ${branchModeLabel} branch mode.`,
       targetHint: 'Use the top controls to set the draft context before you deposit or branch.'
     },
     {
@@ -6361,8 +6361,8 @@ function renderOperatingPicture(state) {
   surfaces.push(renderJsonSurface({
     title: 'Repo supply',
     subtitle: 'Authenticated repo sessions and artifact-kind-native supply',
-    eyebrow: 'Workspace surface',
-    help: 'The workspace starts from repo supply, then immediately reads the active deposit, need, and fit before deeper closure surfaces.',
+    eyebrow: 'Transactions surface',
+    help: 'Transactions start from repo supply, then immediately read the active deposit, need, and fit before deeper closure surfaces.',
     explainerKey: 'repo-supply',
     data: state.repoSupplySurface,
     visual: renderRepoSupplyVisual,
@@ -6373,7 +6373,7 @@ function renderOperatingPicture(state) {
       title: 'Depositing surface',
       subtitle: 'The active repo-authenticated deposit, before branch/proof/settlement detail',
       eyebrow: state.latestRun?.depositingSurface ? 'Run surface' : 'Shell preview',
-      help: 'This is the opening action in the workspace: what was deposited, from where, and with which bound roots.',
+      help: 'This is the opening action in transactions: what was deposited, from where, and with which bound roots.',
       explainerKey: 'depositing',
       data: depositingSurface,
       visual: renderDepositingSurfaceVisual,
@@ -6397,7 +6397,7 @@ function renderOperatingPicture(state) {
       title: 'Depositing-to-needing surface',
       subtitle: 'Why this deposit fits this need before deeper closure inspection',
       eyebrow: state.latestRun?.depositingToNeedingSurface ? 'Run surface' : 'Shell preview',
-      help: 'The workspace makes the deposit-to-need fit explicit before deeper proof and settlement sections.',
+      help: 'Transactions make the deposit-to-need fit explicit before deeper proof and settlement sections.',
       explainerKey: 'deposit-fit',
       data: fitSurface,
       visual: renderDepositingToNeedingVisual,
@@ -6546,7 +6546,7 @@ function renderScenario(state) {
         </div>
       </div>
       <p>${escapeHtml(source.task || source.taskSeed || '')}</p>
-      <p class="meta">The current workspace foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
+      <p class="meta">The current transactions read foregrounds measured needing before the deeper branch, proof, and settlement artifacts. The point is to make the demand surface feel consequential on its own.</p>
     </div>
     ${needingSurface ? renderJsonSurface({
       title: 'Needing surface',
@@ -7145,7 +7145,7 @@ function renderBranchArtifacts(state) {
           <span class="badge private">${escapeHtml(run.branchArtifacts.confidentiality)}</span>
         </div>
       </div>
-      <p class="meta">This is the artifact-heavy heart of the current workspace. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
+      <p class="meta">This is the artifact-heavy heart of the current transactions read. The operating surfaces tell the story first, and this branch stack still carries the exact artifacts visible to the active projection behind that story.</p>
     </div>
     ${artifactDefs.filter((artifact) => hasSurfaceContent(artifact.data, artifact.raw)).map((artifact) => renderJsonSurface({
       title: artifact.title,
@@ -7513,7 +7513,7 @@ resetButtonEl.addEventListener('click', async () => {
     selectedInventoryEntryIds = new Set();
     await api('/api/reset', { method: 'POST', body: '{}' });
     await refresh();
-    setStatus(`Workspace reset to the seeded ${canonOperatorLabel(lastLoadedState)} scenario state.`);
+    setStatus(`Transactions reset to the seeded ${canonOperatorLabel(lastLoadedState)} scenario state.`);
   } catch (error) {
     setStatus(errorMessage(error));
   }
