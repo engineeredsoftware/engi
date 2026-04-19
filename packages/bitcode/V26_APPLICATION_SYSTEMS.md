@@ -21,7 +21,7 @@ V26 centers Bitcode on one primary route:
 V26 defines three main Bitcode experiences:
 1. `master detail`
 2. `conversations`
-3. `orbitals`
+3. `auxillaries`
 
 V26 defines two main Bitcode actions:
 1. `give`
@@ -32,8 +32,8 @@ Those map as follows:
   The application-owned operating workspace for repo supply, measured need, a transactions master surface, transaction detail, deliverables, proofs, and history.
 - `conversations`
   The fullscreen chat workspace entered from within `/application`.
-- `orbitals`
-  The fullscreen orbital workspace entered from within `/application`, fixed as `Connects`, `Interfaces`, `Profile`, and `$BTD`.
+- `auxillaries`
+  The fullscreen auxillary workspace entered from within `/application`, fixed as `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `give`
   Repo supply, deposits, authenticated material intake, and actions that place material into the Bitcode chain.
 - `need`
@@ -79,7 +79,7 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 
 Operational rule:
 - the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
-- the mounted public shell must clearly organize itself as `Network`, `Transactions`, `Docs`, and `Orbitals`
+- the mounted public shell must clearly organize itself as `Network`, `Transactions`, `Docs`, and `Auxillaries`
 - the mounted public shell must also mount live public-route nav and orbital-entry behavior instead of relying on page-local CTA copy alone
 - `/docs` must be the real public teaching surface while `/demo-video` remains a compatibility alias into that docs-owned content
 - the mounted public shell must not preserve live `ComingSoon*` owners, `coming-soon-*` stylesheet imports, or dormant access-gate shells once the route is serving as the Bitcode public entry
@@ -93,7 +93,7 @@ Operational rule:
 - the mounted public footer should resolve the walkthrough/docs route through Bitcode-owned route/env ownership rather than legacy `ENGI_DEMO` fallbacks
 - the mounted public footer should link protocol spec through the stable canonical pointer rather than a version-specific public spec URL
 - the mounted public routes should carry explicit `Bitcode Network`, `Bitcode Docs`, and `Bitcode Transactions` title/brand posture rather than inheriting one global shell title
-- stable public entry copy should prefer `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching posture
+- stable public entry copy should prefer `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching posture
 - `/docs` should remain the real public teaching surface while `/demo-video` remains a compatibility alias instead of a separate guide product surface
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance
 
@@ -619,9 +619,9 @@ Operational rule:
 - contained orbital reads now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
 - contained orbital rails now converge on shared panel plus tabs carriers instead of mixing floating sequence cards with older absolute-position ring-label furniture
 - profile-owned repository knowledge sharing now reads through an app-owned fail-closed orbital route instead of 404ing inside the contained workspace
-- signed-in workspace chrome now exposes Orbitals through the user menu as `Open Orbitals fullscreen`, while notifications stay operator-facing and describe proof closure, repository activity, and review prompts rather than generic account/settings chrome
+- signed-in workspace chrome now exposes Auxillaries through the user menu as `Open Auxillaries fullscreen`, while notifications stay operator-facing and describe proof closure, repository activity, and review prompts rather than generic account/settings chrome
 - the homepage/operator-shell CTA now returns onboarded operators to `/application` instead of dispatching stale overlay-only modes
-- selected application and orbital review surfaces now keep visible `Transactions` / `Orbitals` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
+- selected application and retained orbital review surfaces now keep visible `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
 - preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
 - preserved-runtime telemetry now reports through Bitcode-facing `[bitcode-runtime]` labeling rather than `engi-demo`-era visible prefixes
 
@@ -732,7 +732,7 @@ Current major retained owners:
 - retained execution compatibility carriers including `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences`
   Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fourth-gate convergence ports those behaviors inward to `/application`.
 - retained `/executions` and `/orbitals` route posture
-  Compatibility route families that remain explicit during fourth-gate promotion while merged-world naming converges on `activity` and `auxiliaries`; transactions are the dominant initial activity class, notifications/public/personal usage are later activity classes, and auxiliaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
+  Compatibility route families that remain explicit during fourth-gate promotion while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; transactions, executions, and notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
 
 Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.

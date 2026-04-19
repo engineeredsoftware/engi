@@ -1,7 +1,7 @@
 # `uapi/` Bitcode Application
 
 `uapi/` is the active application owner for Bitcode.
-It carries the `/application` transactions surface, fullscreen conversations and retained `/orbitals` auxiliaries reads, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate closure.
+It carries the `/application` transactions surface, fullscreen conversations and retained `/orbitals` auxillaries reads, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate closure.
 
 Active canon remains `V25`.
 V26 work inside `uapi/` is draft-target implementation toward a first-and-second-gate checkpoint.
@@ -17,19 +17,19 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
 - `/conversations`
   Fullscreen conversation mode entered from `/application`.
 - `/executions`
-  Retained compatibility route converging on Bitcode activity, kept explicit as a fourth-gate promotion-boundary owner while transactions remain the dominant initial activity class.
+  Retained compatibility route for Bitcode execution primitives, kept explicit as a fourth-gate promotion-boundary owner inside the broader activity family.
 - `/edgetimes`
   Fourth-gate storage/schema/package ownership read mounted as a docs-branded Bitcode route.
 - `/orbitals/profile`
 - `/orbitals/connects`
 - `/orbitals/interfaces`
 - `/orbitals/btd`
-  Focused retained `/orbitals` routes converging on Bitcode auxiliaries for direct auxiliary reading without losing the application framing.
+  Focused retained `/orbitals` routes converging on Bitcode auxillaries for direct auxillary reading without losing the application framing.
 
 Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` are convergence-only entry points and should not be treated as the enduring V26 naming model.
-Focused retained `/orbitals` routes and contained entry shells should teach auxiliaries as the merged-world target, read as contained auxiliary reads, and avoid regressing to generic workspace/settings/account language.
-Selected `/application` and `/orbitals` review surfaces should also keep live product wording on `Transactions` and `Orbitals` instead of drifting back toward `workspace` or `transaction terminal`.
-The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Orbitals fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions`.
+Focused retained `/orbitals` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
+Selected `/application` and `/orbitals` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
+The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Auxillaries fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions`.
 Signed-in orbital reopen actions should flow through the shared `openOrbital('orbitals', step?)` contract rather than older account-named caller aliases.
 Contained orbital rails should also converge on the shared panel-plus-tabs carriers in `app/orbitals/components/shared/` rather than reintroducing floating ring-label or sequence-only furniture per route or pane.
 
@@ -83,7 +83,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `components/base/engi/layout/footer.tsx`
   Shared public footer CTA and public-route link posture.
 - `components/base/engi/layout/bitcode-public-copy.ts`
-  Shared public-shell vocabulary for `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching posture.
+  Shared public-shell vocabulary for `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching posture.
 - `components/base/engi/layout/bitcode-public-explainers.ts`
   Shared public-shell explainer content for key entry links and the protocol reference.
 

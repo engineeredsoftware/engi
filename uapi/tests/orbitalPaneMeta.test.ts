@@ -17,7 +17,7 @@ describe('orbital-pane-meta', () => {
   });
 
   it('keeps orbital entry actions user-facing and specific when a target orbital is provided', () => {
-    expect(getOrbitalOpenActionLabel()).toBe('Open Orbitals fullscreen');
+    expect(getOrbitalOpenActionLabel()).toBe('Open Auxillaries fullscreen');
     expect(getOrbitalOpenActionLabel('connects')).toBe('Open Connects fullscreen');
   });
 });

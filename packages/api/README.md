@@ -2,12 +2,19 @@
 
 ## Overview
 
-Enterprise API orchestration layer providing unified route handling and request lifecycle management for the ENGI platform. Implements pure orchestration patterns with zero business logic, delegating all operations to specialized packages while maintaining clean separation of concerns.
+Unified Bitcode API orchestration layer. This package owns route-level request lifecycle management while delegating domain logic to retained package owners such as `@bitcode/orm`, `@bitcode/supabase`, `@bitcode/execution-generics`, `@bitcode/conversations-generics`, and the pipeline packages.
+
+In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
+- `/conversations` continuity
+- `/executions` compatibility and pipeline-run APIs
+- `/edgetimes` storage/schema witness APIs
+- retained need-ingestion and settle-write boundaries
 
 ## Core Functionality
 
 ### Route Architecture
 - **Domain-Based Organization**: Routes structured by functional domains (auth, deliverables, integrations)
+- **Bitcode Surface Ownership**: Route sets map onto merged-world Bitcode surfaces such as conversations, executions, activity, auxillaries, and persistence witnesses
 - **Handler Composition**: Clean orchestration of package functionality without business logic implementation
 - **Middleware Integration**: Standardized authentication, rate limiting, and error handling
 - **Protocol Agnostic**: Support for REST, streaming, and webhook endpoints
@@ -23,6 +30,13 @@ Enterprise API orchestration layer providing unified route handling and request 
 - **Authentication**: Complete delegation to `@bitcode/auth` subsystem
 - **VCS Operations**: Repository interactions through `@bitcode/vcs` abstraction
 - **Streaming**: Real-time updates via `@bitcode/streams` infrastructure
+- **Activity**: Transactions, executions, and notifications normalize through shared activity modeling rather than isolated per-route labels
+
+## Fourth-Gate Rule
+
+This package should stay orchestration-first.
+It should not absorb prompt ownership, schema ownership, or execution semantics that already belong in retained Bitcode packages.
+Its job is to make the merged-world application concrete without flattening the old-world architectural boundaries that still serve the system.
 
 ## API Reference
 

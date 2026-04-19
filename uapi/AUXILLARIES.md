@@ -1,4 +1,4 @@
-# ADR: Orbitals Overlay — Windows and Panes
+# ADR: Auxillaries Overlay — Windows and Panes
 
 Status: Accepted
 
@@ -6,25 +6,25 @@ Date: 2025-09-15
 
 ## Context
 
-We standardized the “Orbitals” UI experience (plural) as an overlay used across the app. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-orbital panels. Historically we used “mode” and singular “orbital” inconsistently (and event names used “open-orbital”).
+We standardized the retained `/orbitals` compatibility experience as the user-facing Auxillaries overlay used across the app. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used “mode” and singular “orbital” inconsistently (and event names used `open-orbital`).
 
 ## Decision
 
 1) Naming and Structure
 
-- Experience: Orbitals (plural)
+- Experience: Auxillaries (user-facing), retained `/orbitals` path and event compatibility
 - Windows (overlay top-level):
   - `SignInWindow`: Authentication (login) surface.
   - `SignUpWindow`: Onboarding/account surface that contains the panes.
 - Panes (inside SignUpWindow):
-  - `profile` (Users), `connects`, `models`, `credits`
-- Headers: a singular Orbital header per pane for consistent title/copy:
+  - `profile`, `connects`, `interfaces`, `$BTD`
+- Headers: a singular auxillary header per pane for consistent title/copy:
   - Base: `OrbitalsOrbitalHeader`
   - Specialized: `OrbitalsUsersOrbitalHeader`, `OrbitalsConnectsOrbitalHeader`, `OrbitalsModelsOrbitalHeader`, `OrbitalsCreditsOrbitalHeader`
 
 2) Component Placement
 
-- Orbitals experience code lives under: `uapi/app/orbitals/components/*`
+- Retained `/orbitals` experience code lives under: `uapi/app/orbitals/components/*`
   - Overlay root: `index.tsx`, Provider: `provider.tsx`, `OrbitalsProvider.tsx`
   - Panes and helpers: `profile-pane.tsx`, `connects-pane.tsx`, `models-pane.tsx`, `credits-pane.tsx`
   - Headers: `headers/*`, Shared atoms: `shared/*`, Models helpers: `models/*`
@@ -48,7 +48,7 @@ We standardized the “Orbitals” UI experience (plural) as an overlay used acr
 
 4) HTTP and CSS Conventions
 
-- API paths are pluralized for Orbitals: `/api/orbitals/*` (re-export singular handlers for zero-risk migration).
+- API paths remain `/api/orbitals/*` as the retained compatibility boundary while user-facing product naming converges on Auxillaries.
 - CSS Modules: animations declared via `:global { @keyframes ... }` (purity). Prefixes:
   - Experience: `orbitals-*`
   - Per-orbital: `orbitals-users-*`, `orbitals-connects-*`, `orbitals-models-*`, `orbitals-credits-*`
@@ -56,9 +56,9 @@ We standardized the “Orbitals” UI experience (plural) as an overlay used acr
 ## Consequences
 
 - The left toggle in the overlay switches between `SignInWindow` and `SignUpWindow`.
-- Per-orbital panes remain as the right abstraction inside SignUpWindow.
-- Global events and docs are pluralized (“orbits” of the experience), with back‑compat for existing consumers.
-- Tests, stories, and fetchers use plural API paths and the Orbitals experience path for imports.
+- Per-auxillary panes remain as the right abstraction inside SignUpWindow.
+- Global events and docs keep retained `/orbitals` compatibility where needed, but user-facing naming should read as Auxillaries.
+- Tests, stories, and fetchers use retained plural API paths and `/orbitals` imports until the compatibility layer is retired.
 - Future work should place components according to the experience vs base boundary described above.
 
 ## Example Usage
@@ -75,4 +75,3 @@ openOrbital('SignInWindow');
 // Global events (alternative)
 window.dispatchEvent(new CustomEvent('open-orbitals', { detail: { window: 'SignInWindow' } }));
 ```
-

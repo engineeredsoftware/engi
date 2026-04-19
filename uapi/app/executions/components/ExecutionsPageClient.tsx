@@ -411,14 +411,14 @@ export function ExecutionsClient() {
       <div className="mx-auto flex min-h-[calc(100vh-9rem)] max-w-5xl items-center px-4 py-16">
         <section className="w-full rounded-[2rem] border border-white/10 bg-[#06131b]/88 p-8 text-[#d6e7f2] shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
           <p className="text-[11px] font-medium uppercase tracking-[0.34em] text-[#75d7ff]">
-            Retained fourth-gate activity route
+            Retained fourth-gate executions route
           </p>
           <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
-            The retained /executions path stays explicit while Bitcode activity keeps converging on transactions-first reads, deliverable follow-through, and later non-transactional activity such as notifications.
+            The retained /executions path stays explicit so Bitcode execution primitives, pipeline runs, and need measurement continue reading cleanly while broader activity keeps growing around transactions, executions, and notifications.
           </h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#9db6c8] md:text-base">
             This route remains a live retained surface for run, deliverable, and pipeline inspection. Connect source
-            context in Orbitals to execute here, or continue in Transactions when you want the converged Bitcode
+            context in Auxillaries to execute here, or continue in Transactions when you want the converged Bitcode
             master-detail flow.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -434,7 +434,7 @@ export function ExecutionsClient() {
               onClick={() => router.push('/orbitals/connects')}
               className="inline-flex items-center rounded-full border border-white/12 bg-transparent px-5 py-3 text-sm font-medium text-[#d6e7f2] transition hover:border-white/30 hover:bg-white/5"
             >
-              Open Orbitals
+              Open Auxillaries
             </button>
           </div>
         </section>

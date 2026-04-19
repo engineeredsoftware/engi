@@ -153,7 +153,7 @@ describe('NotificationsWidget', () => {
 
     render(<NotificationsWidget />);
     fireEvent.click(screen.getByRole('button', { name: 'Notifications' }));
-    fireEvent.click(await screen.findByRole('button', { name: 'Open Orbitals fullscreen' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Open Auxillaries fullscreen' }));
 
     expect(mockOpenOrbital).toHaveBeenCalledWith('orbitals', 'profile');
   });

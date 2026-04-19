@@ -226,8 +226,8 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
     ? 'Enter the code we sent to your email'
     : 'Email code is the fastest way back into Bitcode'
   const containedStageCopy = isVerificationStage
-    ? `We sent a one-time code to ${email}. Verify it here to reopen transactions, Orbitals, and the active detail context.`
-    : 'Use one email step to reopen transactions, Orbitals, and the exact detail surface you were reading.'
+    ? `We sent a one-time code to ${email}. Verify it here to reopen transactions, Auxillaries, and the active detail context.`
+    : 'Use one email step to reopen transactions, Auxillaries, and the exact detail surface you were reading.'
 
   // Decrease cooldown every second
   React.useEffect(() => {

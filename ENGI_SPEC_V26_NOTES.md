@@ -27,10 +27,10 @@ The following items are no longer open draft questions:
 - `packages/bitcode` is the immediate first-gate package owner.
 - the preserved first-gate shell now mounts through `uapi/app/application/ApplicationPageClient.tsx`.
 - the preserved first-gate JSON contract now runs through app-owned `uapi/app/api/*` route handlers.
-- the ringed orbital overlay remains the orbital owner for Connects, Interfaces, Profile, and `$BTD`.
+- the ringed auxillary overlay remains the retained `/orbitals` compatibility owner for Connects, Interfaces, Profile, and `$BTD`.
 - conversations remain a fullscreen application workspace entered from within `/application`.
 - current executions and deliverables surfaces are reuse reservoirs for inward master-detail porting into `/application`.
-- fourth-gate merged-world naming now converges retained `/executions` on `activity` and retained `/orbitals` on `auxiliaries`, with transactions-first activity and later notifications/public/personal usage explicitly admitted as the broader activity family.
+- fourth-gate merged-world naming now keeps retained `/executions` explicit as executions primitives inside the broader `activity` family and converges retained `/orbitals` on `auxillaries`, with transactions, executions, and notifications explicitly admitted as the broader activity family.
 - the late-Engi navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
@@ -299,12 +299,12 @@ Those files now carry the active third-gate start for public-facing:
 - `Network`
 - `Transactions`
 - `Docs`
-- `Orbitals`
+- `Auxillaries`
 - plus `give` and `need` as the two main Bitcode actions explained across the public teaching surface
 
 Mounted public-shell chrome is also now explicit:
 - `/`, `/docs`, and `/demo-video` mount live Bitcode nav through `PublicShellFrame`
-- public routes expose stable `Network` / `Transactions` / `Docs` links plus `Open Orbitals` / `Create Account`
+- public routes expose stable `Network` / `Transactions` / `Docs` links plus `Open Auxillaries` / `Create Account`
 - public-route orbital access now opens the contained Bitcode orbital shell instead of stopping at page-local CTA copy
 - the mounted landing shell now uses Bitcode marketing-shell owners and selectors rather than live `ComingSoon*`/`coming-soon-*` residue
 - the mounted landing owner now delegates to `app/(root)/components/landing/*` carriers for hero, preview, guide, and shared landing-shell data instead of keeping those surfaces fused into one file

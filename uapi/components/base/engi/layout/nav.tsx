@@ -144,7 +144,7 @@ export default function Nav() {
         onClick={() => openOrbital('login')}
         className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
       >
-        Open Orbitals
+        Open Auxillaries
       </button>
       <button
         type="button"
@@ -369,7 +369,7 @@ export default function Nav() {
               showNavUse && (
                 <div className={isAnimated ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
                   {FEATURE_FLAGS.DISABLE_USING ? (
-                    <DisabledTooltipWrapper tooltip="Orbitals access is refreshing" className="inline-block">
+                    <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
                       <OrbitalUseButton isDisabled orbitals={orbitalElements} particles={particleElements} />
                     </DisabledTooltipWrapper>
                   ) : (

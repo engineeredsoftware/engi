@@ -89,7 +89,7 @@ describe('Footer public shell', () => {
     );
     expect(screen.getByRole('button', { name: 'Explain Protocol specification' })).toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: 'Open Orbitals' });
+    const button = screen.getByRole('button', { name: 'Open Auxillaries' });
     fireEvent.mouseEnter(button);
     fireEvent.click(button);
 

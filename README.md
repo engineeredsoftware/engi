@@ -12,7 +12,7 @@ Bitcode now centers on one primary application route:
 V26 defines three main experiences:
 - `master detail`
 - `conversations`
-- `orbitals` retained compatibility path converging on auxiliaries
+- `orbitals` retained compatibility path converging on auxillaries
 
 V26 defines two main operator actions:
 - `give`
@@ -26,7 +26,7 @@ The active orbital model is fixed as:
 
 Second-gate closure also requires the live product and docs to stay aligned:
 - operator-facing copy is user-referencing and Bitcode-first
-- retained `/orbitals` entry surfaces now act as compatibility carriers converging on Bitcode auxiliaries, not generic settings/account furniture
+- retained `/orbitals` entry surfaces now act as compatibility carriers converging on Bitcode auxillaries, not generic settings/account furniture
 - application-opened orbitals hold a contained operator shell rather than collapsing back to modal-width account furniture
 - the README and markdown set for root, packages, routes, and shared systems is treated as required implementation scope
 
@@ -54,7 +54,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
 - [uapi/app/application/README.md](uapi/app/application/README.md)
   `/application` master-detail, give/need, and flow-guide ownership.
 - [uapi/app/orbitals/README.md](uapi/app/orbitals/README.md)
-  Orbitals routes, overlay behavior, ring model, and compatibility aliases.
+  Auxillaries routes, overlay behavior, ring model, and compatibility aliases.
 - [uapi/components/base/engi/execution/README.md](uapi/components/base/engi/execution/README.md)
   Shared execution carriers for transactions, payloads, explainers, and detail panels.
 
@@ -115,7 +115,7 @@ It is a deliberate first-and-second-gate closure boundary with:
 Current post-checkpoint third-gate start is intentionally narrow:
 - the mounted public shell now converges through shared public-copy ownership in `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 - the live public shell now mounts Bitcode nav through `uapi/app/(root)/components/PublicShellFrame.tsx`
-- the live landing, nav, footer, `/docs`, and compatibility `/demo-video` route now use `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching vocabulary
+- the live landing, nav, footer, `/docs`, and compatibility `/demo-video` route now use `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching vocabulary
 - the live landing shell no longer carries active `ComingSoon*` owners or `coming-soon-*` stylesheet imports
 - the live landing owner now breaks hero, guide, preview, and shared public-shell data into `uapi/app/(root)/components/landing/*` carriers instead of one oversized mixed-surface file
 - the public shell now owns a real `/docs` hub with route cards, inline widgets, and the recorded walkthrough, while `/demo-video` remains only a compatibility alias into that docs-owned content
@@ -132,10 +132,10 @@ Current post-checkpoint third-gate start is intentionally narrow:
 
 Current fourth-gate promotion boundary is now explicit too:
 - `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry
-- `/executions` remains the retained direct compatibility route converging on Bitcode activity, with `/api/executions` mounted from the canonical deliverables business-logic owner
+- `/executions` remains the retained direct compatibility route for Bitcode execution primitives inside the broader activity family, with `/api/executions` mounted from the canonical deliverables business-logic owner
 - `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are now explicit retained compatibility carriers that keep `/executions` healthy while run/pipeline patterns continue porting inward to `/application`
 - `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
 - `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
-- `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs
+- `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json` are the current generated fourth-gate promotion proofs
 - retained Jira and GitHub old-world ports are now explicitly admitted only under Bitcode-owned fourth-gate roles: Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
 - the retained persistence, conversations, runs/pipelines, and old-world port basis is now surfaced through explicit route/API/package owners instead of living only in spec prose while fifth-gate proving remains open

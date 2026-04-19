@@ -8,6 +8,7 @@ import {
   getOrbitalsWorkspaceHeading,
   labelForOrbitalPane,
   ORBITALS_ACCESS_LABEL,
+  ORBITALS_LABEL,
   type OrbitalPane,
 } from './orbital-pane-meta';
 import OrbitalsPaneTabs from './shared/OrbitalsPaneTabs';
@@ -170,7 +171,7 @@ function OrbitalContent(props: OrbitalContentProps) {
           }}
         >
           <div className="step-indicator-content">
-            <h3 className="step-indicator-title">{isOrbitalMode ? 'Orbital rings' : ORBITALS_ACCESS_LABEL}</h3>
+            <h3 className="step-indicator-title">{isOrbitalMode ? 'Auxillary rings' : ORBITALS_ACCESS_LABEL}</h3>
             <div className="step-indicator-steps">
               {steps.map((step) => {
                 const index = stepMeta.pos.get(step)!;
@@ -221,7 +222,7 @@ function OrbitalContent(props: OrbitalContentProps) {
         <div className="orbital-workspace-shell">
           <aside className="orbital-workspace-nav">
             <div className="orbital-workspace-nav-copy">
-              <p className="orbital-workspace-kicker">{isOrbitalMode ? 'Orbitals' : ORBITALS_ACCESS_LABEL}</p>
+              <p className="orbital-workspace-kicker">{isOrbitalMode ? ORBITALS_LABEL : ORBITALS_ACCESS_LABEL}</p>
               <h3 className="orbital-workspace-title">{getOrbitalsWorkspaceHeading(mode)}</h3>
               <p className="orbital-workspace-description">{getOrbitalsWorkspaceDescription(mode)}</p>
             </div>

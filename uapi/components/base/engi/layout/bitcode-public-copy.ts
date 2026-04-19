@@ -1,13 +1,13 @@
 export const BITCODE_PUBLIC_COPY = {
-  eyebrow: 'Network, transactions, docs, and orbitals',
+  eyebrow: 'Network, transactions, docs, and auxillaries',
   headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
   description:
-    'Bitcode turns repositories, documents, measurements, rights, proofs, and settlement into one auditable market for technical knowledge. Network reads live activity, Transactions follows full give-to-settle detail, Docs teaches the system step by step, and Orbitals shapes interface, identity, and $BTD posture.',
+    'Bitcode turns repositories, documents, measurements, rights, proofs, and settlement into one auditable market for technical knowledge. Network reads live activity, Transactions follows full give-to-settle detail, Docs teaches the system step by step, and Auxillaries shape interface, identity, and $BTD posture.',
   capabilityChips: [
     'NETWORK',
     'TRANSACTIONS',
     'DOCS',
-    'ORBITALS',
+    'AUXILLARIES',
   ],
   primaryCta: {
     href: '/application',
@@ -22,7 +22,7 @@ export const BITCODE_PUBLIC_COPY = {
     title: 'Study the docs before you transact',
     meta: 'Docs hub',
     body:
-      'Docs teaches Bitcode step by step with route maps, inline widgets, the walkthrough, and direct links into Network, Transactions, and Orbitals.',
+      'Docs teaches Bitcode step by step with route maps, inline widgets, the walkthrough, and direct links into Network, Transactions, and Auxillaries.',
   },
   terminalPreview: {
     pill: 'Network',
@@ -31,9 +31,9 @@ export const BITCODE_PUBLIC_COPY = {
   },
   operatorFrame: {
     title: 'Transactions',
-    subtitle: 'proofs, conversations, and orbitals around one flow',
+    subtitle: 'proofs, conversations, and auxillaries around one flow',
     badge: 'full detail',
-    modes: ['Proofs', 'Conversations', 'Orbitals', 'Give + Need'],
+    modes: ['Proofs', 'Conversations', 'Auxillaries', 'Give + Need'],
   },
   giveContribution: {
     title: 'Network supply',
@@ -53,8 +53,8 @@ export const BITCODE_PUBLIC_COPY = {
   },
   footer: {
     steps: ['Give', 'Need', 'Settle'],
-    guestCta: 'Open Orbitals',
-    userCta: 'Open Orbitals',
+    guestCta: 'Open Auxillaries',
+    userCta: 'Open Auxillaries',
     links: {
       network: 'Network',
       transactions: 'Transactions',
@@ -68,14 +68,14 @@ export const BITCODE_PUBLIC_COPY = {
       { href: '/application', label: 'Transactions' },
       { href: '/docs', label: 'Docs' },
     ],
-    guestPrimaryCta: 'Open Orbitals',
+    guestPrimaryCta: 'Open Auxillaries',
     guestSecondaryCta: 'Create Account',
   },
   guideRoute: {
     eyebrow: 'Bitcode docs',
     heading: 'Study Bitcode step by step.',
     body:
-      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into live Network, Transactions, and Orbitals.',
+      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into live Network, Transactions, and Auxillaries.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

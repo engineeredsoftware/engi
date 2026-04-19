@@ -49,11 +49,11 @@ export default function ApplicationTransactionActivitySurface({
     <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
       <div className="border-b border-white/8 px-5 py-4">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode activity</p>
-        <h3 className="mt-2 text-lg font-semibold text-white">Transactions-first activity and work updates</h3>
+        <h3 className="mt-2 text-lg font-semibold text-white">Execution activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
-          Read the selected transaction&apos;s stream, state, and iteration updates directly from the transactions surface. Fourth-gate
-          convergence keeps transactions dominant here while the broader Bitcode activity model also admits notifications and later
-          public or personal system usage.
+          Read the selected transaction&apos;s execution stream, state, and iteration updates directly from the transactions surface.
+          Fourth-gate convergence keeps execution primitives explicit here while the broader Bitcode activity family also admits
+          transactions, notifications, and later public or personal system usage.
         </p>
         {activity.activityKinds.length ? (
           <div className="mt-3 flex flex-wrap gap-2">

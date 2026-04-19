@@ -19,8 +19,8 @@ describe('OrbitalsPaneTabs', () => {
       />,
     );
 
-    expect(screen.getByText('Orbitals')).toBeTruthy();
-    expect(screen.getByText(/Active orbital:/i)).toBeTruthy();
+    expect(screen.getByText('Auxillaries')).toBeTruthy();
+    expect(screen.getByText(/Active auxillary:/i)).toBeTruthy();
     expect(screen.getByText('1/4 complete')).toBeTruthy();
     expect(screen.getByRole('button', { name: /1 Connects/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /4 \$BTD/i })).toBeDisabled();

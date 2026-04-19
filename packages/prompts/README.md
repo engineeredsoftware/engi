@@ -1,6 +1,14 @@
 # @bitcode/prompts
 
-The foundational prompt primitives package for Engi - a low-level, elegant system for type-safe prompt formatting with performance-based evolution capabilities.
+The canonical Bitcode prompt-primitives package. It keeps the merged-world prompt system explicit as `PromptPart` + `Prompt` + `PromptExecution`, so retained agents, executions, conversations, and need-measurement flows all compose prompts through one typed contract.
+
+## Role In V26
+
+Fourth-gate keeps this package as the admitted owner for prompt abstraction.
+That means:
+- old-world prompt parts stay alive only where they are repurposed into Bitcode execution and need-measurement behavior
+- conversations, Jira ingestion, Git/GitHub settle-write tooling, and retained agents all consume one shared prompt contract
+- fifth-gate proving can verify the prompt space without first reopening package ownership
 
 ## Overview
 
@@ -11,6 +19,16 @@ The prompts package provides:
 - **Benchmarking**: Performance-Based Versioning (PBV) system
 - **Dry Run**: Mocked LLM responses for testing and development
 - **Raw Prompts**: All PromptParts live in /raw_promptparts/ directory
+
+## Architectural Rule
+
+Use this package when a Bitcode surface needs formal prompt ownership.
+Do not hide prompt composition in route-local strings or tool-local ad hoc templates when the resulting behavior is part of:
+- need measurement
+- retained execution primitives
+- conversations
+- retained tool/agent ingestion
+- settle-write orchestration
 
 ## Core Design
 

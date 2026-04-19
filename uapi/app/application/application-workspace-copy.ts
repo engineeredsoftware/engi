@@ -28,7 +28,7 @@ export const APPLICATION_WORKSPACE_COPY = {
       kicker: 'Reading modes',
       title: 'Read here, open deeper modes when needed',
       summary:
-        'Stay in transactions by default, then open conversations or Orbitals when you need deeper writing or interface changes.',
+        'Stay in transactions by default, then open conversations or Auxillaries when you need deeper writing or interface changes.',
     },
     support: {
       kicker: 'Transaction support',

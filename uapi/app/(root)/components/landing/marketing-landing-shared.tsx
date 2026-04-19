@@ -153,9 +153,9 @@ export const compactPreviewCards = [
     detail: 'Move into the full transactions route when you need exact give-to-settle detail.',
   },
   {
-    title: 'Orbitals',
+    title: 'Auxillaries',
     body: 'Profile • connects • interfaces • $BTD',
-    detail: 'Open Orbitals when you need identity, interface, or account posture.',
+    detail: 'Open Auxillaries when you need identity, interface, or account posture.',
   },
 ] as const;
 

@@ -1,5 +1,6 @@
 export type BitcodeActivityKind =
   | 'transaction'
+  | 'execution'
   | 'notification'
   | 'public-system'
   | 'personal-system';
@@ -26,6 +27,21 @@ export interface BitcodeExecutionEventLike {
   id?: string;
   created_at?: string;
   event?: any;
+}
+
+export interface BitcodeExecutionHistoryLike {
+  id: string;
+  created_at?: string | null;
+  status?: string | null;
+  type?: string | null;
+  summary?: string | null;
+  guide?: string | null;
+  repo_snapshot?: {
+    org?: string | null;
+    repo?: string | null;
+    branch?: string | null;
+    commit?: string | null;
+  } | null;
 }
 
 export interface BitcodeNotificationLike {
@@ -79,7 +95,7 @@ function formatExecutionSummary(payload: Record<string, any>) {
   }
 
   if (payload?.type === 'completion') {
-    return 'Transaction activity completed';
+    return 'Execution completed';
   }
 
   if (payload?.type === 'error') {
@@ -108,8 +124,18 @@ function formatExecutionTitle(payload: Record<string, any>) {
     case 'status':
       return 'Status update';
     default:
-      return 'Transaction activity';
+      return 'Execution activity';
   }
+}
+
+function formatExecutionHistoryTitle(type: string | null | undefined) {
+  const normalizedType = String(type || '').trim().toLowerCase();
+  if (!normalizedType) return 'Execution activity';
+  if (normalizedType.includes('measure')) return 'Need measurement execution';
+  if (normalizedType.includes('proof')) return 'Proof execution';
+  if (normalizedType.includes('deliverable')) return 'Deliverable execution';
+  if (normalizedType.includes('pipeline')) return 'Pipeline execution';
+  return 'Execution activity';
 }
 
 export function inferNotificationActivityTitle(
@@ -152,6 +178,8 @@ export function getBitcodeActivityKindLabel(kind: BitcodeActivityKind) {
   switch (kind) {
     case 'transaction':
       return 'Transactions';
+    case 'execution':
+      return 'Executions';
     case 'notification':
       return 'Notifications';
     case 'public-system':
@@ -186,10 +214,10 @@ export function buildBitcodeActivityRecordFromExecutionEvent(
 
   return {
     id: String(entry.id || `${payload.type || 'event'}:${entry.created_at || ''}`),
-    kind: 'transaction',
+    kind: 'execution',
     scope: 'network',
     channel: 'execution-stream',
-    label: getBitcodeActivityKindLabel('transaction'),
+    label: getBitcodeActivityKindLabel('execution'),
     title: formatExecutionTitle(payload),
     summary,
     timestamp: entry.created_at || null,
@@ -203,6 +231,37 @@ export function buildBitcodeActivityRecordFromExecutionEvent(
       ).trim() || null,
     read: null,
     payload,
+  };
+}
+
+export function buildBitcodeActivityRecordFromExecutionHistory(
+  row: BitcodeExecutionHistoryLike,
+): BitcodeActivityRecord {
+  const repo = row.repo_snapshot?.org && row.repo_snapshot?.repo
+    ? `${row.repo_snapshot.org}/${row.repo_snapshot.repo}`
+    : null;
+  const summary =
+    String(row.summary || '').trim() ||
+    [
+      formatExecutionHistoryTitle(row.type),
+      row.status ? `status ${String(row.status)}` : null,
+      repo ? `for ${repo}` : null,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+  return {
+    id: String(row.id),
+    kind: 'execution',
+    scope: 'network',
+    channel: 'system-surface',
+    label: getBitcodeActivityKindLabel('execution'),
+    title: formatExecutionHistoryTitle(row.type),
+    summary,
+    timestamp: row.created_at || null,
+    state: String(row.status || '').trim() || null,
+    read: null,
+    payload: row as Record<string, any>,
   };
 }
 

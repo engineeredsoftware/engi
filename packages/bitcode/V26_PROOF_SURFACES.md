@@ -110,7 +110,7 @@ Required coverage posture:
 - proof surface:
   retained systems are named in the eventual V26 proof family rather than implied
   current live fourth-gate promotion-boundary owners include `uapi/app/conversations/page.tsx`, `uapi/app/conversations/ConversationsRouteClient.tsx`, `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/api/executions/route.ts`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/orbitals/template-preferences/route.ts`, `uapi/app/edgetimes/edgetimes-topology.ts`, `uapi/app/edgetimes/EdgetimesPageContent.tsx`, `uapi/app/edgetimes/page.tsx`, `uapi/app/api/edgetimes/route.ts`, and the focused route/API tests proving those surfaces
-  current generated fourth-gate promotion proofs are `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
+  current generated fourth-gate promotion proofs are `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
   retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
 
 ### Gate 5: proof precision and final closure
@@ -222,7 +222,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/userMenu.test.tsx`
   proof surface:
-  second-gate signed-in workspace chrome discipline so Orbitals stay user-facing as `Open Orbitals fullscreen` with the fixed Connects/Interfaces/Profile/$BTD ring model and the shared `orbitals` entry alias instead of settings/account wording
+  second-gate signed-in workspace chrome discipline so Auxillaries stay user-facing as `Open Auxillaries fullscreen` with the fixed Connects/Interfaces/Profile/$BTD ring model and the shared retained `orbitals` entry alias instead of settings/account wording
 - `uapi/app/orbitals/components/OrbitalsLoginPane.tsx`, `uapi/app/orbitals/components/OrbitalsContent.tsx`, `uapi/app/orbitals/components/shared/OrbitalsPaneTabs.tsx`, `uapi/app/orbitals/components/shared/OrbitalsWorkspacePanels.tsx`, `uapi/app/orbitals/OrbitalsRouteClient.tsx`
   test coverage:
   `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, `uapi/tests/orbitalsWorkspacePanels.test.tsx`, `uapi/tests/orbitalsRouteClient.test.tsx`, and `uapi/tests/orbitalPaneMeta.test.ts`
@@ -276,7 +276,7 @@ Current active assignments:
   `uapi/tests/notificationsWidget.test.tsx`,
   `uapi/tests/userMenu.test.tsx`
   proof surface:
-  third-gate review-surface wording discipline on active `/application` and `/orbitals` carriers so visible product copy reads as `Transactions` and `Orbitals` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
+  third-gate review-surface wording discipline on active `/application` and retained `/orbitals` carriers so visible product copy reads as `Transactions` and `Auxillaries` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
 - `uapi/app/application/ApplicationOperatorCard.tsx`
   test coverage:
   `uapi/tests/applicationOperatorCard.test.tsx`
@@ -296,7 +296,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, `uapi/tests/marketingOperatorGuideCard.test.tsx`, `uapi/tests/publicDocsPageContent.test.tsx`, and `uapi/tests/e2e/landing.mobile-scroll.spec.ts`
   proof surface:
-  mounted third-gate public-shell start, including shared `Network` / `Transactions` / `Docs` / `Orbitals` vocabulary, a real `/docs` public teaching surface with route cards and inline widgets, guest orbital-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, a progressive terminal preview that collapses into a compact public/mobile summary before wider-shell detail, landing ambience that suppresses orbital rings/pointer glow/oversized blur on smaller or reduced-motion shells, and a docs-owned walkthrough path that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
+  mounted third-gate public-shell start, including shared `Network` / `Transactions` / `Docs` / `Auxillaries` vocabulary, a real `/docs` public teaching surface with route cards and inline widgets, guest auxillary-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, a progressive terminal preview that collapses into a compact public/mobile summary before wider-shell detail, landing ambience that suppresses orbital rings/pointer glow/oversized blur on smaller or reduced-motion shells, and a docs-owned walkthrough path that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
 - `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/engi/layout/nav.tsx`, `uapi/components/base/engi/layout/NavBrand.tsx`, `uapi/components/base/engi/layout/workspace-surface.ts`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
@@ -641,12 +641,12 @@ Current active assignments:
   test coverage:
   `uapi/tests/bitcodeActivityModel.test.ts`
   proof surface:
-  shared fourth-gate activity vocabulary bridging transactions-first retained execution events with personal notification activity before later public/personal system usage joins the same family
+  shared fourth-gate activity vocabulary bridging transactions, retained execution primitives, and personal notification activity before later public/personal system usage joins the same family
 - `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/orbitals/*/page.tsx`
   test coverage:
   route metadata verification plus live browser checks on retained compatibility routes
   proof surface:
-  fourth-gate merged-world naming discipline so retained `/executions` teaches `activity` and retained `/orbitals` teaches `auxiliaries` before compatibility URLs disappear
+  fourth-gate merged-world naming discipline so retained `/executions` teaches explicit executions primitives inside `activity` and retained `/orbitals` teaches `auxillaries` before compatibility URLs disappear
 - `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
   test coverage:
   browser verification and UI coverage around live and mock selected-transaction detail rendering

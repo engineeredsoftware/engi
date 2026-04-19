@@ -268,7 +268,7 @@ export default function ApplicationPageClient() {
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Deeper modes</p>
-                  <p className="mt-2 text-neutral-200">conversations + Orbitals</p>
+                  <p className="mt-2 text-neutral-200">conversations + Auxillaries</p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
                   <p className="text-emerald-300/85">Primary actions</p>

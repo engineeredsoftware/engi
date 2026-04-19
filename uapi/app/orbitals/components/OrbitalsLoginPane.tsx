@@ -33,7 +33,7 @@ export default function OrbitalsLoginPane({
               Open {ORBITALS_LIST_LABEL}
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Sign in to reopen transactions, conversations, and the four Bitcode orbitals without
+              Sign in to reopen transactions, conversations, and the four Bitcode auxillaries without
               losing the current transaction context.
             </p>
           </div>
@@ -55,18 +55,18 @@ export default function OrbitalsLoginPane({
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
                 GitHub and Google stay available here. Wallet binding continues inside Profile and
-                $BTD after Orbitals open.
+                $BTD after Auxillaries open.
               </p>
             </div>
 
             <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
-                Orbitals after sign-in
+                Auxillaries after sign-in
               </p>
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>
                 <li>Conversations reopen only when you need deeper writing or coordination.</li>
-                <li>Connects, Interfaces, Profile, and $BTD stay available as the four orbitals.</li>
+                <li>Connects, Interfaces, Profile, and $BTD stay available as the four auxillaries.</li>
               </ul>
             </div>
           </div>

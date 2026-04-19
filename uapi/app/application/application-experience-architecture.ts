@@ -19,10 +19,10 @@ export const APPLICATION_EXPERIENCES = [
   },
   {
     id: 'orbitals',
-    label: 'Orbitals',
+    label: 'Auxillaries',
     badge: 'dedicated mode',
     description:
-      'The dedicated Bitcode orbital space for Connects, Interfaces, Profile, $BTD, and the rest of the connection, wallet, and interface-default surface.',
+      'The dedicated Bitcode auxillary space for Connects, Interfaces, Profile, $BTD, and the rest of the connection, wallet, and interface-default surface.',
     targetId: 'orbitals',
   },
 ] as const;

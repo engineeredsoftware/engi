@@ -5,7 +5,7 @@ import {
 } from '@/components/base/engi/activity/bitcode-activity-model';
 
 describe('bitcode-activity-model', () => {
-  it('builds a transactions-first activity record from an execution event', () => {
+  it('builds an execution activity record from an execution event', () => {
     const record = buildBitcodeActivityRecordFromExecutionEvent({
       id: 'evt-1',
       created_at: '2026-04-19T12:00:00.000Z',
@@ -20,7 +20,7 @@ describe('bitcode-activity-model', () => {
 
     expect(record).toMatchObject({
       id: 'evt-1',
-      kind: 'transaction',
+      kind: 'execution',
       scope: 'network',
       channel: 'execution-stream',
       title: 'Status update',

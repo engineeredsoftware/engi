@@ -13,15 +13,15 @@ describe('OrbitalsRouteClient', () => {
   it('renders user-facing contained orbital route copy and deep links each orbital route', () => {
     render(<OrbitalsRouteClient step="profile" />);
 
-    expect(screen.getByText('Profile auxiliary')).toBeTruthy();
+    expect(screen.getByText('Profile auxillary')).toBeTruthy();
     expect(
-      screen.getByRole('heading', { name: /Profile in one contained auxiliary read\./i }),
+      screen.getByRole('heading', { name: /Profile in one contained auxillary read\./i }),
     ).toBeTruthy();
     expect(screen.getByRole('link', { name: /Open transactions/i })).toHaveAttribute(
       'href',
       '/application',
     );
-    expect(screen.getAllByRole('link', { name: /Open auxiliary/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /Open auxillary/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: /Current route/i, exact: false })).toHaveAttribute(
       'href',
       '/orbitals/profile',

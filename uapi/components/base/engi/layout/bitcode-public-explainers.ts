@@ -13,7 +13,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Use this route when you want the highest-level public view of how Bitcode is behaving before you dive into full transaction detail.',
     points: [
       'Frames Bitcode as the live market surface rather than a detached landing page',
-      'Connects public narrative directly to transactions, docs, and Orbitals',
+      'Connects public narrative directly to transactions, docs, and Auxillaries',
     ],
   }),
   transactions: buildExplainer({
@@ -24,7 +24,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'This is the main operator-grade surface. Use it when you want the real master-detail ledger instead of the public network read.',
     points: [
       'Loads selected transaction detail, proofs, history, and closure posture',
-      'Keeps Orbitals and conversations available around the same transaction flow',
+      'Keeps Auxillaries and conversations available around the same transaction flow',
     ],
   }),
   docs: buildExplainer({
@@ -40,13 +40,13 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
   }),
   openOrbitals: buildExplainer({
     kicker: 'Identity + interface',
-    title: 'Open Orbitals',
-    summary: 'Open the Bitcode orbital shell for access, profile, interface defaults, and $BTD posture.',
+    title: 'Open Auxillaries',
+    summary: 'Open the Bitcode auxillary shell for access, profile, interface defaults, and $BTD posture.',
     detail:
-      'Use this when you want the orbital access layer directly. Create Account is for first-time onboarding; Open Orbitals is for entering the contained shell.',
+      'Use this when you want the auxillary access layer directly. Create Account is for first-time onboarding; Open Auxillaries is for entering the contained shell.',
     points: [
-      'Opens the contained orbital shell',
-      'Keeps Orbitals distinct from Network, Transactions, and Docs',
+      'Opens the contained auxillary shell',
+      'Keeps Auxillaries distinct from Network, Transactions, and Docs',
     ],
   }),
   protocolSpec: buildExplainer({

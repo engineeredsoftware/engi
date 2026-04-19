@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 import ExecutionsPage from '@/app/executions/components/ExecutionsPage';
 
 export const metadata: Metadata = {
-  title: 'Bitcode Activity',
+  title: 'Bitcode Executions',
   description:
-    'Retained /executions compatibility route converging on Bitcode activity, with transactions first and broader notifications or public/personal system activity following in later closure.',
+    'Retained /executions compatibility route for Bitcode execution primitives, pipeline runs, and measured-need follow-through inside the broader Bitcode activity family.',
   alternates: {
     canonical: '/executions',
   },

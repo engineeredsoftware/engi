@@ -22,7 +22,7 @@ export default function OrbitalsWorkspacePanels({
   onStepClick,
 }: OrbitalsWorkspacePanelsProps) {
   return (
-    <div className="orbital-workspace-panel-list" role="list" aria-label="Auxiliaries workspace panels">
+    <div className="orbital-workspace-panel-list" role="list" aria-label="Auxillaries workspace panels">
       {steps.map((step) => {
         if (!step) return null;
 
@@ -47,7 +47,7 @@ export default function OrbitalsWorkspacePanels({
                     ? 'orbital-workspace-panel-available'
                     : 'orbital-workspace-panel-locked'
               }`}
-              aria-label={`${descriptor.label} auxiliary`}
+              aria-label={`${descriptor.label} auxillary`}
             >
               <div className="orbital-workspace-panel-topline">
                 <span className="orbital-workspace-panel-layer">{getOrbitalLayerLabel(step)}</span>

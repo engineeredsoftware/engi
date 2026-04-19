@@ -1,5 +1,17 @@
 # Execution Generics
 
+The retained Bitcode execution-primitives package. Fourth-gate keeps `Execution` explicit as the low-level state-and-sequence abstraction beneath activity, pipeline runs, need measurement, and later proveable Bitcode intelligence execution.
+
+## Role In V26
+
+`/executions` stays `executions`.
+It does not rename away into `activity`.
+
+Instead:
+- `executions` are the low-level primitives and pipeline-run carriers
+- `activity` is the broader family that can include transactions, executions, and notifications
+- Bitcode need measurement and implementation flows build on these execution primitives instead of bypassing them
+
 Two primitives for AI systems: **state** and **sequence**.
 
 ## The Two Primitives
@@ -21,7 +33,7 @@ const executor: Executor = async (input, execution) => {
 };
 ```
 
-That's it. Everything else - agents, pipelines, phases - builds from these two primitives.
+That's it. Everything else - agents, pipelines, phases, run histories, and need-measurement passes - builds from these two primitives.
 
 ## Core Concepts
 

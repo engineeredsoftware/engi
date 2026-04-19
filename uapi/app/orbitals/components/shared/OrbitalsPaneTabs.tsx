@@ -44,7 +44,7 @@ export default function OrbitalsPaneTabs({
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-            {isOrbitalMode ? 'auxiliaries' : 'auxiliaries access'}
+            {isOrbitalMode ? 'auxillaries' : 'auxillaries access'}
           </span>
           <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
             {completedCount}/{totalCount} complete
@@ -53,7 +53,7 @@ export default function OrbitalsPaneTabs({
       </div>
 
       <div className="mt-4 rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
-        Active auxiliary: <span className="text-white">{labelForOrbitalPane(currentStep)}</span>
+        Active auxillary: <span className="text-white">{labelForOrbitalPane(currentStep)}</span>
       </div>
 
       <div className="orbital-pane-tab-grid mt-4 flex flex-wrap gap-2">

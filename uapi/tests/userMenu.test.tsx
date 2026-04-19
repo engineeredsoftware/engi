@@ -52,10 +52,10 @@ describe('UserMenu', () => {
     );
 
     expect(screen.getByText('Bitcode account')).toBeInTheDocument();
-    expect(screen.getByText('Open Orbitals fullscreen')).toBeInTheDocument();
+    expect(screen.getByText('Open Auxillaries fullscreen')).toBeInTheDocument();
     expect(screen.getByText('Connects, Interfaces, Profile, $BTD')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('Open Orbitals fullscreen'));
+    fireEvent.click(screen.getByText('Open Auxillaries fullscreen'));
 
     expect(onOpenOrbitals).toHaveBeenCalledTimes(1);
     expect(onSignOut).not.toHaveBeenCalled();

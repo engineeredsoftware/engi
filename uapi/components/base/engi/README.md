@@ -46,4 +46,4 @@ If shared operator chrome or execution carriers change materially, their README 
 - [../../../app/application/README.md](../../../app/application/README.md)
   Route-local `/application` ownership.
 - [../../../app/orbitals/README.md](../../../app/orbitals/README.md)
-  Orbitals route and overlay ownership.
+  Retained `/orbitals` compatibility route and Auxillaries ownership.

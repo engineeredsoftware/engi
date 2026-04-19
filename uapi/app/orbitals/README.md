@@ -1,7 +1,7 @@
-# `/orbitals` retained Bitcode Auxiliaries route
+# `/orbitals` retained Bitcode Auxillaries route
 
-The V26 `/orbitals` path is a retained compatibility route converging on Bitcode `Auxiliaries`.
-It remains a fullscreen Bitcode surface entered from `/application`, and it also supports direct focused routes for reading one auxiliary in a contained auxiliary read.
+The V26 `/orbitals` path is a retained compatibility route converging on Bitcode `Auxillaries`.
+It remains a fullscreen Bitcode surface entered from `/application`, and it also supports direct focused routes for reading one auxillary in a contained auxillary read.
 
 The active orbital ring model is fixed:
 - `Connects`
@@ -51,18 +51,18 @@ Those aliases are not the enduring V26 naming model.
 
 ## UX rule
 
-Auxiliaries are not generic settings/account furniture.
+Auxillaries are not generic settings/account furniture.
 They are Bitcode’s extra-network, non-transactional, still-proven companion surfaces around the core network and transaction system.
-The retained `/orbitals` route continues to carry the four-ring presentation during convergence, but the merged-world naming target is `Auxiliaries`.
+The retained `/orbitals` route continues to carry the four-ring presentation during convergence, but the merged-world naming target is `Auxillaries`.
 
-The contained auxiliary shell used inside the application and direct orbital routes should:
+The contained auxillary shell used inside the application and direct orbital routes should:
 - stay visually stable,
 - keep ring/background motion subordinate to reading,
-- preserve the active pane in a contained auxiliary read,
+- preserve the active pane in a contained auxillary read,
 - route contained navigation through shared orbital panels plus tabs instead of floating sequence cards and free-position ring labels,
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
-- read as retained auxiliaries access and contained auxiliary reads rather than generic settings/account furniture,
-- keep shared entry labels such as `Open Orbitals fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions` aligned across the application,
+- read as retained auxillaries access and contained auxillary reads rather than generic settings/account furniture,
+- keep shared entry labels such as `Open Auxillaries fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions` aligned across the application,
 - reopen signed-in orbital overlays through `openOrbital('orbitals', step?)` instead of older account-named active callers,
 - and remain aligned to the same operator atmosphere as `/application`.
 

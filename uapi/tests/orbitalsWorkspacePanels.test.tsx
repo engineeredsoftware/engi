@@ -17,15 +17,15 @@ describe('OrbitalsWorkspacePanels', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Connects auxiliary' })).toBeEnabled();
-    expect(screen.getByRole('button', { name: 'Interfaces auxiliary' })).toBeEnabled();
-    expect(screen.getByRole('button', { name: 'Profile auxiliary' })).toBeEnabled();
-    expect(screen.getByRole('button', { name: '$BTD auxiliary' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Connects auxillary' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Interfaces auxillary' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Profile auxillary' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: '$BTD auxillary' })).toBeDisabled();
     expect(screen.getByText('outer ring')).toBeTruthy();
     expect(screen.getByText('core ring')).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Connects auxiliary' }));
-    fireEvent.click(screen.getByRole('button', { name: '$BTD auxiliary' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Connects auxillary' }));
+    fireEvent.click(screen.getByRole('button', { name: '$BTD auxillary' }));
 
     expect(onStepClick).toHaveBeenCalledTimes(1);
     expect(onStepClick).toHaveBeenCalledWith('connects');

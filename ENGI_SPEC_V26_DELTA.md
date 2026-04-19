@@ -71,7 +71,7 @@ Its rule is:
 - refurbish the public website only after second-gate application work is stable,
 - avoid letting marketing-page changes blur application acceptance criteria,
 - preserve rich tooltip/help posture instead of flattening it during cleanup,
-- and keep public product language aligned to Give, Need, transactions, conversations, and Orbitals rather than demo or gate narration.
+- and keep public product language aligned to Give, Need, transactions, conversations, and Auxillaries rather than demo or gate narration.
 
 The current V26 near-term checkpoint is explicitly earlier than third-gate closure:
 - first-gate and second-gate closure are carried by `.engi/v26-gate-checkpoint-report.json`,
@@ -169,13 +169,13 @@ The accepted V26 decisions are now:
 11. Fourth-gate ports retained conversations, runs/pipelines, deliverables, prompt abstraction, and retained agent/tool layers into the V26 total system.
 12. Fourth-gate also explicitly owns PostgreSQL/Supabase, `/edgetimes`, migrations, schema contracts, ORM/query carriers, generated database types, and their proof/test/doc/comment closure.
 13. Fourth-gate retained `/executions` compatibility APIs are explicit promotion-boundary owners rather than incidental glue.
-14. Fourth-gate merged-world naming now converges `executions` on `activity`, with transactions first and later notifications plus public/personal system usage joining that searchable activity family.
-15. Fourth-gate now also requires one shared Bitcode activity vocabulary so retained execution events and user-facing notifications normalize through the same typed activity model before later activity classes are admitted.
-16. Fourth-gate merged-world naming now converges `orbitals` on `auxiliaries`, keeping non-transactional, extra-network, still-proven preference/interface/identity/connection surfaces around the Bitcode core.
+14. Fourth-gate merged-world naming now keeps `executions` explicit as executions primitives inside the broader `activity` family, where transactions, executions, and notifications can coexist precisely.
+15. Fourth-gate now also requires one shared Bitcode activity vocabulary so transactions, retained execution events, and user-facing notifications normalize through the same typed activity model before later activity classes are admitted.
+16. Fourth-gate merged-world naming now converges `orbitals` on `auxillaries`, keeping non-transactional, extra-network, still-proven preference/interface/identity/connection surfaces around the Bitcode core.
 17. Old-world port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
 18. `/application` is the only primary Bitcode destination in the finished V26 product posture.
-19. Orbitals and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
-20. Orbitals are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
+19. Auxillaries and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
+20. Auxillaries are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 21. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
 22. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
 23. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
@@ -409,7 +409,7 @@ Second-gate acceptance is reached only when:
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,
 - route-local native operating, deposit, need, and fit cards now read the live shell surfaces through application-owned composition,
-- route-local application and orbital review surfaces now also converge on `Transactions` / `Orbitals` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split delays until `2xl` so laptop-width reading stays centered on the main transactions column,
+- route-local application and retained orbital review surfaces now also converge on `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split delays until `2xl` so laptop-width reading stays centered on the main transactions column,
 - selected-run detail normalizes into one application-owned carrier and deliverable-reading behavior is reachable in both live and mock posture within `/application`,
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,

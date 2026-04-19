@@ -95,7 +95,7 @@ describe('Nav public shell', () => {
   it('shows stable public-route links and guest workspace access actions', () => {
     render(<Nav />);
 
-    const accessButton = screen.getByRole('button', { name: 'Open Orbitals' });
+    const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
     expect(screen.getByText('Brand network')).toBeInTheDocument();
