@@ -1,7 +1,7 @@
-# Bitcode / ENGI Repository
+# Bitcode Repository
 
 Active canon is `V26`.
-`ENGI_SPEC.txt` is the only canonical pointer and currently resolves to `V25`.
+`ENGI_SPEC.txt` is the only canonical pointer and currently resolves to `V26`.
 `V27` is the next draft target after V26 through-fourth-gate promotion.
 
 ## Current product posture
@@ -18,7 +18,7 @@ V26 defines two main operator actions:
 - `give`
 - `need`
 
-The active orbital model is fixed as:
+The active auxillary model is fixed as:
 - `Connects`
 - `Interfaces`
 - `Profile`
@@ -42,12 +42,10 @@ Second-gate closure also requires the live product and docs to stay aligned:
 
 - [ENGI_SPEC.txt](ENGI_SPEC.txt)
   Canonical version pointer.
-- [ENGI_SPEC_V25.md](ENGI_SPEC_V25.md)
-  Active canonical full-system specification.
-- [ENGI_SPEC_V25_PROVEN.md](ENGI_SPEC_V25_PROVEN.md)
-  Active generated proof appendix.
 - [ENGI_SPEC_V26.md](ENGI_SPEC_V26.md)
-  Draft-target full-system specification for V26.
+  Active canonical full-system specification.
+- [ENGI_SPEC_V26_PROVEN.md](ENGI_SPEC_V26_PROVEN.md)
+  Active generated proof appendix.
 - [uapi/README.md](uapi/README.md)
   Application, routes, local development, and verification.
 - [packages/bitcode/README.md](packages/bitcode/README.md)
@@ -64,7 +62,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
 ## Repository map
 
 - `uapi/`
-  Next.js application, app routes, API routes, orbitals, conversations, and shared UI systems.
+  Next.js application, app routes, API routes, auxillaries, conversations, and shared UI systems.
 - `packages/bitcode/`
   Preserved Bitcode runtime, deterministic state engine, public runtime shell, and canonical proof generator inputs.
 - `packages/*`
@@ -96,7 +94,7 @@ pnpm exec next lint --file app/application/ApplicationPageClient.tsx
 pnpm exec jest --runInBand --testMatch '<rootDir>/tests/applicationTransactionDetail.test.ts'
 ```
 
-V26 draft-target proof/checkpoint regeneration:
+V26 canonical proof/checkpoint regeneration:
 
 ```bash
 node scripts/check-engi-spec-family.mjs --version V26
@@ -108,7 +106,7 @@ node scripts/generate-engi-proven.mjs --version V26 --allow-dirty
 V26 is now promoted through fourth gate.
 The promoted boundary carries:
 - application-native `/application` ownership,
-- hardened operator workspace UX/UI,
+- hardened application UX/UI,
 - cleaned orbital naming and contained-shell behavior,
 - preserved-runtime help and telemetry labeling cleaned to Bitcode-facing operator language,
 - route/package documentation refreshed to current Bitcode reality,

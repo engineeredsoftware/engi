@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { buildCanonPosture } from '../src/canon-posture.js';
 
 const publicAppSource = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
 const publicIndexSource = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
@@ -40,4 +41,12 @@ test('V26 preserved runtime prefers flow-guide naming on the direct package surf
 test('V26 public telemetry no longer exposes engi-demo labeling', () => {
   assert.match(publicTelemetrySource, /\[bitcode-runtime\]/);
   assert.doesNotMatch(publicTelemetrySource, /\[engi-demo\]/);
+});
+
+test('V26 canon posture keeps preserved runtime language transactions-first', () => {
+  const posture = buildCanonPosture();
+
+  assert.equal(posture.heroEyebrow, 'Bitcode transactions and activity');
+  assert.match(posture.heroLede, /active scenario/);
+  assert.doesNotMatch(posture.heroEyebrow, /workspace/u);
 });

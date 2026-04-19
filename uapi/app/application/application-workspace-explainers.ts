@@ -4,7 +4,7 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
 }
 
-export const APPLICATION_WORKSPACE_EXPLAINERS = {
+export const APPLICATION_SURFACE_EXPLAINERS = {
   experienceMap: buildExplainer({
     kicker: 'Transactions read model',
     title: 'Transactions experience map',
@@ -134,9 +134,9 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
       'Supports trust before deeper review',
     ],
   }),
-  workspaceMap: buildExplainer({
+  activityMap: buildExplainer({
     kicker: 'Section navigation',
-    title: 'Transactions body map',
+    title: 'Transactions activity map',
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
@@ -224,3 +224,5 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     ],
   }),
 } as const;
+
+export const APPLICATION_WORKSPACE_EXPLAINERS = APPLICATION_SURFACE_EXPLAINERS;

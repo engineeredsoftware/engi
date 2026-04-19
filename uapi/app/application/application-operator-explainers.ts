@@ -1,1 +1,1 @@
-export { APPLICATION_WORKSPACE_EXPLAINERS as APPLICATION_OPERATOR_EXPLAINERS } from './application-workspace-explainers';
+export { APPLICATION_SURFACE_EXPLAINERS as APPLICATION_OPERATOR_EXPLAINERS } from './application-workspace-explainers';

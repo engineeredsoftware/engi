@@ -1,6 +1,6 @@
 # `uapi/components/base/engi`
 
-This directory holds the shared Bitcode operator component systems used by `/application`, orbitals, conversations, and the retained route chrome.
+This directory holds the shared Bitcode operator component systems used by `/application`, auxillaries, conversations, and the retained route chrome.
 
 In V26 second-gate work, this directory is not a grab-bag.
 It is the reusable carrier layer for:
@@ -17,16 +17,17 @@ It is the reusable carrier layer for:
 - `activity/`
   Shared activity vocabulary bridging transactions-first execution streams and later notification/public/personal activity classes.
 - `notifications/`
-  Operator notification surfaces tied to the transactions and orbital shell.
+  Operator notification surfaces tied to the transactions and auxillary shell.
 - `execution/`
   Shared transaction tables, payload readers, detail panels, explainers, activity streams, and field/metric carriers.
 - `orbitals/`
-  Shared orbital visual and ring-adjacent primitives reused by app-owned orbitals.
+  Shared auxillary visual and ring-adjacent primitives reused by the retained auxillary source owners.
 
 ## V26 second-gate rule
 
 New product behavior should prefer this shared layer when the result is:
 - reusable across `/application`, `/orbitals`, and `/conversations`,
+- reusable across `/application`, `/auxillaries`, and `/conversations`,
 - typed and provable,
 - cleaner than page-local duplication,
 - and aligned to Bitcode operator UX rather than marketing or demo posture.

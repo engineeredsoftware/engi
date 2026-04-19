@@ -13,8 +13,8 @@
     "draftDeltaPath": "ENGI_SPEC_V27_DELTA.md",
     "draftParityPath": "ENGI_SPEC_V27_PARITY_MATRIX.md",
     "inheritedCanonSurfaceLabel": "V16/V17/V18/V19/V20/V21/V22/V23/V24",
-    "heroEyebrow": "Bitcode operator workspace",
-    "heroLede": "Set the working scenario, select supply, and follow the flow from give through settlement.",
+    "heroEyebrow": "Bitcode transactions and activity",
+    "heroLede": "Set the active scenario, select supply, and follow the flow from give through settlement.",
     "heroTip": "Use the guide and lower runtime surfaces when you need exact replay, proof, or settlement detail."
   },
   "conformanceProfiles": {

@@ -692,7 +692,9 @@ V26 is fully proven only when:
 4. fifth-gate proof families are generated with explicit closure verdicts,
 5. environment controls and environment-mode completeness are proven rather than assumed,
 6. retained package admissibility is explicit,
-7. and the kept system is described totalistically enough that ENGI-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together.
+7. the kept system is described totalistically enough that ENGI-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
+8. unreplaced `engi` product naming is retired from active code, copy, and route teaching unless it remains as explicit historical lineage or a still-required structural namespace,
+9. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
 
 ## Canonical ENGI executive summary
 
@@ -701,7 +703,7 @@ The subject of V26 is Bitcode.
 
 In V26, Bitcode remains:
 1. a proof-bearing operating system for repo supply, measured need, fit, verification, selection, materialization, disclosure, settlement, and proof closure,
-2. a system that already has active V25 rename closure and must preserve Bitcode and BTD posture during further reorganization,
+2. a system that already has rename closure from V25 and must preserve Bitcode and BTD posture during further reorganization,
 3. a system that already has external-realization, proof, settlement, disclosure, and fail-closed semantics in source,
 4. a system whose current operator story is useful but whose current ownership and presentation are transitional,
 5. a system that must move from demonstration-owned and marketing-embedded posture to application-native posture,
@@ -710,19 +712,16 @@ In V26, Bitcode remains:
 
 ## source-of-truth hierarchy
 
-Current truth order for the V26 draft period is:
+Current truth order for the active V26 canon is:
 1. `ENGI_SPEC.txt`
-2. `ENGI_SPEC_V25.md`
-3. `ENGI_SPEC_V25_DELTA.md`
-4. `ENGI_SPEC_V25_PARITY_MATRIX.md`
-5. `ENGI_SPEC_V25_PROVEN.md`
-6. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v25-*` artifacts
-7. current source and tests explicitly referenced by active V25 canon
-8. `ENGI_SPEC_V26.md`
-9. `ENGI_SPEC_V26_DELTA.md`
-10. `ENGI_SPEC_V26_PARITY_MATRIX.md`
-11. `ENGI_SPEC_V26_NOTES.md`
-12. historical prior specs
+2. `ENGI_SPEC_V26.md`
+3. `ENGI_SPEC_V26_DELTA.md`
+4. `ENGI_SPEC_V26_PARITY_MATRIX.md`
+5. `ENGI_SPEC_V26_NOTES.md`
+6. `ENGI_SPEC_V26_PROVEN.md`
+7. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v26-*` artifacts
+8. current source and tests explicitly referenced by active V26 canon
+9. historical prior specs
 
 V26 is therefore the active canonical runtime truth through fourth gate, while fifth-gate full provation and later-version reopening remain deliberate future work.
 
@@ -891,7 +890,7 @@ The V26 canonical domain model includes the following object and surface classes
 ## whole ENGI operator chain
 
 The whole ENGI operator chain in V26 is:
-1. configure the active V25/V26 posture and route class,
+1. configure the active V26/V27 posture and route class,
 2. bind the correct environment-mode identities and resources,
 3. authenticate repo supply and candidate deposits,
 4. measure need,

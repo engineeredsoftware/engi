@@ -1,4 +1,4 @@
-export const APPLICATION_WORKSPACE_COPY = {
+export const APPLICATION_SURFACE_COPY = {
   frame: {
     kicker: 'Operating picture',
     title: 'Transactions, modes, and orchestration',
@@ -17,7 +17,7 @@ export const APPLICATION_WORKSPACE_COPY = {
     summary:
       'Review verification, branch artifacts, settlement, and ledger continuity in one place, then continue into the exact closure stage only when you need deeper proof.',
   },
-  workspace: {
+  detail: {
     emptySelection:
       'Select a Bitcode transaction from the ledger to load its deliverables, proofs, and history.',
     transactionSummaryFallback:
@@ -44,3 +44,5 @@ export const APPLICATION_WORKSPACE_COPY = {
     },
   },
 } as const;
+
+export const APPLICATION_WORKSPACE_COPY = APPLICATION_SURFACE_COPY;

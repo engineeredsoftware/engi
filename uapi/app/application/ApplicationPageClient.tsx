@@ -26,7 +26,7 @@ import ApplicationSurfaceSection from './ApplicationSurfaceSection';
 import ApplicationSupplySelectionPanel from './ApplicationSupplySelectionPanel';
 import ApplicationTransactionWorkspace from './ApplicationTransactionWorkspace';
 import ApplicationWorkspaceRail from './ApplicationWorkspaceRail';
-import { APPLICATION_WORKSPACE_COPY } from './application-workspace-copy';
+import { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
 import { ApplicationShellBridgeProvider } from './application-shell-bridge';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import {
@@ -312,9 +312,9 @@ export default function ApplicationPageClient() {
             <div className="min-w-0">
               <ApplicationSurfaceSection
                 id="applicationFrameSurface"
-                kicker={APPLICATION_WORKSPACE_COPY.frame.kicker}
-                title={APPLICATION_WORKSPACE_COPY.frame.title}
-                summary={APPLICATION_WORKSPACE_COPY.frame.summary}
+                kicker={APPLICATION_SURFACE_COPY.frame.kicker}
+                title={APPLICATION_SURFACE_COPY.frame.title}
+                summary={APPLICATION_SURFACE_COPY.frame.summary}
               >
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
                 <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
@@ -331,9 +331,9 @@ export default function ApplicationPageClient() {
 
               <ApplicationSurfaceSection
                 id="applicationSupplySurface"
-                kicker={APPLICATION_WORKSPACE_COPY.supply.kicker}
-                title={APPLICATION_WORKSPACE_COPY.supply.title}
-                summary={APPLICATION_WORKSPACE_COPY.supply.summary}
+                kicker={APPLICATION_SURFACE_COPY.supply.kicker}
+                title={APPLICATION_SURFACE_COPY.supply.title}
+                summary={APPLICATION_SURFACE_COPY.supply.summary}
                 tone="emerald"
               >
                 <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
@@ -355,9 +355,9 @@ export default function ApplicationPageClient() {
 
               <ApplicationSurfaceSection
                 id="applicationClosureSurface"
-                kicker={APPLICATION_WORKSPACE_COPY.closure.kicker}
-                title={APPLICATION_WORKSPACE_COPY.closure.title}
-                summary={APPLICATION_WORKSPACE_COPY.closure.summary}
+                kicker={APPLICATION_SURFACE_COPY.closure.kicker}
+                title={APPLICATION_SURFACE_COPY.closure.title}
+                summary={APPLICATION_SURFACE_COPY.closure.summary}
               >
                 <ApplicationClosureControlDeck />
                 <ApplicationClosureNativeSections />

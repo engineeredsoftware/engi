@@ -57,7 +57,7 @@ Contained orbital rails should also converge on the shared panel-plus-tabs carri
 Third-gate public-shell work is now explicitly carried by:
 
 - `app/(root)/components/PublicShellFrame.tsx`
-  Mounted public-route provider shell for nav, auth, query, and orbitals access.
+  Mounted public-route provider shell for nav, auth, query, and auxillaries access.
 - `app/(root)/components/MarketingLandingPage.tsx`
   Mounted homepage shell coordinator.
 - `app/(root)/components/landing/MarketingLandingHero.tsx`

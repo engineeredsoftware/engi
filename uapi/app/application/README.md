@@ -6,7 +6,7 @@ Its job is to keep one operator route coherent:
 - transactions as the master surface,
 - selected transaction detail as the detail surface,
 - give and need as the primary write actions,
-- fullscreen conversations and orbitals as deeper modes entered from within the route,
+- fullscreen conversations and auxillaries as deeper modes entered from within the route,
 - and the preserved lower runtime available only when dense proof/settlement inspection is required.
 
 ## Main experience model
@@ -14,7 +14,7 @@ Its job is to keep one operator route coherent:
 V26 locks three experiences:
 - `master detail`
 - `conversations`
-- `orbitals`
+- `auxillaries`
 
 V26 locks two actions:
 - `give`
@@ -46,8 +46,8 @@ First-and-second-gate checkpoint confidence requires `/application` to be:
 - route-query owned for transaction selection and filtering,
 - user-facing in copy and help posture,
 - free of demo/tutorial/gate narration in the visible product surface,
-- free of generic settings/configuration language when the live surface is really expressing orbitals or interface posture,
-- able to reopen orbitals as a full-width contained orbital shell without collapsing transactions into modal-width account furniture,
+- free of generic settings/configuration language when the live surface is really expressing auxillary or interface posture,
+- able to reopen auxillaries as a full-width contained auxillary shell without collapsing transactions into modal-width account furniture,
 - supported by shared execution carriers instead of growing page-local duplication,
 - documented alongside the root/package/shared-component README family as required second-gate implementation scope,
 - and backed by proof/test/doc carriers that reflect the real route shape.

@@ -99,6 +99,6 @@ describe('normalizeApplicationSectionAtlas', () => {
     const atlas = normalizeApplicationSectionAtlas(null);
 
     expect(atlas).toHaveLength(8);
-    expect(atlas[0]?.preview).toBe('Waiting for semantic Bitcode section state to populate.');
+    expect(atlas[0]?.preview).toBe('Waiting for this transaction stage to populate.');
   });
 });

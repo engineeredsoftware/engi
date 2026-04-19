@@ -1,1 +1,1 @@
-export { APPLICATION_WORKSPACE_COPY as APPLICATION_SURFACE_COPY } from './application-workspace-copy';
+export { APPLICATION_SURFACE_COPY } from './application-workspace-copy';
