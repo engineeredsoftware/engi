@@ -292,6 +292,7 @@ Mounted third-gate hardening must also retire stale public-shell residue from th
 Mounted third-gate public chrome should also prefer progressive simplification over extra menu state:
 - responsive public-route nav should stack and wrap cleanly on smaller screens rather than introducing hamburger-only access for the primary Bitcode entry links,
 - dense operator-preview content on the mounted landing should collapse into a compact public/mobile summary before wider-shell detail is shown,
+- heavy ambient motion and backdrop effects on the mounted landing should suppress on smaller or reduced-motion shells before wider-screen theatrical treatment is shown,
 - and public-route access CTAs should remain immediately visible without requiring additional taps to discover the transactions terminal or operator guide.
 
 Third-gate acceptance is reached only when:

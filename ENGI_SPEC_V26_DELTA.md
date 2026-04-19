@@ -384,6 +384,7 @@ Second-gate acceptance is reached only when:
 - the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec path,
 - the mounted public nav now resolves small-screen complexity by stacking and wrapping the live Bitcode links and guest actions instead of hiding the primary entry paths behind another menu state,
 - the mounted public terminal preview now defaults to a compact mobile/public summary and reserves the denser operator-grade preview for wider shells,
+- the mounted landing ambience now suppresses orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere,
 - the mounted public shell now reuses shared inline explainers for `Transactions terminal`, `Operator guide`, and `Protocol spec`, removing the thin footer `title` tooltip and preserving richer help posture in the live public chrome,
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,
 - active `Interfaces` and `$BTD` panes now use live `interfaces`/`btd` naming and orbital-entry classing instead of exposing model/credits/settings residue in the active orbital surface,

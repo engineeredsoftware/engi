@@ -82,6 +82,7 @@ Operational rule:
 - the mounted public shell should decompose stabilized landing hero, guide, preview, and shared marketing-shell data into clearer carriers rather than preserving one oversized mixed-surface landing owner
 - the mounted public shell should keep core entry links and guest access CTAs directly visible on smaller screens through stacked/wrapped layout rather than introducing another menu-state dependency
 - the mounted public terminal preview should present a compact public/mobile summary before exposing the denser operator-grade preview on wider shells
+- the mounted landing ambience should suppress orbital rings, pointer glow, and oversized ambient blur on smaller or reduced-motion shells before wider-screen theatrical treatment is shown
 - the mounted public shell should use richer shared explainer/help carriers for key entry links and references rather than relying on browser `title` tooltips
 - the stable operator-guide route should resolve one Bitcode-owned guide asset rather than preserving ordered demo-era media compatibility
 - the mounted public footer should resolve the guide route through Bitcode-owned route/env ownership rather than legacy `ENGI_DEMO` fallbacks

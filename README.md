@@ -124,4 +124,5 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live public footer now resolves the operator-guide URL through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
 - the live public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of hard-linking a version-specific public spec path
 - the live terminal preview is now progressive by default, with a compact public/mobile summary and the denser operator-grade preview only on wider shells
+- the live landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary

@@ -80,5 +80,8 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Compact terminal view')).toBeInTheDocument();
     expect(screen.getAllByText('Operator frame').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Source to settlement').length).toBeGreaterThan(0);
+    expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
+    expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
+    expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');
   });
 });

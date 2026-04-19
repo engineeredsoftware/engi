@@ -117,7 +117,11 @@ export default function MarketingLandingPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(103,254,183,0.14),transparent_34%),linear-gradient(180deg,#07131d_0%,#030816_45%,#02060d_100%)]" />
           <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(103,254,183,0.09)_1px,transparent_1px),linear-gradient(90deg,rgba(103,254,183,0.09)_1px,transparent_1px)] [background-size:160px_160px]" />
 
-          <div className="orbital-system absolute inset-0 opacity-60" style={{ contain: 'paint' }}>
+          <div
+            data-testid="landing-orbital-ambience"
+            className="orbital-system absolute inset-0 hidden opacity-60 motion-reduce:hidden laptop:block"
+            style={{ contain: 'paint' }}
+          >
             <div
               className="orbital-ring"
               style={{ '--size': '86%', '--delay': '0s', '--rotation': '' } as React.CSSProperties}
@@ -135,7 +139,7 @@ export default function MarketingLandingPage() {
           {BACKGROUND_PARTICLES.map((particle) => (
             <div
               key={particle.id}
-              className="quantum-particle absolute rounded-full bg-[#67feb7]"
+              className="quantum-particle absolute hidden rounded-full bg-[#67feb7] motion-reduce:hidden tablet:block"
               style={{
                 left: `${particle.x}%`,
                 top: `${particle.y}%`,
@@ -151,7 +155,8 @@ export default function MarketingLandingPage() {
           ))}
 
           <div
-            className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+            data-testid="landing-pointer-glow"
+            className="pointer-events-none absolute inset-0 hidden transition-opacity duration-300 motion-reduce:hidden laptop:block"
             style={{
               background:
                 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(103, 254, 183, 0.16) 0%, rgba(103, 254, 183, 0.08) 16%, transparent 44%)',
@@ -159,7 +164,10 @@ export default function MarketingLandingPage() {
               contain: 'paint',
             }}
           />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl" />
+          <div
+            data-testid="landing-ambient-glow"
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl motion-reduce:hidden laptop:block"
+          />
 
           <main className="relative z-20 mx-auto flex w-full max-w-[1380px] flex-1 items-start px-4 py-4 phone:px-5 phone:py-5 tablet:px-6 laptop:items-center laptop:px-8 desktop:px-12">
             <div className="grid w-full gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
