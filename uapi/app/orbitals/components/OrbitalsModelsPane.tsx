@@ -204,7 +204,7 @@ export default function InterfacesPane({
               Interfaces posture
             </div>
             <p className="mt-3 text-sm leading-7 text-white/78">
-              Routing, prompts, and workspace defaults here shape how the transactions window,
+              Routing, prompts, and interface defaults here shape how transactions,
               conversations, proofs, and follow-through behave the next time you work in Bitcode.
               Update these defaults when you need a different provider mix or instruction baseline.
             </p>

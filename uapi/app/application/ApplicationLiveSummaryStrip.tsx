@@ -30,7 +30,7 @@ export default function ApplicationLiveSummaryStrip() {
 
   return (
     <ApplicationWorkspaceCard
-      kicker="Workspace pulse"
+      kicker="Transactions pulse"
       title="Pinned operating signals"
       summary="Keep scenario, proof pressure, and blocking interfaces close to the ledger before you dive into deeper deliverable, proof, or history detail."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.ledgerPulse}

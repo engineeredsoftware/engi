@@ -34,7 +34,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
       preview:
         panel.cards[0]?.help ||
         panel.cards[0]?.subtitle ||
-        'This workspace stage is ready to read.',
+        'This transaction stage is ready to read.',
       subheads: unique(
         panel.cards
           .map((card) => card.title)
@@ -80,7 +80,7 @@ export function normalizeApplicationSectionAtlas(snapshot: ShellSnapshot): Secti
       id: section.id,
       label: section.label,
       badge: '',
-      preview: 'Waiting for this workspace stage to populate.',
+      preview: 'Waiting for this transaction stage to populate.',
       subheads: [],
       itemCount: 0,
     }

@@ -7,8 +7,8 @@ export interface NotificationPresentation {
 }
 
 const DEFAULT_PRESENTATION: NotificationPresentation = {
-  label: 'Workspace',
-  title: 'Workspace update',
+  label: 'Bitcode',
+  title: 'Bitcode update',
   tone: 'slate',
 };
 

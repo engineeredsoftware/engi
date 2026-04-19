@@ -94,7 +94,7 @@ function buildMasterDetailSubstructures(
         summary:
           detail?.summary ||
           selectedRun.summary ||
-          'This selected transaction is the active detail surface inside the Bitcode workspace.',
+          'This selected transaction is the active detail surface inside Bitcode transactions.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
@@ -112,7 +112,7 @@ function buildMasterDetailSubstructures(
         ...substructure,
         summary:
           detail?.deliverables?.summary ||
-          'Deliverable surfaces stay inside the selected transaction context so you can inspect output without leaving the workspace.',
+          'Deliverable surfaces stay inside the selected transaction context so you can inspect output without leaving transactions.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
@@ -158,7 +158,7 @@ function buildMasterDetailSubstructures(
     return {
       ...substructure,
       summary:
-        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode workspace.',
+        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode transactions surface.',
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
@@ -261,8 +261,8 @@ export default function ApplicationTransactionWorkspace({
         setRunDetail(fallbackDetail);
         setRunDetailError(
           error instanceof Error
-            ? `${error.message}. Falling back to the workspace summary while live detail stays unavailable.`
-            : 'Unable to load live selected-transaction detail. Falling back to the workspace summary.',
+            ? `${error.message}. Falling back to the transaction summary while live detail stays unavailable.`
+            : 'Unable to load live selected-transaction detail. Falling back to the transaction summary.',
         );
       })
       .finally(() => {
@@ -285,9 +285,9 @@ export default function ApplicationTransactionWorkspace({
       className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,10,20,0.96),rgba(4,8,16,0.94))] shadow-[0_32px_110px_rgba(0,0,0,0.48)]"
     >
       <div className="border-b border-white/8 px-6 py-5">
-        <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-          <div className="max-w-3xl">
-            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Transaction workspace</p>
+          <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+          <div className="max-w-4xl">
+            <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Transactions</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
               Master-detail transactions, deliverables, proofs, and history
             </h2>

@@ -117,7 +117,7 @@ export default function ConnectsPane({
                     </p>
                     <p className="mt-2 text-sm leading-7 text-white/68">
                       {hasGitHubConnection
-                        ? 'Bitcode can now reuse this repository context across the application workspace.'
+                        ? 'Bitcode can now reuse this repository context across transactions.'
                         : 'Connect GitHub to let Bitcode read and act against live repository context from the application.'}
                     </p>
                   </div>

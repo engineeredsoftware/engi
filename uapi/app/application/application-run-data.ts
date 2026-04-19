@@ -88,7 +88,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     pullRequest: {
       url: 'https://github.com/bitcode/bitcode/pull/268',
       number: 268,
-      title: 'Refactor Bitcode application branch-artifact detail workspace',
+      title: 'Refactor Bitcode application branch-artifact detail surface',
       description:
         'Pulls the remediated branch artifact pack into the selected transaction detail and tightens bounded proof grouping.',
     },
@@ -96,7 +96,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       {
         url: 'https://github.com/bitcode/bitcode/pull/268#pullrequestreview-1',
         number: 1,
-        title: 'Review remediation workspace wiring',
+        title: 'Review remediation transactions wiring',
         description: 'Confirms branch visibility, proof grouping, and the current transaction-detail posture.',
       },
     ],
@@ -123,7 +123,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
       paths: ['uapi/app/application/ApplicationTransactionWorkspace.tsx', 'uapi/app/application/ApplicationPageClient.tsx'],
     },
     summary:
-      'The branch remediation pack now reads as one transactions workspace surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
+      'The branch remediation pack now reads as one transactions surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
   },
   'mock-run-measurement-pass': {
     pullRequest: null,
@@ -141,11 +141,11 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
         url: 'https://github.com/bitcode/bitcode/issues/412#issuecomment-1',
         number: 412,
         title: 'Measurement note',
-        description: 'Normalization fit and decisive fit are now separated more clearly for workspace reading.',
+        description: 'Normalization fit and decisive fit are now separated more clearly for transaction reading.',
       },
     ],
     summary:
-      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the main ledger workspace.',
+      'Measurement results were refreshed and tied back into the Bitcode fit-reading model so verification pressure stays readable without leaving the main ledger transactions surface.',
   },
   'mock-run-proof-refresh': {
     pullRequest: null,
@@ -153,7 +153,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     issues: null,
     comments: null,
     summary:
-      'Proof-family witnesses are still refreshing. Mock review keeps the transactions workspace legible while the final proof bundle remains in-flight.',
+      'Proof-family witnesses are still refreshing. Mock review keeps transactions legible while the final proof bundle remains in-flight.',
   },
 };
 
@@ -203,7 +203,7 @@ export const MOCK_RUN_ACTIVITY: Record<
       id: 'wu-1',
       iteration: 2,
       confidence: 0.94,
-      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for workspace review.',
+      prose: 'Remediation branch artifacts and deliverable surfaces are aligned for transaction review.',
       timestamp: '2026-04-16T12:01:40.000Z',
     },
     iterationUpdates: [
@@ -218,7 +218,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-2',
         iteration: 2,
         confidence: 0.94,
-        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for workspace review.',
+        prose: 'Remediation branch artifacts and deliverable surfaces are aligned for transaction review.',
         timestamp: '2026-04-16T12:01:40.000Z',
       },
     ],

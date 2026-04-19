@@ -1,15 +1,15 @@
 export const APPLICATION_WORKSPACE_COPY = {
   frame: {
-    kicker: 'Frame and orchestration',
-    title: 'Workspace frame and orchestration',
+    kicker: 'Operating picture',
+    title: 'Transactions, modes, and orchestration',
     summary:
-      'Keep the transactions terminal centered while orchestration, runtime posture, and navigation stay visible in shared workspace surfaces around it.',
+      'Keep transactions centered while orchestration, runtime posture, and navigation stay visible in shared Bitcode surfaces around them.',
   },
   supply: {
     kicker: 'Give and need systems',
     title: 'Supply, need, and transaction posture',
     summary:
-      'Move from searchable supply into measured need, fit, and transaction posture without leaving the main workspace.',
+      'Move from searchable supply into measured need, fit, and transaction posture without leaving the main transactions surface.',
   },
   closure: {
     kicker: 'Closure and provenance',
@@ -21,14 +21,14 @@ export const APPLICATION_WORKSPACE_COPY = {
     emptySelection:
       'Select a Bitcode transaction from the ledger to load its deliverables, proofs, and history.',
     transactionSummaryFallback:
-      'Inspect this Bitcode transaction from the central workspace detail.',
+      'Inspect this Bitcode transaction from the central transaction detail.',
   },
   rail: {
     control: {
-      kicker: 'Workspace modes',
+      kicker: 'Reading modes',
       title: 'Read here, open deeper modes when needed',
       summary:
-        'Stay in the transaction workspace by default, then open conversations or Orbitals when you need deeper writing or interface changes.',
+        'Stay in transactions by default, then open conversations or Orbitals when you need deeper writing or interface changes.',
     },
     support: {
       kicker: 'Transaction support',

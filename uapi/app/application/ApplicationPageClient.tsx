@@ -250,12 +250,12 @@ export default function ApplicationPageClient() {
           <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-6 px-4 pb-24 pt-10 tablet:px-6 desktop:px-8">
           <section className="overflow-hidden rounded-[2rem] border border-emerald-400/15 bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-6 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.38)]">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-              <div className="max-w-3xl">
-                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode transactions terminal</p>
+              <div className="max-w-4xl">
+                <p className="text-[0.72rem] uppercase tracking-[0.34em] text-emerald-300/80">Bitcode transactions</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
                   Read transactions, then move deeper only when you need to
                 </h1>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
                   Search and filter Bitcode transactions in one ledger window, open the selected
                   transaction into deliverables, proofs, and history, and move into conversations
                   or orbitals without losing your place.
@@ -278,7 +278,7 @@ export default function ApplicationPageClient() {
             </div>
           </section>
 
-          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_25rem] xl:items-start">
+          <div className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_24rem] 2xl:items-start">
             <div className="min-w-0">
               <ApplicationTransactionWorkspace
                 runs={runs}
@@ -317,7 +317,7 @@ export default function ApplicationPageClient() {
                 summary={APPLICATION_WORKSPACE_COPY.frame.summary}
               >
                 <ApplicationExperienceFrame onOpenConversations={() => setIsConversationOverlayOpen(true)} />
-                <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
+                <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
                   <div className="space-y-6">
                     <ApplicationCommandDeck />
                     <ApplicationLiveSummaryStrip />
@@ -336,7 +336,7 @@ export default function ApplicationPageClient() {
                 summary={APPLICATION_WORKSPACE_COPY.supply.summary}
                 tone="emerald"
               >
-                <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
+                <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
                   <div className="space-y-6">
                     <ApplicationRepositoryContextPanel
                       preferredRepository={selectedRun?.repository || null}

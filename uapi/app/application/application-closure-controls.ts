@@ -35,7 +35,7 @@ export function normalizeApplicationClosureControlState(
   commandState: ApplicationCommandState | null,
   closureState: ApplicationClosureState | null,
 ): ApplicationClosureControlState {
-  const status = commandState?.status || 'Workspace controls are syncing.';
+  const status = commandState?.status || 'Flow controls are syncing.';
   const statusLower = status.toLowerCase();
   const flowGuideDetail =
     commandState && commandState.flowGuideStepCount > 0

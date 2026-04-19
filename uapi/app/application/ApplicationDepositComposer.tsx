@@ -344,7 +344,7 @@ export default function ApplicationDepositComposer() {
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">After deposit</p>
             <p className="mt-3 text-sm leading-6 text-neutral-300">
               Submitting refreshes the working chain so selected supply, measured demand, fit, and later branch, proof,
-              and settlement reads stay aligned in the same workspace.
+              and settlement reads stay aligned in the same transactions surface.
             </p>
           </div>
         </aside>

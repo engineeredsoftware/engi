@@ -107,7 +107,7 @@ export default function OrbitalsBTDPane({
       {
         id: "share-lens",
         title: "Share lens",
-        description: "Choose how $BTD ownership and participation should read when you reopen the workspace.",
+        description: "Choose how $BTD ownership and participation should read when you reopen transactions.",
         value: defaults.shareLens,
         onChange: (value) =>
           setDefaults((current) => ({
@@ -322,7 +322,7 @@ export default function OrbitalsBTDPane({
                     value: membershipSummary,
                     detail: teamMembers.length
                       ? "Team and multi-party posture currently reflected in the active profile."
-                      : "Single-account posture until more roles join the workspace.",
+                      : "Single-account posture until more roles join this Bitcode account.",
                     tone: "emerald",
                   },
                 ]}
@@ -332,7 +332,7 @@ export default function OrbitalsBTDPane({
 
             <OrbitalsWorkspaceSection
               kicker="Share posture"
-              title="Choose how $BTD detail should read back into the workspace"
+              title="Choose how $BTD detail should read back into transactions"
               description="Use the inner orbital to decide whether account, organization, or network share posture should dominate when you reopen main operator surfaces."
               explainer={orbitalsPaneExplainers.btdShares}
               tone="violet"

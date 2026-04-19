@@ -66,12 +66,12 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                    Compact terminal view
-                  </p>
-                  <p className="mt-1 text-[11px] leading-5 text-emerald-100/62">
-                    Public routes keep the operator frame legible first, then expand into the denser terminal on wider screens.
-                  </p>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                        Compact network view
+                      </p>
+                      <p className="mt-1 text-[11px] leading-5 text-emerald-100/62">
+                    Network keeps the Bitcode market frame legible first, then expands into denser transaction detail on wider screens.
+                      </p>
                 </div>
                 <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
                   mobile-first
@@ -128,7 +128,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
           <div className="hidden gap-4 p-4 laptop:grid desktop:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-3">
               <div className="rounded-[22px] border border-white/8 bg-white/5 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
                   Measurement vector
                 </p>
                 <div className="mt-4 space-y-4">
@@ -136,10 +136,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     <div key={axis.label}>
                       <div className="flex items-end justify-between gap-3">
                         <div>
-                          <p className="text-sm font-medium text-white">{axis.label}</p>
-                          <p className="text-[11px] leading-4 text-emerald-100/58">{axis.detail}</p>
+                          <p className="text-[15px] font-medium text-white">{axis.label}</p>
+                          <p className="text-[12px] leading-5 text-emerald-100/62">{axis.detail}</p>
                         </div>
-                        <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/78">
+                        <span className="text-[12px] font-semibold uppercase tracking-[0.24em] text-emerald-200/78">
                           {axis.value}
                         </span>
                       </div>
@@ -169,7 +169,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
                       {BITCODE_PUBLIC_COPY.operatorFrame.title}
                     </p>
-                    <p className="mt-1 text-[9px] uppercase tracking-[0.08em] text-emerald-100/52">
+                    <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-emerald-100/58">
                       {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
                     </p>
                   </div>
@@ -187,7 +187,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                         'scale-110 tablet:scale-[1.25] laptop:scale-100',
                         surface === 'Give + Need' ? 'green' : 'purple',
                       )}
-                      <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-sm">
+                      <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-[13px]">
                         {surface}
                       </span>
                     </li>
@@ -214,7 +214,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                       <p className="bg-gradient-to-r from-emerald-200 via-cyan-200 to-white bg-clip-text text-sm font-semibold text-transparent">
                         Verified access
                       </p>
-                      <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-emerald-100/52">
+                      <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-emerald-100/58">
                         public writes • public proofs • private reads
                       </p>
                     </div>
@@ -226,13 +226,13 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
 
                   <div className="mt-3 space-y-2">
                     {verificationRows.map(({ label, detail, status, Icon: VerificationIcon }) => (
-                      <div key={label} className="rounded-2xl border border-white/8 bg-black/20 px-3 py-2.5">
+                      <div key={label} className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex min-w-0 items-center gap-2">
                             <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/6 text-emerald-200/78">
                               <VerificationIcon className="h-3.5 w-3.5" />
                             </span>
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/88">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/88">
                               {label}
                             </p>
                           </div>
@@ -243,7 +243,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             )}
                           </span>
                         </div>
-                        <p className="mt-2 text-[10px] leading-5 text-emerald-100/62">{detail}</p>
+                        <p className="mt-2 text-[11px] leading-5 text-emerald-100/66">{detail}</p>
                       </div>
                     ))}
                   </div>
@@ -256,7 +256,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
                   {BITCODE_PUBLIC_COPY.giveContribution.title}
                 </p>
-                <div className="mt-4 space-y-2 font-mono text-[11px] leading-5 text-emerald-100/78">
+                <div className="mt-4 space-y-3 font-mono text-[12px] leading-5 text-emerald-100/80">
                   {previewRows.map(
                     ({ key, valueParts, Icon: RowIcon, accentClassName, valuesGridClassName, iconClassName }) => (
                       <div
@@ -272,7 +272,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             >
                               <RowIcon className="h-4 w-4" />
                             </span>
-                            <p className="text-[12px] uppercase tracking-[0.2em] text-emerald-200/58 tablet:text-[13px] laptop:text-[11px]">
+                            <p className="text-[12px] uppercase tracking-[0.18em] text-emerald-200/62 tablet:text-[13px] laptop:text-[12px]">
                               {key}
                             </p>
                           </div>
@@ -292,7 +292,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                     isBtdValue ? 'green' : 'orange',
                                   )}
                                   <span
-                                    className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[11px] laptop:leading-5 ${isBtdValue ? 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]' : ''}`}
+                                    className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${isBtdValue ? 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]' : ''}`}
                                   >
                                     {valuePart}
                                   </span>
@@ -313,7 +313,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     <p className="bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
                       {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
                     </p>
-                    <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-emerald-100/52">
+                    <p className="mt-1 text-[12px] uppercase tracking-[0.16em] text-emerald-100/58">
                       {BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle}
                     </p>
                   </div>
@@ -321,7 +321,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.badge}
                   </span>
                 </div>
-                <p className="mt-3 text-[13px] leading-5 text-emerald-100/70">
+                <p className="mt-3 text-[14px] leading-6 text-emerald-100/72">
                   Commits, citations, authorship, and metadata stay attached as give-side context for later proof and settlement.
                 </p>
                 <div className="mt-4 rounded-[20px] border border-emerald-300/12 bg-emerald-400/6 p-3">

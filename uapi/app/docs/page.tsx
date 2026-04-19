@@ -14,7 +14,7 @@ async function resolveOperatorGuideSourcePlayable() {
   }
 }
 
-export default async function OperatorGuidePage() {
+export default async function DocsPage() {
   const sourcePlayable = await resolveOperatorGuideSourcePlayable();
 
   return (

@@ -67,7 +67,9 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 - `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
 - `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
 - `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
+- `uapi/app/(root)/components/PublicDocsPageContent.tsx`
 - `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
+- `uapi/app/docs/page.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`
@@ -77,18 +79,21 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 
 Operational rule:
 - the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
+- the mounted public shell must clearly organize itself as `Network`, `Transactions`, `Docs`, and `Orbitals`
 - the mounted public shell must also mount live public-route nav and orbital-entry behavior instead of relying on page-local CTA copy alone
+- `/docs` must be the real public teaching surface while `/demo-video` remains a compatibility alias into that docs-owned content
 - the mounted public shell must not preserve live `ComingSoon*` owners, `coming-soon-*` stylesheet imports, or dormant access-gate shells once the route is serving as the Bitcode public entry
 - the mounted public shell should decompose stabilized landing hero, guide, preview, and shared marketing-shell data into clearer carriers rather than preserving one oversized mixed-surface landing owner
 - the mounted public shell should keep core entry links and guest access CTAs directly visible on smaller screens through stacked/wrapped layout rather than introducing another menu-state dependency
 - the mounted public terminal preview should present a compact public/mobile summary before exposing the denser operator-grade preview on wider shells
 - the mounted landing ambience should suppress orbital rings, pointer glow, and oversized ambient blur on smaller or reduced-motion shells before wider-screen theatrical treatment is shown
+- the mounted public footer should present route links as mobile-first cards and protocol/version metadata as explicit chips instead of compressing them into one dense inline strip on smaller shells
 - the mounted public shell should use richer shared explainer/help carriers for key entry links and references rather than relying on browser `title` tooltips
-- the stable operator-guide route should resolve one Bitcode-owned guide asset rather than preserving ordered demo-era media compatibility
-- the mounted public footer should resolve the guide route through Bitcode-owned route/env ownership rather than legacy `ENGI_DEMO` fallbacks
+- the stable docs walkthrough should resolve one Bitcode-owned guide asset rather than preserving ordered demo-era media compatibility
+- the mounted public footer should resolve the walkthrough/docs route through Bitcode-owned route/env ownership rather than legacy `ENGI_DEMO` fallbacks
 - the mounted public footer should link protocol spec through the stable canonical pointer rather than a version-specific public spec URL
-- stable public entry copy should prefer `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`
-- the stable `/demo-video` route remains a public guide URL, not a demo-era narrative fallback
+- stable public entry copy should prefer `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching posture
+- `/docs` should remain the real public teaching surface while `/demo-video` remains a compatibility alias instead of a separate guide product surface
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance
 
 ## Master-detail inner structure
@@ -600,9 +605,9 @@ Operational rule:
 - unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
 - marketing footer chrome does not render on operator workspace routes
 - `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/orbital transitions
-- application-triggered orbital entry opens a contained, login-first workspace while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
+- application-triggered orbital entry opens a contained, login-first orbital surface while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
 - contained orbital access shells and focused orbital routes must keep orbitals-first wording rather than reverting to generic workspace/settings/account entry furniture
-- `uapi/app/orbitals/components/orbital-pane-meta.ts` is the shared orbital naming/copy owner for fullscreen orbital entry labels, targeted orbital-open actions, and the direct-route return action into the transactions terminal
+- `uapi/app/orbitals/components/orbital-pane-meta.ts` is the shared orbital naming/copy owner for fullscreen orbital entry labels, targeted orbital-open actions, and the direct-route return action into transactions
 - signed-in orbital reopen actions now flow through the shared `orbitals` entry alias in `uapi/app/orbitals/components/OrbitalsProvider.tsx` rather than older active `account`-named callers
 - signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required

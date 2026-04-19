@@ -284,6 +284,8 @@ Mounted public-shell owners are no longer ambiguous:
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
 - `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
+- `uapi/app/(root)/components/PublicDocsPageContent.tsx`
+- `uapi/app/docs/page.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`
@@ -291,25 +293,28 @@ Mounted public-shell owners are no longer ambiguous:
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 
 Those files now carry the active third-gate start for public-facing:
-- `transactions terminal`
-- `operator guide`
-- `give`
-- `need`
-- `orbitals`
+- `Network`
+- `Transactions`
+- `Docs`
+- `Orbitals`
+- plus `give` and `need` as the two main Bitcode actions explained across the public teaching surface
 
 Mounted public-shell chrome is also now explicit:
-- `/` and `/demo-video` mount live Bitcode nav through `PublicShellFrame`
-- public routes expose stable `Transactions terminal` / `Operator guide` links plus `Access Workspace` / `Create Account`
+- `/`, `/docs`, and `/demo-video` mount live Bitcode nav through `PublicShellFrame`
+- public routes expose stable `Network` / `Transactions` / `Docs` links plus `Open Orbitals` / `Create Account`
 - public-route orbital access now opens the contained Bitcode orbital shell instead of stopping at page-local CTA copy
 - the mounted landing shell now uses Bitcode marketing-shell owners and selectors rather than live `ComingSoon*`/`coming-soon-*` residue
 - the mounted landing owner now delegates to `app/(root)/components/landing/*` carriers for hero, preview, guide, and shared landing-shell data instead of keeping those surfaces fused into one file
-- the stable guide route now fails closed with user-facing operator fallback copy and a direct `Open transactions terminal` path instead of exposing asset-path instructions
-- the stable guide route now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
+- the mounted public shell now owns a real `/docs` route through `PublicDocsPageContent.tsx`
+- `/demo-video` is now a compatibility alias into the same docs-owned content instead of a separate public product surface
+- the stable docs walkthrough now fails closed with user-facing fallback copy and a direct `Open transactions` path instead of exposing asset-path instructions
+- the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
 - the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
 - the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec file path
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
 - the mounted public terminal preview now leads with a compact public/mobile summary and only expands into the denser operator-grade preview on wider shells
 - the mounted landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of carrying the full animated backdrop everywhere
+- the mounted public footer now treats route links as card carriers and protocol/version metadata as product chips on smaller shells instead of compressing them into one dense inline footer strip
 - the mounted public shell now carries shared inline explainers for its main entry links and protocol reference instead of falling back to a thin browser `title` tooltip in the footer
 
 Current draft-only spine to preserve for that future gate:

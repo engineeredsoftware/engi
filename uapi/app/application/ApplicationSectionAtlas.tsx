@@ -26,7 +26,7 @@ export default function ApplicationSectionAtlas() {
 
   return (
     <ApplicationWorkspaceCard
-      kicker="Workspace map"
+      kicker="Section map"
       title="Preview the deeper flow"
       summary="Scan give, need, fit, verification, artifacts, settlement, and ledger sections before you open the next deeper stage."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.workspaceMap}

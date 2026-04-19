@@ -22,7 +22,7 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/engi/layout/bitcode
 
 const APPLICATION_URL = '/application';
 const DEFAULT_OPERATOR_GUIDE_URL =
-  process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/demo-video';
+  process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC.txt';
 
 const footerNavs = [
@@ -109,11 +109,42 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinks = useMemo(() => [
     {
-      ariaLabel: 'Transactions terminal',
-      label: BITCODE_PUBLIC_COPY.footer.links.application,
+      ariaLabel: 'Network',
+      label: BITCODE_PUBLIC_COPY.footer.links.network,
+      meta: 'Public route',
+      href: '/',
+      explainer: BITCODE_PUBLIC_EXPLAINERS.network,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(103,254,183,0.66)) drop-shadow(0 0 15px rgba(103,254,183,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-emerald-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="8.5" />
+            <path d="M6.5 12h11" />
+            <path d="M12 6.5c2.8 2.4 2.8 8.6 0 11" />
+            <path d="M12 6.5c-2.8 2.4-2.8 8.6 0 11" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      ariaLabel: 'Transactions',
+      label: BITCODE_PUBLIC_COPY.footer.links.transactions,
       meta: 'Bitcode app',
       href: APPLICATION_URL,
-      explainer: BITCODE_PUBLIC_EXPLAINERS.transactionsTerminal,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.transactions,
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -140,11 +171,11 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      ariaLabel: 'Operator guide',
-      label: BITCODE_PUBLIC_COPY.footer.links.guide,
-      meta: 'Recorded guide',
+      ariaLabel: 'Docs',
+      label: BITCODE_PUBLIC_COPY.footer.links.docs,
+      meta: 'Guide + walkthrough',
       href: DEFAULT_OPERATOR_GUIDE_URL,
-      explainer: BITCODE_PUBLIC_EXPLAINERS.operatorGuide,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.docs,
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -198,8 +229,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       <footer className={`w-full border-t ${showPrimaryContent ? 'mt-10 px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16' : 'mt-0'} ${className}`}>
         <div className={showPrimaryContent ? 'mx-auto w-full max-w-7xl' : 'w-full px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16'}>
           {showPrimaryContent && (
-            <div className="gap-4 p-4 py-16 tablet:pb-16 laptop:flex laptop:justify-between">
-              <div className="mb-12 flex flex-col gap-4">
+            <div className="flex flex-col gap-10 p-4 py-12 tablet:gap-12 tablet:pb-16 laptop:flex-row laptop:justify-between">
+              <div className="flex max-w-lg flex-col gap-4">
                 <Link href="/" className="flex items-center gap-8">
                   <EngiSoftwareSvgLogo
                     width="115px"
@@ -208,8 +239,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   />
                 </Link>
                 <div className="max-w-lg">
-                  <div className="z-10 mt-2 flex w-full flex-col items-start text-left whitespace-nowrap">
-                    <ol className="mt-2 flex gap-x-2 text-base">
+                  <div className="z-10 mt-2 flex w-full flex-col items-start text-left">
+                    <ol className="mt-2 flex flex-wrap gap-x-2 gap-y-1 text-sm tablet:text-base">
                       {BITCODE_PUBLIC_COPY.footer.steps.map((step, index) => (
                         <li key={step} className="step-item">
                           {index < 2 ? (
@@ -232,10 +263,10 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   </div>
                 </div>
                 {FEATURE_FLAGS.DISABLE_USING && !user ? (
-                  <div className="w-full">
+                  <div className="w-full max-w-xs">
                     <button
                       disabled
-                      className="w-full mt-3 opacity-50 cursor-not-allowed pointer-events-none filter grayscale px-4 py-2 bg-blue-600 text-white rounded flex items-center justify-center gap-1"
+                      className="mt-3 flex w-full items-center justify-center gap-1 rounded-full bg-blue-600 px-4 py-2 text-white opacity-50 filter grayscale"
                     >
                       {BITCODE_PUBLIC_COPY.footer.guestCta}
                       <svg
@@ -256,7 +287,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     type="button"
                     onMouseEnter={() => prefetchOrbital()}
                     onClick={() => openOrbital(user ? 'orbitals' : 'login', user ? 'profile' : undefined)}
-                    className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-1 font-medium"
+                    className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-full bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
                   >
                     {footerCtaLabel}
                     <svg
@@ -273,7 +304,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   </button>
                 )}
               </div>
-              <div className="grid grid-cols-1 gap-8 tablet:grid-cols-2 tablet:gap-6">
+              <div className="grid grid-cols-1 gap-8 tablet:grid-cols-2 tablet:gap-6 laptop:min-w-[16rem]">
                 {footerNavs.map((nav) => (
                   <div key={nav.label}>
                     <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
@@ -320,8 +351,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
           )}
 
           <div className={`${showPrimaryContent ? 'border-t' : ''} w-full py-4`}>
-            <div className="flex w-full items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <div className="flex w-full flex-col gap-4 tablet:gap-5">
+              <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
                 {footerLinks.map((social) => (
                   isExternalHref(social.href) ? (
                     <a
@@ -330,32 +361,36 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.ariaLabel}
-                      className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      className="group inline-flex min-h-[4.25rem] items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                     >
                       {social.icon}
-                      <span className="whitespace-nowrap">{social.label}</span>
-                      <span aria-hidden="true" className="text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
-                        {social.meta}
+                      <span className="flex min-w-0 flex-1 flex-col">
+                        <span className="whitespace-nowrap">{social.label}</span>
+                        <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                          {social.meta}
+                        </span>
                       </span>
                     </a>
                   ) : (
-                    <span key={social.ariaLabel} className="inline-flex items-center gap-2">
+                    <span key={social.ariaLabel} className="inline-flex items-start gap-2">
                       <Link
                         href={social.href}
                         aria-label={social.ariaLabel}
-                        className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                        className="group inline-flex min-h-[4.25rem] flex-1 items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                       >
                         {social.icon}
-                        <span className="whitespace-nowrap">{social.label}</span>
-                        <span aria-hidden="true" className="text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
-                          {social.meta}
+                        <span className="flex min-w-0 flex-1 flex-col">
+                          <span className="whitespace-nowrap">{social.label}</span>
+                          <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                            {social.meta}
+                          </span>
                         </span>
                       </Link>
                       {social.explainer ? (
                         <BitcodeInlineExplainer
                           explainer={social.explainer}
                           side="top"
-                          triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                          triggerClassName="mt-2 h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                         />
                       ) : null}
                     </span>
@@ -368,18 +403,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   />
                 ) */}
               </div>
-              <Link href="/" className="cursor-pointer">
-                <EngiSoftwareSvgLogo
-                  width="50px"
-                  height="auto"
-                  className="-mb-0.5"
-                  softwareClassName="ml-0.5 font-light text-xs tracking-wide bg-gradient-to-r from-[#65FEB7] via-white to-[#65FEB7] text-transparent bg-clip-text"
-                  softwareOffsetY="-2px"
-                />
-              </Link>
-            </div>
-            <div className="mt-2 flex w-full items-center justify-between gap-4">
-              <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex w-full flex-col items-start justify-between gap-4 tablet:flex-row tablet:items-center">
+                <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                 <span
                   className="[filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
                   style={{ display: 'inline-block', transform: 'scaleX(-1)' }}
@@ -389,40 +414,51 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 <span>
                   Bitcode by Advanced Engineered Software, Inc. <span className="font-light">{new Date().getFullYear()}</span>
                 </span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-[10px] text-gray-400/70">
-                {process.env.NEXT_PUBLIC_APP_VERSION && (
-                  <span className="select-none">
-                    v{process.env.NEXT_PUBLIC_APP_VERSION}
-                    {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
-                      <>
-                        {" "}
-                        ({new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(undefined, {
-                          year: '2-digit',
-                          month: 'short',
-                          day: 'numeric',
-                        })})
-                      </>
-                    )}
-                  </span>
-                )}
-                {process.env.NEXT_PUBLIC_APP_VERSION && <span aria-hidden="true">•</span>}
-                <span className="inline-flex items-center gap-1.5">
-                  <a
-                    href={CURRENT_PROTOCOL_SPEC_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300/90 transition-colors hover:text-white"
-                  >
-                    Protocol spec
-                  </a>
-                  <BitcodeInlineExplainer
-                    explainer={BITCODE_PUBLIC_EXPLAINERS.protocolSpec}
-                    side="top"
-                    triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                  />
                 </span>
-              </span>
+                <div className="flex w-full flex-col items-start gap-3 tablet:w-auto tablet:items-end">
+                  <Link href="/" className="cursor-pointer">
+                    <EngiSoftwareSvgLogo
+                      width="50px"
+                      height="auto"
+                      className="-mb-0.5"
+                      softwareClassName="ml-0.5 font-light text-xs tracking-wide bg-gradient-to-r from-[#65FEB7] via-white to-[#65FEB7] text-transparent bg-clip-text"
+                      softwareOffsetY="-2px"
+                    />
+                  </Link>
+                  <div className="flex w-full flex-wrap items-center gap-2 text-[11px] text-gray-400/80 tablet:w-auto tablet:justify-end">
+                    {process.env.NEXT_PUBLIC_APP_VERSION && (
+                      <span className="select-none rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1">
+                        v{process.env.NEXT_PUBLIC_APP_VERSION}
+                        {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
+                          <>
+                            {" "}
+                            ({new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(undefined, {
+                              year: '2-digit',
+                              month: 'short',
+                              day: 'numeric',
+                            })})
+                          </>
+                        )}
+                      </span>
+                    )}
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1">
+                      <a
+                        href={CURRENT_PROTOCOL_SPEC_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-300/90 transition-colors hover:text-white"
+                      >
+                        Protocol spec
+                      </a>
+                      <BitcodeInlineExplainer
+                        explainer={BITCODE_PUBLIC_EXPLAINERS.protocolSpec}
+                        side="top"
+                        triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

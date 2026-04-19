@@ -15,11 +15,11 @@ describe('MarketingOperatorGuideCard', () => {
     );
 
     expect(
-      await screen.findByRole('button', { name: /Review Bitcode operator flow/i }),
+      await screen.findByRole('button', { name: /Recorded operator walkthrough/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Give, need, transactions, conversations, orbitals, and shipping captured in one recorded operator session.',
+        'Use the walkthrough when you want the Bitcode flow narrated before you move into live transactions.',
       ),
     ).toBeInTheDocument();
   });
@@ -27,14 +27,14 @@ describe('MarketingOperatorGuideCard', () => {
   it('falls back cleanly when no operator guide asset is available', async () => {
     render(<MarketingOperatorGuideCard initialSourceResolved />);
 
-    expect(await screen.findByText('Operator guide')).toBeInTheDocument();
+    expect(await screen.findByText('Walkthrough')).toBeInTheDocument();
     expect(
       await screen.findByText(
-        'The recorded operator guide is being refreshed. Continue in the transactions terminal while the next captured walkthrough is published.',
+        'The recorded walkthrough is being refreshed. Use the docs panels and the transactions surface while the next capture is published.',
       ),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Open transactions terminal' }),
+      screen.getByRole('link', { name: 'Open transactions' }),
     ).toHaveAttribute('href', '/application');
   });
 

@@ -8,18 +8,18 @@ describe('ApplicationWorkspaceRailCard', () => {
   it('renders shared rail framing content', () => {
     render(
       <ApplicationWorkspaceRailCard
-        kicker="Workspace modes"
+        kicker="Reading modes"
         title="Read here, open deeper modes when needed"
-        summary="Stay in the transaction workspace by default."
+        summary="Stay in transactions by default."
         explainer={APPLICATION_OPERATOR_EXPLAINERS.railModes}
       >
         <button type="button">Open conversations</button>
       </ApplicationWorkspaceRailCard>,
     );
 
-    expect(screen.getAllByText('Workspace modes').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Reading modes').length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: 'Read here, open deeper modes when needed' })).toBeTruthy();
-    expect(screen.getByText('Stay in the transaction workspace by default.')).toBeTruthy();
+    expect(screen.getByText('Stay in transactions by default.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open conversations' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Explain Read here, open deeper modes when needed' })).toBeTruthy();
   });

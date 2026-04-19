@@ -543,7 +543,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                   transition={{ delay: 0.3, duration: 0.5 }}
                   className="text-xl font-semibold text-green-primary tracking-wide drop-shadow-glow-emerald"
                 >
-                  Success! Opening your workspace…
+                  Success! Opening Bitcode…
                 </motion.span>
               </motion.div>
             )}
@@ -620,8 +620,9 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
         {stage === 'request' && (
           <>
             <div className="mx-auto mb-6 max-w-[28rem] rounded-[24px] border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
-              Email code remains the primary Bitcode sign-in path. GitHub and Google are active
-              account providers, and wallet connection is not yet available for direct sign-in.
+              {isContainedSurface
+                ? 'Email code opens Bitcode directly. GitHub and Google stay available after sign-in, and wallet binding continues inside Profile and $BTD.'
+                : 'Email code remains the primary Bitcode sign-in path. GitHub and Google are active account providers, and wallet connection is not yet available for direct sign-in.'}
             </div>
 
             {isContainedSurface ? null : (

@@ -15,9 +15,9 @@ describe('OrbitalsRouteClient', () => {
 
     expect(screen.getByText('Profile orbital')).toBeTruthy();
     expect(
-      screen.getByRole('heading', { name: /Profile Orbital in a contained operator workspace\./i }),
+      screen.getByRole('heading', { name: /Profile Orbital in a contained orbital surface\./i }),
     ).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Open transactions terminal/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Open transactions/i })).toHaveAttribute(
       'href',
       '/application',
     );

@@ -53,25 +53,31 @@ describe('Footer public shell', () => {
     mockPrefetchOrbital.mockReset();
   });
 
-  it('renders third-gate public labels and opens workspace access for guests', () => {
+  it('renders third-gate public labels and opens orbitals access for guests', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('link', { name: 'Transactions terminal' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Network' })).toHaveAttribute(
+      'href',
+      '/',
+    );
+    expect(screen.getByRole('link', { name: 'Transactions' })).toHaveAttribute(
       'href',
       '/application',
     );
-    expect(screen.getByRole('link', { name: 'Operator guide' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute(
       'href',
-      '/demo-video',
+      '/docs',
     );
     expect(screen.getByRole('link', { name: 'Bitcode on Bluesky' })).toHaveAttribute(
       'href',
       'https://bsky.app/profile/engicomms.bsky.social',
     );
-    expect(screen.getByRole('button', { name: 'Explain Transactions terminal' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Operator guide' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Network' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Transactions' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
+    expect(screen.getByText('Public route')).toBeInTheDocument();
     expect(screen.getByText('Bitcode app')).toBeInTheDocument();
-    expect(screen.getByText('Recorded guide')).toBeInTheDocument();
+    expect(screen.getByText('Guide + walkthrough')).toBeInTheDocument();
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
@@ -83,7 +89,7 @@ describe('Footer public shell', () => {
     );
     expect(screen.getByRole('button', { name: 'Explain Protocol specification' })).toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: 'Access Workspace' });
+    const button = screen.getByRole('button', { name: 'Open Orbitals' });
     fireEvent.mouseEnter(button);
     fireEvent.click(button);
 

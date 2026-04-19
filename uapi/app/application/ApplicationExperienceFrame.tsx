@@ -14,7 +14,7 @@ interface ApplicationExperienceFrameProps {
 export default function ApplicationExperienceFrame({ onOpenConversations }: ApplicationExperienceFrameProps) {
   return (
     <ApplicationWorkspaceCard
-      kicker="Workspace model"
+      kicker="Mode map"
       title="Read the ledger, then open deeper modes only when needed"
       summary="Keep transactions and selected detail primary, then move into conversations or orbitals only when you need drafting, coordination, or interface changes."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.experienceMap}

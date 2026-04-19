@@ -52,7 +52,7 @@ export default function ApplicationWorkspaceRail({
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
 
   return (
-    <div className="space-y-5 xl:sticky xl:top-28">
+    <div className="space-y-5 2xl:sticky 2xl:top-28">
       <ApplicationWorkspaceRailCard
         kicker={APPLICATION_WORKSPACE_COPY.rail.control.kicker}
         title={APPLICATION_WORKSPACE_COPY.rail.control.title}

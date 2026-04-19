@@ -14,7 +14,7 @@ export function usesWorkspaceChrome(pathname: string | null | undefined): boolea
 
 export function usesPublicShellChrome(pathname: string | null | undefined): boolean {
   if (!pathname) return false;
-  return pathname === '/' || pathname.startsWith('/demo-video');
+  return pathname === '/' || pathname.startsWith('/docs') || pathname.startsWith('/demo-video');
 }
 
 export function shouldHideWorkspaceFooter(pathname: string | null | undefined): boolean {

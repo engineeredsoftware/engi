@@ -1,0 +1,30 @@
+import '@testing-library/jest-dom';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+
+import PublicDocsPageContent from '@/app/(root)/components/PublicDocsPageContent';
+
+jest.mock('@/components/base/engi/layout/footer', () => ({
+  __esModule: true,
+  default: () => <div>Footer</div>,
+}));
+
+jest.mock('@/app/(root)/components/MarketingOperatorGuideCard', () => ({
+  __esModule: true,
+  default: ({ initialSourcePlayable }: { initialSourcePlayable: boolean }) => (
+    <div>{initialSourcePlayable ? 'Guide playable' : 'Guide fallback'}</div>
+  ),
+}));
+
+describe('PublicDocsPageContent', () => {
+  it('renders docs-owned public teaching surfaces', () => {
+    render(<PublicDocsPageContent sourcePlayable={false} />);
+
+    expect(screen.getByText('Read the Bitcode docs.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Read the live Bitcode market frame' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Move into full give-to-settle detail' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Shape identity, interfaces, and $BTD posture' })).toHaveAttribute('href', '/orbitals/profile');
+    expect(screen.getByText('Inline widgets')).toBeInTheDocument();
+    expect(screen.getByText('Guide fallback')).toBeInTheDocument();
+  });
+});

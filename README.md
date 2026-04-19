@@ -115,14 +115,16 @@ It is a deliberate first-and-second-gate closure boundary with:
 Current post-checkpoint third-gate start is intentionally narrow:
 - the mounted public shell now converges through shared public-copy ownership in `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 - the live public shell now mounts Bitcode nav through `uapi/app/(root)/components/PublicShellFrame.tsx`
-- the live landing, nav, footer, and stable `/demo-video` guide route now use `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals` vocabulary
+- the live landing, nav, footer, `/docs`, and compatibility `/demo-video` route now use `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching vocabulary
 - the live landing shell no longer carries active `ComingSoon*` owners or `coming-soon-*` stylesheet imports
 - the live landing owner now breaks hero, guide, preview, and shared public-shell data into `uapi/app/(root)/components/landing/*` carriers instead of one oversized mixed-surface file
+- the public shell now owns a real `/docs` hub with route cards, inline widgets, and the recorded walkthrough, while `/demo-video` remains only a compatibility alias into that docs-owned content
 - the live public nav now stays progressive on small screens by stacking visible entry links and guest actions instead of hiding them behind a separate menu layer
 - the live public shell now uses shared inline explainers for its key entry links and protocol reference instead of a thin footer browser-tooltip fallback
-- the stable operator-guide route now resolves one Bitcode-owned guide asset instead of carrying ordered demo-era media compatibility
-- the live public footer now resolves the operator-guide URL through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
+- the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered demo-era media compatibility
+- the live public footer now resolves the docs walkthrough URL through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
 - the live public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of hard-linking a version-specific public spec path
 - the live terminal preview is now progressive by default, with a compact public/mobile summary and the denser operator-grade preview only on wider shells
 - the live landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere
+- the live public footer now collapses its route links into mobile-first cards and presents protocol/version metadata as explicit product chips instead of cramped inline microcopy on narrow shells
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary

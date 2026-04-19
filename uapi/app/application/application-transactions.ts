@@ -66,7 +66,7 @@ export function normalizeApplicationTransactions(runs: WorkspaceRun[]): Applicat
     const branch = normalizeWhitespace(run.branch) || 'n/a';
     const participant = normalizeWhitespace(run.participant) || repository.split('/')[0] || 'connected account';
     const summary =
-      normalizeWhitespace(run.summary) || 'Inspect this Bitcode transaction from the central workspace detail.';
+      normalizeWhitespace(run.summary) || 'Inspect this Bitcode transaction from the central detail surface.';
     const status = normalizeStatus(run.status);
     const proofStatus = normalizeWhitespace(run.proofStatus) || 'closure state in flight';
     const closureFocus = normalizeWhitespace(run.closureFocus) || 'closure consequence reading';

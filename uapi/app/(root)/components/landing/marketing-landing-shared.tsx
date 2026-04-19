@@ -143,19 +143,19 @@ export const verificationRows = [
 
 export const compactPreviewCards = [
   {
-    title: 'Measurement vector',
-    body: 'Quantity 92 • Quality 96 • Valence 73',
-    detail: 'Compact public read on how Bitcode scores measurable supply.',
+    title: 'Network',
+    body: 'Live give, need, and settlement posture',
+    detail: 'Read the public market frame before you open a specific transaction.',
   },
   {
-    title: 'Give contribution',
-    body: 'Assets • Context • Chunks • Issuance',
-    detail: 'Deposit keeps source, authorship, citations, and issuance attached.',
+    title: 'Transactions',
+    body: 'Proofs • history • conversations • closure',
+    detail: 'Move into the full transactions route when you need exact give-to-settle detail.',
   },
   {
-    title: 'Source to settlement',
-    body: 'Give → Measure → Fit → Prove → Settle → Issue',
-    detail: 'One operator path from deposit to proof-bearing settlement.',
+    title: 'Orbitals',
+    body: 'Profile • connects • interfaces • $BTD',
+    detail: 'Open Orbitals when you need identity, interface, or account posture.',
   },
 ] as const;
 
@@ -177,7 +177,7 @@ export const headlineText = BITCODE_PUBLIC_COPY.headline;
 export const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 export const headlineHighlights = [
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
-  { text: 'transactions terminal', className: heroHighlightClass },
+  { text: 'auditable market infrastructure', className: heroHighlightClass },
 ] as const;
 
 export function renderOrbitalBullet(className = '', variant: 'purple' | 'orange' | 'green' = 'purple') {

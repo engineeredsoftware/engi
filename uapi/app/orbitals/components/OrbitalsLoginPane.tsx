@@ -33,8 +33,8 @@ export default function OrbitalsLoginPane({
               Open {ORBITALS_LIST_LABEL}
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/74">
-              Sign in to reopen the transaction terminal, conversations, and the four Bitcode
-              orbitals without losing the current working context.
+              Sign in to reopen transactions, conversations, and the four Bitcode orbitals without
+              losing the current working context.
             </p>
           </div>
 
@@ -45,7 +45,7 @@ export default function OrbitalsLoginPane({
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
                 Email code remains the most direct way to reopen Bitcode and continue from the
-                current transaction context.
+                current transactions context.
               </p>
             </div>
 
@@ -55,11 +55,11 @@ export default function OrbitalsLoginPane({
               }`}
             >
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
-                Active account providers
+                Connected providers
               </p>
               <p className="mt-2 text-sm leading-7 text-white/74">
                 GitHub and Google stay available here. Wallet binding continues inside Profile and
-                $BTD after access opens.
+                $BTD after Orbitals open.
               </p>
             </div>
 
@@ -68,7 +68,7 @@ export default function OrbitalsLoginPane({
                 Orbitals after sign-in
               </p>
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
-                <li>The transaction terminal and selected detail stay where you left them.</li>
+                <li>Transactions and selected detail stay where you left them.</li>
                 <li>Conversations reopen only when you need deeper writing or coordination.</li>
                 <li>Connects, Interfaces, Profile, and $BTD stay available as the four orbitals.</li>
               </ul>

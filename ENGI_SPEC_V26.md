@@ -262,7 +262,9 @@ The current mounted third-gate start carriers are now explicitly:
 - `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
 - `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
 - `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
+- `uapi/app/(root)/components/PublicDocsPageContent.tsx`
 - `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
+- `uapi/app/docs/page.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`
@@ -270,37 +272,44 @@ The current mounted third-gate start carriers are now explicitly:
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 - `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
 
-Those owners now carry the public-shell vocabulary for:
-- `transactions terminal`
-- `operator guide`
-- `give`
-- `need`
-- `orbitals`
+Those owners now carry the public-shell route and teaching vocabulary for:
+- `Network`
+- `Transactions`
+- `Docs`
+- `Orbitals`
+- with `give` / `need` still explained as the two main Bitcode actions inside `Transactions` and `Docs`
 
 They also now carry the mounted public-shell chrome contract:
 - explicit public-route navigation,
 - stable public-route access CTAs,
-- and live orbital-entry behavior on `/` and `/demo-video` rather than page-local copy alone.
+- a real mounted `/docs` hub,
+- a compatibility `/demo-video` alias that resolves back into docs-owned content,
+- and live orbital-entry behavior on `/`, `/docs`, and `/demo-video` rather than page-local copy alone.
 
 Mounted third-gate hardening must also retire stale public-shell residue from the live route owners:
 - no live `coming-soon` component, class, or stylesheet naming in the mounted public shell,
 - no unused access-gate or incantation code preserved inside the live landing owner,
 - no oversized monolithic landing owner that keeps hero, guide, preview, and shared marketing-shell data fused into one file once those sections have stabilized enough to be assigned clearer Bitcode carriers,
-- no ordered demo-era operator-guide media compatibility preserved in the stable guide route,
-- and no developer-path fallback copy on the operator-guide route when guide media is absent.
+- no ordered demo-era operator-guide media compatibility preserved in the stable walkthrough/docs route,
+- no developer-path fallback copy when guide media is absent,
+- and no public-shell information architecture that keeps docs trapped behind a one-off guide URL once the docs route exists.
 
 Mounted third-gate public chrome should also prefer progressive simplification over extra menu state:
 - responsive public-route nav should stack and wrap cleanly on smaller screens rather than introducing hamburger-only access for the primary Bitcode entry links,
 - dense operator-preview content on the mounted landing should collapse into a compact public/mobile summary before wider-shell detail is shown,
 - heavy ambient motion and backdrop effects on the mounted landing should suppress on smaller or reduced-motion shells before wider-screen theatrical treatment is shown,
-- and public-route access CTAs should remain immediately visible without requiring additional taps to discover the transactions terminal or operator guide.
+- public-footer route links should collapse into clear mobile-first cards instead of cramped inline microcopy when the shell narrows,
+- public protocol/version metadata should read as deliberate product chips rather than a trailing legal-text fragment on smaller shells,
+- and public-route access CTAs should remain immediately visible without requiring additional taps to discover `Transactions`, `Docs`, or `Open Orbitals`.
 
 Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
-- the main public entry points inherit the same Give/Need, transactions, conversations, and Orbitals vocabulary used by the application,
+- the main public entry points inherit the same Give/Need, Transactions, conversations, and Orbitals vocabulary used by the application,
+- the mounted public shell clearly reads as `Network`, `Transactions`, `Docs`, and `Orbitals` rather than drifting across overlapping `workspace`, `guide`, or terminal-only naming,
 - navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
 - tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
-- the stable operator-guide route resolves one Bitcode-owned guide asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
+- the real `/docs` route resolves one Bitcode-owned walkthrough asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
+- `/demo-video` remains only a compatibility alias into that docs-owned content,
 - the public protocol reference resolves through the stable canonical pointer rather than a version-specific public spec URL,
 - and third-gate can be proven without reopening second-gate application ownership work.
 
@@ -556,7 +565,7 @@ Second-gate is accepted only when all of the following hold:
    - flow-guide and explainer guidance remain useful,
    - orbital entry and account state remain coherent with the application page,
    - shared orbital-entry copy remains coherent across application buttons, notifications, user-menu chrome, and focused orbital routes,
-   - contained orbital access shells and focused orbital routes keep orbitals-first wording, read as contained operator workspaces, and remain width-stable when entered from `/application` rather than regressing to generic workspace/settings/account furniture,
+   - contained orbital access shells and focused orbital routes keep orbitals-first wording, read as contained orbital surfaces, and remain width-stable when entered from `/application` rather than regressing to generic workspace/settings/account furniture,
    - preserved-runtime help, reference chips, and telemetry labels stay Bitcode-facing instead of leaking canon, source-path, or `engi-demo`-era language into operator-visible surfaces,
    - and first-gate semantic regressions are not introduced.
 

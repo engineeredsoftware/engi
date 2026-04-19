@@ -30,7 +30,7 @@ export default function ApplicationTransactionProofsCard({
     <BitcodePayloadCollectionCard
       kicker="Proof families"
       title="Bounded proof stays in transaction detail"
-      summary="Verification and settlement proof families remain readable inside the selected transaction instead of forcing a separate workspace detour."
+      summary="Verification and settlement proof families remain readable inside the selected transaction instead of forcing a separate detail detour."
       payload={payload}
       rawLabel="Proof payload"
       items={proofItems}

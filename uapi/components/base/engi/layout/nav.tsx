@@ -143,7 +143,7 @@ export default function Nav() {
         onClick={() => openOrbital('login')}
         className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
       >
-        Access Workspace
+        Open Orbitals
       </button>
       <button
         type="button"
@@ -204,15 +204,21 @@ export default function Nav() {
               >
                 {label}
               </Link>
-              {href === '/application' ? (
+              {href === '/' ? (
                 <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.transactionsTerminal}
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.network}
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />
-              ) : href === '/demo-video' ? (
+              ) : href === '/application' ? (
                 <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.operatorGuide}
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.transactions}
+                  side="bottom"
+                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                />
+              ) : href === '/docs' ? (
+                <BitcodeInlineExplainer
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.docs}
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />
@@ -362,7 +368,7 @@ export default function Nav() {
               showNavUse && (
                 <div className={isAnimated ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
                   {FEATURE_FLAGS.DISABLE_USING ? (
-                    <DisabledTooltipWrapper tooltip="Workspace access is refreshing" className="inline-block">
+                    <DisabledTooltipWrapper tooltip="Orbitals access is refreshing" className="inline-block">
                       <OrbitalUseButton isDisabled orbitals={orbitalElements} particles={particleElements} />
                     </DisabledTooltipWrapper>
                   ) : (

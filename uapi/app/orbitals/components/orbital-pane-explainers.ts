@@ -8,11 +8,11 @@ export const orbitalsPaneExplainers: Record<
 > = {
   interfacesDefaults: {
     kicker: "Interfaces orbital",
-    title: "Workspace defaults",
+    title: "Interface defaults",
     summary:
       "Keep the transactions window, conversations, and proof reading aligned to one operator posture.",
     detail:
-      "These defaults shape how the main workspace opens, how detail is emphasized, and how evidence is read before closure.",
+      "These defaults shape how the main transactions surface opens, how detail is emphasized, and how evidence is read before closure.",
     points: [
       "Choose the master-detail density you want to read first",
       "Keep conversation entry and continuity predictable",
@@ -36,11 +36,11 @@ export const orbitalsPaneExplainers: Record<
     kicker: "Interfaces orbital",
     title: "Model posture",
     summary:
-      "Global model posture lets you decide what provider family should anchor the current workspace by default.",
+      "Global model posture lets you decide what provider family should anchor the current transactions surface by default.",
     detail:
       "This is not a hidden debugging panel. It is the place to set the baseline model mix the operator wants to reuse across master-detail and conversation work.",
     points: [
-      "Apply one default model family to the current workspace",
+      "Apply one default model family to the current transactions surface",
       "Review visible cost and context posture before switching",
       "Keep model choice explicit rather than implicit",
     ],
@@ -62,7 +62,7 @@ export const orbitalsPaneExplainers: Record<
     kicker: "$BTD orbital",
     title: "Share posture",
     summary:
-      "Share reading controls how you want ownership, settlement, and organization participation to surface in the workspace.",
+      "Share reading controls how you want ownership, settlement, and organization participation to surface in transactions.",
     detail:
       "Use this when you want the operator view to bias toward organization-level, network-level, or account-level share reading.",
     points: [

@@ -6,10 +6,10 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 
 export const APPLICATION_WORKSPACE_EXPLAINERS = {
   experienceMap: buildExplainer({
-    kicker: 'Workspace read model',
-    title: 'Workspace experience map',
+    kicker: 'Transactions read model',
+    title: 'Transactions experience map',
     summary:
-      'The workspace is organized around one central ledger window, with dedicated writing and orbital modes available only when deeper action is needed.',
+      'The transactions surface is organized around one central ledger window, with dedicated writing and orbital modes available only when deeper action is needed.',
     detail:
       'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and orbitals remain deliberate mode changes instead of parallel destinations.',
     points: [
@@ -19,7 +19,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     ],
   }),
   controls: buildExplainer({
-    kicker: 'Workspace control posture',
+    kicker: 'Flow control posture',
     title: 'Controls, flow guide, and working posture',
     summary:
       'Scenario, projection, branch mode, guide progress, and closure controls stay in one shared control surface.',
@@ -37,10 +37,10 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'The active demand frame should be explicit and switchable before you judge fit, proof, or settlement posture.',
     detail:
-      'This surface keeps the currently measured demand visible as a first-class workspace choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into implementation detail.',
+      'This surface keeps the currently measured demand visible as a first-class transaction choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into implementation detail.',
     points: [
       'Keeps the active demand frame explicit',
-      'Makes scenario switching part of the main workspace',
+      'Makes scenario switching part of the main transactions surface',
       'Preserves continuity into fit and closure reading',
     ],
   }),
@@ -48,11 +48,11 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     kicker: 'Give-side inventory',
     title: 'Search and select supply',
     summary:
-      'Give-side supply should be searchable, reviewable, and selectable without turning the workspace into an infrastructure note.',
+      'Give-side supply should be searchable, reviewable, and selectable without turning transactions into an infrastructure note.',
     detail:
       'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active give draft before moving into deposit, fit, and closure.',
     points: [
-      'Keeps searchable supply inside the main workspace',
+      'Keeps searchable supply inside the main transactions surface',
       'Makes selected inventory explicit before deposit drafting',
       'Preserves continuity into the give draft instead of forcing context rebuilds',
     ],
@@ -76,9 +76,9 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'Supply, demand, and fit should read as one operating chain so you can judge why the current transaction is or is not moving forward.',
     detail:
-      'This workspace is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
+      'This transactions surface is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
     points: [
-      'Keeps give and need in one workspace read',
+      'Keeps give and need in one transactions read',
       'Makes fit legible before proof and settlement',
       'Supports quick orientation before opening the exact proof view',
     ],
@@ -105,7 +105,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
       'Use this map to preview the closure sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you need deeper proof.',
     points: [
       'Keeps closure stages in one readable sequence',
-      'Brings proof and history closer to the main workspace',
+      'Brings proof and history closer to the main transactions surface',
       'Makes exact-detail reads deliberate instead of mandatory',
     ],
   }),
@@ -115,7 +115,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'Keep the few live signals that most quickly change your judgment visible without reopening the exact proof view.',
     detail:
-      'These signals should help answer whether the current workspace is moving, blocked, proving, or ready for closure before you open proofs, history, or source-path detail.',
+      'These signals should help answer whether the current transaction chain is moving, blocked, proving, or ready for closure before you open proofs, history, or source-path detail.',
     points: [
       'Keeps high-signal posture close to the ledger',
       'Separates quick reading from deep inspection',
@@ -127,7 +127,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'Bitcode should show what is live, modeled, boundary-only, or blocked without making you infer that state from failures later in the flow.',
     detail:
-      'Use this read before trusting downstream deliverables or settlement. A healthy workspace keeps boundary truth visible and fail-closed.',
+      'Use this read before trusting downstream deliverables or settlement. A healthy transactions surface keeps boundary truth visible and fail-closed.',
     points: [
       'Shows blocked interfaces early',
       'Keeps modeled and live states separate',
@@ -136,7 +136,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
   }),
   workspaceMap: buildExplainer({
     kicker: 'Section navigation',
-    title: 'Workspace body map',
+    title: 'Transactions body map',
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
@@ -165,7 +165,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'You should be able to read the live give-side source, measured need, and fit posture without dropping immediately into the exact proof view.',
     detail:
-      'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active workspace.',
+      'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active transactions surface.',
     points: [
       'Give stays tied to searchable supply',
       'Need stays tied to measured demand',
@@ -181,11 +181,11 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
       'This runtime remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
     points: [
       'Supports deep proof and flow inspection',
-      'Keeps the main workspace uncluttered',
+      'Keeps the main transactions surface uncluttered',
     ],
   }),
   railModes: buildExplainer({
-    kicker: 'Workspace modes',
+    kicker: 'Reading modes',
     title: 'Read here, open deeper modes when needed',
     summary:
       'The right rail should keep mode changes obvious without competing with the central transaction window.',
@@ -218,7 +218,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     detail:
       'This card keeps the transaction id and short summary close at hand so you can safely resume work after changing filters, modes, or detail tabs.',
     points: [
-      'Prevents context loss while moving around the workspace',
+      'Prevents context loss while moving around the transactions surface',
       'Keeps the active transaction obvious',
       'Supports resumable work',
     ],

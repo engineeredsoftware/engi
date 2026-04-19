@@ -1,46 +1,46 @@
 export const BITCODE_PUBLIC_COPY = {
-  eyebrow: 'Transactions terminal, conversations, and orbitals',
-  headline: 'Bitcode is the transactions terminal for engineering value.',
+  eyebrow: 'Network, transactions, docs, and orbitals',
+  headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
   description:
-    'Give contributes searchable supply. Need narrows measurable demand. Transactions keep proofs, history, conversations, and orbitals attached to one operational frame.',
+    'Bitcode turns repositories, documents, measurements, rights, proofs, and settlement into one auditable market for technical knowledge. Network reads live activity, Transactions follows full give-to-settle detail, Docs teaches the system step by step, and Orbitals shapes interface, identity, and $BTD posture.',
   capabilityChips: [
-    'TRANSACTIONS TERMINAL',
-    'CONVERSATIONS',
+    'NETWORK',
+    'TRANSACTIONS',
+    'DOCS',
     'ORBITALS',
-    'PROOF CLOSURE',
   ],
   primaryCta: {
     href: '/application',
-    label: 'Open transactions terminal',
+    label: 'Open transactions',
   },
   secondaryCta: {
-    href: '/demo-video',
-    label: 'Review operator guide',
+    href: '/docs',
+    label: 'Read docs',
   },
   guide: {
-    badge: 'Guide',
-    title: 'Start with the transactions terminal',
-    meta: 'resumable flow',
+    badge: 'Docs',
+    title: 'Read the docs before you transact',
+    meta: 'stepwise guide',
     body:
-      'Give contributes supply, Need selects demand, and transactions keep proofs, history, conversations, and orbitals attached to the same operator frame.',
+      'Docs collects the walkthrough, route maps, inline widgets, and system explainers in one public teaching surface before you step into live transactions.',
   },
   terminalPreview: {
-    pill: 'Transactions terminal',
-    kicker: 'operator frame',
+    pill: 'Network',
+    kicker: 'live Bitcode activity',
     rail: ['give', 'need', 'settle'],
   },
   operatorFrame: {
-    title: 'Operator frame',
-    subtitle: 'transactions, conversations, and orbitals',
-    badge: 'shared frame',
-    modes: ['Transactions', 'Conversations', 'Orbitals', 'Give + Need'],
+    title: 'Transactions',
+    subtitle: 'proofs, conversations, and orbitals around one flow',
+    badge: 'full detail',
+    modes: ['Proofs', 'Conversations', 'Orbitals', 'Give + Need'],
   },
   giveContribution: {
-    title: 'Give contribution',
+    title: 'Network supply',
   },
   sourceToSettlement: {
     title: 'Source to settlement',
-    subtitle: 'user-facing value path',
+    subtitle: 'auditable market path',
     badge: '6 stages',
     stages: [
       { number: '01', stage: 'give' },
@@ -53,36 +53,38 @@ export const BITCODE_PUBLIC_COPY = {
   },
   footer: {
     steps: ['Give', 'Need', 'Settle'],
-    guestCta: 'Access Workspace',
-    userCta: 'Open Orbitals fullscreen',
+    guestCta: 'Open Orbitals',
+    userCta: 'Open Orbitals',
     links: {
-      application: 'Transactions terminal',
-      guide: 'Operator guide',
+      network: 'Network',
+      transactions: 'Transactions',
+      docs: 'Docs',
       bluesky: 'Bitcode on Bluesky',
     },
   },
   publicNav: {
     links: [
-      { href: '/application', label: 'Transactions terminal' },
-      { href: '/demo-video', label: 'Operator guide' },
+      { href: '/', label: 'Network' },
+      { href: '/application', label: 'Transactions' },
+      { href: '/docs', label: 'Docs' },
     ],
-    guestPrimaryCta: 'Access Workspace',
+    guestPrimaryCta: 'Open Orbitals',
     guestSecondaryCta: 'Create Account',
   },
   guideRoute: {
-    eyebrow: 'Recorded operator guide',
-    heading: 'Review the Bitcode operator guide.',
+    eyebrow: 'Bitcode docs',
+    heading: 'Read the Bitcode docs.',
     body:
-      'This stable guide URL keeps the recorded operator walkthrough available while live transactions, conversations, and orbitals stay accessible through the Bitcode workspace.',
-    checkingVideoTitle: 'Operator guide',
+      'Docs teaches the system step by step with route maps, inline widgets, the recorded walkthrough, and direct links into live transactions and Orbitals.',
+    checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
-      'Checking the recorded Bitcode operator guide for inline playback.',
-    cardTitle: 'Review Bitcode operator flow',
+      'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',
+    cardTitle: 'Recorded operator walkthrough',
     cardBody:
-      'Give, need, transactions, conversations, orbitals, and shipping captured in one recorded operator session.',
-    missingVideoTitle: 'Operator guide',
+      'Use the walkthrough when you want the Bitcode flow narrated before you move into live transactions.',
+    missingVideoTitle: 'Walkthrough',
     missingVideoBody:
-      'The recorded operator guide is being refreshed. Continue in the transactions terminal while the next captured walkthrough is published.',
-    missingVideoCta: 'Open transactions terminal',
+      'The recorded walkthrough is being refreshed. Use the docs panels and the transactions surface while the next capture is published.',
+    missingVideoCta: 'Open transactions',
   },
 } as const;

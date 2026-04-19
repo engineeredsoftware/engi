@@ -105,7 +105,7 @@ export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
             </div>
           <div className="min-w-0">
             <p className="text-[0.58rem] uppercase tracking-[0.22em] text-emerald-300/70">
-              Workspace account
+              Bitcode account
             </p>
             <p className="truncate font-medium text-neutral-100">
               {user.email}
@@ -143,7 +143,7 @@ export function UserMenu({ user, onOpenOrbitals, onSignOut }: UserMenuProps) {
               <div className="min-w-0">
                 <span className="block">Sign out</span>
                 <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-red-200/60">
-                  Leave the current workspace
+                  Leave the current Bitcode session
                 </span>
               </div>
             </DropdownMenu.Item>

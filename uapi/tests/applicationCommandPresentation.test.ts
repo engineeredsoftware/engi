@@ -7,9 +7,8 @@ describe('deriveApplicationCommandPresentation', () => {
   it('returns loading copy when controls are not ready', () => {
     expect(deriveApplicationCommandPresentation(null)).toEqual({
       draftSummary: 'Loading the current Bitcode working flow.',
-      continuationStatus: 'Controls are syncing to the current workspace state.',
-      continuationTip:
-        'Stay in the transaction terminal while scenario, projection, and branch mode become available.',
+      continuationStatus: 'Controls are syncing to the current transaction state.',
+      continuationTip: 'Stay in transactions while scenario, projection, and branch mode become available.',
     });
   });
 

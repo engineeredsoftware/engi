@@ -1,7 +1,7 @@
 # `uapi/` Bitcode Application
 
 `uapi/` is the active application owner for Bitcode.
-It carries the `/application` workspace, fullscreen conversations and orbitals, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate closure.
+It carries the `/application` transactions surface, fullscreen conversations and orbitals, app-owned Bitcode API routes, and the shared UI systems used during V26 second-gate closure.
 
 Active canon remains `V25`.
 V26 work inside `uapi/` is draft-target implementation toward a first-and-second-gate checkpoint.
@@ -9,7 +9,7 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
 ## Primary routes
 
 - `/application`
-  Main Bitcode workspace. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
+  Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
 - `/conversations`
   Fullscreen conversation workspace entered from `/application`.
 - `/orbitals/profile`
@@ -19,8 +19,8 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
   Focused orbital routes for direct orbital reading without losing the application framing.
 
 Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` are convergence-only entry points and should not be treated as the enduring V26 naming model.
-Focused orbital routes and contained orbital entry shells should also keep orbitals-first wording, read as contained operator workspaces, and avoid regressing to generic workspace/settings/account language.
-The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Orbitals fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions terminal`.
+Focused orbital routes and contained orbital entry shells should also keep orbitals-first wording, read as contained orbital surfaces, and avoid regressing to generic workspace/settings/account language.
+The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Orbitals fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions`.
 Signed-in orbital reopen actions should flow through the shared `openOrbital('orbitals', step?)` contract rather than older account-named caller aliases.
 Contained orbital rails should also converge on the shared panel-plus-tabs carriers in `app/orbitals/components/shared/` rather than reintroducing floating ring-label or sequence-only furniture per route or pane.
 
@@ -56,25 +56,31 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/(root)/components/landing/marketing-landing-shared.tsx`
   Shared landing-shell constants and visual helpers for the mounted public shell.
 - `app/(root)/components/MarketingOperatorGuideCard.tsx`
-  Stable recorded operator-guide card with user-facing fallback back into `/application` when guide media is absent.
+  Stable recorded walkthrough card with user-facing fallback back into `/application` when guide media is absent.
+- `app/(root)/components/PublicDocsPageContent.tsx`
+  Public docs hub content with route cards, inline widgets, walkthrough embedding, and public CTA posture.
+- `app/docs/page.tsx`
+  Real public docs route for the mounted Bitcode shell.
 - `app/demo-video/page.tsx`
-  Stable guide route that remains public while live Bitcode work happens in `/application`.
+  Compatibility alias into the public docs hub and walkthrough content.
 - `components/base/engi/layout/nav.tsx`
   Public-route navigation and access CTA chrome shared with product surfaces.
 - `components/base/engi/layout/NavBrand.tsx`
-  Bitcode public-route brand posture and workspace/public surface naming.
+  Bitcode public-route brand posture and Network/public surface naming.
 - `components/base/engi/layout/footer.tsx`
   Shared public footer CTA and public-route link posture.
 - `components/base/engi/layout/bitcode-public-copy.ts`
-  Shared public-shell vocabulary for `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`.
+  Shared public-shell vocabulary for `Network`, `Transactions`, `Docs`, `Orbitals`, and give/need teaching posture.
 - `components/base/engi/layout/bitcode-public-explainers.ts`
   Shared public-shell explainer content for key entry links and the protocol reference.
 
 Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
 They should also keep landing hero, guide, preview, and shared public-shell data split into clearer carriers once those sections stabilize rather than regressing to one oversized owner file.
 They should preserve rich help posture on those public entry points instead of falling back to thin browser `title` tooltips.
-They should keep the stable operator-guide route on one Bitcode-owned guide asset instead of preserving ordered demo-era media compatibility.
+They should keep the stable docs walkthrough on one Bitcode-owned guide asset instead of preserving ordered demo-era media compatibility.
+They should keep `/docs` as the real public teaching surface and `/demo-video` only as a compatibility alias into that docs-owned content.
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
+They should keep footer entry links and protocol/version metadata progressive on smaller shells, using card/chip presentation instead of compressed inline microcopy.
 
 ## Development
 

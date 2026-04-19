@@ -67,10 +67,10 @@ export function deriveApplicationFlowGuide(commandState: ApplicationCommandState
         : 'ready';
 
   const statusSummary = !commandState?.shellReady
-    ? 'The flow guide is syncing to the current transaction workspace.'
+    ? 'The flow guide is syncing to the current transactions surface.'
     : guideStep
       ? `The flow guide is ${commandState.flowGuideOpen ? 'open' : 'saved'} at ${guideStep}.`
-      : 'The workspace is ready for a fresh give-to-closure flow.';
+      : 'Transactions are ready for a fresh give-to-closure flow.';
 
   const stages = FLOW_STAGE_BLUEPRINT.map((stage, index) => ({
     ...stage,

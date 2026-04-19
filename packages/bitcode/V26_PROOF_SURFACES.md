@@ -79,7 +79,7 @@ Required coverage posture:
 
 Required system families:
 - public website refurbishment carriers
-- mounted public-shell vocabulary carriers for landing, footer, and the stable operator-guide route
+- mounted public-shell vocabulary carriers for landing, footer, `/docs`, and the compatibility `/demo-video` alias
 - tooltip/help posture preservation
 - separation between application acceptance and marketing iteration
 - generated checkpoint artifacts that leave third-gate work explicit instead of implied complete
@@ -276,16 +276,16 @@ Current active assignments:
   generated file-presence checks inside `.engi/v26-gate-checkpoint-report.json` plus spec-family validation
   proof surface:
   second-gate documentation/refurbishment closure for the active Bitcode root, route, orbital, execution, shared-component, and package owners
-- `uapi/app/(root)/components/MarketingLandingPage.tsx`, `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`, `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`, `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-copy.ts`, `uapi/app/demo-video/page.tsx`, `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`, `uapi/app/(root)/components/marketing-operator-guide-assets.ts`
+- `uapi/app/(root)/components/MarketingLandingPage.tsx`, `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`, `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`, `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-copy.ts`, `uapi/app/(root)/components/PublicDocsPageContent.tsx`, `uapi/app/docs/page.tsx`, `uapi/app/demo-video/page.tsx`, `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`, `uapi/app/(root)/components/marketing-operator-guide-assets.ts`
   test coverage:
-  `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, `uapi/tests/marketingOperatorGuideCard.test.tsx`, and `uapi/tests/e2e/landing.mobile-scroll.spec.ts`
+  `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, `uapi/tests/marketingOperatorGuideCard.test.tsx`, `uapi/tests/publicDocsPageContent.test.tsx`, and `uapi/tests/e2e/landing.mobile-scroll.spec.ts`
   proof surface:
-  mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, a progressive terminal preview that collapses into a compact public/mobile summary before wider-shell detail, landing ambience that suppresses orbital rings/pointer glow/oversized blur on smaller or reduced-motion shells, and a stable guide route that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
+  mounted third-gate public-shell start, including shared `Network` / `Transactions` / `Docs` / `Orbitals` vocabulary, a real `/docs` public teaching surface with route cards and inline widgets, guest orbital-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, a progressive terminal preview that collapses into a compact public/mobile summary before wider-shell detail, landing ambience that suppresses orbital rings/pointer glow/oversized blur on smaller or reduced-motion shells, and a docs-owned walkthrough path that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
 - `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/engi/layout/nav.tsx`, `uapi/components/base/engi/layout/NavBrand.tsx`, `uapi/components/base/engi/layout/workspace-surface.ts`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
   proof surface:
-  mounted third-gate public-route chrome, including live Bitcode nav on `/` and `/demo-video`, stable public-route entry links, shared public-shell explainers for key entry links and the protocol reference, a protocol-spec link that resolves through the stable canonical pointer instead of a version-specific public spec URL, public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy, and a responsive stacked public-nav posture that avoids hiding the primary entry paths behind extra menu state
+  mounted third-gate public-route chrome, including live Bitcode nav on `/`, `/docs`, and `/demo-video`, stable public-route entry links, shared public-shell explainers for key entry links and the protocol reference, a protocol-spec link that resolves through the stable canonical pointer instead of a version-specific public spec URL, a mobile-first footer card/chip posture that keeps route links and protocol/version metadata legible on narrow shells, public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy, a responsive stacked public-nav posture that avoids hiding the primary entry paths behind extra menu state, and a compatibility `/demo-video` alias that resolves back into docs-owned content
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`
@@ -380,7 +380,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/bitcodeTransactionsActiveFilters.test.tsx`
   proof surface:
-  reusable active-filter chip carrier for the transaction terminal, keeping the shaped master window explicit and individually clearable
+  reusable active-filter chip carrier for the transactions surface, keeping the shaped master window explicit and individually clearable
 - `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
   test coverage:
   lint plus localhost `/application` verification with route-owned detail focus and closure actions mounted
@@ -455,7 +455,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/bitcodeInlineExplainer.test.tsx`
   proof surface:
-  reusable second-gate explainer/tooltip carrier for the transaction terminal workspace
+  reusable second-gate explainer/tooltip carrier for the transactions surface
 - `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadInspector.test.tsx`

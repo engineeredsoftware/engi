@@ -7,7 +7,7 @@ export const ORBITALS_LABEL = 'Orbitals';
 export const ORBITALS_LIST_LABEL = 'Connects, Interfaces, Profile, and $BTD';
 export const ORBITALS_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $BTD';
 export const OPEN_ORBITALS_FULLSCREEN_LABEL = 'Open Orbitals fullscreen';
-export const OPEN_TRANSACTIONS_TERMINAL_LABEL = 'Open transactions terminal';
+export const OPEN_TRANSACTIONS_LABEL = 'Open transactions';
 
 export type ConcreteOrbitalPane = (typeof ONBOARDING_FLOW_STEPS)[number];
 export type OrbitalPane = ConcreteOrbitalPane | null;
@@ -128,18 +128,18 @@ export function getOrbitalOpenActionLabel(step?: ConcreteOrbitalPane | null) {
 
 export function getOrbitalsWorkspaceHeading(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? `Keep ${ORBITALS_LIST_LABEL} in one contained operator workspace.`
-    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained operator workspace.`;
+    ? `Keep ${ORBITALS_LIST_LABEL} in one contained orbital surface.`
+    : `Sign in once, then keep ${ORBITALS_LIST_LABEL} in one contained orbital surface.`;
 }
 
 export function getOrbitalsWorkspaceDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? 'The four-ring model stays visible while the active orbital opens in a stable reading workspace tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
-    : 'Open Bitcode access in a stable operator workspace, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
+    ? 'The four-ring model stays visible while the active orbital opens in a stable reading surface tuned for Bitcode transactions, conversations, wallet posture, and orbital follow-through.'
+    : 'Open Bitcode access in a stable orbital surface, then move between Profile, Connects, Interfaces, and $BTD without losing the active pane or route context.';
 }
 
 export function getOrbitalsTabsDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
-    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the operator workspace.`
-    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained operator workspace.`;
+    ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the orbital surface.`
+    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained orbital surface.`;
 }

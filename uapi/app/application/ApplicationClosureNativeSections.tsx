@@ -155,7 +155,7 @@ export default function ApplicationClosureNativeSections() {
       headerAside={
         <BitcodeMetricGrid
           metrics={[
-            { label: 'Read posture', value: 'workspace sequence' },
+            { label: 'Read posture', value: 'closure sequence' },
             { label: 'Closure surfaces', value: String(panels.length) },
           ]}
           columnsClassName="tablet:grid-cols-2"

@@ -36,7 +36,7 @@ export default function ApplicationCoreNativeSections({
             Supply, need, and fit map
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-neutral-300 tablet:text-base">
-            Keep the live give-side source, measured need, and fit posture readable without leaving the main workspace.
+            Keep the live give-side source, measured need, and fit posture readable without leaving the main transactions surface.
           </p>
         </div>
 

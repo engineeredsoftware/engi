@@ -59,15 +59,15 @@ export default function ApplicationCommandDeck() {
 
   return (
     <ApplicationWorkspaceCard
-      kicker="Workspace controls"
+      kicker="Flow controls"
       title="Give, need, and closure controls"
-      summary="Set scenario, projection, and branch mode, then run closure or resume the working flow from the same workspace you use to read the ledger."
+      summary="Set scenario, projection, and branch mode, then run closure or resume the working flow from the same transactions surface you use to read the ledger."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.controls}
       tone="emerald"
     >
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-          <p className="text-emerald-300/85">Workspace sync</p>
+          <p className="text-emerald-300/85">Transactions sync</p>
           <p className="mt-2 text-neutral-200">{shellReady ? 'live' : 'syncing'}</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">

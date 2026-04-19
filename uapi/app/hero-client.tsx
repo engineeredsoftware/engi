@@ -177,7 +177,7 @@ function HeroClientInner() {
       user: user?.id || 'unknown',
       onboarded: isOnboardingComplete 
     }));
-    // Signed-in operators should land in the transactions terminal.
+    // Signed-in operators should land in transactions.
     if (isOnboardingComplete) {
       router.push('/application');
     } else {

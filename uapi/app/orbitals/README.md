@@ -1,7 +1,7 @@
 # `/orbitals`
 
-The V26 orbital system is a fullscreen Bitcode workspace entered from `/application`.
-It also supports direct focused routes for reading one orbital in a contained operator workspace.
+The V26 orbital system is a fullscreen Bitcode surface entered from `/application`.
+It also supports direct focused routes for reading one orbital in a contained orbital surface.
 
 The active orbital ring model is fixed:
 - `Connects`
@@ -60,8 +60,8 @@ The contained orbital shell used inside the application and direct orbital route
 - preserve the active pane in a contained workspace,
 - route contained navigation through shared orbital panels plus tabs instead of floating sequence cards and free-position ring labels,
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
-- read as orbitals access and contained operator workspaces rather than generic settings/account furniture,
-- keep shared entry labels such as `Open Orbitals fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions terminal` aligned across the application,
+- read as orbitals access and contained orbital surfaces rather than generic settings/account furniture,
+- keep shared entry labels such as `Open Orbitals fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions` aligned across the application,
 - reopen signed-in orbital overlays through `openOrbital('orbitals', step?)` instead of older account-named active callers,
 - and remain aligned to the same operator atmosphere as `/application`.
 

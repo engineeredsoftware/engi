@@ -62,7 +62,7 @@ export default function BitcodeTransactionsTable({
           <h3 className="mt-2 text-xl font-semibold text-white">Rich Bitcode transactions table</h3>
           <p className="mt-3 text-sm leading-6 text-neutral-300">
             Master detail is concretely a searchable, filterable table of Bitcode transactions. Select any row to load
-            transaction detail, deliverables, proofs, history, and activity in the central workspace.
+            transaction detail, deliverables, proofs, history, and activity in the central transactions surface.
           </p>
         </div>
 

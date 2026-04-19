@@ -168,7 +168,7 @@ export default function OrbitalsInterfacesPane({
       {
         id: "master-detail-density",
         title: "Master-detail density",
-        description: "Choose how much structured operator signal opens by default in the transactions workspace.",
+        description: "Choose how much structured operator signal opens by default in transactions.",
         value: defaults.masterDetailDensity,
         onChange: (value) =>
           setDefaults((current) => ({
@@ -207,7 +207,7 @@ export default function OrbitalsInterfacesPane({
           {
             value: "overlay",
             label: "Overlay",
-            hint: "Open the conversation workspace as a dedicated surface anchored to the current flow.",
+            hint: "Open conversations as a dedicated surface anchored to the current flow.",
           },
           {
             value: "focused",
@@ -332,7 +332,7 @@ export default function OrbitalsInterfacesPane({
         <div className="space-y-5">
           <OrbitalsWorkspaceSection
             kicker="Interfaces posture"
-            title="Shape the operator workspace before you reopen it"
+            title="Shape transactions before you reopen them"
             description="Interfaces is where you keep master-detail, conversation entry, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
             explainer={orbitalsPaneExplainers.interfacesDefaults}
             tone="emerald"
@@ -347,7 +347,7 @@ export default function OrbitalsInterfacesPane({
                       : defaults.masterDetailDensity === "full"
                         ? "Full read"
                         : "Balanced read",
-                  detail: "How much structured detail opens first in the transactions workspace.",
+                  detail: "How much structured detail opens first in transactions.",
                   tone: "emerald",
                 },
                 {
@@ -385,7 +385,7 @@ export default function OrbitalsInterfacesPane({
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <OrbitalsWorkspaceSection
-              kicker="Workspace defaults"
+              kicker="Interface defaults"
               title="Master-detail and conversation defaults"
               description="Set the opening behavior the operator should see when moving between transactions, proofs, and dedicated conversation work."
               explainer={orbitalsPaneExplainers.interfacesDefaults}
@@ -410,7 +410,7 @@ export default function OrbitalsInterfacesPane({
 
             <OrbitalsWorkspaceSection
               kicker="Model posture"
-              title="Pick the default model family for this workspace"
+              title="Pick the default model family for this Bitcode read"
               description="Visible provider cost and limit posture belongs in Interfaces, not in a hidden utility drawer."
               explainer={orbitalsPaneExplainers.interfacesModels}
               tone="violet"

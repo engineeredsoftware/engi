@@ -9,7 +9,7 @@ describe('NavBrand', () => {
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();
-    expect(screen.getByText('transactions terminal')).toBeTruthy();
+    expect(screen.getByText('transactions')).toBeTruthy();
   });
 
   it('renders public-shell copy for mounted public routes', () => {
@@ -17,7 +17,7 @@ describe('NavBrand', () => {
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();
-    expect(screen.getByText('operator entry')).toBeTruthy();
+    expect(screen.getByText('network')).toBeTruthy();
   });
 
   it('renders beta posture outside the product workspace and remains clickable', () => {

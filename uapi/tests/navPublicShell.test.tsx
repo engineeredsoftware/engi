@@ -95,14 +95,16 @@ describe('Nav public shell', () => {
   it('shows stable public-route links and guest workspace access actions', () => {
     render(<Nav />);
 
-    const accessButton = screen.getByRole('button', { name: 'Access Workspace' });
+    const accessButton = screen.getByRole('button', { name: 'Open Orbitals' });
     const createButton = screen.getByRole('button', { name: 'Create Account' });
 
     expect(screen.getByText('Brand public')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Transactions terminal' })).toHaveAttribute('href', '/application');
-    expect(screen.getByRole('link', { name: 'Operator guide' })).toHaveAttribute('href', '/demo-video');
-    expect(screen.getByRole('button', { name: 'Explain Transactions terminal' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Operator guide' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Network' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Transactions' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
+    expect(screen.getByRole('button', { name: 'Explain Network' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Transactions' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
 
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
@@ -125,8 +127,8 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     expect(screen.getByText('Brand public')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Transactions terminal' })).toHaveAttribute('href', '/application');
-    expect(screen.getByRole('button', { name: 'Explain Transactions terminal' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Transactions' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('button', { name: 'Explain Transactions' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'User menu' }));

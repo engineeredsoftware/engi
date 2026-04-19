@@ -82,7 +82,7 @@ export default function ApplicationTransactionDetailSurface({
   const showActivity = detailSection === 'activity';
   const showConsole = detailSection === 'console' && !usesMockTransactions;
   const normalizedSummary =
-    detail?.summary || 'The selected transaction is loaded into the main Bitcode detail workspace.';
+    detail?.summary || 'The selected transaction is loaded into the main Bitcode transaction detail.';
   const sectionSummary = useMemo(() => {
     if (showTransaction) {
       return `${normalizedSummary} Transaction identity, repository, and timing posture are the active detail focus.`;
@@ -200,7 +200,7 @@ export default function ApplicationTransactionDetailSurface({
         </div>
       ) : null}
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
+      <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]">
         <div className="space-y-5">
           <ApplicationTransactionDetailHero
             title={selectedRun.type || 'pipeline:deliverables'}
@@ -253,7 +253,7 @@ export default function ApplicationTransactionDetailSurface({
             </section>
           ) : showDeliverables ? (
             <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5 text-sm leading-6 text-neutral-300">
-              No materialized deliverable surfaces are attached to this transaction yet. The same detail workspace still
+              No materialized deliverable surfaces are attached to this transaction yet. The same transaction detail still
               keeps proofs, history, and closure reading available.
             </div>
           ) : null}

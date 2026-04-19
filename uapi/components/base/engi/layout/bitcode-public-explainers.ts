@@ -5,37 +5,48 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 }
 
 export const BITCODE_PUBLIC_EXPLAINERS = {
-  transactionsTerminal: buildExplainer({
-    kicker: 'Public entry',
-    title: 'Transactions terminal',
-    summary: 'Open the live Bitcode operator workspace for Give, Need, transactions, conversations, proofs, and Orbitals.',
+  network: buildExplainer({
+    kicker: 'Live network',
+    title: 'Network',
+    summary: 'Read the live Bitcode network frame where Give, Need, settlement posture, and public teaching surfaces meet.',
     detail:
-      'This is the main operating surface. Use it when you want the real master-detail frame instead of a recorded walkthrough.',
+      'Use this route when you want the highest-level public view of how Bitcode is behaving before you dive into full transaction detail.',
     points: [
-      'Opens the shared operator workspace',
-      'Keeps transactions, conversations, proofs, and Orbitals in one frame',
+      'Frames Bitcode as the live market surface rather than a detached landing page',
+      'Connects public narrative directly to transactions, docs, and Orbitals',
     ],
   }),
-  operatorGuide: buildExplainer({
-    kicker: 'Recorded walkthrough',
-    title: 'Operator guide',
-    summary: 'Review the captured Bitcode operator flow before you step into the live transactions terminal.',
+  transactions: buildExplainer({
+    kicker: 'Live application',
+    title: 'Transactions',
+    summary: 'Open the full Bitcode transactions surface for proofs, history, conversations, and give-to-settle detail.',
     detail:
-      'The guide is resumable and public. It is useful when you want the sequence explained first and the live workspace second.',
+      'This is the main operator-grade surface. Use it when you want the real master-detail ledger instead of the public network read.',
     points: [
-      'Shows Give, Need, transactions, and Orbitals in one walkthrough',
-      'Falls back cleanly when refreshed media is not yet bundled',
+      'Loads selected transaction detail, proofs, history, and closure posture',
+      'Keeps Orbitals and conversations available around the same transaction flow',
     ],
   }),
-  accessWorkspace: buildExplainer({
-    kicker: 'Guest entry',
-    title: 'Access Workspace',
-    summary: 'Open the Bitcode access shell and continue into the live operator workspace.',
+  docs: buildExplainer({
+    kicker: 'Teaching surface',
+    title: 'Docs',
+    summary: 'Read the public Bitcode docs for stepwise explanations, inline widgets, route maps, and the recorded walkthrough.',
     detail:
-      'Use this when you want the application directly. Create Account is for first-time onboarding; Access Workspace is for entering the operating shell.',
+      'Use this when you want the system taught clearly before moving into the live transactions route.',
     points: [
-      'Opens the contained access shell',
-      'Keeps the public route lightweight while preserving live entry',
+      'Keeps walkthroughs and explainers under one documentation area',
+      'Preserves pedagogical prose instead of flattening the system into a brochure',
+    ],
+  }),
+  openOrbitals: buildExplainer({
+    kicker: 'Identity + interface',
+    title: 'Open Orbitals',
+    summary: 'Open the Bitcode orbital shell for access, profile, interface defaults, and $BTD posture.',
+    detail:
+      'Use this when you want the orbital access layer directly. Create Account is for first-time onboarding; Open Orbitals is for entering the contained shell.',
+    points: [
+      'Opens the contained orbital shell',
+      'Keeps Orbitals distinct from Network, Transactions, and Docs',
     ],
   }),
   protocolSpec: buildExplainer({

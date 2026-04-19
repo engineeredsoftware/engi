@@ -16,11 +16,11 @@ interface NavBrandProps {
 const SURFACE_COPY: Record<Exclude<NavBrandSurface, null>, { eyebrow: string; title: string }> = {
   application: {
     eyebrow: "Bitcode",
-    title: "transactions terminal",
+    title: "transactions",
   },
   public: {
     eyebrow: "Bitcode",
-    title: "operator entry",
+    title: "network",
   },
   orbitals: {
     eyebrow: "Bitcode",

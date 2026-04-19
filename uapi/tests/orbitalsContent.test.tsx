@@ -25,7 +25,7 @@ describe('OrbitalsContent', () => {
     expect(screen.getAllByText('Orbitals access')).toHaveLength(2);
     expect(
       screen.getByText(
-        /sign in once, then keep connects, interfaces, profile, and \$btd in one contained operator workspace/i,
+        /sign in once, then keep connects, interfaces, profile, and \$btd in one contained orbital surface/i,
       ),
     ).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Connects orbital' })).toBeTruthy();

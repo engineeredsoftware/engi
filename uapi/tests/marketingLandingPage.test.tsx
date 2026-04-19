@@ -67,18 +67,18 @@ describe('MarketingLandingPage', () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText('Bitcode is the transactions terminal for engineering value.'),
+      screen.getByText('Bitcode is auditable market infrastructure for technical knowledge.'),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Open transactions terminal' }),
+      screen.getByRole('link', { name: 'Open transactions' }),
     ).toHaveAttribute('href', '/application');
-    expect(screen.getByRole('link', { name: 'Review operator guide' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
       'href',
-      '/demo-video',
+      '/docs',
     );
-    expect(screen.getByText('Start with the transactions terminal')).toBeInTheDocument();
-    expect(screen.getByText('Compact terminal view')).toBeInTheDocument();
-    expect(screen.getAllByText('Operator frame').length).toBeGreaterThan(0);
+    expect(screen.getByText('Read the docs before you transact')).toBeInTheDocument();
+    expect(screen.getByText('Compact network view')).toBeInTheDocument();
+    expect(screen.getAllByText('Transactions').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Source to settlement').length).toBeGreaterThan(0);
     expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');

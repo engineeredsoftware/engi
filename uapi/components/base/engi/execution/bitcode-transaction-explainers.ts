@@ -26,7 +26,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
   ownership: buildExplainer({
     kicker: 'Perspective filter',
     title: 'Ownership filter',
-    summary: 'Switch between your own transactions and broader network-visible activity without changing the detail workspace.',
+    summary: 'Switch between your own transactions and broader network-visible activity without changing the detail surface.',
     detail: 'This keeps one shared read surface while still letting you separate personal work from wider participation.',
     points: ['Supports mine vs network posture', 'Preserves the same detail route and tools'],
   }),
@@ -79,7 +79,7 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
     kicker: 'Master column',
     title: 'Transaction column',
     summary: 'Shows the transaction id, transaction type, and one-line summary that anchors the selected detail view.',
-    detail: 'Selecting a row here loads the central detail workspace without pushing you out to another surface.',
+    detail: 'Selecting a row here loads the central detail surface without pushing you out to another surface.',
     points: ['Primary row selector', 'Carries the human-readable summary'],
   }),
   lens: buildExplainer({
