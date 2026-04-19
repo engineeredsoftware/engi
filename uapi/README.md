@@ -8,10 +8,16 @@ V26 work inside `uapi/` is draft-target implementation toward a first-and-second
 
 ## Primary routes
 
+- `/`
+- `/docs`
+- `/demo-video`
+  Mounted Bitcode public shell, docs hub, and compatibility walkthrough alias.
 - `/application`
   Main Bitcode transactions surface. Transactions master-detail is the primary reading surface; give and need are the primary write actions.
 - `/conversations`
   Fullscreen conversation mode entered from `/application`.
+- `/edgetimes`
+  Fourth-gate storage/schema/package ownership read mounted as a docs-branded Bitcode route.
 - `/orbitals/profile`
 - `/orbitals/connects`
 - `/orbitals/interfaces`
@@ -33,8 +39,10 @@ Contained orbital rails should also converge on the shared panel-plus-tabs carri
   Fullscreen ring overlay plus focused orbital routes for `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 - `app/conversations/`
   Fullscreen conversation mode.
+- `app/edgetimes/`
+  Fourth-gate storage/schema/package ownership route and shared topology owner for `/edgetimes`.
 - `app/api/`
-  App-owned Bitcode JSON contracts, including history, conversations, VCS, orbital preferences, client-error intake, and preserved-runtime endpoints.
+  App-owned Bitcode JSON contracts, including history, conversations, VCS, orbital preferences, client-error intake, preserved-runtime endpoints, and the `/api/edgetimes` storage/API witness.
 - `components/base/engi/`
   Shared operator chrome, execution carriers, explainers, notifications, and reusable app primitives.
 
@@ -82,6 +90,7 @@ They should keep the stable docs walkthrough on one Bitcode-owned guide asset in
 They should keep `/docs` as the real public teaching surface and `/demo-video` only as a compatibility alias into that docs-owned content.
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 They should keep footer entry links and protocol/version metadata progressive on smaller shells, using card/chip presentation instead of compressed inline microcopy.
+They should now also keep `/edgetimes` aligned with the docs-branded public shell while treating it as a fourth-gate retained-system owner rather than brochure content.
 
 ## Development
 

@@ -1,0 +1,58 @@
+{
+  "reportId": "v26-persistence-schema-totality-proof",
+  "version": "V26",
+  "proofSourceCommit": "de0e694774fc52b9cff342de28c62d12b39b5a93",
+  "generatedAt": "2026-04-19T13:33:44-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "baselineMigrationPath": "supabase/migrations/001_ga1_production.sql",
+  "routeWitnesses": [
+    "/edgetimes",
+    "/api/edgetimes"
+  ],
+  "unresolvedTables": [
+    "deliverable_vectors",
+    "deliverable_run_phases",
+    "run_jobs",
+    "run_otf_instructions",
+    "stream_logs",
+    "generated_assets",
+    "events",
+    "error_logs",
+    "token_costs"
+  ],
+  "checks": [
+    {
+      "checkId": "persistence-baseline-and-typed-owners",
+      "label": "Persistence baseline, typed clients, ORM/query owners, and generated type carriers",
+      "passed": true,
+      "detail": "22 required files present",
+      "requiredFiles": [
+        "supabase/migrations/001_ga1_production.sql",
+        "packages/supabase/src/index.ts",
+        "packages/supabase/src/client.ts",
+        "packages/supabase/src/ssr/client.ts",
+        "packages/supabase/src/ssr/server.ts",
+        "packages/supabase/src/ssr/middleware.ts",
+        "packages/orm/src/client.ts",
+        "packages/orm/src/models/index.ts",
+        "packages/orm/src/queries/field-intelligence.ts",
+        "packages/orm/src/queries/vector.ts",
+        "packages/orm/src/types/database.generated.ts",
+        "packages/orm/src/types/database.ts",
+        "packages/orm/scripts/generate-db-types.ts",
+        "packages/orm/scripts/generate-db-types.js",
+        "uapi/app/edgetimes/edgetimes-topology.ts",
+        "uapi/app/edgetimes/EdgetimesPageContent.tsx",
+        "uapi/app/edgetimes/page.tsx",
+        "uapi/app/api/edgetimes/route.ts",
+        "uapi/tests/edgetimesPageContent.test.tsx",
+        "uapi/tests/api/edgetimesRoute.test.ts",
+        "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
+        "packages/bitcode/V26_PROOF_SURFACES.md"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

@@ -322,6 +322,7 @@ Mounted public-shell chrome is also now explicit:
 This now constitutes mounted third-gate closure for the public shell:
 - public route ownership, naming, metadata/title posture, docs-route authority, walkthrough fallback, and public orbital entry all hold under live verification
 - remaining V26 work should now shift primarily into fourth-gate retained-system convergence and fifth-gate proof/finalization rather than reopening mounted public-shell identity work without cause
+- `/edgetimes` and `/api/edgetimes` now exist as the first live fourth-gate storage/API witness so retained persistence convergence can proceed from explicit route/API ownership rather than only planning notes
 
 Current draft-only spine to preserve for that future gate:
 - where + when:
@@ -351,7 +352,7 @@ Still open:
 - how ChatGPT-like interaction should survive as a fullscreen first-class application mode,
 - how deliverables should be redefined under Bitcode runs/pipelines,
 - how far executions/runs should absorb current pipeline-specific APIs and data while porting their strongest master-detail patterns into `/application`,
-- how PostgreSQL/Supabase ownership should be cut between `supabase/*`, `packages/supabase/*`, retained API carriers, and the required `/edgetimes` posture,
+- how PostgreSQL/Supabase ownership should be cut between `supabase/*`, `packages/supabase/*`, retained API carriers, and the now-live `/edgetimes` + `/api/edgetimes` witness posture,
 - which migration family is treated as the initial V26 baseline and how schema drift is proven from there,
 - which retained packages are admissible,
 - and what proof obligations each retained package must satisfy to stay in V26.

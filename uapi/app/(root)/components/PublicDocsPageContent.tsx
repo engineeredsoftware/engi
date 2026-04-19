@@ -33,6 +33,15 @@ const docsSections = [
     summary: BITCODE_PUBLIC_EXPLAINERS.openOrbitals.summary,
     detail: BITCODE_PUBLIC_EXPLAINERS.openOrbitals.detail,
   },
+  {
+    href: '/edgetimes',
+    eyebrow: 'Edgetimes',
+    title: 'Inspect storage, schema, and package owners',
+    summary:
+      'Read the fourth-gate storage posture for Supabase, ORM/query ownership, generated types, and retained package admissions.',
+    detail:
+      'Use this route when you need the persistence map explicit before deeper work on conversations, runs, and deliverables.',
+  },
 ] as const;
 
 const inlineWidgets = [

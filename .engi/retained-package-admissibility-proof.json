@@ -1,0 +1,74 @@
+{
+  "reportId": "v26-retained-package-admissibility-proof",
+  "version": "V26",
+  "proofSourceCommit": "de0e694774fc52b9cff342de28c62d12b39b5a93",
+  "generatedAt": "2026-04-19T13:33:44-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "admittedPackageCount": 5,
+  "packages": [
+    {
+      "packageName": "@bitcode/supabase",
+      "rationale": "typed browser/admin/SSR Supabase clients remain the retained persistence entrypoint for Bitcode routes and APIs",
+      "requiredFiles": [
+        "packages/supabase/src/index.ts",
+        "packages/supabase/src/client.ts",
+        "packages/supabase/src/ssr/client.ts",
+        "packages/supabase/src/ssr/server.ts",
+        "packages/supabase/src/ssr/middleware.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/orm",
+      "rationale": "typed model/query ownership and generated database types remain the retained schema contract layer",
+      "requiredFiles": [
+        "packages/orm/src/client.ts",
+        "packages/orm/src/models/index.ts",
+        "packages/orm/src/queries/field-intelligence.ts",
+        "packages/orm/src/queries/vector.ts",
+        "packages/orm/src/types/database.generated.ts",
+        "packages/orm/src/types/database.ts",
+        "packages/orm/scripts/generate-db-types.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/prompts",
+      "rationale": "prompt abstraction remains the retained owner for prompt text and prompt execution contracts",
+      "requiredFiles": [
+        "packages/prompts/src/index.ts",
+        "packages/prompts/src/prompt.ts",
+        "packages/prompts/src/execution/PromptExecution.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/conversations-generics",
+      "rationale": "conversation agent and prompt abstractions remain admitted while fullscreen conversations converge inward",
+      "requiredFiles": [
+        "packages/conversations-generics/src/index.ts",
+        "packages/conversations-generics/src/agent/ConversationAgent.ts",
+        "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    },
+    {
+      "packageName": "@bitcode/execution-generics",
+      "rationale": "retained execution abstractions remain admitted while runs and pipelines converge onto Bitcode semantics",
+      "requiredFiles": [
+        "packages/execution-generics/src/index.ts",
+        "packages/execution-generics/src/Execution.ts",
+        "packages/execution-generics/src/execution-registry.ts",
+        "packages/execution-generics/src/storage/ExecutionStorageAdapter.ts"
+      ],
+      "missingFiles": [],
+      "passed": true
+    }
+  ]
+}

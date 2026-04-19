@@ -129,3 +129,8 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere
 - the live public footer now collapses its route links into mobile-first cards and presents protocol/version metadata as explicit product chips instead of cramped inline microcopy on narrow shells
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary
+
+Current fourth-gate start is now explicit too:
+- `/edgetimes` is a live Bitcode docs-branded storage/schema/package ownership route rather than draft-only intent
+- `/api/edgetimes` is the JSON witness for that same fourth-gate storage/API topology
+- the retained persistence basis is now surfaced through one explicit route/API owner instead of living only in spec prose while broader fourth-gate convergence remains open

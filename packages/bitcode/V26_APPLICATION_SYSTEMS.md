@@ -723,8 +723,8 @@ Current major retained owners:
   Typed client, SSR helpers, retained Supabase package ownership, and active helpers under `packages/supabase/src/*`.
 - `packages/orm/*`
   Active ORM model/query ownership and generated database typing under `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, and `packages/orm/scripts/generate-db-types.ts`.
-- storage-facing app/API carriers including the required `/edgetimes` posture
-  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` remains a required fourth-gate Bitcode storage/API posture rather than an already-implemented active owner in current source.
+- storage-facing app/API carriers including `/edgetimes` and `/api/edgetimes`
+  Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate Bitcode storage/API witness starter rather than remaining draft-only posture.
 
 Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.

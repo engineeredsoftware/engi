@@ -144,4 +144,13 @@ describe('Nav public shell', () => {
     expect(screen.getByText('Brand docs')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
   });
+
+  it('treats /edgetimes as a docs-branded public route', () => {
+    mockPathname = '/edgetimes';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand docs')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
+  });
 });

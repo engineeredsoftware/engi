@@ -416,7 +416,8 @@ Second-gate acceptance is reached only when:
 - and orbitals still read as the orbital owner rather than as displaced onboarding residue.
 
 Persistence note:
-- Supabase-hosted PostgreSQL ownership, `/edgetimes`, migrations, ORM/query carriers, generated database types, and storage/API proof closure remain explicit fourth-gate work even while second-gate application UX/UI is being tightened.
+- Supabase-hosted PostgreSQL ownership, `/edgetimes`, `/api/edgetimes`, migrations, ORM/query carriers, generated database types, and storage/API proof closure remain explicit fourth-gate work even while second-gate application UX/UI is being tightened.
+- `/edgetimes` and `/api/edgetimes` now exist as the live fourth-gate storage/API witness starter so later convergence can build from active route/API ownership instead of only draft prose.
 
 ## Precise fourth-gate specification targets
 
