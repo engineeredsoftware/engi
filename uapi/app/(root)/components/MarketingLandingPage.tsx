@@ -1,7 +1,8 @@
 'use client';
 /* eslint-disable react/no-multi-comp */
 
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   ArrowRightIcon,
@@ -25,8 +26,8 @@ import Footer from '@/components/base/engi/layout/footer';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
 
-import '../../../styles/coming-soon-fix.css';
-import '../../../styles/coming-soon-glow-fix.css';
+import '../../../styles/marketing-landing-shell.css';
+import '../../../styles/marketing-landing-glow.css';
 import '../../../styles/particle-effect.css';
 
 type Particle = {
@@ -240,113 +241,7 @@ function renderTrailingOrangeAsterisk(value: string, asteriskClassName = '') {
   ) as React.ReactNode;
 }
 
-export const ComingSoonAccessForm = memo(function ComingSoonAccessForm() {
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [shake, setShake] = useState(false);
-  const timeoutIdsRef = useRef<number[]>([]);
-
-  useEffect(() => {
-    return () => {
-      timeoutIdsRef.current.forEach((timeoutId) => window.clearTimeout(timeoutId));
-      timeoutIdsRef.current = [];
-    };
-  }, []);
-
-  const schedule = (fn: () => void, delay: number) => {
-    const timeoutId = window.setTimeout(fn, delay);
-    timeoutIdsRef.current.push(timeoutId);
-  };
-
-  const handlePasswordSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (password.trim() === 'bitcode/acc') {
-      setSuccess(true);
-
-      try {
-        localStorage.setItem('mid_launch_auth', 'true');
-      } catch {
-        /* ignore */
-      }
-
-      schedule(() => {
-        window.location.reload();
-      }, 650);
-
-      return;
-    }
-
-    setError('Incorrect incantation. 🍏');
-    setShake(true);
-    schedule(() => setShake(false), 700);
-  };
-
-  return (
-    <motion.form
-      onSubmit={handlePasswordSubmit}
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.3, ease: entranceEase }}
-      className="mt-4 max-w-xl rounded-[24px] border border-emerald-300/12 bg-black/25 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-5"
-      style={paintedMotionStyle}
-    >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
-            Paid Writing, Private Reading, Public Verification
-          </p>
-          <p className="mt-1 text-[13px] leading-5 text-emerald-100/68">
-            Use the dataset for research and development. Contact Advanced Engineered Software,
-            Inc. to request access.
-          </p>
-        </div>
-        <div className="flex min-h-[22px] items-center gap-3">
-          <span className="rounded-full border border-emerald-400/20 bg-emerald-500/8 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-emerald-200/72">
-            restricted dataset
-          </span>
-          <span className="text-sm text-red-300">{error || ''}</span>
-        </div>
-      </div>
-
-      <div className="mt-4 flex flex-col gap-3 phone:flex-row">
-        <motion.div
-          animate={shake ? { x: [-8, 8, -6, 6, -3, 3, 0] } : { x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex-1"
-          style={animatedMotionStyle}
-        >
-          <input
-            type="password"
-            placeholder="access code"
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-              if (error) {
-                setError('');
-              }
-            }}
-            disabled={success}
-            className="w-full rounded-2xl border border-emerald-300/22 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-emerald-100/35 focus:border-emerald-300/45 disabled:opacity-60"
-          />
-        </motion.div>
-
-        <button
-          type="submit"
-          disabled={success}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-300/25 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-50 transition-all hover:border-emerald-300/45 hover:bg-emerald-400/14 disabled:cursor-default disabled:opacity-70 phone:w-auto"
-        >
-          {success ? 'Unlocked' : 'Enter dataset'}
-          <ArrowRightIcon className="h-4 w-4" />
-        </button>
-      </div>
-      {success && <p className="mt-3 text-sm text-emerald-300">Access granted.</p>}
-    </motion.form>
-  );
-});
-
-const ComingSoonMicroPost = memo(function ComingSoonMicroPost() {
+const MarketingGuideCard = memo(function MarketingGuideCard() {
   return (
     <motion.article
       initial={{ opacity: 0, y: 18 }}
@@ -454,7 +349,7 @@ export default function MarketingLandingPage() {
 
       <div
         ref={containerRef}
-        className="coming-soon-container relative flex w-full flex-col bg-[#030816] text-white"
+        className="marketing-landing-shell relative flex w-full flex-col bg-[#030816] text-white"
         style={{
           minHeight: '100svh',
           '--mouse-x': '50%',
@@ -819,23 +714,23 @@ export default function MarketingLandingPage() {
                 </div>
 
                 <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
-                  <a
+                  <Link
                     href={BITCODE_PUBLIC_COPY.primaryCta.href}
                     className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
                     {BITCODE_PUBLIC_COPY.primaryCta.label}
                     <ArrowRightIcon className="h-4 w-4" />
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href={BITCODE_PUBLIC_COPY.secondaryCta.href}
                     className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
                   >
                     {BITCODE_PUBLIC_COPY.secondaryCta.label}
                     <ArrowRightIcon className="h-4 w-4" />
-                  </a>
+                  </Link>
                 </div>
 
-                <ComingSoonMicroPost />
+                <MarketingGuideCard />
               </motion.section>
 
               <motion.aside

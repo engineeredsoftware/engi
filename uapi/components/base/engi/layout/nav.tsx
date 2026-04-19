@@ -155,12 +155,12 @@ export default function Nav() {
   ) : null;
 
   const publicGuestActions = usesPublicChrome && !user ? (
-    <div className={isAnimated ? 'nav-controls-animated flex items-center gap-2.5' : 'opacity-0 flex items-center gap-2.5'}>
+    <div className={isAnimated ? 'nav-controls-animated flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5' : 'opacity-0 flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5'}>
       <button
         type="button"
         onMouseEnter={() => prefetchOrbital()}
         onClick={() => openOrbital('login')}
-        className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
+        className="flex-1 rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18 tablet:flex-none"
       >
         {BITCODE_PUBLIC_COPY.publicNav.guestPrimaryCta}
       </button>
@@ -168,7 +168,7 @@ export default function Nav() {
         type="button"
         onMouseEnter={() => prefetchOrbital()}
         onClick={() => openOrbital('SignUpWindow')}
-        className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+        className="flex-1 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none"
       >
         {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
       </button>
@@ -176,7 +176,7 @@ export default function Nav() {
   ) : null;
 
   const publicRouteLinks = usesPublicChrome ? (
-    <ul className="flex w-full items-center justify-center gap-2 phone:gap-4 tablet:gap-6 laptop:ml-12">
+    <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
         const isActiveRoute =
           href === '/'
@@ -230,8 +230,8 @@ export default function Nav() {
           border: 'none',
         }}
       >
-        <div className={`flex items-center justify-between px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 max-w-7xl mx-auto ${usesWorkspaceChrome ? 'py-3.5' : 'py-4 pb-6'}`}>
-          <div className="flex items-center w-full">
+        <div className={`max-w-7xl mx-auto px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesPublicChrome ? 'flex w-full flex-col gap-3 py-3 pb-4 tablet:flex-row tablet:items-center tablet:justify-between' : `flex items-center justify-between ${usesWorkspaceChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
+          <div className={usesPublicChrome ? 'flex w-full flex-col gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex items-center w-full'}>
             <NavBrand
               animated={isAnimated}
               onClick={handleLogoClick}
@@ -305,7 +305,7 @@ export default function Nav() {
             )}
           </div>
 
-          <div className="flex items-center justify-center space-x-4">
+          <div className={usesPublicChrome ? 'flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-4' : 'flex items-center justify-center space-x-4'}>
             {workspaceGuestActions ? (
               workspaceGuestActions
             ) : publicGuestActions ? (
@@ -365,7 +365,7 @@ export default function Nav() {
 
       {/* Spacer below the nav */}
       <div
-        className={`transition-all duration-500 ease-out ${shouldBeFixed ? (isCollapsed ? 'h-28' : 'h-36') : 'h-0'
+        className={`transition-all duration-500 ease-out ${shouldBeFixed ? (usesPublicChrome ? 'h-40 phone:h-44 tablet:h-36' : isCollapsed ? 'h-28' : 'h-36') : 'h-0'
           }`}
       />
     </div>

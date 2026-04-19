@@ -6,7 +6,7 @@ test.describe('Landing page mobile scrolling', () => {
 
     await page.goto('/');
 
-    const container = page.locator('.coming-soon-container');
+    const container = page.locator('.marketing-landing-shell');
     await expect(container).toBeVisible();
 
     const beforeScroll = await container.evaluate((element) => {

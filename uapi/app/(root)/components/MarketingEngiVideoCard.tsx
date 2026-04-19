@@ -3,6 +3,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { Play } from 'lucide-react';
+import Link from 'next/link';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 import { MARKETING_OPERATOR_GUIDE_SOURCES } from './marketing-operator-guide-assets';
 
@@ -84,6 +85,14 @@ export default function MarketingEngiVideoCard({
       <div className="flex h-full w-full flex-col justify-center gap-3 rounded-3xl border border-white/10 bg-slate-900/70 p-6 text-left shadow-[0_0_35px_rgba(16,185,129,0.2)] backdrop-blur">
         <span className="inline-flex w-fit items-center rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">{BITCODE_PUBLIC_COPY.guideRoute.missingVideoTitle}</span>
         <p className="text-sm text-emerald-100/80">{BITCODE_PUBLIC_COPY.guideRoute.missingVideoBody}</p>
+        <div>
+          <Link
+            href="/application"
+            className="inline-flex items-center justify-center rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
+          >
+            {BITCODE_PUBLIC_COPY.guideRoute.missingVideoCta}
+          </Link>
+        </div>
       </div>
     );
   }

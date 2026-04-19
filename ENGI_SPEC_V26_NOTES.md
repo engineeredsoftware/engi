@@ -301,6 +301,9 @@ Mounted public-shell chrome is also now explicit:
 - `/` and `/demo-video` mount live Bitcode nav through `PublicShellFrame`
 - public routes expose stable `Transactions terminal` / `Operator guide` links plus `Access Workspace` / `Create Account`
 - public-route orbital access now opens the contained Bitcode orbital shell instead of stopping at page-local CTA copy
+- the mounted landing shell now uses Bitcode marketing-shell owners and selectors rather than live `ComingSoon*`/`coming-soon-*` residue
+- the stable guide route now fails closed with user-facing operator fallback copy and a direct `Open transactions terminal` path instead of exposing asset-path instructions
+- the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
 
 Current draft-only spine to preserve for that future gate:
 - where + when:

@@ -276,6 +276,15 @@ They also now carry the mounted public-shell chrome contract:
 - stable public-route access CTAs,
 - and live orbital-entry behavior on `/` and `/demo-video` rather than page-local copy alone.
 
+Mounted third-gate hardening must also retire stale public-shell residue from the live route owners:
+- no live `coming-soon` component, class, or stylesheet naming in the mounted public shell,
+- no unused access-gate or incantation code preserved inside the live landing owner,
+- and no developer-path fallback copy on the operator-guide route when guide media is absent.
+
+Mounted third-gate public chrome should also prefer progressive simplification over extra menu state:
+- responsive public-route nav should stack and wrap cleanly on smaller screens rather than introducing hamburger-only access for the primary Bitcode entry links,
+- and public-route access CTAs should remain immediately visible without requiring additional taps to discover the transactions terminal or operator guide.
+
 Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
 - the main public entry points inherit the same Give/Need, transactions, conversations, and Orbitals vocabulary used by the application,

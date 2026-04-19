@@ -278,14 +278,14 @@ Current active assignments:
   second-gate documentation/refurbishment closure for the active Bitcode root, route, orbital, execution, shared-component, and package owners
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-copy.ts`, `uapi/app/demo-video/page.tsx`, `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
   test coverage:
-  `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, and `uapi/tests/marketingEngiVideoCard.test.tsx`
+  `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, `uapi/tests/marketingEngiVideoCard.test.tsx`, and `uapi/tests/e2e/landing.mobile-scroll.spec.ts`
   proof surface:
-  mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, and a stable guide route that no longer narrates Bitcode through demo-era copy
+  mounted third-gate public-shell start, including shared `transactions terminal` / `operator guide` vocabulary, guest workspace-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, and a stable guide route that no longer narrates Bitcode through demo-era or developer-path copy
 - `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/engi/layout/nav.tsx`, `uapi/components/base/engi/layout/NavBrand.tsx`, `uapi/components/base/engi/layout/workspace-surface.ts`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
   proof surface:
-  mounted third-gate public-route chrome, including live Bitcode nav on `/` and `/demo-video`, stable public-route entry links, and public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy
+  mounted third-gate public-route chrome, including live Bitcode nav on `/` and `/demo-video`, stable public-route entry links, public-shell orbital access that opens the contained Bitcode overlay instead of stopping at page-local CTA copy, and a responsive stacked public-nav posture that avoids hiding the primary entry paths behind extra menu state
 - `uapi/app/application/ApplicationWorkspaceRailCard.tsx`
   test coverage:
   `uapi/tests/applicationWorkspaceRailCard.test.tsx`

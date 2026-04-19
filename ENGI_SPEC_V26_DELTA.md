@@ -377,6 +377,8 @@ Second-gate acceptance is reached only when:
 - preserved-runtime HTML fallback copy now matches the React-owned closure-runtime and flow-guide wording instead of leaking prototype/tutorial text,
 - the mounted public shell has now started third-gate through one shared `bitcode-public-copy.ts` owner feeding the landing page, footer, and stable `/demo-video` guide route, so public entry copy inherits `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals` vocabulary from the application instead of preserving demo-era CTA language,
 - the mounted public shell now also owns live public-route chrome through `PublicShellFrame`, `nav.tsx`, and `NavBrand.tsx`, so `/` and `/demo-video` expose explicit Bitcode navigation and access/orbital entry behavior instead of rendering as copy-only pages,
+- the mounted public shell no longer relies on live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, and the dead access-gate shell has been removed from the active landing owner instead of being carried forward as dormant demo logic,
+- the mounted public nav now resolves small-screen complexity by stacking and wrapping the live Bitcode links and guest actions instead of hiding the primary entry paths behind another menu state,
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,
 - active `Interfaces` and `$BTD` panes now use live `interfaces`/`btd` naming and orbital-entry classing instead of exposing model/credits/settings residue in the active orbital surface,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,

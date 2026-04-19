@@ -29,8 +29,11 @@ describe('MarketingEngiVideoCard', () => {
     expect(await screen.findByText('Operator guide')).toBeInTheDocument();
     expect(
       await screen.findByText(
-        'Drop the recorded Bitcode operator guide at public/videos/bitcode-operator-guide.mp4 to enable inline playback.',
+        'The recorded operator guide is being refreshed. Continue in the transactions terminal while the next captured walkthrough is published.',
       ),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Open transactions terminal' }),
+    ).toHaveAttribute('href', '/application');
   });
 });

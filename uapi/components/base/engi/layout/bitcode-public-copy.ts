@@ -82,6 +82,7 @@ export const BITCODE_PUBLIC_COPY = {
       'Give, need, transactions, conversations, orbitals, and shipping captured in one recorded operator session.',
     missingVideoTitle: 'Operator guide',
     missingVideoBody:
-      'Drop the recorded Bitcode operator guide at public/videos/bitcode-operator-guide.mp4 to enable inline playback.',
+      'The recorded operator guide is being refreshed. Continue in the transactions terminal while the next captured walkthrough is published.',
+    missingVideoCta: 'Open transactions terminal',
   },
 } as const;

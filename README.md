@@ -116,4 +116,6 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the mounted public shell now converges through shared public-copy ownership in `uapi/components/base/engi/layout/bitcode-public-copy.ts`
 - the live public shell now mounts Bitcode nav through `uapi/app/(root)/components/PublicShellFrame.tsx`
 - the live landing, nav, footer, and stable `/demo-video` guide route now use `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals` vocabulary
+- the live landing shell no longer carries active `ComingSoon*` owners or `coming-soon-*` stylesheet imports
+- the live public nav now stays progressive on small screens by stacking visible entry links and guest actions instead of hiding them behind a separate menu layer
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary

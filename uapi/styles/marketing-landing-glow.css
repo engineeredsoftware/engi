@@ -1,4 +1,4 @@
-/* Coming Soon Text Glow Fix - Mobile-friendly approach */
+/* Bitcode marketing landing glow fix - mobile-friendly approach */
 
 /* 
  * This file contains a completely different approach to text glow effects
@@ -61,7 +61,7 @@
   }
 
   /* Keep natural document scrolling on mobile. */
-  .coming-soon-container {
+  .marketing-landing-shell {
     overflow-x: clip !important;
     overflow-y: visible !important;
   }

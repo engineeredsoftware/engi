@@ -46,7 +46,7 @@ Third-gate public-shell work is now explicitly carried by:
 - `app/(root)/components/MarketingLandingPage.tsx`
   Mounted homepage shell.
 - `app/(root)/components/MarketingEngiVideoCard.tsx`
-  Stable recorded operator-guide card.
+  Stable recorded operator-guide card with user-facing fallback back into `/application` when guide media is absent.
 - `app/demo-video/page.tsx`
   Stable guide route that remains public while live Bitcode work happens in `/application`.
 - `components/base/engi/layout/nav.tsx`
@@ -57,6 +57,9 @@ Third-gate public-shell work is now explicitly carried by:
   Shared public footer CTA and public-route link posture.
 - `components/base/engi/layout/bitcode-public-copy.ts`
   Shared public-shell vocabulary for `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`.
+
+Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
+They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 
 ## Development
 

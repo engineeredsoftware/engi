@@ -1,7 +1,7 @@
-/* Coming Soon Component - Specific Fixes */
+/* Bitcode marketing landing shell - specific fixes */
 
 /* Use normal document scrolling while keeping horizontal overflow clipped. */
-.coming-soon-container {
+.marketing-landing-shell {
   position: relative;
   overflow-x: clip;
   overflow-y: visible;
@@ -14,7 +14,7 @@
 }
 
 /* Create a wrapper to prevent scrollbars while allowing overflow for visual effects */
-.coming-soon-container::before {
+.marketing-landing-shell::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -22,7 +22,7 @@
 }
 
 /* Fix for orbital rings to ensure they're visible and properly animated */
-.coming-soon-container .orbital-system {
+.marketing-landing-shell .orbital-system {
   position: absolute;
   inset: 0;
   opacity: 0.7;
@@ -33,27 +33,27 @@
   contain: paint;
 }
 
-.coming-soon-container .orbital-ring {
+.marketing-landing-shell .orbital-ring {
   position: absolute;
   border-radius: 50%;
   border: 1px solid rgba(103, 254, 183, 0.1);
   transform-origin: center;
   will-change: transform;
-  animation: coming-soon-orbital-rotation 60s linear infinite;
+  animation: marketing-landing-orbital-rotation 60s linear infinite;
   overflow: visible !important;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 /* Ensure quantum particles are visible and properly animated */
-.coming-soon-container .quantum-particle {
+.marketing-landing-shell .quantum-particle {
   position: absolute;
   border-radius: 50%;
   background-color: rgba(103, 254, 183, 0.8);
   box-shadow: 0 0 10px rgba(103, 254, 183, 0.6);
   z-index: 10;
   overflow: visible !important;
-  animation: coming-soon-quantum-particle var(--particle-duration, 9s) ease-in-out infinite;
+  animation: marketing-landing-quantum-particle var(--particle-duration, 9s) ease-in-out infinite;
   animation-delay: var(--particle-delay, 0s);
   will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
@@ -62,7 +62,7 @@
 }
 
 /* Fix for the text animation to prevent complete fade-out */
-.coming-soon-container .super-shiny-text {
+.marketing-landing-shell .super-shiny-text {
   position: relative;
   display: inline;
   color: #67feb7;
@@ -80,11 +80,11 @@
   will-change: opacity, filter, text-shadow, background-position;
   opacity: 1 !important;
   /* Ensure text never completely disappears */
-  animation: coming-soon-neon-pulse 3s infinite ease-in-out;
+  animation: marketing-landing-neon-pulse 3s infinite ease-in-out;
 }
 
 /* Fix for text reveal animation to maintain minimum opacity */
-@keyframes coming-soon-text-reveal {
+@keyframes marketing-landing-text-reveal {
   0% {
     opacity: 0.2;
     /* Start with slight visibility */
@@ -110,7 +110,7 @@
   }
 }
 
-@keyframes coming-soon-neon-pulse {
+@keyframes marketing-landing-neon-pulse {
   0% {
     text-shadow:
       0 0 8px rgba(103, 254, 183, 0.7),
@@ -150,7 +150,7 @@
   }
 }
 
-@keyframes coming-soon-pulse {
+@keyframes marketing-landing-pulse {
 
   0%,
   100% {
@@ -166,7 +166,7 @@
 }
 
 /* Enhanced shine animation with single light source and seamless loop */
-@keyframes coming-soon-shine {
+@keyframes marketing-landing-shine {
   0% {
     /* Start completely off-screen to the left */
     background-position: calc(-1.5 * var(--shine-width)) 0;
@@ -204,7 +204,7 @@
 }
 
 /* Fix for orbital rotation animation */
-@keyframes coming-soon-orbital-rotation {
+@keyframes marketing-landing-orbital-rotation {
   0% {
     transform: rotate(0deg);
   }
@@ -215,7 +215,7 @@
 }
 
 /* Fix for quantum particle animation */
-@keyframes coming-soon-quantum-particle {
+@keyframes marketing-landing-quantum-particle {
   0% {
     opacity: 0;
     transform: translate3d(0, 10px, 0) scale(0);
@@ -238,17 +238,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .coming-soon-container .orbital-ring,
-  .coming-soon-container .quantum-particle,
-  .coming-soon-container .super-shiny-text,
-  .coming-soon-container .ellipsis-dot {
+  .marketing-landing-shell .orbital-ring,
+  .marketing-landing-shell .quantum-particle,
+  .marketing-landing-shell .super-shiny-text,
+  .marketing-landing-shell .ellipsis-dot {
     animation: none !important;
     transition: none !important;
   }
 }
 
 /* Fix for the animated ellipsis */
-.coming-soon-container .animated-ellipsis {
+.marketing-landing-shell .animated-ellipsis {
   height: 6px;
   display: flex;
   justify-content: center;
@@ -256,16 +256,16 @@
   margin-top: 12px;
 }
 
-.coming-soon-container .ellipsis-dot {
+.marketing-landing-shell .ellipsis-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background-color: #67feb7;
   margin: 0 3px;
-  animation: coming-soon-ellipsis-pulse 1.5s infinite ease-in-out;
+  animation: marketing-landing-ellipsis-pulse 1.5s infinite ease-in-out;
 }
 
-@keyframes coming-soon-ellipsis-pulse {
+@keyframes marketing-landing-ellipsis-pulse {
 
   0%,
   100% {
@@ -280,7 +280,7 @@
 }
 
 /* Fix for the main content to ensure proper z-index and overflow */
-.coming-soon-container .main-content {
+.marketing-landing-shell .main-content {
   z-index: 20;
   text-align: center;
   padding: 0 16px;
@@ -294,7 +294,7 @@
 }
 
 /* Fix for the radial gradient that follows mouse */
-.coming-soon-container .mouse-gradient {
+.marketing-landing-shell .mouse-gradient {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -303,7 +303,7 @@
 }
 
 /* Fix for the staggered text animation */
-.coming-soon-container .staggered-text {
+.marketing-landing-shell .staggered-text {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -320,7 +320,7 @@
   /* Include padding in width calculation */
 }
 
-.coming-soon-container .staggered-word {
+.marketing-landing-shell .staggered-word {
   display: inline-block;
   overflow: visible !important;
   padding: 5px 10px;
@@ -328,7 +328,7 @@
 }
 
 /* Fix for the subtle tagline */
-.coming-soon-container .tagline {
+.marketing-landing-shell .tagline {
   margin-top: 32px;
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
