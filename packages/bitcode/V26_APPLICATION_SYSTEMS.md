@@ -3,8 +3,8 @@
 ## Status
 
 - Scope: non-canonical supplementary system document for the V26 Bitcode application architecture
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
-- Active draft target: `ENGI_SPEC_V26.md`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V26`
+- Next draft target: `ENGI_SPEC_V27.md` (not yet opened)
 - Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the application, overlay systems, retained package owners, and storage/persistence ownership
 
 ## Rule
@@ -49,13 +49,13 @@ The orbital ring model is fixed for V26:
 - `$BTD`
   Share information, throughput posture, advanced `$BTD` controls, and `$BTD`-specific master-detail defaults.
 
-Direct orbital routes should prefer:
-- `/orbitals/profile`
-- `/orbitals/connects`
-- `/orbitals/interfaces`
-- `/orbitals/btd`
+Direct auxillary routes should prefer:
+- `/auxillaries/profile`
+- `/auxillaries/connects`
+- `/auxillaries/interfaces`
+- `/auxillaries/btd`
 
-Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` may survive only as convergence redirects until fourth-gate rename cleanup closes.
+Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` may survive only as redirect-only convergence carriers into `/auxillaries/*` until later cleanup removes them entirely.
 
 ## Public shell carriers
 
@@ -732,7 +732,7 @@ Current major retained owners:
 - retained execution compatibility carriers including `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences`
   Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fourth-gate convergence ports those behaviors inward to `/application`.
 - retained `/executions` and `/orbitals` route posture
-  Compatibility route families that remain explicit during fourth-gate promotion while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; transactions, executions, and notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
+  Compatibility route families that remain explicit during fourth-gate promotion while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; `/orbitals/*` must remain redirect-only compatibility into canonical `/auxillaries/*`, transactions/executions/notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
 
 Required convergence rule:
 - V26 may not leave PostgreSQL/Supabase ownership implicit across migrations, package helpers, and route glue.

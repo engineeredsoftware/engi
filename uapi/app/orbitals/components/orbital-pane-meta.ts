@@ -8,6 +8,8 @@ export const ORBITALS_LIST_LABEL = 'Connects, Interfaces, Profile, and $BTD';
 export const ORBITALS_LIST_COMPACT_LABEL = 'Connects, Interfaces, Profile, $BTD';
 export const OPEN_ORBITALS_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
 export const OPEN_TRANSACTIONS_LABEL = 'Open transactions';
+export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
+export const ORBITALS_COMPATIBILITY_ROUTE_ROOT = '/orbitals';
 
 export type ConcreteOrbitalPane = (typeof ONBOARDING_FLOW_STEPS)[number];
 export type OrbitalPane = ConcreteOrbitalPane | null;
@@ -92,6 +94,20 @@ export function labelForOrbitalPane(step: OrbitalPane) {
 
 export function getOrbitalRouteSegment(step: ConcreteOrbitalPane) {
   return ORBITAL_DESCRIPTORS[step].routeSegment;
+}
+
+export function buildAuxillariesRoutePath(stepOrSegment: ConcreteOrbitalPane | string) {
+  const normalizedStep = normalizeOrbitalPane(stepOrSegment);
+  const routeSegment = normalizedStep ? getOrbitalRouteSegment(normalizedStep) : stepOrSegment.trim().toLowerCase();
+  return `${AUXILLARIES_ROUTE_ROOT}/${routeSegment}`;
+}
+
+export function isAuxillariesPath(pathname: string | null | undefined) {
+  return Boolean(pathname?.startsWith(AUXILLARIES_ROUTE_ROOT));
+}
+
+export function isOrbitalsCompatibilityPath(pathname: string | null | undefined) {
+  return Boolean(pathname?.startsWith(ORBITALS_COMPATIBILITY_ROUTE_ROOT));
 }
 
 export function getOrbitalRingIndex(step: ConcreteOrbitalPane) {

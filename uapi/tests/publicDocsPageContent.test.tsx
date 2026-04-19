@@ -23,7 +23,7 @@ describe('PublicDocsPageContent', () => {
     expect(screen.getByText('Study Bitcode step by step.')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Read the live Bitcode market frame' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Move into full give-to-settle detail' })).toHaveAttribute('href', '/application');
-    expect(screen.getByRole('link', { name: 'Shape identity, interfaces, and $BTD posture' })).toHaveAttribute('href', '/orbitals/profile');
+    expect(screen.getByRole('link', { name: 'Shape identity, interfaces, and $BTD posture' })).toHaveAttribute('href', '/auxillaries/profile');
     expect(screen.getByRole('link', { name: 'Inspect storage, schema, and package owners' })).toHaveAttribute('href', '/edgetimes');
     expect(screen.getByText('Inline widgets')).toBeInTheDocument();
     expect(screen.getByText('Guide fallback')).toBeInTheDocument();

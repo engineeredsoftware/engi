@@ -4,7 +4,7 @@ import React from "react";
 
 import Logo from "@/components/base/engi/branding/logo";
 
-export type NavSurface = "application" | "orbitals" | "conversations" | null;
+export type NavSurface = "application" | "auxillaries" | "conversations" | null;
 export type NavBrandSurface = Exclude<NavSurface, null> | 'network' | 'docs' | null;
 
 interface NavBrandProps {
@@ -26,9 +26,9 @@ const SURFACE_COPY: Record<Exclude<NavBrandSurface, null>, { eyebrow: string; ti
     eyebrow: "Bitcode",
     title: "docs",
   },
-  orbitals: {
+  auxillaries: {
     eyebrow: "Bitcode",
-    title: "orbitals",
+    title: "auxillaries",
   },
   conversations: {
     eyebrow: "Bitcode",

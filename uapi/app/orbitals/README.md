@@ -1,7 +1,7 @@
-# `/orbitals` retained Bitcode Auxillaries route
+# `/orbitals` redirect-only Bitcode Auxillaries compatibility route
 
-The V26 `/orbitals` path is a retained compatibility route converging on Bitcode `Auxillaries`.
-It remains a fullscreen Bitcode surface entered from `/application`, and it also supports direct focused routes for reading one auxillary in a contained auxillary read.
+The V26 `/orbitals` path is a redirect-only compatibility route converging on Bitcode `Auxillaries`.
+It no longer acts as the canonical direct-route family. Canonical focused auxillary reads now live at `/auxillaries/*`, while `/orbitals/*` preserves legacy deep links through redirects only.
 
 The active orbital ring model is fixed:
 - `Connects`
@@ -11,13 +11,13 @@ The active orbital ring model is fixed:
 
 ## Route model
 
-Preferred direct routes:
-- `/orbitals/connects`
-- `/orbitals/interfaces`
-- `/orbitals/profile`
-- `/orbitals/btd`
+Canonical direct routes:
+- `/auxillaries/connects`
+- `/auxillaries/interfaces`
+- `/auxillaries/profile`
+- `/auxillaries/btd`
 
-Compatibility aliases may still exist for convergence:
+Compatibility redirects may still exist for convergence:
 - `/orbitals/users` -> `profile`
 - `/orbitals/models` -> `interfaces`
 - `/orbitals/credits` -> `btd`
@@ -26,10 +26,12 @@ Those aliases are not the enduring V26 naming model.
 
 ## Ownership
 
-- `OrbitalsRouteClient.tsx`
-  Focused direct-route shell.
+- `../auxillaries/[pane]/page.tsx`
+  Canonical focused direct-route shell owner.
+- `page.tsx` plus focused `*/page.tsx`
+  Redirect-only compatibility carriers from `/orbitals/*` into `/auxillaries/*`.
 - `components/orbital-pane-meta.ts`
-  Shared orbital naming, route, and user-facing copy owner for entry buttons and direct-route return actions.
+  Shared orbital naming, canonical auxillary route building, compatibility detection, and user-facing copy owner for entry buttons and direct-route return actions.
 - `components/OrbitalsProvider.tsx`
   Fullscreen overlay provider and portal/event bridge.
 - `components/OrbitalsContent.tsx`
@@ -53,7 +55,7 @@ Those aliases are not the enduring V26 naming model.
 
 Auxillaries are not generic settings/account furniture.
 They are Bitcode’s extra-network, non-transactional, still-proven companion surfaces around the core network and transaction system.
-The retained `/orbitals` route continues to carry the four-ring presentation during convergence, but the merged-world naming target is `Auxillaries`.
+The retained `/orbitals` route family survives only as redirect-only compatibility. The merged-world naming target and canonical direct-route family are `Auxillaries` at `/auxillaries/*`.
 
 The contained auxillary shell used inside the application and direct orbital routes should:
 - stay visually stable,
@@ -68,6 +70,7 @@ The contained auxillary shell used inside the application and direct orbital rou
 
 ## Related files
 
+- `../auxillaries/README.md`
 - `../application/README.md`
 - `../../styles/orbital.css`
 - `../../styles/orbital-rings.css`

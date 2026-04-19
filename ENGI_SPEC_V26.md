@@ -2,31 +2,31 @@
 
 ## Status
 
-- Scope: V26 draft target for Bitcode productionizing hardening, demonstration-to-application integration, application-facing UI replacement, interface hardening, and package-first repository refurbishment after V25 rename canon
-- Current canonical/latest target: `V25`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
+- Scope: V26 canonical system specification for Bitcode productionizing hardening, demonstration-to-application integration, application-facing UI replacement, interface hardening, and package-first repository refurbishment after V25 rename canon
+- Current canonical/latest target: `V26`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 checkpoint and promotion artifacts are `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md`, but those artifacts remain preview-only until V26 promotion
-- Draft companion delta: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
-- Draft companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
-- Draft companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
-- Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V25'` and `DRAFT_TARGET_VERSION = 'V26'`
-- Source parity state: current source now carries first-gate V26 migration under `packages/bitcode`, `uapi/app/application/*`, and app-owned `uapi/app/api/*` routes; second-gate operator-workspace hardening, orbital rehabilitation, and documentation refurbishment are materially advanced but not yet promoted canon
-- V26 state: active draft family opened; V25 remains the only active canonical system specification
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `ENGI_SPEC_V26_PROVEN.md`
+- Canonical companion delta: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
+- Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
+- Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
+- Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
+- Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-gate full provation remains open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate while fifth-gate proof/finalization remains open
 
-## Drafting and acceptance state
+## Acceptance and remaining-open state
 
 V26 is not a rename-first version and it is not a light cleanup pass.
 V26 is the productionizing hardening version that reorganizes Bitcode from a transitional demo/site split into a package-owned, application-native, live-operation-ready system.
 
-During V26 drafting:
-- V25 remains active canonical truth,
-- V26 must not claim promotion or current runtime closure,
-- the current source-bearing implementation basis now includes the landed first-gate package/app migration surfaces cited below,
-- and the V26 main spec must still be full-system and re-implementation-grade even while some target ownership remains draft-target rather than promoted truth.
+With V26 promoted through fourth gate:
+- V26 is active canonical truth,
+- fifth-gate proof/finalization remains intentionally open and must not be hand-waved as complete,
+- the current source-bearing implementation basis now includes the landed first-through-fourth-gate package/app migration surfaces cited below,
+- and the V26 main spec remains full-system and re-implementation-grade even while later version work may reopen ownership after this promotion.
 - the retained active repository systems outside first-gate Bitcode ownership must be elevated to Bitcode-grade auditability, proof-bearing precision, and knowability rather than pulling Bitcode down to older application looseness.
 
 ## Version executive summary
@@ -306,7 +306,7 @@ Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
 - the main public entry points inherit the same Give/Need, Transactions, conversations, and Auxillaries vocabulary used by the application,
 - the mounted public shell clearly reads as `Network`, `Transactions`, `Docs`, and `Auxillaries` rather than drifting across overlapping `workspace`, `guide`, or terminal-only naming,
-- selected `/application` and retained `/orbitals` review surfaces shown during third-gate hardening also keep that same `Transactions` / `Auxillaries` naming discipline instead of leaking `workspace` or `transaction terminal` residue,
+- selected `/application` and canonical `/auxillaries` review surfaces shown during third-gate hardening also keep that same `Transactions` / `Auxillaries` naming discipline instead of leaking `workspace` or `transaction terminal` residue,
 - navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
 - tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
 - the real `/docs` route resolves one Bitcode-owned walkthrough asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
@@ -381,11 +381,12 @@ Second-gate does not change:
 Second-gate locks the live Bitcode application posture as:
 - `/application` is the only primary Bitcode destination,
 - the late-Engi navbar and app-shell navigation frame remain the integrated navigation carrier for Bitcode,
-- shared workspace-route classification owns navbar surface posture and footer suppression for `/application`, `/orbitals`, and `/conversations`,
+- shared workspace-route classification owns navbar surface posture and footer suppression for `/application`, `/auxillaries`, and `/conversations`, with `/orbitals/*` reduced to redirect-only compatibility,
 - unauthenticated workspace chrome uses deliberate access/create-account actions rather than disabled marketing-era CTA behavior,
 - signed-in orbital reopen actions use one shared orbitals-first entry contract rather than older account-named overlay aliases,
 - orbitals remain the fullscreen orbital overlay owner entered from within `/application`,
 - conversations remain a fullscreen conversational workspace entered from within `/application`,
+- `/auxillaries/*` remains the canonical direct-route family for focused auxillary reads while `/orbitals/*` survives only as redirect-only compatibility,
 - and current executions/deliverables surfaces are treated as reusable master-detail reservoirs to port inward rather than as the final product topology.
 
 Parallel routes may remain during convergence for compatibility and migration, but V26 does not treat them as the finished product posture once second-gate and fourth-gate are closed.
@@ -615,7 +616,7 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 | --- | --- | --- |
 | conversations and chat-based application interface | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
 | executions, runs, pipelines, and retained compatibility APIs | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/orbitals/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | remain explicit merged-world `executions` primitives, with pipeline runs, need measurement, and retained compatibility APIs staying execution-shaped inside the broader `activity` family while retained selectors/template personalization stay healthy until inward convergence removes the dependency |
-| retained auxillaries routes, preferences, and companion panes | `uapi/app/orbitals/*`, `uapi/app/api/orbitals/data/route.ts`, `uapi/app/api/orbitals/model-preferences/route.ts`, `uapi/app/api/orbitals/user/data-share/route.ts` | converge on merged-world `auxillaries`: extra-network, non-transactional, still-proven user preference, interface, identity, and external-connection surfaces that remain around the Bitcode core without being treated as the network/activity center |
+| retained auxillaries routes, preferences, and companion panes | `uapi/app/auxillaries/*`, redirect-only `uapi/app/orbitals/*`, `uapi/app/api/orbitals/data/route.ts`, `uapi/app/api/orbitals/model-preferences/route.ts`, `uapi/app/api/orbitals/user/data-share/route.ts` | converge on merged-world `auxillaries`: extra-network, non-transactional, still-proven user preference, interface, identity, and external-connection surfaces that remain around the Bitcode core without being treated as the network/activity center |
 | PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
 | prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
@@ -638,7 +639,7 @@ Fourth-gate requires:
 12. retained `/executions` compatibility APIs such as `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are treated as explicit fourth-gate promotion-boundary owners rather than incidental glue,
 13. retained `/executions` naming must remain `executions`, where Bitcode execution primitives, measured-need runs, and pipeline follow-through stay explicit inside the broader searchable `activity` family,
 14. fourth-gate must also establish one shared activity vocabulary so transactions, executions, and user-facing notifications normalize through the same typed Bitcode activity model before later activity classes are admitted,
-15. retained `/orbitals` naming must converge on merged-world `auxillaries`, where extra-network, non-transactional preference/interface/identity/connection surfaces stay proven without displacing the core network/activity topology,
+15. retained `/orbitals` naming must converge on merged-world `auxillaries`, where extra-network, non-transactional preference/interface/identity/connection surfaces stay proven without displacing the core network/activity topology, and `/orbitals/*` survives only as redirect-only compatibility into `/auxillaries/*`,
 16. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
 17. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
 
@@ -657,7 +658,7 @@ Fourth-gate is accepted only when:
 10. old-world tools and agents are Bitcode-purposed with prompt ownership and reader-first fourth-gate scope,
 11. Git/GH-based settle-write carries the required initial testnet-ready asset settlement posture,
 12. retained executions compatibility APIs are explicit promotion-boundary owners instead of invisible route glue,
-13. retained `/executions` and `/orbitals` compatibility routes visibly teach `executions` and `auxillaries` as the merged-world target without requiring compatibility URLs to disappear yet,
+13. retained `/executions` and `/orbitals` compatibility routes visibly teach `executions` and `auxillaries` as the merged-world target, with `/orbitals/*` reduced to redirect-only compatibility that no longer renders canonical HTML,
 14. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
 15. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
 
@@ -722,7 +723,7 @@ Current truth order for the V26 draft period is:
 11. `ENGI_SPEC_V26_NOTES.md`
 12. historical prior specs
 
-V26 is therefore the active draft target and the active rewrite surface, but not the active canonical runtime truth until promotion is deliberate.
+V26 is therefore the active canonical runtime truth through fourth gate, while fifth-gate full provation and later-version reopening remain deliberate future work.
 
 ## full-system, re-implementation, and audit rule
 
@@ -1514,8 +1515,8 @@ The source-bearing deliverable and artifact contract catalog includes:
 
 ## accepted boundaries and reopen conditions
 
-V26 accepts the following boundaries during the draft period:
-- V25 remains active canonical truth until promotion.
+V26 accepts the following boundaries after through-fourth-gate promotion:
+- V26 is active canonical truth while fifth-gate proof/finalization remains open.
 - The useful Bitcode operator UX chain is preserved while the demonstration UI owner is replaced.
 - Package extraction may proceed incrementally so long as parity truth keeps the gap explicit.
 - Existing packages should be reused when they already fit the responsibility.

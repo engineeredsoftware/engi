@@ -274,6 +274,7 @@ export default function Nav() {
                     pathname === '/application' ||
                     pathname?.startsWith('/executions') ||
                     pathname?.startsWith('/conversations') ||
+                    pathname?.startsWith('/auxillaries') ||
                     pathname?.startsWith('/orbitals');
                   return (
                     <li key={href}

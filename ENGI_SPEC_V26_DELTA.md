@@ -2,19 +2,19 @@
 
 ## Status
 
-- Scope: V26 draft delta for Bitcode productionizing hardening, first-gate application migration, second-gate application-experience refit, interface hardening, and package-first repository refurbishment after V25 rename canon
-- Current canonical/latest target: `V25`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
+- Scope: V26 canonical delta for Bitcode productionizing hardening, first-gate application migration, second-gate application-experience refit, interface hardening, and package-first repository refurbishment after V25 rename canon
+- Current canonical/latest target: `V26`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 preview artifacts now include `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `ENGI_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
-- Source parity state: V26 first-gate source closure is now materially in place while second-gate application-facing refit, contained-orbital stabilization, and documentation refurbishment continue toward checkpoint closure
-- V26 state: active draft family opened; V25 remains the only active canonical truth
+- Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth-gate remains open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon while fifth-gate proof/finalization remains open
 
 ## Why V26 exists
 
@@ -371,8 +371,8 @@ Second-gate acceptance is reached only when:
 - second-gate application health is explicit: shell-bridge snapshot/control reads fail closed during pre-mount or hot-reload rebuilds instead of crashing `/application`, and client-error telemetry is accepted through an app-owned route rather than 404ing,
 - app-owned execution-history JSON routes exist under `uapi/app/api/executions/history*` so the transactions master, selected-transaction detail, and retained execution readers no longer fall through to missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review,
 - second-gate application health also includes keeping fullscreen orbitals renderable from `/application` rather than allowing missing overlay carriers to crash the app during orbital entry,
-- second-gate workspace chrome now replaces disabled marketing-era unauthenticated nav CTA behavior on `/application` and `/orbitals` with deliberate access/create-account actions that keep the operator shell clean,
-- shared workspace-route classification now governs navbar surface posture and footer suppression for `/application`, `/orbitals`, and `/conversations`, so operator chrome cannot drift route-by-route,
+- second-gate workspace chrome now replaces disabled marketing-era unauthenticated nav CTA behavior on `/application` and canonical `/auxillaries` with deliberate access/create-account actions that keep the operator shell clean, while `/orbitals/*` survives only as redirect-only compatibility,
+- shared workspace-route classification now governs navbar surface posture and footer suppression for `/application`, `/auxillaries`, and `/conversations`, so operator chrome cannot drift route-by-route,
 - stepwise workspace guidance now reads as a Give + Need flow guide and working-flow continuity rather than tutorial/demo residue,
 - contained orbital entry shells and focused orbital routes now read as orbitals access and contained orbital reads instead of generic workspace/settings/account furniture,
 - shared orbital-entry copy now flows from one orbital metadata layer so application buttons, notifications, the signed-in user menu, and direct orbital routes stay aligned on `Open Orbitals fullscreen`, `Open Connects fullscreen`, and `Open transactions`,
@@ -409,7 +409,7 @@ Second-gate acceptance is reached only when:
 - route-local command, posture, and summary surfaces drive and mirror preserved-shell state coherently,
 - route-local body atlas cards mirror the preserved shell panels and jump into the live Bitcode sections coherently,
 - route-local native operating, deposit, need, and fit cards now read the live shell surfaces through application-owned composition,
-- route-local application and retained orbital review surfaces now also converge on `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split delays until `2xl` so laptop-width reading stays centered on the main transactions column,
+- route-local application and canonical auxillary review surfaces now also converge on `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split delays until `2xl` so laptop-width reading stays centered on the main transactions column,
 - selected-run detail normalizes into one application-owned carrier and deliverable-reading behavior is reachable in both live and mock posture within `/application`,
 - the page is composed through application-native route-local sections and current component-system carriers,
 - the route still preserves Bitcode semantics,

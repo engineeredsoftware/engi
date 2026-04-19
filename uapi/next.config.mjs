@@ -136,6 +136,50 @@ let nextConfig = {
       }
     })(),
   },
+  async redirects() {
+    return [
+      {
+        source: '/orbitals',
+        destination: '/auxillaries/profile',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/profile',
+        destination: '/auxillaries/profile',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/users',
+        destination: '/auxillaries/profile',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/connects',
+        destination: '/auxillaries/connects',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/interfaces',
+        destination: '/auxillaries/interfaces',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/models',
+        destination: '/auxillaries/interfaces',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/btd',
+        destination: '/auxillaries/btd',
+        permanent: false,
+      },
+      {
+        source: '/orbitals/credits',
+        destination: '/auxillaries/btd',
+        permanent: false,
+      },
+    ];
+  },
   webpack: (config, { dev, isServer, nextRuntime }) => {
     // Detect edge runtime (middleware, edge API routes)
     const isEdge = nextRuntime === 'edge';

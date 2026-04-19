@@ -1,13 +1,13 @@
 # Bitcode First-Gate Host Capabilities
 
 Last inspected: 2026-04-16 (America/Sao_Paulo)
-Host scope: local machine capabilities relevant to the active V25 canon and the current V26 first-gate Bitcode application carrier.
+Host scope: local machine capabilities relevant to the active V26 canon and the current V26 through-fourth-gate Bitcode application carrier.
 
 ## Canon status
 
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
-- Current canonical/latest target: `V25`
-- Current draft-target family: `V26`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V26`
+- Current canonical/latest target: `V26`
+- Current draft-target family: `V27`
 - Current first-gate owner: `packages/bitcode` mounted through `uapi/app/application/*`
 
 ## Purpose

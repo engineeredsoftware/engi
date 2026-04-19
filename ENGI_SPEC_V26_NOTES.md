@@ -3,14 +3,14 @@
 ## Status
 
 - Scope: working-note companion for the opened V26 draft family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-gate proof/finalization
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
 - Draft spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Draft delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
 - Draft parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
-- Current preview checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.engi/v26-gate-checkpoint-report.json`
-- V26 state: active draft family opened; V25 remains the only active canonical truth
+- Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.engi/v26-gate-checkpoint-report.json`
+- V26 state: canonical promotion complete; fifth-gate proof/finalization remains open
 
 ## Notes companion rule
 
@@ -27,14 +27,14 @@ The following items are no longer open draft questions:
 - `packages/bitcode` is the immediate first-gate package owner.
 - the preserved first-gate shell now mounts through `uapi/app/application/ApplicationPageClient.tsx`.
 - the preserved first-gate JSON contract now runs through app-owned `uapi/app/api/*` route handlers.
-- the ringed auxillary overlay remains the retained `/orbitals` compatibility owner for Connects, Interfaces, Profile, and `$BTD`.
+- the ringed auxillary overlay remains implemented through retained `uapi/app/orbitals/*` source owners, but the canonical direct-route family is now `/auxillaries/*` and `/orbitals/*` is redirect-only compatibility.
 - conversations remain a fullscreen application workspace entered from within `/application`.
 - current executions and deliverables surfaces are reuse reservoirs for inward master-detail porting into `/application`.
 - fourth-gate merged-world naming now keeps retained `/executions` explicit as executions primitives inside the broader `activity` family and converges retained `/orbitals` on `auxillaries`, with transactions, executions, and notifications explicitly admitted as the broader activity family.
 - the late-Engi navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
-- the near-term V26 checkpoint is first-gate plus second-gate closure with explicit third-gate preparation, not full V26 promotion.
+- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth-gate remains open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 
 ## Current first-gate source reminders
@@ -64,7 +64,7 @@ In current source, the app-owned first-gate API surface now explicitly includes:
 - `/api/v24/executors/[interfaceId]`
 - `/api/client-error`
 
-This is the current V26 source carrier, even while V25 remains the only active canon.
+This is the current V26 source carrier now that V26 is the active canon.
 The practical V26 leverage rule is now explicit: the retained active package/app systems outside first-gate Bitcode ownership are to be elevated up to Bitcode-grade auditability, proof-bearing precision, and knowability rather than treated as a looser host Bitcode must compromise down into.
 
 The current active second-gate application additions now explicitly include:

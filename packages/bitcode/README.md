@@ -1,18 +1,19 @@
-# Bitcode Demo - V25 canonical deterministic local prototype
+# Bitcode Demo - V26 canonical deterministic local prototype
 
-This demo is governed by the active V25 canonical spec.
+This demo is governed by the active V26 canonical spec.
 
-- `ENGI_SPEC.txt -> V25`
-- current generated appendix: `ENGI_SPEC_V25_PROVEN.md`
+- `ENGI_SPEC.txt -> V26`
+- current generated appendix: `ENGI_SPEC_V26_PROVEN.md`
 
-`packages/bitcode` is the preserved Bitcode runtime package that survived first-gate ownership migration and now feeds the application-owned V26 workspace.
+`packages/bitcode` is the preserved Bitcode runtime package that survived first-gate ownership migration and now feeds the application-owned V26 transactions and auxillary surfaces.
 
-Active canon remains `V25`.
+Active canon remains `V26`.
+V27 is the next draft target after this promotion.
 V26 uses this package as:
 - the deterministic runtime/state owner,
 - the preserved lower runtime mounted inside `/application`,
 - the semantic shell snapshot/control bridge,
-- and one of the generators of checkpoint/proof artifacts used to judge first-and-second-gate closure.
+- and one of the generators of proof artifacts used to judge through-fourth-gate closure and later fifth-gate completion.
 
 ## What this package owns
 
@@ -20,7 +21,7 @@ V26 uses this package as:
 - the preserved runtime shell under `public/`
 - the browser bridge consumed by `uapi/app/application/application-shell-bridge.tsx`
 - standalone local validation runtime via `server.js`
-- proof/checkpoint generation inputs used by the V26 spec family
+- proof/checkpoint generation inputs used by the active V26 spec family
 
 ## Main files
 

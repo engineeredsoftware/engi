@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import Orbital from '@/app/orbitals/components';
 import {
+  buildAuxillariesRoutePath,
   getOrbitalDescriptor,
   OPEN_TRANSACTIONS_LABEL,
   ORBITAL_ROUTE_SEQUENCE,
@@ -57,7 +58,7 @@ export default function OrbitalsRouteClient({ step }: OrbitalsRouteClientProps) 
             return (
               <Link
                 key={orbital.routeSegment}
-                href={`/orbitals/${orbital.routeSegment}`}
+                href={buildAuxillariesRoutePath(orbital.routeSegment)}
                 aria-current={isActive ? 'page' : undefined}
                 className={`rounded-[22px] border px-4 py-4 transition-colors hover:border-white/18 hover:bg-white/8 ${
                   isActive

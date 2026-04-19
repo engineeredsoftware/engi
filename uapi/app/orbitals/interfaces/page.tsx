@@ -1,16 +1,5 @@
-import type { Metadata } from 'next';
-
-import OrbitalsRouteClient from '@/app/orbitals/OrbitalsRouteClient';
-
-export const metadata: Metadata = {
-  title: 'Bitcode • Interfaces Auxillary',
-  description:
-    'Retained /orbitals compatibility route converging on Bitcode auxillaries through the Interfaces auxillary read.',
-  alternates: {
-    canonical: '/orbitals/interfaces',
-  },
-};
+import { redirect } from 'next/navigation';
 
 export default function OrbitalsInterfacesPage() {
-  return <OrbitalsRouteClient step="interfaces" />;
+  redirect('/auxillaries/interfaces');
 }

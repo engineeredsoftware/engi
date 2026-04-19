@@ -3,8 +3,8 @@
 ## Status
 
 - Scope: non-canonical supplementary proof and coverage map for V26
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V25`
-- Active draft target: `ENGI_SPEC_V26.md`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V26`
+- Next draft target: `ENGI_SPEC_V27.md` (not yet opened)
 - Purpose: map new V26 code systems to proof/test/spec expectations while the largest convergence pass in repo history is underway
 
 ## Rule
@@ -235,7 +235,7 @@ Current active assignments:
   second-gate operator-facing notification posture so proof closure, repository activity, and review prompts remain part of the workspace chrome rather than generic account furniture, and signed-in follow-through reopens Orbitals instead of the sign-up window
 - `uapi/styles/orbital.css`
   test coverage:
-  live browser verification on `host.docker.internal:3000/application?...` and `host.docker.internal:3000/orbitals/profile`
+  live browser verification on `host.docker.internal:3000/application?...` and `host.docker.internal:3000/auxillaries/profile`
   proof surface:
   second-gate contained-operator-shell stability so application-opened orbitals no longer collapse back to modal-width access furniture and both contained/direct orbital surfaces stay renderable with no error-level console output
 - `uapi/components/base/engi/layout/workspace-surface.ts`
@@ -276,7 +276,7 @@ Current active assignments:
   `uapi/tests/notificationsWidget.test.tsx`,
   `uapi/tests/userMenu.test.tsx`
   proof surface:
-  third-gate review-surface wording discipline on active `/application` and retained `/orbitals` carriers so visible product copy reads as `Transactions` and `Auxillaries` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
+  third-gate review-surface wording discipline on active `/application` and canonical `/auxillaries` carriers so visible product copy reads as `Transactions` and `Auxillaries` rather than lingering `workspace` / `transaction terminal` residue, while laptop-width transactions reading stays centered on the main column until the support rail expands at `2xl`
 - `uapi/app/application/ApplicationOperatorCard.tsx`
   test coverage:
   `uapi/tests/applicationOperatorCard.test.tsx`
@@ -287,7 +287,7 @@ Current active assignments:
   `packages/bitcode/test/proven-generator.test.js`
   proof surface:
   explicit first+second-gate closure witness for the near-term V26 commit boundary, including third-gate preparation posture before full V26 promotion
-- `README.md`, `uapi/README.md`, `packages/bitcode/README.md`, `uapi/app/application/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/engi/README.md`, `uapi/components/base/engi/execution/README.md`
+- `README.md`, `uapi/README.md`, `packages/bitcode/README.md`, `uapi/app/application/README.md`, `uapi/app/auxillaries/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/engi/README.md`, `uapi/components/base/engi/execution/README.md`
   test coverage:
   generated file-presence checks inside `.engi/v26-gate-checkpoint-report.json` plus spec-family validation
   proof surface:
@@ -642,11 +642,11 @@ Current active assignments:
   `uapi/tests/bitcodeActivityModel.test.ts`
   proof surface:
   shared fourth-gate activity vocabulary bridging transactions, retained execution primitives, and personal notification activity before later public/personal system usage joins the same family
-- `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/orbitals/*/page.tsx`
+- `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/auxillaries/[pane]/page.tsx`, `uapi/app/orbitals/*/page.tsx`
   test coverage:
   route metadata verification plus live browser checks on retained compatibility routes
   proof surface:
-  fourth-gate merged-world naming discipline so retained `/executions` teaches explicit executions primitives inside `activity` and retained `/orbitals` teaches `auxillaries` before compatibility URLs disappear
+  fourth-gate merged-world naming discipline so retained `/executions` teaches explicit executions primitives inside `activity`, canonical `/auxillaries/*` teaches `auxillaries`, and retained `/orbitals/*` is reduced to redirect-only compatibility that no longer renders canonical HTML
 - `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
   test coverage:
   browser verification and UI coverage around live and mock selected-transaction detail rendering

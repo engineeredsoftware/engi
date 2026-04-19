@@ -28,6 +28,14 @@ describe('NavBrand', () => {
     expect(screen.getByText('docs')).toBeTruthy();
   });
 
+  it('renders auxillaries copy for mounted auxiliary routes', () => {
+    render(<NavBrand surface="auxillaries" onClick={() => {}} />);
+
+    expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
+    expect(screen.getByText('Bitcode')).toBeTruthy();
+    expect(screen.getByText('auxillaries')).toBeTruthy();
+  });
+
   it('renders beta posture outside the product workspace and remains clickable', () => {
     const onClick = jest.fn();
 

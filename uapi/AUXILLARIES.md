@@ -6,13 +6,13 @@ Date: 2025-09-15
 
 ## Context
 
-We standardized the retained `/orbitals` compatibility experience as the user-facing Auxillaries overlay used across the app. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used “mode” and singular “orbital” inconsistently (and event names used `open-orbital`).
+We standardized the user-facing Auxillaries overlay across the app. The fullscreen overlay still reuses retained `orbitals` component and event naming for compatibility, but the canonical direct-route family is now `/auxillaries/*`. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used “mode” and singular “orbital” inconsistently (and event names used `open-orbital`).
 
 ## Decision
 
 1) Naming and Structure
 
-- Experience: Auxillaries (user-facing), retained `/orbitals` path and event compatibility
+- Experience: Auxillaries (user-facing), canonical `/auxillaries/*` route family, retained `/orbitals/*` path and event compatibility
 - Windows (overlay top-level):
   - `SignInWindow`: Authentication (login) surface.
   - `SignUpWindow`: Onboarding/account surface that contains the panes.
@@ -43,7 +43,7 @@ We standardized the retained `/orbitals` compatibility experience as the user-fa
 - Types:
   - `type OrbitalPane = 'profile' | 'connects' | 'models' | 'credits' | null`
   - Overlay prop: `window?: 'SignInWindow' | 'SignUpWindow'`
-- Deep links: `/orbitals/(users|connects|models|credits)` open `SignUpWindow` with the corresponding pane (users → profile).
+- Deep links: canonical `/auxillaries/(profile|connects|interfaces|btd)` open the focused contained read; retained `/orbitals/(users|connects|models|credits)` survive as redirect-only compatibility into the canonical family.
 - Provider API: `openOrbital(window?: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane)`, `closeOrbital()`, `prefetchOrbital()`
 
 4) HTTP and CSS Conventions
@@ -57,7 +57,7 @@ We standardized the retained `/orbitals` compatibility experience as the user-fa
 
 - The left toggle in the overlay switches between `SignInWindow` and `SignUpWindow`.
 - Per-auxillary panes remain as the right abstraction inside SignUpWindow.
-- Global events and docs keep retained `/orbitals` compatibility where needed, but user-facing naming should read as Auxillaries.
+- Global events and docs keep retained `/orbitals` compatibility where needed, but user-facing naming and canonical routes should read as Auxillaries.
 - Tests, stories, and fetchers use retained plural API paths and `/orbitals` imports until the compatibility layer is retired.
 - Future work should place components according to the experience vs base boundary described above.
 

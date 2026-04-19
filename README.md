@@ -1,8 +1,8 @@
 # Bitcode / ENGI Repository
 
-Active canon is `V25`.
+Active canon is `V26`.
 `ENGI_SPEC.txt` is the only canonical pointer and currently resolves to `V25`.
-`V26` is the active draft target for productionizing hardening, with the near-term checkpoint focused on fully closing first and second gates while keeping third-gate marketing work explicitly separate.
+`V27` is the next draft target after V26 through-fourth-gate promotion.
 
 ## Current product posture
 
@@ -12,7 +12,7 @@ Bitcode now centers on one primary application route:
 V26 defines three main experiences:
 - `master detail`
 - `conversations`
-- `orbitals` retained compatibility path converging on auxillaries
+- `auxillaries`
 
 V26 defines two main operator actions:
 - `give`
@@ -26,7 +26,8 @@ The active orbital model is fixed as:
 
 Second-gate closure also requires the live product and docs to stay aligned:
 - operator-facing copy is user-referencing and Bitcode-first
-- retained `/orbitals` entry surfaces now act as compatibility carriers converging on Bitcode auxillaries, not generic settings/account furniture
+- canonical auxillary routes now live at `/auxillaries/*`
+- retained `/orbitals/*` entry surfaces now act as redirect-only compatibility carriers converging on Bitcode auxillaries, not generic settings/account furniture
 - application-opened orbitals hold a contained operator shell rather than collapsing back to modal-width account furniture
 - the README and markdown set for root, packages, routes, and shared systems is treated as required implementation scope
 
@@ -34,7 +35,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
 
 - Always ground new work from `ENGI_SPEC.txt` and the active canonical spec family first.
 - Treat `_legacy/` as non-canonical. Do not use it as an implementation source unless explicitly forward-porting.
-- V25 remains the only active canon until V26 promotion is deliberate and proven.
+- V26 is the only active canon until a later promotion deliberately reopens the pointer.
 - V26 second-gate closure includes markdown/readme refurbishment for the active product surfaces and package owners, not just code changes.
 
 ## Key surfaces
@@ -54,7 +55,9 @@ Second-gate closure also requires the live product and docs to stay aligned:
 - [uapi/app/application/README.md](uapi/app/application/README.md)
   `/application` master-detail, give/need, and flow-guide ownership.
 - [uapi/app/orbitals/README.md](uapi/app/orbitals/README.md)
-  Auxillaries routes, overlay behavior, ring model, and compatibility aliases.
+  Orbitals compatibility owner, overlay behavior, ring model, and redirect-only aliases.
+- [uapi/app/auxillaries/README.md](uapi/app/auxillaries/README.md)
+  Canonical auxillary routes, direct-route metadata, and compatibility redirect posture.
 - [uapi/components/base/engi/execution/README.md](uapi/components/base/engi/execution/README.md)
   Shared execution carriers for transactions, payloads, explainers, and detail panels.
 
@@ -100,10 +103,10 @@ node scripts/check-engi-spec-family.mjs --version V26
 node scripts/generate-engi-proven.mjs --version V26 --allow-dirty
 ```
 
-## V26 checkpoint objective
+## V26 promotion posture
 
-The current V26 checkpoint is not full promotion.
-It is a deliberate first-and-second-gate closure boundary with:
+V26 is now promoted through fourth gate.
+The promoted boundary carries:
 - application-native `/application` ownership,
 - hardened operator workspace UX/UI,
 - cleaned orbital naming and contained-shell behavior,
@@ -128,7 +131,7 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live terminal preview is now progressive by default, with a compact public/mobile summary and the denser operator-grade preview only on wider shells
 - the live landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere
 - the live public footer now collapses its route links into mobile-first cards and presents protocol/version metadata as explicit product chips instead of cramped inline microcopy on narrow shells
-- broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary
+- broader marketing-surface refurbishment was kept separate from the earlier second-gate checkpoint boundary
 
 Current fourth-gate promotion boundary is now explicit too:
 - `/conversations` is now a direct fullscreen application-mode route instead of only an embedded overlay entry

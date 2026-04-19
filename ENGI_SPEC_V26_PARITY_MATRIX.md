@@ -2,19 +2,19 @@
 
 ## Status
 
-- Scope: V26 draft parity ledger for Bitcode productionizing hardening, first-gate application migration, second-gate application-facing refit, interface hardening, and package-first repository refurbishment
-- Current canonical/latest target: `V25`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V25`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
+- Scope: V26 canonical parity ledger for Bitcode productionizing hardening, first-gate application migration, second-gate application-facing refit, interface hardening, package-first repository refurbishment, and through-fourth-gate promotion
+- Current canonical/latest target: `V26`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; V26 preview artifacts now include `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `ENGI_SPEC_V26_PROVEN.md`
 - Specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
-- Source parity state: V26 first-gate source closure is now materially implemented while second-gate application-facing refit and later hardening remain open
-- V26 state: active draft family opened; parity truth remains draft-target-only until promotion
+- Source parity state: through-fourth-gate promotion closure is now materially implemented while fifth-gate proof/finalization remains open
+- V26 state: canonical promotion complete; parity truth is active through fourth gate while fifth-gate remains open
 
 ## Purpose
 

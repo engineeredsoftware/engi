@@ -13,6 +13,8 @@ import { GPUAcceleration } from '@/components/base/engi/perf/GPUAcceleration';
 import { ContentVisibility } from '@/components/base/engi/perf/ContentVisibility';
 import {
   getOrbitalRingIndex,
+  isAuxillariesPath,
+  isOrbitalsCompatibilityPath,
   normalizeOrbitalPane,
   normalizeOrbitalSteps,
   ONBOARDING_FLOW_STEPS,
@@ -68,7 +70,7 @@ const InterfacesPane = dynamic(() => import("./OrbitalsInterfacesPane"), {
 
 function parseOrbitalPath(pathname: string | null): ConcreteOrbitalPane | null {
   if (!pathname) return null;
-  const match = pathname.match(/\/orbitals\/(profile|users|connects|interfaces|btd|models|credits)\b/i);
+  const match = pathname.match(/\/(?:auxillaries|orbitals)\/(profile|users|connects|interfaces|btd|models|credits)\b/i);
   if (!match) return null;
   return normalizeOrbitalPane(match[1]);
 }
@@ -101,7 +103,7 @@ export default function Orbital({
   const pathname = usePathname();
   const routeStep = useMemo(() => parseOrbitalPath(pathname), [pathname]);
   const isApplicationRoute = Boolean(pathname?.startsWith('/application'));
-  const isDedicatedOrbitalRoute = Boolean(pathname?.startsWith('/orbitals'));
+  const isDedicatedOrbitalRoute = isAuxillariesPath(pathname) || isOrbitalsCompatibilityPath(pathname);
 
   const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteOrbitalPane>(

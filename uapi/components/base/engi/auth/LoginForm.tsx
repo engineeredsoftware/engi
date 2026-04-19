@@ -203,9 +203,12 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   const searchParams = useSearchParams()
   const nextParam = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
   const isContainedSurface = surfaceVariant === 'contained'
-  const nextWorkspacePath = nextParam.startsWith('/orbitals') || nextParam.startsWith('/application')
-    ? nextParam
-    : '/application'
+  const nextWorkspacePath =
+    nextParam.startsWith('/auxillaries') ||
+    nextParam.startsWith('/orbitals') ||
+    nextParam.startsWith('/application')
+      ? nextParam
+      : '/application'
   
   // Check for invite token in URL params
   const inviteToken = searchParams.get('invite')
