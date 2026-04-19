@@ -8,11 +8,11 @@ export default function OrbitalsConnectsOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="Connects Orbital"
-      completedTitle="Connects Orbital"
+      title="Connects Auxillary"
+      completedTitle="Connects Auxillary"
       description={!isOnboardingComplete
         ? 'Connect GitHub so Bitcode can operate on live repositories.'
-        : 'Manage GitHub and future repository connections from one orbital.'}
+        : 'Manage GitHub and future repository connections from one auxillary.'}
       stepNumber={2}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox

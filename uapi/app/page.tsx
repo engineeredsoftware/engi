@@ -6,7 +6,7 @@ import MarketingLandingPage from './(root)/components/MarketingLandingPage';
 export const metadata: Metadata = {
   title: 'Bitcode Network',
   description:
-    'Live Bitcode activity, market posture, and route entry across network, transactions, docs, and orbitals.',
+    'Live Bitcode activity, market posture, and route entry across network, transactions, docs, and Auxillaries.',
   alternates: {
     canonical: '/',
   },

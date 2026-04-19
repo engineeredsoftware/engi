@@ -258,7 +258,7 @@ export default function ApplicationPageClient() {
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-300 tablet:text-base">
                   Search and filter Bitcode transactions in one ledger window, open the selected
                   transaction into deliverables, proofs, and history, and move into conversations
-                  or orbitals without losing your place.
+                  or Auxillaries without losing your place.
                 </p>
               </div>
               <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-3">

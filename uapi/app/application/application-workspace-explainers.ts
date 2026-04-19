@@ -9,12 +9,12 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     kicker: 'Transactions read model',
     title: 'Transactions experience map',
     summary:
-      'The transactions surface is organized around one central ledger window, with dedicated writing and orbital modes available only when deeper action is needed.',
+      'The transactions surface is organized around one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
     detail:
-      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and orbitals remain deliberate mode changes instead of parallel destinations.',
+      'Use this map to keep the main reading surface stable: transactions and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations.',
     points: [
       'Keeps the ledger and selected transaction central',
-      'Treats conversations and orbitals as deliberate follow-through modes',
+      'Treats conversations and Auxillaries as deliberate follow-through modes',
       'Keeps Give and Need legible as the two primary actions',
     ],
   }),
@@ -37,7 +37,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'The active demand frame should be explicit and switchable before you judge fit, proof, or settlement posture.',
     detail:
-      'This surface keeps the currently measured demand visible as a first-class transaction choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into implementation detail.',
+      'This surface keeps the currently measured demand visible as a first-class transaction choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into execution plumbing.',
     points: [
       'Keeps the active demand frame explicit',
       'Makes scenario switching part of the main transactions surface',
@@ -140,7 +140,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'Preview the deeper give, need, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
-      'The map should act like a readable table of contents for the lower flow, not like an internal engineering note.',
+      'The map should act like a readable table of contents for the lower transactions flow, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
       'Keeps exact-detail navigation legible',
@@ -190,7 +190,7 @@ export const APPLICATION_WORKSPACE_EXPLAINERS = {
     summary:
       'The right rail should keep mode changes obvious without competing with the central transaction window.',
     detail:
-      'Use the rail to open conversations or orbitals deliberately, while the ledger and selected transaction remain the primary read surface.',
+      'Use the rail to open conversations or Auxillaries deliberately, while the ledger and selected transaction remain the primary read surface.',
     points: [
       'Keeps deeper drafting deliberate',
       'Avoids splitting attention away from the transaction window',

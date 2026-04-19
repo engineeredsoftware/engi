@@ -11,18 +11,18 @@ export default function OrbitalsInterfacesOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="Interfaces Orbital"
-      completedTitle="Interfaces Orbital"
+      title="Interfaces Auxillary"
+      completedTitle="Interfaces Auxillary"
       description={!isOnboardingComplete
         ? 'Choose interface defaults now or keep the standard Bitcode reading behavior.'
-        : 'Set transaction, conversation, prompt, and default reading behavior in this orbital.'}
+        : 'Set transaction, conversation, prompt, and default reading behavior in this auxillary.'}
       stepNumber={3}
       isOnboardingComplete={isOnboardingComplete}
       badgeTestId="interfaces-step-badge"
       showInfoBox
       infoTitle="Shape interface defaults"
       infoDescription="Set how transactions, conversations, proofs, and default reading behavior read for your team."
-      infoNote="You can revise this orbital any time."
+      infoNote="You can revise this auxillary any time."
     />
   );
 }

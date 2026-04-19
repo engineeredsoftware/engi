@@ -141,5 +141,5 @@ export function getOrbitalsWorkspaceDescription(mode: 'onboarding' | 'orbitals')
 export function getOrbitalsTabsDescription(mode: 'onboarding' | 'orbitals') {
   return mode === 'orbitals'
     ? `Move between ${ORBITALS_LIST_COMPACT_LABEL} without losing your place in the auxillary read.`
-    : `Sign in to unlock the four orbitals, then keep ${ORBITALS_LIST_LABEL} in one contained auxillary read.`;
+    : `Sign in to unlock the four auxillaries, then keep ${ORBITALS_LIST_LABEL} in one contained auxillary read.`;
 }

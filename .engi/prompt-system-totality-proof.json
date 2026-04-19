@@ -1,0 +1,58 @@
+{
+  "reportId": "v26-prompt-system-totality-proof",
+  "version": "V26",
+  "proofSourceCommit": "11cdb8475cdaa40ce09f681ec130b075adeb4225",
+  "generatedAt": "2026-04-19T18:01:48-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "passed": true,
+  "packageWitnesses": [
+    "@bitcode/prompts",
+    "@bitcode/execution-generics",
+    "@bitcode/conversations-generics"
+  ],
+  "checks": [
+    {
+      "checkId": "prompt-package-core",
+      "label": "PromptPart, Prompt, PromptExecution, tests, and package docs remain explicit",
+      "passed": true,
+      "detail": "6 required files present",
+      "requiredFiles": [
+        "packages/prompts/README.md",
+        "packages/prompts/src/index.ts",
+        "packages/prompts/src/prompt.ts",
+        "packages/prompts/src/execution/PromptExecution.ts",
+        "packages/prompts/src/parts/PromptPart.ts",
+        "packages/prompts/src/__tests__/prompt.test.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "execution-agent-and-conversation-prompt-extensions",
+      "label": "Execution, agent, and conversation prompt carriers remain explicit",
+      "passed": true,
+      "detail": "5 required files present",
+      "requiredFiles": [
+        "packages/execution-generics/README.md",
+        "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+        "packages/agent-generics/src/prompts/AgentPrompt.ts",
+        "packages/conversations-generics/README.md",
+        "packages/conversations-generics/src/prompts/ConversationSystemPrompt.ts"
+      ],
+      "missingFiles": []
+    },
+    {
+      "checkId": "need-ingestion-and-deliverable-prompt-ports",
+      "label": "Need-ingestion and deliverable prompt ports remain explicit under Bitcode ownership",
+      "passed": true,
+      "detail": "4 required files present",
+      "requiredFiles": [
+        "packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts",
+        "packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts",
+        "packages/pipelines/deliverable/src/agents/prompts/understand-requirements-prompt.ts",
+        "packages/pipelines/deliverable/src/agents/prompts/plan-implementation-prompt.ts"
+      ],
+      "missingFiles": []
+    }
+  ]
+}

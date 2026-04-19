@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "9043690206db1817eb6984823d47d2fb784496b1",
-  "generatedAt": "2026-04-19T16:53:37-03:00",
+  "proofSourceCommit": "11cdb8475cdaa40ce09f681ec130b075adeb4225",
+  "generatedAt": "2026-04-19T18:01:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V25",
@@ -218,7 +218,7 @@
         "checkId": "fourth-gate-runs-pipelines-totality",
         "label": "Fourth-gate runs and pipelines totality proof",
         "passed": true,
-        "detail": "Retained runs, deliverables, and pipeline systems totalize under Bitcode"
+        "detail": "Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode"
       },
       {
         "checkId": "fourth-gate-persistence-schema-totality",
@@ -231,6 +231,12 @@
         "label": "Fourth-gate retained package admissibility proof",
         "passed": true,
         "detail": "Retained non-Bitcode packages have explicit admitted roles"
+      },
+      {
+        "checkId": "fourth-gate-prompt-system-totality",
+        "label": "Fourth-gate prompt system totality proof",
+        "passed": true,
+        "detail": "PromptPart/Prompt/PromptExecution and retained prompt ports remain explicit"
       }
     ]
   },

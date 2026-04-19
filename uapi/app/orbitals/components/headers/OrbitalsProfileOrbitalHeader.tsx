@@ -9,13 +9,13 @@ export default function OrbitalsProfileOrbitalHeader({
   isVerified = false,
 }: { isOnboardingComplete?: boolean; isVerified?: boolean }) {
   const description = !isVerified
-    ? 'Verify your email to secure Bitcode access and unlock the rest of your orbitals.'
-    : 'Manage wallet identity, balances, organization roles, and multi-sig membership from one orbital.';
+    ? 'Verify your email to secure Bitcode access and unlock the rest of your Auxillaries.'
+    : 'Manage wallet identity, balances, organization roles, and multi-sig membership from one auxillary.';
 
   return (
     <OrbitalsOrbitalHeader
-      title="Profile Orbital"
-      completedTitle="Profile Orbital"
+      title="Profile Auxillary"
+      completedTitle="Profile Auxillary"
       description={description}
       stepNumber={1}
       isOnboardingComplete={isOnboardingComplete}

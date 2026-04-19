@@ -5,7 +5,7 @@ import ApplicationPageClient from './ApplicationPageClient';
 export const metadata: Metadata = {
   title: 'Bitcode Transactions',
   description:
-    'Bitcode transactions for deliverables, proofs, history, conversations, and orbitals.',
+    'Bitcode transactions for deliverables, proofs, history, conversations, and Auxillaries.',
   alternates: {
     canonical: '/application',
   },

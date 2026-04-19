@@ -1,8 +1,8 @@
 {
   "reportId": "v26-canonical-input-report",
   "version": "V26",
-  "proofSourceCommit": "9043690206db1817eb6984823d47d2fb784496b1",
-  "generatedAt": "2026-04-19T16:53:37-03:00",
+  "proofSourceCommit": "11cdb8475cdaa40ce09f681ec130b075adeb4225",
+  "generatedAt": "2026-04-19T18:01:48-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedTargetVersion": "V26",
@@ -20,7 +20,8 @@
     ".engi/v26-gate-checkpoint-report.json",
     ".engi/runs-pipelines-totality-proof.json",
     ".engi/persistence-schema-totality-proof.json",
+    ".engi/prompt-system-totality-proof.json",
     ".engi/retained-package-admissibility-proof.json"
   ],
-  "requiredGeneratedArtifactCount": 7
+  "requiredGeneratedArtifactCount": 8
 }

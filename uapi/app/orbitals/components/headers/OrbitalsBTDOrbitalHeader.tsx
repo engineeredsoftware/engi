@@ -11,8 +11,8 @@ export default function OrbitalsBTDOrbitalHeader({
 }: { isOnboardingComplete?: boolean }) {
   return (
     <OrbitalsOrbitalHeader
-      title="$BTD Orbital"
-      completedTitle="$BTD Orbital"
+      title="$BTD Auxillary"
+      completedTitle="$BTD Auxillary"
       description={!isOnboardingComplete
         ? 'Review wallet posture, balances, and $BTD readiness before you run heavier Bitcode work.'
         : 'Review balances, share posture, throughput history, and advanced $BTD defaults.'}
@@ -21,7 +21,7 @@ export default function OrbitalsBTDOrbitalHeader({
       badgeTestId="btd-step-badge"
       showInfoBox
       infoTitle="Review wallet + $BTD posture"
-      infoDescription="Keep wallet balances, share posture, throughput history, and advanced $BTD defaults visible in one orbital."
+      infoDescription="Keep wallet balances, share posture, throughput history, and advanced $BTD defaults visible in one auxillary."
       infoNote="Refine advanced $BTD behavior whenever needed."
     />
   );
