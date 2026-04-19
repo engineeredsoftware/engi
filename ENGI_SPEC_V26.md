@@ -262,7 +262,7 @@ The current mounted third-gate start carriers are now explicitly:
 - `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
 - `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
 - `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
-- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`
@@ -286,6 +286,7 @@ Mounted third-gate hardening must also retire stale public-shell residue from th
 - no live `coming-soon` component, class, or stylesheet naming in the mounted public shell,
 - no unused access-gate or incantation code preserved inside the live landing owner,
 - no oversized monolithic landing owner that keeps hero, guide, preview, and shared marketing-shell data fused into one file once those sections have stabilized enough to be assigned clearer Bitcode carriers,
+- no ordered demo-era operator-guide media compatibility preserved in the stable guide route,
 - and no developer-path fallback copy on the operator-guide route when guide media is absent.
 
 Mounted third-gate public chrome should also prefer progressive simplification over extra menu state:
@@ -297,6 +298,7 @@ Third-gate acceptance is reached only when:
 - the main public entry points inherit the same Give/Need, transactions, conversations, and Orbitals vocabulary used by the application,
 - navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
 - tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
+- the stable operator-guide route resolves one Bitcode-owned guide asset or fails closed into its user-facing fallback without carrying demo-era compatibility candidates,
 - and third-gate can be proven without reopening second-gate application ownership work.
 
 ### Fourth-gate
@@ -1342,7 +1344,7 @@ The current canonical source map includes:
 - `uapi/lib/bitcode-app-context.ts`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
-- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`

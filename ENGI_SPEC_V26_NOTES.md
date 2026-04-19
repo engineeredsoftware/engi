@@ -283,7 +283,7 @@ Still open:
 Mounted public-shell owners are no longer ambiguous:
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingLandingPage.tsx`
-- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`
@@ -304,6 +304,8 @@ Mounted public-shell chrome is also now explicit:
 - the mounted landing shell now uses Bitcode marketing-shell owners and selectors rather than live `ComingSoon*`/`coming-soon-*` residue
 - the mounted landing owner now delegates to `app/(root)/components/landing/*` carriers for hero, preview, guide, and shared landing-shell data instead of keeping those surfaces fused into one file
 - the stable guide route now fails closed with user-facing operator fallback copy and a direct `Open transactions terminal` path instead of exposing asset-path instructions
+- the stable guide route now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
+- the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
 - the mounted public shell now carries shared inline explainers for its main entry links and protocol reference instead of falling back to a thin browser `title` tooltip in the footer
 

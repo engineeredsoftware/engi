@@ -362,7 +362,7 @@ export default function Nav() {
               showNavUse && (
                 <div className={isAnimated ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
                   {FEATURE_FLAGS.DISABLE_USING ? (
-                    <DisabledTooltipWrapper tooltip="Coming Soon" className="inline-block">
+                    <DisabledTooltipWrapper tooltip="Workspace access is refreshing" className="inline-block">
                       <OrbitalUseButton isDisabled orbitals={orbitalElements} particles={particleElements} />
                     </DisabledTooltipWrapper>
                   ) : (

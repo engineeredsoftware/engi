@@ -379,6 +379,8 @@ Second-gate acceptance is reached only when:
 - the mounted public shell now also owns live public-route chrome through `PublicShellFrame`, `nav.tsx`, and `NavBrand.tsx`, so `/` and `/demo-video` expose explicit Bitcode navigation and access/orbital entry behavior instead of rendering as copy-only pages,
 - the mounted public shell no longer relies on live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, and the dead access-gate shell has been removed from the active landing owner instead of being carried forward as dormant demo logic,
 - the mounted landing owner now delegates hero, guide, preview, and shared marketing-shell data into `app/(root)/components/landing/*` carriers instead of retaining a single oversized mixed-surface file,
+- the stable guide route now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility,
+- the mounted public footer now resolves the guide route through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`,
 - the mounted public nav now resolves small-screen complexity by stacking and wrapping the live Bitcode links and guest actions instead of hiding the primary entry paths behind another menu state,
 - the mounted public shell now reuses shared inline explainers for `Transactions terminal`, `Operator guide`, and `Protocol spec`, removing the thin footer `title` tooltip and preserving richer help posture in the live public chrome,
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,

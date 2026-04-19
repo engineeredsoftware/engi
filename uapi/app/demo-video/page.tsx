@@ -1,27 +1,23 @@
 import { access } from 'node:fs/promises';
 import path from 'node:path';
 
-import MarketingEngiVideoCard from '../(root)/components/MarketingEngiVideoCard';
+import MarketingOperatorGuideCard from '../(root)/components/MarketingOperatorGuideCard';
 import PublicShellFrame from '../(root)/components/PublicShellFrame';
-import { MARKETING_OPERATOR_GUIDE_SOURCES } from '../(root)/components/marketing-operator-guide-assets';
+import { MARKETING_OPERATOR_GUIDE_SOURCE } from '../(root)/components/marketing-operator-guide-assets';
 import Footer from '@/components/base/engi/layout/footer';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
 
-async function resolveOperatorGuideSourceIndex() {
-  for (const [candidateIndex, candidateSource] of MARKETING_OPERATOR_GUIDE_SOURCES.entries()) {
-    try {
-      await access(path.join(process.cwd(), candidateSource.relativeSourcePath));
-      return candidateIndex;
-    } catch {
-      // Ignore missing public assets and continue through the ordered compatibility candidates.
-    }
+async function resolveOperatorGuideSourcePlayable() {
+  try {
+    await access(path.join(process.cwd(), MARKETING_OPERATOR_GUIDE_SOURCE.relativeSourcePath));
+    return true;
+  } catch {
+    return false;
   }
-
-  return null;
 }
 
-export default async function DemoVideoPage() {
-  const playableSourceIndex = await resolveOperatorGuideSourceIndex();
+export default async function OperatorGuidePage() {
+  const sourcePlayable = await resolveOperatorGuideSourcePlayable();
 
   return (
     <PublicShellFrame>
@@ -40,8 +36,8 @@ export default async function DemoVideoPage() {
           </div>
 
           <div className="overflow-hidden rounded-[32px] border border-white/10 bg-black/30 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl">
-            <MarketingEngiVideoCard
-              initialPlayableSourceIndex={playableSourceIndex}
+            <MarketingOperatorGuideCard
+              initialSourcePlayable={sourcePlayable}
               initialSourceResolved
             />
           </div>

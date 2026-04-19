@@ -1,6 +1,6 @@
 import { ShieldCheck, Layers } from 'lucide-react';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-import MarketingEngiVideoCard from './MarketingEngiVideoCard';
+import MarketingOperatorGuideCard from './MarketingOperatorGuideCard';
 
 const docHighlights = [
   {
@@ -113,7 +113,7 @@ export default function MarketingEngiHero() {
         <div className="flex flex-col gap-6">
           <div className="relative overflow-hidden rounded-3xl border border-white/8 bg-slate-900/85 p-3 shadow-[0_25px_60px_rgba(3,93,82,0.35)]">
             <div className="rounded-2xl bg-black/40 p-2 shadow-inner">
-              <MarketingEngiVideoCard />
+              <MarketingOperatorGuideCard />
             </div>
             <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-emerald-200/80">
               Recorded walkthrough · Every step stays visible

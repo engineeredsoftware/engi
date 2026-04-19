@@ -55,7 +55,7 @@ Third-gate public-shell work is now explicitly carried by:
   Public transactions-terminal preview surface.
 - `app/(root)/components/landing/marketing-landing-shared.tsx`
   Shared landing-shell constants and visual helpers for the mounted public shell.
-- `app/(root)/components/MarketingEngiVideoCard.tsx`
+- `app/(root)/components/MarketingOperatorGuideCard.tsx`
   Stable recorded operator-guide card with user-facing fallback back into `/application` when guide media is absent.
 - `app/demo-video/page.tsx`
   Stable guide route that remains public while live Bitcode work happens in `/application`.
@@ -73,6 +73,7 @@ Third-gate public-shell work is now explicitly carried by:
 Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
 They should also keep landing hero, guide, preview, and shared public-shell data split into clearer carriers once those sections stabilize rather than regressing to one oversized owner file.
 They should preserve rich help posture on those public entry points instead of falling back to thin browser `title` tooltips.
+They should keep the stable operator-guide route on one Bitcode-owned guide asset instead of preserving ordered demo-era media compatibility.
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 
 ## Development

@@ -120,4 +120,6 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live landing owner now breaks hero, guide, preview, and shared public-shell data into `uapi/app/(root)/components/landing/*` carriers instead of one oversized mixed-surface file
 - the live public nav now stays progressive on small screens by stacking visible entry links and guest actions instead of hiding them behind a separate menu layer
 - the live public shell now uses shared inline explainers for its key entry links and protocol reference instead of a thin footer browser-tooltip fallback
+- the stable operator-guide route now resolves one Bitcode-owned guide asset instead of carrying ordered demo-era media compatibility
+- the live public footer now resolves the operator-guide URL through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary

@@ -22,9 +22,7 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/engi/layout/bitcode
 
 const APPLICATION_URL = '/application';
 const DEFAULT_OPERATOR_GUIDE_URL =
-  process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() ||
-  process.env.NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL?.trim() ||
-  '/demo-video';
+  process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/demo-video';
 const CURRENT_SPEC_CANON_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC_V25.md';
 
 const footerNavs = [
@@ -32,7 +30,6 @@ const footerNavs = [
     label: "Product",
     items: [
       {
-        //href: "https://github.com/apps/the-engi-app-beta",
         href: "https://github.com/marketplace/engi-github-app",
         name: "GitHub App",
       },

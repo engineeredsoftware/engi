@@ -5,51 +5,47 @@ import { useEffect, useState } from 'react';
 import { Play } from 'lucide-react';
 import Link from 'next/link';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
-import { MARKETING_OPERATOR_GUIDE_SOURCES } from './marketing-operator-guide-assets';
+import { MARKETING_OPERATOR_GUIDE_SOURCE } from './marketing-operator-guide-assets';
 
-type MarketingEngiVideoCardProps = {
-  initialPlayableSourceIndex?: number | null;
+type MarketingOperatorGuideCardProps = {
+  initialSourcePlayable?: boolean | null;
   initialSourceResolved?: boolean;
 };
 
-export default function MarketingEngiVideoCard({
-  initialPlayableSourceIndex,
+export default function MarketingOperatorGuideCard({
+  initialSourcePlayable,
   initialSourceResolved = false,
-}: MarketingEngiVideoCardProps) {
+}: MarketingOperatorGuideCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [playableSourceIndex, setPlayableSourceIndex] = useState<number | null>(
-    initialPlayableSourceIndex ?? null,
+  const [hasPlayableSource, setHasPlayableSource] = useState<boolean>(
+    initialSourcePlayable ?? false,
   );
   const [hasResolvedSource, setHasResolvedSource] = useState(
-    initialSourceResolved || initialPlayableSourceIndex !== undefined,
+    initialSourceResolved || initialSourcePlayable !== undefined,
   );
 
   useEffect(() => {
-    if (initialSourceResolved || initialPlayableSourceIndex !== undefined) {
+    if (initialSourceResolved || initialSourcePlayable !== undefined) {
       return;
     }
 
     let isMounted = true;
 
     const resolvePlayableSource = async () => {
-      for (const [candidateIndex, candidateSource] of MARKETING_OPERATOR_GUIDE_SOURCES.entries()) {
-        try {
-          const response = await fetch(candidateSource.src, {
-            method: 'HEAD',
-            cache: 'no-store',
-          });
+      try {
+        const response = await fetch(MARKETING_OPERATOR_GUIDE_SOURCE.src, {
+          method: 'HEAD',
+          cache: 'no-store',
+        });
 
-          if (response.ok) {
-            if (isMounted) {
-              setPlayableSourceIndex(candidateIndex);
-              setHasResolvedSource(true);
-            }
-            return;
-          }
-        } catch {
-          // Ignore network failures and continue through the ordered compatibility candidates.
+        if (isMounted) {
+          setHasPlayableSource(response.ok);
+          setHasResolvedSource(true);
         }
+        return;
+      } catch {
+        // Ignore transient network failures and fail closed into the stable fallback state.
       }
 
       if (isMounted) {
@@ -62,10 +58,9 @@ export default function MarketingEngiVideoCard({
     return () => {
       isMounted = false;
     };
-  }, [initialPlayableSourceIndex, initialSourceResolved]);
+  }, [initialSourcePlayable, initialSourceResolved]);
 
-  const activeSource =
-    playableSourceIndex === null ? null : MARKETING_OPERATOR_GUIDE_SOURCES[playableSourceIndex];
+  const activeSource = hasPlayableSource ? MARKETING_OPERATOR_GUIDE_SOURCE : null;
 
   const handlePlaybackError = () => {
     setHasError(true);

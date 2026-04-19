@@ -67,7 +67,7 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 - `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
 - `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
 - `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
-- `uapi/app/(root)/components/MarketingEngiVideoCard.tsx`
+- `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/demo-video/page.tsx`
 - `uapi/components/base/engi/layout/nav.tsx`
 - `uapi/components/base/engi/layout/NavBrand.tsx`
@@ -82,6 +82,8 @@ Operational rule:
 - the mounted public shell should decompose stabilized landing hero, guide, preview, and shared marketing-shell data into clearer carriers rather than preserving one oversized mixed-surface landing owner
 - the mounted public shell should keep core entry links and guest access CTAs directly visible on smaller screens through stacked/wrapped layout rather than introducing another menu-state dependency
 - the mounted public shell should use richer shared explainer/help carriers for key entry links and references rather than relying on browser `title` tooltips
+- the stable operator-guide route should resolve one Bitcode-owned guide asset rather than preserving ordered demo-era media compatibility
+- the mounted public footer should resolve the guide route through Bitcode-owned route/env ownership rather than legacy `ENGI_DEMO` fallbacks
 - stable public entry copy should prefer `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`
 - the stable `/demo-video` route remains a public guide URL, not a demo-era narrative fallback
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance

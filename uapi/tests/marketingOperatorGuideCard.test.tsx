@@ -2,13 +2,14 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import MarketingEngiVideoCard from '@/app/(root)/components/MarketingEngiVideoCard';
+import MarketingOperatorGuideCard from '@/app/(root)/components/MarketingOperatorGuideCard';
+import { MARKETING_OPERATOR_GUIDE_SOURCE } from '@/app/(root)/components/marketing-operator-guide-assets';
 
-describe('MarketingEngiVideoCard', () => {
+describe('MarketingOperatorGuideCard', () => {
   it('renders the Bitcode operator guide posture', async () => {
     render(
-      <MarketingEngiVideoCard
-        initialPlayableSourceIndex={0}
+      <MarketingOperatorGuideCard
+        initialSourcePlayable
         initialSourceResolved
       />,
     );
@@ -24,7 +25,7 @@ describe('MarketingEngiVideoCard', () => {
   });
 
   it('falls back cleanly when no operator guide asset is available', async () => {
-    render(<MarketingEngiVideoCard initialSourceResolved />);
+    render(<MarketingOperatorGuideCard initialSourceResolved />);
 
     expect(await screen.findByText('Operator guide')).toBeInTheDocument();
     expect(
@@ -35,5 +36,12 @@ describe('MarketingEngiVideoCard', () => {
     expect(
       screen.getByRole('link', { name: 'Open transactions terminal' }),
     ).toHaveAttribute('href', '/application');
+  });
+
+  it('resolves only the Bitcode guide media source', () => {
+    expect(MARKETING_OPERATOR_GUIDE_SOURCE.src).toBe('/videos/bitcode-operator-guide.mp4');
+    expect(MARKETING_OPERATOR_GUIDE_SOURCE.relativeSourcePath).toBe(
+      'public/videos/bitcode-operator-guide.mp4',
+    );
   });
 });
