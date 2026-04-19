@@ -101,6 +101,8 @@ describe('Nav public shell', () => {
     expect(screen.getByText('Brand public')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Transactions terminal' })).toHaveAttribute('href', '/application');
     expect(screen.getByRole('link', { name: 'Operator guide' })).toHaveAttribute('href', '/demo-video');
+    expect(screen.getByRole('button', { name: 'Explain Transactions terminal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Operator guide' })).toBeInTheDocument();
 
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
@@ -124,6 +126,7 @@ describe('Nav public shell', () => {
 
     expect(screen.getByText('Brand public')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Transactions terminal' })).toHaveAttribute('href', '/application');
+    expect(screen.getByRole('button', { name: 'Explain Transactions terminal' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'User menu' }));

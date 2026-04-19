@@ -119,4 +119,5 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live landing shell no longer carries active `ComingSoon*` owners or `coming-soon-*` stylesheet imports
 - the live landing owner now breaks hero, guide, preview, and shared public-shell data into `uapi/app/(root)/components/landing/*` carriers instead of one oversized mixed-surface file
 - the live public nav now stays progressive on small screens by stacking visible entry links and guest actions instead of hiding them behind a separate menu layer
+- the live public shell now uses shared inline explainers for its key entry links and protocol reference instead of a thin footer browser-tooltip fallback
 - broader marketing-surface refurbishment still remains separate from the second-gate checkpoint boundary

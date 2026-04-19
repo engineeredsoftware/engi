@@ -268,6 +268,7 @@ The current mounted third-gate start carriers are now explicitly:
 - `uapi/components/base/engi/layout/NavBrand.tsx`
 - `uapi/components/base/engi/layout/footer.tsx`
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+- `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
 
 Those owners now carry the public-shell vocabulary for:
 - `transactions terminal`
@@ -295,7 +296,7 @@ Third-gate acceptance is reached only when:
 - public product copy no longer describes the system through demo, canon, gate, or implementation self-reference,
 - the main public entry points inherit the same Give/Need, transactions, conversations, and Orbitals vocabulary used by the application,
 - navigation, menus, notifications, and sticky behavior remain non-regressive while the public shell is cleaned up,
-- tooltip/help content is preserved or improved rather than flattened during visual cleanup,
+- tooltip/help content is preserved or improved rather than flattened during visual cleanup, including replacing thin browser `title` affordances with richer public-shell explainers where those entry points matter,
 - and third-gate can be proven without reopening second-gate application ownership work.
 
 ### Fourth-gate

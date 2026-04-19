@@ -380,6 +380,7 @@ Second-gate acceptance is reached only when:
 - the mounted public shell no longer relies on live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, and the dead access-gate shell has been removed from the active landing owner instead of being carried forward as dormant demo logic,
 - the mounted landing owner now delegates hero, guide, preview, and shared marketing-shell data into `app/(root)/components/landing/*` carriers instead of retaining a single oversized mixed-surface file,
 - the mounted public nav now resolves small-screen complexity by stacking and wrapping the live Bitcode links and guest actions instead of hiding the primary entry paths behind another menu state,
+- the mounted public shell now reuses shared inline explainers for `Transactions terminal`, `Operator guide`, and `Protocol spec`, removing the thin footer `title` tooltip and preserving richer help posture in the live public chrome,
 - reusable application-owned mode-entry buttons now own conversation/orbital entry wording across the experience frame, workspace rail, and repository context support card,
 - active `Interfaces` and `$BTD` panes now use live `interfaces`/`btd` naming and orbital-entry classing instead of exposing model/credits/settings residue in the active orbital surface,
 - route-local architecture framing names the three experiences and two actions directly in the live application UI,

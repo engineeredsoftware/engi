@@ -17,6 +17,8 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import EngiSoftwareSvgLogo from '@/components/base/engi/branding/engi-software-svg-logo';
 import { openOrbital, prefetchOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
+import BitcodeInlineExplainer from '@/components/base/engi/execution/BitcodeInlineExplainer';
+import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/engi/layout/bitcode-public-explainers';
 
 const APPLICATION_URL = '/application';
 const DEFAULT_OPERATOR_GUIDE_URL =
@@ -114,6 +116,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       label: BITCODE_PUBLIC_COPY.footer.links.application,
       meta: 'Bitcode app',
       href: APPLICATION_URL,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.transactionsTerminal,
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -144,6 +147,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       label: BITCODE_PUBLIC_COPY.footer.links.guide,
       meta: 'Recorded guide',
       href: DEFAULT_OPERATOR_GUIDE_URL,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.operatorGuide,
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -338,18 +342,26 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       </span>
                     </a>
                   ) : (
-                    <Link
-                      key={social.ariaLabel}
-                      href={social.href}
-                      aria-label={social.ariaLabel}
-                      className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
-                    >
-                      {social.icon}
-                      <span className="whitespace-nowrap">{social.label}</span>
-                      <span aria-hidden="true" className="text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
-                        {social.meta}
-                      </span>
-                    </Link>
+                    <span key={social.ariaLabel} className="inline-flex items-center gap-2">
+                      <Link
+                        href={social.href}
+                        aria-label={social.ariaLabel}
+                        className="group inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      >
+                        {social.icon}
+                        <span className="whitespace-nowrap">{social.label}</span>
+                        <span aria-hidden="true" className="text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                          {social.meta}
+                        </span>
+                      </Link>
+                      {social.explainer ? (
+                        <BitcodeInlineExplainer
+                          explainer={social.explainer}
+                          side="top"
+                          triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                        />
+                      ) : null}
+                    </span>
                   )
                 ))}
                 {/* FEATURE_FLAGS.FOOTER_MUSIC_PLAYER && (
@@ -398,15 +410,21 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   </span>
                 )}
                 {process.env.NEXT_PUBLIC_APP_VERSION && <span aria-hidden="true">•</span>}
-                <a
-                  href={CURRENT_SPEC_CANON_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300/90 transition-colors hover:text-white"
-                  title="Bitcode protocol specification"
-                >
-                  Protocol spec
-                </a>
+                <span className="inline-flex items-center gap-1.5">
+                  <a
+                    href={CURRENT_SPEC_CANON_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-300/90 transition-colors hover:text-white"
+                  >
+                    Protocol spec
+                  </a>
+                  <BitcodeInlineExplainer
+                    explainer={BITCODE_PUBLIC_EXPLAINERS.protocolSpec}
+                    side="top"
+                    triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                  />
+                </span>
               </span>
             </div>
           </div>

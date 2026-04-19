@@ -68,11 +68,16 @@ describe('Footer public shell', () => {
       'href',
       'https://bsky.app/profile/engicomms.bsky.social',
     );
+    expect(screen.getByRole('button', { name: 'Explain Transactions terminal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Operator guide' })).toBeInTheDocument();
     expect(screen.getByText('Bitcode app')).toBeInTheDocument();
     expect(screen.getByText('Recorded guide')).toBeInTheDocument();
     expect(screen.getByText('Give')).toBeInTheDocument();
     expect(screen.getByText('Need')).toBeInTheDocument();
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
+    const protocolSpecLink = screen.getByRole('link', { name: 'Protocol spec' });
+    expect(protocolSpecLink).not.toHaveAttribute('title');
+    expect(screen.getByRole('button', { name: 'Explain Protocol specification' })).toBeInTheDocument();
 
     const button = screen.getByRole('button', { name: 'Access Workspace' });
     fireEvent.mouseEnter(button);

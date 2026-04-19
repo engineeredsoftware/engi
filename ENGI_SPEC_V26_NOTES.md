@@ -305,6 +305,7 @@ Mounted public-shell chrome is also now explicit:
 - the mounted landing owner now delegates to `app/(root)/components/landing/*` carriers for hero, preview, guide, and shared landing-shell data instead of keeping those surfaces fused into one file
 - the stable guide route now fails closed with user-facing operator fallback copy and a direct `Open transactions terminal` path instead of exposing asset-path instructions
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
+- the mounted public shell now carries shared inline explainers for its main entry links and protocol reference instead of falling back to a thin browser `title` tooltip in the footer
 
 Current draft-only spine to preserve for that future gate:
 - where + when:

@@ -15,6 +15,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
 import { BITCODE_PUBLIC_COPY } from "@/components/base/engi/layout/bitcode-public-copy";
 import { getWorkspaceSurface, usesPublicShellChrome } from "@/components/base/engi/layout/workspace-surface";
+import BitcodeInlineExplainer from "@/components/base/engi/execution/BitcodeInlineExplainer";
+import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/base/engi/layout/bitcode-public-explainers";
 
 const MemoCreditsTracker = React.memo(CreditsTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
@@ -189,18 +191,33 @@ export default function Nav() {
             className="nav-item-animated"
             style={{ '--item-index': index } as React.CSSProperties}
           >
-            <Link
-              href={href}
-              aria-current={isActiveRoute ? 'page' : undefined}
-              className={`
-                rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
-                ${isActiveRoute
-                  ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
-                  : 'border-white/10 bg-white/[0.03] text-neutral-200 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
-              `}
-            >
-              {label}
-            </Link>
+            <span className="inline-flex items-center gap-1.5">
+              <Link
+                href={href}
+                aria-current={isActiveRoute ? 'page' : undefined}
+                className={`
+                  rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                  ${isActiveRoute
+                    ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
+                    : 'border-white/10 bg-white/[0.03] text-neutral-200 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
+                `}
+              >
+                {label}
+              </Link>
+              {href === '/application' ? (
+                <BitcodeInlineExplainer
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.transactionsTerminal}
+                  side="bottom"
+                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                />
+              ) : href === '/demo-video' ? (
+                <BitcodeInlineExplainer
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.operatorGuide}
+                  side="bottom"
+                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                />
+              ) : null}
+            </span>
           </li>
         );
       })}

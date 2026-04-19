@@ -73,6 +73,7 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 - `uapi/components/base/engi/layout/NavBrand.tsx`
 - `uapi/components/base/engi/layout/footer.tsx`
 - `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+- `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
 
 Operational rule:
 - the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
@@ -80,6 +81,7 @@ Operational rule:
 - the mounted public shell must not preserve live `ComingSoon*` owners, `coming-soon-*` stylesheet imports, or dormant access-gate shells once the route is serving as the Bitcode public entry
 - the mounted public shell should decompose stabilized landing hero, guide, preview, and shared marketing-shell data into clearer carriers rather than preserving one oversized mixed-surface landing owner
 - the mounted public shell should keep core entry links and guest access CTAs directly visible on smaller screens through stacked/wrapped layout rather than introducing another menu-state dependency
+- the mounted public shell should use richer shared explainer/help carriers for key entry links and references rather than relying on browser `title` tooltips
 - stable public entry copy should prefer `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`
 - the stable `/demo-video` route remains a public guide URL, not a demo-era narrative fallback
 - broader marketing-surface refurbishment can continue later without reopening second-gate operator acceptance

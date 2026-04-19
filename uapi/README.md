@@ -67,9 +67,12 @@ Third-gate public-shell work is now explicitly carried by:
   Shared public footer CTA and public-route link posture.
 - `components/base/engi/layout/bitcode-public-copy.ts`
   Shared public-shell vocabulary for `transactions terminal`, `operator guide`, `give`, `need`, and `orbitals`.
+- `components/base/engi/layout/bitcode-public-explainers.ts`
+  Shared public-shell explainer content for key entry links and the protocol reference.
 
 Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
 They should also keep landing hero, guide, preview, and shared public-shell data split into clearer carriers once those sections stabilize rather than regressing to one oversized owner file.
+They should preserve rich help posture on those public entry points instead of falling back to thin browser `title` tooltips.
 They should also keep primary public entry links and guest access actions directly visible on smaller screens rather than adding another menu-only discovery layer.
 
 ## Development
