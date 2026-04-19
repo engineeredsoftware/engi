@@ -1,0 +1,53 @@
+import {
+  buildBitcodeActivityRecordFromExecutionEvent,
+  buildBitcodeActivityRecordFromNotification,
+  summarizeBitcodeActivityKinds,
+} from '@/components/base/engi/activity/bitcode-activity-model';
+
+describe('bitcode-activity-model', () => {
+  it('builds a transactions-first activity record from an execution event', () => {
+    const record = buildBitcodeActivityRecordFromExecutionEvent({
+      id: 'evt-1',
+      created_at: '2026-04-19T12:00:00.000Z',
+      event: {
+        type: 'status',
+        status: {
+          message: 'Need measurement prepared',
+          executionState: { phase: 'Need', agent: 'Analyzer' },
+        },
+      },
+    });
+
+    expect(record).toMatchObject({
+      id: 'evt-1',
+      kind: 'transaction',
+      scope: 'network',
+      channel: 'execution-stream',
+      title: 'Status update',
+      summary: 'Need measurement prepared',
+      state: 'Need',
+    });
+  });
+
+  it('builds a personal notification activity record and summarizes kinds', () => {
+    const notificationRecord = buildBitcodeActivityRecordFromNotification({
+      id: 'notif-1',
+      type: 'review',
+      message: 'Repository review needed',
+      read: false,
+      created_at: '2026-04-19T12:10:00.000Z',
+    });
+
+    expect(notificationRecord).toMatchObject({
+      id: 'notif-1',
+      kind: 'notification',
+      scope: 'personal',
+      channel: 'notification-center',
+      title: 'Review prompt',
+      summary: 'Repository review needed',
+      read: false,
+    });
+
+    expect(summarizeBitcodeActivityKinds([notificationRecord])).toEqual(['notification']);
+  });
+});

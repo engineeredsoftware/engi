@@ -637,6 +637,11 @@ Current active assignments:
   `uapi/tests/applicationTransactionActivity.test.ts`
   proof surface:
   deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
+- `uapi/components/base/engi/activity/bitcode-activity-model.ts`
+  test coverage:
+  `uapi/tests/bitcodeActivityModel.test.ts`
+  proof surface:
+  shared fourth-gate activity vocabulary bridging transactions-first retained execution events with personal notification activity before later public/personal system usage joins the same family
 - `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/orbitals/*/page.tsx`
   test coverage:
   route metadata verification plus live browser checks on retained compatibility routes

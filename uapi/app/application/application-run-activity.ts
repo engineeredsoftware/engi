@@ -1,3 +1,10 @@
+import {
+  buildBitcodeActivityRecordFromExecutionEvent,
+  summarizeBitcodeActivityKinds,
+  type BitcodeActivityKind,
+  type BitcodeActivityRecord,
+} from '@/components/base/engi/activity/bitcode-activity-model';
+
 type ExecutionEvent = {
   id?: string;
   created_at?: string;
@@ -7,6 +14,8 @@ type ExecutionEvent = {
 export interface ApplicationRunActivitySnapshot {
   output: string;
   outputDetails: Record<string, any>;
+  activityRecords: BitcodeActivityRecord[];
+  activityKinds: BitcodeActivityKind[];
   executionState: Record<string, any>;
   isStreamingComplete: boolean;
   generationCount: number;
@@ -68,6 +77,9 @@ export function buildApplicationRunActivityFromEvents(
 ): ApplicationRunActivitySnapshot {
   const outputDetails: Record<string, any> = {};
   const outputLines: string[] = [];
+  const activityRecords = events
+    .map((entry) => buildBitcodeActivityRecordFromExecutionEvent(entry))
+    .filter((record): record is BitcodeActivityRecord => Boolean(record));
   const normalizedIterationUpdates = new Map<number | string, any>();
   const statusEvents = events.filter((entry) => entry.event?.type === 'status');
   const completionEvent = events.find((entry) => entry.event?.type === 'completion');
@@ -99,6 +111,8 @@ export function buildApplicationRunActivityFromEvents(
   return {
     output: outputLines.join('\n'),
     outputDetails,
+    activityRecords,
+    activityKinds: summarizeBitcodeActivityKinds(activityRecords),
     executionState: latestStatusEvent?.event?.status?.executionState || {},
     isStreamingComplete: Boolean(completionEvent),
     generationCount: events.filter((entry) => entry.event?.type === 'generation').length,
@@ -113,9 +127,21 @@ export function buildApplicationRunActivityFromMock(
 ): ApplicationRunActivitySnapshot | null {
   if (!snapshot) return null;
 
+  const activityRecords = Object.values(snapshot.outputDetails || {})
+    .map((payload, index) =>
+      buildBitcodeActivityRecordFromExecutionEvent({
+        id: `mock-activity:${index}`,
+        created_at: payload?.timestamp || null,
+        event: payload,
+      }),
+    )
+    .filter((record): record is BitcodeActivityRecord => Boolean(record));
+
   return {
     output: snapshot.output || '',
     outputDetails: snapshot.outputDetails || {},
+    activityRecords,
+    activityKinds: summarizeBitcodeActivityKinds(activityRecords),
     executionState: snapshot.executionState || {},
     isStreamingComplete: snapshot.isStreamingComplete ?? true,
     generationCount: snapshot.generationCount ?? 0,

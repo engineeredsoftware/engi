@@ -1,3 +1,5 @@
+import { inferNotificationActivityTitle } from '@/components/base/engi/activity/bitcode-activity-model';
+
 export type NotificationTone = 'emerald' | 'sky' | 'amber' | 'rose' | 'slate';
 
 export interface NotificationPresentation {
@@ -62,7 +64,7 @@ export function getNotificationPresentation(
 
   return {
     ...base,
-    title: String(title || '').trim() || base.title,
+    title: inferNotificationActivityTitle(type, title) || base.title,
   };
 }
 

@@ -170,18 +170,19 @@ The accepted V26 decisions are now:
 12. Fourth-gate also explicitly owns PostgreSQL/Supabase, `/edgetimes`, migrations, schema contracts, ORM/query carriers, generated database types, and their proof/test/doc/comment closure.
 13. Fourth-gate retained `/executions` compatibility APIs are explicit promotion-boundary owners rather than incidental glue.
 14. Fourth-gate merged-world naming now converges `executions` on `activity`, with transactions first and later notifications plus public/personal system usage joining that searchable activity family.
-15. Fourth-gate merged-world naming now converges `orbitals` on `auxiliaries`, keeping non-transactional, extra-network, still-proven preference/interface/identity/connection surfaces around the Bitcode core.
-16. Old-world port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
-17. `/application` is the only primary Bitcode destination in the finished V26 product posture.
-18. Orbitals and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
-19. Orbitals are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
-20. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
-21. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
-22. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
-23. Existing packages such as `packages/github`, `packages/auth`, `packages/api`, `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/conversations-generics`, and `packages/execution-generics` remain convergence targets where that ownership is the correct long-term fit.
-24. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
-25. Transaction source posture inside `/application` is now explicitly three-state rather than binary: `live`, `mock-review`, and `review-fallback`, with review-fallback kept labeled when mock transaction review URLs land on empty live history.
-26. Second-gate checkpoint closure now explicitly includes README/markdown refurbishment for the active Bitcode route, orbital, execution, and package owners, and the generated checkpoint must fail if those documentation carriers disappear.
+15. Fourth-gate now also requires one shared Bitcode activity vocabulary so retained execution events and user-facing notifications normalize through the same typed activity model before later activity classes are admitted.
+16. Fourth-gate merged-world naming now converges `orbitals` on `auxiliaries`, keeping non-transactional, extra-network, still-proven preference/interface/identity/connection surfaces around the Bitcode core.
+17. Old-world port scope is now explicit: Jira is reader-first need ingestion and Git/GH is the initial admitted settle-write boundary for testnet-ready promotion.
+18. `/application` is the only primary Bitcode destination in the finished V26 product posture.
+19. Orbitals and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
+20. Orbitals are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
+21. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
+22. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
+23. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
+24. Existing packages such as `packages/github`, `packages/auth`, `packages/api`, `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/conversations-generics`, and `packages/execution-generics` remain convergence targets where that ownership is the correct long-term fit.
+25. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
+26. Transaction source posture inside `/application` is now explicitly three-state rather than binary: `live`, `mock-review`, and `review-fallback`, with review-fallback kept labeled when mock transaction review URLs land on empty live history.
+27. Second-gate checkpoint closure now explicitly includes README/markdown refurbishment for the active Bitcode route, orbital, execution, and package owners, and the generated checkpoint must fail if those documentation carriers disappear.
 
 ## Remaining V26 delta after first-gate
 

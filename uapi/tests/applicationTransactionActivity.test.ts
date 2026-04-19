@@ -44,6 +44,10 @@ describe('application-run-activity helpers', () => {
     expect(snapshot.executionState.phase).toBe('Discovery');
     expect(snapshot.isStreamingComplete).toBe(true);
     expect(snapshot.generationCount).toBe(1);
+    expect(snapshot.activityKinds).toEqual(['transaction']);
+    expect(snapshot.activityRecords).toHaveLength(4);
+    expect(snapshot.activityRecords[0]?.kind).toBe('transaction');
+    expect(snapshot.activityRecords[2]?.title).toBe('Work update');
     expect(snapshot.iterationUpdates).toHaveLength(1);
     expect(snapshot.latestWorkUpdate?.confidence).toBe(0.7);
   });
@@ -61,6 +65,8 @@ describe('application-run-activity helpers', () => {
     });
 
     expect(mockSnapshot?.output).toContain('[completion]');
+    expect(mockSnapshot?.activityKinds).toEqual(['transaction']);
+    expect(mockSnapshot?.activityRecords).toHaveLength(1);
     expect(mockSnapshot?.executionState.phase).toBe('Mock');
     expect(mockSnapshot?.generationCount).toBe(2);
   });

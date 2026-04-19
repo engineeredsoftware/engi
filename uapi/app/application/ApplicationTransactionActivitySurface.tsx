@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
+import { getBitcodeActivityKindLabel } from '@/components/base/engi/activity/bitcode-activity-model';
 import { isMockTransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-data-mode';
 import BitcodeExecutionStreamPanel from '@/components/base/engi/execution/BitcodeExecutionStreamPanel';
 import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
@@ -47,12 +48,25 @@ export default function ApplicationTransactionActivitySurface({
   return (
     <section className="overflow-hidden rounded-[1.5rem] border border-white/8 bg-[rgba(5,9,18,0.9)]">
       <div className="border-b border-white/8 px-5 py-4">
-        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Transaction activity</p>
-        <h3 className="mt-2 text-lg font-semibold text-white">Transaction activity and work updates</h3>
+        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">Bitcode activity</p>
+        <h3 className="mt-2 text-lg font-semibold text-white">Transactions-first activity and work updates</h3>
         <p className="mt-2 text-sm leading-6 text-neutral-300">
-          Read the selected transaction’s stream, state, and iteration updates directly from the transactions surface so execution
-          context stays beside deliverables, proofs, and history.
+          Read the selected transaction&apos;s stream, state, and iteration updates directly from the transactions surface. Fourth-gate
+          convergence keeps transactions dominant here while the broader Bitcode activity model also admits notifications and later
+          public or personal system usage.
         </p>
+        {activity.activityKinds.length ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {activity.activityKinds.map((kind) => (
+              <span
+                key={kind}
+                className="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-[0.64rem] uppercase tracking-[0.18em] text-emerald-200/80"
+              >
+                {getBitcodeActivityKindLabel(kind)}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </div>
       <BitcodeExecutionStreamPanel
         className="relative"

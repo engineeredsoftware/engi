@@ -121,9 +121,10 @@ describe('NotificationsWidget', () => {
 
     fireEvent.click(screen.getByRole('button'));
 
-    expect(await screen.findByText('Proof closure, repository activity, and review prompts')).toBeInTheDocument();
+    expect(await screen.findByText('Personal activity queue for proof closure, repository activity, and review prompts')).toBeInTheDocument();
     expect(screen.getByText('Witness bundle')).toBeInTheDocument();
     expect(screen.getByText('Repository event')).toBeInTheDocument();
+    expect(screen.getAllByText('Personal activity')).toHaveLength(2);
 
     fireEvent.click(screen.getByRole('button', { name: 'Mark all read' }));
 

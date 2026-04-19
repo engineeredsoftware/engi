@@ -9,6 +9,10 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
 import { OPEN_ORBITALS_FULLSCREEN_LABEL } from '@/app/orbitals/components/orbital-pane-meta';
+import {
+  buildBitcodeActivityRecordFromNotification,
+  getBitcodeActivityScopeLabel,
+} from '@/components/base/engi/activity/bitcode-activity-model';
 import '@/styles/notifications-widget.css';
 import {
   formatNotificationTimestamp,
@@ -210,7 +214,7 @@ export function NotificationsWidget() {
             <div>
               <h3>Notifications</h3>
               <p className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] text-neutral-400">
-                Proof closure, repository activity, and review prompts
+                Personal activity queue for proof closure, repository activity, and review prompts
               </p>
             </div>
             {notifications.length > 0 && (
@@ -235,6 +239,7 @@ export function NotificationsWidget() {
           ) : (
             <div className="notifications-list">
               {notifications.map((n) => {
+                const activity = buildBitcodeActivityRecordFromNotification(n);
                 const presentation = getNotificationPresentation(n.type, n.title);
 
                 return (
@@ -247,11 +252,14 @@ export function NotificationsWidget() {
                         {presentation.label}
                       </span>
                       <div className="notification-time">
-                        {formatNotificationTimestamp(n.created_at)}
+                        {formatNotificationTimestamp(activity.timestamp)}
                       </div>
                     </div>
                     <div className="notification-title">{presentation.title}</div>
-                    <div className="notification-message">{n.message}</div>
+                    <div className="notification-message">{activity.summary}</div>
+                    <div className="mt-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+                      {getBitcodeActivityScopeLabel(activity.scope)} activity
+                    </div>
                   </div>
                   {!n.read ? <div className="unread-indicator" aria-hidden="true" /> : null}
                   <div className="notification-actions">

@@ -5,6 +5,7 @@ This directory holds the shared Bitcode operator component systems used by `/app
 In V26 second-gate work, this directory is not a grab-bag.
 It is the reusable carrier layer for:
 - route chrome,
+- shared activity vocabulary,
 - notifications and menus,
 - execution/master-detail components,
 - and the supporting primitives needed to keep `/application` cleanly componentized.
@@ -13,6 +14,8 @@ It is the reusable carrier layer for:
 
 - `layout/`
   Navbar, user menu, route-surface classification, and related chrome carriers.
+- `activity/`
+  Shared activity vocabulary bridging transactions-first execution streams and later notification/public/personal activity classes.
 - `notifications/`
   Operator notification surfaces tied to the transactions and orbital shell.
 - `execution/`
@@ -36,6 +39,8 @@ If shared operator chrome or execution carriers change materially, their README 
 
 ## Key docs
 
+- [activity/README.md](activity/README.md)
+  Shared Bitcode activity vocabulary and convergence intent.
 - [execution/README.md](execution/README.md)
   Shared transaction/detail/payload carrier map.
 - [../../../app/application/README.md](../../../app/application/README.md)

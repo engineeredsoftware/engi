@@ -637,9 +637,10 @@ Fourth-gate requires:
 11. initial testnet-ready settle-write closure may remain Git/GH-branch/GH-PR centric even when later multi-surface settle writes are planned,
 12. retained `/executions` compatibility APIs such as `/api/vcs`, `/api/templates/deliverables`, and `/api/orbitals/template-preferences` are treated as explicit fourth-gate promotion-boundary owners rather than incidental glue,
 13. retained `/executions` naming must converge on merged-world `activity`, where transactions dominate first and later notifications plus public/personal system usage enter the same searchable master-detail activity family,
-14. retained `/orbitals` naming must converge on merged-world `auxiliaries`, where extra-network, non-transactional preference/interface/identity/connection surfaces stay proven without displacing the core network/activity topology,
-15. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
-16. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
+14. fourth-gate must also establish one shared activity vocabulary so retained execution events and user-facing notifications normalize through the same typed Bitcode activity model before later activity classes are admitted,
+15. retained `/orbitals` naming must converge on merged-world `auxiliaries`, where extra-network, non-transactional preference/interface/identity/connection surfaces stay proven without displacing the core network/activity topology,
+16. current executions and deliverables surfaces are treated as inward-ported master-detail/workspace reuse carriers rather than the lasting Bitcode topology,
+17. and retained packages must be admitted intentionally rather than kept implicitly because they already exist.
 
 ### Fourth-gate acceptance matrix
 
@@ -657,7 +658,8 @@ Fourth-gate is accepted only when:
 11. Git/GH-based settle-write carries the required initial testnet-ready asset settlement posture,
 12. retained executions compatibility APIs are explicit promotion-boundary owners instead of invisible route glue,
 13. retained `/executions` and `/orbitals` compatibility routes visibly teach `activity` and `auxiliaries` as the merged-world target without requiring compatibility URLs to disappear yet,
-14. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
+14. retained execution-event and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
+15. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
 
 ## V26 fifth-gate proof precision and closure contract
 

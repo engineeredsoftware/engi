@@ -577,14 +577,18 @@ Second-gate now also elevates the retained execution/log/work-update system into
 Current active carriers:
 - `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
 - `uapi/app/application/application-run-activity.ts`
+- `uapi/components/base/engi/activity/bitcode-activity-model.ts`
 - `uapi/hooks/usePipelineExecution.ts`
 - `uapi/components/base/engi/execution/pipeline-execution-log.tsx`
 - `uapi/components/base/engi/execution/pipeline-execution-log-header.tsx`
 - `uapi/components/base/engi/execution/WorkUpdatePanel.tsx`
+- `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
 
 Operational rule:
 - central master detail owns the selected transaction’s activity read
+- one shared Bitcode activity vocabulary should normalize retained execution events and personal notification rows before later activity kinds are admitted
 - retained execution/log carriers are reused under Bitcode application ownership
+- notifications remain user-facing, but their titles, scope, and summaries should be expressible through the same shared activity model as transactions
 - the rail is selection/orientation focused rather than duplicating the detailed activity surface
 - compatibility execution pages remain available during convergence but are no longer the only rich carrier
 
