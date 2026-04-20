@@ -345,7 +345,7 @@ export class EngiProcurementSystem {
       ],
       constraints: [
         'Must be completed within 2 weeks',
-        'Budget limit: 800 ENGI tokens',
+        'Budget limit: 800 BTD share units',
         'Must use TypeScript for type safety',
         'Should be deployable on Vercel/Netlify',
         'Must comply with enterprise security standards'

@@ -63,7 +63,7 @@ export class ProcurementEngine {
           totalBudget: params.budgetLimit,
           allocatedBudget: 0,
           remainingBudget: params.budgetLimit,
-          currency: 'ENGI',
+          currency: 'BTD',
           period: 'one-time',
           restrictions: {
             maxPerTransaction: params.budgetLimit,
@@ -404,7 +404,7 @@ export class ProcurementEngine {
   }
 
   private async getUsdValue(tokenAmount: bigint): Promise<number> {
-    // TODO: Get current ENGI token price
+    // TODO: Get current BTD share-unit price
     return 0; // Placeholder
   }
 

@@ -353,8 +353,8 @@ export class ProcurementNotificationSystem {
         recipientId: contributorId,
         recipientType: 'user',
         priority: 'high',
-        title: `🎉 Tokens Minted: ${amount} ENGI`,
-        message: `Congratulations! You've received ${amount} ENGI tokens for completing "${procurement.title}".`,
+        title: `🎉 BTD Minted: ${amount}`,
+        message: `Congratulations! You've received ${amount} BTD share units for completing "${procurement.title}".`,
         data: {
           procurementId: procurement.id,
           tokenAmount: amount,
@@ -606,7 +606,7 @@ export class ProcurementNotificationSystem {
     const matchPercentage = Math.round(contributor.matchScore);
     
     return `A new procurement opportunity matches your skills (${matchPercentage}% match). ` +
-           `Reward: ${procurement.estimatedReward.totalAmount} ENGI tokens. ` +
+           `Reward: ${procurement.estimatedReward.totalAmount} BTD share units. ` +
            `Complexity: ${complexity}/100. ` +
            `${procurement.deadline ? `Deadline: ${new Date(procurement.deadline).toLocaleDateString()}` : 'Flexible timeline'}.`;
   }

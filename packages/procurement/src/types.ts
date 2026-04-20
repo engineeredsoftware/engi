@@ -178,7 +178,7 @@ export interface ProcurementFulfillment {
 }
 
 export interface TokenReward {
-  baseAmount: string;        // ENGI tokens
+  baseAmount: string;        // BTD-denominated Bitcode share units
   qualityMultiplier: number; // Based on MoM scores
   bonusAmount: string;       // Additional rewards for exceptional work
   totalAmount: string;       // Final amount to be minted
@@ -212,7 +212,7 @@ export interface RepositoryOptIn {
   settings: {
     allowedProcurementTypes: SolutionCategory[];
     maxComplexity: number;
-    minimumReward: string; // ENGI tokens
+    minimumReward: string; // BTD-denominated Bitcode share units
     autoAcceptThreshold?: number; // Auto-accept procurements below this complexity
     reviewRequired: boolean;
   };
@@ -280,7 +280,7 @@ export interface GlobalDatasetEntry {
   
   // Procurement compatibility
   procurementCompatibility: {
-    minBudget: string; // ENGI tokens
+    minBudget: string; // BTD-denominated Bitcode share units
     estimatedEffort: number; // Hours
     customizationRequired: boolean;
     supportLevel: 'basic' | 'enhanced' | 'full';

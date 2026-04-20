@@ -1,4 +1,10 @@
-export const AUXILLARY_FLOW_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
+import {
+  AUXILLARY_FLOW_STEPS,
+  type ConcreteAuxillaryPane,
+  normalizeAuxillaryPane,
+  normalizeAuxillarySteps,
+} from '@bitcode/api/src/routes/auxillaries-contract';
+
 export const AUXILLARY_RING_STEPS = ['connects', 'interfaces', 'profile', 'btd'] as const;
 export const AUXILLARY_ROUTE_SEQUENCE = AUXILLARY_RING_STEPS;
 export const AUXILLARIES_ACCESS_LABEL = 'Auxillaries access';
@@ -10,7 +16,6 @@ export const OPEN_TRANSACTIONS_LABEL = 'Open transactions';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
 export const ORBITALS_COMPATIBILITY_ROUTE_ROOT = '/orbitals';
 
-export type ConcreteAuxillaryPane = (typeof AUXILLARY_FLOW_STEPS)[number];
 export type AuxillaryPane = ConcreteAuxillaryPane | null;
 
 export interface AuxillaryPaneDescriptor {
@@ -61,30 +66,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
   },
 };
 
-const AUXILLARY_COMPATIBILITY_MAP: Record<string, ConcreteAuxillaryPane> = {
-  users: 'profile',
-  profile: 'profile',
-  connects: 'connects',
-  models: 'interfaces',
-  interfaces: 'interfaces',
-  credits: 'btd',
-  btd: 'btd',
-};
-
-export function normalizeAuxillaryPane(value: string | null | undefined): ConcreteAuxillaryPane | null {
-  if (!value) return null;
-  return AUXILLARY_COMPATIBILITY_MAP[value.trim().toLowerCase()] || null;
-}
-
-export function normalizeAuxillarySteps(value: unknown): ConcreteAuxillaryPane[] {
-  if (!Array.isArray(value)) return [];
-
-  const normalized = value
-    .map((entry) => normalizeAuxillaryPane(String(entry || '')))
-    .filter((entry): entry is ConcreteAuxillaryPane => Boolean(entry));
-
-  return Array.from(new Set(normalized));
-}
+export { AUXILLARY_FLOW_STEPS, normalizeAuxillaryPane, normalizeAuxillarySteps };
 
 export function labelForAuxillaryPane(step: AuxillaryPane) {
   if (!step) return '';

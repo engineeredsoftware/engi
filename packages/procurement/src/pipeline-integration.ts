@@ -256,7 +256,7 @@ async function checkProcurementBudget(organizationId: string): Promise<any> {
   return {
     totalBudget: 10000,
     remainingBudget: 5000,
-    currency: 'ENGI'
+    currency: 'BTD'
   };
 }
 

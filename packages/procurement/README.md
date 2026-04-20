@@ -1,6 +1,6 @@
 # @bitcode/procurement
 
-Global solution procurement engine for ENGI platform. Provides vector-based solution matching, advanced analytics, fraud detection, and automated quality assessment.
+Global solution procurement engine for Bitcode. Provides vector-based solution matching, advanced analytics, fraud detection, and automated quality assessment.
 
 ## Core Engines
 
