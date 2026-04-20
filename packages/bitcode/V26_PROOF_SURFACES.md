@@ -127,6 +127,8 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover non-_legacy historical path carriers such as `BITCODE_{V10,V11}_PREP_MEMO.md` and `packages/bitcode/BITCODE_DEMO_SPEC_V15*.md`, so root/package historical docs do not keep teaching `ENGI_*` filenames outside `_legacy/`
   fifth-gate active-product naming witnesses now also cover canonical auxillary lower-level implementation carriers such as `uapi/app/auxillaries/components/{headers/*,shared/*,models/*,AuxillariesDataSharingPanel.tsx,auxillary-pane-explainers.ts,profile-pane.module.css}`, so canonical pane files do not silently keep orbitals-owned header/shared/model/data-share/explainer imports after the auxillary surface has already become the active owner
   fifth-gate active-product naming witnesses now also cover retained orbitals lower-level compatibility carriers such as `uapi/app/orbitals/components/{headers/*,shared/*,models/*,OrbitalsDataSharingPanel.tsx,orbital-pane-explainers.ts}`, so those paths remain thin compatibility re-exports rather than silently preserving duplicate live implementations after canonical auxillary equivalents exist
+  fifth-gate active-product naming witnesses now also cover canonical auxillary onboarding/data contracts and active external-realization witnesses such as `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/tests/{orbitalsOnboardingRoute,userDataRoute,api/externalRealizationRoute,applicationExternalRuntime}.test.ts`, and active Bitcode operating docs like `packages/bitcode/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md`, so payload aliases, schema-backed onboarding semantics, env witnesses, and branch-artifact naming cannot silently preserve `models/credits`, `ENGI_V24_*`, or `ENGI_NEED.md`
+  fifth-gate active-product naming witnesses now also cover live Bitcode-core need-materialization and external-executor carriers such as `packages/bitcode/src/canonical/{need-measurement,run-artifacts,v24-local-executors,v24-remote-adapters}.js` and `packages/bitcode/test/{api,workflow.integration}.test.js`, so emitted need artifacts, V24 env controls, local executor schemes, and Bitcode-core sample branch/runtime refs cannot silently preserve `ENGI_NEED.md`, `ENGI_V24_*`, `engi-local://*`, `engi-review/*`, or other Engi-branded active protocol examples
 
 ### Gate 5: Bitcode rename completion, proof precision, and system completeness
 
@@ -794,11 +796,11 @@ Required closure posture:
   `packages/bitcode/test/{core.test.js,v26-active-product-naming.test.js}`
   proof surface:
   fifth-gate Bitcode-core identity closure so shipped attestation kinds, policy release ids, system-principal classes, provenance seeds, and retained state-store payloads no longer carry `engi-*` runtime truth inside the promoted Bitcode core
-- `packages/bitcode/{src/canonical/v24-external-realization.js,test/core.test.js}`
+- `packages/bitcode/{src/canonical/need-measurement.js,src/canonical/run-artifacts.js,src/canonical/v24-local-executors.js,src/canonical/v24-remote-adapters.js,src/canonical/v24-external-realization.js,test/core.test.js,test/api.test.js,test/workflow.integration.test.js}`
   test coverage:
-  `packages/bitcode/test/{core.test.js,v26-active-product-naming.test.js}`
+  `packages/bitcode/test/{api.test.js,core.test.js,workflow.integration.test.js,v26-active-product-naming.test.js}`
   proof surface:
-  fifth-gate external-realization contract closure so active env controls, GitHub sample bindings, and the branch need artifact name converge on `BITCODE_V24_*`, Bitcode-owned refs, and `BITCODE_NEED.md` instead of preserving `ENGI_V24_*` or `ENGI_NEED.md` inside promoted runtime and proof carriers
+  fifth-gate external-realization and need-materialization contract closure so active env controls, local executor schemes, GitHub sample bindings, need artifacts, and Bitcode-core sample branch/runtime refs converge on `BITCODE_V24_*`, `bitcode-local://*`, Bitcode-owned refs, and `BITCODE_NEED.md` instead of preserving `ENGI_V24_*`, `ENGI_NEED.md`, or Engi-branded active protocol examples inside promoted runtime and proof carriers
 
 ## Module namespace proof note
 

@@ -32,7 +32,7 @@ describe('/api/v24/external-realization GET', () => {
   const envBackup = { ...process.env };
 
   beforeAll(() => {
-    delete process.env.ENGI_V24_ENVIRONMENT_MODE;
+    delete process.env.BITCODE_V24_ENVIRONMENT_MODE;
   });
 
   afterAll(() => {

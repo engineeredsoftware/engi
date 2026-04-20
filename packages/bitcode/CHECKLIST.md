@@ -1,4 +1,4 @@
-# ENGI Demo Checklist — Spec V8
+# Bitcode Demo Checklist — Spec V8
 
 Use this before an interactive V8 demo, QA pass, or live walkthrough.
 
@@ -93,7 +93,7 @@ What should be visible after the run:
   - [ ] `.engi/unit-catalog.json`
   - [ ] `.engi/pipeline-telemetry.json`
   - [ ] `.engi/system-proof-bundle.json`
-  - [ ] `ENGI_NEED.md`
+  - [ ] `BITCODE_NEED.md`
 
 ### E. Settlement / proof closure
 

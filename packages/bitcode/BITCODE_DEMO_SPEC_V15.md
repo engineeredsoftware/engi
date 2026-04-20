@@ -203,7 +203,7 @@ The latest run emits branch-scoped artifacts under `.engi/`, including:
 - source-to-shares, settlement participation, accounting precision, settlement proof, and journal diff,
 - projection policy, bounded public proof, redaction proof, and disclosure proof,
 - deliverables manifest,
-- `ENGI_NEED.md`.
+- `BITCODE_NEED.md`.
 
 These artifacts are current demo-realization output.
 The root system spec defines the broader canonical meaning of those families.

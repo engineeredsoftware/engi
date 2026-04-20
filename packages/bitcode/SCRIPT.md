@@ -1,4 +1,4 @@
-# ENGI Demo Script — Spec V8
+# Bitcode Demo Script — Spec V8
 
 This is the live presentation / interactive QA script for the current ENGI V8 deterministic prototype.
 
@@ -170,7 +170,7 @@ Point out artifacts such as:
 - `.engi/unit-catalog.json`
 - `.engi/pipeline-telemetry.json`
 - `.engi/system-proof-bundle.json`
-- `ENGI_NEED.md`
+- `BITCODE_NEED.md`
 
 Important line:
 

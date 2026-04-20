@@ -33,7 +33,7 @@ describe('application external runtime normalization', () => {
             telemetryCoverageState: 'shape-complete-blocking',
             liveEnabled: true,
             missingBindingKeys: ['executorUrl'],
-            missingSecretEnvKeys: ['ENGI_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD'],
+            missingSecretEnvKeys: ['BITCODE_V24_BITCOIN_MAINCHAIN_RPC_PASSWORD'],
             environmentIdentityRef: 'btc-dev-account',
             environmentResourceRef: 'tb1qbitcode',
           },

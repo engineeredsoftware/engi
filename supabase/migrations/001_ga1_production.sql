@@ -882,7 +882,7 @@ CREATE TABLE IF NOT EXISTS "public"."user_profiles" (
     "settings" "jsonb" DEFAULT '{}'::"jsonb",
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
-    "onboarded_steps" "text" DEFAULT '["models"]'::"text",
+    "onboarded_steps" "text" DEFAULT '[]'::"text",
     CONSTRAINT "user_profiles_role_check" CHECK (("role" = ANY (ARRAY['user'::"text", 'admin'::"text", 'developer'::"text"])))
 );
 
@@ -890,7 +890,7 @@ CREATE TABLE IF NOT EXISTS "public"."user_profiles" (
 ALTER TABLE "public"."user_profiles" OWNER TO "postgres";
 
 
-COMMENT ON COLUMN "public"."user_profiles"."onboarded_steps" IS 'JSON array of completed onboarding steps. Default includes "models" as it is optional. Valid steps: profile, connects, models, credits';
+COMMENT ON COLUMN "public"."user_profiles"."onboarded_steps" IS 'JSON array of completed auxillary onboarding panes. Default is empty. Valid panes: profile, connects, interfaces, btd';
 
 
 
@@ -3275,6 +3275,5 @@ RESET ALL;
 --
 
 CREATE OR REPLACE TRIGGER "on_auth_user_created" AFTER INSERT ON "auth"."users" FOR EACH ROW EXECUTE FUNCTION "public"."handle_new_user"();
-
 
 

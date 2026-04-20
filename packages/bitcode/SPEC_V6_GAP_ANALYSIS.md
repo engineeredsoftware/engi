@@ -1,4 +1,4 @@
-# ENGI Spec V6 vs Original Demo — Gap Analysis and Implementation Guide
+# Bitcode Spec V6 vs Original Demo — Gap Analysis and Implementation Guide
 
 ## Executive summary
 
@@ -17,7 +17,7 @@ Spec V6 instead requires a much more explicit pipeline:
 3. apply separate verification determinisms,
 4. derive final use tiers,
 5. assemble an asset pack,
-6. create a private ENGI remediation branch artifact set,
+6. create a private Bitcode remediation branch artifact set,
 7. settle via exact journal diff.
 
 ## Major gaps in the original demo
@@ -86,7 +86,7 @@ Spec V6 instead requires a much more explicit pipeline:
 
 **Original demo:** licensed query and separate utility receipt flow.
 
-**Change needed:** shift UI/API from “issue bundle for query” to “make ENGI branch” from a measured need.
+**Change needed:** shift UI/API from “issue bundle for query” to “make Bitcode branch” from a measured need.
 
 ---
 
@@ -100,7 +100,7 @@ Spec V6 instead requires a much more explicit pipeline:
 - `.engi/settlement-preview.json`
 - `.engi/system-proof-bundle.json`
 - `.engi/source-material/`
-- `ENGI_NEED.md`
+- `BITCODE_NEED.md`
 
 **Original demo:** receipts, proof log, schemas, and a private bundle payload.
 

@@ -170,10 +170,11 @@ export default function AuxillariesSurface({
   useEffect(() => {
     if (!onboardingData) return;
 
-    setCompletedSteps(normalizeAuxillarySteps(onboardingData.completedSteps));
+    setCompletedSteps(normalizeAuxillarySteps(onboardingData.completedPanes ?? onboardingData.completedSteps ?? []));
 
-    if (!isAuxillariesSurface && onboardingData.currentStep && !initialStep && !routeStep) {
-      setCurrentStep(normalizeAuxillaryPane(onboardingData.currentStep) || 'profile');
+    const currentPane = onboardingData.currentPane ?? onboardingData.currentStep;
+    if (!isAuxillariesSurface && currentPane && !initialStep && !routeStep) {
+      setCurrentStep(normalizeAuxillaryPane(currentPane) || 'profile');
     }
   }, [onboardingData, isAuxillariesSurface, initialStep, routeStep]);
 

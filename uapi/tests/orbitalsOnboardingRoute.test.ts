@@ -34,13 +34,15 @@ describe('/api/auxillaries/onboarding', () => {
 
     expect(response.status).toBe(200);
     expect(payload).toEqual({
+      completedPanes: ['profile', 'connects', 'interfaces', 'btd'],
+      currentPane: null,
       completedSteps: ['profile', 'connects', 'interfaces', 'btd'],
       currentStep: null,
       isOnboardingComplete: true,
     });
   });
 
-  it('appends a canonical step and persists normalized onboarding state on POST', async () => {
+  it('appends a canonical auxillary pane and persists normalized onboarding state on POST', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
 
     const selectBuilder: any = {
@@ -64,7 +66,7 @@ describe('/api/auxillaries/onboarding', () => {
     const request = new Request('http://localhost/api/auxillaries/onboarding', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completedStep: 'credits' }),
+      body: JSON.stringify({ completedStep: 'btd' }),
     });
 
     const response = await POST(request);
@@ -77,6 +79,8 @@ describe('/api/auxillaries/onboarding', () => {
     );
     expect(response.status).toBe(200);
     expect(payload).toEqual({
+      completedPanes: ['profile', 'connects', 'interfaces', 'btd'],
+      currentPane: null,
       completedSteps: ['profile', 'connects', 'interfaces', 'btd'],
       currentStep: null,
       isOnboardingComplete: true,

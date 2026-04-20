@@ -43,6 +43,8 @@ export function buildMockReviewUser(): User {
 }
 
 export function buildMockOrbitalData() {
+  const onboardedPanes = [...REVIEW_COMPLETED_STEPS];
+
   return {
     profile: {
       user_id: REVIEW_USER_ID,
@@ -53,7 +55,7 @@ export function buildMockOrbitalData() {
       avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
       email: 'reviewer@bitcode.ai',
       is_verified: true,
-      onboarded_steps: [...REVIEW_COMPLETED_STEPS],
+      onboarded_steps: onboardedPanes,
       team_members: [
         { id: 'tm-1', username: 'lin', display_name: 'Lin Ortega', role: 'admin' },
         { id: 'tm-2', username: 'sora', display_name: 'Sora Ames', role: 'reviewer' },
@@ -77,14 +79,17 @@ export function buildMockOrbitalData() {
       max_tokens: 3200,
       review_profile: 'bitcode-application-demo',
     },
-    onboarded_steps: [...REVIEW_COMPLETED_STEPS],
+    onboardedPanes,
+    onboarded_steps: onboardedPanes,
     isOnboardingComplete: true,
   };
 }
 
 export function buildMockOnboardingData() {
   return {
+    completedPanes: [...REVIEW_COMPLETED_STEPS],
     completedSteps: [...REVIEW_COMPLETED_STEPS],
+    currentPane: 'profile',
     currentStep: 'profile',
     isOnboardingComplete: true,
   };

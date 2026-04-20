@@ -1,5 +1,5 @@
--- Script: Grant first-time user credits
--- Description: Function to grant credits to users and mark the credits onboarding step as complete
+-- Script: Grant first-time user BTD balance
+-- Description: Function to grant BTD balance to users and mark the btd auxillary pane as complete
 -- Usage: SELECT grant_user_credits('user@example.com');
 --        SELECT grant_user_credits('user@example.com', 200, 'special_promotion', 'Special promotion credits');
 
@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION grant_user_credits (
   user_email TEXT,
   credit_amount INTEGER DEFAULT 100,
   credit_source TEXT DEFAULT 'signup_bonus',
-  credit_description TEXT DEFAULT 'First-time user bonus credits'
+  credit_description TEXT DEFAULT 'First-time user bonus BTD'
 ) RETURNS TEXT 
 LANGUAGE plpgsql 
 SECURITY DEFINER 
@@ -28,7 +28,7 @@ BEGIN
     RETURN 'Error: User with email ' || user_email || ' not found.';
   END IF;
 
-  -- Insert or update credits for the user
+  -- Insert or update BTD balance for the user
   INSERT INTO user_credits (user_id, balance, updated_at)
   VALUES (v_user_id, credit_amount, NOW())
   ON CONFLICT (user_id) 
@@ -37,24 +37,21 @@ BEGIN
     updated_at = NOW()
   RETURNING balance INTO v_new_balance;
   
-  -- Update onboarding to mark credits step as complete
-  -- Preserves all existing steps and adds 'credits' if not present
+  -- Update onboarding to mark the btd auxillary pane as complete
+  -- Preserves all existing panes and adds 'btd' if not present
   UPDATE user_profiles
   SET 
     onboarded_steps = CASE
-      -- If null or empty, start with models and credits
-      WHEN onboarded_steps IS NULL OR onboarded_steps = '' THEN '["models","credits"]'
-      -- If valid JSON but missing credits, add it (preserving all existing steps)
-      WHEN NOT (onboarded_steps::jsonb ? 'credits') THEN 
-        (onboarded_steps::jsonb || '["credits"]'::jsonb)::text
-      -- Otherwise keep as is (credits already present)
+      WHEN onboarded_steps IS NULL OR onboarded_steps = '' THEN '["btd"]'
+      WHEN NOT (onboarded_steps::jsonb ? 'btd') THEN 
+        (onboarded_steps::jsonb || '["btd"]'::jsonb)::text
       ELSE onboarded_steps
     END,
     updated_at = NOW()
   WHERE id = v_user_id;
 
-  RETURN 'Successfully granted ' || credit_amount || ' credits to ' || user_email || 
-         '. New balance: ' || v_new_balance || ' credits.';
+  RETURN 'Successfully granted ' || credit_amount || ' BTD to ' || user_email || 
+         '. New balance: ' || v_new_balance || ' BTD.';
 EXCEPTION
   WHEN OTHERS THEN
     RETURN 'Error: ' || SQLERRM;
@@ -83,7 +80,7 @@ BEGIN
     RAISE EXCEPTION 'User with email % not found', v_user_email;
   END IF;
 
-  -- Insert or update credits
+  -- Insert or update BTD balance
   INSERT INTO user_credits (user_id, balance, updated_at)
   VALUES (v_user_id, v_credit_amount, NOW())
   ON CONFLICT (user_id) 
@@ -91,18 +88,18 @@ BEGIN
     balance = user_credits.balance + EXCLUDED.balance,
     updated_at = NOW();
   
-  -- Update onboarding steps (preserves all existing steps)
+  -- Update onboarding panes (preserves all existing panes)
   UPDATE user_profiles
   SET 
     onboarded_steps = CASE
-      WHEN onboarded_steps IS NULL OR onboarded_steps = '' THEN '["models","credits"]'
-      WHEN NOT (onboarded_steps::jsonb ? 'credits') THEN 
-        (onboarded_steps::jsonb || '["credits"]'::jsonb)::text
+      WHEN onboarded_steps IS NULL OR onboarded_steps = '' THEN '["btd"]'
+      WHEN NOT (onboarded_steps::jsonb ? 'btd') THEN 
+        (onboarded_steps::jsonb || '["btd"]'::jsonb)::text
       ELSE onboarded_steps
     END,
     updated_at = NOW()
   WHERE id = v_user_id;
   
-  RAISE NOTICE 'Successfully granted % credits to %', v_credit_amount, v_user_email;
+  RAISE NOTICE 'Successfully granted % BTD to %', v_credit_amount, v_user_email;
 END $$;
 */

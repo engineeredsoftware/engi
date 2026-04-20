@@ -4,46 +4,16 @@ import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 
 import {
-  AUXILLARY_FLOW_STEPS,
-  normalizeAuxillaryPane,
-  normalizeAuxillarySteps,
-} from '@/app/auxillaries/components/auxillary-pane-meta';
+  buildAuxillaryOnboardingPayload,
+  normalizeCompletedAuxillaryPane,
+  parseStoredAuxillarySteps,
+  serializeAuxillarySteps,
+} from '@/app/auxillaries/auxillary-onboarding-contract';
 import { buildMockOnboardingData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
 export const runtime = 'nodejs';
 
 const DEFAULT_COMPLETED_STEPS = [] as const;
-
-function parseStoredSteps(value: unknown) {
-  if (Array.isArray(value)) {
-    return normalizeAuxillarySteps(value);
-  }
-
-  if (typeof value === 'string' && value.trim()) {
-    try {
-      const parsed = JSON.parse(value);
-      if (Array.isArray(parsed)) {
-        return normalizeAuxillarySteps(parsed);
-      }
-    } catch {
-      const normalized = normalizeAuxillarySteps([value]);
-      if (normalized.length) {
-        return normalized;
-      }
-    }
-  }
-
-  return [];
-}
-
-function buildOnboardingPayload(completedSteps: string[]) {
-  const currentStep = AUXILLARY_FLOW_STEPS.find((step) => !completedSteps.includes(step)) || null;
-  return {
-    completedSteps,
-    currentStep,
-    isOnboardingComplete: completedSteps.length === AUXILLARY_FLOW_STEPS.length,
-  };
-}
 
 export async function GET() {
   if (isUserOrbitalMockMode()) {
@@ -66,7 +36,9 @@ export async function GET() {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  return NextResponse.json(buildOnboardingPayload(parseStoredSteps(profile?.onboarded_steps)));
+  return NextResponse.json(
+    buildAuxillaryOnboardingPayload(parseStoredAuxillarySteps(profile?.onboarded_steps)),
+  );
 }
 
 export async function POST(request: Request) {
@@ -91,7 +63,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const completedStep = normalizeAuxillaryPane(body.completedStep);
+  const completedStep = normalizeCompletedAuxillaryPane(body.completedStep);
 
   const { data: profile } = await supabaseAdmin
     .from('user_profiles')
@@ -99,7 +71,7 @@ export async function POST(request: Request) {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  const completedSteps = parseStoredSteps(profile?.onboarded_steps);
+  const completedSteps = parseStoredAuxillarySteps(profile?.onboarded_steps);
   const nextCompletedSteps =
     completedStep && !completedSteps.includes(completedStep)
       ? [...completedSteps, completedStep]
@@ -108,7 +80,7 @@ export async function POST(request: Request) {
   const { error: updateError } = await supabaseAdmin
     .from('user_profiles')
     .update({
-      onboarded_steps: JSON.stringify(nextCompletedSteps),
+      onboarded_steps: serializeAuxillarySteps(nextCompletedSteps),
       updated_at: new Date().toISOString(),
     })
     .eq('user_id', user.id);
@@ -117,5 +89,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
 
-  return NextResponse.json(buildOnboardingPayload(nextCompletedSteps));
+  return NextResponse.json(buildAuxillaryOnboardingPayload(nextCompletedSteps));
 }

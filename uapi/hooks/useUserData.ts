@@ -14,6 +14,7 @@ export interface AggregatedUserData {
   githubConnection?: any | null;
   credits?: number;
   modelPreferences?: any | null;
+  onboardedPanes?: string[];
   onboarded_steps?: string[];
   isOnboardingComplete?: boolean;
 }
@@ -23,6 +24,7 @@ const ANONYMOUS_USER_DATA: AggregatedUserData = {
   githubConnection: null,
   credits: 0,
   modelPreferences: null,
+  onboardedPanes: [],
   onboarded_steps: [],
   isOnboardingComplete: false,
 };
@@ -138,8 +140,7 @@ export function useUserData() {
   );
   const credits = typeof data?.credits === 'number' ? data.credits : hydratedCredits;
 
-  // Use onboarded_steps from backend
-  const onboardedSteps = normalizeAuxillarySteps(data?.onboarded_steps || []);
+  const onboardedSteps = normalizeAuxillarySteps(data?.onboardedPanes ?? data?.onboarded_steps ?? []);
   const isOnboardingComplete = data?.isOnboardingComplete || false;
 
   return {

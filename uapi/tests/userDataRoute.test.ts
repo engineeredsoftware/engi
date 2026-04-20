@@ -16,7 +16,7 @@ describe('GET /api/auxillaries/data', () => {
     (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser }, from: mockFrom });
   });
 
-  it('returns anonymous orbital data if unauthenticated', async () => {
+  it('returns anonymous auxillary data if unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
     const req = new Request('http://localhost/api/auxillaries/data');
     const res = await GET(req);
@@ -27,6 +27,7 @@ describe('GET /api/auxillaries/data', () => {
       githubConnection: null,
       credits: 0,
       modelPreferences: null,
+      onboardedPanes: [],
       onboarded_steps: [],
       isOnboardingComplete: false,
     });
@@ -72,6 +73,7 @@ describe('GET /api/auxillaries/data', () => {
       githubConnection: connectionData,
       credits: 50,
       modelPreferences: prefData.preferences,
+      onboardedPanes: ['profile', 'interfaces', 'btd'],
       onboarded_steps: ['profile', 'interfaces', 'btd'],
       isOnboardingComplete: false,
     });

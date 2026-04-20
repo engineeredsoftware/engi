@@ -1,41 +1,13 @@
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { NextResponse } from 'next/server';
 
-import { AUXILLARY_FLOW_STEPS, normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
+import {
+  buildAnonymousAuxillaryData,
+  buildAuxillaryDataPayload,
+} from '@/app/auxillaries/auxillary-onboarding-contract';
 import { buildMockOrbitalData, isUserOrbitalMockMode } from '@/lib/mock-review-mode';
 
 export const runtime = 'nodejs';
-
-function buildAnonymousAuxillaryData() {
-  return {
-    profile: null,
-    githubConnection: null,
-    credits: 0,
-    modelPreferences: null,
-    onboarded_steps: [],
-    isOnboardingComplete: false,
-  };
-}
-
-function parseOnboardedSteps(value: unknown): string[] {
-  if (Array.isArray(value)) {
-    return normalizeAuxillarySteps(value);
-  }
-  if (typeof value === 'string' && value.trim()) {
-    try {
-      const parsed = JSON.parse(value);
-      if (Array.isArray(parsed)) {
-        return normalizeAuxillarySteps(parsed);
-      }
-    } catch {
-      const normalized = normalizeAuxillarySteps([value.trim()]);
-      if (normalized.length) {
-        return normalized;
-      }
-    }
-  }
-  return [];
-}
 
 export async function GET(_request: Request) {
   if (isUserOrbitalMockMode()) {
@@ -68,14 +40,12 @@ export async function GET(_request: Request) {
   const githubConnection = githubConnectionResult.data?.connection_data ?? null;
   const credits = typeof creditsResult.data?.credits === 'number' ? creditsResult.data.credits : 0;
   const modelPreferences = preferencesResult.data?.preferences ?? null;
-  const onboarded_steps = parseOnboardedSteps((profile as { onboarded_steps?: unknown } | null)?.onboarded_steps);
 
-  return NextResponse.json({
+  return NextResponse.json(buildAuxillaryDataPayload({
     profile,
     githubConnection,
     credits,
     modelPreferences,
-    onboarded_steps,
-    isOnboardingComplete: onboarded_steps.length === AUXILLARY_FLOW_STEPS.length,
-  });
+    onboardedSteps: (profile as { onboarded_steps?: unknown } | null)?.onboarded_steps,
+  }));
 }
