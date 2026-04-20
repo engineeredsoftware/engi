@@ -194,7 +194,7 @@ export type ConversationResult = z.infer<typeof ConversationRetrySchema>;
  */
 export const conversationAgentPrompt = new AgentPrompt({
   name: 'conversation-agent' as PromptPart,
-  identity: 'Engi conversational AI assistant' as PromptPart
+  identity: 'Bitcode conversational AI assistant' as PromptPart
 });
 
 /**

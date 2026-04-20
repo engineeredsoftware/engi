@@ -86,7 +86,7 @@ export default function ReadLightpaper({ reavealingSoon = false }: ReadLightpape
 
         {/* X link */}
         <a
-          href="https://x.com/engisoftware"
+          href="https://github.com/engineeredsoftware/bitcode"
           target="_blank"
           rel="noopener noreferrer"
           className="group inline-flex items-center text-gray-500 hover:text-green-primary transition-colors"
@@ -96,9 +96,9 @@ export default function ReadLightpaper({ reavealingSoon = false }: ReadLightpape
             viewBox="0 0 24 24"
             className="size-5 laptop:size-6 group-hover:scale-110 transition-transform [filter:drop-shadow(0_0_4px_rgba(101,254,183,0.55))]"
           >
-            <path d="M13.6823 10.6218L20.2391 3H18.6854L12.9921 9.61788L8.44486 3H3.2002L10.0765 13.0074L3.2002 21H4.75404L10.7663 14.0113L15.5685 21H20.8131L13.6819 10.6218H13.6823ZM11.5541 13.0956L10.8574 12.0991L5.31391 4.16971H7.70053L12.1742 10.5689L12.8709 11.5655L18.6861 19.8835H16.2995L11.5541 13.096V13.0956Z" />
+            <path d="M12 2C6.48 2 2 6.58 2 12.2c0 4.42 2.87 8.16 6.84 9.49.5.1.68-.22.68-.49 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.2-3.37-1.2-.46-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.9 1.56 2.36 1.11 2.94.85.09-.67.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.32.1-2.74 0 0 .84-.27 2.75 1.05A9.33 9.33 0 0 1 12 6.84c.85 0 1.71.12 2.51.36 1.91-1.32 2.75-1.05 2.75-1.05.55 1.42.2 2.48.1 2.74.64.72 1.03 1.63 1.03 2.75 0 3.94-2.35 4.8-4.59 5.05.36.32.68.95.68 1.92 0 1.39-.01 2.51-.01 2.85 0 .27.18.6.69.49A10.21 10.21 0 0 0 22 12.2C22 6.58 17.52 2 12 2Z" />
           </svg>
-          <span className="sr-only">Bitcode on X</span>
+          <span className="sr-only">Bitcode on GitHub</span>
         </a>
       </div>
 

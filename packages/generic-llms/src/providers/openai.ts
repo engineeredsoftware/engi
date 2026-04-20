@@ -81,9 +81,9 @@ export const openAIProvider: LLMProvider = {
           metadata: { model: resp.model, finishReason: finish, stopReason }
         };
       } catch (err) {
-        const allowMock = process?.env?.ENGI_LLM_ALLOW_MOCK === '1' || process?.env?.NODE_ENV === 'test';
+        const allowMock = process?.env?.BITCODE_LLM_ALLOW_MOCK === '1' || process?.env?.NODE_ENV === 'test';
         if (!allowMock) {
-          const hint = 'Provide OPENAI_API_KEY and install the OpenAI SDK, or set ENGI_LLM_ALLOW_MOCK=1 to permit mock.';
+          const hint = 'Provide OPENAI_API_KEY and install the OpenAI SDK, or set BITCODE_LLM_ALLOW_MOCK=1 to permit mock.';
           const e = err instanceof Error ? err : new Error(String(err));
           (e as any).provider = 'openai';
           (e as any).model = request.model;

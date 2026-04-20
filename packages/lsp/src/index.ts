@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------------------------------
- * Production-grade LSP helper wrappers around vscode-languageserver-node for Engi code editing.
+ * Production-grade LSP helper wrappers around vscode-languageserver-node for Bitcode code editing.
  * Provides robust error handling, input validation, language detection, and atomic operations.
  *
  * Features:
@@ -10,7 +10,7 @@
  * - Timeout handling and cancellation support
  * - Detailed logging and metrics
  *
- * NOTE: Uses in-memory Language Server for optimal performance in Engi pipeline tasks.
+ * NOTE: Uses in-memory Language Server for optimal performance in Bitcode pipeline tasks.
  * ------------------------------------------------------------------------------------------------- */
 
 import {

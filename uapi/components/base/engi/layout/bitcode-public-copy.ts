@@ -59,7 +59,7 @@ export const BITCODE_PUBLIC_COPY = {
       network: 'Network',
       transactions: 'Transactions',
       docs: 'Docs',
-      bluesky: 'Bitcode on Bluesky',
+      github: 'Bitcode on GitHub',
     },
   },
   publicNav: {

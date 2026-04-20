@@ -724,6 +724,16 @@ Required closure posture:
   `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate retained tool-package closure so active package metadata and doc-code teaching no longer present Engi-era product identity
+- `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/engi/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
+  test coverage:
+  `uapi/tests/footerPublicShell.test.tsx`, targeted `next lint`, and `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate active front-end runtime closure so live globals, animation identifiers, CSS selectors, and public outbound references no longer carry unreplaced Engi-era product naming or social-handle residue
+- `packages/{conversations-generics/src/agent/ConversationAgent.ts,lsp/src/index.ts,files/src/securityUtils.ts,generic-llms/src/providers/{google.ts,openai.ts,anthropic.ts},generic-llms/tests/unit/registry.test.ts,web-search/src/orchestrator.ts} + uapi/hooks/useConversationStream.ts`
+  test coverage:
+  `packages/generic-llms/tests/unit/registry.test.ts` and `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate shared-runtime identity closure so inherited conversational agents, repo-root helpers, LLM mock gating, and search reservation globals converge on Bitcode-facing naming and env contracts
 
 ## Module namespace proof note
 

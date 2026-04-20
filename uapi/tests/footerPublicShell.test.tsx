@@ -9,11 +9,6 @@ const mockOnAuthStateChange = jest.fn();
 const mockOpenOrbital = jest.fn();
 const mockPrefetchOrbital = jest.fn();
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} alt="" />,
-}));
-
 jest.mock('@bitcode/supabase/ssr/client', () => ({
   createClient: () => ({
     auth: {
@@ -68,9 +63,9 @@ describe('Footer public shell', () => {
       'href',
       '/docs',
     );
-    expect(screen.getByRole('link', { name: 'Bitcode on Bluesky' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Bitcode on GitHub' })).toHaveAttribute(
       'href',
-      'https://bsky.app/profile/engicomms.bsky.social',
+      'https://github.com/engineeredsoftware/bitcode',
     );
     expect(screen.getByRole('button', { name: 'Explain Network' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Transactions' })).toBeInTheDocument();

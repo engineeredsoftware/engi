@@ -216,7 +216,7 @@ export class MultiProviderSearchOrchestrator {
         try {
           // Note: reservationId would come from global context in actual usage
           // For now, we'll track this when we have the reservation context available
-          const reservationId = (globalThis as any).__engi_reservation_id;
+          const reservationId = (globalThis as any).__bitcode_reservation_id;
           if (reservationId) {
             await recordReservationUsage(reservationId, 2); // 2 credits per search provider
           }

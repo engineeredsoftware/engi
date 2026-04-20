@@ -7,8 +7,8 @@ describe('factoryLLMRegistryWithProviders', () => {
   beforeEach(() => {
     jest.resetModules();
     process.env = { ...OLD_ENV };
-    delete process.env.ENGI_LLM_PROVIDER;
-    delete process.env.ENGI_LLM_MODEL;
+    delete process.env.BITCODE_LLM_PROVIDER;
+    delete process.env.BITCODE_LLM_MODEL;
   });
 
   afterEach(() => {
@@ -22,4 +22,3 @@ describe('factoryLLMRegistryWithProviders', () => {
     expect(typeof llm).toBe('function');
   });
 });
-

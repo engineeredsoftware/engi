@@ -733,7 +733,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         } as any
       } as any);
 
-      return NextResponse.json({ runId, status: 'queued' }, { status: 202 });
+      return createJsonResponse({ runId, status: 'queued' }, 202);
     }
 
     // Create streaming response

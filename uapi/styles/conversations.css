@@ -27,15 +27,15 @@
 
 /* Waterfall enhancements */
 
-@keyframes engi-bubble-entry {
+@keyframes bitcode-bubble-entry {
   0% { transform: scale(0.98) translateY(6px); opacity: 0; }
   100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 .bubble-animate-entry {
-  animation: engi-bubble-entry 0.18s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation: bitcode-bubble-entry 0.18s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
-@keyframes engi-typing {
+@keyframes bitcode-typing {
   0%, 60%, 100% { transform: translateY(0); opacity: .25; }
   30% { transform: translateY(-3px); opacity: .8; }
 }
@@ -45,12 +45,12 @@
   width: 4px;
   height: 4px;
   margin: 0 1px;
-  animation: engi-typing 1s infinite ease-in-out;
+  animation: bitcode-typing 1s infinite ease-in-out;
 }
 .typing-dot:nth-child(2) { animation-delay: .15s; }
 .typing-dot:nth-child(3) { animation-delay: .3s; }
 
-@keyframes engi-shimmer {
+@keyframes bitcode-shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
@@ -59,7 +59,7 @@
   top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent 0%, theme(colors.brand.emerald-glow) 50%, transparent 100%);
   background-size: 200% 100%;
-  animation: engi-shimmer 1.5s linear infinite;
+  animation: bitcode-shimmer 1.5s linear infinite;
 }
 
 .timestamp-hidden {
@@ -116,10 +116,10 @@
 /* Pulsing emerald halo on the orb while the assistant is streaming */
 .conversations-orb-streaming {
   box-shadow: 0 0 0 2px theme(colors.brand.emerald-glow-subtle);
-  animation: engi-orb-glow 1.4s ease-in-out infinite;
+  animation: bitcode-orb-glow 1.4s ease-in-out infinite;
 }
 
-@keyframes engi-orb-glow {
+@keyframes bitcode-orb-glow {
   0%, 100% { box-shadow: 0 0 0 2px theme(colors.brand.emerald-glow-subtle); }
   50% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.8); }
 }

@@ -73,9 +73,9 @@ export const googleProvider: LLMProvider = {
         };
       } catch (err) {
         // Controlled fallback policy: only allow mock in explicit dev/test contexts
-        const allowMock = process?.env?.ENGI_LLM_ALLOW_MOCK === '1' || process?.env?.NODE_ENV === 'test';
+        const allowMock = process?.env?.BITCODE_LLM_ALLOW_MOCK === '1' || process?.env?.NODE_ENV === 'test';
         if (!allowMock) {
-          const hint = 'Install \"ai\" and \"@ai-sdk/google\" in the host app or set ENGI_LLM_ALLOW_MOCK=1 to permit mock.';
+          const hint = 'Install \"ai\" and \"@ai-sdk/google\" in the host app or set BITCODE_LLM_ALLOW_MOCK=1 to permit mock.';
           const message = `Google LLM provider unavailable (missing AI SDK bindings). ${hint}`;
           const e = err instanceof Error ? err : new Error(String(err));
           (e as any).provider = 'google';

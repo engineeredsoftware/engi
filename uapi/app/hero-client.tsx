@@ -159,7 +159,7 @@ function HeroClientInner() {
       // Mark that the reveal event has occurred so late-mounting sections can
       // start immediately without waiting for another signal.
       // @ts-expect-error – untyped global
-      window.__engiRevealScreenshotsFired = true;
+      window.__bitcodeRevealScreenshotsFired = true;
       window.dispatchEvent(new CustomEvent('revealScreenshots'));
     }, 800);
   };

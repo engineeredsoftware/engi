@@ -4,17 +4,6 @@
  * Verifies that notifications are skipped unless BITCODE_ENABLE_NOTIFICATIONS==='true'.
  */
 
-jest.mock('next/server', () => ({
-  NextRequest: Request,
-  NextResponse: {
-    json: (data: any, init?: ResponseInit) =>
-      new Response(JSON.stringify(data), {
-        status: init?.status ?? 200,
-        headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
-      }),
-  },
-}));
-
 // Mock Supabase auth to return a user
 jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn().mockResolvedValue({
@@ -128,7 +117,11 @@ describe('POST /api/executions notifications gating', () => {
       })
     });
     const res = await POST(req);
-    expect(res.status).toBe(202);
+    const payload = await res.json();
+    expect({ status: res.status, payload }).toEqual({
+      status: 202,
+      payload: { runId: 'fixed-corr', status: 'queued' },
+    });
     expect(notificationsCreate).not.toHaveBeenCalled();
   });
 });

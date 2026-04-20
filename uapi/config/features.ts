@@ -122,12 +122,12 @@ export const FEATURE_FLAGS = {
 
 // ---------------------------------------------------------------------------
 // Debug helper – during development expose the resolved flags on `window` so a
-// quick check in the browser console (`window.__ENGI_FLAGS`) clarifies what the
+// quick check in the browser console (`window.__BITCODE_FLAGS`) clarifies what the
 // build actually picked up from the environment.  Removed automatically by
 // most JS minifiers in production because it is dead-code for SSR.
 // ---------------------------------------------------------------------------
 if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore – we intentionally attach a global for debugging.
-  window.__ENGI_FLAGS = FEATURE_FLAGS;
+  window.__BITCODE_FLAGS = FEATURE_FLAGS;
 }

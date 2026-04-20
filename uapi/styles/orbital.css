@@ -2076,8 +2076,8 @@ to {
   pointer-events: none !important;
   cursor: not-allowed !important;
 }
-.models-step .engi-system-prompt-section,
-.interfaces-step .engi-system-prompt-section {
+.models-step .system-prompt-section,
+.interfaces-step .system-prompt-section {
   background: rgba(15, 25, 40, 0.8);
   border: 1px solid rgba(103, 254, 183, 0.3);
   border-radius: 16px;
@@ -2092,8 +2092,8 @@ to {
   position: relative;
   z-index: 10;
 }
-.models-step .engi-system-prompt-section.primary-section,
-.interfaces-step .engi-system-prompt-section.primary-section {
+.models-step .system-prompt-section.primary-section,
+.interfaces-step .system-prompt-section.primary-section {
   background: linear-gradient(145deg, rgba(15, 30, 50, 0.95), rgba(10, 20, 40, 0.95));
   border: 1px solid rgba(103, 254, 183, 0.4);
   box-shadow:
@@ -2126,8 +2126,8 @@ to {
   color: rgba(255, 255, 255, 0.75);
   margin: 0;
 }
-.models-step .engi-prompt-header,
-.interfaces-step .engi-prompt-header {
+.models-step .prompt-header,
+.interfaces-step .prompt-header {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -5097,7 +5097,7 @@ to {
   gap: 8px;
   border: 1px solid rgba(103, 254, 183, 0.15);
 }
-.calculation-equivalent .engi-cost {
+.calculation-equivalent .bitcode-cost {
   font-size: 16px;
   font-weight: 600;
   color: rgba(103, 254, 183, 0.95);
@@ -5214,14 +5214,14 @@ to {
   font-weight: 600;
 }
 /* Models Pane Styles */
-.engi-system-prompt-section {
+.system-prompt-section {
   background: rgba(15, 25, 40, 0.6);
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 24px;
   border: 1px solid rgba(103, 254, 183, 0.2);
 }
-.engi-prompt-header {
+.prompt-header {
   display: flex;
   align-items: center;
   gap: 16px;

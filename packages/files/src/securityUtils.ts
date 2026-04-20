@@ -10,7 +10,7 @@ import * as path from 'path';
 import { log } from '@bitcode/logger';
 
 function resolveRepoRoot(): string {
-  return process.env.ENGI_REPO_ROOT || process.cwd();
+  return process.env.BITCODE_REPO_ROOT || process.cwd();
 }
 
 /**

@@ -14,7 +14,7 @@
  * 
  * @module useConversationStream
  * @version 2.0.0
- * @author Engi Team
+ * @author Bitcode Team
  * @since 2024-01-15
  * 
  * @example

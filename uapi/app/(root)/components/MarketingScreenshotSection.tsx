@@ -269,7 +269,7 @@ const MarketingScreenshotSection: React.FC = () => {
 
   useEffect(() => {
     // @ts-expect-error – untyped global
-    if (typeof window !== 'undefined' && window.__engiRevealScreenshotsFired) {
+    if (typeof window !== 'undefined' && window.__bitcodeRevealScreenshotsFired) {
       setCanAnimate(true);
     }
   }, []);
@@ -285,7 +285,7 @@ const MarketingScreenshotSection: React.FC = () => {
   // section is in view.  Doing so caused a regression where the screenshots
   // animated before the hero finished its CTA sequence.  Instead we rely on:
   //   1) the explicit `revealScreenshots` event, or
-  //   2) the `__engiRevealScreenshotsFired` flag when that event happened
+  //   2) the `__bitcodeRevealScreenshotsFired` flag when that event happened
   //      before this component mounted.
   // Removed scroll-based tilt to prevent disappearance glitches
 

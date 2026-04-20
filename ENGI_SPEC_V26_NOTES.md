@@ -440,3 +440,9 @@ Current fourth-gate reminders:
 - retained `/executions` health now explicitly depends on `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` as compatibility API owners rather than invisible glue, and those carriers are part of the promotion boundary
 - canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/credits`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
 - old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion
+
+Current fifth-gate reminders:
+- active front-end runtime globals and animation identifiers are part of the rename/proof boundary too: `window.__BITCODE_FLAGS`, `window.__bitcodeRevealScreenshotsFired`, and Bitcode-prefixed conversation animation names are active-source proof carriers rather than cosmetic debt
+- active public-shell outbound references must not rely on unreplaced Engi-era social handles; where no confirmed Bitcode social replacement exists, live product surfaces should prefer stable Bitcode-owned destinations like the canonical repository or protocol spec
+- active orbital styling identifiers that still carry Engi-era naming, even when buried in CSS selectors, count as unclosed fifth-gate residue and must be retired under proof like any other active code carrier
+- shared runtime and conversational primitives are part of the same closure boundary: active conversation-agent identity strings, repo-root helpers, LLM mock flags, and search-reservation globals must read as Bitcode because they are inherited infrastructure now driving the production application rather than isolated package internals
