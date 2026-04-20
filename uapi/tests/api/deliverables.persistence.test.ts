@@ -78,7 +78,7 @@ jest.mock('@bitcode/pipelines-generics/src/execution/PipelineExecution', () => (
   PipelineExecution: jest.fn().mockImplementation(() => ({})),
 }));
 jest.mock('@bitcode/errors', () => ({
-  EngiError: class EngiError extends Error {},
+  BitcodeError: class BitcodeError extends Error {},
   reportError: jest.fn((error: unknown) =>
     error instanceof Error ? error : new Error(typeof error === 'string' ? error : JSON.stringify(error))
   ),

@@ -9,7 +9,7 @@ import { log } from '@bitcode/logger';
 // Configurable match counts for Exa search results – callers can override via options.
 
 // We support operating without an EXA credential by falling back to a mock client in
-// development. Set ENGI_MOCK_EXA=true (or ENGI_MOCK_EXTERNAL=true) to force the mock.
+// development. Set BITCODE_MOCK_EXA=true (or BITCODE_MOCK_EXTERNAL=true) to force the mock.
 type ExaClientLike = {
   searchAndContents: typeof Exa.prototype.searchAndContents;
   contents: typeof Exa.prototype.contents;
@@ -58,7 +58,7 @@ class MockExaClient implements ExaClientLike {
   }
 }
 
-type MockReason = 'ENGI_MOCK_EXA' | 'ENGI_MOCK_EXTERNAL' | 'MISSING_API_KEY';
+type MockReason = 'BITCODE_MOCK_EXA' | 'BITCODE_MOCK_EXTERNAL' | 'MISSING_API_KEY';
 
 function parseBoolean(value: string | undefined): boolean {
   if (typeof value !== 'string') return false;
@@ -67,12 +67,12 @@ function parseBoolean(value: string | undefined): boolean {
 }
 
 function getMockDecision(apiKey: string | undefined): { shouldMock: true; reason: MockReason } | { shouldMock: false } {
-  if (parseBoolean(process.env.ENGI_MOCK_EXA)) {
-    return { shouldMock: true, reason: 'ENGI_MOCK_EXA' };
+  if (parseBoolean(process.env.BITCODE_MOCK_EXA)) {
+    return { shouldMock: true, reason: 'BITCODE_MOCK_EXA' };
   }
 
-  if (parseBoolean(process.env.ENGI_MOCK_EXTERNAL)) {
-    return { shouldMock: true, reason: 'ENGI_MOCK_EXTERNAL' };
+  if (parseBoolean(process.env.BITCODE_MOCK_EXTERNAL)) {
+    return { shouldMock: true, reason: 'BITCODE_MOCK_EXTERNAL' };
   }
 
   if (!apiKey && process.env.NODE_ENV !== 'production') {
@@ -91,18 +91,18 @@ function createExaClient(): ExaClientLike {
     const reason =
       decision.reason === 'MISSING_API_KEY'
         ? 'missing API key'
-        : `explicit mock flag (${decision.reason === 'ENGI_MOCK_EXA' ? 'ENGI_MOCK_EXA' : 'ENGI_MOCK_EXTERNAL'})`;
+        : `explicit mock flag (${decision.reason === 'BITCODE_MOCK_EXA' ? 'BITCODE_MOCK_EXA' : 'BITCODE_MOCK_EXTERNAL'})`;
 
     log('Using mock Exa client for Bitcode ChatGPT App', 'warn', {
       reason,
-      note: 'Set ENGI_MOCK_EXA=false and provide EXA_API_KEY to hit the real service.'
+      note: 'Set BITCODE_MOCK_EXA=false and provide EXA_API_KEY to hit the real service.'
     });
     return new MockExaClient();
   }
 
   if (!apiKey) {
     throw new Error(
-      'EXA_API_KEY (or EXASEARCH_API_KEY) must be provided. Set ENGI_MOCK_EXA=true to use the mock client in development.'
+      'EXA_API_KEY (or EXASEARCH_API_KEY) must be provided. Set BITCODE_MOCK_EXA=true to use the mock client in development.'
     );
   }
 

@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect } from 'react';
-import { reportError, EngiError } from '@bitcode/errors';
+import { reportError, BitcodeError } from '@bitcode/errors';
 
 export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
     reportError(error);
   }, [error]);
 
-  const e = error instanceof EngiError ? error : undefined;
+  const e = error instanceof BitcodeError ? error : undefined;
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-gray-50 px-4 text-center">

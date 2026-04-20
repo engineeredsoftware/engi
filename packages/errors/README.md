@@ -9,7 +9,7 @@ Standardized error abstraction layer providing consistent error semantics, autom
 ## Core Functionality
 
 ### Error Normalization
-- **EngiError Class**: Structured error representation with machine-readable codes
+- **BitcodeError Class**: Structured error representation with machine-readable codes
 - **Error Unwrapping**: Consistent conversion of unknown errors to standardized format
 - **Status Code Mapping**: HTTP status code assignment with semantic accuracy
 - **User Message Isolation**: Separation of technical and user-facing error content
@@ -29,9 +29,9 @@ Standardized error abstraction layer providing consistent error semantics, autom
 
 ### Core Error Class
 ```typescript
-import { EngiError } from '@bitcode/errors';
+import { BitcodeError } from '@bitcode/errors';
 
-throw new EngiError('Operation failed', {
+throw new BitcodeError('Operation failed', {
   code: 'OPERATION_FAILED',
   status: 400,
   userMessage: 'Request could not be processed',
@@ -41,13 +41,13 @@ throw new EngiError('Operation failed', {
 
 ### Error Conversion
 ```typescript
-import { asEngiError } from '@bitcode/errors';
+import { asBitcodeError } from '@bitcode/errors';
 
 try {
   await riskyOperation();
 } catch (error) {
-  const normalized = asEngiError(error);
-  // guaranteed EngiError instance
+  const normalized = asBitcodeError(error);
+  // guaranteed BitcodeError instance
 }
 ```
 
@@ -75,7 +75,7 @@ switch (status) {
 
 ### API Error Handling
 ```typescript
-import { EngiError, toHttpResponse } from '@bitcode/errors';
+import { BitcodeError, toHttpResponse } from '@bitcode/errors';
 
 export async function handleRequest(req: Request): Promise<Response> {
   try {
@@ -90,12 +90,12 @@ export async function handleRequest(req: Request): Promise<Response> {
 
 ### Service Layer Errors
 ```typescript
-import { EngiError, reportError } from '@bitcode/errors';
+import { BitcodeError, reportError } from '@bitcode/errors';
 
 class UserService {
   async getUserById(id: string) {
     if (!id) {
-      throw new EngiError('User ID required', {
+      throw new BitcodeError('User ID required', {
         code: 'INVALID_INPUT',
         status: 400,
         userMessage: 'Please provide a valid user ID'
@@ -114,14 +114,14 @@ class UserService {
 
 ### Pipeline Error Boundaries
 ```typescript
-import { asEngiError, reportError } from '@bitcode/errors';
+import { asBitcodeError, reportError } from '@bitcode/errors';
 
 export function withErrorBoundary<T>(operation: () => Promise<T>) {
   return async (): Promise<T> => {
     try {
       return await operation();
     } catch (error) {
-      const normalized = asEngiError(error);
+      const normalized = asBitcodeError(error);
       
       if (normalized.code === 'NETWORK_ERROR') {
         // Retry logic
@@ -137,7 +137,7 @@ export function withErrorBoundary<T>(operation: () => Promise<T>) {
 
 ## Performance Characteristics
 
-- **Error Construction**: <1ms overhead for EngiError instantiation
+- **Error Construction**: <1ms overhead for BitcodeError instantiation
 - **Stack Trace Preservation**: Full call stack maintained with zero performance impact
 - **Memory Usage**: 2KB average per error instance including metadata
 - **Sentry Deduplication**: Prevents duplicate error reports with symbol marking
@@ -173,25 +173,25 @@ const errorStatusMap = {
 ## Type Definitions
 
 ```typescript
-interface EngiErrorOptions {
+interface BitcodeErrorOptions {
   code: string;
   status?: number;
   userMessage?: string;
   meta?: Record<string, unknown>;
 }
 
-class EngiError extends Error {
+class BitcodeError extends Error {
   readonly code: string;
   readonly status?: number;
   readonly userMessage?: string;
   readonly meta?: Record<string, unknown>;
   
-  constructor(message: string, opts: EngiErrorOptions);
+  constructor(message: string, opts: BitcodeErrorOptions);
   toJSON(): object;
 }
 
-function asEngiError(err: unknown): EngiError;
-function reportError(err: unknown): EngiError;
+function asBitcodeError(err: unknown): BitcodeError;
+function reportError(err: unknown): BitcodeError;
 function invariant(condition: unknown, message?: string): asserts condition;
 function unreachable(value: never): never;
 function toHttpResponse(err: unknown): { status: number; body: any };

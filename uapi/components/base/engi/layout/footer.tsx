@@ -23,7 +23,7 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/engi/layout/bitcode
 const APPLICATION_URL = '/application';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
-const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/ENGI_SPEC.txt';
+const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/bitcode/blob/main/ENGI_SPEC.txt';
 
 const footerNavs = [
   {

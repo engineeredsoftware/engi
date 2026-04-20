@@ -8,7 +8,7 @@
 
 import { captureException } from '@bitcode/sentry';
 
-export interface EngiErrorOptions {
+export interface BitcodeErrorOptions {
   /**
    * Stable machine-readable code (e.g. "NOT_FOUND") used to power feature
    * flags, retries, etc.  Always UPPER_SNAKE_CASE.
@@ -25,16 +25,16 @@ export interface EngiErrorOptions {
   meta?: Record<string, unknown>;
 }
 
-export class EngiError extends Error {
+export class BitcodeError extends Error {
   public readonly code: string;
   public readonly status?: number;
   public readonly userMessage?: string;
   public readonly meta?: Record<string, unknown>;
 
-  constructor(message: string, opts: EngiErrorOptions) {
+  constructor(message: string, opts: BitcodeErrorOptions) {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
-    this.name = 'EngiError';
+    this.name = 'BitcodeError';
     this.code = opts.code;
     this.status = opts.status;
     this.userMessage = opts.userMessage ?? message;
@@ -52,18 +52,18 @@ export class EngiError extends Error {
 }
 
 // ---------------------------------------------------------------------------
-// Helper: unwrap unknown errors into EngiError consistently
+// Helper: unwrap unknown errors into BitcodeError consistently
 // ---------------------------------------------------------------------------
 
-export function asEngiError(err: unknown): EngiError {
-  if (err instanceof EngiError) return err;
+export function asBitcodeError(err: unknown): BitcodeError {
+  if (err instanceof BitcodeError) return err;
 
   const e = err as any;
   const message = (typeof e?.message === 'string' ? e.message : 'Unexpected error') as string;
   const code = (typeof e?.code === 'string' ? e.code : 'UNKNOWN_ERROR') as string;
   const status = typeof e?.status === 'number' ? e.status : undefined;
 
-  return new EngiError(message, {
+  return new BitcodeError(message, {
     code,
     status,
     meta: typeof e === 'object' && e ? { original: e } : undefined,
@@ -71,13 +71,13 @@ export function asEngiError(err: unknown): EngiError {
 }
 
 /**
- * Capture an error with Sentry, returning the normalized EngiError so callers
+ * Capture an error with Sentry, returning the normalized BitcodeError so callers
  * can propagate further.
  */
-export function reportError(err: unknown): EngiError {
-  const normalized = asEngiError(err);
+export function reportError(err: unknown): BitcodeError {
+  const normalized = asBitcodeError(err);
   // To avoid double-reporting, attach a symbol marker after first capture.
-  const FLAG = Symbol.for('__engi_reported__');
+  const FLAG = Symbol.for('__bitcode_reported__');
   if (!(normalized as any)[FLAG]) {
     (normalized as any)[FLAG] = true;
     captureException(normalized, { extra: normalized.meta });
@@ -91,12 +91,12 @@ export function reportError(err: unknown): EngiError {
 
 export function invariant(condition: unknown, message = 'Invariant violated'): asserts condition {
   if (!condition) {
-    throw new EngiError(message, { code: 'INVARIANT_VIOLATION', status: 500 });
+    throw new BitcodeError(message, { code: 'INVARIANT_VIOLATION', status: 500 });
   }
 }
 
 export function unreachable(value: never): never {
-  throw new EngiError(`Unreachable reached with value: ${value as any}`, {
+  throw new BitcodeError(`Unreachable reached with value: ${value as any}`, {
     code: 'UNREACHABLE',
     status: 500,
     meta: { value },
@@ -108,7 +108,7 @@ export function unreachable(value: never): never {
 // ---------------------------------------------------------------------------
 
 export function toHttpResponse(err: unknown): { status: number; body: any } {
-  const e = asEngiError(err);
+  const e = asBitcodeError(err);
   return {
     status: e.status ?? 500,
     body: {
@@ -119,8 +119,8 @@ export function toHttpResponse(err: unknown): { status: number; body: any } {
 }
 
 export default {
-  EngiError,
-  asEngiError,
+  BitcodeError,
+  asBitcodeError,
   reportError,
   invariant,
   unreachable,

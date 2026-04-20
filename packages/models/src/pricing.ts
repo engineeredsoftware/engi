@@ -147,5 +147,5 @@ export function getUsdPricingForApiModel(apiModel: string): { input: number; out
 }
 
 // Defaults for app usage (override via env in apps as needed)
-export const DEFAULT_PROVIDER: ProviderId = (process.env.ENGI_LLM_PROVIDER as ProviderId) || 'google';
-export const DEFAULT_MODEL_API: string = process.env.ENGI_LLM_MODEL || 'gemini-2.5-flash';
+export const DEFAULT_PROVIDER: ProviderId = (process.env.BITCODE_LLM_PROVIDER as ProviderId) || 'google';
+export const DEFAULT_MODEL_API: string = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';

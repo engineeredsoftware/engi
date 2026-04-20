@@ -1,8 +1,8 @@
 {
   "reportId": "v26-canonical-input-report",
   "version": "V26",
-  "proofSourceCommit": "c79ab08e770612ed1fd1cf202bd7d41f47180856",
-  "generatedAt": "2026-04-20T08:04:23-03:00",
+  "proofSourceCommit": "fffaa51840b6e0f9ef972086f249712023369e5b",
+  "generatedAt": "2026-04-20T08:08:05-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "checkedTargetVersion": "V26",

@@ -21,7 +21,7 @@ import { deliverablePipeline } from '@bitcode/pipeline-deliverable';
 // import multiDeliverablesPipeline from '@bitcode/pipelines/multi';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/google-analytics';
-import { EngiError, reportError } from '@bitcode/errors';
+import { BitcodeError, reportError } from '@bitcode/errors';
 import { sendEmail } from '@bitcode/email';
 import { createPipelineCompletionMessage, findOrCreateConversationForPipeline } from '../conversations';
 import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
@@ -41,7 +41,7 @@ function getAdminSupabase() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    throw new EngiError('Supabase admin env missing', {
+    throw new BitcodeError('Supabase admin env missing', {
       code: 'SUPABASE_ENV_MISSING',
       status: 500,
       userMessage: 'Server configuration incomplete',
@@ -162,7 +162,7 @@ async function aggregateLLMMetrics(runId: string): Promise<{
  */
 export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
   const requestId = crypto.randomUUID();
-  try { if (process.env.ENGI_LOG_TO_FILE === '1') reinitLoggerFile(requestId, { prefix: 'deliverables-get' }); } catch {}
+  try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(requestId, { prefix: 'deliverables-get' }); } catch {}
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action');
   const owner = searchParams.get('owner');
@@ -463,7 +463,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
   const correlationId = crypto.randomUUID();
   const startTime = Date.now();
   // Initialize request-scoped log file
-  try { if (process.env.ENGI_LOG_TO_FILE === '1') reinitLoggerFile(correlationId, { prefix: 'deliverables-request' }); } catch {}
+  try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(correlationId, { prefix: 'deliverables-request' }); } catch {}
   
   log('[deliverables] POST request received', 'info', {
     correlationId,
@@ -589,7 +589,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
     const computeFlagEnabled =
       process.env.NEXT_PUBLIC_ENABLE_COMPUTE_TOGGLE === 'true' ||
-      process.env.ENGI_ENABLE_COMPUTE_TOGGLE === 'true';
+      process.env.BITCODE_ENABLE_COMPUTE_TOGGLE === 'true';
     const computeEnabled = computeFlagEnabled ? !!computeEnabledRequested : false;
     // Validate inputs
     log('[deliverables] Validating inputs', 'debug', {
@@ -606,7 +606,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     
     if (!definition_of_done?.trim()) {
       log('[deliverables] Validation failed: missing definition of done', 'warn', { correlationId });
-      throw new EngiError('Definition of done is required', {
+      throw new BitcodeError('Definition of done is required', {
         code: 'MISSING_DEFINITION_OF_DONE',
         status: 400,
         userMessage: 'Please provide a definition of done'
@@ -615,7 +615,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
     if (!repoOwner?.trim() || !repoName?.trim()) {
       log('[deliverables] Validation failed: missing repo info', 'warn', { correlationId });
-      throw new EngiError('Repository owner and name are required', {
+      throw new BitcodeError('Repository owner and name are required', {
         code: 'MISSING_REPO_INFO',
         status: 400,
         userMessage: 'Please select a repository'
@@ -671,7 +671,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
 
     const runId = execRow.id;
     // Switch log file to run-scoped file for pipeline execution
-    try { if (process.env.ENGI_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'deliverables-run' }); } catch {}
+    try { if (process.env.BITCODE_LOG_TO_FILE === '1') reinitLoggerFile(runId, { prefix: 'deliverables-run' }); } catch {}
 
     // Send telemetry
     log('[deliverables] Sending creation telemetry', 'debug', { correlationId, runId });
@@ -688,7 +688,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
     });
 
     // Notifications and emails are gated for GA-1; skip unless explicitly enabled
-    if (process.env.ENGI_ENABLE_NOTIFICATIONS === 'true') {
+    if (process.env.BITCODE_ENABLE_NOTIFICATIONS === 'true') {
       await orm.notifications.create({
         user_id: user.id,
         type: 'pipeline_execution_started',
@@ -820,8 +820,8 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
           const hasDefault = (execution as any).llms?.ensureDefaultConfigured?.({ throw: false });
           if (!hasDefault) {
             const reg = factoryLLMRegistryWithProviders();
-            const provider = (process.env.ENGI_LLM_PROVIDER || 'google').toLowerCase();
-            const model = process.env.ENGI_LLM_MODEL || 'gemini-2.5-flash';
+            const provider = (process.env.BITCODE_LLM_PROVIDER || 'google').toLowerCase();
+            const model = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';
             if (typeof (reg as any).setDefaultProvider === 'function') {
               (reg as any).setDefaultProvider(provider);
             }
@@ -1166,7 +1166,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
         } as any);
 
         // Completion notifications/emails gated by flag
-        if (process.env.ENGI_ENABLE_NOTIFICATIONS === 'true') {
+        if (process.env.BITCODE_ENABLE_NOTIFICATIONS === 'true') {
           await orm.notifications.create({
             user_id: user.id,
             type: 'pipeline_execution_completed',
@@ -1333,7 +1333,7 @@ export const DELETE = traceRoute('/deliverables', async (request: NextRequest) =
     } catch {}
     
     // Cancellation notifications gated by flag
-    if (process.env.ENGI_ENABLE_NOTIFICATIONS === 'true') {
+    if (process.env.BITCODE_ENABLE_NOTIFICATIONS === 'true') {
       await orm.notifications.create({
         user_id: user.id,
         type: 'pipeline_execution_cancelled',
