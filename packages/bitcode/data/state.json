@@ -130,7 +130,7 @@
   "assets": [
     {
       "assetId": "asset_enterprise-auth-migration-rollback-playbook_10f7ba132a",
-      "depositedAt": "2026-04-19T23:58:09.967Z",
+      "depositedAt": "2026-04-20T14:53:19.122Z",
       "title": "Enterprise auth migration rollback playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -1340,10 +1340,10 @@
           "attestationId": "att_d04c7180c9f1",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:6f6d87d17fd94203280ef80f660128e86cbb8e08d2f9ee071d1a04cf5432b357",
+          "payloadHash": "sha256:5b82bf78d6ae9327be49049ea654335771109fc6c1021ae7ea4cbd2118483c1b",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:06863cb09d6f912aef749b165c454117df56946bf2d736cdd0d42048bee1ff62"
+          "attestationHash": "sha256:7e7c1d8a7b487882fae164d1ba9672a4294f6a9ae0499b80ae43e946fec99eb4"
         }
       ],
       "uploadSurface": {
@@ -1647,11 +1647,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:6f6d87d17fd94203280ef80f660128e86cbb8e08d2f9ee071d1a04cf5432b357",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:5b82bf78d6ae9327be49049ea654335771109fc6c1021ae7ea4cbd2118483c1b",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:06863cb09d6f912aef749b165c454117df56946bf2d736cdd0d42048bee1ff62",
+        "attestationHash": "sha256:7e7c1d8a7b487882fae164d1ba9672a4294f6a9ae0499b80ae43e946fec99eb4",
         "signedAddressingRoot": "sha256:5a4078204e660ab3db7d5271b38c5d4203b1f5997e5906b5b2f7828c89ad5d4d",
         "signedSelectionRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
@@ -1754,7 +1754,7 @@
         "selectedInventoryRoot": "sha256:35b6232ef7907b181539bd5b7a0384d371b46953c30575a5b1e0d0faff1d3309",
         "addressingRoot": "sha256:5a4078204e660ab3db7d5271b38c5d4203b1f5997e5906b5b2f7828c89ad5d4d",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:6f6d87d17fd94203280ef80f660128e86cbb8e08d2f9ee071d1a04cf5432b357",
+        "signedPayloadHash": "sha256:5b82bf78d6ae9327be49049ea654335771109fc6c1021ae7ea4cbd2118483c1b",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -2720,7 +2720,7 @@
     },
     {
       "assetId": "asset_proof-carrying-session-validator-patch-kit_535567adae",
-      "depositedAt": "2026-04-19T23:58:09.968Z",
+      "depositedAt": "2026-04-20T14:53:19.124Z",
       "title": "Proof-carrying session validator patch kit",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -3930,10 +3930,10 @@
           "attestationId": "att_f67036cd8087",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:9103a9bde8c20a943170a83fa443689609bf42e7e0957e9580d55e5d1e3164e2",
+          "payloadHash": "sha256:403649b8586ebf95a03a510e6bf81b5060a71b2a9ee497ae461cc096fe5b87ca",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:ebc3b0b6e74e15d8bf66fdfcbd1ed501d5046d63ef3904a2d273ba9b900d6a18"
+          "attestationHash": "sha256:0100e1b78283f100572b7f5ae05aa64174de643d744bcee48f7d74a8e4d5c977"
         }
       ],
       "uploadSurface": {
@@ -4184,11 +4184,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:9103a9bde8c20a943170a83fa443689609bf42e7e0957e9580d55e5d1e3164e2",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:403649b8586ebf95a03a510e6bf81b5060a71b2a9ee497ae461cc096fe5b87ca",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:ebc3b0b6e74e15d8bf66fdfcbd1ed501d5046d63ef3904a2d273ba9b900d6a18",
+        "attestationHash": "sha256:0100e1b78283f100572b7f5ae05aa64174de643d744bcee48f7d74a8e4d5c977",
         "signedAddressingRoot": "sha256:7a6da016fc6f8d40e9ec3af2eeb20d1bf66cf9a81845f422a7537410cb9c7e07",
         "signedSelectionRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
@@ -4290,7 +4290,7 @@
         "selectedInventoryRoot": "sha256:79e702c7acb8b31f03df0c94e0078cb1b846f52c6a8b017a7d6f86c157872a75",
         "addressingRoot": "sha256:7a6da016fc6f8d40e9ec3af2eeb20d1bf66cf9a81845f422a7537410cb9c7e07",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:9103a9bde8c20a943170a83fa443689609bf42e7e0957e9580d55e5d1e3164e2",
+        "signedPayloadHash": "sha256:403649b8586ebf95a03a510e6bf81b5060a71b2a9ee497ae461cc096fe5b87ca",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -5252,7 +5252,7 @@
     },
     {
       "assetId": "asset_formal-replay-window-validator-proof-bundle_ebe682fd49",
-      "depositedAt": "2026-04-19T23:58:09.969Z",
+      "depositedAt": "2026-04-20T14:53:19.125Z",
       "title": "Formal replay-window validator proof bundle",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -6134,10 +6134,10 @@
           "attestationId": "att_a0217d15c8d5",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:a77a3cbd5da8c807f3f6d4cd8e72e95457cb188f802947822ef1673e48505546",
+          "payloadHash": "sha256:3ae18331904012a085d4de2516eb4611e124ad090f56f4f3368dd470805ea860",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:1a0e94488ad35ebe68a30a70fe6faadc28cb44b67fd608a349747c1bdcd10449"
+          "attestationHash": "sha256:e9a54dba42ee4e621f2d37aaa0a4af9f62a0eac12bf885daf5114e4e620f5126"
         }
       ],
       "uploadSurface": {
@@ -6442,11 +6442,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:a77a3cbd5da8c807f3f6d4cd8e72e95457cb188f802947822ef1673e48505546",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:3ae18331904012a085d4de2516eb4611e124ad090f56f4f3368dd470805ea860",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:1a0e94488ad35ebe68a30a70fe6faadc28cb44b67fd608a349747c1bdcd10449",
+        "attestationHash": "sha256:e9a54dba42ee4e621f2d37aaa0a4af9f62a0eac12bf885daf5114e4e620f5126",
         "signedAddressingRoot": "sha256:075180114a4a435aafe0e1d44fdf712784fac165beaa5123bad422e555b0f549",
         "signedSelectionRoot": "sha256:aed5d0837b6e8e924624a2bc89ead4820689470a12285ad60d885917133c0947",
         "signedGitHubAppAuthRoot": "sha256:1b44da774fa99765ce0b5fa3f75ee083a4ad47f978043f45cf040a0709087557"
@@ -6549,7 +6549,7 @@
         "selectedInventoryRoot": "sha256:aed5d0837b6e8e924624a2bc89ead4820689470a12285ad60d885917133c0947",
         "addressingRoot": "sha256:075180114a4a435aafe0e1d44fdf712784fac165beaa5123bad422e555b0f549",
         "authPayloadHash": "sha256:1b44da774fa99765ce0b5fa3f75ee083a4ad47f978043f45cf040a0709087557",
-        "signedPayloadHash": "sha256:a77a3cbd5da8c807f3f6d4cd8e72e95457cb188f802947822ef1673e48505546",
+        "signedPayloadHash": "sha256:3ae18331904012a085d4de2516eb4611e124ad090f56f4f3368dd470805ea860",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -7380,7 +7380,7 @@
     },
     {
       "assetId": "asset_token-issuer-incident-escalation-notes_cdd908aa03",
-      "depositedAt": "2026-04-19T23:58:09.970Z",
+      "depositedAt": "2026-04-20T14:53:19.125Z",
       "title": "Token issuer incident escalation notes",
       "artifactKind": "incident-note",
       "artifactType": "notes/incident-retrospective",
@@ -8169,10 +8169,10 @@
           "attestationId": "att_5104d4753b5f",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:2221e1a714b8ee9fd989b2d6177150256d9e5c83c6c53f7f737917db087c2885",
+          "payloadHash": "sha256:71c7fee81f572ece12c97979c064f178722df82f476bd08f7fa78fdafe88b589",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:598a6c6b0df35bfc21336aade8c1fb285c238a5627a9cb3baeb78e183a074117"
+          "attestationHash": "sha256:29a324dd3235898ba1164e02cdfd182ac1eb015451a109c54babad24317522bc"
         }
       ],
       "uploadSurface": {
@@ -8366,11 +8366,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:2221e1a714b8ee9fd989b2d6177150256d9e5c83c6c53f7f737917db087c2885",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:71c7fee81f572ece12c97979c064f178722df82f476bd08f7fa78fdafe88b589",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:598a6c6b0df35bfc21336aade8c1fb285c238a5627a9cb3baeb78e183a074117",
+        "attestationHash": "sha256:29a324dd3235898ba1164e02cdfd182ac1eb015451a109c54babad24317522bc",
         "signedAddressingRoot": "sha256:ac818a9a21000c7052579acc66abf79932fa1bf33cd02d0e9640e82c8d42cb09",
         "signedSelectionRoot": "sha256:77002e20c41504985b51d4ba3578180383c51a55a3c796f9f078b120d302ad02",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
@@ -8471,7 +8471,7 @@
         "selectedInventoryRoot": "sha256:77002e20c41504985b51d4ba3578180383c51a55a3c796f9f078b120d302ad02",
         "addressingRoot": "sha256:ac818a9a21000c7052579acc66abf79932fa1bf33cd02d0e9640e82c8d42cb09",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:2221e1a714b8ee9fd989b2d6177150256d9e5c83c6c53f7f737917db087c2885",
+        "signedPayloadHash": "sha256:71c7fee81f572ece12c97979c064f178722df82f476bd08f7fa78fdafe88b589",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -9217,7 +9217,7 @@
     },
     {
       "assetId": "asset_policy-precedence-incident-governor-fixpack_24fd6bb39b",
-      "depositedAt": "2026-04-19T23:58:09.971Z",
+      "depositedAt": "2026-04-20T14:53:19.127Z",
       "title": "Policy precedence incident governor fixpack",
       "artifactKind": "config",
       "artifactType": "config/policy-change",
@@ -10069,10 +10069,10 @@
           "attestationId": "att_ba226361efc1",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:aaabadd3b60479ab24ed465dde341a0a413d0dd289840405f1524231217e98b4",
+          "payloadHash": "sha256:389eb384723cd6787f81abba7ebf85cafec63fadd2aab77d67e80a5a8e0e0029",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:6a0a976d199b35dcc78b7af16baa760e3185bbd37bc5033d345a79e246aaf0cf"
+          "attestationHash": "sha256:b0a6f7c8e58b29deb95d3abf58e40d10fa346250fc6ef6e8d2dd59d186bdd7e6"
         }
       ],
       "uploadSurface": {
@@ -10376,11 +10376,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:aaabadd3b60479ab24ed465dde341a0a413d0dd289840405f1524231217e98b4",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:389eb384723cd6787f81abba7ebf85cafec63fadd2aab77d67e80a5a8e0e0029",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:6a0a976d199b35dcc78b7af16baa760e3185bbd37bc5033d345a79e246aaf0cf",
+        "attestationHash": "sha256:b0a6f7c8e58b29deb95d3abf58e40d10fa346250fc6ef6e8d2dd59d186bdd7e6",
         "signedAddressingRoot": "sha256:ad4256cd79bcf38d05aabaa7eb1497a43ab3d2271d540fc7b3a5682be2181993",
         "signedSelectionRoot": "sha256:5d91df46c4b5d184052ac6ccc48e40229aa5256966f05131e85a16c01fc624c0",
         "signedGitHubAppAuthRoot": "sha256:e5cb2166421886f81362465f9627b1c921be375d5f2c1370c3b5c7f8639527da"
@@ -10483,7 +10483,7 @@
         "selectedInventoryRoot": "sha256:5d91df46c4b5d184052ac6ccc48e40229aa5256966f05131e85a16c01fc624c0",
         "addressingRoot": "sha256:ad4256cd79bcf38d05aabaa7eb1497a43ab3d2271d540fc7b3a5682be2181993",
         "authPayloadHash": "sha256:e5cb2166421886f81362465f9627b1c921be375d5f2c1370c3b5c7f8639527da",
-        "signedPayloadHash": "sha256:aaabadd3b60479ab24ed465dde341a0a413d0dd289840405f1524231217e98b4",
+        "signedPayloadHash": "sha256:389eb384723cd6787f81abba7ebf85cafec63fadd2aab77d67e80a5a8e0e0029",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -11291,7 +11291,7 @@
     },
     {
       "assetId": "asset_unsafe-patch-review-containment-checklist_d755cefe57",
-      "depositedAt": "2026-04-19T23:58:09.972Z",
+      "depositedAt": "2026-04-20T14:53:19.127Z",
       "title": "Unsafe patch review containment checklist",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -12176,10 +12176,10 @@
           "attestationId": "att_0e01c3f91027",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:eb9177988970a5e1869390a420096d40dd928287179b94a26495c9abe67e5572",
+          "payloadHash": "sha256:5d2165c82306c334c5f89c0341c3cb3f048a98957c2df0ad1fc493ef349d7fd3",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:bcd0a6494b3649e1a4ffe5778e213fa1e0fa55f28bd7adce503cc113d3ed8e81"
+          "attestationHash": "sha256:1d04c088182c94c9e1ef746b4326ce8f601623f903c16fad9109c6db581d77ac"
         }
       ],
       "uploadSurface": {
@@ -12484,11 +12484,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:eb9177988970a5e1869390a420096d40dd928287179b94a26495c9abe67e5572",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:5d2165c82306c334c5f89c0341c3cb3f048a98957c2df0ad1fc493ef349d7fd3",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:bcd0a6494b3649e1a4ffe5778e213fa1e0fa55f28bd7adce503cc113d3ed8e81",
+        "attestationHash": "sha256:1d04c088182c94c9e1ef746b4326ce8f601623f903c16fad9109c6db581d77ac",
         "signedAddressingRoot": "sha256:617dd6ec61b4ef03a63f39d4e48907c5e0b327c21ab0bd8f95322637b44241b0",
         "signedSelectionRoot": "sha256:9c594c71005d8f7c22faa537a81cdbbea140e0d3b017d747eae349708ff863af",
         "signedGitHubAppAuthRoot": "sha256:7525f31a1325572660720dab1107964d945cf343f6b154cdacb1cd6121e68a43"
@@ -12591,7 +12591,7 @@
         "selectedInventoryRoot": "sha256:9c594c71005d8f7c22faa537a81cdbbea140e0d3b017d747eae349708ff863af",
         "addressingRoot": "sha256:617dd6ec61b4ef03a63f39d4e48907c5e0b327c21ab0bd8f95322637b44241b0",
         "authPayloadHash": "sha256:7525f31a1325572660720dab1107964d945cf343f6b154cdacb1cd6121e68a43",
-        "signedPayloadHash": "sha256:eb9177988970a5e1869390a420096d40dd928287179b94a26495c9abe67e5572",
+        "signedPayloadHash": "sha256:5d2165c82306c334c5f89c0341c3cb3f048a98957c2df0ad1fc493ef349d7fd3",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -13413,7 +13413,7 @@
     },
     {
       "assetId": "asset_deployment-drift-rollback-release-playbook_06609384ae",
-      "depositedAt": "2026-04-19T23:58:09.972Z",
+      "depositedAt": "2026-04-20T14:53:19.128Z",
       "title": "Deployment drift rollback release playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -14286,10 +14286,10 @@
           "attestationId": "att_664f3974778a",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:4902384755854e30834c06730465be37330afeaab8f5fceb8b7b0b4f217337ac",
+          "payloadHash": "sha256:f0069e34acd7e127f14f3e5c37564b5737e5e18a09fdeac81402f012555e1344",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:5b5e34d5c234f520eee409034826679bd7c6120920528a67aac8632615c84f66"
+          "attestationHash": "sha256:e1e8c19e1412398e188080799c06611c63a13bf7418f1b715fb056a3eb4e59af"
         }
       ],
       "uploadSurface": {
@@ -14594,11 +14594,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:4902384755854e30834c06730465be37330afeaab8f5fceb8b7b0b4f217337ac",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:f0069e34acd7e127f14f3e5c37564b5737e5e18a09fdeac81402f012555e1344",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:5b5e34d5c234f520eee409034826679bd7c6120920528a67aac8632615c84f66",
+        "attestationHash": "sha256:e1e8c19e1412398e188080799c06611c63a13bf7418f1b715fb056a3eb4e59af",
         "signedAddressingRoot": "sha256:7f07cf77de6a6f6bdb556de8393cb5b31ec419062551272e5bb67343a3f84e5e",
         "signedSelectionRoot": "sha256:93c70de3ff3b390ac85f338532ddbbb4d7b56e2cad000ddc97927b0924113dcf",
         "signedGitHubAppAuthRoot": "sha256:6bb512f06d1a9523d459a17c963dd32ae7765899bb295aaf853166d0f8714487"
@@ -14701,7 +14701,7 @@
         "selectedInventoryRoot": "sha256:93c70de3ff3b390ac85f338532ddbbb4d7b56e2cad000ddc97927b0924113dcf",
         "addressingRoot": "sha256:7f07cf77de6a6f6bdb556de8393cb5b31ec419062551272e5bb67343a3f84e5e",
         "authPayloadHash": "sha256:6bb512f06d1a9523d459a17c963dd32ae7765899bb295aaf853166d0f8714487",
-        "signedPayloadHash": "sha256:4902384755854e30834c06730465be37330afeaab8f5fceb8b7b0b4f217337ac",
+        "signedPayloadHash": "sha256:f0069e34acd7e127f14f3e5c37564b5737e5e18a09fdeac81402f012555e1344",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -15532,7 +15532,7 @@
     },
     {
       "assetId": "asset_projection-safe-bounded-proof-export-notes_a74e682378",
-      "depositedAt": "2026-04-19T23:58:09.973Z",
+      "depositedAt": "2026-04-20T14:53:19.128Z",
       "title": "Projection-safe bounded proof export notes",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -16098,10 +16098,10 @@
           "attestationId": "att_36bafb7eed0e",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:5be203784993173ecb024f70d13c55533d48596c3bfc952de99d14f0639ee6a3",
+          "payloadHash": "sha256:e674561e341e7fc7869103152ae96b55b017edc6c451330fe99226ad37cb81e0",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:be0365af3cc3d3b9abf53f0070501fa589d95964bb5fa9dd7752ed8c55a42f7d"
+          "attestationHash": "sha256:5fa6ed46993aacbc6d923dbff7827b04e6d2a6b2d24d045eec6853c50b2b205d"
         }
       ],
       "uploadSurface": {
@@ -16405,11 +16405,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:5be203784993173ecb024f70d13c55533d48596c3bfc952de99d14f0639ee6a3",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:e674561e341e7fc7869103152ae96b55b017edc6c451330fe99226ad37cb81e0",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:be0365af3cc3d3b9abf53f0070501fa589d95964bb5fa9dd7752ed8c55a42f7d",
+        "attestationHash": "sha256:5fa6ed46993aacbc6d923dbff7827b04e6d2a6b2d24d045eec6853c50b2b205d",
         "signedAddressingRoot": "sha256:82c1631ad9a2ad09bb68cd9fbfc8dc03718195e3caaec4c5f6b65ea157bf4571",
         "signedSelectionRoot": "sha256:1c6bacafa1a8036f6960edf4207024b7816d47bbf7a6090a925ec9070f15c255",
         "signedGitHubAppAuthRoot": "sha256:372c598b7328e87e6fd4876c44e557457c07496f646270269bc0733cccf32a79"
@@ -16512,7 +16512,7 @@
         "selectedInventoryRoot": "sha256:1c6bacafa1a8036f6960edf4207024b7816d47bbf7a6090a925ec9070f15c255",
         "addressingRoot": "sha256:82c1631ad9a2ad09bb68cd9fbfc8dc03718195e3caaec4c5f6b65ea157bf4571",
         "authPayloadHash": "sha256:372c598b7328e87e6fd4876c44e557457c07496f646270269bc0733cccf32a79",
-        "signedPayloadHash": "sha256:5be203784993173ecb024f70d13c55533d48596c3bfc952de99d14f0639ee6a3",
+        "signedPayloadHash": "sha256:e674561e341e7fc7869103152ae96b55b017edc6c451330fe99226ad37cb81e0",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -17203,7 +17203,7 @@
     },
     {
       "assetId": "asset_session-validator-compatibility-witness-dossier_ced0ee25a5",
-      "depositedAt": "2026-04-19T23:58:09.974Z",
+      "depositedAt": "2026-04-20T14:53:19.129Z",
       "title": "Session validator compatibility witness dossier",
       "artifactKind": "proof",
       "artifactType": "proof/verification-log",
@@ -18181,10 +18181,10 @@
           "attestationId": "att_c6f428d281c5",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:e0f15a978790367452f4f3d8585ac125369504c1e087fe144a34ff087e2b0736",
+          "payloadHash": "sha256:9f23420bf5ffa442a269896fa32a8cbd37957acc14f98e045acc2d2f299985b5",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:04ad8cef45a3d2c55e2de8d476b5f1c370e7ea196cf3cb33f98a3675aafef502"
+          "attestationHash": "sha256:e90e67555ba6a00fc20049858fea5087569fc028c92225580d079648160349a4"
         }
       ],
       "uploadSurface": {
@@ -18490,11 +18490,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:e0f15a978790367452f4f3d8585ac125369504c1e087fe144a34ff087e2b0736",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:9f23420bf5ffa442a269896fa32a8cbd37957acc14f98e045acc2d2f299985b5",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:04ad8cef45a3d2c55e2de8d476b5f1c370e7ea196cf3cb33f98a3675aafef502",
+        "attestationHash": "sha256:e90e67555ba6a00fc20049858fea5087569fc028c92225580d079648160349a4",
         "signedAddressingRoot": "sha256:b17fa3efe7f2d6a342a636c42e37cb5a0cab39bf2844ed80d396be7686de1ca3",
         "signedSelectionRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
@@ -18597,7 +18597,7 @@
         "selectedInventoryRoot": "sha256:646970a857a550215f97dfac99d5577ae9fd37e19ee53beb5d5003a0731f0525",
         "addressingRoot": "sha256:b17fa3efe7f2d6a342a636c42e37cb5a0cab39bf2844ed80d396be7686de1ca3",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:e0f15a978790367452f4f3d8585ac125369504c1e087fe144a34ff087e2b0736",
+        "signedPayloadHash": "sha256:9f23420bf5ffa442a269896fa32a8cbd37957acc14f98e045acc2d2f299985b5",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -19497,7 +19497,7 @@
     },
     {
       "assetId": "asset_auth-audit-receipt-reconciliation-patchset_7a12545802",
-      "depositedAt": "2026-04-19T23:58:09.975Z",
+      "depositedAt": "2026-04-20T14:53:19.130Z",
       "title": "Auth audit receipt reconciliation patchset",
       "artifactKind": "patch",
       "artifactType": "code/patch",
@@ -20370,10 +20370,10 @@
           "attestationId": "att_755faa405f35",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:7cedfc3d55b173a3ae15358a5363d4982532c7dbcaa0c606ac3c04c38050b26d",
+          "payloadHash": "sha256:30b86010a4f23328feac78effd94433e7adcfbf4894a989feef2ac864d153633",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:28d2c1d0b17593f021f82575b4941cf027ec4ede25f0cacb5252eaa843d509f7"
+          "attestationHash": "sha256:89d05ddbf19b132595a31fbd1acd5551a5ac318d5d6ac895490c2ff7beee66fa"
         }
       ],
       "uploadSurface": {
@@ -20677,11 +20677,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:7cedfc3d55b173a3ae15358a5363d4982532c7dbcaa0c606ac3c04c38050b26d",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:30b86010a4f23328feac78effd94433e7adcfbf4894a989feef2ac864d153633",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:28d2c1d0b17593f021f82575b4941cf027ec4ede25f0cacb5252eaa843d509f7",
+        "attestationHash": "sha256:89d05ddbf19b132595a31fbd1acd5551a5ac318d5d6ac895490c2ff7beee66fa",
         "signedAddressingRoot": "sha256:8e3de3b601a0c405f5edab56f372fafb2f06d3eb24e535b126bab37448a43804",
         "signedSelectionRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
         "signedGitHubAppAuthRoot": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f"
@@ -20784,7 +20784,7 @@
         "selectedInventoryRoot": "sha256:82175dbd6a7b19b3fd4652c0ee27f45fe23fb2a4503edb8b8e74807e57c8f0a1",
         "addressingRoot": "sha256:8e3de3b601a0c405f5edab56f372fafb2f06d3eb24e535b126bab37448a43804",
         "authPayloadHash": "sha256:59da50024a6fb478175df66e2a39b359e79041aaa95b15c9ff2e48029b288e1f",
-        "signedPayloadHash": "sha256:7cedfc3d55b173a3ae15358a5363d4982532c7dbcaa0c606ac3c04c38050b26d",
+        "signedPayloadHash": "sha256:30b86010a4f23328feac78effd94433e7adcfbf4894a989feef2ac864d153633",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -21605,7 +21605,7 @@
     },
     {
       "assetId": "asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7",
-      "depositedAt": "2026-04-19T23:58:09.975Z",
+      "depositedAt": "2026-04-20T14:53:19.131Z",
       "title": "Polyglot gateway rollback coordination playbook",
       "artifactKind": "runbook",
       "artifactType": "runbook/operator-playbook",
@@ -22610,10 +22610,10 @@
           "attestationId": "att_a63b441090f5",
           "signerAddress": "did:key:frontier-ci-signer",
           "signatureChecksPass": true,
-          "payloadHash": "sha256:b60dcf127828b6fed83b7224c22c204c1ec676feac4cd5ef4df4cb74657f7087",
+          "payloadHash": "sha256:e97f2d9fb7e5ecde0d6f8e33e5782f2cbb6a59549e11b9077c323b86904a670e",
           "signedPayloadHashMatchesContentRoot": true,
           "cosignSatisfied": true,
-          "attestationHash": "sha256:c97501584c14becf63c4941cb15ce662dfc8caf49971eecdef6b239e7c09e322"
+          "attestationHash": "sha256:7cbb459410eff8ce67500b6b0955f0b1f8b8307d5ba0dc84cb9b1b3f9943b9c9"
         }
       ],
       "uploadSurface": {
@@ -22975,11 +22975,11 @@
         "signerClass": "issuer-principal",
         "signingAlgorithm": "ed25519",
         "keySource": "kms://bitcode/github-app",
-        "statementKind": "engi-asset-intake-attestation.v11",
-        "payloadHash": "sha256:b60dcf127828b6fed83b7224c22c204c1ec676feac4cd5ef4df4cb74657f7087",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:e97f2d9fb7e5ecde0d6f8e33e5782f2cbb6a59549e11b9077c323b86904a670e",
         "signatureChecksPass": true,
         "signedPayloadHashMatchesContentRoot": true,
-        "attestationHash": "sha256:c97501584c14becf63c4941cb15ce662dfc8caf49971eecdef6b239e7c09e322",
+        "attestationHash": "sha256:7cbb459410eff8ce67500b6b0955f0b1f8b8307d5ba0dc84cb9b1b3f9943b9c9",
         "signedAddressingRoot": "sha256:615f0fddb11ad12390a6381782a6bab3daab2c784c58144482b41f13b55876f8",
         "signedSelectionRoot": "sha256:cb7a89feb9050cd8d24b6bdc99d2b454da9ae78d53d9f3c3dd70e30a69e23bbd",
         "signedGitHubAppAuthRoot": "sha256:ba1bcc0c79960e88fee2ac963fa94481c171fd2f1de89a160bd28d82ab2d421e"
@@ -23083,7 +23083,7 @@
         "selectedInventoryRoot": "sha256:cb7a89feb9050cd8d24b6bdc99d2b454da9ae78d53d9f3c3dd70e30a69e23bbd",
         "addressingRoot": "sha256:615f0fddb11ad12390a6381782a6bab3daab2c784c58144482b41f13b55876f8",
         "authPayloadHash": "sha256:ba1bcc0c79960e88fee2ac963fa94481c171fd2f1de89a160bd28d82ab2d421e",
-        "signedPayloadHash": "sha256:b60dcf127828b6fed83b7224c22c204c1ec676feac4cd5ef4df4cb74657f7087",
+        "signedPayloadHash": "sha256:e97f2d9fb7e5ecde0d6f8e33e5782f2cbb6a59549e11b9077c323b86904a670e",
         "localBoundary": "Local modeled signer binding only.",
         "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
         "profileABoundary": "Local modeled signer binding only.",
@@ -28366,7 +28366,7 @@
   ],
   "policyState": {
     "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",
-    "releaseId": "policy-release-engi-v11-demo-2026-04-03",
+    "releaseId": "policy-release-bitcode-v11-demo-2026-04-03",
     "retentionPolicies": {
       "retention/private-remediation-30d": {
         "retentionPolicyId": "retention/private-remediation-30d",
@@ -28471,7 +28471,7 @@
           ]
         }
       },
-      "engi-system-principal": {
+      "bitcode-system-principal": {
         "read:private-branch": {
           "allow": true,
           "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",

@@ -169,8 +169,8 @@ const simulatePatternRecognition = async (
 };
 
 // Local storage keys for pattern learning
-const PATTERN_HISTORY_KEY = 'engi_pattern_history';
-const PATTERN_INSIGHTS_KEY = 'engi_pattern_insights';
+const PATTERN_HISTORY_KEY = 'bitcode_pattern_history';
+const PATTERN_INSIGHTS_KEY = 'bitcode_pattern_insights';
 
 export const usePatternRecognition = (
   dodText: string,

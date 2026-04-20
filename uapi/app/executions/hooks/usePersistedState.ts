@@ -4,7 +4,7 @@
 import { useCallback } from 'react';
 import { createPersistedState } from '@bitcode/browser-storage';
 
-const STORAGE_KEY = 'engi_execution_state_v1';
+const STORAGE_KEY = 'bitcode_execution_state_v1';
 const SAVE_DEBOUNCE_MS = 3000;
 
 export interface PersistedExecutionState {

@@ -780,6 +780,16 @@ Required closure posture:
   `packages/generic-llms/tests/unit/registry.test.ts` and `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate shared-runtime identity closure so inherited conversational agents, repo-root helpers, LLM mock gating, and search reservation globals converge on Bitcode-facing naming and env contracts
+- `packages/{api/src/routes/user.ts,doc-code/jest.config.cjs,doc-code/__mocks__/bitcode-tools-generics.ts,generic-doc-comment-plugins/doc-developing/package.json,supabase/src/{index.js,streams.js}} + uapi/{app/executions/hooks/usePersistedState.ts,hooks/usePatternRecognition.ts,mocking/generators/ComprehensiveMockDataGenerators.ts}`
+  test coverage:
+  `uapi/tests/{apiKeysRoutes,mcpSmoke}.test.ts`, targeted `next lint`, and `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate runtime-contract closure so active API-key prefixes, persisted browser-storage keys, pattern-learning keys, mock API-key fixtures, doc-code harness mocks, and shipped Supabase JS artifacts all converge on Bitcode naming instead of carrying silent Engi residue
+- `packages/bitcode/{src/bitcode-demo.js,src/attestation-model.js,data/state.json,test/core.test.js}`
+  test coverage:
+  `packages/bitcode/test/{core.test.js,v26-active-product-naming.test.js}`
+  proof surface:
+  fifth-gate Bitcode-core identity closure so shipped attestation kinds, policy release ids, system-principal classes, provenance seeds, and retained state-store payloads no longer carry `engi-*` runtime truth inside the promoted Bitcode core
 
 ## Module namespace proof note
 

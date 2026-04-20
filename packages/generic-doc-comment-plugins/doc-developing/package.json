@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/doc-comment-developing",
   "version": "1.0.0",
-  "description": "Development-time doc-comment plugins for Engi",
+  "description": "Development-time doc-comment plugins for Bitcode",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -1010,7 +1010,7 @@ export class ComprehensiveMockDataGenerator {
   // User Data (continued)
   private generateUserData() { return this.generateUserProfile(); }
   private generateUserUsage() { return { runs_this_month: 23, credits_used: 567, api_calls: 1247 }; }
-  private generateUserApiKeys() { return [{ id: 'key_' + this.generateId(), name: 'Production API', key: 'engi_pk_' + this.generateId(), created_at: this.generateTimestamp(-30) }]; }
+  private generateUserApiKeys() { return [{ id: 'key_' + this.generateId(), name: 'Production API', key: 'bitcode_pk_' + this.generateId(), created_at: this.generateTimestamp(-30) }]; }
   private generateUserPreferences() { return { theme: 'dark', notifications: true, auto_save: true }; }
   private generateUserModelPreferences() { return { preferred_model: 'claude-3-sonnet', temperature: 0.7, max_tokens: 2000 }; }
   private generateUserTemplatePreferences() { return { auto_apply: true, show_suggestions: true, categories: ['react', 'api'] }; }

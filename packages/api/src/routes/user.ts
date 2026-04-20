@@ -294,7 +294,7 @@ export const createApiKey = traceRoute('/user/api-keys', async (request: NextReq
     }
 
     // Generate key
-    const apiKey = `engi_${crypto.randomBytes(32).toString('hex')}`;
+    const apiKey = `bitcode_${crypto.randomBytes(32).toString('hex')}`;
     const keyPreview = `${apiKey.substring(0, 8)}...${apiKey.substring(apiKey.length - 4)}`;
 
     // Calculate expiration
