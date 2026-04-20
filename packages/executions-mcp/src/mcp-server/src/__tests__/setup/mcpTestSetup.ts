@@ -601,18 +601,17 @@ console.warn = (...args: any[]) => {
 beforeAll(async () => {
   // Initialize test environment
   console.log('🚀 Initializing MCP Test Environment');
-  
-  // Clear any existing timers
-  jest.clearAllTimers();
-  
-  // Use fake timers for consistent testing
-  jest.useFakeTimers();
+
+  // Keep real timers by default so retained integration-style suites can
+  // exercise actual timeout and shutdown behavior. Unit suites that need
+  // synthetic timer control opt into fake timers locally.
+  jest.useRealTimers();
 });
 
 afterAll(async () => {
   // Cleanup test environment
   console.log('🧹 Cleaning up MCP Test Environment');
-  
+
   // Restore real timers
   jest.useRealTimers();
   
@@ -635,8 +634,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // Cleanup after each test
-  jest.clearAllTimers();
+  // Reset timer mode after tests that opt into fake timers locally.
+  jest.useRealTimers();
 });
 
 // ============================================================================ 

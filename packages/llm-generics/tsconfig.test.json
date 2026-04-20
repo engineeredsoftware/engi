@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@bitcode/registry": ["packages/llm-generics/__mocks__/engi-registry"],
-      "@bitcode/prompts": ["packages/llm-generics/__mocks__/engi-prompts"]
+      "@bitcode/registry": ["packages/llm-generics/__mocks__/bitcode-registry"],
+      "@bitcode/prompts": ["packages/llm-generics/__mocks__/bitcode-prompts"]
     }
   },
   "include": ["test-stubs.d.ts", "src"]

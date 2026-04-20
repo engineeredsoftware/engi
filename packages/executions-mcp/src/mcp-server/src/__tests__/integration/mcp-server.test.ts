@@ -7,7 +7,7 @@
  * retained MCP tools proof suite.
  */
 
-import { beforeAll, describe, expect, it } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import { BitcodeMCPServer } from '../../server';
 
 describe('Bitcode MCP Server Integration Tests', () => {
@@ -20,6 +20,10 @@ describe('Bitcode MCP Server Integration Tests', () => {
         methods: []
       }
     });
+  });
+
+  afterAll(async () => {
+    await server.shutdown();
   });
 
   it('starts and exposes a live production monitor surface', () => {

@@ -112,12 +112,15 @@ Required coverage posture:
   current live fourth-gate promotion-boundary owners include `uapi/app/conversations/page.tsx`, `uapi/app/conversations/ConversationsRouteClient.tsx`, `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/api/executions/route.ts`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `uapi/app/api/auxillaries/profile/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, `uapi/app/api/auxillaries/credits/route.ts`, `uapi/app/api/auxillaries/usage/route.ts`, `uapi/app/api/auxillaries/transactions/route.ts`, `uapi/app/api/auxillaries/api-keys/route.ts`, `uapi/app/edgetimes/edgetimes-topology.ts`, `uapi/app/edgetimes/EdgetimesPageContent.tsx`, `uapi/app/edgetimes/page.tsx`, `uapi/app/api/edgetimes/route.ts`, and the focused route/API tests proving those surfaces
   current generated fourth-gate promotion proofs are `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
   retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
+  retained MCP proof carriers are now explicit too: `packages/executions-mcp/src/mcp-server/src/__tests__/{tools/MCPToolsTestSuite.test.ts,integration/mcp-server.test.ts,unit/auth.test.ts}` must stay green against the current server surface and must not emit lingering Jest open-handle warnings, with imported singleton intervals handled as real runtime teardown obligations rather than ignored test noise
+  active email-template carriers are explicit fifth-gate witnesses too: `supabase/config.toml`, `supabase/templates/{magic_link,confirm,password_recovery,email_change,invite,newsletter,deliverable_*}.html`, and the active deliverables email vars in `packages/api/src/routes/deliverables.ts` must converge on Bitcode naming and current placeholder contracts rather than leaving `Engi` product copy in live email/auth flows
   fifth-gate active-product naming witnesses now also cover the retained `@bitcode/prompts` package so prompt-system code, metadata, and promptpart identity text do not silently regress back to `Engi` naming after fourth-gate promotion
   fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, `@bitcode/streams`, and `@bitcode/email`, with the expectation that user-facing strings, active identifiers, package docs, and canonical package comments all converge on Bitcode naming rather than lingering `Engi` residue
   fifth-gate active-product naming witnesses now also cover mounted public-shell teaching carriers and retained package docs such as `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and `packages/{web-search,registry}/*`, so public demo-like terminal strings, active classnames/comments, and retained registry/web-search docs cannot silently drift back to `Engi`
   fifth-gate active-product naming witnesses now also cover user-facing package API route strings in `packages/api/src/routes/*`, so auth welcome flows, ChatGPT success messages, and deliverables permission guidance cannot silently keep `Engi` naming while the mounted product surfaces read as Bitcode
   fifth-gate active-product naming witnesses now also cover retained shared contracts such as `@bitcode/errors` and direct consumers like `packages/api/src/routes/deliverables.ts` and `uapi/app/error.tsx`, so exported symbols, docs, and active error teaching cannot silently keep `EngiError` naming after promotion
   fifth-gate active-product naming witnesses now also cover live webhook and mock-system carriers such as `uapi/app/api/webhook/{route,verify}.ts`, `uapi/tests/webhookRoute.test.ts`, `uapi/mocking/index.ts`, `uapi/mocking/integration/MockProvider.tsx`, `uapi/mocking/generators/ComprehensiveMockDataGenerators.ts`, `uapi/mocking/{README.md,INTEGRATION_GUIDE.md,QUICK_START_*.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,validate-system.js}`, and `uapi/mocking/scripts/*`, so trigger labels, comment commands, browser debug globals, shipped operator docs, and script ownership paths cannot silently drift back to `engi-*`, `__engiMock*`, or stale `app/mocking` product truth
+  fifth-gate active-product naming witnesses now also cover canonical auxillary-pane ownership and retained LLM harness config, including `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/auxillaries/components/Auxillaries{Profile,Connects,Interfaces,BTD}Pane.tsx`, `packages/llm-generics/{jest.config.cjs,tsconfig.test.json,__mocks__/*,README.md}`, `jest.base.cjs`, and `pnpm-workspace.yaml`, so active route ownership and workspace test/runtime config cannot silently preserve `orbitals` imports, `engi-*` mock filenames, `@engi` transform allowlists, or dead Engi-era workspace entries
 
 ### Gate 5: Bitcode rename completion, proof precision, and system completeness
 
@@ -229,12 +232,12 @@ Current active assignments:
   `uapi/tests/api/clientErrorRoute.test.ts`
   proof surface:
   second-gate runtime-health intake so client-side application failures are accepted by an app-owned carrier instead of 404ing
-- `uapi/app/orbitals/components/OrbitalsProfilePane.tsx`
+- `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`
   test coverage:
   live `/application` verification with fullscreen orbitals entry exercised from the running app
   proof surface:
   second-gate orbitals renderability from `/application`, including the active data-sharing pane hookup required to avoid missing-overlay crashes
-- `uapi/app/orbitals/components/OrbitalsProvider.tsx`
+- `uapi/app/auxillaries/components/AuxillariesProvider.tsx`
   test coverage:
   `uapi/tests/orbitalsProvider.test.tsx` plus live `/application` verification with orbitals entry exercised from the running app
   proof surface:
@@ -249,12 +252,12 @@ Current active assignments:
   `uapi/tests/api/orbitalsUserDataShareRoute.test.ts`
   proof surface:
   second-gate profile-owned repository knowledge-sharing carrier so contained orbital routes fail closed to JSON instead of missing-route HTML during onboarding and review posture
-- `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
+- `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx`
   test coverage:
   `uapi/tests/orbitalsInterfacesPane.test.tsx`
   proof surface:
   second-gate `Interfaces` orbital ownership, including shared orbital workspace section, stat, and preference carriers plus model, prompt, and operator-default posture
-- `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
+- `uapi/app/auxillaries/components/AuxillariesBTDPane.tsx`
   test coverage:
   `uapi/tests/orbitalsBTDPane.test.tsx`
   proof surface:

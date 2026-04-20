@@ -18,16 +18,17 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
   - `SignUpWindow`: Onboarding/account surface that contains the panes.
 - Panes (inside SignUpWindow):
   - `profile`, `connects`, `interfaces`, `$BTD`
-- Headers: a singular auxillary header per pane for consistent title/copy:
-  - Base: `OrbitalsOrbitalHeader`
-  - Specialized: `OrbitalsUsersOrbitalHeader`, `OrbitalsConnectsOrbitalHeader`, `OrbitalsModelsOrbitalHeader`, `OrbitalsCreditsOrbitalHeader`
+- Headers: a singular auxillary header per pane for consistent title/copy.
+  Retained header implementations still live under `uapi/app/orbitals/components/headers/*` during fifth-gate retirement, but they are an internal implementation detail rather than the canonical naming model.
 
 2) Component Placement
 
-- Retained implementation code currently lives under: `uapi/app/orbitals/components/*`
-  - Overlay root: `index.tsx`, Provider: `provider.tsx`, `OrbitalsProvider.tsx`
-  - Panes and helpers: `profile-pane.tsx`, `connects-pane.tsx`, `models-pane.tsx`, `credits-pane.tsx`
-  - Headers: `headers/*`, Shared atoms: `shared/*`, Models helpers: `models/*`
+- Canonical route/overlay implementation now lives under: `uapi/app/auxillaries/components/*`
+  - Overlay root: `AuxillariesSurface.tsx`, `AuxillariesContent.tsx`, `AuxillariesLoginPane.tsx`, `AuxillariesProvider.tsx`
+  - Pane owners: `AuxillariesProfilePane.tsx`, `AuxillariesConnectsPane.tsx`, `AuxillariesInterfacesPane.tsx`, `AuxillariesBTDPane.tsx`
+  - Shared atoms: `shared/*`
+- Retained implementation internals still live under: `uapi/app/orbitals/components/*`
+  - Compatibility wrappers, pane internals, headers, and helper carriers reused behind canonical auxillary owners until full fifth-gate retirement
 - Experience boundaries:
   - Marketing: `uapi/app/(root)/components/*`
   - Executions: `uapi/app/executions/components/*`
@@ -37,20 +38,19 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 3) Events and API
 
 - Global events:
-  - Open: `window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane } }))`
+  - Open: `window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' | 'SignUpWindow', step?: AuxillaryPane } }))`
   - Close: `window.dispatchEvent(new CustomEvent('close-auxillaries'))`
 - Types:
-  - `type OrbitalPane = 'profile' | 'connects' | 'models' | 'credits' | null`
+  - `type AuxillaryPane = 'profile' | 'connects' | 'interfaces' | 'btd' | null`
   - Overlay prop: `window?: 'SignInWindow' | 'SignUpWindow'`
 - Deep links: canonical `/auxillaries/(profile|connects|interfaces|btd)` open the focused contained read.
-- Provider API: `openAuxillaries(window?: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane)`, `closeAuxillaries()`, `prefetchAuxillaries()`
+- Provider API: `openAuxillaries(window?: 'SignInWindow' | 'SignUpWindow', step?: AuxillaryPane)`, `closeAuxillaries()`, `prefetchAuxillaries()`
 
 4) HTTP and CSS Conventions
 
 - API paths are canonicalized under `/api/auxillaries/*`.
-- CSS Modules: animations declared via `:global { @keyframes ... }` (purity). Prefixes:
-  - Experience: `orbitals-*`
-  - Per-orbital: `orbitals-users-*`, `orbitals-connects-*`, `orbitals-models-*`, `orbitals-credits-*`
+- CSS Modules: animations declared via `:global { @keyframes ... }` (purity).
+  Retained style prefixes like `orbitals-*` are internal compatibility residue that should keep shrinking until the full fifth-gate cut-over is complete.
 
 ## Consequences
 

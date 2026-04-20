@@ -30,7 +30,7 @@ function createModuleNameMapperFromTsconfig(tsconfigPath) {
 }
 
 const sharedModuleNameMapper = createModuleNameMapperFromTsconfig(path.join(repoRoot, 'tsconfig.json'));
-const defaultTransformIgnore = ['node_modules/(?!(@engi)/)'];
+const defaultTransformIgnore = ['node_modules/(?!(@bitcode)/)'];
 
 function createJestConfig(pkgDir, overrides = {}) {
   const tsconfigPath = overrides.tsconfig || path.join(pkgDir, 'tsconfig.json');

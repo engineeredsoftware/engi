@@ -1,10 +1,10 @@
 # LLM Generics
 
-Pure LLM primitives with zero framework awareness - the foundation for AI integration in engi.
+Pure LLM primitives with zero framework awareness: the foundation for AI integration in Bitcode.
 
 ## Why LLM Generics?
 
-LLMs in engi are simple async functions: `(input) => Promise<output>`. This radical simplicity enables:
+LLMs in Bitcode are simple async functions: `(input) => Promise<output>`. This radical simplicity enables:
 
 - **Zero Coupling**: LLMs know nothing about execution, pipelines, or agents
 - **Provider Agnostic**: Swap between OpenAI, Anthropic, Google, or custom

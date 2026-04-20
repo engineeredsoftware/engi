@@ -2,7 +2,7 @@
  * CRITICAL: Global Solution Vectorization Infrastructure for Procurement
  * 
  * This module handles the vectorization of global marketplace solutions
- * to enable procurement pipeline search operations across the global Engi dataset.
+ * to enable procurement pipeline search operations across the global Bitcode dataset.
  * 
  * Key differences from ai_documents:
  * - Accesses global/community data instead of user-specific data

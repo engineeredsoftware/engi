@@ -199,7 +199,7 @@ Second-gate now explicitly treats application health as part of the productioniz
 Current active carriers:
 - `uapi/app/api/client-error/route.ts`
 - `uapi/app/application/application-shell-bridge.tsx`
-- `uapi/app/orbitals/components/OrbitalsProfilePane.tsx`
+- `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
 
@@ -610,29 +610,32 @@ V26 keeps `/application` as the owned page context and mounts overlays from with
 Current active carriers:
 - conversations overlay:
   `uapi/app/conversations/components/ConversationsOverlay.tsx`
-- orbitals overlay:
+- auxillaries overlay:
+  `uapi/app/auxillaries/components/AuxillariesProvider.tsx`
+  `uapi/app/auxillaries/components/AuxillariesSurface.tsx`
+- orbitals compatibility overlay:
   `uapi/app/orbitals/components/OrbitalsProvider.tsx`
   `uapi/app/orbitals/components/index.tsx`
 
 Operational rule:
-- conversations and orbitals are not peer product destinations
+- conversations and auxillaries are not peer product destinations
 - they are fullscreen application overlays entered from the application frame
 - `uapi/components/base/engi/layout/workspace-surface.ts` is the shared route-classification owner for navbar surface posture and footer suppression across `/application`, `/orbitals`, and `/conversations`
 - unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
 - marketing footer chrome does not render on operator workspace routes
-- `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/orbital transitions
-- application-triggered orbital entry opens a contained, login-first orbital surface while preserving the four-ring orbital contract for Connects, Interfaces, Profile, and `$BTD`
-- contained orbital access shells and focused orbital routes must keep orbitals-first wording and contained orbital reads rather than reverting to generic workspace/settings/account entry furniture
-- `uapi/app/orbitals/components/orbital-pane-meta.ts` is the shared orbital naming/copy owner for fullscreen orbital entry labels, targeted orbital-open actions, and the direct-route return action into transactions
-- signed-in orbital reopen actions now flow through the shared `orbitals` entry alias in `uapi/app/orbitals/components/OrbitalsProvider.tsx` rather than older active `account`-named callers
-- signed-in `Interfaces` and `$BTD` orbitals now read through application-owned pane carriers and shared orbital workspace section/stat/preference modules rather than model or credits wrapper panes
+- `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/auxillary transitions
+- application-triggered auxillary entry opens a contained, login-first auxillary surface while preserving the four-ring auxillary contract for Connects, Interfaces, Profile, and `$BTD`
+- contained auxillary access shells and focused auxillary routes must keep auxillaries-first wording and contained auxillary reads rather than reverting to generic workspace/settings/account entry furniture
+- `uapi/app/auxillaries/components/auxillary-pane-meta.ts` is the shared auxillary naming/copy owner for fullscreen auxillary entry labels, targeted auxillary-open actions, and the direct-route return action into transactions
+- signed-in auxillary reopen actions now flow through the shared `auxillaries` entry alias in `uapi/app/auxillaries/components/AuxillariesProvider.tsx` rather than older active `account`-named callers
+- signed-in `Interfaces` and `$BTD` auxillaries now read through application-owned pane carriers and shared auxillary workspace section/stat/preference modules rather than model or credits wrapper panes
 - active orbital-pane step carriers now read as `interfaces` and `btd` in the live surface and CSS aliases, with older model/credits names surviving only as compatibility scaffolding where still required
-- contained orbital reads now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
-- contained orbital rails now converge on shared panel plus tabs carriers instead of mixing floating sequence cards with older absolute-position ring-label furniture
-- profile-owned repository knowledge sharing now reads through an app-owned fail-closed orbital route instead of 404ing inside the contained workspace
+- contained auxillary reads now reset stale deep-link pane state on close, suppress free-floating background animation, reuse calmer workspace-grade close/sign-in/sign-out controls instead of old demo-neon button posture, and keep a full-width contained operator shell when entered from `/application`
+- contained auxillary rails now converge on shared panel plus tabs carriers instead of mixing floating sequence cards with older absolute-position ring-label furniture
+- profile-owned repository knowledge sharing now reads through an app-owned fail-closed auxillary route instead of 404ing inside the contained workspace
 - signed-in workspace chrome now exposes Auxillaries through the user menu as `Open Auxillaries fullscreen`, while notifications stay operator-facing and describe proof closure, repository activity, and review prompts rather than generic account/settings chrome
 - the homepage/operator-shell CTA now returns onboarded operators to `/application` instead of dispatching stale overlay-only modes
-- selected application and retained orbital review surfaces now keep visible `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
+- selected application and retained auxillary review surfaces now keep visible `Transactions` / `Auxillaries` wording instead of `workspace` / `transaction terminal` drift, and the support-rail split stays delayed until `2xl` so laptop-width reading remains centered on the main transactions column
 - preserved-runtime explainers now keep rich footer/reference chips while normalizing them to user-facing live-surface and reference-topic labels instead of demo-era or source-path-heavy narration
 - preserved-runtime telemetry now reports through Bitcode-facing `[bitcode-runtime]` labeling rather than `engi-demo`-era visible prefixes
 
@@ -648,16 +651,15 @@ Operational rule:
 - the checkpoint artifact records inherited first-gate proof/canon closure, second-gate structural workspace closure, and third-gate preparation posture
 - this checkpoint is required for the near-term V26 commit boundary even while `V25` remains the active promoted canon
 
-## Active orbital-pane carriers
+## Active auxillary-pane carriers
 
 Current active carriers:
-- `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
-- `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
+- `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx`
+- `uapi/app/auxillaries/components/AuxillariesBTDPane.tsx`
 - `uapi/app/api/auxillaries/user/data-share/route.ts`
-- `uapi/app/orbitals/components/shared/OrbitalsWorkspacePanels.tsx`
-- `uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx`
-- `uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx`
-- `uapi/app/orbitals/components/shared/OrbitalsPreferenceCards.tsx`
+- `uapi/app/auxillaries/components/shared/AuxillariesWorkspacePanels.tsx`
+- `uapi/app/auxillaries/components/shared/AuxillariesPaneTabs.tsx`
+- retained internal workspace/stat/preference modules under `uapi/app/orbitals/components/shared/*`
 
 Operational rule:
 - `Connects` remains the closest retained canonical orbital pane

@@ -22,6 +22,7 @@ import {
 } from '@bitcode/orm';
 import type { MCPAuthContext } from '../types';
 import * as crypto from 'crypto';
+import { LRUCache } from '../caching-utilities/lru-cache';
 
 /**
  * Authentication result
@@ -49,6 +50,8 @@ export interface MCPAuthOptions {
   minimumRole?: 'viewer' | 'member' | 'admin' | 'owner';
   minimumCredits?: number;
 }
+
+export const authCache = new LRUCache<string, MCPAuthContext>(10000);
 
 /**
  * Extract API key from authorization header
@@ -85,6 +88,11 @@ export async function authenticateMCPRequest(
         statusCode: 401
       }
     };
+  }
+
+  const cachedContext = authCache.get(apiKey);
+  if (cachedContext) {
+    return validateAuthenticatedContext(cachedContext, options);
   }
 
   try {
@@ -201,23 +209,6 @@ export async function authenticateMCPRequest(
       }
 
       // Check minimum role requirement
-      if (options.minimumRole) {
-        const roleHierarchy = ['viewer', 'member', 'admin', 'owner'];
-        const userRoleIndex = roleHierarchy.indexOf(membership.role);
-        const requiredRoleIndex = roleHierarchy.indexOf(options.minimumRole);
-
-        if (userRoleIndex < requiredRoleIndex) {
-          return {
-            success: false,
-            error: {
-              code: 'INSUFFICIENT_ROLE',
-              message: `Requires ${options.minimumRole} role or higher`,
-              statusCode: 403
-            }
-          };
-        }
-      }
-
       // Add organization info to context
       context.organizationId = organization.id;
       context.organizationName = organization.name;
@@ -230,65 +221,11 @@ export async function authenticateMCPRequest(
     // Always fetch credit balance for context (and optionally enforce minimum)
     const credits = await userCredits.getByUserId(user.id);
     const balance = credits?.balance || 0;
-    if (options.minimumCredits && options.minimumCredits > 0) {
-      if (balance < options.minimumCredits) {
-        return {
-          success: false,
-          error: {
-            code: 'INSUFFICIENT_CREDITS',
-            message: `Requires at least ${options.minimumCredits} credits (current balance: ${balance})`,
-            statusCode: 402
-          }
-        };
-      }
-    }
     context.creditBalance = balance;
-
-    // Check specific permissions
-    if (options.requiredPermissions) {
-      const missingPermissions: string[] = [];
-
-      // Check pipeline permissions
-      if (options.requiredPermissions.pipelines) {
-        for (const perm of options.requiredPermissions.pipelines) {
-          if (!hasPermission(context, 'pipelines', perm)) {
-            missingPermissions.push(`pipelines.${perm}`);
-          }
-        }
-      }
-
-      // Check organization permissions
-      if (options.requiredPermissions.organization) {
-        for (const perm of options.requiredPermissions.organization) {
-          if (!hasPermission(context, 'organization', perm)) {
-            missingPermissions.push(`organization.${perm}`);
-          }
-        }
-      }
-
-      // Check resource permissions
-      if (options.requiredPermissions.resources) {
-        for (const perm of options.requiredPermissions.resources) {
-          if (!hasPermission(context, 'resources', perm)) {
-            missingPermissions.push(`resources.${perm}`);
-          }
-        }
-      }
-
-      if (missingPermissions.length > 0) {
-        return {
-          success: false,
-          error: {
-            code: 'INSUFFICIENT_PERMISSIONS',
-            message: `Missing required permissions: ${missingPermissions.join(', ')}`,
-            statusCode: 403
-          }
-        };
-      }
-    }
 
     // Compute permissions from role/scopes/org permissions
     context.permissions = derivePermissions(context);
+    authCache.set(apiKey, context);
 
     logger.info('MCP authentication successful', {
       userId: context.userId,
@@ -296,10 +233,7 @@ export async function authenticateMCPRequest(
       apiKeyName: context.apiKeyName
     });
 
-    return {
-      success: true,
-      context
-    };
+    return validateAuthenticatedContext(context, options);
   } catch (error) {
     logger.error('MCP authentication error', { error });
     return {
@@ -311,6 +245,107 @@ export async function authenticateMCPRequest(
       }
     };
   }
+}
+
+function validateAuthenticatedContext(
+  context: MCPAuthContext,
+  options: MCPAuthOptions = {}
+): AuthResult {
+  if (options.requireOrganization && !context.organizationId) {
+    return {
+      success: false,
+      error: {
+        code: 'NO_ORGANIZATION',
+        message: 'User must be part of an organization',
+        statusCode: 403
+      }
+    };
+  }
+
+  if (options.minimumRole) {
+    const roleHierarchy = ['viewer', 'member', 'admin', 'owner'];
+    const userRoleIndex = roleHierarchy.indexOf(context.organizationRole || 'viewer');
+    const requiredRoleIndex = roleHierarchy.indexOf(options.minimumRole);
+
+    if (userRoleIndex < requiredRoleIndex) {
+      return {
+        success: false,
+        error: {
+          code: 'INSUFFICIENT_ROLE',
+          message: `Requires ${options.minimumRole} role or higher`,
+          statusCode: 403
+        }
+      };
+    }
+  }
+
+  if (options.minimumCredits && options.minimumCredits > 0 && context.creditBalance < options.minimumCredits) {
+    return {
+      success: false,
+      error: {
+        code: 'INSUFFICIENT_CREDITS',
+        message: `Requires at least ${options.minimumCredits} credits (current balance: ${context.creditBalance})`,
+        statusCode: 402
+      }
+    };
+  }
+
+  const missingPermissions = getMissingPermissions(context, options.requiredPermissions);
+  if (missingPermissions.length > 0) {
+    return {
+      success: false,
+      error: {
+        code: 'INSUFFICIENT_PERMISSIONS',
+        message: `Missing required permissions: ${missingPermissions.join(', ')}`,
+        statusCode: 403
+      }
+    };
+  }
+
+  return {
+    success: true,
+    context
+  };
+}
+
+function getMissingPermissions(
+  context: MCPAuthContext,
+  requiredPermissions: MCPAuthOptions['requiredPermissions'] = {}
+): string[] {
+  const missingPermissions: string[] = [];
+
+  if (requiredPermissions.pipelines) {
+    for (const permission of requiredPermissions.pipelines) {
+      if (!context.permissions.pipelines[permission]) {
+        missingPermissions.push(`pipelines.${permission}`);
+      }
+    }
+  }
+
+  if (requiredPermissions.organization) {
+    for (const permission of requiredPermissions.organization) {
+      if (!context.permissions.organization[permission]) {
+        missingPermissions.push(`organization.${permission}`);
+      }
+    }
+  }
+
+  if (requiredPermissions.resources) {
+    for (const permission of requiredPermissions.resources) {
+      if (!context.permissions.resources[permission]) {
+        missingPermissions.push(`resources.${permission}`);
+      }
+    }
+  }
+
+  return missingPermissions;
+}
+
+export function validatePermissions(
+  context: Pick<MCPAuthContext, 'permissions'>,
+  requiredPermissions: MCPAuthOptions['requiredPermissions'] = {}
+): boolean {
+  return getMissingPermissions(context as MCPAuthContext, requiredPermissions).length === 0;
 }
 
 /**

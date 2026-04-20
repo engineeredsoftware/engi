@@ -48,22 +48,22 @@ const AuxillariesContent = dynamic(() => import("./AuxillariesContent"), {
   loading: () => <div className="animate-pulse h-96 w-full" />,
 });
 
-const ProfilePane = dynamic(() => import("@/app/orbitals/components/OrbitalsProfilePane"), {
+const ProfilePane = dynamic(() => import("./AuxillariesProfilePane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const ConnectsPane = dynamic(() => import("@/app/orbitals/components/OrbitalsConnectsPane"), {
+const ConnectsPane = dynamic(() => import("./AuxillariesConnectsPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const BTDPane = dynamic(() => import("@/app/orbitals/components/OrbitalsBTDPane"), {
+const BTDPane = dynamic(() => import("./AuxillariesBTDPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });
 
-const InterfacesPane = dynamic(() => import("@/app/orbitals/components/OrbitalsInterfacesPane"), {
+const InterfacesPane = dynamic(() => import("./AuxillariesInterfacesPane"), {
   ssr: false,
   loading: () => <div className="animate-pulse h-64 w-full" />,
 });

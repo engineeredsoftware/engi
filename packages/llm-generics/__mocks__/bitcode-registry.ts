@@ -13,7 +13,7 @@ export function factoryRegistry<T extends Record<string, any>>() {
       return this;
     },
     get(pathOrPaths: string | string[]) {
-      if (typeof pathOrPaths === 'string') {
+      if (typeof pathOrPaths === "string") {
         const entries = store.get(pathOrPaths);
         return entries?.[0]?.value;
       }
@@ -56,7 +56,7 @@ export class RegistryPathBuilder {
   buildHierarchy(): string[] {
     const hierarchy: string[] = [];
     for (let i = 0; i < this.segments.length; i++) {
-      hierarchy.push(this.segments.slice(0, i + 1).join(':'));
+      hierarchy.push(this.segments.slice(0, i + 1).join(":"));
     }
     return hierarchy;
   }

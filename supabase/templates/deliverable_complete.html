@@ -148,18 +148,18 @@
                 </div>
                 <div>
                   <a href="{{ index $d "GitHubURL" }}" class="button">View diff</a>
-                  <a href="{{ index $d "EngiURL" }}" class="button-outline">Details</a>
+                  <a href="{{ index $d "BitcodeURL" }}" class="button-outline">Details</a>
                 </div>
               </div>
               {{ end }}{{ end }}
 
               {{ if gt (len (index .Data "Deliverables")) $max }}
-              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more deliverables inside Engi</p>
+              <p style="text-align: center; color: #6a6a6a; font-size: 14px;">...and more deliverables inside Bitcode</p>
               {{ end }}
 
               <p style="text-align: center; margin: 30px 0;">
                 <a href="{{ index .Data "GitHubURL" }}" class="button">View on GitHub</a>
-                <a href="{{ index .Data "EngiURL" }}" class="button-outline">Open in Engi</a>
+                <a href="{{ index .Data "BitcodeURL" }}" class="button-outline">Open in Bitcode</a>
               </p>
 
             </div>

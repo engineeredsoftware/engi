@@ -50,7 +50,7 @@ import {
   DEFAULT_CIRCUIT_BREAKERS
 } from './middleware/rate-limit';
 import { prepareLocalRepository } from './local-repository/handler';
-import { TTLCache } from './caching-utilities/lru-cache';
+import { LRUCache, TTLCache } from './caching-utilities/lru-cache';
 import { productionMonitor } from './monitoring/alerts';
 import { GracefulShutdownManager } from './shutdown/graceful-shutdown';
 import * as fs from 'fs';
@@ -780,6 +780,10 @@ export class BitcodeMCPServer {
     
     // Stop monitoring
     productionMonitor.stop();
+
+    // Close streaming connections and stop the retained singleton intervals.
+    const { streamManager } = await import('./streaming/pipeline-stream');
+    streamManager.shutdown();
     
     // Close server connection
     await this.server.close();
@@ -799,7 +803,7 @@ if (require.main === module) {
   });
 }
 
-// Export for testing
-export const authCache = new TTLCache<string, MCPAuthContext>(10000, 5 * 60 * 1000);
+// Export for testing without creating a long-lived timer on module import.
+export const authCache = new LRUCache<string, MCPAuthContext>(10000);
 
 export { BitcodeMCPServer };

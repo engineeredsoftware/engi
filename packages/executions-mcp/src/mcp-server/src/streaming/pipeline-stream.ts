@@ -556,11 +556,13 @@ export class PipelineStreamManager extends EventEmitter {
     this.cleanupInterval = setInterval(() => {
       this.cleanupDeadConnections();
     }, 30000);
+    this.cleanupInterval.unref?.();
 
     // Send heartbeat every 10 seconds
     this.heartbeatInterval = setInterval(() => {
       this.sendHeartbeat();
     }, 10000);
+    this.heartbeatInterval.unref?.();
   }
 
   /**

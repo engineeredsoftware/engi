@@ -499,7 +499,8 @@ class FileTransactionManager {
 const transactionManager = new FileTransactionManager();
 
 // Cleanup old transactions periodically
-setInterval(() => transactionManager.cleanup(), 5 * 60 * 1000); // Every 5 minutes
+const transactionCleanupInterval = setInterval(() => transactionManager.cleanup(), 5 * 60 * 1000); // Every 5 minutes
+transactionCleanupInterval.unref?.();
 
 // ---------------------------------------------------------------------------
 // Core editing operations with atomic transaction support

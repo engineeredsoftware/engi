@@ -2,234 +2,282 @@
  * Unit tests for authentication middleware
  */
 
-import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { authenticateMCPRequest, validatePermissions } from '../../auth/middleware';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { authenticateMCPRequest, authCache, validatePermissions } from '../../auth/middleware';
 import { createClient } from '@bitcode/supabase';
-import { authCache } from '../../server';
+import {
+  OrganizationsModel,
+  OrganizationMembersModel,
+  UserApiKeysModel,
+  UserCreditsModel,
+  UsersModel
+} from '@bitcode/orm';
 
-// Mock dependencies
-jest.mock('@bitcode/supabase/src/ssr/admin');
 jest.mock('@bitcode/logger');
+jest.mock('@bitcode/supabase', () => ({
+  createClient: jest.fn()
+}));
+jest.mock('@bitcode/orm', () => ({
+  UsersModel: jest.fn(),
+  UserProfilesModel: jest.fn(),
+  UserApiKeysModel: jest.fn(),
+  UserCreditsModel: jest.fn(),
+  OrganizationsModel: jest.fn(),
+  OrganizationMembersModel: jest.fn()
+}));
+
+const mockGetByKeyHash = jest.fn();
+const mockUpdateLastUsed = jest.fn();
+const mockGetById = jest.fn();
+const mockGetCreditsByUserId = jest.fn();
+const mockGetMembership = jest.fn();
+
+const resetOrmMocks = () => {
+  (createClient as jest.Mock).mockReturnValue({ supabase: 'test' });
+
+  (UserApiKeysModel as unknown as jest.Mock).mockImplementation(() => ({
+    getByKeyHash: mockGetByKeyHash,
+    updateLastUsed: mockUpdateLastUsed
+  }));
+
+  (UsersModel as unknown as jest.Mock).mockImplementation(() => ({
+    getById: mockGetById
+  }));
+
+  (UserCreditsModel as unknown as jest.Mock).mockImplementation(() => ({
+    getByUserId: mockGetCreditsByUserId
+  }));
+
+  (OrganizationsModel as unknown as jest.Mock).mockImplementation(() => ({
+    getById: mockGetById
+  }));
+
+  (OrganizationMembersModel as unknown as jest.Mock).mockImplementation(() => ({
+    getMembership: mockGetMembership
+  }));
+};
 
 describe('Authentication Middleware', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     authCache.clear();
+    resetOrmMocks();
   });
-  
+
   describe('authenticateMCPRequest', () => {
-    it('should authenticate valid Bearer token', async () => {
-      const mockSupabase = {
-        auth: {
-          getUser: jest.fn().mockResolvedValue({
-            data: {
-              user: {
-                id: 'user123',
-                user_metadata: {
-                  organizationId: 'org123'
-                }
-              }
-            },
-            error: null
-          })
-        },
-        from: jest.fn().mockReturnThis(),
-        select: jest.fn().mockReturnThis(),
-        eq: jest.fn().mockReturnThis(),
-        single: jest.fn().mockResolvedValue({
-          data: {
-            role: 'member',
-            permissions: {
-              organization: { viewAnalytics: true },
-              project: { view: true }
-            }
-          },
-          error: null
-        })
-      };
-      
-      (createClient as jest.Mock).mockReturnValue(mockSupabase);
-      
-      const result = await authenticateMCPRequest('Bearer valid_token', {
-        resources: ['read']
+    it('authenticates a valid API key and derives current Bitcode permissions', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['pipelines:create', 'resources:read'],
+        expires_at: null
       });
-      
-      expect(result.success).toBe(true);
-      expect(result.context?.userId).toBe('user123');
-      expect(result.context?.organizationId).toBe('org123');
-      expect(result.context?.permissions).toBeDefined();
-    });
-    
-    it('should authenticate valid API key', async () => {
-      const mockSupabase = {
-        from: jest.fn().mockReturnThis(),
-        select: jest.fn().mockReturnThis(),
-        eq: jest.fn().mockReturnThis(),
-        single: jest.fn().mockResolvedValue({
-          data: {
-            id: 'key123',
-            user_id: 'user123',
-            organization_id: 'org123',
-            name: 'Test Key',
-            permissions: {
-              tools: ['create', 'read'],
-              resources: ['read']
-            }
-          },
-          error: null
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById
+        .mockResolvedValueOnce({
+          id: 'user123',
+          email: 'operator@example.com',
+          full_name: 'Bitcode Operator',
+          organization_id: 'org123'
         })
-      };
-      
-      (createClient as jest.Mock).mockReturnValue(mockSupabase);
-      
-      const result = await authenticateMCPRequest('key_test123', {
-        resources: ['read']
-      });
-      
-      expect(result.success).toBe(true);
-      expect(result.context?.userId).toBe('user123');
-      expect(result.context?.organizationId).toBe('org123');
-      expect(result.context?.apiKeyId).toBe('key123');
-    });
-    
-    it('should cache authentication results', async () => {
-      const mockSupabase = {
-        from: jest.fn().mockReturnThis(),
-        select: jest.fn().mockReturnThis(),
-        eq: jest.fn().mockReturnThis(),
-        single: jest.fn().mockResolvedValue({
-          data: {
-            id: 'key123',
-            user_id: 'user123',
-            organization_id: 'org123',
-            permissions: { tools: ['read'] }
-          },
-          error: null
-        })
-      };
-      
-      (createClient as jest.Mock).mockReturnValue(mockSupabase);
-      
-      // First call
-      await authenticateMCPRequest('key_test123', { resources: ['read'] });
-      
-      // Second call should use cache
-      await authenticateMCPRequest('key_test123', { resources: ['read'] });
-      
-      // Should only call database once
-      expect(mockSupabase.from).toHaveBeenCalledTimes(1);
-    });
-    
-    it('should reject invalid credentials', async () => {
-      const mockSupabase = {
-        auth: {
-          getUser: jest.fn().mockResolvedValue({
-            data: { user: null },
-            error: { message: 'Invalid token' }
-          })
-        },
-        from: jest.fn().mockReturnThis(),
-        select: jest.fn().mockReturnThis(),
-        eq: jest.fn().mockReturnThis(),
-        single: jest.fn().mockResolvedValue({
-          data: null,
-          error: { message: 'Not found' }
-        })
-      };
-      
-      (createClient as jest.Mock).mockReturnValue(mockSupabase);
-      
-      const result = await authenticateMCPRequest('invalid_token', {
-        resources: ['read']
-      });
-      
-      expect(result.success).toBe(false);
-      expect(result.error).toContain('Authentication failed');
-    });
-    
-    it('should handle rate limiting', async () => {
-      // Make many rapid requests
-      const promises = [];
-      for (let i = 0; i < 150; i++) {
-        promises.push(
-          authenticateMCPRequest(`key_${i}`, { resources: ['read'] })
-        );
-      }
-      
-      const results = await Promise.all(promises);
-      
-      // Some should be rate limited
-      const rateLimited = results.filter(r => 
-        !r.success && r.error?.includes('rate limit')
-      );
-      
-      expect(rateLimited.length).toBeGreaterThan(0);
-    });
-  });
-  
-  describe('validatePermissions', () => {
-    it('should validate required permissions', () => {
-      const context = {
-        userId: 'user123',
+        .mockResolvedValueOnce({
+          id: 'org123',
+          name: 'Bitcode Labs',
+          slug: 'bitcode-labs'
+        });
+      mockGetMembership.mockResolvedValue({
+        role: 'member',
         permissions: {
-          tools: ['create', 'read', 'update'],
+          organization: ['viewAnalytics'],
+          pipelines: ['create', 'read'],
           resources: ['read']
         }
-      };
-      
-      expect(
-        validatePermissions(context, { tools: ['read'] })
-      ).toBe(true);
-      
-      expect(
-        validatePermissions(context, { tools: ['delete'] })
-      ).toBe(false);
-      
-      expect(
-        validatePermissions(context, { 
-          tools: ['read'], 
-          resources: ['read'] 
-        })
-      ).toBe(true);
-    });
-    
-    it('should handle organization permissions', () => {
-      const context = {
+      });
+      mockGetCreditsByUserId.mockResolvedValue({ balance: 120 });
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        requireOrganization: true,
+        requiredPermissions: {
+          pipelines: ['create'],
+          resources: ['read']
+        }
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.context).toMatchObject({
         userId: 'user123',
+        organizationId: 'org123',
+        apiKeyId: 'key123',
+        apiKeyName: 'Bitcode Test Key',
+        organizationName: 'Bitcode Labs',
+        organizationSlug: 'bitcode-labs',
+        creditBalance: 120
+      });
+      expect(result.context?.permissions.pipelines.create).toBe(true);
+      expect(result.context?.permissions.organization.viewAnalytics).toBe(true);
+      expect(mockGetByKeyHash).toHaveBeenCalledTimes(1);
+      expect(mockUpdateLastUsed).toHaveBeenCalledWith('key123');
+    });
+
+    it('reuses cached auth context across repeated requests', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById
+        .mockResolvedValueOnce({
+          id: 'user123',
+          email: 'operator@example.com',
+          full_name: 'Bitcode Operator',
+          organization_id: undefined
+        });
+      mockGetCreditsByUserId.mockResolvedValue({ balance: 50 });
+
+      const first = await authenticateMCPRequest('Bearer key_test123', {
+        requiredPermissions: { resources: ['read'] }
+      });
+      const second = await authenticateMCPRequest('Bearer key_test123', {
+        requiredPermissions: { resources: ['read'] }
+      });
+
+      expect(first.success).toBe(true);
+      expect(second.success).toBe(true);
+      expect(mockGetByKeyHash).toHaveBeenCalledTimes(1);
+      expect(mockUpdateLastUsed).toHaveBeenCalledTimes(1);
+      expect(mockGetById).toHaveBeenCalledTimes(1);
+    });
+
+    it('fails closed when the authorization header does not contain a Bearer API key', async () => {
+      const result = await authenticateMCPRequest('invalid_token');
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatchObject({
+        code: 'MISSING_API_KEY',
+        statusCode: 401
+      });
+    });
+
+    it('fails closed on insufficient derived permissions', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById.mockResolvedValueOnce({
+        id: 'user123',
+        email: 'operator@example.com',
+        full_name: 'Bitcode Operator',
+        organization_id: undefined
+      });
+      mockGetCreditsByUserId.mockResolvedValue({ balance: 50 });
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        requiredPermissions: { pipelines: ['create'] }
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatchObject({
+        code: 'INSUFFICIENT_PERMISSIONS',
+        statusCode: 403
+      });
+      expect(result.error?.message).toContain('pipelines.create');
+    });
+
+    it('fails closed when minimum credits are not satisfied', async () => {
+      mockGetByKeyHash.mockResolvedValue({
+        id: 'key123',
+        user_id: 'user123',
+        name: 'Bitcode Test Key',
+        scopes: ['resources:read'],
+        expires_at: null
+      });
+      mockUpdateLastUsed.mockResolvedValue(undefined);
+      mockGetById.mockResolvedValueOnce({
+        id: 'user123',
+        email: 'operator@example.com',
+        full_name: 'Bitcode Operator',
+        organization_id: undefined
+      });
+      mockGetCreditsByUserId.mockResolvedValue({ balance: 10 });
+
+      const result = await authenticateMCPRequest('Bearer key_test123', {
+        minimumCredits: 100
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.error).toMatchObject({
+        code: 'INSUFFICIENT_CREDITS',
+        statusCode: 402
+      });
+    });
+  });
+
+  describe('validatePermissions', () => {
+    it('validates the current structured permission shape', () => {
+      const context = {
         permissions: {
+          pipelines: {
+            create: true,
+            read: true,
+            cancel: false,
+            retry: false
+          },
           organization: {
+            manageMembers: false,
             viewAnalytics: true,
-            manageMembers: false
+            manageCredits: false
+          },
+          resources: {
+            read: true,
+            export: false
           }
         }
       };
-      
+
       expect(
-        validatePermissions(context, {
-          organization: { viewAnalytics: true }
+        validatePermissions(context as any, {
+          pipelines: ['read'],
+          resources: ['read']
         })
       ).toBe(true);
-      
+
       expect(
-        validatePermissions(context, {
-          organization: { manageMembers: true }
+        validatePermissions(context as any, {
+          pipelines: ['cancel']
         })
       ).toBe(false);
     });
-    
-    it('should handle empty permissions', () => {
+
+    it('treats empty requirements as satisfied', () => {
       const context = {
-        userId: 'user123',
-        permissions: {}
+        permissions: {
+          pipelines: {
+            create: false,
+            read: false,
+            cancel: false,
+            retry: false
+          },
+          organization: {
+            manageMembers: false,
+            viewAnalytics: false,
+            manageCredits: false
+          },
+          resources: {
+            read: false,
+            export: false
+          }
+        }
       };
-      
-      expect(
-        validatePermissions(context, { tools: ['read'] })
-      ).toBe(false);
-      
-      expect(
-        validatePermissions(context, {})
-      ).toBe(true); // No requirements = pass
+
+      expect(validatePermissions(context as any, {})).toBe(true);
     });
   });
 });

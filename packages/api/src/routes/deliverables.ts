@@ -707,6 +707,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
             name: user.user_metadata?.full_name || '',
             runId,
             runUrl: `${origin}/runs/${runId}`,
+            BitcodeURL: `${origin}/runs/${runId}`,
             origin,
             year: new Date().getFullYear()
           }
@@ -1184,6 +1185,7 @@ export const POST = traceRoute('/deliverables', async (request: NextRequest) => 
               name: user.user_metadata?.full_name || '',
               runId,
               runUrl: `${origin}/executions/${runId}`,
+              BitcodeURL: `${origin}/executions/${runId}`,
               origin,
               year: new Date().getFullYear()
             }

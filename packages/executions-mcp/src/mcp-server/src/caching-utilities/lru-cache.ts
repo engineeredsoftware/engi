@@ -82,6 +82,7 @@ export class TTLCache<K, V> extends LRUCache<K, ExpiringCacheEntry<V>> {
     
     // Run cleanup every minute
     this.cleanupInterval = setInterval(() => this.cleanup(), 60 * 1000);
+    this.cleanupInterval.unref?.();
   }
 
   get(key: K): V | undefined {

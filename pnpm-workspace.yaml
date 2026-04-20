@@ -12,4 +12,3 @@ packages:
   - 'packages/*'
   - 'packages/*/*'
   - 'packages/*/*/*'
-  - 'engi-dev-cli'
