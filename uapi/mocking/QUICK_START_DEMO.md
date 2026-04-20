@@ -3,7 +3,7 @@
 ## 🎯 You're all set up for Demo Mode!
 
 **Scenario:** demo  
-**Description:** Rich, engaging demo data perfect for showcasing Engi capabilities  
+**Description:** Rich, engaging demo data perfect for showcasing Bitcode capabilities  
 **Complexity:** complex  
 **Timing:** realistic  
 
@@ -62,16 +62,16 @@ NEXT_PUBLIC_MASTER_MOCK_MODE=false
 Open browser console and use:
 ```javascript
 // Check system status
-__engiMockSystem.getMetrics()
+__bitcodeMockSystem.getMetrics()
 
 // Switch scenarios on the fly
-__engiMockSystem.switchScenario('enterprise')
+__bitcodeMockSystem.switchScenario('enterprise')
 
 // Validate system health
-__engiMockSystem.validateSystem()
+__bitcodeMockSystem.validateSystem()
 
 // Clear cache
-__engiMockSystem.clearCache()
+__bitcodeMockSystem.clearCache()
 ```
 
 ## 📊 What's Mocked in Demo Mode
@@ -88,9 +88,9 @@ __engiMockSystem.clearCache()
 
 ## 🆘 Need Help?
 
-- **Documentation:** `/app/mocking/README.md`
-- **Integration Guide:** `/app/mocking/INTEGRATION_GUIDE.md`
-- **System Summary:** `/app/mocking/COMPREHENSIVE_SYSTEM_SUMMARY.md`
+- **Documentation:** `/mocking/README.md`
+- **Integration Guide:** `/mocking/INTEGRATION_GUIDE.md`
+- **System Summary:** `/mocking/COMPREHENSIVE_SYSTEM_SUMMARY.md`
 
 ## 🔄 Switch Scenarios
 
@@ -102,4 +102,4 @@ node scripts/setup-mock-system.js onboarding
 ```
 
 ---
-*Generated on 2025-07-04T05:21:36.838Z by Engi Mock System Setup*
+*Generated on 2025-07-04T05:21:36.838Z by Bitcode Mock System Setup*

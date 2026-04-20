@@ -2,7 +2,7 @@
 
 ## 🚀 IMMEDIATE NEXT STEPS
 
-Based on your comprehensive system audit, here's exactly how to integrate the mock system with your existing Engi routes and experiences:
+Based on your comprehensive system audit, here's exactly how to integrate the mock system with your existing Bitcode routes and experiences:
 
 ## 1. 🎯 DELIVERABLES/UPGRADES PAGES INTEGRATION
 
@@ -14,7 +14,7 @@ export const GET = traceRoute('/deliverables', GETHandler);
 export const POST = traceRoute('/deliverables', POSTHandler);
 
 // AFTER: Enhanced with comprehensive mocking (ZERO changes to logic!)
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 export const GET = mockAreas.pipelines.deliverables.main()(
   traceRoute('/deliverables', GETHandler)
@@ -28,7 +28,7 @@ export const POST = mockAreas.pipelines.deliverables.stream()(
 ### AI Documents Route Integration
 ```typescript
 // /api/ai_documents/route.ts
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 export const GET = mockAreas.pipelines.ai_documents.main()(originalHandler);
 export const POST = mockAreas.pipelines.ai_documents.stream()(originalHandler);
@@ -50,7 +50,7 @@ export const POST = mockAreas.pipelines.ai_documents.stream()(originalHandler);
 ### Chat Routes
 ```typescript
 // /api/conversations/route.ts
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 export const GET = mockAreas.conversations.main()(originalHandler);
 export const POST = mockAreas.conversations.main()(originalHandler);
@@ -62,7 +62,7 @@ export const POST = mockAreas.conversations.stream()(originalHandler);
 ### Conversations Components
 ```typescript
 // Enhanced chat input component
-import { useMockData } from '@/app/mocking';
+import { useMockData } from '@/mocking';
 
 function EnhancedChatInput() {
   const { data: conversations } = useMockData('CONVERSATIONS');
@@ -78,7 +78,7 @@ function EnhancedChatInput() {
 ### Authentication Routes
 ```typescript
 // /api/auth/github/callback/route.ts
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 export const GET = mockAreas.orbital.auth.github()(originalHandler);
 
@@ -101,7 +101,7 @@ export const GET = mockAreas.orbital.user.usage()(originalHandler);
 ### Onboarding Components
 ```typescript
 // Onboarding flow with mock support
-import { useMockData } from '@/app/mocking';
+import { useMockData } from '@/mocking';
 
 function OnboardingFlow() {
   const { data: steps } = useMockData('ONBOARDING_STEPS');
@@ -117,7 +117,7 @@ function OnboardingFlow() {
 ### Organization Routes
 ```typescript
 // /api/organizations/route.ts
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 export const GET = mockAreas.organizations.main()(originalHandler);
 
@@ -182,7 +182,7 @@ export const GET = mockAreas.system.triggers()(originalHandler);
 
 ### Header & Navigation
 ```typescript
-import { useMockData, MockOnly, RealOnly } from '@/app/mocking';
+import { useMockData, MockOnly, RealOnly } from '@/mocking';
 
 function Header() {
   const { data: user } = useMockData('USER_PROFILE');
@@ -313,7 +313,7 @@ NEXT_PUBLIC_MOCK_SCENARIO=demo
 ### Step 2: Update Your Main Deliverables Route
 ```typescript
 // /api/deliverables/route.ts
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 // Simply wrap your existing exports
 export const GET = mockAreas.pipelines.deliverables.main()(
@@ -350,17 +350,17 @@ With these changes, you'll have:
 ✅ **Rich developer experience** with type safety  
 ✅ **Production-ready reliability** with error handling  
 
-**Your entire Engi platform becomes a comprehensive demo environment while maintaining all existing functionality!**
+**Your entire Bitcode application becomes a comprehensive demo environment while maintaining all existing functionality.**
 
 ## 🔧 DEBUG & MONITORING
 
 ### Browser Console Tools
 ```javascript
-// Available at window.__engiMockSystem
-__engiMockSystem.enableMocking();
-__engiMockSystem.switchScenario('enterprise');
-__engiMockSystem.getMetrics();
-__engiMockSystem.validateSystem();
+// Available at window.__bitcodeMockSystem
+__bitcodeMockSystem.enableMocking();
+__bitcodeMockSystem.switchScenario('enterprise');
+__bitcodeMockSystem.getMetrics();
+__bitcodeMockSystem.validateSystem();
 ```
 
 ### Performance Monitoring
@@ -372,4 +372,4 @@ console.log('Cache hit ratio:', metrics.mocking.cacheHitRatio);
 console.log('Memory usage:', metrics.system.memoryUsageMB);
 ```
 
-This integration guide shows exactly how to apply the comprehensive mock system to your real Engi codebase with minimal effort and maximum impact! 🚀
+This integration guide shows exactly how to apply the comprehensive mock system to your real Bitcode codebase with minimal effort and maximum impact. 🚀

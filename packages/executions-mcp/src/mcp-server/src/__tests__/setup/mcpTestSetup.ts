@@ -639,20 +639,46 @@ afterEach(() => {
   jest.clearAllTimers();
 });
 
-// ============================================================================
+// ============================================================================ 
 // Error Handling
 // ============================================================================
 
 // Handle unhandled promise rejections in tests
-process.on('unhandledRejection', (reason, promise) => {
+const handleUnhandledRejection = (reason: unknown, promise: Promise<unknown>) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   // Don't exit the process in tests, just log the error
-});
+};
 
 // Handle uncaught exceptions in tests
-process.on('uncaughtException', (error) => {
+const handleUncaughtException = (error: unknown) => {
   console.error('Uncaught Exception:', error);
   // Don't exit the process in tests, just log the error
+};
+
+process.on('unhandledRejection', handleUnhandledRejection);
+process.on('uncaughtException', handleUncaughtException);
+
+afterAll(() => {
+  process.off('unhandledRejection', handleUnhandledRejection);
+  process.off('uncaughtException', handleUncaughtException);
+
+  try {
+    // The mocking module eagerly instantiates a singleton with timers/listeners.
+    // Reset it explicitly so retained MCP Jest workers can exit cleanly.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { MockOrchestrator } = require('../../../../../../../uapi/mocking/core/MockOrchestrator');
+    if (typeof MockOrchestrator.resetInstance === 'function') {
+      MockOrchestrator.resetInstance();
+    } else {
+      const instance = (MockOrchestrator as any).instance;
+      if (instance && typeof instance.cleanup === 'function') {
+        instance.cleanup();
+      }
+      (MockOrchestrator as any).instance = null;
+    }
+  } catch {
+    // Best-effort teardown only.
+  }
 });
 
 export {};

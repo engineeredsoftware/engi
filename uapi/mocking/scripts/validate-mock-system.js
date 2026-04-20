@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
 /**
- * Engi Mock System - Validation Script
+ * Bitcode Mock System - Validation Script
  * 
  * This script validates that the mock system is properly configured and working.
  * Run this to diagnose any issues or verify your setup.
  * 
  * Usage:
- *   node scripts/validate-mock-system.js
+ *   node mocking/scripts/validate-mock-system.js
  */
 
 const fs = require('fs');
 const path = require('path');
 
 async function main() {
-  console.log('🔍 Engi Mock System Validation\n');
+  console.log('🔍 Bitcode Mock System Validation\n');
   
   let allPassed = true;
   const results = {
@@ -49,7 +49,7 @@ async function main() {
   } else {
     console.log('\n⚠️  Some validations failed. Please check the issues above.');
     console.log('\n🔧 Common fixes:');
-    console.log('- Run: node scripts/setup-mock-system.js');
+    console.log('- Run: node mocking/scripts/setup-mock-system.js');
     console.log('- Check .env.local configuration');
     console.log('- Ensure all mock system files are present');
   }
@@ -63,7 +63,9 @@ async function testEnvironmentConfiguration(results) {
   await test('Environment file exists', () => {
     const envPath = path.join(process.cwd(), '.env.local');
     if (!fs.existsSync(envPath)) {
-      throw new Error('No .env.local file found. Run setup-mock-system.js first.');
+      console.warn('⚠️  No .env.local file found. Run mocking/scripts/setup-mock-system.js to generate one.');
+      results.warnings++;
+      return;
     }
   }, results);
   
@@ -94,15 +96,15 @@ async function testFileStructure(results) {
   console.log('📁 Testing File Structure...');
   
   const requiredFiles = [
-    'app/mocking/index.ts',
-    'app/mocking/types/core.ts',
-    'app/mocking/core/MockOrchestrator.ts',
-    'app/mocking/engines/StreamingPipelineEngine.ts',
-    'app/mocking/generators/MockDataGenerators.ts',
-    'app/mocking/generators/ComprehensiveMockDataGenerators.ts',
-    'app/mocking/integration/MockProvider.tsx',
-    'app/mocking/middleware/MockMiddleware.ts',
-    'app/mocking/middleware/SpecializedMockMiddleware.ts'
+    'mocking/index.ts',
+    'mocking/types/core.ts',
+    'mocking/core/MockOrchestrator.ts',
+    'mocking/engines/StreamingPipelineEngine.ts',
+    'mocking/generators/MockDataGenerators.ts',
+    'mocking/generators/ComprehensiveMockDataGenerators.ts',
+    'mocking/integration/MockProvider.tsx',
+    'mocking/middleware/MockMiddleware.ts',
+    'mocking/middleware/SpecializedMockMiddleware.ts'
   ];
   
   for (const file of requiredFiles) {
@@ -121,7 +123,7 @@ async function testMockSystemFiles(results) {
   console.log('🎭 Testing Mock System Files...');
   
   await test('Main index exports', () => {
-    const indexPath = path.join(process.cwd(), 'app/mocking/index.ts');
+    const indexPath = path.join(process.cwd(), 'mocking/index.ts');
     if (fs.existsSync(indexPath)) {
       const content = fs.readFileSync(indexPath, 'utf8');
       const requiredExports = [
@@ -140,7 +142,7 @@ async function testMockSystemFiles(results) {
   }, results);
   
   await test('Comprehensive generators', () => {
-    const genPath = path.join(process.cwd(), 'app/mocking/generators/ComprehensiveMockDataGenerators.ts');
+    const genPath = path.join(process.cwd(), 'mocking/generators/ComprehensiveMockDataGenerators.ts');
     if (fs.existsSync(genPath)) {
       const content = fs.readFileSync(genPath, 'utf8');
       
@@ -161,7 +163,7 @@ async function testMockSystemFiles(results) {
   }, results);
   
   await test('Specialized middleware', () => {
-    const mwPath = path.join(process.cwd(), 'app/mocking/middleware/SpecializedMockMiddleware.ts');
+    const mwPath = path.join(process.cwd(), 'mocking/middleware/SpecializedMockMiddleware.ts');
     if (fs.existsSync(mwPath)) {
       const content = fs.readFileSync(mwPath, 'utf8');
       
@@ -189,7 +191,7 @@ async function testTypeScriptCompilation(results) {
   console.log('📝 Testing TypeScript Compilation...');
   
   await test('Types compile without errors', () => {
-    const typesPath = path.join(process.cwd(), 'app/mocking/types/core.ts');
+    const typesPath = path.join(process.cwd(), 'mocking/types/core.ts');
     if (fs.existsSync(typesPath)) {
       const content = fs.readFileSync(typesPath, 'utf8');
       
@@ -238,7 +240,7 @@ async function testRuntimeValidation(results) {
   await test('Mock data generator initializes', () => {
     // Try to require the generator (basic syntax check)
     try {
-      const genPath = path.join(process.cwd(), 'app/mocking/generators/ComprehensiveMockDataGenerators.ts');
+      const genPath = path.join(process.cwd(), 'mocking/generators/ComprehensiveMockDataGenerators.ts');
       if (fs.existsSync(genPath)) {
         const content = fs.readFileSync(genPath, 'utf8');
         

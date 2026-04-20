@@ -1,6 +1,6 @@
-# 🚀 Engi Mock System Scripts
+# 🚀 Bitcode Mock System Scripts
 
-**One-command setup and validation for the comprehensive Engi mock system**
+**One-command setup and validation for the comprehensive Bitcode mock system**
 
 ## Quick Start
 
@@ -9,10 +9,10 @@
 cd uapi
 
 # Run the easy setup script
-node app/mocking/scripts/setup-mock-system.js
+node mocking/scripts/setup-mock-system.js
 
 # Validate everything is working
-node app/mocking/scripts/validate-mock-system.js
+node mocking/scripts/validate-mock-system.js
 ```
 
 ## Available Scripts
@@ -20,14 +20,14 @@ node app/mocking/scripts/validate-mock-system.js
 ### 🎯 Setup Script
 ```bash
 # Setup with default demo scenario
-node app/mocking/scripts/setup-mock-system.js
+node mocking/scripts/setup-mock-system.js
 
 # Setup with specific scenarios
-node app/mocking/scripts/setup-mock-system.js demo         # Rich demo data
-node app/mocking/scripts/setup-mock-system.js enterprise   # Enterprise scale
-node app/mocking/scripts/setup-mock-system.js testing      # Minimal testing
-node app/mocking/scripts/setup-mock-system.js onboarding   # New user experience
-node app/mocking/scripts/setup-mock-system.js empty        # Empty states
+node mocking/scripts/setup-mock-system.js demo         # Rich demo data
+node mocking/scripts/setup-mock-system.js enterprise   # Enterprise scale
+node mocking/scripts/setup-mock-system.js testing      # Minimal testing
+node mocking/scripts/setup-mock-system.js onboarding   # New user experience
+node mocking/scripts/setup-mock-system.js empty        # Empty states
 ```
 
 **What the setup script does:**
@@ -39,7 +39,7 @@ node app/mocking/scripts/setup-mock-system.js empty        # Empty states
 
 ### 🔍 Validation Script
 ```bash
-node app/mocking/scripts/validate-mock-system.js
+node mocking/scripts/validate-mock-system.js
 ```
 
 **What the validation script checks:**
@@ -110,10 +110,10 @@ NEXT_PUBLIC_MOCK_TIMING=realistic
 
 ### Successful Setup
 ```
-🚀 Engi Mock System Setup
+🚀 Bitcode Mock System Setup
 
 📋 Setting up: Demo Experience
-📝 Description: Rich, engaging demo data perfect for showcasing Engi capabilities
+📝 Description: Rich, engaging demo data perfect for showcasing Bitcode capabilities
 
 ⚙️  Configuring environment variables...
 💾 Backing up existing .env.local to .env.local.backup
@@ -121,22 +121,22 @@ NEXT_PUBLIC_MOCK_TIMING=realistic
 📄 Configuration written to .env.local
 
 📚 Creating quick start guide...
-✅ Quick start guide created: app/mocking/QUICK_START_DEMO.md
+✅ Quick start guide created: mocking/QUICK_START_DEMO.md
 
-🎉 Setup Complete! Your Engi platform is now running in Demo Experience.
+🎉 Setup Complete! Your Bitcode application is now running in Demo Experience.
 
 📋 Next Steps:
 1. Start your development server: npm run dev
-2. Open your browser and navigate to any Engi page
+2. Open your browser and navigate to any Bitcode page
 3. See rich, realistic mock data automatically!
-4. Check the quick start guide: app/mocking/QUICK_START_DEMO.md
+4. Check the quick start guide: mocking/QUICK_START_DEMO.md
 
 🚀 Happy mocking!
 ```
 
 ### Successful Validation
 ```
-🔍 Engi Mock System Validation
+🔍 Bitcode Mock System Validation
 
 🔧 Testing Environment Configuration...
 ✅ Environment file exists
@@ -144,9 +144,9 @@ NEXT_PUBLIC_MOCK_TIMING=realistic
 ✅ Mock scenario configured
 
 📁 Testing File Structure...
-✅ File exists: app/mocking/index.ts
-✅ File exists: app/mocking/types/core.ts
-✅ File exists: app/mocking/core/MockOrchestrator.ts
+✅ File exists: mocking/index.ts
+✅ File exists: mocking/types/core.ts
+✅ File exists: mocking/core/MockOrchestrator.ts
 ...
 
 🎭 Testing Mock System Files...
@@ -182,10 +182,10 @@ NEXT_PUBLIC_MOCK_TIMING=realistic
 #### Permission Errors
 ```bash
 # Make scripts executable
-chmod +x app/mocking/scripts/*.js
+chmod +x mocking/scripts/*.js
 
 # Or run with node explicitly
-node app/mocking/scripts/setup-mock-system.js
+node mocking/scripts/setup-mock-system.js
 ```
 
 #### Missing Dependencies
@@ -200,7 +200,7 @@ node --version
 #### Configuration Issues
 ```bash
 # Run validation to diagnose
-node app/mocking/scripts/validate-mock-system.js
+node mocking/scripts/validate-mock-system.js
 
 # Check existing .env.local
 cat .env.local | grep MOCK
@@ -218,7 +218,7 @@ sed -i '/NEXT_PUBLIC_MOCK/d' .env.local
 cp .env.local.backup .env.local
 
 # Re-run setup
-node app/mocking/scripts/setup-mock-system.js
+node mocking/scripts/setup-mock-system.js
 ```
 
 ## Advanced Usage
@@ -238,10 +238,10 @@ NEXT_PUBLIC_MOCK_ERROR_INJECTION=true
 ```json
 {
   "scripts": {
-    "mock:setup": "node app/mocking/scripts/setup-mock-system.js",
-    "mock:demo": "node app/mocking/scripts/setup-mock-system.js demo",
-    "mock:enterprise": "node app/mocking/scripts/setup-mock-system.js enterprise",
-    "mock:validate": "node app/mocking/scripts/validate-mock-system.js"
+    "mock:setup": "node mocking/scripts/setup-mock-system.js",
+    "mock:demo": "node mocking/scripts/setup-mock-system.js demo",
+    "mock:enterprise": "node mocking/scripts/setup-mock-system.js enterprise",
+    "mock:validate": "node mocking/scripts/validate-mock-system.js"
   }
 }
 ```
@@ -249,8 +249,8 @@ NEXT_PUBLIC_MOCK_ERROR_INJECTION=true
 ### CI/CD Integration
 ```bash
 # In your CI pipeline
-node app/mocking/scripts/setup-mock-system.js testing
-node app/mocking/scripts/validate-mock-system.js
+node mocking/scripts/setup-mock-system.js testing
+node mocking/scripts/validate-mock-system.js
 npm run test
 ```
 

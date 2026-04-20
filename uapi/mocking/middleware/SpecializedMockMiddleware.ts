@@ -3,7 +3,7 @@
  * 
  * Provides specialized middleware functions for each major area of the Bitcode system:
  * - User Auxillaries (onboarding, auth, profile)
- * - Conversations (ChatGPT for engineering)
+ * - Conversations (ChatGPT-style Bitcode usage)
  * - Deliverables/AI Documents (main pipelines)
  * - Organizations (enterprise features)
  * - Integrations (GitHub, GitLab, etc.)
@@ -107,7 +107,7 @@ function createSpecializedMiddleware(config: SpecializedMiddlewareConfig) {
 }
 
 // ============================================================================
-// USER ORBITAL MIDDLEWARE (Onboarding, Auth, Profile)
+// USER AUXILLIARIES MIDDLEWARE (Onboarding, Auth, Profile)
 // ============================================================================
 
 /**

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Engi Mock System - Easy Setup Script
+ * Bitcode Mock System - Easy Setup Script
  * 
- * This script automatically sets up the comprehensive mock system for your Engi platform.
+ * This script automatically sets up the comprehensive mock system for your Bitcode application.
  * Run this script to get started with mocking in seconds!
  * 
  * Usage:
@@ -24,7 +24,7 @@ const path = require('path');
 const SCENARIOS = {
   demo: {
     name: 'Demo Mode',
-    description: 'Rich, engaging demo data perfect for showcasing Engi capabilities',
+    description: 'Rich, engaging demo data perfect for showcasing Bitcode capabilities',
     complexity: 'complex',
     timing: 'realistic'
   },
@@ -55,7 +55,7 @@ const SCENARIOS = {
 };
 
 function main() {
-  console.log('🚀 Engi Mock System Setup\n');
+  console.log('🚀 Bitcode Mock System Setup\n');
   
   // Get scenario from command line args
   const scenario = process.argv[2] || 'demo';
@@ -108,7 +108,7 @@ function setupEnvironmentFile(scenario, config) {
   // Add mock configuration
   const mockConfig = `
 # ============================================================================
-# ENGI MOCK SYSTEM - ${config.name.toUpperCase()}
+# BITCODE MOCK SYSTEM - ${config.name.toUpperCase()}
 # Generated on ${new Date().toISOString()}
 # ============================================================================
 
@@ -143,7 +143,7 @@ NEXT_PUBLIC_MOCK_VALIDATION_ENABLED=true
 # NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
 
 # ============================================================================
-# END ENGI MOCK SYSTEM CONFIGURATION
+# END BITCODE MOCK SYSTEM CONFIGURATION
 # ============================================================================
 `;
   
@@ -161,7 +161,7 @@ NEXT_PUBLIC_MOCK_VALIDATION_ENABLED=true
 function createQuickStartGuide(scenario, config) {
   console.log('\n📚 Creating quick start guide...');
   
-  const guidePath = path.join(process.cwd(), 'app', 'mocking', `QUICK_START_${scenario.toUpperCase()}.md`);
+  const guidePath = path.join(process.cwd(), 'mocking', `QUICK_START_${scenario.toUpperCase()}.md`);
   
   const guideContent = `# Quick Start Guide - ${config.name}
 
@@ -227,16 +227,16 @@ NEXT_PUBLIC_MASTER_MOCK_MODE=false
 Open browser console and use:
 \`\`\`javascript
 // Check system status
-__engiMockSystem.getMetrics()
+__bitcodeMockSystem.getMetrics()
 
 // Switch scenarios on the fly
-__engiMockSystem.switchScenario('enterprise')
+__bitcodeMockSystem.switchScenario('enterprise')
 
 // Validate system health
-__engiMockSystem.validateSystem()
+__bitcodeMockSystem.validateSystem()
 
 // Clear cache
-__engiMockSystem.clearCache()
+__bitcodeMockSystem.clearCache()
 \`\`\`
 
 ## 📊 What's Mocked in ${config.name}
@@ -245,9 +245,9 @@ ${getScenarioFeatures(scenario)}
 
 ## 🆘 Need Help?
 
-- **Documentation:** \`/app/mocking/README.md\`
-- **Integration Guide:** \`/app/mocking/INTEGRATION_GUIDE.md\`
-- **System Summary:** \`/app/mocking/COMPREHENSIVE_SYSTEM_SUMMARY.md\`
+- **Documentation:** \`/mocking/README.md\`
+- **Integration Guide:** \`/mocking/INTEGRATION_GUIDE.md\`
+- **System Summary:** \`/mocking/COMPREHENSIVE_SYSTEM_SUMMARY.md\`
 
 ## 🔄 Switch Scenarios
 
@@ -259,7 +259,7 @@ node scripts/setup-mock-system.js onboarding
 \`\`\`
 
 ---
-*Generated on ${new Date().toISOString()} by Engi Mock System Setup*
+*Generated on ${new Date().toISOString()} by Bitcode Mock System Setup*
 `;
 
   fs.writeFileSync(guidePath, guideContent);
@@ -323,15 +323,15 @@ function getScenarioFeatures(scenario) {
 }
 
 function displayNextSteps(scenario) {
-  console.log(`\n🎉 Setup Complete! Your Engi platform is now running in ${SCENARIOS[scenario].name}.`);
+  console.log(`\n🎉 Setup Complete! Your Bitcode application is now running in ${SCENARIOS[scenario].name}.`);
   console.log('\n📋 Next Steps:');
   console.log('1. Start your development server: npm run dev');
-  console.log('2. Open your browser and navigate to any Engi page');
+  console.log('2. Open your browser and navigate to any Bitcode page');
   console.log('3. See rich, realistic mock data automatically!');
-  console.log(`4. Check the quick start guide: app/mocking/QUICK_START_${scenario.toUpperCase()}.md`);
+  console.log(`4. Check the quick start guide: mocking/QUICK_START_${scenario.toUpperCase()}.md`);
   
   console.log('\n🔧 Debug Tips:');
-  console.log('- Open browser console for debug tools: __engiMockSystem');
+  console.log('- Open browser console for debug tools: __bitcodeMockSystem');
   console.log('- Watch for mock system logs in console');
   console.log('- Check response headers for mock indicators');
   

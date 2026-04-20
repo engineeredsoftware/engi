@@ -222,7 +222,7 @@ export class ComprehensiveMockDataGenerator {
     // ========================================================================
 
     this.generators.set('DELIVERABLE_TEMPLATES', () => this.generateDeliverableTemplates());
-    this.generators.set('UPGRADE_TEMPLATES', () => this.generateAI DocumentTemplates());
+    this.generators.set('UPGRADE_TEMPLATES', () => this.generateUpgradeTemplates());
     this.generators.set('TEMPLATE_PREFERENCES', () => this.generateTemplatePreferences());
     this.generators.set('TEMPLATE_CATEGORIES', () => this.generateTemplateCategories());
 
@@ -268,7 +268,7 @@ export class ComprehensiveMockDataGenerator {
     // ========================================================================
 
     this.generators.set('DELIVERABLE_VECTORS', () => this.generateDeliverableVectors());
-    this.generators.set('UPGRADE_VECTORS', () => this.generateAI DocumentVectors());
+    this.generators.set('UPGRADE_VECTORS', () => this.generateUpgradeVectors());
     this.generators.set('USER_VECTORS', () => this.generateUserVectors());
     this.generators.set('PATTERN_RECOGNITION', () => this.generatePatternRecognition());
     this.generators.set('VECTOR_SEARCH', () => this.generateVectorSearch());
@@ -511,7 +511,7 @@ export class ComprehensiveMockDataGenerator {
   }
 
   // ============================================================================
-  // USER ORBITAL GENERATORS
+  // USER AUXILLIARIES GENERATORS
   // ============================================================================
 
   private generateUserProfile() {
@@ -1079,7 +1079,7 @@ export class ComprehensiveMockDataGenerator {
 
   // Templates & Preferences
   private generateDeliverableTemplates() { return [{ id: 'tpl_123', name: 'React Component', category: 'frontend', usage_count: 1247 }]; }
-  private generateAI DocumentTemplates() { return [{ id: 'tpl_456', name: 'Performance Optimization', category: 'optimization', usage_count: 567 }]; }
+  private generateUpgradeTemplates() { return [{ id: 'tpl_456', name: 'Performance Optimization', category: 'optimization', usage_count: 567 }]; }
   private generateTemplatePreferences() { return { auto_suggest: true, categories: ['react', 'api'], recently_used: ['tpl_123'] }; }
   private generateTemplateCategories() { return [{ id: 'frontend', name: 'Frontend', templates_count: 89 }]; }
 
@@ -1111,7 +1111,7 @@ export class ComprehensiveMockDataGenerator {
 
   // Vector & AI
   private generateDeliverableVectors() { return [{ id: 'vec_123', deliverable_id: 'del_456', embedding: [0.1, 0.2, 0.3], metadata: { category: 'frontend' } }]; }
-  private generateAI DocumentVectors() { return [{ id: 'vec_456', ai_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
+  private generateUpgradeVectors() { return [{ id: 'vec_456', ai_document_id: 'upg_789', embedding: [0.4, 0.5, 0.6], metadata: { type: 'performance' } }]; }
   private generateUserVectors() { return [{ user_id: 'user_123', preferences_vector: [0.7, 0.8, 0.9], last_updated: this.generateTimestamp() }]; }
   private generatePatternRecognition() { return { patterns: [{ type: 'authentication_flow', confidence: 0.95, components: ['login', 'oauth', 'session'] }] }; }
   private generateVectorSearch() { return { query: 'react component', results: [{ id: 'vec_123', score: 0.89 }] }; }

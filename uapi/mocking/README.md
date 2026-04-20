@@ -1,6 +1,6 @@
-# 🎭 Engi Mock System - Complete Documentation
+# 🎭 Bitcode Mock System - Complete Documentation
 
-**The most comprehensive enterprise-grade mocking system for the Engi platform**
+**The most comprehensive enterprise-grade mocking system for the Bitcode application**
 
 [![Coverage](https://img.shields.io/badge/Coverage-138%2B%20Features-brightgreen)](./COMPREHENSIVE_SYSTEM_SUMMARY.md)
 [![Type Safety](https://img.shields.io/badge/TypeScript-100%25-blue)](#typescript-support)
@@ -15,10 +15,10 @@
 cd uapi
 
 # Run the easy setup script  
-node app/mocking/scripts/setup-mock-system.js
+node mocking/scripts/setup-mock-system.js
 
 # Or choose a specific scenario
-node app/mocking/scripts/setup-mock-system.js enterprise
+node mocking/scripts/setup-mock-system.js enterprise
 ```
 
 ### 2. Start Your Server
@@ -27,7 +27,7 @@ npm run dev
 ```
 
 ### 3. Visit Any Page - You're Done! 🎉
-Your entire Engi platform now has rich, realistic mock data automatically!
+Your entire Bitcode application now has rich, realistic mock data automatically.
 
 ## 📋 Table of Contents
 
@@ -44,10 +44,10 @@ Your entire Engi platform now has rich, realistic mock data automatically!
 
 ## 🎯 What This System Covers
 
-### Complete Engi Platform Coverage (138+ Features)
+### Complete Bitcode Application Coverage (138+ Features)
 
 ✅ **User Orbital** (25+ features): Authentication, profiles, onboarding, preferences  
-✅ **Conversations** (10+ features): ChatGPT for engineering, conversations, AI responses  
+✅ **Conversations** (10+ features): ChatGPT-style Bitcode conversations, tool responses, AI replies  
 ✅ **Deliverables/AI Documents** (16+ features): Main pipelines with 4 toggles, streaming  
 ✅ **Organizations** (8+ features): Enterprise teams, members, credits, invitations  
 ✅ **Integrations** (25+ features): GitHub, GitLab, Bitbucket, Figma, Notion  
@@ -62,13 +62,13 @@ Your entire Engi platform now has rich, realistic mock data automatically!
 ### Option 1: Easy Setup Script (Recommended)
 ```bash
 # Demo mode (rich, engaging data)
-node app/mocking/scripts/setup-mock-system.js demo
+node mocking/scripts/setup-mock-system.js demo
 
 # Enterprise mode (large-scale data)  
-node app/mocking/scripts/setup-mock-system.js enterprise
+node mocking/scripts/setup-mock-system.js enterprise
 
 # Testing mode (minimal, predictable data)
-node app/mocking/scripts/setup-mock-system.js testing
+node mocking/scripts/setup-mock-system.js testing
 ```
 
 ### Option 2: Manual Setup
@@ -97,7 +97,7 @@ export const GET = async (request: NextRequest) => {
 };
 
 // After: Enhanced with comprehensive mocking
-import { mockAreas } from '@/app/mocking';
+import { mockAreas } from '@/mocking';
 
 export const GET = mockAreas.pipelines.deliverables.main()(async (request: NextRequest) => {
   // Your original logic - UNCHANGED!
@@ -107,7 +107,7 @@ export const GET = mockAreas.pipelines.deliverables.main()(async (request: NextR
 ### Zero-Change Component Integration
 ```typescript
 // Automatic mock data in components
-import { useMockData } from '@/app/mocking';
+import { useMockData } from '@/mocking';
 
 function MyComponent() {
   const { data, loading, error } = useMockData('DELIVERABLES');
@@ -195,7 +195,7 @@ NEXT_PUBLIC_MOCK_ERROR_TYPES=network,timeout
 
 ### Programmatic Configuration
 ```typescript
-import { initializeMockSystem } from '@/app/mocking';
+import { initializeMockSystem } from '@/mocking';
 
 initializeMockSystem({
   enabled: true,
@@ -234,7 +234,7 @@ initializeMockSystem({
 
 ### Custom Scenarios
 ```typescript
-import { MockOrchestrator } from '@/app/mocking';
+import { MockOrchestrator } from '@/mocking';
 
 const orchestrator = MockOrchestrator.getInstance();
 
@@ -253,7 +253,7 @@ orchestrator.registerScenario({
 
 ### Performance Monitoring
 ```typescript
-import { MockOrchestrator } from '@/app/mocking';
+import { MockOrchestrator } from '@/mocking';
 
 const orchestrator = MockOrchestrator.getInstance();
 
@@ -270,15 +270,15 @@ console.log('System valid:', validation.valid);
 ### Debug Tools
 ```javascript
 // Available in browser console when debug mode is enabled
-__engiMockSystem.getMetrics()           // Performance metrics
-__engiMockSystem.switchScenario('demo') // Change scenario
-__engiMockSystem.validateSystem()       // Health check
-__engiMockSystem.clearCache()           // Clear cache
+__bitcodeMockSystem.getMetrics()           // Performance metrics
+__bitcodeMockSystem.switchScenario('demo') // Change scenario
+__bitcodeMockSystem.validateSystem()       // Health check
+__bitcodeMockSystem.clearCache()           // Clear cache
 ```
 
 ### Conditional Rendering
 ```typescript
-import { MockOnly, RealOnly, useMockContext } from '@/app/mocking';
+import { MockOnly, RealOnly, useMockContext } from '@/mocking';
 
 function MyComponent() {
   const { isEnabled, currentScenario } = useMockContext();
@@ -310,7 +310,7 @@ function MyComponent() {
 #### Mock Data Not Loading
 ```bash
 # Check environment configuration
-node app/mocking/scripts/validate-mock-system.js
+node mocking/scripts/validate-mock-system.js
 
 # Verify master mode is enabled
 grep NEXT_PUBLIC_MASTER_MOCK_MODE .env.local
@@ -335,17 +335,17 @@ NEXT_PUBLIC_MOCK_PERFORMANCE_MONITORING=true
 #### TypeScript Errors
 ```bash
 # Ensure all mock system files are present
-ls app/mocking/types/
-ls app/mocking/generators/
+ls mocking/types/
+ls mocking/generators/
 
 # Check imports in your files
-import type { MockableFeature } from '@/app/mocking/types/core';
+import type { MockableFeature } from '@/mocking/types/core';
 ```
 
 ### Validation Script
 ```bash
 # Run comprehensive validation
-node app/mocking/scripts/validate-mock-system.js
+node mocking/scripts/validate-mock-system.js
 
 # This checks:
 # - Environment configuration
@@ -388,7 +388,7 @@ import type {
   MockableFeature, 
   MockScenarioType, 
   MockDataContainer 
-} from '@/app/mocking/types/core';
+} from '@/mocking/types/core';
 
 // Comprehensive feature types
 const feature: MockableFeature = 'DELIVERABLES'; // 138+ options
@@ -432,7 +432,7 @@ NEXT_PUBLIC_MASTER_MOCK_MODE=true
 
 ```bash
 # 1. Run the setup script
-node app/mocking/scripts/setup-mock-system.js
+node mocking/scripts/setup-mock-system.js
 
 # 2. Start your server  
 npm run dev
@@ -440,8 +440,8 @@ npm run dev
 # 3. Visit any page - you're done! 🎉
 ```
 
-**Your entire Engi platform now has enterprise-grade mocking with zero code changes!**
+**Your entire Bitcode application now has enterprise-grade mocking with zero code changes.**
 
 ---
 
-*Built with ❤️ by the Engi Team for developers building the future* 🎭
+*Built with ❤️ by the Bitcode team for developers building the future* 🎭

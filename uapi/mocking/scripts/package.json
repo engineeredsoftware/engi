@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/mock-scripts",
   "version": "1.0.0",
-  "description": "Easy setup and validation scripts for the Engi Mock System",
+  "description": "Easy setup and validation scripts for the Bitcode mock system",
   "scripts": {
     "setup": "node setup-mock-system.js",
     "setup:demo": "node setup-mock-system.js demo",
@@ -10,20 +10,20 @@
     "setup:onboarding": "node setup-mock-system.js onboarding",
     "setup:empty": "node setup-mock-system.js empty",
     "validate": "node validate-mock-system.js",
-    "help": "node -e \"console.log('\\n🎭 Engi Mock System Scripts\\n\\nAvailable commands:\\n  npm run setup [scenario]  - Set up mock system\\n  npm run validate          - Validate configuration\\n  npm run help              - Show this help\\n\\nScenarios: demo, enterprise, testing, onboarding, empty\\n');\""
+    "help": "node -e \"console.log('\\n🎭 Bitcode Mock System Scripts\\n\\nAvailable commands:\\n  npm run setup [scenario]  - Set up mock system\\n  npm run validate          - Validate configuration\\n  npm run help              - Show this help\\n\\nScenarios: demo, enterprise, testing, onboarding, empty\\n');\""
   },
   "bin": {
-    "engi-mock-setup": "./setup-mock-system.js",
-    "engi-mock-validate": "./validate-mock-system.js"
+    "bitcode-mock-setup": "./setup-mock-system.js",
+    "bitcode-mock-validate": "./validate-mock-system.js"
   },
   "keywords": [
-    "engi",
+    "bitcode",
     "mock",
     "setup",
     "validation",
     "testing",
     "development"
   ],
-  "author": "Engi Team",
+  "author": "Bitcode Team",
   "license": "MIT"
 }

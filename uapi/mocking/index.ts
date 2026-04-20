@@ -3,7 +3,7 @@
  * 
  * 🎯 COMPLETE SYSTEM COVERAGE (100+ Features):
  * - Auxillaries: onboarding, auth, profile, preferences (25+ features)
- * - Conversations: ChatGPT for engineering experience (10+ features)  
+ * - Conversations: ChatGPT-style Bitcode experience (10+ features)  
  * - Deliverables/AI Documents: main pipeline experiences (16+ features)
  * - Organizations: enterprise team management (8+ features)
  * - Integrations: GitHub, GitLab, Bitbucket, Figma, Notion (25+ features)
@@ -170,7 +170,6 @@ export type {
   // Re-exported API Types
   CompletionData,
   PipelineExecution,
-  AI DocumentRun,
   Account,
   Repository,
   IssueOrPR,
@@ -180,7 +179,6 @@ export type {
   StreamStatusMessage,
   LlmCallData,
   DeliverableTemplates,
-  AI DocumentTemplates,
   IntegrationOption,
   Issue
 } from './types/core';

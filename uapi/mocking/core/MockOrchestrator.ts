@@ -75,6 +75,9 @@ export class MockOrchestrator {
   private totalOperations = 0;
   private cacheHits = 0;
   private memoryUsageBytes = 0;
+  private readonly handleProcessExit = () => this.dispose();
+  private readonly handleProcessSigint = () => this.dispose();
+  private readonly handleProcessSigterm = () => this.dispose();
 
   private constructor() {
     this.config = this.loadEnvironmentConfig();
@@ -83,9 +86,9 @@ export class MockOrchestrator {
     
     // Cleanup on process exit
     if (typeof process !== 'undefined') {
-      process.on('exit', () => this.cleanup());
-      process.on('SIGINT', () => this.cleanup());
-      process.on('SIGTERM', () => this.cleanup());
+      process.on('exit', this.handleProcessExit);
+      process.on('SIGINT', this.handleProcessSigint);
+      process.on('SIGTERM', this.handleProcessSigterm);
     }
   }
 
@@ -97,6 +100,13 @@ export class MockOrchestrator {
       MockOrchestrator.instance = new MockOrchestrator();
     }
     return MockOrchestrator.instance;
+  }
+
+  public static resetInstance(): void {
+    if (MockOrchestrator.instance) {
+      MockOrchestrator.instance.dispose();
+      MockOrchestrator.instance = null;
+    }
   }
 
   /**
@@ -581,6 +591,8 @@ export class MockOrchestrator {
         console.log('MockOrchestrator Performance:', metrics);
       }
     }, 60000); // Every minute
+
+    this.metricsCollectionInterval.unref?.();
   }
 
   private validateScenario(scenario: MockScenarioConfig): void {
@@ -633,10 +645,27 @@ export class MockOrchestrator {
     return recommendations;
   }
 
-  private cleanup(): void {
+  public cleanup(): void {
+    this.dispose();
+  }
+
+  public dispose(): void {
     if (this.metricsCollectionInterval) {
       clearInterval(this.metricsCollectionInterval);
+      this.metricsCollectionInterval = null;
     }
+
+    if (typeof process !== 'undefined') {
+      process.off('exit', this.handleProcessExit);
+      process.off('SIGINT', this.handleProcessSigint);
+      process.off('SIGTERM', this.handleProcessSigterm);
+    }
+
+    for (const plugin of this.loadedPlugins.values()) {
+      plugin.cleanup?.();
+    }
+
+    this.loadedPlugins.clear();
     this.dataCache.clear();
     this.performanceMetrics.length = 0;
   }

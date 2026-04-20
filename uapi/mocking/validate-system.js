@@ -9,7 +9,7 @@ process.env.NEXT_PUBLIC_MASTER_MOCK_MODE = 'true';
 process.env.NEXT_PUBLIC_MOCK_SCENARIO = 'demo';
 process.env.NEXT_PUBLIC_MOCK_DEBUG = 'true';
 
-console.log('🚀 Starting Engi Mock System Validation...\n');
+console.log('🚀 Starting Bitcode Mock System Validation...\n');
 
 async function validateSystem() {
   const results = {
