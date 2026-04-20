@@ -760,9 +760,9 @@ V26 now uses `@bitcode/*` as the active module namespace across workspace packag
 That means:
 - package manifests now declare `@bitcode/*` names,
 - path aliases now resolve through `@bitcode/*`,
-- and active source imports should no longer introduce older Bitcode-scoped module references.
+- and active source imports should no longer introduce older ENGI-scoped or other non-Bitcode module references.
 
-Compatibility work that still keeps older Bitcode-named files or directories does not justify reintroducing older Bitcode-scoped module usage in active source.
+Compatibility work that still keeps older ENGI-named files or directories does not justify reintroducing older ENGI-scoped or other non-Bitcode module usage in active source.
 
 ## Retained old-world tool and agent ports
 

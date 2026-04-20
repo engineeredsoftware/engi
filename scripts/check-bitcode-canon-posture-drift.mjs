@@ -27,7 +27,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-engi-canon-posture-drift.mjs [options]',
+      'Usage: node scripts/check-bitcode-canon-posture-drift.mjs [options]',
       '',
       'Options:',
       '  --active-canon <VN>   Expected active canonical version. Defaults to current canon-posture source.',

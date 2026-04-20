@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 set -eu
 
-node scripts/check-engi-commit-msg.mjs "$1"
+node scripts/check-bitcode-commit-msg.mjs "$1"

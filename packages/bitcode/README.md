@@ -81,8 +81,8 @@ node --test test/v26-public-copy.test.js
 Run V26 proof/checkpoint generation from the repo root:
 
 ```bash
-node scripts/check-engi-spec-family.mjs --version V26
-node scripts/generate-engi-proven.mjs --version V26 --allow-dirty
+node scripts/check-bitcode-spec-family.mjs --version V26
+node scripts/generate-bitcode-proven.mjs --version V26 --allow-dirty
 ```
 
 ## External-reality posture

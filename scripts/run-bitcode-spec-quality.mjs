@@ -12,8 +12,7 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
 function projectLabel(version) {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+  return 'Bitcode';
 }
 
 /**
@@ -37,7 +36,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/run-engi-spec-quality.mjs [options]',
+      'Usage: node scripts/run-bitcode-spec-quality.mjs [options]',
       '',
       'Options:',
       '  --mode <basic|strict-version|strict-from-title>   Quality check mode. Defaults to basic.',
@@ -69,7 +68,7 @@ function runNode(cwd, label, args) {
 function runStrictVersionChecks(cwd, version) {
   if (version === ACTIVE_CANON_VERSION) {
     runNode(cwd, `${version} promoted spec-family`, [
-      path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+      path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
       '--version',
       version,
       '--mode',
@@ -79,14 +78,14 @@ function runStrictVersionChecks(cwd, version) {
   }
 
   if (version === DRAFT_TARGET_VERSION) {
-    const draftSpecPath = path.join(cwd, `ENGI_SPEC_${version}.md`);
-    const draftDeltaPath = path.join(cwd, `ENGI_SPEC_${version}_DELTA.md`);
-    const draftParityPath = path.join(cwd, `ENGI_SPEC_${version}_PARITY_MATRIX.md`);
-    const draftNotesPath = path.join(cwd, `ENGI_SPEC_${version}_NOTES.md`);
+    const draftSpecPath = path.join(cwd, `BITCODE_SPEC_${version}.md`);
+    const draftDeltaPath = path.join(cwd, `BITCODE_SPEC_${version}_DELTA.md`);
+    const draftParityPath = path.join(cwd, `BITCODE_SPEC_${version}_PARITY_MATRIX.md`);
+    const draftNotesPath = path.join(cwd, `BITCODE_SPEC_${version}_NOTES.md`);
     const hasFullDraftFamily = existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath);
     if (hasFullDraftFamily) {
       runNode(cwd, `${version} draft spec-family`, [
-        path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+        path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
         '--version',
         version,
         '--mode',
@@ -99,7 +98,7 @@ function runStrictVersionChecks(cwd, version) {
 
     if (existsSync(draftNotesPath)) {
       runNode(cwd, `${version} draft notes`, [
-        path.join(cwd, 'scripts/check-engi-draft-notes.mjs'),
+        path.join(cwd, 'scripts/check-bitcode-draft-notes.mjs'),
         '--version',
         version,
         '--current-target',
@@ -109,7 +108,7 @@ function runStrictVersionChecks(cwd, version) {
     }
 
     throw new Error(
-      `Current draft target ${version} has neither a full draft family nor a notes-only opening. Expected one of ENGI_SPEC_${version}.md + companions or ENGI_SPEC_${version}_NOTES.md.`
+      `Current draft target ${version} has neither a full draft family nor a notes-only opening. Expected one of BITCODE_SPEC_${version}.md + companions or BITCODE_SPEC_${version}_NOTES.md.`
     );
   }
 
@@ -123,19 +122,19 @@ function runStrictVersionChecks(cwd, version) {
  */
 function runBasicChecks(cwd) {
   runNode(cwd, `${ACTIVE_CANON_VERSION} promoted canonical inputs`, [
-    path.join(cwd, 'scripts/check-engi-canonical-inputs.mjs'),
+    path.join(cwd, 'scripts/check-bitcode-canonical-inputs.mjs'),
     '--current-target',
     ACTIVE_CANON_VERSION
   ]);
   runNode(cwd, `${ACTIVE_CANON_VERSION}/${DRAFT_TARGET_VERSION} canon posture drift`, [
-    path.join(cwd, 'scripts/check-engi-canon-posture-drift.mjs'),
+    path.join(cwd, 'scripts/check-bitcode-canon-posture-drift.mjs'),
     '--active-canon',
     ACTIVE_CANON_VERSION,
     '--draft-target',
     DRAFT_TARGET_VERSION
   ]);
   runNode(cwd, `${ACTIVE_CANON_VERSION} promoted spec-family`, [
-    path.join(cwd, 'scripts/check-engi-spec-family.mjs'),
+    path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),
     '--version',
     ACTIVE_CANON_VERSION,
     '--mode',

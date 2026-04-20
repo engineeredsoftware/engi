@@ -97,8 +97,8 @@ pnpm exec jest --runInBand --testMatch '<rootDir>/tests/applicationTransactionDe
 V26 canonical proof/checkpoint regeneration:
 
 ```bash
-node scripts/check-engi-spec-family.mjs --version V26
-node scripts/generate-engi-proven.mjs --version V26 --allow-dirty
+node scripts/check-bitcode-spec-family.mjs --version V26
+node scripts/generate-bitcode-proven.mjs --version V26 --allow-dirty
 ```
 
 ## V26 promotion posture

@@ -9,21 +9,20 @@ import { ACTIVE_CANON_VERSION } from '../packages/bitcode/src/canon-posture.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const defaultQualityScript = path.join(defaultRepoRoot, 'scripts/run-engi-spec-quality.mjs');
+const defaultQualityScript = path.join(defaultRepoRoot, 'scripts/run-bitcode-spec-quality.mjs');
 
 const SPEC_RELEVANT_PATHS = [
-  /^ENGI_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
-  /^ENGI_SPEC\.txt$/u,
+  /^BITCODE_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
+  /^BITCODE_SPEC\.txt$/u,
   /^packages\/bitcode\/src\/canonical\/v21-specifying\.js$/u,
   /^package\.json$/u,
-  /^scripts\/(?:check-engi-|prepare-engi-spec-family-promotion|promote-engi-canon|run-engi-spec-quality|setup-engi-git-hooks)/u,
+  /^scripts\/(?:check-bitcode-|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-engi-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,
-  /^\.github\/workflows\/engi-canon-quality\.yml$/u
+  /^\.github\/workflows\/(?:engi|bitcode)-canon-quality\.yml$/u
 ];
 
 function projectLabel(version) {
-  const numeric = Number.parseInt(String(version).replace(/^V/u, ''), 10);
-  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+  return 'Bitcode';
 }
 
 /**

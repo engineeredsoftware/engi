@@ -1,21 +1,29 @@
 #!/usr/bin/env node
 
-import { buildV21CanonicalInputReport } from '../packages/bitcode/src/canonical/v21-specifying.js';
+import { buildV21SpecFamilyReport } from '../packages/bitcode/src/canonical/v21-specifying.js';
 
 function projectLabel(version) {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+  return 'Bitcode';
 }
 
 /**
  * @param {string[]} argv
  */
 function parseArgs(argv) {
-  /** @type {{ currentTarget?: string, repoRoot?: string, skipPointerCheck?: boolean, help?: boolean }} */
+  /** @type {{
+   *   version?: string,
+   *   mode?: string,
+   *   currentTarget?: string,
+   *   repoRoot?: string,
+   *   skipPointerCheck?: boolean,
+   *   help?: boolean
+   * }} */
   const args = {};
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
-    if (arg === '--current-target') args.currentTarget = argv[++index];
+    if (arg === '--version') args.version = argv[++index];
+    else if (arg === '--mode') args.mode = argv[++index];
+    else if (arg === '--current-target') args.currentTarget = argv[++index];
     else if (arg === '--repo-root') args.repoRoot = argv[++index];
     else if (arg === '--skip-pointer-check') args.skipPointerCheck = true;
     else if (arg === '--help' || arg === '-h') args.help = true;
@@ -27,10 +35,12 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-engi-canonical-inputs.mjs [options]',
+      'Usage: node scripts/check-bitcode-spec-family.mjs --version V21 [options]',
       '',
       'Options:',
-      '  --current-target <VN>   Active canonical target to validate. Defaults to BITCODE_SPEC.txt.',
+      '  --version <VN>          Version to validate. Supported: V21+, V20_PROPER.',
+      '  --mode <draft|promoted> Validation mode. Defaults to draft.',
+      '  --current-target <VN>   Expected `Current canonical/latest target` line. Defaults to BITCODE_SPEC.txt in draft mode and the version in promoted mode.',
       '  --repo-root <path>      Override repo root for fixture testing.',
       '  --skip-pointer-check    Skip BITCODE_SPEC.txt equality checking.',
       '  --help                  Show this help.'
@@ -45,14 +55,22 @@ function main() {
     return;
   }
 
-  const report = buildV21CanonicalInputReport({
+  const version = args.version || '';
+  const mode = args.mode || 'draft';
+  if (!['draft', 'promoted'].includes(mode)) {
+    throw new Error(`Unsupported mode ${mode}. Expected draft or promoted.`);
+  }
+
+  const report = buildV21SpecFamilyReport({
+    version,
+    mode: /** @type {'draft' | 'promoted'} */ (mode),
     ...(args.currentTarget ? { currentTarget: args.currentTarget } : {}),
     ...(args.repoRoot ? { repoRoot: args.repoRoot } : {}),
     ...(args.skipPointerCheck ? { skipPointerCheck: true } : {})
   });
 
   if (!report.passed) {
-    process.stderr.write(`${projectLabel(report.checkedTargetVersion)} canonical input check failed for ${report.checkedTargetVersion}\n`);
+    process.stderr.write(`${projectLabel(report.checkedVersion)} spec family check failed for ${report.checkedVersion} (${report.mode})\n`);
     for (const failure of report.failures) {
       process.stderr.write(`- ${failure}\n`);
     }
@@ -62,10 +80,11 @@ function main() {
 
   process.stdout.write(
     [
-      `${projectLabel(report.checkedTargetVersion)} canonical inputs ok for ${report.checkedTargetVersion}`,
+      `${projectLabel(report.checkedVersion)} spec family ok for ${report.checkedVersion}`,
+      `mode=${report.mode}`,
+      `currentTarget=${report.currentTarget}`,
       `pointer=${report.pointerVersion}`,
-      `parity=${report.parityPath}`,
-      `artifacts=${report.requiredGeneratedArtifactCount}`
+      `files=${report.requiredFiles.length}`
     ].join(' ')
   );
   process.stdout.write('\n');

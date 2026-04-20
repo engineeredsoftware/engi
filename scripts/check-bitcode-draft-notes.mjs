@@ -20,7 +20,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-engi-draft-notes.mjs --version V26 --current-target V25 [options]',
+      'Usage: node scripts/check-bitcode-draft-notes.mjs --version V27 --current-target V26 [options]',
       '',
       'Options:',
       '  --version <VN>          Draft target version to validate.',
@@ -44,18 +44,20 @@ function main() {
   if (!currentTarget) throw new Error('Missing --current-target <VN>.');
 
   const repoRoot = path.resolve(args.repoRoot || path.resolve(import.meta.dirname, '..'));
-  const notesPath = path.join(repoRoot, `ENGI_SPEC_${version}_NOTES.md`);
+  const notesPath = path.join(repoRoot, `BITCODE_SPEC_${version}_NOTES.md`);
   const text = readFileSync(notesPath, 'utf8');
 
   /** @type {string[]} */
   const failures = [];
 
+  const activeSpecPrefix = Number(String(currentTarget).replace(/^V/u, '')) >= 26 ? 'BITCODE_SPEC' : 'ENGI_SPEC';
+
   const requiredPhrases = [
     `Spec ${version} Notes`,
     '## Status',
     `Canonical pointer: \`${path.join(repoRoot, 'BITCODE_SPEC.txt')}\` -> \`${currentTarget}\``,
-    `Active canonical anchor: \`${path.join(repoRoot, `ENGI_SPEC_${currentTarget}.md`)}\``,
-    `Active generated proof appendix: \`${path.join(repoRoot, `ENGI_SPEC_${currentTarget}_PROVEN.md`)}\``,
+    `Active canonical anchor: \`${path.join(repoRoot, `${activeSpecPrefix}_${currentTarget}.md`)}\``,
+    `Active generated proof appendix: \`${path.join(repoRoot, `${activeSpecPrefix}_${currentTarget}_PROVEN.md`)}\``,
     `${version} state: notes-only draft opening`,
     '## Notes-only draft rule',
     `## Deferred from ${currentTarget}`,
@@ -65,8 +67,8 @@ function main() {
     'compute',
     'storage',
     'build/process',
-    '## Candidate V26 workstreams',
-    '## Non-goals during V25 closure'
+    '## Candidate V27 workstreams',
+    '## Non-goals during V26 closure'
   ];
 
   for (const phrase of requiredPhrases) {

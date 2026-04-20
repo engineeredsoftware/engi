@@ -28,7 +28,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-engi-spec-family-promotion.mjs --version V25 --commit <sha> [--repo-root <path>]',
+      'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V25 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
       'Currently implemented for V21, V22, V23, V24, and V25.'
@@ -303,9 +303,9 @@ async function main() {
 
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
   const files = [
-    ['spec', path.join(resolvedRepoRoot, `ENGI_SPEC_${version}.md`)],
-    ['delta', path.join(resolvedRepoRoot, `ENGI_SPEC_${version}_DELTA.md`)],
-    ['parity', path.join(resolvedRepoRoot, `ENGI_SPEC_${version}_PARITY_MATRIX.md`)]
+    ['spec', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}.md`)],
+    ['delta', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}_DELTA.md`)],
+    ['parity', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}_PARITY_MATRIX.md`)]
   ];
 
   for (const [kind, filePath] of files) {

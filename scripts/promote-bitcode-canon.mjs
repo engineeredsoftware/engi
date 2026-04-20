@@ -9,6 +9,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
+function legacySpecPath(version, suffix = '') {
+  return path.join(repoRoot, `_legacy/ENGI_SPEC_${version}${suffix}.md`);
+}
+
+function legacyProvenOutput(version) {
+  return `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+}
+
 /**
  * @param {string[]} argv
  */
@@ -229,9 +237,9 @@ function findParityRow(rows, area) {
  */
 async function readSpecFamily(version) {
   const [spec, delta, parity] = await Promise.all([
-    fs.readFile(path.join(repoRoot, `ENGI_SPEC_${version}.md`), 'utf8'),
-    fs.readFile(path.join(repoRoot, `ENGI_SPEC_${version}_DELTA.md`), 'utf8'),
-    fs.readFile(path.join(repoRoot, `ENGI_SPEC_${version}_PARITY_MATRIX.md`), 'utf8')
+    fs.readFile(legacySpecPath(version), 'utf8'),
+    fs.readFile(legacySpecPath(version, '_DELTA'), 'utf8'),
+    fs.readFile(legacySpecPath(version, '_PARITY_MATRIX'), 'utf8')
   ]);
   return { spec, delta, parity };
 }
@@ -241,43 +249,43 @@ async function readSpecFamily(version) {
  * @param {string} commit
  */
 function buildCommandPlan(version, commit) {
-  const v21DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V21', '--mode', 'draft', '--current-target', 'V20']];
-  const v21CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V20']];
-  const v21PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V21', '--commit', commit]];
-  const v21PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V21']];
-  const v21PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V21', '--mode', 'promoted']];
-  const v22DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V22', '--mode', 'draft', '--current-target', 'V21']];
-  const v22CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V21']];
-  const v22DraftCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V21', '--draft-target', 'V22']];
-  const v22PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V22', '--commit', commit]];
-  const v22PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-engi-runtime-canon-promotion.mjs', '--version', 'V22', '--next-draft', 'V23']];
-  const v22PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V22']];
-  const v22PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V22', '--mode', 'promoted']];
-  const v22PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V22', '--draft-target', 'V23']];
-  const v23DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V23', '--mode', 'draft', '--current-target', 'V22']];
-  const v23CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V22']];
-  const v23DraftCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V22', '--draft-target', 'V23']];
-  const v23PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V23', '--commit', commit]];
-  const v23PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-engi-runtime-canon-promotion.mjs', '--version', 'V23', '--next-draft', 'V24']];
-  const v23PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V23']];
-  const v23PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V23', '--mode', 'promoted']];
-  const v23PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V23', '--draft-target', 'V24']];
-  const v24DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V24', '--mode', 'draft', '--current-target', 'V23']];
-  const v24CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V23']];
-  const v24DraftCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V23', '--draft-target', 'V24']];
-  const v24PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V24', '--commit', commit]];
-  const v24PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-engi-runtime-canon-promotion.mjs', '--version', 'V24', '--next-draft', 'V25']];
-  const v24PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V24']];
-  const v24PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V24', '--mode', 'promoted']];
-  const v24PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V24', '--draft-target', 'V25']];
-  const v25DraftSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V25', '--mode', 'draft', '--current-target', 'V24']];
-  const v25CanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V24']];
-  const v25DraftCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V24', '--draft-target', 'V25']];
-  const v25PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-engi-spec-family-promotion.mjs', '--version', 'V25', '--commit', commit]];
-  const v25PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-engi-runtime-canon-promotion.mjs', '--version', 'V25', '--next-draft', 'V26']];
-  const v25PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-engi-canonical-inputs.mjs', '--current-target', 'V25']];
-  const v25PromotedSpecCheckCommand = ['node', ['scripts/check-engi-spec-family.mjs', '--version', 'V25', '--mode', 'promoted']];
-  const v25PromotedCanonPostureDriftCommand = ['node', ['scripts/check-engi-canon-posture-drift.mjs', '--active-canon', 'V25', '--draft-target', 'V26']];
+  const v21DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V21', '--mode', 'draft', '--current-target', 'V20']];
+  const v21CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V20']];
+  const v21PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V21', '--commit', commit]];
+  const v21PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V21']];
+  const v21PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V21', '--mode', 'promoted']];
+  const v22DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V22', '--mode', 'draft', '--current-target', 'V21']];
+  const v22CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V21']];
+  const v22DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V21', '--draft-target', 'V22']];
+  const v22PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V22', '--commit', commit]];
+  const v22PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V22', '--next-draft', 'V23']];
+  const v22PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V22']];
+  const v22PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V22', '--mode', 'promoted']];
+  const v22PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V22', '--draft-target', 'V23']];
+  const v23DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V23', '--mode', 'draft', '--current-target', 'V22']];
+  const v23CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V22']];
+  const v23DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V22', '--draft-target', 'V23']];
+  const v23PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V23', '--commit', commit]];
+  const v23PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V23', '--next-draft', 'V24']];
+  const v23PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V23']];
+  const v23PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V23', '--mode', 'promoted']];
+  const v23PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V23', '--draft-target', 'V24']];
+  const v24DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V24', '--mode', 'draft', '--current-target', 'V23']];
+  const v24CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V23']];
+  const v24DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V23', '--draft-target', 'V24']];
+  const v24PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V24', '--commit', commit]];
+  const v24PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V24', '--next-draft', 'V25']];
+  const v24PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V24']];
+  const v24PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V24', '--mode', 'promoted']];
+  const v24PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V24', '--draft-target', 'V25']];
+  const v25DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V25', '--mode', 'draft', '--current-target', 'V24']];
+  const v25CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V24']];
+  const v25DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V24', '--draft-target', 'V25']];
+  const v25PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V25', '--commit', commit]];
+  const v25PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V25', '--next-draft', 'V26']];
+  const v25PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V25']];
+  const v25PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V25', '--mode', 'promoted']];
+  const v25PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V25', '--draft-target', 'V26']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'packages/bitcode', 'run', 'typecheck']],
     ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:unit']],
@@ -300,8 +308,8 @@ function buildCommandPlan(version, commit) {
     ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-quality-summary']]
   ];
   const generatedCommands = [
-    ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-    ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+    ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
+    ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
     ['git', ['diff', '--check']]
   ];
   if (version === 'V19') {
@@ -327,8 +335,8 @@ function buildCommandPlan(version, commit) {
       ...v20QualityCommands,
       ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v21PreparePromotionSpecFamilyCommand,
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
       v21PromotedCanonicalInputCheckCommand,
       v21PromotedSpecCheckCommand,
       ['git', ['diff', '--check']]
@@ -344,8 +352,8 @@ function buildCommandPlan(version, commit) {
       ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v22PreparePromotionSpecFamilyCommand,
       v22PrepareRuntimePromotionCommand,
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
       v22PromotedCanonicalInputCheckCommand,
       v22PromotedSpecCheckCommand,
       v22PromotedCanonPostureDriftCommand,
@@ -362,8 +370,8 @@ function buildCommandPlan(version, commit) {
       ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v23PreparePromotionSpecFamilyCommand,
       v23PrepareRuntimePromotionCommand,
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
       v23PromotedCanonicalInputCheckCommand,
       v23PromotedSpecCheckCommand,
       v23PromotedCanonPostureDriftCommand,
@@ -380,8 +388,8 @@ function buildCommandPlan(version, commit) {
       ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v24PreparePromotionSpecFamilyCommand,
       v24PrepareRuntimePromotionCommand,
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
       v24PromotedCanonicalInputCheckCommand,
       v24PromotedSpecCheckCommand,
       v24PromotedCanonPostureDriftCommand,
@@ -398,8 +406,8 @@ function buildCommandPlan(version, commit) {
       ['npm', ['--prefix', 'packages/bitcode', 'test']],
       v25PreparePromotionSpecFamilyCommand,
       v25PrepareRuntimePromotionCommand,
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--allow-dirty']],
-      ['node', ['scripts/generate-engi-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', `ENGI_SPEC_${version}_PROVEN.md`, '--check', '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
       v25PromotedCanonicalInputCheckCommand,
       v25PromotedSpecCheckCommand,
       v25PromotedCanonPostureDriftCommand,
@@ -417,7 +425,7 @@ function buildCommandPlan(version, commit) {
 function rewriteCommandPlanForEnvironment(commands, { allowDirtyStart = false, dirty = false } = {}) {
   if (!allowDirtyStart || !dirty) return commands;
   return commands.map(([file, commandArgs]) => {
-    if (file !== 'node' || commandArgs[0] !== 'scripts/generate-engi-proven.mjs') {
+    if (file !== 'node' || commandArgs[0] !== 'scripts/generate-bitcode-proven.mjs') {
       return [file, [...commandArgs]];
     }
     /** @type {string[]} */
@@ -487,7 +495,7 @@ async function buildDerivedV21CommitMessageBody(commit) {
   }
 
   return [
-    `Promotes V21 as ${focus} for ENGI.`,
+    `Promotes V21 as ${focus} for Bitcode.`,
     '',
     `Proof-source commit: ${commit}`,
     '',
@@ -535,7 +543,7 @@ async function buildDerivedV22CommitMessageBody(commit) {
   }
 
   return [
-    `Promotes V22 as ${focus} for ENGI.`,
+    `Promotes V22 as ${focus} for Bitcode.`,
     '',
     `Proof-source commit: ${commit}`,
     '',
@@ -584,7 +592,7 @@ async function buildDerivedV23CommitMessageBody(commit) {
   }
 
   return [
-    `Promotes V23 as ${focus} for ENGI.`,
+    `Promotes V23 as ${focus} for Bitcode.`,
     '',
     `Proof-source commit: ${commit}`,
     '',
@@ -636,7 +644,7 @@ async function buildDerivedV24CommitMessageBody(commit) {
   }
 
   return [
-    `Promotes V24 as ${focus} for ENGI.`,
+    `Promotes V24 as ${focus} for Bitcode.`,
     '',
     `Proof-source commit: ${commit}`,
     '',
@@ -651,7 +659,7 @@ async function buildDerivedV24CommitMessageBody(commit) {
  */
 async function buildDerivedV25CommitMessageBody(commit) {
   const { spec, delta, parity } = await readSpecFamily('V25');
-  const scope = extractStatusValue(spec, 'Scope') || 'V25 canonical system specification for a simple but full project rename from ENGI to Bitcode';
+  const scope = extractStatusValue(spec, 'Scope') || 'V25 canonical system specification for the final pre-Bitcode rename closure before V26 promotion';
   const focus = deriveScopeFocus(scope);
   const decisionSection = extractSection(spec, 'V25 accepted drafting decisions');
   const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
@@ -700,7 +708,7 @@ async function buildDerivedV25CommitMessageBody(commit) {
 async function buildCommitMessageBody(version, commit) {
   if (version === 'V19') {
     return [
-      `Promotes ${version} as reproducible canonical proof output for ENGI.`,
+      `Promotes ${version} as reproducible canonical proof output for Bitcode.`,
       '',
       `Proof-source commit: ${commit}`,
       '',
@@ -716,7 +724,7 @@ async function buildCommitMessageBody(version, commit) {
   }
   if (version === 'V20') {
     return [
-      `Promotes ${version} as operator-quality canon for ENGI.`,
+      `Promotes ${version} as operator-quality canon for Bitcode.`,
       '',
       `Proof-source commit: ${commit}`,
       '',
@@ -785,7 +793,7 @@ async function main() {
 
   if (args.dryRun) return;
 
-  const generatedCommandIndex = commands.findIndex(([file, commandArgs]) => file === 'node' && commandArgs[0] === 'scripts/generate-engi-proven.mjs');
+  const generatedCommandIndex = commands.findIndex(([file, commandArgs]) => file === 'node' && commandArgs[0] === 'scripts/generate-bitcode-proven.mjs');
   if (generatedCommandIndex < 0) {
     throw new Error('Promotion command plan does not contain a generated appendix command.');
   }

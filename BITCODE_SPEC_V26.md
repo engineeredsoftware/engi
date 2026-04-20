@@ -16,7 +16,7 @@
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
 - Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-seventh-gate closure remains open
-- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate while fifth-, sixth-, and seventh-gate closure remain open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate and remains the current testnet-ready, near-commercial-readiness canonical target while fifth-, sixth-, and seventh-gate closure remain open
 
 ## Acceptance and remaining-open state
 
@@ -34,7 +34,7 @@ With V26 promoted through fourth gate:
 
 ## Version executive summary
 
-V25 completed the current-facing rename from Bitcode to Bitcode and from NGI to BTD while preserving the prior behavioral chain.
+V25 completed the current-facing product rename and the NGI-to-BTD denomination shift while preserving the prior behavioral chain.
 
 V26 opens because the renamed system still has an architectural split that is too large for a production-ready Bitcode:
 - the old standalone demonstration had to be removed as a top-level owner,
@@ -50,6 +50,15 @@ V26 therefore centers seven coordinated gates:
 5. fifth-gate active-source Bitcode rename completion, proof precision, and system completeness after promotion,
 6. sixth-gate old-world system reform into Bitcode market infrastructure,
 7. seventh-gate whole-repository provation and final V26 closure.
+
+V26 is the most complex canonical promotion in the repository because it simultaneously:
+- elevates the demo into a testnet-ready, near-commercial Bitcode product/application,
+- absorbs real-world inputs, outputs, and interface obligations into the canonical source map,
+- reorganizes active source around tighter package/app abstractions and proof-bearing modular topology,
+- and completes the repository-wide Engi-to-Bitcode transformation without relaxing spec-to-source parity density.
+
+V27 then becomes the commercial-readiness successor.
+V26 is the testnet-ready, near-commercial-readiness canon; V27 must not be treated as a continuation of rename cleanup, but as the commercialization and market-readiness version built on a fully Bitcode-owned V26 base.
 
 The intended result is not "micro-app the demo into `uapi/`."
 The intended result is:
@@ -971,7 +980,7 @@ The workflow stages remain:
 - Current invariants and fail-closed conditions: prompt contract incompleteness, parsed-envelope inadmissibility, evaluator ambiguity, need drift, or route/UI layers that detach prompt lineage from need lineage fail closed.
 - Current proof obligations: prompt family completeness, inference synthesis closure, and evaluator provenance must stay witness-bound and replayable.
 - Current source-bearing implementation basis: `packages/bitcode/src/canonical/prompting.js`, `packages/bitcode/src/canonical/evaluation-materialization.js`, `packages/bitcode/src/canonical/need-measurement.js`, `packages/bitcode/src/bitcode-demo.js`, and the future draft target packages recorded in the V26 extraction matrix.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, proof-family coverage inside the active test suite, and `node scripts/check-engi-spec-family.mjs --version V26`.
+- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, proof-family coverage inside the active test suite, and `node scripts/check-bitcode-spec-family.mjs --version V26`.
 - Current accepted boundaries: third-party model execution counts only when it remains receipted, policy-bound, replayable, and normalized back into Bitcode artifacts regardless of whether the final owner is a package or an app/API surface.
 
 ### Fit, recall, ranking, and verification
@@ -1030,8 +1039,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode binds every proof family to witnessArtifactPaths, theoremIds, replayStepIds, and artifact digests, then carries them into the system proof bundle and witness manifest for replay. V26 adds the requirement that the proof contract remain coherent while ownership moves from demo-local concentration to package and app layers.
 - Current invariants and fail-closed conditions: missing witness artifacts, replay-step drift, container attestation drift, GitHub observation drift, stale generated appendix truth, or proof-family omission fail closed.
 - Current proof obligations: proof-family closure, theorem closure, replay closure, witness manifest coherence, and proof-contract bundle coherence must remain exact.
-- Current source-bearing implementation basis: `packages/bitcode/src/canonical/proof-materialization.js`, `packages/bitcode/src/canonical/run-artifacts.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, `packages/bitcode/src/bitcode-demo.js`, and `scripts/check-engi-spec-family.mjs`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/proven-generator.test.js`, `node --test packages/bitcode/test/v21-specifying.test.js`, `node scripts/check-engi-canonical-inputs.mjs`, `node scripts/check-engi-spec-family.mjs --version V26`, and later strict V26 conformance.
+- Current source-bearing implementation basis: `packages/bitcode/src/canonical/proof-materialization.js`, `packages/bitcode/src/canonical/run-artifacts.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, `packages/bitcode/src/bitcode-demo.js`, and `scripts/check-bitcode-spec-family.mjs`.
+- Current validating commands and parity basis: `node --test packages/bitcode/test/proven-generator.test.js`, `node --test packages/bitcode/test/v21-specifying.test.js`, `node scripts/check-bitcode-canonical-inputs.mjs`, `node scripts/check-bitcode-spec-family.mjs --version V26`, and later strict V26 conformance.
 - Current accepted boundaries: V26 may reorganize owners and add or merge families, but promotion may not narrow away family detail carriers, witness expectations, or generated appendix obligations.
 
 ## V26 second-gate package extraction matrix
@@ -1297,9 +1306,9 @@ The V26 validation canon includes:
 - and promotion-time regeneration plus cleanliness checks.
 
 Current validating commands and parity basis include:
-- `node scripts/check-engi-canonical-inputs.mjs`
-- `node scripts/check-engi-spec-family.mjs --version V26`
-- `node scripts/run-engi-spec-quality.mjs --mode basic`
+- `node scripts/check-bitcode-canonical-inputs.mjs`
+- `node scripts/check-bitcode-spec-family.mjs --version V26`
+- `node scripts/run-bitcode-spec-quality.mjs --mode basic`
 - `node --test packages/bitcode/test/core.test.js`
 - `node --test packages/bitcode/test/api.test.js`
 - `node --test packages/bitcode/test/workflow.integration.test.js`
@@ -1416,8 +1425,8 @@ The current canonical source map includes:
 - `packages/github`
 - `packages/auth`
 - `packages/api`
-- `scripts/check-engi-canonical-inputs.mjs`
-- `scripts/check-engi-spec-family.mjs`
+- `scripts/check-bitcode-canonical-inputs.mjs`
+- `scripts/check-bitcode-spec-family.mjs`
 
 ## Appendix F. Subsystem totality and derivability matrix
 

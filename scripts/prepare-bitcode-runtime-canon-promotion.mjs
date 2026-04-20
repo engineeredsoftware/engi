@@ -28,7 +28,7 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/prepare-engi-runtime-canon-promotion.mjs --version V23 [--next-draft V24] [--repo-root <path>]',
+      'Usage: node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V26 [--next-draft V27] [--repo-root <path>]',
       '',
       'Rewrites the runtime/demo canon-posture surfaces for canonical promotion.'
     ].join('\n')
@@ -48,8 +48,14 @@ function deriveNextDraft(version) {
 }
 
 function projectLabel(version) {
+  return 'Bitcode';
+}
+
+function promotedProvenPath(version) {
   const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 25 ? 'Bitcode' : 'ENGI';
+  return Number.isInteger(numeric) && numeric >= 26
+    ? `BITCODE_SPEC_${version}_PROVEN.md`
+    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
 }
 
 /**
@@ -89,8 +95,8 @@ function rewriteReadme(content, resolvedRepoRoot, version, nextDraft) {
     `- ${version} is the current canonical/latest target and governing full-system spec`
   );
   rewritten = rewritten.replace(
-    /^- `ENGI_SPEC_V\d+_PROVEN\.md` is the active generated proof appendix$/m,
-    `- \`ENGI_SPEC_${version}_PROVEN.md\` is the active generated proof appendix`
+    /^- `(?:BITCODE|ENGI)_SPEC_V\d+_PROVEN\.md` is the active generated proof appendix$/m,
+    `- \`${promotedProvenPath(version)}\` is the active generated proof appendix`
   );
   return rewritten;
 }

@@ -24,7 +24,7 @@ jobs:
         run: npm --prefix engi-demo ci
 
       - name: Run Bitcode spec-quality basics
-        run: node scripts/run-engi-spec-quality.mjs --mode basic
+        run: node scripts/run-bitcode-spec-quality.mjs --mode basic
 
   engi-demo-full:
     name: Bitcode Demo Full Test Suite
@@ -60,4 +60,4 @@ jobs:
         run: npm --prefix engi-demo ci
 
       - name: Run strict spec conformance for `spec: VN` titles
-        run: node scripts/run-engi-spec-quality.mjs --mode strict-from-title --commit-title "$SPEC_TITLE"
+        run: node scripts/run-bitcode-spec-quality.mjs --mode strict-from-title --commit-title "$SPEC_TITLE"

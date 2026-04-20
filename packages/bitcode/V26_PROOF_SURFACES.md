@@ -802,4 +802,4 @@ V26 also now treats the `@bitcode/*` module namespace as part of the active proo
 That means:
 - new active imports must use `@bitcode/*`,
 - new workspace package names must use `@bitcode/*`,
-- and lingering older Bitcode-scoped module references in active source are parity drift, not harmless style debt.
+- and lingering older ENGI-scoped or other non-Bitcode module references in active source are parity drift, not harmless style debt.
