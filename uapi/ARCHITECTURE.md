@@ -2,7 +2,7 @@
 
 ## Overview
 
-UAPI is the main API and web application layer for Engi. It has been modernized for GA-1 production readiness with a clean, maintainable architecture.
+UAPI is the main API and web application layer for Bitcode. It has been modernized for GA-1 production readiness with a clean, maintainable architecture.
 
 ## Directory Structure
 

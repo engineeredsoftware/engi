@@ -12,7 +12,7 @@ Never optimize based on assumptions. The bottleneck is rarely where you think it
 - **JavaScript**: Code splitting, lazy loading, memoization
 - **Rendering**: CSS containment, GPU layers, animation optimization
 
-## Critical Performance Patterns in Engi
+## Critical Performance Patterns in Bitcode
 
 ### Dynamic Import Prefetching
 
@@ -28,7 +28,7 @@ useEffect(() => {
 ```
 
 **Priority Hierarchy**:
-1. Orbital - 1s (most likely first interaction)
+1. Auxillary - 1s (most likely first interaction)
 2. Conversation - 2s (second most common)
 3. Sidebars - 3s (less immediate)
 
@@ -126,17 +126,17 @@ fetch('/api/endpoint', { method: 'HEAD' }).catch(() => {});
    npx source-map-explorer .next/static/chunks/*.js
    ```
 
-## Critical Areas in Engi
+## Critical Areas in Bitcode
 
-### Orbital Performance ⚡ SOLVED
+### Auxillary Performance ⚡ SOLVED
 **Problem**: Heavy animations + auth check + multiple child components + synchronous imports
 **Final Solution Stack**: 
 - **React Query for caching** - Prefetch auth on page load, instant cached response
 - **Portal pre-rendered hidden** - Always in DOM, just CSS class toggle (THE KEY!)
-- **Component preloading** - Orbital loaded before user clicks
+- **Component preloading** - Auxillary surface loaded before user clicks
 - **useDeferredValue for animations** - Animations don't block urgent updates
 - **Remove all inline styles** - Prevents synchronous recalculation  
-- **OrbitalRings imported directly** - Lightweight, needed immediately
+- **Auxillary rings imported directly** - Lightweight, needed immediately
 - **FlipText stays dynamic** - Preserves UX while deferring framer-motion bundle
 - **Dynamic imports for pane components** - LoginPane, ProfilePane, etc load async
 - **Defer animations with `animation-play-state: paused`** until mount

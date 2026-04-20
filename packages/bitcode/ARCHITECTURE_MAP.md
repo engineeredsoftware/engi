@@ -47,7 +47,7 @@ Reset the local seeded scenario.
 ## 3. Original domain model
 
 ### Asset model
-Defined in `src/engi-core.js` via `makeAssetCommitment()`.
+Defined in `src/bitcode-core.js` via `makeAssetCommitment()`.
 
 Each asset had:
 - `assetId`
@@ -58,7 +58,7 @@ Each asset had:
 
 ### Ranking model
 Implemented by:
-- `rankChunksForQuery()` in `src/engi-core.js`
+- `rankChunksForQuery()` in `src/bitcode-core.js`
 - `explainRankedChunks()` in `src/ranking-explainer.js`
 
 Behavior:
@@ -68,8 +68,8 @@ Behavior:
 
 ### Bundle / settlement model
 Implemented by:
-- `buildBundleIssuance()` in `src/engi-core.js`
-- `allocateUnits()` in `src/engi-core.js`
+- `buildBundleIssuance()` in `src/bitcode-core.js`
+- `allocateUnits()` in `src/bitcode-core.js`
 - `buildConservationCheck()` in `src/conservation-check.js`
 
 Behavior:
@@ -81,7 +81,7 @@ Behavior:
 ### Value demo model
 Implemented by:
 - `buildBenchmarkComparison()` in `src/benchmark-model.js`
-- `utilityReceipt()` in `src/engi-core.js`
+- `utilityReceipt()` in `src/bitcode-core.js`
 
 Behavior:
 - operator-entered baseline / treatment scores

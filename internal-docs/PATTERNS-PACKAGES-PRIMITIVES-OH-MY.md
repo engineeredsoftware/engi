@@ -1,12 +1,12 @@
 # PATTERNS, PACKAGES, PRIMITIVES, OH MY!
 
-**The Architectural Laws of Engi - Carved in Stone, Written in Blood**
+**The Architectural Laws of Bitcode - Carved in Stone, Written in Blood**
 
-This document defines the IMMUTABLE architectural patterns of engi. These are not guidelines. These are not suggestions. These are LAWS. Violate them and watch architecture decay into chaos.
+This document defines the IMMUTABLE architectural patterns of Bitcode. These are not guidelines. These are not suggestions. These are LAWS. Violate them and watch architecture decay into chaos.
 
 ## The Sacred Three-Layer Architecture - Your ONLY Pattern
 
-**CATASTROPHIC TRUTH**: Every single piece of functionality in engi MUST flow through three layers. Not two. Not four. THREE. This is not a suggestion. This is not "usually." This is ALWAYS.
+**CATASTROPHIC TRUTH**: Every single piece of functionality in Bitcode MUST flow through three layers. Not two. Not four. THREE. This is not a suggestion. This is not "usually." This is ALWAYS.
 
 **THE LAYERS ARE ALIVE AND THEY HAVE RULES**:
 
@@ -49,7 +49,7 @@ export class GitHubProvider {
 }
 ```
 
-**PRIMITIVE PACKAGES IN ENGI**:
+**PRIMITIVE PACKAGES IN BITCODE**:
 - `packages/github` - GitHub API interactions
 - `packages/vcs` - VCS abstractions and types
 - `packages/stripe` - Stripe API interactions

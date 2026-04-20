@@ -1,6 +1,6 @@
 # Philosophy and Vision Complete
 
-This document consolidates ALL philosophical, visionary, and guiding principle documentation for Engi.
+This document consolidates ALL philosophical, visionary, and guiding principle documentation for Bitcode.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ This document consolidates ALL philosophical, visionary, and guiding principle d
 
 ### Core Philosophy
 
-Transform engi from a powerful development tool into an advanced engineering experience that optimizes user productivity, learns from patterns, and turns every interaction into measurable progress.
+Transform Bitcode from a powerful development tool into an advanced engineering experience that optimizes user productivity, learns from patterns, and turns every interaction into measurable progress.
 
 ### The Engineering Experience
 
@@ -342,7 +342,7 @@ While in pre-1.0:
 
 # AI Development Philosophy
 
-## Developing Engi with AI Assistance
+## Developing Bitcode with AI Assistance
 
 ### Focus Areas
 
@@ -464,7 +464,7 @@ Test → Find issue → Fix → Test again
 
 ## The Ultimate Vision
 
-Engi is not just a tool. It's a systematic approach to how humans and AI collaborate to create software. It's the engineering platform where:
+Bitcode is not just a tool. It's a systematic approach to how humans and AI collaborate to create software. It's the engineering platform where:
 
 - **Simplicity** enables scalable architecture
 - **Intelligence** emerges from registry-based formatting  
@@ -473,4 +473,4 @@ Engi is not just a tool. It's a systematic approach to how humans and AI collabo
 
 From a string primitive, a scalable system.
 
-Welcome to Engi. Welcome to systematic software engineering.
+Welcome to Bitcode. Welcome to systematic software engineering.

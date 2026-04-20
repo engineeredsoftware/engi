@@ -1,6 +1,6 @@
 # TESTING (Authoritative Overview)
 
-This document explains the Engi test architecture across layers, how tests are organized, how to run them, and patterns for building reliable, deterministic tests (including “trivial agents”). All paths below refer to code in this repository.
+This document explains the Bitcode test architecture across layers, how tests are organized, how to run them, and patterns for building reliable, deterministic tests (including “trivial agents”). All paths below refer to code in this repository.
 
 ## Layers
 - Generics (units): core pipeline/execution utilities, events, metrics

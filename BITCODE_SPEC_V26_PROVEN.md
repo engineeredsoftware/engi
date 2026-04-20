@@ -1,11 +1,11 @@
 # Bitcode Spec V26 Proven
 
 - canonicalVersion: `V26`
-- canonicalCommit: `b56fd7bca68cd5263d51e3f4b83a46cb47c5b55e`
-- canonicalCommitRecordedAt: `2026-04-20T17:56:04-03:00`
+- canonicalCommit: `eb980d4db4f5ee3ca98e178b15b91c0f34f31844`
+- canonicalCommitRecordedAt: `2026-04-20T18:17:32-03:00`
 - worktreeState: `dirty-preview`
 - generatorId: `bitcode.proven-generator.v1`
-- generatedAt: `2026-04-20T17:56:04-03:00`
+- generatedAt: `2026-04-20T18:17:32-03:00`
 - outputPath: `BITCODE_SPEC_V26_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
 - branchModes: `patch`, `context`
@@ -47,13 +47,13 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.engi/v19-contract-change-ledger.json` | `sha256:dd3b6ef99cf8e504f99f82673d39a0f91bf86ac9c64bf2b1ef93b5c048cacdf0` | 3290 |
-| `.engi/v19-deterministic-replay-report.json` | `sha256:7210a775fb4a1daed84b09933090356a8280dbcbfdc5a3b418c7e4c9cabb1772` | 8432 |
-| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:7e67eae0352019cea71f9b5aaaf9cbffe35c3923233ba2b46d3a3fd6ba3ae4ac` | 8049 |
-| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:53ae2f1aae1e3b3b146eb51d298941c9fbbd056ae1dd61ff0c99ff70f0baae42` | 1682034 |
-| `.engi/v19-state-machine-matrix.json` | `sha256:a1f0cec400048f711f6b5ff13f1f10cfa2ae4d1cdbafeb9f9b25bf307a585708` | 154965 |
-| `.engi/v19-theorem-evidence-matrix.json` | `sha256:347efc6850bde73bb873b689daa023b7ee9c5274fe4d163106819f10f72fd492` | 2246792 |
-| `.engi/v19-volatility-inventory.json` | `sha256:97ee14613770a4070fc831cfa5b5bef94645eb378a5d87ffa9c932107cf24245` | 6197 |
+| `.engi/v19-contract-change-ledger.json` | `sha256:660c1faa67e21497f96b88070574558c4e615e3bb55a2875e0d4683689208d5f` | 3290 |
+| `.engi/v19-deterministic-replay-report.json` | `sha256:d0814013a9f3718211f71a16435f807aad8f992b85e85d8621fbae5d5fea8298` | 8432 |
+| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:968a367513ed2fac864d2a76771def264bbe30a26087b75e3c670263de7f2d14` | 8049 |
+| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:1fd9e5a395432d561a4ce37b9499cf16dcfe4c593e8f067c776f5546c82dc656` | 1682034 |
+| `.engi/v19-state-machine-matrix.json` | `sha256:7db4ec14f6c1bcc9de402489e02eeceb454ace83b9ec4dda759195c6460c7124` | 154965 |
+| `.engi/v19-theorem-evidence-matrix.json` | `sha256:35c348ebf40b6fba70907dea98fdad206143f98a1b8446f8fdb62dd3c4ec187d` | 2246792 |
+| `.engi/v19-volatility-inventory.json` | `sha256:47f8c7fd41b91df8daa412fd829de984e8b54f7c100248f51891fbd7d2aca7e2` | 6197 |
 
 ### V19 Inherited Positive Matrix Summaries
 
@@ -72,13 +72,13 @@
 
 | artifactPath | firstDigest | secondDigest | byteEqual |
 | --- | --- | --- | --- |
-| `.engi/v19-contract-change-ledger.json` | `sha256:dd3b6ef99cf8e504f99f82673d39a0f91bf86ac9c64bf2b1ef93b5c048cacdf0` | `sha256:dd3b6ef99cf8e504f99f82673d39a0f91bf86ac9c64bf2b1ef93b5c048cacdf0` | `true` |
-| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:7e67eae0352019cea71f9b5aaaf9cbffe35c3923233ba2b46d3a3fd6ba3ae4ac` | `sha256:7e67eae0352019cea71f9b5aaaf9cbffe35c3923233ba2b46d3a3fd6ba3ae4ac` | `true` |
-| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:53ae2f1aae1e3b3b146eb51d298941c9fbbd056ae1dd61ff0c99ff70f0baae42` | `sha256:53ae2f1aae1e3b3b146eb51d298941c9fbbd056ae1dd61ff0c99ff70f0baae42` | `true` |
-| `.engi/v19-state-machine-matrix.json` | `sha256:a1f0cec400048f711f6b5ff13f1f10cfa2ae4d1cdbafeb9f9b25bf307a585708` | `sha256:a1f0cec400048f711f6b5ff13f1f10cfa2ae4d1cdbafeb9f9b25bf307a585708` | `true` |
-| `.engi/v19-theorem-evidence-matrix.json` | `sha256:347efc6850bde73bb873b689daa023b7ee9c5274fe4d163106819f10f72fd492` | `sha256:347efc6850bde73bb873b689daa023b7ee9c5274fe4d163106819f10f72fd492` | `true` |
-| `.engi/v19-volatility-inventory.json` | `sha256:97ee14613770a4070fc831cfa5b5bef94645eb378a5d87ffa9c932107cf24245` | `sha256:97ee14613770a4070fc831cfa5b5bef94645eb378a5d87ffa9c932107cf24245` | `true` |
-| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:96fc20030731cdba76bd1690b6a6b4b736d85233d1343d8473e3cc6af1a13914` | `sha256:96fc20030731cdba76bd1690b6a6b4b736d85233d1343d8473e3cc6af1a13914` | `true` |
+| `.engi/v19-contract-change-ledger.json` | `sha256:660c1faa67e21497f96b88070574558c4e615e3bb55a2875e0d4683689208d5f` | `sha256:660c1faa67e21497f96b88070574558c4e615e3bb55a2875e0d4683689208d5f` | `true` |
+| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:968a367513ed2fac864d2a76771def264bbe30a26087b75e3c670263de7f2d14` | `sha256:968a367513ed2fac864d2a76771def264bbe30a26087b75e3c670263de7f2d14` | `true` |
+| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:1fd9e5a395432d561a4ce37b9499cf16dcfe4c593e8f067c776f5546c82dc656` | `sha256:1fd9e5a395432d561a4ce37b9499cf16dcfe4c593e8f067c776f5546c82dc656` | `true` |
+| `.engi/v19-state-machine-matrix.json` | `sha256:7db4ec14f6c1bcc9de402489e02eeceb454ace83b9ec4dda759195c6460c7124` | `sha256:7db4ec14f6c1bcc9de402489e02eeceb454ace83b9ec4dda759195c6460c7124` | `true` |
+| `.engi/v19-theorem-evidence-matrix.json` | `sha256:35c348ebf40b6fba70907dea98fdad206143f98a1b8446f8fdb62dd3c4ec187d` | `sha256:35c348ebf40b6fba70907dea98fdad206143f98a1b8446f8fdb62dd3c4ec187d` | `true` |
+| `.engi/v19-volatility-inventory.json` | `sha256:47f8c7fd41b91df8daa412fd829de984e8b54f7c100248f51891fbd7d2aca7e2` | `sha256:47f8c7fd41b91df8daa412fd829de984e8b54f7c100248f51891fbd7d2aca7e2` | `true` |
+| `_legacy/ENGI_SPEC_V19_PROVEN.md` | `sha256:d9886a05fd4c361bbc44e4924d69f9f32cb29598a7d10ddeb1d6ce784c28c0c0` | `sha256:d9886a05fd4c361bbc44e4924d69f9f32cb29598a7d10ddeb1d6ce784c28c0c0` | `true` |
 
 ### V19 Volatility Inventory
 
@@ -150,12 +150,12 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.engi/v20-accessibility-report.json` | `sha256:c5c9b2f79cbad64ecfdbb0bc53f3e3e4b0b6151a75cca3cee8d63cbbe7e954ce` | 8214 |
-| `.engi/v20-operator-acceptance-transcript.json` | `sha256:715fe05ef3a16ebfaa612e6c263b6a182005058543283a6a098bf205a0c96583` | 10849 |
-| `.engi/v20-performance-budget-report.json` | `sha256:e4d1a4dd4e83364e3ff7d76f96789b863bfb4dec43a3239484d1f0c92e57fe4e` | 5042 |
-| `.engi/v20-projection-quality-smoke-matrix.json` | `sha256:6c7967bacd487186720bf85059848f12b0813b7369873698d789d740896fd2e9` | 4939 |
-| `.engi/v20-quality-summary.json` | `sha256:87bebaf902f5c543d9a85b8438289fb23803ece24a8b6c806d9496091310a63f` | 4409 |
-| `.engi/v20-visual-regression-report.json` | `sha256:3aa2e9323984480509d3b31f0223dfefd88cc39cf00da6c0c5d541ea192b99c2` | 19365 |
+| `.engi/v20-accessibility-report.json` | `sha256:b24dc19f498aadc4109e0e3a1beaa9f07183a750780b733c6d799805341af8cd` | 8226 |
+| `.engi/v20-operator-acceptance-transcript.json` | `sha256:54505cd1e117955726daa31655e12a9eb9490f4a54e06ba9d383f22365e76fd2` | 10861 |
+| `.engi/v20-performance-budget-report.json` | `sha256:f0682691c6626cec70ebefb208d8307d8e924011aa2f5acab047c0e2b440d3dc` | 5054 |
+| `.engi/v20-projection-quality-smoke-matrix.json` | `sha256:e74fb7ae1367826b7d80b0e598c87ed3decda72c87d1f3bf3988bfeda29889dc` | 4951 |
+| `.engi/v20-quality-summary.json` | `sha256:551a5615da1ba3dc14f05173798565a122259da0d2fafac12ecee6f69c40e124` | 4421 |
+| `.engi/v20-visual-regression-report.json` | `sha256:a321e69c3a158a16fd177e4c697dccad004c4e55626243112aeafd27e9f4056a` | 19377 |
 
 ### V20 Quality Summary
 
@@ -290,14 +290,14 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.engi/conversations-continuity-proof.json` | `sha256:43c16b8d360a9a45c722483c56d7d8eac5bbcd02b03d66e123e223ba79dab65d` | 3429 |
-| `.engi/persistence-schema-totality-proof.json` | `sha256:edcd89f1322c15b46b095d5894261e235711a5bb84e93ec8623ecf906cf6107f` | 2043 |
-| `.engi/prompt-system-totality-proof.json` | `sha256:ed173d94ba0d54f135d33b35796dd8d67843a45c143adcb2ca2e2d932564974e` | 2281 |
-| `.engi/retained-package-admissibility-proof.json` | `sha256:ab3f98a9005bd823d731dcd1c802dc4b2ce67535dd4d2874d7aca399c2348637` | 6446 |
-| `.engi/runs-pipelines-totality-proof.json` | `sha256:8bd0d1d8d0d0e7376c7c84e3484aedd2153d4d0786ceebeee8347eb3ac4cd60b` | 7719 |
-| `.engi/v26-canonical-input-report.json` | `sha256:895a5236cceb45455dcaa0117f4608e4a55de5585c04942009f2be008a991802` | 980 |
-| `.engi/v26-gate-checkpoint-report.json` | `sha256:c9af5e4b9d0a854b89af0156b06b0e413d9520ef4eed7781108c0121411d60ce` | 10116 |
-| `.engi/v26-spec-family-report.json` | `sha256:213098af0e1fc312b16245fe2e2f61ce5d403e50617baf5cb9942f30e349409e` | 950 |
+| `.engi/conversations-continuity-proof.json` | `sha256:e2f993e21280a635a4b85e338675f13f3981ca4254d80e75c9e1c929dc776bbf` | 3429 |
+| `.engi/persistence-schema-totality-proof.json` | `sha256:a3dd7de9fec31c582c89c47a4852f00c898d5624e07507975ae51c7ac98f46cb` | 2043 |
+| `.engi/prompt-system-totality-proof.json` | `sha256:229851e9c76d17d4ca3b16445ad19e7e7a5fac7396e2674782335b658d52b93d` | 2281 |
+| `.engi/retained-package-admissibility-proof.json` | `sha256:ce3fd1de2842a34254dbc1cef8f9b05773ab716f3fa9b91198fa90822f7ee69a` | 6446 |
+| `.engi/runs-pipelines-totality-proof.json` | `sha256:8f66eefce40d523ebeaccf1c38777cd1dc900b31a542cb3acb6a3617eeed45bb` | 7719 |
+| `.engi/v26-canonical-input-report.json` | `sha256:31f9e3e06d5774de345a49719cbf935d56c426d11eea43a79b275f8f4f479329` | 980 |
+| `.engi/v26-gate-checkpoint-report.json` | `sha256:fb6c816dc97c7ca181269a42abb23b59be6486ac50c16518222f5dbfd6932435` | 10116 |
+| `.engi/v26-spec-family-report.json` | `sha256:b5abdfabee9b063826cccf58de712428362e926a27249186922110e44bb84116` | 950 |
 
 ### V26 Spec-Family Report
 
@@ -927,7 +927,7 @@
 | `settlement-source-to-shares` | `sha256:7dfa38948294f9884feb83fbed0c6b8bf5882c519735e2573c845a2c3fa2b162` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b84fefc6045046839e2f834fb83b6c8feef4b182d36a996afe32780cf8959c7f` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:27cb37747c513b19dde0a41b1882f89b8276eadecfa643c26cdd21d832b2b69f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:c6b135115f20fe878e5e85c2b93a63f2eb73028c8477daac229dc109fc5545a8` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:edd72ed96e5a70774a12f8661e89ecff1a62eeadca5bf3f41dbe3360dbc0816a` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:73b7240b4395f65ecfebcb5ce22c4fe3cd6337646a15adf511349b74833304a4` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1000,17 +1000,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:3147538b11c79c244436bfa5ed209fd182b8825072f4d2e2c2220c311e954499` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3886b725d74bb519cfb7c0a1aef6af9bb569b299ce64e78710f92c7dc3620f04` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:3a1b0b2fea7f0f25336ce13b634bc969fc91c6d3902b8908a450e18117922c0f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:2f97d8120a73cb2488701c5109c51230aa5598a825a575fd2a057e86cad926a9` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:c6b135115f20fe878e5e85c2b93a63f2eb73028c8477daac229dc109fc5545a8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:12831773c7ef4286b93b24c28e163026a27239be33c5edad03f6d3981ae0e099` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:324026a7608b07fca19ed4ba8580bef5cc67c5185859bc73361a9a25fe662a5b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:eb92a1a3f4b29fd5d82022c0e05f7b254af55e723008337b9bd87123048ff90b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:edd72ed96e5a70774a12f8661e89ecff1a62eeadca5bf3f41dbe3360dbc0816a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4019168cd76318ba943437948e6eacb5ce5a5e0a068d88631ebe682f8d9321d0` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:e151e2013df313f04bec5d47fab95678ec8f4b880dd8dd85e61d88403eed39fb` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:9261b74eb1d0f9f760b88ddfdd7dc99d8a33943e9949e173bd980c1d3f4cbed4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:73b7240b4395f65ecfebcb5ce22c4fe3cd6337646a15adf511349b74833304a4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:42483feb7bb8d7435ceecc9f16c443b0219c6772c6954c62f9b3bff81dfdc686` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:1168f635c89e6204866a7630d57fa60ef20b48216f3bc64fcb1b6538d6b10895` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:fbdeaeb07e9ae6b9ea11d7cff15044b3ee220bf7b50821c8af1c8025bcfb1eeb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:9ed4acad7fc7c87425df3d30b81f048b98d80aac10638c08ba2f26572ee593db` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:55df00c69e4280d9eab2724019497921a174e0b13555ef44f5712089e077adb8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b84fefc6045046839e2f834fb83b6c8feef4b182d36a996afe32780cf8959c7f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:1168f635c89e6204866a7630d57fa60ef20b48216f3bc64fcb1b6538d6b10895` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:9cbc8b18ea999603fc2764b5f63b983b6cf26e08b5c8645a30539019a7b28012` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1076,7 +1076,7 @@
 | `settlement-source-to-shares` | `sha256:7dfa38948294f9884feb83fbed0c6b8bf5882c519735e2573c845a2c3fa2b162` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b84fefc6045046839e2f834fb83b6c8feef4b182d36a996afe32780cf8959c7f` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:27cb37747c513b19dde0a41b1882f89b8276eadecfa643c26cdd21d832b2b69f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:dcbb5465ff1bdc365e470a3934bf1f85c6e29a3f3a1e6bd7f12c3221050ae1e9` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:b32961b34ea59555c33553eb469753087e5e5249b518ae7e57ec86bc92fd014d` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:69d347b41c704def9d55fb1c7899545cce64595bfd20e3648d56ed5cbe91ee06` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1149,17 +1149,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:3147538b11c79c244436bfa5ed209fd182b8825072f4d2e2c2220c311e954499` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3886b725d74bb519cfb7c0a1aef6af9bb569b299ce64e78710f92c7dc3620f04` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:3a1b0b2fea7f0f25336ce13b634bc969fc91c6d3902b8908a450e18117922c0f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:6d7f2b00af078c3f8479cc5a153dd19f08c5d50ef7d43f0fec949d73e842bdea` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:dcbb5465ff1bdc365e470a3934bf1f85c6e29a3f3a1e6bd7f12c3221050ae1e9` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:56a80151af01110e4149e75d6ffc0d38bf2d34375d14a06ce58eced4242feb51` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:ac7b84c00412f06d16908eb6efdc7ed842614e1952ed31c8c5366cb449d9234a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:00c8107a17c98ed1cfdd3f5fffb1bc0a7e436dc587a0523f94e771c360fb531a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:b32961b34ea59555c33553eb469753087e5e5249b518ae7e57ec86bc92fd014d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:cf74183d19cd7911f141b461b3a83dd6dd99bf7f4c9b17242310682f7714a7f4` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:cb857d2171b60346a931ed1960cab84a55a283087ae878f136012019db7b98bb` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:1cdfe686fd4130ed7d32695a1b0505cf9a90867d28f46409658c850d9992f7b2` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:69d347b41c704def9d55fb1c7899545cce64595bfd20e3648d56ed5cbe91ee06` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:1fd83df05998c924472d96201ea97c0d57215eff8b4e9da6216f42242e4e50c1` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:1168f635c89e6204866a7630d57fa60ef20b48216f3bc64fcb1b6538d6b10895` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:fbdeaeb07e9ae6b9ea11d7cff15044b3ee220bf7b50821c8af1c8025bcfb1eeb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:3007b87c7369df1aec068ab84c84065e88c45ef307c4013044581b02c635b08b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:2574ed9bbe8413f4b816026a1fe86662898422ac1740fa694b55d39094078336` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b84fefc6045046839e2f834fb83b6c8feef4b182d36a996afe32780cf8959c7f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:1168f635c89e6204866a7630d57fa60ef20b48216f3bc64fcb1b6538d6b10895` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:9cbc8b18ea999603fc2764b5f63b983b6cf26e08b5c8645a30539019a7b28012` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1225,7 +1225,7 @@
 | `settlement-source-to-shares` | `sha256:7dfa38948294f9884feb83fbed0c6b8bf5882c519735e2573c845a2c3fa2b162` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b84fefc6045046839e2f834fb83b6c8feef4b182d36a996afe32780cf8959c7f` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:27cb37747c513b19dde0a41b1882f89b8276eadecfa643c26cdd21d832b2b69f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:64ebb25f1352edefd742b0456e0998d8cbff7eeded692e3b809e54f5a8a7691a` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:ab148198a2489b4e2420d305a4e8b9719d4ed03b515ff464a7afa0c924ffd0cc` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:006ef4a1b96f055442598d62ef0ca5feb777875d11e73c11b3be8650e0774287` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1298,17 +1298,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:3147538b11c79c244436bfa5ed209fd182b8825072f4d2e2c2220c311e954499` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3886b725d74bb519cfb7c0a1aef6af9bb569b299ce64e78710f92c7dc3620f04` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:3a1b0b2fea7f0f25336ce13b634bc969fc91c6d3902b8908a450e18117922c0f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:1097a5fd6751ce0fc622a3f3271bdf68ca7ef711a81478f6ba8c0b7b00ecc3ea` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:64ebb25f1352edefd742b0456e0998d8cbff7eeded692e3b809e54f5a8a7691a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:722dbf15607e6a4af8ae50cfe6b0688c343f3994c03bcfa2b417c49c1656adf2` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:b714400695e155575f39fc15d1685b1c924c0535326f521e5022e34dee44b327` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:ceca56f428eb6d00514c3123415922e8405919ce8b54dbb19442d0482d6dbf13` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:ab148198a2489b4e2420d305a4e8b9719d4ed03b515ff464a7afa0c924ffd0cc` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:a5edb9e2aa55c15eb2228ac3635483502dff87531a5cc37380abbfaaff313026` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:a81c50d06bc2b2ca66d81f7d77cb66a1756192408fafa0549631ada342afc59a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:f9fc301ec0496099db72eb699b1421e562caa410ae74bbbd29686be638c8c49e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:006ef4a1b96f055442598d62ef0ca5feb777875d11e73c11b3be8650e0774287` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:48fceb339ed84ee0ec0b17217dc9b2c1840fe37bba5d866b0ef2bd08ea0c09f3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:1168f635c89e6204866a7630d57fa60ef20b48216f3bc64fcb1b6538d6b10895` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:fbdeaeb07e9ae6b9ea11d7cff15044b3ee220bf7b50821c8af1c8025bcfb1eeb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:af6d5e2a3a68b57317cdb370de5c68ccfdb50cc778661a52a857399f32173574` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:0d47b80688981e35e6b80e62a6f6814bc171b1e1230cfc56739da82b96937d90` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b84fefc6045046839e2f834fb83b6c8feef4b182d36a996afe32780cf8959c7f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:1168f635c89e6204866a7630d57fa60ef20b48216f3bc64fcb1b6538d6b10895` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:9cbc8b18ea999603fc2764b5f63b983b6cf26e08b5c8645a30539019a7b28012` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1374,7 +1374,7 @@
 | `settlement-source-to-shares` | `sha256:17ef08afaef357535ee2acf3ffc0fab059f47b40514a2e7a5e7e7cc8477b38b2` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:06d8c47b27f8bc51e99cd51a64b0dfb006619aab017296973141b1d4b8fe1efd` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:977a83cbe5563a9930aaebfab5b69dd5cca02b78c6fdced013d915327509e242` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:b1e6737c3a7d129ee4f90f723252ead12351aa789d59017948389b59dfcb17b9` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:29296be3161c229acf48b2b9f2db15631b736fc79fbdfd38effd2cbdfc33519e` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:3711b87c35d70e4631c6f71a5bc721dfd37e5316e21b17f980275247cefc023b` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1447,17 +1447,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:4e0df39b6f54b77ad4f9f61baa729907c40a97961204aed9bcb445180aba2f54` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:975df8eedd0602590206ae595150bed6d6c7921aaa5351a15d7e53d485368b1a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:68f4303f0b7a79bfb6743bf7bb360082b1f564846fcede5ecd2b2b996ad180fe` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:518c0c1e25a02c3c904236b22f4da77a4bedc065825d7e7cfd4ecdccd72ffc53` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:b1e6737c3a7d129ee4f90f723252ead12351aa789d59017948389b59dfcb17b9` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:6ccea59cc776cffc5dc4f6aa4c43090f83eb17247d28ff075820814396966dbe` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:369b9454834f615260fc88460c9ed164717f15d137fddbc966a27efc66c6c2d0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:32204c780f55b73adc06741dab32a76a33986e0a18ff88af83c7247605270a4a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:29296be3161c229acf48b2b9f2db15631b736fc79fbdfd38effd2cbdfc33519e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:d8209fcbafd35fac7f60fbc1d064afe11b0fab06f45795047a73ff1b4fb2bcf9` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:a9bfcf662b3fdb80816a2c2d8925381acb62aa029ea4fb7f1def693b526078e1` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:ae45723d61bfeaaa5a2129ac30be92bf70ca4043a5058058b7f163fd9431e0f0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:3711b87c35d70e4631c6f71a5bc721dfd37e5316e21b17f980275247cefc023b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:e4fde5312218b2be1ce13a2ed160c4b8b7f33c7cde879bf42b610aeb1d185f41` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:14f94beeda85985a733e6720459396d533af8aded8972ec9cc83a596ea5dadab` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:fbdeaeb07e9ae6b9ea11d7cff15044b3ee220bf7b50821c8af1c8025bcfb1eeb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:1c2b9d66d6465da7decc6ec2fd639913740ec00b37506c2dc8687083d30bc891` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:0f31cc0896d1d9e777f498e5074d6c9636cb11772bd7a2632a43ab95b6174694` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:06d8c47b27f8bc51e99cd51a64b0dfb006619aab017296973141b1d4b8fe1efd` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:14f94beeda85985a733e6720459396d533af8aded8972ec9cc83a596ea5dadab` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:9cbc8b18ea999603fc2764b5f63b983b6cf26e08b5c8645a30539019a7b28012` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1523,7 +1523,7 @@
 | `settlement-source-to-shares` | `sha256:17ef08afaef357535ee2acf3ffc0fab059f47b40514a2e7a5e7e7cc8477b38b2` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:06d8c47b27f8bc51e99cd51a64b0dfb006619aab017296973141b1d4b8fe1efd` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:977a83cbe5563a9930aaebfab5b69dd5cca02b78c6fdced013d915327509e242` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:d3cb0ede93395ab18c25ac594f92cd189405a2121941c42e19c6e3c41614c5a8` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:74f49c1209a60b0906811f07e101c816d3506124bbcb35e1d79c1423039efe71` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:757e9bd40f907522ad6b4dbe0e8b5057738c541cd73c589195071b40a7d614e3` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1596,17 +1596,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:4e0df39b6f54b77ad4f9f61baa729907c40a97961204aed9bcb445180aba2f54` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:975df8eedd0602590206ae595150bed6d6c7921aaa5351a15d7e53d485368b1a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:68f4303f0b7a79bfb6743bf7bb360082b1f564846fcede5ecd2b2b996ad180fe` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:b3e00f6e1392ad9762d3833bbaff3ca34ad547863f3c56e8a890da991e453bb0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d3cb0ede93395ab18c25ac594f92cd189405a2121941c42e19c6e3c41614c5a8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:167e630e89ed12601b42b103f21f696a354416bd2b7cc709bacc66197a41e675` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:bcfc58963ed1470b54d86a5285b758a8009f778c6f4512e855e817bb2bc439f2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:efa46035d9ed12932ae3a28feb8139a6c867eff268ed6bd445832e4958320fa4` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:74f49c1209a60b0906811f07e101c816d3506124bbcb35e1d79c1423039efe71` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:b9bbb8a36e78809939f272ccc8c5425ef15ac769a59dca1055be70ca542d1c42` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:76cbd1b120cc5aa1fbc97074cddf9fc91664af219a258b9b85f26e05fe96f398` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:4242ff5c7d06f9236fc8b377e55f325d04792785d16ae73a00bb74e3383a6ffc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:757e9bd40f907522ad6b4dbe0e8b5057738c541cd73c589195071b40a7d614e3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:add84a53c57108023e25f9babccb8a5386284793fc0b4b766d62fb198c9058e8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:14f94beeda85985a733e6720459396d533af8aded8972ec9cc83a596ea5dadab` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:fbdeaeb07e9ae6b9ea11d7cff15044b3ee220bf7b50821c8af1c8025bcfb1eeb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:23d1abf2f62097a09491b21c8590fa81f10995a6fb9f2055f421da46b84336a6` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:d95358e344c24e79eaef5cf9ceda8fe62396f520c47ec79f2eb5fbed69b46ec7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:06d8c47b27f8bc51e99cd51a64b0dfb006619aab017296973141b1d4b8fe1efd` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:14f94beeda85985a733e6720459396d533af8aded8972ec9cc83a596ea5dadab` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:9cbc8b18ea999603fc2764b5f63b983b6cf26e08b5c8645a30539019a7b28012` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1672,7 +1672,7 @@
 | `settlement-source-to-shares` | `sha256:17ef08afaef357535ee2acf3ffc0fab059f47b40514a2e7a5e7e7cc8477b38b2` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:06d8c47b27f8bc51e99cd51a64b0dfb006619aab017296973141b1d4b8fe1efd` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:977a83cbe5563a9930aaebfab5b69dd5cca02b78c6fdced013d915327509e242` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:992513852e6d72a72855abdb0cdb2bf4a40dc210c2afe1ae33d4e3b79b36bd21` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:ec124003d858ee2b15a8202c5a4e11f80ebb711365b6c15606d5989f3764b40a` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:7ff8f6e24bba0fd472fd048f344c32b277aaad946d9a39115c1d158edfaa3faf` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1745,17 +1745,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:4e0df39b6f54b77ad4f9f61baa729907c40a97961204aed9bcb445180aba2f54` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:975df8eedd0602590206ae595150bed6d6c7921aaa5351a15d7e53d485368b1a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:68f4303f0b7a79bfb6743bf7bb360082b1f564846fcede5ecd2b2b996ad180fe` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:840dae95e02ba11e169443b7a252fd796ceee410ea6f7a8ce83ddc880c6cf96f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:992513852e6d72a72855abdb0cdb2bf4a40dc210c2afe1ae33d4e3b79b36bd21` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:8b41250ec3626b40f5a6fd49feaf1e5c4da5b99a9d85e4da1d5c03d29cd484d0` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:be821bc5d13595cce1d295db5f86fc3abf8f5495bf24ca0df9a1f2fe209c1ad9` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:cec696f07f680a394332077d4d57b3b59c0b6d9bf019730dd17ba0da3e4d24f6` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:ec124003d858ee2b15a8202c5a4e11f80ebb711365b6c15606d5989f3764b40a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4b4f479c01b6f75728c5e21cff43cf95c130c59748ba5a8652ffbd138ccf33ae` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:ea1aa80653ba40937603c2fc4f16ce1fcfe3b13736992d4bda0bb676e754be78` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:c04fbbb6583cc4006b34d8080a6d9d000ce00d65311e4ce772d0082b26801e4b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:7ff8f6e24bba0fd472fd048f344c32b277aaad946d9a39115c1d158edfaa3faf` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:b4d9b9835ebd10efe081292c5a59bdfa6765cacd2d961160f1ac5af3053b0076` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:14f94beeda85985a733e6720459396d533af8aded8972ec9cc83a596ea5dadab` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:fbdeaeb07e9ae6b9ea11d7cff15044b3ee220bf7b50821c8af1c8025bcfb1eeb` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:3f30d93fdfe9178056ecf46daaa0a6fd2d3f29056866d984d9fae4ed859b9138` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:32a5d2dfbd49c24a8b466ed5c7f33a931a3ce8e2bcc50a26b1390538f8cac0bb` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:06d8c47b27f8bc51e99cd51a64b0dfb006619aab017296973141b1d4b8fe1efd` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:14f94beeda85985a733e6720459396d533af8aded8972ec9cc83a596ea5dadab` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:9cbc8b18ea999603fc2764b5f63b983b6cf26e08b5c8645a30539019a7b28012` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1821,7 +1821,7 @@
 | `settlement-source-to-shares` | `sha256:40b2f94654ab46037874caf2312bb365822ee96ca7fc8f8b82eece9ba62f852d` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:47fec628cb07de700a6a9e61fc693174519b461bac86d36b49fc444449d90803` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7f07241670740a7f687144b281d23b091f4403e2e69d5fb8732cd6e36a07efcc` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:28c61a81f7a59f1db23c8a3a99ef08a56b928f3d667029a134416106ae4df7d4` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:2e851e53d4d614e6bfeb10ee9427534574aa0e70f446d9a4b7308433e7d25fcb` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:7ece829bf78bf24fca4ea464e7c0f6f715b8d1cba28abafdce386218c5b8538e` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -1894,17 +1894,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:7328ef630f9fb2690f57911becf6d15b342d19335b61252144cec83866ebc838` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:a91fbbab1464c14d745d592c7a8c666823a3c8002412d2e076606e8ef167a312` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e2766929e9b0099344fa512ffd0e8a1201f987fab3843ff26c2b162581136d8c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:c7e95484a65273c7f1b636e9bb6ad502f802344b868350a54f13def2d31d0bb9` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:28c61a81f7a59f1db23c8a3a99ef08a56b928f3d667029a134416106ae4df7d4` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:bd8de706d38e373e03e614b2fb1a934d75c0d58e88a41391005056d61903ae75` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:66ace6a07a23862a5cea3c69aa67bf81b4604ebf48e1dc9208decc0870b78ee7` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:213a749bcd94d789809a877bbf6f3f227e1bc751f74a67b7c0f448632ee22d80` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:2e851e53d4d614e6bfeb10ee9427534574aa0e70f446d9a4b7308433e7d25fcb` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:fa140378a3004244a3062f97f0de19193c0cb1c0ebdf804ab86f0eefd11e6c23` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:aedf2d9907416e42814b49a96f69823492fe5ba2ffd275bf5d7c907ff8ad2b3b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:b37a5dfac99bae863b2beefa769476046aa92c974459d4b552996de861883219` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:7ece829bf78bf24fca4ea464e7c0f6f715b8d1cba28abafdce386218c5b8538e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:d5a20fcb658f899c1ed70b8ca6d918b47931f949b52233394a1e4f314c7e3f37` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:bb74687733937bde321697a5c58666ea424e7bde8cb1eb039da7a4f0874ecd9e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:ceded24fc67be7c03ce57ef83c400262fde47fbd44775c6a6fa517c6499ce394` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:539c105159d928f106bb5e373f3c4b799aa35c999eec03544a84505030d760f3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:e9a82f9a28b9ffc4f9b5900d45d8818218ec9981ffdaf76c1c5e82acb500c4ae` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:47fec628cb07de700a6a9e61fc693174519b461bac86d36b49fc444449d90803` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:bb74687733937bde321697a5c58666ea424e7bde8cb1eb039da7a4f0874ecd9e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:f0c59123ed692be9e1764c489c0eda228d1d0300b1a63019f7c90920127af13c` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -1970,7 +1970,7 @@
 | `settlement-source-to-shares` | `sha256:40b2f94654ab46037874caf2312bb365822ee96ca7fc8f8b82eece9ba62f852d` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:47fec628cb07de700a6a9e61fc693174519b461bac86d36b49fc444449d90803` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7f07241670740a7f687144b281d23b091f4403e2e69d5fb8732cd6e36a07efcc` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:feeb3d6783dff170f994a93239cd1e0fba36d5ad743b413202df4e0c9886354a` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:d1ec2909a04d6197868b0103e44e5c3abd7af90f669c43de9f77b069a35a1731` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:27efd30b4d5de63c34a00b14a4140173e4d2247f9ef59778f5dd71a3f37bcdbe` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2043,17 +2043,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:7328ef630f9fb2690f57911becf6d15b342d19335b61252144cec83866ebc838` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:a91fbbab1464c14d745d592c7a8c666823a3c8002412d2e076606e8ef167a312` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e2766929e9b0099344fa512ffd0e8a1201f987fab3843ff26c2b162581136d8c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:fa487a519f079349ce195382c3d7eb91b66956e9b3590188c6af914fec797fca` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:feeb3d6783dff170f994a93239cd1e0fba36d5ad743b413202df4e0c9886354a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:b1f9953d4dd09405ac47aeb50789b35c9a67cc987066fdf07f83265952e68a05` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:4daf461f82d99e6e39f7ac202d2b73949f3d436923138ae580643ce8ef58ef16` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:a31daaa72b1a96256dc2a495f637daba2cc86e4594e6dc08a2732dceb7f8a035` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d1ec2909a04d6197868b0103e44e5c3abd7af90f669c43de9f77b069a35a1731` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:384eed891aa3500b56f3514a4cb177fbfd5a4ca51fb84de5f3d48543f8e38dc2` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:8bddfa3f8ecfa0786f2faf872891b4db3ae89a874b079fdd9b3e900947596d53` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:ee6f8522d7245255670d9d325ff118a393d095a243a6ea573948b4a32804b465` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:27efd30b4d5de63c34a00b14a4140173e4d2247f9ef59778f5dd71a3f37bcdbe` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:35afdb84539e30327acebefa67597eaba09047f5ce73f1ab15f5e9063fa13c0b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:bb74687733937bde321697a5c58666ea424e7bde8cb1eb039da7a4f0874ecd9e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:ceded24fc67be7c03ce57ef83c400262fde47fbd44775c6a6fa517c6499ce394` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:a6d40a2f842b9b2deec0b093560622f4007b2bba5a382a32184eb8a9ec377d05` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:c53fcbf37e8435bd1ced419994a229633bb7f6cbf27b881c010f105578082a54` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:47fec628cb07de700a6a9e61fc693174519b461bac86d36b49fc444449d90803` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:bb74687733937bde321697a5c58666ea424e7bde8cb1eb039da7a4f0874ecd9e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:f0c59123ed692be9e1764c489c0eda228d1d0300b1a63019f7c90920127af13c` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -2119,7 +2119,7 @@
 | `settlement-source-to-shares` | `sha256:40b2f94654ab46037874caf2312bb365822ee96ca7fc8f8b82eece9ba62f852d` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:47fec628cb07de700a6a9e61fc693174519b461bac86d36b49fc444449d90803` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7f07241670740a7f687144b281d23b091f4403e2e69d5fb8732cd6e36a07efcc` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:3b2007f5db5ba7024db06566a131c8ad2bb29ba4cd35947e103debdc99bb2c65` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:b66fa52615cbd6b794b0f8c16fe4ded8f33fbfa3b36c7643bccee979a4a11f12` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:e22bdb1365b6c059c65501814610fb6b856e815d27f1c46569d66a49c75f5db2` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2192,17 +2192,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:7328ef630f9fb2690f57911becf6d15b342d19335b61252144cec83866ebc838` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:a91fbbab1464c14d745d592c7a8c666823a3c8002412d2e076606e8ef167a312` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e2766929e9b0099344fa512ffd0e8a1201f987fab3843ff26c2b162581136d8c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:7cf019eb3f365d302cda187c7bc0ffa9968902eb18349181730e0f604c84a4c6` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:3b2007f5db5ba7024db06566a131c8ad2bb29ba4cd35947e103debdc99bb2c65` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:e0148d3ec2fa369303b00eec4e83fda0c96789c49fe3a9f99e8ba07ab5e10919` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:ef5eeef66676f04302348a3852aaecf96409f75f79b4534d9308ff0676edf21c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:9c20623b3c70e3480e26c30c85eb150c2b71156a45120a57e0cd1852926c316c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:b66fa52615cbd6b794b0f8c16fe4ded8f33fbfa3b36c7643bccee979a4a11f12` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:7fb0db75f7a40bd39ee651a64aff18673354eaae519bdd36e3596688a598cadd` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:6eccfabc7e2fddab6afb5c7c783a91af20f98567f1508e3b527ca9348b0c1055` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:8c9cec38559721b1bff93fe3f57921f16d4c106ddbb65c94793374e5c879e92e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:e22bdb1365b6c059c65501814610fb6b856e815d27f1c46569d66a49c75f5db2` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:319b2a7947dfd10c2a2c887c33bf7414b053c3aef4f8030791b6460fd0d5f95c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:bb74687733937bde321697a5c58666ea424e7bde8cb1eb039da7a4f0874ecd9e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:ceded24fc67be7c03ce57ef83c400262fde47fbd44775c6a6fa517c6499ce394` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:034b855f1e032704b3755857afa9e40610f677072a4a504ec4558144892351f0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:6017d0aae7e14975ad1dca4c8d339f647249230e9d3be9ca4516bf256546035a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:47fec628cb07de700a6a9e61fc693174519b461bac86d36b49fc444449d90803` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:bb74687733937bde321697a5c58666ea424e7bde8cb1eb039da7a4f0874ecd9e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:f0c59123ed692be9e1764c489c0eda228d1d0300b1a63019f7c90920127af13c` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -2268,7 +2268,7 @@
 | `settlement-source-to-shares` | `sha256:6ed6ba39400ff43977150471b143507a9bca36f66270affc945861f8dc44b7c5` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:4b1c9706890a41bb196022507f0f71a87d13b5862e5b99be203cedfba4fb6c09` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7f07241670740a7f687144b281d23b091f4403e2e69d5fb8732cd6e36a07efcc` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:7882c540989d1885027dfa055568f8a7a8e2b66a24c8a774fc7ec179c522d5e0` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:a800d35f7793f9a8a9b2ad1446fa84e1a0a62d3e19984f205cf263caafa649b7` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:d1cf38a886346fd3b77ce131d7488363a5d3657b5b1030e64948b669543851c4` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2341,17 +2341,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:107009649348a2c951a4d607193b400be7675032b5fc64a3ba2fa6913e5bb411` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:a91fbbab1464c14d745d592c7a8c666823a3c8002412d2e076606e8ef167a312` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e2766929e9b0099344fa512ffd0e8a1201f987fab3843ff26c2b162581136d8c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:22f0f2e8a59c605ee8c56e69c3ba328182b2c813d4a944671179050879f6cf07` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:7882c540989d1885027dfa055568f8a7a8e2b66a24c8a774fc7ec179c522d5e0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:8f79f1146dbac8d3baf1e81c1a367171e4daf87d9c7d37fc078ee5f4794ad943` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:7f727183ec2a8410bbe7e65e4abb29859f76e69a72f8cdf0271ad768b452a547` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:6b7bb6929f13f458686e2073cc4a9e77a9412ab056763f40ea4a956481a964b0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:a800d35f7793f9a8a9b2ad1446fa84e1a0a62d3e19984f205cf263caafa649b7` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:caa198b6589d8ad6fa47f1bc01cf7a66050216fdbf4b7155d460c58b7f9a44ed` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:83087bc6b04d13c0b7e80711cd3cbd77103c99c0a250b6a0a672e23f2bb04168` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:d49c2a42af6af6f2cfd001a3b917cb222f36d04e19728483a3e3ab2a3fa015fa` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:d1cf38a886346fd3b77ce131d7488363a5d3657b5b1030e64948b669543851c4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:3e6bfbed25f498c1aa6abbdbcb8f884dc9aa311e6476fa26706eb42d0346c634` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:21be252cc1389823d494d2d9975cf5397f516919dd718e364f7dc4e92cdbf397` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:ceded24fc67be7c03ce57ef83c400262fde47fbd44775c6a6fa517c6499ce394` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:539c105159d928f106bb5e373f3c4b799aa35c999eec03544a84505030d760f3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:e9a82f9a28b9ffc4f9b5900d45d8818218ec9981ffdaf76c1c5e82acb500c4ae` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:4b1c9706890a41bb196022507f0f71a87d13b5862e5b99be203cedfba4fb6c09` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:21be252cc1389823d494d2d9975cf5397f516919dd718e364f7dc4e92cdbf397` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:f0c59123ed692be9e1764c489c0eda228d1d0300b1a63019f7c90920127af13c` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -2417,7 +2417,7 @@
 | `settlement-source-to-shares` | `sha256:6ed6ba39400ff43977150471b143507a9bca36f66270affc945861f8dc44b7c5` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:4b1c9706890a41bb196022507f0f71a87d13b5862e5b99be203cedfba4fb6c09` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7f07241670740a7f687144b281d23b091f4403e2e69d5fb8732cd6e36a07efcc` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:d0f9e3052a317e4d61668b2de477f6922067e6135869f53b6a34f71022091c42` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:1baa7cee7695b5e8825ea25238e7deae629334a25eb812345011ffa86ce62c78` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:d1a39df63f901a14271dc72d81ab55b847ac78c760e80ca8476319b30ca5163d` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2490,17 +2490,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:107009649348a2c951a4d607193b400be7675032b5fc64a3ba2fa6913e5bb411` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:a91fbbab1464c14d745d592c7a8c666823a3c8002412d2e076606e8ef167a312` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e2766929e9b0099344fa512ffd0e8a1201f987fab3843ff26c2b162581136d8c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:84e76b66cca8a24539f753b64a83c5cbed8aa1cbd105989d4eda6271bc6e6a77` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d0f9e3052a317e4d61668b2de477f6922067e6135869f53b6a34f71022091c42` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:771849bf14a8f5c8b2c20cd44cad8e3091d7122c956fa1126da302a6fe871389` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:4dd2b9d9cc955b5d3ffa607fba20236d2d01a27c29a748ac322a9028c7e28c05` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:9a844e117c7883448f92a8dd7c10ed550569c6ecbeeda8736311a40dc8e54585` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:1baa7cee7695b5e8825ea25238e7deae629334a25eb812345011ffa86ce62c78` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:a3dda9fac65d71767004c68588dbcb62a2f40bb638b26e96e6393d82440e1f37` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:1389eb6695843b7eac87eb9bb1b5cd84893bcacba036ebcd38752bdd503e15cd` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:277a580205cff9460159287876aeff29206d20bf96cda3297434420823c186e7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:d1a39df63f901a14271dc72d81ab55b847ac78c760e80ca8476319b30ca5163d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:089f8c73fa5325bade7da0a408eb15e3e36714e910ce6314ac29439aa7302342` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:21be252cc1389823d494d2d9975cf5397f516919dd718e364f7dc4e92cdbf397` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:ceded24fc67be7c03ce57ef83c400262fde47fbd44775c6a6fa517c6499ce394` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:a6d40a2f842b9b2deec0b093560622f4007b2bba5a382a32184eb8a9ec377d05` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:c53fcbf37e8435bd1ced419994a229633bb7f6cbf27b881c010f105578082a54` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:4b1c9706890a41bb196022507f0f71a87d13b5862e5b99be203cedfba4fb6c09` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:21be252cc1389823d494d2d9975cf5397f516919dd718e364f7dc4e92cdbf397` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:f0c59123ed692be9e1764c489c0eda228d1d0300b1a63019f7c90920127af13c` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -2566,7 +2566,7 @@
 | `settlement-source-to-shares` | `sha256:6ed6ba39400ff43977150471b143507a9bca36f66270affc945861f8dc44b7c5` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:4b1c9706890a41bb196022507f0f71a87d13b5862e5b99be203cedfba4fb6c09` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:7f07241670740a7f687144b281d23b091f4403e2e69d5fb8732cd6e36a07efcc` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:e96f8bfa6e30f635a5e9eb4c6d449910aa5cc97722d8b811dda8cde42b85e70e` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:69e0803b61e467f25a1fb4d55de03c2e2e6ec253cc9ae159c4c59fc62b9ac837` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:a03c24a2e3dcba1eb8f882f9e9dad033d57ef2e94b52852f130175cd87ed8c34` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2639,17 +2639,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:107009649348a2c951a4d607193b400be7675032b5fc64a3ba2fa6913e5bb411` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:a91fbbab1464c14d745d592c7a8c666823a3c8002412d2e076606e8ef167a312` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e2766929e9b0099344fa512ffd0e8a1201f987fab3843ff26c2b162581136d8c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:91e49aea68d4c9827eff4569898fa682c8522c341b4aaa576defc5b39e52cd2a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:e96f8bfa6e30f635a5e9eb4c6d449910aa5cc97722d8b811dda8cde42b85e70e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4d714a59bfdac7818f407eaf628105cf39c0ae426d20f39291f7d45bae7fd8f5` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:f38a7672939a9f9e0498429f2acc790b25265da31e2e1140251b863197cea45a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:10ac6a0a4aa8be8aae65336232a771392731014c1ae0884010699c835f4ecfce` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:69e0803b61e467f25a1fb4d55de03c2e2e6ec253cc9ae159c4c59fc62b9ac837` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:b5618a10bfcba148add0486fb97429a512a87940bc480d65963b9269a59f84b7` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:2345a191735f1a7966301a9f11a2cf95e8c6fc6d0ca69ade5b687dde34e12595` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:10ede8838a50383be6ff1de463cb19a5cbf7d753e7f8680b2d6801862fe66f6c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:a03c24a2e3dcba1eb8f882f9e9dad033d57ef2e94b52852f130175cd87ed8c34` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:555f47d30b34c0d5627d998f772dcdb7aad215de06806aa004bfa69131d47b94` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:21be252cc1389823d494d2d9975cf5397f516919dd718e364f7dc4e92cdbf397` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:ceded24fc67be7c03ce57ef83c400262fde47fbd44775c6a6fa517c6499ce394` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:034b855f1e032704b3755857afa9e40610f677072a4a504ec4558144892351f0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:6017d0aae7e14975ad1dca4c8d339f647249230e9d3be9ca4516bf256546035a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:4b1c9706890a41bb196022507f0f71a87d13b5862e5b99be203cedfba4fb6c09` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:21be252cc1389823d494d2d9975cf5397f516919dd718e364f7dc4e92cdbf397` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:f0c59123ed692be9e1764c489c0eda228d1d0300b1a63019f7c90920127af13c` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -2715,7 +2715,7 @@
 | `settlement-source-to-shares` | `sha256:3088739f5697ecd02aeac43fe0b27c72663c9ed7d55e5876aea78081a60ba4f4` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:3ea6b6f9b69e25a1a91f3aff77984412932b74a0cbb17c8e2e28fcd5529c08a5` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:63737ba9c239eb90d75650d757c8164915a7c3373d60ee04907769c090f5e5f5` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:3f12639b0972e817d42adafe67e11d41b0122ea961510715754d78e579a30ee1` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:d1db3c5420b4ffe627861afbe794219e34566389756f4c2034dbb9d39c3eb8f3` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:9f97e1526c2179fdfd4dbdc03541a13514f2179bad3371025fb02196077590ed` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2788,17 +2788,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:7d239aa72089958932fb6a827ce7d9e01b12d01629e0cc9c13ede037a35c42a4` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3fa1030693ff83ba54c38047c2764ff0b7c1378f3b5d0ae9c9457dea0fc87c95` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:804adce2ebc3d81ff3b7a2caac7955bc627b58f2c07ff5c871cdddd6172136a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:e0f1e146bdd84e5de8c4b1b488f7872a06f1065a9e64d3da208b333c0258c1ef` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:3f12639b0972e817d42adafe67e11d41b0122ea961510715754d78e579a30ee1` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:667d29faa21be18365c7de7aa5bfa9538a1e9e5df42ff52ce26487f58ba47868` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:f47331d3d7af9b7edcc6a0fad4f7de7cdf88a38d8ded738fc894b4974001d775` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:b49739487ce9d68673825192314dbab8aee32dbe95bcb92b97db7b392b0dcb63` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d1db3c5420b4ffe627861afbe794219e34566389756f4c2034dbb9d39c3eb8f3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:5eb798360361c43d97bbf715d44337a7df0d0d69c5f9658d66ae7e695642cf58` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:a397706493166190ea7cd62583a76603e803faf50a90d040e5335c8adb9ca238` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:aee28d5c716793f9da143bc9fb4aa5faf19da2ee11fc35a35baf5c1bd74f17a6` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:9f97e1526c2179fdfd4dbdc03541a13514f2179bad3371025fb02196077590ed` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:61cb4c0a118d4ddaacb70d6456ec9191a00fe58237862db63338bddf1a22e673` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:601c7a5b52af609137bb668ce8c00866457e38003ccb04fc70e1c0bf23d5524f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:6ffc7539e53b4bf4aee6d40adb03f1c8e0036dea3fc9ee251090ea2995a26ee6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:8323e102b949a1bf5b98b2ff559f89beaf7fa8f2cd7f8b90b45a5c16e845ce8e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:76ef020bc578a6de7b0c3b6b01efa715b1a7aec3b5a7accf93381fd709bdc3b3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:3ea6b6f9b69e25a1a91f3aff77984412932b74a0cbb17c8e2e28fcd5529c08a5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:601c7a5b52af609137bb668ce8c00866457e38003ccb04fc70e1c0bf23d5524f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:4f2a7dab58425809fa4e3cb8d8c49d79149fe9af5678c6c68bf0bbe1e50cc149` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -2864,7 +2864,7 @@
 | `settlement-source-to-shares` | `sha256:3088739f5697ecd02aeac43fe0b27c72663c9ed7d55e5876aea78081a60ba4f4` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:3ea6b6f9b69e25a1a91f3aff77984412932b74a0cbb17c8e2e28fcd5529c08a5` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:63737ba9c239eb90d75650d757c8164915a7c3373d60ee04907769c090f5e5f5` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:fa99a735a401a672a8308dbff85659ffd6a415e46abe7f1b1319417f95290a17` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:530d83437d0f1d0189eaf3f783be3f006c32259f3ca36df166e3b29cfb909e5b` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:099fe74a99995c00f62e1a77b6a4ddc67ce2d22f6b2e825c763e592733f01ffd` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -2937,17 +2937,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:7d239aa72089958932fb6a827ce7d9e01b12d01629e0cc9c13ede037a35c42a4` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3fa1030693ff83ba54c38047c2764ff0b7c1378f3b5d0ae9c9457dea0fc87c95` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:804adce2ebc3d81ff3b7a2caac7955bc627b58f2c07ff5c871cdddd6172136a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:63e8194b961f9af7d75e8dc6c6b1a3a043dee5e0b7be6546b750c63f7a560d20` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:fa99a735a401a672a8308dbff85659ffd6a415e46abe7f1b1319417f95290a17` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:43eda7083b4ec7ff4ecba52bcdc1650fb536a78466a2cc8e898eca5518b349d2` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:84dc33da7c36df3dbd6909ad5c3195365a7bb7078a25504926f5fe14d18d991d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:0d6e213f3730a3adb89635ccdfddfae13da20c279a1f8de9a3d90635b87cfc3c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:530d83437d0f1d0189eaf3f783be3f006c32259f3ca36df166e3b29cfb909e5b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:53514333111d2596fe39fdc901d65a0a2ff4b3ae698197deb3ae585f90cefaa3` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:414bfc6761b7df4099edfc412bf6893826a85faf09e436e8df87ba5620a7da3a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:9758969ed1e6c9abe7c9fee1b8b0a79f9dee2de57c04b3b26e8caffca72a68fd` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:099fe74a99995c00f62e1a77b6a4ddc67ce2d22f6b2e825c763e592733f01ffd` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:514d5a1d223b9458b7c23e58229073890cc53d6117320e9419c0f9924826f70b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:601c7a5b52af609137bb668ce8c00866457e38003ccb04fc70e1c0bf23d5524f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:6ffc7539e53b4bf4aee6d40adb03f1c8e0036dea3fc9ee251090ea2995a26ee6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:a7ca64df174d4974cbedf70f1c8fbf925a1a360baade2aa615c2cab6d15e002b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:5d59a4740d144596d3b006fdab3575ebd7f123a1f30d9b06baa6112deb68c424` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:3ea6b6f9b69e25a1a91f3aff77984412932b74a0cbb17c8e2e28fcd5529c08a5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:601c7a5b52af609137bb668ce8c00866457e38003ccb04fc70e1c0bf23d5524f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:4f2a7dab58425809fa4e3cb8d8c49d79149fe9af5678c6c68bf0bbe1e50cc149` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3013,7 +3013,7 @@
 | `settlement-source-to-shares` | `sha256:3088739f5697ecd02aeac43fe0b27c72663c9ed7d55e5876aea78081a60ba4f4` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:3ea6b6f9b69e25a1a91f3aff77984412932b74a0cbb17c8e2e28fcd5529c08a5` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:63737ba9c239eb90d75650d757c8164915a7c3373d60ee04907769c090f5e5f5` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:4ccffdb7f68ae51cc05692b09c1d7fb221f8b081e3e141f0784bb1fa480c081c` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:f73e416fa2293e7031aefa6371824f8a6c0584f76b7acae5096786a6f386759b` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:1f69d55d918f41371c187e65da44b954f41f1f8a51ba18dbebdb7ffc60c22110` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3086,17 +3086,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:7d239aa72089958932fb6a827ce7d9e01b12d01629e0cc9c13ede037a35c42a4` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3fa1030693ff83ba54c38047c2764ff0b7c1378f3b5d0ae9c9457dea0fc87c95` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:804adce2ebc3d81ff3b7a2caac7955bc627b58f2c07ff5c871cdddd6172136a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:9ef3877823cdcf3f9e3f941015f7ca7babf3e1118649e66e3db789488afd4377` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:4ccffdb7f68ae51cc05692b09c1d7fb221f8b081e3e141f0784bb1fa480c081c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:f60d3ce1241e32e30975ff59a27394d465ad8e8f5b18fa643463bcad62a87036` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:4184500700540bda8892bd00be75d65008ab120fa9f2813d60967c952cbcbee6` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:9c1f83404c7801a3e16271cfab53924790ea5b5724aa4a39e70cc0a9348b4601` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:f73e416fa2293e7031aefa6371824f8a6c0584f76b7acae5096786a6f386759b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:a84298b27e10d0946cab0e32dd0e6bd139232ecee45787d471453f5b6d7a5b28` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:244c8daf65335b94523bb7fa2bf248a382caf223feaf49b958ca746b228212e2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:34b838c530400199a811159f0c73a68da32d240e7d4ec563a83ec1f507146ee0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:1f69d55d918f41371c187e65da44b954f41f1f8a51ba18dbebdb7ffc60c22110` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:089392bfdef37087fdc1072ba1a3be853d651742e577c1eca3defac696523d58` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:601c7a5b52af609137bb668ce8c00866457e38003ccb04fc70e1c0bf23d5524f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:6ffc7539e53b4bf4aee6d40adb03f1c8e0036dea3fc9ee251090ea2995a26ee6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:e6a919f3c7adf978165827ff31f0947de6aacecfc83ae264e52aeb46385024bc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:58ea4a3cf430fffce98eefa07d15ea647d37f4bad0f1c5d9f060b9fb66d428f8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:3ea6b6f9b69e25a1a91f3aff77984412932b74a0cbb17c8e2e28fcd5529c08a5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:601c7a5b52af609137bb668ce8c00866457e38003ccb04fc70e1c0bf23d5524f` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:4f2a7dab58425809fa4e3cb8d8c49d79149fe9af5678c6c68bf0bbe1e50cc149` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3162,7 +3162,7 @@
 | `settlement-source-to-shares` | `sha256:6c47d2fa334a115e48b406f61eb5f0e1f429e872f289b151ebdff2f485653cbf` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:29659e19667613ce36b6d85b8e2f4efb8e85f5e7015c64fff59754c0ea38cdf5` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:63737ba9c239eb90d75650d757c8164915a7c3373d60ee04907769c090f5e5f5` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:3da2418477406b4762b62a3b553ae0efc6eb27701003de1f22e7e86cd308a3e5` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:9f2a529d07f9c10b9d1d683e619c9893effd30b395634daddd0573f897ca82c7` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:9230214da86eb80a09e61958675e759eea01d7520c50a6ad49611dbd61609654` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3235,17 +3235,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:032efa38ed8c158a8d036985325f3793255df9e7f8579fde4b67e317115b987f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3fa1030693ff83ba54c38047c2764ff0b7c1378f3b5d0ae9c9457dea0fc87c95` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:804adce2ebc3d81ff3b7a2caac7955bc627b58f2c07ff5c871cdddd6172136a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:33722ec85ab863b592e800ad9de3e05363cb296cb1b03611c3bde1691bd67b27` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:3da2418477406b4762b62a3b553ae0efc6eb27701003de1f22e7e86cd308a3e5` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:ccdf35947813733ed7ff0acb214eef044b2c714c82179a35ebc5bf6da8743d9a` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:b2da05db8fbc6ba9512d1379a609fcfd903f66faff250b9d5156fab81fd33921` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:abfb27bab69969906f7c1e76aba60baebab8577657d4cf659b210f42fc7bca12` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:9f2a529d07f9c10b9d1d683e619c9893effd30b395634daddd0573f897ca82c7` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:803e69a6b246d05c99dccd382acb81bb2dc7685858e76ba6f08c049316dc60cc` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:bdf5fe502d74bf2677f0729a917907c3937c076eaa3e30ab867308effbba0dbb` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:cb0cec9031150e972f3e482a00329929e413c0618deb4c372e516ba56bd2f4db` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:9230214da86eb80a09e61958675e759eea01d7520c50a6ad49611dbd61609654` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:4c80934c85889c87ea4ea4c894e8bbb2893bf8efb712786129b71a0f55e51cd9` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:944c3bd32ff5983589daacfe4a707382c239d716bfe0f61e6fca2aaea39218ac` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:6ffc7539e53b4bf4aee6d40adb03f1c8e0036dea3fc9ee251090ea2995a26ee6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:8323e102b949a1bf5b98b2ff559f89beaf7fa8f2cd7f8b90b45a5c16e845ce8e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:76ef020bc578a6de7b0c3b6b01efa715b1a7aec3b5a7accf93381fd709bdc3b3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:29659e19667613ce36b6d85b8e2f4efb8e85f5e7015c64fff59754c0ea38cdf5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:944c3bd32ff5983589daacfe4a707382c239d716bfe0f61e6fca2aaea39218ac` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:4f2a7dab58425809fa4e3cb8d8c49d79149fe9af5678c6c68bf0bbe1e50cc149` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3311,7 +3311,7 @@
 | `settlement-source-to-shares` | `sha256:6c47d2fa334a115e48b406f61eb5f0e1f429e872f289b151ebdff2f485653cbf` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:29659e19667613ce36b6d85b8e2f4efb8e85f5e7015c64fff59754c0ea38cdf5` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:63737ba9c239eb90d75650d757c8164915a7c3373d60ee04907769c090f5e5f5` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:f298208095e29a0301595bc73db3054a0731de2cc0634ba68badde7c199fe2e0` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:1e91c38d34c38de8d5d7027e5271caa0960a0221656e306a745cf07b2a625928` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:9478f8de2200fe14c08eb7d621e6276473c56eda94d382d647f25d7458e44002` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3384,17 +3384,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:032efa38ed8c158a8d036985325f3793255df9e7f8579fde4b67e317115b987f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3fa1030693ff83ba54c38047c2764ff0b7c1378f3b5d0ae9c9457dea0fc87c95` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:804adce2ebc3d81ff3b7a2caac7955bc627b58f2c07ff5c871cdddd6172136a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:f2e206a5e2478059b062cc24ae0abed486178b7ab7d46e31d58d2d81ff941405` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:f298208095e29a0301595bc73db3054a0731de2cc0634ba68badde7c199fe2e0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:e978696bb315d7f0c6bb848636b43d471d07d82e644298895456c3e44b3ce582` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:c2c0a14d299b711c98efa37ccd450dd5e72bf71d218a89ae6ba3b05f85d5df9d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:341d2a1d60e878096064a16abcd98f73bdf7862a17ed6f11b046e56ff5213d32` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:1e91c38d34c38de8d5d7027e5271caa0960a0221656e306a745cf07b2a625928` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:6837fed8b3926621cc02dab9d8472b6e77e7eb428cb97333d1ce63b246824d08` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:72231da49efa2720cc99c09b6fd58ac6870ef7c83bc2fc19914b00daa1b0330e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:6661e3a799dc0d3a24efed66470d67f1ec303e5c2b56a3f43869d9dcb3d68ccb` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:9478f8de2200fe14c08eb7d621e6276473c56eda94d382d647f25d7458e44002` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:c537720e3e8abb1a5b29a6913b5fda74f44229793cd267f925b9ddf287f90930` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:944c3bd32ff5983589daacfe4a707382c239d716bfe0f61e6fca2aaea39218ac` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:6ffc7539e53b4bf4aee6d40adb03f1c8e0036dea3fc9ee251090ea2995a26ee6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:a7ca64df174d4974cbedf70f1c8fbf925a1a360baade2aa615c2cab6d15e002b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:5d59a4740d144596d3b006fdab3575ebd7f123a1f30d9b06baa6112deb68c424` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:29659e19667613ce36b6d85b8e2f4efb8e85f5e7015c64fff59754c0ea38cdf5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:944c3bd32ff5983589daacfe4a707382c239d716bfe0f61e6fca2aaea39218ac` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:4f2a7dab58425809fa4e3cb8d8c49d79149fe9af5678c6c68bf0bbe1e50cc149` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3460,7 +3460,7 @@
 | `settlement-source-to-shares` | `sha256:6c47d2fa334a115e48b406f61eb5f0e1f429e872f289b151ebdff2f485653cbf` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:29659e19667613ce36b6d85b8e2f4efb8e85f5e7015c64fff59754c0ea38cdf5` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:63737ba9c239eb90d75650d757c8164915a7c3373d60ee04907769c090f5e5f5` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:e4c88db8f9f30a112f3207cb0ce9860ead016a15b100859510ba96e8916956aa` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:f28fc366e8fa338686a2d794786e989546c1fa6a1b045c16c6d0833625ac30d1` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:d80a016436a0e27f255c14664bb94699f041f61a780d8b8e37e3a9a494c395b7` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3533,17 +3533,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:032efa38ed8c158a8d036985325f3793255df9e7f8579fde4b67e317115b987f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:3fa1030693ff83ba54c38047c2764ff0b7c1378f3b5d0ae9c9457dea0fc87c95` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:804adce2ebc3d81ff3b7a2caac7955bc627b58f2c07ff5c871cdddd6172136a0` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:4f7da3a36ec5978fe85485fc8bd8e17fb1bceefbc91a9f6ae291dc78772cfc77` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:e4c88db8f9f30a112f3207cb0ce9860ead016a15b100859510ba96e8916956aa` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:308c1b729c1c4f37594e8f8759f402c6c8d53ac1da184c3e4179a2069a05383c` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:8ecf4fe31b02686168dd4902bf4a36d5b880632492a073c7a2ab4cf0ea22b5b2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:186246756e950177641eb306f70c41e9234aa3e4278d8eff9630b5e2fae09024` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:f28fc366e8fa338686a2d794786e989546c1fa6a1b045c16c6d0833625ac30d1` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:68396b8256a956da8e8e3f2ceda6b3cc94344b810fc9cfae282dce0fa778f33c` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:99baa35e5f2bd0dc3bafb673738183c8eaa802bc744046ced2a09ae1479f9ad3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:81bf5c6873c0c30c596bc781a2cb70556657421e026d5ed605313ac8d7f11da1` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:d80a016436a0e27f255c14664bb94699f041f61a780d8b8e37e3a9a494c395b7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:b232572c4ac9ea325297c7eaddc699ead52606c17cffbd458ea37f1db4da8956` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:944c3bd32ff5983589daacfe4a707382c239d716bfe0f61e6fca2aaea39218ac` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:6ffc7539e53b4bf4aee6d40adb03f1c8e0036dea3fc9ee251090ea2995a26ee6` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:e6a919f3c7adf978165827ff31f0947de6aacecfc83ae264e52aeb46385024bc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:58ea4a3cf430fffce98eefa07d15ea647d37f4bad0f1c5d9f060b9fb66d428f8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:29659e19667613ce36b6d85b8e2f4efb8e85f5e7015c64fff59754c0ea38cdf5` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:944c3bd32ff5983589daacfe4a707382c239d716bfe0f61e6fca2aaea39218ac` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:4f2a7dab58425809fa4e3cb8d8c49d79149fe9af5678c6c68bf0bbe1e50cc149` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3609,7 +3609,7 @@
 | `settlement-source-to-shares` | `sha256:902dc488393f1b9a26206d37e70b29baed37052908c0b76686ac470377e70fac` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:a3af7ebdcce23a7e1caeca8163dc05702d48e815a28743bd8ec9109ee5bb4a97` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:a3fbae85bfdcc4920ac951aa33047549f929296f8900061edd2b02ced396649e` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:16bb2ae7890d9f9e61fb01c09dd9e91858ef17cea62cf9f0640f14ecd520a972` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:58bf485515d93e94b77858019a27fa4e663f90650f63e722d5cd32ed9e8a6f2b` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:ab8401d2e2b71fda568a8cda80f0bd9b845c5aa462d071828fbae24a3bfe2af3` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3682,17 +3682,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:9e48ae4db1a84ba25ad66354ecbf433e18abd32bc005c77d6e37781ddff31247` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:f2869624d9101b1654f5a50481a944e1511d6c16c8810ebb03e4d00c2fe2a4c5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:0a9c2c12b633a15cef40be766990d7b24dae0fc769cf37fe6760729c4acf9ea1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:5f35b68a8630c6a793bb1f296eae6d7b9cc78f4062264d515e51561b6a9867f8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:16bb2ae7890d9f9e61fb01c09dd9e91858ef17cea62cf9f0640f14ecd520a972` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:5026c82370fd91f473e5cbd20afa7902def3c9248330cb7bb4730ac8071d1671` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:0c90e6ebf9863bf15a3d50db080dbf24aff28207491f267ee8df2d22b65efa5f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:a099853744b4837e5d3a85b7d6f73af1f032ca65859e16e2ea533dd75b2f7699` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:58bf485515d93e94b77858019a27fa4e663f90650f63e722d5cd32ed9e8a6f2b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:125134420c7dbc9ef7cee14bd820dcfc6bc6de2ffde9bc6c0b305ccdc383dacd` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:84f96fe5ce62b06096b8c4b442990ad274c9c9cf0b43a6291074ba979831c49d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:92393dbc26ba09191e9eb87709bbfc4a1d7255819d43004ad33a1e04674294c3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:ab8401d2e2b71fda568a8cda80f0bd9b845c5aa462d071828fbae24a3bfe2af3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:3ef097859653fcfcb51bc436b175567b954929e0a4f0c820db690bd2bc804aff` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:5c78a00d172eaff7d8703d317471f934a68bd751462ef6b1086302281e4504d0` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:1c3f8d6ad1472aa9a5ad6c82467c88243b1a1604c1d4f64798bac55f480f1bd0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:16e4831930ce4b40fe1f994f20464c78aceb95f094a37cc1d52aa9cfe15a95d0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:2b75612e903c192eab3b4dcfb7d53ea7ce5d8bfc7597ee200f6256590a0fc70e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:a3af7ebdcce23a7e1caeca8163dc05702d48e815a28743bd8ec9109ee5bb4a97` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:5c78a00d172eaff7d8703d317471f934a68bd751462ef6b1086302281e4504d0` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:8efcea62c003c6102ab799bca70bd90f49995ff634684e6eccc9e14ea5aab73b` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3758,7 +3758,7 @@
 | `settlement-source-to-shares` | `sha256:902dc488393f1b9a26206d37e70b29baed37052908c0b76686ac470377e70fac` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:a3af7ebdcce23a7e1caeca8163dc05702d48e815a28743bd8ec9109ee5bb4a97` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:a3fbae85bfdcc4920ac951aa33047549f929296f8900061edd2b02ced396649e` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:5d9592665add7a307710e2a022b8e9847e847c2c17484138d73d7a770e3acd57` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:d0b934fb5f729d042fd6bb4697c9ef4113f79d7df7c600722ba34f19770ada58` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:7820e6213378f0589e5e63c1b3ee42937c630d1239eaf82c0af118b9bcfefe78` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3831,17 +3831,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:9e48ae4db1a84ba25ad66354ecbf433e18abd32bc005c77d6e37781ddff31247` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:f2869624d9101b1654f5a50481a944e1511d6c16c8810ebb03e4d00c2fe2a4c5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:0a9c2c12b633a15cef40be766990d7b24dae0fc769cf37fe6760729c4acf9ea1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:684d895de20209653a79bfe1c7bf4a3312734fe4989498cadf43842b57618c8f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:5d9592665add7a307710e2a022b8e9847e847c2c17484138d73d7a770e3acd57` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:c3c018ce9320d5dff9f038e4d1402f31aef49055d782675647423b9ea42476e4` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:bbeb78ca204ef06b079f7cae228d8b67a9cd342aae6151bd71e18539dae65700` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:f4dfa9811a1e6b351b37e2110c732413855e249985c5b8d1677e4f35bf5b72c2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d0b934fb5f729d042fd6bb4697c9ef4113f79d7df7c600722ba34f19770ada58` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:fda2a3b4aca8b738e84598bf7b2b7d47d01d05ae6d813fe8970b27e06cef6802` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:2159aefe662e946238f22f7c9f7aa06ced3de45b4fff007cdbbf403c53b09b3c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:2c8c2436c52b45972ddbc437bcb0655368c58bb704088923b7f5c31e12761cd5` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:7820e6213378f0589e5e63c1b3ee42937c630d1239eaf82c0af118b9bcfefe78` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:8e6ef753c0ec52b901f1975f3fe317adf74b0e5122b22cacd00adcd151783128` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:5c78a00d172eaff7d8703d317471f934a68bd751462ef6b1086302281e4504d0` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:1c3f8d6ad1472aa9a5ad6c82467c88243b1a1604c1d4f64798bac55f480f1bd0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:4bf925575a077a722520bbe69849bae57983a45de6082ef8aa96a45e6ee0f582` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:a5c5e1082efc0dee3732e7ac7178fdf2c9420f10a9bdb9819b2c2e1ab22c3b15` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:a3af7ebdcce23a7e1caeca8163dc05702d48e815a28743bd8ec9109ee5bb4a97` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:5c78a00d172eaff7d8703d317471f934a68bd751462ef6b1086302281e4504d0` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:8efcea62c003c6102ab799bca70bd90f49995ff634684e6eccc9e14ea5aab73b` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -3907,7 +3907,7 @@
 | `settlement-source-to-shares` | `sha256:902dc488393f1b9a26206d37e70b29baed37052908c0b76686ac470377e70fac` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:a3af7ebdcce23a7e1caeca8163dc05702d48e815a28743bd8ec9109ee5bb4a97` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:a3fbae85bfdcc4920ac951aa33047549f929296f8900061edd2b02ced396649e` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:24acaa027ff8b7a258f2859525ccd1ac1b9b8f51e830978a924cdb935d305775` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:8f1926bf0c778c42f11e953a9958ce3c4fbf5b44568f5c57bbfec9d90178a540` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:96a927a0cdfe0b2fa9f35a45c1f8dc94a65b76ae1a63d85ac3cb4de70c205621` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -3980,17 +3980,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:9e48ae4db1a84ba25ad66354ecbf433e18abd32bc005c77d6e37781ddff31247` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:f2869624d9101b1654f5a50481a944e1511d6c16c8810ebb03e4d00c2fe2a4c5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:0a9c2c12b633a15cef40be766990d7b24dae0fc769cf37fe6760729c4acf9ea1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:e49f7586b48f529792bf926e9a4bb76a91deebb3ccf6051005f7df1a4242b53d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:24acaa027ff8b7a258f2859525ccd1ac1b9b8f51e830978a924cdb935d305775` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4dc4fdcb61cb5bd01b5838b6ddf50ce8283df3e15bf5e5bbabd36296e371863f` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:b8fa1fbb51373a28571ec4ea281918bdb4d2cbb6b0faaa4b8f5f6bb728e66975` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:65b40b6fd5da5c3c70e0fca07542376e30bb835c6148f6d2cb23b74e8ef6c148` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:8f1926bf0c778c42f11e953a9958ce3c4fbf5b44568f5c57bbfec9d90178a540` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:6fbe6ab6f0242395a901c2eceb05198d11e085d048530c7a47ad4e66e64eb6ab` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:66075454bfdd641818ada8b5910bc3bb57e4c1c6f9e5de273eb98dd4d7b82d49` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:d6cd63577256e7855b3e24c27bccbf9d1dd6b9d956c72ee0c76079365f18b64c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:96a927a0cdfe0b2fa9f35a45c1f8dc94a65b76ae1a63d85ac3cb4de70c205621` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:505feaeed43683e8993ac947f9a977c09bfa94b60b4647a4e940f8516e11558c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:5c78a00d172eaff7d8703d317471f934a68bd751462ef6b1086302281e4504d0` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:1c3f8d6ad1472aa9a5ad6c82467c88243b1a1604c1d4f64798bac55f480f1bd0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:3deb6eb8d9e436081dcfb7bf14444074b4ffef03bbf18783cb02fa5cf91007f8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:5b9a8206b9cbb04a662a1abd9d09c3c802dcd25ceab9b495d6f0aa64202cfa95` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:a3af7ebdcce23a7e1caeca8163dc05702d48e815a28743bd8ec9109ee5bb4a97` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:5c78a00d172eaff7d8703d317471f934a68bd751462ef6b1086302281e4504d0` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:8efcea62c003c6102ab799bca70bd90f49995ff634684e6eccc9e14ea5aab73b` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4056,7 +4056,7 @@
 | `settlement-source-to-shares` | `sha256:9093cff5de5ef61340bf3a152a2d34a956a33ca4061e55a1cfb64db8c9073a24` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:c37cdc66590b9bd8c86155239804bbe9c6cd4df8f0bdf884e7f55b28c14cf735` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:a3fbae85bfdcc4920ac951aa33047549f929296f8900061edd2b02ced396649e` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:9bf57cd70eb4f846b8dc3b77906f2f6797b511bac7b3b2bf5773981ac5136f9f` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:170ce004aef7f0c76a1f6752d3c7f1ef140b62ee13995e45b07b89c9e78b8244` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:6911b5723289b5e1b83702072dd32db1d2424595b89c60f22633655ce85940a4` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -4129,17 +4129,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:254ae42d10d6ffc4969bc83e042125fe0d115538aa1adf4dd043da9d55cc46e2` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:f2869624d9101b1654f5a50481a944e1511d6c16c8810ebb03e4d00c2fe2a4c5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:0a9c2c12b633a15cef40be766990d7b24dae0fc769cf37fe6760729c4acf9ea1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:da5a95fb26c6ac65a4aaa68dc71108dfd997e14f98999668a547023cc1d193f4` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:9bf57cd70eb4f846b8dc3b77906f2f6797b511bac7b3b2bf5773981ac5136f9f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:44505fcafafd234b7839ae7fd4546c739abe5a46d048f738a7ad6d6533af9b14` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:cf529e4aacdaca788e6a5f95e35b58393f9edafdd9ba8a4788f1156c31293108` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:2693bad9efa8d374c9aeaac1fe792e89dd447aeff34842171550f5a221c62a53` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:170ce004aef7f0c76a1f6752d3c7f1ef140b62ee13995e45b07b89c9e78b8244` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:84c5a93193ec3fe890d5b91ec3a9af79a5dd61f6340cf9a7fc4c75efa0c12efa` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:65a4142584ed2a5f690e031c3a0c2e74aa560bc4bd9eb8860f54d9bf96eba76f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:a3c1c0b12a3a00007f5b665b148279e72d0328a59bd283b50fb42db55f4970f0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:6911b5723289b5e1b83702072dd32db1d2424595b89c60f22633655ce85940a4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:88ca63c4f841238711e729904a0615bf7334164905981109baf3d8b3ab016248` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:db397300e528de830caf2ef2b2cfbe8a922121a8b736bab69f14e207de4dd15b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:1c3f8d6ad1472aa9a5ad6c82467c88243b1a1604c1d4f64798bac55f480f1bd0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:16e4831930ce4b40fe1f994f20464c78aceb95f094a37cc1d52aa9cfe15a95d0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:2b75612e903c192eab3b4dcfb7d53ea7ce5d8bfc7597ee200f6256590a0fc70e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:c37cdc66590b9bd8c86155239804bbe9c6cd4df8f0bdf884e7f55b28c14cf735` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:db397300e528de830caf2ef2b2cfbe8a922121a8b736bab69f14e207de4dd15b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:8efcea62c003c6102ab799bca70bd90f49995ff634684e6eccc9e14ea5aab73b` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4205,7 +4205,7 @@
 | `settlement-source-to-shares` | `sha256:9093cff5de5ef61340bf3a152a2d34a956a33ca4061e55a1cfb64db8c9073a24` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:c37cdc66590b9bd8c86155239804bbe9c6cd4df8f0bdf884e7f55b28c14cf735` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:a3fbae85bfdcc4920ac951aa33047549f929296f8900061edd2b02ced396649e` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:734c026635720134a83c5acf20a8d6d1e3c4fb30acf1a6c9a602eeab635ded5f` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:8a6c212761afafb46c91e429c588fd835d72d8c3c2af74d871dad93cb466faed` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:96f95f78a3a3c9bc14c773b38f774ad231434d6710f5d25c3d3999dce723f12d` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -4278,17 +4278,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:254ae42d10d6ffc4969bc83e042125fe0d115538aa1adf4dd043da9d55cc46e2` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:f2869624d9101b1654f5a50481a944e1511d6c16c8810ebb03e4d00c2fe2a4c5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:0a9c2c12b633a15cef40be766990d7b24dae0fc769cf37fe6760729c4acf9ea1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:d1156cf83e9b2064038b66b6d328d2365a977e2eafbc6238fe3b6ff9fb2b1ba2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:734c026635720134a83c5acf20a8d6d1e3c4fb30acf1a6c9a602eeab635ded5f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:6a48b69d74306168dca49b96210c83eb311ce4ea18d02511d1ec75aeb5e3a0e8` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:cb1efcd11cf36cad2fbdf3d516242cfaeec8be36d6ba763ccbe6a28319daa1dd` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:535b798a922f79417ea8b24f421cc00d100cad7374d036606b565ca2be970424` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:8a6c212761afafb46c91e429c588fd835d72d8c3c2af74d871dad93cb466faed` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:53725f8a55362a480171d2091516c342f66dd1691b4d91545927347806a14fe8` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:ec8896345bc0b6bff3d6775875a72e448f4656bbc4144603cd1b689e5a55b1df` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:4bde63f94ab7c23aec45ea363a607ac2fcf51add9300efd7c00a45038adb17af` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:96f95f78a3a3c9bc14c773b38f774ad231434d6710f5d25c3d3999dce723f12d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:85d4bb046c4988a673b56f0f53cd5b419a91b3fcc79e5c73ea694dfe8755f5ec` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:db397300e528de830caf2ef2b2cfbe8a922121a8b736bab69f14e207de4dd15b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:1c3f8d6ad1472aa9a5ad6c82467c88243b1a1604c1d4f64798bac55f480f1bd0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:4bf925575a077a722520bbe69849bae57983a45de6082ef8aa96a45e6ee0f582` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:a5c5e1082efc0dee3732e7ac7178fdf2c9420f10a9bdb9819b2c2e1ab22c3b15` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:c37cdc66590b9bd8c86155239804bbe9c6cd4df8f0bdf884e7f55b28c14cf735` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:db397300e528de830caf2ef2b2cfbe8a922121a8b736bab69f14e207de4dd15b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:8efcea62c003c6102ab799bca70bd90f49995ff634684e6eccc9e14ea5aab73b` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4354,7 +4354,7 @@
 | `settlement-source-to-shares` | `sha256:9093cff5de5ef61340bf3a152a2d34a956a33ca4061e55a1cfb64db8c9073a24` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:c37cdc66590b9bd8c86155239804bbe9c6cd4df8f0bdf884e7f55b28c14cf735` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:a3fbae85bfdcc4920ac951aa33047549f929296f8900061edd2b02ced396649e` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:47617ddc477ff9ca66d59508c6591bffa0d192244b9eb615965b950a3115a176` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:315869121836f50f29482c5b6ed395addfb26c779931120369a788cf89db95d3` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:783522b7385a06068d8046fbd6c7c08cbc41d5bbb049bba58e2b5939631e0b0f` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -4427,17 +4427,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:254ae42d10d6ffc4969bc83e042125fe0d115538aa1adf4dd043da9d55cc46e2` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:f2869624d9101b1654f5a50481a944e1511d6c16c8810ebb03e4d00c2fe2a4c5` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:0a9c2c12b633a15cef40be766990d7b24dae0fc769cf37fe6760729c4acf9ea1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:cb73edc970906796ffcd394a411bce30e737c54d808febe2b9b6f70e9dc302b4` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:47617ddc477ff9ca66d59508c6591bffa0d192244b9eb615965b950a3115a176` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:780eac84f70af507adee1b63470d9f837012210f0dd3ce3be177ad72534c4453` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:9ea38f35d19b7e320c0812f93c56ca27dff05b6593480eaa8572f5b5a1c89e51` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:5d8dfc7c8cff1dfe19e1164b4a32c8b95dcdcfcde2fd7f39693ae3f3f9a7949a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:315869121836f50f29482c5b6ed395addfb26c779931120369a788cf89db95d3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:b34fd4a09ef0efb8c97a93d86b6cc53af79814c381866bbc79d8a392e3473b36` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:245bfcddba1104b54a21315085c8c38f5cb3b255042d0ed9c297fd224f8c39c3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:6167ba4ab90e0c118f06bbefd1ea1b0f9ea36d210789c58f50129608fe1d7ee7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:783522b7385a06068d8046fbd6c7c08cbc41d5bbb049bba58e2b5939631e0b0f` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:01281fb4b43247df17ed212d09934300ce6225f6dfe11f5d580620abf15e9017` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:db397300e528de830caf2ef2b2cfbe8a922121a8b736bab69f14e207de4dd15b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:1c3f8d6ad1472aa9a5ad6c82467c88243b1a1604c1d4f64798bac55f480f1bd0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:3deb6eb8d9e436081dcfb7bf14444074b4ffef03bbf18783cb02fa5cf91007f8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:5b9a8206b9cbb04a662a1abd9d09c3c802dcd25ceab9b495d6f0aa64202cfa95` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:c37cdc66590b9bd8c86155239804bbe9c6cd4df8f0bdf884e7f55b28c14cf735` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:db397300e528de830caf2ef2b2cfbe8a922121a8b736bab69f14e207de4dd15b` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:8efcea62c003c6102ab799bca70bd90f49995ff634684e6eccc9e14ea5aab73b` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4503,7 +4503,7 @@
 | `settlement-source-to-shares` | `sha256:4824af712d630baa7f9368f12b81fa59f621630f1440683bba350e0271702bc2` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:4a2b96e2a36e36962dc010b00504d9434861c84a396b44d0669871a007a1b59d` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:b6cc17c1d07b5b257d526fed39f97c401d2a4888ff8083bcbba6f3530203ba61` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:c73af4fb06c3caaa489f23402a41d27a0f839ee4ff2e25b226119015f564ea61` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:fc847d0c8ee9c1d42449e26ff38d69bce97c2bcf66217c439bf7e0aed7ea0089` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:28d96c957c523094ec164b07b88e9e5606787a03e00cd28f9eef5cac7f541341` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -4576,17 +4576,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:8df4d770c507e5ca35b74a3bda706b728e613d9fa20a720cacf20e04e84667a7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:885fc97dd1d83f3035127d0ca2e6a906525848b2616166c502fb7fc85f87580c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:229aed98f30c7f0b62a98c58cb324fe0d048bf6e9eddab24da48706615a89176` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:7f285f2e82a0e3cd276812a465d055298d22d7ff79cc1ea1a3640137a432eb44` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:c73af4fb06c3caaa489f23402a41d27a0f839ee4ff2e25b226119015f564ea61` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:3892607d7c42c3faeb1a9f52d5e334f5f4290fecedbfb8d333b42f4fa3f141d7` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:7a9cba49308bc7cefb60f2652429a731da4d4db89049cedd594840e1d306e385` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:4bad9782834b84fb8e6aae5f426b704162fadeab32cdba25375665ba7d27678b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:fc847d0c8ee9c1d42449e26ff38d69bce97c2bcf66217c439bf7e0aed7ea0089` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:7dd42b1f7da7fdd2ff6c3a742931d902ff432773772b04c72bc58aaa620ae573` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:a3046ff3163d7be25cf8b17755d7a9dd350d592d5ae74072542d2bb2d9872fb3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:3bd5861f020d7801fc38658d5e2d8bcba654a61a1efe044d5f24debfd8f6b66d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:28d96c957c523094ec164b07b88e9e5606787a03e00cd28f9eef5cac7f541341` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:f9aa289b5bb3318861e338df701940d8550a280e7f341d0f22d9d5ea08796e08` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:d7cb965de4c2cc0a41dbb3ed9fb47f0462907def9485d5bad6931763b403f958` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:3d755cf72e023d7fc55381740c43382ef8d1b59b3864db8202c5253dadd97410` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:261733b77c38b436d98dcfae6ccdc5190be40a42b716c7d4fdf189a20215fb78` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:f87f1c9711f8a780da5926a0eb45621a9df93a5c2832bd8f5c0e8bd17f3c56ba` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:4a2b96e2a36e36962dc010b00504d9434861c84a396b44d0669871a007a1b59d` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:d7cb965de4c2cc0a41dbb3ed9fb47f0462907def9485d5bad6931763b403f958` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:efa3b07429c587326b96ac484e04c4f3583205c98f83669499b71f314cbf8751` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4652,7 +4652,7 @@
 | `settlement-source-to-shares` | `sha256:4824af712d630baa7f9368f12b81fa59f621630f1440683bba350e0271702bc2` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:4a2b96e2a36e36962dc010b00504d9434861c84a396b44d0669871a007a1b59d` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:b6cc17c1d07b5b257d526fed39f97c401d2a4888ff8083bcbba6f3530203ba61` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:deec303d389cbc6b463ed75ff8ed0a6a69368db38b87ad777354b0b9d581cc9d` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:5871fcba931f1c5237f320d7e3df00d9bbc22a9d24b5e3566f66f04b823cb205` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:ed726505a9768aece4a649440530cf5e61898d60e1843e7854888ecf8190b925` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -4725,17 +4725,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:8df4d770c507e5ca35b74a3bda706b728e613d9fa20a720cacf20e04e84667a7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:885fc97dd1d83f3035127d0ca2e6a906525848b2616166c502fb7fc85f87580c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:229aed98f30c7f0b62a98c58cb324fe0d048bf6e9eddab24da48706615a89176` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:5dd0016f87fa63f39c2260cbe45d5a390dfa8ccea2eb524f5c73af5bbf2a6414` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:deec303d389cbc6b463ed75ff8ed0a6a69368db38b87ad777354b0b9d581cc9d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:30aa9c96902c02e9ada9d678f7a9f35673213c2e2bbe880b69268d03a5edcb5f` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:a5b9cb23d9711934a7563007c4004c11503c4e7a8a37f7c4baec17d0f842ea2e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:b61e97a4fa44d541c19e4430f0dd1bdf70bfc6a0917a1a76c4519c7fa86a6128` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:5871fcba931f1c5237f320d7e3df00d9bbc22a9d24b5e3566f66f04b823cb205` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:9f410da4f26f94882c5cf02eba85d505417c70fad58ae43eedc2515c7c17364b` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:30fd7f40177f6bd34acf55a2d450a818ecdea289934d3ec60f45b7ad56c0899e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:258c0222537ce5c5d34bbd1ab4965602051c78b73f5cccf7c8df2d72f2679a11` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:ed726505a9768aece4a649440530cf5e61898d60e1843e7854888ecf8190b925` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:8a56422de28e4a185c671c9e5ef09205dea68e605c68f1353ed23c03355b9783` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:d7cb965de4c2cc0a41dbb3ed9fb47f0462907def9485d5bad6931763b403f958` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:3d755cf72e023d7fc55381740c43382ef8d1b59b3864db8202c5253dadd97410` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:58c6d82fc333566e62cbfb6955583e6f71e932ba8ef90bcf276b0c10f98f50ca` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:23859fc8a84a23af91e61f85a3ede32acdffb7b2ff97735eb59b347f7aa3ad72` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:4a2b96e2a36e36962dc010b00504d9434861c84a396b44d0669871a007a1b59d` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:d7cb965de4c2cc0a41dbb3ed9fb47f0462907def9485d5bad6931763b403f958` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:efa3b07429c587326b96ac484e04c4f3583205c98f83669499b71f314cbf8751` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4801,7 +4801,7 @@
 | `settlement-source-to-shares` | `sha256:4824af712d630baa7f9368f12b81fa59f621630f1440683bba350e0271702bc2` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:4a2b96e2a36e36962dc010b00504d9434861c84a396b44d0669871a007a1b59d` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:b6cc17c1d07b5b257d526fed39f97c401d2a4888ff8083bcbba6f3530203ba61` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:58f5dd06b4d5ceb720a32b9aa4250461eee317b14469633f577c506c3938ffe2` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:1dbab857056807aa86d22aa5e4068d04f1c340f52a106fd7a7356de7248d4f6f` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:b6f15a900c2a0546c0d5823c3f7cdbf00a9b40b66886dd5aad84fbd4e9841171` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -4874,17 +4874,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:8df4d770c507e5ca35b74a3bda706b728e613d9fa20a720cacf20e04e84667a7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:885fc97dd1d83f3035127d0ca2e6a906525848b2616166c502fb7fc85f87580c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:229aed98f30c7f0b62a98c58cb324fe0d048bf6e9eddab24da48706615a89176` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:0282dfe6a547f7ea693f15354ff51bf63442be30b07b44623013b862a6b085fd` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:58f5dd06b4d5ceb720a32b9aa4250461eee317b14469633f577c506c3938ffe2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:35c8ca6ae7da7a91f01d9cbb76e2ea11f008f429224c4ed588d85ea99f0488da` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:01faec87882fe6d914e3fbfcec5a4db80967ea895534e790621a7eb92ed635a6` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:8ec6f8fb219935c26541ff488f8d8d91457835e3ed647d3b419a89c29ca86c5b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:1dbab857056807aa86d22aa5e4068d04f1c340f52a106fd7a7356de7248d4f6f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:15045a82a8001b84cbb5543b3b3d6fd2c7b51598c85cfbe5c7781ddfacc9674f` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:a85230498cba8c2f8bec569e4a4749b3c46658adf47d123c4bb96734e41f9129` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:e5f94315aa27d4970c5a05ede2301ca422fa095606b7cf251a733733cdc522be` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:b6f15a900c2a0546c0d5823c3f7cdbf00a9b40b66886dd5aad84fbd4e9841171` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:ea8d84ed83f5f185c4a455a256e3551d890a75b1ff4509a00b5c4aff72856000` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:d7cb965de4c2cc0a41dbb3ed9fb47f0462907def9485d5bad6931763b403f958` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:3d755cf72e023d7fc55381740c43382ef8d1b59b3864db8202c5253dadd97410` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:214ebb86f445001dd9f27e3f65d2b7dd6ad7264802a8f21cc38df55933674733` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:09f521e0a9746b7d508b43758da349f10d3ea91848c4c48911f476680b29eccd` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:4a2b96e2a36e36962dc010b00504d9434861c84a396b44d0669871a007a1b59d` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:d7cb965de4c2cc0a41dbb3ed9fb47f0462907def9485d5bad6931763b403f958` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:efa3b07429c587326b96ac484e04c4f3583205c98f83669499b71f314cbf8751` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -4950,7 +4950,7 @@
 | `settlement-source-to-shares` | `sha256:a427ba9ea06292058694c736a6b91d8fe7af9c7a1b93bc4df5aa4ae9450a25f6` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:581dd2773d7596c4cfbad26e20fe887be639c4f0bfc8743de1541d5e8ee0629f` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:b6cc17c1d07b5b257d526fed39f97c401d2a4888ff8083bcbba6f3530203ba61` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:33ee7d26c97c7d8b0910c6513639be911393d930469b6986d964f35055627433` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:2247ffee371665e964bf438775f3d51b3d8484feb02eb041da69d641082f8a92` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:6cd39e678d08cd1aad29c395077a152dbdb8033f14adaf8951745ed2a6686da7` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5023,17 +5023,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:2ff484f28d9c40b599fa23ce20802855202c142dee8d14de9d511ede20d006a1` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:885fc97dd1d83f3035127d0ca2e6a906525848b2616166c502fb7fc85f87580c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:229aed98f30c7f0b62a98c58cb324fe0d048bf6e9eddab24da48706615a89176` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:f4a2c9ed90cc9269776c9a94a14f4d366b28c9367903d509b3c3aa9aa1c03b43` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:33ee7d26c97c7d8b0910c6513639be911393d930469b6986d964f35055627433` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4b1258f5d7a7e3c34e933e2be3328e9f42b44a7e81c38babd5f9b860184c46be` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:bafc2f2b487bccaeaa0cc3ef86abde17e79e1ed6804111ec5ce805944deb3e4a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:6ca3d5b77b622d9ce3ccd7d95911600c7523d0f9a803d6ee0731648ae3389d0f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:2247ffee371665e964bf438775f3d51b3d8484feb02eb041da69d641082f8a92` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:7d8a9b9f2d7698eb5fd2cee4557861552dbdc61e7f7d12308f098b6ba6ac79d5` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:4e2aded63554c8a0d70c4a661fde62dfd98d6d634d7251fbca66e75069174199` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:c9304e7ad7708e22ffc16a83a3ccd23d8e002d480de07e4fdcfc7869d7c084a4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:6cd39e678d08cd1aad29c395077a152dbdb8033f14adaf8951745ed2a6686da7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:eb0a5c8d50c9b07379693b9c29d52bf73e9a0116f391c786ce68654c531735c0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:1c972563b7d355ee5723172f167dcba7f5b3fedddfd77e999fb9d46dc9b7db53` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:3d755cf72e023d7fc55381740c43382ef8d1b59b3864db8202c5253dadd97410` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:261733b77c38b436d98dcfae6ccdc5190be40a42b716c7d4fdf189a20215fb78` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:f87f1c9711f8a780da5926a0eb45621a9df93a5c2832bd8f5c0e8bd17f3c56ba` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:581dd2773d7596c4cfbad26e20fe887be639c4f0bfc8743de1541d5e8ee0629f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:1c972563b7d355ee5723172f167dcba7f5b3fedddfd77e999fb9d46dc9b7db53` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:efa3b07429c587326b96ac484e04c4f3583205c98f83669499b71f314cbf8751` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5099,7 +5099,7 @@
 | `settlement-source-to-shares` | `sha256:a427ba9ea06292058694c736a6b91d8fe7af9c7a1b93bc4df5aa4ae9450a25f6` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:581dd2773d7596c4cfbad26e20fe887be639c4f0bfc8743de1541d5e8ee0629f` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:b6cc17c1d07b5b257d526fed39f97c401d2a4888ff8083bcbba6f3530203ba61` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:b4a4907a0f3b28aba48ba249ca162986230d3b4d325249de4c23ab562f226c18` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:8c39d1d80af25508b517a635695d6955ffd8e47d00af17ae6c30074c45151656` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:aa47c68a863e818f67531b4568ef5429b4953965d725af24713c89829caac7b4` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5172,17 +5172,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:2ff484f28d9c40b599fa23ce20802855202c142dee8d14de9d511ede20d006a1` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:885fc97dd1d83f3035127d0ca2e6a906525848b2616166c502fb7fc85f87580c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:229aed98f30c7f0b62a98c58cb324fe0d048bf6e9eddab24da48706615a89176` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:ac57b35afdb1a2befb86b1af9f579f4602ebcef41ea99ade3a380227b7f81fdf` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:b4a4907a0f3b28aba48ba249ca162986230d3b4d325249de4c23ab562f226c18` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:b9c0038d9db3552b0b5503ee23d504c64c84caa7034a0f3075031f473385aa21` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:a496377f0617f373b5439560ffc7fe1c63c6b529a1e5100227005e6b8ea3ff5c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:b7cb4743b9d78ab60e9e541364f5defce54f9f213473c59fae10a8aeee38f1a4` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:8c39d1d80af25508b517a635695d6955ffd8e47d00af17ae6c30074c45151656` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:d5c151e6bf84bea1d84c803451b5a9758ddd23075f70690e40218760e179778b` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:ef1f3334fa1ace38cedffc70f4425da9b1eeac20c31cc5ef01a5c8e8a02d5316` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:8362a5f48e65e0542ea7f56ea75c2a55d45969bbf284edc4f3c1797eb700beb8` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:aa47c68a863e818f67531b4568ef5429b4953965d725af24713c89829caac7b4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:369e838244d6ca5f1d8d06890334c268aadd9e44edee499e64022d9fe76cbd37` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:1c972563b7d355ee5723172f167dcba7f5b3fedddfd77e999fb9d46dc9b7db53` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:3d755cf72e023d7fc55381740c43382ef8d1b59b3864db8202c5253dadd97410` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:58c6d82fc333566e62cbfb6955583e6f71e932ba8ef90bcf276b0c10f98f50ca` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:23859fc8a84a23af91e61f85a3ede32acdffb7b2ff97735eb59b347f7aa3ad72` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:581dd2773d7596c4cfbad26e20fe887be639c4f0bfc8743de1541d5e8ee0629f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:1c972563b7d355ee5723172f167dcba7f5b3fedddfd77e999fb9d46dc9b7db53` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:efa3b07429c587326b96ac484e04c4f3583205c98f83669499b71f314cbf8751` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5248,7 +5248,7 @@
 | `settlement-source-to-shares` | `sha256:a427ba9ea06292058694c736a6b91d8fe7af9c7a1b93bc4df5aa4ae9450a25f6` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:581dd2773d7596c4cfbad26e20fe887be639c4f0bfc8743de1541d5e8ee0629f` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:b6cc17c1d07b5b257d526fed39f97c401d2a4888ff8083bcbba6f3530203ba61` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:d1a3af5668250053c742c4ae7f54c44ef438269a57f62e6a08614dbd6b926600` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:96b8a53f709d9aafd4ab801a2802e5df637c029c49bfe7e20bf537543a042676` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:b19707d195de4b10080ed82e44eeb097200e71389c4917859b36db84fa3ac66c` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5321,17 +5321,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:2ff484f28d9c40b599fa23ce20802855202c142dee8d14de9d511ede20d006a1` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:885fc97dd1d83f3035127d0ca2e6a906525848b2616166c502fb7fc85f87580c` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:229aed98f30c7f0b62a98c58cb324fe0d048bf6e9eddab24da48706615a89176` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:4ecab2ff1bb696c200e7d0a4fd1422c3293fa80f334faeff2157eb2df595724c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d1a3af5668250053c742c4ae7f54c44ef438269a57f62e6a08614dbd6b926600` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:996867f532c178be362af494702157c25374c0ec76513fd4492c53ca2d7b675b` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:ea641d8fc9937a453b53459b7fda7e84a8322e8646f5470e6c36881e87cd0e5c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:6386a18bb855c79dbe726dfa5cd1816b332d1856f0bc9d1d99b15facd410ccc8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:96b8a53f709d9aafd4ab801a2802e5df637c029c49bfe7e20bf537543a042676` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4bba2077f1e81f9c806fa87fc89921e78d31bf816aac52218536dde4e1e806ae` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:581935f578b8859ed3d5865d3fabaa82dbb2c23127d529f93135ad7a5c56e8dd` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:77bdbd9eea1f3042a9cdb8d2c8fd97b67ab503b7f5432fa7a558ce050767d227` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:b19707d195de4b10080ed82e44eeb097200e71389c4917859b36db84fa3ac66c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:6aa1610763c02e7deac032843e23314c715370c21342e972518d861dde87395b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:1c972563b7d355ee5723172f167dcba7f5b3fedddfd77e999fb9d46dc9b7db53` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:3d755cf72e023d7fc55381740c43382ef8d1b59b3864db8202c5253dadd97410` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:214ebb86f445001dd9f27e3f65d2b7dd6ad7264802a8f21cc38df55933674733` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:09f521e0a9746b7d508b43758da349f10d3ea91848c4c48911f476680b29eccd` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:581dd2773d7596c4cfbad26e20fe887be639c4f0bfc8743de1541d5e8ee0629f` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:1c972563b7d355ee5723172f167dcba7f5b3fedddfd77e999fb9d46dc9b7db53` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:efa3b07429c587326b96ac484e04c4f3583205c98f83669499b71f314cbf8751` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5397,7 +5397,7 @@
 | `settlement-source-to-shares` | `sha256:72de2f8f81bd47edcf54b74f1009ef7f2172baab41818da4a400309fc423dd5e` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:7da177d11b524622c2de7449612ec43b5a1565da983254135f353fb523c6b1ad` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:c866fab05ad90ad70abf2da668462a644f7603a28e126c508029e4478be0e248` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:e20dfd55c7e0eb8b3161ae322758c1658972bbeb1ff43c4dd6ae48d55736e25a` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:d9433d07007450bafdf9e7f0d33b8c90b87aecb1eb475743a2bddfbdcafdda95` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:67708e5aaab703934f784f2646ef3cc960106a1744033db9dbe96a69b253e2ef` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5470,17 +5470,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:a5a125e32bbe7d265be29d5613da18ef742fe1f15bc63b2f62f80f3f92d0db86` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:bb4a7eac02e0d8e96b30d95029656b01370125b0f70135292c45a565324fa603` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:64a5e5a3e2b6f882209e02e122c118b1198250201c7de610d25b983336a93ed4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:f60e3acb263910a055975e2d4aedb50095b8ef16aff5f806f0c4413e1b11d916` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:e20dfd55c7e0eb8b3161ae322758c1658972bbeb1ff43c4dd6ae48d55736e25a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:2c4539481ade1ae66df9d164aedd9bafc3a697e1c43be04896f606cd3280903b` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:9d0227b2e57805c08daa76b3c6e2edddd5f5569167741720b6b959322dee51bc` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:84f06027be3996d026acd842496a35bfaa517bd2d657d20b32b7f5de3e990692` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d9433d07007450bafdf9e7f0d33b8c90b87aecb1eb475743a2bddfbdcafdda95` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:a93ca755547791d9dc6496e444b86b44fd8dc48d4b7fcfda4eed315aff670d1e` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:d44689bfc900c8ade83c5c680da7c97a16f37f76cdc52042e366a62b60abc1df` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:d47d3094641974a61e327ad584443ca733702764ea3aecabdebeafe274550a6d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:67708e5aaab703934f784f2646ef3cc960106a1744033db9dbe96a69b253e2ef` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:ae7926cfd0abb64bdc2dd198e1e0e04f44e94aa383ce17adde1d6859c6eb09cc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:ce491cdeed80ec7c4e047b1f3f9633b16c15fed1208c07b4c8da308024587a6e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:391848bc3a027dc5be08079eb90a1c83b0f1aca9840017506637178e9089279d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:efe2ed58a45e0469353142797aea4017f3b7ae2cb9296ab12df83920d5870b44` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:191a47a5b4a09cfb94b0ba1e879786097252bf719eeb9f5dab46ed3cfcbe07d0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:7da177d11b524622c2de7449612ec43b5a1565da983254135f353fb523c6b1ad` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:ce491cdeed80ec7c4e047b1f3f9633b16c15fed1208c07b4c8da308024587a6e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:bdc20f64e730ecbbb00d42a38ea66cb1d8744922915486e91d4d6ec62d3fe2ae` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5546,7 +5546,7 @@
 | `settlement-source-to-shares` | `sha256:72de2f8f81bd47edcf54b74f1009ef7f2172baab41818da4a400309fc423dd5e` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:7da177d11b524622c2de7449612ec43b5a1565da983254135f353fb523c6b1ad` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:c866fab05ad90ad70abf2da668462a644f7603a28e126c508029e4478be0e248` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:05bc70cd0f46f968fe0bd68aec09ac8ae2d302b7840fab3fcc6bc022794a33e1` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:3a26f9e9c19a6c88c1fb369213d4c800187fb6c4704ceb6f6fbf278a4d69a751` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:363eba7c3046ac428be3cb6bb44de13da7e7be7e53019c3fb133ccea8cd6d87f` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5619,17 +5619,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:a5a125e32bbe7d265be29d5613da18ef742fe1f15bc63b2f62f80f3f92d0db86` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:bb4a7eac02e0d8e96b30d95029656b01370125b0f70135292c45a565324fa603` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:64a5e5a3e2b6f882209e02e122c118b1198250201c7de610d25b983336a93ed4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:aef72dc8c9520d1833c364ac2ecf856fd53d1a1b1ac63af5926693473b060212` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:05bc70cd0f46f968fe0bd68aec09ac8ae2d302b7840fab3fcc6bc022794a33e1` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:25db2a5cca1f86194fbf3e76f28820312396d1eb9c7e562b9a092d8a61740f2c` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:18b353cd1bc30c9c047ec67d95ffa5e32973a34a4f9233715244ebb8657ff175` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:1f349abc206a9622fd0286a9d29cda20e239bf93d1ec670649e5c01999130cef` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:3a26f9e9c19a6c88c1fb369213d4c800187fb6c4704ceb6f6fbf278a4d69a751` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:ce544c1248616baa9ed7b40860c03b4d9ca8f97b9410607ef7f44edf216fe718` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:52fda591f1b136cefb6bb2d23a512caa1773e704b7bebb2d51cb2b9ce8e5d579` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:57455feb06acac08534dc91454315c7b46ddfc1776356c1ba1446e41c56b38d7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:363eba7c3046ac428be3cb6bb44de13da7e7be7e53019c3fb133ccea8cd6d87f` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:0e588a703b76e323ec34f31473ad4a83cb57b7b0b9155bead4cd8623197a4c25` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:ce491cdeed80ec7c4e047b1f3f9633b16c15fed1208c07b4c8da308024587a6e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:391848bc3a027dc5be08079eb90a1c83b0f1aca9840017506637178e9089279d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:f76d2c2670b20ec656642b71326df703b1b4ddeed93828706360b06fa37ccfce` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:7acf0230b0c6151905137c9d907819f11a5e6e469ed14168913717e817bd51ad` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:7da177d11b524622c2de7449612ec43b5a1565da983254135f353fb523c6b1ad` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:ce491cdeed80ec7c4e047b1f3f9633b16c15fed1208c07b4c8da308024587a6e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:bdc20f64e730ecbbb00d42a38ea66cb1d8744922915486e91d4d6ec62d3fe2ae` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5695,7 +5695,7 @@
 | `settlement-source-to-shares` | `sha256:72de2f8f81bd47edcf54b74f1009ef7f2172baab41818da4a400309fc423dd5e` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:7da177d11b524622c2de7449612ec43b5a1565da983254135f353fb523c6b1ad` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:c866fab05ad90ad70abf2da668462a644f7603a28e126c508029e4478be0e248` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:3c6fd7015aca588ce3aa270305e679c8215f37302690009f6de17d50203c7061` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:0a3bcd0874ca86f12f03a05bd16b9c6b23102109c254b6d543610feee74eabda` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:66cc4a182410ba02d6d90e1b2d6e4e3bd332a6986bba2e439a9afe72479ce1f1` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5768,17 +5768,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:a5a125e32bbe7d265be29d5613da18ef742fe1f15bc63b2f62f80f3f92d0db86` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:bb4a7eac02e0d8e96b30d95029656b01370125b0f70135292c45a565324fa603` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:64a5e5a3e2b6f882209e02e122c118b1198250201c7de610d25b983336a93ed4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:212f988485acf6854b3289b9a00804407fd922fc0421b10d8daeeea2a6f69cbb` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:3c6fd7015aca588ce3aa270305e679c8215f37302690009f6de17d50203c7061` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:20726be6efb1a98166b81048bf245207072abd7f30beebedac021524c4491c4e` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:afbefad23766e9e7929c9e9b29593318f6483064319c3b98c94064047c5b9e15` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:c8e0c9e92bd0b294d73edbace8f873d6b5ffff02d8d083d4ac4673795853ce7f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:0a3bcd0874ca86f12f03a05bd16b9c6b23102109c254b6d543610feee74eabda` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:a616726fedcaac0ea2f77f496a441cf37fcc3d2def430bffa996e9c5dbaf9d77` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:88fca15dd4722f8c821a396d2bdba19d0d92f442bc465617dd4a8bafc9c3d161` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:6faee5ab2aee4e8288962c2d318b414207ce49943385988a2ef54fab9017dbaa` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:66cc4a182410ba02d6d90e1b2d6e4e3bd332a6986bba2e439a9afe72479ce1f1` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:e7e324cf0bd32718e2f7199140aa81e27b78e043a604ce6fb4ab5a0a512d0791` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:ce491cdeed80ec7c4e047b1f3f9633b16c15fed1208c07b4c8da308024587a6e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:391848bc3a027dc5be08079eb90a1c83b0f1aca9840017506637178e9089279d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:da6cb997dfbc3a448066d84ce3e89bde998b05290638bf002528d23f26aecd0f` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:3b1e8d771be2826b7f81fce0c8f301ea9bb53408a5530356fd4f9724a0faed27` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:7da177d11b524622c2de7449612ec43b5a1565da983254135f353fb523c6b1ad` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:ce491cdeed80ec7c4e047b1f3f9633b16c15fed1208c07b4c8da308024587a6e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:bdc20f64e730ecbbb00d42a38ea66cb1d8744922915486e91d4d6ec62d3fe2ae` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5844,7 +5844,7 @@
 | `settlement-source-to-shares` | `sha256:8f0e1b2f87de39e079cc7a0e242badcce66bcbde591ff1a4e1e1083ebd2f0519` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:e06920f3271f82b5e8e8e8779903446e81b9b1deea49a0deb00516eaaaa4a2c7` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:c866fab05ad90ad70abf2da668462a644f7603a28e126c508029e4478be0e248` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:2d86f8897e2a26fa0c04f32a1faceace74a89a80d3b89154cbbe3d52a05f111d` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:d3e1d999746a6815f4dd1dcd98c1025e6131ca4dd7682a89355dfffeb48b02ce` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:59d988f994b006d3802ddc5c7d651faf50da1c36d62f4ffcbfd55c135b552fd2` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -5917,17 +5917,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:cc247991a7775bf1804ccd9c9f6f8fe55d0b62ce7b6e215d96eb0477e8ed3dbb` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:bb4a7eac02e0d8e96b30d95029656b01370125b0f70135292c45a565324fa603` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:64a5e5a3e2b6f882209e02e122c118b1198250201c7de610d25b983336a93ed4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:839a9f668f73f6af1dc7dce486164dbf6c964502c2014fc9be593a44077ad3b8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:2d86f8897e2a26fa0c04f32a1faceace74a89a80d3b89154cbbe3d52a05f111d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:95efef45a5dede3777425cc40a11f24c4f7bc8ea20ad23e7cf57baedd15daa3e` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:d7aa7c23d2f58398b283cff9db366072f7e5fbc80c165c811c5c67724c00985d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:33f93ed39202473a0188c94fb01625360cb9b4a00fcf8e16445b5bff864e669a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:d3e1d999746a6815f4dd1dcd98c1025e6131ca4dd7682a89355dfffeb48b02ce` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:0a53fcc9319656cb8bc535902097ec379e2f5d1e774605f6ef267aa85aaab918` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:8cae6053c9abd3a75e6646b89e89c8d8dd7972dd61b55fc38a9d18f4e69fe334` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:62416a064dbcb132b45e89b1545b58e870c1cde13c985a8ef6dec5096ae5b754` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:59d988f994b006d3802ddc5c7d651faf50da1c36d62f4ffcbfd55c135b552fd2` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:6f3456eda7ab31097050ff36e073c0712bda1a7df27daa7b63155424df292b9c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:af9e94805cf402b37ef0d3a98dbcae6ab70bdba477e91a1429c040c978332f4d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:391848bc3a027dc5be08079eb90a1c83b0f1aca9840017506637178e9089279d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:efe2ed58a45e0469353142797aea4017f3b7ae2cb9296ab12df83920d5870b44` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:191a47a5b4a09cfb94b0ba1e879786097252bf719eeb9f5dab46ed3cfcbe07d0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:e06920f3271f82b5e8e8e8779903446e81b9b1deea49a0deb00516eaaaa4a2c7` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:af9e94805cf402b37ef0d3a98dbcae6ab70bdba477e91a1429c040c978332f4d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:bdc20f64e730ecbbb00d42a38ea66cb1d8744922915486e91d4d6ec62d3fe2ae` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -5993,7 +5993,7 @@
 | `settlement-source-to-shares` | `sha256:8f0e1b2f87de39e079cc7a0e242badcce66bcbde591ff1a4e1e1083ebd2f0519` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:e06920f3271f82b5e8e8e8779903446e81b9b1deea49a0deb00516eaaaa4a2c7` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:c866fab05ad90ad70abf2da668462a644f7603a28e126c508029e4478be0e248` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:bc0b01279651aafcfcec2d83ee34dbc9f6fa266a93005dfa7c84f39f133955bc` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:72f35070dfe322c1eea5bf659c94c2943b7509c546dfe8e48ec49e9430bcfab2` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:8da113e8055457270bb4ae889b5c8328add9f3eda924b86a1df83a38bf521dac` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6066,17 +6066,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:cc247991a7775bf1804ccd9c9f6f8fe55d0b62ce7b6e215d96eb0477e8ed3dbb` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:bb4a7eac02e0d8e96b30d95029656b01370125b0f70135292c45a565324fa603` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:64a5e5a3e2b6f882209e02e122c118b1198250201c7de610d25b983336a93ed4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:26408039297fc569d9a95ba8edc985e6480cc4d58b117233d72f8fb77c7620f7` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:bc0b01279651aafcfcec2d83ee34dbc9f6fa266a93005dfa7c84f39f133955bc` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:8d7eabceb0c9689d2e119fcbba576583db56af15ca95ebcad10bf6b016f3d430` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:50525fef687c7f796b0833b5a8176e47a092763da280f05268f4055161623c2f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:39612fd74281c00217a049448d13235aa23df8a6e9468d16be93a982099df5af` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:72f35070dfe322c1eea5bf659c94c2943b7509c546dfe8e48ec49e9430bcfab2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:6da08d2d7c17903f1576f67b099126caf734015fd64675bcd54776382e102fc7` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:468f9e19d91ee6385fa54e257465754b89cb15e426248be9d2dabf60c7f5c92b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:a6372b1612478bf7b477c8241771e55e3da93f32a389ebfb606674b2c61bdbde` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:8da113e8055457270bb4ae889b5c8328add9f3eda924b86a1df83a38bf521dac` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:db6ad353141f9057dca680d5e039780812d55630b6dca7e35b09b87d38b2183d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:af9e94805cf402b37ef0d3a98dbcae6ab70bdba477e91a1429c040c978332f4d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:391848bc3a027dc5be08079eb90a1c83b0f1aca9840017506637178e9089279d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:f76d2c2670b20ec656642b71326df703b1b4ddeed93828706360b06fa37ccfce` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:7acf0230b0c6151905137c9d907819f11a5e6e469ed14168913717e817bd51ad` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:e06920f3271f82b5e8e8e8779903446e81b9b1deea49a0deb00516eaaaa4a2c7` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:af9e94805cf402b37ef0d3a98dbcae6ab70bdba477e91a1429c040c978332f4d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:bdc20f64e730ecbbb00d42a38ea66cb1d8744922915486e91d4d6ec62d3fe2ae` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -6142,7 +6142,7 @@
 | `settlement-source-to-shares` | `sha256:8f0e1b2f87de39e079cc7a0e242badcce66bcbde591ff1a4e1e1083ebd2f0519` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:e06920f3271f82b5e8e8e8779903446e81b9b1deea49a0deb00516eaaaa4a2c7` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:c866fab05ad90ad70abf2da668462a644f7603a28e126c508029e4478be0e248` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:5d208d2c3b138cc9d6e1935e916cc174455407704c3fd575c3ddbd9a6aab2214` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:c88503f6c0d27f4513aec09717bd83b518472c8662743ccedf4027c2def9fbb5` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:fef6f0fd2d3b0b7d9df6cac54ca2e377b454824786090f1d0da6f4f9f8916d7d` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6215,17 +6215,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:cc247991a7775bf1804ccd9c9f6f8fe55d0b62ce7b6e215d96eb0477e8ed3dbb` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:bb4a7eac02e0d8e96b30d95029656b01370125b0f70135292c45a565324fa603` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:64a5e5a3e2b6f882209e02e122c118b1198250201c7de610d25b983336a93ed4` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:f9ecd393e2650e6fe8204b1803dfe6f3d6d37c7b3f17e29dbb67c6a082292c6f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:5d208d2c3b138cc9d6e1935e916cc174455407704c3fd575c3ddbd9a6aab2214` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:fcb36e6a1e8f783cc3e0ba95ebcbfd8acb459dcddf4753a66d30c341fdda9f22` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:b5712f9cb994078b5d3505e9c14f0694e3a227cc791049bcfb909c60ae5dec68` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:9b2a92620000cf69f020cb89aed9f81d816dca816a994a85e00c88c7270c58c3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:c88503f6c0d27f4513aec09717bd83b518472c8662743ccedf4027c2def9fbb5` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:209ef89e253544f1d37f0c39c8ca5a527c458941c239004a6e43f466d6e45b1a` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:8b816b0c5d3070473cd65b19d0a8f33111227c31adadc10657f35fda162a8fe8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:c5216787c745e86b68391bc272daa179013244eb1315c85b35e0bf223363ffe3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:fef6f0fd2d3b0b7d9df6cac54ca2e377b454824786090f1d0da6f4f9f8916d7d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:d5285ae66dcbd894950f1ea5ca738ad1c3e4d125bf96f6afba084da21121340c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:af9e94805cf402b37ef0d3a98dbcae6ab70bdba477e91a1429c040c978332f4d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:391848bc3a027dc5be08079eb90a1c83b0f1aca9840017506637178e9089279d` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:da6cb997dfbc3a448066d84ce3e89bde998b05290638bf002528d23f26aecd0f` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:3b1e8d771be2826b7f81fce0c8f301ea9bb53408a5530356fd4f9724a0faed27` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:e06920f3271f82b5e8e8e8779903446e81b9b1deea49a0deb00516eaaaa4a2c7` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:af9e94805cf402b37ef0d3a98dbcae6ab70bdba477e91a1429c040c978332f4d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:bdc20f64e730ecbbb00d42a38ea66cb1d8744922915486e91d4d6ec62d3fe2ae` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -6291,7 +6291,7 @@
 | `settlement-source-to-shares` | `sha256:839c59cb4c8875c1a326e8739042e207f322d33e9a359a05ba5c15e8c820cbb5` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:d3b2dffb31bdcd5687a612a151652c6f1f2dc0df1f3e85c9d4c0a9b226596b35` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:01e056cba8151dc352c50c97fae87f3214fb2a8750ce41d2c1cefc613d4c3f3f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:977ee2f55ebfb90663a381e51e5edeeedb42506b5c381f69b454fdb380328919` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:7a6ced1116c3230981d6b5dc200501867d38bcc8d52308208b51824a1d23b135` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:2e3dc7da1b87d1a57884145d335e5f5b23f6ccb35f17e09f71756c1ee363425d` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6364,17 +6364,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:8e72a4b17f57afd12d45bfd8b1b0caa6632e6858801cd0d3ee7abb69d0eb9800` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:361d26a513770c3edf60ae628dc4645901d0d0b8e6aae9c41c5bb6633134d06a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e58eeeb7bce956f28c0d9a63ba55fa48782e8752fcc3df95ac907d23375365c1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:2573b2bc4d3d2ec3888cbd339a007038736e388f88469a6bef491985467f7924` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:977ee2f55ebfb90663a381e51e5edeeedb42506b5c381f69b454fdb380328919` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:4ee3272a31c44d80f0e211e00cd4e8cbc3644da66c41f09e261f744dbc54e567` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:f3cd2cc1aba43f0691de15094119bb9f92417e2ce0467a06bad2fdedfed798a0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:bcba535bed26b678f7a73c56dcb970ad2fd820fa6f35e9097ddbb6547152dad5` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:7a6ced1116c3230981d6b5dc200501867d38bcc8d52308208b51824a1d23b135` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:966fdc958ef1296eae188bc0d687d2d26565a0ad4e6c64167ef9ffad3e518177` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:0c926c38b25dfdaaf88bb1737a48d589824ecb672006c9c2faf0dcdbef59856e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:5691ef23c29f7035462754e5ebf890ba76f09acc6228d1b044bdf1c857acfbcc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:2e3dc7da1b87d1a57884145d335e5f5b23f6ccb35f17e09f71756c1ee363425d` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:0ac2227d2c84028da49c29d819190c4caaaf9cd2f97829c5d98cf754be672685` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:06136ac350c47cb3934c8bfda9639fad75d0c1106a1af4c5c49eb8eccd97f395` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:75d41434efaf115b7cd6aa8fbee55e43bf81983e9be44b7c2d1dafab1a5ffbe0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:8d82eac7dc99f43658e4f6e5724b2ebd94fd5cc7c8f9b96a8a1431dddf82d2e0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:ac2f05aafcc41c3562b64fd87495eb4926f943fd75dc7466f9eda96d084c10e4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:d3b2dffb31bdcd5687a612a151652c6f1f2dc0df1f3e85c9d4c0a9b226596b35` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:06136ac350c47cb3934c8bfda9639fad75d0c1106a1af4c5c49eb8eccd97f395` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:ca4c351c95c84973e28108104b4ddfafd6ccf02d2ec92567ae27c477129f34b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -6440,7 +6440,7 @@
 | `settlement-source-to-shares` | `sha256:839c59cb4c8875c1a326e8739042e207f322d33e9a359a05ba5c15e8c820cbb5` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:d3b2dffb31bdcd5687a612a151652c6f1f2dc0df1f3e85c9d4c0a9b226596b35` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:01e056cba8151dc352c50c97fae87f3214fb2a8750ce41d2c1cefc613d4c3f3f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:76d2b6daa160a9bbf9f49a26e1e7f02eee27f98044a985ca7b82b082df46e6a0` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:6fe36ff638de77286dfcdc1df21f8e60e735fb88169798833ef5e630e5bf8df1` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:7cdf2d12bfeec0dcacb0d33b240fc4657d3ae6463f833090c85c88240cf8cfbe` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6513,17 +6513,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:8e72a4b17f57afd12d45bfd8b1b0caa6632e6858801cd0d3ee7abb69d0eb9800` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:361d26a513770c3edf60ae628dc4645901d0d0b8e6aae9c41c5bb6633134d06a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e58eeeb7bce956f28c0d9a63ba55fa48782e8752fcc3df95ac907d23375365c1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:23e411f58867be4996fcc5ec747cb5b2acb96b9ce0cd230eb35cdc175c2065c0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:76d2b6daa160a9bbf9f49a26e1e7f02eee27f98044a985ca7b82b082df46e6a0` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:0a395083eeac55e83995d45ccc369742fb7da08f1f2d11e5c01e481ce6f37893` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:054f0de38a77cae29a056fc77aff7307bc26c7e9e1354e75674feedc5579f26f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:04938010b108484a8450095b2233fd3c4bd31aeca94bd0a0ed21758488f108ad` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:6fe36ff638de77286dfcdc1df21f8e60e735fb88169798833ef5e630e5bf8df1` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:91e172a7eaefa40116a7d2639a7efd9b6023f1243610c86645080164b77db0ef` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:bc56d612d57c50784a6caed2821c99f7a85d97982616f9e6cb386169cc5c085b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:9b0cea02f2d1aee94b33c1fd2c3b78477813dc9dd65acfc89eef8ddc63ba553b` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:7cdf2d12bfeec0dcacb0d33b240fc4657d3ae6463f833090c85c88240cf8cfbe` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:cf69abf156ca3685f0d4230075bdc305e253b9615f926a43688db4d5150c9f65` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:06136ac350c47cb3934c8bfda9639fad75d0c1106a1af4c5c49eb8eccd97f395` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:75d41434efaf115b7cd6aa8fbee55e43bf81983e9be44b7c2d1dafab1a5ffbe0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:f3838c25724a81e42db08cddbc3665dc5de26293ef9a419fc3742a77555952d5` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:a1d8dd41a1d34512bdd74c8e3426225051e05d2c2bcc0ad49332d95f161338f1` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:d3b2dffb31bdcd5687a612a151652c6f1f2dc0df1f3e85c9d4c0a9b226596b35` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:06136ac350c47cb3934c8bfda9639fad75d0c1106a1af4c5c49eb8eccd97f395` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:ca4c351c95c84973e28108104b4ddfafd6ccf02d2ec92567ae27c477129f34b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -6589,7 +6589,7 @@
 | `settlement-source-to-shares` | `sha256:839c59cb4c8875c1a326e8739042e207f322d33e9a359a05ba5c15e8c820cbb5` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:d3b2dffb31bdcd5687a612a151652c6f1f2dc0df1f3e85c9d4c0a9b226596b35` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:01e056cba8151dc352c50c97fae87f3214fb2a8750ce41d2c1cefc613d4c3f3f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:50b36d178ed31855e74907567177bbe967fc3373df1312dab8fbe7ba44718f11` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:b5e705dcaf5306ef18b5f9adabd1a826aeeabecd76b69aaa2758d98892586a15` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:6f86f84989244115ab1b63821b3d3a246c19ca1320159035a9ca75b93e4621f9` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6662,17 +6662,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:8e72a4b17f57afd12d45bfd8b1b0caa6632e6858801cd0d3ee7abb69d0eb9800` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:361d26a513770c3edf60ae628dc4645901d0d0b8e6aae9c41c5bb6633134d06a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e58eeeb7bce956f28c0d9a63ba55fa48782e8752fcc3df95ac907d23375365c1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:54fc5c41545e7c23f72923cda0141c9cafa3f78b75eff34ae152418af174baf5` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:50b36d178ed31855e74907567177bbe967fc3373df1312dab8fbe7ba44718f11` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:2304a07527ed20caa6b9336114c383f3fc12bbd36a8c073a68c955ee4df8748e` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:180097c34aa33dbfa1159d5404975cdae22dbb49fea525d208a388dd864a3db8` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:9751625b4a1b3bc323de5b37154058fb7784920ef158d21841d7d0ff45885d1f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:b5e705dcaf5306ef18b5f9adabd1a826aeeabecd76b69aaa2758d98892586a15` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:98b8ec3e7132e131037bf0edb27a6e2b5204b62587b5e78aeeaf2f87f5aff4fb` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:369cdae5bb67da152d8f7ec6bc40b8f2a703042a20bae7f9a86f35534263a371` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:607f93531b5272933418864334004d45b1e24d03b14e72bb6f98dff30f2362bf` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:6f86f84989244115ab1b63821b3d3a246c19ca1320159035a9ca75b93e4621f9` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:229a21756e65a30075e1b85f06e5680b9c812e9bec709dd56f7e12f2981292b6` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:06136ac350c47cb3934c8bfda9639fad75d0c1106a1af4c5c49eb8eccd97f395` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:75d41434efaf115b7cd6aa8fbee55e43bf81983e9be44b7c2d1dafab1a5ffbe0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:7db13b91f81d53fbedbba24ba15a2d8a4d5af5fbaa353a3fa548895efd77d6cc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:b2a055394f46d1fa39be2dc2a5d4443e2b8e65adb8838312d6dbd56c6dcbd042` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:d3b2dffb31bdcd5687a612a151652c6f1f2dc0df1f3e85c9d4c0a9b226596b35` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:06136ac350c47cb3934c8bfda9639fad75d0c1106a1af4c5c49eb8eccd97f395` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:ca4c351c95c84973e28108104b4ddfafd6ccf02d2ec92567ae27c477129f34b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -6738,7 +6738,7 @@
 | `settlement-source-to-shares` | `sha256:7a2dfbf66bb71f361a0a9b7a3b33dfee6f88210012a9e3952313279e42305945` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b9c92188eb726af76bff88db9e34ba6a8641530e0293215c083f5ed95cb28316` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:01e056cba8151dc352c50c97fae87f3214fb2a8750ce41d2c1cefc613d4c3f3f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:1da0ad2194bc2104f2351ba940fc6fe05285dc0b5cd0f27912dac54d769b80d4` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:9b351fbcbda77c49de9c45fd78fd2af1bde2e5c10e2865a7c14840197e711886` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:f5d1efb811162885cfc461aa57250cf408b4aeff948f695a7cd9d42fffa1d8da` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6811,17 +6811,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:3c7013c7693719a306a09bee96d1e4cfbeb3b1e839e13d59974caef2d7bc16de` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:361d26a513770c3edf60ae628dc4645901d0d0b8e6aae9c41c5bb6633134d06a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e58eeeb7bce956f28c0d9a63ba55fa48782e8752fcc3df95ac907d23375365c1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:7c349a9c4efc02f66983edacfdcf268ca0924789708b7a54ce44fe26e85afbce` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:1da0ad2194bc2104f2351ba940fc6fe05285dc0b5cd0f27912dac54d769b80d4` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:07470f4e1dcca85724162a35da8e3ccfd8d62140ca641e0a2e77c9ec78d6131c` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:97072e0e861e57e30f9ede0f4cb5ddc3f1c6c24340f7e8936303283f03bad896` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:0c900c953ace04ca50c4a00f713ca3c1ae5d7a0376ed8de1b81d4e323f6ad81e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:9b351fbcbda77c49de9c45fd78fd2af1bde2e5c10e2865a7c14840197e711886` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:57b1021817df0677c75732c19286b295a2cdd38d58ffccd9a17f921789d103c4` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:eed268a273f213a55718627c54caa23870a59a48c7b876f2e88587388d1b0a6c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:9a32f27995bdb85ef8cb027b24504ace80f84538807ea70e3cd440cfa11beae2` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:f5d1efb811162885cfc461aa57250cf408b4aeff948f695a7cd9d42fffa1d8da` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:42bb366d6a2f52df8732d8eeb4f97ed692fd5d4546f4ba1ab0f446cf2d00e6bb` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:7ba8167e2b371592556257b45c077a311bcca4e14fbd0e1cafd7725e6d302e3e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:75d41434efaf115b7cd6aa8fbee55e43bf81983e9be44b7c2d1dafab1a5ffbe0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:8d82eac7dc99f43658e4f6e5724b2ebd94fd5cc7c8f9b96a8a1431dddf82d2e0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:ac2f05aafcc41c3562b64fd87495eb4926f943fd75dc7466f9eda96d084c10e4` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b9c92188eb726af76bff88db9e34ba6a8641530e0293215c083f5ed95cb28316` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:7ba8167e2b371592556257b45c077a311bcca4e14fbd0e1cafd7725e6d302e3e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:ca4c351c95c84973e28108104b4ddfafd6ccf02d2ec92567ae27c477129f34b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -6887,7 +6887,7 @@
 | `settlement-source-to-shares` | `sha256:7a2dfbf66bb71f361a0a9b7a3b33dfee6f88210012a9e3952313279e42305945` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b9c92188eb726af76bff88db9e34ba6a8641530e0293215c083f5ed95cb28316` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:01e056cba8151dc352c50c97fae87f3214fb2a8750ce41d2c1cefc613d4c3f3f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:9f286fdfeb60cde70a8269b53c50177860c26913d22a559e4c7c859ed5018590` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:1dd7417d20964fc2d6a5993ed7ad18ee221eb842dd74f336ae39f647f1a8649b` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:95217d040aabe51835c5f52801cd96fc65e2cd8b7e2cd8f8702b69a5764cc80e` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -6960,17 +6960,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:3c7013c7693719a306a09bee96d1e4cfbeb3b1e839e13d59974caef2d7bc16de` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:361d26a513770c3edf60ae628dc4645901d0d0b8e6aae9c41c5bb6633134d06a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e58eeeb7bce956f28c0d9a63ba55fa48782e8752fcc3df95ac907d23375365c1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:eda128ff566d637639c11fcf8c49090a9a0d61d5787e1a8744176f7a98d57340` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:9f286fdfeb60cde70a8269b53c50177860c26913d22a559e4c7c859ed5018590` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:43acc5dee10fc4f758ddd70cb0dea070bd2dca2552881399c46e59f1164723c2` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:a24654e8d7bc7b86c19853c632bc95af30291f1d6674f6130bcc7bb3efd27597` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:563448670f39e56fec17d987c064e4dce3e1fa0b98e10aa20c5be96f5c0abefa` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:1dd7417d20964fc2d6a5993ed7ad18ee221eb842dd74f336ae39f647f1a8649b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:3281dbc12537bad9c9125e30d9ad1322b157dc447f82753d30985c547f2de216` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:1d057512deae140443c454e71510d1f0c1ea358adc31a866cbc6d9bbec5a6e9b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:70629e4d752122b18daf92d8b631fa6440790f41a7455718b90e5df83a69c19a` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:95217d040aabe51835c5f52801cd96fc65e2cd8b7e2cd8f8702b69a5764cc80e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:4c4ed0684030dcfa64f4780264687867fede133ce0bb30c7f6b581ae4ae4d574` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:7ba8167e2b371592556257b45c077a311bcca4e14fbd0e1cafd7725e6d302e3e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:75d41434efaf115b7cd6aa8fbee55e43bf81983e9be44b7c2d1dafab1a5ffbe0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:f3838c25724a81e42db08cddbc3665dc5de26293ef9a419fc3742a77555952d5` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:a1d8dd41a1d34512bdd74c8e3426225051e05d2c2bcc0ad49332d95f161338f1` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b9c92188eb726af76bff88db9e34ba6a8641530e0293215c083f5ed95cb28316` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:7ba8167e2b371592556257b45c077a311bcca4e14fbd0e1cafd7725e6d302e3e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:ca4c351c95c84973e28108104b4ddfafd6ccf02d2ec92567ae27c477129f34b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7036,7 +7036,7 @@
 | `settlement-source-to-shares` | `sha256:7a2dfbf66bb71f361a0a9b7a3b33dfee6f88210012a9e3952313279e42305945` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b9c92188eb726af76bff88db9e34ba6a8641530e0293215c083f5ed95cb28316` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:01e056cba8151dc352c50c97fae87f3214fb2a8750ce41d2c1cefc613d4c3f3f` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:5276cd3fd745080fb45bcfaefd855c34d164bec76399765735e9ff9a82ec3965` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:73c32f206e4c3a51a6600f14b8c7083cdb5a4595a1397d497c9a21916262a66c` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:26a98f8bf47b77212bcf191ca28df4a4f18872b14ea8f06e9f83cec19dcc082e` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -7109,17 +7109,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:3c7013c7693719a306a09bee96d1e4cfbeb3b1e839e13d59974caef2d7bc16de` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:361d26a513770c3edf60ae628dc4645901d0d0b8e6aae9c41c5bb6633134d06a` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:e58eeeb7bce956f28c0d9a63ba55fa48782e8752fcc3df95ac907d23375365c1` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:f7005b65f6d3fa2c5be949dcd6be4cd7aca2fcae58a0143b05610d92f9feda23` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:5276cd3fd745080fb45bcfaefd855c34d164bec76399765735e9ff9a82ec3965` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:cfa1da4eb04d1fd65081a0754ab1291ec894398afb834086922f3e22cb53549c` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:fe8efdb695eca8c4d4bcfa64c1b030d67053d5401adef2d08b04fb7d958be2fc` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:df5facab02e159764cbd30a021732be42ab0ce7bd1557c3a8f60f955ad988be3` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:73c32f206e4c3a51a6600f14b8c7083cdb5a4595a1397d497c9a21916262a66c` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:e621221016f23aa606218b3523a8ff3fc0482d652f9ba9d1dedead2126f85b20` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:1513c360b4277d2ef0242abff64f8847d4616b690d53517b3ad31d3656e3e0b2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:1b25e86617dd6c8b0dddd30da744332b7054ecd2c7c12732a250f929eef0c4e6` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:26a98f8bf47b77212bcf191ca28df4a4f18872b14ea8f06e9f83cec19dcc082e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:d34419184d3dd70a32d137b44ddf1d0574e117d6086c44c0ac655e8dfaab5a5c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:7ba8167e2b371592556257b45c077a311bcca4e14fbd0e1cafd7725e6d302e3e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:75d41434efaf115b7cd6aa8fbee55e43bf81983e9be44b7c2d1dafab1a5ffbe0` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:7db13b91f81d53fbedbba24ba15a2d8a4d5af5fbaa353a3fa548895efd77d6cc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:b2a055394f46d1fa39be2dc2a5d4443e2b8e65adb8838312d6dbd56c6dcbd042` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b9c92188eb726af76bff88db9e34ba6a8641530e0293215c083f5ed95cb28316` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:7ba8167e2b371592556257b45c077a311bcca4e14fbd0e1cafd7725e6d302e3e` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:ca4c351c95c84973e28108104b4ddfafd6ccf02d2ec92567ae27c477129f34b1` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7185,7 +7185,7 @@
 | `settlement-source-to-shares` | `sha256:ad62bd5c38bce3890b554368fcb3886337f0b758c116f48f24eadbcba8903895` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:d9f59dc6e4c843adc64b350cd16e580da8f6aa37a919fc1933e0c8b4fd8f5e9c` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:3758f1048f7218da0527e3a703f2c0d973e3ad615ece1243114332d874c03417` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:83dbea6ea65349194e5efaa89b1473cf3ac6dd8a83a711eaa3e501f57846f1cc` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:b0a3eb03f7f2476dd4b59df2af9a26ec36bf408b8576c04f6f9e782b4b0055be` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:c5c9c950445db04d6f292a310aed3f8c2faaf9f6aa9131313890cff29fb0eda7` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -7258,17 +7258,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:5196a59a5fdcd5bef0e97cfc628164c8fdd3c8f65d174671f928c7462ae698b7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:1e9cf1d2b3ba4a2333f1745192db0406862cf87a12a8ac56632283acf4980b5f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:51f847f2b37f55420126f033ee10dc4d55018f018be9aa37d026cbaa3255cf94` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:08b8374ca792220914d670f2b1da2ee51b3a22eca2812a4d42b2b02b10d791a2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:83dbea6ea65349194e5efaa89b1473cf3ac6dd8a83a711eaa3e501f57846f1cc` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:a12e549326562d0200a88a22a8acac8eea1da54d0d1e34ceafaa027ab7e9d721` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:d6f6265691c8f509dc58347e6a676476b084b3bb09873dc59f988121a1aad0ff` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:22a60d6dc0dde0a21e63ae85dfc802cb9c52bc5b464aa154a67002bb68e274be` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:b0a3eb03f7f2476dd4b59df2af9a26ec36bf408b8576c04f6f9e782b4b0055be` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:df37676fb9fefbe9459db0508b62de23aae917547f471484082bfad6fe901484` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:958785c9892286416cbcc41507a757350b4192c0e04939fd36f031e1071bbc16` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:c7bcc59add724d50c964f0ad0effbbbae495741e324b3ab9fb6bce56f62f0900` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:c5c9c950445db04d6f292a310aed3f8c2faaf9f6aa9131313890cff29fb0eda7` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:5eeaca4bffe3b0b3959a924f324b3c97fffa9a133a0f4fb1003e904447ad5796` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:85339a57d977e203656b613ec511b4666f5d775f730e1139b9a804e2ddd1689d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:b1f0ee98c3feb1c851197d6944a30023b5a21dc7776d89887556f7973364db46` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:a36e745e2aecb3199a1ef4afdea460da3869771fd4d815edf69a0e29cf2e581e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:b672fb756dbfaaf6c4738ecef94d4d504abe33391bad5f39961e8d8759fe4df3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:d9f59dc6e4c843adc64b350cd16e580da8f6aa37a919fc1933e0c8b4fd8f5e9c` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:85339a57d977e203656b613ec511b4666f5d775f730e1139b9a804e2ddd1689d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:43a55b19eddadf45e706f0d8718eb860da9a25415fca8f592d6ea77ffc6247bb` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7334,7 +7334,7 @@
 | `settlement-source-to-shares` | `sha256:ad62bd5c38bce3890b554368fcb3886337f0b758c116f48f24eadbcba8903895` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:d9f59dc6e4c843adc64b350cd16e580da8f6aa37a919fc1933e0c8b4fd8f5e9c` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:3758f1048f7218da0527e3a703f2c0d973e3ad615ece1243114332d874c03417` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:3efaec45469937de57d72f4e5004065fabca68cb25cb045f0fcb2e9433766e5b` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:8f669696c89515b54db40e9ddc75d04f26bca4ff95890414e837df2bbcc3dceb` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:b049f265d5f60df7df5c3486b554d9f83e1f04797858e6ff335b0dcb06125949` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -7407,17 +7407,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:5196a59a5fdcd5bef0e97cfc628164c8fdd3c8f65d174671f928c7462ae698b7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:1e9cf1d2b3ba4a2333f1745192db0406862cf87a12a8ac56632283acf4980b5f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:51f847f2b37f55420126f033ee10dc4d55018f018be9aa37d026cbaa3255cf94` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:b58cb918deef9832fa3004529c620448abe078460e84b48a887433a678ee6996` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:3efaec45469937de57d72f4e5004065fabca68cb25cb045f0fcb2e9433766e5b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:967104db9ad64c989fc7a91c5528f943291013cb69b56d19f1770623c959d3a4` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:f68006aac3723e8c4452dd6679471ab9bb35909f8ec95632c6897fc62cec9279` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:b1c69880b55a510c48bea4143c0b3090d26b8ea8942b00d1a83b9351727b255e` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:8f669696c89515b54db40e9ddc75d04f26bca4ff95890414e837df2bbcc3dceb` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:978e090cb68ca2cc37e32bbf3cb4675c69ddab62f7c02fb0511a4a9a791508f2` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:39f5ce5c09938a65cb17e11c9560aa2c7e7e2d62f93e2c97b8049e62bf5926ad` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:92316cd4877a6b3de73ad25feb6cc58936942a500b2ec235f2894995c18d96d1` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:b049f265d5f60df7df5c3486b554d9f83e1f04797858e6ff335b0dcb06125949` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:27a85d274fb0d827f82ec4bb615db4704b065c6501442768302448e65894f118` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:85339a57d977e203656b613ec511b4666f5d775f730e1139b9a804e2ddd1689d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:b1f0ee98c3feb1c851197d6944a30023b5a21dc7776d89887556f7973364db46` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:1af7642f0bbb943f30f588339ba837ce8de5173ee85f14be62bbd72981317de3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:3c2ffa827dce4c437ce7329826455e5cba348390ce1dc81fc3ee9fe062aae057` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:d9f59dc6e4c843adc64b350cd16e580da8f6aa37a919fc1933e0c8b4fd8f5e9c` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:85339a57d977e203656b613ec511b4666f5d775f730e1139b9a804e2ddd1689d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:43a55b19eddadf45e706f0d8718eb860da9a25415fca8f592d6ea77ffc6247bb` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7483,7 +7483,7 @@
 | `settlement-source-to-shares` | `sha256:ad62bd5c38bce3890b554368fcb3886337f0b758c116f48f24eadbcba8903895` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:d9f59dc6e4c843adc64b350cd16e580da8f6aa37a919fc1933e0c8b4fd8f5e9c` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:3758f1048f7218da0527e3a703f2c0d973e3ad615ece1243114332d874c03417` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:f4ac1d4c435def4f264d3d22c275cab0a959e4798a03a80d44cdeb3973d75dbd` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:2226aa7aff1afd9a6499b7048e77f86882d0c3705c3649d4f0334af0b3105ea6` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:987b78f51e843e5e11b1b41a0392ff85e3a004f7e03b0043f49d40438945f972` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -7556,17 +7556,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:5196a59a5fdcd5bef0e97cfc628164c8fdd3c8f65d174671f928c7462ae698b7` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:1e9cf1d2b3ba4a2333f1745192db0406862cf87a12a8ac56632283acf4980b5f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:51f847f2b37f55420126f033ee10dc4d55018f018be9aa37d026cbaa3255cf94` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:dd08d8a7042501070d6f7d193659517c6bb1a92d786bd48384e9b5f3ba3085c2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:f4ac1d4c435def4f264d3d22c275cab0a959e4798a03a80d44cdeb3973d75dbd` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:cea18d6c430073a49a71d1d28addee2a4c794d57e9809540b4483c430a8423db` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:a70571ec7c2fe3a389daa5cca766b7d26feddfbe9c8ec700132576c2905cbcd2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:4d06b327065c9c8e6a6a8edb67d8e7536e52fbd6ce99ffa499f7a531b9a27796` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:2226aa7aff1afd9a6499b7048e77f86882d0c3705c3649d4f0334af0b3105ea6` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:246f0a5c48ff99f049c0c5f9b8b1815f00409088297486505ef02ca9b207875e` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:c79a15fc73fda35b61de921b789175315461e24de3a1721fb774cb33f250484d` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:b2d75390f1a14fbaa3b28fcf0623c1e26c04108d973090da90588130322bdd19` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:987b78f51e843e5e11b1b41a0392ff85e3a004f7e03b0043f49d40438945f972` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:0261ed05c9c6996078f68e9ce3face8dc4ecd3b6830a7e6d668ada99bd81d950` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:85339a57d977e203656b613ec511b4666f5d775f730e1139b9a804e2ddd1689d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:b1f0ee98c3feb1c851197d6944a30023b5a21dc7776d89887556f7973364db46` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:dadc48912c4a85c6fa257274d4547cda8894c9cadaadb379ce5f50022d82cdf0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:238c9cf275341646e9419bff5021ef5d914ebbf0cb0e0fe8d27d228b00cbf43e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:d9f59dc6e4c843adc64b350cd16e580da8f6aa37a919fc1933e0c8b4fd8f5e9c` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:85339a57d977e203656b613ec511b4666f5d775f730e1139b9a804e2ddd1689d` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:43a55b19eddadf45e706f0d8718eb860da9a25415fca8f592d6ea77ffc6247bb` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7632,7 +7632,7 @@
 | `settlement-source-to-shares` | `sha256:c52bb5b699e78507f91ded842bf5572391800a6b476cf411198808d0068cebef` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b4e587b4f7029345097bfb6e47a0900249c72dccf1b86dc127e31f9f3150ef91` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:3758f1048f7218da0527e3a703f2c0d973e3ad615ece1243114332d874c03417` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:89e0ee039c0776bb4db890749d10375f6d1066d6eb693542ffe17744ddc30acf` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:9aa05c3f8a8151ddbf0d46d8155515d345188c1e854fe45d628e1c4ee11bb82b` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:933cbf06ad884e8cfd7e911555074c613366b0557a11e49f2ad40ded06d5f7ba` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -7705,17 +7705,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:a5192791126faacd0eed6703b4427de5c0ae9938cfa6fab1f1569126dab81e7f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:1e9cf1d2b3ba4a2333f1745192db0406862cf87a12a8ac56632283acf4980b5f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:51f847f2b37f55420126f033ee10dc4d55018f018be9aa37d026cbaa3255cf94` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:8d741cd3eb943c9a7308901c42f84ac9d7bf2b27386425e6e9b17b24b12b2c92` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:89e0ee039c0776bb4db890749d10375f6d1066d6eb693542ffe17744ddc30acf` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:f695de653fcc12f3ef5341e0ad00070f76214fd84a250e81270f66553052c96d` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:ecc70b25f5343aad942285378c7ed3f2d2b2988a6f9df0f81187d7d94f0ff973` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:99e208a185b1d139ca341388b086facf9b27b7f621932b677e0a58275ab80308` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:9aa05c3f8a8151ddbf0d46d8155515d345188c1e854fe45d628e1c4ee11bb82b` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:bafa9ce2792f346f5822120bb456e879b358fea82f3c455066c765666f30a364` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:06c079efe8510afba77f57f9a08e6a1c376b6b7802c51d9b6f34841f3e87bbd1` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:18b65a1c588daf7032d80c1296fc50035e5a3732c13499f5ea7f73cae4be95ee` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:933cbf06ad884e8cfd7e911555074c613366b0557a11e49f2ad40ded06d5f7ba` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:358976acbf4a381adc2e9a7ae9e2d64134b4365ee610f257e370877771d29d58` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:42f755491ca2621368359efaa334b007a4af55710d042102c317289a71551a2a` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:7320c29366bddad96f32da3fcc9b33da0268dc37579efb93f8d363c3e802d9f1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:b1f0ee98c3feb1c851197d6944a30023b5a21dc7776d89887556f7973364db46` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:a36e745e2aecb3199a1ef4afdea460da3869771fd4d815edf69a0e29cf2e581e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:b672fb756dbfaaf6c4738ecef94d4d504abe33391bad5f39961e8d8759fe4df3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b4e587b4f7029345097bfb6e47a0900249c72dccf1b86dc127e31f9f3150ef91` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:7320c29366bddad96f32da3fcc9b33da0268dc37579efb93f8d363c3e802d9f1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:43a55b19eddadf45e706f0d8718eb860da9a25415fca8f592d6ea77ffc6247bb` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7781,7 +7781,7 @@
 | `settlement-source-to-shares` | `sha256:c52bb5b699e78507f91ded842bf5572391800a6b476cf411198808d0068cebef` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b4e587b4f7029345097bfb6e47a0900249c72dccf1b86dc127e31f9f3150ef91` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:3758f1048f7218da0527e3a703f2c0d973e3ad615ece1243114332d874c03417` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:4fcedc06cd4728e3c31d3b6dc7bc6da8fa73115d8c3dc927857f3d5551fd2590` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:878d64569824bd84215b7237d0d97b2e5f01f30ac20df61ec53788c293a60c37` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:b6318116e13999d65defb3897daf9ebf288e55f9d5818c150c0c0b8eb698a9fc` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -7854,17 +7854,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:a5192791126faacd0eed6703b4427de5c0ae9938cfa6fab1f1569126dab81e7f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:1e9cf1d2b3ba4a2333f1745192db0406862cf87a12a8ac56632283acf4980b5f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:51f847f2b37f55420126f033ee10dc4d55018f018be9aa37d026cbaa3255cf94` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:fda6f5549861f2894f0f6a9d41cf5b262135320d228ddc2eb8c58400abe2466f` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:4fcedc06cd4728e3c31d3b6dc7bc6da8fa73115d8c3dc927857f3d5551fd2590` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:cc9e88790e14a809662e5e4c5efd1a52c6a09187e235c2aaebd07127198319c4` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:fbe2c955baf368c9e908860b592169f68c3c8ad320a713e5ed56ebb77f39bf99` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:36bdd4031221e897f63b009925f16309a6ad566aeeff27a16032febafa390fba` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:878d64569824bd84215b7237d0d97b2e5f01f30ac20df61ec53788c293a60c37` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:cac044025dca676ad065328f7bb7f61e1fc307afebd1e084eba814fd372cdd7e` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:bb81529110753947687bb8c04070b202c1e29e35212e523a7e5a87eda7b2d6fc` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:b9ef12894f779dc09113e4e69288c36bf1e0a7c1078105752657bfde2a0e2183` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:b6318116e13999d65defb3897daf9ebf288e55f9d5818c150c0c0b8eb698a9fc` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:a9be760e15fb32d9996afb58629b321510fc4513db496452875c3307b11a475c` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:fe4597f6de1469ee65c4c2fbb90c4ab1e35da1ac27c82dad05bfaa0f685d71b6` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:7320c29366bddad96f32da3fcc9b33da0268dc37579efb93f8d363c3e802d9f1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:b1f0ee98c3feb1c851197d6944a30023b5a21dc7776d89887556f7973364db46` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:1af7642f0bbb943f30f588339ba837ce8de5173ee85f14be62bbd72981317de3` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:3c2ffa827dce4c437ce7329826455e5cba348390ce1dc81fc3ee9fe062aae057` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b4e587b4f7029345097bfb6e47a0900249c72dccf1b86dc127e31f9f3150ef91` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:7320c29366bddad96f32da3fcc9b33da0268dc37579efb93f8d363c3e802d9f1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:43a55b19eddadf45e706f0d8718eb860da9a25415fca8f592d6ea77ffc6247bb` | `inference-synthesis` | `private-proof-artifact` | `false` |
@@ -7930,7 +7930,7 @@
 | `settlement-source-to-shares` | `sha256:c52bb5b699e78507f91ded842bf5572391800a6b476cf411198808d0068cebef` | `.engi/settlement-source-to-shares-proof.json` |
 | `disclosure-boundary` | `sha256:b4e587b4f7029345097bfb6e47a0900249c72dccf1b86dc127e31f9f3150ef91` | `.engi/disclosure-boundary-proof.json` |
 | `proof-contract` | `sha256:3758f1048f7218da0527e3a703f2c0d973e3ad615ece1243114332d874c03417` | `.engi/proof-contract.json` |
-| `bitcoin-audit-anchor` | `sha256:0c3e85af5146b2e4ca395f84aa7269046b18324b0e1bc7cf8077e5d0acd9afdf` | `.engi/bitcoin-audit-anchor-proof.json` |
+| `bitcoin-audit-anchor` | `sha256:09b5e7d1583eb934f29c275ae15a802e704cbdb3e8e3d52d60d1f353ebd612df` | `.engi/bitcoin-audit-anchor-proof.json` |
 | `bitcoin-settlement-interface` | `sha256:798c11deffab1299647915e1d5cc7f44f3d08d424d10ecc484ff7689c292842f` | `.engi/bitcoin-settlement-interface-proof.json` |
 
 #### Proof Artifact Disclosure Classification
@@ -8003,17 +8003,17 @@
 | `.engi/asset-pack.lock.json` | `sha256:a5192791126faacd0eed6703b4427de5c0ae9938cfa6fab1f1569126dab81e7f` | `selection-and-materialization`, `settlement-source-to-shares` | `private-proof-artifact` | `false` |
 | `.engi/authorization-and-sensitive-flow-proof.json` | `sha256:1e9cf1d2b3ba4a2333f1745192db0406862cf87a12a8ac56632283acf4980b5f` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
 | `.engi/authorization-decisions.json` | `sha256:51f847f2b37f55420126f033ee10dc4d55018f018be9aa37d026cbaa3255cf94` | `authorization-and-sensitive-flow` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-anchor.json` | `sha256:d42e87ce4593080553cf975e3f84d89193f6dad4fc54c9ddce11d65fcdce0825` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:0c3e85af5146b2e4ca395f84aa7269046b18324b0e1bc7cf8077e5d0acd9afdf` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
-| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:82a27952b56cdb24bb885f2a511baef6740a144824056237ddd3a56afff490c6` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
-| `.engi/bitcoin-commitment-manifest.json` | `sha256:e97498bc5d015f7f0b4696d663f42a60347e601b0ec7260a631498c82a0a6dc2` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-anchor.json` | `sha256:e2aa2a9cb9f35e2277319a609f420014e4af209cddd2f0866ce9605936fa302a` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-audit-anchor-proof.json` | `sha256:09b5e7d1583eb934f29c275ae15a802e704cbdb3e8e3d52d60d1f353ebd612df` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
+| `.engi/bitcoin-bounded-public-anchor.json` | `sha256:f2f66fc3b588d4b62d531f972eeb37fcf75b60be814bc8172c900b28c1ac51fe` | `bitcoin-audit-anchor` | `bounded-public-proof-metadata` | `true` |
+| `.engi/bitcoin-commitment-manifest.json` | `sha256:5811353763c2918e14c09f5e463fe8bfce27696f7971b6ee4d52e654ef8b63cd` | `bitcoin-audit-anchor` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-intent.json` | `sha256:e6f2dc9d465743032675ea8e2961712dec9e33685a1c5055e45bca08111688a0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-interface-proof.json` | `sha256:798c11deffab1299647915e1d5cc7f44f3d08d424d10ecc484ff7689c292842f` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-settlement-observation.json` | `sha256:04b30d88eec2a0c3e4d2220618d3f81eb78b9cd4d0f20f096073e7bb40a72088` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bitcoin-treasury-policy.json` | `sha256:1e94851ebf9091891873dd678e4937ef7cf6f428b7532eab0bde13d83ce505b3` | `bitcoin-audit-anchor`, `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/bounded-public-proof.json` | `sha256:7320c29366bddad96f32da3fcc9b33da0268dc37579efb93f8d363c3e802d9f1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/code-analysis-fact-registry.json` | `sha256:b1f0ee98c3feb1c851197d6944a30023b5a21dc7776d89887556f7973364db46` | `static-code-analysis` | `bounded-public-proof-metadata` | `true` |
-| `.engi/compute-reality-manifest.json` | `sha256:dadc48912c4a85c6fa257274d4547cda8894c9cadaadb379ce5f50022d82cdf0` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
+| `.engi/compute-reality-manifest.json` | `sha256:238c9cf275341646e9419bff5021ef5d914ebbf0cb0e0fe8d27d228b00cbf43e` | `bitcoin-settlement-interface` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-boundary-proof.json` | `sha256:b4e587b4f7029345097bfb6e47a0900249c72dccf1b86dc127e31f9f3150ef91` | `disclosure-boundary` | `private-proof-artifact` | `false` |
 | `.engi/disclosure-proof.json` | `sha256:7320c29366bddad96f32da3fcc9b33da0268dc37579efb93f8d363c3e802d9f1` | `disclosure-boundary` | `bounded-public-proof-metadata` | `true` |
 | `.engi/eval-manifest.json` | `sha256:43a55b19eddadf45e706f0d8718eb860da9a25415fca8f592d6ea77ffc6247bb` | `inference-synthesis` | `private-proof-artifact` | `false` |

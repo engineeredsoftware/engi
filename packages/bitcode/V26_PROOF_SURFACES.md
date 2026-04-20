@@ -824,6 +824,16 @@ Required closure posture:
   `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate prompt/example/runtime-path closure so internal prompt docs, integration notes, MCP repository-context examples, and generated ORM type output all use Bitcode-owned identities and repo-root examples instead of preserving old mock-route names, old branded prompt constants, stale repo paths, or stray generator banner text in active proof-bearing carriers
+- `{internal-docs/{TERMINOLOGY,PATTERNS-PACKAGES-PRIMITIVES-OH-MY,PERFORMANCE,TESTING,PHILOSOPHY-AND-VISION}.md,uapi/ARCHITECTURE.md}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate terminology/architecture documentation closure so active terminology, patterns, performance, testing, philosophy, and UAPI architecture guides all teach Bitcode and auxillary-facing architecture instead of preserving Engi-branded headings, repo descriptions, or orbital wording in live implementation guidance
+- `packages/bitcode/src/{bitcode-core,ranking-explainer,benchmark-model,seed,policy-release,server-ranking,attestation-model}.js`, `packages/bitcode/src/canonical/{surfaces,v20-quality,v23-bitcoin}.js`, and `packages/bitcode/ARCHITECTURE_MAP.md`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate Bitcode-core primitive ownership closure so the shared core owner, telemetry namespaces, policy ids, seeded org ids, executor-class ids, architecture-map paths, and `bitcode-system:*` principal refs all converge on Bitcode naming instead of preserving `engi-core.js`, `engi.*`, `engi-policy-*`, `engi-demo.*`, or `engi-system:*` in active runtime truth
 - `packages/digest/{caching/index.ts,caching/__tests__/caching.test.ts,run/digest.ts,run/__tests__/generateDigest.test.ts,jest.config.cjs,tsconfig.test.json,__mocks__/bitcode/logger.ts,__mocks__/lib/git/git.ts,service/README.md}`
   test coverage:
   `packages/digest/caching/__tests__/caching.test.ts`, `packages/digest/run/__tests__/generateDigest.test.ts`, and `packages/bitcode/test/v26-active-product-naming.test.js`

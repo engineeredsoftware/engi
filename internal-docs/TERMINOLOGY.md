@@ -1,8 +1,8 @@
-# Engi Terminology Guide
+# Bitcode Terminology Guide
 
 *"Documentation should be a mirror of the source code, not an interpretation."*
 
-This guide provides the precise terminology used in the Engi codebase, verified against actual implementation.
+This guide provides the precise terminology used in the Bitcode codebase, verified against actual implementation.
 
 ## Core Execution Patterns
 
@@ -166,7 +166,7 @@ This represents the aspiration that TypeScript types can carry prompt intelligen
 
 ## Key Takeaway
 
-Always verify documentation against source code. The Engi codebase has evolved rapidly, and documentation often describes aspirational states rather than current implementation. When in doubt:
+Always verify documentation against source code. The Bitcode codebase has evolved rapidly, and documentation often describes aspirational states rather than current implementation. When in doubt:
 
 1. `grep` for the actual usage
 2. Check the exports in package index files
