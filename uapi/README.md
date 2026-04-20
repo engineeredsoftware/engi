@@ -49,7 +49,7 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
   Fourth-gate storage/schema/package ownership route and shared topology owner for `/edgetimes`.
 - `app/api/`
   App-owned Bitcode JSON contracts, including executions, history, conversations, VCS, orbital preferences, client-error intake, preserved-runtime endpoints, and the `/api/edgetimes` storage/API witness.
-- `components/base/engi/`
+- `components/base/bitcode/`
   Shared operator chrome, execution carriers, explainers, notifications, and reusable app primitives.
 
 ## Public shell owners
@@ -78,15 +78,15 @@ Third-gate public-shell work is now explicitly carried by:
   Real public docs route for the mounted Bitcode shell.
 - `app/demo-video/page.tsx`
   Compatibility alias into the public docs hub and walkthrough content.
-- `components/base/engi/layout/nav.tsx`
+- `components/base/bitcode/layout/nav.tsx`
   Public-route navigation and access CTA chrome shared with product surfaces.
-- `components/base/engi/layout/NavBrand.tsx`
+- `components/base/bitcode/layout/NavBrand.tsx`
   Bitcode public-route brand posture and explicit `network` / `docs` route naming.
-- `components/base/engi/layout/footer.tsx`
+- `components/base/bitcode/layout/footer.tsx`
   Shared public footer CTA and public-route link posture.
-- `components/base/engi/layout/bitcode-public-copy.ts`
+- `components/base/bitcode/layout/bitcode-public-copy.ts`
   Shared public-shell vocabulary for `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching posture.
-- `components/base/engi/layout/bitcode-public-explainers.ts`
+- `components/base/bitcode/layout/bitcode-public-explainers.ts`
   Shared public-shell explainer content for key entry links and the protocol reference.
 
 Those owners should not reintroduce live `ComingSoon*` component naming, `coming-soon-*` stylesheet imports, or dormant access-gate code inside the mounted Bitcode public shell.
@@ -173,8 +173,8 @@ The current application doc set is:
 - [app/application/README.md](app/application/README.md)
 - [app/auxillaries/README.md](app/auxillaries/README.md)
 - [app/orbitals/README.md](app/orbitals/README.md)
-- [components/base/engi/README.md](components/base/engi/README.md)
-- [components/base/engi/execution/README.md](components/base/engi/execution/README.md)
+- [components/base/bitcode/README.md](components/base/bitcode/README.md)
+- [components/base/bitcode/execution/README.md](components/base/bitcode/execution/README.md)
 
 Those markdown carriers are part of the second-gate implementation/proof boundary.
 If the route/package/component owners change, this doc set is expected to move with them.

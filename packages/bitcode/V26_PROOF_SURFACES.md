@@ -115,10 +115,10 @@ Required coverage posture:
   retained MCP proof carriers are now explicit too: `packages/executions-mcp/src/mcp-server/src/__tests__/{tools/MCPToolsTestSuite.test.ts,integration/mcp-server.test.ts,unit/auth.test.ts}` must stay green against the current server surface and must not emit lingering Jest open-handle warnings, with imported singleton intervals handled as real runtime teardown obligations rather than ignored test noise
   active email-template carriers are explicit fifth-gate witnesses too: `supabase/config.toml`, `supabase/templates/{magic_link,confirm,password_recovery,email_change,invite,newsletter,deliverable_*}.html`, and the active deliverables email vars in `packages/api/src/routes/deliverables.ts` must converge on Bitcode naming and current placeholder contracts rather than leaving `Engi` product copy in live email/auth flows
   fifth-gate active-product naming witnesses now also cover the retained `@bitcode/prompts` package so prompt-system code, metadata, and promptpart identity text do not silently regress back to `Engi` naming after fourth-gate promotion
-  fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, `@bitcode/streams`, and `@bitcode/email`, with the expectation that user-facing strings, active identifiers, package docs, and canonical package comments all converge on Bitcode naming rather than lingering `Engi` residue
-  fifth-gate active-product naming witnesses now also cover mounted public-shell teaching carriers and retained package docs such as `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and `packages/{web-search,registry}/*`, so public demo-like terminal strings, active classnames/comments, and retained registry/web-search docs cannot silently drift back to `Engi`
-  fifth-gate active-product naming witnesses now also cover user-facing package API route strings in `packages/api/src/routes/*`, so auth welcome flows, ChatGPT success messages, and deliverables permission guidance cannot silently keep `Engi` naming while the mounted product surfaces read as Bitcode
-  fifth-gate active-product naming witnesses now also cover retained shared contracts such as `@bitcode/errors` and direct consumers like `packages/api/src/routes/deliverables.ts` and `uapi/app/error.tsx`, so exported symbols, docs, and active error teaching cannot silently keep `EngiError` naming after promotion
+  fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, `@bitcode/streams`, and `@bitcode/email`, with the expectation that user-facing strings, active identifiers, package docs, and canonical package comments all converge on Bitcode naming rather than lingering old-brand residue
+  fifth-gate active-product naming witnesses now also cover mounted public-shell teaching carriers and retained package docs such as `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and `packages/{web-search,registry}/*`, so public demo-like terminal strings, active classnames/comments, and retained registry/web-search docs cannot silently drift back to old-brand wording
+  fifth-gate active-product naming witnesses now also cover user-facing package API route strings in `packages/api/src/routes/*`, so auth welcome flows, ChatGPT success messages, and deliverables permission guidance cannot silently keep old-brand naming while the mounted product surfaces read as Bitcode
+  fifth-gate active-product naming witnesses now also cover retained shared contracts such as `@bitcode/errors` and direct consumers like `packages/api/src/routes/deliverables.ts` and `uapi/app/error.tsx`, so exported symbols, docs, and active error teaching cannot silently keep old branded error-contract naming after promotion
   fifth-gate active-product naming witnesses now also cover live webhook and mock-system carriers such as `uapi/app/api/webhook/{route,verify}.ts`, `uapi/tests/webhookRoute.test.ts`, `uapi/mocking/index.ts`, `uapi/mocking/integration/MockProvider.tsx`, `uapi/mocking/generators/ComprehensiveMockDataGenerators.ts`, `uapi/mocking/{README.md,INTEGRATION_GUIDE.md,QUICK_START_*.md,COMPREHENSIVE_SYSTEM_SUMMARY.md,validate-system.js}`, and `uapi/mocking/scripts/*`, so trigger labels, comment commands, browser debug globals, shipped operator docs, and script ownership paths cannot silently drift back to `engi-*`, `__engiMock*`, or stale `app/mocking` product truth
   fifth-gate active-product naming witnesses now also cover canonical auxillary-pane ownership and retained LLM harness config, including `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/auxillaries/components/Auxillaries{Profile,Connects,Interfaces,BTD}Pane.tsx`, `uapi/app/orbitals/components/Orbitals{Profile,Connects,Interfaces,BTD}Pane.tsx`, `packages/llm-generics/{jest.config.cjs,tsconfig.test.json,__mocks__/*,README.md}`, `jest.base.cjs`, and `pnpm-workspace.yaml`, so active route ownership and workspace test/runtime config cannot silently preserve orbitals-pane implementation ownership, `engi-*` mock filenames, `@engi` transform allowlists, or dead Engi-era workspace entries
   fifth-gate active-product naming witnesses now also cover shipped JS/runtime carry-through and Storybook/docs carriers such as `packages/{errors,logger,observability}/*.js`, `packages/{security,multimodal-utils,tech-types,supabase}/*`, and active `uapi/stories/*`, so generated runtime artifacts, package docs/comments, and operator-facing story/example copy cannot silently preserve `@engi/*`, `Engi`, or Engi-branded sample values after Bitcode promotion
@@ -129,6 +129,7 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover retained orbitals lower-level compatibility carriers such as `uapi/app/orbitals/components/{headers/*,shared/*,models/*,OrbitalsDataSharingPanel.tsx,orbital-pane-explainers.ts}`, so those paths remain thin compatibility re-exports rather than silently preserving duplicate live implementations after canonical auxillary equivalents exist
   fifth-gate active-product naming witnesses now also cover canonical auxillary onboarding/data contracts and active external-realization witnesses such as `uapi/app/auxillaries/auxillary-onboarding-contract.ts`, `uapi/app/api/auxillaries/{onboarding,data}/route.ts`, `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/tests/{orbitalsOnboardingRoute,userDataRoute,api/externalRealizationRoute,applicationExternalRuntime}.test.ts`, and active Bitcode operating docs like `packages/bitcode/{CHECKLIST,SCRIPT,BITCODE_DEMO_SPEC_V15,SPEC_V6_GAP_ANALYSIS}.md`, so payload aliases, schema-backed onboarding semantics, env witnesses, and branch-artifact naming cannot silently preserve `models/credits`, `ENGI_V24_*`, or `ENGI_NEED.md`
   fifth-gate active-product naming witnesses now also cover live Bitcode-core need-materialization and external-executor carriers such as `packages/bitcode/src/canonical/{need-measurement,run-artifacts,v24-local-executors,v24-remote-adapters}.js` and `packages/bitcode/test/{api,workflow.integration}.test.js`, so emitted need artifacts, V24 env controls, local executor schemes, and Bitcode-core sample branch/runtime refs cannot silently preserve `ENGI_NEED.md`, `ENGI_V24_*`, `engi-local://*`, `engi-review/*`, or other Engi-branded active protocol examples
+  fifth-gate active-product naming witnesses now also cover active draft/env/measuring contracts and ChatGPT app type carriers such as `packages/bitcode/data/state.json`, `internal-docs/{LLM_REGISTRY,SECURITY,PHILOSOPHY-AND-VISION}.md`, `tsconfig.json`, `uapi/tsconfig.json`, `packages/procurement/src/quality-assessment.ts`, and `packages/chatgptapp/src/types/bitcode__*.d.ts`, so live V27 draft paths, LLM/MCP env docs, thesis constants, measuring helpers, and filesystem-level type carriers cannot silently preserve `ENGI_SPEC_V27*`, `ENGI_LLM_*`, `ENGI_ENABLE_MCP_*`, `measureEngi`, or `engi__*.d.ts`
 
 ### Gate 5: Bitcode rename completion, proof precision, and system completeness
 
@@ -270,12 +271,12 @@ Current active assignments:
   `uapi/tests/orbitalsBTDPane.test.tsx`
   proof surface:
   second-gate `$BTD` orbital ownership, including wallet and share posture, settlement and history return defaults, and app-owned preference saving through the orbital route carrier
-- `uapi/components/base/engi/layout/nav.tsx`
+- `uapi/components/base/bitcode/layout/nav.tsx`
   test coverage:
   `uapi/tests/navWorkspaceChrome.test.tsx` plus live `/application` verification
   proof surface:
   second-gate workspace-chrome discipline for unauthenticated application and orbital routes, replacing disabled marketing CTA behavior with deliberate access/create-account actions
-- `uapi/components/base/engi/layout/user-menu.tsx`
+- `uapi/components/base/bitcode/layout/user-menu.tsx`
   test coverage:
   `uapi/tests/userMenu.test.tsx`
   proof surface:
@@ -285,7 +286,7 @@ Current active assignments:
   `uapi/tests/orbitalsLoginPane.test.tsx`, `uapi/tests/orbitalsContent.test.tsx`, `uapi/tests/orbitalsWorkspacePanels.test.tsx`, `uapi/tests/orbitalsRouteClient.test.tsx`, and `uapi/tests/orbitalPaneMeta.test.ts`
   proof surface:
   second-gate orbitals-first access-shell discipline so contained entry and focused orbital routes preserve Connects/Interfaces/Profile/$BTD language, keep a contained operator shell with contained orbital reads, route contained rails through shared panel/tabs carriers instead of older floating ring-label sequence furniture, and retain shared fullscreen/open/return wording instead of generic workspace/settings/account furniture
-- `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
+- `uapi/components/base/bitcode/notifications/NotificationsWidget.tsx`
   test coverage:
   `uapi/tests/notificationsWidget.test.tsx`
   proof surface:
@@ -295,7 +296,7 @@ Current active assignments:
   live browser verification on `host.docker.internal:3000/application?...` and `host.docker.internal:3000/auxillaries/profile`
   proof surface:
   second-gate contained-operator-shell stability so application-opened orbitals no longer collapse back to modal-width access furniture and both contained/direct orbital surfaces stay renderable with no error-level console output
-- `uapi/components/base/engi/layout/workspace-surface.ts`
+- `uapi/components/base/bitcode/layout/workspace-surface.ts`
   test coverage:
   `uapi/tests/workspaceSurface.test.ts`
   proof surface:
@@ -321,7 +322,7 @@ Current active assignments:
   `uapi/tests/applicationCommandState.test.ts`
   proof surface:
   deterministic normalization of shell command posture, flow-guide continuity, preserved-shell tutorial compatibility input, and option sets into route-local application command state
-- `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/ApplicationSectionAtlas.tsx`, `uapi/app/application/ApplicationPreservedShellSurface.tsx`, `uapi/app/application/ApplicationTransactionWorkspace.tsx`, `uapi/app/application/application-run-data.ts`, `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`, `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`, `uapi/app/orbitals/components/OrbitalsModelsPane.tsx`, `uapi/components/base/engi/notifications/notification-presentation.ts`, `uapi/components/base/engi/layout/user-menu.tsx`
+- `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/ApplicationSectionAtlas.tsx`, `uapi/app/application/ApplicationPreservedShellSurface.tsx`, `uapi/app/application/ApplicationTransactionWorkspace.tsx`, `uapi/app/application/application-run-data.ts`, `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`, `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`, `uapi/app/orbitals/components/OrbitalsModelsPane.tsx`, `uapi/components/base/bitcode/notifications/notification-presentation.ts`, `uapi/components/base/bitcode/layout/user-menu.tsx`
   test coverage:
   `uapi/tests/applicationCommandPresentation.test.ts`,
   `uapi/tests/applicationFlowGuide.test.ts`,
@@ -344,17 +345,17 @@ Current active assignments:
   `packages/bitcode/test/proven-generator.test.js`
   proof surface:
   explicit first+second-gate closure witness for the near-term V26 commit boundary, including third-gate preparation posture before full V26 promotion
-- `README.md`, `uapi/README.md`, `packages/bitcode/README.md`, `uapi/app/application/README.md`, `uapi/app/auxillaries/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/engi/README.md`, `uapi/components/base/engi/execution/README.md`
+- `README.md`, `uapi/README.md`, `packages/bitcode/README.md`, `uapi/app/application/README.md`, `uapi/app/auxillaries/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/bitcode/README.md`, `uapi/components/base/bitcode/execution/README.md`
   test coverage:
   generated file-presence checks inside `.engi/v26-gate-checkpoint-report.json` plus spec-family validation
   proof surface:
   second-gate documentation/refurbishment closure for the active Bitcode root, route, orbital, execution, shared-component, and package owners
-- `uapi/app/(root)/components/MarketingLandingPage.tsx`, `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`, `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`, `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-copy.ts`, `uapi/app/(root)/components/PublicDocsPageContent.tsx`, `uapi/app/docs/page.tsx`, `uapi/app/demo-video/page.tsx`, `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`, `uapi/app/(root)/components/marketing-operator-guide-assets.ts`
+- `uapi/app/(root)/components/MarketingLandingPage.tsx`, `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`, `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`, `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`, `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`, `uapi/components/base/bitcode/layout/footer.tsx`, `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`, `uapi/app/(root)/components/PublicDocsPageContent.tsx`, `uapi/app/docs/page.tsx`, `uapi/app/demo-video/page.tsx`, `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`, `uapi/app/(root)/components/marketing-operator-guide-assets.ts`
   test coverage:
   `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/footerPublicShell.test.tsx`, `uapi/tests/marketingOperatorGuideCard.test.tsx`, `uapi/tests/publicDocsPageContent.test.tsx`, and `uapi/tests/e2e/landing.mobile-scroll.spec.ts`
   proof surface:
   mounted third-gate public-shell start, including shared `Network` / `Transactions` / `Docs` / `Auxillaries` vocabulary, a real `/docs` public teaching surface with route cards and inline widgets, guest auxillary-entry CTA posture, a landing shell that no longer carries live `ComingSoon*` owners or `coming-soon-*` stylesheet imports, a mounted landing owner that now delegates hero/guide/preview/shared data into clearer carriers, a progressive terminal preview that collapses into a compact public/mobile summary before wider-shell detail, landing ambience that suppresses orbital rings/pointer glow/oversized blur on smaller or reduced-motion shells, and a docs-owned walkthrough path that no longer narrates Bitcode through demo-era or developer-path copy or preserve ordered demo-era guide-media compatibility
-- `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/engi/layout/nav.tsx`, `uapi/components/base/engi/layout/NavBrand.tsx`, `uapi/components/base/engi/layout/workspace-surface.ts`, `uapi/components/base/engi/layout/footer.tsx`, `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
+- `uapi/app/(root)/components/PublicShellFrame.tsx`, `uapi/components/base/bitcode/layout/nav.tsx`, `uapi/components/base/bitcode/layout/NavBrand.tsx`, `uapi/components/base/bitcode/layout/workspace-surface.ts`, `uapi/components/base/bitcode/layout/footer.tsx`, `uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`
   test coverage:
   `uapi/tests/navPublicShell.test.tsx`, `uapi/tests/navBrand.test.tsx`, and `uapi/tests/navWorkspaceChrome.test.tsx`
   proof surface:
@@ -423,7 +424,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/applicationActionWorkbenchCard.test.tsx`
   proof surface:
-  retained late-Engi design-system card reuse under Bitcode-owned action composition, now grounded in shared execution-level metric, row, and chip carriers
+  retained late-stage design-system card reuse under Bitcode-owned action composition, now grounded in shared execution-level metric, row, and chip carriers
 - `uapi/app/application/application-transactions.ts`
   test coverage:
   `uapi/tests/applicationTransactions.test.ts`
@@ -444,12 +445,12 @@ Current active assignments:
   `uapi/tests/applicationTransactionQuery.test.ts`
   proof surface:
   deterministic parsing, persistence, compatibility fallback, detail-focus persistence, `transaction`-preferred detail routing, shared default filter/pagination carriers, route-owned pagination carriers, and reset behavior for route-owned transaction query state
-- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
   test coverage:
   `uapi/tests/bitcodeTransactionActiveFilters.test.ts`
   proof surface:
   deterministic normalization of non-default transaction filters into readable active-filter chips plus one-at-a-time default reset behavior
-- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
   test coverage:
   `uapi/tests/bitcodeTransactionsActiveFilters.test.tsx`
   proof surface:
@@ -479,12 +480,12 @@ Current active assignments:
   `uapi/tests/applicationTransactionDetailCards.test.tsx`
   proof surface:
   explicit history detail carrier inside selected-transaction detail
-- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
   test coverage:
   `uapi/tests/bitcodeDetailCollection.test.tsx`
   proof surface:
   reusable execution-level carrier for proof/history-style transaction detail collections
-- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
   test coverage:
   `uapi/tests/bitcodeDetailPanel.test.tsx`
   proof surface:
@@ -494,102 +495,102 @@ Current active assignments:
   lint plus localhost `/application` verification with inline closure follow-through mounted in selected-transaction detail
   proof surface:
   application-owned lower closure reading inside the selected-transaction carrier rather than shell-section-only follow-through
-- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
   test coverage:
   lint plus application-level verification through the route-local transactions carrier
   proof surface:
   reusable base-component table carrier for searchable Bitcode transaction master-detail UI
-- `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
   test coverage:
   lint plus application-level verification through the transactions master carrier
   proof surface:
   reusable overview metrics and mode posture carrier for transaction-master SRP decomposition
-- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
   test coverage:
   lint plus `uapi/tests/applicationTransactions.test.ts` and `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`
   proof surface:
   reusable field-filter and sort-control carrier for transaction-master SRP decomposition, including explicit accessible control naming under shared explainers
-- `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
   test coverage:
   lint plus application-level verification through the transactions master carrier
   proof surface:
   reusable row-selection and detail-entry carrier for transaction-master SRP decomposition, including shared header explainers
-- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
   test coverage:
   `uapi/tests/bitcodeTransactionsPagination.test.tsx`
   proof surface:
   reusable pagination carrier for the route-owned Bitcode transactions master surface, including shared page-size explainers
-- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
   test coverage:
   `uapi/tests/bitcodeTransactionDataMode.test.ts`
   proof surface:
   typed source-mode contract for transaction overview, support-rail labeling, and review-fallback posture across the Bitcode transaction workspace
-- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
   test coverage:
   `uapi/tests/bitcodeInlineExplainer.test.tsx`
   proof surface:
   reusable second-gate explainer/tooltip carrier for the transactions surface
-- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadInspector.test.tsx`
   proof surface:
   reusable visual-vs-raw payload carrier with copy support, payload metadata, structured payload summaries, and shared explainers for selected-transaction detail
-- `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadShape.test.tsx`
   proof surface:
   reusable structured payload summary carrier for selected-transaction detail, exposing root kind, top-level counts, and previewable field/item posture before raw JSON inspection
-- `uapi/components/base/engi/execution/BitcodePayloadTree.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadTree.test.tsx`
   proof surface:
   reusable bounded nested payload-tree carrier for selected-transaction detail, exposing structural JSON fields and types before raw inspection
-- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
   test coverage:
   `uapi/tests/bitcodeDetailRowList.test.tsx`
   proof surface:
   reusable key-value row carrier for SRP-aligned selected-transaction identity and closure reading
-- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
   test coverage:
   `uapi/tests/bitcodeMetricGrid.test.tsx`
   proof surface:
   reusable metric-grid carrier for selected-transaction overview and closure follow-through
-- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
   test coverage:
   browser verification and card-level integration through `uapi/tests/applicationTransactionDetailCards.test.tsx`
   proof surface:
   reusable chip-cloud carrier for branch artifacts and later selected-transaction detail token clouds
-- `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
   test coverage:
   `uapi/tests/bitcodeActionPillRow.test.tsx`
   proof surface:
   reusable action-pill carrier for selected-transaction verification, settlement, branch, and history follow-through inside transaction detail
-- `uapi/components/base/engi/execution/BitcodeExecutionStreamPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
   test coverage:
   `uapi/tests/bitcodeExecutionStreamPanel.test.tsx`
   proof surface:
   reusable execution-stream carrier for shared header/log/work-update composition across `/application`, conversations, and `/executions`
-- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
   test coverage:
   covered indirectly through `uapi/tests/bitcodeInlineExplainer.test.tsx`, `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`, `uapi/tests/bitcodePayloadInspector.test.tsx`, `uapi/tests/bitcodePayloadShape.test.tsx`, and `uapi/tests/bitcodePayloadTree.test.tsx`
   proof surface:
   centralized explainer-copy contract for transaction filters, headers, pagination, raw payload posture, structured payload posture, and nested payload-tree posture
-- `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadDetailCard.test.tsx`
   proof surface:
   reusable selected-transaction card shell that composes payload inspection and action pills into one execution-level carrier
-- `uapi/components/base/engi/execution/BitcodePayloadRowsCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadRowsCard.test.tsx`
   proof surface:
   reusable payload-plus-rows carrier for selected-transaction identity and other row-shaped Bitcode detail cards
-- `uapi/components/base/engi/execution/BitcodePayloadCollectionCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
   test coverage:
   `uapi/tests/bitcodePayloadCollectionCard.test.tsx`
   proof surface:
   reusable payload-plus-collection carrier for proof/history and other list-shaped Bitcode detail cards
-- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
   test coverage:
   imported through `uapi/tests/applicationTransactions.test.ts`, `uapi/tests/applicationTransactionQuery.test.ts`, and `uapi/tests/bitcodeTransactionsPagination.test.tsx`
   proof surface:
@@ -694,7 +695,7 @@ Current active assignments:
   `uapi/tests/applicationTransactionActivity.test.ts`
   proof surface:
   deterministic normalization of retained execution events into application-owned Bitcode run-activity detail
-- `uapi/components/base/engi/activity/bitcode-activity-model.ts`
+- `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`
   test coverage:
   `uapi/tests/bitcodeActivityModel.test.ts`
   proof surface:
@@ -760,7 +761,7 @@ Required closure posture:
   test coverage:
   `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
-  fifth-gate deliverable pipeline closure so active bring-up, default branch naming, and LLM env contracts read as Bitcode instead of Engi
+  fifth-gate deliverable pipeline closure so active bring-up, default branch naming, and LLM env contracts read as Bitcode instead of their old-brand predecessors
 - `packages/parsing/src/parsing.ts`
   test coverage:
   `packages/bitcode/test/v26-active-product-naming.test.js`
@@ -770,17 +771,17 @@ Required closure posture:
   test coverage:
   `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
-  fifth-gate retained package fixture/doc closure so Bitcode-facing ChatGPT App and Vercel fixture surfaces no longer present Engi-era team/org/product strings
+  fifth-gate retained package fixture/doc closure so Bitcode-facing ChatGPT App and Vercel fixture surfaces no longer present old-brand team/org/product strings
 - `packages/generic-tools/{repository-setup/package.json,repository-setup/src/index.ts,simple-system-text-search/src/index.ts,files-maintaining/src/index.ts,git-interactor/src/index.ts}`
   test coverage:
   `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
-  fifth-gate retained tool-package closure so active package metadata and doc-code teaching no longer present Engi-era product identity
-- `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/engi/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
+  fifth-gate retained tool-package closure so active package metadata and doc-code teaching no longer present old-brand product identity
+- `uapi/{config/features.ts,app/hero-client.tsx,app/(root)/components/MarketingScreenshotSection.tsx,styles/conversations.css,styles/orbital.css,components/base/bitcode/layout/footer.tsx,app/fill-gaps.tsx,tests/footerPublicShell.test.tsx}`
   test coverage:
   `uapi/tests/footerPublicShell.test.tsx`, targeted `next lint`, and `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
-  fifth-gate active front-end runtime closure so live globals, animation identifiers, CSS selectors, and public outbound references no longer carry unreplaced Engi-era product naming or social-handle residue
+  fifth-gate active front-end runtime closure so live globals, animation identifiers, CSS selectors, and public outbound references no longer carry unreplaced old-brand product naming or social-handle residue
 - `packages/{conversations-generics/src/agent/ConversationAgent.ts,lsp/src/index.ts,files/src/securityUtils.ts,generic-llms/src/providers/{google.ts,openai.ts,anthropic.ts},generic-llms/tests/unit/registry.test.ts,web-search/src/orchestrator.ts} + uapi/hooks/useConversationStream.ts`
   test coverage:
   `packages/generic-llms/tests/unit/registry.test.ts` and `packages/bitcode/test/v26-active-product-naming.test.js`
@@ -790,7 +791,7 @@ Required closure posture:
   test coverage:
   `uapi/tests/{apiKeysRoutes,mcpSmoke}.test.ts`, targeted `next lint`, and `packages/bitcode/test/v26-active-product-naming.test.js`
   proof surface:
-  fifth-gate runtime-contract closure so active API-key prefixes, persisted browser-storage keys, pattern-learning keys, mock API-key fixtures, doc-code harness mocks, and shipped Supabase JS artifacts all converge on Bitcode naming instead of carrying silent Engi residue
+  fifth-gate runtime-contract closure so active API-key prefixes, persisted browser-storage keys, pattern-learning keys, mock API-key fixtures, doc-code harness mocks, and shipped Supabase JS artifacts all converge on Bitcode naming instead of carrying silent old-brand residue
 - `packages/bitcode/{src/bitcode-demo.js,src/attestation-model.js,data/state.json,test/core.test.js}`
   test coverage:
   `packages/bitcode/test/{core.test.js,v26-active-product-naming.test.js}`
@@ -800,7 +801,32 @@ Required closure posture:
   test coverage:
   `packages/bitcode/test/{api.test.js,core.test.js,workflow.integration.test.js,v26-active-product-naming.test.js}`
   proof surface:
-  fifth-gate external-realization and need-materialization contract closure so active env controls, local executor schemes, GitHub sample bindings, need artifacts, and Bitcode-core sample branch/runtime refs converge on `BITCODE_V24_*`, `bitcode-local://*`, Bitcode-owned refs, and `BITCODE_NEED.md` instead of preserving `ENGI_V24_*`, `ENGI_NEED.md`, or Engi-branded active protocol examples inside promoted runtime and proof carriers
+  fifth-gate external-realization and need-materialization contract closure so active env controls, local executor schemes, GitHub sample bindings, need artifacts, and Bitcode-core sample branch/runtime refs converge on `BITCODE_V24_*`, `bitcode-local://*`, Bitcode-owned refs, and `BITCODE_NEED.md` instead of preserving pre-Bitcode env ids, legacy need filenames, or old-brand active protocol examples inside promoted runtime and proof carriers
+- `{Makefile,docs/api/conversations-openapi.yaml,packages/email/README.md,uapi/.env.example,internal-docs/{USER-ONBOARDING-AND-SETTINGS,FRONTEND-ARCHITECTURE,DB}.md,.ai/PRODUCT.md}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`, `scripts/check-bitcode-spec-family.mjs`, `scripts/check-bitcode-canonical-inputs.mjs`, and `scripts/generate-bitcode-proven.mjs`
+  proof surface:
+  fifth-gate helper/documentation closure so root helpers, OpenAPI metadata, onboarding docs, internal architecture guides, and package usage examples teach Bitcode/auxillaries/current V26 onboarding and app posture instead of preserving old-brand, compatibility-route, or GA-1 wording in active proof-bearing carriers
+- `{package.json,pnpm-lock.yaml,scripts/start-bitcode-mcp.sh,packages/eslint-plugin-bitcode/*}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate workspace/package-path closure so the root monorepo id, workspace lock links, MCP launcher script path, runtime log flag, and lint-plugin package/docs all converge on Bitcode naming instead of preserving old script paths or old plugin package ids in active filesystem and package carriers
+- `{PRODUCT.md,internal-docs/{THE_CODELESS_CUSTOMER_EXPERIENCE,INTEGRATIONS,CHAT,API}.md,scripts/phase2-complete.sh}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate product/integration documentation closure so top-level product teaching, codeless-customer framing, conversations/API/integration docs, and operator scripts all use Bitcode naming, Bitcode-owned sample orgs/buckets, current share symbols, and repo-relative script paths instead of preserving old-brand product claims or hard-coded historical repo locations
+- `{internal-docs/{TPS,DOC-CODING,PROMPT-ENGINEERING}.md,packages/executions-mcp/src/mcp-server/src/types/index.ts,packages/orm/src/types/database.generated.ts}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate prompt/example/runtime-path closure so internal prompt docs, integration notes, MCP repository-context examples, and generated ORM type output all use Bitcode-owned identities and repo-root examples instead of preserving old mock-route names, old branded prompt constants, stale repo paths, or stray generator banner text in active proof-bearing carriers
+- `packages/digest/{caching/index.ts,caching/__tests__/caching.test.ts,run/digest.ts,run/__tests__/generateDigest.test.ts,jest.config.cjs,tsconfig.test.json,__mocks__/bitcode/logger.ts,__mocks__/lib/git/git.ts,service/README.md}`
+  test coverage:
+  `packages/digest/caching/__tests__/caching.test.ts`, `packages/digest/run/__tests__/generateDigest.test.ts`, and `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate digest runtime-path closure so cache roots, digest output dirs, clone dirs, logger mock paths, and service docs all converge on `/tmp/bitcode/*` and canonical Bitcode mock ownership instead of preserving `/tmp/engi/*` or `__mocks__/engi/*` in active runtime and test carriers
 
 ## Module namespace proof note
 

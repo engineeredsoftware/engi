@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import BitcodePayloadCollectionCard from '@/components/base/engi/execution/BitcodePayloadCollectionCard';
+import BitcodePayloadCollectionCard from '@/components/base/bitcode/execution/BitcodePayloadCollectionCard';
 
 import type { ApplicationClosureProofFamily } from './application-closure-state';
 

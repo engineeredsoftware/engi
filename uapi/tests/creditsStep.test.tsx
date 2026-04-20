@@ -2,10 +2,10 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
-import { useAuth } from '@/components/base/engi/auth/AuthProvider';
+import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
+jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 

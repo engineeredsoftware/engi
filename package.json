@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "engi-monorepo",
+  "name": "bitcode-monorepo",
   "version": "0.0.0",
   "engines": {
     "node": ">=21"
@@ -17,7 +17,7 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.1",
-    "eslint-plugin-engi": "workspace:*",
+    "eslint-plugin-bitcode": "workspace:*",
     "playwright": "^1.31.0",
     "typescript": "^5.8.3",
     "@modelcontextprotocol/inspector": "^0.17.2"
@@ -51,7 +51,7 @@
     "prelint:agents": "pnpm run build:eslint-plugin",
     "lint:fix": "eslint packages --ext .ts,.tsx --fix",
     "test": "pnpm -r test",
-    "build:eslint-plugin": "pnpm -C packages/eslint-plugin-engi run build",
+    "build:eslint-plugin": "pnpm -C packages/eslint-plugin-bitcode run build",
     "tail:local": "node ./scripts/tail-logs.js --env local",
     "tail:staging": "node ./scripts/tail-logs.js --env staging",
     "tail:production": "node ./scripts/tail-logs.js --env production",
@@ -66,7 +66,7 @@
     "db:squash": "bash scripts/db-squash.sh",
     "render:prompts": "pnpm -C packages/pipelines/deliverable exec ts-node --transpile-only scripts/render-prompts.ts",
     "render:prompts:all": "pnpm -C packages/pipelines/deliverable exec ts-node --transpile-only scripts/render-prompts.ts --scope=all",
-    "mcp:inspect": "pnpm exec mcp-inspector --stdio-command ./scripts/start-engi-mcp.sh"
+    "mcp:inspect": "pnpm exec mcp-inspector --stdio-command ./scripts/start-bitcode-mcp.sh"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

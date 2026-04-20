@@ -4,11 +4,11 @@ import type {
   TransactionOwnership,
   TransactionPagination,
   TransactionSort,
-} from '@/components/base/engi/execution/bitcode-transaction-types';
+} from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import {
   BITCODE_TRANSACTION_PAGE_SIZES,
   DEFAULT_TRANSACTION_PAGINATION,
-} from '@/components/base/engi/execution/bitcode-transaction-types';
+} from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import { buildApplicationTransactionFilters } from './application-transactions';
 

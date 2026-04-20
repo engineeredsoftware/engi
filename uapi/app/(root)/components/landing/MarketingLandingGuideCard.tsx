@@ -3,7 +3,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 
-import { BITCODE_PUBLIC_COPY } from '@/components/base/engi/layout/bitcode-public-copy';
+import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
 
 import { animatedMotionStyle, entranceEase } from './marketing-landing-shared';
 

@@ -1,1 +1,1 @@
-export { default } from '@/components/base/engi/execution/integrations-selector';
+export { default } from '@/components/base/bitcode/execution/integrations-selector';

@@ -5,10 +5,10 @@
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useState, useRef, useMemo, Suspense } from 'react';
-import MultiLineTypingAnimation from '@/components/base/engi/multi-line-typing-animation';
-import QuantumButton from '@/components/base/engi/quantum-button';
+import MultiLineTypingAnimation from '@/components/base/bitcode/multi-line-typing-animation';
+import QuantumButton from '@/components/base/bitcode/quantum-button';
 import ScrollDown from './(root)/components/MarketingScrollDown';
-const OrbitalRings = dynamic(() => import('@/components/base/engi/auxillaries/orbital-rings'), { loading: () => null });
+const OrbitalRings = dynamic(() => import('@/components/base/bitcode/auxillaries/orbital-rings'), { loading: () => null });
 import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { FEATURE_FLAGS } from '@/config/features';
 import { useUserData } from '@/hooks/useUserData';

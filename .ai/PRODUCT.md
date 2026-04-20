@@ -1,6 +1,6 @@
-# Engi GA-1 Product Guide
+# Bitcode V26 Product Guide
 
-This document is the source-of-truth description of the shipping GA-1 experience. Every section maps directly to code in this repository; keep it synchronized whenever source changes.
+This document is the source-of-truth description of the shipping Bitcode V26 experience. Every section maps directly to code in this repository; keep it synchronized whenever source changes.
 
 ## Experience Gates
 
@@ -53,7 +53,9 @@ The Develop gate is the only gate that mutates customer repositories. It is comp
 
 ## User Flow & UI Surfaces
 
-- Unified executables page lives under `/executions`; SSR wrapper keeps `runId` compatibility (`uapi/app/executions/page.tsx`).
+- Activity compatibility page lives under `/executions`; SSR wrapper keeps `runId` compatibility while teaching merged-world activity (`uapi/app/executions/page.tsx`).
+- Transactions write-space lives under `/application`.
+- Auxillaries live under `/auxillaries/*`, with `/orbitals/*` retained only as compatibility carriers.
 - `ExecutionsPageClient` orchestrates repository selection, template persistence, model selection, attachment intake, and iteration timers (`uapi/app/executions/components/ExecutionsPageClient.tsx:55-200`).
 - Onboarding gate checks for a VCS connection and positive credit balance before allowing execution (`ExecutionsPageClient.tsx:176-197`).
 - SSE state hydrates UI components through `useExecutionState` and `PipelineExecutionLog`.
@@ -67,7 +69,7 @@ The Develop gate is the only gate that mutates customer repositories. It is comp
 
 ## Data & Persistence
 
-- Primary tables: `executions`, `execution_events`, `phase_executions` (current GA-1), plus append-only ledgers (`user_credits`, `user_credit_usages`, `generations`). Schema lives in `supabase/migrations/**`.
+- Primary tables: `executions`, `execution_events`, `phase_executions`, plus append-only ledgers (`user_credits`, `user_credit_usages`, `generations`) and auxillary user-state carriers. Schema lives in `supabase/migrations/**`.
 - ORM exports typed accessors in `packages/orm/src/index.ts`, aligning with SSOT declared in `packages/orm/src/types/database.ts`.
 - Pipeline iteration metadata (self-instruction, work updates) stored via execution stores; digest guide consumes them to produce `.ai` diffs.
 

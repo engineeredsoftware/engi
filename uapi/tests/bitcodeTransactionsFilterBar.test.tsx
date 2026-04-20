@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodeTransactionsFilterBar from '@/components/base/engi/execution/BitcodeTransactionsFilterBar';
+import BitcodeTransactionsFilterBar from '@/components/base/bitcode/execution/BitcodeTransactionsFilterBar';
 
 describe('BitcodeTransactionsFilterBar', () => {
   it('renders shared explainers and still emits filter changes', () => {

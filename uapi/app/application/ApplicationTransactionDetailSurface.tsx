@@ -6,10 +6,10 @@ import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDeta
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
-} from '@/components/base/engi/execution/bitcode-transaction-data-mode';
-import DeliverablesCardsPanel from '@/components/base/engi/execution/DeliverablesCardsPanel';
-import DeliverablesDocPanel from '@/components/base/engi/execution/DeliverablesDocPanel';
-import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
+} from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
+import DeliverablesCardsPanel from '@/components/base/bitcode/execution/DeliverablesCardsPanel';
+import DeliverablesDocPanel from '@/components/base/bitcode/execution/DeliverablesDocPanel';
+import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import ApplicationTransactionDetailActionBar from './ApplicationTransactionDetailActionBar';
 import ApplicationTransactionActivitySurface from './ApplicationTransactionActivitySurface';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodePayloadInspector from '@/components/base/engi/execution/BitcodePayloadInspector';
+import BitcodePayloadInspector from '@/components/base/bitcode/execution/BitcodePayloadInspector';
 
 describe('BitcodePayloadInspector', () => {
   beforeEach(() => {

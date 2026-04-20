@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { mountBitcodeApplicationShell } from '@bitcode/bitcode/src/client-entry.js';
-import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
+import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isUserOrbitalMockMode } from '@/lib/mock-review-mode';

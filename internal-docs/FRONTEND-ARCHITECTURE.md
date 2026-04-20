@@ -1,17 +1,17 @@
-GA‑1 Frontend Architecture Guide
+Bitcode V26 Frontend Architecture Guide
 
 Principles
 - Single surface for executions: GA‑1 ships only deliverables; the second executions tab is a Measure pipeline placeholder that currently mirrors deliverables postprocessed output.
 - CSS Modules everywhere: local, predictable, and fast. No styled‑jsx.
-- Shared base primitives live in `app/components/base/engi`; vendor UI in `app/components/base/shadcn`.
+- Shared base primitives live in `app/components/base/bitcode`; vendor UI in `app/components/base/shadcn`.
 - Minimize global CSS; prefer module classes and :global only for legacy class names.
 - Motion‑safe: respect prefers‑reduced‑motion, scope keyframes.
 
 Directory Map (selected)
-- `components/base/engi/*` — Engi primitives (no prefix)
+- `components/base/bitcode/*` — retained Bitcode primitives in the current filesystem carrier
 - `components/base/shadcn/*` — Vendor UI primitives (ShadCN)
 - `app/components/conversations/*` — overlay experience impl (formerly Big‑O)
-- `app/components/orbital/*` — overlay experience impl (formerly User Orbital)
+- `app/components/orbital/*` — historical overlay implementation carrier
 - `app/conversations/components/*` — app-layer helper(s) for conversations (e.g., AddConversationsToApp)
 - `app/orbital/components/*` — app-layer helper(s) for orbital (e.g., AddOrbitalToApp)
 - `app/api/conversations/*` — conversations API routes
@@ -24,15 +24,15 @@ Prefixes
 - Conversation*: conversations overlay scope
 - Orbital*: overlays/settings scope
 - Marketing*: marketing-only components
-- Base Engi primitives: no prefix
+- Base Bitcode primitives: no prefix
 - ShadCN vendor primitives: imported from `components/base/shadcn/*` (vendor family provides the namespace)
 
 Shared Primitives
-- MetalPlate: `components/base/engi/metal-plate.tsx`
-- RevealingSoonOverlay: `components/base/engi/overlays/RevealingSoonOverlay.tsx`
-- GlassyInput: `components/base/engi/inputs/GlassyInput.tsx`
-- Glassy menus: `components/base/engi/menus/glassy-menu.module.css`
-- Glassy selects: `components/base/engi/selects/glassy-select-styles.ts`
+- MetalPlate: `components/base/bitcode/metal-plate.tsx`
+- RevealingSoonOverlay: `components/base/bitcode/overlays/RevealingSoonOverlay.tsx`
+- GlassyInput: `components/base/bitcode/inputs/GlassyInput.tsx`
+- Glassy menus: `components/base/bitcode/menus/glassy-menu.module.css`
+- Glassy selects: `components/base/bitcode/selects/glassy-select-styles.ts`
 
 Styling Conventions
 - Always use `*.module.css` next to the component.
@@ -50,13 +50,13 @@ Testing & Stories
 
 Migration Notes
 - Big‑O → Conversations: re-home under `app/components/conversations/*` and prefix components `Conversation*`.
-- User Orbital → Orbital: re-home under `app/components/orbital/*` and prefix components `Orbital*`.
+- Historical orbital overlay: retained only as a filesystem carrier while canonical product language is auxillaries.
 - Execution-only components: place under `app/executions/components` with `Execution*` prefix.
 - Marketing components: place under `app/components/marketing/*` with `Marketing*` prefix.
 
-## The Three Experience Categories
+## The Four Experience Categories
 
-The Engi app consists of three core experience categories, each serving a distinct purpose:
+The Bitcode application consists of four core experience categories, each serving a distinct purpose:
 
 ### 1. Conversations 🗨️
 - **Type**: Overlay experience
@@ -68,25 +68,34 @@ The Engi app consists of three core experience categories, each serving a distin
   - Rich text input with token awareness
   - Embedded pipeline execution logs
 
-### 2. Orbitals 🌍
+### 2. Auxillaries 🌍
 - **Type**: Modal overlay experience
 - **Access**: User avatar menu or "Login" button
-- **Purpose**: Account management and settings hub
+- **Purpose**: Account, connections, interfaces, and `$BTD` hub
 - **Key Features**:
-  - Four main panes (Profile, Connects, Credits, Models)
+  - Four main panes (Profile, Connects, Interfaces, BTD)
   - Orbital ring animations (GPU-accelerated)
   - Instant loading with React Query
   - Onboarding flow integration
 
-### 3. Executions 🚀
+### 3. Activity 🚀
 - **Type**: Page experience
-- **Routes**: `/executions?type=pipeline:deliverables` (primary). The second nav slot is reserved for the upcoming Measure pipeline and currently redirects back to deliverables.
-- **Purpose**: Pipeline execution management
+- **Routes**: `/executions` compatibility route teaching the merged-world `activity` master/detail surface
+- **Purpose**: Transaction-first activity search, monitoring, and proof playback
 - **Key Features**:
-  - Prominent DDD gate indicator (stepwise 1-2-3)
-  - Real-time execution monitoring
-  - Instructions system integration
-  - File diff visualization
+  - Searchable master/detail posture
+  - Real-time transaction and execution monitoring
+  - Proof playback and closures
+  - Public, buyer, reviewer, and internal projections
+
+### 4. Transactions
+- **Type**: Page experience
+- **Routes**: `/application`
+- **Purpose**: Give-space and need-space transaction authoring, review, and closure
+- **Key Features**:
+  - Write-space for supply, need, proof, and settlement operations
+  - Activity-linked detail surfaces
+  - Conversational and auxillary bridge surfaces
 
 ## Visual Design System
 
@@ -143,9 +152,10 @@ App
 ├── Nav (fixed header with credits tracker)
 ├── ClientLayoutInner
 │   ├── ConversationsOverlay (floating/sidebar/fullscreen)
-│   ├── Orbital (modal overlay)
+│   ├── Auxillaries overlay
 │   └── Page Content
-│       └── Executions (main content area)
+│       ├── Activity
+│       └── Transactions
 └── Footer
 ```
 
@@ -153,10 +163,12 @@ App
 
 ### Route Structure
 - `/` - Marketing landing
-- `/executions` - Execution management
-- `/orbitals/*` - Settings sub-routes (models, connects, credits, users)
+- `/executions` - Compatibility route for activity
+- `/application` - Transactions
+- `/auxillaries/*` - Canonical auxillary sub-routes
+- `/orbitals/*` - Redirect-only compatibility carriers
 - Conversations - Overlay (no route)
-- Orbital - Modal (no route)
+- Auxillaries - Modal (no route)
 
 ### Keyboard Shortcuts
 - `Cmd+K`: Open conversations
@@ -198,7 +210,7 @@ The Guide Indicator displays the DDD (Design → Develop → Digest) guide posit
    - Dashed connector from previous
 
 ### Component Implementation
-**File**: `/uapi/components/base/engi/execution/GuideIndicator.tsx`
+**File**: `/uapi/components/base/bitcode/execution/GuideIndicator.tsx`
 
 **Props**:
 ```typescript

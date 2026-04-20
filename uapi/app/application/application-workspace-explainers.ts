@@ -1,4 +1,4 @@
-import type { BitcodeExplainer } from '@/components/base/engi/execution/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;

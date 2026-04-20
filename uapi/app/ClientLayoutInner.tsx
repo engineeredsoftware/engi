@@ -5,13 +5,13 @@ import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@bitcode/supabase/ssr/client'
-import { AuthProvider } from '@/components/base/engi/auth/AuthProvider'
+import { AuthProvider } from '@/components/base/bitcode/auth/AuthProvider'
 import AuxillariesProvider from '@/app/auxillaries/components/AuxillariesProvider'
 import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
 import { buildMockReviewUser, isUserOrbitalMockMode } from '@/lib/mock-review-mode'
-import { shouldHideWorkspaceFooter } from '@/components/base/engi/layout/workspace-surface'
+import { shouldHideWorkspaceFooter } from '@/components/base/bitcode/layout/workspace-surface'
 
 // Lazy-load toast infrastructure to avoid increasing initial JS bundle – the
 // component itself is tiny but pulls in Radix primitives.
@@ -60,8 +60,8 @@ const prefetchHeavyComponents = () => {
     setTimeout(() => {
       if (!window.__sidebarsPrefetched) {
         window.__sidebarsPrefetched = true;
-        import('@/components/base/engi/layout/sidebars/left-sidebar').catch(() => {});
-        import('@/components/base/engi/layout/sidebars/right-sidebar').catch(() => {});
+        import('@/components/base/bitcode/layout/sidebars/left-sidebar').catch(() => {});
+        import('@/components/base/bitcode/layout/sidebars/right-sidebar').catch(() => {});
       }
     }, 3000);
   }
@@ -76,11 +76,11 @@ declare global {
 
 // Dynamically import sidebar components with lazy loading
 const LeftSidebar = dynamic(
-  () => import('@/components/base/engi/layout/sidebars/left-sidebar'),
+  () => import('@/components/base/bitcode/layout/sidebars/left-sidebar'),
   { ssr: false, loading: () => null }
 )
 const RightSidebar = dynamic(
-  () => import('@/components/base/engi/layout/sidebars/right-sidebar'),
+  () => import('@/components/base/bitcode/layout/sidebars/right-sidebar'),
   { ssr: false, loading: () => null }
 )
 
@@ -90,10 +90,10 @@ const NavSkeleton = () => (
   <div className="h-36 w-full skeleton-shine" />
 );
 const Nav = dynamic(
-  () => import('@/components/base/engi/layout/nav'),
+  () => import('@/components/base/bitcode/layout/nav'),
   { ssr: false, loading: () => <NavSkeleton /> }
 )
-const Footer = dynamic(() => import('@/components/base/engi/layout/footer'), { ssr: false })
+const Footer = dynamic(() => import('@/components/base/bitcode/layout/footer'), { ssr: false })
 
 // Content skeleton
 // eslint-disable-next-line react/no-multi-comp

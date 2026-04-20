@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "78ab77660c96d7a8a108089987996df15032487d",
-  "generatedAt": "2026-04-20T13:42:02-03:00",
+  "proofSourceCommit": "eb730c5281ceffaa2e67524775c521fc1214981c",
+  "generatedAt": "2026-04-20T15:02:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -75,9 +75,9 @@
           "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
           "uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
           "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
-          "uapi/components/base/engi/layout/nav.tsx",
-          "uapi/components/base/engi/layout/user-menu.tsx",
-          "uapi/components/base/engi/notifications/NotificationsWidget.tsx",
+          "uapi/components/base/bitcode/layout/nav.tsx",
+          "uapi/components/base/bitcode/layout/user-menu.tsx",
+          "uapi/components/base/bitcode/notifications/NotificationsWidget.tsx",
           "uapi/styles/orbital.css"
         ],
         "missingFiles": []
@@ -114,8 +114,8 @@
           "packages/bitcode/README.md",
           "uapi/app/application/README.md",
           "uapi/app/orbitals/README.md",
-          "uapi/components/base/engi/README.md",
-          "uapi/components/base/engi/execution/README.md",
+          "uapi/components/base/bitcode/README.md",
+          "uapi/components/base/bitcode/execution/README.md",
           "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
           "packages/bitcode/V26_PROOF_SURFACES.md"
         ],
@@ -163,11 +163,11 @@
           "uapi/app/(root)/components/MarketingLandingPage.tsx",
           "uapi/app/(root)/components/PublicDocsPageContent.tsx",
           "uapi/app/(root)/components/MarketingOperatorGuideCard.tsx",
-          "uapi/components/base/engi/layout/nav.tsx",
-          "uapi/components/base/engi/layout/footer.tsx",
-          "uapi/components/base/engi/layout/NavBrand.tsx",
-          "uapi/components/base/engi/layout/bitcode-public-copy.ts",
-          "uapi/components/base/engi/layout/bitcode-public-explainers.ts"
+          "uapi/components/base/bitcode/layout/nav.tsx",
+          "uapi/components/base/bitcode/layout/footer.tsx",
+          "uapi/components/base/bitcode/layout/NavBrand.tsx",
+          "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+          "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts"
         ],
         "missingFiles": []
       },

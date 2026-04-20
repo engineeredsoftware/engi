@@ -2,7 +2,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
 
-jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
+jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   useAuth: () => ({ user: null }),
 }));
 
@@ -15,7 +15,7 @@ jest.mock('@/hooks/useUserData', () => ({
   }),
 }));
 
-jest.mock('@/components/base/engi/vcs/VCSIntegrationPanel', () => ({
+jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
   VCSIntegrationPanel: () => <div>GitHub panel</div>,
 }));
 

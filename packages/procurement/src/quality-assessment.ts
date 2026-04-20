@@ -12,6 +12,73 @@ import type {
   MarksOfMeasurement 
 } from './types';
 
+type BitcodeMeasurementResult = {
+  score: number;
+  issues: string[];
+  metrics: Record<string, number>;
+};
+
+async function measureBitcodeDeliverable(
+  content: string,
+  _options: {
+    includeCodeQuality?: boolean;
+    includeComplexity?: boolean;
+    includeMaintainability?: boolean;
+  } = {},
+): Promise<BitcodeMeasurementResult> {
+  const lines = content.split('\n');
+  const nonEmptyLines = lines.filter(line => line.trim().length > 0).length;
+  const todoCount = (content.match(/\b(?:TODO|FIXME|XXX)\b/g) || []).length;
+  const anyCount = (content.match(/\bany\b/g) || []).length;
+  const functionCount = (content.match(/\bfunction\b|=>/g) || []).length;
+  const conditionalCount = (content.match(/\bif\b|\bswitch\b|\bcase\b|\bcatch\b/g) || []).length;
+  const testSignalCount = (content.match(/\b(?:describe|it|test|expect)\s*\(/g) || []).length;
+
+  const issues: string[] = [];
+  let score = 70;
+
+  if (todoCount > 0) {
+    issues.push(`Contains ${todoCount} TODO/FIXME markers`);
+    score -= Math.min(12, todoCount * 3);
+  }
+
+  if (anyCount > 0) {
+    issues.push(`Uses ${anyCount} explicit any types`);
+    score -= Math.min(10, anyCount * 2);
+  }
+
+  if (conditionalCount > Math.max(8, functionCount * 3)) {
+    issues.push('Control-flow complexity appears high for the file size');
+    score -= 8;
+  }
+
+  if (testSignalCount > 0) {
+    score += 6;
+  }
+
+  if (/\btry\b/.test(content) && /\bcatch\b/.test(content)) {
+    score += 4;
+  }
+
+  if (/\b(?:README|Usage|Example)\b/.test(content)) {
+    score += 3;
+  }
+
+  return {
+    score: Math.max(0, Math.min(100, score)),
+    issues,
+    metrics: {
+      lineCount: lines.length,
+      nonEmptyLineCount: nonEmptyLines,
+      functionCount,
+      conditionalCount,
+      todoCount,
+      anyCount,
+      testSignalCount,
+    },
+  };
+}
+
 export interface QualityAssessmentResult {
   overallScore: number;        // 0-100 final quality score
   dimensionScores: {
@@ -235,7 +302,7 @@ export class AutomatedQualityAssessment {
         codeDeliverables++;
         
         // Use measuring pipeline for code analysis
-        const measureResult = await measureEngi(deliverable.content, {
+        const measureResult = await measureBitcodeDeliverable(deliverable.content, {
           includeCodeQuality: true,
           includeComplexity: true,
           includeMaintainability: true

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Toaster as SonnerToaster, toast as sonnerToast } from 'sonner';
-import { BitcodeStatusIcon } from '@/components/base/engi/icons/StatusIcon';
-import { BitcodePhaseIcon } from '@/components/base/engi/icons/PhaseIcon';
+import { BitcodeStatusIcon } from '@/components/base/bitcode/icons/StatusIcon';
+import { BitcodePhaseIcon } from '@/components/base/bitcode/icons/PhaseIcon';
 
 // Bitcode-styled Toaster wrapper
 // Aesthetic: Dark, glassy surface with neon mint glow accents (#65FEB7 / #67feb7),

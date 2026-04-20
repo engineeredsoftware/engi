@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ExecutionTaskInput from '@/components/base/engi/execution/ExecutionTaskInput';
+import ExecutionTaskInput from '@/components/base/bitcode/execution/ExecutionTaskInput';
 
 const meta = {
   title: 'Kitchen-Sink/ExecutionTaskInput',

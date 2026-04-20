@@ -15,5 +15,5 @@ export async function getFileContent(): Promise<string> {
 }
 
 export async function cloneRepository(): Promise<string> {
-  return '/tmp/engi/mock-repo';
+  return '/tmp/bitcode/mock-repo';
 }

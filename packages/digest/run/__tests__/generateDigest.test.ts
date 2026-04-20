@@ -120,7 +120,7 @@ describe('generateDigest', () => {
     if (repoDir && fs.existsSync(repoDir)) {
       fs.rmSync(repoDir, { recursive: true, force: true });
     }
-    fs.rmSync('/tmp/engi', { recursive: true, force: true });
+    fs.rmSync('/tmp/bitcode', { recursive: true, force: true });
   });
 
   const runDigest = () =>
@@ -153,7 +153,7 @@ describe('generateDigest', () => {
     expect(result.agentDocument).toContain('- What gaps exist in transcription accuracy?');
 
     expect(fs.existsSync(result.digestPath)).toBe(true);
-    expect(fs.existsSync(path.resolve('/tmp/engi/digests', 'AGENTS-digest-test.md'))).toBe(true);
+    expect(fs.existsSync(path.resolve('/tmp/bitcode/digests', 'AGENTS-digest-test.md'))).toBe(true);
   });
 
   it('falls back to default copy when high-level LLM generations fail', async () => {
@@ -181,7 +181,7 @@ describe('generateDigest', () => {
     expect(result.productDocument).toContain('`src/index.ts` — Source implements the voice clip handler entry point.');
 
     expect(fs.existsSync(result.digestPath)).toBe(true);
-    expect(fs.existsSync(path.resolve('/tmp/engi/digests', 'AGENTS-digest-test.md'))).toBe(true);
+    expect(fs.existsSync(path.resolve('/tmp/bitcode/digests', 'AGENTS-digest-test.md'))).toBe(true);
   });
 
   it('handles repositories without usable digests by emitting fallback sections', async () => {
@@ -210,6 +210,6 @@ describe('generateDigest', () => {
     expect(result.agentDocument).toContain('- Confirm Supabase credentials before coding.');
 
     expect(fs.existsSync(result.digestPath)).toBe(true);
-    expect(fs.existsSync(path.resolve('/tmp/engi/digests', 'AGENTS-digest-test.md'))).toBe(true);
+    expect(fs.existsSync(path.resolve('/tmp/bitcode/digests', 'AGENTS-digest-test.md'))).toBe(true);
   });
 });

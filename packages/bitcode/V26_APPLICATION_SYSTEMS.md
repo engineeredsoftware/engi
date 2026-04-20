@@ -82,11 +82,11 @@ Third-gate now has one explicit mounted public-shell owner set rather than an im
 - `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/docs/page.tsx`
 - `uapi/app/demo-video/page.tsx`
-- `uapi/components/base/engi/layout/nav.tsx`
-- `uapi/components/base/engi/layout/NavBrand.tsx`
-- `uapi/components/base/engi/layout/footer.tsx`
-- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
-- `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
+- `uapi/components/base/bitcode/layout/nav.tsx`
+- `uapi/components/base/bitcode/layout/NavBrand.tsx`
+- `uapi/components/base/bitcode/layout/footer.tsx`
+- `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
+- `uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`
 
 Operational rule:
 - the mounted public shell must inherit the same Bitcode-facing operator vocabulary as `/application`
@@ -157,23 +157,23 @@ Current active carriers:
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/application/application-supply-selection.ts`
 - `uapi/app/application/application-transactions.ts`
-- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
-- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
-- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
-- `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
-- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
-- `uapi/components/base/engi/execution/BitcodeExecutionStreamPanel.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadRowsCard.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadCollectionCard.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadTree.tsx`
-- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
 - `packages/bitcode/src/client-entry.js`
 - `packages/bitcode/public/app.js`
 
@@ -216,15 +216,15 @@ Second-gate now makes master detail concrete as a searchable and filterable Bitc
 Current active carriers:
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
 - `uapi/app/application/application-transactions.ts`
-- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
-- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
-- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
-- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 
 Operational rule:
@@ -251,11 +251,11 @@ Current active carriers:
 - `uapi/app/application/ApplicationPageClient.tsx`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
-- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
-- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
 
 Operational rule:
 - `transactionId` remains the primary master-detail selection carrier
@@ -270,14 +270,14 @@ Operational rule:
 Second-gate now treats visual-vs-raw payload inspection as a reusable application/base-component problem instead of an incidental per-card debugging convenience.
 
 Current active carriers:
-- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
-- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
-- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
-- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
-- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
+- `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
 - `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
 - `uapi/app/application/ApplicationTransactionClosureCard.tsx`
 - `uapi/app/application/ApplicationTransactionProofsCard.tsx`
@@ -340,7 +340,7 @@ Current active carriers:
 - `uapi/app/application/application-repository-context.ts`
 - `uapi/app/api/vcs/[provider]/connection/route.ts`
 - `uapi/app/api/vcs/[provider]/repositories/route.ts`
-- `uapi/components/base/engi/vcs/VCSRepositorySelector.tsx`
+- `uapi/components/base/bitcode/vcs/VCSRepositorySelector.tsx`
 
 Operational rule:
 - repository connection posture is application-visible before the deposit chain
@@ -566,9 +566,9 @@ Current active carriers:
 - `uapi/app/application/application-transaction-detail.ts`
 - `uapi/app/api/executions/_shared.ts`
 - `uapi/app/api/executions/history/route.ts`
-- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
-- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
-- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
 - `/api/executions/history/[runId]`
 
 Operational rule:
@@ -588,12 +588,12 @@ Second-gate now also elevates the retained execution/log/work-update system into
 Current active carriers:
 - `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
 - `uapi/app/application/application-run-activity.ts`
-- `uapi/components/base/engi/activity/bitcode-activity-model.ts`
+- `uapi/components/base/bitcode/activity/bitcode-activity-model.ts`
 - `uapi/hooks/usePipelineExecution.ts`
-- `uapi/components/base/engi/execution/pipeline-execution-log.tsx`
-- `uapi/components/base/engi/execution/pipeline-execution-log-header.tsx`
-- `uapi/components/base/engi/execution/WorkUpdatePanel.tsx`
-- `uapi/components/base/engi/notifications/NotificationsWidget.tsx`
+- `uapi/components/base/bitcode/execution/pipeline-execution-log.tsx`
+- `uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx`
+- `uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`
+- `uapi/components/base/bitcode/notifications/NotificationsWidget.tsx`
 
 Operational rule:
 - central master detail owns the selected transaction’s activity read
@@ -620,7 +620,7 @@ Current active carriers:
 Operational rule:
 - conversations and auxillaries are not peer product destinations
 - they are fullscreen application overlays entered from the application frame
-- `uapi/components/base/engi/layout/workspace-surface.ts` is the shared route-classification owner for navbar surface posture and footer suppression across `/application`, `/orbitals`, and `/conversations`
+- `uapi/components/base/bitcode/layout/workspace-surface.ts` is the shared route-classification owner for navbar surface posture and footer suppression across `/application`, `/orbitals`, and `/conversations`
 - unauthenticated workspace chrome exposes deliberate access/create-account actions from the shared navbar instead of falling back to disabled marketing-era CTA behavior
 - marketing footer chrome does not render on operator workspace routes
 - `uapi/app/application/ApplicationOpenConversationsButton.tsx` and `uapi/app/application/ApplicationOpenOrbitalsButton.tsx` are the shared application-owned mode-entry controls for conversation/auxillary transitions
@@ -679,8 +679,8 @@ Current active documentation carriers:
 - `packages/bitcode/README.md`
 - `uapi/app/application/README.md`
 - `uapi/app/orbitals/README.md`
-- `uapi/components/base/engi/README.md`
-- `uapi/components/base/engi/execution/README.md`
+- `uapi/components/base/bitcode/README.md`
+- `uapi/components/base/bitcode/execution/README.md`
 
 Operational rule:
 - the active route, orbital, execution, and package owners that define second-gate Bitcode reality must have current markdown carriers

@@ -41,7 +41,7 @@ This document captures the minimum, critical controls required to begin safe GAâ
 
 ## Tools and Providers Gating
 
-- Gate MCP/tool wrappers behind explicit env flags to avoid bundling unnecessary providers in prod (e.g., `ENGI_ENABLE_MCP_AWS`, `ENGI_ENABLE_MCP_VERCEL`).
+- Gate MCP/tool wrappers behind explicit env flags to avoid bundling unnecessary providers in prod (e.g., `BITCODE_ENABLE_MCP_AWS`, `BITCODE_ENABLE_MCP_VERCEL`).
 - Avoid importing MCP servers into pipeline routes. Use wrappers only.
 
 ## Logging

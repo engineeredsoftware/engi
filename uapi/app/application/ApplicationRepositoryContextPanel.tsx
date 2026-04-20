@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
 
-import { VCSRepositorySelector } from '@/components/base/engi/vcs/VCSRepositorySelector';
+import { VCSRepositorySelector } from '@/components/base/bitcode/vcs/VCSRepositorySelector';
 
 import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';

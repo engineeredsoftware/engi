@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
-import BitcodePayloadDetailCard from '@/components/base/engi/execution/BitcodePayloadDetailCard';
+import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/base/bitcode/execution/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import BitcodePayloadDetailCard from '@/components/base/bitcode/execution/BitcodePayloadDetailCard';
 
 import type { ApplicationTransactionClosureFollowThrough } from './application-transaction-detail';
 

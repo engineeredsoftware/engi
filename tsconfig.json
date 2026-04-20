@@ -168,7 +168,6 @@
       "@bitcode/dockerUtils": ["packages/docker/src/index.ts"],
       "@bitcode/supabase": ["packages/supabase/src/index.ts"],
       // Git helpers alias (defined earlier; keep only one canonical mapping)
-    "@/lib/measure/measureEngi": ["packages/measure/src/measureEngi.ts"],
     "@/lib/validation/validationOTFAdherencePhaseModule": ["packages/validation/validationOTFAdherencePhaseModule.ts"],
     "@/lib/mcp/validation": ["packages/executions-mcp/src/index.ts"],
       "@bitcode/web-search": ["packages/web-search/src/index.ts"],

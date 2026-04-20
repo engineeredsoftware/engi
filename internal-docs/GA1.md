@@ -60,7 +60,7 @@ Single-source tracker for GA-1. Every bullet below maps to concrete source files
 ## 🚧 Remaining GA-1 Work (highest impact first)
 1. **Stripe fulfillment + credit grant** (`uapi/app/api/fulfill-checkout-session/route.ts`, `packages/credits/src/index.ts`)
    - Implement Stripe session lookup, credit issuance, and Orbitals UI success/abort flows; remove the placeholder response so purchases actually grant credits.
-2. **Guide history surfaces** (`uapi/app/executions/components/ExecutionsPageClient.tsx`, `uapi/components/base/engi/execution/*`)
+2. **Guide history surfaces** (`uapi/app/executions/components/ExecutionsPageClient.tsx`, `uapi/components/base/bitcode/execution/*`)
    - Now that metadata contains `gateHistory`, build explicit UI (sidebar panels / timeline) so Design→Develop→Digest transitions are reviewable post-run.
 3. **Guide-aware history persistence** (`packages/pipelines-generics/src/execution/route-pipeline-execution.ts`, `packages/api/src/routes/deliverables.ts`)
    - Extend `gateHistory` with timestamps + short-circuit reasons per transition and ensure `/api/executions/history` exposes the enriched structure.

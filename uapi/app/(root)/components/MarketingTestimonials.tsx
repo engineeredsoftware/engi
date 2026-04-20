@@ -1,5 +1,5 @@
 import { cn } from '@bitcode/styling';
-import Marquee from "@/components/base/engi/magicui/marquee";
+import Marquee from "@/components/base/bitcode/magicui/marquee";
 import { useState } from 'react';
 
 // ---------------------------------------------------------------------------

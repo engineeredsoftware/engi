@@ -1,8 +1,8 @@
-# Engi GA-1 API Architecture
+# Bitcode V26 API Architecture
 
 ## Overview
 
-The Engi API provides RESTful endpoints for the GA-1 intelligence amplification system. The API is built with Next.js App Router, TypeScript, and Supabase, with clear separation between GA-1 and post-GA-1 features.
+The Bitcode API provides RESTful endpoints for the V26 intelligence amplification system. The API is built with Next.js App Router, TypeScript, and Supabase, with clear separation between current V26 surfaces and later-gate features.
 
 ## API Design Principles
 
@@ -311,7 +311,7 @@ Response: {
 - `POST /api/invitations/accept`
 
 ### Measure Pipeline (Planned)
-- Successor to the retired AI Document diff submission flow. Integrates dataset measurements with the $ENGI token economy (see marketing token section `uapi/app/(root)/components/MarketingTokenMetricsSection.tsx`).
+- Successor to the retired AI Document diff submission flow. Integrates dataset measurements with the `$BTD` share economy and broader Bitcode market layer (see marketing token section `uapi/app/(root)/components/MarketingTokenMetricsSection.tsx`).
 - Not deployed yet; placeholder endpoints will live under `/api/measure/*` (history, stream, trigger). Specs tracked in product backlog.
 
 ### Conversations/Chat (Q3 2025)
@@ -489,8 +489,8 @@ const client = createClient({
 // Create deliverable
 const result = await client.deliverables.create({
   task: 'Implement user authentication',
-  repoOwner: 'engi-software',
-  repoName: 'engi'
+  repoOwner: 'bitcode-labs',
+  repoName: 'bitcode'
 });
 
 // Stream execution

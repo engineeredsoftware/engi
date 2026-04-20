@@ -33,9 +33,9 @@ importers:
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
-      eslint-plugin-engi:
+      eslint-plugin-bitcode:
         specifier: workspace:*
-        version: link:packages/eslint-plugin-engi
+        version: link:packages/eslint-plugin-bitcode
       playwright:
         specifier: ^1.31.0
         version: 1.53.2
@@ -401,7 +401,7 @@ importers:
         specifier: workspace:*
         version: link:../sentry
 
-  packages/eslint-plugin-engi:
+  packages/eslint-plugin-bitcode:
     dependencies:
       '@typescript-eslint/utils':
         specifier: ^6.7.4

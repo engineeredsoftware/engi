@@ -2,7 +2,7 @@
 
 ## Overview
 
-Engi provides integrations with external services through two primary systems:
+Bitcode provides integrations with external services through two primary systems:
 1. **VCS Providers** - Version control system abstraction for GitHub, GitLab, Bitbucket
 2. **MCP Tools** - Model Context Protocol tools for external services
 
@@ -160,7 +160,7 @@ abstract class VCSProvider implements AbstractVCSProvider {
 
 ### Overview
 
-Engi provides 20+ MCP tool integrations through the `packages/generic-tools/mcps-tools/` directory. Each tool follows a standardized architecture with Tool objects, Zod validation, and comprehensive error handling.
+Bitcode provides 20+ MCP tool integrations through the `packages/generic-tools/mcps-tools/` directory. Each tool follows a standardized architecture with Tool objects, Zod validation, and comprehensive error handling.
 
 ### Available MCP Tools
 
@@ -334,7 +334,7 @@ All MCP tools provide:
 
 ### Usage in Pipelines
 
-MCP tools integrate with Engi pipelines through the agent system:
+MCP tools integrate with Bitcode pipelines through the agent system:
 
 ```typescript
 // Example in a pipeline agent

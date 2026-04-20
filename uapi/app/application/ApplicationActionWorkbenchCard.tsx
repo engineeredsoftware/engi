@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import BitcodeChipCloud from '@/components/base/engi/execution/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/base/bitcode/execution/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import { jumpToShellSection } from './application-shell-reading';
 

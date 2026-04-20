@@ -307,7 +307,7 @@ Critical paths to verify:
 - **Category Support**: Deliverables-specific template categories (Pull Request, PR Review, Issue, Comment)
 
 ### Visual Components
-- **Execute Button** (`uapi/components/base/engi/execution/execute-button.tsx`): Primary action with cancel support
+- **Execute Button** (`uapi/components/base/bitcode/execution/execute-button.tsx`): Primary action with cancel support
 - **ProcessLog** (`process-log.tsx`): Accordion-based execution log display with 45K+ lines
 - **OrbitalBackground** (`orbital-background.tsx`): Animated background effect
 - **VCS Selectors** (`github-selectors.tsx`): Repository/branch/commit selection

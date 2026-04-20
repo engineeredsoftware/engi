@@ -54,6 +54,6 @@ First-and-second-gate checkpoint confidence requires `/application` to be:
 
 ## Related shared systems
 
-- [../../components/base/engi/execution/README.md](../../components/base/engi/execution/README.md)
+- [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)
 - [../auxillaries/README.md](../auxillaries/README.md)
 - [../../../packages/bitcode/README.md](../../../packages/bitcode/README.md)

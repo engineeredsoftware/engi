@@ -1,84 +1,86 @@
-# User Onboarding and Authentication
+# User Onboarding and Auxillaries
 
 ## Overview
-The system provides comprehensive user onboarding, authentication via SSO, and settings management. Users can sign in with Email/OTP, Google OAuth, or GitHub OAuth, then proceed through a 4-step onboarding flow.
+The Bitcode application provides user onboarding, authentication via SSO, and auxillary preference management. Users can sign in with Email/OTP, Google OAuth, or GitHub OAuth, then proceed through a 4-pane auxillary onboarding flow.
 
 ## Database Schema
 
 ### Table: `user_profiles`
 - **Field**: `onboarded_steps` (TEXT)
   - Stores JSON array of completed steps
-  - Default value: `["models"]` for new users
-  - Example: `["models", "profile", "connects", "credits"]`
+  - Default value: `[]` for new users
+  - Example: `["profile", "connects", "interfaces", "btd"]`
 
 ## Step Definition
 
 ```typescript
-const ONBOARDING_STEPS = ['profile', 'connects', 'models', 'credits'] as const;
+const ONBOARDING_STEPS = ['profile', 'connects', 'interfaces', 'btd'] as const;
 type OnboardingStep = typeof ONBOARDING_STEPS[number];
 ```
 
 ### Steps
 1. **profile**: Email verification and basic profile setup
 2. **connects**: GitHub app installation and repository access
-3. **models**: AI model preferences (optional, pre-populated)
-4. **credits**: Initial credits purchase
+3. **interfaces**: Interface defaults, prompt posture, and model preferences
+4. **btd**: `$BTD` wallet posture, shares, and set-it-and-forget-it data sharing
 
 ## API Endpoints
 
-### GET /api/user/onboarding
+### GET /api/auxillaries/onboarding
 Returns current onboarding status:
 ```json
 {
   "isOnboardingComplete": false,
-  "completedSteps": ["models", "profile"],
+  "completedPanes": ["profile"],
+  "currentPane": "connects",
+  "completedSteps": ["profile"],
   "currentStep": "connects"
 }
 ```
 
-### POST /api/user/onboarding
+### POST /api/auxillaries/onboarding
 Updates completed steps:
 ```json
 {
-  "completedStep": "connects"
+  "completedPane": "connects"
 }
 ```
 
-### GET /api/user/data
+### GET /api/auxillaries/data
 Includes onboarding in user data response:
 ```json
 {
   "profile": { ... },
   "githubConnection": { ... },
-  "credits": 1000,
-  "modelPreferences": [],
-  "onboarded_steps": ["models", "profile", "connects", "credits"],
+  "savedPreferences": { ... },
+  "onboardedPanes": ["profile", "connects", "interfaces", "btd"],
+  "onboarded_steps": ["profile", "connects", "interfaces", "btd"],
   "isOnboardingComplete": true
 }
 ```
 
 ## Frontend Implementation
 
-### Orbitals Experience Architecture
+### Auxillaries Experience Architecture
 
-**Purpose**: Account management, settings, and configuration hub
+**Purpose**: Account management, connections, interface defaults, and `$BTD` posture hub
 
 **Location**: Modal overlay accessed via nav or programmatically
-- **Path**: `/app/orbitals/components/index.tsx`
+- **Path**: `/app/auxillaries/components/AuxillariesSurface.tsx`
 - **Entry Point**: User avatar menu or "Login" button in nav
 
 **Key Panes**:
-- **Profile** (`OrbitalsProfilePane`): User account settings and preferences
-- **Connects** (`OrbitalsConnectsPane`): VCS integrations (GitHub, GitLab, Bitbucket)
-- **Credits** (`OrbitalsCreditsPane`): Usage tracking and billing management
-- **Models** (`OrbitalsModelsPane`): LLM provider selection and configuration
+- **Profile** (`AuxillariesProfilePane`): User account settings and verification
+- **Connects** (`AuxillariesConnectsPane`): VCS and external application connections
+- **Interfaces** (`AuxillariesInterfacesPane`): Interface defaults, prompts, and model posture
+- **BTD** (`AuxillariesBTDPane`): Wallet posture, shares, and persistent data-sharing controls
 
 **Key Components**:
-- `Orbital`: Main container with orbital ring animation
-- `OrbitalsProvider`: Global state management for orbital open/close
-- `OrbitalsContent`: Content router for different panes
-- `OrbitalRings`: Visual orbital animation system (GPU-accelerated)
-- `OrbitalsLoginPane`: Authentication flow
+- `AuxillariesSurface`: Main auxillary container
+- `AuxillariesProvider`: Global state management for auxillary open/close
+- `AuxillariesContent`: Content router for different panes
+- `AuxillariesLoginPane`: Authentication flow
+- `AuxillariesDataSharingPanel`: Need-space sync control surface inside `$BTD`
 
 **Visual Design**:
 - Orbital ring animation system with GPU acceleration
@@ -94,30 +96,30 @@ Includes onboarding in user data response:
 - Organization management support
 
 ### State Management
-The `Orbital` component (`/app/orbitals/components/index.tsx`) manages:
+The `AuxillariesSurface` component (`/app/auxillaries/components/AuxillariesSurface.tsx`) manages:
 - Per-step completion states to prevent race conditions
-- Sequential step unlocking (except models, always available)
+- Sequential pane unlocking
 - Auto-progression when steps become completable
 
 ```typescript
-const [stepCompletionStates, setStepCompletionStates] = useState<Record<OrbitalPane, boolean>>({ 
+const [stepCompletionStates, setStepCompletionStates] = useState<Record<AuxillaryPane, boolean>>({
   'profile': false,
   'connects': false,
-  'models': true, // Always completable (optional)
-  'credits': false
+  'interfaces': false,
+  'btd': false
 });
 ```
 
 ### Available Steps Logic
 ```typescript
 const availableSteps = useMemo(() => {
-  const available: OrbitalPane[] = ['models']; // Always available
+  const available: AuxillaryPane[] = ['profile'];
   if (!completedSteps.includes('profile')) {
     available.push('profile');
   } else {
     available.push('profile', 'connects');
     if (completedSteps.includes('connects')) {
-      available.push('credits');
+      available.push('interfaces', 'btd');
     }
   }
   return available;
@@ -125,7 +127,7 @@ const availableSteps = useMemo(() => {
 ```
 
 ### UI Components
-- **OrbitalContent**: Displays step indicators and content
+- **AuxillariesContent**: Displays pane indicators and content
 - **AfterOnboardingOverlay**: Disables features until onboarding complete
 - **OnboardingInfoBox**: Shows contextual help per step
 
@@ -147,24 +149,24 @@ useEffect(() => {
 }, [githubConnected, onCompletionStatusChange]);
 ```
 
-### Models Step
-Pre-populated, always considered available:
-- User can customize preferences but not required
-- Step included by default in `onboarded_steps`
+### Interfaces Step
+Completed when interface defaults are saved or explicitly confirmed:
+- User can set model defaults, prompts, and interface posture
+- Step is part of the canonical auxillary onboarding sequence
 
-### Credits Step
-Completed when credits balance > 0:
+### BTD Step
+Completed when the user confirms `$BTD` posture or leaves the default operator-ready state intact:
 ```typescript
 useEffect(() => {
-  onCompletionStatusChange(currentCredits > 0);
-}, [currentCredits, onCompletionStatusChange]);
+  onCompletionStatusChange(btdReady);
+}, [btdReady, onCompletionStatusChange]);
 ```
 
 ## Completion Check
 
 Simple and consistent:
 ```typescript
-const isComplete = onboardedSteps.length === 4;
+const isComplete = onboardedPanes.length === 4;
 ```
 
 ## AfterOnboardingOverlay Behavior
@@ -198,7 +200,7 @@ During onboarding, only essential features are available:
 ## SSO (Single Sign-On) Implementation
 
 ### Overview
-Engi uses Supabase Auth for all authentication, including SSO with Google and GitHub OAuth providers. NextAuth has been completely removed as it was dead code.
+Bitcode uses Supabase Auth for all authentication, including SSO with Google and GitHub OAuth providers. NextAuth has been completely removed as dead code.
 
 ### Authentication Flow
 ```

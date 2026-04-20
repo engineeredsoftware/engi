@@ -3,8 +3,8 @@
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
-} from '@/components/base/engi/execution/bitcode-transaction-data-mode';
-import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
+} from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
+import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import ApplicationOpenConversationsButton from './ApplicationOpenConversationsButton';
 import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';

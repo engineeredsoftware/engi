@@ -93,7 +93,7 @@ execution.on('store', (namespace, key, value) => {
 ### 5. UI Components
 
 #### WorkUpdatePanel
-- **Location**: `/uapi/components/base/engi/execution/WorkUpdatePanel.tsx`
+- **Location**: `/uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`
 - **Purpose**: Render agent-step and iteration updates with a unified visual design
 - **Features**:
   - Prose narrative describing progress

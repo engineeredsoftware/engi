@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo } from 'react';
 
-import BitcodeTransactionsTable from '@/components/base/engi/execution/BitcodeTransactionsTable';
+import BitcodeTransactionsTable from '@/components/base/bitcode/execution/BitcodeTransactionsTable';
 import type {
   TransactionDataMode,
   TransactionFilters,
   TransactionPagination,
-} from '@/components/base/engi/execution/bitcode-transaction-types';
+} from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import {
   buildApplicationTransactionFilterOptions,

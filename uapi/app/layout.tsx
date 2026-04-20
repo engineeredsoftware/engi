@@ -14,8 +14,8 @@ import "@/styles/components.css";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
-import AnalyticsEventsClient from '@/components/base/engi/analytics/AnalyticsEventsClient';
-import PageAnalyticsClient from '@/components/base/engi/analytics/PageAnalyticsClient';
+import AnalyticsEventsClient from '@/components/base/bitcode/analytics/AnalyticsEventsClient';
+import PageAnalyticsClient from '@/components/base/bitcode/analytics/PageAnalyticsClient';
 import { init as initSentry } from '@bitcode/sentry';
 
 initSentry({

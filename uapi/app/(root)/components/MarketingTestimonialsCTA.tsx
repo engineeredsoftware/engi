@@ -1,10 +1,10 @@
 
 import { buttonVariants } from "@/components/base/shadcn/button";
 import { cn } from '@bitcode/styling';
-import Marquee from "@/components/base/engi/magicui/marquee";
+import Marquee from "@/components/base/bitcode/magicui/marquee";
 import { ChevronRight, HeartHandshake } from "lucide-react";
 import ShimmerButtonDemo from "./button-shimmer";
-import Logo from "@/components/base/engi/branding/logo";
+import Logo from "@/components/base/bitcode/branding/logo";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from '@bitcode/supabase/ssr/client';
 

@@ -20,7 +20,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 
 ## Frontend Quickstart (Components + Styles)
 
-- Components: import UI from `@/components/base/shadcn/*`; import Engi primitives (ScrollContainer, ContentVisibility, GPUAcceleration, PageHeaderSection) from `@/components/base/engi/*`.
+- Components: import UI from `@/components/base/shadcn/*`; import Engi primitives (ScrollContainer, ContentVisibility, GPUAcceleration, PageHeaderSection) from `@/components/base/bitcode/*`.
 - Scrollbars: use `ScrollContainer` + SSOT variants (`custom-scrollbar--thumb-purple` / `custom-scrollbar-emerald` / `custom-scrollbar-blue`).
 - Performance: add `GPUAcceleration` around animated containers; use `ContentVisibility` for large off‑screen content with `containSize` when known.
 - Headers: keep neutral; render doc/cards as siblings when needed for performance/composition.
@@ -37,7 +37,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 
 ### Base Layers (components/base)
 
-- Engi Primitives (`components/base/engi`)
+- Engi Primitives (`components/base/bitcode`)
   - `panels/ScrollContainer`: SSOT scrollbars for all scroll areas
   - `perf/ContentVisibility`: use for large off‑screen content; optional `containSize`
   - `perf/GPUAcceleration`: GPU hints for animated containers (avoid wrapping sticky ancestors)
@@ -49,23 +49,23 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 
 ### Component Placement & Naming
 
-- Base Engi Components: flat under `uapi/components/base/engi/*.tsx` (no `ui/` nesting).
+- Base Engi Components: flat under `uapi/components/base/bitcode/*.tsx` (no `ui/` nesting).
   - Examples: `typing-animation.tsx`, `multi-line-typing-animation.tsx`, `quantum-button.tsx`, `dock.tsx`, `metal-plate.tsx`, `word-rotate.tsx`, `multi-agents-icon.tsx`, `particle-effect.tsx`.
 - Vendor Components: one-per-file under `uapi/components/base/shadcn/*` (no re-exports).
 - Page-Specific Components: colocate under the page namespace: `uapi/app/<feature>/components/*`.
   - Naming: `Feature_Component` (and deeper parts as `Feature_Component_Subpart`).
   - Examples: `ExecutionPageComponent`, `ExecutionPageHeaderComponent`, `ExecutionPageHeaderPipelineDeliverablesTypeComponent`.
-- Import Rules: app code imports only from base layers (`@/components/base/engi/*`, `@/components/base/shadcn/*`) and page-local components.
+- Import Rules: app code imports only from base layers (`@/components/base/bitcode/*`, `@/components/base/shadcn/*`) and page-local components.
   - Never import from `@/components/ui/*`.
 
 **Page Structure Example**
 - Feature namespace: `uapi/app/executions/` holds routing and colocated UI.
 - Page components: `uapi/app/executions/components/ExecutionPageComponent.tsx`, `ExecutionPageHeaderComponent.tsx`, `ExecutionPageHeaderPipelineDeliverablesTypeComponent.tsx`.
 - Imports (examples):
-  - `@/components/base/engi/typing-animation`, `@/components/base/engi/word-rotate`, `@/components/base/engi/metal-plate`.
+  - `@/components/base/bitcode/typing-animation`, `@/components/base/bitcode/word-rotate`, `@/components/base/bitcode/metal-plate`.
   - `@/components/base/shadcn/dialog`, `@/components/base/shadcn/select`.
-- Scroll areas: wrap with `ScrollContainer` (`@/components/base/engi/panels/ScrollContainer`) and apply a variant class.
-- Naming: `Feature_Component[_Subpart]` for page‑specific pieces; keep base Engi files flat under `components/base/engi`.
+- Scroll areas: wrap with `ScrollContainer` (`@/components/base/bitcode/panels/ScrollContainer`) and apply a variant class.
+- Naming: `Feature_Component[_Subpart]` for page‑specific pieces; keep base Engi files flat under `components/base/bitcode`.
 
 ## Headers + Sibling Panels
 
@@ -110,7 +110,7 @@ Experience Prefixes & Placement
 - Conversation*: conversations overlay scope — `app/components/conversations/*`.
 - Orbital*: overlays/settings scope — `app/components/orbital/*`.
 - Marketing*: marketing-only components — `app/components/marketing/*`.
-- Base Engi primitives: no prefix — `app/components/base/engi/*`.
+- Base Engi primitives: no prefix — `app/components/base/bitcode/*`.
 - ShadCN vendor primitives: `app/components/base/shadcn/*` (vendor family names the import; no app-specific prefix).
 
 See also: `internal-docs/FRONTEND-ARCHITECTURE.md` for the high-level map and conventions.
@@ -231,7 +231,7 @@ See also: `internal-docs/FRONTEND-ARCHITECTURE.md` for the high-level map and co
 
 - Base SSOT: `uapi/styles/components.css` (`.custom-scrollbar` family)
 - Module specializations exist in:
-  - `uapi/components/base/engi/metal-plate.tsx` (inline, purple flavor)
+  - `uapi/components/base/bitcode/metal-plate.tsx` (inline, purple flavor)
   - `uapi/styles/deliverables-header.css` (purple/emerald/blue variants + ::after gradient)
   - `uapi/styles/conversations/split-view.css` (scoped to `.split-screen-mode`)
 - Available non‑breaking variants (opt‑in):
@@ -241,13 +241,13 @@ See also: `internal-docs/FRONTEND-ARCHITECTURE.md` for the high-level map and co
   - `.custom-scrollbar--thumb-purple` → purple thumb rgba(186,84,236,0.3/0.5 hover) + 10px radius
 
 GA‑1 specializations (intentionally retained to avoid visual change):
-- Metal Plate (`uapi/components/base/engi/metal-plate.tsx`): inline purple scrollbar rules remain for contained scroll areas; SSOT variants exist to support a future no‑risk migration when all consumers are mapped.
+- Metal Plate (`uapi/components/base/bitcode/metal-plate.tsx`): inline purple scrollbar rules remain for contained scroll areas; SSOT variants exist to support a future no‑risk migration when all consumers are mapped.
 - Deliverables Header (`uapi/styles/deliverables-header.css`): themed scrollbars (purple/emerald/blue) + ::after gradient effects are preserved as module‑local styles; these act as explicit overlays atop the SSOT base. This header CSS is consumed by the unified Executions page.
 
 ## Component Map (What Styles Each Uses)
 
 - Nav
-  - Component: `uapi/components/base/engi/layout/nav.tsx`
+  - Component: `uapi/components/base/bitcode/layout/nav.tsx`
   - Styles: `uapi/styles/nav-animations.css`, `uapi/styles/components.css` (active), Tailwind arbitrary text‑shadow utilities
 
 - Hero & Landing Orchestration
@@ -256,11 +256,11 @@ GA‑1 specializations (intentionally retained to avoid visual change):
   - Pattern: dynamic imports + preload; CustomEvents to stage reveals; CSS variables (`--mouse-x/y`)
 
 - Quantum Button (CTA)
-  - Component: `uapi/components/base/engi/quantum-button.tsx`
+  - Component: `uapi/components/base/bitcode/quantum-button.tsx`
   - Styles: `uapi/styles/quantum-button.css` (tokenized), overlap in `radical-landing.css`
 
 - Typing Effects
-  - Components: `uapi/components/base/engi/typing-animation.tsx`, `uapi/components/base/engi/multi-line-typing-animation.tsx`
+  - Components: `uapi/components/base/bitcode/typing-animation.tsx`, `uapi/components/base/bitcode/multi-line-typing-animation.tsx`
   - Styles: `smooth-typing.css`, `highlight-transition.css`, `shiny-text.css` (consolidated)
 
 ## Big‑O (Chat) and Orbs
@@ -271,7 +271,7 @@ GA‑1 specializations (intentionally retained to avoid visual change):
   - Pattern: `custom-scrollbar`, perf containment, fullscreen orb scaling
 
 - Quantum Orb
-  - Component: `uapi/components/base/engi/effects/quantum-orb/QuantumOrb.tsx`
+  - Component: `uapi/components/base/bitcode/effects/quantum-orb/QuantumOrb.tsx`
   - Styles: `uapi/styles/quantum-orb.css` (particles, orbitals, GPU hints)
 
 - User Orbital Overlay
@@ -322,7 +322,7 @@ GA‑1 specializations (intentionally retained to avoid visual change):
 - Duplicates exist in:
   - `uapi/styles/conversations.css`
   - `uapi/styles/notifications-widget.css`
-  - Inline `<style>` inside `uapi/components/base/engi/metal-plate.tsx`
+  - Inline `<style>` inside `uapi/components/base/bitcode/metal-plate.tsx`
 - Policy: standardize base styles in `components.css`; allow flavor variables per surface if needed.
 
 ## Landing Strategy
@@ -390,7 +390,7 @@ PR Validation:
 - Animations: `uapi/styles/animations.css`, `uapi/styles/marketing-animations.css`, `uapi/styles/nav-animations.css`
 - Orbital: `uapi/styles/orbital.css`, `uapi/styles/orbital-rings.css`
 - Big‑O: `uapi/styles/conversations.css`, `uapi/app/(root)/components/MarketingChatExperience.tsx`
-- Quantum Button: `uapi/styles/quantum-button.css`, `uapi/components/base/engi/quantum-button.tsx`
+- Quantum Button: `uapi/styles/quantum-button.css`, `uapi/components/base/bitcode/quantum-button.tsx`
 - Scrollbars SSOT: `uapi/styles/components.css`
 - cn SSOT: `packages/styling/src/index.ts`
 
@@ -423,7 +423,7 @@ This appendix is a practical, example‑driven guide to building and evolving UI
 
 ### A. Promote‑to‑Base vs Keep Page‑Local
 
-Promote to base (`components/base/engi/*` or `components/base/shadcn/*`) when ALL are true:
+Promote to base (`components/base/bitcode/*` or `components/base/shadcn/*`) when ALL are true:
 - Reused (or planned reuse) across multiple features/pages.
 - Neutral API: no feature‑specific state, naming, or copy baked in.
 - Stable visual language consistent with Engi tokens; not an exploratory prototype.
@@ -456,9 +456,9 @@ uapi/app/executions/
 
 Imports (good):
 ```tsx
-import { ScrollContainer } from '@/components/base/engi/panels/ScrollContainer';
-import { PageHeaderSection } from '@/components/base/engi/page-header/PageHeaderSection';
-import TypingAnimation from '@/components/base/engi/typing-animation';
+import { ScrollContainer } from '@/components/base/bitcode/panels/ScrollContainer';
+import { PageHeaderSection } from '@/components/base/bitcode/page-header/PageHeaderSection';
+import TypingAnimation from '@/components/base/bitcode/typing-animation';
 import { Dialog } from '@/components/base/shadcn/dialog';
 ```
 
@@ -468,7 +468,7 @@ Imports (avoid):
 import { Button } from '@/components/ui/button';
 
 // ❌ Re-exports / barrels (breaks tree-shaking, hides dependencies)
-import { Something } from '@/components/base/engi';
+import { Something } from '@/components/base/bitcode';
 ```
 
 ### C. Client/Server Boundaries (Next.js)
@@ -483,7 +483,7 @@ Example:
 // Client-only animation block
 "use client";
 import dynamic from 'next/dynamic';
-const MultiLineTypingAnimation = dynamic(() => import('@/components/base/engi/multi-line-typing-animation'), { ssr: false });
+const MultiLineTypingAnimation = dynamic(() => import('@/components/base/bitcode/multi-line-typing-animation'), { ssr: false });
 ```
 
 ### D. Performance: Patterns and Anti‑Patterns
@@ -536,12 +536,12 @@ Example:
 
 ### H. Reusable Engi Components (Base)
 
-Use directly from `components/base/engi`:
+Use directly from `components/base/bitcode`:
 - `typing-animation`, `multi-line-typing-animation`, `word-rotate`, `quantum-button`, `metal-plate`, `dock`, `multi-agents-icon`, `particle-effect`.
 
 Example use:
 ```tsx
-import QuantumButton from '@/components/base/engi/quantum-button';
+import QuantumButton from '@/components/base/bitcode/quantum-button';
 
 <QuantumButton onClick={onDeliver} className="mt-4" />
 ```
@@ -573,7 +573,7 @@ import { Dialog, DialogContent, DialogHeader } from '@/components/base/shadcn/di
 
 1) Move a reusable page component to base/engi:
 - Extract visuals to tokens/utilities; remove feature imports.
-- Rename to neutral and move to `components/base/engi/<name>.tsx`.
+- Rename to neutral and move to `components/base/bitcode/<name>.tsx`.
 - Update all imports across app/stories/tests.
 - Add an entry in `components/base/README.md` if needed.
 
@@ -588,8 +588,8 @@ import { Dialog, DialogContent, DialogHeader } from '@/components/base/shadcn/di
 ```tsx
 // uapi/app/executions/components/ExecutionPageHeaderComponent.tsx
 "use client";
-import { PageHeaderSection } from '@/components/base/engi/page-header/PageHeaderSection';
-import WordRotate from '@/components/base/engi/word-rotate';
+import { PageHeaderSection } from '@/components/base/bitcode/page-header/PageHeaderSection';
+import WordRotate from '@/components/base/bitcode/word-rotate';
 import { Dialog, DialogContent } from '@/components/base/shadcn/dialog';
 
 export function ExecutionPageHeaderComponent() {
@@ -637,7 +637,7 @@ Notes
     - `uapi/styles/components.css` (SSOT target)
     - `uapi/styles/conversations.css`
     - `uapi/styles/notifications-widget.css`
-    - `uapi/components/base/engi/metal-plate.tsx` (inline <style>)
+    - `uapi/components/base/bitcode/metal-plate.tsx` (inline <style>)
     - `uapi/app/executions/components/ExecutionsPageHeader.tsx` (inline <style> block around ~2804–2818)
   - Non‑regression path:
     - Normalize base styles in `components.css`; swap others to defer to SSOT, keep flavor via CSS vars if required.
@@ -757,7 +757,7 @@ Notes
 
 - Imports & Providers
   - [ ] UI imports only from `@/components/base/shadcn/*`
-  - [ ] Engi primitives only from `@/components/base/engi/*`
+  - [ ] Engi primitives only from `@/components/base/bitcode/*`
   - [ ] No `@/components/ui/*` imports (lint passes)
   - [ ] New vendor components placed in `components/base/<provider>/*` (proper noun)
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodePayloadCollectionCard from '@/components/base/engi/execution/BitcodePayloadCollectionCard';
+import BitcodePayloadCollectionCard from '@/components/base/bitcode/execution/BitcodePayloadCollectionCard';
 
 describe('BitcodePayloadCollectionCard', () => {
   it('renders shared payload detail with collection items and actions', () => {

@@ -40,7 +40,7 @@ export function getCacheDir(
 ): string {
   const { info, debug } = normaliseLogger(logger);
 
-  const baseDir = '/tmp/engi/digest-cache';
+  const baseDir = '/tmp/bitcode/digest-cache';
   info?.('\n🔑 Determining cache directory (digest/caching)…');
 
   if (isGitHubMode) {

@@ -4,8 +4,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
 // Note: bundle presets removed from the UI – only dynamic Flexible pricing remains.
-import { ProcessingIndicator } from '@/components/base/engi/indicators/ProcessingIndicator';
-import CreditsPrices from '@/components/base/engi/credits/CreditsPrices';
+import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
+import CreditsPrices from '@/components/base/bitcode/credits/CreditsPrices';
 
 const MarketingPricingSection: React.FC = () => {
   // Supabase client for auth check

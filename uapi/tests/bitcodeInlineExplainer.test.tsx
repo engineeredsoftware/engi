@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeInlineExplainer from '@/components/base/engi/execution/BitcodeInlineExplainer';
+import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
 
 describe('BitcodeInlineExplainer', () => {
   it('renders an accessible explainer trigger with tooltip content', () => {

@@ -273,8 +273,8 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
   log('🐼 Generating digest with options:', 'info', options);
   const { phases, gitInfo, cacheDir: initialCacheDir } = await initializeDigest(options);
   let cacheDir = initialCacheDir;
-  const digestPath = path.join('/tmp/engi/digests', `DIGEST-${options.correlationId}.md`);
-  const agentsPath = path.join('/tmp/engi/digests', `AGENTS-${options.correlationId}.md`);
+  const digestPath = path.join('/tmp/bitcode/digests', `DIGEST-${options.correlationId}.md`);
+  const agentsPath = path.join('/tmp/bitcode/digests', `AGENTS-${options.correlationId}.md`);
   const dataStream = options.dataStream;
 
   // Helper function to create detailed progress messages
@@ -604,8 +604,8 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
     // Get cache directory based on git info
     // here
     function getCacheDir(isGitHubMode, rootDir, gitInfo) {
-      // Always use /tmp/engi for consistency
-      const baseDir = '/tmp/engi/digest-cache';
+      // Always use /tmp/bitcode for consistency
+      const baseDir = '/tmp/bitcode/digest-cache';
 
       logInfo('\n🔑 Determining cache directory...');
 
@@ -2130,7 +2130,7 @@ export async function generateDigest(options: DigestOptions = {}): Promise<Gener
         logInfo(`├─ Files Found: ${files.length}`);
       } else if (options.rootDir) {
         // Create a temporary directory for the clone
-        const cloneDir = path.join('/tmp/engi', 'clones', `${owner}-${repo}-${Date.now()}`);
+        const cloneDir = path.join('/tmp/bitcode', 'clones', `${owner}-${repo}-${Date.now()}`);
         fs.mkdirSync(cloneDir, { recursive: true });
 
         try {

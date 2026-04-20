@@ -8,9 +8,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '@bitcode/supabase/ssr/client';
 
 import { useOnboarding, useProfile, useUser } from '@/hooks/use-auth-query';
-import OrbitalRings from "@/components/base/engi/orbitals/orbital-rings";
-import { GPUAcceleration } from '@/components/base/engi/perf/GPUAcceleration';
-import { ContentVisibility } from '@/components/base/engi/perf/ContentVisibility';
+import OrbitalRings from "@/components/base/bitcode/orbitals/orbital-rings";
+import { GPUAcceleration } from '@/components/base/bitcode/perf/GPUAcceleration';
+import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibility';
 import {
   getAuxillaryRingIndex,
   isAuxillariesPath,
@@ -33,7 +33,7 @@ const reportError = (...args: any[]) => {
   import('@bitcode/errors').then((module) => module.reportError(...args));
 };
 
-const FlipText = dynamic(() => import("@/components/base/engi/layout/sidebars/FlipText"), {
+const FlipText = dynamic(() => import("@/components/base/bitcode/layout/sidebars/FlipText"), {
   ssr: false,
   loading: () => <span className="inline-block">Login</span>,
 });

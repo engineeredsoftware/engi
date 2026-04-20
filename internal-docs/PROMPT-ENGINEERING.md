@@ -1,14 +1,14 @@
-# PROMPT ENGINEERING - The Complete Engi Prompt System
+# PROMPT ENGINEERING - The Complete Bitcode Prompt System
 
 **The Single Source of Truth**
 
 ## Executive Summary
 
-The Engi prompt system is a two-layer architecture built on PromptParts and hierarchical Prompts. At its core:
+The Bitcode prompt system is a two-layer architecture built on PromptParts and hierarchical Prompts. At its core:
 - **PromptParts are granular semantic units** - meaningful phrases that can be versioned and benchmarked
 - **Prompts are Registry-based formatted structures** - pseudo-strongly typed prompt strings with requirements and hierarchy
 
-This document represents the complete prompt engineering system for Engi.
+This document represents the complete prompt engineering system for Bitcode.
 
 ## Core Architecture - Two Layers Only
 
@@ -181,8 +181,8 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
 - **AGENTS**: Use `Prompt` class with PromptParts - NO DocCode (legacy)
 
 4. **`[PROMPTCLASSNAME]`** - Prompt class name WITHOUT "Prompt" suffix (lowercase)
-   - Drop "Prompt" from class name: `EngiSystemPrompt` → `engisystem`
-   - Examples: `engisystem`, `codesearchagent`, `webtool`
+   - Drop "Prompt" from class name: `BitcodeSystemPrompt` → `bitcodesystem`
+   - Examples: `bitcodesystem`, `codesearchagent`, `webtool`
    - For generic parts: use primary semantic descriptor
 
 5. **`[semanticcontext]`** - What the content is about
@@ -204,7 +204,7 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
 
 **CORRECT Examples**:
 ```
-promptpart_specific_system_engisystem_inherentknowledgeidentity_opener.ts
+promptpart_specific_system_bitcodesystem_inherentknowledgeidentity_opener.ts
 promptpart_specific_agent_codesearchagent_capabilities_list.ts
 promptpart_specific_tool_webtool_purpose_corestatement.ts
 promptpart_generic_formatting_section_header.ts
@@ -232,9 +232,9 @@ promptpart_specific_agent_codesearchagent_methodology_detailcontent.ts
 The exported constant MUST match the file name exactly in SCREAMING_SNAKE_CASE:
 
 ```typescript
-// File: promptpart_specific_system_engisystem_inherentknowledgeidentity_opener.ts
-export const PROMPTPART_SPECIFIC_SYSTEM_ENGISYSTEM_INHERENTKNOWLEDGEIDENTITY_OPENER: PromptPart = 
-  'You are Engi, an advanced AI engineering system' as PromptPart;
+// File: promptpart_specific_system_bitcodesystem_inherentknowledgeidentity_opener.ts
+export const PROMPTPART_SPECIFIC_SYSTEM_BITCODESYSTEM_INHERENTKNOWLEDGEIDENTITY_OPENER: PromptPart =
+  'You are Bitcode, an advanced AI engineering system' as PromptPart;
 ```
 
 ### Why This Pattern Is Sacred
@@ -807,7 +807,7 @@ This system represents prompt engineering through elegant simplicity:
 - **Simplicity enables scale**: Two layers support 10,000s of parts
 - **Industrial language enables reliability**: Concrete specifications over abstract concepts
 
-An AI system like Engi is fundamentally prompts and types with minimal infrastructure. At GA-1, performance gains come from the precise formatting of benchmarked semantic units, each measured and optimized based on empirical performance data.
+An AI system like Bitcode is fundamentally prompts and types with minimal infrastructure. At GA-1, performance gains come from the precise formatting of benchmarked semantic units, each measured and optimized based on empirical performance data.
 
 The prompt system is not just infrastructure - it is the core system through which all functionality operates.
 

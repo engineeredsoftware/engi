@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import QuantumOrb, { QuantumOrbState } from '@/components/base/engi/effects/quantum-orb/QuantumOrb';
-import { QuantumOrbConfig } from '@/components/base/engi/effects/quantum-orb/QuantumOrbConfig';
+import QuantumOrb, { QuantumOrbState } from '@/components/base/bitcode/effects/quantum-orb/QuantumOrb';
+import { QuantumOrbConfig } from '@/components/base/bitcode/effects/quantum-orb/QuantumOrbConfig';
 
 interface RepositoryContext {
   language?: string;

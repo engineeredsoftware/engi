@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodePayloadDetailCard from '@/components/base/engi/execution/BitcodePayloadDetailCard';
+import BitcodePayloadDetailCard from '@/components/base/bitcode/execution/BitcodePayloadDetailCard';
 
 describe('BitcodePayloadDetailCard', () => {
   beforeEach(() => {

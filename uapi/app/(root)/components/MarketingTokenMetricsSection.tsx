@@ -3,8 +3,8 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import styles from './marketing-token-metrics-section.module.css';
 import useSWR from "swr";
-import BitcodePill from "@/components/base/engi/branding/bitcode-pill";
-import RevealingSoonOverlay from "@/components/base/engi/overlays/RevealingSoonOverlay";
+import BitcodePill from "@/components/base/bitcode/branding/bitcode-pill";
+import RevealingSoonOverlay from "@/components/base/bitcode/overlays/RevealingSoonOverlay";
 
 // small fetch util (placeholder coin id)
 const fetcher = (u: string) => fetch(u).then((r) => r.json());

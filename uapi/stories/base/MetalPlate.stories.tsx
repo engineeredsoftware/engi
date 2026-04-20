@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MetalPlate from '@/components/base/engi/metal-plate';
+import MetalPlate from '@/components/base/bitcode/metal-plate';
 
 const meta: Meta<typeof MetalPlate> = {
   title: 'Base/MetalPlate',

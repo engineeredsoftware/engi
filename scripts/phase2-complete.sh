@@ -2,10 +2,10 @@
 # PHASE 2: Complete Import Fixes & Naming Compliance
 
 echo "🚀 PHASE 2: Import Fixes & Naming Compliance"
-echo "Pre-1.0 freedom - Moving at Engi velocity!"
+echo "Pre-commercial freedom - Moving at Bitcode velocity!"
 
 # Base path
-PACKAGES_PATH="/Users/g/Developer/engi/engi/packages"
+PACKAGES_PATH="$(cd "$(dirname "$0")/.." && pwd)/packages"
 
 echo "📦 Step 1: Fixing import paths (44 files)..."
 

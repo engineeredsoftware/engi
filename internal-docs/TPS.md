@@ -77,7 +77,7 @@ Note: Product page is `/executions?type=pipeline:deliverables`. The second tab i
 - User connections table in Supabase (see migrations); VCS fetchers in `uapi/app/hooks/useVCSData`.
 
 ### Development Notes
-- In UI, GitHub is treated as a provider in VCS selectors; mock support via `uapi/app/api/deliverables/route-with-engi-mocks.ts` (accessed via `/api/executions?type=pipeline:deliverables`).
+- In UI, GitHub is treated as a provider in VCS selectors; mock support is exercised through the deliverables mock payloads under `uapi/mocks/deliverables*.json` and the mocked executions surfaces accessed via `/api/executions?type=pipeline:deliverables`.
 
 ## GitLab
 
@@ -174,7 +174,7 @@ Note: Product page is `/executions?type=pipeline:deliverables`. The second tab i
 - Configure Google provider in Supabase; no separate routes needed.
 
 ### Code
-- Social buttons in `uapi/components/base/engi/auth/SocialLoginButton.tsx`.
+- Social buttons in `uapi/components/base/bitcode/auth/SocialLoginButton.tsx`.
 
 ## Figma
 

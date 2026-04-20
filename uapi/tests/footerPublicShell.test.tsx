@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import Footer from '@/components/base/engi/layout/footer';
+import Footer from '@/components/base/bitcode/layout/footer';
 
 const mockGetSession = jest.fn();
 const mockOnAuthStateChange = jest.fn();
@@ -29,7 +29,7 @@ jest.mock('@/config/features', () => ({
   },
 }));
 
-jest.mock('@/components/base/engi/branding/bitcode-software-svg-logo', () => ({
+jest.mock('@/components/base/bitcode/branding/bitcode-software-svg-logo', () => ({
   __esModule: true,
   default: () => <div>Software logo</div>,
 }));

@@ -1,4 +1,3 @@
-Using workdir /Users/g/Developer/engi/engi
 export type Json =
   | string
   | number

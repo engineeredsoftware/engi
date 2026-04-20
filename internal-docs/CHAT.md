@@ -1,11 +1,11 @@
-# CHAT.md - Engi Conversational Experience
+# CHAT.md - Bitcode Conversational Experience
 
 **Last Updated**: 2025-08-18  
 **Status**: Foundation Architecture Document (Conversations Temporarily Disabled)  
 
 ## Core Vision
 
-Engi is complete. The conversational experience is chat-based engineering that can optionally run pipelines. The Conversations experience provides the interface between human intent and engineering excellence.
+Bitcode is complete. The conversational experience is chat-based engineering that can optionally run pipelines. The Conversations experience provides the interface between human intent and engineering excellence.
 
 ## Current Status
 
@@ -378,7 +378,7 @@ type StreamEvent =
 ## Key Differentiators
 
 ### 1. Conversation First
-Unlike traditional tools that are command-driven, Engi is conversation-driven. The chat IS the experience, not a wrapper around commands.
+Unlike traditional tools that are command-driven, Bitcode is conversation-driven. The chat IS the experience, not a wrapper around commands.
 
 ### 2. Intelligence Without Action
 The AI can provide deep insights, explanations, and understanding WITHOUT needing to run pipelines or mutate code.
@@ -412,7 +412,7 @@ When ready to re-enable Conversation:
 
 ## Summary
 
-The Engi conversational experience is about **intelligence first, action when needed**. The chat is the primary interface, with pipelines as powerful tools available when required. The system should be clever about reducing the need for pipeline runs through intelligent use of read-only tools and context accumulation.
+The Bitcode conversational experience is about **intelligence first, action when needed**. The chat is the primary interface, with pipelines as powerful tools available when required. The system should be clever about reducing the need for pipeline runs through intelligent use of read-only tools and context accumulation.
 
 **Current state**: Architecture is solid, refactoring complete, ready for focused implementation when Conversation is re-enabled.
 
@@ -430,4 +430,4 @@ Pipeline triggers enable:
 4. **Real-time feedback** through SSE streaming
 5. **Graceful error handling** with recovery options
 
-Remember: **Engi is complete**. We're not building new capabilities, we're revealing the excellence that already exists through the conversational interface.
+Remember: **Bitcode is complete**. We're not building new capabilities, we're revealing the excellence that already exists through the conversational interface.

@@ -33,7 +33,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
   - Marketing: `uapi/app/(root)/components/*`
   - Executions: `uapi/app/executions/components/*`
   - Conversations: `uapi/app/conversations/components/*`
-  - Shared across experiences: `uapi/components/base/engi/*`
+  - Shared across experiences: `uapi/components/base/bitcode/*`
 
 3) Events and API
 

@@ -4,7 +4,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import Nav from '@/components/base/engi/layout/nav';
+import Nav from '@/components/base/bitcode/layout/nav';
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
-jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
+jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   useAuth: () => mockUseAuth(),
 }));
 
@@ -39,7 +39,7 @@ jest.mock('@/config/features', () => ({
   },
 }));
 
-jest.mock('@/components/base/engi/layout/NavBrand', () => ({
+jest.mock('@/components/base/bitcode/layout/NavBrand', () => ({
   __esModule: true,
   default: ({
     onClick,
@@ -54,15 +54,15 @@ jest.mock('@/components/base/engi/layout/NavBrand', () => ({
   ),
 }));
 
-jest.mock('@/components/base/engi/credits/credits-tracker', () => ({
+jest.mock('@/components/base/bitcode/credits/credits-tracker', () => ({
   CreditsTracker: () => <div>Credits</div>,
 }));
 
-jest.mock('@/components/base/engi/notifications/NotificationsWidget', () => ({
+jest.mock('@/components/base/bitcode/notifications/NotificationsWidget', () => ({
   NotificationsWidget: () => <div>Notifications</div>,
 }));
 
-jest.mock('@/components/base/engi/layout/user-menu', () => ({
+jest.mock('@/components/base/bitcode/layout/user-menu', () => ({
   UserMenu: ({
     onOpenOrbitals,
   }: {
@@ -74,11 +74,11 @@ jest.mock('@/components/base/engi/layout/user-menu', () => ({
   ),
 }));
 
-jest.mock('@/components/base/engi/overlays/disabled-tooltip-wrapper', () => ({
+jest.mock('@/components/base/bitcode/overlays/disabled-tooltip-wrapper', () => ({
   DisabledTooltipWrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-jest.mock('@/components/base/engi/nav/OrbitalUseButton', () => ({
+jest.mock('@/components/base/bitcode/nav/OrbitalUseButton', () => ({
   OrbitalUseButton: () => <div>Use button</div>,
 }));
 

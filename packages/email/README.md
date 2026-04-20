@@ -42,7 +42,7 @@ await invitationEmailService.sendWelcomeEmail({
   email: 'user@company.com',
   memberName: 'Jane Smith',
   organizationName: 'Acme Corp',
-  dashboardUrl: 'https://app.engi.software/dashboard'
+  dashboardUrl: 'https://app.bitcode.example/dashboard'
 })
 ```
 
@@ -55,7 +55,7 @@ await invitationEmailService.sendCreditAllocationEmail({
   organizationName: 'Acme Corp',
   creditAmount: 50000,
   reason: 'Monthly allocation',
-  dashboardUrl: 'https://app.engi.software/dashboard'
+  dashboardUrl: 'https://app.bitcode.example/dashboard'
 })
 ```
 
@@ -82,7 +82,7 @@ await teamEmailService.sendBulkNotification(
   'Acme Corp',
   'Important Update',
   'Please review the new security policies.',
-  'https://app.engi.software/policies',
+  'https://app.bitcode.example/policies',
   'Review Policies'
 )
 ```
@@ -94,7 +94,7 @@ Set the following environment variables:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_service_key
-NEXT_PUBLIC_APP_URL=https://app.engi.software
+NEXT_PUBLIC_APP_URL=https://app.bitcode.example
 ```
 
 Or configure programmatically:
@@ -105,7 +105,7 @@ import { InvitationEmailService } from '@bitcode/email'
 const emailService = new InvitationEmailService({
   supabaseUrl: 'your_supabase_url',
   supabaseServiceKey: 'your_service_key',
-  appUrl: 'https://app.engi.software'
+  appUrl: 'https://app.bitcode.example'
 })
 ```
 

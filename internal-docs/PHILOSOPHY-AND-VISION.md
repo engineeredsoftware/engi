@@ -39,7 +39,7 @@ From mastery emerges engineering excellence.
    - Contextual messages that teach and delight
    - Celebrates progress, acknowledges challenges
 
-2. **DeliverButton** (`/uapi/components/base/engi/execution/deliver-button.tsx`)
+2. **DeliverButton** (`/uapi/components/base/bitcode/execution/deliver-button.tsx`)
    - Transforms based on context
    - Pulses with anticipation
    - Erupts in celebration on success
@@ -220,11 +220,11 @@ class Prompt {
 ### The Final Truth
 
 ```typescript
-const ENGI_THESIS: PromptPart = `
+const BITCODE_THESIS: PromptPart = `
   From a string, a primitive.
 From a primitive, reuse.
 From reuse, systematic capability.
-  From capability, Engi.
+  From capability, Bitcode.
 `;
 ```
 

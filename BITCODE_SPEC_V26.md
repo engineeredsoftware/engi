@@ -165,30 +165,30 @@ The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationMockTransactionDetails.tsx`
 - `uapi/app/application/application-run-data.ts`
-- `uapi/components/base/engi/execution/BitcodeTransactionsTable.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsOverview.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsFilterBar.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsActiveFilters.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsDataTable.tsx`
-- `uapi/components/base/engi/execution/BitcodeTransactionsPagination.tsx`
-- `uapi/components/base/engi/execution/bitcode-transaction-data-mode.ts`
-- `uapi/components/base/engi/execution/BitcodeDetailRowList.tsx`
-- `uapi/components/base/engi/execution/BitcodeMetricGrid.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailCollection.tsx`
-- `uapi/components/base/engi/execution/BitcodeDetailPanel.tsx`
-- `uapi/components/base/engi/execution/BitcodeChipCloud.tsx`
-- `uapi/components/base/engi/execution/BitcodeActionPillRow.tsx`
-- `uapi/components/base/engi/execution/BitcodeInlineExplainer.tsx`
-- `uapi/components/base/engi/execution/BitcodeExecutionStreamPanel.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadRowsCard.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadCollectionCard.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadDetailCard.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadInspector.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadShape.tsx`
-- `uapi/components/base/engi/execution/BitcodePayloadTree.tsx`
-- `uapi/components/base/engi/execution/bitcode-transaction-active-filters.ts`
-- `uapi/components/base/engi/execution/bitcode-transaction-explainers.ts`
-- `uapi/components/base/engi/execution/bitcode-transaction-types.ts`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
+- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
+- `uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
+- `uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
+- `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`
@@ -238,8 +238,8 @@ The current active second-gate source additions are now explicitly:
 - `packages/bitcode/README.md`
 - `uapi/app/application/README.md`
 - `uapi/app/orbitals/README.md`
-- `uapi/components/base/engi/README.md`
-- `uapi/components/base/engi/execution/README.md`
+- `uapi/components/base/bitcode/README.md`
+- `uapi/components/base/bitcode/execution/README.md`
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
 - `packages/bitcode/V26_PROOF_SURFACES.md`
 
@@ -279,11 +279,11 @@ The current mounted third-gate start carriers are now explicitly:
 - `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/docs/page.tsx`
 - `uapi/app/demo-video/page.tsx`
-- `uapi/components/base/engi/layout/nav.tsx`
-- `uapi/components/base/engi/layout/NavBrand.tsx`
-- `uapi/components/base/engi/layout/footer.tsx`
-- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
-- `uapi/components/base/engi/layout/bitcode-public-explainers.ts`
+- `uapi/components/base/bitcode/layout/nav.tsx`
+- `uapi/components/base/bitcode/layout/NavBrand.tsx`
+- `uapi/components/base/bitcode/layout/footer.tsx`
+- `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
+- `uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`
 
 Those owners now carry the public-shell route and teaching vocabulary for:
 - `Network`
@@ -457,7 +457,7 @@ Profile-owned repository knowledge sharing should also fail closed through an ap
 The second-gate target structure is:
 - `uapi/app/application/*`
   The only primary Bitcode destination and the master-detail carrier for give/need operations, a rich transactions table, transaction detail, deliverables, proofs, and history.
-- `uapi/components/base/engi/layout/nav.tsx`
+- `uapi/components/base/bitcode/layout/nav.tsx`
   The retained late-Engi navigation frame that continues to anchor the application.
 - `uapi/app/orbitals/components/*`
   The orbital overlay system mounted from within the application context.
@@ -486,7 +486,7 @@ The second-gate target structure is:
 | external interfacing posture | `renderOperatingPicture()`, `state.boundaryRealitySurface`, `latestRun.externalRealizationSummary`, and `uapi/app/api/v24/external-realization/route.ts` | `ApplicationExternalInterfacingPanel.tsx`, `application-external-runtime.ts`, and the app-owned V24 route surface | environment mode, actuality disposition, boundary-only posture, live misconfiguration, and per-interface runtime state remain explicit and fail closed | the operator should clearly understand what is mocked, what is boundary-only, what is live-configured, and what is currently blocking |
 | need action frame | `renderScenario()`, `renderFit()`, measured-demand and fit surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationNeedScenarioPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | scenario framing, measured need, and fit pressure remain explicit before closure stages | the operator should clearly understand how to express and inspect need |
 | give/need action detail | current shell-selected repo supply, measured demand, and fit intent carried into route-local application-owned action blocks | `ApplicationGiveNeedWorkbench.tsx`, `ApplicationActionWorkbenchCard.tsx`, and `application-give-need-workbench.ts` | repository supply posture, measured need, and fit/closure intent remain explicit as the two main Bitcode actions | the operator should read give and need as dense application-grade action detail rather than preserved-shell-only panels |
-| global navbar and app frame | `uapi/components/base/engi/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established late-Engi navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
+| global navbar and app frame | `uapi/components/base/bitcode/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established late-Engi navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
 | shell frame, command rail, summary, hero posture | `uapi/app/application/ApplicationPageClient.tsx`, `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/application-command-state.ts`, `uapi/app/application/application-live-summary.ts`, `packages/bitcode/public/app.js` | route-local `uapi/app/application/*` composition using current app shell carriers and the shell command/control bridge | scenario/projection/branch controls, run status, summary posture, reset, and canon posture remain explicit and synchronized to the preserved shell | read as a first-class Bitcode application page instead of a carried static shell |
 | flow-guide and explainer system | `packages/bitcode/public/app.js` guide/explainer contract plus `application-flow-guide.ts` and `ApplicationFlowGuideCard.tsx` | route-local flow-guide/explainer composition plus current overlay primitives where appropriate | stepwise operator guidance, resumable working-flow continuity, and targeted explainers remain available while preserved-shell tutorial fields survive only as compatibility input | use current overlay and panel language without losing the guide’s operator-facing role |
 | conversations fullscreen workspace | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*` | application-mounted fullscreen overlay launched from `/application` | chat-based interaction, tool usage, and conversational continuity remain first-class without leaving application context | read as a fullscreen Bitcode conversation workspace over the application rather than as a separate product destination |
@@ -1417,10 +1417,10 @@ The current canonical source map includes:
 - `uapi/app/(root)/components/PublicShellFrame.tsx`
 - `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
 - `uapi/app/demo-video/page.tsx`
-- `uapi/components/base/engi/layout/nav.tsx`
-- `uapi/components/base/engi/layout/NavBrand.tsx`
-- `uapi/components/base/engi/layout/footer.tsx`
-- `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+- `uapi/components/base/bitcode/layout/nav.tsx`
+- `uapi/components/base/bitcode/layout/NavBrand.tsx`
+- `uapi/components/base/bitcode/layout/footer.tsx`
+- `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
 - `uapi/components/base/README.md`
 - `packages/github`
 - `packages/auth`

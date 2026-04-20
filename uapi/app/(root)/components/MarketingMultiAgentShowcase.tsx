@@ -13,7 +13,7 @@ import MarketingPlaceholderImage from './MarketingPlaceholderImage';
 import MarketingThumbnailStack from './MarketingThumbnailStack';
 import type { Screenshot } from './marketing-types';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-import BitcodePill from '@/components/base/engi/branding/bitcode-pill';
+import BitcodePill from '@/components/base/bitcode/branding/bitcode-pill';
 import { SmsPhonePreview } from './marketing-sms-phone-preview';
 
 // Re-use core Conversations styles so the preview matches the real overlay.
@@ -989,4 +989,4 @@ function MarketingMultiAgentShowcase() {
 
 export default MarketingMultiAgentShowcase;
 // Route-scoped marketing component (presentational only).
-// Do not reuse cross-route; shared helpers live under components/base/engi.
+// Do not reuse cross-route; shared helpers live under components/base/bitcode.

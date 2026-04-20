@@ -17,10 +17,10 @@ module.exports = {
     'engi/no-write-tools-outside-conquer': 'error',
     'engi/require-prompt-hierarchy': 'error',
     // Forbid legacy deep-imports into prompts using /src in consumer code.
-    // Canonical pattern is: @engi/prompts/raw_promptparts/*
+    // Canonical pattern is: @bitcode/prompts/raw_promptparts/*
     'no-restricted-imports': ['error', {
       'patterns': [
-        '@engi/prompts/src/raw_promptparts/*'
+        '@bitcode/prompts/src/raw_promptparts/*'
       ]
     }],
     // Focus on GA-1 custom rules; reduce noise from generic rules

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeTransactionsOverview from '@/components/base/engi/execution/BitcodeTransactionsOverview';
+import BitcodeTransactionsOverview from '@/components/base/bitcode/execution/BitcodeTransactionsOverview';
 
 describe('BitcodeTransactionsOverview', () => {
   it('renders the explicit transaction data mode and fallback explanation', () => {

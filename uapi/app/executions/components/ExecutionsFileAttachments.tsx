@@ -1,1 +1,1 @@
-export { default } from '@/components/base/engi/execution/file-attachments';
+export { default } from '@/components/base/bitcode/execution/file-attachments';

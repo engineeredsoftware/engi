@@ -2,9 +2,9 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
-import QuantumEffect from '@/components/base/engi/effects/QuantumEffect';
-import TypingAnimation from '@/components/base/engi/typing-animation';
-import OrbitalLogo from '@/components/base/engi/branding/OrbitalLogo';
+import QuantumEffect from '@/components/base/bitcode/effects/QuantumEffect';
+import TypingAnimation from '@/components/base/bitcode/typing-animation';
+import OrbitalLogo from '@/components/base/bitcode/branding/OrbitalLogo';
 
 interface CheckoutCallbackClientProps {
   success: boolean;

@@ -1,9 +1,9 @@
 // Canonical auxillary owner using canonical auxillary internals while fifth-gate compatibility retirement proceeds.
 
 import React, { useState, useEffect, useRef } from 'react';
-import SocialLoginButton from '@/components/base/engi/auth/SocialLoginButton';
-import SocialAccountLinker from '@/components/base/engi/auth/SocialAccountLinker';
-import LoadingSpinner from '@/components/base/engi/indicators/LoadingSpinner';
+import SocialLoginButton from '@/components/base/bitcode/auth/SocialLoginButton';
+import SocialAccountLinker from '@/components/base/bitcode/auth/SocialAccountLinker';
+import LoadingSpinner from '@/components/base/bitcode/indicators/LoadingSpinner';
 import { trackEvent } from '@bitcode/google-analytics';
 import { reportError } from '@bitcode/errors';
 import { createClient } from '@bitcode/supabase/ssr/client';

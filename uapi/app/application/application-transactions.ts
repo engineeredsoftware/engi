@@ -1,4 +1,4 @@
-import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/engi/execution/bitcode-transaction-types';
+import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './application-run-data';
 

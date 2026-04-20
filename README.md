@@ -56,7 +56,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
   Orbitals compatibility owner, overlay behavior, ring model, and redirect-only aliases.
 - [uapi/app/auxillaries/README.md](uapi/app/auxillaries/README.md)
   Canonical auxillary routes, direct-route metadata, and compatibility redirect posture.
-- [uapi/components/base/engi/execution/README.md](uapi/components/base/engi/execution/README.md)
+- [uapi/components/base/bitcode/execution/README.md](uapi/components/base/bitcode/execution/README.md)
   Shared execution carriers for transactions, payloads, explainers, and detail panels.
 
 ## Repository map
@@ -114,7 +114,7 @@ The promoted boundary carries:
 - and explicit third-gate marketing preparation still left open on purpose.
 
 Current post-checkpoint third-gate start is intentionally narrow:
-- the mounted public shell now converges through shared public-copy ownership in `uapi/components/base/engi/layout/bitcode-public-copy.ts`
+- the mounted public shell now converges through shared public-copy ownership in `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
 - the live public shell now mounts Bitcode nav through `uapi/app/(root)/components/PublicShellFrame.tsx`
 - the live landing, nav, footer, `/docs`, and compatibility `/demo-video` route now use `Network`, `Transactions`, `Docs`, `Auxillaries`, and give/need teaching vocabulary
 - the live landing shell no longer carries active `ComingSoon*` owners or `coming-soon-*` stylesheet imports

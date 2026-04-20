@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import RichTextInput from '@/app/conversations/components/ConversationsRichTextInput';
-import ShimmerButton from '@/components/base/engi/effects/button-shimmer';
+import ShimmerButton from '@/components/base/bitcode/effects/button-shimmer';
 import { fetchDeliverableInstructions, postDeliverableInstruction } from '@/networking/api-client';
 
 interface Instruction {

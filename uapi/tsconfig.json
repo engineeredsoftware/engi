@@ -236,7 +236,6 @@
       "@bitcode/obfuscate": ["../packages/obfuscate/src/index.ts"],
       "@bitcode/dockerUtils": ["../packages/docker/src/index.ts"],
       "@bitcode/supabase": ["../packages/supabase/src/index.ts"],
-      "@/lib/measure/measureEngi": ["../packages/measure/src/measureEngi.ts"],
       "@/lib/validation/validationOTFAdherencePhaseModule": ["../packages/validation/validationOTFAdherencePhaseModule.ts"],
       "@/lib/mcp/validation": ["../packages/executions-mcp/src/index.ts"],
 

@@ -62,17 +62,17 @@ Plugins that enhance specific packages live with those packages:
  * category: base_system_identity
  * priority: critical
  */
-export const ENGI_IDENTITY: PromptPart = `You are Engi...`;
+export const BITCODE_IDENTITY: PromptPart = `You are Bitcode...`;
 
 // Build process WOULD inject:
-ENGI_IDENTITY.__proto__.docPromptPart = {
+BITCODE_IDENTITY.__proto__.docPromptPart = {
   version: '1.0.0',
   category: 'base_system_identity',
   priority: 'critical'
 };
 
 // Runtime access (when implemented):
-const metadata = ENGI_IDENTITY.__proto__.docPromptPart;
+const metadata = BITCODE_IDENTITY.__proto__.docPromptPart;
 ```
 
 ### Current Reality

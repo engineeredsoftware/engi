@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 
 import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
-import { useAuth } from '@/components/base/engi/auth/AuthProvider';
+import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
 jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
@@ -13,7 +13,7 @@ jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
   },
 }));
 
-jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
+jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 

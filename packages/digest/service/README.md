@@ -57,4 +57,4 @@ pnpm --filter @bitcode/digest run test
 ## Future work
 
 * Add Grafana/Loki log shim for end-to-end timings.
-* Cron job that purges `/tmp/engi/digest-cache` with LRU semantics.
+* Cron job that purges `/tmp/bitcode/digest-cache` with LRU semantics.

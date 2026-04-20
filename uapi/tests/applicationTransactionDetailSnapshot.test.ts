@@ -1,4 +1,4 @@
-import type { DeliverablesDoc } from '@/components/base/engi/execution/DeliverablesDocPanel';
+import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
 import {
   buildApplicationRunDetailFromSelectedRun,
   normalizeApplicationRunDetailPayload,

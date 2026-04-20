@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PreprocessToggle as ToggleButton } from '@/components/base/engi/execution/preprocess-toggle';
+import { PreprocessToggle as ToggleButton } from '@/components/base/bitcode/execution/preprocess-toggle';
 
 const meta = {
   title: 'Kitchen-Sink/ToggleButton',

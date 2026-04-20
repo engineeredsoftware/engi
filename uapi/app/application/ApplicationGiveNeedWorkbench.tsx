@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import BitcodeMetricGrid from '@/components/base/engi/execution/BitcodeMetricGrid';
+import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
 
 import ApplicationActionWorkbenchCard from './ApplicationActionWorkbenchCard';
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';

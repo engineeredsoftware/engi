@@ -2,10 +2,10 @@
 
 import { useMemo, useState } from 'react';
 
-import { getBitcodeActivityKindLabel } from '@/components/base/engi/activity/bitcode-activity-model';
-import { isMockTransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-data-mode';
-import BitcodeExecutionStreamPanel from '@/components/base/engi/execution/BitcodeExecutionStreamPanel';
-import type { TransactionDataMode } from '@/components/base/engi/execution/bitcode-transaction-types';
+import { getBitcodeActivityKindLabel } from '@/components/base/bitcode/activity/bitcode-activity-model';
+import { isMockTransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
+import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
+import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 
 import { buildApplicationRunActivityFromEvents, buildApplicationRunActivityFromMock } from './application-run-activity';

@@ -1,8 +1,8 @@
-# Engi GA-1 Database Architecture
+# Bitcode V26 Database Architecture
 
 ## Overview
 
-The Engi GA-1 database schema focuses on core functionality with a streamlined set of tables for maintainability and performance.
+The Bitcode V26 database schema focuses on pre-commercial testnet readiness with a streamlined set of tables for maintainability, proofability, and projection-aware runtime behavior.
 
 ## Database Provider
 
@@ -10,7 +10,7 @@ The Engi GA-1 database schema focuses on core functionality with a streamlined s
 - **Staging URL**: `https://your-project.supabase.co`
 - **Extensions**: uuid-ossp, pgcrypto, vector, pg_stat_statements
 
-## GA-1 Schema Structure
+## V26 Schema Structure
 
 ### Migration Strategy
 - **Single Source of Truth**: All SQL lives under `supabase/migrations/` (e.g., `001_ga1_schema.sql`, `009_complete_deliverables_pipeline_naming.sql`).
@@ -36,7 +36,7 @@ Tables (representative):
 - **Key Fields**: id (UUID), username, display_name, bio, role, onboarded_steps (JSON array)
 - **Relations**: References auth.users(id)
 - **RLS**: Users can only access their own profile
-- **Note**: `onboarded_steps` defaults to `["models"]` for new users
+- **Note**: `onboarded_steps` defaults to `[]` and now tracks auxillary panes (`profile`, `connects`, `interfaces`, `btd`)
 
 #### `user_connections`
 - **Purpose**: VCS provider connections (GitHub only for GA-1)
@@ -45,17 +45,17 @@ Tables (representative):
 - **Future**: Extensible for GitLab, Bitbucket post-GA-1
 
 #### `user_model_preferences`
-- **Purpose**: LLM model selection and settings
+- **Purpose**: Interface model selection and defaults
 - **Key Fields**: user_id, model_provider, model_name, is_default
 - **Usage**: Determines which AI model to use for pipeline executions
 
 #### `user_credits`
-- **Purpose**: Credit balance and Stripe integration
+- **Purpose**: `$BTD`-adjacent credit balance and Stripe integration
 - **Key Fields**: user_id, balance, stripe_customer_id
 - **Critical**: Financial data - handle with care
 
 #### `user_credit_usages`
-- **Purpose**: Track credit consumption
+- **Purpose**: Track credit consumption and settlement-adjacent spend history
 - **Key Fields**: user_id, amount, operation_type, operation_id
 - **Append-only**: Never update or delete records
 

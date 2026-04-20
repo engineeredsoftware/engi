@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { PreprocessToggle as ToggleButton } from '@/components/base/engi/execution/preprocess-toggle';
-import ExecuteButton from '@/components/base/engi/execution/execute-button';
+import { PreprocessToggle as ToggleButton } from '@/components/base/bitcode/execution/preprocess-toggle';
+import ExecuteButton from '@/components/base/bitcode/execution/execute-button';
 
 const meta = {
   title: 'Executions/Actions',

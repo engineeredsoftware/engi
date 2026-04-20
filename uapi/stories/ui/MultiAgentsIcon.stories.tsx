@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MultiAgentsIcon from '@/components/base/engi/multi-agents-icon';
+import MultiAgentsIcon from '@/components/base/bitcode/multi-agents-icon';
 
 const meta = {
   title: 'UI/MultiAgentsIcon',

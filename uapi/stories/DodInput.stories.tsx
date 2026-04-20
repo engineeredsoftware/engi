@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
-import { DodInput } from '@/components/base/engi/inputs/dod-input';
+import { DodInput } from '@/components/base/bitcode/inputs/dod-input';
 
 const meta: Meta<typeof DodInput> = {
   title: 'Bitcode/Surprise & Delight/DoD Input',

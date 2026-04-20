@@ -2,4 +2,4 @@ export {
   PipelineExecutionLog as ExecutionsProcessLog,
   PipelineExecutionLog as ExecutionProcessLog,
   PipelineExecutionLog as ProcessLog
-} from '@/components/base/engi/execution/pipeline-execution-log';
+} from '@/components/base/bitcode/execution/pipeline-execution-log';

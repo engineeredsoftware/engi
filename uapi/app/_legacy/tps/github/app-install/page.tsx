@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
-import QuantumEffect from '@/components/base/engi/effects/QuantumEffect';
-import TypingAnimation from '@/components/base/engi/typing-animation';
+import QuantumEffect from '@/components/base/bitcode/effects/QuantumEffect';
+import TypingAnimation from '@/components/base/bitcode/typing-animation';
 
 export default function GitHubAppInstallPage() {
   return (

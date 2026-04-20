@@ -14,8 +14,8 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/base/shadcn/command";
-import Globe from "@/components/base/engi/magicui/globe";
-import Marquee from "@/components/base/engi/magicui/marquee";
+import Globe from "@/components/base/bitcode/magicui/globe";
+import Marquee from "@/components/base/bitcode/magicui/marquee";
 import {
   MixIcon,
   RocketIcon,

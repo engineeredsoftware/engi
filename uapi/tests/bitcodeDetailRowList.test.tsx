@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeDetailRowList from '@/components/base/engi/execution/BitcodeDetailRowList';
+import BitcodeDetailRowList from '@/components/base/bitcode/execution/BitcodeDetailRowList';
 
 describe('BitcodeDetailRowList', () => {
   it('renders key-value rows', () => {

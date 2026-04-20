@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import LoginForm from '@/components/base/engi/auth/LoginForm';
+import LoginForm from '@/components/base/bitcode/auth/LoginForm';
 import {
   AUXILLARIES_ACCESS_LABEL,
   AUXILLARIES_LIST_LABEL,

@@ -16,18 +16,18 @@ info:
     
   version: 2.0.0
   contact:
-    name: Engi API Support
-    url: https://docs.engi.dev/support
-    email: api-support@engi.dev
+    name: Bitcode API Support
+    url: https://docs.bitcode.example/support
+    email: api-support@bitcode.example
   license:
     name: Proprietary
-    url: https://engi.dev/license
+    url: https://bitcode.example/license
 
 servers:
-  - url: https://api.engi.dev
-    description: Production server
-  - url: https://staging-api.engi.dev  
-    description: Staging server
+  - url: https://api.bitcode.example
+    description: Example production server
+  - url: https://staging-api.bitcode.example
+    description: Example staging server
   - url: http://localhost:3000
     description: Development server
 
@@ -101,7 +101,7 @@ paths:
               basic_message:
                 summary: Basic chat message
                 value:
-                  content: "Hello Engi, how can you help me?"
+                  content: "Hello Bitcode, how can you help me?"
                   includeHistory: true
               
               rich_text_message:

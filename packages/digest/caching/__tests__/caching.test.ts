@@ -5,14 +5,14 @@ import { getCacheDir, getCachePath } from '../index';
 describe('getCacheDir', () => {
   it('returns GitHub mode cache dir', () => {
     const dir = getCacheDir(true, '/root/dir', { repoOrgUser: 'org/repo' });
-    expect(dir).toBe('/tmp/engi/digest-cache/github/org/repo/files');
+    expect(dir).toBe('/tmp/bitcode/digest-cache/github/org/repo/files');
   });
 
   it('returns Local mode cache dir using remoteUrl when provided', () => {
     const remoteUrl = 'https://example.com/repo.git';
     const dir = getCacheDir(false, '/unused', { remoteUrl });
     const expectedHash = crypto.createHash('sha256').update(remoteUrl).digest('hex').slice(0, 12);
-    expect(dir).toBe(`/tmp/engi/digest-cache/local/${expectedHash}/files`);
+    expect(dir).toBe(`/tmp/bitcode/digest-cache/local/${expectedHash}/files`);
   });
 });
 

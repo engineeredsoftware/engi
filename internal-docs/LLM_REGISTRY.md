@@ -14,11 +14,11 @@ Single Source of Truth
 
 Defaults and Env Variables
 - Defaults: local development defaults to Google Gemini Flash.
-  - `ENGI_LLM_PROVIDER=google`
-  - `ENGI_LLM_MODEL=gemini-2.5-flash`
+  - `BITCODE_LLM_PROVIDER=google`
+  - `BITCODE_LLM_MODEL=gemini-2.5-flash`
 - Production can override via env, e.g. Anthropic Opus:
-  - `ENGI_LLM_PROVIDER=anthropic`
-  - `ENGI_LLM_MODEL=opus-4.1`
+  - `BITCODE_LLM_PROVIDER=anthropic`
+  - `BITCODE_LLM_MODEL=opus-4.1`
 
 Pipeline Integration
 - Deliverables bootstrap: `packages/pipelines/deliverable/src/initialize.ts`

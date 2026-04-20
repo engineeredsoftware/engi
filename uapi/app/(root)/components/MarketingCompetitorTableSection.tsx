@@ -13,10 +13,10 @@ import {
   ClockIcon,
 } from "@heroicons/react/24/outline";
 
-import { DisabledTooltipWrapper } from "@/components/base/engi/overlays/disabled-tooltip-wrapper";
+import { DisabledTooltipWrapper } from "@/components/base/bitcode/overlays/disabled-tooltip-wrapper";
 
-import Logo from "@/components/base/engi/branding/logo";
-import BitcodeSoftwareSvgLogo from "@/components/base/engi/branding/bitcode-software-svg-logo";
+import Logo from "@/components/base/bitcode/branding/logo";
+import BitcodeSoftwareSvgLogo from "@/components/base/bitcode/branding/bitcode-software-svg-logo";
 
 // Re-use the established EducationCard styling from deliverables/ai_documents headers.
 

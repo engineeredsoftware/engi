@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { PreprocessToggle as ToggleButton } from '@/components/base/engi/execution/preprocess-toggle';
+import { PreprocessToggle as ToggleButton } from '@/components/base/bitcode/execution/preprocess-toggle';
 
 describe('ToggleButton component', () => {
   it('calls onToggle when clicked', () => {

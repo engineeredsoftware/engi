@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { useAuth } from "@/components/base/engi/auth/AuthProvider";
+import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 
 import AuxillariesBTDPaneHeader from "@/app/auxillaries/components/headers/AuxillariesBTDPaneHeader";

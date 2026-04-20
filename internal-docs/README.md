@@ -171,7 +171,7 @@ Archive of experimental concepts.
 
 ### Frontend Quickstart (2‑minute ramp)
 
-- Import UI only from `@/components/base/shadcn/*`; import Engi primitives from `@/components/base/engi/*`.
+- Import UI only from `@/components/base/shadcn/*`; import Engi primitives from `@/components/base/bitcode/*`.
 - Use `ScrollContainer` for scroll regions; add a themed variant (`custom-scrollbar--thumb-purple` / `-emerald` / `-blue`).
 - Wrap heavy/animated containers: `GPUAcceleration`; wrap large off‑screen content: `ContentVisibility`.
 - Keep shared CSS in `app/styles/components.css`; don’t redefine scrollbars in feature CSS.
