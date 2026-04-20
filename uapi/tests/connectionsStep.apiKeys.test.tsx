@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/orbitals/components/OrbitalConnects';
+import ConnectionsStep from '@/app/orbitals/components/OrbitalsConnects';
 
 describe('ConnectionsStep API Keys UI (SSR)', () => {
   it('renders Generate API Key section', () => {

@@ -37,7 +37,7 @@ test.describe('Profile Flows', () => {
     await context.route(`${supa}/auth/v1/otp`, r => r.fulfill({ status:200,contentType:'application/json',body:'{"data":{},"error":null}' }));
     await context.route(`${supa}/auth/v1/verify`, r => r.fulfill({ status:200,contentType:'application/json',body:'{"data":{"session":{"user":{"id":"u1"}}},"error":null}' }));
     // Stub user data with multiple team members
-    await context.route('**/api/orbitals/data', r => r.fulfill({
+    await context.route('**/api/auxillaries/data', r => r.fulfill({
       status: 200, contentType: 'application/json', body: JSON.stringify({
         profile: { user_id: 'u1', username: 'tester', display_name: 'Tester', bio: 'Bio', company_name: 'Acme', avatar_url: '', team_members: [
           { id: 'u1', username: 'tester', displayName: 'Tester', avatarUrl: '', role: 'owner' },

@@ -68,7 +68,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
       })
     );
     // Stub notifications API
-    await context.route('**/api/orbitals/notifications', route =>
+    await context.route('**/api/auxillaries/notifications', route =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',

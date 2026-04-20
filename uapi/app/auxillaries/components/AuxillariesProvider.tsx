@@ -5,18 +5,18 @@ import type { AuxillaryPane } from './auxillary-pane-meta';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 
-const Orbital = dynamic(() => import('@/app/orbitals/components'), { ssr: false });
+const AuxillariesSurface = dynamic(() => import('@/app/auxillaries/components/AuxillariesSurface'), { ssr: false });
 
 if (typeof window !== 'undefined') {
-  Orbital.preload?.();
+  AuxillariesSurface.preload?.();
 }
 
 const prefetchAuxillaries = () => {
   if (typeof window !== 'undefined' && !(window as any).__auxillariesPrefetched) {
     (window as any).__auxillariesPrefetched = true;
-    import('@/app/orbitals/components').catch(() => {});
-    import('@/app/orbitals/components/OrbitalsLoginPane').catch(() => {});
-    import('@/app/orbitals/components/OrbitalsContent').catch(() => {});
+    import('@/app/auxillaries/components/AuxillariesSurface').catch(() => {});
+    import('@/app/auxillaries/components/AuxillariesLoginPane').catch(() => {});
+    import('@/app/auxillaries/components/AuxillariesContent').catch(() => {});
     import('@/hooks/use-auth-query').catch(() => {});
     if (typeof fetch !== 'undefined') {
       fetch('/api/auxillaries/data', { method: 'HEAD', credentials: 'same-origin' }).catch(() => {});
@@ -25,14 +25,14 @@ const prefetchAuxillaries = () => {
 };
 
 type AuxillaryWindow = 'SignInWindow' | 'SignUpWindow';
-type AuxillaryOpenMode = AuxillaryWindow | 'login' | 'account' | 'auxillaries' | 'orbitals';
+type AuxillaryOpenMode = AuxillaryWindow | 'login' | 'account' | 'auxillaries';
 
 function normalizeAuxillaryWindow(winOrLegacy: AuxillaryOpenMode = 'SignUpWindow'): AuxillaryWindow {
   if (winOrLegacy === 'login') {
     return 'SignInWindow';
   }
 
-  if (winOrLegacy === 'account' || winOrLegacy === 'auxillaries' || winOrLegacy === 'orbitals') {
+  if (winOrLegacy === 'account' || winOrLegacy === 'auxillaries') {
     return 'SignUpWindow';
   }
 
@@ -78,7 +78,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     const onOpen = (e: Event) => {
       const detail = (e as CustomEvent)?.detail as {
         window?: AuxillaryWindow;
-        mode?: 'login' | 'account' | 'auxillaries' | 'orbitals';
+        mode?: 'login' | 'account' | 'auxillaries';
         step?: AuxillaryPane;
       } | undefined;
 
@@ -95,18 +95,10 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
 
     window.addEventListener('open-auxillaries', onOpen as EventListener);
     window.addEventListener('close-auxillaries', onClose as EventListener);
-    window.addEventListener('open-orbitals', onOpen as EventListener);
-    window.addEventListener('close-orbitals', onClose as EventListener);
-    window.addEventListener('open-orbital', onOpen as EventListener);
-    window.addEventListener('close-orbital', onClose as EventListener);
 
     return () => {
       window.removeEventListener('open-auxillaries', onOpen as EventListener);
       window.removeEventListener('close-auxillaries', onClose as EventListener);
-      window.removeEventListener('open-orbitals', onOpen as EventListener);
-      window.removeEventListener('close-orbitals', onClose as EventListener);
-      window.removeEventListener('open-orbital', onOpen as EventListener);
-      window.removeEventListener('close-orbital', onClose as EventListener);
     };
   }, []);
 
@@ -145,7 +137,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
       {isOpen && portalContainer
         ? createPortal(
             <div className="orbital-portal orbital-open">
-              <Orbital
+              <AuxillariesSurface
                 window={windowState}
                 onClose={closeAuxillaries}
                 initialStep={deepLinkStep ?? undefined}

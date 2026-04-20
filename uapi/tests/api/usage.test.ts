@@ -1,13 +1,13 @@
 /**
  * @jest-environment node
  */
-import { GET } from '@/app/api/orbitals/usage/route';
+import { GET } from '@/app/api/auxillaries/usage/route';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 
 // Helper to create GET Request
 function makeRequest(query: string) {
-  return new Request(`https://example.com/api/orbitals/usage${query}`, { method: 'GET' });
+  return new Request(`https://example.com/api/auxillaries/usage${query}`, { method: 'GET' });
 }
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({

@@ -14,7 +14,7 @@ test.describe('Notifications Widget', () => {
 
   test('no notifications displays empty state', async ({ page, context }) => {
     // Return no notifications
-    await context.route('**/api/orbitals/notifications', route =>
+    await context.route('**/api/auxillaries/notifications', route =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -40,7 +40,7 @@ test.describe('Notifications Widget', () => {
       { id: 'n2', user_id: 'user-1', type: 'bar', message: 'World', data: {}, read: true,  created_at: '2023-01-02T00:00:00Z' }
     ];
     // Stub initial fetch
-    await context.route('**/api/orbitals/notifications', route =>
+    await context.route('**/api/auxillaries/notifications', route =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -48,7 +48,7 @@ test.describe('Notifications Widget', () => {
       })
     );
     // Stub patch and delete endpoints
-    await context.route('**/api/orbitals/notifications/*', route =>
+    await context.route('**/api/auxillaries/notifications/*', route =>
       route.fulfill({ status: 200 })
     );
 
@@ -64,7 +64,7 @@ test.describe('Notifications Widget', () => {
 
     // Click 'Read' to mark first as read and capture the PATCH request
     const patchReq = page.waitForRequest(req =>
-      req.url().endsWith('/api/orbitals/notifications/n1') && req.method() === 'PATCH'
+      req.url().endsWith('/api/auxillaries/notifications/n1') && req.method() === 'PATCH'
     );
     await page.click('button:has-text("Read")');
     const req1 = await patchReq;
@@ -73,7 +73,7 @@ test.describe('Notifications Widget', () => {
 
     // Click 'Dismiss' to delete second notification and capture DELETE request
     const deleteReq = page.waitForRequest(req =>
-      req.url().endsWith('/api/orbitals/notifications/n2') && req.method() === 'DELETE'
+      req.url().endsWith('/api/auxillaries/notifications/n2') && req.method() === 'DELETE'
     );
     await page.click('button:has-text("Dismiss")');
     const req2 = await deleteReq;

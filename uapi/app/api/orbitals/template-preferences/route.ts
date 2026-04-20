@@ -1,1 +1,2 @@
-export { GET, POST, runtime } from '@/app/api/auxillaries/template-preferences/route';
+export const runtime = 'nodejs';
+export { GET, POST } from '@/app/api/auxillaries/template-preferences/route';

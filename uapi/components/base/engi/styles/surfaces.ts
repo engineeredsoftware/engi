@@ -1,4 +1,4 @@
-// Base Engi surface style tokens (class compositions)
+// Base Bitcode surface style tokens (class compositions)
 //
 // popoverSurfaceClass — canonical classes for dark glass popover surfaces
 // used by menus/tooltips/popovers. Centralizing the class string lets us

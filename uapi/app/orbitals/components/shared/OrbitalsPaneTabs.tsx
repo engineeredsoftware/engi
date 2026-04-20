@@ -11,7 +11,7 @@ import {
 } from '../orbital-pane-meta';
 
 interface OrbitalsPaneTabsProps {
-  mode?: 'onboarding' | 'orbitals';
+  mode?: 'onboarding' | 'auxillaries';
   steps: OrbitalPane[];
   currentStep: OrbitalPane;
   completedSteps: OrbitalPane[];
@@ -29,14 +29,14 @@ export default function OrbitalsPaneTabs({
 }: OrbitalsPaneTabsProps) {
   const completedCount = completedSteps.length;
   const totalCount = steps.filter(Boolean).length;
-  const isOrbitalMode = mode === 'orbitals';
+  const isAuxillariesMode = mode === 'auxillaries';
 
   return (
     <div className="orbital-pane-tabs mb-6 rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
-            {isOrbitalMode ? ORBITALS_LABEL : ORBITALS_ACCESS_LABEL}
+            {isAuxillariesMode ? ORBITALS_LABEL : ORBITALS_ACCESS_LABEL}
           </p>
           <p className="mt-2 text-sm leading-6 text-neutral-300">
             {getOrbitalsTabsDescription(mode)}
@@ -44,7 +44,7 @@ export default function OrbitalsPaneTabs({
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
-            {isOrbitalMode ? 'auxillaries' : 'auxillaries access'}
+            {isAuxillariesMode ? 'auxillaries' : 'auxillaries access'}
           </span>
           <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
             {completedCount}/{totalCount} complete

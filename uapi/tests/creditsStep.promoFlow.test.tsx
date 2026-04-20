@@ -3,7 +3,7 @@ import React from 'react';
 jest.mock('@/components/base/engi/indicators/processing-indicator', () => ({ ProcessingIndicator: () => null }));
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import CreditsStep from '@/app/orbitals/components/OrbitalCredits';
+import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
 
 describe('CreditsStep Promo Code Flow', () => {
   beforeAll(() => {

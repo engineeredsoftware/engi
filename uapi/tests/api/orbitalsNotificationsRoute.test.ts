@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-describe('/api/orbitals/notifications routes', () => {
+describe('/api/auxillaries/notifications routes', () => {
   beforeEach(() => {
     jest.resetModules();
   });
@@ -14,9 +14,9 @@ describe('/api/orbitals/notifications routes', () => {
       MOCK_USER_ORBITAL_SCENARIO: 'demo',
     }));
 
-    const { GET } = await import('@/app/api/orbitals/notifications/route');
+    const { GET } = await import('@/app/api/auxillaries/notifications/route');
     const response = await GET(
-      new Request('https://example.com/api/orbitals/notifications?limit=2'),
+      new Request('https://example.com/api/auxillaries/notifications?limit=2'),
     );
     const payload = await response.json();
 
@@ -51,9 +51,9 @@ describe('/api/orbitals/notifications routes', () => {
       },
     }));
 
-    const { GET } = await import('@/app/api/orbitals/notifications/route');
+    const { GET } = await import('@/app/api/auxillaries/notifications/route');
     const response = await GET(
-      new Request('https://example.com/api/orbitals/notifications'),
+      new Request('https://example.com/api/auxillaries/notifications'),
     );
     const payload = await response.json();
 
@@ -68,10 +68,10 @@ describe('/api/orbitals/notifications routes', () => {
       MOCK_USER_ORBITAL_SCENARIO: 'demo',
     }));
 
-    const routeModule = await import('@/app/api/orbitals/notifications/[notificationId]/route');
+    const routeModule = await import('@/app/api/auxillaries/notifications/[notificationId]/route');
 
     const patchResponse = await routeModule.PATCH(
-      new Request('https://example.com/api/orbitals/notifications/mock-notification-proof', {
+      new Request('https://example.com/api/auxillaries/notifications/mock-notification-proof', {
         method: 'PATCH',
         body: JSON.stringify({ read: true }),
       }),
@@ -87,7 +87,7 @@ describe('/api/orbitals/notifications routes', () => {
     });
 
     const deleteResponse = await routeModule.DELETE(
-      new Request('https://example.com/api/orbitals/notifications/mock-notification-proof', {
+      new Request('https://example.com/api/auxillaries/notifications/mock-notification-proof', {
         method: 'DELETE',
       }),
       { params: { notificationId: 'mock-notification-proof' } },

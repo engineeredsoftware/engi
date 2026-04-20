@@ -1,4 +1,4 @@
-import { GET } from '@/app/api/orbitals/profile/route';
+import { GET } from '@/app/api/auxillaries/profile/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
@@ -14,9 +14,9 @@ jest.mock('@bitcode/supabase', () => ({
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
-import { POST } from '@/app/api/orbitals/profile/route';
+import { POST } from '@/app/api/auxillaries/profile/route';
 
-describe('GET /api/orbitals/profile', () => {
+describe('GET /api/auxillaries/profile', () => {
   const mockUser = { id: 'user-1' };
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('GET /api/orbitals/profile', () => {
   it('returns 401 if unauthenticated', async () => {
     const mockSupabase = { auth: { getUser: jest.fn().mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } }) } };
     (createClient as jest.Mock).mockResolvedValue(mockSupabase);
-    const request = new Request('http://localhost/api/orbitals/profile');
+    const request = new Request('http://localhost/api/auxillaries/profile');
     const response = await GET(request);
     expect(response.status).toBe(401);
     const body = await response.json();
@@ -43,7 +43,7 @@ describe('GET /api/orbitals/profile', () => {
     const mockSupabase = { auth: { getUser: jest.fn().mockResolvedValue({ data: { user: mockUser }, error: null }) } };
     (createClient as jest.Mock).mockResolvedValue(mockSupabase);
     (supabaseAdmin.from().select().eq().maybeSingle as jest.Mock).mockResolvedValue({ data: profileData, error: null });
-    const request = new Request('http://localhost/api/orbitals/profile');
+    const request = new Request('http://localhost/api/auxillaries/profile');
     const response = await GET(request);
     expect(response.status).toBe(200);
     const data = await response.json();
@@ -51,7 +51,7 @@ describe('GET /api/orbitals/profile', () => {
   });
 });
 
-describe('POST /api/orbitals/profile', () => {
+describe('POST /api/auxillaries/profile', () => {
   const mockUser = { id: 'user-1' };
   const mockGetUser = jest.fn();
   beforeEach(() => {
@@ -62,7 +62,7 @@ describe('POST /api/orbitals/profile', () => {
 
   it('returns 401 if unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
-    const req = new Request('http://localhost/api/orbitals/profile', { method: 'POST', body: JSON.stringify({ username: 'bob' }) });
+    const req = new Request('http://localhost/api/auxillaries/profile', { method: 'POST', body: JSON.stringify({ username: 'bob' }) });
     const res = await POST(req as any);
     expect(res.status).toBe(401);
   });
@@ -76,7 +76,7 @@ describe('POST /api/orbitals/profile', () => {
 
   it('returns 400 when username missing', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
-    const req = new Request('http://localhost/api/orbitals/profile', { method: 'POST', body: JSON.stringify({}) });
+    const req = new Request('http://localhost/api/auxillaries/profile', { method: 'POST', body: JSON.stringify({}) });
     const res = await POST(req as any);
     expect(res.status).toBe(400);
     const body = await res.json();
@@ -87,7 +87,7 @@ describe('POST /api/orbitals/profile', () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     const builder: any = { upsert: jest.fn().mockReturnThis() };
     (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
-    const req = new Request('http://localhost/api/orbitals/profile', { method: 'POST', body: JSON.stringify({ username: 'bob', bio: 'hello' }) });
+    const req = new Request('http://localhost/api/auxillaries/profile', { method: 'POST', body: JSON.stringify({ username: 'bob', bio: 'hello' }) });
     const res = await POST(req as any);
     expect(res.status).toBe(201);
     const body = await res.json();

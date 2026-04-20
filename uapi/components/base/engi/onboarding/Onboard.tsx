@@ -25,7 +25,7 @@ export const useOnboardCTA = () => {
         } else {
           setText('Install App')
         }
-        setHref('https://github.com/marketplace/engi-github-app')
+        setHref('https://github.com/marketplace/bitcode-github-app')
       }
     } else {
       setText('Get Started')

@@ -86,7 +86,12 @@ export function ExecutionsClient() {
     setSelectedMcpId(mcpId);
     if (config) {
       setMcpConfigById(prev => ({ ...prev, [mcpId]: config }));
-      try { localStorage.setItem('engi-mcp-configs', JSON.stringify({ ...(JSON.parse(localStorage.getItem('engi-mcp-configs') || '{}')), [mcpId]: config })); } catch {}
+      try {
+        localStorage.setItem(
+          'bitcode-mcp-configs',
+          JSON.stringify({ ...(JSON.parse(localStorage.getItem('bitcode-mcp-configs') || '{}')), [mcpId]: config }),
+        );
+      } catch {}
     }
   }, []);
 

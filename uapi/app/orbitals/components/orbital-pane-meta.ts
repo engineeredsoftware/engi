@@ -64,9 +64,9 @@ export const getOrbitalLabelPosition = getAuxillaryLabelPosition;
 export const getOrbitalDescriptor = getAuxillaryDescriptor;
 export const getOrbitalLayerLabel = getAuxillaryLayerLabel;
 export const getOrbitalOpenActionLabel = getAuxillaryOpenActionLabel;
-export const getOrbitalsWorkspaceHeading = (mode: 'onboarding' | 'orbitals') =>
-  getAuxillariesWorkspaceHeading(mode === 'orbitals' ? 'auxillaries' : mode);
-export const getOrbitalsWorkspaceDescription = (mode: 'onboarding' | 'orbitals') =>
-  getAuxillariesWorkspaceDescription(mode === 'orbitals' ? 'auxillaries' : mode);
-export const getOrbitalsTabsDescription = (mode: 'onboarding' | 'orbitals') =>
-  getAuxillariesTabsDescription(mode === 'orbitals' ? 'auxillaries' : mode);
+export const getOrbitalsWorkspaceHeading = (mode: 'onboarding' | 'auxillaries') =>
+  getAuxillariesWorkspaceHeading(mode);
+export const getOrbitalsWorkspaceDescription = (mode: 'onboarding' | 'auxillaries') =>
+  getAuxillariesWorkspaceDescription(mode);
+export const getOrbitalsTabsDescription = (mode: 'onboarding' | 'auxillaries') =>
+  getAuxillariesTabsDescription(mode);

@@ -30,7 +30,7 @@ const footerNavs = [
     label: "Product",
     items: [
       {
-        href: "https://github.com/marketplace/engi-github-app",
+        href: "https://github.com/marketplace/bitcode-github-app",
         name: "GitHub App",
       },
       {

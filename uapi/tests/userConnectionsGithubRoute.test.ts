@@ -1,12 +1,17 @@
-import { POST } from '@/app/api/orbitals/connections/github/route';
+import { POST } from '@/app/api/auxillaries/connections/github/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
+jest.mock('@/app/octokit', () => ({
+  app: {
+    getInstallationOctokit: jest.fn(),
+  },
+}));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 
-  describe('POST /api/orbitals/connections/github', () => {
+  describe('POST /api/auxillaries/connections/github', () => {
   const mockUser = { id: 'user-1' };
   const mockGetUser = jest.fn();
 
@@ -17,7 +22,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 
   it('returns 401 if unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
-    const req = new Request('http://localhost/api/orbitals/connections/github', { method: 'POST', body: JSON.stringify({}) });
+    const req = new Request('http://localhost/api/auxillaries/connections/github', { method: 'POST', body: JSON.stringify({}) });
     const res = await POST(req);
     expect(res.status).toBe(401);
   });
@@ -41,15 +46,15 @@ import { createClient } from '@bitcode/supabase/ssr/server';
     const mockedCreateClient = createClient as jest.Mock;
     (mockedCreateClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser }, from: jest.fn().mockReturnValue(builder) });
     const data = { token: 'abc', installationId: 123 };
-    const req = new Request('http://localhost/api/orbitals/connections/github', { method: 'POST', body: JSON.stringify(data) });
+    const req = new Request('http://localhost/api/auxillaries/connections/github', { method: 'POST', body: JSON.stringify(data) });
     const res = await POST(req);
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({ success: true });
     expect(builder.upsert).toHaveBeenCalledWith(expect.objectContaining({ provider: 'github', connection_data: data }), { onConflict: ['user_id', 'provider'] });
   });
-  describe('GET /api/orbitals/connections/github', () => {
-    const { GET } = require('@/app/api/orbitals/connections/github/route');
+  describe('GET /api/auxillaries/connections/github', () => {
+    const { GET } = require('@/app/api/auxillaries/connections/github/route');
     const mockUser = { id: 'user-1' };
     const mockGetUser = jest.fn();
     const mockFrom: any = {
@@ -74,14 +79,14 @@ import { createClient } from '@bitcode/supabase/ssr/server';
     });
     it('returns 401 if unauthenticated', async () => {
       mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
-      const req = new Request('http://localhost/api/orbitals/connections/github', { method: 'GET' });
+      const req = new Request('http://localhost/api/auxillaries/connections/github', { method: 'GET' });
       const res = await GET(req);
       expect(res.status).toBe(401);
     });
     it('returns 404 if no connection record', async () => {
       mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
       mockFrom.maybeSingle.mockResolvedValue({ data: null, error: { message: 'not found' } });
-      const req = new Request('http://localhost/api/orbitals/connections/github', { method: 'GET' });
+      const req = new Request('http://localhost/api/auxillaries/connections/github', { method: 'GET' });
       const res = await GET(req);
       expect(res.status).toBe(404);
       const body = await res.json();
@@ -100,9 +105,9 @@ import { createClient } from '@bitcode/supabase/ssr/server';
         rest: { apps: { listReposAccessibleToInstallation: jest.fn() } },
         paginate: jest.fn().mockResolvedValue(fakeRepos)
       };
-      const { app } = require('@/octokit');
+      const { app } = require('@/app/octokit');
       app.getInstallationOctokit = jest.fn().mockResolvedValue(mockOctokit);
-      const req = new Request('http://localhost/api/orbitals/connections/github', { method: 'GET' });
+      const req = new Request('http://localhost/api/auxillaries/connections/github', { method: 'GET' });
       const res = await GET(req);
       expect(res.status).toBe(200);
       const body = await res.json();

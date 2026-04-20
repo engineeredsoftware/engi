@@ -145,7 +145,6 @@ The current first-gate V26 structure is:
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/make-engi-branch/route.ts`
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/auxillaries/data/route.ts`
@@ -360,7 +359,7 @@ Second-gate acceptance is reached only when:
 - live `/application` copy also avoids shell-plumbing, mounted-state, source-path, or compatibility-console narration except where a bounded lower-level runtime view is intentionally entered,
 - stepwise workspace guidance reads as resumable give/need flow guidance and working-draft continuity rather than tutorial/demo residue,
 - signed-in orbitals now expose real `Interfaces` and `$BTD` panes through shared orbital workspace section, stat, and preference carriers rather than model or credits wrappers,
-- application-owned orbital preference persistence now lives at `/api/orbitals/model-preferences` with authenticated read and lead/admin write posture,
+- application-owned orbital preference persistence now lives at `/api/auxillaries/model-preferences` with authenticated read and lead/admin write posture,
 - application command normalization now uses flow-guide continuity while preserved-shell tutorial fields survive only as compatibility input,
 - conversations and orbitals clearly read as the other two main experiences rather than peer product destinations,
 - the give and need actions are explicit in the master-detail workspace,
@@ -387,7 +386,7 @@ Second-gate acceptance is reached only when:
 - the mounted landing owner now delegates hero, guide, preview, and shared marketing-shell data into `app/(root)/components/landing/*` carriers instead of retaining a single oversized mixed-surface file,
 - the mounted public shell now owns a real `/docs` route through `PublicDocsPageContent.tsx`, with `/demo-video` retained only as a compatibility alias into that docs-owned content,
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility,
-- the mounted public footer now resolves the guide route through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`,
+- the mounted public footer now resolves the guide route through Bitcode-owned route/env ownership instead of falling back to the removed legacy docs-walkthrough env fallback,
 - the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec path,
 - the mounted public nav now resolves small-screen complexity by stacking and wrapping the live Bitcode links and guest actions instead of hiding the primary entry paths behind another menu state,
 - the mounted public terminal preview now defaults to a compact mobile/public summary and reserves the denser operator-grade preview for wider shells,

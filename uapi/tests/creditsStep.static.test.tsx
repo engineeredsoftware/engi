@@ -3,7 +3,7 @@ jest.mock('@bitcode/supabase/ssr/client', () => ({ createClient: () => ({}) }));
 jest.mock('@/components/base/engi/indicators/processing-indicator', () => ({ ProcessingIndicator: () => null }));
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import CreditsStep from '@/app/orbitals/components/OrbitalCredits';
+import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
 
 describe('CreditsStep SSR Onboarding View', () => {
   it('renders onboarding header, badge, and Micro plan option', () => {

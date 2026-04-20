@@ -1,4 +1,4 @@
-import { GET, POST } from '@/app/api/orbitals/model-preferences/route';
+import { GET, POST } from '@/app/api/auxillaries/model-preferences/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn() } }));
@@ -24,7 +24,7 @@ beforeEach(() => {
   (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser } });
 });
 
-describe('POST /api/orbitals/model-preferences RBAC', () => {
+describe('POST /api/auxillaries/model-preferences RBAC', () => {
   it('returns stored preferences on GET for an authenticated user', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
 

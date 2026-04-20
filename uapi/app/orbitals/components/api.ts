@@ -2,7 +2,7 @@
 
 // Save user profile information
 export const saveUserProfile = async (profileData: any) => {
-  const res = await fetch('/api/auxillaries/user/profile', {
+  const res = await fetch('/api/auxillaries/profile', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(profileData)
@@ -16,7 +16,7 @@ export const saveUserProfile = async (profileData: any) => {
 
 // Connect to GitHub
 export const connectGitHub = async (connectionData: any) => {
-  const res = await fetch('/api/auxillaries/user/connections/github', {
+  const res = await fetch('/api/auxillaries/connections/github', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(connectionData)
@@ -30,7 +30,7 @@ export const connectGitHub = async (connectionData: any) => {
 
 // Purchase credits
 export const purchaseCredits = async (purchaseData: any) => {
-  const res = await fetch('/api/auxillaries/user/credits', {
+  const res = await fetch('/api/auxillaries/credits', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(purchaseData)

@@ -1,4 +1,4 @@
-import { GET } from '@/app/api/orbitals/usage/route';
+import { GET } from '@/app/api/auxillaries/usage/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
@@ -10,7 +10,7 @@ jest.mock('@bitcode/supabase', () => ({
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 
-describe('GET /api/orbitals/usage', () => {
+describe('GET /api/auxillaries/usage', () => {
   const mockUser = { id: 'user-1' };
   const mockGetUser = jest.fn();
   const events = [
@@ -26,7 +26,7 @@ describe('GET /api/orbitals/usage', () => {
 
   it('returns 401 if unauthenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
-    const res = await GET(new Request('http://localhost/api/orbitals/usage'));
+    const res = await GET(new Request('http://localhost/api/auxillaries/usage'));
     expect(res.status).toBe(401);
   });
 
@@ -38,7 +38,7 @@ describe('GET /api/orbitals/usage', () => {
       data: events, error: null,
     };
     (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
-    const res = await GET(new Request('http://localhost/api/orbitals/usage'));
+    const res = await GET(new Request('http://localhost/api/auxillaries/usage'));
     expect(res.status).toBe(200);
     const summary = await res.json();
     expect(summary).toEqual([
@@ -55,7 +55,7 @@ describe('GET /api/orbitals/usage', () => {
       data: events, error: null,
     };
     (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
-    const req = new Request('http://localhost/api/orbitals/usage?aggregate=daily');
+    const req = new Request('http://localhost/api/auxillaries/usage?aggregate=daily');
     const res = await GET(req);
     expect(res.status).toBe(200);
     const summary = await res.json();
@@ -69,7 +69,7 @@ describe('GET /api/orbitals/usage', () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
     const builder: any = { select: jest.fn().mockReturnThis(), eq: jest.fn().mockReturnThis(), order: jest.fn().mockReturnThis(), data: null, error: { message: 'db error' } };
     (supabaseAdmin.from as jest.Mock).mockReturnValue(builder);
-    const res = await GET(new Request('http://localhost/api/orbitals/usage'));
+    const res = await GET(new Request('http://localhost/api/auxillaries/usage'));
     expect(res.status).toBe(500);
   });
 });

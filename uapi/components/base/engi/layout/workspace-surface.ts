@@ -4,7 +4,7 @@ export type PublicShellSurface = 'network' | 'docs' | null;
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
   if (pathname.startsWith('/application')) return 'application';
-  if (pathname.startsWith('/auxillaries') || pathname.startsWith('/orbitals')) return 'auxillaries';
+  if (pathname.startsWith('/auxillaries')) return 'auxillaries';
   if (pathname.startsWith('/conversations')) return 'conversations';
   return null;
 }

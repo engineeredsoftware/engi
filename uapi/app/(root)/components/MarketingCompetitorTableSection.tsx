@@ -157,7 +157,7 @@ const COLUMN_INFO: Record<(typeof COLUMNS)[number], DocBoxCopy> = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Engi-specific highlight card copy                                          */
+/* Bitcode-specific highlight card copy                                       */
 /* -------------------------------------------------------------------------- */
 
 interface CrushCopy {
@@ -165,7 +165,7 @@ interface CrushCopy {
   points: string[];
 }
 
-const ENGI_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
+const BITCODE_CRUSH_COPY: Record<(typeof COLUMNS)[number], CrushCopy> = {
   "Deep Coding": {
     headline: "Ship Features, Not Snippets",
     points: [
@@ -519,10 +519,10 @@ function DocBox({
 }
 
 /* -------------------------------------------------------------------------- */
-/* Engi Crush Card                                                            */
+/* Bitcode Advantage Card                                                     */
 /* -------------------------------------------------------------------------- */
 
-function EngiCrushCard({
+function BitcodeAdvantageCard({
   content,
   variant = 'excellence',
 }: {
@@ -685,8 +685,8 @@ export default function MarketingCompetitorTableSection() {
 
           {/* Animated content */}
           <AnimatePresence mode="wait" initial={false}>
-            <EngiCrushCard
-              content={ENGI_CRUSH_COPY[activeColumnKey]}
+            <BitcodeAdvantageCard
+              content={BITCODE_CRUSH_COPY[activeColumnKey]}
               key={activeColumnKey}
               variant={activeColumnKey === 'Local Interfaces' ? 'elimination' : 'excellence'}
             />

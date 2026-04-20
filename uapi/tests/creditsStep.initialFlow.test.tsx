@@ -1,17 +1,17 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/react';
-import CreditsStep from '@/app/orbitals/components/OrbitalCredits';
+import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
 
 describe('CreditsStep Returning User Flow', () => {
   let fetchMock: jest.Mock;
   beforeEach(() => {
     // Stub API call for usage data and user data
     fetchMock = jest.fn((input: RequestInfo) => {
-      if (typeof input === 'string' && input.endsWith('/api/orbitals/data')) {
+      if (typeof input === 'string' && input.endsWith('/api/auxillaries/data')) {
         return Promise.resolve({ ok: true, json: async () => ({ credits: 200 }) });
       }
-      if (typeof input === 'string' && input.startsWith('/api/orbitals/usage')) {
+      if (typeof input === 'string' && input.startsWith('/api/auxillaries/usage')) {
         return Promise.resolve({ ok: true, json: async () => [] });
       }
       return Promise.reject(new Error('Unexpected fetch'));
@@ -40,10 +40,10 @@ describe('CreditsStep Returning User Flow', () => {
 
   it('calls onCompletionStatusChange(false) when user has zero credits', async () => {
     fetchMock = jest.fn((input: RequestInfo) => {
-      if (typeof input === 'string' && input.endsWith('/api/orbitals/data')) {
+      if (typeof input === 'string' && input.endsWith('/api/auxillaries/data')) {
         return Promise.resolve({ ok: true, json: async () => ({ credits: 0 }) });
       }
-      if (typeof input === 'string' && input.startsWith('/api/orbitals/usage')) {
+      if (typeof input === 'string' && input.startsWith('/api/auxillaries/usage')) {
         return Promise.resolve({ ok: true, json: async () => [] });
       }
       return Promise.reject(new Error('Unexpected fetch'));

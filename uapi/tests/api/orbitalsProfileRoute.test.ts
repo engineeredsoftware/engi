@@ -2,11 +2,11 @@
  * @jest-environment node
  */
 
-import { GET } from '@/app/api/orbitals/profile/route';
+import { GET } from '@/app/api/auxillaries/profile/route';
 
 // Utility to build a minimal Next.js Request object
 function makeRequest() {
-  return new Request('https://example.com/api/orbitals/profile', {
+  return new Request('https://example.com/api/auxillaries/profile', {
     method: 'GET'
   });
 }
@@ -30,7 +30,7 @@ jest.mock('@bitcode/supabase', () => ({
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 
-describe('/api/orbitals/profile GET', () => {
+describe('/api/auxillaries/profile GET', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

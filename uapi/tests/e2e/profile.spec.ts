@@ -11,7 +11,7 @@ test.describe('Profile Editing in Account Modal', () => {
     // Stub OTP verify
     await context.route(`${supabaseUrl}/auth/v1/verify`, route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: { session: { user: { id: 'user-1' } } }, error: null }) }));
     // Stub initial user data
-    await context.route('**/api/orbitals/data', route => route.fulfill({
+    await context.route('**/api/auxillaries/data', route => route.fulfill({
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify({
@@ -49,7 +49,7 @@ test.describe('Profile Editing in Account Modal', () => {
     await page.fill('input[placeholder="Your organization name"]', 'New Org');
     // Intercept save request
     const [request] = await Promise.all([
-      page.waitForRequest(req => req.url().endsWith('/api/orbitals/profile') && req.method() === 'POST'),
+      page.waitForRequest(req => req.url().endsWith('/api/auxillaries/profile') && req.method() === 'POST'),
       page.click('button:has-text("Save Profile")')
     ]);
     const body = JSON.parse(request.postData() || '{}');

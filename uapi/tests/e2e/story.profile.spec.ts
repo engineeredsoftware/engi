@@ -11,7 +11,7 @@ test.describe('User Story: Account Modal Navigation', () => {
     await context.route(`${supa}/auth/v1/verify`, route =>
       route.fulfill({ status: 200, body: JSON.stringify({ data: { session: { user: { id: 'user1' } } }, error: null }) })
     );
-    await context.route('**/api/orbitals/data', route =>
+    await context.route('**/api/auxillaries/data', route =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
         profile: { user_id: 'user1', username: 'tester', display_name: 'Tester', bio: 'Bio', company_name: 'Acme', avatar_url: '', team_members: [] },
         githubConnection: { installationId: 42 }, credits: 100, modelPreferences: {}

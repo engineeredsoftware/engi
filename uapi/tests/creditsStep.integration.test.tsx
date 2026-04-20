@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import CreditsStep from '@/app/orbitals/components/OrbitalCredits';
+import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
 
 describe('CreditsStep interactions', () => {
   beforeAll(() => {

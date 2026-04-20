@@ -77,7 +77,7 @@ test.describe('@profile Orbital - Connections Step', () => {
   
   test('orbital-connections-api-keys-generate', async ({ page, context }) => {
     // Stub API keys endpoints
-    await context.route('**/api/orbitals/api-keys', route => {
+    await context.route('**/api/auxillaries/api-keys', route => {
       const method = route.request().method();
       if (method === 'GET') {
         route.fulfill({
@@ -108,7 +108,7 @@ test.describe('@profile Orbital - Connections Step', () => {
 
   test('orbital-connections-github-verify-failure', async ({ page, context }) => {
     // Stub GitHub verify to return error
-    await context.route('**/api/orbitals/connections/github', route =>
+    await context.route('**/api/auxillaries/connections/github', route =>
       route.fulfill({
         status: 400,
         contentType: 'text/plain',
@@ -133,7 +133,7 @@ test.describe('@profile Orbital - Connections Step', () => {
 
   test('orbital-connections-api-keys-delete', async ({ page, context }) => {
     // Initial GET returns two keys
-    await context.route('**/api/orbitals/api-keys', route => {
+    await context.route('**/api/auxillaries/api-keys', route => {
       if (route.request().method() === 'GET') {
         route.fulfill({
           status: 200,
@@ -146,7 +146,7 @@ test.describe('@profile Orbital - Connections Step', () => {
       }
     });
     // Stub DELETE to succeed
-    await context.route('**/api/orbitals/api-keys?id=key1', route =>
+    await context.route('**/api/auxillaries/api-keys?id=key1', route =>
       route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
     );
     await page.goto('/');

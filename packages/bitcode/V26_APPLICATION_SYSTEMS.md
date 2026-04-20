@@ -642,7 +642,7 @@ Operational rule:
 Current active carriers:
 - `uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx`
 - `uapi/app/orbitals/components/OrbitalsBTDPane.tsx`
-- `uapi/app/api/orbitals/user/data-share/route.ts`
+- `uapi/app/api/auxillaries/user/data-share/route.ts`
 - `uapi/app/orbitals/components/shared/OrbitalsWorkspacePanels.tsx`
 - `uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx`
 - `uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx`
@@ -685,7 +685,7 @@ Current active V26-facing API surfaces include:
 - `uapi/app/api/reset/route.ts`
 - `uapi/app/api/bitcoin-demonstration-service/route.ts`
 - `uapi/app/api/auxillaries/data/route.ts`
-- `uapi/app/api/orbitals/model-preferences/route.ts`
+- `uapi/app/api/auxillaries/model-preferences/route.ts`
 - `uapi/app/api/conversations/route.ts`
 - `uapi/app/api/conversations/branch/route.ts`
 - `uapi/app/api/conversations/stream/route.ts`
@@ -730,6 +730,8 @@ Current major retained owners:
   Application and API surfaces that expose the retained storage system upward into Bitcode; `/edgetimes` and `/api/edgetimes` now act as the live fourth-gate Bitcode storage/API witness for through-fourth-gate promotion rather than remaining draft-only posture.
 - retained execution compatibility carriers including `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences`
   Application API surfaces that keep retained runs/pipelines selectors and template personalization healthy while fourth-gate convergence ports those behaviors inward to `/application`.
+- canonical auxillary API carriers including `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/credits`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys`
+  Application API surfaces that keep profile identity, Connects-approved repository knowledge, $BTD balance history, $BTD transaction history, and API-key control under canonical Bitcode auxillary ownership instead of compatibility `orbitals` ownership.
 - retained `/executions` and `/orbitals` route posture
   Compatibility route families that remain explicit during fourth-gate promotion while merged-world naming keeps `executions` explicit inside `activity` and converges `orbitals` on `auxillaries`; `/orbitals/*` must remain redirect-only compatibility into canonical `/auxillaries/*`, transactions/executions/notifications are activity classes, and auxillaries remain the non-transactional extra-network companion surfaces around the Bitcode core.
 

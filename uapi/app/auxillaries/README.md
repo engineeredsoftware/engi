@@ -23,10 +23,17 @@ Legacy `/orbitals/*` links are compatibility-only and should redirect here witho
   Canonical auxillary route builder, metadata owner, and compatibility-path bridge.
 - `components/AuxillariesProvider.tsx`
   Canonical fullscreen auxillary overlay provider, event bridge, and portal owner.
+- `components/AuxillariesSurface.tsx`, `components/AuxillariesContent.tsx`, `components/AuxillariesLoginPane.tsx`
+  Canonical auxillary shell, contained reading surface, and sign-in entry owners.
+- `components/shared/*`
+  Canonical auxillary tabs and workspace-panel carriers for the focused route and contained overlay.
 - `../orbitals/components/*`
-  Retained pane implementations, tabs, panels, and fullscreen content reused by the canonical auxillary shell during the V26 convergence period.
+  Compatibility wrappers and retained pane implementations reused while deeper fifth-gate retirement remains open.
+- `../api/auxillaries/*`
+  Canonical auxillary API owners for profile, Connects, notifications, onboarding, model preferences, BTD balance history, BTD transaction history, API keys, and data-share posture.
 
 ## Canonical rule
 
 User-facing route and HTML posture should prefer `/auxillaries/*`.
-`/orbitals/*` survives only as a redirect-only compatibility family until later cleanup removes the alias entirely.
+Active product code should also prefer `/api/auxillaries/*`.
+`/orbitals/*` and `/api/orbitals/*` are compatibility carriers only and should be retired entirely by full V26 closure.

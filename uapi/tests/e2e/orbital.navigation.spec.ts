@@ -9,7 +9,7 @@ test.describe('Orbital Navigation & Close Flows', () => {
     await context.route(`${supabaseUrl}/auth/v1/otp`, r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: {}, error: null }) }));
     await context.route(`${supabaseUrl}/auth/v1/verify`, r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: { session: { user: { id: 'u1' } } }, error: null }) }));
     // Stub user data
-    await context.route('**/api/orbitals/data', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+    await context.route('**/api/auxillaries/data', r => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
       profile: { user_id: 'u1', username: 'tester', display_name: 'Tester', bio: '', company_name: '', avatar_url: '', team_members: [] },
       githubConnection: { installationId: 42 }, credits: 0, modelPreferences: {}
     }) }));

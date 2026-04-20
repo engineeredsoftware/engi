@@ -8,13 +8,13 @@ test.describe('Orbital - Credits Chart No-Data States', () => {
     const supa = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     await context.route('**/api/auth/v1/otp', r => r.fulfill({ status:200, body: JSON.stringify({ data:{},error:null }) }));
     await context.route('**/api/auth/v1/verify', r => r.fulfill({ status:200, body: JSON.stringify({ data:{session:{user:{id:'u1'}}}, error:null }) }));
-    await context.route('**/api/orbitals/data', r => r.fulfill({
+    await context.route('**/api/auxillaries/data', r => r.fulfill({
       status: 200, contentType: 'application/json', body: JSON.stringify({
         profile: { user_id: 'u1', username: 'tester' },
         githubConnection: { installationId: 42 }, credits: 0, modelPreferences: {}
       })
     }));
-    await context.route('**/api/orbitals/usage*', r => r.fulfill({
+    await context.route('**/api/auxillaries/usage*', r => r.fulfill({
       status: 200, contentType: 'application/json', body: JSON.stringify([])
     }));
     // Trigger Credits step

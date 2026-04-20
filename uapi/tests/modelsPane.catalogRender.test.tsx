@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ModelsPane from '@/app/orbitals/components/OrbitalModelsPane';
+import ModelsPane from '@/app/orbitals/components/OrbitalsModelsPane';
 import { SUPPORTED_LLM_MODELS } from '@/utils/model-pricing';
 
 describe('Models Pane uses centralized model catalog', () => {

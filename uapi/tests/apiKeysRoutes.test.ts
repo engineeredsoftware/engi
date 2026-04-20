@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from '@/app/api/orbitals/api-keys/route';
+import { GET, POST, DELETE } from '@/app/api/auxillaries/api-keys/route';
 import { authenticateRequest } from '@bitcode/auth';
 import { supabaseAdmin } from '@bitcode/supabase';
 
@@ -12,10 +12,10 @@ describe('API Key Management Routes', () => {
     jest.resetAllMocks();
   });
 
-  describe('GET /api/orbitals/api-keys', () => {
+  describe('GET /api/auxillaries/api-keys', () => {
     it('returns 401 when unauthenticated', async () => {
       mockAuth.mockResolvedValueOnce(new Response(null, { status: 401 }));
-      const res = await GET(new Request('http://localhost/api/orbitals/api-keys'));
+      const res = await GET(new Request('http://localhost/api/auxillaries/api-keys'));
       expect(res.status).toBe(401);
     });
     it('lists keys for authenticated user', async () => {
@@ -29,7 +29,7 @@ describe('API Key Management Routes', () => {
         then: (onfulfilled: any) => Promise.resolve({ data: mockData, error: null }).then(onfulfilled)
       };
       mockFrom.mockReturnValue(builder);
-      const res = await GET(new Request('http://localhost/api/orbitals/api-keys'));
+      const res = await GET(new Request('http://localhost/api/auxillaries/api-keys'));
       expect(res.status).toBe(200);
       const body = await res.json();
       expect(body).toEqual([
@@ -39,8 +39,8 @@ describe('API Key Management Routes', () => {
     });
   });
 
-  describe('POST /api/orbitals/api-keys', () => {
-    const url = 'http://localhost/api/orbitals/api-keys';
+  describe('POST /api/auxillaries/api-keys', () => {
+    const url = 'http://localhost/api/auxillaries/api-keys';
     it('returns 401 when unauthenticated', async () => {
       mockAuth.mockResolvedValueOnce(new Response(null, { status: 401 }));
       const res = await POST(new Request(url, { method: 'POST', body: '{}' }));
@@ -55,9 +55,9 @@ describe('API Key Management Routes', () => {
     });
     it('creates a new key', async () => {
       mockAuth.mockResolvedValueOnce({ userId: 'u1' });
-      const rawKey = 'abc123';
+      const rawKey = 'abc123deadbeef';
       // stub crypto.randomBytes
-      jest.spyOn(require('crypto'), 'randomBytes').mockReturnValue(Buffer.from(rawKey));
+      jest.spyOn(require('crypto'), 'randomBytes').mockReturnValue(Buffer.from(rawKey, 'hex'));
       // Builder for insert
       const builder = {
         insert: jest.fn().mockReturnThis(),
@@ -76,8 +76,8 @@ describe('API Key Management Routes', () => {
     });
   });
 
-  describe('DELETE /api/orbitals/api-keys', () => {
-    const base = 'http://localhost/api/orbitals/api-keys';
+  describe('DELETE /api/auxillaries/api-keys', () => {
+    const base = 'http://localhost/api/auxillaries/api-keys';
     it('returns 401 when unauthenticated', async () => {
       mockAuth.mockResolvedValueOnce(new Response(null, { status: 401 }));
       const res = await DELETE(new Request(base + '?id=k1', { method: 'DELETE' }));

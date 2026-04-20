@@ -193,7 +193,7 @@ export default function BTDPane({
           to: to.toISOString().slice(0, 10)
         });
         
-        const res = await fetch(`/api/auxillaries/user/usage?${params.toString()}`);
+        const res = await fetch(`/api/auxillaries/usage?${params.toString()}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         
         const raw: Array<{ period: string; purchased: number; spent: number; balance: number }> = await res.json();
@@ -217,7 +217,7 @@ export default function BTDPane({
   useEffect(() => {
     setTxLoading(true);
     setTxError(null);
-    fetch(`/api/auxillaries/user/transactions?page=${txPage}&pageSize=${PAGE_SIZE}`)
+    fetch(`/api/auxillaries/transactions?page=${txPage}&pageSize=${PAGE_SIZE}`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();

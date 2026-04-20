@@ -544,9 +544,9 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       case 'thinking':
         return 'text-gray-300';
       case 'generation':
-        return 'text-emerald-400'; // Engi green
+        return 'text-emerald-400'; // Bitcode green
       case 'tool-use':
-        return 'text-purple-400';  // Engi purple
+        return 'text-purple-400';  // Bitcode purple
       case 'otf_instructions':
         return 'text-orange-400';  // orange
       case 'completion':

@@ -6,13 +6,13 @@ Date: 2025-09-15
 
 ## Context
 
-We standardized the user-facing Auxillaries overlay across the app. The fullscreen overlay still reuses retained `orbitals` component and event naming for compatibility, but the canonical direct-route family is now `/auxillaries/*`. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used “mode” and singular “orbital” inconsistently (and event names used `open-orbital`).
+We standardized the user-facing Auxillaries overlay across the app. The canonical route and API family is now `/auxillaries/*`. The overlay has two top-level states that a user toggles between, and within one of those states it hosts four per-auxillary panels. Historically we used “mode” and singular “orbital” inconsistently, and this ADR records the Bitcode-side organization while compatibility residue is retired.
 
 ## Decision
 
 1) Naming and Structure
 
-- Experience: Auxillaries (user-facing), canonical `/auxillaries/*` route family, retained `/orbitals/*` path and event compatibility
+- Experience: Auxillaries (user-facing), canonical `/auxillaries/*` route family
 - Windows (overlay top-level):
   - `SignInWindow`: Authentication (login) surface.
   - `SignUpWindow`: Onboarding/account surface that contains the panes.
@@ -24,7 +24,7 @@ We standardized the user-facing Auxillaries overlay across the app. The fullscre
 
 2) Component Placement
 
-- Retained `/orbitals` experience code lives under: `uapi/app/orbitals/components/*`
+- Retained implementation code currently lives under: `uapi/app/orbitals/components/*`
   - Overlay root: `index.tsx`, Provider: `provider.tsx`, `OrbitalsProvider.tsx`
   - Panes and helpers: `profile-pane.tsx`, `connects-pane.tsx`, `models-pane.tsx`, `credits-pane.tsx`
   - Headers: `headers/*`, Shared atoms: `shared/*`, Models helpers: `models/*`
@@ -36,19 +36,18 @@ We standardized the user-facing Auxillaries overlay across the app. The fullscre
 
 3) Events and API
 
-- Global events (pluralized):
-  - Open: `window.dispatchEvent(new CustomEvent('open-orbitals', { detail: { window: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane } }))`
-  - Close: `window.dispatchEvent(new CustomEvent('close-orbitals'))`
-  - The provider listens to both new (plural) and legacy (singular) names for back‑compat.
+- Global events:
+  - Open: `window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane } }))`
+  - Close: `window.dispatchEvent(new CustomEvent('close-auxillaries'))`
 - Types:
   - `type OrbitalPane = 'profile' | 'connects' | 'models' | 'credits' | null`
   - Overlay prop: `window?: 'SignInWindow' | 'SignUpWindow'`
-- Deep links: canonical `/auxillaries/(profile|connects|interfaces|btd)` open the focused contained read; retained `/orbitals/(users|connects|models|credits)` survive as redirect-only compatibility into the canonical family.
-- Provider API: `openOrbital(window?: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane)`, `closeOrbital()`, `prefetchOrbital()`
+- Deep links: canonical `/auxillaries/(profile|connects|interfaces|btd)` open the focused contained read.
+- Provider API: `openAuxillaries(window?: 'SignInWindow' | 'SignUpWindow', step?: OrbitalPane)`, `closeAuxillaries()`, `prefetchAuxillaries()`
 
 4) HTTP and CSS Conventions
 
-- API paths remain `/api/orbitals/*` as the retained compatibility boundary while user-facing product naming converges on Auxillaries.
+- API paths are canonicalized under `/api/auxillaries/*`.
 - CSS Modules: animations declared via `:global { @keyframes ... }` (purity). Prefixes:
   - Experience: `orbitals-*`
   - Per-orbital: `orbitals-users-*`, `orbitals-connects-*`, `orbitals-models-*`, `orbitals-credits-*`
@@ -57,21 +56,21 @@ We standardized the user-facing Auxillaries overlay across the app. The fullscre
 
 - The left toggle in the overlay switches between `SignInWindow` and `SignUpWindow`.
 - Per-auxillary panes remain as the right abstraction inside SignUpWindow.
-- Global events and docs keep retained `/orbitals` compatibility where needed, but user-facing naming and canonical routes should read as Auxillaries.
-- Tests, stories, and fetchers use retained plural API paths and `/orbitals` imports until the compatibility layer is retired.
+- User-facing naming and canonical routes read as Auxillaries.
+- Tests, stories, and fetchers should target `/auxillaries` owners first.
 - Future work should place components according to the experience vs base boundary described above.
 
 ## Example Usage
 
 ```ts
-import { openOrbital } from '@/app/orbitals/components/OrbitalsProvider';
+import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 
 // Open onboarding (SignUp) directly to Connects pane
-openOrbital('SignUpWindow', 'connects');
+openAuxillaries('SignUpWindow', 'connects');
 
 // Open SignIn window
-openOrbital('SignInWindow');
+openAuxillaries('SignInWindow');
 
 // Global events (alternative)
-window.dispatchEvent(new CustomEvent('open-orbitals', { detail: { window: 'SignInWindow' } }));
+window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' } }));
 ```

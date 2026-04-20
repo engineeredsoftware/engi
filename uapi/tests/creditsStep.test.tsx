@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import CreditsStep from '@/app/orbitals/components/OrbitalCredits';
+import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
 
 describe('CreditsStep (SSR)', () => {
   it('renders credit plan options, promo code section, and initial credits display', () => {

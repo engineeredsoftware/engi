@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import ConnectionsStep from '@/app/orbitals/components/OrbitalConnects';
+import ConnectionsStep from '@/app/orbitals/components/OrbitalsConnects';
 
 describe('ConnectionsStep interactions', () => {
   beforeAll(() => {

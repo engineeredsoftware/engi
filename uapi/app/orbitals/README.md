@@ -65,7 +65,7 @@ The contained auxillary shell used inside the application and direct orbital rou
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
 - read as retained auxillaries access and contained auxillary reads rather than generic settings/account furniture,
 - keep shared entry labels such as `Open Auxillaries fullscreen`, targeted actions such as `Open Connects fullscreen`, and the direct-route return action `Open transactions` aligned across the application,
-- reopen signed-in overlays through `openAuxillaries('auxillaries', step?)` from active callers, with `openOrbital('orbitals', step?)` retained only as a compatibility alias,
+- reopen signed-in overlays through `openAuxillaries('auxillaries', step?)` from active callers,
 - and remain aligned to the same operator atmosphere as `/application`.
 
 ## Related files

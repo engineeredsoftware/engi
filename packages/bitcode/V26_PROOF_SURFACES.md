@@ -109,7 +109,7 @@ Required coverage posture:
   retained packages and converged routes are covered by behavior tests
 - proof surface:
   retained systems are named in the eventual V26 proof family rather than implied
-  current live fourth-gate promotion-boundary owners include `uapi/app/conversations/page.tsx`, `uapi/app/conversations/ConversationsRouteClient.tsx`, `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/api/executions/route.ts`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `uapi/app/edgetimes/edgetimes-topology.ts`, `uapi/app/edgetimes/EdgetimesPageContent.tsx`, `uapi/app/edgetimes/page.tsx`, `uapi/app/api/edgetimes/route.ts`, and the focused route/API tests proving those surfaces
+  current live fourth-gate promotion-boundary owners include `uapi/app/conversations/page.tsx`, `uapi/app/conversations/ConversationsRouteClient.tsx`, `uapi/app/executions/page.tsx`, `uapi/app/executions/[runId]/page.tsx`, `uapi/app/api/executions/route.ts`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `uapi/app/api/auxillaries/profile/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, `uapi/app/api/auxillaries/credits/route.ts`, `uapi/app/api/auxillaries/usage/route.ts`, `uapi/app/api/auxillaries/transactions/route.ts`, `uapi/app/api/auxillaries/api-keys/route.ts`, `uapi/app/edgetimes/edgetimes-topology.ts`, `uapi/app/edgetimes/EdgetimesPageContent.tsx`, `uapi/app/edgetimes/page.tsx`, `uapi/app/api/edgetimes/route.ts`, and the focused route/API tests proving those surfaces
   current generated fourth-gate promotion proofs are `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
   retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
 
@@ -193,12 +193,12 @@ Current active assignments:
   `uapi/tests/orbitalsProvider.test.tsx` plus live `/application` verification with orbitals entry exercised from the running app
   proof surface:
   second-gate fullscreen orbitals portal readiness from `/application`, including first-open rendering when the shared event bridge fires before the overlay container would otherwise be visible to React
-- `uapi/app/api/orbitals/model-preferences/route.ts`
+- `uapi/app/api/auxillaries/model-preferences/route.ts`
   test coverage:
   `uapi/tests/api/userModelPreferencesRoute.test.ts`
   proof surface:
   second-gate application-owned signed-in orbital preference persistence, including authenticated read posture, lead/admin write posture, mock-mode fallback, and app-owned save ownership for orbital defaults
-- `uapi/app/api/orbitals/user/data-share/route.ts`
+- `uapi/app/api/auxillaries/user/data-share/route.ts`
   test coverage:
   `uapi/tests/api/orbitalsUserDataShareRoute.test.ts`
   proof surface:

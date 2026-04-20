@@ -686,7 +686,7 @@ function MarketingMultiAgentShowcase() {
                       <span className="text-emerald-300/80 text-base font-mono">Chat Window Preview</span>
                     </div>
                     <p className="mt-4 text-gray-300 text-sm">
-                      Ask Bitcode anything—from "generate tests" to "architect a microservice." Cloud chat keeps the context synced with your workspace.
+                      Ask Bitcode anything—from "generate tests" to "architect a microservice." Cloud chat keeps the context synced with your transactions, activity, and docs surfaces.
                     </p>
                   </div>
 
@@ -704,7 +704,7 @@ function MarketingMultiAgentShowcase() {
                   <GitHubLogoIcon className="pointer-events-none absolute -right-4 -bottom-4 h-48 w-48 text-emerald-400 opacity-10" />
 
                   <a
-                    href="https://github.com/marketplace/engi-github-app"
+                    href="https://github.com/marketplace/bitcode-github-app"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute top-4 right-4 z-20 inline-flex items-center gap-1 text-sm font-semibold text-indigo-400 hover:underline"
@@ -717,10 +717,10 @@ function MarketingMultiAgentShowcase() {
 
                   <div className="flex flex-wrap gap-2">
                     {[
-                      ['engi-deliver-comment', 'bg-blue-500 text-white'],
-                      ['engi-deliver-review', 'bg-purple-500 text-white'],
-                      ['engi-deliver-pr', 'bg-green-500 text-white'],
-                      ['engi-deliver-issue', 'bg-emerald-400 text-black'],
+                      ['bitcode-deliver-comment', 'bg-blue-500 text-white'],
+                      ['bitcode-deliver-review', 'bg-purple-500 text-white'],
+                      ['bitcode-deliver-pr', 'bg-green-500 text-white'],
+                      ['bitcode-deliver-issue', 'bg-emerald-400 text-black'],
                     ].map(([label, cls]) => (
                       <span key={label} className={`px-3 py-1 rounded-full text-xs ${cls}`}>{label}</span>
                     ))}
@@ -913,7 +913,7 @@ function MarketingMultiAgentShowcase() {
                       <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></div>
                       <div className="w-2.5 h-2.5 rounded-full bg-green-500/70"></div>
                     </div>
-                    <div className="text-sm text-gray-400 mx-auto font-mono">engi@terminal:~/api</div>
+                    <div className="text-sm text-gray-400 mx-auto font-mono">bitcode@terminal:~/api</div>
                   </div>
                   <div className="absolute top-10 right-6 z-20 max-w-xs">
                     <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400 via-indigo-600 to-indigo-400 opacity-40 blur-lg" />

@@ -40,7 +40,7 @@ export const useAIDocumentTemplates = (): Hook => {
         if (arr) arr.push({ id: t.id, name: t.name, text: t.template_text });
       });
       try {
-        const stored = localStorage.getItem('engi-mcp-configs');
+        const stored = localStorage.getItem('bitcode-mcp-configs');
         const mcpConfig = stored ? JSON.parse(stored) : {};
         grouped.mcpConfig = grouped.mcpConfig.filter((t: any) => mcpConfig[t.id]);
       } catch {}

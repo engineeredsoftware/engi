@@ -25,7 +25,7 @@ V26 uses this package as:
 
 ## Main files
 
-- `src/engi-demo.js`
+- `src/bitcode-demo.js`
   Deterministic state engine and local Bitcode chain modeling.
 - `src/client-entry.js`
   App-facing mount/snapshot/control bridge.

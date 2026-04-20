@@ -10,7 +10,7 @@ describe('OrbitalsPaneTabs', () => {
 
     render(
       <OrbitalsPaneTabs
-        mode="orbitals"
+        mode="auxillaries"
         steps={['connects', 'interfaces', 'profile', 'btd']}
         currentStep="connects"
         completedSteps={['connects']}

@@ -30,7 +30,7 @@ Compatibility orbital aliases such as `/orbitals/users`, `/orbitals/models`, and
 Canonical `/auxillaries/*` routes and contained entry shells should teach auxillaries as the merged-world target, read as contained auxillary reads, and avoid regressing to generic workspace/settings/account language.
 Selected `/application` and `/auxillaries` review surfaces should also keep live product wording on `Transactions` and `Auxillaries` instead of drifting back toward `workspace` or `transaction terminal`.
 The shared orbital metadata layer in `app/orbitals/components/orbital-pane-meta.ts` is the active owner for fullscreen orbital-entry wording such as `Open Auxillaries fullscreen`, targeted orbital-open actions, and the direct-route return action `Open transactions`.
-Signed-in orbital reopen actions should flow through the shared `openOrbital('orbitals', step?)` contract rather than older account-named caller aliases.
+Signed-in auxillary reopen actions should flow through the shared `openAuxillaries('auxillaries', step?)` contract rather than older account-named caller aliases.
 Contained orbital rails should also converge on the shared panel-plus-tabs carriers in `app/orbitals/components/shared/` rather than reintroducing floating ring-label or sequence-only furniture per route or pane.
 
 ## Main route systems
@@ -106,6 +106,8 @@ Fourth-gate retained `/executions` health also now depends on explicit compatibi
   Deliverable-template compatibility carrier for retained execution composition.
 - `app/api/auxillaries/template-preferences/route.ts`
   Saved template-preference compatibility carrier for retained execution personalization.
+- `app/api/auxillaries/profile/route.ts`, `app/api/auxillaries/connections/github/route.ts`, `app/api/auxillaries/credits/route.ts`, `app/api/auxillaries/usage/route.ts`, `app/api/auxillaries/transactions/route.ts`, `app/api/auxillaries/api-keys/route.ts`
+  Canonical auxillary API owners for profile, Connects, $BTD balance history, BTD transaction history, and API-key management; active product code should prefer these over compatibility `orbitals` API aliases.
 
 Those routes are not brochure compatibility leftovers.
 They are current fourth-gate promotion-boundary owners and should stay fail-closed, tested, and documented until inward convergence removes the retained dependency.

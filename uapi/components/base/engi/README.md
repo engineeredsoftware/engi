@@ -26,7 +26,6 @@ It is the reusable carrier layer for:
 ## V26 second-gate rule
 
 New product behavior should prefer this shared layer when the result is:
-- reusable across `/application`, `/orbitals`, and `/conversations`,
 - reusable across `/application`, `/auxillaries`, and `/conversations`,
 - typed and provable,
 - cleaner than page-local duplication,
@@ -46,5 +45,7 @@ If shared operator chrome or execution carriers change materially, their README 
   Shared transaction/detail/payload carrier map.
 - [../../../app/application/README.md](../../../app/application/README.md)
   Route-local `/application` ownership.
+- [../../../app/auxillaries/README.md](../../../app/auxillaries/README.md)
+  Canonical `/auxillaries` route and contained auxillary ownership.
 - [../../../app/orbitals/README.md](../../../app/orbitals/README.md)
-  Retained `/orbitals` compatibility route and Auxillaries ownership.
+  Retained `/orbitals` compatibility route only.

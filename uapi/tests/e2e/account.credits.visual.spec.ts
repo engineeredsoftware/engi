@@ -6,7 +6,7 @@ test.describe.skip('@profile UI Visual - Account Credits Flow (skipped - focusin
   test('account-credits-massive-balance', async ({ page, context }) => {
     // Stub user data with large credits and usage
     const supa = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    await context.route('**/api/orbitals/data', route =>
+    await context.route('**/api/auxillaries/data', route =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',

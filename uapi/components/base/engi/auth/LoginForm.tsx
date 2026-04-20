@@ -205,7 +205,6 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   const isContainedSurface = surfaceVariant === 'contained'
   const nextWorkspacePath =
     nextParam.startsWith('/auxillaries') ||
-    nextParam.startsWith('/orbitals') ||
     nextParam.startsWith('/application')
       ? nextParam
       : '/application'
@@ -389,7 +388,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
             completedOnboarding = false
           }
           if (completedOnboarding) {
-            // Return to the live workspace surface instead of the legacy demo route.
+            // Return to the live transactions surface instead of the legacy demo route.
             onClose?.()
             try {
               router.push(nextWorkspacePath)

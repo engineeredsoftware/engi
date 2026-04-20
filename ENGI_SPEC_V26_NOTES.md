@@ -101,7 +101,7 @@ The current active second-gate application additions now explicitly include:
 - `uapi/app/api/executions/history/route.ts`
 - `uapi/app/api/executions/history/[runId]/route.ts`
 - `uapi/app/api/client-error/route.ts`
-- `uapi/app/api/orbitals/model-preferences/route.ts`
+- `uapi/app/api/auxillaries/model-preferences/route.ts`
 - `uapi/app/application/ApplicationWorkspaceRail.tsx`
 - `uapi/app/application/ApplicationTransactionWorkspace.tsx`
 - `uapi/app/application/ApplicationMockTransactionDetails.tsx`
@@ -214,7 +214,7 @@ The current source now reflects that architecture more directly:
 - `ApplicationPageClient.tsx`, `ApplicationTransactionWorkspace.tsx`, `ApplicationTransactionDetailSurface.tsx`, `ApplicationCommandDeck.tsx`, `ApplicationLiveSummaryStrip.tsx`, `ApplicationSectionAtlas.tsx`, `ApplicationPreservedShellSurface.tsx`, `OrbitalsInterfacesPane.tsx`, `OrbitalsBTDPane.tsx`, `OrbitalsModelsPane.tsx`, and `user-menu.tsx` now keep visible review surfaces on `Transactions` / `Orbitals` wording instead of `workspace` / `transaction terminal` drift, while also delaying the support-rail split to `2xl` so laptop-width review stays centered on the main transactions column.
 - `README.md`, `uapi/README.md`, `packages/bitcode/README.md`, `uapi/app/application/README.md`, `uapi/app/orbitals/README.md`, `uapi/components/base/engi/README.md`, and `uapi/components/base/engi/execution/README.md` now form the active second-gate documentation set and must stay synchronized with the route/package owners they describe.
 - `OrbitalsInterfacesPane.tsx`, `OrbitalsBTDPane.tsx`, `OrbitalsBTDOrbitalHeader.tsx`, `OrbitalsConnectsOrbitalEmailConnection.tsx`, `OrbitalsConnectsOrbitalPhoneConnection.tsx`, and `uapi/styles/orbital.css` now carry active `interfaces`/`btd`/`orbital-entry` naming instead of leaking active model/credits/settings residue through the live orbital surface.
-- `uapi/app/api/orbitals/model-preferences/route.ts` plus `uapi/tests/api/userModelPreferencesRoute.test.ts` now restore application-owned orbital preference persistence with authenticated read and lead/admin write posture.
+- `uapi/app/api/auxillaries/model-preferences/route.ts` plus `uapi/tests/api/userModelPreferencesRoute.test.ts` now restore application-owned orbital preference persistence with authenticated read and lead/admin write posture.
 - `uapi/app/api/executions/_shared.ts`, `uapi/app/api/executions/history/route.ts`, and `uapi/app/api/executions/history/[runId]/route.ts` now restore the active app-owned execution-history JSON carrier the transactions master, selected-transaction detail, and retained execution readers depend on, so those flows no longer collapse into missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review.
 - `packages/bitcode/src/client-entry.js` now applies the host-wait guard to snapshot and control reads as well as shell mount, so the application shell bridge no longer imports the preserved shell module before `bitcodeApplicationRoot` and `heroEyebrow` exist.
 - `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` now exist as explicit supplementary non-canonical carriers for the converged application architecture and its expanded proof/test/spec obligations.
@@ -312,7 +312,7 @@ Mounted public-shell chrome is also now explicit:
 - `/demo-video` is now a compatibility alias into the same docs-owned content instead of a separate public product surface
 - the stable docs walkthrough now fails closed with user-facing fallback copy and a direct `Open transactions` path instead of exposing asset-path instructions
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
-- the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
+- the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of the removed legacy docs-walkthrough env fallback
 - the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec file path
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
 - the mounted public terminal preview now leads with a compact public/mobile summary and only expands into the denser operator-grade preview on wider shells
@@ -430,4 +430,5 @@ The following remain non-goals for this notes companion:
 
 Current fourth-gate reminders:
 - retained `/executions` health now explicitly depends on `/api/vcs`, `/api/templates/deliverables`, and `/api/auxillaries/template-preferences` as compatibility API owners rather than invisible glue, and those carriers are part of the promotion boundary
+- canonical auxillary health now explicitly depends on `/api/auxillaries/profile`, `/api/auxillaries/connections/github`, `/api/auxillaries/credits`, `/api/auxillaries/usage`, `/api/auxillaries/transactions`, and `/api/auxillaries/api-keys` as active owners rather than pane-side assumptions
 - old-world port scope is explicit in draft posture too: Jira remains reader-first Bitcode need ingestion while Git/GH remains the initial admitted settle-write boundary for fourth-gate testnet-ready promotion

@@ -124,7 +124,7 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live public nav now stays progressive on small screens by stacking visible entry links and guest actions instead of hiding them behind a separate menu layer
 - the live public shell now uses shared inline explainers for its key entry links and protocol reference instead of a thin footer browser-tooltip fallback
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered demo-era media compatibility
-- the live public footer now resolves the docs walkthrough URL through Bitcode-owned route/env ownership instead of falling back to `NEXT_PUBLIC_ENGI_DEMO_VIDEO_URL`
+- the live public footer now resolves the docs walkthrough URL through Bitcode-owned route/env ownership instead of falling back to the removed legacy docs-walkthrough env fallback
 - the live public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of hard-linking a version-specific public spec path
 - the live terminal preview is now progressive by default, with a compact public/mobile summary and the denser operator-grade preview only on wider shells
 - the live landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere

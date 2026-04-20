@@ -185,8 +185,8 @@ function normalizeStateForCurrentCanon(state) {
 }
 
 export function createAppContext({
-  dataPath = process.env['BITCODE_DATA_PATH'] || process.env['ENGI_DEMO_DATA_PATH'] || DEFAULT_DATA_PATH,
-  publicDir = process.env['BITCODE_PUBLIC_DIR'] || process.env['ENGI_DEMO_PUBLIC_DIR'] || DEFAULT_PUBLIC_DIR
+  dataPath = process.env['BITCODE_DATA_PATH'] || DEFAULT_DATA_PATH,
+  publicDir = process.env['BITCODE_PUBLIC_DIR'] || DEFAULT_PUBLIC_DIR
 } = {}) {
   const v24LocalExecutorHandlers = buildV24LocalExecutorHandlers();
 

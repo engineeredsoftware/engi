@@ -19,7 +19,7 @@ test.describe('Models Configuration in Account Modal', () => {
       })
     );
     // Stub user data fetch with model preferences
-    await context.route('**/api/orbitals/data', route =>
+    await context.route('**/api/auxillaries/data', route =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -62,7 +62,7 @@ test.describe('Models Configuration in Account Modal', () => {
     await firstSelect.selectOption('gpt-3.5');
     // Intercept save request
     const [request] = await Promise.all([
-      page.waitForRequest(req => req.url().endsWith('/api/orbitals/model-preferences') && req.method() === 'POST'),
+      page.waitForRequest(req => req.url().endsWith('/api/auxillaries/model-preferences') && req.method() === 'POST'),
       page.click('button:has-text("Save Configuration")')
     ]);
     const body = JSON.parse(request.postData() || '{}');

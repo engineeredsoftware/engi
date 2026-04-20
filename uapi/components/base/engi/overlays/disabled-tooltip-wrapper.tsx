@@ -13,7 +13,7 @@ interface DisabledTooltipWrapperProps {
   /** Optional positioning override – defaults to bottom-center */
   placement?: "bottom" | "top" | "right" | "left"; // supports left now
 
-  /** Colour theme.  Defaults to emerald (Engi green) but can be switched to
+  /** Colour theme.  Defaults to emerald (Bitcode green) but can be switched to
    *  'purple' for marketing / coming-soon variants. */
   variant?: "emerald" | "purple";
 }

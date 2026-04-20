@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "af6cc15d302945e6115e6e04b37da33e8641e4d1",
-  "generatedAt": "2026-04-19T20:17:29-03:00",
+  "proofSourceCommit": "e34fbd19230dbec3a71e14c346783c139c3f7b02",
+  "generatedAt": "2026-04-19T20:36:45-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -10,11 +10,11 @@
   "checkpointId": "v26-through-fourth-gate-promotion-boundary",
   "checkpointFocus": "through-fourth-gate-promotion-boundary",
   "nextGate": "Gate 5: proof precision, schema refinement, and promotion finalization",
-  "passed": true,
+  "passed": false,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
-    "passed": true,
+    "passed": false,
     "checks": [
       {
         "checkId": "v19-deterministic-replay",
@@ -31,8 +31,8 @@
       {
         "checkId": "v19-contract-change-ledger",
         "label": "Inherited V19 contract change ledger",
-        "passed": true,
-        "detail": "Contract change ledger remains closed"
+        "passed": false,
+        "detail": "Contract change ledger remains open"
       },
       {
         "checkId": "v20-operator-quality",

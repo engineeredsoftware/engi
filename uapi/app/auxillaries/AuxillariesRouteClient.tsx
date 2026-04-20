@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import Orbital from '@/app/orbitals/components';
+import AuxillariesSurface from '@/app/auxillaries/components/AuxillariesSurface';
 import {
   buildAuxillariesRoutePath,
   getAuxillaryDescriptor,
@@ -79,7 +79,7 @@ export default function AuxillariesRouteClient({ step }: AuxillariesRouteClientP
         </section>
 
         <section className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(5,11,21,0.92),rgba(3,6,14,0.94))] p-2 shadow-[0_30px_100px_rgba(0,0,0,0.32)] backdrop-blur-xl tablet:p-4">
-          <Orbital initialStep={step} window="SignInWindow" />
+          <AuxillariesSurface initialStep={step} window="SignInWindow" />
         </section>
       </main>
     </div>

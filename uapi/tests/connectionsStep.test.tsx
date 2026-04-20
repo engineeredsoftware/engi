@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/orbitals/components/OrbitalConnects';
+import ConnectionsStep from '@/app/orbitals/components/OrbitalsConnects';
 
 describe('ConnectionsStep (SSR)', () => {
   it('renders summary card with dynamic organization and repositories', () => {

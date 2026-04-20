@@ -33,7 +33,7 @@
 :global { .orbitals-connects-command-showcase { background: rgba(0, 10, 20, 0.5); border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid rgba(103, 254, 183, 0.1); } }
 :global { .orbitals-connects-showcase-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; } }
 :global { .orbitals-connects-showcase-label { font-size: 13px; color: rgba(255, 255, 255, 0.6); } }
-:global { .orbitals-connects-engi-number { font-family: monospace; font-size: 14px; color: #65FEB7; font-weight: 500; padding: 2px 8px; background: rgba(103, 254, 183, 0.1); border-radius: 6px; } }
+:global { .orbitals-connects-bitcode-number { font-family: monospace; font-size: 14px; color: #65FEB7; font-weight: 500; padding: 2px 8px; background: rgba(103, 254, 183, 0.1); border-radius: 6px; } }
 :global { .orbitals-connects-command-examples { display: flex; flex-wrap: wrap; gap: 8px; } }
 :global { .orbitals-connects-command-pill { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; border: 1px solid; transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1); cursor: default; } }
 :global { .orbitals-connects-command-pill.emerald { background: rgba(103, 254, 183, 0.1); border-color: rgba(103, 254, 183, 0.3); color: #65FEB7; } }

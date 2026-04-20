@@ -15,7 +15,7 @@ import {
 interface UserMenuProps {
   /** Supabase user object */
   user: import("@supabase/supabase-js").User;
-  /** Callback when the user selects “Orbitals” */
+  /** Callback when the user selects “Auxillaries” */
   onOpenOrbitals?: () => void;
   /** Callback when the user selects “Sign out” */
   onSignOut: () => void;

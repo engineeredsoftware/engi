@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/app/orbitals/components', () => ({
+jest.mock('@/app/auxillaries/components/AuxillariesSurface', () => ({
   __esModule: true,
   default: ({ initialStep }: { initialStep: string }) => <div>Orbital {initialStep}</div>,
 }));

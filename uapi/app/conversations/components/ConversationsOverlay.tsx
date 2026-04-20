@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Conversations Overlay - Engi Excellence
+ * Conversations Overlay - Bitcode production surface
  * 
  * A sophisticated conversation interface with:
  * - Multiple view modes (floating, sidebar, fullscreen, split-screen)

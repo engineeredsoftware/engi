@@ -1,4 +1,4 @@
-import { POST } from '@/app/api/orbitals/credits/route';
+import { POST } from '@/app/api/auxillaries/credits/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@bitcode/supabase', () => ({ supabaseAdmin: { from: jest.fn(), rpc: jest.fn() } }));
@@ -26,7 +26,7 @@ beforeEach(() => {
   (createClient as jest.Mock).mockResolvedValue({ auth: { getUser: mockGetUser } });
 });
 
-describe('POST /api/orbitals/credits RBAC', () => {
+describe('POST /api/auxillaries/credits RBAC', () => {
   it('rejects unauthenticated user with 401', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'no auth' } });
     const res = await POST(new Request('http://localhost', { method: 'POST', body: '{}' }));

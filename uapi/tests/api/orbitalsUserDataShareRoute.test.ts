@@ -1,4 +1,4 @@
-import { GET, POST } from '@/app/api/orbitals/user/data-share/route';
+import { GET, POST } from '@/app/api/auxillaries/user/data-share/route';
 
 jest.mock('@bitcode/supabase/ssr/server', () => ({ createClient: jest.fn() }));
 jest.mock('@/app/api/vcs/_shared', () => ({
@@ -24,7 +24,7 @@ beforeEach(() => {
   (isMockVcsMode as jest.Mock).mockReturnValue(false);
 });
 
-describe('GET /api/orbitals/user/data-share', () => {
+describe('GET /api/auxillaries/user/data-share', () => {
   it('fails closed to an empty payload for anonymous requests', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: null });
 
@@ -55,7 +55,7 @@ describe('GET /api/orbitals/user/data-share', () => {
   });
 });
 
-describe('POST /api/orbitals/user/data-share', () => {
+describe('POST /api/auxillaries/user/data-share', () => {
   it('accepts toggle requests without throwing', async () => {
     const res = await POST(
       new Request('http://localhost', {

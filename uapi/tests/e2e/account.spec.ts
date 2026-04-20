@@ -27,7 +27,7 @@ test.describe.skip('Account Modal Flow (skipped - focusing on onboarding only)',
       })
     );
     // Stub user data fetch to include org and repos
-    await context.route('**/api/orbitals/data', route =>
+    await context.route('**/api/auxillaries/data', route =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',
