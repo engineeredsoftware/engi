@@ -3,14 +3,14 @@
 ## Status
 
 - Scope: non-canonical supplementary system document for the V26 Bitcode application architecture
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V26`
-- Next draft target: `ENGI_SPEC_V27.md` (not yet opened)
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
+- Next draft target: `BITCODE_SPEC_V27.md` (not yet opened)
 - Purpose: give a fuller modular architecture view than the canon should carry line-by-line while V26 converges the application, overlay systems, retained package owners, and storage/persistence ownership
 
 ## Rule
 
 This file is not canonical system truth.
-Canonical V26 truth lives only in the active `ENGI_SPEC_V26*` family.
+Canonical V26 truth lives only in the active `BITCODE_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
 V26 is promoted through fourth gate, with fifth-gate rename/proof closure, sixth-gate old-world system reform, and seventh-gate whole-repository provation still active.
 
@@ -760,9 +760,9 @@ V26 now uses `@bitcode/*` as the active module namespace across workspace packag
 That means:
 - package manifests now declare `@bitcode/*` names,
 - path aliases now resolve through `@bitcode/*`,
-- and active source imports should no longer introduce older ENGI-scoped module references.
+- and active source imports should no longer introduce older Bitcode-scoped module references.
 
-Compatibility work that still keeps older ENGI-named files or directories does not justify reintroducing older ENGI-scoped module usage in active source.
+Compatibility work that still keeps older Bitcode-named files or directories does not justify reintroducing older Bitcode-scoped module usage in active source.
 
 ## Retained old-world tool and agent ports
 

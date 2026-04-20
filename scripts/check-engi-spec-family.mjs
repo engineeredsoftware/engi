@@ -41,9 +41,9 @@ function printHelp() {
       'Options:',
       '  --version <VN>          Version to validate. Supported: V21+, V20_PROPER.',
       '  --mode <draft|promoted> Validation mode. Defaults to draft.',
-      '  --current-target <VN>   Expected `Current canonical/latest target` line. Defaults to ENGI_SPEC.txt in draft mode and the version in promoted mode.',
+      '  --current-target <VN>   Expected `Current canonical/latest target` line. Defaults to BITCODE_SPEC.txt in draft mode and the version in promoted mode.',
       '  --repo-root <path>      Override repo root for fixture testing.',
-      '  --skip-pointer-check    Skip ENGI_SPEC.txt equality checking.',
+      '  --skip-pointer-check    Skip BITCODE_SPEC.txt equality checking.',
       '  --help                  Show this help.'
     ].join('\n')
   );

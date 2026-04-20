@@ -30,9 +30,9 @@ function printHelp() {
       'Usage: node scripts/check-engi-canonical-inputs.mjs [options]',
       '',
       'Options:',
-      '  --current-target <VN>   Active canonical target to validate. Defaults to ENGI_SPEC.txt.',
+      '  --current-target <VN>   Active canonical target to validate. Defaults to BITCODE_SPEC.txt.',
       '  --repo-root <path>      Override repo root for fixture testing.',
-      '  --skip-pointer-check    Skip ENGI_SPEC.txt equality checking.',
+      '  --skip-pointer-check    Skip BITCODE_SPEC.txt equality checking.',
       '  --help                  Show this help.'
     ].join('\n')
   );

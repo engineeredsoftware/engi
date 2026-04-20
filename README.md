@@ -1,7 +1,7 @@
 # Bitcode Repository
 
 Active canon is `V26`.
-`ENGI_SPEC.txt` is the only canonical pointer and currently resolves to `V26`.
+`BITCODE_SPEC.txt` is the only canonical pointer and currently resolves to `V26`.
 `V27` is the next draft target after V26 through-fourth-gate promotion.
 
 ## Current product posture
@@ -33,18 +33,18 @@ Second-gate closure also requires the live product and docs to stay aligned:
 
 ## Repository rules
 
-- Always ground new work from `ENGI_SPEC.txt` and the active canonical spec family first.
+- Always ground new work from `BITCODE_SPEC.txt` and the active canonical spec family first.
 - Treat `_legacy/` as non-canonical. Do not use it as an implementation source unless explicitly forward-porting.
 - V26 is the only active canon until a later promotion deliberately reopens the pointer.
 - V26 second-gate closure includes markdown/readme refurbishment for the active product surfaces and package owners, not just code changes.
 
 ## Key surfaces
 
-- [ENGI_SPEC.txt](ENGI_SPEC.txt)
+- [BITCODE_SPEC.txt](BITCODE_SPEC.txt)
   Canonical version pointer.
-- [ENGI_SPEC_V26.md](ENGI_SPEC_V26.md)
+- [BITCODE_SPEC_V26.md](BITCODE_SPEC_V26.md)
   Active canonical full-system specification.
-- [ENGI_SPEC_V26_PROVEN.md](ENGI_SPEC_V26_PROVEN.md)
+- [BITCODE_SPEC_V26_PROVEN.md](BITCODE_SPEC_V26_PROVEN.md)
   Active generated proof appendix.
 - [uapi/README.md](uapi/README.md)
   Application, routes, local development, and verification.
@@ -125,7 +125,7 @@ Current post-checkpoint third-gate start is intentionally narrow:
 - the live public shell now uses shared inline explainers for its key entry links and protocol reference instead of a thin footer browser-tooltip fallback
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered demo-era media compatibility
 - the live public footer now resolves the docs walkthrough URL through Bitcode-owned route/env ownership instead of falling back to the removed legacy docs-walkthrough env fallback
-- the live public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of hard-linking a version-specific public spec path
+- the live public footer now links `Protocol spec` through the stable canonical pointer `BITCODE_SPEC.txt` instead of hard-linking a version-specific public spec path
 - the live terminal preview is now progressive by default, with a compact public/mobile summary and the denser operator-grade preview only on wider shells
 - the live landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere
 - the live public footer now collapses its route links into mobile-first cards and presents protocol/version metadata as explicit product chips instead of cramped inline microcopy on narrow shells

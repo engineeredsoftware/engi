@@ -1,10 +1,10 @@
-# ENGI Specifying
+# Bitcode Specifying
 
-Status: complete V21 draft standard for ENGI system specifying
-Scope: canonical system-specification requirements, full-canon structure, delta discipline, parity discipline, generated artifact requirements, proof appendix rules, promotion gates, and content-quality standards for future ENGI versions
-Supersedes: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
+Status: complete V21 draft standard for Bitcode system specifying
+Scope: canonical system-specification requirements, full-canon structure, delta discipline, parity discipline, generated artifact requirements, proof appendix rules, promotion gates, and content-quality standards for future Bitcode versions
+Supersedes: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_TEMPLATEGUIDE.md`
 Applies to:
-- future canonical ENGI system specification versions,
+- future canonical Bitcode system specification versions,
 - future canonical promotion commits,
 - generated `_PROVEN_` appendices,
 - generated `.engi/vN-*` canonical artifacts,
@@ -19,23 +19,23 @@ Historical guides and prior specs remain evidence of evolution, but they are not
 
 # 1. Purpose and Authority
 
-ENGI specifying exists so a correct implementation, audit, generated proof appendix, and canonical promotion can be derived from the current specification family without reconstructing missing meaning from source code, older specs, or conversation history.
+Bitcode specifying exists so a correct implementation, audit, generated proof appendix, and canonical promotion can be derived from the current specification family without reconstructing missing meaning from source code, older specs, or conversation history.
 
 The central rule is:
 
-> A promoted `ENGI_SPEC_VN.md` must itself be a full-system, full-reimplementability, full-auditability specification. An implementer, reviewer, operator, or auditor must be able to derive the current ENGI system behavior, contracts, artifacts, proofs, tests, promotion gates, accepted boundaries, and generated canon requirements from that version's canonical file family alone, without using older specs, source code, parity ledgers, or generated artifacts to recover missing whole-system meaning omitted from `SPEC`.
+> A promoted `BITCODE_SPEC_VN.md` must itself be a full-system, full-reimplementability, full-auditability specification. An implementer, reviewer, operator, or auditor must be able to derive the current Bitcode system behavior, contracts, artifacts, proofs, tests, promotion gates, accepted boundaries, and generated canon requirements from that version's canonical file family alone, without using older specs, source code, parity ledgers, or generated artifacts to recover missing whole-system meaning omitted from `SPEC`.
 
 This standard defines how to write that family.
-It does not define ENGI product semantics by itself.
-Product semantics live in the active `ENGI_SPEC_VN.md`.
+It does not define Bitcode product semantics by itself.
+Product semantics live in the active `BITCODE_SPEC_VN.md`.
 This file defines the required shape, quality bar, and release discipline for such specs.
 
 The priority order for specifying truth is:
-1. `ENGI_SPEC.txt`
-2. the pointed `ENGI_SPEC_VN.md`
-3. `ENGI_SPEC_VN_DELTA.md`
-4. `ENGI_SPEC_VN_PARITY_MATRIX.md`
-5. generated `ENGI_SPEC_VN_PROVEN.md`
+1. `BITCODE_SPEC.txt`
+2. the pointed `BITCODE_SPEC_VN.md`
+3. `BITCODE_SPEC_VN_DELTA.md`
+4. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
+5. generated `BITCODE_SPEC_VN_PROVEN.md`
 6. generated `.engi/vN-*` artifacts
 7. named realization/demo specs and adjunct docs, only where the active spec family explicitly references them
 
@@ -53,7 +53,7 @@ When drafting a new version, the minimum canonical input set is:
 
 Optional notes may still be useful for local working context, but they are not required canonical inputs and must not override canonical files.
 
-This rule exists because ENGI canon is no longer carried only by hand-authored prose.
+This rule exists because Bitcode canon is no longer carried only by hand-authored prose.
 Generated appendices, generated structured artifacts, and parity ledgers are now part of the depended-on canonical input surface for future version drafting.
 
 ---
@@ -84,7 +84,7 @@ from the active spec family.
 
 ## 2.1 `SPEC`-Alone Completeness
 
-`SPEC` must stand on its own as the complete description of the current ENGI system.
+`SPEC` must stand on its own as the complete description of the current Bitcode system.
 
 That means `SPEC` itself must be:
 - full-system,
@@ -163,7 +163,7 @@ If a rule matters for current canon, it belongs in the current `SPEC`.
 ## 2.5 Precision Over Compression
 
 Short specs are acceptable only when the system is actually small or the version's full current canon is otherwise fully captured.
-For ENGI, a full canon spec will usually be large.
+For Bitcode, a full canon spec will usually be large.
 
 Compression is not a virtue when it removes:
 - contract fields,
@@ -224,18 +224,18 @@ If a reviewer would need to open source or generated JSON just to discover what 
 
 Beginning with V21, the required hand-authored system-spec file family is:
 
-1. `ENGI_SPEC_VN.md`
+1. `BITCODE_SPEC_VN.md`
    The complete current system canon.
 
-2. `ENGI_SPEC_VN_DELTA.md`
+2. `BITCODE_SPEC_VN_DELTA.md`
    The version-local delta, decision record, implementation-revealed refinement record, accepted boundary ledger, and canonical commit-message input.
 
-3. `ENGI_SPEC_VN_PARITY_MATRIX.md`
+3. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
    The system parity matrix across spec claims, source implementation, generated artifacts, tests, operator surfaces, promotion gates, accepted boundaries, and known debt.
 
 Generated canonical artifacts are required separately when applicable:
 
-4. `ENGI_SPEC_VN_PROVEN.md`
+4. `BITCODE_SPEC_VN_PROVEN.md`
    The generated-only proof appendix for the canonical version.
 
 5. `.engi/vN-*`
@@ -243,7 +243,7 @@ Generated canonical artifacts are required separately when applicable:
 
 The root pointer is:
 
-6. `ENGI_SPEC.txt`
+6. `BITCODE_SPEC.txt`
    The only active canonical pointer.
 
 ## 3.1 Renamed Files
@@ -260,9 +260,9 @@ Compatibility stubs may remain at old paths, but they must not contain a second 
 ## 3.2 Optional File Families
 
 Optional adjunct files may exist when justified:
-- `ENGI_SPEC_VN_NOTES.md` for non-canonical iterative working notes during drafting and implementation,
-- `ENGI_SPEC_VN_PROPER.md`, `ENGI_SPEC_VN_PROPER_DELTA.md`, and `ENGI_SPEC_VN_PROPER_PARITY_MATRIX.md` for non-canonical historical full-canon reconstructions used to validate specifying against an already-promoted version,
-- `ENGI_SPEC_VN_INFORMATION_AUDIT.md` for density recovery or historical coverage audits,
+- `BITCODE_SPEC_VN_NOTES.md` for non-canonical iterative working notes during drafting and implementation,
+- `BITCODE_SPEC_VN_PROPER.md`, `BITCODE_SPEC_VN_PROPER_DELTA.md`, and `BITCODE_SPEC_VN_PROPER_PARITY_MATRIX.md` for non-canonical historical full-canon reconstructions used to validate specifying against an already-promoted version,
+- `BITCODE_SPEC_VN_INFORMATION_AUDIT.md` for density recovery or historical coverage audits,
 - realization or demo specs under their realization roots,
 - realization implementation matrices,
 - host capability documents,
@@ -281,7 +281,7 @@ Its purpose is not to create a second canon.
 Its purpose is to validate whether the current specifying standard can restate an already-promoted version as a full-system, full-auditability, full-reimplementability spec.
 
 Rules:
-- a `PROPER` family must never be pointed to by `ENGI_SPEC.txt`,
+- a `PROPER` family must never be pointed to by `BITCODE_SPEC.txt`,
 - a `PROPER` family must declare the historical canonical target it reconstructs,
 - a `PROPER` family must derive only from that version's canonical inputs,
 - a `PROPER` family must not import future-version generated artifacts or later semantic closure as if they were already present in the historical target,
@@ -291,7 +291,7 @@ When a version is hardening specifying itself, a historical `PROPER` family is a
 
 ## 3.3 Optional Non-Canonical Notes
 
-`ENGI_SPEC_VN_NOTES.md` may exist as the only sanctioned non-canonical working document for a version.
+`BITCODE_SPEC_VN_NOTES.md` may exist as the only sanctioned non-canonical working document for a version.
 
 Its purpose is to let spec authors take notes during iterative development without turning every observation into canon.
 It may be committed freely during WIP passes.
@@ -310,7 +310,7 @@ Notes may contain:
 Notes must not contain canonical knowledge that is absent from the canonical file family.
 
 The rule is:
-- if a claim is intended to survive as current ENGI truth, it must be promoted into `SPEC`;
+- if a claim is intended to survive as current Bitcode truth, it must be promoted into `SPEC`;
 - if it is a version-local decision, accepted boundary, implementation-revealed refinement, or canonical commit-message input, it must be promoted into `SPEC_DELTA`;
 - if it is source/generated/test/promotion parity truth, it must be promoted into `SPEC_PARITY_MATRIX`;
 - if it is generated proof or report truth, it must be generated into `_PROVEN_` or `.engi/vN-*`.
@@ -342,11 +342,11 @@ If the active version introduces a new generated artifact family, promotion must
 
 # 4. Canonical Status and Versioning
 
-`ENGI_SPEC.txt` is the only active canonical pointer.
+`BITCODE_SPEC.txt` is the only active canonical pointer.
 
 Rules:
 1. A version file does not become canonical because it exists.
-2. A version becomes active canon only when `ENGI_SPEC.txt` points to it in a canonical promotion commit.
+2. A version becomes active canon only when `BITCODE_SPEC.txt` points to it in a canonical promotion commit.
 3. A canonical promotion commit must include the active spec family and required generated artifacts for that version.
 4. The active spec family must not contain stale draft language after promotion.
 5. Prior versions remain preserved as historical records.
@@ -354,7 +354,7 @@ Rules:
 
 ## 4.1 Status Block Requirements
 
-Every `ENGI_SPEC_VN.md` must begin with a status block that states:
+Every `BITCODE_SPEC_VN.md` must begin with a status block that states:
 - version,
 - active pointer status,
 - prior canonical anchor,
@@ -406,7 +406,7 @@ Required top-level structure:
 
 1. Status
 2. Version executive summary
-3. Canonical ENGI executive summary
+3. Canonical Bitcode executive summary
 4. Source-of-truth hierarchy
 5. System goals, non-goals, and design principles
 6. Whole operator chain
@@ -441,9 +441,9 @@ The version executive summary states:
 
 This is version context, not the whole product definition.
 
-## 5.2 Canonical ENGI Executive Summary
+## 5.2 Canonical Bitcode Executive Summary
 
-The canonical ENGI summary states what ENGI is now.
+The canonical Bitcode summary states what Bitcode is now.
 
 It must summarize:
 - product/system identity,
@@ -478,7 +478,7 @@ It must define what wins when prose, source, tests, and generated outputs disagr
 
 ## 5.4 Whole Operator Chain
 
-The spec must describe the full ENGI chain in order:
+The spec must describe the full Bitcode chain in order:
 1. deposit assets,
 2. measure need,
 3. declare prompt/inference ownership,
@@ -762,7 +762,7 @@ Those bindings are not complete unless the current `SPEC` makes the exact family
 
 # 8. Generated Canon Requirements
 
-Generated canon is now part of ENGI system specifying.
+Generated canon is now part of Bitcode system specifying.
 
 The spec must define:
 - generated file names,
@@ -779,7 +779,7 @@ The spec must define:
 
 ## 8.1 `_PROVEN_`
 
-`ENGI_SPEC_VN_PROVEN.md` is generated only.
+`BITCODE_SPEC_VN_PROVEN.md` is generated only.
 It must never be manually edited as prose.
 
 It must render:
@@ -902,7 +902,7 @@ If a field can vary, it must be:
 
 # 9. `SPEC_DELTA` Requirements
 
-`ENGI_SPEC_VN_DELTA.md` is the version-local decision and change record.
+`BITCODE_SPEC_VN_DELTA.md` is the version-local decision and change record.
 It is not the system canon.
 
 It must include:
@@ -929,7 +929,7 @@ If the rule remains current canon after promotion, it must also appear in `SPEC`
 
 # 10. `SPEC_PARITY_MATRIX` Requirements
 
-`ENGI_SPEC_VN_PARITY_MATRIX.md` is the source/spec/generated-artifact parity ledger.
+`BITCODE_SPEC_VN_PARITY_MATRIX.md` is the source/spec/generated-artifact parity ledger.
 
 Each row must include:
 - area,
@@ -1024,8 +1024,8 @@ A promotion workflow must:
 10. check file-family completeness,
 11. check stale status language,
 12. prepare the hand-authored file family for promoted status truth,
-13. advance `ENGI_SPEC.txt`,
-14. generate `ENGI_SPEC_VN_PROVEN.md`,
+13. advance `BITCODE_SPEC.txt`,
+14. generate `BITCODE_SPEC_VN_PROVEN.md`,
 15. generate required `.engi/vN-*` artifacts,
 16. run generated check mode,
 17. validate the newly pointed canonical input family after generation,
@@ -1041,7 +1041,7 @@ Promotion-time checks may and should validate:
 - consistent status truth across the hand-authored family,
 - and absence of stale promoted-status language.
 
-If pointer mutation must occur before generation because the generator reads `ENGI_SPEC.txt`, the promotion command must fail closed and immediately check generated output after mutation.
+If pointer mutation must occur before generation because the generator reads `BITCODE_SPEC.txt`, the promotion command must fail closed and immediately check generated output after mutation.
 That post-mutation validation must include any new current-version generated artifact family.
 
 If the hand-authored family still truthfully points at the prior canonical target during draft mode, the promotion workflow must include a dedicated preparation step that rewrites the hand-authored status truth to the promoted posture before post-mutation validation runs.
@@ -1115,7 +1115,7 @@ Pedagogy is correctness when operator misunderstanding would distort review, pro
 System canon and realization/demo canon must remain separate.
 
 The system spec defines:
-- universal ENGI semantics,
+- universal Bitcode semantics,
 - invariants,
 - proof obligations,
 - generated canon,
@@ -1210,7 +1210,7 @@ Every accepted boundary must include:
 The spec should be organized for both fast understanding and deep audit.
 
 Required organization principles:
-1. top-level reading path explains ENGI before deep appendices,
+1. top-level reading path explains Bitcode before deep appendices,
 2. subsystem sections are schema-consistent,
 3. appendices hold exhaustive catalogs,
 4. generated artifact requirements are grouped and cross-referenced,
@@ -1265,7 +1265,7 @@ They must contain current inventories and matrices, not placeholder prose about 
 
 # 18. Full-Spec Completion Checklist
 
-A full ENGI `SPEC` is structurally complete only when:
+A full Bitcode `SPEC` is structurally complete only when:
 1. the current system can be understood without reading older specs,
 2. implementation contracts are precise enough to build from,
 3. generated artifacts are named and shaped,
@@ -1285,7 +1285,7 @@ A full ENGI `SPEC` is structurally complete only when:
 17. scenario/workflow/principal/branch cross-products are explicit where current canon depends on them,
 18. fail-closed contract posture is cataloged rather than implied,
 19. source-bearing deliverables and artifacts are enumerated with generators and consumers,
-20. and `ENGI_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
+20. and `BITCODE_SPEC.txt` points to the promoted version only in the same commit that includes required generated canon.
 
 When the version is changing specifying itself, completion should also include:
 21. at least one historical `PROPER` family or equivalent full-canon reconstruction validates the new specifying rules against an already-promoted target,

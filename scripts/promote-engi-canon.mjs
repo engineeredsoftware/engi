@@ -793,7 +793,7 @@ async function main() {
   for (const [file, commandArgs] of commands.slice(0, generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }
-  await fs.writeFile(path.join(repoRoot, 'ENGI_SPEC.txt'), `${version}\n`, 'utf8');
+  await fs.writeFile(path.join(repoRoot, 'BITCODE_SPEC.txt'), `${version}\n`, 'utf8');
   for (const [file, commandArgs] of commands.slice(generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }

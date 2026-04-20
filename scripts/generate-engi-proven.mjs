@@ -54,7 +54,7 @@ function printHelp() {
       'Usage: node scripts/generate-engi-proven.mjs [options]',
       '',
       'Options:',
-      '  --version <VN>         Override canonical version. Defaults to ENGI_SPEC.txt.',
+      '  --version <VN>         Override canonical version. Defaults to BITCODE_SPEC.txt.',
       '  --commit <sha>         Canonical commit to render. Defaults to HEAD.',
       '  --generated-at <iso>   Override generation timestamp. Defaults to commit recorded-at time.',
       '  --worktree-state <s>   Override recorded replay worktree state. Defaults to live git state.',
@@ -95,7 +95,7 @@ async function main() {
     throw new Error(`Unsupported worktree state ${worktreeState}. Expected clean or dirty-preview.`);
   }
 
-  const version = (args.version || (await fs.readFile(path.join(repoRoot, 'ENGI_SPEC.txt'), 'utf8')).trim());
+  const version = (args.version || (await fs.readFile(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8')).trim());
   if (!/^V\d+$/.test(version)) {
     throw new Error(`Resolved canonical version must look like VN. Received ${version}.`);
   }

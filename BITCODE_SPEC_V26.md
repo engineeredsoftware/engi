@@ -1,19 +1,19 @@
-# ENGI Spec V26
+# Bitcode Spec V26
 
 ## Status
 
 - Scope: V26 canonical system specification for Bitcode productionizing hardening, demonstration-to-application integration, application-facing UI replacement, interface hardening, and package-first repository refurbishment after V25 rename canon
 - Current canonical/latest target: `V26`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
-- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
-- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `ENGI_SPEC_V26_PROVEN.md`
-- Canonical companion delta: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
-- Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
-- Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
+- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
+- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Canonical companion delta: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
+- Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
+- Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
 - Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-seventh-gate closure remains open
 - V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate while fifth-, sixth-, and seventh-gate closure remain open
@@ -34,7 +34,7 @@ With V26 promoted through fourth gate:
 
 ## Version executive summary
 
-V25 completed the current-facing rename from ENGI to Bitcode and from NGI to BTD while preserving the prior behavioral chain.
+V25 completed the current-facing rename from Bitcode to Bitcode and from NGI to BTD while preserving the prior behavioral chain.
 
 V26 opens because the renamed system still has an architectural split that is too large for a production-ready Bitcode:
 - the old standalone demonstration had to be removed as a top-level owner,
@@ -322,7 +322,7 @@ Third-gate acceptance is reached only when:
 ### Fourth-gate
 
 Fourth-gate is the retained-system convergence gate.
-It ports the retained non-Bitcode-first-gate application systems into the V26 Bitcode total system instead of leaving them as adjacent ENGI-era reservoirs.
+It ports the retained non-Bitcode-first-gate application systems into the V26 Bitcode total system instead of leaving them as adjacent Bitcode-era reservoirs.
 It is also the intended canonical V26 promotion boundary: once first through fourth gates hold, V26 may promote as the active Bitcode canon even while later proving/finalization work remains open.
 It includes:
 - conversations and the chat-based / ChatGPT-like application interface,
@@ -553,7 +553,7 @@ Second-gate is accepted only when all of the following hold:
    - route-local support rail and give-side supply terminal both use the same shared application-shell/help grammar as the rest of the application workspace rather than bespoke section shells,
    - the retained late-Engi navbar frames the Bitcode application,
    - the page reads as Bitcode inside the app shell,
-   - and the late-Engi aesthetic atmosphere is preserved without reverting product identity to ENGI.
+   - and the late-Engi aesthetic atmosphere is preserved without reverting product identity to Bitcode.
 
 3. UX acceptance
    - the three main experiences are legible as master detail, conversations, and orbitals,
@@ -624,7 +624,7 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 | PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
 | prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
-| deliverable semantics | `packages/api/src/routes/deliverables.ts`, `uapi/app/executions/*`, current execution components | are redefined under Bitcode V26 so “deliverable” means a Bitcode run/pipeline output surface rather than an isolated ENGI-era pipeline noun |
+| deliverable semantics | `packages/api/src/routes/deliverables.ts`, `uapi/app/executions/*`, current execution components | are redefined under Bitcode V26 so “deliverable” means a Bitcode run/pipeline output surface rather than an isolated Bitcode-era pipeline noun |
 
 ### Fourth-gate convergence rules
 
@@ -652,7 +652,7 @@ Fourth-gate requires:
 
 Fourth-gate is accepted only when:
 1. conversations, chat, and execution/runs surfaces still function as first-class application systems,
-2. those systems are specified as Bitcode V26 systems rather than as adjacent ENGI-era subsystems,
+2. those systems are specified as Bitcode V26 systems rather than as adjacent Bitcode-era subsystems,
 3. conversations operate as a fullscreen application mode and not as a separate product reservoir,
 4. execution/deliverable master-detail patterns are ported inward to `/application`,
 5. prompt abstraction is the direct source for retained prompt text,
@@ -700,7 +700,7 @@ Fifth-gate is closed only when:
 4. fifth-gate proof families are generated with explicit closure verdicts,
 5. environment controls and environment-mode completeness are proven rather than assumed,
 6. retained package admissibility is explicit,
-7. the kept system is described totalistically enough that ENGI-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
+7. the kept system is described totalistically enough that Bitcode-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
 8. unreplaced `engi` product naming is retired from active code, copy, and route teaching unless it remains as explicit historical lineage or a still-required structural namespace,
 9. newly admitted application, API, MCP, prompt, and retained package surfaces are proven to the same proof-bearing standard expected of the former `engi-demo/` Bitcode core rather than being tolerated as lighter glue,
 10. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
@@ -730,7 +730,7 @@ V26 is fully proven only when:
 5. the kept repository is application-ready Bitcode canon without legacy product naming or silent compatibility ownership,
 6. and V26 total closure is explicit enough that promotion no longer depends on interpretive notes.
 
-## Canonical ENGI executive summary
+## Canonical Bitcode executive summary
 
 The heading name remains a historical carrier required by the specifying contract.
 The subject of V26 is Bitcode.
@@ -747,12 +747,12 @@ In V26, Bitcode remains:
 ## source-of-truth hierarchy
 
 Current truth order for the active V26 canon is:
-1. `ENGI_SPEC.txt`
-2. `ENGI_SPEC_V26.md`
-3. `ENGI_SPEC_V26_DELTA.md`
-4. `ENGI_SPEC_V26_PARITY_MATRIX.md`
-5. `ENGI_SPEC_V26_NOTES.md`
-6. `ENGI_SPEC_V26_PROVEN.md`
+1. `BITCODE_SPEC.txt`
+2. `BITCODE_SPEC_V26.md`
+3. `BITCODE_SPEC_V26_DELTA.md`
+4. `BITCODE_SPEC_V26_PARITY_MATRIX.md`
+5. `BITCODE_SPEC_V26_NOTES.md`
+6. `BITCODE_SPEC_V26_PROVEN.md`
 7. active canonical `.engi/v19-*`, `.engi/v20-*`, and `.engi/v26-*` artifacts
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
@@ -764,7 +764,7 @@ V26 is therefore the active canonical runtime truth through fourth gate, while f
 The promoted V26 main specification must be sufficient for:
 - full-system re-implementation of current Bitcode behavior and the intended V26 ownership changes,
 - audit recovery of the current proof contract, artifact model, and application/operator posture,
-- and operator comprehension of the whole ENGI chain without semantic dependence on prior versions.
+- and operator comprehension of the whole Bitcode chain without semantic dependence on prior versions.
 
 That requirement applies to:
 - repo supply and depositing,
@@ -921,9 +921,9 @@ The V26 canonical domain model includes the following object and surface classes
 - validation and test stack: local checks, strict spec conformance, package tests, API tests, application tests, and promotion regeneration.
 - generated artifacts and canonical promotion: generated reports, `_PROVEN_` appendix, canonical input reports, parity ledgers, and promotion rules.
 
-## whole ENGI operator chain
+## whole Bitcode operator chain
 
-The whole ENGI operator chain in V26 is:
+The whole Bitcode operator chain in V26 is:
 1. configure the active V26/V27 posture and route class,
 2. bind the correct environment-mode identities and resources,
 3. authenticate repo supply and candidate deposits,
@@ -1091,7 +1091,7 @@ The family names below are the minimum V26 full-canon carriers even before promo
 - `current theorem-to-replay grouping:` contract lineage groups under `moment-contracts`; payload and parsed-envelope coherence group under `payload-replay` and `parsed-envelope-replay`.
 - `minimum artifact/replay binding set:` the listed witnessArtifactPaths plus the three replayStepIds are mandatory.
 - `current proof-object fields:` `proofFamily`, `proofHash`, `members`, `theoremVerdicts`, `artifactBindings`, `replayCatalog`, `failureReasons`.
-- `generated-artifact and test bindings:` rendered into `ENGI_SPEC_V26_PROVEN.md` family details and exercised by core, API, and package extraction validation.
+- `generated-artifact and test bindings:` rendered into `BITCODE_SPEC_V26_PROVEN.md` family details and exercised by core, API, and package extraction validation.
 - `fail-closed conditions:` missing inference proofs, prompt implementation drift, or parsed-envelope inconsistency fail closed.
 
 ### Prompt-completeness
@@ -1239,14 +1239,14 @@ Current V26 generated artifact inventories must cover:
 - `.engi/v26-spec-family-report.json`,
 - `.engi/v26-canonical-input-report.json`,
 - any future `.engi/v26-canon-posture-drift-report.json` if V26 reopens posture-drift generation,
-- and `ENGI_SPEC_V26_PROVEN.md`.
+- and `BITCODE_SPEC_V26_PROVEN.md`.
 
 ### V26 specifying generated artifacts
 
 V26 specifying artifacts are:
 - `.engi/v26-spec-family-report.json`
 - `.engi/v26-canonical-input-report.json`
-- `ENGI_SPEC_V26_PROVEN.md`
+- `BITCODE_SPEC_V26_PROVEN.md`
 
 ### Shared generated-artifact fields
 
@@ -1309,8 +1309,8 @@ Current validating commands and parity basis include:
 ## promotion canon
 
 V26 promotion requires all of the following:
-- `ENGI_SPEC.txt` advancing deliberately and only when V26 is the chosen active canon,
-- `ENGI_SPEC_V26.md`, `ENGI_SPEC_V26_DELTA.md`, `ENGI_SPEC_V26_PARITY_MATRIX.md`, and `ENGI_SPEC_V26_PROVEN.md` agreeing,
+- `BITCODE_SPEC.txt` advancing deliberately and only when V26 is the chosen active canon,
+- `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_DELTA.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, and `BITCODE_SPEC_V26_PROVEN.md` agreeing,
 - `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, and `.engi/v26-gate-checkpoint-report.json` existing and matching the promoted V26 structure,
 - Bitcode application-native routing existing as source truth rather than as draft-target-only prose,
 - package extraction and existing-package convergence being reflected in source sufficiently to satisfy the parity ledger,
@@ -1358,7 +1358,7 @@ The generated artifact contract catalog covers:
 - inherited reproducible-canon and operator-quality reports,
 - `.engi/v26-spec-family-report.json`,
 - `.engi/v26-canonical-input-report.json`,
-- and `ENGI_SPEC_V26_PROVEN.md`.
+- and `BITCODE_SPEC_V26_PROVEN.md`.
 
 These generated artifact inventories must include generated artifact inventories and scenario and run coverage matrices and must fail closed when regeneration is stale.
 
@@ -1456,12 +1456,12 @@ Every one of those subsystems must be derivable from the main `SPEC`, its append
 ## Appendix G. Canonical file-family and promotion contract catalog
 
 The canonical file-family and promotion contract catalog includes:
-- `ENGI_SPEC.txt`
-- `ENGI_SPEC_V26.md`
-- `ENGI_SPEC_V26_DELTA.md`
-- `ENGI_SPEC_V26_PARITY_MATRIX.md`
-- `ENGI_SPEC_V26_NOTES.md`
-- `ENGI_SPEC_V26_PROVEN.md`
+- `BITCODE_SPEC.txt`
+- `BITCODE_SPEC_V26.md`
+- `BITCODE_SPEC_V26_DELTA.md`
+- `BITCODE_SPEC_V26_PARITY_MATRIX.md`
+- `BITCODE_SPEC_V26_NOTES.md`
+- `BITCODE_SPEC_V26_PROVEN.md`
 - `.engi/v26-spec-family-report.json`
 - `.engi/v26-canonical-input-report.json`
 
@@ -1544,7 +1544,7 @@ The source-bearing deliverable and artifact contract catalog includes:
 - `.engi/disclosure-boundary-proof.json`
 - `.engi/v26-spec-family-report.json`
 - `.engi/v26-canonical-input-report.json`
-- `ENGI_SPEC_V26_PROVEN.md`
+- `BITCODE_SPEC_V26_PROVEN.md`
 
 ## accepted boundaries and reopen conditions
 
@@ -1571,5 +1571,5 @@ V26 is complete only when:
 4. Demonstration UX is preserved while demonstration UI is replaced by application-facing components.
 5. Bitcode system ownership is materially re-homed into packages and app/API owners rather than remaining concentrated in `engi-demo/`.
 6. GitHub, auth, wallet, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation hardening are explicit, fail-closed, and test-backed.
-7. `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `ENGI_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
+7. `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `BITCODE_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
 8. The promoted V26 main spec stands alone for re-implementation, audit, operator comprehension, and promotion without semantic dependence on prior versions.

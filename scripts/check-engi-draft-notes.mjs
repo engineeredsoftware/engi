@@ -53,7 +53,7 @@ function main() {
   const requiredPhrases = [
     `Spec ${version} Notes`,
     '## Status',
-    `Canonical pointer: \`${path.join(repoRoot, 'ENGI_SPEC.txt')}\` -> \`${currentTarget}\``,
+    `Canonical pointer: \`${path.join(repoRoot, 'BITCODE_SPEC.txt')}\` -> \`${currentTarget}\``,
     `Active canonical anchor: \`${path.join(repoRoot, `ENGI_SPEC_${currentTarget}.md`)}\``,
     `Active generated proof appendix: \`${path.join(repoRoot, `ENGI_SPEC_${currentTarget}_PROVEN.md`)}\``,
     `${version} state: notes-only draft opening`,

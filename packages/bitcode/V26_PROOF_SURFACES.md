@@ -3,17 +3,17 @@
 ## Status
 
 - Scope: non-canonical supplementary proof and coverage map for V26
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V26`
-- Next draft target: `ENGI_SPEC_V27.md` (not yet opened)
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
+- Next draft target: `BITCODE_SPEC_V27.md` (not yet opened)
 - Purpose: map new V26 code systems to proof/test/spec expectations while the largest convergence pass in repo history is underway
 
 ## Rule
 
 This file is not canonical proof truth.
 Canonical proof obligations live in:
-- `ENGI_SPEC_V26.md`
-- `ENGI_SPEC_V26_DELTA.md`
-- `ENGI_SPEC_V26_PARITY_MATRIX.md`
+- `BITCODE_SPEC_V26.md`
+- `BITCODE_SPEC_V26_DELTA.md`
+- `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - and the generated proof appendices/report artifacts when V26 reaches closure
 
 This document exists so V26 implementation can add new code without losing coverage discipline.
@@ -36,7 +36,7 @@ Required system families:
 - `/application` architecture framing
 - native master-detail sections
 - conversations overlay entry and app-owned routes
-- orbitals overlay entry, four-ring orbital semantics, and app-owned orbital data
+- auxillaries entry, compatibility orbital routing, and app-owned auxillary data
 - app-owned VCS surfaces required for connections and repository context
 
 Current active carriers:
@@ -69,7 +69,7 @@ Current active carriers:
 
 Required coverage posture:
 - spec:
-  architecture, ownership, and acceptance described in `ENGI_SPEC_V26*`
+  architecture, ownership, and acceptance described in `BITCODE_SPEC_V26*`
 - tests:
   route tests, UI tests, and browser verification for active entry flows
 - proof surface:
@@ -86,7 +86,7 @@ Required system families:
 
 Required coverage posture:
 - spec:
-  third-gate scope, timing, and separation remain explicit in `ENGI_SPEC_V26*`
+  third-gate scope, timing, and separation remain explicit in `BITCODE_SPEC_V26*`
 - tests:
   mounted public-shell copy, CTA posture, and guide-route continuity are covered without making second-gate application acceptance depend on the full marketing backlog
 - proof surface:
@@ -790,6 +790,11 @@ Required closure posture:
   `packages/bitcode/test/{core.test.js,v26-active-product-naming.test.js}`
   proof surface:
   fifth-gate Bitcode-core identity closure so shipped attestation kinds, policy release ids, system-principal classes, provenance seeds, and retained state-store payloads no longer carry `engi-*` runtime truth inside the promoted Bitcode core
+- `packages/bitcode/{src/canonical/v24-external-realization.js,test/core.test.js}`
+  test coverage:
+  `packages/bitcode/test/{core.test.js,v26-active-product-naming.test.js}`
+  proof surface:
+  fifth-gate external-realization contract closure so active env controls, GitHub sample bindings, and the branch need artifact name converge on `BITCODE_V24_*`, Bitcode-owned refs, and `BITCODE_NEED.md` instead of preserving `ENGI_V24_*` or `ENGI_NEED.md` inside promoted runtime and proof carriers
 
 ## Module namespace proof note
 
@@ -797,4 +802,4 @@ V26 also now treats the `@bitcode/*` module namespace as part of the active proo
 That means:
 - new active imports must use `@bitcode/*`,
 - new workspace package names must use `@bitcode/*`,
-- and lingering older ENGI-scoped module references in active source are parity drift, not harmless style debt.
+- and lingering older Bitcode-scoped module references in active source are parity drift, not harmless style debt.

@@ -82,7 +82,7 @@ function rewriteReadme(content, resolvedRepoRoot, version, nextDraft) {
   );
   rewritten = rewritten.replace(
     /^- Canonical pointer is `.+ENGI_SPEC\.txt -> V\d+`$/m,
-    `- Canonical pointer is \`${resolvedRepoRoot}/ENGI_SPEC.txt -> ${version}\``
+    `- Canonical pointer is \`${resolvedRepoRoot}/BITCODE_SPEC.txt -> ${version}\``
   );
   rewritten = rewritten.replace(
     /^- V\d+ is the current canonical\/latest target and governing full-system spec$/m,

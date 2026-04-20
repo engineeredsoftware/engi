@@ -1,14 +1,14 @@
-# ENGI Spec V26 Notes
+# Bitcode Spec V26 Notes
 
 ## Status
 
 - Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-through-seventh-gate closure
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
-- Main spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
-- Delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
-- Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
+- Main spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- Delta companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
+- Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.engi/v26-gate-checkpoint-report.json`
 - V26 state: canonical promotion complete; fifth-, sixth-, and seventh-gate closure remain open
 
@@ -328,7 +328,7 @@ Mounted public-shell chrome is also now explicit:
 - the stable docs walkthrough now fails closed with user-facing fallback copy and a direct `Open transactions` path instead of exposing asset-path instructions
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility
 - the mounted public footer now resolves the guide URL through Bitcode-owned route/env ownership instead of the removed legacy docs-walkthrough env fallback
-- the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec file path
+- the mounted public footer now links `Protocol spec` through the stable canonical pointer `BITCODE_SPEC.txt` instead of a version-specific public spec file path
 - the mounted public nav now prefers a stacked/wrapped responsive layout over hamburger-style indirection, keeping primary entry links and guest access actions visible on smaller screens
 - the mounted public terminal preview now leads with a compact public/mobile summary and only expands into the denser operator-grade preview on wider shells
 - the mounted landing ambience now hides orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of carrying the full animated backdrop everywhere
@@ -420,7 +420,7 @@ Still open:
 - full Bitcode rename completion remains later-gate work rather than first-gate,
 - first-gate may preserve compatibility carriers while package/app migration closes,
 - fourth-gate should return to remaining active-source rename debt after second-gate and third-gate stability are established,
-- and any remaining ENGI-era naming that survives first-gate must be cataloged and intentionally retired rather than left implicit.
+- and any remaining Bitcode-era naming that survives first-gate must be cataloged and intentionally retired rather than left implicit.
 
 ## Current sequencing bias
 
@@ -459,6 +459,7 @@ Current fifth-gate reminders:
 - active auth and deliverable email carriers are inside the same boundary too: `supabase/config.toml`, `supabase/templates/*`, and the active vars passed from `packages/api/src/routes/deliverables.ts` must read as Bitcode because those templates are live user-facing product surfaces, not deployment-only metadata
 - persistence/debug/mock/API-key contracts are inside the same boundary too: active storage keys, local pattern-learning keys, mock API-key fixtures, and API-key generation prefixes must read as Bitcode because they are shipped runtime state carriers rather than harmless internal strings
 - Bitcode-core runtime truth is inside the same boundary too: `packages/bitcode/{src/bitcode-demo.js,src/attestation-model.js,data/state.json,test/core.test.js}` must not keep `engi-*` attestation kinds, policy release ids, principal classes, or `workspace/engi-demo` provenance because those identifiers ship as active protocol/runtime state rather than incidental comments
+- retained external-realization and branch-artifact contracts are inside the same boundary too: `packages/bitcode/src/canonical/v24-external-realization.js` and `packages/bitcode/test/core.test.js` must use `BITCODE_V24_*` env contracts, Bitcode-owned example refs like `github-app://bitcode/...`, and `BITCODE_NEED.md` rather than preserving `ENGI_V24_*` or `ENGI_NEED.md` as active runtime truth
 - retained package harnesses and generated JS artifacts count the same way: `packages/{doc-code,supabase,generic-doc-comment-plugins}` must not keep `engi` naming in active mock filenames, import examples, or shipped JS/comments just because the TypeScript source has already been updated
 - fifth-gate proof closure is not allowed to stop at rename cleanup; the newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package surfaces have to prove to the same rigorous standard the earlier Bitcode core already established
 

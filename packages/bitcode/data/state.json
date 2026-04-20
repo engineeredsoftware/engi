@@ -8,7 +8,7 @@
     "specVersionLabel": "Bitcode Spec V26 active canon / V27 system draft",
     "documentTitle": "Bitcode Application",
     "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",
-    "activeProvenAppendixPath": "ENGI_SPEC_V26_PROVEN.md",
+    "activeProvenAppendixPath": "BITCODE_SPEC_V26_PROVEN.md",
     "draftSpecPath": "ENGI_SPEC_V27.md",
     "draftDeltaPath": "ENGI_SPEC_V27_DELTA.md",
     "draftParityPath": "ENGI_SPEC_V27_PARITY_MATRIX.md",

@@ -1,19 +1,19 @@
-# ENGI Spec V26 Delta
+# Bitcode Spec V26 Delta
 
 ## Status
 
 - Scope: V26 canonical delta for Bitcode productionizing hardening, first-gate application migration, second-gate application-experience refit, interface hardening, and package-first repository refurbishment after V25 rename canon
 - Current canonical/latest target: `V26`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
-- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
-- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt` -> `V26`
+- Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PROVEN.md`
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
-- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25.md`
-- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `ENGI_SPEC_V26_PROVEN.md`
-- Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
-- Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
-- Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
+- Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
+- Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, `.engi/retained-package-admissibility-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
+- Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
+- Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth through seventh gate remain open
 - V26 state: canonical promotion complete; V26 is the active Bitcode canon while fifth-, sixth-, and seventh-gate closure remain open
 
@@ -387,7 +387,7 @@ Second-gate acceptance is reached only when:
 - the mounted public shell now owns a real `/docs` route through `PublicDocsPageContent.tsx`, with `/demo-video` retained only as a compatibility alias into that docs-owned content,
 - the stable docs walkthrough now resolves one Bitcode-owned guide asset instead of carrying ordered `engi-demo` media compatibility,
 - the mounted public footer now resolves the guide route through Bitcode-owned route/env ownership instead of falling back to the removed legacy docs-walkthrough env fallback,
-- the mounted public footer now links `Protocol spec` through the stable canonical pointer `ENGI_SPEC.txt` instead of a version-specific public spec path,
+- the mounted public footer now links `Protocol spec` through the stable canonical pointer `BITCODE_SPEC.txt` instead of a version-specific public spec path,
 - the mounted public nav now resolves small-screen complexity by stacking and wrapping the live Bitcode links and guest actions instead of hiding the primary entry paths behind another menu state,
 - the mounted public terminal preview now defaults to a compact mobile/public summary and reserves the denser operator-grade preview for wider shells,
 - the mounted landing ambience now suppresses orbital rings, pointer glow, and the large ambient blur on smaller or reduced-motion shells instead of forcing the full animated backdrop everywhere,

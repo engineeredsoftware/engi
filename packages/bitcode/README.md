@@ -2,8 +2,8 @@
 
 This demo is governed by the active V26 canonical spec.
 
-- `ENGI_SPEC.txt -> V26`
-- current generated appendix: `ENGI_SPEC_V26_PROVEN.md`
+- `BITCODE_SPEC.txt -> V26`
+- current generated appendix: `BITCODE_SPEC_V26_PROVEN.md`
 
 `packages/bitcode` is the preserved Bitcode runtime package that survived first-gate ownership migration and now feeds the application-owned V26 transactions and auxillary surfaces.
 

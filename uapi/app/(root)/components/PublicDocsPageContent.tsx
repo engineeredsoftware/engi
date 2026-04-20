@@ -154,7 +154,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               Open Auxillaries
             </Link>
             <a
-              href="https://github.com/engineeredsoftware/bitcode/blob/main/ENGI_SPEC.txt"
+              href="https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition hover:border-white/20 hover:bg-white/10"

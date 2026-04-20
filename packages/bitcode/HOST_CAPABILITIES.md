@@ -5,7 +5,7 @@ Host scope: local machine capabilities relevant to the active V26 canon and the 
 
 ## Canon status
 
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt -> V26`
+- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Current canonical/latest target: `V26`
 - Current draft-target family: `V27`
 - Current first-gate owner: `packages/bitcode` mounted through `uapi/app/application/*`

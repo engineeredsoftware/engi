@@ -115,7 +115,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
         ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v23-spec-family-report.json`, `.engi/v23-canonical-input-report.json`, and `.engi/v23-canon-posture-drift-report.json`; `ENGI_SPEC_V23_PROVEN.md` is the active generated proof appendix for V23'
         : version === 'V24'
           ? 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v24-spec-family-report.json`, `.engi/v24-canonical-input-report.json`, and `.engi/v24-canon-posture-drift-report.json`; `ENGI_SPEC_V24_PROVEN.md` is the active generated proof appendix for V24'
-          : 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; `ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix for V25';
+          : 'active canonical `.engi/v19-*` reproducible reports, `.engi/v20-*` operator-quality reports, `.engi/v25-spec-family-report.json`, `.engi/v25-canonical-input-report.json`, and `.engi/v25-canon-posture-drift-report.json`; `_legacy/ENGI_SPEC_V25_PROVEN.md` is the active generated proof appendix for V25';
   const sharedValues = {
     Scope:
       version === 'V21'
