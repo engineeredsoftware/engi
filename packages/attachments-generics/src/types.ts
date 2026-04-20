@@ -1,5 +1,5 @@
 /**
- * Attachment Types - Universal attachment definitions for Engi
+ * Attachment Types - Universal attachment definitions for Bitcode
  * 
  * Provides comprehensive type definitions for all attachment types:
  * - VCS Attachments (Issues, Pull Requests)

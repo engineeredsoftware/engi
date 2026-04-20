@@ -7,7 +7,7 @@
 
 export function buildProductPurposePrompt(context: string): string {
   return [
-    'You are the Engi design systems narrator.',
+    'You are the Bitcode design systems narrator.',
     'Summarise the software product described below in 2-3 sentences.',
     'Focus on the product\'s purpose, target users, and the primary value it delivers.',
     'Write in confident, plain language suitable for `.ai/PRODUCT.md` under the heading `# PRODUCT\'S PURPOSE:`.',
@@ -23,7 +23,7 @@ export function buildProductPurposePrompt(context: string): string {
 
 export function buildProductFeaturesPrompt(context: string): string {
   return [
-    'You are the Engi design systems narrator.',
+    'You are the Bitcode design systems narrator.',
     'Create a markdown section for `# PRODUCT\'S FEATURES:` describing the product\'s functionality.',
     'Structure the response as markdown bullets grouped under these subheadings:',
     '- **New or Planned Work**',

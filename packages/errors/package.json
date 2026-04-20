@@ -2,7 +2,7 @@
   "name": "@bitcode/errors",
   "version": "0.1.0",
   "private": true,
-  "description": "Unified error primitives shared across Engi services.",
+  "description": "Unified error primitives shared across Bitcode services.",
   "main": "src/errors.ts",
   "types": "src/errors.ts",
   "exports": {

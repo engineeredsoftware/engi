@@ -1,7 +1,7 @@
 /**
  * FIELD INTELLIGENCE QUERY - Network Analysis for Field Doc
  * 
- * Queries the Engi network to understand how code is performing
+ * Queries the Bitcode network to understand how code is performing
  * in production across all deliverables, AI Document updates, and runs.
  * 
  * @doc-code

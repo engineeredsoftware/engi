@@ -34,7 +34,7 @@ export const creditBundles: Record<string, CreditBundleConfig> = {
     credits: 100,
     // $0.15 per credit
     price: 100 * 0.15,
-    description: 'Try Engi with a small project or quick fix',
+    description: 'Try Bitcode with a small project or quick fix',
   },
   mini: {
     id: 'mini',

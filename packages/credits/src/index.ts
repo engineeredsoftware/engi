@@ -325,7 +325,7 @@ export async function deductGenerationCredits(userId: string, tokens: Generation
  * USD pricing (per **one million** tokens) for input & output tokens by model.
  *
  * The values mirror OpenAI’s public pricing sheet as of 2024-03-15.
- * Add / update rows when Engi supports new models or vendors.
+ * Add / update rows when Bitcode supports new models or vendors.
  */
 // Deprecated static fallback. Prefer centralized catalog in @bitcode/models.
 export const MODEL_PRICING_USD_PER_MILLION: Record<string, { input: number; output: number }> = {

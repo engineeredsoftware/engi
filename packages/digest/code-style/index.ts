@@ -2,7 +2,7 @@ import { callLLMAPI, BATCH_SUMMARY_MODEL } from '@/digest/llm';
 import { CODE_STYLES_PROMPT } from '@/digest/prompts/code-styles-prompts';
 
 /**
- * Generate the Code Styles guide for the Engi codebase.
+ * Generate the Code Styles guide for the Bitcode codebase.
  */
 export async function generateCodeStyles(
   _digests: any[],

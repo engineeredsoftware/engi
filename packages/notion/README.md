@@ -265,9 +265,9 @@ npm run test -- --coverage
 npm run type-check
 ```
 
-## Integration with Engi Pipelines
+## Integration with Bitcode Pipelines
 
-This package can be integrated with Engi's existing pipeline system by adding Notion source handlers to discovery phases. For example, in the deliverable pipeline:
+This package can be integrated with Bitcode's existing pipeline system by adding Notion source handlers to discovery phases. For example, in the deliverable pipeline:
 
 ```typescript
 import { createNotionClient, notionSearchTool, notionGetPageContentTool } from '@bitcode/notion';
@@ -289,7 +289,7 @@ if (client) {
 
 When contributing to this package:
 
-1. Follow Engi's TypeScript conventions
+1. Follow Bitcode's TypeScript conventions
 2. Add tests for new functionality
 3. Update type definitions
 4. Ensure OAuth flows remain secure

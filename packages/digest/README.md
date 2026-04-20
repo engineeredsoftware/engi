@@ -68,7 +68,7 @@ import { getDigest } from '@bitcode/digest/service';
 
 // Generate cached digest for repository
 const result = await getDigest({
-  org: 'engi-corp',
+  org: 'bitcode-corp',
   repo: 'platform',
   commit: 'abc123def456'
 });
@@ -81,7 +81,7 @@ console.log(`Cache hit: ${result.cacheHit}`);
 ```typescript
 // Bypass all caches for fresh analysis
 const freshDigest = await getDigest(
-  { org: 'engi-corp', repo: 'platform', commit: 'abc123def456' },
+  { org: 'bitcode-corp', repo: 'platform', commit: 'abc123def456' },
   { forceRegenerate: true }
 );
 
@@ -95,7 +95,7 @@ import { generateDigest } from '@bitcode/digest/run';
 
 // Low-level generation without persistence
 const result = await generateDigest({
-  owner: 'engi-corp',
+  owner: 'bitcode-corp',
   repo: 'platform', 
   commit: 'abc123def456',
   correlationId: crypto.randomUUID(),
