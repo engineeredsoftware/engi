@@ -1,5 +1,5 @@
 /**
- * Engi MCP Pipeline Streaming
+ * Bitcode MCP Pipeline Streaming
  * 
  * Real-time streaming support for pipeline execution with Server-Sent Events (SSE)
  * and WebSocket connections for live pipeline monitoring.

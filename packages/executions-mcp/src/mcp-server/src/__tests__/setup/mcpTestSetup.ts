@@ -1,7 +1,7 @@
 /**
  * MCP Test Setup
  * 
- * Comprehensive test setup for Engi MCP server testing with advanced mocking,
+ * Comprehensive test setup for Bitcode MCP server testing with advanced mocking,
  * dry run configuration, and performance monitoring.
  */
 
@@ -29,7 +29,7 @@ process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'test-supabase-
 // Global Mocks - Core Infrastructure
 // ============================================================================
 
-// Mock Engi logger
+// Mock Bitcode logger
 jest.mock('@bitcode/logger', () => ({
   logger: {
     info: jest.fn(),
@@ -37,10 +37,11 @@ jest.mock('@bitcode/logger', () => ({
     error: jest.fn(),
     debug: jest.fn(),
     trace: jest.fn()
-  }
+  },
+  log: jest.fn()
 }));
 
-// Mock Engi observability
+// Mock Bitcode observability
 jest.mock('@bitcode/observability', () => ({
   observability: {
     init: jest.fn().mockResolvedValue(undefined),
@@ -245,7 +246,7 @@ jest.mock('figma-api', () => ({
       }
     })
   }))
-}));
+}), { virtual: true });
 
 // Mock Supabase
 jest.mock('@supabase/supabase-js', () => ({
@@ -303,22 +304,73 @@ jest.mock('@supabase/supabase-js', () => ({
   }))
 }));
 
+// Mock Bitcode Supabase package root used by retained package callers
+jest.mock('@bitcode/supabase', () => {
+  const mockClient = {
+    from: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    eq: jest.fn().mockReturnThis(),
+    single: jest.fn().mockReturnThis(),
+    insert: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
+    delete: jest.fn().mockReturnThis(),
+    gte: jest.fn().mockReturnThis(),
+    lte: jest.fn().mockReturnThis(),
+    limit: jest.fn().mockReturnThis(),
+    order: jest.fn().mockReturnThis(),
+    maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
+    rpc: jest.fn().mockResolvedValue({ data: [], error: null }),
+    auth: {
+      getUser: jest.fn().mockResolvedValue({
+        data: { user: { id: 'test-user-id' } },
+        error: null
+      })
+    }
+  };
+
+  return {
+    __esModule: true,
+    createClient: jest.fn().mockReturnValue(mockClient),
+    createBrowserClient: jest.fn().mockReturnValue(mockClient),
+    supabase: mockClient,
+    supabaseAdmin: mockClient,
+  };
+});
+
 // ============================================================================
-// Global Mocks - Engi Internal Services
+// Global Mocks - Bitcode Internal Services
 // ============================================================================
 
-// Mock Engi pipelines
+// Mock Bitcode pipelines
 jest.mock('@bitcode/pipelines-generics', () => ({
   Pipeline: {
     DELIVERABLE: 'deliverable'
   },
-  EngiPhase: {
+  PipelinePhase: {
     SETUP: 'setup',
     DISCOVERY: 'discovery',
     IMPLEMENTATION: 'implementation',
-    TESTING: 'testing',
-    DELIVERY: 'delivery'
+    VALIDATION: 'validation',
+    SHIPPING: 'shipping'
   },
+  PipelineExecution: class MockPipelineExecution {
+    id: string;
+    parent?: unknown;
+    llms = { setLLMRegistry: jest.fn(), set: jest.fn() };
+    tools = { registerTool: jest.fn() };
+    agents = { registerAgent: jest.fn() };
+    store = jest.fn();
+    child = jest.fn((id: string) => new MockPipelineExecution(id, this));
+
+    constructor(id = 'test-pipeline-execution', parent?: unknown) {
+      this.id = id;
+      this.parent = parent;
+    }
+  },
+  enableExecutionDebug: jest.fn(),
+  createPhaseRunner: jest.fn().mockImplementation(() => jest.fn().mockResolvedValue({
+    success: true
+  })),
   createPipelineExecutor: jest.fn().mockReturnValue({
     execute: jest.fn().mockResolvedValue({
       success: true,
@@ -357,7 +409,7 @@ jest.mock('@bitcode/pipelines-generics/src/llm/dry_running/config', () => ({
     mode: 'test',
     features: ['all']
   })
-}));
+}), { virtual: true });
 
 // ============================================================================
 // Global Mocks - Web APIs and Node.js APIs

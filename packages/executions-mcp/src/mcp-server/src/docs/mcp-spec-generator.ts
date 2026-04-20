@@ -1,5 +1,5 @@
 /**
- * Engi MCP Specification Generator
+ * Bitcode MCP Specification Generator
  * 
  * Auto-generates comprehensive MCP documentation from tool definitions,
  * creating both machine-readable specs and human-friendly documentation.
@@ -28,9 +28,9 @@ interface MCPTool {
 }
 
 /**
- * Enhanced MCP specification with Engi-specific extensions
+ * Enhanced MCP specification with Bitcode-specific extensions
  */
-interface EngiMCPSpecification {
+interface BitcodeMCPSpecification {
   mcpVersion: string;
   serverInfo: {
     name: string;
@@ -91,13 +91,13 @@ interface EngiMCPSpecification {
  * Generate comprehensive MCP specification
  */
 export class MCPSpecificationGenerator {
-  private spec: EngiMCPSpecification;
+  private spec: BitcodeMCPSpecification;
   
   constructor() {
     this.spec = {
       mcpVersion: '2024-11-05',
       serverInfo: {
-        name: 'engi-engineering-intelligence',
+        name: 'bitcode-market-infrastructure',
         version: '1.0.0',
         description: 'Engineering intelligence platform exposing comprehensive capabilities through MCP',
         capabilities: [
@@ -114,7 +114,7 @@ export class MCPSpecificationGenerator {
   /**
    * Generate complete MCP specification
    */
-  generateSpecification(): EngiMCPSpecification {
+  generateSpecification(): BitcodeMCPSpecification {
     console.log('🔍 Generating MCP specification...');
     
     // Collect all tools
@@ -302,9 +302,9 @@ export class MCPSpecificationGenerator {
     const category = toolName.split('://')[1]?.split('/')[0];
     
     if (category === 'pipelines') {
-      related.push('engi://monitoring/pipeline/status', 'engi://intelligence/effectiveness/track');
+      related.push('bitcode://monitoring/pipeline/status', 'bitcode://intelligence/effectiveness/track');
     } else if (category === 'enterprise') {
-      related.push('engi://observability/logs/analytics', 'engi://lsp/diagnostic/analyze');
+      related.push('bitcode://observability/logs/analytics', 'bitcode://lsp/diagnostic/analyze');
     }
     
     return related;
@@ -394,7 +394,7 @@ export class MCPSpecificationGenerator {
     "engi": {
       "command": "npx",
       "args": ["@bitcode/mcp-server"],
-      "env": { "ENGI_API_KEY": "your-api-key" }
+      "env": { "BITCODE_API_KEY": "your-api-key" }
     }
   }
 }`,
@@ -402,21 +402,21 @@ export class MCPSpecificationGenerator {
         features: ['Real-time streaming', 'Rich responses', 'Interactive tables']
       },
       'VS Code': {
-        setup: `Install the Engi MCP extension and configure with API key`,
-        example: `Right-click file → "Analyze with Engi MCP"`,
+        setup: `Install the Bitcode MCP extension and configure with API key`,
+        example: `Right-click file → "Analyze with Bitcode MCP"`,
         features: ['IDE integration', 'Code actions', 'Inline suggestions']
       },
       'GitHub Actions': {
         setup: `- uses: engi/mcp-action@v1
   with:
-    tool: "engi://pipelines/deliverable/execute"
-    token: \${{ secrets.ENGI_API_KEY }}`,
+    tool: "bitcode://pipelines/deliverable/execute"
+    token: \${{ secrets.BITCODE_API_KEY }}`,
         example: `Automated implementation and validation on every PR`,
         features: ['CI/CD integration', 'Automated workflows', 'Quality gates']
       },
       'Custom API': {
-        setup: `const client = new MCPClient({ apiKey: process.env.ENGI_API_KEY });`,
-        example: `await client.callTool("engi://pipelines/deliverable/execute", args);`,
+        setup: `const client = new MCPClient({ apiKey: process.env.BITCODE_API_KEY });`,
+        example: `await client.callTool("bitcode://pipelines/deliverable/execute", args);`,
         features: ['REST API', 'WebSocket streaming', 'Custom integrations']
       }
     };
@@ -431,15 +431,15 @@ export class MCPSpecificationGenerator {
         description: 'Complete feature development from design to deployment',
         steps: [
           {
-            tool: 'engi://analysis/repository/analyze',
+            tool: 'bitcode://analysis/repository/analyze',
             description: 'Analyze existing architecture and patterns'
           },
           {
-            tool: 'engi://pipelines/deliverable/execute',
+            tool: 'bitcode://pipelines/deliverable/execute',
             description: 'Implement feature with tests and documentation'
           },
           {
-            tool: 'engi://intelligence/effectiveness/track',
+            tool: 'bitcode://intelligence/effectiveness/track',
             description: 'Measure implementation effectiveness'
           }
         ],
@@ -450,15 +450,15 @@ export class MCPSpecificationGenerator {
         description: 'Systematic code quality improvement across repositories',
         steps: [
           {
-            tool: 'engi://intelligence/cross-repo/learn',
+            tool: 'bitcode://intelligence/cross-repo/learn',
             description: 'Extract quality patterns from successful repositories'
           },
           {
-            tool: 'engi://orchestration/pipeline/orchestrate',
+            tool: 'bitcode://orchestration/pipeline/orchestrate',
             description: 'Apply improvements across multiple repositories'
           },
           {
-            tool: 'engi://observability/metrics/realtime',
+            tool: 'bitcode://observability/metrics/realtime',
             description: 'Monitor quality improvements over time'
           }
         ],
@@ -469,15 +469,15 @@ export class MCPSpecificationGenerator {
         description: 'Set up enterprise-grade automation and observability',
         steps: [
           {
-            tool: 'engi://enterprise/webhook/orchestrate',
+            tool: 'bitcode://enterprise/webhook/orchestrate',
             description: 'Configure intelligent webhook routing'
           },
           {
-            tool: 'engi://enterprise/api/manage',
+            tool: 'bitcode://enterprise/api/manage',
             description: 'Set up API management and governance'
           },
           {
-            tool: 'engi://observability/intelligence/business',
+            tool: 'bitcode://observability/intelligence/business',
             description: 'Configure business intelligence dashboards'
           }
         ],
@@ -515,7 +515,7 @@ export class MCPSpecificationGenerator {
    * Generate human-readable documentation
    */
   private generateHumanReadableDocs(outputDir: string): void {
-    let docs = `# Engi MCP API Reference
+    let docs = `# Bitcode MCP API Reference
 
 **${this.spec.serverInfo.description}**
 

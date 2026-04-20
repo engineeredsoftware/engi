@@ -1,20 +1,20 @@
-# Engi MCP API Reference
+# Bitcode MCP API Reference
 
-> **Complete reference for integrating with Engi's Model Context Protocol server**
+> **Complete reference for integrating with Bitcode's Model Context Protocol server**
 
 ## Overview
 
-The Engi MCP API provides programmatic access to our revolutionary engineering intelligence platform through the standardized Model Context Protocol. This reference covers all available tools, resources, and integration patterns.
+The Bitcode MCP API provides programmatic access to our revolutionary engineering intelligence platform through the standardized Model Context Protocol. This reference covers all available tools, resources, and integration patterns.
 
 ## Authentication
 
 ### API Key Authentication
 ```javascript
 // Set your API key in environment variables
-process.env.ENGI_API_KEY = "your-api-key-here";
+process.env.BITCODE_API_KEY = "your-api-key-here";
 
 // Or pass directly in requests
-const client = new EngiMCPClient({
+const client = new BitcodeMCPClient({
   apiKey: "your-api-key-here",
   organizationId: "your-org-id"
 });
@@ -32,7 +32,7 @@ const session = await client.authenticate({
 ## Core Concepts
 
 ### Tool Execution Pattern
-All Engi MCP tools follow a consistent execution pattern:
+All Bitcode MCP tools follow a consistent execution pattern:
 
 ```typescript
 interface ToolExecution {
@@ -72,7 +72,7 @@ interface Attachment {
 ## Pipeline Tools
 
 ### Deliverable Creation
-**Tool**: `engi://pipelines/deliverable/create`
+**Tool**: `bitcode://pipelines/deliverable/create`
 
 Create production-ready features with comprehensive testing and documentation.
 
@@ -119,7 +119,7 @@ interface DeliverableResponse {
 
 #### Example Usage
 ```javascript
-const result = await client.callTool('engi://pipelines/deliverable/create', {
+const result = await client.callTool('bitcode://pipelines/deliverable/create', {
   task: "Create a user authentication system with JWT tokens, password hashing, and email verification",
   repository: {
     owner: "mycompany",
@@ -148,12 +148,12 @@ const result = await client.callTool('engi://pipelines/deliverable/create', {
 ## Intelligence Tools
 
 ### Cross-Repository Learning
-**Tool**: `engi://intelligence/learn/patterns`
+**Tool**: `bitcode://intelligence/learn/patterns`
 
 Extract and apply patterns across multiple repositories.
 
 ```javascript
-const learning = await client.callTool('engi://intelligence/learn/patterns', {
+const learning = await client.callTool('bitcode://intelligence/learn/patterns', {
   task: "Learn authentication patterns from our successful projects",
   scope: "organization",
   repositories: ["auth-service", "user-api", "admin-portal"],
@@ -162,12 +162,12 @@ const learning = await client.callTool('engi://intelligence/learn/patterns', {
 ```
 
 ### Predictive Analysis
-**Tool**: `engi://intelligence/predict/issues`
+**Tool**: `bitcode://intelligence/predict/issues`
 
 Identify potential issues before they become problems.
 
 ```javascript
-const prediction = await client.callTool('engi://intelligence/predict/issues', {
+const prediction = await client.callTool('bitcode://intelligence/predict/issues', {
   task: "Predict potential security vulnerabilities and performance bottlenecks",
   repository: { owner: "mycompany", name: "production-app" },
   timeframe: "30d",
@@ -178,12 +178,12 @@ const prediction = await client.callTool('engi://intelligence/predict/issues', {
 ## Monitoring & Observability Tools
 
 ### Pipeline Monitoring
-**Tool**: `engi://monitoring/pipelines/status`
+**Tool**: `bitcode://monitoring/pipelines/status`
 
 Monitor and control pipeline executions.
 
 ```javascript
-const status = await client.callTool('engi://monitoring/pipelines/status', {
+const status = await client.callTool('bitcode://monitoring/pipelines/status', {
   pipelineId: "pipeline-123",
   includeMetrics: true,
   includeLogs: true
@@ -191,12 +191,12 @@ const status = await client.callTool('engi://monitoring/pipelines/status', {
 ```
 
 ### System Health
-**Tool**: `engi://monitoring/health/check`
+**Tool**: `bitcode://monitoring/health/check`
 
 Comprehensive system health monitoring.
 
 ```javascript
-const health = await client.callTool('engi://monitoring/health/check', {
+const health = await client.callTool('bitcode://monitoring/health/check', {
   components: ["api", "database", "queue", "storage"],
   includeMetrics: true,
   alertThresholds: {
@@ -210,12 +210,12 @@ const health = await client.callTool('engi://monitoring/health/check', {
 ## Enterprise Integration Tools
 
 ### Webhook Orchestration
-**Tool**: `engi://enterprise/webhooks/create`
+**Tool**: `bitcode://enterprise/webhooks/create`
 
 Intelligent webhook routing and processing.
 
 ```javascript
-const webhook = await client.callTool('engi://enterprise/webhooks/create', {
+const webhook = await client.callTool('bitcode://enterprise/webhooks/create', {
   task: "Route GitHub webhooks to appropriate team channels and trigger deployments",
   sources: ["github", "jira", "figma"],
   destinations: ["slack", "teams", "pagerduty"],
@@ -228,12 +228,12 @@ const webhook = await client.callTool('engi://enterprise/webhooks/create', {
 ```
 
 ### API Lifecycle Management
-**Tool**: `engi://enterprise/api/lifecycle`
+**Tool**: `bitcode://enterprise/api/lifecycle`
 
 Complete API design, testing, and documentation workflows.
 
 ```javascript
-const apiLifecycle = await client.callTool('engi://enterprise/api/lifecycle', {
+const apiLifecycle = await client.callTool('bitcode://enterprise/api/lifecycle', {
   task: "Create complete API lifecycle for user management service",
   repository: { owner: "mycompany", name: "user-api" },
   phases: ["design", "implementation", "testing", "documentation", "deployment"],
@@ -245,33 +245,33 @@ const apiLifecycle = await client.callTool('engi://enterprise/api/lifecycle', {
 ## Resources
 
 ### Pipeline History
-**Resource**: `engi://resources/pipelines/{id}`
+**Resource**: `bitcode://resources/pipelines/{id}`
 
 Access detailed pipeline execution history and results.
 
 ```javascript
-const pipelineDetails = await client.readResource('engi://resources/pipelines/pipeline-123');
+const pipelineDetails = await client.readResource('bitcode://resources/pipelines/pipeline-123');
 ```
 
 ### Organization Analytics
-**Resource**: `engi://resources/organizations/{id}/analytics`
+**Resource**: `bitcode://resources/organizations/{id}/analytics`
 
 Organization-level analytics and insights.
 
 ```javascript
-const analytics = await client.readResource('engi://resources/organizations/org-456/analytics', {
+const analytics = await client.readResource('bitcode://resources/organizations/org-456/analytics', {
   timeframe: "30d",
   metrics: ["productivity", "quality", "security", "performance"]
 });
 ```
 
 ### Intelligence Insights
-**Resource**: `engi://resources/intelligence/insights`
+**Resource**: `bitcode://resources/intelligence/insights`
 
 AI-generated insights and recommendations.
 
 ```javascript
-const insights = await client.readResource('engi://resources/intelligence/insights', {
+const insights = await client.readResource('bitcode://resources/intelligence/insights', {
   scope: "team",
   categories: ["code-quality", "performance", "security"],
   timeframe: "7d"
@@ -281,12 +281,12 @@ const insights = await client.readResource('engi://resources/intelligence/insigh
 ## Prompts
 
 ### Development Workflows
-**Prompt**: `engi://prompts/development/feature-implementation`
+**Prompt**: `bitcode://prompts/development/feature-implementation`
 
 Best-practice templates for feature development.
 
 ```javascript
-const prompt = await client.getPrompt('engi://prompts/development/feature-implementation', {
+const prompt = await client.getPrompt('bitcode://prompts/development/feature-implementation', {
   feature: "user authentication",
   technology: "react-node-postgres",
   complexity: "medium"
@@ -294,12 +294,12 @@ const prompt = await client.getPrompt('engi://prompts/development/feature-implem
 ```
 
 ### Code Review Guidelines
-**Prompt**: `engi://prompts/review/security-checklist`
+**Prompt**: `bitcode://prompts/review/security-checklist`
 
 Comprehensive security review templates.
 
 ```javascript
-const reviewPrompt = await client.getPrompt('engi://prompts/review/security-checklist', {
+const reviewPrompt = await client.getPrompt('bitcode://prompts/review/security-checklist', {
   language: "typescript",
   framework: "express",
   scope: "authentication"
@@ -455,39 +455,39 @@ npm install @bitcode/mcp-client
 ```
 
 ```javascript
-import { EngiMCPClient } from '@bitcode/mcp-client';
+import { BitcodeMCPClient } from '@bitcode/mcp-client';
 
-const client = new EngiMCPClient({
-  apiKey: process.env.ENGI_API_KEY,
+const client = new BitcodeMCPClient({
+  apiKey: process.env.BITCODE_API_KEY,
   organizationId: 'your-org-id',
-  baseUrl: 'https://api.engi.com/mcp'
+  baseUrl: 'https://api.bitcode.dev/mcp'
 });
 ```
 
 ### Python
 ```bash
-pip install engi-mcp-client
+pip install bitcode-mcp-client
 ```
 
 ```python
-from engi_mcp import EngiMCPClient
+from bitcode_mcp import BitcodeMCPClient
 
-client = EngiMCPClient(
-    api_key=os.environ['ENGI_API_KEY'],
+client = BitcodeMCPClient(
+    api_key=os.environ['BITCODE_API_KEY'],
     organization_id='your-org-id'
 )
 ```
 
 ### Go
 ```bash
-go get github.com/engi-com/mcp-client-go
+go get github.com/bitcode-labs/mcp-client-go
 ```
 
 ```go
-import "github.com/engi-com/mcp-client-go"
+import "github.com/bitcode-labs/mcp-client-go"
 
 client := mcp.NewClient(&mcp.Config{
-    APIKey:         os.Getenv("ENGI_API_KEY"),
+    APIKey:         os.Getenv("BITCODE_API_KEY"),
     OrganizationID: "your-org-id",
 })
 ```
@@ -497,18 +497,18 @@ client := mcp.NewClient(&mcp.Config{
 ### Environment Variables
 ```bash
 # Authentication
-ENGI_API_KEY=your-api-key                    # Required: API authentication
-ENGI_ORGANIZATION_ID=your-org-id             # Optional: Organization context
+BITCODE_API_KEY=your-api-key                    # Required: API authentication
+BITCODE_ORGANIZATION_ID=your-org-id             # Optional: Organization context
 
 # Server Configuration
-ENGI_MCP_BASE_URL=https://api.engi.com/mcp   # API base URL
-ENGI_MCP_TIMEOUT=300000                      # Request timeout (ms)
-ENGI_MCP_RETRY_ATTEMPTS=3                    # Max retry attempts
+BITCODE_MCP_BASE_URL=https://api.bitcode.dev/mcp   # API base URL
+BITCODE_MCP_TIMEOUT=300000                      # Request timeout (ms)
+BITCODE_MCP_RETRY_ATTEMPTS=3                    # Max retry attempts
 
 # Feature Flags
-ENGI_ENABLE_STREAMING=true                   # Enable real-time streaming
-ENGI_ENABLE_WEBHOOKS=true                    # Enable webhook delivery
-ENGI_ENABLE_ANALYTICS=true                   # Enable usage analytics
+BITCODE_ENABLE_STREAMING=true                   # Enable real-time streaming
+BITCODE_ENABLE_WEBHOOKS=true                    # Enable webhook delivery
+BITCODE_ENABLE_ANALYTICS=true                   # Enable usage analytics
 
 # Integration Settings
 GITHUB_INSTALLATION_ID=12345                 # GitHub App installation
@@ -518,4 +518,4 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com    # Slack notifications
 
 ---
 
-**Need help?** Visit our [documentation](https://docs.engi.com/mcp) or join our [Discord community](https://discord.gg/engi).
+**Need help?** Visit our [documentation](https://docs.bitcode.dev/mcp) or join our [Discord community](https://discord.gg/bitcode).

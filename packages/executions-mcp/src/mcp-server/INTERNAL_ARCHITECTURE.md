@@ -1,10 +1,10 @@
-# Engi MCP Server: Internal Architecture & System Guarantees
+# Bitcode MCP Server: Internal Architecture & System Guarantees
 
-> **INTERNAL DOCUMENT**: System boundaries, guarantees, and architectural decisions for Engi's Model Context Protocol server
+> **INTERNAL DOCUMENT**: System boundaries, guarantees, and architectural decisions for Bitcode's Model Context Protocol server
 
 ## Executive Summary
 
-The Engi MCP Server represents a **controlled frontier system** - operating at the absolute edge of AI capabilities while providing the strongest possible guarantees within the inherent constraints of AI non-determinism. As a 'wrapped system' that orchestrates foundational AI technologies, it balances unlimited potential with bounded risk through sophisticated safeguards and validation layers.
+The Bitcode MCP Server represents a **controlled frontier system** - operating at the absolute edge of AI capabilities while providing the strongest possible guarantees within the inherent constraints of AI non-determinism. As a 'wrapped system' that orchestrates foundational AI technologies, it balances unlimited potential with bounded risk through sophisticated safeguards and validation layers.
 
 ## System Philosophy
 
@@ -26,7 +26,7 @@ The Engi MCP Server represents a **controlled frontier system** - operating at t
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Engi MCP Server                              │
+│                    Bitcode MCP Server                              │
 ├─────────────────────────────────────────────────────────────────┤
 │  🛡️  Authentication & Authorization Layer                       │
 │  ├─ API Key Validation                                         │
@@ -531,7 +531,7 @@ const CREDIT_STRUCTURE: CreditConsumption[] = [
 
 ## Conclusion
 
-The Engi MCP Server represents a **controlled frontier system** that balances cutting-edge AI capabilities with production-grade reliability and security. Through comprehensive risk management, layered validation, and transparent communication of system boundaries, we provide the strongest possible guarantees while operating at the absolute edge of AI-powered engineering.
+The Bitcode MCP Server represents a **controlled frontier system** that balances cutting-edge AI capabilities with production-grade reliability and security. Through comprehensive risk management, layered validation, and transparent communication of system boundaries, we provide the strongest possible guarantees while operating at the absolute edge of AI-powered engineering.
 
 Our architecture acknowledges the inherent challenges of frontier AI systems while providing practical solutions that enable customers to confidently deploy AI-powered engineering workflows in production environments. The system is designed to evolve rapidly with the AI landscape while maintaining strict guarantees around security, reliability, and quality.
 
@@ -542,4 +542,4 @@ Our architecture acknowledges the inherent challenges of frontier AI systems whi
 - **Transparent Limitations**: Clear communication of what we can and cannot guarantee
 - **Continuous Evolution**: Rapid adaptation to AI advances while maintaining stability
 
-This architecture positions Engi MCP as the definitive platform for production-grade AI-powered engineering, providing advanced capabilities with enterprise-grade reliability.
+This architecture positions Bitcode MCP as the definitive platform for production-grade AI-powered engineering, providing advanced capabilities with enterprise-grade reliability.

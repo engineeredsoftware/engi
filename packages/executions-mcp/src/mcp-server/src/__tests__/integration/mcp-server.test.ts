@@ -1,11 +1,11 @@
 /**
- * Integration tests for Engi MCP Server
+ * Integration tests for Bitcode MCP Server
  * 
  * Tests end-to-end functionality including auth, tools, pipelines, and streaming
  */
 
 import { describe, it, expect, beforeAll, afterAll, jest } from '@jest/globals';
-import { EngiMCPServer } from '../../server';
+import { BitcodeMCPServer } from '../../server';
 import { createClient } from '@bitcode/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import WebSocket from 'ws';
@@ -15,8 +15,8 @@ import { EventSource } from 'eventsource';
 jest.mock('@bitcode/supabase/src/ssr/admin');
 jest.mock('@bitcode/logger');
 
-describe('Engi MCP Server Integration Tests', () => {
-  let server: EngiMCPServer;
+describe('Bitcode MCP Server Integration Tests', () => {
+  let server: BitcodeMCPServer;
   let testUserId: string;
   let testOrgId: string;
   let testApiKey: string;
@@ -45,7 +45,7 @@ describe('Engi MCP Server Integration Tests', () => {
     (createClient as jest.Mock).mockReturnValue(mockSupabase);
     
     // Initialize server
-    server = new EngiMCPServer();
+    server = new BitcodeMCPServer();
     await server.start();
   });
   

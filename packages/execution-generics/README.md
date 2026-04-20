@@ -47,7 +47,7 @@ That's it. Everything else - agents, pipelines, phases, run histories, and need-
 - See: `@bitcode/execution-generics/src/store/registry.ts` for canonical namespaces (`EXECUTION_NAMESPACES`) and typed helpers.
 
 ### The Execution Tree
-Every AI operation in Engi creates a tree of executions that accumulate state:
+Every AI operation in Bitcode creates a tree of executions that accumulate state:
 
 ```
 deliverable-pipeline
@@ -137,10 +137,10 @@ codeAgent.llms.set('default', { model: 'claude-3-opus', temperature: 0.2 });
 ```
 
 
-## How AI Agents Work in Engi
+## How AI Agents Work in Bitcode
 
 ### The PTRR Pattern (Plan-Try-Refine-Retry)
-Every agent in Engi follows this pattern for reliable intelligence:
+Every agent in Bitcode follows this pattern for reliable intelligence:
 
 ```typescript
 const agent = sequential(

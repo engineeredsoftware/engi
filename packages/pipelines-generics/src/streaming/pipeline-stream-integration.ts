@@ -89,7 +89,7 @@ export function enablePipelineStreaming(
   }
 
   // Optional: structured persistence into execution hierarchy tables (planned)
-  const structuredEnabled = config.structuredToDatabase ?? (process?.env?.ENGI_PIPELINE_STRUCTURED_DB === '1');
+  const structuredEnabled = config.structuredToDatabase ?? (process?.env?.BITCODE_PIPELINE_STRUCTURED_DB === '1');
   if (structuredEnabled && config.supabase) {
     const supabase = config.supabase;
     const phaseState: { currentPhaseId: string | null; currentPhaseName: string | null } = { currentPhaseId: null, currentPhaseName: null };

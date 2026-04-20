@@ -1,7 +1,7 @@
 /**
- * Engi MCP Server - The Ultimate Engineering Intelligence Platform
+ * Bitcode MCP Server - Bitcode market infrastructure over Model Context Protocol
  * 
- * A Model Context Protocol server that exposes Engi's sophisticated pipeline system,
+ * A Model Context Protocol server that exposes Bitcode's pipeline system,
  * multi-modal processing capabilities, and AI agents through standardized MCP interfaces.
  * Now fully integrated with ORM for all database operations.
  * 
@@ -58,9 +58,9 @@ import * as path from 'path';
 import type { MCPAuthContext } from './types';
 
 /**
- * Engi MCP Server Configuration
+ * Bitcode MCP Server Configuration
  */
-interface EngiMCPServerConfig {
+interface BitcodeMCPServerConfig {
   name: string;
   version: string;
   description: string;
@@ -84,10 +84,10 @@ interface EngiMCPServerConfig {
 /**
  * Default server configuration
  */
-const DEFAULT_CONFIG: EngiMCPServerConfig = {
-  name: 'engi-engineering-intelligence',
+const DEFAULT_CONFIG: BitcodeMCPServerConfig = {
+  name: 'bitcode-market-infrastructure',
   version: '1.0.0',
-  description: 'Engi Engineering Intelligence Platform - AI-powered software engineering workflows',
+  description: 'Bitcode market infrastructure - AI-powered need measurement, executions, and engineering workflows',
   capabilities: {
     tools: true,
     resources: true,
@@ -106,11 +106,11 @@ const DEFAULT_CONFIG: EngiMCPServerConfig = {
 };
 
 /**
- * Engi MCP Server Class
+ * Bitcode MCP Server Class
  */
-export class EngiMCPServer {
+export class BitcodeMCPServer {
   private server: Server;
-  private config: EngiMCPServerConfig;
+  private config: BitcodeMCPServerConfig;
   private authContextCache: TTLCache<string, MCPAuthContext>;
   private shutdownManager?: GracefulShutdownManager;
   private productionConfig?: any;
@@ -130,7 +130,7 @@ export class EngiMCPServer {
     pipeline: new CircuitBreaker('pipeline', DEFAULT_CIRCUIT_BREAKERS.pipeline)
   };
 
-  constructor(config: Partial<EngiMCPServerConfig> = {}) {
+  constructor(config: Partial<BitcodeMCPServerConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.server = new Server(
       {
@@ -208,13 +208,13 @@ export class EngiMCPServer {
   private setupObservability(): void {
     // Initialize OpenTelemetry tracing
     observability.init({
-      serviceName: 'engi-mcp-server',
+      serviceName: 'bitcode-mcp-server',
       version: this.config.version,
       environment: process.env.NODE_ENV || 'development'
     });
 
     logger.info('MCP Server observability initialized', {
-      serviceName: 'engi-mcp-server',
+      serviceName: 'bitcode-mcp-server',
       version: this.config.version,
       capabilities: this.config.capabilities
     });
@@ -402,15 +402,15 @@ export class EngiMCPServer {
               
               // Route tool execution based on name prefix
               const toolRoutes = [
-                { prefix: 'engi://pipelines/', register: registerPipelineTools },
-                { prefix: 'engi://monitoring/', register: registerMonitoringTools },
-                { prefix: 'engi://analysis/', register: registerAnalysisTools },
-                { prefix: 'engi://intelligence/', register: registerIntelligenceTools },
-                { prefix: 'engi://orchestration/', register: registerOrchestrationTools },
-                { prefix: 'engi://enterprise/', register: registerEnterpriseTools },
-                { prefix: 'engi://lsp/', register: registerLspTools },
-                { prefix: 'engi://observability/', register: registerObservabilityTools },
-                { prefix: 'engi://jira/', register: registerJiraTools }
+                { prefix: 'bitcode://pipelines/', register: registerPipelineTools },
+                { prefix: 'bitcode://monitoring/', register: registerMonitoringTools },
+                { prefix: 'bitcode://analysis/', register: registerAnalysisTools },
+                { prefix: 'bitcode://intelligence/', register: registerIntelligenceTools },
+                { prefix: 'bitcode://orchestration/', register: registerOrchestrationTools },
+                { prefix: 'bitcode://enterprise/', register: registerEnterpriseTools },
+                { prefix: 'bitcode://lsp/', register: registerLspTools },
+                { prefix: 'bitcode://observability/', register: registerObservabilityTools },
+                { prefix: 'bitcode://jira/', register: registerJiraTools }
               ];
               
               let toolExecuted = false;
@@ -518,12 +518,12 @@ export class EngiMCPServer {
     this.server.setRequestHandler(ListResourceTemplatesRequestSchema, async () => {
       const resourceTemplates = [
         {
-          uriTemplate: 'engi://resources/pipelines/{id}',
+          uriTemplate: 'bitcode://resources/pipelines/{id}',
           name: 'Pipeline Details',
           description: 'Detailed information about a specific pipeline execution'
         },
         {
-          uriTemplate: 'engi://resources/organizations/{id}/analytics',
+          uriTemplate: 'bitcode://resources/organizations/{id}/analytics',
           name: 'Organization Analytics',
           description: 'Analytics and insights for organization-level data'
         }
@@ -548,21 +548,21 @@ export class EngiMCPServer {
       try {
         let content: any;
 
-        if (uri.startsWith('engi://resources/pipelines/')) {
+        if (uri.startsWith('bitcode://resources/pipelines/')) {
           const pipelineResources = registerPipelineResources();
           const resource = pipelineResources.find(r => r.uri === uri || uri.match(r.uri));
           if (!resource || !resource.read) {
             throw new Error(`Pipeline resource '${uri}' not found or not readable`);
           }
           content = await resource.read(uri, auth.context!);
-        } else if (uri.startsWith('engi://resources/intelligence/')) {
+        } else if (uri.startsWith('bitcode://resources/intelligence/')) {
           const intelligenceResources = registerIntelligenceResources();
           const resource = intelligenceResources.find(r => r.uri === uri || uri.match(r.uri));
           if (!resource || !resource.read) {
             throw new Error(`Intelligence resource '${uri}' not found or not readable`);
           }
           content = await resource.read(uri, auth.context!);
-        } else if (uri.startsWith('engi://resources/organizations/')) {
+        } else if (uri.startsWith('bitcode://resources/organizations/')) {
           const organizationResources = registerOrganizationResources();
           const resource = organizationResources.find(r => r.uri === uri || uri.match(r.uri));
           if (!resource || !resource.read) {
@@ -632,21 +632,21 @@ export class EngiMCPServer {
       try {
         let messages: any[];
 
-        if (name.startsWith('engi://prompts/workflow/')) {
+        if (name.startsWith('bitcode://prompts/workflow/')) {
           const workflowPrompts = registerWorkflowPrompts();
           const prompt = workflowPrompts.find(p => p.name === name);
           if (!prompt || !prompt.getMessages) {
             throw new Error(`Workflow prompt '${name}' not found`);
           }
           messages = await prompt.getMessages(args || {});
-        } else if (name.startsWith('engi://prompts/analysis/')) {
+        } else if (name.startsWith('bitcode://prompts/analysis/')) {
           const analysisPrompts = registerAnalysisPrompts();
           const prompt = analysisPrompts.find(p => p.name === name);
           if (!prompt || !prompt.getMessages) {
             throw new Error(`Analysis prompt '${name}' not found`);
           }
           messages = await prompt.getMessages(args || {});
-        } else if (name.startsWith('engi://prompts/development/')) {
+        } else if (name.startsWith('bitcode://prompts/development/')) {
           const developmentPrompts = registerDevelopmentPrompts();
           const prompt = developmentPrompts.find(p => p.name === name);
           if (!prompt || !prompt.getMessages) {
@@ -684,7 +684,7 @@ export class EngiMCPServer {
   async start(): Promise<void> {
     const transport = new StdioServerTransport();
     
-    logger.info('Starting Engi MCP Server', {
+    logger.info('Starting Bitcode MCP Server', {
       name: this.config.name,
       version: this.config.version,
       capabilities: this.config.capabilities,
@@ -710,7 +710,7 @@ export class EngiMCPServer {
 
     await this.server.connect(transport);
     
-    logger.info('Engi MCP Server started successfully');
+    logger.info('Bitcode MCP Server started successfully');
   }
 
   /**
@@ -771,7 +771,7 @@ export class EngiMCPServer {
    * Shutdown the MCP server
    */
   async shutdown(): Promise<void> {
-    logger.info('Shutting down Engi MCP Server');
+    logger.info('Shutting down Bitcode MCP Server');
     
     // Clean up auth cache
     this.authContextCache.destroy();
@@ -782,13 +782,13 @@ export class EngiMCPServer {
     // Close server connection
     await this.server.close();
     
-    logger.info('Engi MCP Server shutdown complete');
+    logger.info('Bitcode MCP Server shutdown complete');
   }
 }
 
 // Start server if run directly
 if (require.main === module) {
-  const server = new EngiMCPServer();
+  const server = new BitcodeMCPServer();
   
   // Start the server
   server.start().catch((error) => {
@@ -800,4 +800,4 @@ if (require.main === module) {
 // Export for testing
 export const authCache = new TTLCache<string, MCPAuthContext>(10000, 5 * 60 * 1000);
 
-export { EngiMCPServer };
+export { BitcodeMCPServer };

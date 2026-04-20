@@ -1,5 +1,5 @@
 /**
- * Engi MCP Server - Main Entry Point with ORM Integration
+ * Bitcode MCP Server - Main Entry Point with ORM Integration
  * 
  * The ultimate engineering intelligence platform exposed through
  * Model Context Protocol for seamless AI integration.
@@ -11,11 +11,11 @@
  * pattern: orm-integration
  */
 
-import { EngiMCPServer } from './server';
+import { BitcodeMCPServer } from './server';
 import { logger } from '@bitcode/logger';
 
 // Export the server class for programmatic usage
-export { EngiMCPServer };
+export { BitcodeMCPServer };
 
 // Export types for external consumption (no barrel re-exports)
 export {
@@ -72,7 +72,7 @@ export {
  * Create and start MCP server with production configuration
  */
 export async function createServer(config?: Partial<any>) {
-  const server = new EngiMCPServer(config);
+  const server = new BitcodeMCPServer(config);
   
   // Set up graceful shutdown
   const gracefulShutdown = async (signal: string) => {
@@ -109,12 +109,12 @@ export async function createServer(config?: Partial<any>) {
 if (require.main === module) {
   (async () => {
     try {
-      logger.info('Starting Engi MCP Server...');
+      logger.info('Starting Bitcode MCP Server...');
       
       const server = await createServer();
       await server.start();
       
-      logger.info('Engi MCP Server is running', {
+      logger.info('Bitcode MCP Server is running', {
         version: process.env.npm_package_version || '1.0.0',
         node: process.version,
         environment: process.env.NODE_ENV || 'development'

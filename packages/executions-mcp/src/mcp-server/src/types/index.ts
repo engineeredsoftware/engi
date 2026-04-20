@@ -1,16 +1,20 @@
 /**
- * Engi MCP Server Type System
+ * Bitcode MCP Server Type System
  * 
  * Comprehensive type definitions for the Model Context Protocol server
- * that exposes Engi's engineering intelligence platform.
+ * that exposes Bitcode's engineering intelligence platform.
  */
 
 import { z } from 'zod';
-import type { 
-  EngiPhase,
-  PipelineSubType,
-  DeliverablesSubType
-} from '@bitcode/pipelines-generics';
+
+export type PipelinePhase =
+  | 'setup'
+  | 'discovery'
+  | 'implementation'
+  | 'validation'
+  | 'shipping';
+export type PipelineSubType = string;
+export type DeliverablesSubType = string;
 
 // Supported pipeline names exposed via MCP (align with supported pipelines only)
 export const PipelineNameValues = ['deliverable'] as const;
@@ -133,7 +137,7 @@ export interface PipelineExecutionResult {
     creditsUsed: number;
     tokensProcessed: number;
     confidence: number;
-    phases: Record<EngiPhase, {
+    phases: Record<PipelinePhase, {
       duration: number;
       success: boolean;
       confidence: number;
@@ -143,7 +147,7 @@ export interface PipelineExecutionResult {
   // Error information
   error?: {
     message: string;
-    phase?: EngiPhase;
+    phase?: PipelinePhase;
     agent?: string;
     step?: string;
     recovery?: boolean;
@@ -162,7 +166,7 @@ export interface PipelineStreamEvent {
   pipelineId: string;
   
   // Context information
-  phase?: EngiPhase;
+  phase?: PipelinePhase;
   agent?: string;
   step?: string;
   tool?: string;
@@ -295,13 +299,3 @@ export interface PromptTemplate {
     parameters: Record<string, any>;
   }>;
 }
-
-// ============================================================================
-// Export Types
-// ============================================================================
-
-export type {
-  EngiPhase,
-  PipelineSubType,
-  DeliverablesSubType
-} from '@bitcode/pipelines-generics';

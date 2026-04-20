@@ -1,6 +1,6 @@
-# Engi MCP Server - Production Ready
+# Bitcode MCP Server - Production Ready
 
-The **Engi MCP Server** is a production-grade Model Context Protocol implementation that exposes Engi's sophisticated engineering intelligence platform through standardized interfaces.
+The **Bitcode MCP Server** is a production-grade Model Context Protocol implementation that exposes Bitcode's sophisticated engineering intelligence platform through standardized interfaces.
 
 ## 🚀 Features
 
@@ -228,4 +228,4 @@ npm run test:load
 
 ## 📄 License
 
-© 2025 Engi. All rights reserved.
+© 2025 Bitcode. All rights reserved.

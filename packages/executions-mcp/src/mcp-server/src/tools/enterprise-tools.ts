@@ -1,5 +1,5 @@
 /**
- * Engi MCP Enterprise Integration Tools
+ * Bitcode MCP Enterprise Integration Tools
  * 
  * ENTERPRISE-GRADE INTEGRATION SUITE - Complete enterprise ecosystem
  * integration with webhook orchestration, API management, and strategic intelligence.
@@ -563,7 +563,7 @@ async function executeEnterpriseApiManagement(
           version: args.api.version,
           endpoints: args.api.endpoints.length,
           documentation: await generateApiDocumentation(args.api),
-          deploymentUrl: `https://api.engi.network/${context.organizationId}/${api.name}`
+          deploymentUrl: `https://api.bitcode.dev/${context.organizationId}/${api.name}`
         };
 
       case 'api_governance':
@@ -693,7 +693,7 @@ async function generateApiDocumentation(api: any): Promise<any> {
   // Mock implementation - would generate OpenAPI documentation
   return {
     openApiSpec: 'Generated OpenAPI 3.0 specification',
-    interactiveDoc: 'https://docs.engi.network/api',
+    interactiveDoc: 'https://docs.bitcode.dev/api',
     postmanCollection: 'Generated Postman collection'
   };
 }
@@ -728,7 +728,7 @@ async function runApiTestSuite(testSuite: any, context: MCPAuthContext): Promise
 export function registerEnterpriseTools(): MCPTool[] {
   return [
     {
-      name: 'engi://enterprise/webhook/orchestrate',
+      name: 'bitcode://enterprise/webhook/orchestrate',
       description: `Advanced enterprise webhook orchestration with intelligent routing and transformation.
 
 Comprehensive webhook management system:
@@ -748,7 +748,7 @@ Enables sophisticated event-driven architectures with enterprise reliability.`,
     },
 
     {
-      name: 'engi://enterprise/api/manage',
+      name: 'bitcode://enterprise/api/manage',
       description: `Complete enterprise API lifecycle management with governance and analytics.
 
 Full-featured API management platform:
@@ -768,7 +768,7 @@ Provides enterprise-grade API management with governance and observability.`,
     },
 
     {
-      name: 'engi://enterprise/integration/marketplace',
+      name: 'bitcode://enterprise/integration/marketplace',
       description: `Enterprise integration marketplace with pre-built connectors and custom development.
 
 Comprehensive integration ecosystem:
@@ -796,7 +796,7 @@ Accelerates enterprise integration with proven patterns and custom solutions.`,
     },
 
     {
-      name: 'engi://enterprise/observability/configure',
+      name: 'bitcode://enterprise/observability/configure',
       description: `Advanced enterprise observability and telemetry with business intelligence.
 
 Complete observability platform:

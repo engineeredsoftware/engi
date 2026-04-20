@@ -1,4 +1,4 @@
-# Engi MCP Server Dockerfile
+# Bitcode MCP Server Dockerfile
 # Multi-stage build for optimized production image
 
 # Build stage

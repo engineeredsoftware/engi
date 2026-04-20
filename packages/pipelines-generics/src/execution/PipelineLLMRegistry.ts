@@ -42,7 +42,7 @@ export class PipelineLLMRegistry extends RegistryImpl<LLMConfig> {
     } catch (error) {
       // Emit debug event if enabled
       try {
-        if (process.env.ENGI_DEBUG_REGISTRIES === '1') {
+        if (process.env.BITCODE_DEBUG_REGISTRIES === '1') {
           this.execution.store('registry', 'debug', {
             registry: 'llms',
             action: 'getDefaultLLM_error',
@@ -69,7 +69,7 @@ export class PipelineLLMRegistry extends RegistryImpl<LLMConfig> {
         current = current.parent;
       }
       if (!config) {
-        if (process.env.ENGI_DEBUG_REGISTRIES === '1') {
+        if (process.env.BITCODE_DEBUG_REGISTRIES === '1') {
           this.execution.store('registry', 'debug', {
             registry: 'llms',
             action: 'config_miss',
@@ -84,7 +84,7 @@ export class PipelineLLMRegistry extends RegistryImpl<LLMConfig> {
       const baseLLM = this.llmRegistry.getLLM(this.getExecutionPath());
       return this.wrapWithExecutionTracking(baseLLM);
     } catch (error) {
-      if (process.env.ENGI_DEBUG_REGISTRIES === '1') {
+      if (process.env.BITCODE_DEBUG_REGISTRIES === '1') {
         try {
           this.execution.store('registry', 'debug', {
             registry: 'llms',

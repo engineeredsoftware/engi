@@ -166,4 +166,4 @@ const result = await runPipeline(input, pipeline);
 const discoveries = pipeline.get('discoveries', 'patterns');
 ```
 
-State + Sequence = How AI agents work in Engi.
+State + Sequence = How AI agents work in Bitcode.

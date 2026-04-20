@@ -1,7 +1,7 @@
 /**
- * Engi MCP Intelligence Tools
+ * Bitcode MCP Intelligence Tools
  * 
- * MAXIMUM INTELLIGENCE EXPOSURE - Every sophisticated capability of Engi's
+ * MAXIMUM INTELLIGENCE EXPOSURE - Every sophisticated capability of Bitcode's
  * advanced intelligence systems accessible through MCP interfaces.
  */
 
@@ -112,7 +112,7 @@ const crossRepoLearningToolSchema = z.object({
   
   includeVisualization: z.boolean().default(false)
     .describe('Include network visualization data'),
-  maxResults: z.number().default(50).min(1).max(1000)
+  maxResults: z.number().min(1).max(1000).default(50)
     .describe('Maximum number of results to return')
 });
 
@@ -148,7 +148,7 @@ const advancedWebResearchToolSchema = z.object({
   synthesisType: z.enum(['summary', 'comparison', 'analysis', 'recommendations'])
     .default('analysis').describe('Type of synthesis to perform'),
   
-  maxResults: z.number().default(25).min(5).max(100)
+  maxResults: z.number().min(5).max(100).default(25)
     .describe('Maximum results per provider'),
   
   includeUrlIntelligence: z.boolean().default(true)
@@ -577,7 +577,7 @@ async function generateCrossRepoRecommendations(repoContext: any, context: MCPAu
 export function registerIntelligenceTools(): MCPTool[] {
   return [
     {
-      name: 'engi://intelligence/effectiveness/track',
+      name: 'bitcode://intelligence/effectiveness/track',
       description: `Revolutionary effectiveness tracking system with real-time quality measurement.
 
 This system provides unprecedented insight into code change effectiveness:
@@ -593,7 +593,7 @@ Enables effectiveness-driven development with measurable quality improvements.`,
     },
 
     {
-      name: 'engi://intelligence/cross-repo/learn',
+      name: 'bitcode://intelligence/cross-repo/learn',
       description: `Advanced cross-repository learning engine for pattern discovery and propagation.
 
 Sophisticated pattern extraction and knowledge transfer:
@@ -610,7 +610,7 @@ Enables knowledge transfer and standardization across your entire codebase ecosy
     },
 
     {
-      name: 'engi://intelligence/research/advanced',
+      name: 'bitcode://intelligence/research/advanced',
       description: `Revolutionary multi-provider web research with URL intelligence and synthesis.
 
 Multi-wave research orchestration across diverse sources:
@@ -635,7 +635,7 @@ Provides comprehensive, credible research with intelligent synthesis.`,
     },
 
     {
-      name: 'engi://intelligence/multimodal/process',
+      name: 'bitcode://intelligence/multimodal/process',
       description: `Comprehensive multimodal processing engine for all attachment types.
 
 Advanced multimodal intelligence processing:
@@ -661,7 +661,7 @@ Transforms any media type into actionable engineering intelligence.`,
     },
 
     {
-      name: 'engi://intelligence/enterprise/orchestrate',
+      name: 'bitcode://intelligence/enterprise/orchestrate',
       description: `Enterprise intelligence orchestrator for organization-wide insights.
 
 Strategic enterprise intelligence coordination:
@@ -687,7 +687,7 @@ Provides executive-level intelligence for strategic decision-making.`,
     },
 
     {
-      name: 'engi://intelligence/marketplace/analyze',
+      name: 'bitcode://intelligence/marketplace/analyze',
       description: `Sophisticated marketplace and procurement intelligence system.
 
 Advanced solution discovery and quality assessment:

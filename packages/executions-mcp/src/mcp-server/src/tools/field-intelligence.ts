@@ -1,7 +1,7 @@
 /**
  * MCP FIELD INTELLIGENCE TOOL
  * 
- * Production-grade MCP tool for querying field intelligence from the Engi network.
+ * Production-grade MCP tool for querying field intelligence from the Bitcode network.
  * Enables AI assistants to understand how code performs in production.
  * 
  * @doc-code
@@ -113,7 +113,7 @@ export class FieldIntelligenceTool implements Tool {
   get metadata(): ToolMetadata {
     return {
       name: 'field_intelligence',
-      description: 'Query field intelligence from the Engi network to understand how code performs in production',
+      description: 'Query field intelligence from the Bitcode network to understand how code performs in production',
       version: '1.0.0',
       inputSchema: {
         oneOf: [

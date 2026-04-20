@@ -106,7 +106,7 @@ async function generateMetricsReport(): Promise<void> {
   
   const report = {
     summary: {
-      testSuite: 'Engi MCP Server Test Suite',
+      testSuite: 'Bitcode MCP Server Test Suite',
       executionTime: new Date().toISOString(),
       totalDuration: global.testMetrics.totalDuration,
       totalTests: global.testMetrics.tests.total,
@@ -217,7 +217,7 @@ function generateTextSummary(report: any): string {
   const lines: string[] = [];
   
   lines.push('='.repeat(60));
-  lines.push('Engi MCP Server Test Suite - Final Report');
+  lines.push('Bitcode MCP Server Test Suite - Final Report');
   lines.push('='.repeat(60));
   lines.push('');
   
@@ -293,7 +293,7 @@ async function generateTestSummary(): Promise<void> {
   console.log('📋 Generating test summary...');
   
   const summary = {
-    testSuite: 'Engi MCP Server Test Suite',
+    testSuite: 'Bitcode MCP Server Test Suite',
     completedAt: new Date().toISOString(),
     environment: {
       nodeVersion: process.version,

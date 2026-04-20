@@ -1,5 +1,5 @@
 /**
- * Engi MCP Intelligence Resources - ORM Integration
+ * Bitcode MCP Intelligence Resources - ORM Integration
  * 
  * Updated to use ORM models for all database operations.
  * Provides AI-generated engineering intelligence through MCP resources.
@@ -558,7 +558,7 @@ function generateUpgradeRecommendations(upgradeData: any[], options: any): any[]
 export function registerIntelligenceResources(): MCPResource[] {
   return [
     {
-      uri: 'engi://resources/intelligence/synthesis',
+      uri: 'bitcode://resources/intelligence/synthesis',
       name: 'Engineering Intelligence Synthesis',
       description: 'AI-powered synthesis of engineering insights, trends, and recommendations',
       mimeType: 'application/json',
@@ -570,7 +570,7 @@ export function registerIntelligenceResources(): MCPResource[] {
     },
 
     {
-      uri: 'engi://resources/intelligence/recommendations/ai_documents',
+      uri: 'bitcode://resources/intelligence/recommendations/ai_documents',
       name: 'AI Document Recommendations',
       description: 'AI-generated recommendations for dependency and framework ai_documents',
       mimeType: 'application/json',

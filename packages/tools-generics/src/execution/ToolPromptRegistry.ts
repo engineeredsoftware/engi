@@ -27,13 +27,10 @@ import { Execution } from '@bitcode/execution-generics';
  */
 export class ToolPromptRegistry extends RegistryImpl<any> {
   private readonly execution: Execution;
-  private promptRegistry: PromptRegistry;
   
-  constructor(execution: Execution, promptRegistry?: PromptRegistry) {
+  constructor(execution: Execution) {
     super();
     this.execution = execution;
-    // Use provided registry or create new one
-    this.promptRegistry = promptRegistry || new PromptRegistry();
   }
   
   /**

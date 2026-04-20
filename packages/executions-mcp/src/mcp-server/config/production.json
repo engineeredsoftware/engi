@@ -2,7 +2,7 @@
   "server": {
     "port": 3000,
     "host": "0.0.0.0",
-    "corsOrigins": ["https://engi.ai", "https://app.engi.ai"],
+    "corsOrigins": ["https://bitcode.dev", "https://app.bitcode.dev"],
     "trustProxy": true,
     "maxRequestSize": "50mb"
   },
@@ -19,7 +19,7 @@
     "cacheTTL": 300000,
     "cacheMaxSize": 10000,
     "sessionTimeout": 86400000,
-    "apiKeyPrefix": "engi_",
+    "apiKeyPrefix": "bitcode_",
     "requireHttps": true
   },
   
@@ -149,13 +149,13 @@
   "observability": {
     "tracing": {
       "enabled": true,
-      "serviceName": "engi-mcp-server",
+      "serviceName": "bitcode-mcp-server",
       "samplingRate": 0.1,
       "exporters": ["otlp"]
     },
     "metrics": {
       "enabled": true,
-      "prefix": "engi_mcp_",
+      "prefix": "bitcode_mcp_",
       "defaultLabels": {
         "service": "mcp-server",
         "environment": "production"

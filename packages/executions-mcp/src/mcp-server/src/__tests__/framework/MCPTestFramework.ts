@@ -1,10 +1,10 @@
 /**
- * Engi MCP Test Framework
+ * Bitcode MCP Test Framework
  * 
- * State-of-the-art testing framework for Engi's Model Context Protocol server
+ * State-of-the-art testing framework for Bitcode's Model Context Protocol server
  * with comprehensive mocking, dry running, and customer-focused validation.
  * 
- * Built on Engi's existing testing primitives and patterns while evolving
+ * Built on Bitcode's existing testing primitives and patterns while evolving
  * the testing ecosystem to handle the sophistication of MCP protocol testing.
  */
 
@@ -12,7 +12,7 @@ import { jest, describe, it, beforeAll, afterAll, beforeEach, afterEach } from '
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
-import { EngiMCPServer } from '../../server';
+import { BitcodeMCPServer } from '../../server';
 import type { MCPAuthContext, PipelineExecutionResult } from '../../types';
 
 // ============================================================================
@@ -163,11 +163,11 @@ export interface MCPTestResult {
 /**
  * Advanced MCP Testing Framework
  * 
- * Leverages Engi's existing MockOrchestrator, dry running system, and
+ * Leverages Bitcode's existing MockOrchestrator, dry running system, and
  * agent testing patterns while providing MCP-specific testing capabilities.
  */
 export class MCPTestFramework {
-  private server: EngiMCPServer | null = null;
+  private server: BitcodeMCPServer | null = null;
   private mockOrchestrator: any;
   private dryRunContext: any;
   private performanceMonitor: PerformanceMonitor;
@@ -249,7 +249,7 @@ export class MCPTestFramework {
    * Initialize MCP server for testing
    */
   async initializeServer(): Promise<void> {
-    this.server = new EngiMCPServer({
+    this.server = new BitcodeMCPServer({
       name: this.config.mcpConfig.name,
       version: this.config.mcpConfig.version,
       capabilities: this.config.mcpConfig.capabilities,
@@ -797,7 +797,7 @@ class PerformanceMonitor {
  * Customer scenario validator
  */
 class CustomerScenarioValidator {
-  async validateScenario(scenario: any, server: EngiMCPServer): Promise<{
+  async validateScenario(scenario: any, server: BitcodeMCPServer): Promise<{
     passed: boolean;
     userExperience: 'excellent' | 'good' | 'poor' | 'broken';
   }> {
@@ -820,7 +820,7 @@ class CustomerScenarioValidator {
     }
   }
   
-  private async executeScenario(scenario: any, server: EngiMCPServer): Promise<any> {
+  private async executeScenario(scenario: any, server: BitcodeMCPServer): Promise<any> {
     // Execute scenario with proper context and inputs
     // This would implement the actual scenario execution
     return { success: true };

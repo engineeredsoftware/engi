@@ -1,5 +1,5 @@
 /**
- * Engi MCP Server Authentication Middleware
+ * Bitcode MCP Server Authentication Middleware
  * 
  * Updated to use the ORM for all database operations.
  * Provides secure, organization-scoped access to MCP server capabilities.

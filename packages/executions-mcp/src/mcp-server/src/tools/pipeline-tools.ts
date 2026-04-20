@@ -1,8 +1,8 @@
 /**
- * Engi MCP Pipeline Tools - ORM Integration
+ * Bitcode MCP Pipeline Tools - ORM Integration
  * 
  * Uses the ORM-based pipeline execution adapter.
- * Exposes Engi's pipeline system through MCP tools.
+ * Exposes Bitcode's pipeline system through MCP tools.
  * 
  * @doc-code
  * type: tools
@@ -108,7 +108,7 @@ async function executePipelineWithMonitoring(
       priority: params.priority || 'normal',
       metadata: {
         source: 'mcp',
-        mcpToolName: `engi://pipelines/${pipelineType}/create`
+        mcpToolName: `bitcode://pipelines/${pipelineType}/create`
       }
     };
 
@@ -201,10 +201,10 @@ export function registerPipelineTools(): MCPTool[] {
   return [
     // Deliverable Pipeline Tool
     {
-      name: 'engi://pipelines/deliverable/create',
+      name: 'bitcode://pipelines/deliverable/create',
       description: `Create and execute a deliverable pipeline for complete software engineering tasks.
 
-This is Engi's most powerful pipeline, capable of:
+This is Bitcode's most powerful pipeline, capable of:
 • Feature implementation with pull request creation
 • Comprehensive code reviews with detailed suggestions
 • Bug fixes with root cause analysis and testing

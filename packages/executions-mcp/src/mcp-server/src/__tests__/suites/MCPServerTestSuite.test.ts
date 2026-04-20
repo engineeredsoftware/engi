@@ -1,13 +1,13 @@
 /**
- * Engi MCP Server Test Suite
+ * Bitcode MCP Server Test Suite
  * 
- * Comprehensive test suite for Engi's Model Context Protocol server using
+ * Comprehensive test suite for Bitcode's Model Context Protocol server using
  * the advanced MCPTestFramework with customer-focused scenarios, dry running,
  * and production-grade validation.
  * 
  * This test suite represents the state-of-the-art in MCP testing, combining
  * protocol compliance, performance validation, security testing, and real-world
- * customer scenarios to ensure Engi's MCP server delivers exceptional value.
+ * customer scenarios to ensure Bitcode's MCP server delivers exceptional value.
  */
 
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, expect, jest } from '@jest/globals';
@@ -32,7 +32,7 @@ import {
 let testFramework: MCPTestFramework;
 let testResults: MCPTestResult[] = [];
 
-describe('Engi MCP Server Test Suite', () => {
+describe('Bitcode MCP Server Test Suite', () => {
   beforeAll(async () => {
     // Initialize test environment
     process.env.NODE_ENV = 'test';

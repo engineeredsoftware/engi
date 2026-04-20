@@ -14,7 +14,7 @@ import type { Executor } from '@bitcode/execution-generics';
  * Check whether debug logging is enabled for this execution.
  * Sources (in precedence order):
  * - execution.findUp('config','debug') === true
- * - process.env.ENGI_EXECUTION_DEBUG === 'true'
+ * - process.env.BITCODE_EXECUTION_DEBUG === 'true'
  * - process.env.LOG_LEVEL === 'debug'
  */
 export function isExecutionDebugEnabled(execution: PipelineExecution | { findUp?: Function }): boolean {
@@ -23,7 +23,7 @@ export function isExecutionDebugEnabled(execution: PipelineExecution | { findUp?
     const execFlag = typeof execAny.findUp === 'function' ? execAny.findUp('config', 'debug') : undefined;
     if (execFlag === true) return true;
   } catch {}
-  if (process.env.ENGI_EXECUTION_DEBUG === 'true') return true;
+  if (process.env.BITCODE_EXECUTION_DEBUG === 'true') return true;
   if (process.env.LOG_LEVEL === 'debug') return true;
   return false;
 }

@@ -1,6 +1,6 @@
-# Engi MCP Server Architecture
+# Bitcode MCP Server Architecture
 
-This document provides a comprehensive overview of the Engi MCP Server architecture, design decisions, and implementation details.
+This document provides a comprehensive overview of the Bitcode MCP Server architecture, design decisions, and implementation details.
 
 ## 🏗️ High-Level Architecture
 
@@ -8,7 +8,7 @@ This document provides a comprehensive overview of the Engi MCP Server architect
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Engi MCP Server                              │
+│                    Bitcode MCP Server                              │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
 │  │    Tools    │  │  Resources  │  │   Prompts   │             │
@@ -29,13 +29,13 @@ This document provides a comprehensive overview of the Engi MCP Server architect
 │                    MCP Protocol Layer                          │
 │              (JSON-RPC 2.0 over stdio/websocket)              │
 ├─────────────────────────────────────────────────────────────────┤
-│                  Engi Pipeline System                          │
+│                  Bitcode Pipeline System                          │
 │   ┌─────────┐                                              │
 │   │ Deliver │                                              │
 │   │  ables  │                                              │
 │   └─────────┘                                              │
 ├─────────────────────────────────────────────────────────────────┤
-│                    Engi Infrastructure                         │
+│                    Bitcode Infrastructure                         │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
 │  │  Supabase   │  │   Credits   │  │    Agent    │             │
 │  │  Database   │  │   System    │  │   System    │             │
@@ -50,9 +50,9 @@ This document provides a comprehensive overview of the Engi MCP Server architect
 The main server class implementing the MCP specification:
 
 ```typescript
-class EngiMCPServer {
+class BitcodeMCPServer {
   private server: Server;
-  private config: EngiMCPServerConfig;
+  private config: BitcodeMCPServerConfig;
   private authContextCache: Map<string, AuthCacheEntry>;
 
   // Core MCP handlers
@@ -110,7 +110,7 @@ interface MCPAuthContext {
 
 ### 3. Pipeline Tools (`src/tools/pipeline-tools.ts`)
 
-Direct interface to Engi's sophisticated pipeline system:
+Direct interface to Bitcode's sophisticated pipeline system:
 
 ```typescript
 interface PipelineToolExecution {
@@ -333,7 +333,7 @@ Client Response
 
 ## 🧩 Integration Points
 
-### 1. Engi Pipeline System Integration
+### 1. Bitcode Pipeline System Integration
 
 ```typescript
 // Direct integration with existing pipeline runners
@@ -549,4 +549,4 @@ interface HealthStatus {
 - **Performance Tests**: Load and stress testing
 - **Security Tests**: Penetration testing and vulnerability scanning
 
-This architecture provides a robust, scalable, and secure foundation for exposing Engi's engineering intelligence through the Model Context Protocol, while maintaining high performance and comprehensive observability.
+This architecture provides a robust, scalable, and secure foundation for exposing Bitcode's engineering intelligence through the Model Context Protocol, while maintaining high performance and comprehensive observability.

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: engi-mcp-server
+  name: bitcode-mcp-server
   namespace: engi
   labels:
     app: mcp-server
@@ -160,7 +160,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: engi-mcp-server
+    name: bitcode-mcp-server
   minReplicas: 3
   maxReplicas: 10
   metrics:

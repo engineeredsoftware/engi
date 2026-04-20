@@ -1,5 +1,5 @@
 /**
- * Engi MCP Pipeline Resources - ORM Integration
+ * Bitcode MCP Pipeline Resources - ORM Integration
  * 
  * Updated to use ORM models for all database operations.
  * Provides read-only access to pipeline execution data through MCP resources.
@@ -401,7 +401,7 @@ async function getPipelineEvents(runId: string, context: MCPAuthContext): Promis
 export function registerPipelineResources(): MCPResource[] {
   return [
     {
-      uri: 'engi://resources/pipelines/active',
+      uri: 'bitcode://resources/pipelines/active',
       name: 'Active Pipelines',
       description: 'Real-time list of currently running and pending pipeline executions',
       mimeType: 'application/json',
@@ -412,7 +412,7 @@ export function registerPipelineResources(): MCPResource[] {
     },
 
     {
-      uri: 'engi://resources/pipelines/history',
+      uri: 'bitcode://resources/pipelines/history',
       name: 'Pipeline History',
       description: 'Historical pipeline execution data with filtering and pagination',
       mimeType: 'application/json',
@@ -424,7 +424,7 @@ export function registerPipelineResources(): MCPResource[] {
     },
 
     {
-      uri: 'engi://resources/pipelines/{id}',
+      uri: 'bitcode://resources/pipelines/{id}',
       name: 'Pipeline Details',
       description: 'Comprehensive details about a specific pipeline execution',
       mimeType: 'application/json',
@@ -439,7 +439,7 @@ export function registerPipelineResources(): MCPResource[] {
     },
 
     {
-      uri: 'engi://resources/pipelines/{id}/events',
+      uri: 'bitcode://resources/pipelines/{id}/events',
       name: 'Pipeline Events',
       description: 'Real-time execution events and logs for a specific pipeline',
       mimeType: 'application/json',

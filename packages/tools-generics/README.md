@@ -1,10 +1,10 @@
 # @bitcode/tools-generics
 
-The foundational tool primitives for Engi. This package provides the `Tool` class and related infrastructure for building type-safe, doc-aware tools.
+The foundational tool primitives for Bitcode. This package provides the `Tool` class and related infrastructure for building type-safe, doc-aware tools.
 
 ## Overview
 
-Tools in Engi are type-safe wrappers around functions that:
+Tools in Bitcode are type-safe wrappers around functions that:
 - Provide structured documentation via `@doc-code-tool`
 - Enable automatic invocation tracking
 - Support MCP (Model Context Protocol) integration
@@ -107,4 +107,4 @@ Tools are the interface between AI systems and concrete capabilities. By maintai
 - Safe tool composition
 - Performance tracking
 
-Every tool in Engi follows these patterns for consistency and reliability.
+Every tool in Bitcode follows these patterns for consistency and reliability.

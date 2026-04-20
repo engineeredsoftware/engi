@@ -1,8 +1,8 @@
 /**
- * Engi MCP Monitoring and Control Tools
+ * Bitcode MCP Monitoring and Control Tools
  * 
  * Provides real-time monitoring, control, and management capabilities
- * for Engi's pipeline execution system.
+ * for Bitcode's pipeline execution system.
  */
 
 import { z } from 'zod';
@@ -400,7 +400,7 @@ async function optimizeContext(
 export function registerMonitoringTools(): MCPTool[] {
   return [
     {
-      name: 'engi://monitoring/pipeline/status',
+      name: 'bitcode://monitoring/pipeline/status',
       description: `Get detailed status and information about a pipeline execution.
 
 Provides comprehensive pipeline information including:
@@ -425,7 +425,7 @@ Supports organization-scoped access control and user permissions.`,
     },
 
     {
-      name: 'engi://monitoring/pipeline/cancel',
+      name: 'bitcode://monitoring/pipeline/cancel',
       description: `Cancel a running or pending pipeline execution.
 
 Safely cancels pipeline execution with proper cleanup:
@@ -444,7 +444,7 @@ Requires appropriate permissions (pipeline owner, admin, or cancel permission).`
     },
 
     {
-      name: 'engi://monitoring/pipelines/active',
+      name: 'bitcode://monitoring/pipelines/active',
       description: `List all active (running or pending) pipeline executions.
 
 Provides overview of current pipeline activity:
@@ -463,7 +463,7 @@ Respects organization permissions and user access controls.`,
     },
 
     {
-      name: 'engi://monitoring/context/optimize',
+      name: 'bitcode://monitoring/context/optimize',
       description: `Optimize context data for better AI prompt performance.
 
 Intelligent context optimization including:

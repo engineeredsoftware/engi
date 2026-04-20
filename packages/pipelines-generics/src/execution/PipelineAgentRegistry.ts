@@ -86,7 +86,7 @@ export class PipelineAgentRegistry extends RegistryImpl<ExecutionAgent> {
     
     // Debug registry miss if enabled
     try {
-      if (process.env.ENGI_DEBUG_REGISTRIES === '1') {
+      if (process.env.BITCODE_DEBUG_REGISTRIES === '1') {
         this.execution.store('registry', 'debug', {
           registry: 'agents',
           action: 'lookup_miss',

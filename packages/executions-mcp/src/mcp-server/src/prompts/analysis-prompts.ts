@@ -1,5 +1,5 @@
 /**
- * Engi MCP Analysis Prompts
+ * Bitcode MCP Analysis Prompts
  * 
  * Specialized prompts for technical analysis, code investigation,
  * and engineering intelligence gathering.
@@ -21,7 +21,7 @@ interface MCPPrompt {
  * Security audit analysis prompt
  */
 const securityAuditPrompt: MCPPrompt = {
-  name: 'engi://prompts/analysis/security-audit',
+  name: 'bitcode://prompts/analysis/security-audit',
   description: `Comprehensive security audit prompt for vulnerability assessment and security posture analysis.
 
 This prompt provides systematic security evaluation:
@@ -69,7 +69,7 @@ ${args.criticalAssets.map(asset => `- ${asset}`).join('\n')}` : ''}
 ${args.threatModel ? `## Threat Model
 ${args.threatModel}` : ''}
 
-Please conduct a thorough security audit using Engi's analysis capabilities:
+Please conduct a thorough security audit using Bitcode's analysis capabilities:
 
 1. **Use the analysis tools** for comprehensive security assessment
 
@@ -161,7 +161,7 @@ Please provide a detailed security assessment report with:
  * Technical debt analysis prompt
  */
 const technicalDebtAnalysisPrompt: MCPPrompt = {
-  name: 'engi://prompts/analysis/technical-debt',
+  name: 'bitcode://prompts/analysis/technical-debt',
   description: `Comprehensive technical debt analysis for code quality assessment and improvement planning.
 
 This prompt provides systematic debt evaluation:
@@ -214,7 +214,7 @@ ${args.timeframe}` : ''}
 ${args.constraints.length > 0 ? `## Constraints
 ${args.constraints.map(constraint => `- ${constraint}`).join('\n')}` : ''}
 
-Please conduct a thorough technical debt analysis using Engi's analysis capabilities:
+Please conduct a thorough technical debt analysis using Bitcode's analysis capabilities:
 
 1. **Use the analysis tools** for comprehensive debt assessment
 
@@ -305,7 +305,7 @@ Please provide a comprehensive technical debt report including:
  * Dependency analysis prompt
  */
 const dependencyAnalysisPrompt: MCPPrompt = {
-  name: 'engi://prompts/analysis/dependency-analysis',
+  name: 'bitcode://prompts/analysis/dependency-analysis',
   description: `Comprehensive dependency analysis for security, licensing, and maintenance assessment.
 
 This prompt provides thorough dependency evaluation:
@@ -347,7 +347,7 @@ Perfect for security audits, compliance reviews, and dependency management.`,
 - **Update Strategy**: ${args.updateStrategy ? 'Enabled' : 'Disabled'}
 ${args.ecosystem ? `- **Ecosystems**: ${args.ecosystem.join(', ')}` : ''}
 
-Please conduct a thorough dependency analysis using Engi's analysis capabilities:
+Please conduct a thorough dependency analysis using Bitcode's analysis capabilities:
 
 1. **Use the dependency analysis tool** for comprehensive dependency assessment
 

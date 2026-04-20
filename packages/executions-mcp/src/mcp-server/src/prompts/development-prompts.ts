@@ -1,5 +1,5 @@
 /**
- * Engi MCP Development Prompts
+ * Bitcode MCP Development Prompts
  * 
  * Development-focused prompts for common engineering tasks,
  * scaffolding, and project setup workflows.
@@ -21,7 +21,7 @@ interface MCPPrompt {
  * API development prompt
  */
 const apiDevelopmentPrompt: MCPPrompt = {
-  name: 'engi://prompts/development/api-development',
+  name: 'bitcode://prompts/development/api-development',
   description: `Comprehensive API development workflow with OpenAPI specification and best practices.
 
 This prompt guides complete API implementation:
@@ -79,7 +79,7 @@ ${args.endpoints.map(ep => `- ${ep.method} ${ep.path} - ${ep.description}`).join
 ${args.requirements.length > 0 ? `## Additional Requirements
 ${args.requirements.map(req => `- ${req}`).join('\n')}` : ''}
 
-Please help me develop this API using Engi's deliverable pipeline with the following comprehensive approach:
+Please help me develop this API using Bitcode's deliverable pipeline with the following comprehensive approach:
 
 1. **API Design & Architecture** - Use deliverable pipeline with "api_spec" subtype:
    - Generate comprehensive OpenAPI 3.0 specification
@@ -194,7 +194,7 @@ Please execute the API development phases, providing a production-ready API with
  * Frontend scaffolding prompt
  */
 const frontendScaffoldingPrompt: MCPPrompt = {
-  name: 'engi://prompts/development/frontend-scaffolding',
+  name: 'bitcode://prompts/development/frontend-scaffolding',
   description: `Modern frontend application scaffolding with component libraries and best practices.
 
 This prompt provides complete frontend setup:
@@ -252,7 +252,7 @@ ${args.designSystem ? `- **Design System**: ${args.designSystem}` : ''}
 ${args.features.length > 0 ? `## Required Features
 ${args.features.map(feature => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}` : ''}
 
-Please help me scaffold this frontend application using Engi's deliverable pipeline:
+Please help me scaffold this frontend application using Bitcode's deliverable pipeline:
 
 1. **Project Setup & Architecture** - Use deliverable pipeline with "frontend_scaffolder" subtype:
 
@@ -421,7 +421,7 @@ Please implement this comprehensive frontend scaffolding with modern best practi
  * Database integration prompt
  */
 const databaseIntegrationPrompt: MCPPrompt = {
-  name: 'engi://prompts/development/database-integration',
+  name: 'bitcode://prompts/development/database-integration',
   description: `Comprehensive database integration with ORM setup, migrations, and best practices.
 
 This prompt provides complete database setup:
@@ -482,7 +482,7 @@ ${entity.fields.map(field => `- ${field.name}: ${field.type}${field.required ? '
 ## Required Features
 ${args.features.map(feature => `- ${feature.charAt(0).toUpperCase() + feature.slice(1)}`).join('\n')}
 
-Please help me implement comprehensive database integration using Engi's deliverable pipeline:
+Please help me implement comprehensive database integration using Bitcode's deliverable pipeline:
 
 1. **Database Setup & Configuration** - Use deliverable pipeline with "pull_request" subtype:
 

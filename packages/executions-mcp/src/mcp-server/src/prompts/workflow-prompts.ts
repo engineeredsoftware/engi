@@ -1,5 +1,5 @@
 /**
- * Engi MCP Workflow Prompts
+ * Bitcode MCP Workflow Prompts
  * 
  * Pre-built workflow templates for common engineering tasks,
  * providing best-practice guidance and structured approaches.
@@ -22,7 +22,7 @@ interface MCPPrompt {
  * Feature creation workflow prompt
  */
 const featureCreationPrompt: MCPPrompt = {
-  name: 'engi://prompts/workflow/feature-creation',
+  name: 'bitcode://prompts/workflow/feature-creation',
   description: `Complete workflow for implementing new features with engineering best practices.
 
 This prompt guides you through a comprehensive feature implementation process:
@@ -69,7 +69,7 @@ ${args.stakeholders.length > 0 ? `- **Stakeholders**: ${args.stakeholders.join('
 ${args.constraints.length > 0 ? `## Constraints
 ${args.constraints.map(c => `- ${c}`).join('\n')}` : ''}
 
-Please help me implement this feature using Engi's deliverable pipeline with the following approach:
+Please help me implement this feature using Bitcode's deliverable pipeline with the following approach:
 
 1. **Use the deliverable pipeline tool** with subtype "pull_request" to implement the complete feature
 2. **Include comprehensive analysis** with scope analysis and implementation planning
@@ -101,7 +101,7 @@ Please execute the deliverable pipeline and provide real-time updates on the imp
  * Bug analysis and fix workflow prompt
  */
 const bugFixWorkflowPrompt: MCPPrompt = {
-  name: 'engi://prompts/workflow/bug-analysis',
+  name: 'bitcode://prompts/workflow/bug-analysis',
   description: `Systematic workflow for analyzing and fixing bugs with root cause investigation.
 
 This prompt provides a structured approach to bug resolution:
@@ -158,7 +158,7 @@ ${args.errorLogs}
 ${args.affectedUsers ? `### Affected Users
 ${args.affectedUsers}` : ''}
 
-Please help me analyze and fix this bug using Engi's deliverable pipeline with the following systematic approach:
+Please help me analyze and fix this bug using Bitcode's deliverable pipeline with the following systematic approach:
 
 1. **Use the deliverable pipeline tool** with subtype "issue" for comprehensive bug resolution
 
@@ -201,7 +201,7 @@ Please execute the deliverable pipeline and provide detailed analysis of the roo
  * Code review workflow prompt
  */
 const codeReviewWorkflowPrompt: MCPPrompt = {
-  name: 'engi://prompts/workflow/code-review',
+  name: 'bitcode://prompts/workflow/code-review',
   description: `Comprehensive code review workflow with security, performance, and maintainability analysis.
 
 This prompt provides thorough code review guidance:
@@ -250,7 +250,7 @@ ${args.focusAreas.map(area => `- ${area.charAt(0).toUpperCase() + area.slice(1)}
 ${args.compliance.length > 0 ? `## Compliance Standards
 ${args.compliance.map(std => `- ${std}`).join('\n')}` : ''}
 
-Please conduct a thorough code review using Engi's deliverable pipeline with the following approach:
+Please conduct a thorough code review using Bitcode's deliverable pipeline with the following approach:
 
 1. **Use the deliverable pipeline tool** with subtype "pr_review" for comprehensive code analysis
 
@@ -304,7 +304,7 @@ Please provide detailed findings, prioritized recommendations, and specific code
  * Architecture review workflow prompt
  */
 const architectureReviewPrompt: MCPPrompt = {
-  name: 'engi://prompts/workflow/architecture-review',
+  name: 'bitcode://prompts/workflow/architecture-review',
   description: `Comprehensive architecture review workflow for system design evaluation.
 
 This prompt guides architectural assessment:
@@ -352,7 +352,7 @@ ${args.futureRequirements}` : ''}
 ${args.constraints.length > 0 ? `## Current Constraints
 ${args.constraints.map(constraint => `- ${constraint}`).join('\n')}` : ''}
 
-Please conduct a thorough architecture review using Engi's analysis tools and deliverable pipeline with the following comprehensive analysis:
+Please conduct a thorough architecture review using Bitcode's analysis tools and deliverable pipeline with the following comprehensive analysis:
 
 1. **Use the analysis tools** for deep architectural insights (architecture analysis)
 
@@ -414,7 +414,7 @@ Please provide detailed architectural insights, visual representations where hel
  * Performance optimization workflow prompt
  */
 const performanceOptimizationPrompt: MCPPrompt = {
-  name: 'engi://prompts/workflow/performance-optimization',
+  name: 'bitcode://prompts/workflow/performance-optimization',
   description: `Systematic performance optimization workflow with profiling and improvement strategies.
 
 This prompt guides performance improvement:
@@ -462,7 +462,7 @@ ${Object.entries(args.targetMetrics).map(([metric, target]) => `- ${metric}: ${t
 ${args.constraints.length > 0 ? `## Constraints
 ${args.constraints.map(constraint => `- ${constraint}`).join('\n')}` : ''}
 
-Please help me optimize the application performance using Engi's analysis and implementation capabilities:
+Please help me optimize the application performance using Bitcode's analysis and implementation capabilities:
 
 1. **Performance Analysis** - Use analysis tools to identify bottlenecks:
    - Profile application performance across all layers

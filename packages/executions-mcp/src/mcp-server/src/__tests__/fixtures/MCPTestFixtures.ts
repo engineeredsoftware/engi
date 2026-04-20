@@ -1,9 +1,9 @@
 /**
- * Engi MCP Test Fixtures
+ * Bitcode MCP Test Fixtures
  * 
  * Comprehensive test fixtures for MCP testing with customer-focused scenarios,
  * realistic data, and production-like configurations. Built to support the
- * sophisticated testing requirements of Engi's MCP server.
+ * sophisticated testing requirements of Bitcode's MCP server.
  */
 
 import type { 
@@ -95,7 +95,7 @@ export const AUTH_CONTEXTS = {
  */
 export const REPOSITORY_CONTEXTS = {
   NEXT_JS_PROJECT: {
-    owner: 'engi-corp',
+    owner: 'bitcode-labs',
     name: 'next-js-ecommerce',
     branch: 'main',
     path: 'src/components',
@@ -103,14 +103,14 @@ export const REPOSITORY_CONTEXTS = {
   } as RepositoryContext,
   
   REACT_NATIVE_PROJECT: {
-    owner: 'engi-corp',
+    owner: 'bitcode-labs',
     name: 'mobile-app',
     branch: 'develop',
     connectionId: 12346
   } as RepositoryContext,
   
   PYTHON_API_PROJECT: {
-    owner: 'engi-corp',
+    owner: 'bitcode-labs',
     name: 'python-api',
     branch: 'feature/auth-system',
     path: 'src/auth',
@@ -118,7 +118,7 @@ export const REPOSITORY_CONTEXTS = {
   } as RepositoryContext,
   
   LEGACY_PROJECT: {
-    owner: 'engi-corp',
+    owner: 'bitcode-labs',
     name: 'legacy-monolith',
     branch: 'main',
     connectionId: 12348
@@ -192,7 +192,7 @@ export const PIPELINE_RESULTS = {
     endTime: '2023-12-01T10:15:00Z',
     duration: 900000,
     results: {
-      pullRequestUrl: 'https://github.com/engi-corp/next-js-ecommerce/pull/123',
+      pullRequestUrl: 'https://github.com/bitcode-labs/next-js-ecommerce/pull/123',
       filesModified: 15,
       testsAdded: 8,
       coverageIncrease: 5.2
@@ -200,7 +200,7 @@ export const PIPELINE_RESULTS = {
     deliverables: [
       {
         type: 'pull_request',
-        url: 'https://github.com/engi-corp/next-js-ecommerce/pull/123',
+        url: 'https://github.com/bitcode-labs/next-js-ecommerce/pull/123',
         metadata: { title: 'Add user authentication system', commits: 7 }
       },
       {
@@ -221,7 +221,7 @@ export const PIPELINE_RESULTS = {
         delivery: { duration: 60000, success: true, confidence: 0.96 }
       }
     },
-    streamUrl: 'wss://stream.engi.com/pipeline/001'
+    streamUrl: 'wss://stream.bitcode.dev/pipeline/001'
   } as PipelineExecutionResult,
   
   
@@ -416,7 +416,7 @@ export const CUSTOMER_SCENARIOS = {
  */
 export const MCP_CONFIGURATIONS = {
   FULL_FEATURED: {
-    name: 'engi-engineering-intelligence-full',
+    name: 'bitcode-market-infrastructure-full',
     version: '1.0.0',
     capabilities: {
       tools: true,
@@ -432,7 +432,7 @@ export const MCP_CONFIGURATIONS = {
   },
   
   TOOLS_ONLY: {
-    name: 'engi-engineering-intelligence-tools',
+    name: 'bitcode-market-infrastructure-tools',
     version: '1.0.0',
     capabilities: {
       tools: true,
@@ -448,7 +448,7 @@ export const MCP_CONFIGURATIONS = {
   },
   
   DEVELOPMENT: {
-    name: 'engi-engineering-intelligence-dev',
+    name: 'bitcode-market-infrastructure-dev',
     version: '1.0.0-dev',
     capabilities: {
       tools: true,
@@ -464,7 +464,7 @@ export const MCP_CONFIGURATIONS = {
   },
   
   PERFORMANCE_TEST: {
-    name: 'engi-engineering-intelligence-perf',
+    name: 'bitcode-market-infrastructure-perf',
     version: '1.0.0',
     capabilities: {
       tools: true,
@@ -492,8 +492,8 @@ export const MOCK_DATA = {
     {
       id: 123456,
       name: 'next-js-ecommerce',
-      full_name: 'engi-corp/next-js-ecommerce',
-      owner: { login: 'engi-corp' },
+      full_name: 'bitcode-labs/next-js-ecommerce',
+      owner: { login: 'bitcode-labs' },
       private: false,
       default_branch: 'main',
       language: 'TypeScript',
@@ -503,8 +503,8 @@ export const MOCK_DATA = {
     {
       id: 123457,
       name: 'mobile-app',
-      full_name: 'engi-corp/mobile-app',
-      owner: { login: 'engi-corp' },
+      full_name: 'bitcode-labs/mobile-app',
+      owner: { login: 'bitcode-labs' },
       private: true,
       default_branch: 'develop',
       language: 'TypeScript',
@@ -537,7 +537,7 @@ export const MOCK_DATA = {
           created_at: '2023-12-01T10:00:00Z',
           updated_at: '2023-12-01T10:15:00Z',
           type: 'deliverable',
-          repository: 'engi-corp/next-js-ecommerce'
+          repository: 'bitcode-labs/next-js-ecommerce'
         }
       ],
       error: null
@@ -547,7 +547,7 @@ export const MOCK_DATA = {
       data: [
         {
           id: 'org-001',
-          name: 'Engi Corporation',
+          name: 'Bitcode Labs',
           subscription_tier: 'enterprise',
           credits_balance: 50000,
           created_at: '2023-01-01T00:00:00Z'

@@ -1,5 +1,5 @@
 /**
- * Engi MCP Analysis Tools
+ * Bitcode MCP Analysis Tools
  * 
  * Advanced AI-powered analysis tools for repository intelligence,
  * architectural insights, and engineering intelligence synthesis.
@@ -386,7 +386,7 @@ async function synthesizeIntelligence(
 export function registerAnalysisTools(): MCPTool[] {
   return [
     {
-      name: 'engi://analysis/repository/analyze',
+      name: 'bitcode://analysis/repository/analyze',
       description: `Perform comprehensive AI-powered repository analysis.
 
 Advanced analysis capabilities including:
@@ -417,7 +417,7 @@ Generates actionable insights with confidence scoring and remediation guidance.`
     },
 
     {
-      name: 'engi://analysis/intelligence/synthesize',
+      name: 'bitcode://analysis/intelligence/synthesize',
       description: `Synthesize engineering intelligence across repositories and time periods.
 
 AI-powered intelligence synthesis providing:
@@ -438,7 +438,7 @@ Generates strategic insights for engineering leadership with confidence-scored r
     },
 
     {
-      name: 'engi://analysis/patterns/detect',
+      name: 'bitcode://analysis/patterns/detect',
       description: `Detect and analyze code patterns across repositories.
 
 Pattern detection including:
@@ -490,7 +490,7 @@ Provides pattern confidence scoring, code examples, and refactoring recommendati
     },
 
     {
-      name: 'engi://analysis/dependencies/analyze',
+      name: 'bitcode://analysis/dependencies/analyze',
       description: `Comprehensive dependency analysis and risk assessment.
 
 Dependency analysis including:

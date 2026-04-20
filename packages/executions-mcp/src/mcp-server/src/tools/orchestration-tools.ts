@@ -1,5 +1,5 @@
 /**
- * Engi MCP Pipeline Orchestration Tools
+ * Bitcode MCP Pipeline Orchestration Tools
  * 
  * ADVANCED PIPELINE ORCHESTRATION - Complex workflow management,
  * chaining, parallelization, and sophisticated execution control.
@@ -631,7 +631,7 @@ async function listPipelineTemplates(filters: any, context: MCPAuthContext): Pro
 export function registerOrchestrationTools(): MCPTool[] {
   return [
     {
-      name: 'engi://orchestration/pipeline/orchestrate',
+      name: 'bitcode://orchestration/pipeline/orchestrate',
       description: `Advanced pipeline orchestration with chaining, parallelization, and complex dependencies.
 
 Sophisticated workflow management capabilities:
@@ -649,7 +649,7 @@ Enables complex automation scenarios with enterprise-grade reliability.`,
     },
 
     {
-      name: 'engi://orchestration/template/manage',
+      name: 'bitcode://orchestration/template/manage',
       description: `Pipeline template management for reusable workflow patterns.
 
 Template system for standardized workflows:
@@ -667,7 +667,7 @@ Enables workflow standardization and best practice sharing.`,
     },
 
     {
-      name: 'engi://orchestration/dependency/manage',
+      name: 'bitcode://orchestration/dependency/manage',
       description: `Advanced dependency management and execution optimization.
 
 Sophisticated dependency resolution:
@@ -692,7 +692,7 @@ Optimizes execution order for maximum efficiency and reliability.`,
     },
 
     {
-      name: 'engi://orchestration/workflow/automate',
+      name: 'bitcode://orchestration/workflow/automate',
       description: `Event-driven workflow automation with intelligent triggers.
 
 Advanced automation capabilities:
@@ -718,7 +718,7 @@ Enables fully automated engineering workflows with intelligent decision-making.`
     },
 
     {
-      name: 'engi://orchestration/optimize/performance',
+      name: 'bitcode://orchestration/optimize/performance',
       description: `Pipeline performance optimization with ML-powered recommendations.
 
 Performance optimization and planning:

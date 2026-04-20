@@ -8,7 +8,7 @@
 import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
 import { supabaseAdmin } from '@bitcode/supabase';
-import type { EngiMCPServer } from '../server';
+import type { BitcodeMCPServer } from '../server';
 import { streamManager } from '../streaming/pipeline-stream';
 import { productionMonitor } from '../monitoring/alerts';
 
@@ -42,7 +42,7 @@ export class GracefulShutdownManager {
   private forceShutdownTimer?: NodeJS.Timeout;
   
   constructor(
-    private server: EngiMCPServer,
+    private server: BitcodeMCPServer,
     private config: ShutdownConfig = DEFAULT_SHUTDOWN_CONFIG
   ) {
     this.setupSignalHandlers();

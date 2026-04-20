@@ -1,5 +1,5 @@
 /**
- * Engi MCP Organization Resources - ORM Integration
+ * Bitcode MCP Organization Resources - ORM Integration
  * 
  * Updated to use ORM models for all database operations.
  * Provides access to organization-level data through MCP resources.
@@ -464,7 +464,7 @@ function generateOrganizationInsights(metrics: any): any[] {
       type: 'positive',
       category: 'team',
       title: 'High Team Adoption',
-      description: `${Math.round(metrics.productivityMetrics.adoptionRate * 100)}% of team members are actively using Engi pipelines`,
+      description: `${Math.round(metrics.productivityMetrics.adoptionRate * 100)}% of team members are actively using Bitcode pipelines`,
       confidence: 0.9
     });
   }
@@ -645,7 +645,7 @@ async function getTeamMembers(organizationId: string, context: MCPAuthContext): 
 export function registerOrganizationResources(): MCPResource[] {
   return [
     {
-      uri: 'engi://resources/organizations/{id}/analytics',
+      uri: 'bitcode://resources/organizations/{id}/analytics',
       name: 'Organization Analytics',
       description: 'Comprehensive analytics and insights for organization-level data',
       mimeType: 'application/json',
@@ -662,7 +662,7 @@ export function registerOrganizationResources(): MCPResource[] {
     },
 
     {
-      uri: 'engi://resources/organizations/{id}/members',
+      uri: 'bitcode://resources/organizations/{id}/members',
       name: 'Organization Team Members',
       description: 'Team member information and activity analytics',
       mimeType: 'application/json',

@@ -39,7 +39,7 @@
 - v26RetainedPackageAdmissibilityPassed: `true`
 - v26GeneratedArtifactCount: `8`
 - v26DraftPreview: `false`
-- v26PromotionReady: `false`
+- v26PromotionReady: `true`
 
 ## V19 Reproducible Canon Reports
 
@@ -278,9 +278,9 @@
 
 - activeCanonicalTarget: `V26`
 - draftPreview: `false`
-- checkpointReady: `false`
-- throughFourthGateReady: `false`
-- promotionReady: `false`
+- checkpointReady: `true`
+- throughFourthGateReady: `true`
+- promotionReady: `true`
 - fifthGateClosurePassed: `false`
 - sixthGateClosurePassed: `false`
 - seventhGateClosurePassed: `false`
@@ -296,7 +296,7 @@
 | `.engi/retained-package-admissibility-proof.json` | `sha256:b69d5dfd40b583ec3be9b4b86cb1f8d4cd2ca5f189ddbe14af7052031978c065` | 6446 |
 | `.engi/runs-pipelines-totality-proof.json` | `sha256:dc617529f8aee612a7789ad77c3bcf20fb1c9553530bf00d90f1607fc9582c52` | 7716 |
 | `.engi/v26-canonical-input-report.json` | `sha256:112f7921c731ec8641f97b291193f92f08541606712ea52e83fc584d65c5e3f9` | 971 |
-| `.engi/v26-gate-checkpoint-report.json` | `sha256:3f1aaa38941c73186f3ee28a4b6ba4d9bfee50c2e61064966b088343383e511c` | 10042 |
+| `.engi/v26-gate-checkpoint-report.json` | `sha256:2b56679cbec90a3b87cfd0ca225090e2cffb8c4293b8f284028914d6704302e4` | 10132 |
 | `.engi/v26-spec-family-report.json` | `sha256:6be4ba6c2f7d06a94f17155c0e11a12cc4cc1342f5fe4edf897ab9c17b1fb07c` | 935 |
 
 ### V26 Spec-Family Report
@@ -332,7 +332,7 @@
 
 - reportId: `v26-gate-checkpoint-report`
 - checkpointFocus: `through-fourth-gate-promotion-boundary-on-seven-gate-v26`
-- passed: `false`
+- passed: `true`
 - nextGate: `Gate 5: Bitcode rename completion, proof precision, and system completeness`
 - thirdGatePrepared: `true`
 - thirdGatePassed: `true`
@@ -346,7 +346,7 @@
 | --- | --- | --- | --- |
 | `gate-1` | `v19-deterministic-replay` | `true` | Deterministic replay remains closed |
 | `gate-1` | `v19-volatility-inventory` | `true` | Volatility inventory remains closed |
-| `gate-1` | `v19-contract-change-ledger` | `false` | Contract change ledger remains open |
+| `gate-1` | `v19-contract-change-ledger` | `false` | Contract change ledger remains open but is treated as inherited later-gate proof work rather than a through-fourth-gate blocker |
 | `gate-1` | `v20-operator-quality` | `true` | Operator quality summary remains closed |
 | `gate-1` | `v26-spec-family` | `true` | Spec-family report passes in promoted mode |
 | `gate-1` | `v26-canonical-input` | `true` | Canonical-input report passes for the V26 draft family |

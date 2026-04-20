@@ -1,5 +1,5 @@
 /**
- * Engi MCP Advanced Observability & Telemetry Tools
+ * Bitcode MCP Advanced Observability & Telemetry Tools
  * 
  * COMPREHENSIVE OBSERVABILITY SUITE - Real-time monitoring, analytics,
  * performance profiling, and business intelligence for engineering operations.
@@ -354,7 +354,7 @@ async function executeRealTimeMetrics(
         return {
           operationId,
           streamId,
-          endpoint: `wss://metrics.engi.network/stream/${streamId}`,
+          endpoint: `wss://metrics.bitcode.dev/stream/${streamId}`,
           format: args.streamConfig.format,
           metrics: args.streamConfig.metrics
         };
@@ -552,7 +552,7 @@ async function generateServiceMap(config: any, context: MCPAuthContext): Promise
 export function registerObservabilityTools(): MCPTool[] {
   return [
     {
-      name: 'engi://observability/metrics/realtime',
+      name: 'bitcode://observability/metrics/realtime',
       description: `Advanced real-time metrics collection, querying, and alerting system.
 
 Comprehensive metrics platform:
@@ -572,7 +572,7 @@ Provides enterprise-grade metrics infrastructure for complete observability.`,
     },
 
     {
-      name: 'engi://observability/tracing/distributed',
+      name: 'bitcode://observability/tracing/distributed',
       description: `Sophisticated distributed tracing with performance profiling and bottleneck detection.
 
 Advanced tracing capabilities:
@@ -592,7 +592,7 @@ Enables deep performance understanding in distributed systems.`,
     },
 
     {
-      name: 'engi://observability/intelligence/business',
+      name: 'bitcode://observability/intelligence/business',
       description: `Business intelligence platform for engineering metrics and strategic insights.
 
 Strategic analytics capabilities:
@@ -620,7 +620,7 @@ Provides C-level insights for engineering organization optimization.`,
     },
 
     {
-      name: 'engi://observability/logs/analytics',
+      name: 'bitcode://observability/logs/analytics',
       description: `Advanced log analytics with pattern detection, anomaly analysis, and compliance reporting.
 
 Comprehensive log intelligence:

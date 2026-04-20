@@ -1,9 +1,9 @@
 /**
- * Engi MCP Tools Test Suite
+ * Bitcode MCP Tools Test Suite
  * 
  * Comprehensive testing for all MCP tools with dry running, sophisticated mocking,
  * and customer-focused validation. This suite tests the tool surfaces that comprise
- * Engi's core intelligence value delivered through the MCP protocol.
+ * Bitcode's core intelligence value delivered through the MCP protocol.
  */
 
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, expect, jest } from '@jest/globals';
@@ -15,7 +15,7 @@ import {
   MOCK_DATA,
   TEST_CONFIGURATIONS
 } from '../fixtures/MCPTestFixtures';
-import { EngiMCPServer } from '../../server';
+import { BitcodeMCPServer } from '../../server';
 import { 
   BasePipelineToolSchema,
   DeliverablePipelineToolSchema
@@ -48,7 +48,7 @@ interface ToolTestConfig {
 const TOOL_TEST_CONFIGS: ToolTestConfig[] = [
   // Pipeline Tools
   {
-    toolName: 'engi://pipelines/deliverable/create',
+    toolName: 'bitcode://pipelines/deliverable/create',
     category: 'pipeline',
     schema: DeliverablePipelineToolSchema,
     requiredPermissions: ['pipelines.create'],
@@ -97,8 +97,8 @@ const TOOL_TEST_CONFIGS: ToolTestConfig[] = [
 // MCP Tools Test Suite
 // ============================================================================
 
-describe('Engi MCP Tools Test Suite', () => {
-  let mcpServer: EngiMCPServer;
+describe('Bitcode MCP Tools Test Suite', () => {
+  let mcpServer: BitcodeMCPServer;
   let testFramework: MCPTestFramework;
 
   beforeAll(async () => {
@@ -108,8 +108,8 @@ describe('Engi MCP Tools Test Suite', () => {
     process.env.MCP_TOOLS_TEST = 'true';
     
     // Initialize MCP server for testing
-    mcpServer = new EngiMCPServer({
-      name: 'engi-tools-test',
+    mcpServer = new BitcodeMCPServer({
+      name: 'bitcode-tools-test',
       version: '1.0.0-test',
       capabilities: {
         tools: true,
@@ -665,7 +665,7 @@ function setupToolMocks(): void {
   jest.mock('../../tools/pipeline-tools', () => ({
     registerPipelineTools: jest.fn().mockReturnValue([
       {
-        name: 'engi://pipelines/deliverable/create',
+        name: 'bitcode://pipelines/deliverable/create',
         description: 'Create production-ready deliverables',
         execute: jest.fn().mockResolvedValue({
           success: true,

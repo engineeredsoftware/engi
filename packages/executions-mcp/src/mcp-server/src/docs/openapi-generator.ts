@@ -1,5 +1,5 @@
 /**
- * OpenAPI Documentation Generator for Engi MCP Server
+ * OpenAPI Documentation Generator for Bitcode MCP Server
  * 
  * Generates comprehensive Swagger/OpenAPI 3.0 documentation with inline examples,
  * security schemes, and complete API specifications for public consumption.
@@ -18,18 +18,18 @@ import type { OpenAPIV3 } from 'openapi-types';
 // Tool category constants removed (counts are not maintained to avoid drift)
 
 /**
- * Generate comprehensive OpenAPI 3.0 specification for Engi MCP Server
+ * Generate comprehensive OpenAPI 3.0 specification for Bitcode MCP Server
  */
 export function generateOpenAPISpec(): OpenAPIV3.Document {
   const spec: OpenAPIV3.Document = {
     openapi: '3.0.3',
     info: {
-      title: 'Engi MCP Server API',
+      title: 'Bitcode MCP Server API',
       version: '1.0.0',
       description: `
-# Engi MCP Server API
+# Bitcode MCP Server API
 
-The Model Context Protocol (MCP) server exposing Engi’s engineering intelligence via standardized tools, resources, and prompts.
+The Model Context Protocol (MCP) server exposing Bitcode’s engineering intelligence via standardized tools, resources, and prompts.
 
 ## Features
 
@@ -40,36 +40,36 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
 
 ## Getting Started
 
-1. **Get API Key** in your Engi account
+1. **Get API Key** in your Bitcode account
 2. **Connect an MCP Client** (e.g., Claude Desktop)
 3. **Call a Tool**: 
    - 
-     name: \`engi://pipelines/deliverable/execute\`
+     name: \`bitcode://pipelines/deliverable/execute\`
      
 ## Support
 
-- **Documentation**: https://docs.engi.network/mcp
-- **Community**: https://discord.gg/engi-mcp
-- **Support**: mcp-support@engi.network
+- **Documentation**: https://docs.bitcode.dev/mcp
+- **Community**: https://discord.gg/bitcode-mcp
+- **Support**: mcp-support@bitcode.dev
       `,
       contact: {
-        name: 'Engi API Support',
-        url: 'https://engi.com/support',
-        email: 'support@engi.com'
+        name: 'Bitcode API Support',
+        url: 'https://bitcode.dev/support',
+        email: 'support@bitcode.dev'
       },
       license: {
-        name: 'Engi Commercial License',
-        url: 'https://engi.com/license'
+        name: 'Bitcode Commercial License',
+        url: 'https://bitcode.dev/license'
       },
-      termsOfService: 'https://engi.com/terms'
+      termsOfService: 'https://bitcode.dev/terms'
     },
     servers: [
       {
-        url: 'https://api.engi.com/mcp',
+        url: 'https://api.bitcode.dev/mcp',
         description: 'Production API'
       },
       {
-        url: 'https://staging-api.engi.com/mcp',
+        url: 'https://staging-api.bitcode.dev/mcp',
         description: 'Staging API'
       },
       {
@@ -87,7 +87,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
           type: 'apiKey',
           in: 'header',
           name: 'X-API-Key',
-          description: 'API key for authentication. Get yours at https://engi.com/api-keys'
+          description: 'API key for authentication. Get yours at https://bitcode.dev/api-keys'
         },
         BearerAuth: {
           type: 'http',
@@ -105,7 +105,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
             owner: {
               type: 'string',
               description: 'Repository owner (user or organization)',
-              example: 'engi-corp'
+              example: 'bitcode-labs'
             },
             name: {
               type: 'string',
@@ -211,7 +211,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
               type: 'string',
               format: 'uri',
               description: 'External URL for the deliverable',
-              example: 'https://github.com/engi-corp/webapp/pull/123'
+              example: 'https://github.com/bitcode-labs/webapp/pull/123'
             },
             content: {
               type: 'string',
@@ -308,7 +308,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
               type: 'string',
               format: 'uri',
               description: 'WebSocket URL for real-time execution updates',
-              example: 'wss://stream.engi.com/pipeline/123e4567-e89b-12d3-a456-426614174000'
+              example: 'wss://stream.bitcode.dev/pipeline/123e4567-e89b-12d3-a456-426614174000'
             },
             startTime: {
               type: 'string',
@@ -379,7 +379,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
                 code: 'AUTHENTICATION_FAILED',
                 message: 'Invalid API key provided',
                 retryable: false,
-                suggestion: 'Check your API key at https://engi.com/api-keys'
+                suggestion: 'Check your API key at https://bitcode.dev/api-keys'
               }
             }
           }
@@ -465,7 +465,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
                             name: {
                               type: 'string',
                               description: 'Tool identifier',
-                              example: 'engi://pipelines/deliverable/create'
+                              example: 'bitcode://pipelines/deliverable/create'
                             },
                             description: {
                               type: 'string',
@@ -489,7 +489,7 @@ The Model Context Protocol (MCP) server exposing Engi’s engineering intelligen
                   example: {
                     tools: [
                       {
-                        name: 'engi://pipelines/deliverable/create',
+                        name: 'bitcode://pipelines/deliverable/create',
                         description: 'Create production-ready deliverables with comprehensive testing and documentation',
                         category: 'pipeline',
                         schema: {
@@ -531,7 +531,7 @@ Supports both synchronous and streaming execution modes.`,
                     name: {
                       type: 'string',
                       description: 'Tool name to execute',
-                      example: 'engi://pipelines/deliverable/create'
+                      example: 'bitcode://pipelines/deliverable/create'
                     },
                     arguments: {
                       type: 'object',
@@ -559,7 +559,7 @@ Supports both synchronous and streaming execution modes.`,
                     summary: 'Create Feature Deliverable',
                     description: 'Example of creating a complete feature with pull request',
                     value: {
-                      name: 'engi://pipelines/deliverable/create',
+                      name: 'bitcode://pipelines/deliverable/create',
                       arguments: {
                         task: 'Create user authentication system with JWT tokens, password hashing, email verification, and password reset functionality',
                         repository: {
@@ -644,7 +644,7 @@ Supports both synchronous and streaming execution modes.`,
                             delivery: { duration: 15000, success: true, confidence: 0.96 }
                           }
                         },
-                        streamUrl: 'wss://stream.engi.com/pipeline/123e4567-e89b-12d3-a456-426614174000',
+                        streamUrl: 'wss://stream.bitcode.dev/pipeline/123e4567-e89b-12d3-a456-426614174000',
                         startTime: '2024-01-15T10:00:00Z',
                         endTime: '2024-01-15T10:08:00Z'
                       }
@@ -908,7 +908,7 @@ Supports both synchronous and streaming execution modes.`,
         description: 'Execute sophisticated engineering tools and pipelines',
         externalDocs: {
           description: 'Complete tool reference',
-          url: 'https://docs.engi.com/mcp/tools'
+          url: 'https://docs.bitcode.dev/mcp/tools'
         }
       },
       {
@@ -916,7 +916,7 @@ Supports both synchronous and streaming execution modes.`,
         description: 'Monitor and control pipeline executions',
         externalDocs: {
           description: 'Pipeline documentation',
-          url: 'https://docs.engi.com/mcp/pipelines'
+          url: 'https://docs.bitcode.dev/mcp/pipelines'
         }
       },
       {
@@ -932,13 +932,13 @@ Supports both synchronous and streaming execution modes.`,
         description: 'Real-time updates via WebSocket/SSE',
         externalDocs: {
           description: 'Streaming guide',
-          url: 'https://docs.engi.com/mcp/streaming'
+          url: 'https://docs.bitcode.dev/mcp/streaming'
         }
       }
     ],
     externalDocs: {
       description: 'Complete MCP Documentation',
-      url: 'https://docs.engi.com/mcp'
+      url: 'https://docs.bitcode.dev/mcp'
     }
   };
 
@@ -958,11 +958,11 @@ export function generateOpenAPIFiles(): void {
   }
   
   // Save JSON specification
-  const jsonPath = join(docsDir, 'engi-mcp-openapi.json');
+  const jsonPath = join(docsDir, 'bitcode-mcp-openapi.json');
   writeFileSync(jsonPath, JSON.stringify(spec, null, 2));
   
   // Save YAML specification
-  const yamlPath = join(docsDir, 'engi-mcp-openapi.yaml');
+  const yamlPath = join(docsDir, 'bitcode-mcp-openapi.yaml');
   const yaml = convertToYAML(spec);
   writeFileSync(yamlPath, yaml);
   

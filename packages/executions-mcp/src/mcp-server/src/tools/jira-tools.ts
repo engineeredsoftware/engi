@@ -1,5 +1,5 @@
 /**
- * Engi MCP Jira Tools
+ * Bitcode MCP Jira Tools
  * 
  * Exposes Jira project management and issue tracking capabilities through MCP tools,
  * providing comprehensive project coordination and team collaboration workflows.
@@ -137,7 +137,7 @@ export function registerJiraTools(): MCPTool[] {
   return [
     // Project Management Tools
     {
-      name: 'engi://jira/projects/list',
+      name: 'bitcode://jira/projects/list',
       description: `List all accessible Jira projects with metadata and health information.
 
 Provides comprehensive project discovery including:
@@ -161,7 +161,7 @@ Supports filtering by:
     },
 
     {
-      name: 'engi://jira/projects/get',
+      name: 'bitcode://jira/projects/get',
       description: `Get detailed information about a specific Jira project.
 
 Retrieves comprehensive project details including:
@@ -182,7 +182,7 @@ Retrieves comprehensive project details including:
 
     // Issue Search and Retrieval Tools
     {
-      name: 'engi://jira/issues/search',
+      name: 'bitcode://jira/issues/search',
       description: `Search for Jira issues using JQL (Jira Query Language).
 
 Powerful issue search supporting:
@@ -211,7 +211,7 @@ Common JQL patterns:
     },
 
     {
-      name: 'engi://jira/issues/get',
+      name: 'bitcode://jira/issues/get',
       description: `Get comprehensive information about a specific Jira issue.
 
 Retrieves complete issue details including:
@@ -233,7 +233,7 @@ Retrieves complete issue details including:
 
     // Issue Creation and Modification Tools
     {
-      name: 'engi://jira/issues/create',
+      name: 'bitcode://jira/issues/create',
       description: `Create a new Jira issue with comprehensive field support.
 
 Supports creating all issue types with:
@@ -266,7 +266,7 @@ Best practices:
     },
 
     {
-      name: 'engi://jira/issues/update',
+      name: 'bitcode://jira/issues/update',
       description: `Update an existing Jira issue with field modifications.
 
 Supports updating:
@@ -292,7 +292,7 @@ Maintains issue history and audit trail for all changes.`,
     },
 
     {
-      name: 'engi://jira/issues/transition',
+      name: 'bitcode://jira/issues/transition',
       description: `Transition a Jira issue to a new status through workflow.
 
 Manages workflow transitions including:
@@ -319,7 +319,7 @@ Common transitions:
     },
 
     {
-      name: 'engi://jira/issues/assign',
+      name: 'bitcode://jira/issues/assign',
       description: `Assign a Jira issue to a specific user or unassign it.
 
 Assignment management including:
@@ -343,7 +343,7 @@ Best practices:
 
     // Comment Management Tools
     {
-      name: 'engi://jira/issues/comments/add',
+      name: 'bitcode://jira/issues/comments/add',
       description: `Add a comment to a Jira issue with optional visibility restrictions.
 
 Comment features:
@@ -371,7 +371,7 @@ Comment best practices:
     },
 
     {
-      name: 'engi://jira/issues/comments/list',
+      name: 'bitcode://jira/issues/comments/list',
       description: `Retrieve all comments for a specific Jira issue.
 
 Provides comprehensive comment information:
@@ -389,7 +389,7 @@ Provides comprehensive comment information:
 
     // User and Metadata Tools
     {
-      name: 'engi://jira/users/search',
+      name: 'bitcode://jira/users/search',
       description: `Search for users in the Jira instance for assignment and collaboration.
 
 User search capabilities:
@@ -413,7 +413,7 @@ Use cases:
     },
 
     {
-      name: 'engi://jira/metadata/issue-types',
+      name: 'bitcode://jira/metadata/issue-types',
       description: `Get all available issue types in the Jira instance.
 
 Issue type information:
@@ -434,7 +434,7 @@ Essential for:
     },
 
     {
-      name: 'engi://jira/metadata/priorities',
+      name: 'bitcode://jira/metadata/priorities',
       description: `Get all available priority levels in the Jira instance.
 
 Priority information:
@@ -456,7 +456,7 @@ Used for:
 
     // Issue Linking Tools
     {
-      name: 'engi://jira/issues/link',
+      name: 'bitcode://jira/issues/link',
       description: `Create a link between two Jira issues with specified relationship.
 
 Link types and relationships:
@@ -483,7 +483,7 @@ Use cases:
 
     // Time Tracking and Worklog Tools
     {
-      name: 'engi://jira/issues/worklogs/list',
+      name: 'bitcode://jira/issues/worklogs/list',
       description: `Retrieve all worklogs for a specific Jira issue.
 
 Provides comprehensive time tracking information:
@@ -506,7 +506,7 @@ Essential for:
     },
 
     {
-      name: 'engi://jira/issues/worklogs/add',
+      name: 'bitcode://jira/issues/worklogs/add',
       description: `Add a worklog entry to a Jira issue for time tracking.
 
 Time tracking features:
@@ -537,7 +537,7 @@ Best practices:
 
     // Bulk Operations Tools
     {
-      name: 'engi://jira/issues/bulk-update',
+      name: 'bitcode://jira/issues/bulk-update',
       description: `Update multiple Jira issues in a single batch operation.
 
 Bulk operation capabilities:

@@ -1,10 +1,10 @@
-# Engi MCP: Revolutionary Engineering Intelligence Platform
+# Bitcode MCP: Revolutionary Engineering Intelligence Platform
 
-> **Transform any chat interface into an industrial-grade engineering workspace with Engi's Model Context Protocol server**
+> **Transform any chat interface into an industrial-grade engineering workspace with Bitcode's Model Context Protocol server**
 
-## What is Engi MCP?
+## What is Bitcode MCP?
 
-Engi MCP is the world's most sophisticated Model Context Protocol server, exposing **every ounce of Engi's core intelligence value** through standardized interfaces. Built for the frontier of AI-powered software engineering, our MCP server transforms natural language conversations into production-ready engineering workflows.
+Bitcode MCP is the world's most sophisticated Model Context Protocol server, exposing **every ounce of Bitcode's core intelligence value** through standardized interfaces. Built for the frontier of AI-powered software engineering, our MCP server transforms natural language conversations into production-ready engineering workflows.
 
 ## 🚀 Core Value Proposition
 
@@ -25,7 +25,7 @@ Engi MCP is the world's most sophisticated Model Context Protocol server, exposi
 ### **Pipeline Management**
 Transform complex engineering tasks into automated, reliable workflows:
 
-- **`engi://pipelines/deliverable/create`**: Complete feature implementation with tests, documentation, and deployment
+- **`bitcode://pipelines/deliverable/create`**: Complete feature implementation with tests, documentation, and deployment
   
 
 ### **Enterprise Integration**
@@ -44,14 +44,14 @@ AI-powered capabilities that learn and adapt:
 - **Adaptive Decision-Making**: Context-aware AI that improves with every interaction
 - **Multi-Modal Processing**: Handle Figma designs, documents, images, audio, and video inputs
 
-## 🌟 What Makes Engi MCP Revolutionary
+## 🌟 What Makes Bitcode MCP Revolutionary
 
 ### **Conversational Engineering**
 ```
 Human: "Create a complete e-commerce checkout flow with Stripe integration, 
         including mobile-responsive design, comprehensive testing, and security audits"
 
-Engi MCP: ✅ Pull request with 15 files
+Bitcode MCP: ✅ Pull request with 15 files
           ✅ 12 comprehensive tests (98% coverage)
           ✅ Security audit report (0 vulnerabilities)
           ✅ Mobile-responsive implementation
@@ -63,7 +63,7 @@ Engi MCP: ✅ Pull request with 15 files
 
 ### **Frontier Technology with Production Guarantees**
 
-Engi MCP operates at the **absolute frontier** of AI-powered engineering. As a 'wrapped system' that orchestrates foundational AI capabilities, we acknowledge the inherent volatility while providing the strongest possible guarantees:
+Bitcode MCP operates at the **absolute frontier** of AI-powered engineering. As a 'wrapped system' that orchestrates foundational AI capabilities, we acknowledge the inherent volatility while providing the strongest possible guarantees:
 
 #### **🛡️ Our Guarantees**
 - **99.9% Uptime SLA**: Enterprise-grade reliability with comprehensive monitoring
@@ -86,17 +86,17 @@ Engi MCP operates at the **absolute frontier** of AI-powered engineering. As a '
 ## 🎯 Customer Success Stories
 
 ### **Startup Success**: 10x Development Velocity
-> *"Engi MCP transformed our 2-person startup into a 20-person engineering team overnight. We shipped our MVP 3 months ahead of schedule."* 
+> *"Bitcode MCP transformed our 2-person startup into a 20-person engineering team overnight. We shipped our MVP 3 months ahead of schedule."* 
 > 
 > — **Sarah Chen, CTO, TechFlow AI**
 
 ### **Enterprise Transformation**: Legacy System Modernization
-> *"Engi MCP helped us migrate our 15-year-old monolith to microservices in 6 weeks instead of 18 months. Zero downtime, zero data loss."*
+> *"Bitcode MCP helped us migrate our 15-year-old monolith to microservices in 6 weeks instead of 18 months. Zero downtime, zero data loss."*
 > 
 > — **Marcus Rodriguez, VP Engineering, Global Financial Corp**
 
 ### **Security Excellence**: Vulnerability Remediation
-> *"Engi MCP identified and fixed 847 security vulnerabilities across our codebase in one weekend. Our security audit went from failing to perfect."*
+> *"Bitcode MCP identified and fixed 847 security vulnerabilities across our codebase in one weekend. Our security audit went from failing to perfect."*
 > 
 > — **Dr. Lisa Park, CISO, HealthTech Solutions**
 
@@ -112,7 +112,7 @@ Engi MCP operates at the **absolute frontier** of AI-powered engineering. As a '
       "command": "npx",
       "args": ["@bitcode/mcp-server"],
       "env": {
-        "ENGI_API_KEY": "your-api-key"
+        "BITCODE_API_KEY": "your-api-key"
       }
     }
   }
@@ -121,7 +121,7 @@ Engi MCP operates at the **absolute frontier** of AI-powered engineering. As a '
 
 #### **VS Code Extension**
 ```bash
-# Install Engi MCP Extension
+# Install Bitcode MCP Extension
 code --install-extension engi.mcp-integration
 
 # Configure with your API key
@@ -130,10 +130,10 @@ code --command "engi.configure"
 
 #### **API Integration**
 ```javascript
-import { EngiMCPClient } from '@bitcode/mcp-client';
+import { BitcodeMCPClient } from '@bitcode/mcp-client';
 
-const client = new EngiMCPClient({
-  apiKey: process.env.ENGI_API_KEY,
+const client = new BitcodeMCPClient({
+  apiKey: process.env.BITCODE_API_KEY,
   organizationId: 'your-org-id'
 });
 
@@ -151,8 +151,8 @@ const result = await client.createDeliverable({
 ```bash
 # Deploy to your infrastructure
 docker run -d \
-  --name engi-mcp \
-  -e ENGI_LICENSE_KEY=your-license \
+  --name bitcode-mcp \
+  -e BITCODE_LICENSE_KEY=your-license \
   -e DATABASE_URL=your-database \
   -p 3000:3000 \
   engi/mcp-server:latest
@@ -164,19 +164,19 @@ docker run -d \
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: engi-mcp
+  name: bitcode-mcp
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: engi-mcp
+      app: bitcode-mcp
   template:
     spec:
       containers:
-      - name: engi-mcp
+      - name: bitcode-mcp
         image: engi/mcp-server:latest
         env:
-        - name: ENGI_LICENSE_KEY
+        - name: BITCODE_LICENSE_KEY
           valueFrom:
             secretKeyRef:
               name: engi-secrets
@@ -203,7 +203,7 @@ spec:
 ```
 Reviewer: "Analyze this PR for security, performance, and maintainability issues"
 
-Engi MCP: 🔍 Analyzed 247 lines across 8 files
+Bitcode MCP: 🔍 Analyzed 247 lines across 8 files
           ⚠️  3 security concerns identified and fixed
           🚀 2 performance optimizations applied
           📚 Documentation coverage increased to 95%
@@ -214,7 +214,7 @@ Engi MCP: 🔍 Analyzed 247 lines across 8 files
 ```
 Architect: "Migrate our monolith to microservices with zero downtime"
 
-Engi MCP: 📋 Created migration plan for 15 services
+Bitcode MCP: 📋 Created migration plan for 15 services
           🔄 Generated API contracts and service boundaries  
           🧪 Created comprehensive test suites
           📦 Built Docker containers and K8s manifests
@@ -225,7 +225,7 @@ Engi MCP: 📋 Created migration plan for 15 services
 ```
 DevOps: "Our API response times have increased 40% this week"
 
-Engi MCP: 📈 Analyzed 2.3M requests across 48 endpoints
+Bitcode MCP: 📈 Analyzed 2.3M requests across 48 endpoints
           🎯 Identified 3 database query bottlenecks
           ⚡ Applied indexing and query optimizations
           📊 Response times improved by 65%
@@ -248,7 +248,7 @@ Engi MCP: 📈 Analyzed 2.3M requests across 48 endpoints
 
 ## 📈 Credits & Usage
 
-Engi uses a credit-based model across the platform, including MCP-invoked operations. For Deliverable pipelines executed via MCP:
+Bitcode uses a credit-based model across the platform, including MCP-invoked operations. For Deliverable pipelines executed via MCP:
 
 - Credits are reserved up front based on an estimate.
 - Actual credits consumed are finalized after execution; unused credits are automatically refunded.
@@ -290,4 +290,4 @@ Refer to your organization’s credits page for balances and top-ups.
 
 **Ready to revolutionize your engineering workflow?**
 
-[**Start Free Trial**](https://engi.com/mcp/trial) | [**Schedule Demo**](https://engi.com/mcp/demo) | [**View Documentation**](https://docs.engi.com/mcp)
+[**Start Free Trial**](https://bitcode.dev/docs) | [**Schedule Demo**](https://bitcode.dev/docs) | [**View Documentation**](https://docs.bitcode.dev/mcp)

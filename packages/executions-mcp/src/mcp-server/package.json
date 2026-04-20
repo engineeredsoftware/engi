@@ -2,7 +2,7 @@
   "name": "@bitcode/mcp-server",
   "version": "0.0.1", 
   "private": true,
-  "description": "Engi's Model Context Protocol server - The ultimate engineering intelligence platform",
+  "description": "Bitcode's Model Context Protocol server - market infrastructure for need measurement and engineering workflows",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

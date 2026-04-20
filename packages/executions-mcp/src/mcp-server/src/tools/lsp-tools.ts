@@ -1,5 +1,5 @@
 /**
- * Engi MCP Language Server Protocol (LSP) Integration Tools
+ * Bitcode MCP Language Server Protocol (LSP) Integration Tools
  * 
  * COMPLETE LSP INTELLIGENCE - Deep semantic analysis, code understanding,
  * and intelligent navigation across entire codebases with multi-language support.
@@ -723,7 +723,7 @@ async function getCodeActions(
 export function registerLspTools(): MCPTool[] {
   return [
     {
-      name: 'engi://lsp/semantic/analyze',
+      name: 'bitcode://lsp/semantic/analyze',
       description: `Deep semantic analysis engine with symbol resolution and dependency mapping.
 
 Advanced semantic understanding capabilities:
@@ -741,7 +741,7 @@ Provides comprehensive code understanding for intelligent development assistance
     },
 
     {
-      name: 'engi://lsp/intelligence/navigate',
+      name: 'bitcode://lsp/intelligence/navigate',
       description: `Advanced code navigation and intelligent refactoring with change impact analysis.
 
 Sophisticated code intelligence features:
@@ -759,7 +759,7 @@ Enables confident code navigation and refactoring with enterprise-grade safety.`
     },
 
     {
-      name: 'engi://lsp/diagnostic/analyze',
+      name: 'bitcode://lsp/diagnostic/analyze',
       description: `Comprehensive diagnostic engine with multi-dimensional code quality analysis.
 
 Advanced diagnostic capabilities:
@@ -785,7 +785,7 @@ Provides comprehensive code health assessment with actionable insights.`,
     },
 
     {
-      name: 'engi://lsp/workspace/intelligence',
+      name: 'bitcode://lsp/workspace/intelligence',
       description: `Workspace-wide intelligence with architectural insights and project understanding.
 
 Comprehensive workspace analysis:
