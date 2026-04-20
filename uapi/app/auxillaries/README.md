@@ -26,11 +26,11 @@ Legacy `/orbitals/*` links are compatibility-only and should redirect here witho
 - `components/AuxillariesSurface.tsx`, `components/AuxillariesContent.tsx`, `components/AuxillariesLoginPane.tsx`
   Canonical auxillary shell, contained reading surface, and sign-in entry owners.
 - `components/Auxillaries{Profile,Connects,Interfaces,BTD}Pane.tsx`
-  Canonical pane owners imported by the auxillary surface; retained orbitals-pane implementations sit behind these wrappers until full fifth-gate retirement is complete.
+  Canonical pane owners imported by the auxillary surface; fifth-gate continues moving retained orbitals-pane internals behind these canonical auxillary owners until compatibility wrappers are fully retired.
 - `components/shared/*`
   Canonical auxillary tabs and workspace-panel carriers for the focused route and contained overlay.
 - `../orbitals/components/*`
-  Compatibility route wrappers plus retained pane/header internals reused behind canonical auxillary pane owners while deeper fifth-gate retirement remains open.
+  Compatibility route wrappers plus retained pane/header internals still being retired behind canonical auxillary ownership during fifth gate.
 - `../api/auxillaries/*`
   Canonical auxillary API owners for profile, Connects, notifications, onboarding, model preferences, BTD balance history, BTD transaction history, API keys, and data-share posture.
 

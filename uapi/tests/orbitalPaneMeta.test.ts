@@ -1,23 +1,23 @@
 import {
-  getOrbitalOpenActionLabel,
-  getOrbitalRouteSegment,
-  normalizeOrbitalPane,
-} from '@/app/orbitals/components/orbital-pane-meta';
+  getAuxillaryOpenActionLabel,
+  getAuxillaryRouteSegment,
+  normalizeAuxillaryPane,
+} from '@/app/auxillaries/components/auxillary-pane-meta';
 
-describe('orbital-pane-meta', () => {
+describe('auxillary-pane-meta orbital compatibility', () => {
   it('uses profile as the canonical profile route segment', () => {
-    expect(getOrbitalRouteSegment('profile')).toBe('profile');
+    expect(getAuxillaryRouteSegment('profile')).toBe('profile');
   });
 
   it('keeps legacy route aliases compatible', () => {
-    expect(normalizeOrbitalPane('profile')).toBe('profile');
-    expect(normalizeOrbitalPane('users')).toBe('profile');
-    expect(normalizeOrbitalPane('models')).toBe('interfaces');
-    expect(normalizeOrbitalPane('credits')).toBe('btd');
+    expect(normalizeAuxillaryPane('profile')).toBe('profile');
+    expect(normalizeAuxillaryPane('users')).toBe('profile');
+    expect(normalizeAuxillaryPane('models')).toBe('interfaces');
+    expect(normalizeAuxillaryPane('credits')).toBe('btd');
   });
 
   it('keeps orbital entry actions user-facing and specific when a target orbital is provided', () => {
-    expect(getOrbitalOpenActionLabel()).toBe('Open Auxillaries fullscreen');
-    expect(getOrbitalOpenActionLabel('connects')).toBe('Open Connects fullscreen');
+    expect(getAuxillaryOpenActionLabel()).toBe('Open Auxillaries fullscreen');
+    expect(getAuxillaryOpenActionLabel('connects')).toBe('Open Connects fullscreen');
   });
 });

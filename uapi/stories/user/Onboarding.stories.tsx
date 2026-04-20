@@ -1,20 +1,20 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import OnboardingPane from '@/app/orbitals/components/Orbital';
+import AuxillariesContent from '@/app/auxillaries/components/AuxillariesContent';
 
 type OnboardingStep = 'profile' | 'github' | 'payment' | 'completed';
 
 const steps: OnboardingStep[] = ['profile', 'github', 'payment', 'completed'];
 
 const meta = {
-  title: 'Orbitals/Onboarding/Orbital',
-  component: OnboardingPane,
+  title: 'Bitcode/Auxillaries/Onboarding',
+  component: AuxillariesContent,
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'dark' },
   },
-} satisfies Meta<typeof OnboardingPane>;
+} satisfies Meta<typeof AuxillariesContent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -32,7 +32,7 @@ export const ProfileStep: Story = {
   name: 'Step – Profile',
   render: () => (
     <div style={{ width: 500, height: 500 }}>
-      <OnboardingPane
+      <AuxillariesContent
         steps={steps}
         currentStep="profile"
         completedSteps={[]}
@@ -50,7 +50,7 @@ export const GithubStepCompleted: Story = {
   name: 'Step – GitHub (completed)',
   render: () => (
     <div style={{ width: 500, height: 500 }}>
-      <OnboardingPane
+      <AuxillariesContent
         steps={steps}
         currentStep="github"
         completedSteps={['profile']}
@@ -68,7 +68,7 @@ export const PaymentSuccess: Story = {
   name: 'Step – Payment success',
   render: () => (
     <div style={{ width: 500, height: 500 }}>
-      <OnboardingPane
+      <AuxillariesContent
         steps={steps}
         currentStep="payment"
         completedSteps={['profile', 'github']}

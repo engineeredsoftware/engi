@@ -2,14 +2,14 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import OrbitalsWorkspacePanels from '@/app/orbitals/components/shared/OrbitalsWorkspacePanels';
+import AuxillariesWorkspacePanels from '@/app/auxillaries/components/shared/AuxillariesWorkspacePanels';
 
-describe('OrbitalsWorkspacePanels', () => {
+describe('AuxillariesWorkspacePanels', () => {
   it('renders contained orbital panels with user-facing layer labels and only opens ready orbitals', () => {
     const onStepClick = jest.fn();
 
     render(
-      <OrbitalsWorkspacePanels
+      <AuxillariesWorkspacePanels
         steps={['connects', 'interfaces', 'profile', 'btd']}
         currentStep="interfaces"
         availableSteps={['connects', 'interfaces', 'profile']}

@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import OnboardingPane from "../app/orbitals/components/Orbital";
+import AuxillariesContent from "../app/auxillaries/components/AuxillariesContent";
 
 const steps = ["profile", "connects", "credits", "models"] as const;
 type Step = typeof steps[number];
 
-const meta: Meta<typeof OnboardingPane> = {
-  title: "Kitchen Sink/Orbitals/Onboarding",
-  component: OnboardingPane,
+const meta: Meta<typeof AuxillariesContent> = {
+  title: "Kitchen Sink/Auxillaries/Onboarding",
+  component: AuxillariesContent,
   args: {
     steps: steps as unknown as string[],
     currentStep: "profile" as Step,
@@ -20,12 +20,12 @@ const meta: Meta<typeof OnboardingPane> = {
 
 export default meta;
 
-type Story = StoryObj<typeof OnboardingPane>;
+type Story = StoryObj<typeof AuxillariesContent>;
 
 export const Primary: Story = {
   render: (args) => (
     <div className="h-screen w-full bg-neutral-900 flex items-center justify-center">
-      <OnboardingPane
+      <AuxillariesContent
         {...args}
         onStepClick={() => {}}
         renderStepContent={() => <div className="text-white">Step Content</div>}

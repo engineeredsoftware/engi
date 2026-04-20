@@ -2,14 +2,14 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import OrbitalsPaneTabs from '@/app/orbitals/components/shared/OrbitalsPaneTabs';
+import AuxillariesPaneTabs from '@/app/auxillaries/components/shared/AuxillariesPaneTabs';
 
-describe('OrbitalsPaneTabs', () => {
+describe('AuxillariesPaneTabs', () => {
   it('renders calmer application tabs and only fires for available steps', () => {
     const onStepClick = jest.fn();
 
     render(
-      <OrbitalsPaneTabs
+      <AuxillariesPaneTabs
         mode="auxillaries"
         steps={['connects', 'interfaces', 'profile', 'btd']}
         currentStep="connects"
