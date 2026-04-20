@@ -2,7 +2,7 @@
   "name": "@bitcode/chatgptapp",
   "version": "0.0.1",
   "private": true,
-  "description": "Engi ChatGPT App MCP server scaffolding",
+  "description": "Bitcode ChatGPT App MCP server scaffolding",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {

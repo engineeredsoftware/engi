@@ -1,4 +1,4 @@
-import { getEngiTools, type EngiToolExecutionResult } from '../tools';
+import { getBitcodeTools, type BitcodeToolExecutionResult } from '../tools';
 
 jest.mock('@bitcode/generic-tools-simple-system-text-search', () => ({
   simpleSystemTextSearch: { execute: jest.fn() },
@@ -63,7 +63,7 @@ This product delivers voice-first social conversations for builders.
     });
   });
 
-  const tools = getEngiTools();
+  const tools = getBitcodeTools();
   const findTool = (name: string) => {
     const tool = tools.find((t) => t.name === name);
     if (!tool) {
@@ -72,7 +72,7 @@ This product delivers voice-first social conversations for builders.
     return tool;
   };
 
-  const runTool = async <TResult extends EngiToolExecutionResult = EngiToolExecutionResult>(
+  const runTool = async <TResult extends BitcodeToolExecutionResult = BitcodeToolExecutionResult>(
     name: string,
     args: Record<string, unknown>
   ): Promise<TResult> => {
@@ -147,7 +147,7 @@ This product delivers voice-first social conversations for builders.
       'use_vercel_read_external_mcp',
       {
         request: 'list_deployments',
-        payload: { projectId: 'prj_Yapper', teamId: 'team_engi', limit: 2 },
+        payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', limit: 2 },
       }
     );
     expect(result.metadata.provider).toBe('vercel');
@@ -159,7 +159,7 @@ This product delivers voice-first social conversations for builders.
       'use_vercel_write_external_mcp',
       {
         request: 'deploy_to_vercel',
-        payload: { projectId: 'prj_Yapper', teamId: 'team_engi', message: 'Demo deploy' },
+        payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Demo deploy' },
       }
     );
     expect(result.metadata.provider).toBe('vercel');

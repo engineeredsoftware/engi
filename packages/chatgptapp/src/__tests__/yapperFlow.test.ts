@@ -1,4 +1,4 @@
-import { getEngiTools, type EngiToolExecutionResult } from '../tools';
+import { getBitcodeTools, type BitcodeToolExecutionResult } from '../tools';
 
 const listCommitsMock = jest.fn();
 
@@ -34,14 +34,14 @@ describe('Yapper demo flow', () => {
       {
         sha: '1111111',
         message: 'Bootstrap Yapper timeline',
-        author: { name: 'Engi' },
-        url: 'https://github.com/engi/yapper/commit/1111111'
+        author: { name: 'Bitcode' },
+        url: 'https://github.com/engineeredsoftware/yapper/commit/1111111'
       },
       {
         sha: '2222222',
         message: 'Wire optimistic composer',
         author: { name: 'Builder' },
-        url: 'https://github.com/engi/yapper/commit/2222222'
+        url: 'https://github.com/engineeredsoftware/yapper/commit/2222222'
       }
     ]);
     simpleSystemTextSearchExecute.mockResolvedValue([
@@ -87,8 +87,8 @@ This product delivers voice-first social conversations for builders.
     });
   });
 
-  const tools = getEngiTools();
-  const runTool = async <TResult extends EngiToolExecutionResult = EngiToolExecutionResult>(
+  const tools = getBitcodeTools();
+  const runTool = async <TResult extends BitcodeToolExecutionResult = BitcodeToolExecutionResult>(
     name: string,
     args: Record<string, unknown>
   ): Promise<TResult> => {
@@ -178,7 +178,7 @@ This product delivers voice-first social conversations for builders.
     // Step 7: Vercel status check
     const vercelStatus = await runTool<{ answer: { deployments: unknown[] } }>('use_vercel_read_external_mcp', {
       request: 'list_deployments',
-      payload: { projectId: 'prj_Yapper', teamId: 'team_engi' },
+      payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode' },
     });
     expect((vercelStatus.answer as any).deployments).toBeInstanceOf(Array);
 
@@ -199,7 +199,7 @@ This product delivers voice-first social conversations for builders.
     // Step 10: Kick off a preview deploy
     const vercelDeploy = await runTool<{ result: { readyState: string } }>('use_vercel_write_external_mcp', {
       request: 'deploy_to_vercel',
-      payload: { projectId: 'prj_Yapper', teamId: 'team_engi', message: 'Preview deploy after optimistic UI work.' },
+      payload: { projectId: 'prj_Yapper', teamId: 'team_bitcode', message: 'Preview deploy after optimistic UI work.' },
     });
     expect((vercelDeploy.result as any).readyState).toBe('BUILDING');
 

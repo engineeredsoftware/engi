@@ -67,8 +67,8 @@ export default function ReadLightpaper({ reavealingSoon = false }: ReadLightpape
         {/* CTA */}
         <a href="/lightpaper" className="group relative inline-flex items-center cursor-pointer">
           <span className="relative inline-block">
-            <span className="relative z-10 engi-text text-sm desktop:text-base tracking-wide leading-6">Read&nbsp;Blog&nbsp;Post</span>
-            <span className="absolute left-0 top-0 z-0 engi-text-glow text-sm desktop:text-base tracking-wide leading-6">Read&nbsp;Blog&nbsp;Post</span>
+            <span className="relative z-10 bitcode-text text-sm desktop:text-base tracking-wide leading-6">Read&nbsp;Blog&nbsp;Post</span>
+            <span className="absolute left-0 top-0 z-0 bitcode-text-glow text-sm desktop:text-base tracking-wide leading-6">Read&nbsp;Blog&nbsp;Post</span>
           </span>
           <ChevronRight className="ml-1 size-3 desktop:size-4 transition-all duration-300 ease-out group-hover:translate-x-1 [filter:drop-shadow(0_0_5px_rgba(101,254,183,0.5))]" />
         </a>

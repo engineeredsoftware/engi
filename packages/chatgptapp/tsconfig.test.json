@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "../..",
     "types": ["jest", "node"],
     "noEmit": true,
     "paths": {
@@ -17,8 +18,8 @@
       "@bitcode/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/aws-doc-prompt.ts"],
       "@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/ssts-doc-prompt.ts"],
       "@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/web-search-doc-prompt.ts"],
-      "@bitcode/prompts/src/*": ["../prompts/src/*"],
-      "@bitcode/prompts": ["../prompts/src/index.ts"]
+      "@bitcode/prompts/src/*": ["packages/prompts/src/*"],
+      "@bitcode/prompts": ["packages/prompts/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/types/**/*.d.ts"],

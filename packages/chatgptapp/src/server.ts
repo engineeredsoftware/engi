@@ -3,7 +3,7 @@ import './env';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { getEngiTools, type EngiTool, type EngiToolExecutionResult } from './tools';
+import { getBitcodeTools, type BitcodeTool, type BitcodeToolExecutionResult } from './tools';
 
 function formatValidationErrors(errors: any[]): string {
   return errors
@@ -14,14 +14,14 @@ function formatValidationErrors(errors: any[]): string {
     .join('; ');
 }
 
-export class EngiMCPServer {
+export class BitcodeMCPServer {
   private readonly server: Server;
-  private readonly tools: EngiTool[];
+  private readonly tools: BitcodeTool[];
 
-  constructor(tools: EngiTool[] = getEngiTools()) {
+  constructor(tools: BitcodeTool[] = getBitcodeTools()) {
     this.server = new Server(
       {
-        name: 'engi-chatgpt-app',
+        name: 'bitcode-chatgpt-app',
         version: '0.0.1'
       },
       {
@@ -29,7 +29,7 @@ export class EngiMCPServer {
           tools: {}
         },
         instructions: [
-          'Engi is a design-driven engineering companion for ChatGPT.',
+          'Bitcode is a design-driven engineering companion for ChatGPT.',
           'Read tools answer questions, summarise designs, and surface DevOps context.',
           'Write tools (GitHub, AWS) require explicit confirmation before execution.',
           'Always ensure `.ai/PRODUCT.md`, `.ai/AGENTS.md`, and `.ai/MCPS.md` stay in sync with each turn.'
@@ -58,7 +58,7 @@ export class EngiMCPServer {
       const tool = this.tools.find((candidate) => candidate.name === name);
 
       if (!tool) {
-        throw new Error(`Unknown engi tool: ${name}`);
+        throw new Error(`Unknown bitcode tool: ${name}`);
       }
 
       const validation = tool.validator.safeParse(rawArguments);
@@ -67,7 +67,7 @@ export class EngiMCPServer {
         throw new Error(`Invalid arguments for ${name}: ${formatValidationErrors(validation.error.errors)}`);
       }
 
-        const result: EngiToolExecutionResult = await tool.execute(validation.data);
+        const result: BitcodeToolExecutionResult = await tool.execute(validation.data);
 
       return {
         content: [
@@ -90,19 +90,19 @@ export class EngiMCPServer {
   }
 }
 
-export function createEngiServer(tools: EngiTool[] = getEngiTools()): EngiMCPServer {
-  return new EngiMCPServer(tools);
+export function createBitcodeServer(tools: BitcodeTool[] = getBitcodeTools()): BitcodeMCPServer {
+  return new BitcodeMCPServer(tools);
 }
 
-export async function runEngiServer(): Promise<void> {
-  const server = new EngiMCPServer();
+export async function runBitcodeServer(): Promise<void> {
+  const server = new BitcodeMCPServer();
   await server.start();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-implied-eval -- runtime entry guard
 if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module) {
-  runEngiServer().catch((error) => {
-    console.error('[engi] MCP server failed to start', error);
+  runBitcodeServer().catch((error) => {
+    console.error('[bitcode] MCP server failed to start', error);
     process.exit(1);
   });
 }

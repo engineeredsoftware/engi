@@ -38,14 +38,14 @@ import {
   IMPROVE_DEVELOPING_BEHAVIOR_DOC_CODE_TOOL_PROMPT
 } from './prompts/chatgpt-tool-doc-prompts';
 
-export type EngiToolExecutionResult = Record<string, unknown>;
+export type BitcodeToolExecutionResult = Record<string, unknown>;
 
-export interface EngiTool<T extends z.ZodTypeAny = z.ZodTypeAny> {
+export interface BitcodeTool<T extends z.ZodTypeAny = z.ZodTypeAny> {
   name: string;
   description: string;
   inputSchema: Record<string, unknown>;
   validator: T;
-  execute: (args: z.infer<T>) => Promise<EngiToolExecutionResult>;
+  execute: (args: z.infer<T>) => Promise<BitcodeToolExecutionResult>;
   meta?: Record<string, unknown>;
 }
 
@@ -285,7 +285,7 @@ async function executeDepictDesignAsset(args: z.infer<typeof DEPICT_ASSET_VALIDA
   }
 
   const depictionLines = [
-    'Asset depiction generated for the Engi ChatGPT App.',
+    'Asset depiction generated for the Bitcode ChatGPT App.',
     args.focus ? `Primary focus: ${args.focus}.` : 'No specific focus provided.',
     args.notes ? `Notes from author: ${args.notes}.` : 'No author notes supplied.',
     'Further visual analysis can be layered on during a dedicated design review turn.'
@@ -482,7 +482,7 @@ async function executeCodeDesign(args: z.infer<typeof CODE_DESIGN_VALIDATOR>) {
 +++ b/${file.path}
 @@
 # Intent: ${file.intent}
-# TODO: Replace this comment with the concrete diff generated from Engi's plan.
+# TODO: Replace this comment with the concrete diff generated from Bitcode's plan.
 `).join('\n')
     : '# TODO: Identify concrete file edits required to satisfy the specification.';
 
@@ -645,7 +645,7 @@ async function executeWriteCodeChanges(args: z.infer<typeof WRITE_CODE_CHANGES_V
   if (args.operation === 'createRepository') {
     const provider = new GitHubProvider(getVCSConfig('github'));
     const repo = await provider.createRepository(auth, {
-      name: args.name ?? `engi-${Date.now()}`,
+      name: args.name ?? `bitcode-${Date.now()}`,
       description: args.description,
       private: args.private ?? false,
       autoInit: true
@@ -876,21 +876,21 @@ async function executeUseVercelReadExternalMcp(args: z.infer<typeof VERCEL_READ_
       break;
     case 'list_projects':
       answer = await vercelListProjectsTool.execute({
-        teamId: args.payload.teamId ?? 'team_engi'
+        teamId: args.payload.teamId ?? 'team_bitcode'
       });
       guidance = 'Projects retrieved—use this to anchor subsequent deployment or domain questions.';
       break;
     case 'get_project':
       answer = await vercelGetProjectTool.execute({
         projectId: args.payload.projectId ?? args.payload.name ?? 'prj_Yapper',
-        teamId: args.payload.teamId ?? 'team_engi'
+        teamId: args.payload.teamId ?? 'team_bitcode'
       });
       guidance = 'Project details ready. Summarise the stack, domains, and env vars for the user.';
       break;
     case 'list_deployments':
       answer = await vercelListDeploymentsTool.execute({
         projectId: args.payload.projectId ?? 'prj_Yapper',
-        teamId: args.payload.teamId ?? 'team_engi',
+        teamId: args.payload.teamId ?? 'team_bitcode',
         limit: args.payload.limit
       });
       guidance = 'Deployment history collected; highlight production vs preview to set expectations.';
@@ -898,21 +898,21 @@ async function executeUseVercelReadExternalMcp(args: z.infer<typeof VERCEL_READ_
     case 'get_deployment':
       answer = await vercelGetDeploymentTool.execute({
         idOrUrl: args.payload.idOrUrl ?? args.payload.deploymentId,
-        teamId: args.payload.teamId ?? 'team_engi'
+        teamId: args.payload.teamId ?? 'team_bitcode'
       });
       guidance = 'Deployment snapshot captured—surface status, target, and relevant commit details.';
       break;
     case 'get_deployment_events':
       answer = await vercelGetDeploymentEventsTool.execute({
         idOrUrl: args.payload.idOrUrl ?? args.payload.deploymentId,
-        teamId: args.payload.teamId ?? 'team_engi'
+        teamId: args.payload.teamId ?? 'team_bitcode'
       });
       guidance = 'Timeline ready. Walk the user through build → ready events to explain progress.';
       break;
     case 'get_deployment_build_logs':
       answer = await vercelGetDeploymentBuildLogsTool.execute({
         idOrUrl: args.payload.idOrUrl ?? args.payload.deploymentId,
-        teamId: args.payload.teamId ?? 'team_engi',
+        teamId: args.payload.teamId ?? 'team_bitcode',
         limit: args.payload.limit
       });
       guidance = 'Build logs fetched—call out failures or long-running steps in plain language.';
@@ -978,7 +978,7 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
     case 'deploy_to_vercel':
       result = await vercelDeployProjectTool.execute({
         projectId: args.payload.projectId ?? 'prj_Yapper',
-        teamId: args.payload.teamId ?? 'team_engi',
+        teamId: args.payload.teamId ?? 'team_bitcode',
         message: args.payload.message
       });
       guidance = 'Deployment requested—explain the pending status and remind the user to monitor readiness.';
@@ -989,9 +989,9 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
         expectedPrice: args.payload.expectedPrice,
         contact: args.payload.contact ?? {
           country: 'US',
-          firstName: 'Engi',
+          firstName: 'Bitcode',
           lastName: 'Builder',
-          email: 'builder@engi.dev'
+          email: 'builder@bitcode.dev'
         }
       });
       guidance = 'Domain purchase simulated—note renewal details and next steps for DNS configuration.';
@@ -1154,7 +1154,7 @@ const AWS_WRITE_SCHEMA = {
 // Tool registry
 // ---------------------------------------------------------------------------
 
-export function getEngiTools(): EngiTool[] {
+export function getBitcodeTools(): BitcodeTool[] {
   return [
     {
       name: 'answer_codebase_query',

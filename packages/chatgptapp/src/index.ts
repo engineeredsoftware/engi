@@ -1,2 +1,2 @@
-export { EngiMCPServer, createEngiServer, runEngiServer } from './server';
-export type { EngiTool, EngiToolExecutionResult } from './tools';
+export { BitcodeMCPServer, createBitcodeServer, runBitcodeServer } from './server';
+export type { BitcodeTool, BitcodeToolExecutionResult } from './tools';

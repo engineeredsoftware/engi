@@ -15,13 +15,13 @@ export const awsLambdaInvokeTool = passthroughTool((input) => ({
 }));
 
 export const awsS3GetObjectTool = passthroughTool((input) => ({
-  bucket: input.bucket ?? 'engi-demo',
+  bucket: input.bucket ?? 'bitcode-demo',
   key: input.key ?? 'config/demo.json',
   body: JSON.stringify({ message: 'mock s3 get' })
 }));
 
 export const awsDynamoGetItemTool = passthroughTool((input) => ({
-  table: input.table ?? 'engi-demo-table',
+  table: input.table ?? 'bitcode-demo-table',
   key: input.key ?? { pk: 'demo' },
   item: {
     status: 'mock',
@@ -40,14 +40,14 @@ export const awsMcpTool = passthroughTool((input) => ({
 }));
 
 export const awsS3PutObjectTool = passthroughTool((input) => ({
-  bucket: input.bucket ?? 'engi-demo',
+  bucket: input.bucket ?? 'bitcode-demo',
   key: input.key ?? 'config/demo.json',
   size: typeof input.body === 'string' ? input.body.length : 0,
   status: 'Uploaded'
 }));
 
 export const awsDynamoPutItemTool = passthroughTool((input) => ({
-  table: input.table ?? 'engi-demo-table',
+  table: input.table ?? 'bitcode-demo-table',
   item: input.item ?? {},
   status: 'Inserted'
 }));

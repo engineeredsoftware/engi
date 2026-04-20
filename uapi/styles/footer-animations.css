@@ -66,7 +66,7 @@
   margin: 0 0.25rem;
 }
 
-.engi-text {
+.bitcode-text {
   background: linear-gradient(
       90deg,
       rgba(101, 254, 183, 0.92) -10%,
@@ -88,7 +88,7 @@
   backface-visibility: hidden;
 }
 
-.engi-text-glow {
+.bitcode-text-glow {
   position: absolute;
   background: linear-gradient(
       90deg,
@@ -118,24 +118,24 @@
   transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.group\/text:hover .engi-text {
+.group\/text:hover .bitcode-text {
   letter-spacing: 0.25px;
   font-weight: 480;
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.group\/text:hover .engi-text::before {
+.group\/text:hover .bitcode-text::before {
   opacity: 1;
 }
 
-.group\/text:hover .engi-text::after {
+.group\/text:hover .bitcode-text::after {
   opacity: 1;
   transform: skewX(-45deg) translateX(200%);
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.group\/text:hover .engi-text_glow,
-.group\/text:hover .engi-text-glow {
+.group\/text:hover .bitcode-text_glow,
+.group\/text:hover .bitcode-text-glow {
   opacity: 0.25;
   filter: blur(14px) brightness(1.2);
   transform: translateZ(-1px) scale(1.02);
@@ -144,8 +144,8 @@
 
 /* Respect prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .engi-text,
-  .engi-text-glow,
+  .bitcode-text,
+  .bitcode-text-glow,
   .step-item {
     animation: none !important;
   }

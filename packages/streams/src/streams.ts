@@ -1,4 +1,4 @@
-// Canonical location for all generic streaming helpers used across Engi.
+// Canonical location for all generic streaming helpers used across Bitcode.
 // All callers should import from `@bitcode/streams`. No legacy re-exports remain.
 
 // DataStream type - properly typed for streaming data chunks

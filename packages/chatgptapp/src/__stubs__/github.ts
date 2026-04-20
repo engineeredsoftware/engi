@@ -15,7 +15,7 @@ export class GitHubProvider {
     return Array.from({ length: count }).map((_, index) => ({
       sha: `${owner}-${repo}-sha-${index}`,
       message: `Mock commit ${index + 1} on ${options.branch ?? 'main'}`,
-      author: { name: 'Engi Bot' },
+      author: { name: 'Bitcode Bot' },
       url: `https://github.com/${owner}/${repo}/commit/mock-${index}`
     }));
   }

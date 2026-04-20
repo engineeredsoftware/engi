@@ -13,7 +13,7 @@ function createTool<TInput extends Record<string, unknown>, TResult extends Reco
 }
 
 export const vercelListTeamsTool = createTool(() => ({
-  teams: [{ id: 'team_engi', name: 'Engi Builders' }]
+  teams: [{ id: 'team_bitcode', name: 'Bitcode Builders' }]
 }));
 
 export const vercelListProjectsTool = createTool(() => ({
