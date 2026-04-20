@@ -42,6 +42,22 @@ describe('/api/auxillaries/onboarding', () => {
     });
   });
 
+  it('returns the canonical anonymous onboarding payload when unauthenticated', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: null }, error: { message: 'Unauthorized' } });
+
+    const response = await GET();
+    const payload = await response.json();
+
+    expect(response.status).toBe(401);
+    expect(payload).toEqual({
+      completedPanes: [],
+      currentPane: 'profile',
+      completedSteps: [],
+      currentStep: 'profile',
+      isOnboardingComplete: false,
+    });
+  });
+
   it('appends a canonical auxillary pane and persists normalized onboarding state on POST', async () => {
     mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
 
@@ -66,7 +82,7 @@ describe('/api/auxillaries/onboarding', () => {
     const request = new Request('http://localhost/api/auxillaries/onboarding', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completedStep: 'btd' }),
+      body: JSON.stringify({ completedPane: 'btd' }),
     });
 
     const response = await POST(request);
@@ -84,6 +100,51 @@ describe('/api/auxillaries/onboarding', () => {
       completedSteps: ['profile', 'connects', 'interfaces', 'btd'],
       currentStep: null,
       isOnboardingComplete: true,
+    });
+  });
+
+  it('still accepts the legacy completedStep payload during compatibility transition', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+
+    const selectBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({
+        data: { onboarded_steps: '["profile"]' },
+        error: null,
+      }),
+    };
+
+    const updateBuilder: any = {
+      update: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockResolvedValue({ error: null }),
+    };
+
+    (supabaseAdmin.from as jest.Mock)
+      .mockReturnValueOnce(selectBuilder)
+      .mockReturnValueOnce(updateBuilder);
+
+    const request = new Request('http://localhost/api/auxillaries/onboarding', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completedStep: 'connects' }),
+    });
+
+    const response = await POST(request);
+    const payload = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(updateBuilder.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        onboarded_steps: JSON.stringify(['profile', 'connects']),
+      }),
+    );
+    expect(payload).toEqual({
+      completedPanes: ['profile', 'connects'],
+      currentPane: 'interfaces',
+      completedSteps: ['profile', 'connects'],
+      currentStep: 'interfaces',
+      isOnboardingComplete: false,
     });
   });
 });

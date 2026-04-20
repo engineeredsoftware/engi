@@ -29,13 +29,13 @@ describe('application-transactions', () => {
       created_at: '2026-04-16T11:00:00.000Z',
       type: 'pipeline:measure',
       status: 'running',
-      summary: 'Measured need pressure.',
+      summary: 'Completed a need-measurement pass.',
       repository: 'bitcode/research',
       branch: 'fit-review',
       participant: 'research-partner',
       isOwnTransaction: false,
       proofStatus: 'verification in flight',
-      closureFocus: 'need pressure',
+      closureFocus: 'need measurement',
       tokenTotal: 200,
       usdTotal: 0.75,
       creditsTotal: 6,
@@ -66,7 +66,7 @@ describe('application-transactions', () => {
     const records = normalizeApplicationTransactions(runs);
     const filters = {
       ...buildApplicationTransactionFilters(),
-      searchTerm: 'need pressure',
+      searchTerm: 'need measurement',
       ownership: 'network' as const,
       repository: 'bitcode/research',
     };

@@ -8,7 +8,7 @@
  * - **Real-time streaming**: Token-by-token response delivery
  * - **Performance optimization**: Adaptive throttling and memory management
  * - **Error resilience**: Circuit breaker pattern with automatic recovery
- * - **Pipeline integration**: Automatic tracking of deliverable/Measure pipelines
+ * - **Pipeline integration**: Automatic tracking of deliverable and need-measurement pipelines
  * - **Memory efficiency**: Smart token buffering with auto-pruning
  * - **Health monitoring**: Real-time performance metrics and health checks
  * 
@@ -131,7 +131,7 @@ function createThrottle<T extends (...args: any[]) => void>(
  * 
  * ## Features
  * - **Real-time streaming**: Token-by-token response delivery via Server-Sent Events
- * - **Pipeline integration**: Automatic tracking and triggering of deliverable/Measure pipelines
+ * - **Pipeline integration**: Automatic tracking and triggering of deliverable and need-measurement pipelines
  * - **Performance optimization**: Adaptive throttling (default 20 FPS) and memory management
  * - **Error resilience**: Circuit breaker pattern with automatic recovery
  * - **Memory efficiency**: Smart token buffering with configurable limits

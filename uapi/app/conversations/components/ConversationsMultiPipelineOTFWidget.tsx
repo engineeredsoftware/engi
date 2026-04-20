@@ -212,7 +212,7 @@ export const MultiPipelineOTFWidget: React.FC = () => {
               Deliverables: {activePipelines.filter(p => (p.type || p.pipeline_type) === 'deliverable').length}
             </span>
             <span>
-              Measure: {activePipelines.filter(p => (p.type || p.pipeline_type) === 'measure').length}
+              Need measurement: {activePipelines.filter(p => (p.type || p.pipeline_type) === 'measure').length}
             </span>
           </div>
         </div>
@@ -242,7 +242,7 @@ export const MultiPipelineOTFWidget: React.FC = () => {
             >
               <option value="">Select Pipeline Type</option>
               <option value="deliverable">Deliverables</option>
-              <option value="measure">Measure</option>
+              <option value="measure">Need measurement</option>
             </select>
           )}
 

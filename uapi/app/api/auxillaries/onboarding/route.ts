@@ -5,6 +5,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 
 import {
   buildAuxillaryOnboardingPayload,
+  type AuxillaryOnboardingUpdatePayload,
   normalizeCompletedAuxillaryPane,
   parseStoredAuxillarySteps,
   serializeAuxillarySteps,
@@ -27,7 +28,7 @@ export async function GET() {
   } = await supabase.auth.getUser();
 
   if (!user || userError) {
-    return NextResponse.json(buildOnboardingPayload([...DEFAULT_COMPLETED_STEPS]), { status: 401 });
+    return NextResponse.json(buildAuxillaryOnboardingPayload([...DEFAULT_COMPLETED_STEPS]), { status: 401 });
   }
 
   const { data: profile } = await supabaseAdmin
@@ -56,14 +57,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  let body: { completedStep?: string } = {};
+  let body: AuxillaryOnboardingUpdatePayload = {};
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const completedStep = normalizeCompletedAuxillaryPane(body.completedStep);
+  const completedStep = normalizeCompletedAuxillaryPane(body.completedPane ?? body.completedStep);
 
   const { data: profile } = await supabaseAdmin
     .from('user_profiles')

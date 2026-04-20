@@ -37,7 +37,7 @@ export const decorators = [
     • fullscreen (layout already set)  
     • dark theme    
     • subtle emerald grid pattern behind everything (re-uses .grid-background
-      class from conversations fullscreen styles so we inherit Engi brand).  
+      class from conversations fullscreen styles so we inherit Bitcode visual language).  
     • Components centred automatically via flex when they don’t specify their
       own width (makes single-item stories look polished).  
     • Heavy OrbitalBackground removed (still importable per-story if desired)

@@ -264,7 +264,7 @@ job_status: 'pending' | 'claimed' | 'running' | 'completed' | 'failed'
 ## API Alignment
 
 ### Endpoint Patterns
-- `/api/executions/*` - Unified Executions API (use `type=pipeline:deliverables`; additional types such as `pipeline:measure` are reserved but inactive)
+- `/api/executions/*` - Unified Executions API (use `type=pipeline:deliverables`; the reserved need-measurement execution primitive still uses `type=pipeline:measure` and remains inactive)
 - `/api/runs/*` - Pipeline execution
 - `/api/user/*` - User management
 - `/api/credits/*` - Credit operations
@@ -357,7 +357,7 @@ supabase db diff --prod
 ### Phase 2 Features (Next)
 - Organizations & team collaboration
 - Multi-VCS support (GitLab, Bitbucket)
-- Measure pipeline (dataset + $ENGI token integration — see `uapi/app/(root)/components/MarketingTokenMetricsSection.tsx`)
+- Need-measurement pipeline (dataset + Bitcode issuance/readiness integration — see `uapi/app/(root)/components/MarketingTokenMetricsSection.tsx`)
 
 ### Phase 3 Features (Later)
 - Marketplace & procurement

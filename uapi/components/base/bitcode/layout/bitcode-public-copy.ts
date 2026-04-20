@@ -44,7 +44,7 @@ export const BITCODE_PUBLIC_COPY = {
     badge: '6 stages',
     stages: [
       { number: '01', stage: 'give' },
-      { number: '02', stage: 'measure' },
+      { number: '02', stage: 'need' },
       { number: '03', stage: 'fit' },
       { number: '04', stage: 'prove' },
       { number: '05', stage: 'settle' },

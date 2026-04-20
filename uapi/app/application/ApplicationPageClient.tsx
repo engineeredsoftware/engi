@@ -49,7 +49,7 @@ const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
 function deriveClosureFocus(type?: string | null) {
   if (!type) return 'application closure';
   if (type.includes('deliverable')) return 'branch artifacts + deliverables';
-  if (type.includes('measure')) return 'fit verification + measurement';
+  if (type.includes('measure')) return 'fit verification + need measurement';
   if (type.includes('proof')) return 'proof-family refresh';
   return 'transaction detail + consequence reading';
 }

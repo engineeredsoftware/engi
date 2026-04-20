@@ -29,7 +29,7 @@ const config: StorybookConfig = {
       new TsconfigPathsPlugin({ extensions: config.resolve.extensions })
     );
     config.resolve.alias = config.resolve.alias || {};
-    // Legacy generic-agents alias to unified @engi/agents
+    // Legacy generic-agents umbrella alias to unified Bitcode agents
     const agentPkgPath = path.resolve(
       __dirname,
       '..',
@@ -38,12 +38,8 @@ const config: StorybookConfig = {
       'src',
       'index.ts'
     );
-    config.resolve.alias['@engi/generic-agents'] = agentPkgPath;
-    config.resolve.alias['@engi/agents'] = agentPkgPath;
-
-    // Map newly added email templates package to its source so Storybook can import without prebuild
-    const emailPkgPath = path.resolve(__dirname, '..', 'packages', 'email-templates', 'src', 'index.ts');
-    config.resolve.alias['@engi/email-templates'] = emailPkgPath;
+    config.resolve.alias['@bitcode/generic-agents'] = agentPkgPath;
+    config.resolve.alias['@bitcode/agents'] = agentPkgPath;
     return config;
   },
 };

@@ -473,7 +473,7 @@ Critical gates (confidence = 0):
 - **Path**: `/app/executions/`
 - **Routes**:
 - `/executions?type=pipeline:deliverables` (Deliverables – GA‑1)
-- `/executions?type=pipeline:measure` (reserved Measure placeholder that currently redirects to deliverables)
+- `/executions?type=pipeline:measure` (reserved need-measurement placeholder that currently redirects to deliverables)
 
 **Key Components**:
 - `ExecutionsPage`: Main page container

@@ -339,7 +339,7 @@ The `uapi/middleware.ts` file implements GA-1 route protection:
 const POST_GA1_ROUTES = [
   '/api/organizations',
   '/api/invitations',
-  '/api/measure',        // placeholder for Measure pipeline
+  '/api/measure',        // placeholder for the need-measurement pipeline primitive
   '/api/conversations',
   '/api/user/api-keys',
   '/api/integrations/gitlab',

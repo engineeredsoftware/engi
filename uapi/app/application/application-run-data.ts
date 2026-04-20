@@ -38,11 +38,11 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     closureFocus: 'branch artifacts + deliverables',
   },
   {
-    id: 'mock-run-measurement-pass',
+    id: 'mock-run-need-measurement-pass',
     created_at: '2026-04-16T11:12:00.000Z',
     type: 'pipeline:measure',
     status: 'completed',
-    summary: 'Measured fit pressure, surfaced ranked verification evidence, and refreshed ledger posture.',
+    summary: 'Ran a need-measurement pass, surfaced ranked verification evidence, and refreshed ledger posture.',
     repository: 'bitcode/bitcode',
     branch: 'fit-pressure/review',
     participant: 'research-partner',
@@ -54,7 +54,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     usdTotal: 3.11,
     averageLatencyMs: 920,
     proofStatus: 'verification witness refreshed',
-    closureFocus: 'fit verification + ledger refresh',
+    closureFocus: 'need measurement + ledger refresh',
   },
   {
     id: 'mock-run-proof-refresh',
@@ -125,7 +125,7 @@ export const MOCK_RUN_DELIVERABLES: Record<string, DeliverablesDoc> = {
     summary:
       'The branch remediation pack now reads as one transactions surface. You can inspect the proposed pull request, reviews, issues, and disclosure notes without abandoning the main ledger window.',
   },
-  'mock-run-measurement-pass': {
+  'mock-run-need-measurement-pass': {
     pullRequest: null,
     pullRequestReviews: null,
     issues: [
@@ -225,29 +225,29 @@ export const MOCK_RUN_ACTIVITY: Record<
     isStreamingComplete: true,
     generationCount: 2,
   },
-  'mock-run-measurement-pass': {
-    output: ['[pipeline:running]', '[phase:running] Measurement refresh', '[completion]'].join('\n'),
+  'mock-run-need-measurement-pass': {
+    output: ['[pipeline:running]', '[phase:running] Need measurement refresh', '[completion]'].join('\n'),
     outputDetails: {
       '[pipeline:running]': { type: 'pipeline', status: 'running', timestamp: '2026-04-16T11:12:04.000Z' },
-      '[phase:running] Measurement refresh': {
+      '[phase:running] Need measurement refresh': {
         type: 'phase',
         status: 'running',
-        phase: 'Measurement refresh',
+        phase: 'Need measurement refresh',
         timestamp: '2026-04-16T11:12:20.000Z',
       },
       '[completion]': { type: 'completion', timestamp: '2026-04-16T11:13:02.000Z' },
     },
     executionState: {
-      phase: 'Measurement refresh',
-      agent: 'Fit analyzer',
+      phase: 'Need measurement refresh',
+      agent: 'Need analyzer',
       step: 'chunk_then_sum',
-      generation: 'verification update',
+      generation: 'need verification update',
     },
     latestWorkUpdate: {
       id: 'wu-3',
       iteration: 1,
       confidence: 0.88,
-      prose: 'Normalization and decisive fit tiers were refreshed for the selected scenario.',
+      prose: 'Need-measurement normalization and decisive fit tiers were refreshed for the selected scenario.',
       timestamp: '2026-04-16T11:12:48.000Z',
     },
     iterationUpdates: [
@@ -255,7 +255,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-3',
         iteration: 1,
         confidence: 0.88,
-        prose: 'Normalization and decisive fit tiers were refreshed for the selected scenario.',
+        prose: 'Need-measurement normalization and decisive fit tiers were refreshed for the selected scenario.',
         timestamp: '2026-04-16T11:12:48.000Z',
       },
     ],

@@ -149,7 +149,7 @@ export const mockDeliverables = (handler: any) => withMocking({
   performanceTracking: true
 }, handler);
 
-// Measure pipeline placeholder reuses deliverables mocks until GA-2
+// Need-measurement pipeline placeholder reuses deliverables mocks until GA-2
 
 export const mockGitHub = (feature: 'GITHUB_ACCOUNTS' | 'GITHUB_REPOS' | 'GITHUB_BRANCHES' | 'GITHUB_COMMITS' | 'GITHUB_ISSUES' | 'GITHUB_FILES') => 
   (handler: any) => withMocking({

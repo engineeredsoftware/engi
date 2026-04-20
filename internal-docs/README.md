@@ -1,4 +1,4 @@
-# Engi Internal Documentation
+# Bitcode Internal Documentation
 
 **GA-1 Production Readiness Documentation**
 
@@ -22,7 +22,7 @@ Production readiness targeting early 2025.
 ### Architecture & Engineering
 
 #### 1. **[PHILOSOPHY-AND-VISION.md](./PHILOSOPHY-AND-VISION.md)**
-The vision and principles that guide Engi.
+The vision and principles that guide Bitcode.
 - Vision Overview
 - Core Thesis
 - Core engineering principles
@@ -159,7 +159,7 @@ Archive of experimental concepts.
 
 ### For Different Roles
 
-- **New to Engi?** → [PHILOSOPHY-AND-VISION.md](./PHILOSOPHY-AND-VISION.md)
+- **New to Bitcode?** → [PHILOSOPHY-AND-VISION.md](./PHILOSOPHY-AND-VISION.md)
 - **AI Engineer?** → [AI Engineering Transformation (AGENTS.md)](../AGENTS.md)
 - **Understanding Architecture?** → [EXECUTABLE-PIPELINES.md](./EXECUTABLE-PIPELINES.md)
 - **Working with Prompts?** → [PROMPT-ENGINEERING.md](./PROMPT-ENGINEERING.md)
@@ -171,7 +171,7 @@ Archive of experimental concepts.
 
 ### Frontend Quickstart (2‑minute ramp)
 
-- Import UI only from `@/components/base/shadcn/*`; import Engi primitives from `@/components/base/bitcode/*`.
+- Import UI only from `@/components/base/shadcn/*`; import Bitcode primitives from `@/components/base/bitcode/*`.
 - Use `ScrollContainer` for scroll regions; add a themed variant (`custom-scrollbar--thumb-purple` / `-emerald` / `-blue`).
 - Wrap heavy/animated containers: `GPUAcceleration`; wrap large off‑screen content: `ContentVisibility`.
 - Keep shared CSS in `app/styles/components.css`; don’t redefine scrollbars in feature CSS.
@@ -192,7 +192,7 @@ All documentation follows these principles:
 ## 🔄 Recent Updates
 
 - Renamed and reorganized all documentation for clarity
-- Merged redundant documents (ENGI-MASTER-GUIDE, SSO, REACT-QUERY-SETUP)
+- Merged redundant documents (legacy master guide, SSO, REACT-QUERY-SETUP)
 - Added comprehensive MCP tools documentation
 - Updated for GA-1 production readiness
 - Consolidated authentication and onboarding documentation
@@ -209,7 +209,7 @@ All documentation follows these principles:
 | Performance | ✅ Optimized | PERFORMANCE.md |
 #### 18. **[STYLE.md](./STYLE.md)**
 Frontend components + styling SSOT (GA‑1).
-- Base layers: `components/base/{engi,shadcn}`
+- Base layers: `components/base/{bitcode,shadcn}`
 - Styling SSOT: `app/styles/components.css`
 - Performance wrappers, ScrollContainer usage
 - Header composition with sibling panels

@@ -40,7 +40,7 @@ const MOCK_NOTIFICATIONS: OrbitalNotificationRow[] = [
     type: 'review',
     title: 'Review prompt',
     message: 'A retained execution primitive surfaced a review follow-through step.',
-    data: { runId: 'mock-run-measurement-pass' },
+    data: { runId: 'mock-run-need-measurement-pass' },
     is_read: true,
     created_at: '2026-04-16T10:56:00.000Z',
   },

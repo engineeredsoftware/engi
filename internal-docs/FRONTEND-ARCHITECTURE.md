@@ -1,7 +1,7 @@
 Bitcode V26 Frontend Architecture Guide
 
 Principles
-- Single surface for executions: GA‑1 ships only deliverables; the second executions tab is a Measure pipeline placeholder that currently mirrors deliverables postprocessed output.
+- Single surface for executions: GA‑1 ships only deliverables; the second executions tab is a need-measurement pipeline placeholder that currently mirrors deliverables postprocessed output while the underlying execution primitive still uses `measure`.
 - CSS Modules everywhere: local, predictable, and fast. No styled‑jsx.
 - Shared base primitives live in `app/components/base/bitcode`; vendor UI in `app/components/base/shadcn`.
 - Minimize global CSS; prefer module classes and :global only for legacy class names.

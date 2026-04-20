@@ -35,7 +35,7 @@ const sidebarOptions: [SidebarOption, SidebarOption] = [
   },
   {
     id: 'measure',
-    label: 'Measure',
+    label: 'Need Measurement',
     icon: <DocToggleIcon variant="single" />,
   }
 ];
@@ -136,7 +136,7 @@ export default function LeftSidebar() {
                   className="w-4 h-4 text-gray-300 sidebar-text"
                 />
                 <FlipText
-                  text={'Measure Executions'}
+                  text={'Need Measurement Executions'}
                   className="text-sm font-semibold text-emerald-300 sidebar-text"
                 />
               </div>

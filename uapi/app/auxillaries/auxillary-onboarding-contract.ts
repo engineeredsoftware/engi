@@ -13,6 +13,11 @@ export interface AuxillaryOnboardingPayload {
   isOnboardingComplete: boolean;
 }
 
+export interface AuxillaryOnboardingUpdatePayload {
+  completedPane?: string;
+  completedStep?: string;
+}
+
 export interface AuxillaryDataPayload {
   profile: unknown | null;
   githubConnection: unknown | null;
@@ -49,6 +54,10 @@ export function serializeAuxillarySteps(steps: readonly ConcreteAuxillaryPane[])
   return JSON.stringify(normalizeAuxillarySteps([...steps]));
 }
 
+export function isAuxillaryOnboardingComplete(steps: readonly ConcreteAuxillaryPane[]) {
+  return normalizeAuxillarySteps([...steps]).length === AUXILLARY_FLOW_STEPS.length;
+}
+
 export function buildAuxillaryOnboardingPayload(
   completedSteps: readonly ConcreteAuxillaryPane[],
 ): AuxillaryOnboardingPayload {
@@ -60,7 +69,7 @@ export function buildAuxillaryOnboardingPayload(
     currentPane,
     completedSteps: completedPanes,
     currentStep: currentPane,
-    isOnboardingComplete: completedPanes.length === AUXILLARY_FLOW_STEPS.length,
+    isOnboardingComplete: isAuxillaryOnboardingComplete(completedPanes),
   };
 }
 
@@ -100,7 +109,7 @@ export function buildAuxillaryDataPayload({
     modelPreferences,
     onboardedPanes,
     onboarded_steps: onboardedPanes,
-    isOnboardingComplete: onboardedPanes.length === AUXILLARY_FLOW_STEPS.length,
+    isOnboardingComplete: isAuxillaryOnboardingComplete(onboardedPanes),
   };
 }
 

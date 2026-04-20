@@ -46,6 +46,8 @@ Updates completed steps:
 }
 ```
 
+Compatibility note: the route still accepts `completedStep` while active callers converge on `completedPane`.
+
 ### GET /api/auxillaries/data
 Includes onboarding in user data response:
 ```json
@@ -191,7 +193,7 @@ During onboarding, only essential features are available:
 
 1. **Single Source of Truth**: `onboarded_steps` array eliminates dual-system complexity
 2. **Race Condition Prevention**: Per-step completion states prevent cross-pane interference
-3. **Models Optional**: Pre-populated in array, always available but not blocking
+3. **Canonical Pane Sequence**: The active onboarding sequence is `profile -> connects -> interfaces -> btd`
 4. **Clean Architecture**: No legacy fields, consistent naming, simple completion check
 5. **Consistent UI**: All non-essential features use same `AfterOnboardingOverlay` logic
 

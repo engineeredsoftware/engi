@@ -2,7 +2,7 @@
 
 Flat, provider‑specific reference for every third‑party service we touch — how it’s used in code, what customers experience, deployment/config keys, implementation details, routes, and data sync. Each provider uses a consistent set of headings where applicable.
 
-Note: Product page is `/executions?type=pipeline:deliverables`. The second tab is reserved for the upcoming Measure pipeline and currently routes back to deliverables. Third‑party service pages live under `/tps/[service]/...`.
+Note: Product page is `/executions?type=pipeline:deliverables`. The second tab is reserved for the upcoming need-measurement pipeline and currently routes back to deliverables while the underlying execution primitive still uses the `measure` pipeline type. Third‑party service pages live under `/tps/[service]/...`.
 
 ## Supabase
 

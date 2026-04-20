@@ -264,7 +264,7 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 Configure these in provider dashboards. Replace `https://app.example.com` with your production domain.
 
 - Supabase (OTP/OAuth overlay)
-  - Engi UI callback: `https://app.example.com/tps/supabase/callback`
+  - Bitcode UI callback: `https://app.example.com/tps/supabase/callback`
   - Email OTP links use `NEXT_PUBLIC_APP_URL` to construct the above.
   - Supabase Auth → Providers (Google/GitHub): authorized redirect is Supabase’s default `https://<your-supabase-domain>/auth/v1/callback`.
 

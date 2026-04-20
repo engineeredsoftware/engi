@@ -262,16 +262,16 @@ Common namespaces/keys:
 - `task`: `description` (AI Document classification lives in `.ai/` overlay stores; future pipeline types will introduce their own keys when implemented)
 - `config`: `iterationCount`, `computeEnabled?`, `multiAgentEnabled?`, `mcpConfig?`
 - `attachments`: `list`
-- `route/preprocessed`: `deliverables` snapshot plus `ai_documents` snapshot for AI Document overlays and Measure activation
+- `route/preprocessed`: `deliverables` snapshot plus `ai_documents` snapshot for AI Document overlays and need-measurement activation
 - `shipping/final_work_summary`: `summary`, `processingStats`, `repoSnapshot`, `deliverables?`
-- `postprocessed`: `result` (normalized deliverable payload; Measure-specific shapes will extend this schema)
+- `postprocessed`: `result` (normalized deliverable payload; need-measurement-specific shapes will extend this schema while the underlying primitive still uses `measure`)
 - RTS namespaces (header decision):
   - Deliverables: `execution-deliverable-pipeline-phase-validation-ready-to-ship-agent`
-  - Measure placeholder: `execution-measure-pipeline-phase-validation-ready-to-ship-agent`
+  - Need-measurement placeholder: `execution-measure-pipeline-phase-validation-ready-to-ship-agent`
 
 Typed helpers (from `@bitcode/execution-generics`):
 - Identity: `setExecutionIdentity(exec,{ id, correlationId })`, `getExecutionId(exec)`, `getCorrelationId(exec)`
-- RTS: `setValidationReadyToShip(exec, value, pipelineType)`, `getValidationReadyToShip(exec, ...)` (`pipelineType` is `'deliverable'` today; the Measure pipeline reuses the same helpers when enabled)
+- RTS: `setValidationReadyToShip(exec, value, pipelineType)`, `getValidationReadyToShip(exec, ...)` (`pipelineType` is `'deliverable'` today; the reserved need-measurement pipeline reuses the current `measure` primitive when enabled)
 - Agent namespace computation: `nsAgent(pipeline, phase, agent)`
 
 ## Pre‑/Post‑Processing Sequencing
@@ -383,7 +383,7 @@ class GateViolationError extends Error {
 ## Postprocessed (Header SSOT)
 
 - Deliverables: stored under `executions.output.postprocessed`.
-- Reserved path `ai_document_runs.context.postprocessed` tracks AI Document diff proposals and will extend to the Measure pipeline.
+- Reserved path `ai_document_runs.context.postprocessed` tracks AI Document diff proposals and will extend to the need-measurement pipeline.
 - All postprocessed payloads must expose `validationReady` so headers can show RTS results consistently.
 
 ## Practical Examples

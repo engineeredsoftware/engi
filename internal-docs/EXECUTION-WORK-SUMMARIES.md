@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the design and implementation of the Work Update system for Engi executions. The system provides real-time visibility into AI agent work during pipeline execution, creating an "intelligence escape hatch" where users can see not just what was done, but how and why it was done.
+This document outlines the design and implementation of the Work Update system for Bitcode executions. The system provides real-time visibility into AI agent work during pipeline execution, creating an "intelligence escape hatch" where users can see not just what was done, but how and why it was done.
 
 ## Customer Needs
 

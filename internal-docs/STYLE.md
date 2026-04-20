@@ -20,7 +20,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 
 ## Frontend Quickstart (Components + Styles)
 
-- Components: import UI from `@/components/base/shadcn/*`; import Engi primitives (ScrollContainer, ContentVisibility, GPUAcceleration, PageHeaderSection) from `@/components/base/bitcode/*`.
+- Components: import UI from `@/components/base/shadcn/*`; import Bitcode primitives (ScrollContainer, ContentVisibility, GPUAcceleration, PageHeaderSection) from `@/components/base/bitcode/*`.
 - Scrollbars: use `ScrollContainer` + SSOT variants (`custom-scrollbar--thumb-purple` / `custom-scrollbar-emerald` / `custom-scrollbar-blue`).
 - Performance: add `GPUAcceleration` around animated containers; use `ContentVisibility` for large off‑screen content with `containSize` when known.
 - Headers: keep neutral; render doc/cards as siblings when needed for performance/composition.
@@ -30,14 +30,14 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 ## Architecture Overview (Components + Styling)
 
 - Base layers live at `uapi/components/base`:
-  - `engi/`: first‑party Engi primitives (perf/layout/composition) — neutral, no theme
+  - `bitcode/`: first‑party Bitcode primitives (perf/layout/composition) — neutral, no theme
   - `<provider>/`: proper‑noun vendor families (e.g., `shadcn`) — explicit file imports, no re‑exports
 - App code imports only from base layers (SSOT); vendored registry under `components/ui/apps/www/registry` is fixtures only.
 - Lint guard: `.eslintrc.cjs` forbids `@/components/ui/*` in `uapi/app` and `uapi/components/vcs`.
 
 ### Base Layers (components/base)
 
-- Engi Primitives (`components/base/bitcode`)
+- Bitcode Primitives (`components/base/bitcode`)
   - `panels/ScrollContainer`: SSOT scrollbars for all scroll areas
   - `perf/ContentVisibility`: use for large off‑screen content; optional `containSize`
   - `perf/GPUAcceleration`: GPU hints for animated containers (avoid wrapping sticky ancestors)
@@ -49,7 +49,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
 
 ### Component Placement & Naming
 
-- Base Engi Components: flat under `uapi/components/base/bitcode/*.tsx` (no `ui/` nesting).
+- Base Bitcode Components: flat under `uapi/components/base/bitcode/*.tsx` (no `ui/` nesting).
   - Examples: `typing-animation.tsx`, `multi-line-typing-animation.tsx`, `quantum-button.tsx`, `dock.tsx`, `metal-plate.tsx`, `word-rotate.tsx`, `multi-agents-icon.tsx`, `particle-effect.tsx`.
 - Vendor Components: one-per-file under `uapi/components/base/shadcn/*` (no re-exports).
 - Page-Specific Components: colocate under the page namespace: `uapi/app/<feature>/components/*`.
@@ -65,7 +65,7 @@ Goal: Precise, minimal, durable style rules that scale. Keep the current look 1:
   - `@/components/base/bitcode/typing-animation`, `@/components/base/bitcode/word-rotate`, `@/components/base/bitcode/metal-plate`.
   - `@/components/base/shadcn/dialog`, `@/components/base/shadcn/select`.
 - Scroll areas: wrap with `ScrollContainer` (`@/components/base/bitcode/panels/ScrollContainer`) and apply a variant class.
-- Naming: `Feature_Component[_Subpart]` for page‑specific pieces; keep base Engi files flat under `components/base/bitcode`.
+- Naming: `Feature_Component[_Subpart]` for page‑specific pieces; keep base Bitcode files flat under `components/base/bitcode`.
 
 ## Headers + Sibling Panels
 
@@ -110,7 +110,7 @@ Experience Prefixes & Placement
 - Conversation*: conversations overlay scope — `app/components/conversations/*`.
 - Orbital*: overlays/settings scope — `app/components/orbital/*`.
 - Marketing*: marketing-only components — `app/components/marketing/*`.
-- Base Engi primitives: no prefix — `app/components/base/bitcode/*`.
+- Base Bitcode primitives: no prefix — `app/components/base/bitcode/*`.
 - ShadCN vendor primitives: `app/components/base/shadcn/*` (vendor family names the import; no app-specific prefix).
 
 See also: `internal-docs/FRONTEND-ARCHITECTURE.md` for the high-level map and conventions.
@@ -426,7 +426,7 @@ This appendix is a practical, example‑driven guide to building and evolving UI
 Promote to base (`components/base/bitcode/*` or `components/base/shadcn/*`) when ALL are true:
 - Reused (or planned reuse) across multiple features/pages.
 - Neutral API: no feature‑specific state, naming, or copy baked in.
-- Stable visual language consistent with Engi tokens; not an exploratory prototype.
+- Stable visual language consistent with Bitcode tokens; not an exploratory prototype.
 - Clear extension points (props/slots) without feature leakage.
 
 Keep page‑local (`app/<feature>/components/*`) when ANY are true:
@@ -534,7 +534,7 @@ Example:
 - Render doc/cards as siblings: `DeliverablesDocPanel`, `DeliverablesCardsPanel`.
 - Benefits: performance isolation, simpler composition, zero visual regret.
 
-### H. Reusable Engi Components (Base)
+### H. Reusable Bitcode Components (Base)
 
 Use directly from `components/base/bitcode`:
 - `typing-animation`, `multi-line-typing-animation`, `word-rotate`, `quantum-button`, `metal-plate`, `dock`, `multi-agents-icon`, `particle-effect`.
@@ -757,7 +757,7 @@ Notes
 
 - Imports & Providers
   - [ ] UI imports only from `@/components/base/shadcn/*`
-  - [ ] Engi primitives only from `@/components/base/bitcode/*`
+  - [ ] Bitcode primitives only from `@/components/base/bitcode/*`
   - [ ] No `@/components/ui/*` imports (lint passes)
   - [ ] New vendor components placed in `components/base/<provider>/*` (proper noun)
 
@@ -794,7 +794,7 @@ We keep a simple, optional harness to capture screenshots of key experiences for
 - Expected routes (local dev):
   - Deliverables page (summary/doc sibling visible)
   - Landing (for Big‑O in sidebar/fullscreen as applicable)
-  - (Optional) Measure pipeline placeholder (second executions tab) once that mode ships; until then it redirects to deliverables
+  - (Optional) need-measurement pipeline placeholder (second executions tab) once that mode ships; until then it redirects to deliverables
 
 Usage outline (local):
 1) Start the app locally: `pnpm dev` (ensure it’s at http://localhost:3000)
