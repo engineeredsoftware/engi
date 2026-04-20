@@ -9,7 +9,7 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
-jest.mock('@/app/orbitals/components/models/GlobalModelSelection', () => ({
+jest.mock('@/app/auxillaries/components/models/GlobalModelSelection', () => ({
   __esModule: true,
   default: function MockGlobalModelSelection({
     onApplyGlobalModel,
@@ -26,7 +26,7 @@ jest.mock('@/app/orbitals/components/models/GlobalModelSelection', () => ({
 
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('OrbitalsInterfacesPane', () => {
+describe('AuxillariesInterfacesPane', () => {
   beforeEach(() => {
     mockUseUserData.mockReturnValue({
       data: {
@@ -56,7 +56,7 @@ describe('OrbitalsInterfacesPane', () => {
       />,
     );
 
-    expect(screen.getAllByText('Orbital step 3')).toHaveLength(2);
+    expect(screen.getAllByText('Auxillary step 3')).toHaveLength(2);
     expect(screen.getByText(/Master-detail and conversation defaults/i)).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Shared instruction baseline/i })).toBeTruthy();
 

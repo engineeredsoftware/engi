@@ -17,7 +17,7 @@ jest.mock('@/hooks/useUserData', () => ({
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
-describe('OrbitalsBTDPane', () => {
+describe('AuxillariesBTDPane', () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -82,7 +82,7 @@ describe('OrbitalsBTDPane', () => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
     });
 
-    expect(screen.getByTestId('btd-step-badge')).toHaveTextContent('Orbital step 4');
+    expect(screen.getByTestId('btd-step-badge')).toHaveTextContent('Auxillary step 4');
     expect(screen.getByText(/Keep balances, identity, and membership readable together/i)).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Choose how \$BTD detail should read back into transactions/i })).toBeTruthy();
 

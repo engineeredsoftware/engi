@@ -6,7 +6,7 @@ import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/app/orbitals/components/OrbitalsDataSharingPanel', () => ({
+jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
   __esModule: true,
   default: function MockDataSharingPanel() {
     return null;
