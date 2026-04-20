@@ -389,7 +389,7 @@ const COMPETITOR_DATA: Record<string, Record<Column, Status>> = {
 /* Dynamically rank columns by competitor coverage                             */
 /* -------------------------------------------------------------------------- */
 
-// Helper: count how many competitors (excluding Engi) offer a given feature.
+// Helper: count how many competitors (excluding Bitcode) offer a given feature.
 const competitorNames = Object.keys(COMPETITOR_DATA).filter((n) => n !== "Bitcode");
 
 const columnGreenCount: Record<Column, number> = (COLUMNS as readonly Column[]).reduce(
@@ -781,14 +781,14 @@ export default function MarketingCompetitorTableSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: rowIdx * 0.04 }}
                   className={`relative ${row.name === "Bitcode"
-                    ? "marketing-engi-row-glow"
+                    ? "marketing-bitcode-row-glow"
                     : "border-t border-white/5"
                     }`}
                 >
                   {/* Company name */}
                   <th
                     className={`text-left font-medium px-2.5 py-2 whitespace-nowrap laptop:sticky laptop:left-0 backdrop-blur z-[1] relative flex items-center ${row.name === "Bitcode"
-                      ? "marketing-engi-logo-cell"
+                      ? "marketing-bitcode-logo-cell"
                       : "bg-black/30 text-gray-100 text-sm"
                       }`}
                   >
@@ -823,12 +823,12 @@ export default function MarketingCompetitorTableSection() {
                       >
                         {value === "✅" ? (
                           <CheckCircleIcon
-                            className={`inline text-brand-emerald ${row.name === "Bitcode" ? "h-9 w-9 marketing-engi-icon-glow" : "h-6 w-6"
+                            className={`inline text-brand-emerald ${row.name === "Bitcode" ? "h-9 w-9 marketing-bitcode-icon-glow" : "h-6 w-6"
                               }`}
                           />
                         ) : value === "±" ? (
                           <MinusCircleIcon
-                            className={`inline text-yellow-400 ${row.name === "Bitcode" ? "h-9 w-9 marketing-engi-icon-glow" : "h-6 w-6"
+                            className={`inline text-yellow-400 ${row.name === "Bitcode" ? "h-9 w-9 marketing-bitcode-icon-glow" : "h-6 w-6"
                               }`}
                           />
                         ) : value === "⏳" ? (
@@ -854,9 +854,9 @@ export default function MarketingCompetitorTableSection() {
                         ) : (
                           <XCircleIcon
                             className={`inline text-red-500 ${row.name === "Bitcode" && ORDERED_COLUMNS[colIdx] === "Local Interfaces"
-                              ? "h-9 w-9 marketing-engi-no-icon-glow"
+                              ? "h-9 w-9 marketing-bitcode-no-icon-glow"
                               : row.name === "Bitcode"
-                                ? "h-9 w-9 marketing-engi-icon-glow"
+                                ? "h-9 w-9 marketing-bitcode-icon-glow"
                                 : "h-6 w-6"
                               }`}
                           />

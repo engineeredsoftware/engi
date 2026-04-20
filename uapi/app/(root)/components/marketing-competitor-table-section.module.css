@@ -18,15 +18,15 @@
 .competitorSection :global(.marketing-glowing-logo-red) svg { animation: neonGlowRed 3.2s ease-in-out infinite; }
 .competitorSection :global(.marketing-glowing-label-red) { text-shadow: 0 0 4px rgba(239,68,68,0.6); }
 
-:global { @keyframes engiRowGlow {
+:global { @keyframes bitcodeRowGlow {
   from { background-position: 0% 50%; box-shadow: 0 0 22px rgba(103,254,183,0.2), 0 0 42px rgba(103,254,183,0.2); }
   50% { background-position: 100% 50%; box-shadow: 0 0 34px rgba(103,254,183,0.4), 0 0 60px rgba(103,254,183,0.4); }
   to { background-position: 0% 50%; box-shadow: 0 0 22px rgba(103,254,183,0.2), 0 0 42px rgba(103,254,183,0.2); }
 } }
-.competitorSection :global(.marketing-engi-row-glow) { background: linear-gradient(90deg, rgba(103,254,183,0.2) 0%, rgba(103,254,183,0.2) 50%, rgba(103,254,183,0.2) 100%); background-size: 200% 200%; animation: engiRowGlow 5.5s ease-in-out infinite; }
-.competitorSection :global(.marketing-engi-logo-cell) { background: linear-gradient(135deg, rgba(103,254,183,0.2) 0%, rgba(103,254,183,0.2) 100%); backdrop-filter: blur(4px); }
-.competitorSection :global(.marketing-engi-icon-glow) { filter: drop-shadow(0 0 4px rgba(103,254,183,0.4)) drop-shadow(0 0 10px rgba(103,254,183,0.4)); }
-.competitorSection :global(.marketing-engi-no-icon-glow) { filter: drop-shadow(0 0 4px rgba(239,68,68,0.6)) drop-shadow(0 0 10px rgba(239,68,68,0.6)); }
+.competitorSection :global(.marketing-bitcode-row-glow) { background: linear-gradient(90deg, rgba(103,254,183,0.2) 0%, rgba(103,254,183,0.2) 50%, rgba(103,254,183,0.2) 100%); background-size: 200% 200%; animation: bitcodeRowGlow 5.5s ease-in-out infinite; }
+.competitorSection :global(.marketing-bitcode-logo-cell) { background: linear-gradient(135deg, rgba(103,254,183,0.2) 0%, rgba(103,254,183,0.2) 100%); backdrop-filter: blur(4px); }
+.competitorSection :global(.marketing-bitcode-icon-glow) { filter: drop-shadow(0 0 4px rgba(103,254,183,0.4)) drop-shadow(0 0 10px rgba(103,254,183,0.4)); }
+.competitorSection :global(.marketing-bitcode-no-icon-glow) { filter: drop-shadow(0 0 4px rgba(239,68,68,0.6)) drop-shadow(0 0 10px rgba(239,68,68,0.6)); }
 
 :global { @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } }
 .competitorSection :global(.marketing-coming-soon-spin) { animation: slowSpin 8s linear infinite; }

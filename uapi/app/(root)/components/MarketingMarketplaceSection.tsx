@@ -87,7 +87,7 @@ interface Listing {
   title: string;
   tech: Array<"react" | "rust" | "python" | "solidity" | "typescript" | "swift">;
   /**
-   * Amount of Engi credits involved in this listing. This will be highlighted
+   * Amount of Bitcode credits involved in this listing. This will be highlighted
    * in the detail card together with the glowing "e" logo.
    */
   tokens: number;
@@ -734,7 +734,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                     </div>
                   </div>
 
-                  {/* Price / Engi amount / Avail row (center-anchored) */}
+                  {/* Price / Bitcode amount / Avail row (center-anchored) */}
                   <div className="flex flex-col tablet:flex-row items-center my-6 select-none gap-4 tablet:gap-0">
                     {/* Price (left, aligned to center) */}
                     <div className="flex-1 flex justify-end items-center gap-1">
@@ -743,7 +743,7 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
                         {'$' + detail.price.toLocaleString()}
                       </span>
                     </div>
-                    {/* Engi amount centre (always centered) */}
+                    {/* Bitcode amount centre (always centered) */}
                     <div className="flex-none flex items-center px-8">
                       <Image
                         src="/icons/logo.svg"

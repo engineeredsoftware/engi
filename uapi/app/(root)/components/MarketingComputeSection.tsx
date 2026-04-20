@@ -1,7 +1,7 @@
 "use client";
 
 /*
- * ComputeSection – Alt marketing section highlighting Engi’s on-demand
+ * ComputeSection – Alt marketing section highlighting Bitcode’s on-demand
  * virtual workstations (build & run).  Visual signature: deep-blue gradient
  * backdrop, subtle ‘code-matrix’ columns drifting upwards and a cyan scan-
  * line sweep.  Layout is a responsive split-pane: a live-typing terminal on
@@ -77,7 +77,7 @@ const DEMO_LINES = [
   "launching agent-ws-42GPU…\n",
   "› checkout.spec.ts (passed) 8 s\n",
   "taking screenshots…\n",
-  "stored artifacts to s3://engi-runs/42GPU/checkout/\n",
+  "stored artifacts to s3://bitcode-runs/42GPU/checkout/\n",
 ];
 
 function useTypewriter(active: boolean) {
@@ -150,7 +150,7 @@ export default function MarketingComputeSection() {
 
   const fgMeta = useMemo(() => {
     return Array.from({ length: COLUMN_COUNT }).map(() => {
-      const duration = 12 + Math.random() * 8; // 12-20 s
+      const duration = 12 + Math.random() * 8; // 12-20 s
       // Negative delay so animation is already in progress – hence no initial
       // flicker or chain-start.
       const delay = -Math.random() * duration;
@@ -160,7 +160,7 @@ export default function MarketingComputeSection() {
 
   const bgMeta = useMemo(() => {
     return Array.from({ length: COLUMN_COUNT }).map(() => {
-      const duration = 18 + Math.random() * 10; // 18-28 s
+      const duration = 18 + Math.random() * 10; // 18-28 s
       const delay = -Math.random() * duration;
       return { duration, delay };
     });
@@ -240,7 +240,7 @@ export default function MarketingComputeSection() {
     // (Particle burst removed – focusing on subtle glow only)
 
     // After burst ends (~0.6s) freeze animation so it stays green until
-    // naturally scrolling off-screen. Remove after ~60 s to avoid DOM bloat.
+    // naturally scrolling off-screen. Remove after ~60 s to avoid DOM bloat.
     // After burst completes freeze the glyph in its final glowing state.
     span.addEventListener('animationend', () => {
       span.style.animation = 'none';

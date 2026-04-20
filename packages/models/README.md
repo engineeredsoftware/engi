@@ -1,6 +1,6 @@
-# Engi Models Package
+# Bitcode Models Package
 
-Model primitives and configurations for the Engi intelligence system.
+Model primitives and configurations for the Bitcode intelligence system.
 
 ## Overview
 

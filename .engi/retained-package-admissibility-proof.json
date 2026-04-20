@@ -1,8 +1,8 @@
 {
   "reportId": "v26-retained-package-admissibility-proof",
   "version": "V26",
-  "proofSourceCommit": "afcbf0e7a2fd0060c0951e39eea7619f2d0c3855",
-  "generatedAt": "2026-04-20T07:32:44-03:00",
+  "proofSourceCommit": "97108e8beaf23fb00a915a84407c55557ca37cfb",
+  "generatedAt": "2026-04-20T07:45:46-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "passed": true,

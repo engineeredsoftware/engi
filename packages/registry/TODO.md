@@ -155,4 +155,4 @@ merge(other: Registry<T>, strategy: MergeStrategy): this;
 
 ### 🏁 Conclusion
 
-Registry is one of Engi's most elegant primitives. The architecture is clean, the API is complete for current needs, and the extension pattern works well. Only the missing `entries()` method needs immediate attention for GA-1. All other items are enhancements that can wait for post-GA-1 evolution.
+Registry is one of Bitcode's most elegant primitives. The architecture is clean, the API is complete for current needs, and the extension pattern works well. Only the missing `entries()` method needs immediate attention for GA-1. All other items are enhancements that can wait for post-GA-1 evolution.

@@ -1,6 +1,6 @@
 # @bitcode/notion
 
-Production-grade Notion integration package for Engi, providing comprehensive OAuth authentication, API client functionality, and tool interfaces for AI agents.
+Production-grade Notion integration package for Bitcode, providing comprehensive OAuth authentication, API client functionality, and tool interfaces for AI agents.
 
 ## Overview
 
@@ -30,7 +30,7 @@ This package provides:
 
 ## Installation
 
-This package is part of the Engi monorepo and uses workspace dependencies:
+This package is part of the Bitcode monorepo and uses workspace dependencies:
 
 ```json
 {

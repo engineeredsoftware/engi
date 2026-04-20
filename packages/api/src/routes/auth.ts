@@ -179,7 +179,7 @@ export const githubCallback = traceRoute('/auth/github/callback', async (request
     if (!user && githubUser.email) {
       await sendEmail({
         to: githubUser.email,
-        subject: 'Welcome to Engi',
+        subject: 'Welcome to Bitcode',
         template: 'welcome',
         vars: {
           name: githubUser.name || githubUser.login,
@@ -407,7 +407,7 @@ export const chatgptCallback = traceRoute('/auth/chatgpt/callback', async (reque
     // Return success response for ChatGPT plugin
     return createJsonResponse({ 
       success: true,
-      message: 'Authentication successful. You can now use Engi through ChatGPT.'
+      message: 'Authentication successful. You can now use Bitcode through ChatGPT.'
     });
 
   } catch (error) {

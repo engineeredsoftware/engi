@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/orm",
   "version": "1.0.0",
-  "description": "Engi ORM - Database access layer with vector search",
+  "description": "Bitcode ORM - Database access layer with vector search",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

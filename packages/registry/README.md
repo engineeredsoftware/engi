@@ -39,7 +39,7 @@ interface Registry<T extends object> {
 }
 ```
 
-## How Engi Uses Registry
+## How Bitcode Uses Registry
 
 ### 1. Tool Access Control
 Agents only see tools appropriate for their context:

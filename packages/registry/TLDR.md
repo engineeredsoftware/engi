@@ -1,6 +1,6 @@
 # Registry - TLDR
 
-Hierarchical storage that makes configuration dynamic in Engi.
+Hierarchical storage that makes configuration dynamic in Bitcode.
 
 ## What It Does
 
@@ -28,7 +28,7 @@ registry.set('web', webConfig);
 // Build dynamically at runtime
 ```
 
-## How Engi Uses Registry
+## How Bitcode Uses Registry
 
 ### 1. Prompts That Build Themselves
 ```typescript
@@ -172,4 +172,4 @@ Think of Registry as a **priority queue of namespaced values**:
 - **Priority** = who wins conflicts
 - **Cascade** = how values combine
 
-This simple pattern powers all of Engi's dynamic configuration.
+This simple pattern powers all of Bitcode's dynamic configuration.

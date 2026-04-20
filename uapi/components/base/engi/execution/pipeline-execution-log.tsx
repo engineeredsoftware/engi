@@ -14,7 +14,7 @@ import FileDiffViewer from './FileDiffViewer';
 import type { FileDiff, FileTreeChange } from '@bitcode/streams';
 
 // ---------------------------------------------------------------------------
-// Custom award-winning Engi icons
+// Custom Bitcode log icons
 // ---------------------------------------------------------------------------
 
 // 1. Robot (AI) – friendly minimal droid head

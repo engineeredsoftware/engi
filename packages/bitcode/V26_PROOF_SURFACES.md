@@ -114,6 +114,8 @@ Required coverage posture:
   retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
   fifth-gate active-product naming witnesses now also cover the retained `@bitcode/prompts` package so prompt-system code, metadata, and promptpart identity text do not silently regress back to `Engi` naming after fourth-gate promotion
   fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, `@bitcode/streams`, and `@bitcode/email`, with the expectation that user-facing strings, active identifiers, package docs, and canonical package comments all converge on Bitcode naming rather than lingering `Engi` residue
+  fifth-gate active-product naming witnesses now also cover mounted public-shell teaching carriers and retained package docs such as `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and `packages/{web-search,registry}/*`, so public demo-like terminal strings, active classnames/comments, and retained registry/web-search docs cannot silently drift back to `Engi`
+  fifth-gate active-product naming witnesses now also cover user-facing package API route strings in `packages/api/src/routes/*`, so auth welcome flows, ChatGPT success messages, and deliverables permission guidance cannot silently keep `Engi` naming while the mounted product surfaces read as Bitcode
 
 ### Gate 5: proof precision and final closure
 

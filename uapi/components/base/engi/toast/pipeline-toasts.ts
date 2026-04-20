@@ -12,7 +12,7 @@ export type PipelineLogLine = {
 };
 
 /**
- * Show a toast for a pipeline event/log line with Engi phase tinting.
+ * Show a toast for a pipeline event/log line with Bitcode phase tinting.
  * Intended to be called from the execution logs subscription.
  */
 export function showPipelineEventToast(line: PipelineLogLine) {
@@ -23,4 +23,3 @@ export function showPipelineEventToast(line: PipelineLogLine) {
   if (level === 'error')   return toast.error(message);
   return toastPhase(message, { phase });
 }
-

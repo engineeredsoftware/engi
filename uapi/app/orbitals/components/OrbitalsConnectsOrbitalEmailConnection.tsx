@@ -304,7 +304,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
         <div className="orbitals-connects-command-showcase">
           <div className="orbitals-connects-showcase-header">
             <div className="orbitals-connects-showcase-label">Forward to</div>
-            <div className="orbitals-connects-engi-email">build@bitcode.ai</div>
+            <div className="orbitals-connects-bitcode-email">build@bitcode.ai</div>
             <div className="orbitals-connects-showcase-label">Example message</div>
           </div>
 

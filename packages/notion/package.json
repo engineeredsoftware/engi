@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/notion",
   "version": "1.0.0",
-  "description": "Notion API integration package for Engi",
+  "description": "Notion API integration package for Bitcode",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,

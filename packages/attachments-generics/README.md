@@ -1,10 +1,10 @@
 # @bitcode/attachments-generics
 
-Universal attachment types and utilities for the Engi platform.
+Universal attachment types and utilities for the Bitcode platform.
 
 ## Architecture
 
-All attachments in Engi fall into exactly 4 categories:
+All attachments in Bitcode fall into exactly 4 categories:
 
 ### 1. VCS Attachments
 References to version control system entities:

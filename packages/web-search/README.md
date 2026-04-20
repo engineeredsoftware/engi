@@ -2,7 +2,7 @@
 
 > **State-of-the-art, enterprise-grade web research infrastructure for advanced engineering intelligence**
 
-Advanced web search capabilities with revolutionary multi-provider orchestration, URL intelligence, and production-grade resilience for the Engi development platform.
+Advanced web search capabilities with revolutionary multi-provider orchestration, URL intelligence, and production-grade resilience for the Bitcode development platform.
 
 ## ⚡ Revolutionary Features
 

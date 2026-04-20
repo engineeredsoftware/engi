@@ -2,7 +2,7 @@
   "name": "@bitcode/observability",
   "version": "0.1.0",
   "private": true,
-  "description": "Tracing helpers for Engi (JS build).",
+  "description": "Tracing helpers for Bitcode (JS build).",
   "main": "src/observability.ts",
   "types": "src/observability.ts",
   "exports": {

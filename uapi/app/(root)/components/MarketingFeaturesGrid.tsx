@@ -207,7 +207,7 @@ const MarketingFeaturesGrid = () => {
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></div>
               <div className="w-2.5 h-2.5 rounded-full bg-green-500/70"></div>
             </div>
-            <span className="ml-2 text-xs font-mono text-gray-400">engi@feature:~/{activeFeature}</span>
+            <span className="ml-2 text-xs font-mono text-gray-400">bitcode@feature:~/{activeFeature}</span>
           </div>
         </div>
         <div className="flex flex-col desktop:flex-row">
@@ -226,7 +226,7 @@ const MarketingFeaturesGrid = () => {
               <div className="absolute bottom-0 left-0 right-0 p-3 font-mono text-xs text-emerald-400">
                 <div className="flex items-center">
                   <span className="text-gray-500 mr-1">$</span>
-                  <span>engi.feature.load("<span className="text-emerald-400">{activeFeature}</span>")</span>
+                  <span>bitcode.feature.load("<span className="text-emerald-400">{activeFeature}</span>")</span>
                 </div>
               </div>
             </div>

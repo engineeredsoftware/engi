@@ -281,7 +281,7 @@ export const GET = traceRoute('/deliverables', async (request: NextRequest) => {
           return createJsonResponse({
             error: 'repository_not_accessible',
             message: 'Repository not found or not accessible',
-            description: 'Please ensure the Engi GitHub App has access to this repository.',
+            description: 'Please ensure the Bitcode GitHub App has access to this repository.',
             action: 'check_permissions',
             repository: `${owner}/${repo}`
           }, 404);
