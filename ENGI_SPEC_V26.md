@@ -702,7 +702,8 @@ Fifth-gate is closed only when:
 6. retained package admissibility is explicit,
 7. the kept system is described totalistically enough that ENGI-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
 8. unreplaced `engi` product naming is retired from active code, copy, and route teaching unless it remains as explicit historical lineage or a still-required structural namespace,
-9. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
+9. newly admitted application, API, MCP, prompt, and retained package surfaces are proven to the same proof-bearing standard expected of the former `engi-demo/` Bitcode core rather than being tolerated as lighter glue,
+10. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
 
 ### Sixth-gate formal acceptance rule
 
@@ -710,8 +711,14 @@ Sixth-gate is closed only when:
 1. fifth-gate acceptance holds,
 2. retained old-world pure-agentic systems have explicit Bitcode roles or explicit cut decisions,
 3. need-measuring agency is the governing interpretation for retained execution, pipeline, tool, and prompt carriers,
-4. systems with no stable Bitcode place, such as purely old-world search/automation or webhook behaviors, are cut or isolated instead of silently surviving,
-5. and the repository-level architecture is cleaner after reform, not broader or more compatibility-heavy.
+4. the post-cut-over Bitcode application map is explicit and implemented as:
+   - `activity`: the dominant master-detail transaction activity surface with searchable, filterable, live-updating tables and activity detail
+   - `transactions`: the write-space for making transactions and executing give/need/system operations
+   - `conversations`: the rich ChatGPT-style read/write Bitcode interface, popup-capable and fullscreen-capable, with tool registration kept aligned to the ChatGPT app surface
+   - `auxillaries`: non-duplicative settings, preferences, connections, identity, and deep wallet/`$BTD` surfaces around the network core
+5. systems with no stable Bitcode place, such as purely old-world search/automation or webhook behaviors, are cut or isolated instead of silently surviving,
+6. retained executions primitives remain only where they support Bitcode need measurement, runs, pipelines, and transaction-linked market behavior rather than surviving as a parallel product center,
+7. and the repository-level architecture is cleaner after reform, not broader or more compatibility-heavy.
 
 ### Seventh-gate formal acceptance rule
 

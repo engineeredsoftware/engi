@@ -612,79 +612,8 @@ describe('Bitcode MCP Tools Test Suite', () => {
  * Setup comprehensive mocks for tool testing
  */
 function setupToolMocks(): void {
-  // Mock external APIs
-  jest.mock('@octokit/rest', () => ({
-    Octokit: jest.fn().mockImplementation(() => ({
-      repos: {
-        get: jest.fn().mockResolvedValue({ data: MOCK_DATA.GITHUB_REPOS[0] }),
-        listForOrg: jest.fn().mockResolvedValue({ data: MOCK_DATA.GITHUB_REPOS }),
-        getContent: jest.fn().mockResolvedValue({ data: { content: 'mock-content' } }),
-        createOrUpdateFileContents: jest.fn().mockResolvedValue({ data: { commit: { sha: 'abc123' } } })
-      },
-      pulls: {
-        create: jest.fn().mockResolvedValue({ data: { number: 123, html_url: 'https://github.com/test/pull/123' } }),
-        get: jest.fn().mockResolvedValue({ data: { number: 123, state: 'open' } })
-      }
-    }))
-  }));
-
-  // Mock Figma API
-  jest.mock('figma-api', () => ({
-    Api: jest.fn().mockImplementation(() => ({
-      getFile: jest.fn().mockResolvedValue({ data: MOCK_DATA.FIGMA_DESIGNS[0] }),
-      getFileComponents: jest.fn().mockResolvedValue({ data: { components: [] } })
-    }))
-  }));
-
-  // Mock OpenAI
-  jest.mock('openai', () => ({
-    OpenAI: jest.fn().mockImplementation(() => ({
-      chat: {
-        completions: {
-          create: jest.fn().mockResolvedValue(MOCK_DATA.OPENAI_RESPONSES['gpt-4'])
-        }
-      }
-    }))
-  }));
-
-  // Mock Supabase
-  jest.mock('@supabase/supabase-js', () => ({
-    createClient: jest.fn().mockReturnValue({
-      from: jest.fn().mockReturnValue({
-        select: jest.fn().mockReturnValue({
-          eq: jest.fn().mockResolvedValue(MOCK_DATA.SUPABASE_RESPONSES.pipelines)
-        }),
-        insert: jest.fn().mockResolvedValue({ data: { id: 'new-id' }, error: null }),
-        update: jest.fn().mockResolvedValue({ data: { id: 'updated-id' }, error: null })
-      }),
-      rpc: jest.fn().mockResolvedValue({ data: [], error: null })
-    })
-  }));
-
-  // Mock pipeline execution
-  jest.mock('../../tools/pipeline-tools', () => ({
-    registerPipelineTools: jest.fn().mockReturnValue([
-      {
-        name: 'bitcode://pipelines/deliverable/create',
-        description: 'Create production-ready deliverables',
-        execute: jest.fn().mockResolvedValue({
-          success: true,
-          deliverables: ['pull_request', 'documentation', 'tests'],
-          metrics: { creditsUsed: 150, confidence: 0.92 }
-        })
-      },
-      
-    ])
-  }));
-
-  // Mock dry run context
-  jest.mock('../../../packages/pipelines-generics/src/llm/dry_running/config', () => ({
-    createDryRunContext: jest.fn().mockReturnValue({
-      isDryRun: true,
-      features: { tools: true, resources: true, prompts: true },
-      generateMockResponse: jest.fn().mockResolvedValue({ success: true })
-    })
-  }));
+  process.env.DRY_RUN_MODE = 'true';
+  process.env.MCP_TOOLS_TEST = 'true';
 }
 
 /**

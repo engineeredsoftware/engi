@@ -461,6 +461,7 @@ Fifth-gate acceptance is reached only when:
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,
 - unreplaced active `engi` product naming is retired from active code/copy/route teaching,
+- newly admitted application, API, MCP, prompt, and retained package systems are proven to the same Bitcode-grade standard expected of the former proved core,
 - and the kept V26 system can be treated as Bitcode-complete without relying on informal interpretation across merged systems.
 
 ## Precise sixth-gate specification targets
@@ -469,12 +470,17 @@ Sixth-gate is now specified as:
 - reforming the final retained old-world pure-agentic system into Bitcode market infrastructure,
 - explicitly cutting or isolating retained systems that do not belong in Bitcode,
 - keeping retained executions primitives only where they support need-measuring agency, runs, pipelines, and transaction-linked system behavior,
+- deepening the Bitcode application into explicit `activity`, `transactions`, `conversations`, and `auxillaries` experiences after cut-over,
 - and removing silent compatibility ownership from old-world tool, webhook, and generic agent surfaces.
 
 Sixth-gate acceptance is reached only when:
 - fifth-gate acceptance holds,
 - retained old-world systems have explicit Bitcode roles or explicit cut decisions,
 - admitted agent/tool systems read as Bitcode need-measuring/support infrastructure rather than a parallel Engi automation product,
+- `activity` is the dominant searchable transaction-master/detail application surface,
+- `transactions` is the explicit write-space for Bitcode operations,
+- `conversations` is aligned to the ChatGPT-style interface/tool surface rather than drifting into a second-class chat widget,
+- `auxillaries` holds non-duplicative settings, connections, identity, and deep wallet/`$BTD` controls around the network core,
 - and repository architecture is simpler and more legible after the reform.
 
 ## Precise seventh-gate specification targets
