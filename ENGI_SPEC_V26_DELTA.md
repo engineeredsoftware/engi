@@ -14,8 +14,8 @@
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
-- Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth-gate remains open
-- V26 state: canonical promotion complete; V26 is the active Bitcode canon while fifth-gate proof/finalization remains open
+- Source parity state: through-fourth-gate promotion closure is now materially in place across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and documentation/spec synchronization; fifth through seventh gate remain open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon while fifth-, sixth-, and seventh-gate closure remain open
 
 ## Why V26 exists
 
@@ -450,17 +450,45 @@ Fourth-gate acceptance is reached only when:
 ## Precise fifth-gate specification targets
 
 Fifth-gate is now specified as:
-- complete proof precision and closure for the kept V26 system,
+- complete active-source Bitcode rename closure, proof precision, and system completeness for the kept V26 system,
 - debug/environment controls required for proving mode coherence,
 - full production/staging/development mode completeness,
 - retained-package admissibility proof,
-- and post-promotion final provation/refinement cleanup.
+- and post-promotion proof-bearing cleanup of any still-kept system.
 
 Fifth-gate acceptance is reached only when:
 - the required proof families are generated,
 - their closure verdicts are explicit,
 - debug/environment behavior is proven coherent,
-- and V26 can be treated as fully proven without relying on informal interpretation across merged systems.
+- unreplaced active `engi` product naming is retired from active code/copy/route teaching,
+- and the kept V26 system can be treated as Bitcode-complete without relying on informal interpretation across merged systems.
+
+## Precise sixth-gate specification targets
+
+Sixth-gate is now specified as:
+- reforming the final retained old-world pure-agentic system into Bitcode market infrastructure,
+- explicitly cutting or isolating retained systems that do not belong in Bitcode,
+- keeping retained executions primitives only where they support need-measuring agency, runs, pipelines, and transaction-linked system behavior,
+- and removing silent compatibility ownership from old-world tool, webhook, and generic agent surfaces.
+
+Sixth-gate acceptance is reached only when:
+- fifth-gate acceptance holds,
+- retained old-world systems have explicit Bitcode roles or explicit cut decisions,
+- admitted agent/tool systems read as Bitcode need-measuring/support infrastructure rather than a parallel Engi automation product,
+- and repository architecture is simpler and more legible after the reform.
+
+## Precise seventh-gate specification targets
+
+Seventh-gate is now specified as:
+- whole-repository Bitcode provation,
+- final V26 closure across application GUI, conversations, ChatGPT-style surfaces, ChatGPT app, API, MCP, packages, schemas, proofs, and docs,
+- and promotion-grade confirmation that no silent legacy ownership remains in active source.
+
+Seventh-gate acceptance is reached only when:
+- fifth-gate acceptance holds,
+- sixth-gate acceptance holds,
+- total-repository proof families have explicit closure verdicts,
+- and V26 can be treated as fully proven Bitcode canon rather than a promoted-through-fourth-gate checkpoint with later closure work still pending.
 
 ## Explicitly deferred
 
@@ -479,9 +507,11 @@ The current V26 sequencing is now:
 4. execute second-gate application UX/UI plus external-interfacing hardening,
 5. execute third-gate marketing refurbishment,
 6. execute fourth-gate retained-system convergence,
-7. execute fifth-gate proof/finalization including debug/environment controls,
-8. refresh generated evidence and promotion checks,
-9. and promote only after V26 closure is proven end-to-end.
+7. execute fifth-gate rename/proof/system-completeness closure including debug/environment controls,
+8. execute sixth-gate old-world system reform into Bitcode market infrastructure,
+9. execute seventh-gate total-repository provation and final closure,
+10. refresh generated evidence and promotion checks,
+11. and declare V26 fully proven only after seventh-gate closure is explicit end-to-end.
 
 ## Commit-Body Direction
 

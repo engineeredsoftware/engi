@@ -15,8 +15,8 @@
 - Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
 - Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
-- Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-gate full provation remains open
-- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate while fifth-gate proof/finalization remains open
+- Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-seventh-gate closure remains open
+- V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate while fifth-, sixth-, and seventh-gate closure remain open
 
 ## Acceptance and remaining-open state
 
@@ -25,7 +25,9 @@ V26 is the productionizing hardening version that reorganizes Bitcode from a tra
 
 With V26 promoted through fourth gate:
 - V26 is active canonical truth,
-- fifth-gate proof/finalization remains intentionally open and must not be hand-waved as complete,
+- fifth-gate active-source Bitcode rename completion, proof precision, and system completeness remain intentionally open and must not be hand-waved as complete,
+- sixth-gate old-world system reform into Bitcode market infrastructure remains intentionally open,
+- seventh-gate whole-repository provation and final closure remain intentionally open,
 - the current source-bearing implementation basis now includes the landed first-through-fourth-gate package/app migration surfaces cited below,
 - and the V26 main spec remains full-system and re-implementation-grade even while later version work may reopen ownership after this promotion.
 - the retained active repository systems outside first-gate Bitcode ownership must be elevated to Bitcode-grade auditability, proof-bearing precision, and knowability rather than pulling Bitcode down to older application looseness.
@@ -40,12 +42,14 @@ V26 opens because the renamed system still has an architectural split that is to
 - the application route had to replace the embedded-demo posture,
 - and several external and internal interfaces still remain short of the level expected of a live application.
 
-V26 therefore centers five coordinated gates:
+V26 therefore centers seven coordinated gates:
 1. first-gate ownership migration,
 2. second-gate application UX/UI plus external interfacing hardening,
 3. third-gate marketing refurbishment,
 4. fourth-gate retained-system convergence and through-fourth-gate promotion,
-5. fifth-gate proof precision, schema refinement, and full provation after promotion.
+5. fifth-gate active-source Bitcode rename completion, proof precision, and system completeness after promotion,
+6. sixth-gate old-world system reform into Bitcode market infrastructure,
+7. seventh-gate whole-repository provation and final V26 closure.
 
 The intended result is not "micro-app the demo into `uapi/`."
 The intended result is:
@@ -62,7 +66,7 @@ The intended result is:
 
 ## V26 gate structure
 
-V26 is now explicitly split into five gates.
+V26 is now explicitly split into seven gates.
 
 ### First-gate
 
@@ -664,12 +668,14 @@ Fourth-gate is accepted only when:
 15. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
 16. and fourth-gate proof obligations are assigned to generated proof families rather than left informal.
 
-## V26 fifth-gate proof precision and closure contract
+## V26 fifth-through-seventh-gate closure contract
 
-Fifth-gate is the formal post-promotion closure gate for V26.
-V26 may be the active canon through fourth-gate while fifth-gate remains open, but no part of V26 is considered fully proven until proof precision and closure are explicit for the systems V26 keeps.
+Fifth-gate is the formal post-promotion Bitcode-rename, proof-precision, and system-completeness gate for V26.
+Sixth-gate is the reform gate that adjudicates, cuts, or repurposes the final old-world pure-agentic system carriers into Bitcode market infrastructure.
+Seventh-gate is the final whole-repository provation and closure gate for V26.
+V26 may be the active canon through fourth-gate while fifth through seventh remain open, but no part of V26 is considered fully proven until those later-gate closure duties are explicit for the systems V26 keeps.
 
-### Fifth-gate proof families required for full provation
+### Fifth-gate proof families required for Bitcode rename completion and system completeness
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
 | --- | --- | --- | --- |
@@ -680,13 +686,14 @@ V26 may be the active canon through fourth-gate while fifth-gate remains open, b
 | prompt system totality | `.engi/prompt-system-totality-proof.json` | prove that retained PromptPart/Prompt/PromptExecution carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
 | prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` |
 | retained package admissibility | `.engi/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, justification, and old-world port scope where applicable | retained `packages/*` admitted by V26 |
-| whole-repository production satisfaction | `.engi/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
 | environment mode coherence | `.engi/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
+| sixth-gate system reform admissibility | `.engi/system-reform-admissibility-proof.json` | prove that retained old-world agentic systems are either cut, isolated, or repurposed into Bitcode need-measuring, settlement, or support roles rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other old-world infrastructure still admitted after fifth-gate |
+| whole-repository production satisfaction | `.engi/whole-repository-production-satisfaction-proof.json` | prove that the retained and repurposed repository that remains in V26 production canon is proven up to Bitcode-grade satisfaction rather than leaving strong proof closure isolated to the former demo slice | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
 | v26 total closure | `.engi/v26-total-closure-proof.json` | prove that the gated V26 system closes as one coherent Bitcode system suitable for promotion | all promoted V26 systems and generated artifacts |
 
 ### Fifth-gate formal acceptance rule
 
-V26 is fully proven only when:
+Fifth-gate is closed only when:
 1. second-gate acceptance holds,
 2. third-gate acceptance holds,
 3. fourth-gate acceptance holds,
@@ -696,6 +703,25 @@ V26 is fully proven only when:
 7. the kept system is described totalistically enough that ENGI-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
 8. unreplaced `engi` product naming is retired from active code, copy, and route teaching unless it remains as explicit historical lineage or a still-required structural namespace,
 9. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
+
+### Sixth-gate formal acceptance rule
+
+Sixth-gate is closed only when:
+1. fifth-gate acceptance holds,
+2. retained old-world pure-agentic systems have explicit Bitcode roles or explicit cut decisions,
+3. need-measuring agency is the governing interpretation for retained execution, pipeline, tool, and prompt carriers,
+4. systems with no stable Bitcode place, such as purely old-world search/automation or webhook behaviors, are cut or isolated instead of silently surviving,
+5. and the repository-level architecture is cleaner after reform, not broader or more compatibility-heavy.
+
+### Seventh-gate formal acceptance rule
+
+V26 is fully proven only when:
+1. fifth-gate acceptance holds,
+2. sixth-gate acceptance holds,
+3. whole-repository production satisfaction is generated with an explicit closure verdict,
+4. prompt space completeness and total repository closure proofs are generated with explicit closure verdicts,
+5. the kept repository is application-ready Bitcode canon without legacy product naming or silent compatibility ownership,
+6. and V26 total closure is explicit enough that promotion no longer depends on interpretive notes.
 
 ## Canonical ENGI executive summary
 
@@ -724,7 +750,7 @@ Current truth order for the active V26 canon is:
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
-V26 is therefore the active canonical runtime truth through fourth gate, while fifth-gate full provation and later-version reopening remain deliberate future work.
+V26 is therefore the active canonical runtime truth through fourth gate, while fifth-, sixth-, and seventh-gate closure remain deliberate active work inside V26 before later-version reopening.
 
 ## full-system, re-implementation, and audit rule
 

@@ -1,8 +1,8 @@
 /**
- * Engi Mock System - COMPREHENSIVE Enterprise-Grade Mocking Infrastructure
+ * Bitcode Mock System - comprehensive application mocking infrastructure
  * 
  * 🎯 COMPLETE SYSTEM COVERAGE (100+ Features):
- * - Orbital: onboarding, auth, profile, preferences (25+ features)
+ * - Auxillaries: onboarding, auth, profile, preferences (25+ features)
  * - Conversations: ChatGPT for engineering experience (10+ features)  
  * - Deliverables/AI Documents: main pipeline experiences (16+ features)
  * - Organizations: enterprise team management (8+ features)
@@ -38,7 +38,7 @@
  * 
  * // Use specialized middleware (recommended)
  * export const GET = mockAreas.pipelines.deliverables.main()(originalHandler);
- * export const POST = mockAreas.orbital.auth.github()(originalHandler);
+ * export const POST = mockAreas.auxillaries.auth.github()(originalHandler);
  * ```
  */
 
@@ -87,7 +87,7 @@ export type { MockMiddlewareConfig, MockRequestContext, MockResponseOptions } fr
 // SPECIALIZED MIDDLEWARE (Complete System Coverage)
 // ============================================================================
 
-// User Orbital (Onboarding, Auth, Profile) - 25+ Features
+// User Auxillaries (Onboarding, Auth, Profile) - 25+ Features
 export {
   mockAuth,           // GitHub, ChatGPT, Metamask, NextAuth, Sessions
   mockUser,           // Profile, Credits, Usage, API Keys, Preferences
@@ -192,7 +192,7 @@ export type {
 /**
  * Global mock system configuration
  */
-export interface EngiMockConfig {
+export interface BitcodeMockConfig {
   /** Master toggle for all mocking */
   enabled: boolean;
   
@@ -249,7 +249,7 @@ export interface EngiMockConfig {
 /**
  * Load configuration from environment variables
  */
-export function loadMockConfig(): EngiMockConfig {
+export function loadMockConfig(): BitcodeMockConfig {
   return {
     enabled: process.env.NEXT_PUBLIC_MASTER_MOCK_MODE === 'true',
     defaultScenario: (process.env.NEXT_PUBLIC_MOCK_SCENARIO as MockScenarioType) || 'demo',
@@ -292,7 +292,7 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
     'CONVERSATION_CONVERSATIONS', 'CONVERSATION_MESSAGES', 'CONVERSATION_RUNS', 'CONVERSATION_SOURCES', 'CONVERSATION_REPOS',
     'CONVERSATION_ACCOUNT', 'CONVERSATION_STREAM', 'CHAT_STREAM', 'CHAT_COMPLETIONS', 'CONVERSATION_ATTACHMENTS',
     
-    // User Orbital Features (25 features)
+    // User Auxillaries features (25 features)
     'AUTH_GITHUB', 'AUTH_CHATGPT', 'AUTH_METAMASK', 'AUTH_SESSIONS', 'AUTH_CALLBACKS', 'AUTH_NEXTAUTH', 'AUTH_UNLINK', 'AUTH_CONFIRM',
     'USER_PROFILE', 'USER_DATA', 'USER_CREDITS', 'USER_USAGE', 'USER_TRANSACTIONS', 'USER_API_KEYS', 
     'USER_PREFERENCES', 'USER_MODEL_PREFERENCES', 'USER_TEMPLATE_PREFERENCES', 'USER_NOTIFICATIONS', 
@@ -356,11 +356,11 @@ function loadFeatureOverrides(): Partial<Record<MockableFeature, any>> {
 /**
  * Initialize the mock system with default configuration
  */
-export function initializeMockSystem(config?: Partial<EngiMockConfig>): void {
+export function initializeMockSystem(config?: Partial<BitcodeMockConfig>): void {
   const finalConfig = { ...loadMockConfig(), ...config };
   
   if (finalConfig.debug) {
-    console.log('🔧 Engi Mock System initialized with config:', finalConfig);
+    console.log('🔧 Bitcode Mock System initialized with config:', finalConfig);
   }
   
   // Initialize orchestrator
@@ -384,7 +384,7 @@ function registerBuiltinScenarios(): void {
   orchestrator.registerScenario({
     id: 'demo',
     name: 'Demo Experience',
-    description: 'Rich, engaging demo data perfect for showcasing Engi capabilities',
+      description: 'Rich, engaging demo data perfect for showcasing Bitcode capabilities',
     type: 'demo',
     complexity: 'complex',
     timing: 'realistic',
@@ -393,7 +393,7 @@ function registerBuiltinScenarios(): void {
       version: '1.0.0',
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: new Date().toISOString(),
-      author: 'Engi Team',
+      author: 'Bitcode Team',
       tags: ['demo', 'showcase', 'rich'],
       realistic: true,
       useCases: ['demos', 'sales', 'onboarding'],
@@ -418,7 +418,7 @@ function registerBuiltinScenarios(): void {
       version: '1.0.0',
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: new Date().toISOString(),
-      author: 'Engi Team',
+      author: 'Bitcode Team',
       tags: ['testing', 'minimal', 'predictable'],
       realistic: false,
       useCases: ['unit-tests', 'integration-tests', 'ci-cd'],
@@ -443,7 +443,7 @@ function registerBuiltinScenarios(): void {
       version: '1.0.0',
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: new Date().toISOString(),
-      author: 'Engi Team',
+      author: 'Bitcode Team',
       tags: ['enterprise', 'scale', 'performance'],
       realistic: true,
       useCases: ['enterprise-demos', 'load-testing', 'scaling-validation'],
@@ -468,7 +468,7 @@ function registerBuiltinScenarios(): void {
       version: '1.0.0',
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: new Date().toISOString(),
-      author: 'Engi Team',
+      author: 'Bitcode Team',
       tags: ['empty', 'zero-state', 'minimal'],
       realistic: true,
       useCases: ['new-user-experience', 'empty-states', 'edge-cases'],
@@ -495,7 +495,7 @@ export function isMockingEnabled(): boolean {
 /**
  * Get current mock configuration
  */
-export function getMockConfig(): EngiMockConfig {
+export function getMockConfig(): BitcodeMockConfig {
   return loadMockConfig();
 }
 
@@ -556,7 +556,7 @@ export const MOCK_SYSTEM_BUILD = new Date().toISOString();
 
 // Development tools
 if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_MOCK_DEBUG === 'true') {
-  (window as any).__engiMockSystem = {
+  (window as any).__bitcodeMockSystem = {
     version: MOCK_SYSTEM_VERSION,
     build: MOCK_SYSTEM_BUILD,
     config: getMockConfig(),
@@ -584,6 +584,6 @@ if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_MOCK_DEBUG === 'tru
     clearCache: () => MockOrchestrator.getInstance().reset()
   };
   
-  console.log(`🚀 Engi Mock System v${MOCK_SYSTEM_VERSION} loaded`);
-  console.log('Debug tools available at window.__engiMockSystem');
+  console.log(`🚀 Bitcode Mock System v${MOCK_SYSTEM_VERSION} loaded`);
+  console.log('Debug tools available at window.__bitcodeMockSystem');
 }

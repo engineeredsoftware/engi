@@ -287,7 +287,7 @@ export const MockProvider: React.FC<MockProviderProps> = ({
   useEffect(() => {
     if (isDebugMode && typeof window !== 'undefined') {
       // Expose debugging tools to window for development
-      (window as any).__engiMockProvider = {
+      (window as any).__bitcodeMockProvider = {
         getMetrics: getPerformanceMetrics,
         validateSystem,
         clearCache,

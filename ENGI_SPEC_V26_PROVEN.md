@@ -1,11 +1,11 @@
 # Bitcode Spec V26 Proven
 
 - canonicalVersion: `V26`
-- canonicalCommit: `40270b862edc44a4c55eb1482110451c1498656d`
-- canonicalCommitRecordedAt: `2026-04-20T08:36:49-03:00`
+- canonicalCommit: `5a0ee2e1e9fda9ab67b8ff6c26676eec9aa39fbe`
+- canonicalCommitRecordedAt: `2026-04-20T08:57:54-03:00`
 - worktreeState: `dirty-preview`
 - generatorId: `bitcode.proven-generator.v1`
-- generatedAt: `2026-04-20T08:36:49-03:00`
+- generatedAt: `2026-04-20T08:57:54-03:00`
 - outputPath: `ENGI_SPEC_V26_PROVEN.md`
 - scenarioIds: `auth-issuer-rollback`, `rust-validator-proof-gap`, `config-policy-precedence-incident`, `unsafe-patch-review-recovery`, `infra-deployment-mismatch`, `privacy-boundary-proof-export`, `polyglot-gateway-benchmark-remediation`, `auth-many-asset-normalization`
 - branchModes: `patch`, `context`
@@ -47,13 +47,13 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.engi/v19-contract-change-ledger.json` | `sha256:6df95e1b4435e9b8206f1fbe21103a2b3202a9830200b38ff28098a39a2d9ce4` | 3291 |
-| `.engi/v19-deterministic-replay-report.json` | `sha256:e7a3476be64fdb3dffe449e9f4405303218352382a12b4a8079bab89433f8252` | 8424 |
-| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:5a9c0f07bbea89211cf969e76958f5ad5fe80c98ad75d41292dd88f319b66509` | 8049 |
-| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:8d942ebffa353ba9ad3a7f434f156c505dbd417b38f830253a9c334d98010a44` | 1724664 |
-| `.engi/v19-state-machine-matrix.json` | `sha256:8907afb8d0832d91786e70aabc662db778f7b5abb5f4ead20b06600470610c40` | 271266 |
-| `.engi/v19-theorem-evidence-matrix.json` | `sha256:71bd0b8415fd034e4d0c750a549f8d81e3fc46847aaf0221e35cb182c75a9639` | 2292542 |
-| `.engi/v19-volatility-inventory.json` | `sha256:55b48a5e43c84c3ac489a4d58aacd06c68cf5436b0debda52b4bb1c85c00edd1` | 6197 |
+| `.engi/v19-contract-change-ledger.json` | `sha256:a5be7f2bc3cd1bcf7d1e0a0dc80da3d81ce94beb3326898875a4662467d415fb` | 3291 |
+| `.engi/v19-deterministic-replay-report.json` | `sha256:ad958e41e7cdd1b1447a53103ce18c02ada5b811433385a674da469bc7a279ec` | 8424 |
+| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:24afe10616bbd738d688e9041a8b7d31f401c975afa6fe9637b963c247d355bb` | 8049 |
+| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:209db2dcedf8249506596e8e0091cb1c74b2b4aaa101a524775b22b00a1bdbcb` | 1724664 |
+| `.engi/v19-state-machine-matrix.json` | `sha256:9c5eb4cd2c2142dca56ad87a907c38cf357e68bfbe7c2d23d6cbc0dc8c2ec3fb` | 271266 |
+| `.engi/v19-theorem-evidence-matrix.json` | `sha256:15ee331cd853ba80812ef329dc2c8d0c08633baebbcf2424114dd2b1b0a2996b` | 2292542 |
+| `.engi/v19-volatility-inventory.json` | `sha256:cf815e4a5a8ab1df30f409a59d9321d2cd03fedc2695ec96d6c5c9b1ab3c153d` | 6197 |
 
 ### V19 Inherited Positive Matrix Summaries
 
@@ -72,13 +72,13 @@
 
 | artifactPath | firstDigest | secondDigest | byteEqual |
 | --- | --- | --- | --- |
-| `.engi/v19-contract-change-ledger.json` | `sha256:6df95e1b4435e9b8206f1fbe21103a2b3202a9830200b38ff28098a39a2d9ce4` | `sha256:6df95e1b4435e9b8206f1fbe21103a2b3202a9830200b38ff28098a39a2d9ce4` | `true` |
-| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:5a9c0f07bbea89211cf969e76958f5ad5fe80c98ad75d41292dd88f319b66509` | `sha256:5a9c0f07bbea89211cf969e76958f5ad5fe80c98ad75d41292dd88f319b66509` | `true` |
-| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:8d942ebffa353ba9ad3a7f434f156c505dbd417b38f830253a9c334d98010a44` | `sha256:8d942ebffa353ba9ad3a7f434f156c505dbd417b38f830253a9c334d98010a44` | `true` |
-| `.engi/v19-state-machine-matrix.json` | `sha256:8907afb8d0832d91786e70aabc662db778f7b5abb5f4ead20b06600470610c40` | `sha256:8907afb8d0832d91786e70aabc662db778f7b5abb5f4ead20b06600470610c40` | `true` |
-| `.engi/v19-theorem-evidence-matrix.json` | `sha256:71bd0b8415fd034e4d0c750a549f8d81e3fc46847aaf0221e35cb182c75a9639` | `sha256:71bd0b8415fd034e4d0c750a549f8d81e3fc46847aaf0221e35cb182c75a9639` | `true` |
-| `.engi/v19-volatility-inventory.json` | `sha256:55b48a5e43c84c3ac489a4d58aacd06c68cf5436b0debda52b4bb1c85c00edd1` | `sha256:55b48a5e43c84c3ac489a4d58aacd06c68cf5436b0debda52b4bb1c85c00edd1` | `true` |
-| `ENGI_SPEC_V19_PROVEN.md` | `sha256:907e4885d2495b0ecd6aebd04f750cef8d21433ec7fb58eb6027658f046b0aec` | `sha256:907e4885d2495b0ecd6aebd04f750cef8d21433ec7fb58eb6027658f046b0aec` | `true` |
+| `.engi/v19-contract-change-ledger.json` | `sha256:a5be7f2bc3cd1bcf7d1e0a0dc80da3d81ce94beb3326898875a4662467d415fb` | `sha256:a5be7f2bc3cd1bcf7d1e0a0dc80da3d81ce94beb3326898875a4662467d415fb` | `true` |
+| `.engi/v19-negative-proof-mutation-matrix.json` | `sha256:24afe10616bbd738d688e9041a8b7d31f401c975afa6fe9637b963c247d355bb` | `sha256:24afe10616bbd738d688e9041a8b7d31f401c975afa6fe9637b963c247d355bb` | `true` |
+| `.engi/v19-proof-member-semantic-matrix.json` | `sha256:209db2dcedf8249506596e8e0091cb1c74b2b4aaa101a524775b22b00a1bdbcb` | `sha256:209db2dcedf8249506596e8e0091cb1c74b2b4aaa101a524775b22b00a1bdbcb` | `true` |
+| `.engi/v19-state-machine-matrix.json` | `sha256:9c5eb4cd2c2142dca56ad87a907c38cf357e68bfbe7c2d23d6cbc0dc8c2ec3fb` | `sha256:9c5eb4cd2c2142dca56ad87a907c38cf357e68bfbe7c2d23d6cbc0dc8c2ec3fb` | `true` |
+| `.engi/v19-theorem-evidence-matrix.json` | `sha256:15ee331cd853ba80812ef329dc2c8d0c08633baebbcf2424114dd2b1b0a2996b` | `sha256:15ee331cd853ba80812ef329dc2c8d0c08633baebbcf2424114dd2b1b0a2996b` | `true` |
+| `.engi/v19-volatility-inventory.json` | `sha256:cf815e4a5a8ab1df30f409a59d9321d2cd03fedc2695ec96d6c5c9b1ab3c153d` | `sha256:cf815e4a5a8ab1df30f409a59d9321d2cd03fedc2695ec96d6c5c9b1ab3c153d` | `true` |
+| `ENGI_SPEC_V19_PROVEN.md` | `sha256:e1d55a341abf66518d8e5475c56c63cbad0ab9b1dd4b10fd312f6d95943d1499` | `sha256:e1d55a341abf66518d8e5475c56c63cbad0ab9b1dd4b10fd312f6d95943d1499` | `true` |
 
 ### V19 Volatility Inventory
 
@@ -150,12 +150,12 @@
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.engi/v20-accessibility-report.json` | `sha256:9cd3cbbaaab430e844edf638d999e45c1bd2f77b52b99c0dc8b0445ca5c77e57` | 8214 |
-| `.engi/v20-operator-acceptance-transcript.json` | `sha256:2fe6125a971a280e8775ccfb62c04fd870ff4416669696a7624fca63622b5bd4` | 10849 |
-| `.engi/v20-performance-budget-report.json` | `sha256:280498603821c21333fa33d25cfa59330002b2d08e272f58e7638efa766c1905` | 5042 |
-| `.engi/v20-projection-quality-smoke-matrix.json` | `sha256:01df6137ecbe8341146e6c4faa2ebafb9f04ba4458daa6b8f67a82eaa23245d7` | 4939 |
-| `.engi/v20-quality-summary.json` | `sha256:4478a8e13d0bd709bacaaed4b826cf73eeca367a2b770a206c875d64dee4ccb8` | 4410 |
-| `.engi/v20-visual-regression-report.json` | `sha256:88a80f173519f426288fa8333117e28c7a252a3244d92d4d1417ae7245b12f93` | 19365 |
+| `.engi/v20-accessibility-report.json` | `sha256:b6fd15164b336bebe58d62bc205057ec324ed4fabeb844f08bd503555931ebe2` | 8214 |
+| `.engi/v20-operator-acceptance-transcript.json` | `sha256:ef53e99e6a36972f9dd8b46533baeb0730f855952ed2571ea5e29df70d7b638e` | 10849 |
+| `.engi/v20-performance-budget-report.json` | `sha256:44ccb853231f75f2f46c2f1f250fec58d565bacbc65ea28bad6409820a4f5a2a` | 5042 |
+| `.engi/v20-projection-quality-smoke-matrix.json` | `sha256:e11bbf6082a50a5f9acb35e30a71242650f97f31367e73536d6e7552b666d50a` | 4939 |
+| `.engi/v20-quality-summary.json` | `sha256:1d5de099662ffe9443f1a1470aa391c79028b5f0f343b4647771ae6297873623` | 4410 |
+| `.engi/v20-visual-regression-report.json` | `sha256:5cda4fc623316902c82127aae10730592de51f2dc35d7635ef671bf88a22a7a9` | 19365 |
 
 ### V20 Quality Summary
 
@@ -282,20 +282,22 @@
 - throughFourthGateReady: `false`
 - promotionReady: `false`
 - fifthGateClosurePassed: `false`
+- sixthGateClosurePassed: `false`
+- seventhGateClosurePassed: `false`
 - operatorSurfaceTarget: `application-native-full-page`
 
 ### V26 Generated Artifact Inventory
 
 | artifactPath | digest | byteLength |
 | --- | --- | --- |
-| `.engi/conversations-continuity-proof.json` | `sha256:d78b50826ab37930ac48831fac2d07e7115aefb188c06331c14959406786ebd6` | 3429 |
-| `.engi/persistence-schema-totality-proof.json` | `sha256:451ba996ca6696baaa8977dad400cd7b94f7b1dc6e365d42d9e21f0a9cd4c389` | 2043 |
-| `.engi/prompt-system-totality-proof.json` | `sha256:2ecb1d9623c6ccb899775e38c500dfba2ba3468120480fb1e7b30fe4c4564060` | 2281 |
-| `.engi/retained-package-admissibility-proof.json` | `sha256:7bae37065fb33c3e5d24ad41d75df7de45797055c13d20d3ee79f3b0302bfc49` | 6446 |
-| `.engi/runs-pipelines-totality-proof.json` | `sha256:c3ff260913a96c943ba45b20eff2b52092e28a0733787d126c50966c2a030654` | 7716 |
-| `.engi/v26-canonical-input-report.json` | `sha256:bbd65c1bf99780d45506b5a033d633389bf76552559934c41d56288408f564fc` | 971 |
-| `.engi/v26-gate-checkpoint-report.json` | `sha256:686cd6d69c605e8f4a9fad1ee347e62aa9a76e723715ca63e3913f59c8ae94bc` | 9339 |
-| `.engi/v26-spec-family-report.json` | `sha256:9c0660f68f5b2a0ad91d8b5d6e8dde360afeca1a3a741913ac749529bf347e83` | 935 |
+| `.engi/conversations-continuity-proof.json` | `sha256:9a68f2580c5107688e089913ad4d8eaaf6e6fb4f39f8bb370b9c66de319e18b6` | 3429 |
+| `.engi/persistence-schema-totality-proof.json` | `sha256:b7ffd5aef8e219db7e254230492446681f5a1fcd90d6ed176d6ba5e1ea08ea07` | 2043 |
+| `.engi/prompt-system-totality-proof.json` | `sha256:30e2896c28624c1a7b219837755fcb71c76ef3672cd5ac241b5a9559ecb11b6b` | 2281 |
+| `.engi/retained-package-admissibility-proof.json` | `sha256:b69d5dfd40b583ec3be9b4b86cb1f8d4cd2ca5f189ddbe14af7052031978c065` | 6446 |
+| `.engi/runs-pipelines-totality-proof.json` | `sha256:dc617529f8aee612a7789ad77c3bcf20fb1c9553530bf00d90f1607fc9582c52` | 7716 |
+| `.engi/v26-canonical-input-report.json` | `sha256:112f7921c731ec8641f97b291193f92f08541606712ea52e83fc584d65c5e3f9` | 971 |
+| `.engi/v26-gate-checkpoint-report.json` | `sha256:3f1aaa38941c73186f3ee28a4b6ba4d9bfee50c2e61064966b088343383e511c` | 10042 |
+| `.engi/v26-spec-family-report.json` | `sha256:6be4ba6c2f7d06a94f17155c0e11a12cc4cc1342f5fe4edf897ab9c17b1fb07c` | 935 |
 
 ### V26 Spec-Family Report
 
@@ -329,12 +331,15 @@
 ### V26 Gate Checkpoint Report
 
 - reportId: `v26-gate-checkpoint-report`
-- checkpointFocus: `through-fourth-gate-promotion-boundary`
+- checkpointFocus: `through-fourth-gate-promotion-boundary-on-seven-gate-v26`
 - passed: `false`
-- nextGate: `Gate 5: proof precision, schema refinement, and promotion finalization`
+- nextGate: `Gate 5: Bitcode rename completion, proof precision, and system completeness`
 - thirdGatePrepared: `true`
 - thirdGatePassed: `true`
 - fourthGatePassed: `true`
+- fifthGatePassed: `false`
+- sixthGatePrepared: `false`
+- seventhGatePrepared: `false`
 - subsequentGatesOpen: `true`
 
 | gate | checkId | passed | detail |

@@ -1,5 +1,5 @@
 /**
- * Mock Data Generators - Enterprise-Grade Data Generation for Engi
+ * Mock Data Generators - enterprise-grade data generation for Bitcode
  * 
  * Provides intelligent, scenario-aware mock data generation with:
  * - Type-safe data structures

@@ -12,6 +12,7 @@
 This file is not canonical system truth.
 Canonical V26 truth lives only in the active `ENGI_SPEC_V26*` family.
 This document exists to keep the repository’s modular architecture legible while the V26 productionizing pass lands.
+V26 is promoted through fourth gate, with fifth-gate rename/proof closure, sixth-gate old-world system reform, and seventh-gate whole-repository provation still active.
 
 ## Primary application architecture
 

@@ -1,5 +1,5 @@
 /**
- * Mock Orchestrator - The Heart of Engi's State-of-the-Art Mocking System
+ * Mock Orchestrator - the heart of the Bitcode mock system
  * 
  * This orchestrator provides enterprise-grade mocking capabilities with:
  * - Type-safe scenario management
@@ -364,7 +364,7 @@ export class MockOrchestrator {
     this.registerScenario({
       id: 'demo',
       name: 'Demo Experience',
-      description: 'Rich, engaging demo data for showcasing Engi capabilities',
+      description: 'Rich, engaging demo data for showcasing Bitcode capabilities',
       type: 'demo',
       complexity: 'complex',
       timing: 'realistic',
@@ -373,7 +373,7 @@ export class MockOrchestrator {
         version: '1.0.0',
         createdAt: '2024-01-01T00:00:00Z',
         updatedAt: new Date().toISOString(),
-        author: 'Engi Team',
+        author: 'Bitcode Team',
         tags: ['demo', 'showcase', 'rich'],
         realistic: true,
         useCases: ['demos', 'sales', 'onboarding'],
@@ -398,7 +398,7 @@ export class MockOrchestrator {
         version: '1.0.0',
         createdAt: '2024-01-01T00:00:00Z',
         updatedAt: new Date().toISOString(),
-        author: 'Engi Team',
+        author: 'Bitcode Team',
         tags: ['testing', 'minimal', 'predictable'],
         realistic: false,
         useCases: ['unit-tests', 'integration-tests', 'ci-cd'],

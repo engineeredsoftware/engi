@@ -1,8 +1,8 @@
 /**
  * Specialized Mock Middleware - Area-Specific Mock Integration
  * 
- * Provides specialized middleware functions for each major area of the Engi system:
- * - User Orbital (onboarding, auth, profile)
+ * Provides specialized middleware functions for each major area of the Bitcode system:
+ * - User Auxillaries (onboarding, auth, profile)
  * - Conversations (ChatGPT for engineering)
  * - Deliverables/AI Documents (main pipelines)
  * - Organizations (enterprise features)
@@ -748,6 +748,7 @@ function createStreamingMockResponse(data: any, feature: MockableFeature): NextR
  * High-level area middleware for convenience
  */
 export const mockAreas = {
+  auxillaries: { auth: mockAuth, user: mockUser, onboarding: mockOnboarding },
   orbital: { auth: mockAuth, user: mockUser, onboarding: mockOnboarding },
   conversation: { chat: mockChat, ...mockConversation },
   pipelines: { deliverables: mockDeliverables },

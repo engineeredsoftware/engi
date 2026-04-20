@@ -117,23 +117,57 @@ Required coverage posture:
   fifth-gate active-product naming witnesses now also cover mounted public-shell teaching carriers and retained package docs such as `uapi/app/(root)/components/{MarketingFeaturesGrid,MarketingComputeSection,MarketingCompetitorTableSection,MarketingMarketplaceSection}.tsx`, `uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx`, and `packages/{web-search,registry}/*`, so public demo-like terminal strings, active classnames/comments, and retained registry/web-search docs cannot silently drift back to `Engi`
   fifth-gate active-product naming witnesses now also cover user-facing package API route strings in `packages/api/src/routes/*`, so auth welcome flows, ChatGPT success messages, and deliverables permission guidance cannot silently keep `Engi` naming while the mounted product surfaces read as Bitcode
   fifth-gate active-product naming witnesses now also cover retained shared contracts such as `@bitcode/errors` and direct consumers like `packages/api/src/routes/deliverables.ts` and `uapi/app/error.tsx`, so exported symbols, docs, and active error teaching cannot silently keep `EngiError` naming after promotion
+  fifth-gate active-product naming witnesses now also cover live webhook and mock-system carriers such as `uapi/app/api/webhook/{route,verify}.ts`, `uapi/tests/webhookRoute.test.ts`, `uapi/mocking/index.ts`, `uapi/mocking/integration/MockProvider.tsx`, and `uapi/mocking/generators/ComprehensiveMockDataGenerators.ts`, so trigger labels, comment commands, browser debug globals, and mock organization identities cannot silently drift back to `engi-*` product truth
 
-### Gate 5: proof precision and final closure
+### Gate 5: Bitcode rename completion, proof precision, and system completeness
 
 Required system families:
 - environment/debug coherence
 - production/staging/development mode completeness
 - migration/schema/type/API closure for retained storage systems
 - retained-package admissibility proof
-- total V26 closure proof
+- active-source product naming retirement
+- fifth-gate closure witnesses for retained app/package/runtime carriers
 
 Required coverage posture:
 - spec:
   final closure conditions are explicit
 - tests:
-  mode behavior and closure gates are exercised
+  mode behavior, naming-retirement witnesses, and closure gates are exercised
 - proof surface:
-  generated V26 proof appendix and reports become promotion blockers
+  generated V26 proof appendix and reports become fifth-gate blockers
+
+### Gate 6: old-world system reform into Bitcode market infrastructure
+
+Required system families:
+- retained old-world system admissibility and cut decisions
+- need-measuring agency reform for retained execution/tool/agent carriers
+- webhook and web-search role adjudication
+- compatibility-carrier retirement where reform does not justify survival
+
+Required coverage posture:
+- spec:
+  retained old-world systems have explicit Bitcode roles or cut decisions
+- tests:
+  reformed systems are still exercised where admitted, and cut systems are not silently required by active carriers
+- proof surface:
+  later-gate reform artifacts explicitly name what was kept, cut, or isolated
+
+### Gate 7: whole-repository provation and final V26 closure
+
+Required system families:
+- whole-repository production satisfaction
+- prompt-space completeness
+- total V26 closure
+- final application/API/MCP/ChatGPT-surface alignment
+
+Required coverage posture:
+- spec:
+  total repository closure is explicit
+- tests:
+  whole-repository final witnesses exercise the kept V26 system as one Bitcode application
+- proof surface:
+  generated V26 proof appendix and reports become seventh-gate final closure blockers
 
 ## Immediate V26 code-system assignments
 

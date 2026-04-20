@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: V26 canonical parity ledger for Bitcode productionizing hardening, first-gate application migration, second-gate application-facing refit, interface hardening, package-first repository refurbishment, and through-fourth-gate promotion
+- Scope: V26 canonical parity ledger for Bitcode productionizing hardening, first-gate application migration, second-gate application-facing refit, interface hardening, package-first repository refurbishment, through-fourth-gate promotion, and later-gate closure
 - Current canonical/latest target: `V26`
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
@@ -14,15 +14,15 @@
 - Specification target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_NOTES.md`
-- Source parity state: through-fourth-gate promotion closure is now materially implemented while fifth-gate proof/finalization remains open
-- V26 state: canonical promotion complete; parity truth is active through fourth gate while fifth-gate remains open
+- Source parity state: through-fourth-gate promotion closure is now materially implemented while fifth-, sixth-, and seventh-gate closure remain open
+- V26 state: canonical promotion complete; parity truth is active through fourth gate while fifth-, sixth-, and seventh-gate closure remain open
 
 ## Purpose
 
 This file records the current parity gap between:
 - active V26 canon and current source truth,
 - the landed through-fourth-gate V26 source changes,
-- the still-open fifth-gate proving/finalization target,
+- the still-open fifth-, sixth-, and seventh-gate closure targets,
 - and the intended longer-term package-first ownership model.
 
 ## Audit basis
@@ -176,4 +176,6 @@ This parity file is complete for the current V26 pass only when:
 4. generated proof posture is explicit,
 5. auth/wallet and interface-hardening remainder is explicit,
 6. organizational refurbishment is represented as first-class work,
-7. and the fifth-gate proving/finalization remainder is explicit.
+7. the fifth-gate rename/proof/system-completeness remainder is explicit,
+8. the sixth-gate reform/cut remainder is explicit,
+9. and the seventh-gate whole-repository closure remainder is explicit.

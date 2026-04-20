@@ -1,8 +1,8 @@
 /**
- * COMPREHENSIVE Mock Data Generators - Complete Engi System Coverage
+ * Comprehensive mock data generators for active Bitcode system coverage
  * 
  * This file provides mock data generation for ALL 100+ mockable features
- * identified in the comprehensive Engi system audit. 
+ * identified in the comprehensive Bitcode system audit.
  * 
  * Features:
  * - Complete system coverage (User Orbital, Conversations, Deliverables, Organizations, etc.)
@@ -20,7 +20,7 @@ import type {
 } from '../types/core';
 
 /**
- * COMPREHENSIVE Mock Data Generator covering the entire Engi system
+ * Comprehensive mock data generator covering the active Bitcode system
  */
 export class ComprehensiveMockDataGenerator {
   private readonly generators = new Map<MockableFeature, () => any>();
@@ -110,7 +110,7 @@ export class ComprehensiveMockDataGenerator {
     this.generators.set('CONVERSATION_ATTACHMENTS', () => this.generateConversationAttachments());
 
     // ========================================================================
-    // USER ORBITAL (Onboarding, Profile, Configuration)
+    // USER AUXILLARIES (Onboarding, Profile, Configuration)
     // ========================================================================
 
     // Authentication & Sessions
@@ -306,7 +306,7 @@ export class ComprehensiveMockDataGenerator {
         updated_at: this.generateTimestamp(),
         summary: 'Implement user authentication system with OAuth2 support',
         task_description: 'Create a comprehensive authentication system that supports multiple OAuth providers including GitHub, Google, and Microsoft. The system should include secure session management, role-based access control, and proper token handling.',
-        repository: 'engi-corp/auth-service',
+        repository: 'bitcode-labs/auth-service',
         status: this.pickRandom(['pending', 'in_progress', 'completed', 'failed']),
         items: this.generateDeliverableItems(),
         processing_stats: {
@@ -315,7 +315,7 @@ export class ComprehensiveMockDataGenerator {
           cost: 0.0187
         },
         repo_snapshot: {
-          org: 'engi-corp',
+          org: 'bitcode-labs',
           repo: 'auth-service', 
           branch: 'feature/oauth-implementation',
           commit: 'a7f8d9e2'
@@ -327,7 +327,7 @@ export class ComprehensiveMockDataGenerator {
         updated_at: this.generateTimestamp(-1),
         summary: 'Optimize database query performance for user analytics',
         task_description: 'Analyze and optimize slow-running database queries in the analytics service. Focus on user engagement metrics, conversion funnels, and reporting dashboards.',
-        repository: 'engi-corp/analytics-service',
+        repository: 'bitcode-labs/analytics-service',
         status: 'completed',
         items: this.generateDeliverableItems(),
         processing_stats: {
@@ -352,7 +352,7 @@ export class ComprehensiveMockDataGenerator {
         estimated_completion: this.generateTimestamp(0, 15), // 15 minutes from now
         context: {
           task: 'Add real-time notifications to the dashboard',
-          repository: 'engi-corp/dashboard-ui',
+          repository: 'bitcode-labs/dashboard-ui',
           branch: 'feature/notifications',
           attachments: [],
           modelProvider: 'anthropic',
@@ -413,11 +413,11 @@ export class ComprehensiveMockDataGenerator {
         id: 'item_' + this.generateId(),
         title: 'OAuth2 Configuration Module',
         output: 'Created comprehensive OAuth2 configuration system with support for multiple providers. The module includes secure credential management, token validation, and automatic refresh capabilities.',
-        repository: 'engi-corp/auth-service',
+        repository: 'bitcode-labs/auth-service',
         deliverable_type: 'pr',
         deliverable_id: '245',
         deliverable_status: 'open',
-        deliverable_url: 'https://github.com/engi-corp/auth-service/pull/245',
+        deliverable_url: 'https://github.com/bitcode-labs/auth-service/pull/245',
         attached_urls: ['https://docs.oauth.net/2/', 'https://auth0.com/docs/oauth2'],
         selected_files: ['src/auth/oauth.ts', 'src/config/providers.ts', 'tests/auth.test.ts'],
         created_at: this.generateTimestamp()
@@ -426,11 +426,11 @@ export class ComprehensiveMockDataGenerator {
         id: 'item_' + this.generateId(),
         title: 'User Session Management',
         output: 'Implemented secure session management with Redis backend, automatic cleanup, and security monitoring. Sessions now include proper CSRF protection and secure cookie handling.',
-        repository: 'engi-corp/auth-service',
+        repository: 'bitcode-labs/auth-service',
         deliverable_type: 'pr',
         deliverable_id: '246',
         deliverable_status: 'open',
-        deliverable_url: 'https://github.com/engi-corp/auth-service/pull/246',
+        deliverable_url: 'https://github.com/bitcode-labs/auth-service/pull/246',
         attached_urls: [],
         selected_files: ['src/session/manager.ts', 'src/middleware/session.ts'],
         created_at: this.generateTimestamp()
@@ -451,10 +451,10 @@ export class ComprehensiveMockDataGenerator {
         updated_at: this.generateTimestamp(),
         message_count: 12,
         status: 'active',
-        sources: ['github:engi-corp/ui-components', 'notion:performance-guide'],
+        sources: ['github:bitcode-labs/ui-components', 'notion:performance-guide'],
         last_message: 'Let me help you implement React.memo and useMemo optimizations for your component tree.',
         context: {
-          repository: 'engi-corp/ui-components',
+          repository: 'bitcode-labs/ui-components',
           branch: 'main',
           files: ['src/components/UserProfile.tsx', 'src/hooks/useUserData.ts']
         }
@@ -466,10 +466,10 @@ export class ComprehensiveMockDataGenerator {
         updated_at: this.generateTimestamp(-1),
         message_count: 8,
         status: 'completed',
-        sources: ['github:engi-corp/api-service'],
+        sources: ['github:bitcode-labs/api-service'],
         last_message: 'The migration plan looks solid. Make sure to run it in a staging environment first.',
         context: {
-          repository: 'engi-corp/api-service',
+          repository: 'bitcode-labs/api-service',
           branch: 'feature/schema-v2',
           files: ['migrations/001_add_user_preferences.sql']
         }
@@ -517,13 +517,13 @@ export class ComprehensiveMockDataGenerator {
   private generateUserProfile() {
     return {
       id: 'user_' + this.generateId(),
-      email: 'developer@engi.com',
+      email: 'developer@bitcode.dev',
       full_name: 'Alex Thompson',
       avatar_url: 'https://avatars.githubusercontent.com/u/123456?v=4',
       username: 'alexthompson',
       bio: 'Full-stack developer passionate about building scalable systems and developer tools.',
       location: 'San Francisco, CA',
-      company: 'Engi Technologies',
+      company: 'Bitcode Labs',
       website: 'https://alexthompson.dev',
       twitter: '@alexthompsondev',
       github: 'alexthompson',
@@ -597,18 +597,18 @@ export class ComprehensiveMockDataGenerator {
     return [
       {
         id: 'org_' + this.generateId(),
-        name: 'Engi Technologies',
-        slug: 'engi-tech',
-        description: 'Building the future of software development with AI-powered tools',
-        logo_url: 'https://engi.com/logo.png',
-        website: 'https://engi.com',
+        name: 'Bitcode Labs',
+        slug: 'bitcode-labs',
+        description: 'Building auditable market infrastructure for technical knowledge',
+        logo_url: 'https://bitcode.dev/logo.png',
+        website: 'https://bitcode.dev',
         industry: 'Technology',
         size: 'startup',
         created_at: this.generateTimestamp(-200),
         updated_at: this.generateTimestamp(),
         settings: {
-          billing_email: 'billing@engi.com',
-          tech_contact: 'tech@engi.com',
+          billing_email: 'billing@bitcode.dev',
+          tech_contact: 'tech@bitcode.dev',
           allow_public_repos: true,
           require_2fa: true,
           credit_limit: 10000
@@ -681,16 +681,16 @@ export class ComprehensiveMockDataGenerator {
     return [
       {
         id: 123456,
-        login: 'engi-corp',
+        login: 'bitcode-labs',
         type: 'Organization',
         avatar_url: 'https://avatars.githubusercontent.com/o/123456?v=4',
-        html_url: 'https://github.com/engi-corp',
-        name: 'Engi Corporation',
+        html_url: 'https://github.com/bitcode-labs',
+        name: 'Bitcode Labs',
         company: null,
-        blog: 'https://engi.com',
+        blog: 'https://bitcode.dev',
         location: 'San Francisco, CA',
-        email: 'info@engi.com',
-        bio: 'Building the future of software development',
+        email: 'info@bitcode.dev',
+        bio: 'Building auditable market infrastructure for technical knowledge',
         public_repos: 42,
         followers: 1247,
         following: 89,
@@ -703,10 +703,10 @@ export class ComprehensiveMockDataGenerator {
         avatar_url: 'https://avatars.githubusercontent.com/u/789012?v=4',
         html_url: 'https://github.com/alexthompson',
         name: 'Alex Thompson',
-        company: 'Engi Technologies',
+        company: 'Bitcode Labs',
         blog: 'https://alexthompson.dev',
         location: 'San Francisco, CA',
-        email: 'alex@engi.com',
+        email: 'alex@bitcode.dev',
         bio: 'Full-stack developer, AI enthusiast',
         public_repos: 67,
         followers: 234,
@@ -720,9 +720,9 @@ export class ComprehensiveMockDataGenerator {
     return [
       {
         id: 'repo_' + this.generateId(),
-        name: 'engi-platform',
-        full_name: 'engi-corp/engi-platform',
-        description: 'AI-powered software development platform',
+        name: 'bitcode-platform',
+        full_name: 'bitcode-labs/bitcode-platform',
+        description: 'Bitcode orchestration and transaction platform',
         private: false,
         fork: false,
         language: 'TypeScript',
@@ -742,8 +742,8 @@ export class ComprehensiveMockDataGenerator {
       {
         id: 'repo_' + this.generateId(),
         name: 'ui-components',
-        full_name: 'engi-corp/ui-components',
-        description: 'Reusable React components for Engi platform',
+        full_name: 'bitcode-labs/ui-components',
+        description: 'Reusable React components for Bitcode surfaces',
         private: false,
         fork: false,
         language: 'TypeScript',
@@ -1117,7 +1117,7 @@ export class ComprehensiveMockDataGenerator {
   private generateVectorSearch() { return { query: 'react component', results: [{ id: 'vec_123', score: 0.89 }] }; }
 
   // Admin & Analytics
-  private generateAdminUsers() { return [{ id: 'user_123', email: 'admin@engi.com', role: 'admin', last_login: this.generateTimestamp() }]; }
+  private generateAdminUsers() { return [{ id: 'user_123', email: 'admin@bitcode.dev', role: 'admin', last_login: this.generateTimestamp() }]; }
   private generateAdminOrganizations() { return this.generateOrganizations(); }
   private generateAdminRuns() { return [{ id: 'run_123', user_id: 'user_456', status: 'completed', cost: 0.25, duration: '120s' }]; }
   private generateAdminAnalytics() { return { users: { total: 1247, active: 567, new_this_month: 89 }, runs: { total: 5432, success_rate: 0.94 } }; }
@@ -1128,7 +1128,7 @@ export class ComprehensiveMockDataGenerator {
   // Legacy/Generic
   private generateCompletionData() { return { text: 'Generated completion', usage: { tokens: 150 }, model: 'claude-3-sonnet' }; }
   private generateProcessingStats() { return { duration: '120s', tokens_used: 1500, cost: 0.15 }; }
-  private generateRepoSnapshots() { return { org: 'engi-corp', repo: 'platform', branch: 'main', commit: 'abc123' }; }
+  private generateRepoSnapshots() { return { org: 'bitcode-labs', repo: 'platform', branch: 'main', commit: 'abc123' }; }
   private generateAPIResponses() { return { status: 200, data: { message: 'success' }, headers: { 'content-type': 'application/json' } }; }
   private generateErrorScenarios() { return { type: 'timeout', message: 'Request timed out', code: 'TIMEOUT_ERROR' }; }
   private generatePerformanceMetrics() { return { response_time: '89ms', memory_usage: '67%', cpu_usage: '23%' }; }

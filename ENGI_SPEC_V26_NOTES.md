@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-gate proof/finalization
+- Scope: working-note companion for the active V26 canonical family centered on Bitcode productionizing hardening, first-gate application migration, second-gate application UX/UI plus external hardening, third-gate marketing refurbishment, fourth-gate retained-system convergence, and fifth-through-seventh-gate closure
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V26`
 - Active canonical anchor: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26.md`
 - Active generated proof appendix: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PROVEN.md`
@@ -10,7 +10,7 @@
 - Delta companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_DELTA.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V26_PARITY_MATRIX.md`
 - Current through-fourth-gate checkpoint artifact: `/Users/garrettmaring/Developer/ENGI/.engi/v26-gate-checkpoint-report.json`
-- V26 state: canonical promotion complete; fifth-gate proof/finalization remains open
+- V26 state: canonical promotion complete; fifth-, sixth-, and seventh-gate closure remain open
 
 ## Notes companion rule
 
@@ -34,7 +34,7 @@ The following items are no longer open draft questions:
 - the late-Engi navbar remains the integrated application navigation frame for Bitcode.
 - homepage embedded-demo posture remains removed.
 - mock-mode `/application` review is part of first-gate closure rather than second-gate work.
-- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth-gate remains open.
+- the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth through seventh gate remain open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.engi/` or `ENGI_SPEC_*`.
 - retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
@@ -45,6 +45,9 @@ The following items are no longer open draft questions:
 - retained shared contracts are active fifth-gate proof carriers too: `packages/errors/*` and direct consumers like `packages/api/src/routes/deliverables.ts` and `uapi/app/error.tsx` must not keep `EngiError`-style product naming in active exported symbols, docs, or user-facing error teaching once the rest of the product reads as Bitcode.
 - retained runtime/debug/env contracts are active fifth-gate proof carriers too: active packages such as `packages/{logger,agent-generics,pipelines/deliverable,parsing}/*` must converge on `BITCODE_*` environment/debug contracts, `.bitcode_logs` sidecar posture, and Bitcode-facing helper strings instead of leaving `ENGI_*` runtime flags or `.engi_logs` as surviving product truth.
 - retained product-adjacent package surfaces are active fifth-gate proof carriers too: active helpers such as `packages/vercel/*` and `packages/generic-tools/{repository-setup,simple-system-text-search,files-maintaining,git-interactor}/*` must read as Bitcode in package metadata, fixture copy, and doc-code teaching wherever they describe active product/runtime behavior.
+- active webhook and mock-system carriers are fifth-gate proof carriers too: `uapi/app/api/webhook/{route,verify}.ts`, `uapi/tests/webhookRoute.test.ts`, and active `uapi/mocking/*` source owners must use Bitcode trigger labels, Bitcode comment commands, Bitcode mock globals, and Bitcode sample organizations rather than lingering `engi-deliver-*`, `@engi-*`, or `__engiMock*` runtime truth.
+- sixth-gate reform now has to explicitly adjudicate retained old-world systems rather than leaving them in a vague later bucket: web-search tool/agent behavior, webhook-trigger carriers, and other pure-agentic surfaces must either become explicit Bitcode need-measuring/support infrastructure or be cut from canonical V26 active source.
+- seventh-gate closure now owns the whole-repository application-ready Bitcode verdict: GUI, conversations, ChatGPT-style interface, ChatGPT app, API, MCP, schemas, proofs, docs, and retained packages must all close as one proven system with no silent legacy product ownership.
 
 ## Current first-gate source reminders
 
@@ -425,8 +428,10 @@ The current sequencing bias is:
 4. execute second-gate application UX/UI plus external hardening,
 5. execute third-gate marketing refurbishment,
 6. execute fourth-gate retained-system convergence,
-7. execute fifth-gate proof/finalization including debug/environment controls,
-8. then refresh generated evidence and promotion checks.
+7. execute fifth-gate rename/proof/system-completeness closure including debug/environment controls,
+8. execute sixth-gate old-world system reform into Bitcode market infrastructure,
+9. execute seventh-gate total-repository provation and final closure,
+10. then refresh generated evidence and promotion checks.
 
 ## Non-goals for these notes
 
@@ -446,3 +451,12 @@ Current fifth-gate reminders:
 - active public-shell outbound references must not rely on unreplaced Engi-era social handles; where no confirmed Bitcode social replacement exists, live product surfaces should prefer stable Bitcode-owned destinations like the canonical repository or protocol spec
 - active orbital styling identifiers that still carry Engi-era naming, even when buried in CSS selectors, count as unclosed fifth-gate residue and must be retired under proof like any other active code carrier
 - shared runtime and conversational primitives are part of the same closure boundary: active conversation-agent identity strings, repo-root helpers, LLM mock flags, and search-reservation globals must read as Bitcode because they are inherited infrastructure now driving the production application rather than isolated package internals
+
+Current sixth-gate reminders:
+- retained old-world agentic systems should not survive because they are “useful”; they survive only if they have a precise Bitcode role after need-measuring, transaction-linked, or support-system reform
+- retained webhook systems must be reviewed for canonical place versus later-version or cut scope rather than silently surviving as generic automation
+- retained web-search behavior must be evaluated the same way: if it is not part of Bitcode need measurement, support tooling, or other explicit market-infrastructure behavior, it is sixth-gate cut pressure
+
+Current seventh-gate reminders:
+- V26 is not fully done when fifth-gate naming residue reaches zero; the whole repository still has to prove as one Bitcode system
+- sixth-gate cuts and reforms must be reflected in proof space, docs, and generated artifacts before seventh-gate can close

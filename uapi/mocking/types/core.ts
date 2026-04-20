@@ -1,5 +1,5 @@
 /**
- * Core types for the Engi Mocking System
+ * Core types for the Bitcode mocking system
  * 
  * This file defines the foundational types that power a state-of-the-art
  * mocking infrastructure designed for enterprise-scale applications.
@@ -30,7 +30,7 @@ import type { Issue } from '@/types/issues';
 // ============================================================================
 
 /**
- * All mockable features in the Engi system
+ * All mockable features in the Bitcode system
  * Each feature can be independently controlled and configured
  */
 export type MockableFeature = 
@@ -73,7 +73,7 @@ export type MockableFeature =
   | 'CONVERSATION_ATTACHMENTS'
   
   // ============================================================================
-  // USER ORBITAL (Onboarding, Profile, Configuration)
+  // USER AUXILLARIES (Onboarding, Profile, Configuration)
   // ============================================================================
   
   // Authentication & Sessions

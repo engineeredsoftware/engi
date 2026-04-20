@@ -2,6 +2,8 @@
  * @jest-environment node
  */
 
+jest.mock('@vercel/analytics/server', () => ({ track: jest.fn() }));
+
 import { verifyGitHubSignature } from '@/app/api/webhook/verify';
 import { POST as webhookPOST } from '@/app/api/webhook/route';
 import crypto from 'crypto';
@@ -56,4 +58,3 @@ describe('GitHub webhook signature verification', () => {
     else process.env.GITHUB_WEBHOOK_SECRET = old;
   });
 });
-

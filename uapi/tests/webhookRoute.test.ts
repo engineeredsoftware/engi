@@ -84,7 +84,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 1, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-deliver-issue' }
+      label: { name: 'bitcode-deliver-issue' }
     };
     const req: any = { json: async () => payload };
     const res = await POST(req);
@@ -123,14 +123,14 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 3, pull_request: { url: 'x' } },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-deliver-issue' }
+      label: { name: 'bitcode-deliver-issue' }
     };
     const resPR = await POST({ json: async () => payloadPR } as any);
     expect(await resPR.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Label not applicable for PR',
       'info',
-      { labelName: 'engi-deliver-issue' }
+      { labelName: 'bitcode-deliver-issue' }
     );
     // Issue with PR-only label
     const payloadIssue = {
@@ -138,14 +138,14 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 4, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-deliver-pr' }
+      label: { name: 'bitcode-deliver-pr' }
     };
     const resIssue = await POST({ json: async () => payloadIssue } as any);
     expect(await resIssue.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Label not applicable for issue',
       'info',
-      { labelName: 'engi-deliver-pr' }
+      { labelName: 'bitcode-deliver-pr' }
     );
   });
 
@@ -157,7 +157,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 5, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-deliver-issue' }
+      label: { name: 'bitcode-deliver-issue' }
     };
     const res = await POST({ json: async () => payload } as any);
     expect(await res.json()).toEqual({ success: false, code: 500 });
@@ -177,7 +177,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 6, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-deliver-issue' }
+      label: { name: 'bitcode-deliver-issue' }
     };
     const req: any = { json: async () => payload };
     const res = await POST(req);
@@ -189,9 +189,9 @@ describe('GitHub Webhook Route', () => {
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Invoking pipeline',
       'info',
-      expect.objectContaining({ label: 'engi-deliver-issue', isPR: false, issueNumber: 6 })
+      expect.objectContaining({ label: 'bitcode-deliver-issue', isPR: false, issueNumber: 6 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'engi-deliver-issue', userId: 'user1', issueNumber: 6 });
+    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'bitcode-deliver-issue', userId: 'user1', issueNumber: 6 });
   });
 
   it('handles pipeline failure gracefully', async () => {
@@ -207,20 +207,20 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 7, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-deliver-issue' }
+      label: { name: 'bitcode-deliver-issue' }
     };
     const res = await POST({ json: async () => payload } as any);
     expect(await res.json()).toEqual({ success: true });
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Pipeline trigger failed',
       'error',
-      expect.objectContaining({ label: 'engi-deliver-issue', userId: 'user2', issueNumber: 7 })
+      expect.objectContaining({ label: 'bitcode-deliver-issue', userId: 'user2', issueNumber: 7 })
     );
     // track should not be called on failure
     expect(track).not.toHaveBeenCalledWith('Trigger Deliverable Pipeline', expect.anything());
   });
 
-  it('supports engi-pr label for deliverable pipeline', async () => {
+  it('supports bitcode-pr label for deliverable pipeline', async () => {
     // mock supabase to return a user and track that interaction is not processed
     installCommentSupabaseMocks();
     const payload = {
@@ -228,7 +228,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 8, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-pr' }
+      label: { name: 'bitcode-pr' }
     };
     const req: any = { json: async () => payload };
     const res = await POST(req);
@@ -236,9 +236,9 @@ describe('GitHub Webhook Route', () => {
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Invoking pipeline',
       'info',
-      expect.objectContaining({ label: 'engi-pr', isPR: false, issueNumber: 8 })
+      expect.objectContaining({ label: 'bitcode-pr', isPR: false, issueNumber: 8 })
     );
-    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'engi-pr', userId: 'user1', issueNumber: 8 });
+    expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'bitcode-pr', userId: 'user1', issueNumber: 8 });
   });
 
   it('prevents duplicate processing of same interaction', async () => {
@@ -249,7 +249,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 9, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      label: { name: 'engi-pr' }
+      label: { name: 'bitcode-pr' }
     };
     const req: any = { json: async () => payload };
     const res = await POST(req);
@@ -257,13 +257,13 @@ describe('GitHub Webhook Route', () => {
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Interaction already processed, skipping',
       'info',
-      expect.objectContaining({ eventType: 'labeled', trigger: 'engi-pr' })
+      expect.objectContaining({ eventType: 'labeled', trigger: 'bitcode-pr' })
     );
     // Should not trigger pipeline
     expect(track).not.toHaveBeenCalledWith('Trigger Deliverable Pipeline', expect.anything());
   });
 
-  it('supports @engi-pr comment trigger', async () => {
+  it('supports @bitcode-pr comment trigger', async () => {
     // mock supabase to return a user and track that interaction is not processed
     mockFrom.mockImplementation((table) => {
       if (table === 'user_connections') {
@@ -293,7 +293,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 10, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      comment: { id: 123, body: 'Please @engi-pr help with this issue', created_at: '2023-01-01T00:00:00Z' }
+      comment: { id: 123, body: 'Please @bitcode-pr help with this issue', created_at: '2023-01-01T00:00:00Z' }
     };
     const req: any = { json: async () => payload, headers: { get: () => 'issue_comment' } };
     const res = await POST(req);
@@ -306,7 +306,7 @@ describe('GitHub Webhook Route', () => {
     expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:pr', userId: 'user1', issueNumber: 10 });
   });
 
-  it('supports @engi-review comment trigger on PR', async () => {
+  it('supports @bitcode-review comment trigger on PR', async () => {
     // mock supabase to return a user and track that interaction is not processed
     mockFrom.mockImplementation((table) => {
       if (table === 'user_connections') {
@@ -336,7 +336,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 11, pull_request: { url: 'https://api.github.com/repos/owner/repo/pulls/11' } },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      comment: { id: 124, body: 'Please @engi-review this PR', created_at: '2023-01-01T00:00:00Z' }
+      comment: { id: 124, body: 'Please @bitcode-review this PR', created_at: '2023-01-01T00:00:00Z' }
     };
     const req: any = { json: async () => payload, headers: { get: () => 'issue_comment' } };
     const res = await POST(req);
@@ -349,7 +349,7 @@ describe('GitHub Webhook Route', () => {
     expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:review', userId: 'user1', issueNumber: 11 });
   });
 
-  it('supports @engi-commit comment trigger on PR', async () => {
+  it('supports @bitcode-commit comment trigger on PR', async () => {
     // mock supabase to return a user and track that interaction is not processed
     mockFrom.mockImplementation((table) => {
       if (table === 'user_connections') {
@@ -379,7 +379,7 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 12, pull_request: { url: 'https://api.github.com/repos/owner/repo/pulls/12' } },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      comment: { id: 125, body: 'Please @engi-commit some changes', created_at: '2023-01-01T00:00:00Z' }
+      comment: { id: 125, body: 'Please @bitcode-commit some changes', created_at: '2023-01-01T00:00:00Z' }
     };
     const req: any = { json: async () => payload, headers: { get: () => 'issue_comment' } };
     const res = await POST(req);
@@ -392,7 +392,7 @@ describe('GitHub Webhook Route', () => {
     expect(track).toHaveBeenCalledWith('Trigger Deliverable Pipeline', { labelName: 'issue_comment:commit', userId: 'user1', issueNumber: 12 });
   });
 
-  it('supports multiple @engi commands in single comment', async () => {
+  it('supports multiple @bitcode commands in single comment', async () => {
     // mock supabase to return a user and track that interaction is not processed
     const userConnections = createUserConnectionBuilder('user1');
     const githubInteractions = createGithubInteractionBuilder();
@@ -407,12 +407,12 @@ describe('GitHub Webhook Route', () => {
       issue: { number: 13, pull_request: null },
       repository: { name: 'repo', owner: { login: 'owner' } },
       installation: { id: 42 },
-      comment: { id: 126, body: 'Please @engi-pr and @engi-comment on this issue', created_at: '2023-01-01T00:00:00Z' }
+      comment: { id: 126, body: 'Please @bitcode-pr and @bitcode-comment on this issue', created_at: '2023-01-01T00:00:00Z' }
     };
     const req: any = { json: async () => payload, headers: { get: () => 'issue_comment' } };
     const res = await POST(req);
     expect(await res.json()).toEqual({ success: true });
-    // Should process the first valid command (@engi-pr)
+    // Should process the first valid command (@bitcode-pr)
     expect(log).toHaveBeenCalledWith(
       '[route /webhook POST] Invoking pipeline',
       'info',
