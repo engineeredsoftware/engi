@@ -229,7 +229,7 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/bitcode:
+  protocol-demonstration:
     devDependencies:
       '@types/node':
         specifier: ^25.5.2
@@ -2106,9 +2106,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.408.0
         version: 3.840.0
-      '@bitcode/bitcode':
+      '@bitcode/protocol-demonstration':
         specifier: workspace:*
-        version: link:../packages/bitcode
+        version: link:../protocol-demonstration
       '@bitcode/email':
         specifier: workspace:*
         version: link:../packages/email

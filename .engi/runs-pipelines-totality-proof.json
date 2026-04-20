@@ -1,11 +1,11 @@
 {
   "reportId": "v26-runs-pipelines-totality-proof",
   "version": "V26",
-  "proofSourceCommit": "9735eb5b78befe1b4f20454daa54bb4d99fe336c",
-  "generatedAt": "2026-04-20T19:40:25-03:00",
+  "proofSourceCommit": "c5a5e5746aea370b12fa82771c85fdddc4a12fce",
+  "generatedAt": "2026-04-20T20:28:49-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
-  "passed": true,
+  "passed": false,
   "routeWitnesses": [
     "/executions",
     "/executions/[runId]"
@@ -50,7 +50,7 @@
     "uapi/tests/api/deliverableTemplatesRoute.test.ts",
     "uapi/tests/deliverablesHistoryRoute.test.ts",
     "uapi/tests/deliverablesHistoryRunRoute.test.ts",
-    "uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
+    "uapi/tests/protocol-demonstrationExecutionStreamPanel.test.tsx",
     "uapi/tests/usePipelineExecution.test.tsx"
   ],
   "checks": [
@@ -114,8 +114,8 @@
     {
       "checkId": "runs-pipelines-retained-package-basis",
       "label": "Retained execution, pipeline, and proof carriers",
-      "passed": true,
-      "detail": "15 required files present",
+      "passed": false,
+      "detail": "1 files missing",
       "requiredFiles": [
         "packages/execution-generics/src/Execution.ts",
         "packages/execution-generics/src/execution-registry.ts",
@@ -130,16 +130,18 @@
         "uapi/tests/api/deliverables.persistence.test.ts",
         "uapi/tests/deliverablesHistoryRoute.test.ts",
         "uapi/tests/deliverablesHistoryRunRoute.test.ts",
-        "uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
+        "uapi/tests/protocol-demonstrationExecutionStreamPanel.test.tsx",
         "uapi/tests/usePipelineExecution.test.tsx"
       ],
-      "missingFiles": []
+      "missingFiles": [
+        "uapi/tests/protocol-demonstrationExecutionStreamPanel.test.tsx"
+      ]
     },
     {
       "checkId": "executions-activity-and-notification-carriers",
       "label": "Shared activity, execution, and notification carriers stay explicit under Bitcode",
-      "passed": true,
-      "detail": "25 required files present",
+      "passed": false,
+      "detail": "1 files missing",
       "requiredFiles": [
         "uapi/components/base/bitcode/activity/bitcode-activity-model.ts",
         "uapi/app/application/application-run-activity.ts",
@@ -154,7 +156,7 @@
         "uapi/app/api/auxillaries/usage/route.ts",
         "uapi/app/api/auxillaries/transactions/route.ts",
         "uapi/app/api/auxillaries/api-keys/route.ts",
-        "uapi/tests/bitcodeActivityModel.test.ts",
+        "uapi/tests/protocol-demonstrationActivityModel.test.ts",
         "uapi/tests/applicationTransactionActivity.test.ts",
         "uapi/tests/api/activityRoute.test.ts",
         "uapi/tests/api/orbitalsNotificationsRoute.test.ts",
@@ -167,7 +169,9 @@
         "uapi/tests/mcpSmoke.test.ts",
         "uapi/tests/notificationsWidget.test.tsx"
       ],
-      "missingFiles": []
+      "missingFiles": [
+        "uapi/tests/protocol-demonstrationActivityModel.test.ts"
+      ]
     }
   ]
 }

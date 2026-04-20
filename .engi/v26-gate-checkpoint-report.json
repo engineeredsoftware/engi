@@ -1,8 +1,8 @@
 {
   "reportId": "v26-gate-checkpoint-report",
   "version": "V26",
-  "proofSourceCommit": "9735eb5b78befe1b4f20454daa54bb4d99fe336c",
-  "generatedAt": "2026-04-20T19:40:25-03:00",
+  "proofSourceCommit": "c5a5e5746aea370b12fa82771c85fdddc4a12fce",
+  "generatedAt": "2026-04-20T20:28:49-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "dirty-preview",
   "activeCanonicalTarget": "V26",
@@ -10,7 +10,7 @@
   "checkpointId": "v26-through-fourth-gate-promotion-boundary-on-seven-gate-v26",
   "checkpointFocus": "through-fourth-gate-promotion-boundary-on-seven-gate-v26",
   "nextGate": "Gate 5: Bitcode rename completion, proof precision, and system completeness",
-  "passed": true,
+  "passed": false,
   "firstGate": {
     "gateId": "gate-1",
     "label": "Ownership migration baseline",
@@ -88,7 +88,7 @@
         "passed": true,
         "detail": "12 required files present",
         "requiredFiles": [
-          "packages/bitcode/test/v26-public-copy.test.js",
+          "protocol-demonstration/test/v26-public-copy.test.js",
           "uapi/tests/orbitalsProvider.test.tsx",
           "uapi/tests/orbitalsInterfacesPane.test.tsx",
           "uapi/tests/orbitalsBTDPane.test.tsx",
@@ -111,13 +111,13 @@
         "requiredFiles": [
           "README.md",
           "uapi/README.md",
-          "packages/bitcode/README.md",
+          "protocol-demonstration/README.md",
           "uapi/app/application/README.md",
           "uapi/app/orbitals/README.md",
           "uapi/components/base/bitcode/README.md",
           "uapi/components/base/bitcode/execution/README.md",
-          "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
-          "packages/bitcode/V26_PROOF_SURFACES.md"
+          "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+          "protocol-demonstration/V26_PROOF_SURFACES.md"
         ],
         "missingFiles": []
       }
@@ -138,8 +138,8 @@
           "BITCODE_SPEC_V26_DELTA.md",
           "BITCODE_SPEC_V26_NOTES.md",
           "BITCODE_SPEC_V26_PARITY_MATRIX.md",
-          "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
-          "packages/bitcode/V26_PROOF_SURFACES.md"
+          "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+          "protocol-demonstration/V26_PROOF_SURFACES.md"
         ],
         "missingFiles": []
       }
@@ -196,8 +196,8 @@
           "uapi/README.md",
           "BITCODE_SPEC_V26_DELTA.md",
           "BITCODE_SPEC_V26_NOTES.md",
-          "packages/bitcode/V26_APPLICATION_SYSTEMS.md",
-          "packages/bitcode/V26_PROOF_SURFACES.md"
+          "protocol-demonstration/V26_APPLICATION_SYSTEMS.md",
+          "protocol-demonstration/V26_PROOF_SURFACES.md"
         ],
         "missingFiles": []
       }
@@ -206,7 +206,7 @@
   "fourthGate": {
     "gateId": "gate-4",
     "label": "Merged-world application and retained-system convergence",
-    "passed": true,
+    "passed": false,
     "checks": [
       {
         "checkId": "fourth-gate-conversations-continuity",
@@ -217,8 +217,8 @@
       {
         "checkId": "fourth-gate-runs-pipelines-totality",
         "label": "Fourth-gate runs and pipelines totality proof",
-        "passed": true,
-        "detail": "Retained executions, activity, deliverables, and pipeline systems totalize under Bitcode"
+        "passed": false,
+        "detail": "Runs and pipelines totality proof remains open"
       },
       {
         "checkId": "fourth-gate-persistence-schema-totality",

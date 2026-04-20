@@ -30,7 +30,7 @@ function printHelp() {
     [
       'Usage: node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V26 [--next-draft V27] [--repo-root <path>]',
       '',
-      'Rewrites the runtime/demo canon-posture surfaces for canonical promotion.'
+      'Rewrites the preserved protocol/runtime canon-posture surfaces for canonical promotion.'
     ].join('\n')
   );
 }
@@ -71,32 +71,34 @@ function rewriteCanonPostureSource(content, version, nextDraft) {
 
 /**
  * @param {string} content
- * @param {string} resolvedRepoRoot
  * @param {string} version
  * @param {string} nextDraft
  */
-function rewriteReadme(content, resolvedRepoRoot, version, nextDraft) {
+function rewriteReadme(content, version, nextDraft) {
   let rewritten = content;
-  const projectName = projectLabel(version);
   rewritten = rewritten.replace(
-    /^# (?:ENGI|Bitcode) Package - V\d+ canonical first-gate deterministic shell and runtime$/m,
-    `# ${projectName} Package - ${version} canonical first-gate deterministic shell and runtime`
+    /^# .+$/m,
+    `# Bitcode Protocol Demonstration - ${version} canonical deterministic local prototype`
   );
   rewritten = rewritten.replace(
-    /^This package is governed by the active V\d+ canonical spec and serves as the current deterministic first-gate realization of the (?:full )?(?:ENGI|Bitcode) operating chain while V\d+ drafts and lands the productionizing hardening pass\.$/m,
-    `This package is governed by the active ${version} canonical spec and serves as the current deterministic first-gate realization of the ${projectName} operating chain while ${nextDraft} drafts and lands the productionizing hardening pass.`
+    /^This demo is governed by the active V\d+ canonical spec\.$/m,
+    `This demo is governed by the active ${version} canonical spec.`
   );
   rewritten = rewritten.replace(
-    /^- Canonical pointer is `.+ENGI_SPEC\.txt -> V\d+`$/m,
-    `- Canonical pointer is \`${resolvedRepoRoot}/BITCODE_SPEC.txt -> ${version}\``
+    /^- `BITCODE_SPEC\.txt -> V\d+`$/m,
+    `- \`BITCODE_SPEC.txt -> ${version}\``
   );
   rewritten = rewritten.replace(
-    /^- V\d+ is the current canonical\/latest target and governing full-system spec$/m,
-    `- ${version} is the current canonical/latest target and governing full-system spec`
+    /^- current generated appendix: `(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)`$/m,
+    `- current generated appendix: \`${promotedProvenPath(version)}\``
   );
   rewritten = rewritten.replace(
-    /^- `(?:BITCODE|ENGI)_SPEC_V\d+_PROVEN\.md` is the active generated proof appendix$/m,
-    `- \`${promotedProvenPath(version)}\` is the active generated proof appendix`
+    /^Active canon remains `V\d+`\.$/m,
+    `Active canon remains \`${version}\`.`
+  );
+  rewritten = rewritten.replace(
+    /^V\d+ is the next draft target after this promotion\.$/m,
+    `${nextDraft} is the next draft target after this promotion.`
   );
   return rewritten;
 }
@@ -116,8 +118,8 @@ async function main() {
   const nextDraft = args.nextDraft || deriveNextDraft(version);
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
 
-  const canonPosturePath = path.join(resolvedRepoRoot, 'packages', 'bitcode', 'src', 'canon-posture.js');
-  const readmePath = path.join(resolvedRepoRoot, 'packages', 'bitcode', 'README.md');
+  const canonPosturePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'src', 'canon-posture.js');
+  const readmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
 
   const [canonPostureContent, readmeContent] = await Promise.all([
     fs.readFile(canonPosturePath, 'utf8'),
@@ -126,7 +128,7 @@ async function main() {
 
   await Promise.all([
     fs.writeFile(canonPosturePath, rewriteCanonPostureSource(canonPostureContent, version, nextDraft), 'utf8'),
-    fs.writeFile(readmePath, rewriteReadme(readmeContent, resolvedRepoRoot, version, nextDraft), 'utf8')
+    fs.writeFile(readmePath, rewriteReadme(readmeContent, version, nextDraft), 'utf8')
   ]);
 
   process.stdout.write(

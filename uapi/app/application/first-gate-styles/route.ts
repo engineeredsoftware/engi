@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { DEFAULT_BITCODE_PUBLIC_DIR } from '@bitcode/bitcode';
+import { DEFAULT_BITCODE_PUBLIC_DIR } from '@bitcode/protocol-demonstration';
 
 export const runtime = 'nodejs';
 

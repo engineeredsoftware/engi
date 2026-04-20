@@ -287,25 +287,25 @@ function buildCommandPlan(version, commit) {
   const v25PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V25', '--mode', 'promoted']];
   const v25PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V25', '--draft-target', 'V26']];
   const inheritedProofCommands = [
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'typecheck']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:unit']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:integration']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:e2e']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:proof-member-matrix']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:theorem-evidence-matrix']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:state-machine']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:deterministic-replay']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:volatility']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:negative-mutation-matrix']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:contract-ledger']]
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'typecheck']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:unit']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:integration']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:e2e']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:proof-member-matrix']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:theorem-evidence-matrix']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:state-machine']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:deterministic-replay']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:volatility']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:negative-mutation-matrix']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:contract-ledger']]
   ];
   const v20QualityCommands = [
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-operator-transcript']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-accessibility']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-visual']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-performance']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-projection-quality']],
-    ['npm', ['--prefix', 'packages/bitcode', 'run', 'test:v20-quality-summary']]
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-operator-transcript']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-accessibility']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-visual']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-performance']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-projection-quality']],
+    ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v20-quality-summary']]
   ];
   const generatedCommands = [
     ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
@@ -315,7 +315,7 @@ function buildCommandPlan(version, commit) {
   if (version === 'V19') {
     return [
       ...inheritedProofCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       ...generatedCommands
     ];
   }
@@ -323,7 +323,7 @@ function buildCommandPlan(version, commit) {
     return [
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       ...generatedCommands
     ];
   }
@@ -333,7 +333,7 @@ function buildCommandPlan(version, commit) {
       v21CanonicalInputCheckCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       v21PreparePromotionSpecFamilyCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--check', '--allow-dirty']],
@@ -349,7 +349,7 @@ function buildCommandPlan(version, commit) {
       v22DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       v22PreparePromotionSpecFamilyCommand,
       v22PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
@@ -367,7 +367,7 @@ function buildCommandPlan(version, commit) {
       v23DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       v23PreparePromotionSpecFamilyCommand,
       v23PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
@@ -385,7 +385,7 @@ function buildCommandPlan(version, commit) {
       v24DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       v24PreparePromotionSpecFamilyCommand,
       v24PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],
@@ -403,7 +403,7 @@ function buildCommandPlan(version, commit) {
       v25DraftCanonPostureDriftCommand,
       ...inheritedProofCommands,
       ...v20QualityCommands,
-      ['npm', ['--prefix', 'packages/bitcode', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
       v25PreparePromotionSpecFamilyCommand,
       v25PrepareRuntimePromotionCommand,
       ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', legacyProvenOutput(version), '--allow-dirty']],

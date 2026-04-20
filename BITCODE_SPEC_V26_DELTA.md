@@ -25,7 +25,7 @@ V26 exists because rename closure was not architectural closure.
 The concrete V26 delta is:
 - the old standalone demonstration ownership had to be removed,
 - the Bitcode application route had to become app-native,
-- the repo had to stop treating `engi-demo/` as the primary system owner,
+- the repo had to stop treating the former top-level demo directory as the primary system owner,
 - the preserved Bitcode protocol UX had to survive the ownership move,
 - the retained and repurposed whole repository now has to be proven up to Bitcode-grade production satisfaction rather than leaving strong proof closure isolated to the former demo core,
 - and production hardening had to continue beyond V25’s first rename gate.
@@ -38,7 +38,7 @@ First-gate is the ownership migration gate.
 Its rule is:
 - keep the Bitcode protocol UX, content, ordering, interactions, and deterministic state contract effectively the same,
 - move the runtime and shell contract into package/app ownership,
-- remove `engi-demo/` as a directory,
+- remove the former top-level demo directory as a directory owner,
 - and make the application page the live carrier.
 
 First-gate does **not** require deep application-experience redesign.
@@ -53,7 +53,7 @@ Its rule is:
 - keep `/application` as the only primary Bitcode destination,
 - keep conversations and orbitals as fullscreen overlays entered from within `/application`,
 - port the strongest executions/deliverables master-detail patterns inward to `/application`,
-- retain the late-Engi navbar as the application navigation frame,
+- retain the pre-Bitcode navbar as the application navigation frame,
 - converge more of the page onto `uapi/components/base/*`,
 - lock the read experience onto a rich transactions master-detail workspace and the write experience onto Give/Need draft flow,
 - keep live application copy user-facing rather than demo-facing, canon-facing, or source-path-facing,
@@ -61,7 +61,7 @@ Its rule is:
 - fix the orbital model as `Connects`, `Interfaces`, `Profile`, and `$BTD`,
 - stabilize the contained orbital shell so ring visuals, pane layout, and motion remain subordinate to reading,
 - treat README and markdown refurbishment for the active route/package/component owners as part of second-gate implementation,
-- keep the visual atmosphere aligned to the late-Engi design system while the product itself is entirely Bitcode,
+- keep the visual atmosphere aligned to the retained pre-Bitcode design system while the product itself is entirely Bitcode,
 - and harden the new application page plus its external interfacings up to stable readiness.
 
 ### Third-gate
@@ -122,18 +122,18 @@ Its rule is:
 
 The current first-gate V26 structure is:
 
-- `packages/bitcode/package.json`
-  Bitcode is now a workspace package owner rather than a top-level standalone app directory.
-- `packages/bitcode/src/*`
-  Canon posture, deterministic state machine, proof, settlement, projection, and external-realization code moved under package ownership.
-- `packages/bitcode/public/app.js`
-  The preserved first-gate shell behavior now lives under package ownership and is mounted by the application route instead of by a standalone server-owned HTML page.
-- `packages/bitcode/public/styles.css`
+- `protocol-demonstration/package.json`
+  Bitcode now preserves the former deterministic runtime under a root sibling protocol owner rather than a top-level standalone app directory.
+- `protocol-demonstration/src/*`
+  Canon posture, deterministic state machine, proof, settlement, projection, and external-realization code moved under preserved protocol ownership.
+- `protocol-demonstration/public/app.js`
+  The preserved first-gate shell behavior now lives under preserved protocol ownership and is mounted by the application route instead of by a standalone server-owned HTML page.
+- `protocol-demonstration/public/styles.css`
   The preserved first-gate shell stylesheet now serves the app-owned route.
-- `packages/bitcode/server.js`
-  The deterministic runtime/context remains available as package-owned HTTP/runtime composition instead of as `engi-demo/server.js`.
-- `packages/bitcode/test/*`
-  First-gate proof/runtime validation moved with the package owner.
+- `protocol-demonstration/server.js`
+  The deterministic runtime/context remains available as preserved protocol HTTP/runtime composition instead of as `engi-demo/server.js`.
+- `protocol-demonstration/test/*`
+  First-gate proof/runtime validation moved with the preserved protocol owner.
 - `uapi/app/application/page.tsx`
   `/application` remains the Bitcode first-class route carrier.
 - `uapi/app/application/ApplicationPageClient.tsx`
@@ -141,7 +141,7 @@ The current first-gate V26 structure is:
 - `uapi/app/application/first-gate-styles/route.ts`
   The application route serves the preserved first-gate stylesheet as an app-owned surface.
 - `uapi/lib/bitcode-app-context.ts`
-  Shared app-owned bridge from Next route handlers into the package-owned Bitcode context.
+  Shared app-owned bridge from Next route handlers into the preserved protocol-owned Bitcode context.
 - `uapi/app/api/state/route.ts`
 - `uapi/app/api/deposits/route.ts`
 - `uapi/app/api/make-bitcode-branch/route.ts`
@@ -160,9 +160,9 @@ The accepted V26 decisions are now:
 2. V25 remains the active behavioral and canonical baseline during V26 drafting.
 3. `/application` is the first-gate Bitcode route carrier.
 4. The homepage embedded demo posture is removed.
-5. `engi-demo/` no longer exists as a source directory.
-6. First-gate preserves the old Bitcode operator UX and deterministic state/API contract under new package/app ownership.
-7. First-gate uses `packages/bitcode` as the immediate package owner.
+5. the former top-level demo directory no longer exists as a source directory.
+6. First-gate preserves the old Bitcode operator UX and deterministic state/API contract under new protocol/app ownership.
+7. First-gate uses `protocol-demonstration` as the immediate preserved protocol owner.
 8. First-gate review must work through `/application` in mock mode so interface quality can be inspected without live external data.
 9. Second-gate is application UX/UI plus external-interfacing hardening, not marketing refurbishment.
 10. Third-gate is the marketing refurbishment gate.
@@ -177,7 +177,7 @@ The accepted V26 decisions are now:
 19. Auxillaries and conversations are fullscreen overlays entered from within `/application` rather than peer product destinations.
 20. Auxillaries are fixed as four rings: `Connects`, `Interfaces`, `Profile`, and `$BTD`.
 21. Existing executions/deliverables systems are master-detail reuse reservoirs to be ported inward rather than preserved as the lasting topology.
-22. The late-Engi navbar remains the integrated application navigation frame for Bitcode.
+22. The pre-Bitcode navbar remains the integrated application navigation frame for Bitcode.
 23. Fifth-gate carries mandatory proof closure/finalization work including the debug widget, environment toggle, environment completeness, retained-package proving, and remaining rename cleanup.
 24. Existing packages such as `packages/github`, `packages/auth`, `packages/api`, `packages/supabase`, `packages/orm`, `packages/prompts`, `packages/conversations-generics`, and `packages/execution-generics` remain convergence targets where that ownership is the correct long-term fit.
 25. Authentication, wallet posture, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation remain in scope for V26 hardening.
@@ -194,7 +194,7 @@ The remaining V26 delta is now concentrated in:
 - fourth-gate retained-system convergence for conversations, runs/pipelines, retained execution compatibility APIs, deliverables, prompts, and retained agent/tool layers,
 - fifth-gate debug/finalization work including the floating debug widget and environment toggle,
 - production, staging, and development mode completeness within the new application expression,
-- deeper package splitting beyond the immediate `packages/bitcode` consolidation owner,
+- deeper package splitting beyond the immediate `protocol-demonstration` consolidation owner,
 - GitHub convergence onto longer-term package/API owners,
 - wallet productionization,
 - credits-to-wallet cutover so wallet-connected Bitcoin replaces credits as the end-state auth, share-ownership, and token-transfer carrier,
@@ -213,13 +213,13 @@ Second-gate is now specified as:
 - fullscreen conversations and orbitals entered from within `/application`,
 - fixed orbital-ring ownership as `Connects`, `Interfaces`, `Profile`, and `$BTD`,
 - inward porting of executions/deliverables master-detail reuse patterns,
-- retention of the late-Engi navbar as the application frame,
+- retention of the pre-Bitcode navbar as the application frame,
 - semantic preservation of the carried first-gate Bitcode flow,
 - explicit reuse of current `uapi/components/base/*` and orbital carriers where those owners fit,
 - live copy that is user-facing rather than demo-facing or gate-facing,
 - flow-guide naming and contained-orbital shell behavior as production-facing surfaces rather than incidental implementation details,
 - markdown/readme refurbishment for the active route/package/component owners so the growing Bitcode system remains legible while it is being componentized,
-- preservation of the late-Engi aesthetic atmosphere while the product identity remains entirely Bitcode,
+- preservation of the retained pre-Bitcode aesthetic atmosphere while the product identity remains entirely Bitcode,
 - and stable-readiness hardening for the application-facing external interfacings visible through the new page.
 
 The current active second-gate source file additions are:
@@ -321,16 +321,16 @@ The current active second-gate source file additions are:
 - `uapi/tests/applicationShellBridge.test.tsx`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
-- `uapi/tests/bitcodeDetailRowList.test.tsx`
-- `uapi/tests/bitcodeMetricGrid.test.tsx`
+- `uapi/tests/protocol-demonstrationDetailRowList.test.tsx`
+- `uapi/tests/protocol-demonstrationMetricGrid.test.tsx`
 - `uapi/tests/deliverablesHistoryRoute.test.ts`
 - `uapi/tests/deliverablesHistoryRunRoute.test.ts`
 - `uapi/tests/usePipelineExecution.test.tsx`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
-- `packages/bitcode/src/client-entry.js`
-- `packages/bitcode/public/app.js`
-- `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
-- `packages/bitcode/V26_PROOF_SURFACES.md`
+- `protocol-demonstration/src/client-entry.js`
+- `protocol-demonstration/public/app.js`
+- `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
+- `protocol-demonstration/V26_PROOF_SURFACES.md`
 
 The second-gate mandatory design outputs are:
 1. section wireframes,
@@ -522,8 +522,8 @@ The current V26 sequencing is now:
 ## Commit-Body Direction
 
 The eventual V26 canonical commit body should describe:
-- removal of `engi-demo/` as a top-level directory,
-- adoption of `packages/bitcode` as the first-gate package owner,
+- removal of the former top-level demo directory,
+- adoption of `protocol-demonstration` as the first-gate preserved protocol owner,
 - app-owned `/application` and `/api/*` carriage of the preserved Bitcode shell contract,
 - removal of embedded-demo-first product posture,
 - second-gate application-experience work still remaining,

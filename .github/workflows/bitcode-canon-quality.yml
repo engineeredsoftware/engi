@@ -34,8 +34,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run full Bitcode package suite
-        run: npm --prefix packages/bitcode run test
+      - name: Run full Bitcode protocol-demonstration suite
+        run: npm --prefix protocol-demonstration run test
 
   bitcode-spec-commit-conformance:
     name: Bitcode Spec Commit Conformance

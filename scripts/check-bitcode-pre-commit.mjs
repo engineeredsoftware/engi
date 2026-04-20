@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { ACTIVE_CANON_VERSION } from '../packages/bitcode/src/canon-posture.js';
+import { ACTIVE_CANON_VERSION } from '../protocol-demonstration/src/canon-posture.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +14,7 @@ const defaultQualityScript = path.join(defaultRepoRoot, 'scripts/run-bitcode-spe
 const SPEC_RELEVANT_PATHS = [
   /^BITCODE_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
   /^BITCODE_SPEC\.txt$/u,
-  /^packages\/bitcode\/src\/canonical\/v21-specifying\.js$/u,
+  /^packages\/protocol-demonstration\/src\/canonical\/v21-specifying\.js$/u,
   /^package\.json$/u,
   /^scripts\/(?:check-bitcode-|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-engi-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,

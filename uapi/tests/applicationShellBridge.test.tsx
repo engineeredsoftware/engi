@@ -6,7 +6,7 @@ import {
   useApplicationShellBridge,
 } from '@/app/application/application-shell-bridge';
 
-jest.mock('@bitcode/bitcode/src/client-entry.js', () => ({
+jest.mock('@bitcode/protocol-demonstration/src/client-entry.js', () => ({
   readBitcodeApplicationShellSnapshot: jest.fn(),
   readBitcodeApplicationShellControls: jest.fn(),
 }));
@@ -14,7 +14,7 @@ jest.mock('@bitcode/bitcode/src/client-entry.js', () => ({
 const {
   readBitcodeApplicationShellSnapshot,
   readBitcodeApplicationShellControls,
-} = jest.requireMock('@bitcode/bitcode/src/client-entry.js') as {
+} = jest.requireMock('@bitcode/protocol-demonstration/src/client-entry.js') as {
   readBitcodeApplicationShellSnapshot: jest.Mock;
   readBitcodeApplicationShellControls: jest.Mock;
 };

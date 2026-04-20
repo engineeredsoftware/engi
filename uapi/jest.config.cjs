@@ -43,7 +43,9 @@ module.exports = {
     '^@bitcode/errors$': '<rootDir>/../packages/errors/src/errors.ts',
     '^@bitcode/artifacts$': '<rootDir>/../packages/artifacts/src/artifacts.ts',
     '^@bitcode/vcs-tools$': '<rootDir>/../packages/generic-tools/vcs/src/index.ts',
-    '^@bitcode/bitcode$': '<rootDir>/../packages/bitcode/src/index.js',
+    '^@bitcode/protocol-demonstration$': '<rootDir>/../protocol-demonstration/src/index.js',
+    '^@bitcode/protocol-demonstration/src/(.+)$': '<rootDir>/../protocol-demonstration/src/$1',
+    '^@bitcode/protocol-demonstration/public/(.+)$': '<rootDir>/../protocol-demonstration/public/$1',
     '^@bitcode/generic-tools/(.+)/src/(.+)$': '<rootDir>/../packages/generic-tools/$1/src/$2',
     '^@bitcode/generic-tools/(.+)$': '<rootDir>/../packages/generic-tools/$1/src/index.ts',
     '^@bitcode/generic-tools-mcps-(.+)$': '<rootDir>/../packages/generic-tools/mcps-tools/$1/src/index.ts',
@@ -65,7 +67,7 @@ module.exports = {
     // that have not yet been migrated. These can be removed once the import
     // sweep is complete.
     // -------------------------------------------------------------------
-    '^@/lib/bitcode-app-context$': '<rootDir>/lib/bitcode-app-context.ts',
+    '^@/lib/protocol-demonstration-app-context$': '<rootDir>/lib/protocol-demonstration-app-context.ts',
     '^@/lib/mock-review-mode$': '<rootDir>/lib/mock-review-mode.ts',
     '^@/lib/logger$': '<rootDir>/../packages/pipelines-generics/src/logger.ts',
     '^@/lib/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',

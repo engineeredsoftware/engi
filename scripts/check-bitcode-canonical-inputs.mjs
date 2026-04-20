@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildV21CanonicalInputReport } from '../packages/bitcode/src/canonical/v21-specifying.js';
+import { buildV21CanonicalInputReport } from '../protocol-demonstration/src/canonical/v21-specifying.js';
 
 function projectLabel(version) {
   return 'Bitcode';

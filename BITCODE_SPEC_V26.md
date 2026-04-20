@@ -14,7 +14,7 @@
 - Canonical companion delta: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_DELTA.md`
 - Canonical companion parity ledger: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - Canonical companion notes file: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
-- Draft posture source: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
+- Draft posture source: `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
 - Source parity state: through-fourth-gate V26 promotion closure is now canonicalized in source across application routes, auxillary compatibility redirects, retained-system convergence, persistence witnesses, prompt-system ports, and generated proof artifacts; fifth-through-seventh-gate closure remains open
 - V26 state: canonical promotion complete; V26 is the active Bitcode canon through fourth gate and remains the current testnet-ready, near-commercial-readiness canonical target while fifth-, sixth-, and seventh-gate closure remain open
 
@@ -55,21 +55,21 @@ V26 is the most complex canonical promotion in the repository because it simulta
 - elevates the demo into a testnet-ready, near-commercial Bitcode product/application,
 - absorbs real-world inputs, outputs, and interface obligations into the canonical source map,
 - reorganizes active source around tighter package/app abstractions and proof-bearing modular topology,
-- and completes the repository-wide Engi-to-Bitcode transformation without relaxing spec-to-source parity density.
+- and completes the repository-wide Bitcode transformation without relaxing spec-to-source parity density.
 
 V27 then becomes the commercial-readiness successor.
 V26 is the testnet-ready, near-commercial-readiness canon; V27 must not be treated as a continuation of rename cleanup, but as the commercialization and market-readiness version built on a fully Bitcode-owned V26 base.
 
 The intended result is not "micro-app the demo into `uapi/`."
 The intended result is:
-- remove `engi-demo/` as a top-level directory owner,
-- land first-gate Bitcode ownership under `packages/bitcode` plus app-owned route surfaces,
+- remove the former top-level demo directory as a primary directory owner,
+- land first-gate Bitcode ownership under `protocol-demonstration` plus app-owned route surfaces,
 - preserve the useful Bitcode operator UX chain while replacing demonstration ownership first and deeper UI implementation second,
 - remove the homepage embedded-demo posture in favor of a full-page application route,
 - keep `/application` as the only primary Bitcode destination in the live app,
 - keep orbitals and conversations as fullscreen application overlays rather than peer product destinations,
 - port reusable executions/deliverables master-detail patterns inward to `/application` instead of preserving them as the lasting product topology,
-- keep the established late-Engi navbar and app-shell navigation frame as the application-facing Bitcode frame,
+- keep the established pre-Bitcode navbar and app-shell navigation frame as the application-facing Bitcode frame,
 - maximize precise reuse of the retained active package/app code where those owners fit the new Bitcode totality,
 - and harden auth, GitHub, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation to a live-application-ready level.
 
@@ -84,10 +84,10 @@ It preserves the Bitcode shell experience while changing where that experience l
 It also requires the preserved demonstration UX to read through the application as a production-initial Bitcode surface by using core app/component carriers rather than a standalone demo framing.
 
 The current first-gate source file structure is:
-- `packages/bitcode/src/*`
-- `packages/bitcode/public/*`
-- `packages/bitcode/server.js`
-- `packages/bitcode/test/*`
+- `protocol-demonstration/src/*`
+- `protocol-demonstration/public/*`
+- `protocol-demonstration/server.js`
+- `protocol-demonstration/test/*`
 - `uapi/app/application/page.tsx`
 - `uapi/app/application/ApplicationPageClient.tsx`
 - `uapi/app/application/first-gate-styles/route.ts`
@@ -114,8 +114,8 @@ Second-gate is the application UX/UI and external-interfacing hardening gate.
 It does not reopen the first-gate ownership migration.
 It replaces the preserved shell implementation with deeper native application-facing composition while keeping Bitcode semantics intact.
 It hardens the live application-facing external interfacings up to stable readiness within the new `/application` expression.
-Its aesthetic atmosphere remains the design system of late-Engi, but the product itself is entirely Bitcode.
-It also includes markdown and README refurbishment for the active route, orbital, execution, and package owners so the growing V26 system stays legible and provable.
+Its aesthetic atmosphere remains the retained pre-Bitcode design system, but the product itself is entirely Bitcode.
+It also includes markdown and README refurbishment for the active route, orbital, execution, shared-component, package, and preserved protocol owners so the growing V26 system stays legible and provable.
 
 The current active second-gate source additions are now explicitly:
 - `uapi/app/application/ApplicationCommandDeck.tsx`
@@ -217,31 +217,31 @@ The current active second-gate source additions are now explicitly:
 - `uapi/tests/applicationShellBridge.test.tsx`
 - `uapi/tests/applicationSupplySelection.test.ts`
 - `uapi/tests/applicationTransactions.test.ts`
-- `uapi/tests/bitcodeInlineExplainer.test.tsx`
-- `uapi/tests/bitcodeDetailRowList.test.tsx`
-- `uapi/tests/bitcodeMetricGrid.test.tsx`
-- `uapi/tests/bitcodeTransactionsFilterBar.test.tsx`
-- `uapi/tests/bitcodeTransactionsPagination.test.tsx`
-- `uapi/tests/bitcodePayloadInspector.test.tsx`
+- `uapi/tests/protocol-demonstrationInlineExplainer.test.tsx`
+- `uapi/tests/protocol-demonstrationDetailRowList.test.tsx`
+- `uapi/tests/protocol-demonstrationMetricGrid.test.tsx`
+- `uapi/tests/protocol-demonstrationTransactionsFilterBar.test.tsx`
+- `uapi/tests/protocol-demonstrationTransactionsPagination.test.tsx`
+- `uapi/tests/protocol-demonstrationPayloadInspector.test.tsx`
 - `uapi/tests/deliverablesHistoryRoute.test.ts`
 - `uapi/tests/deliverablesHistoryRunRoute.test.ts`
 - `uapi/tests/usePipelineExecution.test.tsx`
 - `uapi/tests/api/externalRealizationRoute.test.ts`
-- `packages/bitcode/src/client-entry.js`
-- `packages/bitcode/public/app.js`
-- `packages/bitcode/public/index.html`
-- `packages/bitcode/public/styles.css`
+- `protocol-demonstration/src/client-entry.js`
+- `protocol-demonstration/public/app.js`
+- `protocol-demonstration/public/index.html`
+- `protocol-demonstration/public/styles.css`
 - `uapi/styles/orbital.css`
 - `uapi/styles/orbital-rings.css`
 - `README.md`
 - `uapi/README.md`
-- `packages/bitcode/README.md`
+- `protocol-demonstration/README.md`
 - `uapi/app/application/README.md`
 - `uapi/app/orbitals/README.md`
 - `uapi/components/base/bitcode/README.md`
 - `uapi/components/base/bitcode/execution/README.md`
-- `packages/bitcode/V26_APPLICATION_SYSTEMS.md`
-- `packages/bitcode/V26_PROOF_SURFACES.md`
+- `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
+- `protocol-demonstration/V26_PROOF_SURFACES.md`
 
 ### Third-gate
 
@@ -375,7 +375,7 @@ Before second-gate implementation is accepted, the draft must carry:
 ### Second-gate route and ownership frame
 
 Second-gate keeps `/application` as the Bitcode route carrier.
-It does not move the product to a different route and it does not reopen first-gate package ownership.
+It does not move the product to a different route and it does not reopen first-gate preserved protocol ownership.
 
 Second-gate changes:
 - the route-local rendering owner,
@@ -387,13 +387,13 @@ Second-gate does not change:
 - the core Bitcode operating semantics,
 - the orbitals ownership rule,
 - the first-gate route/API owner locations,
-- or the fact that Bitcode remains the product identity while the aesthetic atmosphere stays aligned to the late-Engi design system.
+- or the fact that Bitcode remains the product identity while the aesthetic atmosphere stays aligned to the retained pre-Bitcode design system.
 
 ### Second-gate primary route, navbar, and overlay rule
 
 Second-gate locks the live Bitcode application posture as:
 - `/application` is the only primary Bitcode destination,
-- the late-Engi navbar and app-shell navigation frame remain the integrated navigation carrier for Bitcode,
+- the retained pre-Bitcode navbar and app-shell navigation frame remain the integrated navigation carrier for Bitcode,
 - shared workspace-route classification owns navbar surface posture and footer suppression for `/application`, `/auxillaries`, and `/conversations`, with `/orbitals/*` reduced to redirect-only compatibility,
 - unauthenticated workspace chrome uses deliberate access/create-account actions rather than disabled marketing-era CTA behavior,
 - signed-in orbital reopen actions use one shared orbitals-first entry contract rather than older account-named overlay aliases,
@@ -458,7 +458,7 @@ The second-gate target structure is:
 - `uapi/app/application/*`
   The only primary Bitcode destination and the master-detail carrier for give/need operations, a rich transactions table, transaction detail, deliverables, proofs, and history.
 - `uapi/components/base/bitcode/layout/nav.tsx`
-  The retained late-Engi navigation frame that continues to anchor the application.
+  The retained pre-Bitcode navigation frame that continues to anchor the application.
 - `uapi/app/orbitals/components/*`
   The orbital overlay system mounted from within the application context.
 - `uapi/app/conversations/components/*`
@@ -478,17 +478,17 @@ The second-gate target structure is:
 | give action frame | `renderRepoInventory()`, `renderAssets()`, deposit form semantics, repo-auth session surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationSupplySelectionPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | authenticated repo supply, depositing, inventory browsing, and material submission remain explicit | the operator should clearly understand how to give material to Bitcode |
 | give-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode give-side supply |
 | native deposit submission | preserved-shell deposit contract and app-owned `/api/deposits` carrier | `ApplicationDepositComposer.tsx`, `application-deposit-composer.ts`, and `uapi/app/api/deposits/route.ts` | title/author inference, selected inventory continuity, raw fallback behavior, and deposit posting remain semantically aligned to Bitcode intake | the operator should be able to submit a Bitcode deposit from the application workspace without dropping back into the preserved shell form |
-| shared shell bridge provider | per-component polling and shell-control refresh logic previously lived separately across second-gate carriers | `application-shell-bridge.tsx`, `packages/bitcode/public/app.js`, and `packages/bitcode/src/client-entry.js` | mounted-shell semantic state and control refresh remain centralized, exact, reusable across route-local application carriers, and fail closed during pre-mount or hot-reload rebuilds instead of crashing `/application` | the operator should experience one coherent Bitcode application state carrier rather than drifting per-panel refresh loops |
-| command-state and control bridge | preserved-shell command posture and mutable operator actions exposed for native application composition without DOM scraping | `application-shell-bridge.tsx`, `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationCommandDeck.tsx`, and `application-command-state.ts` | scenario, projection, branch mode, flow-guide continuity, make-branch, and reset remain application-visible and semantically aligned to the preserved shell while preserved-shell tutorial fields survive only as compatibility input | the operator should experience a route-owned command surface rather than a DOM-proxy shell control strip |
-| application section atlas bridge | route-local atlas previews previously depended on rendered shell panel text and card counting | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationSectionAtlas.tsx`, and `application-section-atlas.ts` | atlas previews remain aligned to the real Bitcode body without reintroducing panel-markup scraping | the operator should experience a semantic application atlas rather than a DOM-era section mirror |
-| core-state semantic snapshot bridge | preserved-shell operating, depositing, needing, and fit panels previously depended on rendered shell DOM for application-owned composition | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationCoreNativeSections.tsx`, and `application-core-surface.ts` | route-local give/need and master-detail core sections read exact Bitcode surface truth without relying on rendered panel markup | the operator should experience native Bitcode core cards that stay semantically exact without DOM-era drift |
-| give/need semantic snapshot bridge | preserved-shell semantic state and active operator selections exposed for native application composition without re-deriving Bitcode truth from generic markup | `packages/bitcode/public/app.js`, `packages/bitcode/src/client-entry.js`, `ApplicationGiveNeedWorkbench.tsx`, `ApplicationSupplySelectionPanel.tsx`, `application-give-need-workbench.ts`, and `application-supply-selection.ts` | route-local V26 sections read exact Bitcode shell truth without mutating first-gate ownership or inventing alternate semantics | the operator should experience deeper native composition without semantic drift between preserved shell and application-owned sections |
+| shared shell bridge provider | per-component polling and shell-control refresh logic previously lived separately across second-gate carriers | `application-shell-bridge.tsx`, `protocol-demonstration/public/app.js`, and `protocol-demonstration/src/client-entry.js` | mounted-shell semantic state and control refresh remain centralized, exact, reusable across route-local application carriers, and fail closed during pre-mount or hot-reload rebuilds instead of crashing `/application` | the operator should experience one coherent Bitcode application state carrier rather than drifting per-panel refresh loops |
+| command-state and control bridge | preserved-shell command posture and mutable operator actions exposed for native application composition without DOM scraping | `application-shell-bridge.tsx`, `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationCommandDeck.tsx`, and `application-command-state.ts` | scenario, projection, branch mode, flow-guide continuity, make-branch, and reset remain application-visible and semantically aligned to the preserved shell while preserved-shell tutorial fields survive only as compatibility input | the operator should experience a route-owned command surface rather than a DOM-proxy shell control strip |
+| application section atlas bridge | route-local atlas previews previously depended on rendered shell panel text and card counting | `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationSectionAtlas.tsx`, and `application-section-atlas.ts` | atlas previews remain aligned to the real Bitcode body without reintroducing panel-markup scraping | the operator should experience a semantic application atlas rather than a DOM-era section mirror |
+| core-state semantic snapshot bridge | preserved-shell operating, depositing, needing, and fit panels previously depended on rendered shell DOM for application-owned composition | `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationCoreNativeSections.tsx`, and `application-core-surface.ts` | route-local give/need and master-detail core sections read exact Bitcode surface truth without relying on rendered panel markup | the operator should experience native Bitcode core cards that stay semantically exact without DOM-era drift |
+| give/need semantic snapshot bridge | preserved-shell semantic state and active operator selections exposed for native application composition without re-deriving Bitcode truth from generic markup | `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationGiveNeedWorkbench.tsx`, `ApplicationSupplySelectionPanel.tsx`, `application-give-need-workbench.ts`, and `application-supply-selection.ts` | route-local V26 sections read exact Bitcode shell truth without mutating first-gate ownership or inventing alternate semantics | the operator should experience deeper native composition without semantic drift between preserved shell and application-owned sections |
 | external interfacing posture | `renderOperatingPicture()`, `state.boundaryRealitySurface`, `latestRun.externalRealizationSummary`, and `uapi/app/api/v24/external-realization/route.ts` | `ApplicationExternalInterfacingPanel.tsx`, `application-external-runtime.ts`, and the app-owned V24 route surface | environment mode, actuality disposition, boundary-only posture, live misconfiguration, and per-interface runtime state remain explicit and fail closed | the operator should clearly understand what is mocked, what is boundary-only, what is live-configured, and what is currently blocking |
 | need action frame | `renderScenario()`, `renderFit()`, measured-demand and fit surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationNeedScenarioPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | scenario framing, measured need, and fit pressure remain explicit before closure stages | the operator should clearly understand how to express and inspect need |
 | give/need action detail | current shell-selected repo supply, measured demand, and fit intent carried into route-local application-owned action blocks | `ApplicationGiveNeedWorkbench.tsx`, `ApplicationActionWorkbenchCard.tsx`, and `application-give-need-workbench.ts` | repository supply posture, measured need, and fit/closure intent remain explicit as the two main Bitcode actions | the operator should read give and need as dense application-grade action detail rather than preserved-shell-only panels |
-| global navbar and app frame | `uapi/components/base/bitcode/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established late-Engi navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
-| shell frame, command rail, summary, hero posture | `uapi/app/application/ApplicationPageClient.tsx`, `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/application-command-state.ts`, `uapi/app/application/application-live-summary.ts`, `packages/bitcode/public/app.js` | route-local `uapi/app/application/*` composition using current app shell carriers and the shell command/control bridge | scenario/projection/branch controls, run status, summary posture, reset, and canon posture remain explicit and synchronized to the preserved shell | read as a first-class Bitcode application page instead of a carried static shell |
-| flow-guide and explainer system | `packages/bitcode/public/app.js` guide/explainer contract plus `application-flow-guide.ts` and `ApplicationFlowGuideCard.tsx` | route-local flow-guide/explainer composition plus current overlay primitives where appropriate | stepwise operator guidance, resumable working-flow continuity, and targeted explainers remain available while preserved-shell tutorial fields survive only as compatibility input | use current overlay and panel language without losing the guide’s operator-facing role |
+| global navbar and app frame | `uapi/components/base/bitcode/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established pre-Bitcode navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
+| shell frame, command rail, summary, hero posture | `uapi/app/application/ApplicationPageClient.tsx`, `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/application-command-state.ts`, `uapi/app/application/application-live-summary.ts`, `protocol-demonstration/public/app.js` | route-local `uapi/app/application/*` composition using current app shell carriers and the shell command/control bridge | scenario/projection/branch controls, run status, summary posture, reset, and canon posture remain explicit and synchronized to the preserved shell | read as a first-class Bitcode application page instead of a carried static shell |
+| flow-guide and explainer system | `protocol-demonstration/public/app.js` guide/explainer contract plus `application-flow-guide.ts` and `ApplicationFlowGuideCard.tsx` | route-local flow-guide/explainer composition plus current overlay primitives where appropriate | stepwise operator guidance, resumable working-flow continuity, and targeted explainers remain available while preserved-shell tutorial fields survive only as compatibility input | use current overlay and panel language without losing the guide’s operator-facing role |
 | conversations fullscreen workspace | `uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*` | application-mounted fullscreen overlay launched from `/application` | chat-based interaction, tool usage, route-orchestration continuity, and conversational continuity remain first-class without leaving application context | read as a fullscreen Bitcode conversation workspace over the application rather than as a separate product destination |
 | operating picture | `renderOperatingPicture()` and related first-gate visual surfaces | route-local section atlas plus `ApplicationCoreNativeSections.tsx`, then later deeper app-native section composition | repo-supply to settlement reading remains the opening systems view | denser application-grade cards and system summaries, not a demo-only tableau |
 | depositing and repo supply | `renderRepoInventory()`, `renderAssets()`, deposit form semantics | route-local section atlas plus `ApplicationCoreNativeSections.tsx`, `ApplicationSupplySelectionPanel.tsx`, `ApplicationDepositComposer.tsx`, and then route-local section plus current VCS/integration/input carriers | authenticated repo session, inventory filtering, deposit overrides, and raw fallback remain intact | application-grade form layout and inventory browsing using current input, card, and integration patterns |
@@ -560,9 +560,9 @@ Second-gate is accepted only when all of the following hold:
    - route-local deposit submission is available through an application-owned Bitcode composer that posts to the app-owned deposit route and refreshes shell state coherently,
    - route-local need selection is available through an application-owned scenario carrier that drives active Bitcode need posture through the shell bridge,
    - route-local support rail and give-side supply terminal both use the same shared application-shell/help grammar as the rest of the application workspace rather than bespoke section shells,
-   - the retained late-Engi navbar frames the Bitcode application,
+   - the retained pre-Bitcode navbar frames the Bitcode application,
    - the page reads as Bitcode inside the app shell,
-   - and the late-Engi aesthetic atmosphere is preserved without reverting product identity to Bitcode.
+   - and the pre-Bitcode aesthetic atmosphere is preserved without reverting product identity away from Bitcode.
 
 3. UX acceptance
    - the three main experiences are legible as master detail, conversations, and orbitals,
@@ -597,7 +597,7 @@ Second-gate is accepted only when all of the following hold:
    - second-gate repository/specification documents stay synchronized to active source state,
    - the active second-gate markdown set includes the root, package, route, and shared-component README carriers and is treated as required implementation scope rather than optional cleanup,
    - supplementary modular docs are identified wherever the canon is not the right long-form carrier,
-   - active supplementary carriers such as `packages/bitcode/V26_APPLICATION_SYSTEMS.md` and `packages/bitcode/V26_PROOF_SURFACES.md` stay synchronized to the converged source topology,
+   - active supplementary carriers such as `protocol-demonstration/V26_APPLICATION_SYSTEMS.md` and `protocol-demonstration/V26_PROOF_SURFACES.md` stay synchronized to the converged source topology,
    - `.engi/v26-gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,
    - the active internal module namespace is `@bitcode/*` across package manifests, path aliases, and active source imports,
    - and new second-gate code systems are assigned proof/test/spec coverage rather than being treated as unproven incidental glue.
@@ -631,7 +631,7 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 | executions, runs, pipelines, and retained compatibility APIs | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | remain explicit merged-world `executions` primitives, with pipeline runs, need measurement, and retained compatibility APIs staying execution-shaped inside the broader `activity` family while retained selectors/template personalization stay healthy until inward convergence removes the dependency |
 | retained auxillaries routes, preferences, and companion panes | `uapi/app/auxillaries/*`, redirect-only `uapi/app/orbitals/*`, `uapi/app/api/auxillaries/data/route.ts`, `uapi/app/api/auxillaries/profile/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, `uapi/app/api/auxillaries/model-preferences/route.ts`, `uapi/app/api/auxillaries/credits/route.ts`, `uapi/app/api/auxillaries/usage/route.ts`, `uapi/app/api/auxillaries/transactions/route.ts`, `uapi/app/api/auxillaries/api-keys/route.ts`, `uapi/app/api/auxillaries/user/data-share/route.ts` | converge on merged-world `auxillaries`: extra-network, non-transactional, still-proven user preference, interface, identity, external-connection, and BTD-throughput surfaces that remain around the Bitcode core without being treated as the network/activity center |
 | PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
-| prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
+| prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
 | deliverable semantics | `packages/api/src/routes/deliverables.ts`, `uapi/app/executions/*`, current execution components | are redefined under Bitcode V26 so “deliverable” means a Bitcode run/pipeline output surface rather than an isolated Bitcode-era pipeline noun |
 
@@ -688,12 +688,12 @@ V26 may be the active canon through fourth-gate while fifth through seventh rema
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
 | --- | --- | --- | --- |
-| second-gate application composition | `.engi/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `packages/bitcode/public/app.js` |
+| second-gate application composition | `.engi/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `protocol-demonstration/public/app.js` |
 | conversations continuity | `.engi/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
 | runs and pipelines totality | `.engi/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including deliverable meaning and the compatibility APIs still required to keep retained execution selectors healthy | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, `uapi/app/api/templates/deliverables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/deliverables.ts`, `packages/pipelines/*`, `packages/execution-generics/*` |
 | persistence and schema totality | `.engi/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_ga1_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
 | prompt system totality | `.engi/prompt-system-totality-proof.json` | prove that retained PromptPart/Prompt/PromptExecution carriers and old-world prompt ports remain explicit Bitcode-owned prompt infrastructure before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
-| prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `packages/bitcode/src/canonical/type-contracts.ts` |
+| prompt space completeness | `.engi/prompt-space-completeness-proof.json` | prove that retained prompt text routes through prompt abstraction and the proved prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` |
 | retained package admissibility | `.engi/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, boundary, justification, and old-world port scope where applicable | retained `packages/*` admitted by V26 |
 | environment mode coherence | `.engi/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
 | sixth-gate system reform admissibility | `.engi/system-reform-admissibility-proof.json` | prove that retained old-world agentic systems are either cut, isolated, or repurposed into Bitcode need-measuring, settlement, or support roles rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other old-world infrastructure still admitted after fifth-gate |
@@ -711,7 +711,7 @@ Fifth-gate is closed only when:
 6. retained package admissibility is explicit,
 7. the kept system is described totalistically enough that Bitcode-era and Bitcode-first-gate reservoirs no longer require informal interpretation to fit together,
 8. unreplaced `engi` product naming is retired from active code, copy, and route teaching unless it remains as explicit historical lineage or a still-required structural namespace,
-9. newly admitted application, API, MCP, prompt, and retained package surfaces are proven to the same proof-bearing standard expected of the former `engi-demo/` Bitcode core rather than being tolerated as lighter glue,
+9. newly admitted application, API, MCP, prompt, and retained package surfaces are proven to the same proof-bearing standard expected of the former top-level Bitcode demo core rather than being tolerated as lighter glue,
 10. and backward-compatibility carriers are cut or clearly isolated as temporary fifth-gate retirement work rather than silently teaching the merged-world product model.
 
 ### Sixth-gate formal acceptance rule
@@ -839,7 +839,7 @@ When V26 says "implemented prerequisite," it means existing source already suppl
 8. Keep Bitcode and BTD rename closure stable while the system is reorganized.
 9. Keep proof-bearing, fail-closed, exact-accounting, and disclosure-bounded semantics intact through the reorganization.
 10. Produce a full-canon V26 specification family that can stand alone for re-implementation, audit, and promotion.
-11. Keep the second-gate application atmosphere visually aligned with the late-Engi design system even while the product naming and system identity are entirely Bitcode.
+11. Keep the second-gate application atmosphere visually aligned with the retained pre-Bitcode design system even while the product naming and system identity are entirely Bitcode.
 12. Add a debug-owned environment control surface before promotion so environment posture can be toggled and reviewed explicitly inside the application.
 13. Make `/application` the only primary Bitcode destination while conversations and orbitals operate as fullscreen application overlays.
 14. Port the strongest executions/deliverables master-detail patterns into `/application` rather than preserving peer product destinations.
@@ -894,7 +894,7 @@ V26 productionizing hardening is organized into ten interacting layers:
 10. `promotion, validation, and canonical file-family governance`
 
 The current source-bearing split across these layers is still imperfect:
-- `engi-demo/` still spans many of them at once,
+- the former top-level demo owner still spans many of them at once,
 - `uapi/` carries marketing and app composition,
 - `packages/*` already owns some production-grade responsibilities,
 - and V26 exists to make those boundaries explicit rather than accidental.
@@ -969,8 +969,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode admits repo-addressable deposits, normalizes deposit identity against repo-authenticated supply, and carries deposit lineage forward into fit, verification, materialization, proof, and GitHub live mutation surfaces. V26 adds the requirement that the primary operator route consume those surfaces through package-owned and app-owned composition rather than directly through demo-local owners.
 - Current invariants and fail-closed conditions: invalid deposit, stale repo addressing, missing GitHub inventory receipt, broken deposit lineage, or route-layer presentation that obscures deposit provenance fail closed.
 - Current proof obligations: deposit provenance, asset identity stability, repo-authenticated supply closure, and deposit-to-asset-pack continuity must be replayable.
-- Current source-bearing implementation basis: `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/run-artifacts.js`, `packages/bitcode/src/canonical/surfaces.js`, `packages/bitcode/src/canonical/v24-external-realization.js`, `packages/bitcode/server.js`, and `packages/github`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, `node --test packages/bitcode/test/api.test.js`, and the V26 parity rows for application-native routing and package extraction.
+- Current source-bearing implementation basis: `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/surfaces.js`, `protocol-demonstration/src/canonical/v24-external-realization.js`, `protocol-demonstration/server.js`, and `packages/github`.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/core.test.js`, `node --test protocol-demonstration/test/api.test.js`, and the V26 parity rows for application-native routing and package extraction.
 - Current accepted boundaries: external GitHub execution remains deployment-configured and policy-bound; V26 accepts deposit supply only through emitted session, fetch, branch, and mutation receipts and does not treat `_legacy/` as active deposit truth.
 
 ### Needing and prompt/inference ownership
@@ -979,8 +979,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode measures need from benchmark, parser, and repo reality, maps prompts and inference moments to that need, and binds evaluator ownership to replayable contracts. V26 preserves those semantics while moving ownership toward package-backed canon and app/API composition.
 - Current invariants and fail-closed conditions: prompt contract incompleteness, parsed-envelope inadmissibility, evaluator ambiguity, need drift, or route/UI layers that detach prompt lineage from need lineage fail closed.
 - Current proof obligations: prompt family completeness, inference synthesis closure, and evaluator provenance must stay witness-bound and replayable.
-- Current source-bearing implementation basis: `packages/bitcode/src/canonical/prompting.js`, `packages/bitcode/src/canonical/evaluation-materialization.js`, `packages/bitcode/src/canonical/need-measurement.js`, `packages/bitcode/src/bitcode-demo.js`, and the future draft target packages recorded in the V26 extraction matrix.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, proof-family coverage inside the active test suite, and `node scripts/check-bitcode-spec-family.mjs --version V26`.
+- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/prompting.js`, `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/need-measurement.js`, `protocol-demonstration/src/bitcode-demo.js`, and the future draft target packages recorded in the V26 extraction matrix.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/core.test.js`, proof-family coverage inside the active test suite, and `node scripts/check-bitcode-spec-family.mjs --version V26`.
 - Current accepted boundaries: third-party model execution counts only when it remains receipted, policy-bound, replayable, and normalized back into Bitcode artifacts regardless of whether the final owner is a package or an app/API surface.
 
 ### Fit, recall, ranking, and verification
@@ -989,8 +989,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode computes depositing-to-needing fit before deeper proof closure, then performs recall and ranking, and only then resolves verification decisions and use-tiering. V26 preserves that ordering and requires the app-native surface to present it without depending on demo-owned UI.
 - Current invariants and fail-closed conditions: no-survivor asset pack, ranking inconsistency, verification decision drift, non-replayable verification receipts, or UI-layer loss of verification provenance fail closed.
 - Current proof obligations: fit continuity, verification issuance/provenance/sufficiency closure, and ranked-candidate determinism must remain auditable.
-- Current source-bearing implementation basis: `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/evaluation-materialization.js`, `packages/bitcode/src/canonical/proof-materialization.js`, and `packages/bitcode/src/canonical/surfaces.js`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, `node --test packages/bitcode/test/workflow.integration.test.js`, and proof-family closure under `Verification-decisions`.
+- Current source-bearing implementation basis: `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, and `protocol-demonstration/src/canonical/surfaces.js`.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/core.test.js`, `node --test protocol-demonstration/test/workflow.integration.test.js`, and proof-family closure under `Verification-decisions`.
 - Current accepted boundaries: external ranking or inference services remain acceptable only when receipted and recovered into Bitcode artifacts through the current proof and execution contracts.
 
 ### Selection and materialization
@@ -999,8 +999,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode materializes only selected assets, preserves exclusion reasons, binds materialized artifacts to bundle, branch, and proof identities, and in V26 must expose those outcomes through application-facing components rather than the demo-local UI shell.
 - Current invariants and fail-closed conditions: materialization without selection closure, hidden exclusions, non-replayable selected-source lineage, or route/application drift from materialized truth fail closed.
 - Current proof obligations: selected-set closure, materialized-source closure, visibility closure, and exclusion closure must all be witness-bound.
-- Current source-bearing implementation basis: `packages/bitcode/src/canonical/evaluation-materialization.js`, `packages/bitcode/src/canonical/run-artifacts.js`, `packages/bitcode/src/canonical/proof-materialization.js`, `packages/bitcode/public/app.js`, and the V26 draft target application route owners.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/workflow.integration.test.js`, `node --test packages/bitcode/test/e2e.test.js`, and parity rows for app-native UI replacement and package extraction.
+- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/public/app.js`, and the V26 draft target application route owners.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/workflow.integration.test.js`, `node --test protocol-demonstration/test/e2e.test.js`, and parity rows for app-native UI replacement and package extraction.
 - Current accepted boundaries: real GitHub branch publication is a separate live interface and must not be inferred from local materialization alone even after the app surface becomes native.
 
 ### Identity, authorization, and sensitive flow
@@ -1009,8 +1009,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode derives authorization from issuer, signer, wallet, and policy roots, binds external execution to those roots, and routes sensitive data only through classified surfaces. V26 strengthens wallet connection and production auth posture and requires that the application-native Bitcode page operate inside that auth model.
 - Current invariants and fail-closed conditions: authorization denial, stale signing roots, stale wallet verification, mis-bound GitHub App identities, or sensitive-flow leakage fail closed.
 - Current proof obligations: identity closure, authorization closure, policy closure, wallet verification closure, and sensitive-flow closure must remain replayable across live interfaces.
-- Current source-bearing implementation basis: `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/proof-materialization.js`, `packages/bitcode/src/canonical/v24-external-realization.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, `packages/auth`, and `packages/api/src/routes/auth.ts`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, `node --test packages/bitcode/test/api.test.js`, and V26 parity rows for wallet/auth productionization.
+- Current source-bearing implementation basis: `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/v24-external-realization.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, `packages/auth`, and `packages/api/src/routes/auth.ts`.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/core.test.js`, `node --test protocol-demonstration/test/api.test.js`, and V26 parity rows for wallet/auth productionization.
 - Current accepted boundaries: concrete signer topology, wallet provider details, and deployment auth infrastructure remain implementation choices so long as the receipt, policy, and fail-closed contracts are satisfied.
 
 ### Disclosure and projection
@@ -1019,8 +1019,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode projects public, reviewer, buyer, and internal surfaces from the same underlying artifact set and preserves bounded-public proof as the only public-safe external projection. V26 additionally requires that the application-native operator surface and refurbished marketing surfaces present these boundaries clearly.
 - Current invariants and fail-closed conditions: public projection overexposure, mismatched redaction, storage publication beyond principal rights, retrieval without disclosure authorization, or product-surface copy that implies broader disclosure than policy allows fail closed.
 - Current proof obligations: projection policy closure, bounded-public closure, redaction alignment, disclosure verdict alignment, and storage-publication alignment must remain auditable.
-- Current source-bearing implementation basis: `packages/bitcode/src/canonical/projections.js`, `packages/bitcode/src/demo-shell-state.js`, `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/v24-external-execution.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, and `uapi/app/(root)/components/MarketingLandingPage.tsx`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/api.test.js`, `node --test packages/bitcode/test/e2e.test.js`, and disclosure-boundary proof-family closure.
+- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/projections.js`, `protocol-demonstration/src/demo-shell-state.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, and `uapi/app/(root)/components/MarketingLandingPage.tsx`.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/api.test.js`, `node --test protocol-demonstration/test/e2e.test.js`, and disclosure-boundary proof-family closure.
 - Current accepted boundaries: public chains and public storage surfaces may only carry bounded-public receipts or bounded-public anchor material, never licensed source or private proof payloads by default, and V26 marketing must not reintroduce disclosure ambiguity.
 
 ### Settlement and exact accounting
@@ -1029,8 +1029,8 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode allocates exact BTD base units, normalizes basis points deterministically, binds payment intent and observation to bundle and settlement identities, and finalizes journals only under policy-bound execution observation. V26 preserves that accounting core while moving runtime ownership out of demo-local concentration.
 - Current invariants and fail-closed conditions: settlement conservation drift, missing execution receipt, journal finalization without observation, stale reconciliation, or cross-mode treasury drift fail closed.
 - Current proof obligations: contribution totality, normalization exactness, journal completeness, settlement theorem integrity, and payment-observation coherence must remain replayable.
-- Current source-bearing implementation basis: `packages/bitcode/src/canonical/settlement.js`, `packages/bitcode/src/settlement-structs.js`, `packages/bitcode/src/canonical/v23-bitcoin.js`, `packages/bitcode/src/canonical/v24-external-execution.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, and `packages/bitcode/src/bitcode-demo.js`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/core.test.js`, `node --test packages/bitcode/test/workflow.integration.test.js`, and parity rows for external hardening and package extraction.
+- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/settlement-structs.js`, `protocol-demonstration/src/canonical/v23-bitcoin.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, and `protocol-demonstration/src/bitcode-demo.js`.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/core.test.js`, `node --test protocol-demonstration/test/workflow.integration.test.js`, and parity rows for external hardening and package extraction.
 - Current accepted boundaries: V26 may keep base-layer, sidechain, and repeated-read execution behind deployment configuration, but only where execution and observation receipts exist in source and remain tied to exact accounting.
 
 ### Proof contract, witnesses, and replay
@@ -1039,34 +1039,34 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode binds every proof family to witnessArtifactPaths, theoremIds, replayStepIds, and artifact digests, then carries them into the system proof bundle and witness manifest for replay. V26 adds the requirement that the proof contract remain coherent while ownership moves from demo-local concentration to package and app layers.
 - Current invariants and fail-closed conditions: missing witness artifacts, replay-step drift, container attestation drift, GitHub observation drift, stale generated appendix truth, or proof-family omission fail closed.
 - Current proof obligations: proof-family closure, theorem closure, replay closure, witness manifest coherence, and proof-contract bundle coherence must remain exact.
-- Current source-bearing implementation basis: `packages/bitcode/src/canonical/proof-materialization.js`, `packages/bitcode/src/canonical/run-artifacts.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, `packages/bitcode/src/bitcode-demo.js`, and `scripts/check-bitcode-spec-family.mjs`.
-- Current validating commands and parity basis: `node --test packages/bitcode/test/proven-generator.test.js`, `node --test packages/bitcode/test/v21-specifying.test.js`, `node scripts/check-bitcode-canonical-inputs.mjs`, `node scripts/check-bitcode-spec-family.mjs --version V26`, and later strict V26 conformance.
+- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, `protocol-demonstration/src/bitcode-demo.js`, and `scripts/check-bitcode-spec-family.mjs`.
+- Current validating commands and parity basis: `node --test protocol-demonstration/test/proven-generator.test.js`, `node --test protocol-demonstration/test/v21-specifying.test.js`, `node scripts/check-bitcode-canonical-inputs.mjs`, `node scripts/check-bitcode-spec-family.mjs --version V26`, and later strict V26 conformance.
 - Current accepted boundaries: V26 may reorganize owners and add or merge families, but promotion may not narrow away family detail carriers, witness expectations, or generated appendix obligations.
 
 ## V26 second-gate package extraction matrix
 
-First-gate has already consolidated the prior standalone owner into `packages/bitcode` plus app-owned route surfaces.
+First-gate has already consolidated the prior standalone owner into `protocol-demonstration` plus app-owned route surfaces.
 The following matrix now records the second-gate and later ownership map for splitting that first-gate owner into more deliberate subsystem packages.
 These target owners remain draft targets, not yet promoted truth.
 
 | Current source owner | Current responsibility | Draft V26 target owner | V26 extraction expectation | Priority |
 | --- | --- | --- | --- | --- |
-| `packages/bitcode/src/canon-posture.js` | active-canon and draft-target posture shaping for the current demo runtime | `packages/bitcode-canon` | move Bitcode canon posture builders and shared operator posture labels into package-owned canon utilities consumed by app and tests | P0 |
-| `packages/bitcode/src/canonical/enums.js`, `packages/bitcode/src/canonical/types.js`, `packages/bitcode/src/canonical/type-contracts.ts`, `packages/bitcode/src/canonical/proof-annotations.js` | closed-case vocabulary, contracts, theorem/proof helpers | `packages/bitcode-canon` | become the package-owned canonical vocabulary and proof-contract layer for Bitcode implementations | P0 |
-| `packages/bitcode/src/canonical/surfaces.js` | depositing, needing, fit, boundary, and GitHub operating surfaces | `packages/bitcode-operating-surfaces` | become package-owned system surface builders consumed by app routes and tests | P0 |
-| `packages/bitcode/src/canonical/run-artifacts.js` | pipeline telemetry, prompt implementation, proof bundle, deliverables, scenario fixture, and coverage report builders | `packages/bitcode-artifacts` | become package-owned artifact and report emitters rather than demo-local helpers | P0 |
-| `packages/bitcode/src/canonical/need-measurement.js` | need measurement runtime and parser/analysis closure | `packages/bitcode-needs` | become the package-owned need-derivation implementation | P0 |
-| `packages/bitcode/src/canonical/evaluation-materialization.js` | ranking, verification, use tiers, materialization, and asset-pack selection | `packages/bitcode-materialization` | become the package-owned selection and materialization runtime | P0 |
-| `packages/bitcode/src/canonical/settlement.js`, `packages/bitcode/src/settlement-structs.js` | source-to-shares accounting, settlement participation, journal diff, and settlement artifacts | `packages/bitcode-settlement` | become the package-owned settlement and accounting subsystem | P0 |
-| `packages/bitcode/src/canonical/projections.js`, `packages/bitcode/src/demo-shell-state.js` | projection policy, bounded public proof, redaction/disclosure proof, and projection-safe public-state shaping | `packages/bitcode-projections` | become package-owned projection and disclosure builders consumed by the application route and API | P0 |
-| `packages/bitcode/src/canonical/proof-materialization.js` | proof witness manifest, materialization proof, visibility proof, and exclusion closure | `packages/bitcode-proof` | become the package-owned proof and materialization subsystem | P0 |
-| `packages/bitcode/src/canonical/v23-bitcoin.js`, `packages/bitcode/src/canonical/v23-bitcoin-demonstration-service.js`, `packages/bitcode/src/canonical/v24-external-realization.js`, `packages/bitcode/src/canonical/v24-external-execution.js`, `packages/bitcode/src/canonical/v24-live-execution.js`, `packages/bitcode/src/canonical/v24-local-executors.js`, `packages/bitcode/src/canonical/v24-remote-adapters.js` | bitcoin, sidechain, repeated-read, compute, storage, and GitHub external-realization and execution contracts | `packages/bitcode-external-realization` plus `packages/github` where GitHub provider behavior belongs | move demo-local external-interface ownership into package-backed runtime and adapter layers; GitHub provider logic converges on `packages/github` and related app/API owners | P0 |
-| `packages/bitcode/src/realization-profile.js`, `packages/bitcode/src/policy-release.js`, `packages/bitcode/src/receipt-schemas.js` | realization profiles, policy release carriers, and receipt-shape helpers | `packages/bitcode-canon` and `packages/bitcode-artifacts` | split between package-owned canon/profile truth and package-owned receipt and artifact schemas | P1 |
-| `packages/bitcode/src/demo-scenario.js`, `packages/bitcode/src/seed.js`, seeded fixture and test-support surfaces | seeded scenarios and deterministic fixture posture | `packages/bitcode-scenarios` | preserve deterministic scenario and fixture truth in package-owned test and demo-fixture surfaces | P1 |
-| `packages/bitcode/src/bitcode-demo.js` | orchestration reservoir spanning the full Bitcode operating chain | distributed across the package owners above, with composition in `packages/api` and `uapi/app/*` | shrink and eventually dissolve the monolithic reservoir into package-owned domain layers plus application/API composition | P0 |
-| `packages/bitcode/server.js` | standalone demo HTTP server and API composition | `packages/api` plus `uapi` application routes | move Bitcode API composition into package and app owners; the standalone demo server stops being the primary product surface | P0 |
-| `packages/bitcode/public/index.html`, `packages/bitcode/public/app.js`, `packages/bitcode/public/styles.css` | demo-owned UI shell and rendering | `uapi/app/*` plus `uapi/components/base/*` | replace the demo UI implementation with application-facing components while preserving operator UX | P0 |
-| `packages/bitcode/test/*` | demo-local runtime, proof, quality, and external-realization validation | package-local tests plus API and app integration tests | follow the extracted ownership model and keep fail-closed validation across package, API, and app layers | P0 |
+| `protocol-demonstration/src/canon-posture.js` | active-canon and draft-target posture shaping for the current demo runtime | `packages/bitcode-canon` | move Bitcode canon posture builders and shared operator posture labels into package-owned canon utilities consumed by app and tests | P0 |
+| `protocol-demonstration/src/canonical/enums.js`, `protocol-demonstration/src/canonical/types.js`, `protocol-demonstration/src/canonical/type-contracts.ts`, `protocol-demonstration/src/canonical/proof-annotations.js` | closed-case vocabulary, contracts, theorem/proof helpers | `packages/bitcode-canon` | become the package-owned canonical vocabulary and proof-contract layer for Bitcode implementations | P0 |
+| `protocol-demonstration/src/canonical/surfaces.js` | depositing, needing, fit, boundary, and GitHub operating surfaces | `packages/bitcode-operating-surfaces` | become package-owned system surface builders consumed by app routes and tests | P0 |
+| `protocol-demonstration/src/canonical/run-artifacts.js` | pipeline telemetry, prompt implementation, proof bundle, deliverables, scenario fixture, and coverage report builders | `packages/bitcode-artifacts` | become package-owned artifact and report emitters rather than protocol-local helpers | P0 |
+| `protocol-demonstration/src/canonical/need-measurement.js` | need measurement runtime and parser/analysis closure | `packages/bitcode-needs` | become the package-owned need-derivation implementation | P0 |
+| `protocol-demonstration/src/canonical/evaluation-materialization.js` | ranking, verification, use tiers, materialization, and asset-pack selection | `packages/bitcode-materialization` | become the package-owned selection and materialization runtime | P0 |
+| `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/settlement-structs.js` | source-to-shares accounting, settlement participation, journal diff, and settlement artifacts | `packages/bitcode-settlement` | become the package-owned settlement and accounting subsystem | P0 |
+| `protocol-demonstration/src/canonical/projections.js`, `protocol-demonstration/src/demo-shell-state.js` | projection policy, bounded public proof, redaction/disclosure proof, and projection-safe public-state shaping | `packages/bitcode-projections` | become package-owned projection and disclosure builders consumed by the application route and API | P0 |
+| `protocol-demonstration/src/canonical/proof-materialization.js` | proof witness manifest, materialization proof, visibility proof, and exclusion closure | `packages/bitcode-proof` | become the package-owned proof and materialization subsystem | P0 |
+| `protocol-demonstration/src/canonical/v23-bitcoin.js`, `protocol-demonstration/src/canonical/v23-bitcoin-demonstration-service.js`, `protocol-demonstration/src/canonical/v24-external-realization.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, `protocol-demonstration/src/canonical/v24-local-executors.js`, `protocol-demonstration/src/canonical/v24-remote-adapters.js` | bitcoin, sidechain, repeated-read, compute, storage, and GitHub external-realization and execution contracts | `packages/bitcode-external-realization` plus `packages/github` where GitHub provider behavior belongs | move protocol-local external-interface ownership into package-backed runtime and adapter layers; GitHub provider logic converges on `packages/github` and related app/API owners | P0 |
+| `protocol-demonstration/src/realization-profile.js`, `protocol-demonstration/src/policy-release.js`, `protocol-demonstration/src/receipt-schemas.js` | realization profiles, policy release carriers, and receipt-shape helpers | `packages/bitcode-canon` and `packages/bitcode-artifacts` | split between package-owned canon/profile truth and package-owned receipt and artifact schemas | P1 |
+| `protocol-demonstration/src/demo-scenario.js`, `protocol-demonstration/src/seed.js`, seeded fixture and test-support surfaces | seeded scenarios and deterministic fixture posture | `packages/bitcode-scenarios` | preserve deterministic scenario and fixture truth in package-owned test and demo-fixture surfaces | P1 |
+| `protocol-demonstration/src/bitcode-demo.js` | orchestration reservoir spanning the full Bitcode operating chain | distributed across the package owners above, with composition in `packages/api` and `uapi/app/*` | shrink and eventually dissolve the monolithic reservoir into package-owned domain layers plus application/API composition | P0 |
+| `protocol-demonstration/server.js` | standalone demo HTTP server and API composition | `packages/api` plus `uapi` application routes | move Bitcode API composition into package and app owners; the standalone demo server stops being the primary product surface | P0 |
+| `protocol-demonstration/public/index.html`, `protocol-demonstration/public/app.js`, `protocol-demonstration/public/styles.css` | demo-owned UI shell and rendering | `uapi/app/*` plus `uapi/components/base/*` | replace the demo UI implementation with application-facing components while preserving operator UX | P0 |
+| `protocol-demonstration/test/*` | demo-local runtime, proof, quality, and external-realization validation | package-local tests plus API and app integration tests | follow the extracted ownership model and keep fail-closed validation across package, API, and app layers | P0 |
 
 ## proof-family canon
 
@@ -1077,15 +1077,15 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| inference-synthesis | `.engi/inference-synthesis-proof.json` | moment-contract-closure, inference-payload-closure, implementation-surface-closure, parsed-envelope-consistency | inference_synthesis.contract_closure, inference_synthesis.payload_closure, inference_synthesis.parsed_envelope_consistency | inference-synthesis.moment-contracts, inference-synthesis.payload-replay, inference-synthesis.parsed-envelope-replay | `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json` | `packages/bitcode/src/canonical/evaluation-materialization.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
-| prompt-completeness | `.engi/prompt-completeness-proof.json` | member-set-reconciliation, parse-admissibility, consumer-closure, provenance-truth | prompt_completeness.member_set_reconciliation, prompt_completeness.consumer_closure, prompt_completeness.provenance_truth | prompt-completeness.member-set-reconciliation, prompt-completeness.parse-admissibility, prompt-completeness.consumer-closure, prompt-completeness.provenance-truth | `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/prompt-completeness-proof.json` | `packages/bitcode/src/canonical/prompting.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
-| static-code-analysis | `.engi/static-measurement-proof.json` | stage-domain, stage-mapping, receipt-report-proof | static_code_analysis.stage_domain_purity, static_code_analysis.stage_mapping_closure, static_code_analysis.receipt_report_proof | static-code-analysis.stage-domain, static-code-analysis.stage-mapping, static-code-analysis.receipt-report-proof | `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json` | `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
-| verification-decisions | `.engi/verification-decisions-proof.json` | issuance-closure, provenance-closure, sufficiency-closure, issuer-policy-closure | verification_decisions.issuance_closure, verification_decisions.provenance_closure, verification_decisions.sufficiency_closure, verification_decisions.issuer_policy_closure | verification-decisions.stage-mapping, verification-decisions.use-tier-consequence | `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json` | `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
-| selection-and-materialization | `.engi/selection-and-materialization-proof.json` | selected-asset-closure, lock-closure, materialized-source-closure, exclusion-closure, visibility-closure | selection_and_materialization.selected_asset_closure, selection_and_materialization.lock_closure, selection_and_materialization.materialized_source_closure, selection_and_materialization.exclusion_closure, selection_and_materialization.visibility_closure | selection-and-materialization.selected-set, selection-and-materialization.visibility | `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-and-materialization-proof.json` | `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
-| authorization-and-sensitive-flow | `.engi/authorization-and-sensitive-flow-proof.json` | identity-closure, authorization-closure, sensitive-flow-closure, policy-release-closure | authorization_and_sensitive_flow.identity_closure, authorization_and_sensitive_flow.authorization_closure, authorization_and_sensitive_flow.sensitive_flow_closure, authorization_and_sensitive_flow.policy_release_closure | authorization-and-sensitive-flow.identity-bindings, authorization-and-sensitive-flow.sensitive-flow | `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json` | `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/proof-materialization.js`, `packages/auth` |
-| settlement-source-to-shares | `.engi/settlement-source-to-shares-proof.json` | contribution-totality, clipping-determinism, normalization-exactness, participation-totality, allocation-conservation, journal-completeness | settlement_source_to_shares.contribution_totality, settlement_source_to_shares.normalization_exactness, settlement_source_to_shares.allocation_conservation, settlement_source_to_shares.journal_completeness | settlement-source-to-shares.contribution-allocation, settlement-source-to-shares.journal-theorem | `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json` | `packages/bitcode/src/canonical/settlement.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
-| disclosure-boundary | `.engi/disclosure-boundary-proof.json` | projection-policy-closure, bounded-public-closure, redaction-alignment, disclosure-verdict-alignment | disclosure_boundary.projection_policy_closure, disclosure_boundary.redaction_alignment, disclosure_boundary.disclosure_verdict_alignment | disclosure-boundary.policy-bounded-public, disclosure-boundary.redaction-disclosure | `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json` | `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/proof-materialization.js`, `packages/bitcode/src/canonical/projections.js` |
-| proof-contract | `.engi/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness, family-closure | proof_contract.contract_materialization, proof_contract.evidence_chain_closure, proof_contract.bundle_witness, proof_contract.family_closure | proof-contract.contract-materialization, proof-contract.evidence-chain, proof-contract.bundle-witness | `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json` | `packages/bitcode/src/bitcode-demo.js`, `packages/bitcode/src/canonical/run-artifacts.js`, `packages/bitcode/src/canonical/proof-materialization.js` |
+| inference-synthesis | `.engi/inference-synthesis-proof.json` | moment-contract-closure, inference-payload-closure, implementation-surface-closure, parsed-envelope-consistency | inference_synthesis.contract_closure, inference_synthesis.payload_closure, inference_synthesis.parsed_envelope_consistency | inference-synthesis.moment-contracts, inference-synthesis.payload-replay, inference-synthesis.parsed-envelope-replay | `.engi/inference-moment-contracts.json`, `.engi/inference-proofs.json`, `.engi/prompt-implementation-surface.json`, `.engi/parsed-completion-envelopes.json`, `.engi/inference-synthesis-proof.json` | `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| prompt-completeness | `.engi/prompt-completeness-proof.json` | member-set-reconciliation, parse-admissibility, consumer-closure, provenance-truth | prompt_completeness.member_set_reconciliation, prompt_completeness.consumer_closure, prompt_completeness.provenance_truth | prompt-completeness.member-set-reconciliation, prompt-completeness.parse-admissibility, prompt-completeness.consumer-closure, prompt-completeness.provenance-truth | `.engi/prompt-family-registry.json`, `.engi/prompt-contracts.json`, `.engi/prompt-surfaces.json`, `.engi/prompt-completeness-proof.json` | `protocol-demonstration/src/canonical/prompting.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| static-code-analysis | `.engi/static-measurement-proof.json` | stage-domain, stage-mapping, receipt-report-proof | static_code_analysis.stage_domain_purity, static_code_analysis.stage_mapping_closure, static_code_analysis.receipt_report_proof | static-code-analysis.stage-domain, static-code-analysis.stage-mapping, static-code-analysis.receipt-report-proof | `.engi/code-analysis-fact-registry.json`, `.engi/static-heuristics-registry.json`, `.engi/measurement-receipts.json`, `.engi/static-measurement-report.json`, `.engi/static-measurement-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| verification-decisions | `.engi/verification-decisions-proof.json` | issuance-closure, provenance-closure, sufficiency-closure, issuer-policy-closure | verification_decisions.issuance_closure, verification_decisions.provenance_closure, verification_decisions.sufficiency_closure, verification_decisions.issuer_policy_closure | verification-decisions.stage-mapping, verification-decisions.use-tier-consequence | `.engi/verification-report.json`, `.engi/verification-receipts.json`, `.engi/verification-decisions-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| selection-and-materialization | `.engi/selection-and-materialization-proof.json` | selected-asset-closure, lock-closure, materialized-source-closure, exclusion-closure, visibility-closure | selection_and_materialization.selected_asset_closure, selection_and_materialization.lock_closure, selection_and_materialization.materialized_source_closure, selection_and_materialization.exclusion_closure, selection_and_materialization.visibility_closure | selection-and-materialization.selected-set, selection-and-materialization.visibility | `.engi/asset-pack.lock.json`, `.engi/selected-source-material.json`, `.engi/selection-consistency-proof.json`, `.engi/materialization-proof.json`, `.engi/materialization-exclusions.json`, `.engi/materialization-visibility-proof.json`, `.engi/selection-and-materialization-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| authorization-and-sensitive-flow | `.engi/authorization-and-sensitive-flow-proof.json` | identity-closure, authorization-closure, sensitive-flow-closure, policy-release-closure | authorization_and_sensitive_flow.identity_closure, authorization_and_sensitive_flow.authorization_closure, authorization_and_sensitive_flow.sensitive_flow_closure, authorization_and_sensitive_flow.policy_release_closure | authorization-and-sensitive-flow.identity-bindings, authorization-and-sensitive-flow.sensitive-flow | `.engi/identity-bindings.json`, `.engi/authorization-decisions.json`, `.engi/sensitive-data-flow.json`, `.engi/identity-authorization-proof.json`, `.engi/sensitive-data-flow-proof.json`, `.engi/authorization-and-sensitive-flow-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `packages/auth` |
+| settlement-source-to-shares | `.engi/settlement-source-to-shares-proof.json` | contribution-totality, clipping-determinism, normalization-exactness, participation-totality, allocation-conservation, journal-completeness | settlement_source_to_shares.contribution_totality, settlement_source_to_shares.normalization_exactness, settlement_source_to_shares.allocation_conservation, settlement_source_to_shares.journal_completeness | settlement-source-to-shares.contribution-allocation, settlement-source-to-shares.journal-theorem | `.engi/source-to-shares.json`, `.engi/settlement-participation.json`, `.engi/accounting-precision-report.json`, `.engi/journal-diff.json`, `.engi/journal-completeness-proof.json`, `.engi/settlement-proof.json`, `.engi/settlement-source-to-shares-proof.json` | `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| disclosure-boundary | `.engi/disclosure-boundary-proof.json` | projection-policy-closure, bounded-public-closure, redaction-alignment, disclosure-verdict-alignment | disclosure_boundary.projection_policy_closure, disclosure_boundary.redaction_alignment, disclosure_boundary.disclosure_verdict_alignment | disclosure-boundary.policy-bounded-public, disclosure-boundary.redaction-disclosure | `.engi/projection-policy.json`, `.engi/bounded-public-proof.json`, `.engi/redaction-proof.json`, `.engi/disclosure-proof.json`, `.engi/disclosure-boundary-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/projections.js` |
+| proof-contract | `.engi/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness, family-closure | proof_contract.contract_materialization, proof_contract.evidence_chain_closure, proof_contract.bundle_witness, proof_contract.family_closure | proof-contract.contract-materialization, proof-contract.evidence-chain, proof-contract.bundle-witness | `.engi/proof-contract.json`, `.engi/system-proof-bundle.json`, `.engi/proof-witness-manifest.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
 
 ### Inference-synthesis
 
@@ -1309,11 +1309,11 @@ Current validating commands and parity basis include:
 - `node scripts/check-bitcode-canonical-inputs.mjs`
 - `node scripts/check-bitcode-spec-family.mjs --version V26`
 - `node scripts/run-bitcode-spec-quality.mjs --mode basic`
-- `node --test packages/bitcode/test/core.test.js`
-- `node --test packages/bitcode/test/api.test.js`
-- `node --test packages/bitcode/test/workflow.integration.test.js`
-- `node --test packages/bitcode/test/e2e.test.js`
-- `node --test packages/bitcode/test/v21-specifying.test.js packages/bitcode/test/v22-canon-drift.test.js`
+- `node --test protocol-demonstration/test/core.test.js`
+- `node --test protocol-demonstration/test/api.test.js`
+- `node --test protocol-demonstration/test/workflow.integration.test.js`
+- `node --test protocol-demonstration/test/e2e.test.js`
+- `node --test protocol-demonstration/test/v21-specifying.test.js protocol-demonstration/test/v22-canon-drift.test.js`
 
 ## promotion canon
 
@@ -1385,22 +1385,22 @@ The validation and checking gate catalog includes:
 ## Appendix E. Current canonical source map
 
 The current canonical source map includes:
-- `packages/bitcode/src/canon-posture.js`
-- `packages/bitcode/src/bitcode-demo.js`
-- `packages/bitcode/src/canonical/run-artifacts.js`
-- `packages/bitcode/src/canonical/proof-materialization.js`
-- `packages/bitcode/src/canonical/settlement.js`
-- `packages/bitcode/src/canonical/projections.js`
-- `packages/bitcode/src/canonical/prompting.js`
-- `packages/bitcode/src/canonical/evaluation-materialization.js`
-- `packages/bitcode/src/canonical/need-measurement.js`
-- `packages/bitcode/src/canonical/v23-bitcoin.js`
-- `packages/bitcode/src/canonical/v24-external-realization.js`
-- `packages/bitcode/src/demo-shell-state.js`
-- `packages/bitcode/public/app.js`
-- `packages/bitcode/public/styles.css`
-- `packages/bitcode/server.js`
-- `packages/bitcode/test/*`
+- `protocol-demonstration/src/canon-posture.js`
+- `protocol-demonstration/src/bitcode-demo.js`
+- `protocol-demonstration/src/canonical/run-artifacts.js`
+- `protocol-demonstration/src/canonical/proof-materialization.js`
+- `protocol-demonstration/src/canonical/settlement.js`
+- `protocol-demonstration/src/canonical/projections.js`
+- `protocol-demonstration/src/canonical/prompting.js`
+- `protocol-demonstration/src/canonical/evaluation-materialization.js`
+- `protocol-demonstration/src/canonical/need-measurement.js`
+- `protocol-demonstration/src/canonical/v23-bitcoin.js`
+- `protocol-demonstration/src/canonical/v24-external-realization.js`
+- `protocol-demonstration/src/demo-shell-state.js`
+- `protocol-demonstration/public/app.js`
+- `protocol-demonstration/public/styles.css`
+- `protocol-demonstration/server.js`
+- `protocol-demonstration/test/*`
 - `uapi/app/application/page.tsx`
 - `uapi/app/application/ApplicationPageClient.tsx`
 - `uapi/app/application/first-gate-styles/route.ts`
@@ -1578,7 +1578,7 @@ V26 is complete only when:
 2. The four V26 workstreams are explicitly present in the promoted canon and reflected in source.
 3. The Bitcode operator experience is a first-class application page rather than an embedded or standalone-primary demo.
 4. Demonstration UX is preserved while demonstration UI is replaced by application-facing components.
-5. Bitcode system ownership is materially re-homed into packages and app/API owners rather than remaining concentrated in `engi-demo/`.
+5. Bitcode system ownership is materially re-homed into packages and app/API owners rather than remaining concentrated in the former top-level demo owner.
 6. GitHub, auth, wallet, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation hardening are explicit, fail-closed, and test-backed.
 7. `.engi/v26-spec-family-report.json`, `.engi/v26-canonical-input-report.json`, `.engi/v26-gate-checkpoint-report.json`, and `BITCODE_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
 8. The promoted V26 main spec stands alone for re-implementation, audit, operator comprehension, and promotion without semantic dependence on prior versions.

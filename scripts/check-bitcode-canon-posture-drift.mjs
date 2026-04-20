@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildCanonPostureDriftReport } from '../packages/bitcode/src/canonical/v22-canon-posture.js';
+import { buildCanonPostureDriftReport } from '../protocol-demonstration/src/canonical/v22-canon-posture.js';
 
 function projectLabel(version) {
   const numeric = Number(String(version || '').replace(/^V/u, ''));

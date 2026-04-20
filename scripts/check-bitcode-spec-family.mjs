@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildV21SpecFamilyReport } from '../packages/bitcode/src/canonical/v21-specifying.js';
+import { buildV21SpecFamilyReport } from '../protocol-demonstration/src/canonical/v21-specifying.js';
 
 function projectLabel(version) {
   return 'Bitcode';

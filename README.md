@@ -36,7 +36,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
 - Always ground new work from `BITCODE_SPEC.txt` and the active canonical spec family first.
 - Treat `_legacy/` as non-canonical. Do not use it as an implementation source unless explicitly forward-porting.
 - V26 is the only active canon until a later promotion deliberately reopens the pointer.
-- V26 second-gate closure includes markdown/readme refurbishment for the active product surfaces and package owners, not just code changes.
+- V26 second-gate closure includes markdown/readme refurbishment for the active product surfaces, preserved protocol owner, and package owners, not just code changes.
 
 ## Key surfaces
 
@@ -48,7 +48,7 @@ Second-gate closure also requires the live product and docs to stay aligned:
   Active generated proof appendix.
 - [uapi/README.md](uapi/README.md)
   Application, routes, local development, and verification.
-- [packages/bitcode/README.md](packages/bitcode/README.md)
+- [protocol-demonstration/README.md](protocol-demonstration/README.md)
   Preserved runtime package, bridge surfaces, and proof artifacts.
 - [uapi/app/application/README.md](uapi/app/application/README.md)
   `/application` master-detail, give/need, and flow-guide ownership.
@@ -63,8 +63,8 @@ Second-gate closure also requires the live product and docs to stay aligned:
 
 - `uapi/`
   Next.js application, app routes, API routes, auxillaries, conversations, and shared UI systems.
-- `packages/bitcode/`
-  Preserved Bitcode runtime, deterministic state engine, public runtime shell, and canonical proof generator inputs.
+- `protocol-demonstration/`
+  Preserved Bitcode protocol implementation, deterministic state engine, public runtime shell, and canonical proof generator inputs.
 - `packages/*`
   Retained package owners being converged upward into Bitcode-grade proof, packaging, and API/storage discipline during V26.
 - `.engi/`

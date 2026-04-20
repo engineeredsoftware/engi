@@ -27,9 +27,9 @@ It is system shape:
 
 Observed in the local demo:
 
-- `packages/bitcode/src/bitcode-demo.js` already models GitHub App sessions, repo artifact inventory, addressing, signing, GitHub App auth, identity bindings, proofs, and settlement.
-- `packages/bitcode/public/app.js` renders those surfaces faithfully.
-- `packages/bitcode/public/index.html` and the client shell still present them mostly as an artifact browser with actions, rather than as the default operational story of the system.
+- `protocol-demonstration/src/bitcode-demo.js` already models GitHub App sessions, repo artifact inventory, addressing, signing, GitHub App auth, identity bindings, proofs, and settlement.
+- `protocol-demonstration/public/app.js` renders those surfaces faithfully.
+- `protocol-demonstration/public/index.html` and the client shell still present them mostly as an artifact browser with actions, rather than as the default operational story of the system.
 
 Result:
 
@@ -170,8 +170,8 @@ Required outputs:
 1. `/Users/garrettmaring/Developer/ENGI/BITCODE_V11_PREP_MEMO.md`
 2. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11.md`
 3. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11_NOTES.md`
-4. `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V11_IMPLEMENTATION_MATRIX.md`
-5. initial V11 implementation in `packages/bitcode`
+4. `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/SPEC_V11_IMPLEMENTATION_MATRIX.md`
+5. initial V11 implementation in `protocol-demonstration`
 6. tests run
 7. exact landed-vs-next summary
 

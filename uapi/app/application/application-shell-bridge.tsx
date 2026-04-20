@@ -15,7 +15,7 @@ import {
 import {
   readBitcodeApplicationShellControls,
   readBitcodeApplicationShellSnapshot,
-} from '@bitcode/bitcode/src/client-entry.js';
+} from '@bitcode/protocol-demonstration/src/client-entry.js';
 
 export type BitcodeApplicationShellSnapshot = Awaited<ReturnType<typeof readBitcodeApplicationShellSnapshot>>;
 

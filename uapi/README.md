@@ -185,5 +185,5 @@ If the route/package/component owners change, this doc set is expected to move w
 - [BITCODE_SPEC_V26_DELTA.md](../BITCODE_SPEC_V26_DELTA.md)
 - [BITCODE_SPEC_V26_PARITY_MATRIX.md](../BITCODE_SPEC_V26_PARITY_MATRIX.md)
 - [BITCODE_SPEC_V26_NOTES.md](../BITCODE_SPEC_V26_NOTES.md)
-- [packages/bitcode/V26_APPLICATION_SYSTEMS.md](../packages/bitcode/V26_APPLICATION_SYSTEMS.md)
-- [packages/bitcode/V26_PROOF_SURFACES.md](../packages/bitcode/V26_PROOF_SURFACES.md)
+- [protocol-demonstration/V26_APPLICATION_SYSTEMS.md](../protocol-demonstration/V26_APPLICATION_SYSTEMS.md)
+- [protocol-demonstration/V26_PROOF_SURFACES.md](../protocol-demonstration/V26_PROOF_SURFACES.md)
