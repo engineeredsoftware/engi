@@ -1,9 +1,9 @@
 # Spec V11 Implementation Matrix
 
 ## Status
-- Repo: `engi-demo`
-- Spec draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11.md`
-- Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V8`
+- Repo: `packages/bitcode`
+- Spec draft target: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11.md`
+- Historical root pointer at authoring time remained on: `V8`
 - Baseline preserved: V10 is complete and remains in place
 - This matrix is intended to track the **current V11 worktree truth**, not just the original V11 plan.
 - Current first-pass closure status in the V11 worktree:
@@ -17,7 +17,7 @@
 
 ## Purpose
 
-This file is the authoritative V11 implementation-driving matrix for the local ENGI demo.
+This file is the authoritative V11 implementation-driving matrix for the local Bitcode package realization.
 
 It translates the V11 audit into concrete repo work without forcing a broad redesign.
 It also serves as the current-source sync document for the active V11 worktree so the spec/docs layer stays aligned with implementation as the pass evolves.
@@ -27,16 +27,16 @@ It also serves as the current-source sync document for the active V11 worktree s
 This matrix is grounded in:
 
 - `/Users/garrettmaring/Developer/ENGI/BITCODE_V11_PREP_MEMO.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/server.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/public/index.html`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/public/app.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/core.test.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/api.test.js`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/bitcode-demo.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/server.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/public/index.html`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/public/app.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/core.test.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/api.test.js`
 
 ---
 
@@ -45,24 +45,24 @@ This matrix is grounded in:
 The current V11 worktree already exposes these first-pass surfaces directly:
 
 - `repoSupplySurface`
-  - built in `src/engi-demo.js`
+  - built in `src/bitcode-demo.js`
   - projected from `publicState(...)`
   - rendered in `public/app.js`
   - covered in API/core tests
 - `repoToSettlementSurface`
-  - built in `src/engi-demo.js`
+  - built in `src/bitcode-demo.js`
   - attached to `latestRun`
   - projected into public/reviewer outputs
   - rendered in `public/app.js`
   - covered in API/core tests
 - `identityAuthSpineSurface`
-  - built in `src/engi-demo.js`
+  - built in `src/bitcode-demo.js`
   - attached to `latestRun`
   - projected into richer outputs
   - rendered in `public/app.js`
   - covered in core tests
 - `boundaryRealitySurface`
-  - built in `src/engi-demo.js`
+  - built in `src/bitcode-demo.js`
   - projected from `publicState(...)`
   - rendered in `public/app.js`
   - covered in API/core tests
@@ -106,7 +106,7 @@ rather than being the main headline difference between Profile A and Profile B.
 For V11 in this repo:
 
 - keep the demo mostly together,
-- extend `src/engi-demo.js` coherently,
+- extend `src/bitcode-demo.js` coherently,
 - update the existing app shell rather than rebuilding it,
 - add only the smallest extra structures necessary to surface repo supply, flow, identity/auth, and boundaries clearly.
 
@@ -123,7 +123,7 @@ Expose repo supply as a first-class authenticated surface rather than only a lis
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - derive a repo supply surface from seeded sessions, inventory, and scenarios
 - include artifact-kind and origin-kind counts
@@ -153,7 +153,7 @@ Make the repo selection -> need -> asset -> branch -> proof -> settlement path e
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - derive a repo-to-settlement surface from the latest run
 - classify each stage as modeled-local, executed-local, or external-required
@@ -180,7 +180,7 @@ Make identity/auth read as the system backbone.
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - derive an identity/auth spine from buyer bindings, GitHub session bindings, signer attestations, authorization, proof, and settlement surfaces
 
@@ -208,7 +208,7 @@ boundary surfaces should explain local versus external truth without being mista
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - derive a boundary reality surface that separates:
   - modeled local structure,
@@ -265,7 +265,7 @@ Add or update tests for:
 
 ### Acceptance
 
-- `node --test` passes in `engi-demo`
+- `node --test` passes in `packages/bitcode`
 
 ---
 

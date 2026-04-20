@@ -1,6 +1,6 @@
 # Deployment Configuration
 
-See `internal-docs/TPS.md` for a provider‑by‑provider reference (capabilities, code, routes, data sync). This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Engi.
+See `internal-docs/TPS.md` for a provider‑by‑provider reference (capabilities, code, routes, data sync). This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
 
 ## Case Sensitivity (Linux/Vercel) and Casing Fix Scripts
 
@@ -108,7 +108,7 @@ GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
 # EMAIL CONFIGURATION (OPTIONAL)
 # ============================================
 EMAIL_SMTP_URL=smtp://user:pass@smtp.sendgrid.net:587
-CONTACT_SUPPORT_EMAIL=support@engi.ai
+CONTACT_SUPPORT_EMAIL=support@bitcode.example
 
 # ============================================
 # FEATURE FLAGS (DEVELOPMENT)

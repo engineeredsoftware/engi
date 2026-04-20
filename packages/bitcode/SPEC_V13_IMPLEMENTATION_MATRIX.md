@@ -1,9 +1,9 @@
 # Spec V13 Implementation Matrix
 
 ## Status
-- Repo: `engi-demo`
-- Spec draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V13.md`
-- Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V11`
+- Repo: `packages/bitcode`
+- Spec draft target: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V13.md`
+- Historical root pointer at authoring time remained on: `V11`
 - Baseline preserved: V12 is the current target canonical design baseline
 - V13 is primarily a **full canonical spec-structure and formality pass**, not primarily an implementation-expansion pass
 
@@ -19,11 +19,11 @@ If it is large, that signals either:
 ## Audit basis
 
 This matrix is grounded in:
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V13_INFORMATION_AUDIT.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V13.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12_NOTES.md`
-- current `engi-demo` implementation in `src/engi-demo.js`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V13_INFORMATION_AUDIT.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V13.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V12.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V12_NOTES.md`
+- current `packages/bitcode` implementation in `src/bitcode-demo.js`
 
 ---
 

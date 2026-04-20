@@ -1,12 +1,12 @@
-# ENGI Spec V7 Coverage Matrix
+# Bitcode Spec V7 Coverage Matrix
 
 ## Scope
 
-This matrix audits the current `engi-demo/` against:
+This matrix audits the current `packages/bitcode/` against:
 
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V7.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V7_NOTES.md`
-- prior baseline: `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V6_COVERAGE_MATRIX.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V7.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V7_NOTES.md`
+- prior baseline: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V6_COVERAGE_MATRIX.md`
 
 It focuses on **demoable / Profile A** requirements and explicitly labels what remains **Profile B / external-only**.
 

@@ -1,27 +1,27 @@
 # Spec V12 Implementation Matrix
 
 ## Status
-- Repo: `engi-demo`
-- Spec draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12.md`
-- Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V11`
+- Repo: `packages/bitcode`
+- Spec draft target: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V12.md`
+- Historical root pointer at authoring time remained on: `V11`
 - Baseline preserved: V11 is complete and remains in place
 - V12 is a demonstration-purpose pass first, not a broad system-repair pass
 
 ## Purpose
 
-This file is the authoritative V12 implementation-driving matrix for the local ENGI demo.
+This file is the authoritative V12 implementation-driving matrix for the local Bitcode package realization.
 
 It translates the V12 demonstration charter into concrete repo work while preserving the now-strong core system shape from V11.
 
 ## Audit basis
 
 This matrix is grounded in:
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V11_IMPLEMENTATION_MATRIX.md`
-- current `engi-demo` implementation and UI
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V12.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V12_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V11_IMPLEMENTATION_MATRIX.md`
+- current `packages/bitcode` implementation and UI
 
 ---
 
@@ -43,7 +43,7 @@ This matrix is grounded in:
 ## Current first-pass source truth
 
 The first real V12 implementation pass now lands these concrete repo facts:
-- `src/engi-demo.js` emits `depositingSurface`, `needingSurface`, and `depositingToNeedingSurface` on `latestRun`
+- `src/bitcode-demo.js` emits `depositingSurface`, `needingSurface`, and `depositingToNeedingSurface` on `latestRun`
 - the same V12 surfaces are emitted as branch artifacts:
   - `.engi/depositing-surface.json`
   - `.engi/needing-surface.json`
@@ -78,7 +78,7 @@ For V12 in this repo:
 ## Phase 1 — depositing foregrounding
 
 ### Goal
-Make depositing the obvious beginning of the ENGI story.
+Make depositing the obvious beginning of the Bitcode story.
 
 ### Required changes
 - foreground deposit mode in the shell
@@ -112,7 +112,7 @@ Make needing feel like measured demand rather than background parser metadata.
 Explicitly show why the current deposit matches the current need.
 
 ### Required changes
-- add a depositing-to-needing fit surface to `src/engi-demo.js`
+- add a depositing-to-needing fit surface to `src/bitcode-demo.js`
 - project it into the main operator view
 - summarize decisive kinds, overlap kinds, normalization pressure, and closure intent
 

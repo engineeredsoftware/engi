@@ -22,10 +22,10 @@ V10 exists because two surfaces that V9 made visible are still too shallow to co
 
 Observed in the local demo:
 
-- `engi-demo/public/index.html` still centers the deposit UX on freeform fields plus `content` textarea.
-- `engi-demo/public/app.js` posts those form values directly to `POST /api/deposits`.
-- `engi-demo/server.js` requires `title`, `author`, and `content`, which structurally privileges raw pasted payloads over repo-bound artifact selection.
-- `engi-demo/src/engi-demo.js` already models `artifactKind`, `artifactType`, `uploadSurface`, and GitHub references, but the intake boundary still begins from user-entered text rather than from authenticated repository artifact inventory.
+- `packages/bitcode/public/index.html` still centers the deposit UX on freeform fields plus `content` textarea.
+- `packages/bitcode/public/app.js` posts those form values directly to `POST /api/deposits`.
+- `packages/bitcode/server.js` requires `title`, `author`, and `content`, which structurally privileges raw pasted payloads over repo-bound artifact selection.
+- `packages/bitcode/src/bitcode-demo.js` already models `artifactKind`, `artifactType`, `uploadSurface`, and GitHub references, but the intake boundary still begins from user-entered text rather than from authenticated repository artifact inventory.
 
 Result:
 
@@ -136,11 +136,11 @@ Therefore V10 should make the live boundary explicit while still improving the l
 
 Required outputs:
 
-1. `/Users/garrettmaring/Developer/ENGI/ENGI_V10_PREP_MEMO.md`
-2. `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10.md`
-3. `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10_NOTES.md`
-4. `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V10_IMPLEMENTATION_MATRIX.md`
-5. initial V10 implementation in `engi-demo`
+1. `/Users/garrettmaring/Developer/ENGI/BITCODE_V10_PREP_MEMO.md`
+2. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10.md`
+3. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10_NOTES.md`
+4. `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V10_IMPLEMENTATION_MATRIX.md`
+5. initial V10 implementation in `packages/bitcode`
 6. tests run
 7. exact landed-vs-next summary
 
@@ -148,7 +148,7 @@ Required outputs:
 
 This pass should not:
 
-- repoint `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt`,
+- repoint the root canonical pointer,
 - delete or rewrite V9 artifacts in place,
 - do speculative repo-wide modularization,
 - fake live GitHub auth/network effects.

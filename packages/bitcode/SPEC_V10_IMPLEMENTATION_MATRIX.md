@@ -1,9 +1,9 @@
 # Spec V10 Implementation Matrix
 
 ## Status
-- Repo: `engi-demo`
-- Spec draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10.md`
-- Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V8`
+- Repo: `packages/bitcode`
+- Spec draft target: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10.md`
+- Historical root pointer at authoring time remained on: `V8`
 - Baseline preserved: V9 is complete and remains in place
 - Current first-pass closure status:
   - modeled GitHub App sessions: implemented
@@ -15,7 +15,7 @@
 
 ## Purpose
 
-This file is the authoritative V10 implementation-driving matrix for the local ENGI demo.
+This file is the authoritative V10 implementation-driving matrix for the local Bitcode package realization.
 
 It translates the V10 audit into concrete repo work without forcing a broad redesign.
 
@@ -24,15 +24,15 @@ It translates the V10 audit into concrete repo work without forcing a broad rede
 This matrix is grounded in:
 
 - `/Users/garrettmaring/Developer/ENGI/BITCODE_V10_PREP_MEMO.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V9.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/server.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/public/index.html`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/public/app.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/core.test.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/api.test.js`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V9.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/bitcode-demo.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/server.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/public/index.html`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/public/app.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/core.test.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/api.test.js`
 
 ---
 
@@ -55,7 +55,7 @@ This matrix is grounded in:
 For V10 in this repo:
 
 - keep the demo mostly together,
-- extend `src/engi-demo.js` coherently,
+- extend `src/bitcode-demo.js` coherently,
 - update the existing app shell rather than rebuilding it,
 - add only the smallest extra structures necessary for repo inventory and auth payload clarity.
 
@@ -69,7 +69,7 @@ Introduce local modeled authenticated repo sessions and seeded repo artifact inv
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - seed repo auth sessions
 - seed repo artifact inventory entries spanning multiple artifact kinds
@@ -116,7 +116,7 @@ Finalize the V10 identity/auth cluster on candidate assets and manifests.
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - add artifact selection surface
 - add addressing surface
@@ -140,7 +140,7 @@ Make the stronger auth payload shape visible in manifests and proofs.
 
 ### Required changes
 
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 
 - enrich identity bindings for installation-scoped auth principals where appropriate
 - strengthen identity/auth proof checks
@@ -167,7 +167,7 @@ Add or update tests for:
 
 ### Acceptance
 
-- `node --test` passes in `engi-demo`
+- `node --test` passes in `packages/bitcode`
 
 ---
 

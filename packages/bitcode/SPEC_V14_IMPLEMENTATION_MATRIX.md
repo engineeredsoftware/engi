@@ -1,11 +1,11 @@
 # Spec V14 Implementation Matrix
 
 ## Status
-- Repo: `engi-demo`
-- Template guide: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
-- Spec draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14.md`
-- Notes file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14_NOTES.md`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V14`
+- Repo: `packages/bitcode`
+- Legacy template guide: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_TEMPLATEGUIDE.md`
+- Spec draft target: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V14.md`
+- Notes file: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V14_NOTES.md`
+- Historical root pointer at authoring time: `V14`
 - Current canonical/latest target: `V14`
 - Last fully realized canon preserved: `V12`
 - Structural standard preserved: `V13`
@@ -25,16 +25,16 @@ It is the current ledger of:
 ## Audit basis
 
 This matrix is grounded in:
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_TEMPLATEGUIDE.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V14_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V13.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V13_INFORMATION_AUDIT.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V12.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_TEMPLATEGUIDE.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V14.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V14_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V13.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V13_INFORMATION_AUDIT.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V12.md`
 - `HOST_CAPABILITIES.md`
 - `HOST_CAPABILITIES.json`
-- current `engi-demo` implementation in:
-  - `src/engi-demo.js`
+- current `packages/bitcode` implementation in:
+  - `src/bitcode-demo.js`
   - `server.js`
   - `public/app.js`
   - `test/core.test.js`
@@ -46,10 +46,10 @@ This matrix is grounded in:
 ## Current interpretation
 
 The correct reading for this repo is:
-- `ENGI_SPEC.txt = V14` means V14 is the current canonical/latest target,
+- the historical root pointer targeted `V14` when this matrix was authored,
 - V12 remains the last fully realized canon and the semantic implementation anchor for the current deterministic demo,
-- V13 remains the structural drafting source that the template guide now formalizes for future versions,
-- this correction path tightens canonical docs and parity framing rather than redesigning ENGI or forcing source churn.
+- V13 remains the structural drafting source that the legacy template guide formalized for future versions,
+- this correction path tightens canonical docs and parity framing rather than redesigning Bitcode or forcing source churn.
 
 That means the right outcome for this pass is:
 - stronger canonical drafting infrastructure,
@@ -76,13 +76,13 @@ Those earlier source changes remain part of the parity baseline for the current 
 
 This pass added or strengthened:
 1. The standalone canonical drafting guide:
-   - `ENGI_SPEC_TEMPLATEGUIDE.md`
+   - the legacy template guide at `_legacy/ENGI_SPEC_TEMPLATEGUIDE.md`
 2. Explicit V14 alignment to that guide:
-   - version summary vs canonical ENGI summary split
-   - whole-ENGI coverage expectations
+   - version summary vs canonical Bitcode summary split
+   - whole-Bitcode coverage expectations
    - disciplined section-schema and appendix expectations
 3. Explicit version-status nuance across the V14 file family:
-   - `ENGI_SPEC.txt = V14` as the current canonical/latest target
+   - the historical root pointer targeting `V14` at authoring time
    - `V12` as the last fully realized canon
 4. Stronger host capability treatment in the V14 spec:
    - host capability role
@@ -108,7 +108,7 @@ This pass added or strengthened:
    - selected vs settlement-participating vs positively credited vs zero-credit semantics
    - source-to-shares, clipping, normalization, and journal invariants
 
-This pass also required targeted source-parity changes in `engi-demo/src/engi-demo.js`:
+This pass also required targeted source-parity changes in `packages/bitcode/src/bitcode-demo.js`:
 1. Prompt contracts and prompt surfaces now carry exact output schema and parse-contract metadata instead of only loose `string-or-array` typing.
 2. The proof witness manifest now represents `inference-synthesis` as a first-class family and digests more of the proof-bearing artifact surface directly.
 
@@ -120,9 +120,9 @@ This pass also required targeted source-parity changes in `engi-demo/src/engi-de
 |---|---|---|---|
 | Canonical drafting guide | present | standalone guide for future enriched specs | closed |
 | V14 file-family alignment | spec, notes, and matrix aligned | coordinated file family | closed |
-| Executive-summary split | present in V14 spec | version summary separated from canonical ENGI summary | closed |
+| Executive-summary split | present in V14 spec | version summary separated from canonical Bitcode summary | closed |
 | Pointer vs realized-canon nuance | spec, notes, and matrix now agree on `V14` / `V12` split | must remain explicit | closed |
-| Whole-ENGI design coverage | present in V14 spec | full operator chain plus appendices | closed |
+| Whole-Bitcode design coverage | present in V14 spec | full operator chain plus appendices | closed |
 | Host capability canonical treatment | strengthened in V14 spec; repo host docs exist and already preserve `V14` / `V12` nuance | role, categories, bootstrap, container, telemetry, execution truth explicit | closed |
 | Host capability adjunct docs | present and canon-aligned on version nuance; still preserve some current-source `v9` stage-id phrasing | adjunct docs should preserve execution truth without pretending stage ids changed | substantially aligned |
 | Evaluator family ids vs deterministic stage ids | V14 Appendix B now records both layers explicitly | family ids and concrete receipt-producing stage ids must remain distinguishable | closed |

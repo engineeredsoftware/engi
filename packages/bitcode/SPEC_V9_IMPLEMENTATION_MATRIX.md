@@ -1,9 +1,9 @@
 # Spec V9 Implementation Matrix
 
 ## Status
-- Repo: `engi-demo`
-- Spec draft target: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V9.md`
-- Canonical pointer remains: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V8`
+- Repo: `packages/bitcode`
+- Spec draft target: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V9.md`
+- Historical root pointer at authoring time remained on: `V8`
 - Local closure status after this pass:
   - Phase 1: implemented
   - Phase 2: implemented
@@ -16,18 +16,18 @@
   - Phase 9: implemented in this pass for host-capability truthing and local containerization configurations grounded in actual repo usage
 - Current canonical implementation center:
   - `server.js`
-  - `src/engi-demo.js`
+  - `src/bitcode-demo.js`
   - `public/index.html`
   - `public/app.js`
   - `test/core.test.js`
   - `test/api.test.js`
-- Current code-organization decision: **acceptable to keep the demo mostly together in `src/engi-demo.js` during V9**, rather than forcing a speculative module split first
+- Current code-organization decision: **acceptable to keep the demo mostly together in `src/bitcode-demo.js` during V9**, rather than forcing a speculative module split first
 
 ## Purpose of this document
-This file is the authoritative **V9 implementation-driving matrix** for the local ENGI demo.
+This file is the authoritative **V9 implementation-driving matrix** for the local Bitcode package realization.
 
 It serves five jobs at once:
-1. translate `ENGI_SPEC_V9.md` into concrete repo work,
+1. translate the legacy V9 system spec into concrete repo work,
 2. map current V8 implementation surfaces to V9 closure targets,
 3. define file-by-file changes for the next upgrade pass,
 4. define test/fixture expansion required for V9 confidence,
@@ -35,16 +35,16 @@ It serves five jobs at once:
 
 ## Audit basis
 This matrix is grounded in:
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V6.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V7.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V8.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V8_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V9.md`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/server.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/core.test.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/api.test.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V8_COVERAGE_MATRIX.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V6.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V7.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V8.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V8_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V9.md`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/bitcode-demo.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/server.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/core.test.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/api.test.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V8_COVERAGE_MATRIX.md`
 
 ---
 
@@ -71,7 +71,7 @@ This matrix is grounded in:
 **Decision:** do not do a broad codebase reorganization first.
 
 For V9 in the demo repo, prefer:
-- extending `src/engi-demo.js` coherently,
+- extending `src/bitcode-demo.js` coherently,
 - adding small helper files only where they reduce risk or improve testability,
 - avoiding architecture churn that would obscure the real V9 implementation work.
 
@@ -88,9 +88,9 @@ Acceptance:
 This is the cheapest high-signal V9 closure item and exposes current concrete mismatches already visible in V8.
 
 ### Current implementation refs
-- `src/engi-demo.js#501` — `buildPromptSurface()`
-- `src/engi-demo.js#1182` — `measureNeedFromScenario()`
-- `src/engi-demo.js#2871` — `buildPromptImplementationSurface()`
+- `src/bitcode-demo.js#501` — `buildPromptSurface()`
+- `src/bitcode-demo.js#1182` — `measureNeedFromScenario()`
+- `src/bitcode-demo.js#2871` — `buildPromptImplementationSurface()`
 - `test/core.test.js` prompt-surface tests
 
 ### Current gaps to close
@@ -103,7 +103,7 @@ This is the cheapest high-signal V9 closure item and exposes current concrete mi
    - `repo` appears in the failure-modes template but is not declared as a context input
 
 ### Required implementation changes
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 - add a placeholder extractor for template strings
 - add a prompt completeness validator
 - add `buildPromptContract()`
@@ -142,21 +142,21 @@ Add tests that:
 This is the most important trust/safety gap. The current demo classifies confidentiality well, but the app/API projection still exposes too much of `latestRun` for a final privacy model.
 
 ### Current implementation refs
-- `src/engi-demo.js#3583` — `publicState()`
-- `src/engi-demo.js#3549` — bounded public proof object on `latestRun`
+- `src/bitcode-demo.js#3583` — `publicState()`
+- `src/bitcode-demo.js#3549` — bounded public proof object on `latestRun`
 - `server.js#108` — `GET /api/state`
-- `server.js#150` — `POST /api/make-engi-branch`
-- `src/engi-demo.js#2578` — `buildSensitiveDataFlowRecords()`
-- `src/engi-demo.js#2663` — `buildBranchPolicyRelease()`
+- `server.js#150` — `POST /api/make-bitcode-branch`
+- `src/bitcode-demo.js#2578` — `buildSensitiveDataFlowRecords()`
+- `src/bitcode-demo.js#2663` — `buildBranchPolicyRelease()`
 
 ### Current gaps to close
 1. `publicState()` currently returns `latestRun` broadly rather than principal-scoped projections
-2. `POST /api/make-engi-branch` returns full `latestRun` directly
+2. `POST /api/make-bitcode-branch` returns full `latestRun` directly
 3. bounded public proof is carried in memory but not emitted as a dedicated branch artifact with redaction/disclosure proof
 4. artifact confidentiality classes do not yet drive actual field-level projection
 
 ### Required implementation changes
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 - add projection policy definitions per principal class:
   - buyer
   - reviewer
@@ -191,7 +191,7 @@ Add tests that:
 - privacy/disclosure is enforced, not merely described
 - public projection no longer exposes private run internals by convention
 - Implemented in repo:
-  - `/api/state` and `/api/make-engi-branch` now default to `public` projection
+  - `/api/state` and `/api/make-bitcode-branch` now default to `public` projection
   - `buyer`, `reviewer`, and `internal` projections are explicit rather than implicit
   - richer buyer/reviewer projections still withhold raw branch files and source material
 
@@ -203,11 +203,11 @@ Add tests that:
 This is the clearest V9 finality-gap exemplar: V8 already has static-measurement contracts, but not actual execution receipts.
 
 ### Current implementation refs
-- `src/engi-demo.js#306` — `extractSignals()`
-- `src/engi-demo.js#343` — `splitContentUnits()`
-- `src/engi-demo.js#1173` — `repoContextStaticMeasurements()`
-- `src/engi-demo.js#2300` — `buildEvalManifest()`
-- `src/engi-demo.js#894` — asset verification evidence booleans
+- `src/bitcode-demo.js#306` — `extractSignals()`
+- `src/bitcode-demo.js#343` — `splitContentUnits()`
+- `src/bitcode-demo.js#1173` — `repoContextStaticMeasurements()`
+- `src/bitcode-demo.js#2300` — `buildEvalManifest()`
+- `src/bitcode-demo.js#894` — asset verification evidence booleans
 
 ### Current gaps to close
 1. no actual static-evaluator execution receipts
@@ -219,7 +219,7 @@ This is the clearest V9 finality-gap exemplar: V8 already has static-measurement
 Keep code mostly together, but add minimal helper support if needed.
 
 Preferred approach:
-- add a local static-measurement receipt builder inside `src/engi-demo.js`
+- add a local static-measurement receipt builder inside `src/bitcode-demo.js`
 - optionally add a small helper file for receipt hashing / tool metadata normalization if it materially reduces clutter
 
 Implementation tasks:
@@ -260,11 +260,11 @@ Add tests that:
 Once receipts exist, V9 should make the heuristic inventory explicit and auditable.
 
 ### Current implementation refs
-- `src/engi-demo.js#306` — `extractSignals()`
-- `src/engi-demo.js#829` — `assetMeasurement.measuredFields`
-- `src/engi-demo.js#1653` — `computeNeedMatch()`
-- `src/engi-demo.js#1783` — `computeBenchmarkImpact()`
-- `src/engi-demo.js#1836` — `computeActionability()`
+- `src/bitcode-demo.js#306` — `extractSignals()`
+- `src/bitcode-demo.js#829` — `assetMeasurement.measuredFields`
+- `src/bitcode-demo.js#1653` — `computeNeedMatch()`
+- `src/bitcode-demo.js#1783` — `computeBenchmarkImpact()`
+- `src/bitcode-demo.js#1836` — `computeActionability()`
 
 ### Current gaps to close
 1. no formal registry of gathered static/inferred/hybrid code-analysis facts
@@ -273,7 +273,7 @@ Once receipts exist, V9 should make the heuristic inventory explicit and auditab
 4. no debug failure when gathered code-analysis facts are forgotten downstream
 
 ### Required implementation changes
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 - add `buildCodeAnalysisFactRegistry()`
 - define code-analysis fact inventory
 - annotate scoring/evaluation outputs with consumed code-analysis facts
@@ -306,11 +306,11 @@ Add tests that:
 Verification receipts should build on the new receipt substrate rather than invent a parallel mechanism.
 
 ### Current implementation refs
-- `src/engi-demo.js#1910` — issuance verification
-- `src/engi-demo.js#1932` — provenance verification
-- `src/engi-demo.js#1974` — verification sufficiency
-- `src/engi-demo.js#2022` — issuer policy status
-- `src/engi-demo.js#2282` — verification report
+- `src/bitcode-demo.js#1910` — issuance verification
+- `src/bitcode-demo.js#1932` — provenance verification
+- `src/bitcode-demo.js#1974` — verification sufficiency
+- `src/bitcode-demo.js#2022` — issuer policy status
+- `src/bitcode-demo.js#2282` — verification report
 
 ### Current gaps to close
 1. verification decisions are not receipt-backed
@@ -318,7 +318,7 @@ Verification receipts should build on the new receipt substrate rather than inve
 3. missing way to distinguish claimed evidence vs measured evidence vs policy ceilings
 
 ### Required implementation changes
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 - add verification receipt builders
 - extend verification report to include receipt refs
 - differentiate:
@@ -351,15 +351,15 @@ Add tests that:
 Once prompts, receipts, projections, and verification are stronger, the proof bundle can become materially stronger rather than cosmetically larger.
 
 ### Current implementation refs
-- `src/engi-demo.js#4028` — `buildSelectionConsistencyProof()`
-- `src/engi-demo.js#4066` — `buildJournalCompletenessProof()`
-- `src/engi-demo.js#4103` — `buildIdentityAuthorizationProof()`
-- `src/engi-demo.js#4122` — `buildSensitiveDataFlowProof()`
-- `src/engi-demo.js#4157` — `buildMaterializationVisibilityProof()`
-- `src/engi-demo.js#4186` — `buildProofWitnessManifest()`
-- `src/engi-demo.js#4281` — `buildProofContract()`
-- `src/engi-demo.js#4310` — `buildSettlementProof()`
-- `src/engi-demo.js#4569` — `buildSystemProofBundle()`
+- `src/bitcode-demo.js#4028` — `buildSelectionConsistencyProof()`
+- `src/bitcode-demo.js#4066` — `buildJournalCompletenessProof()`
+- `src/bitcode-demo.js#4103` — `buildIdentityAuthorizationProof()`
+- `src/bitcode-demo.js#4122` — `buildSensitiveDataFlowProof()`
+- `src/bitcode-demo.js#4157` — `buildMaterializationVisibilityProof()`
+- `src/bitcode-demo.js#4186` — `buildProofWitnessManifest()`
+- `src/bitcode-demo.js#4281` — `buildProofContract()`
+- `src/bitcode-demo.js#4310` — `buildSettlementProof()`
+- `src/bitcode-demo.js#4569` — `buildSystemProofBundle()`
 
 ### Gaps closed in this pass
 1. proof claims that were previously weaker are now backed by explicit witness inputs
@@ -369,7 +369,7 @@ Once prompts, receipts, projections, and verification are stronger, the proof bu
 5. disclosure/redaction proof families are now carried in the bundle
 
 ### Required implementation changes
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 - add proof witness manifest builder
 - upgrade selection/materialization proof to use real inputs rather than fixed truthy placeholders
 - strengthen journal completeness proof beyond tautological replay hash checks
@@ -405,13 +405,13 @@ Add tests that:
 The current settlement path is strong enough to preserve while tightening upstream precision.
 
 ### Current implementation refs
-- `src/engi-demo.js#3486` — `scoreSourceBundleForShares()`
-- `src/engi-demo.js#3554` — `normalizeContributionUnitsToBasisPoints()`
-- `src/engi-demo.js#3644` — `buildSourceToSharesArtifact()`
-- `src/engi-demo.js#3744` — `allocateExactMicroUnitsByShare()`
-- `src/engi-demo.js#4334` — `buildSettlementParticipationArtifact()`
-- `src/engi-demo.js#4399` — `buildAccountingPrecisionReport()`
-- `src/engi-demo.js#5035` — `settleNeedEvent()`
+- `src/bitcode-demo.js#3486` — `scoreSourceBundleForShares()`
+- `src/bitcode-demo.js#3554` — `normalizeContributionUnitsToBasisPoints()`
+- `src/bitcode-demo.js#3644` — `buildSourceToSharesArtifact()`
+- `src/bitcode-demo.js#3744` — `allocateExactMicroUnitsByShare()`
+- `src/bitcode-demo.js#4334` — `buildSettlementParticipationArtifact()`
+- `src/bitcode-demo.js#4399` — `buildAccountingPrecisionReport()`
+- `src/bitcode-demo.js#5035` — `settleNeedEvent()`
 
 ### Gaps closed in this pass
 1. upstream contribution derivation now runs through fixed-point units rather than float-derived mass
@@ -420,7 +420,7 @@ The current settlement path is strong enough to preserve while tightening upstre
 4. source-material-to-share derivation is now materialized as its own replay chain
 
 ### Required implementation changes
-In `src/engi-demo.js`:
+In `src/bitcode-demo.js`:
 - move contribution mass derivation to fixed-point or rational representation
 - add explicit source-to-shares artifact capturing marginal contribution, clipping, normalization, and tie-break steps
 - add explicit settlement participation records
@@ -457,9 +457,9 @@ Add tests that:
 This is the confidence layer proving the earlier V9 work actually holds under realistic conditions.
 
 ### Current implementation refs
-- `src/engi-demo.js#1458` — `buildInitialState()`
-- `src/engi-demo.js#4947` — `buildScenarioFixtureManifest()`
-- `src/engi-demo.js#5000` — `buildTestCoverageReport()`
+- `src/bitcode-demo.js#1458` — `buildInitialState()`
+- `src/bitcode-demo.js#4947` — `buildScenarioFixtureManifest()`
+- `src/bitcode-demo.js#5000` — `buildTestCoverageReport()`
 - `test/core.test.js`
 - `test/api.test.js`
 
@@ -476,7 +476,7 @@ Add fixture/scenario support without large refactor.
 Suggested additions:
 - `fixtures/github/` for workflow/check/artifact inputs
 - `fixtures/scenarios/` for scenario definitions
-- optional small loader helper if needed, while leaving main logic in `src/engi-demo.js`
+- optional small loader helper if needed, while leaving main logic in `src/bitcode-demo.js`
 
 ### Required scenario families
 At minimum:
@@ -541,7 +541,7 @@ Host/container work is only useful if it is derived from the real local V9 progr
 
 ## File-by-file implementation plan
 
-### `src/engi-demo.js`
+### `src/bitcode-demo.js`
 Keep as the main V9 implementation center.
 
 Primary additions planned:
@@ -562,7 +562,7 @@ Primary additions planned:
 Primary changes planned:
 - principal/projection-aware state responses
 - safer default response shapes for `GET /api/state`
-- safer default response shapes for `POST /api/make-engi-branch`
+- safer default response shapes for `POST /api/make-bitcode-branch`
 - optional support for explicit projection selection in local demo mode
 
 ### `public/app.js`

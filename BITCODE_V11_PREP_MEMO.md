@@ -27,9 +27,9 @@ It is system shape:
 
 Observed in the local demo:
 
-- `engi-demo/src/engi-demo.js` already models GitHub App sessions, repo artifact inventory, addressing, signing, GitHub App auth, identity bindings, proofs, and settlement.
-- `engi-demo/public/app.js` renders those surfaces faithfully.
-- `engi-demo/public/index.html` and the client shell still present them mostly as an artifact browser with actions, rather than as the default operational story of the system.
+- `packages/bitcode/src/bitcode-demo.js` already models GitHub App sessions, repo artifact inventory, addressing, signing, GitHub App auth, identity bindings, proofs, and settlement.
+- `packages/bitcode/public/app.js` renders those surfaces faithfully.
+- `packages/bitcode/public/index.html` and the client shell still present them mostly as an artifact browser with actions, rather than as the default operational story of the system.
 
 Result:
 
@@ -117,7 +117,7 @@ Requirements:
 
 Requirements:
 
-- connect GitHub App session, selected inventory, signer attestation, buyer authority, ENGI system authority, bounded proof authority, and settlement authority into one surface,
+- connect GitHub App session, selected inventory, signer attestation, buyer authority, Bitcode system authority, bounded proof authority, and settlement authority into one surface,
 - keep addressing, signing, auth payloads, authorization, and proof distinct while also making their chain obvious.
 
 ### D. Local/remote boundary realism must be stronger and simpler
@@ -167,11 +167,11 @@ Profile A MUST NOT:
 
 Required outputs:
 
-1. `/Users/garrettmaring/Developer/ENGI/ENGI_V11_PREP_MEMO.md`
-2. `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11.md`
-3. `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11_NOTES.md`
-4. `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V11_IMPLEMENTATION_MATRIX.md`
-5. initial V11 implementation in `engi-demo`
+1. `/Users/garrettmaring/Developer/ENGI/BITCODE_V11_PREP_MEMO.md`
+2. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11.md`
+3. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11_NOTES.md`
+4. `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V11_IMPLEMENTATION_MATRIX.md`
+5. initial V11 implementation in `packages/bitcode`
 6. tests run
 7. exact landed-vs-next summary
 
@@ -179,7 +179,7 @@ Required outputs:
 
 This pass should not:
 
-- repoint `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt`,
+- repoint the root canonical pointer,
 - delete or rewrite V10 artifacts in place,
 - fake production GitHub/network behavior,
 - do a broad architectural breakup of the demo code unless a tiny helper materially improves clarity.

@@ -1,20 +1,20 @@
 # Spec V8 Coverage Matrix
 
 ## Status
-- Demo repo: `engi-demo`
-- Spec target: ENGI V8
-- Spec pointer file: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V8`
+- Demo repo: `packages/bitcode`
+- Historical spec target: legacy V8
+- Historical root pointer at authoring time: `V8`
 - Current automated test count: **52 passing**
 - Current implementation center of gravity:
   - `server.js`
-  - `src/engi-demo.js`
+  - `src/bitcode-demo.js`
   - `public/index.html`
   - `public/app.js`
   - `test/api.test.js`
   - `test/core.test.js`
 
 ## Purpose of this document
-This file is the authoritative V8 implementation audit + design + plan for the local ENGI demo.
+This file is the authoritative V8 implementation audit + design + plan for the local Bitcode package realization.
 
 It serves four jobs at once:
 1. **audit** current implementation against the V8 spec
@@ -22,29 +22,29 @@ It serves four jobs at once:
 3. **document** exact implementation references, gaps, and intentional Profile A/Profile B boundaries
 4. **plan** the concrete edits required to move from “substantively V8” to “cleanly, fully, presentation-grade V8”
 
-## Versioning policy for ENGI specs and demo alignment
-This repo should follow the ENGI spec-versioning convention:
-- each new spec draft gets its **own versioned file** (`ENGI_SPEC_VN.md`, notes, etc.)
+## Versioning policy for legacy specs and preserved demo alignment
+This repo preserves the legacy spec-versioning convention:
+- each historical spec draft keeps its **own versioned file** under `_legacy/` (`ENGI_SPEC_VN.md`, notes, etc.)
 - prior spec versions remain in place for history / diffability
-- only `ENGI_SPEC.txt` changes to point at the canonical current version
+- at the time, only the root canonical pointer changed to identify the current version
 - demo implementation naming should avoid stale embedded version numbers when the file is the canonical current implementation
 
 Therefore:
 - spec docs should continue to version as `V1`, `V2`, ..., `V8`, ...
-- the demo implementation file is canonically named **`src/engi-demo.js`**
+- the demo implementation file is canonically named **`src/bitcode-demo.js`**
 - the coverage matrix should track V8 explicitly and document the remaining work needed to reach full V8 implementation and presentation closure
 
 ## Audit basis
 The audit in this file is grounded in:
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V8.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V8_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/server.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/src/engi-demo.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/public/index.html`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/public/app.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/api.test.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/test/core.test.js`
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/HOST_CAPABILITIES.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V8.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V8_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/server.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/src/bitcode-demo.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/public/index.html`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/public/app.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/api.test.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/test/core.test.js`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/HOST_CAPABILITIES.md`
 - live test run after closure edits: `npm test` -> **52/52 passing**
 
 ---
@@ -53,11 +53,11 @@ The audit in this file is grounded in:
 
 | Area | V8 expectation | Repo coverage | Audit status | Remaining work for full V8 closure |
 |---|---|---|---|---|
-| Need measurement | GitHub-bound benchmark parsing, fail-closed validation, need descriptor closure | `src/engi-demo.js`, `test/core.test.js`, `test/api.test.js` | **Pass** | no material implementation gap found |
-| Prompt surfaces | Prompt templates, interpolation, context lineage, downstream artifact bindings | `src/engi-demo.js` prompt surfaces, `public/app.js`, prompt-lineage tests | **Pass** | improve operator UX wording / layout if needed, but implementation surface is present |
-| Recall channels | lexical, symbolic, path, config, semantic/vector, artifact kind/type | `src/engi-demo.js` recall contracts + provenance tests | **Pass** | no material implementation gap found |
+| Need measurement | GitHub-bound benchmark parsing, fail-closed validation, need descriptor closure | `src/bitcode-demo.js`, `test/core.test.js`, `test/api.test.js` | **Pass** | no material implementation gap found |
+| Prompt surfaces | Prompt templates, interpolation, context lineage, downstream artifact bindings | `src/bitcode-demo.js` prompt surfaces, `public/app.js`, prompt-lineage tests | **Pass** | improve operator UX wording / layout if needed, but implementation surface is present |
+| Recall channels | lexical, symbolic, path, config, semantic/vector, artifact kind/type | `src/bitcode-demo.js` recall contracts + provenance tests | **Pass** | no material implementation gap found |
 | Ranking explainability | need match, benchmark impact, penalty mass visual/detail surfaces | `public/app.js`, evaluation tests | **Pass** | tighten live-demo readability if necessary; current semantics are present |
-| Verification separation | ranking separated from verification and use tiers | `src/engi-demo.js`, verification tests | **Pass** | no material implementation gap found |
+| Verification separation | ranking separated from verification and use tiers | `src/bitcode-demo.js`, verification tests | **Pass** | no material implementation gap found |
 | Identity/auth separation | identity bindings and authorization decisions separate from settlement/proofs | branch artifact tests + UI surfaces | **Pass** | no material implementation gap found |
 | Signer separation | signer binding stays distinct from authz, GitHub, and settlement | asset creation tests + branch artifact surfaces | **Pass** | no material implementation gap found |
 | GitHub boundary separation | explicit local-modeled vs external-only GitHub boundary surface | branch artifact tests + UI surfaces | **Pass** | no material implementation gap found |
@@ -86,8 +86,8 @@ Implemented strongly in Profile A:
 - inference proofs
 
 Main refs:
-- `measureNeedFromScenario()` in `src/engi-demo.js`
-- `buildGithubActionsBenchmarkParser()` in `src/engi-demo.js`
+- `measureNeedFromScenario()` in `src/bitcode-demo.js`
+- `buildGithubActionsBenchmarkParser()` in `src/bitcode-demo.js`
 - tests:
   - `buildNeedDescriptor carries canonical run evidence, parser failure contract, and V8 derivation closure`
   - `measureNeedFromScenario fails closed when canonical benchmark outputs are malformed`
@@ -294,7 +294,7 @@ Repo-consistency gap:
   - `SCRIPT.md` now reads as V8
   - `SCRIPT_SHORT.md` now reads as V8
   - `CHECKLIST.md` now reads as V8
-  - canonical implementation file is now `src/engi-demo.js`
+  - canonical implementation file is now `src/bitcode-demo.js`
 
 Design conclusion:
 - runtime semantics are already V8
@@ -429,12 +429,12 @@ That can be acceptable mathematically, but it is weak demo storytelling unless t
 
 ### Design decision A — canonical implementation naming should be version-implicit
 Action:
-- keep the canonical implementation at `src/engi-demo.js`
+- keep the canonical implementation at `src/bitcode-demo.js`
 
 Rationale:
 - spec files should remain versioned
 - canonical implementation files should not carry stale version numbers once they represent the current official implementation
-- this matches the ENGI spec pointer convention, where `ENGI_SPEC.txt` identifies the current spec version while historical versioned spec files remain intact
+- this matches the preserved legacy pointer convention, where the historical root pointer identified the current spec version while historical versioned spec files remained intact
 
 ### Design decision B — the V8 coverage matrix should become the master finishing plan
 Action:
@@ -465,7 +465,7 @@ Rationale:
 Goal: eliminate stale V7 framing where the repo is already V8.
 
 Completed edits:
-1. renamed `src/spec-v7-demo.js` -> `src/engi-demo.js`
+1. renamed `src/spec-v7-demo.js` -> `src/bitcode-demo.js`
 2. updated imports in:
    - `server.js`
    - `test/api.test.js`
@@ -580,7 +580,7 @@ These remain acceptable V8 omissions for the local repo as long as:
 
 ## Definition of done for V8 closure
 The local demo should be considered fully V8-implemented and presentation-clean when all of the following are true:
-- the canonical implementation file is `src/engi-demo.js`
+- the canonical implementation file is `src/bitcode-demo.js`
 - current-state operator docs consistently say V8
 - the coverage matrix remains accurate after rename and doc updates
 - settlement behavior in the seeded run is semantically legible and intentionally tested

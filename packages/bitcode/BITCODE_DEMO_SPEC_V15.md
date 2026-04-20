@@ -12,12 +12,12 @@ Demo matrix companion: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPE
 
 # 1. Demo-spec role
 
-This file does not define ENGI system canon.
+This file does not define Bitcode system canon.
 
 Its job is narrower:
 - describe the current deterministic local prototype honestly,
 - define the demo-local operator shell and persistence behavior,
-- record how the current repo realizes the ENGI operating chain,
+- record how the current repo realizes the Bitcode operating chain,
 - and separate that realization truth from root-level system canon.
 
 If this demo ever diverges from system canon, system canon wins.
@@ -28,7 +28,7 @@ It means the demo is one realization rather than the whole system.
 
 # 2. What this demo currently realizes
 
-The local deterministic prototype realizes the ENGI operating chain as:
+The local deterministic prototype realizes the Bitcode operating chain as:
 1. repo supply and modeled GitHub App-authenticated inventory,
 2. depositing candidate supply against a measured need,
 3. needing as benchmark/parser/repo-derived demand,
@@ -85,7 +85,7 @@ Explainers, tooltips, visual/raw renderings, and panel summaries are demo-canoni
 # 5. Demo-local source surfaces
 
 Primary implementation files:
-- `src/engi-demo.js`
+- `src/bitcode-demo.js`
 - `src/canonical/enums.js`
 - `src/canonical/types.js`
 - `src/canonical/surfaces.js`
@@ -113,7 +113,7 @@ Current module-boundary reading for the demo:
 - `src/canonical/enums.js` and `src/canonical/types.js` now own closed-case vocabulary and typed intent for the extracted canonical layer.
 - `src/canonical/surfaces.js` now owns the primary operating surfaces: repo supply, depositing, needing, deposit-to-need fit, repo-to-settlement, identity/auth spine, boundary reality, and GitHub boundary.
 - `src/canonical/run-artifacts.js` now owns run-level telemetry, manifest, bundle, and coverage-report builders.
-- `src/engi-demo.js` remains the orchestration reservoir and still owns the next extraction seams: need measurement/inference, evaluation/materialization, proof/settlement artifact emission, and projection/disclosure.
+- `src/bitcode-demo.js` remains the orchestration reservoir and still owns the next extraction seams: need measurement/inference, evaluation/materialization, proof/settlement artifact emission, and projection/disclosure.
 
 ---
 
@@ -171,21 +171,21 @@ Browser e2e matters here because this demo uses ordered panels as part of the op
 Run:
 
 ```bash
-cd /Users/garrettmaring/Developer/ENGI/engi-demo
+cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
 npm start
 ```
 
 Test:
 
 ```bash
-cd /Users/garrettmaring/Developer/ENGI/engi-demo
+cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
 npm test
 ```
 
 Main API:
 - `GET /api/state`
 - `POST /api/deposits`
-- `POST /api/make-engi-branch`
+- `POST /api/make-bitcode-branch`
 - `POST /api/reset`
 
 ---
