@@ -1,5 +1,5 @@
 /**
- * MockSystemAdapter - Adapts unified test data for use with Engi's Mock System
+ * MockSystemAdapter - Adapts unified test data for use with Bitcode's Mock System
  * 
  * This adapter bridges the Test Intelligence system with the existing
  * MockOrchestrator, providing seamless integration while maintaining

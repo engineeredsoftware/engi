@@ -133,7 +133,7 @@ async function analyzeRepository(
       branch: repository.branch || 'main',
       analysisType,
       timestamp: new Date().toISOString(),
-      analyst: 'engi-ai-v1.0',
+      analyst: 'bitcode-ai-v1.0',
       
       // Analysis results vary by type
       results: generateMockAnalysisResults(analysisType, options),

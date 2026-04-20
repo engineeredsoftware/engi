@@ -227,7 +227,7 @@ const actionableInsights = advancedResult.synthesis.recommendations.filter(
 ### Pipeline Integration
 
 ```typescript
-// Integration with Engi pipeline context
+// Integration with Bitcode pipeline context
 export const processMultimodalAttachments = factoryTool(
   'processMultimodalAttachments',
   async (params: MultimodalProcessingParams) => {
@@ -274,7 +274,7 @@ export const processMultimodalAttachments = factoryTool(
 - **Recovery Mechanisms**: Retry logic for transient processing failures
 
 ### Integration Considerations
-- **Pipeline Context Awareness**: Automatic integration with Engi pipeline metadata
+- **Pipeline Context Awareness**: Automatic integration with Bitcode pipeline metadata
 - **Figma Service Dependencies**: Requires Figma API configuration for design file processing
 - **LSP Integration**: Optional Language Server Protocol integration for code-related attachments
 - **Logging Framework**: Comprehensive logging with structured metadata for monitoring

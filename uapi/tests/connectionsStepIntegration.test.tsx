@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/orbitals/components/OrbitalsConnects';
+import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
 
 describe('ConnectionsStep Integration (SSR)', () => {
   it('renders Figma and Notion sections when configured', () => {

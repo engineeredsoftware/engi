@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/jira-tools",
   "version": "1.0.0",
-  "description": "Jira MCP tool wrappers for Engi agents",
+  "description": "Jira MCP tool wrappers for Bitcode agents",
   "main": "./src/index.js",
   "types": "./src/index.ts",
   "scripts": {

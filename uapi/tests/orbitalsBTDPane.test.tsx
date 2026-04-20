@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import OrbitalsBTDPane from '@/app/orbitals/components/OrbitalsBTDPane';
+import OrbitalsBTDPane from '@/app/auxillaries/components/AuxillariesBTDPane';
 import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 

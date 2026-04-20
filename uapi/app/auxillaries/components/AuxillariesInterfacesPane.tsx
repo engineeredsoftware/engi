@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import React, { type ComponentProps } from "react";
 
 import OrbitalsInterfacesPane from "@/app/orbitals/components/OrbitalsInterfacesPane";
 

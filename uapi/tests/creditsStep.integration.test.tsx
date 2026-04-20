@@ -1,41 +1,114 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+
+import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import { useAuth } from '@/components/base/engi/auth/AuthProvider';
+import { useUserData } from '@/hooks/useUserData';
+
+jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
+  useAuth: jest.fn(),
+}));
+
+jest.mock('@/hooks/useUserData', () => ({
+  useUserData: jest.fn(),
+}));
+
+const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
+const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
 describe('CreditsStep interactions', () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
-  afterAll(() => {
-    jest.useRealTimers();
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true, repos: [] }),
+    }) as jest.Mock;
+
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'user-1',
+        email_confirmed_at: '2026-04-18T12:00:00.000Z',
+      },
+      loading: false,
+    } as any);
+
+    mockUseUserData.mockReturnValue({
+      data: {
+        profile: {
+          wallet_address: 'bc1qbitcodeoperator',
+          btc_balance: '0.125',
+          team_members: [
+            { id: 'tm-1', display_name: 'Lin Ortega', role: 'admin' },
+          ],
+        },
+        modelPreferences: {
+          existingSetting: 'keep-me',
+          btdDefaults: {
+            shareLens: 'account',
+            settlementView: 'bounded',
+            btdDetailView: 'transactions',
+            automationBias: 'review-first',
+            walletSync: 'manual',
+          },
+        },
+      },
+      hasGitHubConnection: true,
+      credits: 1200,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: false,
+      onboardedSteps: ['profile', 'connects', 'interfaces'],
+    } as any);
   });
 
-  it('applies promo code and triggers completion callback', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('submits merged $BTD defaults through the auxillaries alias', async () => {
+    const onSave = jest.fn();
     const onCompletionStatusChange = jest.fn();
+
     render(
       <CreditsStep
-        onSave={() => {}}
-        isFirstTimeUser={false}
-        isDevMode={false}
+        onSave={onSave}
+        loading={false}
         onCompletionStatusChange={onCompletionStatusChange}
-        initialCredits={0}
-      />
+      />,
     );
-    // Promo code input and button
-    const input = screen.getByPlaceholderText('Enter promo code');
-    const applyButton = screen.getByRole('button', { name: 'Apply' });
-    // Enter code
-    fireEvent.change(input, { target: { value: 'PROMO123' } });
-    // Click apply
-    fireEvent.click(applyButton);
-    // Should show loading spinner
-    expect(screen.getByRole('button')).toContainElement(screen.getByText((_, el) => el.classList.contains('loading-spinner')));
-    // Advance timers to simulate async
-    act(() => { jest.advanceTimersByTime(1500); });
-    // After application, button shows 'Applied'
-    expect(screen.getByText('Applied')).toBeInTheDocument();
-    // Completion callback called
+
+    await waitFor(() => {
+      expect(screen.queryByText('loading…')).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /organization/i }));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /replay bias toward replayable accounting and witness detail\./i,
+      }),
+    );
+    fireEvent.click(screen.getByRole('button', { name: /proofs/i }));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /decisive bias toward shorter, stronger default follow-through\./i,
+      }),
+    );
+    fireEvent.click(screen.getByRole('button', { name: /live/i }));
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(onSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        existingSetting: 'keep-me',
+        btdDefaults: expect.objectContaining({
+          shareLens: 'organization',
+          settlementView: 'replay',
+          btdDetailView: 'proofs',
+          automationBias: 'decisive',
+          walletSync: 'live',
+        }),
+      }),
+    );
     expect(onCompletionStatusChange).toHaveBeenCalledWith(true);
   });
 });

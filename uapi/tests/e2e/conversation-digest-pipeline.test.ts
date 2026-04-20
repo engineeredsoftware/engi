@@ -31,7 +31,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
         title: 'Repo Digest · Authentication',
         participants: [
           { id: 'user-123', name: 'Builder', role: 'user' },
-          { id: 'engi', name: 'Engi', role: 'assistant' }
+          { id: 'bitcode', name: 'Bitcode', role: 'assistant' }
         ],
         messages: [
           {
@@ -43,7 +43,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
           },
           {
             id: 'm2',
-            authorId: 'engi',
+            authorId: 'bitcode',
             content: 'Loaded digest with 12 files and 3 pending PRs.',
             timestamp: baseTimestamp,
             type: 'rich_response'
@@ -54,7 +54,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
           { id: 'pipe-1', type: 'deliverable', status: 'running', link: '/pipelines/pipe-1' }
         ],
         context: {
-          repo: 'engi/chatgpt-app',
+          repo: 'engineeredsoftware/bitcode',
           branch: 'feat/auth-digest',
           tags: ['digest', 'auth']
         }
@@ -223,7 +223,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
           totalDeletions: 5
         },
         context: {
-          repo: 'engi/chatgpt-app',
+          repo: 'engineeredsoftware/bitcode',
           branch: 'main'
         }
       };
@@ -279,7 +279,7 @@ describe('E2E: Conversation → Digest → Pipeline Flow (unit-backed)', () => {
             }
           ],
           summary: { totalFiles: 1, totalAdditions: 1, totalDeletions: 0 },
-          context: { repo: 'engi/chatgpt-app', branch: 'main' }
+          context: { repo: 'engineeredsoftware/bitcode', branch: 'main' }
         }),
         conversationRichResponseFactory.createDataTableInteractive({
           columns: [{ key: 'metric', label: 'Metric', type: 'string', sortable: true }],

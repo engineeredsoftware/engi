@@ -126,7 +126,7 @@ export const PR_WITH_CONFLICTS = createTestPart({
   state: 'open',
   draft: false,
   user: {
-    login: 'engi-bot',
+    login: 'bitcode-bot',
     type: 'Bot'
   },
   head: {

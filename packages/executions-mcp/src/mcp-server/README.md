@@ -51,7 +51,7 @@ Create `config/production.json` with your production settings. See `config/produ
 ### Docker
 ```bash
 # Build image
-docker build -t engi/mcp-server -f deployment/docker/Dockerfile .
+docker build -t bitcode/mcp-server -f deployment/docker/Dockerfile .
 
 # Run container
 docker run -d \
@@ -60,19 +60,19 @@ docker run -d \
   -e NODE_ENV=production \
   -e SUPABASE_URL=$SUPABASE_URL \
   -e SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
-  engi/mcp-server
+  bitcode/mcp-server
 ```
 
 ### Kubernetes
 ```bash
 # Create namespace
-kubectl create namespace engi
+kubectl create namespace bitcode
 
 # Create secrets
-kubectl create secret generic engi-secrets \
+kubectl create secret generic bitcode-secrets \
   --from-literal=supabase-url=$SUPABASE_URL \
   --from-literal=supabase-service-key=$SUPABASE_SERVICE_KEY \
-  -n engi
+  -n bitcode
 
 # Deploy
 kubectl apply -f deployment/kubernetes/deployment.yaml
@@ -116,9 +116,9 @@ The server monitors and alerts on:
 ```json
 {
   "mcpServers": {
-    "engi": {
+    "bitcode": {
       "command": "node",
-      "args": ["/path/to/engi/packages/mcp-server/dist/index.js"],
+      "args": ["/path/to/bitcode/packages/mcp-server/dist/index.js"],
       "env": {
         "NODE_ENV": "development",
         "SUPABASE_URL": "your-url",

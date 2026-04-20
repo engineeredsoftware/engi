@@ -1,6 +1,6 @@
-# Figma Integration for Engi
+# Figma Integration for Bitcode
 
-This package provides complete Figma design extraction and analysis integration for Engi's AI-powered development pipeline.
+This package provides complete Figma design extraction and analysis integration for Bitcode's AI-powered development pipeline.
 
 ## 🏗️ Architecture Overview
 
@@ -99,7 +99,7 @@ Set environment variable:
 export FIGMA_ACCESS_TOKEN="your-personal-access-token"
 ```
 
-Or configure via Engi's OAuth integration (future enhancement).
+Or configure via Bitcode's OAuth integration (future enhancement).
 
 ## 🧪 Testing
 

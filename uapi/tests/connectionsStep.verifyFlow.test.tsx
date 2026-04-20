@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 // Use the actual Testing Library implementation, not the virtual mock from setupTests
 const { render, screen, fireEvent, waitFor } = jest.requireActual('@testing-library/react');
-import ConnectionsStep from '@/app/orbitals/components/OrbitalsConnects';
+import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
 
 // Skipping interactive verify flow tests due to lack of full DOM in SSR test environment
 describe.skip('ConnectionsStep Verify Flow (interactive)', () => {

@@ -1,11 +1,35 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ModelsPane from '@/app/orbitals/components/OrbitalsModelsPane';
+
+import ModelsPane from '@/app/auxillaries/components/AuxillariesInterfacesPane';
+import { useUserData } from '@/hooks/useUserData';
 import { SUPPORTED_LLM_MODELS } from '@/utils/model-pricing';
 
+jest.mock('@/hooks/useUserData', () => ({
+  useUserData: jest.fn(),
+}));
+
+const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
+
 describe('Models Pane uses centralized model catalog', () => {
+  beforeEach(() => {
+    mockUseUserData.mockReturnValue({
+      data: {
+        modelPreferences: {},
+      },
+      hasGitHubConnection: true,
+      credits: 1200,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: true,
+      onboardedSteps: ['profile', 'connects', 'interfaces', 'btd'],
+    } as any);
+  });
+
   test('renders entries for each provider first model', () => {
-    const initialModelPreferences = { };
+    const initialModelPreferences = {};
     render(
       <ModelsPane
         onSave={jest.fn()}

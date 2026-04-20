@@ -2,7 +2,7 @@
  * Core Prompt Quality Engine
  * 
  * The central orchestrator for prompt quality assessment, validation, and testing
- * across the entire Engi ecosystem. Provides production-grade quality assurance
+ * across the entire Bitcode ecosystem. Provides production-grade quality assurance
  * for thousands of agent permutations with comprehensive metrics and validation.
  */
 

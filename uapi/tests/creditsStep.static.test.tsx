@@ -1,24 +1,51 @@
-// Mock Supabase client and ProcessingIndicator to isolate SSR rendering
-jest.mock('@bitcode/supabase/ssr/client', () => ({ createClient: () => ({}) }));
-jest.mock('@/components/base/engi/indicators/processing-indicator', () => ({ ProcessingIndicator: () => null }));
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import CreditsStep from '@/app/orbitals/components/OrbitalsCredits';
+
+import CreditsStep from '@/app/auxillaries/components/AuxillariesCredits';
+import { useAuth } from '@/components/base/engi/auth/AuthProvider';
+import { useUserData } from '@/hooks/useUserData';
+
+jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
+  useAuth: jest.fn(),
+}));
+
+jest.mock('@/hooks/useUserData', () => ({
+  useUserData: jest.fn(),
+}));
+
+const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
+const mockUseUserData = useUserData as jest.MockedFunction<typeof useUserData>;
 
 describe('CreditsStep SSR Onboarding View', () => {
-  it('renders onboarding header, badge, and Micro plan option', () => {
+  beforeEach(() => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      loading: false,
+    } as any);
+
+    mockUseUserData.mockReturnValue({
+      data: null,
+      hasGitHubConnection: false,
+      credits: 0,
+      isLoading: false,
+      error: null,
+      refresh: jest.fn(),
+      isOnboardingComplete: false,
+      onboardedSteps: [],
+    } as any);
+  });
+
+  it('renders the unauthenticated $BTD auxillary posture', () => {
     const html = renderToString(
       <CreditsStep
         onSave={() => {}}
         loading={false}
-        isFirstTimeUser={true}
         onCompletionStatusChange={() => {}}
-        initialCredits={0}
-      />
+      />,
     );
-    expect(html).toContain('Get Started with Credits');
-    expect(html).toContain('Step 4 of 4');
-    expect(html).toContain('Micro');
-    expect(html).toContain('$10');
+
+    expect(html).toContain('$BTD Auxillary');
+    expect(html).toContain('Sign in before opening $BTD posture');
+    expect(html).toContain('Open Profile orbital');
   });
 });

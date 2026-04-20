@@ -1,4 +1,4 @@
-# Engi Prompt Quality Framework
+# Bitcode Prompt Quality Framework
 
 > **Production-Grade Testing Framework for AI Agent Prompt Systems**
 
@@ -6,7 +6,7 @@ A comprehensive, enterprise-ready testing framework designed for validating prom
 
 ## 🎯 Overview
 
-The Engi Prompt Quality Framework provides:
+The Bitcode Prompt Quality Framework provides:
 
 - **Comprehensive Quality Assessment** - Multi-dimensional quality metrics with statistical rigor
 - **Production-Grade Testing** - Scalable test infrastructure for thousands of agent permutations
@@ -605,7 +605,7 @@ Comprehensive API documentation is available at [docs.engi.ai/prompt-quality-fra
 - Custom Training
 - Dedicated Success Manager
 
-Contact: [enterprise@engi.ai](mailto:enterprise@engi.ai)
+Contact: [enterprise@bitcode.dev](mailto:enterprise@bitcode.dev)
 
 ## 📄 License
 
@@ -613,6 +613,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-**Built with ❤️ by the Engi Team**
+**Built with ❤️ by the Bitcode Team**
 
 *Revolutionizing AI agent development through production-grade testing and quality assurance.*

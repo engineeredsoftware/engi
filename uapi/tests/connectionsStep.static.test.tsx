@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ConnectionsStep from '@/app/orbitals/components/OrbitalsConnects';
+import ConnectionsStep from '@/app/auxillaries/components/AuxillariesConnects';
 
 jest.mock('@/components/base/engi/auth/AuthProvider', () => ({
   useAuth: () => ({ user: null }),

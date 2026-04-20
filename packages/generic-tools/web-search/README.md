@@ -769,7 +769,7 @@ Object.entries(providerStats).forEach(([provider, stats]) => {
 ### Pipeline Integration
 
 ```typescript
-// Integration with Engi pipeline for comprehensive search workflows
+// Integration with Bitcode pipeline for comprehensive search workflows
 export const executeSearchWorkflow = factoryTool(
   'executeSearchWorkflow',
   async (params: {

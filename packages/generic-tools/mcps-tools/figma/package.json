@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/figma-tools",
   "version": "1.0.0",
-  "description": "Figma MCP tool wrappers for Engi agents",
+  "description": "Figma MCP tool wrappers for Bitcode agents",
   "main": "./src/index.js",
   "types": "./src/index.ts",
   "scripts": {

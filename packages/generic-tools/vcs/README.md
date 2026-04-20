@@ -650,7 +650,7 @@ async function crossProviderWorkflow() {
 ### Pipeline Integration
 
 ```typescript
-// Integration with Engi pipeline for comprehensive VCS operations
+// Integration with Bitcode pipeline for comprehensive VCS operations
 export const executeVCSWorkflow = factoryTool(
   'executeVCSWorkflow',
   async (params: {

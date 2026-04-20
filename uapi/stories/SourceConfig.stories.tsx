@@ -6,7 +6,7 @@ const meta: Meta<typeof SourceConfig> = {
   title: "Kitchen Sink/Conversations/SourceConfig",
   component: SourceConfig,
   args: {
-    initialRepoSlug: "engi-ai/engi-platform",
+    initialRepoSlug: "engineeredsoftware/bitcode",
     initialBranch: "main",
     initialCommit: null,
   },

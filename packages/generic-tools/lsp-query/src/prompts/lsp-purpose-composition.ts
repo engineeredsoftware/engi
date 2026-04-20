@@ -11,7 +11,7 @@ import { PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE } from '@bitcode/prompts/raw_p
  * Compose LSP tool purpose
  * 
  * PATTERN: [TECHNOLOGY_NAME] [CAPABILITY] [WITH] [SYSTEM]
- * EXAMPLE: "Language Server Protocol intelligence with Engi"
+ * EXAMPLE: "Language Server Protocol intelligence with Bitcode"
  */
 export function composeLspPurpose(): string {
   return PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE;

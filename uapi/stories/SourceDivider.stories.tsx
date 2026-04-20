@@ -6,7 +6,7 @@ const meta: Meta<typeof SourceDivider> = {
   title: "Kitchen Sink/Conversations/SourceDivider",
   component: SourceDivider,
   args: {
-    repoSlug: "engi-ai/engi-platform",
+    repoSlug: "engineeredsoftware/bitcode",
     branch: "main",
     commitSha: "abcdef1234567890",
   },

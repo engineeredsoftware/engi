@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Test Intelligence system unifies all testing infrastructure (fixtures, mocks, dryrun, Storybook) into a single, coherent system that follows Engi's architectural principles.
+The Test Intelligence system unifies all testing infrastructure (fixtures, mocks, dryrun, Storybook) into a single, coherent system that follows Bitcode's architectural principles.
 
 ## Quick Start
 
@@ -307,7 +307,7 @@ const middleware = mockAdapter.createMiddleware();
 
 ## Conclusion
 
-The Test Intelligence system brings the same architectural excellence to testing that Engi brings to software engineering. By unifying all test data sources and providing build-time intelligence, it enables:
+The Test Intelligence system brings the same architectural excellence to testing that Bitcode brings to software engineering. By unifying all test data sources and providing build-time intelligence, it enables:
 
 - Zero duplication
 - Type safety

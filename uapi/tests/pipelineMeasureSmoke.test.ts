@@ -1,6 +1,6 @@
 /**
  * End-to-end smoke test for the Measure SDIVS pipeline.
- * Verifies that each phase wrapper is invoked and a scalar Engi is returned.
+ * Verifies that each phase wrapper is invoked and a scalar Bitcode value is returned.
  */
 // Mock phase wrappers so we don’t execute real agent logic during unit test.
 jest.mock('@bitcode/pipelines/measure/src/phases/setup', () => ({
@@ -36,7 +36,7 @@ import { runValidationMeasure } from '@bitcode/pipelines/measure';
 import { runShippingMeasure } from '@bitcode/pipelines/measure';
 
 describe('Measure pipeline smoke', () => {
-  it('invokes all phase wrappers and returns Engi scalar', async () => {
+  it('invokes all phase wrappers and returns Bitcode scalar', async () => {
     const result = await runMeasurePipeline({ mom: 'test-mom' });
 
     expect(runSetupMeasure).toHaveBeenCalled();

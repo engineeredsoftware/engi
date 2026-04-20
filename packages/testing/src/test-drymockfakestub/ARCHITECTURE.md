@@ -2,7 +2,7 @@
 
 ## Overview
 
-Test framework in Engi provides comprehensive testing capabilities through systematic test generation and execution.
+Test framework in Bitcode provides comprehensive testing capabilities through systematic test generation and execution.
 
 > "Tests verify code correctness through systematic validation."
 

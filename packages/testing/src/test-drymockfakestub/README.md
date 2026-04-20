@@ -1,8 +1,8 @@
-# Test Intelligence System - Engi's Unified Testing Architecture
+# Test Intelligence System - Bitcode's Unified Testing Architecture
 
 ## Overview
 
-The Test Intelligence System unifies fixtures, mocks, dryrun, and Storybook through a revolutionary build-time intelligence approach that mirrors Engi's core architecture. Like how "comments ARE prompts" in the main system, here "comments ARE test data" - enabling zero-overhead test intelligence at runtime.
+The Test Intelligence System unifies fixtures, mocks, dryrun, and Storybook through a revolutionary build-time intelligence approach that mirrors Bitcode's core architecture. Like how "comments ARE prompts" in the main system, here "comments ARE test data" - enabling zero-overhead test intelligence at runtime.
 
 ## Core Abstractions
 
@@ -55,7 +55,7 @@ export const ENTERPRISE_USER_FIXTURE = createTestPart<User>({
 ```
 
 ### 2. Hierarchical Composition
-Following Engi's pattern:
+Following Bitcode's pattern:
 - TestParts → TestCompositions → TestScenarios → TestSuites
 - Each level inherits and extends the previous
 
@@ -266,4 +266,4 @@ export const WithConflicts = {
 7. **Self-Documenting**: Doc-test comments explain data
 8. **Unified Interface**: Same API across all test types
 
-This architecture brings the same level of excellence to testing that Engi brings to software engineering intelligence.
+This architecture brings the same level of excellence to testing that Bitcode brings to software engineering intelligence.

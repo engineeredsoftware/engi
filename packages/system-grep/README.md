@@ -248,4 +248,4 @@ The utility handles various error conditions gracefully:
 - **Resource Exhaustion**: Buffer limits prevent memory issues
 - **No Matches**: Distinguishes between errors and no results found
 
-This utility provides reliable, efficient text search capabilities for server-side repository analysis and codebase exploration within the Engi platform.
+This utility provides reliable, efficient text search capabilities for server-side repository analysis and codebase exploration within the Bitcode platform.

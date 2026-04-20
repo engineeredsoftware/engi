@@ -272,4 +272,4 @@ const ExtendedMcpConfigSchema = McpConfigSchema.extend({
 }
 ```
 
-This utility package provides the foundation for type-safe MCP integration across the Engi platform, ensuring consistent configuration patterns and reliable validation.
+This utility package provides the foundation for type-safe MCP integration across the Bitcode platform, ensuring consistent configuration patterns and reliable validation.

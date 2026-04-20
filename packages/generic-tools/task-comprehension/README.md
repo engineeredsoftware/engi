@@ -2,7 +2,7 @@
 
 ## Overview
 
-Comprehensive task analysis and requirement extraction framework implementing advanced semantic analysis, constraint identification, and success criteria generation. Provides enterprise-grade task comprehension capabilities with full integration of Engi's prompt primitives architecture for maximum abstraction leverage and implementation planning accuracy.
+Comprehensive task analysis and requirement extraction framework implementing advanced semantic analysis, constraint identification, and success criteria generation. Provides enterprise-grade task comprehension capabilities with full integration of Bitcode's prompt primitives architecture for maximum abstraction leverage and implementation planning accuracy.
 
 ## Core Capabilities
 
@@ -708,7 +708,7 @@ actionableRecommendations.forEach(rec => {
 ### Pipeline Integration
 
 ```typescript
-// Integration with Engi pipeline for comprehensive task preparation
+// Integration with Bitcode pipeline for comprehensive task preparation
 export const prepareTaskExecution = factoryTool(
   'prepareTaskExecution',
   async (params: {

@@ -2,7 +2,7 @@
  * Test Intelligence Integration Examples
  * 
  * This file demonstrates how to integrate the Test Intelligence system
- * with existing Engi infrastructure for a unified testing experience.
+ * with existing Bitcode infrastructure for a unified testing experience.
  */
 
 import {

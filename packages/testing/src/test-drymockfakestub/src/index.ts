@@ -1,5 +1,5 @@
 /**
- * Test Intelligence System - Unified testing infrastructure for Engi
+ * Test Intelligence System - Unified testing infrastructure for Bitcode
  * 
  * This package provides a revolutionary approach to test data management,
  * unifying fixtures, mocks, dryrun, and Storybook through build-time

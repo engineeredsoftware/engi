@@ -462,27 +462,27 @@ export class ConfigurationManager {
     const envConfig: any = {};
 
     // Environment
-    if (process.env.ENGI_ENVIRONMENT) {
-      envConfig.environment = { environment: process.env.ENGI_ENVIRONMENT };
+    if (process.env.BITCODE_ENVIRONMENT) {
+      envConfig.environment = { environment: process.env.BITCODE_ENVIRONMENT };
     }
 
     // Performance
-    if (process.env.ENGI_MAX_CONCURRENCY) {
+    if (process.env.BITCODE_MAX_CONCURRENCY) {
       envConfig.performance = {
-        execution: { maxConcurrency: parseInt(process.env.ENGI_MAX_CONCURRENCY) }
+        execution: { maxConcurrency: parseInt(process.env.BITCODE_MAX_CONCURRENCY) }
       };
     }
 
     // Quality gates
-    if (process.env.ENGI_QUALITY_GATES) {
-      const gates = JSON.parse(process.env.ENGI_QUALITY_GATES);
+    if (process.env.BITCODE_QUALITY_GATES) {
+      const gates = JSON.parse(process.env.BITCODE_QUALITY_GATES);
       envConfig.quality = { defaultGates: gates };
     }
 
     // Monitoring
-    if (process.env.ENGI_ENABLE_MONITORING) {
+    if (process.env.BITCODE_ENABLE_MONITORING) {
       envConfig.monitoring = {
-        metrics: { enableMetrics: process.env.ENGI_ENABLE_MONITORING === 'true' }
+        metrics: { enableMetrics: process.env.BITCODE_ENABLE_MONITORING === 'true' }
       };
     }
 

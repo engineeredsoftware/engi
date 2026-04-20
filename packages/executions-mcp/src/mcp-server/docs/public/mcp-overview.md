@@ -108,7 +108,7 @@ Bitcode MCP operates at the **absolute frontier** of AI-powered engineering. As 
 ```json
 {
   "mcpServers": {
-    "engi-engineering": {
+    "bitcode-engineering": {
       "command": "npx",
       "args": ["@bitcode/mcp-server"],
       "env": {
@@ -179,7 +179,7 @@ spec:
         - name: BITCODE_LICENSE_KEY
           valueFrom:
             secretKeyRef:
-              name: engi-secrets
+              name: bitcode-secrets
               key: license-key
 ```
 

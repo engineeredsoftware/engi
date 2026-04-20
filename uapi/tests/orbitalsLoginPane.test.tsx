@@ -11,7 +11,7 @@ jest.mock('@/components/base/engi/auth/LoginForm', () => ({
   ),
 }));
 
-import OrbitalsLoginPane from '@/app/orbitals/components/OrbitalsLoginPane';
+import OrbitalsLoginPane from '@/app/auxillaries/components/AuxillariesLoginPane';
 
 describe('OrbitalsLoginPane', () => {
   it('renders the application-owned orbital access shell', () => {

@@ -50,12 +50,12 @@ spec:
         - name: SUPABASE_URL
           valueFrom:
             secretKeyRef:
-              name: engi-secrets
+              name: bitcode-secrets
               key: supabase-url
         - name: SUPABASE_SERVICE_KEY
           valueFrom:
             secretKeyRef:
-              name: engi-secrets
+              name: bitcode-secrets
               key: supabase-service-key
         - name: LOG_LEVEL
           value: "info"

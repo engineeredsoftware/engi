@@ -1,5 +1,5 @@
 /**
- * DryRunAdapter - Adapts unified test data for use with Engi's DryRun system
+ * DryRunAdapter - Adapts unified test data for use with Bitcode's DryRun system
  * 
  * This adapter bridges the Test Intelligence system with the existing
  * DryRun infrastructure, providing seamless integration without breaking changes.

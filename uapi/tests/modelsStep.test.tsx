@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ModelsStep from '@/app/orbitals/components/OrbitalsModels';
+import ModelsStep from '@/app/auxillaries/components/AuxillariesModels';
 
 describe('ModelsStep (SSR)', () => {
   it('renders multiple model configuration rows and Save button with initial data', () => {

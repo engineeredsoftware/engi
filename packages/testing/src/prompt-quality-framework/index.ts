@@ -1,8 +1,8 @@
 /**
- * Engi Prompt Quality Assurance Framework
+ * Bitcode Prompt Quality Assurance Framework
  * 
  * A comprehensive testing framework for validating prompt quality, consistency,
- * and performance across the entire Engi agent ecosystem. Designed for global
+ * and performance across the entire Bitcode agent ecosystem. Designed for global
  * scale with thousands of agent permutations across pipelines, phases, and steps.
  * 
  * Core Principles:

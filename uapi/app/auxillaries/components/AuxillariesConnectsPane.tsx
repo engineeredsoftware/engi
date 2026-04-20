@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import React, { type ComponentProps } from "react";
 
 import OrbitalsConnectsPane from "@/app/orbitals/components/OrbitalsConnectsPane";
 

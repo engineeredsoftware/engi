@@ -221,13 +221,13 @@ function transformNodeWithInjections(
 // The actual injection code that gets generated
 
 // For a PromptPart with @doc-promptpart:
-Object.defineProperty(ENGI_IDENTITY_PROMPT.__proto__, 'docPromptPart', {
+Object.defineProperty(BITCODE_IDENTITY_PROMPT.__proto__, 'docPromptPart', {
   get() {
     return {
       version: '1.0.0',
       category: 'base_system_identity',
       priority: 'critical',
-      usage: 'Core AI identity for all Engi operations',
+      usage: 'Core AI identity for all Bitcode operations',
       // This metadata comes from the doc-comment!
     };
   },
@@ -261,7 +261,7 @@ This prompt was generated from the doc-comment!`;
 // At runtime, the doc-comments are available as prompts:
 
 // 1. Access PromptPart metadata
-const promptMetadata = ENGI_IDENTITY_PROMPT.__proto__.docPromptPart;
+const promptMetadata = BITCODE_IDENTITY_PROMPT.__proto__.docPromptPart;
 console.log(promptMetadata.category); // 'base_system_identity'
 
 // 2. Get doc-prompt as PromptPart
@@ -270,7 +270,7 @@ const agentPrompt = AgentInterface.prototype.docPrompt.asPromptPart();
 
 // 3. Compose doc-prompts into system prompts
 const systemPrompt = new PromptComposer('system', 'System Prompt')
-  .add(ENGI_IDENTITY_PROMPT) // Has doc-comment metadata
+  .add(BITCODE_IDENTITY_PROMPT) // Has doc-comment metadata
   .add(agentPrompt)          // Doc-prompt as PromptPart
   .add(QUALITY_PROMPT)       // Another PromptPart
   .build();

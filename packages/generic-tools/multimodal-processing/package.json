@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-tools-multimodal-processing",
   "version": "0.1.0",
-  "description": "Multimodal attachment processing tools for Engi pipelines",
+  "description": "Multimodal attachment processing tools for Bitcode pipelines",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",

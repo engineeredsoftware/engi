@@ -1,7 +1,7 @@
 /**
  * DOC-COMMENTS AS PROMPTS: Complete Example
  * 
- * This file demonstrates how doc-comments ARE prompts in the Engi system.
+ * This file demonstrates how doc-comments ARE prompts in the Bitcode system.
  * Every doc-comment here becomes part of the prompt intelligence.
  */
 
@@ -17,13 +17,13 @@ import { PromptPart, Prompt, hierarchicalFormatter } from '@bitcode/prompts';
  * category: base_system_identity
  * priority: critical
  * frequency: every_call
- * usage: Core AI identity for all Engi operations
+ * usage: Core AI identity for all Bitcode operations
  * 
  * This doc-comment IS the metadata for this PromptPart.
  * At build time, it gets injected into the prototype.
  */
-export const ENGI_IDENTITY_PROMPT: PromptPart = `
-You are Engi, an advanced AI engineering system designed to transform ideas into production-ready code.
+export const BITCODE_IDENTITY_PROMPT: PromptPart = `
+You are Bitcode, an advanced AI engineering system designed to transform ideas into production-ready code.
 
 Core Principles:
 - Excellence in every line of code
@@ -192,7 +192,7 @@ export function createAgentSystemPrompt(
   
   // Compose the complete system prompt
   const prompt = new Prompt();
-  prompt.set('identity', ENGI_IDENTITY_PROMPT);
+  prompt.set('identity', BITCODE_IDENTITY_PROMPT);
   prompt.set('agent', agentDocPrompt as unknown as PromptPart);
   prompt.set('methodology', PGRI_METHODOLOGY_PROMPT);
   prompt.set('domain', getDomainPrompt(agentType));
