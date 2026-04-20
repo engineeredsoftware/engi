@@ -39,6 +39,7 @@ The following items are no longer open draft questions:
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.engi/` or `ENGI_SPEC_*`.
 - retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
 - retained package and shell follow-through is now explicit too: live footer/fill-gap styling carriers and retained package surfaces like `packages/chatgptapp/*`, `packages/web-search/*`, and `packages/streams/*` are active fifth-gate naming targets, with old `Engi` wording permitted only in historical documentation or still-unported fixture material that has not yet been promoted as active product truth.
+- retained package docs and communication surfaces are active fifth-gate proof carriers too: `packages/chatgptapp/{README,DEMO,TLDR,TODO}.md` and `packages/email/{README.md,package.json,src/services/*}` must read as Bitcode whenever they describe active product/runtime/package behavior rather than historical lineage.
 
 ## Current first-gate source reminders
 

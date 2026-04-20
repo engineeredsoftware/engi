@@ -1,20 +1,20 @@
 # DEMO — Yapper Social App Script
 
-The following conversation showcases Engi building the fictitious social media app **Yapper** inside ChatGPT. Every tool is invoked exactly once in a natural flow. Use this script when recording the MVP demo video.
+The following conversation showcases Bitcode building the fictitious social media app **Yapper** inside ChatGPT. Every tool is invoked exactly once in a natural flow. Use this script when recording the MVP demo video.
 
 ## Format
 
 Each step lists:
 - **User Prompt** – what the human types in ChatGPT.
-- **Tool Invocation** – the MCP call made by Engi (JSON arguments are representative; adjust tokens/usernames before filming).
+- **Tool Invocation** – the MCP call made by Bitcode (JSON arguments are representative; adjust tokens/usernames before filming).
 - **Output Snippet** – key shape of the tool response.
-- **Engi Reply Outline** – how Engi summarises the result back to the user.
+- **Bitcode Reply Outline** – how Bitcode summarises the result back to the user.
 
 ---
 
 ### Step 1 — Capture product intent (`design_code`)
 - **User Prompt**  
-  “Engi, let’s build Yapper: a social app for voice-first micro-posts. Start the design doc.”
+  “Bitcode, let’s build Yapper: a social app for voice-first micro-posts. Start the design doc.”
 - **Tool Invocation**  
   `design_code`  
   ```json
@@ -27,10 +27,10 @@ Each step lists:
   ```
   {
     "update": "### Proposed Updates\n- Create Yapper...",
-    "latest_design": "# PRODUCT.md — Engi ChatGPT App\n..."
+    "latest_design": "# PRODUCT.md — Bitcode ChatGPT App\n..."
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Confirms `.ai/PRODUCT.md` scaffold, highlights key sections, shares next discovery questions.
 
 ---
@@ -54,7 +54,7 @@ Each step lists:
     "metadata": { "matchCount": 0 }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   States no recorder exists, proposes creating new components, references relevant directories.
 
 ---
@@ -77,7 +77,7 @@ Each step lists:
     "metadata": { "total": 5, "results": [...] }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Summarises top references, notes ideas to incorporate (buffering, permission prompts), links back to design doc.
 
 ---
@@ -97,11 +97,11 @@ Each step lists:
 - **Output Snippet**  
   ```
   {
-    "depiction": "Asset depiction generated for the Engi ChatGPT App... Primary focus: Compose card...",
+    "depiction": "Asset depiction generated for the Bitcode ChatGPT App... Primary focus: Compose card...",
     "metadata": { "bytes": 24576 }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Relays visual summary, calls out key UI states, adds reminders to sync visuals with implementation plan.
 
 ---
@@ -128,20 +128,20 @@ Each step lists:
     "metadata": { "taskCount": 3, "fileCount": 2 }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Walks through tasks, references planned file edits, flags TODO markers for manual follow-up.
 
 ---
 
 ### Step 6 — Review recent repo activity (`read_code_changes_from_vcs`)
 - **User Prompt**  
-  “What’s the latest on the Engi demo repo before we push Yapper?”
+  “What’s the latest on the Bitcode demo repo before we push Yapper?”
 - **Tool Invocation**  
   `read_code_changes_from_vcs`  
   ```json
   {
     "accessToken": "ghp_exampleToken",
-    "owner": "engi-demo",
+    "owner": "bitcode-demo",
     "repo": "yapper",
     "branch": "main",
     "limit": 3
@@ -154,7 +154,7 @@ Each step lists:
     "metadata": { "commitCount": 3 }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Summarises top commits, confirms there’s room for the new feature branch.
 
 ---
@@ -169,18 +169,18 @@ Each step lists:
     "operation": "createRepository",
     "accessToken": "ghp_exampleToken",
     "name": "yapper",
-    "description": "Voice-first social feed built with Engi",
+    "description": "Voice-first social feed built with Bitcode",
     "private": false
   }
   ```
 - **Output Snippet**  
   ```
   {
-    "result": { "html_url": "https://github.com/engi-demo/yapper", ... },
+    "result": { "html_url": "https://github.com/bitcode-demo/yapper", ... },
     "metadata": { "operation": "createRepository" }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Confirms repo creation, shares URL, states next steps (push patch once ready).
 
 ---
@@ -195,7 +195,7 @@ Each step lists:
     "request": "list_deployments",
     "payload": {
       "projectId": "prj_Yapper",
-      "teamId": "team_engi",
+      "teamId": "team_bitcode",
       "limit": 2
     }
   }
@@ -205,7 +205,7 @@ Each step lists:
   {
     "answer": {
       "projectId": "prj_Yapper",
-      "teamId": "team_engi",
+      "teamId": "team_bitcode",
       "deployments": [
         { "id": "dpl_ready", "target": "production", "state": "READY", "url": "yapper-prod.vercel.app" },
         { "id": "dpl_preview", "target": "preview", "state": "READY", "url": "preview-yapper-git-feature.vercel.app" }
@@ -214,7 +214,7 @@ Each step lists:
     "metadata": { "provider": "vercel", "request": "list_deployments" }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Highlights the production deployment, explains the preview URL, and invites the user to choose which one to narrate in the demo.
 
 ---
@@ -240,7 +240,7 @@ Each step lists:
     "metadata": { "provider": "aws", "request": "lambda.invoke" }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Summarises the Lambda response (or mock), clarifies next steps if the function errors, and ties the check back to the Yapper audio pipeline.
 
 ---
@@ -254,7 +254,7 @@ Each step lists:
   {
     "request": "s3.putObject",
     "payload": {
-      "bucket": "engi-yapper-demo",
+      "bucket": "bitcode-yapper-demo",
       "key": "config/demo-config.json",
       "body": "{ \"featureFlags\": { \"mutedFeeds\": true } }"
     }
@@ -263,11 +263,11 @@ Each step lists:
 - **Output Snippet**  
   ```
   {
-    "result": { "ok": true, "tool": "awsS3PutObject", "bucket": "engi-yapper-demo", "key": "config/demo-config.json" },
+    "result": { "ok": true, "tool": "awsS3PutObject", "bucket": "bitcode-yapper-demo", "key": "config/demo-config.json" },
     "metadata": { "provider": "aws", "request": "s3.putObject" }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Acknowledges successful upload (or notes placeholder), reminds audience that real credentials are required outside the demo.
 
 ---
@@ -282,7 +282,7 @@ Each step lists:
     "request": "deploy_to_vercel",
     "payload": {
       "projectId": "prj_Yapper",
-      "teamId": "team_engi",
+      "teamId": "team_bitcode",
       "message": "Redeploy after manual QA completes."
     }
   }
@@ -293,7 +293,7 @@ Each step lists:
     "result": {
       "deploymentId": "dpl_1737060645000",
       "projectId": "prj_Yapper",
-      "teamId": "team_engi",
+      "teamId": "team_bitcode",
       "url": "https://prj_Yapper-1737060645000.vercel.app",
       "readyState": "BUILDING",
       "note": "Redeploy after manual QA completes."
@@ -301,7 +301,7 @@ Each step lists:
     "metadata": { "provider": "vercel", "request": "deploy_to_vercel" }
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Explains that the deployment has been queued, reminds the user to wait for READY status, and suggests narrating the outcome in the next message.
 
 ---
@@ -321,10 +321,10 @@ Each step lists:
   ```
   {
     "thennnowevolution": "### Behavior Evolution\nAlways cite file paths...",
-    "concretelatestgreatestapproach": "# AGENTS.md — Engi ChatGPT App\n..."
+    "concretelatestgreatestapproach": "# AGENTS.md — Bitcode ChatGPT App\n..."
   }
   ```
-- **Engi Reply Outline**  
+- **Bitcode Reply Outline**  
   Confirms `.ai/AGENTS.md` has been updated, reiterates the new behavioural expectation, and closes the session.
 
 ---

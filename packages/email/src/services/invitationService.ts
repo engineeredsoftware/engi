@@ -35,7 +35,7 @@ export class InvitationEmailService {
       const { data: result, error } = await this.supabase.functions.invoke('send-invitation-email', {
         body: {
           to: data.email,
-          subject: `You're invited to join ${data.organizationName} on Engi`,
+          subject: `You're invited to join ${data.organizationName} on Bitcode`,
           templateData: {
             organizationName: data.organizationName,
             organizationLogo: data.organizationLogo,
@@ -152,7 +152,7 @@ export class InvitationEmailService {
       const { data: result, error } = await this.supabase.functions.invoke('send-invitation-reminder', {
         body: {
           to: data.email,
-          subject: `Reminder: Join ${data.organizationName} on Engi`,
+          subject: `Reminder: Join ${data.organizationName} on Bitcode`,
           templateData: {
             organizationName: data.organizationName,
             organizationLogo: data.organizationLogo,

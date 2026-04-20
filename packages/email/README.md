@@ -1,6 +1,6 @@
 # @bitcode/email
 
-Professional email service package for Engi team management and notifications.
+Professional email service package for Bitcode team management and notifications.
 
 ## Features
 
@@ -204,4 +204,4 @@ This package requires Supabase Edge Functions for email delivery. Deploy the cor
 
 ## License
 
-PROPRIETARY - Internal Engi package
+PROPRIETARY - Internal Bitcode package

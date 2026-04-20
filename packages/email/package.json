@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/email",
   "version": "1.0.0",
-  "description": "Email service for Engi team management and notifications",
+  "description": "Email service for Bitcode team management and notifications",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
@@ -23,7 +23,7 @@
     "@supabase/supabase-js": "^2.0.0"
   },
   "keywords": [
-    "engi",
+    "bitcode",
     "email",
     "notifications",
     "team-management",
@@ -31,7 +31,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/engi/engi.git",
+    "url": "git+https://github.com/engineeredsoftware/bitcode.git",
     "directory": "packages/email"
   },
   "license": "PROPRIETARY"

@@ -113,7 +113,7 @@ Required coverage posture:
   current generated fourth-gate promotion proofs are `.engi/conversations-continuity-proof.json`, `.engi/runs-pipelines-totality-proof.json`, `.engi/persistence-schema-totality-proof.json`, `.engi/prompt-system-totality-proof.json`, and `.engi/retained-package-admissibility-proof.json`
   retained-package admissibility now also has to state old-world port roles explicitly, including Jira as reader-first need ingestion and Git/GH as the initial settle-write boundary
   fifth-gate active-product naming witnesses now also cover the retained `@bitcode/prompts` package so prompt-system code, metadata, and promptpart identity text do not silently regress back to `Engi` naming after fourth-gate promotion
-  fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, and `@bitcode/streams`, with the expectation that user-facing strings, active identifiers, and canonical package comments all converge on Bitcode naming rather than lingering `Engi` residue
+  fifth-gate active-product naming witnesses now also cover live public-shell style carriers and retained package surfaces such as `@bitcode/chatgptapp`, `@bitcode/web-search`, `@bitcode/streams`, and `@bitcode/email`, with the expectation that user-facing strings, active identifiers, package docs, and canonical package comments all converge on Bitcode naming rather than lingering `Engi` residue
 
 ### Gate 5: proof precision and final closure
 

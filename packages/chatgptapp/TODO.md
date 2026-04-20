@@ -1,4 +1,4 @@
-# TODO — Engi ChatGPT App
+# TODO — Bitcode ChatGPT App
 
 1. **Harden DevOps adapters**
    - Replace the AWS/Vercel placeholder responses with recorded fixtures or live SDK integrations.

@@ -192,7 +192,7 @@ This product delivers voice-first social conversations for builders.
     // Step 9: Store configuration in S3
     const awsWrite = await runTool<{ metadata: { guidance: string } }>('use_aws_write_external_mcp', {
       request: 's3.putObject',
-      payload: { bucket: 'engi-yapper', key: 'config/demo.json', body: '{}' },
+      payload: { bucket: 'bitcode-yapper', key: 'config/demo.json', body: '{}' },
     });
     expect(awsWrite.metadata.guidance).toContain('Uploaded to S3');
 

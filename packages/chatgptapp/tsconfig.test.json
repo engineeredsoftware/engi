@@ -12,13 +12,13 @@
       "@bitcode/generic-tools-mcps-vercel": ["packages/chatgptapp/src/__stubs__/generic-tools-mcps-vercel.ts"],
       "@bitcode/github": ["packages/chatgptapp/src/__stubs__/github.ts"],
       "@bitcode/vcs": ["packages/chatgptapp/src/__stubs__/vcs.ts"],
-      "@bitcode/artifacts": ["packages/chatgptapp/src/__mocks__/engi-artifacts.ts"],
+      "@bitcode/artifacts": ["packages/chatgptapp/src/__mocks__/bitcode-artifacts.ts"],
       "@bitcode/context": ["packages/chatgptapp/src/__stubs__/context.ts"],
       "@bitcode/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/vercel-doc-prompt.ts"],
       "@bitcode/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/aws-doc-prompt.ts"],
       "@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/ssts-doc-prompt.ts"],
       "@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt": ["packages/chatgptapp/src/__stubs__/web-search-doc-prompt.ts"],
-      "@bitcode/prompts/src/*": ["packages/prompts/src/*"],
+      "@bitcode/prompts/*": ["packages/prompts/src/*"],
       "@bitcode/prompts": ["packages/prompts/src/index.ts"]
     }
   },

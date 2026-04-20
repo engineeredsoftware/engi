@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 type GlobalWithFlag = typeof globalThis & {
-  __ENGI_CHATGPTAPP_ENV_INITIALIZED__?: boolean;
+  __BITCODE_CHATGPTAPP_ENV_INITIALIZED__?: boolean;
 };
 
 const globalWithFlag = globalThis as GlobalWithFlag;
@@ -20,13 +20,13 @@ function collectAncestors(start: string, seen: Set<string>): void {
   }
 }
 
-if (!globalWithFlag.__ENGI_CHATGPTAPP_ENV_INITIALIZED__) {
+if (!globalWithFlag.__BITCODE_CHATGPTAPP_ENV_INITIALIZED__) {
   const directories = new Set<string>();
 
   collectAncestors(process.cwd(), directories);
   collectAncestors(__dirname, directories);
-  if (process.env.ENGI_REPO_ROOT) {
-    collectAncestors(process.env.ENGI_REPO_ROOT, directories);
+  if (process.env.BITCODE_REPO_ROOT) {
+    collectAncestors(process.env.BITCODE_REPO_ROOT, directories);
   }
 
   const orderedDirectories = Array.from(directories).sort((a, b) => {
@@ -54,11 +54,11 @@ if (!globalWithFlag.__ENGI_CHATGPTAPP_ENV_INITIALIZED__) {
 
   // Default to mock Exa locally when no credentials exist at all.
   const hasExaCred = Boolean(process.env.EXA_API_KEY || process.env.EXASEARCH_API_KEY);
-  if (!hasExaCred && typeof process.env.ENGI_MOCK_EXA === 'undefined') {
-    process.env.ENGI_MOCK_EXA = 'true';
+  if (!hasExaCred && typeof process.env.BITCODE_MOCK_EXA === 'undefined') {
+    process.env.BITCODE_MOCK_EXA = 'true';
   }
 
-  globalWithFlag.__ENGI_CHATGPTAPP_ENV_INITIALIZED__ = true;
+  globalWithFlag.__BITCODE_CHATGPTAPP_ENV_INITIALIZED__ = true;
 }
 
 function applyEnvFile(filePath: string): void {
