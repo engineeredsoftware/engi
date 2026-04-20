@@ -445,7 +445,7 @@ console.log(`- Memory usage: ${(optimizedSearch.performance.memoryUsage / 1024 /
 ### Pipeline Integration
 
 ```typescript
-// Integration with Engi pipeline for comprehensive codebase analysis
+// Integration with Bitcode pipeline for comprehensive codebase analysis
 export const performCodebaseAnalysis = factoryTool(
   'performCodebaseAnalysis',
   async (params: {

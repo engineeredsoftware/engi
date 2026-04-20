@@ -94,24 +94,24 @@ Agent (name + identity)
 
 ## Diagnostics & Prompt I/O
 
-- ENGI_EXECUTION_DEBUG: enables diagnostics when set to `true`.
+- BITCODE_EXECUTION_DEBUG: enables diagnostics when set to `true`.
 - LOG_LEVEL=debug: also enables diagnostics (no code changes needed).
-- ENGI_LOG_TRACES=1: emits step‑level trace summaries.
-- ENGI_LOG_FULL_TRACES=1: emits full step traces (when traces enabled).
-- ENGI_TRACE_MAX_SIZE: optional character cap to prune full traces.
-- ENGI_LOG_FULL_PROMPTS=1: logs full prompts and completions for LLM calls.
-- ENGI_WRITE_PROMPT_IO=1: writes prompt sidecars to `/tmp/.engi_logs`.
-- ENGI_WRITE_STEP_TRACES=1: writes per‑step trace JSON sidecars (pruned/redacted by flags).
+- BITCODE_LOG_TRACES=1: emits step‑level trace summaries.
+- BITCODE_LOG_FULL_TRACES=1: emits full step traces (when traces enabled).
+- BITCODE_TRACE_MAX_SIZE: optional character cap to prune full traces.
+- BITCODE_LOG_FULL_PROMPTS=1: logs full prompts and completions for LLM calls.
+- BITCODE_WRITE_PROMPT_IO=1: writes prompt sidecars to `/tmp/.bitcode_logs`.
+- BITCODE_WRITE_STEP_TRACES=1: writes per‑step trace JSON sidecars (pruned/redacted by flags).
 
 ## Debug Filters (granular)
 
-- ENGI_DEBUG_ONLY_PHASE: run agents only in this phase (e.g., setup, shipping). Non‑matching agents no‑op.
-- ENGI_DEBUG_ONLY_AGENT: substring match on agent name; non‑matching agents no‑op.
-- ENGI_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation (back‑compat).
-- ENGI_DEBUG_STOP_AFTER_STEP: deprecated — prefer ONLY filters (kept temporarily, no-op by default).
-- ENGI_DEBUG_STOP_AFTER_PLAN: deprecated — prefer ENGI_DEBUG_ONLY_STEP=plan.
-- ENGI_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — runs only those parent failsafes.
-- ENGI_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — runs only those child generations under each parent.
+- BITCODE_DEBUG_ONLY_PHASE: run agents only in this phase (e.g., setup, shipping). Non‑matching agents no‑op.
+- BITCODE_DEBUG_ONLY_AGENT: substring match on agent name; non‑matching agents no‑op.
+- BITCODE_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation (back‑compat).
+- BITCODE_DEBUG_STOP_AFTER_STEP: deprecated — prefer ONLY filters (kept temporarily, no-op by default).
+- BITCODE_DEBUG_STOP_AFTER_PLAN: deprecated — prefer BITCODE_DEBUG_ONLY_STEP=plan.
+- BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — runs only those parent failsafes.
+- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — runs only those child generations under each parent.
 
 Notes
 - Generations are child sub‑executions of failsafes. The hierarchy is: Generation → Failsafe (parent) → GenerationCall (child). Tools run after all failsafes.
@@ -413,4 +413,4 @@ The agent-generics package represents the pinnacle of declarative architecture:
 
 ---
 
-*Generated with Engi's Agent-Generics Framework - Industrial-Grade Intelligence*
+*Generated with Bitcode's Agent-Generics Framework - Industrial-Grade Intelligence*

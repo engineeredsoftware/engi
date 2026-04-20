@@ -10,8 +10,8 @@ import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 import deliverablePipeline from '../index';
 
 async function main() {
-  process.env.ENGI_DEBUG_ONLY_FAILSAFES = 'prepare';
-  process.env.ENGI_DEBUG_ONLY_GENERATIONS = 'reason';
+  process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
+  process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'reason';
 
   const execution = new Execution('deliverable:demo');
   const inserts: any[] = [];

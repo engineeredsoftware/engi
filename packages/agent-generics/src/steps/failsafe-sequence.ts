@@ -21,7 +21,7 @@ export type FailsafeGenerationSequence<TIn = any, TOut = any> = Executor<TIn, TO
 export interface FailsafeGenerationOptions<TOut> {
   outputSchema: z.ZodType<TOut>;
   enableParallelChunks?: boolean;  // chunking strategy
-  // Debug env slicing (honors ENGI_DEBUG_* environment variables)
+  // Debug env slicing (honors BITCODE_DEBUG_* environment variables)
   onlyGenerations?: string[];      // ['reason','judge','structured_output']
   onlyFailsafes?: string[];        // ['prepare','chunk','stitch']
 }
@@ -38,12 +38,12 @@ export function createFailsafeGenerationSequence<TIn, TOut>(
 
   // Optional debug filtering via env or passed arrays
   // Thricified generation handles internal filtering of reason/judge/structured
-  // via ENGI_DEBUG_ONLY_GENERATIONS. Always include it here.
+  // via BITCODE_DEBUG_ONLY_GENERATIONS. Always include it here.
   const gens = children as any[];
 
   const onlyFails = (options.onlyFailsafes && options.onlyFailsafes.length)
     ? options.onlyFailsafes
-    : String(process?.env?.ENGI_DEBUG_ONLY_FAILSAFES || '')
+    : String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '')
         .toLowerCase()
         .split(',')
         .map(s => s.trim())

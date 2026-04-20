@@ -60,7 +60,7 @@ export default async function deliverablePipelineCreatePullRequestAgent(input: a
   // Prepare sensible defaults from execution
   const owner = execution.get('source','owner') || execution.get('source','org') || '';
   const repo = execution.get('source','name') || '';
-  const sourceBranch = execution.get('source','branch') || 'feature/engi-change';
+  const sourceBranch = execution.get('source','branch') || 'feature/bitcode-change';
   const title = input?.title || 'Code change';
   const provider = execution.get('source','provider') || 'github';
   const connectionId = execution.get('source','connectionId');

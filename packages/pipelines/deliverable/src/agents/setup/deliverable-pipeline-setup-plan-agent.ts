@@ -5,8 +5,8 @@
  * PrepareConciseContext → Reason (Generation) with store-driven streaming.
  *
  * Env for bring-up:
- * - ENGI_DEBUG_ONLY_FAILSAFES=prepare
- * - ENGI_DEBUG_ONLY_GENERATIONS=reason
+ * - BITCODE_DEBUG_ONLY_FAILSAFES=prepare
+ * - BITCODE_DEBUG_ONLY_GENERATIONS=reason
  */
 
 import { z } from 'zod';
@@ -118,8 +118,8 @@ export const realSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanS
 });
 // GA-1 bring-up: provide a fast stub in test/debug-only mode
 export default async function setupPlanAgent(input: any, execution: any) {
-  const onlyFails = String(process?.env?.ENGI_DEBUG_ONLY_FAILSAFES || '');
-  const onlyGens = String(process?.env?.ENGI_DEBUG_ONLY_GENERATIONS || '');
+  const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
+  const onlyGens = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '');
   const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
   const useStub = isTest || (onlyFails.length > 0 && onlyGens.length > 0);
   if (useStub) {

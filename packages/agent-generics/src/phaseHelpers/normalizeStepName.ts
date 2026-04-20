@@ -1,6 +1,6 @@
 /**
  * normalizeStepName - shared helper for mapping raw step identifiers into the
- * canonical PTRR vocabulary used across Engi surfaces (logs, dashboards, tests).
+ * canonical PTRR vocabulary used across Bitcode surfaces (logs, dashboards, tests).
  *
  * Historically this lived inside the uapi execution UI, but multiple packages
  * – including the conversations overlay and jest suites – now depend on a

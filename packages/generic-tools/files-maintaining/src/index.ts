@@ -1,7 +1,7 @@
 /**
- * File system operations with Engi's atomic file management engine, transaction support, content validation, and production-grade reliability for comprehensive file system intelligence and atomic operation guarantees
+ * File system operations with Bitcode's atomic file management engine, transaction support, content validation, and production-grade reliability for comprehensive file system intelligence and atomic operation guarantees
  * 
- * @purpose File system operations with Engi's atomic file management engine, transaction support, content validation, and production-grade reliability for comprehensive file system intelligence and atomic operation guarantees
+ * @purpose File system operations with Bitcode's atomic file management engine, transaction support, content validation, and production-grade reliability for comprehensive file system intelligence and atomic operation guarantees
  * @capabilities Complete file system management with atomic operations, transaction support, rollback capability, content validation, directory management, and comprehensive file integrity for reliable development workflows
  * @specificity Generic
  */
@@ -111,7 +111,7 @@ export const textEditorTool = new TextEditorTool();
  * @doc-code-tool
  * @prompt DELETE_FILE_DOC_CODE_TOOL_PROMPT
  * @name DeleteFileTool
- * @purpose Atomic file deletion with Engi's comprehensive file system safety engine
+ * @purpose Atomic file deletion with Bitcode's comprehensive file system safety engine
  * @capabilities Safe file deletion with atomic operations, backup creation, rollback capability, dependency validation, and comprehensive file system safety for reliable file management
  * @parameters EditCommandParams - file path to delete
  * @returns Success status, backup location, transaction ID
@@ -131,7 +131,7 @@ export const deleteFileTool = new DeleteFileTool();
  * @doc-code-tool
  * @prompt CREATE_FILE_DOC_CODE_TOOL_PROMPT
  * @name CreateFileTool
- * @purpose Atomic file creation with Engi's comprehensive file system validation engine
+ * @purpose Atomic file creation with Bitcode's comprehensive file system validation engine
  * @capabilities Complete file creation with atomic operations, directory management, content validation, conflict detection, and comprehensive file system integrity for reliable development workflows
  * @parameters EditCommandParams - file path, initial content, permissions
  * @returns Success status, created path, transaction ID

@@ -22,11 +22,11 @@ function getCtx(execution: Execution, sequence?: string) {
 let __diagBannerPrinted = false;
 function maybeLogDiagnosticsBanner() {
   const wantBanner = (
-    process?.env?.ENGI_LOG_DIAG_CONFIG === '1'
+    process?.env?.BITCODE_LOG_DIAG_CONFIG === '1'
     || process?.env?.LOG_LEVEL === 'debug'
-    || String(process?.env?.ENGI_WRITE_PROMPT_IO || '') === '1'
-    || String(process?.env?.ENGI_WRITE_STEP_TRACES || '') === '1'
-    || String(process?.env?.ENGI_LOG_TRACES || '') === '1'
+    || String(process?.env?.BITCODE_WRITE_PROMPT_IO || '') === '1'
+    || String(process?.env?.BITCODE_WRITE_STEP_TRACES || '') === '1'
+    || String(process?.env?.BITCODE_LOG_TRACES || '') === '1'
   );
   if (!wantBanner || __diagBannerPrinted) return;
   __diagBannerPrinted = true;
@@ -40,7 +40,7 @@ function maybeLogDiagnosticsBanner() {
       DIAG_WRITE_STEP_TRACES,
       DIAG_TRACE_MAX,
       LOG_LEVEL: process?.env?.LOG_LEVEL,
-      ENGI_EXECUTION_DEBUG: process?.env?.ENGI_EXECUTION_DEBUG,
+      BITCODE_EXECUTION_DEBUG: process?.env?.BITCODE_EXECUTION_DEBUG,
     });
   } catch {}
 }
@@ -230,17 +230,17 @@ export function logStepTrace(stepExec: Execution, stepName: string) {
 export function shouldDebugStopAfterFirstReason(substepExec: Execution, sequence: string): boolean {
   try {
     if (sequence !== 'reason') return false;
-    const flag = String(process?.env?.ENGI_DEBUG_STOP_AFTER_FIRST_REASON || '').toLowerCase() === '1';
+    const flag = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_FIRST_REASON || '').toLowerCase() === '1';
     if (!flag) return false;
     const pathArr = (substepExec as any).getPath?.() || [];
     const isPlanStep = pathArr.includes('plan');
     const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
     const isFirstGen = pathArr.includes('gen-0');
     const ctx = getCtx(substepExec);
-    const agentFilter = process?.env?.ENGI_DEBUG_STOP_AGENT_FILTER;
+    const agentFilter = process?.env?.BITCODE_DEBUG_STOP_AGENT_FILTER;
     const agentMatches = agentFilter ? String(ctx.agentName || '').includes(String(agentFilter)) : true;
     if (isPlanStep && inPrepareFailsafe && isFirstGen && agentMatches) {
-      log('[llm substep] debug-stop', 'info', { ...ctx, reason: 'ENGI_DEBUG_STOP_AFTER_FIRST_REASON' });
+      log('[llm substep] debug-stop', 'info', { ...ctx, reason: 'BITCODE_DEBUG_STOP_AFTER_FIRST_REASON' });
       return true;
     }
   } catch {}
@@ -250,17 +250,17 @@ export function shouldDebugStopAfterFirstReason(substepExec: Execution, sequence
 export function shouldDebugStopAfterFirstStructuredOutput(substepExec: Execution, sequence: string): boolean {
   try {
     if (sequence !== 'structured_output') return false;
-    const flag = String(process?.env?.ENGI_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT || '').toLowerCase() === '1';
+    const flag = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT || '').toLowerCase() === '1';
     if (!flag) return false;
     const pathArr = (substepExec as any).getPath?.() || [];
     const isPlanStep = pathArr.includes('plan');
     const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
     const isFirstStructured = pathArr.includes('gen-2');
     const ctx = getCtx(substepExec);
-    const agentFilter = process?.env?.ENGI_DEBUG_STOP_AGENT_FILTER;
+    const agentFilter = process?.env?.BITCODE_DEBUG_STOP_AGENT_FILTER;
     const agentMatches = agentFilter ? String(ctx.agentName || '').includes(String(agentFilter)) : true;
     if (isPlanStep && inPrepareFailsafe && isFirstStructured && agentMatches) {
-      log('[llm substep] debug-stop', 'info', { ...ctx, reason: 'ENGI_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT' });
+      log('[llm substep] debug-stop', 'info', { ...ctx, reason: 'BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT' });
       return true;
     }
   } catch {}

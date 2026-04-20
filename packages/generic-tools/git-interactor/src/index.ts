@@ -1,10 +1,10 @@
 /**
  * VCS-Migrated version of git-interactor
  * 
- * Git repository operations with Engi's distributed version control intelligence,
+ * Git repository operations with Bitcode's distributed version control intelligence,
  * now using VCS abstraction for multi-provider support.
  * 
- * @purpose Git repository operations with Engi's distributed version control intelligence, VCS provider integration, atomic operation guarantees, and production-grade workflow automation for enterprise-level development processes
+ * @purpose Git repository operations with Bitcode's distributed version control intelligence, VCS provider integration, atomic operation guarantees, and production-grade workflow automation for enterprise-level development processes
  * @capabilities Complete VCS provider integration with repository cloning, branch management, pull request workflows, issue tracking, comment management, file operations, and comprehensive Git metadata access with atomic transaction guarantees and enterprise-grade error handling
  * @specificity Generic
  */

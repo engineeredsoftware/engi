@@ -254,7 +254,7 @@ function factoryLLMSubStep<TInput, TOutput>(
     }
 
     // Support optional one-shot prompt composition (no system/user separation)
-    const oneShot = process?.env?.ENGI_LLM_ONE_SHOT === '1';
+    const oneShot = process?.env?.BITCODE_LLM_ONE_SHOT === '1';
     const combinedPrompt = `${systemPrompt}\n\n${userPrompt}`;
     const finalPrompt = oneShot ? combinedPrompt : combinedPrompt; // unified single-string view
     const llmInput: LLMInput = oneShot
@@ -292,14 +292,14 @@ function factoryLLMSubStep<TInput, TOutput>(
       try {
         if (shouldDebugStopAfterFirstReason(substep, String(sequence))) {
           substep.store('debug', 'stop_after_first_reason', true);
-          throw new Error('__ENGI_DEBUG_STOP_AFTER_FIRST_REASON__');
+          throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__');
         }
       } catch { }
 
       try {
         if (shouldDebugStopAfterFirstStructuredOutput(substep, String(sequence))) {
           substep.store('debug', 'stop_after_first_structured_output', true);
-          throw new Error('__ENGI_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
+          throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
         }
       } catch { }
 

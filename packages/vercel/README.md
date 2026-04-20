@@ -1,6 +1,6 @@
 # @bitcode/vercel
 
-Fixture-driven helpers used by the Engi ChatGPT App to simulate Vercel’s MCP responses in the demo experience. The functions mirror the structure of Vercel’s official tools so transcripts feel authentic even when we are offline.
+Fixture-driven helpers used by the Bitcode ChatGPT App to simulate Vercel’s MCP responses in the demo experience. The functions mirror the structure of Vercel’s official tools so transcripts feel authentic even when we are offline.
 
 ## Exported helpers
 
@@ -23,13 +23,13 @@ import {
   deployToVercel
 } from '@bitcode/vercel';
 
-const deployments = await listDeployments({ projectId: 'prj_Yapper', teamId: 'team_engi' });
-const latest = await getDeployment({ idOrUrl: deployments.deployments[0].id, teamId: 'team_engi' });
+const deployments = await listDeployments({ projectId: 'prj_Yapper', teamId: 'team_bitcode' });
+const latest = await getDeployment({ idOrUrl: deployments.deployments[0].id, teamId: 'team_bitcode' });
 
 const preview = await deployToVercel({
   projectId: 'prj_Yapper',
-  teamId: 'team_engi',
-  message: 'Preview deploy triggered by Engi demo'
+  teamId: 'team_bitcode',
+  message: 'Preview deploy triggered by Bitcode demo'
 });
 ```
 

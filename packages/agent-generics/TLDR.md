@@ -72,21 +72,21 @@ Each PTRR step runs IDENTICALLY:
 
 Set these env vars for maximum introspection during runs:
 
-- `ENGI_LOG_TO_FILE=1` – Per-request and per-run log files (deliverables route uses run‑scoped files).
-- `ENGI_LOG_FULL_PROMPTS=1` – Log full input prompts and full completions for each LLM call.
-- `ENGI_LOG_FULL_PROMPTS_CORRELATION_IDS=<id1,id2>` – Restrict full logs to specific correlationIds (optional).
-- `ENGI_DEBUG_REGISTRIES=1` – Emit registry debug (LLM/tool/agent lookup with execution paths).
+- `BITCODE_LOG_TO_FILE=1` – Per-request and per-run log files (deliverables route uses run‑scoped files).
+- `BITCODE_LOG_FULL_PROMPTS=1` – Log full input prompts and full completions for each LLM call.
+- `BITCODE_LOG_FULL_PROMPTS_CORRELATION_IDS=<id1,id2>` – Restrict full logs to specific correlationIds (optional).
+- `BITCODE_DEBUG_REGISTRIES=1` – Emit registry debug (LLM/tool/agent lookup with execution paths).
 
 These are pre‑enabled in `.env.local` for local development.
 
 ## Debug Filters (targeted execution)
 
-- ENGI_DEBUG_ONLY_PHASE: string — execute agents only when `execution.findUp('phase','current')` equals this.
-- ENGI_DEBUG_ONLY_AGENT: substring — execute only agents whose name includes this.
-- ENGI_DEBUG_ONLY_STEP: plan|try|refine|retry — execute only that PTRR step.
-- ENGI_DEBUG_STOP_AFTER_STEP: deprecated; prefer ENGI_DEBUG_ONLY_STEP.
-- ENGI_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — include only those parent failsafes.
-- ENGI_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those child substeps under each parent.
+- BITCODE_DEBUG_ONLY_PHASE: string — execute agents only when `execution.findUp('phase','current')` equals this.
+- BITCODE_DEBUG_ONLY_AGENT: substring — execute only agents whose name includes this.
+- BITCODE_DEBUG_ONLY_STEP: plan|try|refine|retry — execute only that PTRR step.
+- BITCODE_DEBUG_STOP_AFTER_STEP: deprecated; prefer BITCODE_DEBUG_ONLY_STEP.
+- BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — include only those parent failsafes.
+- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those child substeps under each parent.
 
 Markers
 - Failsafe events log `[failsafe] prepare-context|chunk-then-sum|stitch-until-complete` with start/complete payloads.

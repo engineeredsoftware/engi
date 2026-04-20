@@ -109,8 +109,8 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
 }): Agent<TInput, TOutput> {
   const stepPrompts = (config.stepPrompts || (config as any).prompts) || {};
   // Debug pattern (env-gated): prefer skip semantics via ONLY_* filters
-  const stopAfterPlan = String(process?.env?.ENGI_DEBUG_STOP_AFTER_PLAN || '0') === '1';
-  const onlyStepEnv = String(process?.env?.ENGI_DEBUG_ONLY_STEP || '').toLowerCase();
+  const stopAfterPlan = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_PLAN || '0') === '1';
+  const onlyStepEnv = String(process?.env?.BITCODE_DEBUG_ONLY_STEP || '').toLowerCase();
 
   const steps: AgentStep<any, any>[] = [
     // Plan step - failsafe understanding
@@ -164,13 +164,13 @@ export function factoryAgentWithPTRR<TInput, TOutput>(config: {
     // Phase/agent filters: no-op the agent if it doesn't match filters
     try {
       const phase = (execution as any).findUp?.('phase', 'current');
-      const onlyPhase = process?.env?.ENGI_DEBUG_ONLY_PHASE;
+      const onlyPhase = process?.env?.BITCODE_DEBUG_ONLY_PHASE;
       if (onlyPhase && String(phase || '').toLowerCase() !== String(onlyPhase).toLowerCase()) {
         return input as any;
       }
     } catch {}
     try {
-      const onlyAgent = process?.env?.ENGI_DEBUG_ONLY_AGENT;
+      const onlyAgent = process?.env?.BITCODE_DEBUG_ONLY_AGENT;
       if (onlyAgent && !String(config.name).toLowerCase().includes(String(onlyAgent).toLowerCase())) {
         return input as any;
       }

@@ -20,8 +20,8 @@ function getSentry() {
   return sentryPromise;
 }
 
-const LOG_TO_FILE = process.env.ENGI_LOG_TO_FILE === '1';
-const LOG_TO_STDOUT = process.env.ENGI_LOG_STDOUT !== '0';
+const LOG_TO_FILE = process.env.BITCODE_LOG_TO_FILE === '1';
+const LOG_TO_STDOUT = process.env.BITCODE_LOG_STDOUT !== '0';
 
 function joinPath(...segments: string[]): string {
   const cleaned = segments
@@ -35,8 +35,8 @@ function joinPath(...segments: string[]): string {
   return cleaned.join('/');
 }
 
-const DEFAULT_LOG_DIR = joinPath('/tmp', '.engi_logs');
-let CURRENT_LOG_FILE = process.env.LOG_FILE_PATH || joinPath(DEFAULT_LOG_DIR, 'engi.log');
+const DEFAULT_LOG_DIR = joinPath('/tmp', '.bitcode_logs');
+let CURRENT_LOG_FILE = process.env.LOG_FILE_PATH || joinPath(DEFAULT_LOG_DIR, 'bitcode.log');
 
 function dirname(filePath: string): string {
   const normalized = (filePath || '').replace(/[\\]+/g, '/');
@@ -58,11 +58,11 @@ function sanitizeId(id: string): string {
 
 /**
  * Reinitialize the log file path for subsequent writes.
- * Example: reinitLoggerFile('deliverables-request-<uuid>') → /tmp/.engi_logs/deliverables-request-<uuid>.log
+ * Example: reinitLoggerFile('deliverables-request-<uuid>') → /tmp/.bitcode_logs/deliverables-request-<uuid>.log
  */
 export function reinitLoggerFile(identifier: string, opts?: { prefix?: string; dir?: string; ext?: string }) {
   const base = opts?.dir || DEFAULT_LOG_DIR;
-  const prefix = opts?.prefix || 'engi';
+  const prefix = opts?.prefix || 'bitcode';
   const ext = opts?.ext || '.log';
   const safe = sanitizeId(identifier || 'run');
   // Nest logs under the run-specific directory for easier browsing
@@ -163,15 +163,15 @@ export async function log(message: string, level: LogLevel = 'info', data?: Reco
 
   // Optional: Sync log file to object storage for remote tailing
   try {
-    if (LOG_TO_FILE && process.env.ENGI_LOG_SYNC_S3 === '1') {
+    if (LOG_TO_FILE && process.env.BITCODE_LOG_SYNC_S3 === '1') {
       // Throttle uploads per file by simple time window
       const now = Date.now();
       const THROTTLE_MS = 1000;
-      (globalThis as any).__engiLogSync = (globalThis as any).__engiLogSync || new Map<string, number>();
-      const last = (globalThis as any).__engiLogSync.get(CURRENT_LOG_FILE) || 0;
+      (globalThis as any).__bitcodeLogSync = (globalThis as any).__bitcodeLogSync || new Map<string, number>();
+      const last = (globalThis as any).__bitcodeLogSync.get(CURRENT_LOG_FILE) || 0;
       if (now - last > THROTTLE_MS) {
-        (globalThis as any).__engiLogSync.set(CURRENT_LOG_FILE, now);
-        const env = process.env.ENGI_ENV || process.env.NODE_ENV || 'local';
+        (globalThis as any).__bitcodeLogSync.set(CURRENT_LOG_FILE, now);
+        const env = process.env.BITCODE_ENV || process.env.NODE_ENV || 'local';
         const key = `logs/${env}/${basename(CURRENT_LOG_FILE)}`;
         try {
           const buf = await fs.readFile(CURRENT_LOG_FILE);
@@ -201,7 +201,7 @@ export async function writePromptIO(opts: {
   model?: string;
 }): Promise<string | undefined> {
   try {
-    const enabledEnv = String(process?.env?.ENGI_WRITE_PROMPT_IO ?? '1').toLowerCase();
+    const enabledEnv = String(process?.env?.BITCODE_WRITE_PROMPT_IO ?? '1').toLowerCase();
     const enabled = !(enabledEnv === '0' || enabledEnv === 'false');
     if (!enabled) return undefined;
 
@@ -234,7 +234,7 @@ export async function writeStepTraceJSON(opts: {
   trace: any;
 }): Promise<string | undefined> {
   try {
-    const enabledEnv = String(process?.env?.ENGI_WRITE_STEP_TRACES || '').toLowerCase();
+    const enabledEnv = String(process?.env?.BITCODE_WRITE_STEP_TRACES || '').toLowerCase();
     const enabled = enabledEnv === '1';
     if (!enabled) return undefined;
 

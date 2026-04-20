@@ -19,7 +19,7 @@ export function createThricifiedGeneration<TIn, TOut>(outputSchema: z.ZodType<TO
   const genStructured = factoryStructuredOutput(outputSchema);
 
   // Honor granular debug filter for inner generations
-  const only = String(process?.env?.ENGI_DEBUG_ONLY_GENERATIONS || '')
+  const only = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '')
     .toLowerCase()
     .split(',')
     .map(s => s.trim())

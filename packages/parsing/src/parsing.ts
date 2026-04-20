@@ -115,7 +115,7 @@ export async function parseResponse<T>(
   const maxRetries = options?.maxRetries ?? 2;
   const retryDelay = options?.retryDelay ?? 1000;
   let lastError: Error | undefined;
-  const LOG_FULL = process?.env?.ENGI_LOG_FULL_PROMPTS === '1';
+  const LOG_FULL = process?.env?.BITCODE_LOG_FULL_PROMPTS === '1';
   let lastExtractedJson: string | undefined;
 
   // Enhanced logging for better debugging

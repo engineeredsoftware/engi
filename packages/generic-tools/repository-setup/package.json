@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-tools-repository-setup",
   "version": "0.1.0",
-  "description": "Repository setup and analysis tools for Engi pipelines",
+  "description": "Repository setup and analysis tools for Bitcode pipelines",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",

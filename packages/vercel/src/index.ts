@@ -17,7 +17,7 @@ export async function getDeployment(params: { idOrUrl: string; teamId: string })
     createdAt: minutesAgo(42),
     readyState: 'READY',
     url: 'yapper-prod.vercel.app',
-    inspectorUrl: 'https://vercel.com/engi/yapper/insights',
+    inspectorUrl: 'https://vercel.com/bitcode/yapper/insights',
     meta: {
       gitCommitMessage: 'feat: add waveform recorder',
       gitCommitAuthorName: 'Olivia Builder',
@@ -89,8 +89,8 @@ export async function listProjects(params: { teamId: string }): Promise<any> {
       },
       {
         id: 'prj_Admin',
-        name: 'engi-admin',
-        latestDeploymentUrl: 'admin.engi.dev',
+        name: 'bitcode-admin',
+        latestDeploymentUrl: 'admin.bitcode.dev',
         framework: 'remix'
       }
     ]
@@ -105,7 +105,7 @@ export async function getProject(params: { projectId: string; teamId: string }):
     framework: 'nextjs',
     linkedGitRepository: {
       provider: 'github',
-      org: 'engi-demo',
+      org: 'bitcode-demo',
       repository: 'yapper'
     },
     domains: ['yapper.vercel.app', 'yapper-prod.vercel.app'],
@@ -139,7 +139,7 @@ export async function listTeams(): Promise<any> {
   return {
     teams: [
       { id: 'team_personal', name: 'Personal Account' },
-      { id: 'team_engi', name: 'Engi Demo Org' }
+      { id: 'team_bitcode', name: 'Bitcode Demo Org' }
     ]
   };
 }
@@ -151,7 +151,7 @@ export async function deployToVercel(params: { projectId: string; teamId: string
     teamId: params.teamId,
     url: `https://${params.projectId}-${Date.now()}.vercel.app`,
     readyState: 'BUILDING',
-    note: params.message ?? 'Deployment requested via Engi ChatGPT App.'
+    note: params.message ?? 'Deployment requested via Bitcode ChatGPT App.'
   };
 }
 

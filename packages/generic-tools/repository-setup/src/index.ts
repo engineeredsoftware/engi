@@ -2,7 +2,7 @@
  * REPOSITORY SETUP TOOLS - VCS-INTEGRATED PROMPT PRIMITIVES EXCELLENCE
  * 
  * Revolutionary repository preparation tools that leverage VCS abstractions for provider-agnostic
- * operations with full integration of Engi's prompt primitives architecture.
+ * operations with full integration of Bitcode's prompt primitives architecture.
  * 
  * KEY EVOLUTION:
  * - Provider-agnostic repository operations via VCS abstractions

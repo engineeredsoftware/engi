@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/logger",
   "version": "0.1.0",
-  "description": "Shared logging utilities for the Engi monorepo.",
+  "description": "Shared logging utilities for the Bitcode monorepo.",
   "main": "src/logger.ts",
   "types": "src/logger.ts",
   "exports": {

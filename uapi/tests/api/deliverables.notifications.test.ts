@@ -1,8 +1,19 @@
 /**
  * @jest-environment node
  *
- * Verifies that notifications are skipped unless ENGI_ENABLE_NOTIFICATIONS==='true'.
+ * Verifies that notifications are skipped unless BITCODE_ENABLE_NOTIFICATIONS==='true'.
  */
+
+jest.mock('next/server', () => ({
+  NextRequest: Request,
+  NextResponse: {
+    json: (data: any, init?: ResponseInit) =>
+      new Response(JSON.stringify(data), {
+        status: init?.status ?? 200,
+        headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
+      }),
+  },
+}));
 
 // Mock Supabase auth to return a user
 jest.mock('@bitcode/supabase/ssr/server', () => ({
@@ -10,18 +21,20 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({
     auth: { getUser: jest.fn().mockResolvedValue({ data: { user: { id: 'user-1', email: 'u@example.com', user_metadata: {} } }, error: null }) }
   })
 }));
+jest.mock('@supabase/supabase-js', () => ({
+  createClient: jest.fn(),
+}));
 
 // Mock ORM with notifications.create spy
 const notificationsCreate = jest.fn();
+const pipelineExecutionsCreate = jest.fn().mockResolvedValue({ id: 'fixed-corr' });
+const executionEventsCreate = jest.fn().mockResolvedValue({});
+const pipelineRunsUpdate = jest.fn().mockResolvedValue({});
 jest.mock('@bitcode/orm', () => ({
   createAdminClient: () => ({
-    deliverablePipeline: {
-      createDeliverable: jest.fn().mockResolvedValue({ id: 'run-1' }),
-      updateWithResults: jest.fn(),
-      markFailed: jest.fn(),
-      markCancelled: jest.fn()
-    },
-    deliverableEvents: { create: jest.fn() },
+    pipelineExecutions: { create: pipelineExecutionsCreate, update: jest.fn() },
+    executionEvents: { create: executionEventsCreate },
+    pipelineRuns: { update: pipelineRunsUpdate },
     notifications: { create: notificationsCreate },
     userCredits: { getByUserId: jest.fn(), addCredits: jest.fn() },
     userConnections: { getByUserAndProvider: jest.fn().mockResolvedValue({ connection_data: { installation_id: 1 } }) }
@@ -32,18 +45,77 @@ jest.mock('@bitcode/orm', () => ({
 jest.mock('@bitcode/vcs', () => ({ VCSService: class { constructor(_: any) {} } }));
 
 // Mock models and credits
-jest.mock('@bitcode/models', () => ({ getModelPricing: () => ({ multiplier: 1 }), defaultModelPricing: { provider: 'openai', model: 'gpt-4o' } }));
+jest.mock('@bitcode/models', () => ({
+  DEFAULT_PROVIDER: 'openai',
+  DEFAULT_MODEL_API: 'gpt-4o',
+  getUsdPricingForApiModel: jest.fn(() => ({ input: 1, output: 1 })),
+  getModelPricing: () => ({ multiplier: 1 }),
+  defaultModelPricing: { provider: 'openai', model: 'gpt-4o' },
+}));
 jest.mock('@bitcode/credits', () => ({ withCreditReservation: (_u: any, fn: any) => fn() }));
+jest.mock('@bitcode/logger', () => ({
+  log: jest.fn(),
+  reinitLoggerFile: jest.fn(),
+}));
 
 // Mock GA telemetry to no-op
 jest.mock('@bitcode/google-analytics', () => ({ sendServerEvent: jest.fn() }));
 jest.mock('@bitcode/email', () => ({ sendEmail: jest.fn() }));
+jest.mock('@bitcode/pipeline-deliverable', () => ({ deliverablePipeline: jest.fn().mockResolvedValue({}) }));
+jest.mock('@bitcode/generic-llms', () => ({ factoryLLMRegistryWithProviders: jest.fn(() => ({})) }));
+jest.mock('@bitcode/execution-generics', () => ({
+  Execution: jest.fn().mockImplementation(() => ({
+    id: 'fixed-corr',
+    set: jest.fn(),
+    store: jest.fn(),
+    get: jest.fn(),
+  })),
+  ExecutionStreamAdapter: jest.fn(),
+  NS_EXEC_DELIVERABLE_VALIDATION_RTS: 'validation-rts',
+}));
+jest.mock('@bitcode/pipelines-generics/src/execution/PipelineExecution', () => ({
+  PipelineExecution: jest.fn().mockImplementation(() => ({})),
+}));
+jest.mock('@bitcode/errors', () => ({
+  BitcodeError: class BitcodeError extends Error {},
+  reportError: jest.fn((error: unknown) =>
+    error instanceof Error ? error : new Error(typeof error === 'string' ? error : JSON.stringify(error))
+  ),
+}));
+jest.mock('@bitcode/responses', () => ({
+  createJsonResponse: (data: any, status = 200) =>
+    new Response(JSON.stringify(data), {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    }),
+  createErrorResponse: (error: any, status = 500) =>
+    new Response(JSON.stringify({ error: String(error?.message || error) }), {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    }),
+  createAuthErrorResponse: () =>
+    new Response(JSON.stringify({ error: 'auth' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    }),
+}));
+jest.mock('@bitcode/streams', () => ({
+  Streamer: jest.fn().mockImplementation(() => ({
+    subscribe: jest.fn(),
+    push: jest.fn(),
+    close: jest.fn(),
+    complete: jest.fn(),
+    toResponse: () => new Response('', { status: 200 }),
+  })),
+}));
 
 describe('POST /api/executions notifications gating', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
-    delete process.env.ENGI_ENABLE_NOTIFICATIONS;
+    delete process.env.BITCODE_ENABLE_NOTIFICATIONS;
+    process.env.LONG_RUNNER_QUEUE = 'true';
+    jest.spyOn(require('crypto'), 'randomUUID').mockReturnValue('fixed-corr');
   });
 
   it('does not create notifications when flag is not enabled', async () => {
@@ -52,12 +124,11 @@ describe('POST /api/executions notifications gating', () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        task: 'x', repoOwner: 'o', repoName: 'r', repoBranch: 'main', attachments: []
+        definition_of_done: 'x', repoOwner: 'o', repoName: 'r', repoBranch: 'main', attachments: []
       })
     });
     const res = await POST(req);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(202);
     expect(notificationsCreate).not.toHaveBeenCalled();
   });
 });
-

@@ -692,6 +692,39 @@ Required closure posture:
 - any package, component family, route carrier, or application subsystem kept for V26 must have explicit spec, test, and proof-surface ownership
 - proof closure may no longer terminate at the old `engi-demo` equivalent core alone; it must close over the production application and surviving packages as one Bitcode system
 
+## Fifth-gate runtime/env naming closure
+
+- `packages/logger/{src/logger.ts,src/logger.js,package.json}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate runtime contract closure so active logging, sidecar emission, and sync helpers converge on `BITCODE_*` env keys, `.bitcode_logs`, and Bitcode-facing package metadata
+- `packages/agent-generics/{README.md,TLDR.md,src/diagnostics/config.ts,src/diagnostics/instrumentation.ts,src/execution/AgentExecution.ts,src/agents/factories.ts,src/steps/thricified-generation.ts,src/steps/failsafe-sequence.ts,src/substeps/factories.ts,src/phaseHelpers/normalizeStepName.ts}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate debug and diagnostics contract closure so active PTRR debugging and docs converge on `BITCODE_*` flags and Bitcode-facing runtime teaching
+- `packages/pipelines/deliverable/{src/preprocess.ts,src/__dev__/bringup-demo.ts,src/__tests__/metrics-output.test.ts,src/agents/setup/deliverable-pipeline-setup-plan-agent.ts,src/agents/shipping/deliverable-pipeline-create-pull-request-agent.ts}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate deliverable pipeline closure so active bring-up, default branch naming, and LLM env contracts read as Bitcode instead of Engi
+- `packages/parsing/src/parsing.ts`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate parsing/runtime closure so prompt logging obeys the Bitcode env/debug contract
+- `packages/vercel/{src/index.ts,README.md}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate retained package fixture/doc closure so Bitcode-facing ChatGPT App and Vercel fixture surfaces no longer present Engi-era team/org/product strings
+- `packages/generic-tools/{repository-setup/package.json,repository-setup/src/index.ts,simple-system-text-search/src/index.ts,files-maintaining/src/index.ts,git-interactor/src/index.ts}`
+  test coverage:
+  `packages/bitcode/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate retained tool-package closure so active package metadata and doc-code teaching no longer present Engi-era product identity
+
 ## Module namespace proof note
 
 V26 also now treats the `@bitcode/*` module namespace as part of the active proof surface.

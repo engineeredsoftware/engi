@@ -9,8 +9,8 @@ jest.mock('../agents/setup/deliverable-pipeline-comprehend-task-agent', () => ({
 
 describe('Deliverable pipeline bring-up (setup + PTRR plan: prepare→reason)', () => {
   it('streams phase/agent events and persists structured rows', async () => {
-    process.env.ENGI_DEBUG_ONLY_FAILSAFES = 'prepare';
-    process.env.ENGI_DEBUG_ONLY_GENERATIONS = 'reason';
+    process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
+    process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'reason';
 
     const exec = new Execution('deliverable:test');
     const inserts: any[] = [];

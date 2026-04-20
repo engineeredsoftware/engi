@@ -60,8 +60,8 @@ export class AgentExecution extends Execution {
     try {
       const llmRegistry = factoryLLMRegistryWithProviders();
       // Resolve defaults from environment with safe fallbacks
-      const provider = (process.env.ENGI_LLM_PROVIDER || 'openai').toLowerCase();
-      const model = process.env.ENGI_LLM_MODEL || 'o3-mini';
+      const provider = (process.env.BITCODE_LLM_PROVIDER || 'openai').toLowerCase();
+      const model = process.env.BITCODE_LLM_MODEL || 'o3-mini';
       if (typeof (llmRegistry as any).setDefaultProvider === 'function') {
         (llmRegistry as any).setDefaultProvider(provider);
       }
