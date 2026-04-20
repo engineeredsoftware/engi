@@ -4,7 +4,7 @@
 // Each entry is a single string in the format:
 //     `${Umbrella}${Tech}${Language}@${SemVer}`
 //
-// The list should only contain *real* combinations that Engi actively
+// The list should only contain *real* combinations that Bitcode actively
 // supports.  Additions are made manually to ensure we remain precise about
 // which permutations exist (`FacebookReactSwift` vs `GoogleReactSwift`, etc.).
 

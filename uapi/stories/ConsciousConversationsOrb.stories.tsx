@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { ConsciousConversationsOrb } from '../app/components/conscious-conversations-orb';
 
 const meta: Meta<typeof ConsciousConversationOrb> = {
-  title: 'Engi/Surprise & Delight/Conscious Conversations Orb',
+  title: 'Bitcode/Surprise & Delight/Conscious Conversations Orb',
   component: ConsciousConversationsOrb,
   parameters: {
     layout: 'centered',

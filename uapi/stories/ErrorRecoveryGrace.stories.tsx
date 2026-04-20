@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { ErrorRecoveryGrace } from '@/components/base/engi/overlays/error-recovery-grace';
 
 const meta: Meta<typeof ErrorRecoveryGrace> = {
-  title: 'Engi/Surprise & Delight/Error Recovery Grace',
+  title: 'Bitcode/Surprise & Delight/Error Recovery Grace',
   component: ErrorRecoveryGrace,
   parameters: {
     layout: 'fullscreen',

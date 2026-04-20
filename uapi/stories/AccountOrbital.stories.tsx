@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import AccountOrbital from "../app/orbitals/components/OrbitalAccount";
 
 const meta: Meta<typeof AccountOrbital> = {
-  title: "Kitchen Sink/Orbitals/Account",
+  title: "Bitcode/Auxillaries/Account",
   component: AccountOrbital,
   parameters: {
     layout: "fullscreen",
@@ -11,7 +11,7 @@ const meta: Meta<typeof AccountOrbital> = {
   args: {
     initialData: {
       profile: {
-        email: "demo@engi.ai",
+        email: "demo@bitcode.dev",
         username: "demo_user",
         display_name: "Demo User",
       },

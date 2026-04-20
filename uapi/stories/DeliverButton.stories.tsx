@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { DeliverButton } from '../app/components/deliver-button';
 
 const meta: Meta<typeof DeliverButton> = {
-  title: 'Engi/Surprise & Delight/Deliver Button',
+  title: 'Bitcode/Surprise & Delight/Deliver Button',
   component: DeliverButton,
   parameters: {
     layout: 'centered',
@@ -12,7 +12,7 @@ const meta: Meta<typeof DeliverButton> = {
         component: `
 ### 🎯 Enhanced Deliver Button
 
-The most critical moment in the engi experience - transformed into anticipatory magic:
+The most critical moment in the Bitcode experience - transformed into anticipatory magic:
 
 - **Confidence visualization** - Ring intensity reflects accumulated context quality
 - **Predictive preview** - Shows what will be created before clicking

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { CompletionCelebration } from '../app/components/completion-celebration';
 
 const meta: Meta<typeof CompletionCelebration> = {
-  title: 'Engi/Surprise & Delight/Completion Celebration',
+  title: 'Bitcode/Surprise & Delight/Completion Celebration',
   component: CompletionCelebration,
   parameters: {
     layout: 'fullscreen',

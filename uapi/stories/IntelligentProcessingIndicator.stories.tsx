@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { IntelligentProcessingIndicator } from '../app/components/intelligent-processing-indicator';
 
 const meta: Meta<typeof IntelligentProcessingIndicator> = {
-  title: 'Engi/Surprise & Delight/Intelligent Processing Indicator',
+  title: 'Bitcode/Surprise & Delight/Intelligent Processing Indicator',
   component: IntelligentProcessingIndicator,
   parameters: {
     layout: 'centered',

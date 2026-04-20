@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { CreditInvestmentExperience } from '../app/components/credit-investment-experience';
 
 const meta: Meta<typeof CreditInvestmentExperience> = {
-  title: 'Engi/Surprise & Delight/Credit Investment Experience',
+  title: 'Bitcode/Surprise & Delight/Credit Investment Experience',
   component: CreditInvestmentExperience,
   parameters: {
     layout: 'fullscreen',

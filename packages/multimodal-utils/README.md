@@ -319,4 +319,4 @@ const result = await defaultMultimodalProcessor.processFile(
 );
 ```
 
-This utility package provides the foundation for reliable, high-performance multimodal content processing across the Engi platform with comprehensive error handling and resource management.
+This utility package provides the foundation for reliable, high-performance multimodal content processing across the Bitcode platform with comprehensive error handling and resource management.

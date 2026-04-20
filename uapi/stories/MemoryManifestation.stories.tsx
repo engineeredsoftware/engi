@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { MemoryManifestation } from '../app/components/memory-manifestation';
 
 const meta: Meta<typeof MemoryManifestation> = {
-  title: 'Engi/Surprise & Delight/Memory Manifestation',
+  title: 'Bitcode/Surprise & Delight/Memory Manifestation',
   component: MemoryManifestation,
   parameters: {
     layout: 'fullscreen',

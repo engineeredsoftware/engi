@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 /**
  * SupabaseStream is a thin adapter that fulfils the `DataStream` interface
- * expected by Engi's streaming helpers (`writeStreamMessage`, `writeData`, …)
+ * expected by Bitcode's streaming helpers (`writeStreamMessage`, `writeData`, …)
  * but persists every chunk into the `deliverable_run_events` table so that
  * existing SSE consumers continue to work unchanged.  All writes are
  * best-effort – a failed insert will throw to the caller so pipeline logic

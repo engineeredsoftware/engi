@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { DodInput } from '@/components/base/engi/inputs/dod-input';
 
 const meta: Meta<typeof DodInput> = {
-  title: 'Engi/Surprise & Delight/DoD Input',
+  title: 'Bitcode/Surprise & Delight/DoD Input',
   component: DodInput,
   parameters: {
     layout: 'centered',

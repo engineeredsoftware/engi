@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { PipelinePhasePoetry } from '../app/components/pipeline-phase-poetry';
 
 const meta: Meta<typeof PipelinePhasePoetry> = {
-  title: 'Engi/Surprise & Delight/Pipeline Phase Poetry',
+  title: 'Bitcode/Surprise & Delight/Pipeline Phase Poetry',
   component: PipelinePhasePoetry,
   parameters: {
     layout: 'fullscreen',
