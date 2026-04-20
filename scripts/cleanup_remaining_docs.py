@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Clean up remaining outdated documentation files and reorganize docs."""
+"""Clean up remaining outdated Bitcode documentation files and reorganize docs."""
 
 import os
 import sys
@@ -7,10 +7,10 @@ import sys
 # Documentation files to remove (completion reports, WIP, outdated)
 files_to_remove = [
     # Completion Reports
-    "ENGI-CROWN-JEWEL-THESIS.md",
-    "ENGI-EXCELLENCE-DOCUMENTATION.md", 
-    "ENGI-EXCELLENCE-PROMPT-PARTS-UPDATE.md",
-    "ENGI_FINAL_VERIFICATION_REPORT.md",
+    "BITCODE-CROWN-JEWEL-THESIS.md",
+    "BITCODE-EXCELLENCE-DOCUMENTATION.md", 
+    "BITCODE-EXCELLENCE-PROMPT-PARTS-UPDATE.md",
+    "BITCODE_FINAL_VERIFICATION_REPORT.md",
     "FINAL_PROMPT_ARCHITECTURE.md",
     "PATCH_PIPELINE_COMPLETE.md",
     "PROMPT-COMPOSER-EXCELLENCE.md",
@@ -49,7 +49,7 @@ files_to_merge = {
     "EMERALD_DREAM.md": "Extract completed features to new UI_FEATURES.md"
 }
 
-print("🧹 Cleaning up remaining outdated documentation files...")
+print("🧹 Cleaning up remaining outdated Bitcode documentation files...")
 print("=" * 60)
 
 # Remove files

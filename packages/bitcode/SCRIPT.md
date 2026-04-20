@@ -1,18 +1,18 @@
 # Bitcode Demo Script — Spec V8
 
-This is the live presentation / interactive QA script for the current ENGI V8 deterministic prototype.
+This is the live presentation / interactive QA script for the current Bitcode V8 deterministic prototype.
 
 ---
 
 ## One-sentence thesis
 
-ENGI measures a GitHub-bound engineering need, matches the right technical intelligence supply to it, materializes an inspectable private remediation branch artifact set, and proves exactly how value moves through the system.
+Bitcode measures a GitHub-bound engineering need, matches the right technical intelligence supply to it, materializes an inspectable private remediation branch artifact set, and proves exactly how value moves through the system.
 
 ---
 
 ## What this demo is
 
-This demo is **Profile A — local deterministic prototype** behavior for ENGI Spec V8.
+This demo is **Profile A — local deterministic prototype** behavior for Bitcode Spec V8.
 
 It is meant to demonstrate:
 - need measurement from GitHub-bound benchmark evidence,
@@ -39,7 +39,7 @@ Default local URL:
 
 Say something like:
 
-> ENGI is a system for turning engineering knowledge into an inspectable remediation pipeline.
+> Bitcode is a system for turning engineering knowledge into an inspectable remediation pipeline.
 >
 > In Spec V8, the key idea is not just storing or retrieving technical knowledge. The key idea is measuring a real GitHub-bound need, selecting the right technical intelligence supply for that need, materializing governed artifacts for remediation, and proving how value and rights flow through the system.
 
@@ -68,7 +68,7 @@ Important line:
 
 > The demo begins with a buyer need that is GitHub-bound. A buyer branch and GitHub Actions benchmark run define the operational context.
 >
-> ENGI does not treat the task as a loose prompt. It normalizes workflow evidence through a declared parser contract and derives a canonical need descriptor.
+> Bitcode does not treat the task as a loose prompt. It normalizes workflow evidence through a declared parser contract and derives a canonical need descriptor.
 
 Point out:
 - canonical run evidence
@@ -96,7 +96,7 @@ Operator note:
 
 #### What to say
 
-> Once the need is measured, ENGI recalls candidate assets through multiple channels: task alignment, failure-mode overlap, technical-context overlap, lexical/symbol/path/config matching, and artifact-kind compatibility.
+> Once the need is measured, Bitcode recalls candidate assets through multiple channels: task alignment, failure-mode overlap, technical-context overlap, lexical/symbol/path/config matching, and artifact-kind compatibility.
 >
 > In the local prototype, embeddings and higher-dimensional retrieval are deterministic stand-ins, but the interface is already codified so Profile B can replace them cleanly later.
 
@@ -154,7 +154,7 @@ Important line:
 
 #### What to say
 
-> After ranking and verification, ENGI assembles a locked asset pack.
+> After ranking and verification, Bitcode assembles a locked asset pack.
 >
 > That lock then drives the private remediation branch artifact set.
 >
@@ -220,7 +220,7 @@ Important line:
 
 > The demo ends on exact settlement closure.
 >
-> ENGI computes raw and settled shares, allocates exact micro-units, emits a journal diff, and proves the invariants — including the closure between the settlement proof and the asset-pack lock.
+> Bitcode computes raw and settled shares, allocates exact micro-units, emits a journal diff, and proves the invariants — including the closure between the settlement proof and the asset-pack lock.
 
 Point out:
 - participating assets
@@ -237,7 +237,7 @@ Important line:
 
 ## Recommended close
 
-> ENGI turns engineering knowledge into a measurable, governable, inspectable remediation pipeline.
+> Bitcode turns engineering knowledge into a measurable, governable, inspectable remediation pipeline.
 >
 > In this V8 prototype, the system measures a GitHub-bound need, selects the right technical intelligence supply, materializes a governed branch artifact set, and proves both the operational and economic consequences.
 
@@ -251,7 +251,7 @@ Use this sequence when verifying the demo live:
 2. reset seeded state
 3. confirm Profile A + Spec V8 labels
 4. confirm the auth rollback scenario
-5. click **Make ENGI branch**
+5. click **Make Bitcode branch**
 6. inspect evaluated candidates
 7. inspect branch artifacts
 8. inspect unit catalog + pipeline telemetry

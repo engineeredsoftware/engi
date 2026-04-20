@@ -9,14 +9,14 @@ Use this before an interactive V8 demo, QA pass, or live walkthrough.
 - [ ] Start the demo:
 
 ```bash
-cd /Users/garrettmaring/Developer/ENGI/engi-demo
+cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
 npm start
 ```
 
 - [ ] Open: `http://127.0.0.1:4318`
 - [ ] Confirm the page loads
 - [ ] Confirm the hero says **Spec V8**
-- [ ] Confirm the primary CTA is **Make ENGI branch**
+- [ ] Confirm the primary CTA is **Make Bitcode branch**
 - [ ] Confirm no stale V6/query-era language is visible in the main flow
 - [ ] Confirm JSON-heavy surfaces default to **Visual** mode and can be flipped to **Raw**
 
@@ -35,7 +35,7 @@ npm start
 Expected seeded scenario cues:
 - buyer: `Frontier Code Systems`
 - repo: `frontier/demo-auth`
-- branch: `ENGI-auth-issuer-rollback`
+- branch: `BITCODE-auth-issuer-rollback`
 - benchmark workflow / GitHub Actions evidence present
 
 ---
@@ -58,7 +58,7 @@ What should be visible after the run:
 
 ### B. Candidate recall + ranking
 
-- [ ] Run **Make ENGI branch**
+- [ ] Run **Make Bitcode branch**
 - [ ] Confirm evaluated candidates render
 - [ ] Confirm the top asset is still the rollback/auth material
 - [ ] Show:
@@ -144,7 +144,7 @@ Call the demo **interactive V8 E2E-QA ready** only if all of the following are t
 
 - [ ] page loads cleanly
 - [ ] reset works
-- [ ] make-ENGI-branch gold path works end-to-end
+- [ ] make-bitcode-branch gold path works end-to-end
 - [ ] V8 profile/derivation/rights/telemetry surfaces are visible
 - [ ] settlement invariants hold
 - [ ] no stale query-first story is required to understand the demo
@@ -165,7 +165,7 @@ Call the demo **interactive V8 E2E-QA ready** only if all of the following are t
 ### If the server is not responding
 
 ```bash
-cd /Users/garrettmaring/Developer/ENGI/engi-demo
+cd /Users/garrettmaring/Developer/ENGI/packages/bitcode
 npm start
 ```
 

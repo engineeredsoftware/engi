@@ -1,6 +1,6 @@
-# ENGI Demo Architecture Map
+# Bitcode Demo Architecture Map
 
-This document maps the **pre-alignment demo architecture** that existed in `engi-demo/` before the Spec V6 refactor, because that baseline is what the gap analysis compares against.
+This document maps the **pre-alignment demo architecture** that existed in the Bitcode demo package before the Spec V6 refactor, because that baseline is what the gap analysis compares against.
 
 ## 1. Runtime shape
 
@@ -117,6 +117,6 @@ The old demo was best described as:
 - ranking subscores from the spec
 - separate verification determinisms and propagated use tiers
 - asset pack assembly
-- Make ENGI branch buyer UX
+- Make Bitcode branch buyer UX
 - `.engi/*` remediation branch artifacts
 - exact journal diff and system proof bundle

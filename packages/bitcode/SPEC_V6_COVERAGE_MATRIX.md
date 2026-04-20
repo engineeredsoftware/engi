@@ -1,7 +1,7 @@
-# ENGI Spec V6 Coverage Matrix
+# Bitcode Spec V6 Coverage Matrix
 
 Audit date: 2026-04-02  
-Repo: `/Users/garrettmaring/Developer/ENGI/engi-demo`
+Repo: `/Users/garrettmaring/Developer/ENGI/packages/bitcode`
 
 This matrix records:
 
@@ -41,7 +41,7 @@ Status legend:
 | `19. Candidate verification result and use tier` | `partial` | `implemented` | Final use-tier derivation and settlement upgrade rules are explicit and flow downstream into branch assembly and settlement. | `src/spec-v6-demo.js:1476`, `src/spec-v6-demo.js:1485`, `src/spec-v6-demo.js:1501`, `src/spec-v6-demo.js:1562` |
 | `20. Expensive LLM evaluation roles` | `missing` | `modeled` | No live LLMs are invoked, but evaluator ids, deterministic “model” ids, inference proofs, and provenance surfaces model the appendix contracts. | `src/spec-v6-demo.js:64`, `src/spec-v6-demo.js:159`, `src/spec-v6-demo.js:783`, `src/spec-v6-demo.js:1634`, `src/spec-v6-demo.js:2047` |
 | `21. Asset pack assembly` | `partial` | `implemented` | Asset pack selection, accepted tiers, coverage, lock data, and selected source-material manifest now exist and are consumed downstream. | `src/spec-v6-demo.js:1562`, `src/spec-v6-demo.js:1662`, `src/spec-v6-demo.js:1689`, `test/core.test.js:112`, `test/core.test.js:186` |
-| `22. Buyer UX: Make ENGI branch` | `partial` | `partial` | The UI/API primary action is now “Make ENGI branch,” but real git branch creation/PR operations remain non-demoable-external. | `public/index.html:10`, `public/app.js:240`, `server.js:144`, `test/api.test.js:182` |
+| `22. Buyer UX: Make Bitcode branch` | `partial` | `partial` | The UI/API primary action is now “Make Bitcode branch,” but real git branch creation/PR operations remain non-demoable-external. | `public/index.html:10`, `public/app.js:240`, `server.js:144`, `test/api.test.js:182` |
 | `23. Asset shares` | `partial` | `implemented` | Raw/settled shares, zero-adjustment default mode, and downstream settlement participation are explicit and tested. | `src/spec-v6-demo.js:1745`, `src/spec-v6-demo.js:2149`, `test/core.test.js:171` |
 | `24. Raw asset share computation` | `partial` | `implemented` | Leave-one-asset-out marginal contribution plus exact normalization to `10000` bp is implemented and tested. | `src/spec-v6-demo.js:1708`, `src/spec-v6-demo.js:1717`, `src/spec-v6-demo.js:1745`, `test/core.test.js:171` |
 | `25. Settlement and journal diff` | `partial` | `implemented` | Exact fixed-point accounting, deterministic allocation, receipts, invariant checks, journal diff, and settlement proof are all present. | `src/spec-v6-demo.js:1773`, `src/spec-v6-demo.js:2149`, `src/spec-v6-demo.js:2028`, `test/core.test.js:161`, `test/core.test.js:177`, `test/core.test.js:271` |

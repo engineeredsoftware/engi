@@ -38,7 +38,7 @@ for FILE in $FILES; do
     
     # Remove the barrel import line and add individual imports
     awk -v replacement="$REPLACEMENT" '
-      /from '\''@engi\/prompts\/raw_promptparts\/generic'\''/ {
+      /from '\''@bitcode\/prompts\/raw_promptparts\/generic'\''/ {
         if (!replaced) {
           print replacement
           replaced = 1

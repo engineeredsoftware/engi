@@ -1,11 +1,11 @@
 #!/bin/bash
 # Script to clean up outdated documentation files
 
-echo "Cleaning up outdated documentation files..."
+echo "Cleaning up outdated Bitcode documentation files..."
 
 # List of files to remove
 files_to_remove=(
-    "ENGI_EVOLUTIONARY_EXCELLENCE.md"
+    "BITCODE_EVOLUTIONARY_EXCELLENCE.md"
     "PIPELINE_DEVELOPMENT.md"
     "DOCUMENTATION_INDEX.md"
     "PIPELINE_OVERVIEW.md"

@@ -1,4 +1,4 @@
-# ENGI Demo Script — Short Version (Spec V8)
+# Bitcode Demo Script — Short Version (Spec V8)
 
 Use this when you want the cleanest possible live explanation in ~90 seconds.
 
@@ -6,15 +6,15 @@ Use this when you want the cleanest possible live explanation in ~90 seconds.
 
 ## Ultra-short thesis
 
-ENGI measures a GitHub-bound engineering need, matches the right technical intelligence supply to it, materializes an inspectable private remediation branch artifact set, and proves how value moves through the system.
+Bitcode measures a GitHub-bound engineering need, matches the right technical intelligence supply to it, materializes an inspectable private remediation branch artifact set, and proves how value moves through the system.
 
 ---
 
 ## 90-second script
 
-> This demo shows ENGI as a Spec V8 deterministic prototype.
+> This demo shows Bitcode as a Spec V8 deterministic prototype.
 >
-> A buyer has a concrete GitHub-bound auth rollback incident with benchmark evidence from GitHub Actions. ENGI first normalizes that evidence into a measured need descriptor instead of treating the task as a loose prompt.
+> A buyer has a concrete GitHub-bound auth rollback incident with benchmark evidence from GitHub Actions. Bitcode first normalizes that evidence into a measured need descriptor instead of treating the task as a loose prompt.
 >
 > It then recalls candidate technical assets through multiple channels, ranks them with explicit need-match, benchmark-impact, and actionability scores, and separately applies verification and issuer-policy gates to derive final use tiers.
 >
@@ -27,7 +27,7 @@ ENGI measures a GitHub-bound engineering need, matches the right technical intel
 ## Very short presenter flow
 
 1. show the GitHub-bound need + parser contract
-2. click **Make ENGI branch**
+2. click **Make Bitcode branch**
 3. show ranked/verified candidates
 4. show branch artifacts + unit catalog + pipeline telemetry
 5. end on settlement / proof closure
@@ -36,7 +36,7 @@ ENGI measures a GitHub-bound engineering need, matches the right technical intel
 
 ## One-line close
 
-> ENGI turns engineering knowledge into a measurable, governable, inspectable remediation pipeline — not just a search result.
+> Bitcode turns engineering knowledge into a measurable, governable, inspectable remediation pipeline — not just a search result.
 
 ---
 

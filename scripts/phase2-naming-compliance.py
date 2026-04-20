@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """
 PHASE 2B: Naming Compliance - Add PROMPT_ prefix and remove legacy patterns
-Engi Excellence - Pre-1.0 freedom!
+Bitcode Excellence - prompt-system cleanup freedom
 """
 
 import os
 import re
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+PACKAGES_PATH = REPO_ROOT / "packages"
+
 def fix_prompt_naming():
     """Fix all prompt naming to use PROMPT_ prefix"""
-    
-    packages_path = Path("/Users/g/Developer/engi/engi/packages")
+
+    packages_path = PACKAGES_PATH
     changes = {}
     
     # Track all renames for import updates
@@ -82,8 +85,8 @@ def fix_prompt_naming():
 
 def remove_create_prompt_part():
     """Remove createPromptPart usage"""
-    
-    packages_path = Path("/Users/g/Developer/engi/engi/packages")
+
+    packages_path = PACKAGES_PATH
     raw_path = packages_path / "prompts/src/raw"
     removed_count = 0
     
@@ -117,7 +120,7 @@ def remove_create_prompt_part():
 
 if __name__ == "__main__":
     print("🚀 PHASE 2B: Naming Compliance & Legacy Removal")
-    print("Engi Excellence Mode Activated!")
+    print("Bitcode Excellence Mode Activated!")
     print("")
     
     # Step 1: Fix naming

@@ -270,7 +270,7 @@ finalize_review() {
     
     # Create output content
     local output_content=""
-    output_content+="ENGI PROMPT PRIMITIVES EVOLUTION REVIEW RESULTS\n"
+    output_content+="BITCODE PROMPT PRIMITIVES EVOLUTION REVIEW RESULTS\n"
     output_content+="===============================================\n\n"
     
     for response in "${REVIEW_RESPONSES[@]}"; do
@@ -281,7 +281,7 @@ finalize_review() {
     output_content+="\nREVIEW COMPLETED: $TOTAL_SUB_REVIEWS sub-sections analyzed\n"
     
     # Save to temp file for easy copying
-    local temp_file="/tmp/engi_review_$(date +%s).txt"
+    local temp_file="/tmp/bitcode_review_$(date +%s).txt"
     printf "%b" "$output_content" > "$temp_file"
     
     printf "\n${GREEN}✅ Review saved to: ${WHITE}%s${NC}\n" "$temp_file"
@@ -307,7 +307,7 @@ run_review() {
     TOTAL_SUB_REVIEWS=$(( $# / 2 ))
     
     clear_screen
-    print_header "🚀 ENGI CODE REVIEW SYSTEM"
+    print_header "🚀 BITCODE CODE REVIEW SYSTEM"
     print_separator
     
     printf "\n${WHITE}📋 Review: %s${NC}\n" "$review_title"

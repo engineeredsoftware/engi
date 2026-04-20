@@ -54,7 +54,7 @@ Questions must:
 ### Question Categories
 1. **Abstraction Level**: Is this the right level of abstraction for the use case?
 2. **Scalability**: Will this approach work for the remaining N implementations?
-3. **Integration**: How well does this integrate with existing Engi patterns?
+3. **Integration**: How well does this integrate with existing Bitcode patterns?
 4. **Maintainability**: Is this sustainable for long-term development?
 5. **User Experience**: Will agents/developers have the right experience?
 

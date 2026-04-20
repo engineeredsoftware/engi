@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Clean up outdated documentation files."""
+"""Clean up outdated Bitcode documentation files."""
 
 import os
 import sys
 
 # List of files to remove
 files_to_remove = [
-    "ENGI_EVOLUTIONARY_EXCELLENCE.md",
+    "BITCODE_EVOLUTIONARY_EXCELLENCE.md",
     "PIPELINE_DEVELOPMENT.md",
     "DOCUMENTATION_INDEX.md",
     "PIPELINE_OVERVIEW.md",

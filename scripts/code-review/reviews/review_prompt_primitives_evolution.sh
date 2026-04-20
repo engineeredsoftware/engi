@@ -15,9 +15,9 @@ sub_review_a() {
     local description="Evaluating the abstraction level and structure of specific capability prompts"
     
     local code_snippets=(
-        "packages/prompts/src/raw/specifics/engi_specific_prompt_tool_multimodal_processing_capabilities.ts|15|112|Multimodal Processing Capabilities"
-        "packages/prompts/src/raw/specifics/engi_specific_prompt_tool_code_refactor_capabilities.ts|15|108|Code Refactor Capabilities"
-        "packages/prompts/src/raw/specifics/engi_specific_prompt_tool_file_management_capabilities.ts|15|100|File Management Capabilities"
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_multimodalprocessing_doccodetoolcapabilities.ts|1|17|Multimodal Processing Capabilities"
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_repositorysetup_doccodetoolcapabilities.ts|1|17|Repository Setup Capabilities"
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolcapabilities.ts|1|17|System Text Search Capabilities"
     )
     
     run_sub_review "$sub_id" "$title" "$description" \
@@ -55,7 +55,7 @@ sub_review_c() {
     local description="Validating consistent integration of system prompts across all tools"
     
     local code_snippets=(
-        "packages/prompts/src/raw/systems/engi_system_prompt_tools_subsystem_foundation.ts|15|50|Foundation System Prompt"
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_system_capabilities.ts|1|29|Foundation System Capabilities"
         "packages/generic-tools/multimodal-processing/src/index.ts|399|403|System Prompt Integration Pattern"
         "packages/generic-tools/files-maintaining/src/index.ts|38|42|Consistent Integration Example"
     )
@@ -92,18 +92,18 @@ sub_review_d() {
 sub_review_e() {
     local sub_id="$1"
     local title="Architectural Alignment Validation"
-    local description="Ensuring the evolved architecture aligns with Engi's 5-year development philosophy and goals"
+    local description="Ensuring the evolved architecture aligns with Bitcode's 5-year development philosophy and goals"
     
     local code_snippets=(
         "packages/generic-tools/multimodal-processing/src/index.ts|420|434|Complete Metadata Schema"
-        "packages/prompts/src/raw/specifics/engi_specific_prompt_tool_web_search_capabilities.ts|25|45|Advanced Capability Structure"
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolcapabilities.ts|1|17|Advanced Capability Structure"
         "packages/generic-tools/lsp-query/src/index.ts|10|22|Prompt Primitives Import Pattern"
     )
     
     run_sub_review "$sub_id" "$title" "$description" \
         "${code_snippets[@]}" \
         --questions \
-        "Does this evolved architecture properly reflect Engi's 5-year development philosophy of layered abstraction and intelligent primitives?" \
+        "Does this evolved architecture properly reflect Bitcode's 5-year development philosophy of layered abstraction and intelligent primitives?" \
         "Will this prompt primitive integration enable the 'state-of-the-art agentic architecture' goal or do we need deeper integration?" \
         "Is this architecture sustainable for the full ecosystem or should we adjust the pattern before continuing?"
 }

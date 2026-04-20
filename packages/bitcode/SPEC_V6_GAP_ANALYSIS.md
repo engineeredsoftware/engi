@@ -82,7 +82,7 @@ Spec V6 instead requires a much more explicit pipeline:
 ---
 
 ### 6. Buyer UX gap
-**Spec V6:** the primary CTA is **Make ENGI branch**.
+**Spec V6:** the primary CTA is **Make Bitcode branch**.
 
 **Original demo:** licensed query and separate utility receipt flow.
 
@@ -157,12 +157,12 @@ Spec V6 instead requires a much more explicit pipeline:
 ### API
 - keep `GET /api/state`
 - keep `POST /api/deposits`
-- replace `POST /api/license-query` with `POST /api/make-engi-branch`
+- replace `POST /api/license-query` with `POST /api/make-bitcode-branch`
 - remove the centrality of `POST /api/utility`
 - keep `POST /api/reset`
 
 ### UI
-- change hero and primary CTA to **Make ENGI branch**
+- change hero and primary CTA to **Make Bitcode branch**
 - replace licensed-query story with measured need -> ranking -> verification -> branch -> settlement
 - show asset pack, branch files, journal diff, and ledger accounts
 - keep deposit capability for live demo mutation

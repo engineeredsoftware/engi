@@ -6,36 +6,36 @@ echo "Fixing corrupted imports in deliverable pipeline..."
 
 # Fix pattern 1: Malformed import lines ending with just apostrophe
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { agentprompt';/import { Prompt } from '@engi\/prompts';/g" {} \;
+  "s/import { agentprompt';/import { Prompt } from '@bitcode\/prompts';/g" {} \;
 
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
   "s/import { promptpart_specific_agent.*';/\/\/ Fixed: removed malformed import/g" {} \;
 
 # Fix pattern 2: Double "} from" in imports
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/} from '@engi\/prompts\/src\/raw_promptparts\/specific\/.*} from '@engi.*';/} from '@engi\/prompts';/g" {} \;
+  "s/} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/.*} from '@bitcode.*';/} from '@bitcode\/prompts';/g" {} \;
 
 # Fix pattern 3: Remove duplicate imports with lowercase names
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "/import { promptpart } from '@engi\/prompts';/d" {} \;
+  "/import { promptpart } from '@bitcode\/prompts';/d" {} \;
 
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
   "/import { gettoolsforagent } from/d" {} \;
 
 # Fix pattern 4: Fix specific malformed patterns
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { AgentPrompt } from '@engi\/prompts\/src\/raw_promptparts\/specific\/factoryagentwithptrr } from '@engi\/agent-generics';/\/\/ Fixed: removed malformed AgentPrompt import/g" {} \;
+  "s/import { AgentPrompt } from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/factoryagentwithptrr } from '@bitcode\/agent-generics';/\/\/ Fixed: removed malformed AgentPrompt import/g" {} \;
 
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { PROMPTPART.*} from '@engi\/prompts\/src\/raw_promptparts\/specific\/agentstepprompt } from '@engi\/agent-generics';/\/\/ Fixed: removed malformed PROMPTPART import/g" {} \;
+  "s/import { PROMPTPART.*} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/agentstepprompt } from '@bitcode\/agent-generics';/\/\/ Fixed: removed malformed PROMPTPART import/g" {} \;
 
 # Fix pattern 5: Fix Prompt imports from wrong paths
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/import { Prompt } from '@engi\/prompts\/src\/raw_promptparts\/specific\/prompt';/import { Prompt } from '@engi\/prompts';/g" {} \;
+  "s/import { Prompt } from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/prompt';/import { Prompt } from '@bitcode\/prompts';/g" {} \;
 
 # Fix pattern 6: Fix createPromptPart imports  
 find packages/pipelines/deliverable -name "*.ts" -exec sed -i '' \
-  "s/} from '@engi\/prompts\/src\/raw_promptparts\/specific\/createpromptpart } from '@engi\/prompts';/} from '@engi\/prompts\/src\/raw_promptparts\/specific\/promptpart_specific_agent_comprehendtask_system_identity';/g" {} \;
+  "s/} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/createpromptpart } from '@bitcode\/prompts';/} from '@bitcode\/prompts\/src\/raw_promptparts\/specific\/promptpart_specific_agent_comprehendtask_system_identity';/g" {} \;
 
 echo "Import fixes applied. Running verification..."
 
