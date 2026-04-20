@@ -19,16 +19,16 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 - Panes (inside SignUpWindow):
   - `profile`, `connects`, `interfaces`, `$BTD`
 - Headers: a singular auxillary header per pane for consistent title/copy.
-  Retained header implementations still live under `uapi/app/orbitals/components/headers/*` during fifth-gate retirement, but they are an internal implementation detail rather than the canonical naming model.
+  Retained `uapi/app/orbitals/components/headers/*` files are now compatibility re-exports only; canonical header ownership lives under `uapi/app/auxillaries/components/headers/*`.
 
 2) Component Placement
 
 - Canonical route/overlay implementation now lives under: `uapi/app/auxillaries/components/*`
   - Overlay root: `AuxillariesSurface.tsx`, `AuxillariesContent.tsx`, `AuxillariesLoginPane.tsx`, `AuxillariesProvider.tsx`
   - Pane owners: `AuxillariesProfilePane.tsx`, `AuxillariesConnectsPane.tsx`, `AuxillariesInterfacesPane.tsx`, `AuxillariesBTDPane.tsx`
-  - Shared atoms: `shared/*`
+  - Lower-level pane owners: `headers/*`, `shared/*`, `models/*`, `AuxillariesDataSharingPanel.tsx`, `auxillary-pane-explainers.ts`, `profile-pane.module.css`
 - Retained implementation internals still live under: `uapi/app/orbitals/components/*`
-  - Compatibility wrappers, pane internals, headers, and helper carriers reused behind canonical auxillary owners until full fifth-gate retirement
+  - Compatibility wrappers and compatibility re-exports only; canonical pane logic and lower-level helper ownership now live under `uapi/app/auxillaries/components/*`
 - Experience boundaries:
   - Marketing: `uapi/app/(root)/components/*`
   - Executions: `uapi/app/executions/components/*`

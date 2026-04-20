@@ -659,7 +659,7 @@ Current active carriers:
 - `uapi/app/api/auxillaries/user/data-share/route.ts`
 - `uapi/app/auxillaries/components/shared/AuxillariesWorkspacePanels.tsx`
 - `uapi/app/auxillaries/components/shared/AuxillariesPaneTabs.tsx`
-- retained internal workspace/stat/preference modules under `uapi/app/orbitals/components/shared/*`
+- compatibility re-export carriers under `uapi/app/orbitals/components/{headers,shared,models}/*` plus `OrbitalsDataSharingPanel.tsx` / `orbital-pane-explainers.ts`
 
 Operational rule:
 - `Connects` remains the closest retained canonical orbital pane
