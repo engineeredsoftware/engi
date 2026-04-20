@@ -7,7 +7,7 @@ import { useAuth } from '@/components/base/engi/auth/AuthProvider';
 import { VCSIntegrationPanel } from '@/components/base/engi/vcs/VCSIntegrationPanel';
 import { useUserData } from '@/hooks/useUserData';
 
-import OrbitalsConnectsOrbitalHeader from '@/app/orbitals/components/headers/OrbitalsConnectsOrbitalHeader';
+import AuxillariesConnectsPaneHeader from '@/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader';
 
 export interface AuxillariesConnectsPaneProps {
   onSave: (data: any) => void;
@@ -35,7 +35,7 @@ export default function AuxillariesConnectsPane({
   return (
     <div data-testid="connects-pane-container">
       <div className="orbital-step-content connects-step">
-        <OrbitalsConnectsOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
+        <AuxillariesConnectsPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
         {!user ? (
           <div className="space-y-4 rounded-[24px] border border-white/10 bg-black/20 p-5 text-white/80">

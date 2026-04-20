@@ -6,14 +6,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/components/base/engi/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 
-import OrbitalsBTDOrbitalHeader from "@/app/orbitals/components/headers/OrbitalsBTDOrbitalHeader";
-import DataSharingPanel from "@/app/orbitals/components/OrbitalsDataSharingPanel";
-import { orbitalsPaneExplainers } from "@/app/orbitals/components/orbital-pane-explainers";
-import OrbitalsPreferenceCards, {
-  type OrbitalsPreferenceCardItem,
-} from "@/app/orbitals/components/shared/OrbitalsPreferenceCards";
-import OrbitalsStatGrid from "@/app/orbitals/components/shared/OrbitalsStatGrid";
-import OrbitalsWorkspaceSection from "@/app/orbitals/components/shared/OrbitalsWorkspaceSection";
+import AuxillariesBTDPaneHeader from "@/app/auxillaries/components/headers/AuxillariesBTDPaneHeader";
+import AuxillariesDataSharingPanel from "@/app/auxillaries/components/AuxillariesDataSharingPanel";
+import { auxillaryPaneExplainers } from "@/app/auxillaries/components/auxillary-pane-explainers";
+import AuxillariesPreferenceCards, {
+  type AuxillariesPreferenceCardItem,
+} from "@/app/auxillaries/components/shared/AuxillariesPreferenceCards";
+import AuxillariesStatGrid from "@/app/auxillaries/components/shared/AuxillariesStatGrid";
+import AuxillariesWorkspaceSection from "@/app/auxillaries/components/shared/AuxillariesWorkspaceSection";
 
 export interface AuxillariesBTDPaneProps {
   onSave: (data: any) => void;
@@ -103,7 +103,7 @@ export default function AuxillariesBTDPane({
     return `${teamMembers.length + 1} active members`;
   }, [teamMembers.length]);
 
-  const preferenceCards = useMemo<OrbitalsPreferenceCardItem[]>(
+  const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
       {
         id: "share-lens",
@@ -265,14 +265,14 @@ export default function AuxillariesBTDPane({
   return (
     <div data-testid="btd-pane-container">
       <div className="orbital-step-content btd-step">
-        <OrbitalsBTDOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
+        <AuxillariesBTDPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
         {!user ? (
-          <OrbitalsWorkspaceSection
+          <AuxillariesWorkspaceSection
             kicker="Access posture"
             title="Sign in before opening $BTD posture"
             description="Open Profile first so wallet identity, team membership, and access posture are present before you work from the inner auxillary."
-            explainer={orbitalsPaneExplainers.btdWallet}
+            explainer={auxillaryPaneExplainers.btdWallet}
             tone="amber"
           >
             <div className="space-y-4">
@@ -286,17 +286,17 @@ export default function AuxillariesBTDPane({
                 Open Profile auxillary
               </Link>
             </div>
-          </OrbitalsWorkspaceSection>
+          </AuxillariesWorkspaceSection>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Wallet posture"
               title="Keep balances, identity, and membership readable together"
               description="The $BTD auxillary should make account trust, balances, and team posture immediately legible before you return to transactions or closure."
-              explainer={orbitalsPaneExplainers.btdWallet}
+              explainer={auxillaryPaneExplainers.btdWallet}
               tone="amber"
             >
-              <OrbitalsStatGrid
+              <AuxillariesStatGrid
                 items={[
                   {
                     label: "BTD balance",
@@ -329,29 +329,29 @@ export default function AuxillariesBTDPane({
                 ]}
                 columns={4}
               />
-            </OrbitalsWorkspaceSection>
+            </AuxillariesWorkspaceSection>
 
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Share posture"
               title="Choose how $BTD detail should read back into transactions"
               description="Use the inner auxillary to decide whether account, organization, or network share posture should dominate when you reopen main operator surfaces."
-              explainer={orbitalsPaneExplainers.btdShares}
+              explainer={auxillaryPaneExplainers.btdShares}
               tone="violet"
             >
-              <OrbitalsPreferenceCards items={preferenceCards.slice(0, 3)} />
-            </OrbitalsWorkspaceSection>
+              <AuxillariesPreferenceCards items={preferenceCards.slice(0, 3)} />
+            </AuxillariesWorkspaceSection>
 
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Advanced defaults"
               title="Set the inner-orbital follow-through posture"
               description="These controls shape how review, replay, and wallet refresh should behave when BTD-specific detail re-enters the main application."
-              explainer={orbitalsPaneExplainers.btdAdvanced}
+              explainer={auxillaryPaneExplainers.btdAdvanced}
               tone="sky"
             >
-              <OrbitalsPreferenceCards items={preferenceCards.slice(3)} />
-            </OrbitalsWorkspaceSection>
+              <AuxillariesPreferenceCards items={preferenceCards.slice(3)} />
+            </AuxillariesWorkspaceSection>
 
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Need-space knowledge"
               title="Set it and forget it repository knowledge sharing"
               description="Once Connects has authenticated GitHub and repository access, this setting decides whether connected repository activity continuously re-syncs into need-space by default."
@@ -361,11 +361,11 @@ export default function AuxillariesBTDPane({
                 <p className="text-sm leading-7 text-white/68">
                   This is the larger $BTD-side consent setting for connected knowledge. Turn it on once when you want Connects-approved repositories to keep contributing their latest synced activity into Bitcode need-space without reopening per-repository review every time.
                 </p>
-                <DataSharingPanel overlayed={!isOnboardingComplete} />
+                <AuxillariesDataSharingPanel overlayed={!isOnboardingComplete} />
               </div>
-            </OrbitalsWorkspaceSection>
+            </AuxillariesWorkspaceSection>
 
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Team + multi-sig"
               title="Keep role and multi-party posture visible"
               description="Profile remains the owner of authentication and identity, but the $BTD orbital should still keep account participation visible before settlement and share reading."
@@ -408,7 +408,7 @@ export default function AuxillariesBTDPane({
                   </p>
                 </article>
               </div>
-            </OrbitalsWorkspaceSection>
+            </AuxillariesWorkspaceSection>
 
             <div className="flex items-center justify-between gap-4 rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">

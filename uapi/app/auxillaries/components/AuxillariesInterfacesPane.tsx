@@ -5,15 +5,15 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useUserData } from "@/hooks/useUserData";
 import { SUPPORTED_LLM_MODELS } from "@/utils/model-pricing";
 
-import OrbitalsInterfacesOrbitalHeader from "@/app/orbitals/components/headers/OrbitalsInterfacesOrbitalHeader";
-import GlobalModelSelection from "@/app/orbitals/components/models/GlobalModelSelection";
-import SystemPromptSection from "@/app/orbitals/components/models/SystemPromptSection";
-import { orbitalsPaneExplainers } from "@/app/orbitals/components/orbital-pane-explainers";
-import OrbitalsPreferenceCards, {
-  type OrbitalsPreferenceCardItem,
-} from "@/app/orbitals/components/shared/OrbitalsPreferenceCards";
-import OrbitalsStatGrid from "@/app/orbitals/components/shared/OrbitalsStatGrid";
-import OrbitalsWorkspaceSection from "@/app/orbitals/components/shared/OrbitalsWorkspaceSection";
+import AuxillariesInterfacesPaneHeader from "@/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader";
+import GlobalModelSelection from "@/app/auxillaries/components/models/GlobalModelSelection";
+import SystemPromptSection from "@/app/auxillaries/components/models/SystemPromptSection";
+import { auxillaryPaneExplainers } from "@/app/auxillaries/components/auxillary-pane-explainers";
+import AuxillariesPreferenceCards, {
+  type AuxillariesPreferenceCardItem,
+} from "@/app/auxillaries/components/shared/AuxillariesPreferenceCards";
+import AuxillariesStatGrid from "@/app/auxillaries/components/shared/AuxillariesStatGrid";
+import AuxillariesWorkspaceSection from "@/app/auxillaries/components/shared/AuxillariesWorkspaceSection";
 
 export interface AuxillariesInterfacesPaneProps {
   onSave: (data: any) => void;
@@ -163,7 +163,7 @@ export default function AuxillariesInterfacesPane({
     setTokenCount(Math.ceil(value.length / 4));
   };
 
-  const preferenceCards = useMemo<OrbitalsPreferenceCardItem[]>(
+  const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
       {
         id: "master-detail-density",
@@ -327,17 +327,17 @@ export default function AuxillariesInterfacesPane({
   return (
     <div data-testid="interfaces-pane-container">
       <div className="orbital-step-content interfaces-step">
-        <OrbitalsInterfacesOrbitalHeader isOnboardingComplete={isOnboardingComplete} />
+        <AuxillariesInterfacesPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
         <div className="space-y-5">
-          <OrbitalsWorkspaceSection
+          <AuxillariesWorkspaceSection
             kicker="Interfaces posture"
             title="Shape transactions before you reopen them"
             description="Interfaces is where you keep master-detail, conversation entry, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
-            explainer={orbitalsPaneExplainers.interfacesDefaults}
+            explainer={auxillaryPaneExplainers.interfacesDefaults}
             tone="emerald"
           >
-            <OrbitalsStatGrid
+            <AuxillariesStatGrid
               items={[
                 {
                   label: "Master detail",
@@ -381,23 +381,23 @@ export default function AuxillariesInterfacesPane({
               ]}
               columns={4}
             />
-          </OrbitalsWorkspaceSection>
+          </AuxillariesWorkspaceSection>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Interface defaults"
               title="Master-detail and conversation defaults"
               description="Set the opening behavior the operator should see when moving between transactions, proofs, and dedicated conversation work."
-              explainer={orbitalsPaneExplainers.interfacesDefaults}
+              explainer={auxillaryPaneExplainers.interfacesDefaults}
             >
-              <OrbitalsPreferenceCards items={preferenceCards} />
-            </OrbitalsWorkspaceSection>
+              <AuxillariesPreferenceCards items={preferenceCards} />
+            </AuxillariesWorkspaceSection>
 
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Prompt baseline"
               title="Shared instruction baseline"
               description="Keep a reusable global instruction surface for how the application should reason, summarize, and explain."
-              explainer={orbitalsPaneExplainers.interfacesPrompt}
+              explainer={auxillaryPaneExplainers.interfacesPrompt}
               tone="sky"
             >
               <SystemPromptSection
@@ -406,20 +406,20 @@ export default function AuxillariesInterfacesPane({
                 tokenCount={tokenCount}
                 updateTokenCounter={updateTokenCounter}
               />
-            </OrbitalsWorkspaceSection>
+            </AuxillariesWorkspaceSection>
 
-            <OrbitalsWorkspaceSection
+            <AuxillariesWorkspaceSection
               kicker="Model posture"
               title="Pick the default model family for this Bitcode read"
               description="Visible provider cost and limit posture belongs in Interfaces, not in a hidden utility drawer."
-              explainer={orbitalsPaneExplainers.interfacesModels}
+              explainer={auxillaryPaneExplainers.interfacesModels}
               tone="violet"
             >
               <GlobalModelSelection
                 modelOptions={modelOptions}
                 onApplyGlobalModel={setSelectedGlobalModel}
               />
-            </OrbitalsWorkspaceSection>
+            </AuxillariesWorkspaceSection>
 
             <div className="flex items-center justify-between gap-4 rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">

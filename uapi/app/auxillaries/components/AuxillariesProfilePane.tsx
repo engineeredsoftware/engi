@@ -1,4 +1,4 @@
-// Canonical auxillary owner reusing retained orbitals internals while fifth-gate retirement proceeds.
+// Canonical auxillary owner using canonical auxillary internals while fifth-gate compatibility retirement proceeds.
 
 import React, { useState, useEffect, useRef } from 'react';
 import SocialLoginButton from '@/components/base/engi/auth/SocialLoginButton';
@@ -9,9 +9,9 @@ import { reportError } from '@bitcode/errors';
 import { createClient } from '@bitcode/supabase/ssr/client';
 // Use Supabase client for OTP flows instead of manual fetch
 import { motion, AnimatePresence } from 'framer-motion';
-import { AfterOnboardingOverlay } from '@/app/orbitals/components/shared/after-onboarding-overlay';
-import stylesProfilePane from '@/app/orbitals/components/profile-pane.module.css';
-import OrbitalsProfileOrbitalHeader from '@/app/orbitals/components/headers/OrbitalsProfileOrbitalHeader';
+import { AfterOnboardingOverlay } from '@/app/auxillaries/components/shared/AfterOnboardingOverlay';
+import stylesProfilePane from '@/app/auxillaries/components/profile-pane.module.css';
+import AuxillariesProfilePaneHeader from '@/app/auxillaries/components/headers/AuxillariesProfilePaneHeader';
 
 
 interface TeamMember {
@@ -367,7 +367,7 @@ export default function AuxillariesProfilePane({ onSave,
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="step-header">
-          <OrbitalsProfileOrbitalHeader
+          <AuxillariesProfilePaneHeader
             isOnboardingComplete={isOnboardingComplete}
             isVerified={isVerified}
           />
