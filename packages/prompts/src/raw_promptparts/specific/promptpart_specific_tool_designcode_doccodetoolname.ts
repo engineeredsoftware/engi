@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Doc-code tool name for design_code Engi tool"
+ * intent: "Doc-code tool name for the Bitcode design_code tool"
  * current_version: "GA1.00.0"
  * versions: []
  */

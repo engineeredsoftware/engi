@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: tool
- * intent: "Purpose statement for code_design Engi tool"
+ * intent: "Purpose statement for the Bitcode code_design tool"
  * current_version: "GA1.00.0"
  * versions: []
  */

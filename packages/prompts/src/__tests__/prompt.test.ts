@@ -4,7 +4,7 @@ import { hierarchicalFormatter } from '../formatters';
 
 describe('PromptPart primitives', () => {
   it('brands strings as PromptPart and validates via type guard', () => {
-    const part = createPromptPart('You are Engi.');
+    const part = createPromptPart('You are Bitcode.');
     expect(isPromptPart(part)).toBe(true);
     expect(isPromptPart('plain string')).toBe(true); // guard allows branded strings as runtime check
     expect(EMPTY_PROMPT_PART).toBe('');
@@ -12,7 +12,7 @@ describe('PromptPart primitives', () => {
 });
 
 describe('Prompt registry', () => {
-  const identity = createPromptPart('You are Engi, the engineering intelligence.');
+  const identity = createPromptPart('You are Bitcode, the auditable market intelligence.');
   const behavior = createPromptPart('Always narrate steps before executing them.');
   const methodology = createPromptPart('Follow the PTRR loop.');
 

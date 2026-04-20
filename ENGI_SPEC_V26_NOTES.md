@@ -37,6 +37,7 @@ The following items are no longer open draft questions:
 - the earlier V26 checkpoint was first-gate plus second-gate closure with explicit third-gate preparation; V26 is now promoted through fourth gate while fifth-gate remains open.
 - second-gate closure now includes route/package README refurbishment and user-facing preserved-runtime naming rather than treating those as optional cleanup after code lands.
 - fifth-gate closure now explicitly requires zero unreplaced `engi` product naming in active code/copy/route teaching unless the occurrence is historical lineage or a still-required structural namespace such as `.engi/` or `ENGI_SPEC_*`.
+- retained prompt-system package surfaces are now part of that active naming sweep: `packages/prompts/*` must read as Bitcode in package metadata, benchmarking/docs, promptpart examples, and active identity text while historical filename lineage may remain only where still-needed for safe fifth-gate porting.
 
 ## Current first-gate source reminders
 

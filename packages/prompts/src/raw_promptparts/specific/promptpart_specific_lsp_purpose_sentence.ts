@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_LSP_PURPOSE_SENTENCE: PromptPart =
-  'Language Server Protocol intelligence integrated with Engi' as PromptPart;
+  'Language Server Protocol intelligence integrated with Bitcode' as PromptPart;

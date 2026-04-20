@@ -1,7 +1,7 @@
 /**
  * PROMPTS PACKAGE - REGISTRY-BASED PROMPT COMPOSITION
  * 
- * This package provides the foundational prompt system for Engi:
+ * This package provides the foundational prompt system for Bitcode:
  * - PromptPart: Branded string type for type-safe prompts
  * - Prompt: Registry-based prompt composition
  * - Formatters: Transform prompt registries to strings
@@ -53,7 +53,7 @@ export type { PromptFormatter } from './prompt';
  * 
  * 2. For prompt composition:
  *    const prompt = new Prompt();
- *    prompt.set('identity', createPromptPart('You are Engi'));
+ *    prompt.set('identity', createPromptPart('You are Bitcode.'));
  * 
  * 3. For formatting:
  *    const formatted = prompt.format(hierarchicalFormatter);

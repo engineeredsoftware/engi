@@ -11,5 +11,5 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_TOOL_DIGEST_CODESTYLES_BASE_CORE: PromptPart = (
-  'Generate a comprehensive "Code Styles" guide for the Engi monorepo in Markdown only, following the exact section structure and content requirements provided.'
+  'Generate a comprehensive "Code Styles" guide for the Bitcode monorepo in Markdown only, following the exact section structure and content requirements provided.'
 ) as PromptPart;

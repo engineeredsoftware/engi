@@ -1,7 +1,7 @@
 /**
  * PROMPT PART - SEMANTIC UNIT OF INTELLIGENCE
  * 
- * PromptPart is the foundational type for all prompts in Engi.
+ * PromptPart is the foundational type for all prompts in Bitcode.
  * It represents a semantic, composable unit of prompt intelligence.
  * 
  * CRITICAL: Every PromptPart is a PART of a specific Prompt class.
@@ -10,7 +10,7 @@
  * promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSITION].ts
  * 
  * Key rules:
- * - PROMPTCLASSNAME: Drop "Prompt" suffix (EngiSystemPrompt → engisystem)
+ * - PROMPTCLASSNAME: Drop "Prompt" suffix (BitcodeSystemPrompt → bitcodesystem)
  * - semanticcontext: NO underscores (inherentknowledgeidentity)
  * - POSITION: opener/closer, header/footer, corestatement, detailcontent, list/listitem
  * 

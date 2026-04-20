@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Engi prompt benchmarking system provides autonomous measurement and evolution of intelligence strings at the most granular level. Every PromptPart and Prompt can be benchmarked, versioned, and evolved based on empirical performance data.
+The Bitcode prompt benchmarking system provides autonomous measurement and evolution of intelligence strings at the most granular level. Every PromptPart and Prompt can be benchmarked, versioned, and evolved based on empirical performance data.
 
 ## Core Concepts
 
@@ -280,4 +280,4 @@ export class PromptBenchmarkTransformer {
 5. **Create evolution algorithms**
 6. **Set up continuous benchmarking pipeline**
 
-This infrastructure enables autonomous, measured evolution of every intelligence string in Engi, from granular semantic units to complete agent prompts.
+This infrastructure enables autonomous, measured evolution of every intelligence string in Bitcode, from granular semantic units to complete agent prompts.

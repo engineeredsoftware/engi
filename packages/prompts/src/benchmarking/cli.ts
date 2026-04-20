@@ -101,7 +101,7 @@ async function main() {
       
     default:
       console.log(`
-Engi Prompt Benchmark CLI
+Bitcode Prompt Benchmark CLI
 
 Commands:
   benchmark <file>      Run benchmarks on a specific file

@@ -78,7 +78,7 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
    - `specific`: Tied to one Prompt class
 3. `[domain]` - One of: tool, agent, pipeline, phase, formatting, validation, system
 4. `[PROMPTCLASSNAME]` - Class name WITHOUT "Prompt" suffix (lowercase)
-   - `EngiSystemPrompt` → `engisystem`
+   - `BitcodeSystemPrompt` → `bitcodesystem`
    - `WebSearchToolPrompt` → `websearchtool`
 5. `[semanticcontext]` - What content is about (NO underscores)
    - `inherentknowledgeidentity` NOT `inherentknowledge_identity`
@@ -90,7 +90,7 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
    - `list`/`listitem` - Lists and items
 
 **Examples**:
-- `promptpart_specific_system_engisystem_inherentknowledgeidentity_opener.ts`
+- `promptpart_specific_system_bitcodesystem_inherentknowledgeidentity_opener.ts`
 - `promptpart_specific_agent_codesearchagent_methodology_detailcontent.ts`
 - `promptpart_generic_formatting_section_header.ts`
 - `promptpart_specific_tool_websearchtool_purpose_corestatement.ts`
