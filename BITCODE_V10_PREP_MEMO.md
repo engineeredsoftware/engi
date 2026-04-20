@@ -1,9 +1,9 @@
-# ENGI V10 Prep Memo
+# Bitcode V10 Prep Memo
 
-Status: prep memo for V10 draft + implementation pass
+Status: historical prep memo for the V10 draft + implementation pass
 Date: 2026-04-03
-Baseline preserved: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V9.md`
-Canonical pointer rule preserved: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` remains on `V8` until explicitly changed later
+Baseline preserved: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V9.md`
+Historical pointer note: this memo was authored before the Bitcode root-family cut-over, when the canonical pointer still remained on `V8`
 
 ## Purpose
 

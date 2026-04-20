@@ -26,7 +26,7 @@ It also serves as the current-source sync document for the active V11 worktree s
 
 This matrix is grounded in:
 
-- `/Users/garrettmaring/Developer/ENGI/ENGI_V11_PREP_MEMO.md`
+- `/Users/garrettmaring/Developer/ENGI/BITCODE_V11_PREP_MEMO.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V10_NOTES.md`
 - `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V11.md`

@@ -1,12 +1,12 @@
-# ENGI Demo Spec V15
+# Bitcode Demo Spec V15
 
 Status: V15 demo-realization companion for the active canonical pointer target
-Scope: current deterministic local prototype under `engi-demo/`
-Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V15`
+Scope: historical deterministic local prototype preserved under `packages/bitcode/`
+Historical canonical pointer: the pre-Bitcode root pointer targeted `V15` when this demo companion was authored
 Current canonical/latest target: `V15`
 Last fully realized canon preserved in source: `V15`
-System-spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
-Demo matrix companion: `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V15_IMPLEMENTATION_MATRIX.md`
+System-spec companion: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15.md`
+Demo matrix companion: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V15_IMPLEMENTATION_MATRIX.md`
 
 ---
 

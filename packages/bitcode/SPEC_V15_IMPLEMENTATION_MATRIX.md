@@ -1,13 +1,13 @@
-# ENGI Demo Spec V15 Implementation Matrix
+# Bitcode Demo Spec V15 Implementation Matrix
 
 ## Status
 
 - Repo: `engi-demo`
-- Demo spec target: `/Users/garrettmaring/Developer/ENGI/engi-demo/ENGI_DEMO_SPEC_V15.md`
-- Demo matrix target: `/Users/garrettmaring/Developer/ENGI/engi-demo/SPEC_V15_IMPLEMENTATION_MATRIX.md`
-- System-spec companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
-- System parity companion: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15_SYSTEM_PARITY_MATRIX.md`
-- Canonical pointer: `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC.txt` -> `V15`
+- Demo spec target: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/BITCODE_DEMO_SPEC_V15.md`
+- Demo matrix target: `/Users/garrettmaring/Developer/ENGI/packages/bitcode/SPEC_V15_IMPLEMENTATION_MATRIX.md`
+- System-spec companion: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15.md`
+- System parity companion: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15_SYSTEM_PARITY_MATRIX.md`
+- Historical canonical pointer: the pre-Bitcode root pointer targeted `V15` when this demo matrix was authored
 - Current canonical/latest target: `V15`
 - Last fully realized canon preserved in source: `V15`
 
@@ -33,11 +33,11 @@ The correct reading is:
 ## Audit basis
 
 This matrix is grounded in:
-- `/Users/garrettmaring/Developer/ENGI/engi-demo/ENGI_DEMO_SPEC_V15.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15_NOTES.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15_INFORMATION_AUDIT.md`
-- `/Users/garrettmaring/Developer/ENGI/ENGI_SPEC_V15_SYSTEM_PARITY_MATRIX.md`
+- `/Users/garrettmaring/Developer/ENGI/packages/bitcode/BITCODE_DEMO_SPEC_V15.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15_NOTES.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15_INFORMATION_AUDIT.md`
+- `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V15_SYSTEM_PARITY_MATRIX.md`
 - `src/engi-demo.js`
 - `src/canonical/enums.js`
 - `src/canonical/types.js`
@@ -61,9 +61,9 @@ This matrix is grounded in:
 
 | Area | Current source or doc truth | V15 demo-spec expectation | Judgment |
 |---|---|---|---|
-| Demo-spec file exists | `ENGI_DEMO_SPEC_V15.md` exists and stays explicitly subordinate to root system canon | demo realization must be documented separately | closed |
+| Demo-spec file exists | `BITCODE_DEMO_SPEC_V15.md` exists and stays explicitly subordinate to root system canon | demo realization must be documented separately | closed |
 | Demo-local matrix exists | this file now holds the canonical V15 demo matrix content | demo parity must be tracked separately from system parity | closed |
-| Demo-matrix canonical path | `SPEC_V15_IMPLEMENTATION_MATRIX.md` now exists as the primary V15 demo matrix path; the longer demo-prefixed filename is retained only as a compatibility alias | one primary V15 demo matrix path must exist so the demo ledger does not fork under two names | closed |
+| Demo-matrix canonical path | `SPEC_V15_IMPLEMENTATION_MATRIX.md` now exists as the primary V15 demo matrix path; `BITCODE_DEMO_SPEC_V15_IMPLEMENTATION_MATRIX.md` is retained only as a compatibility alias | one primary V15 demo matrix path must exist so the demo ledger does not fork under two names | closed |
 | Operator shell ordering | `public/app.js`, `public/index.html`, and `test/e2e.test.js` preserve ordered panel flow | current demo shell ordering must stay explicit and tested | closed |
 | Repo-authenticated deposit flow | UI and browser e2e cover deposit to settlement flow | demo must preserve end-to-end operator story | closed |
 | Normalization-heavy flow | scenario switch and browser e2e surface source-to-shares behavior | demo must expose Profile B normalization behavior | closed |
@@ -94,7 +94,7 @@ This matrix is grounded in:
 3. `engi-demo/src/engi-demo.js` is still the main orchestration reservoir even though `src/canonical/surfaces.js`, `src/canonical/run-artifacts.js`, `src/canonical/projections.js`, `src/canonical/proof-materialization.js`, and `src/demo-shell-state.js` now isolate major builder families.
 4. The next extraction seams are now concrete rather than fuzzy: need measurement/inference plus evaluation/materialization orchestration still remain in `src/engi-demo.js`.
 5. `server.js` and `public/app.js` still hold the persistence/input and operator-shell boundaries, so docs/tests parity has to keep those boundaries tied back to the extracted canonical modules.
-6. The legacy `ENGI_DEMO_SPEC_V15_IMPLEMENTATION_MATRIX.md` path remains only as a compatibility alias and should not accumulate independent content.
+6. The compatibility `BITCODE_DEMO_SPEC_V15_IMPLEMENTATION_MATRIX.md` path remains only as an alias and should not accumulate independent content.
 7. Docs/tests parity is now stronger and naming parity is materially closed for the V15 JavaScript refactor pass, but deeper subsystem decomposition still remains.
 
 ---
