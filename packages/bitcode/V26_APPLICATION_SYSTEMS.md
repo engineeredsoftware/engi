@@ -58,6 +58,16 @@ Direct auxillary routes should prefer:
 
 Compatibility aliases such as `/orbitals/users`, `/orbitals/models`, and `/orbitals/credits` may survive only as redirect-only convergence carriers into `/auxillaries/*` until later cleanup removes them entirely.
 
+Sixth-gate deepening now has an explicit post-cut-over application target:
+- `activity`
+  The dominant searchable, filterable, transaction-first master/detail surface for Bitcode activity, with transactions as the primary row type and additional activity classes admitted only where they strengthen the same model.
+- `transactions`
+  The write-space for Bitcode operations: give, need, need measurement, and transaction creation/materialization.
+- `conversations`
+  The rich ChatGPT-style read/write Bitcode surface, popup-capable and fullscreen-capable, with tool registration expected to stay aligned to the retained ChatGPT app surface.
+- `auxillaries`
+  The non-duplicative settings, preferences, connections, identity, and deep wallet/`$BTD` system around the network core rather than a second transaction center.
+
 ## Public shell carriers
 
 Third-gate now has one explicit mounted public-shell owner set rather than an implicit marketing backlog:

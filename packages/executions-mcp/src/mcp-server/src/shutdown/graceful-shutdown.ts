@@ -40,6 +40,16 @@ export class GracefulShutdownManager {
   private activeRequests = new Set<string>();
   private shutdownPromise?: Promise<void>;
   private forceShutdownTimer?: NodeJS.Timeout;
+  private readonly handleSigterm = () => this.shutdown('SIGTERM');
+  private readonly handleSigint = () => this.shutdown('SIGINT');
+  private readonly handleUncaughtException = (error: unknown) => {
+    logger.error('Uncaught exception', { error });
+    this.shutdown('uncaughtException', 1);
+  };
+  private readonly handleUnhandledRejection = (reason: unknown, promise: Promise<unknown>) => {
+    logger.error('Unhandled rejection', { reason, promise });
+    this.shutdown('unhandledRejection', 1);
+  };
   
   constructor(
     private server: BitcodeMCPServer,
@@ -53,20 +63,25 @@ export class GracefulShutdownManager {
    */
   private setupSignalHandlers(): void {
     // Handle termination signals
-    process.on('SIGTERM', () => this.shutdown('SIGTERM'));
-    process.on('SIGINT', () => this.shutdown('SIGINT'));
+    process.on('SIGTERM', this.handleSigterm);
+    process.on('SIGINT', this.handleSigint);
     
     // Handle uncaught exceptions
-    process.on('uncaughtException', (error) => {
-      logger.error('Uncaught exception', { error });
-      this.shutdown('uncaughtException', 1);
-    });
+    process.on('uncaughtException', this.handleUncaughtException);
     
     // Handle unhandled promise rejections
-    process.on('unhandledRejection', (reason, promise) => {
-      logger.error('Unhandled rejection', { reason, promise });
-      this.shutdown('unhandledRejection', 1);
-    });
+    process.on('unhandledRejection', this.handleUnhandledRejection);
+  }
+
+  /**
+   * Remove installed process handlers so test-created managers do not leak
+   * listeners across repeated retained MCP server construction.
+   */
+  dispose(): void {
+    process.off('SIGTERM', this.handleSigterm);
+    process.off('SIGINT', this.handleSigint);
+    process.off('uncaughtException', this.handleUncaughtException);
+    process.off('unhandledRejection', this.handleUnhandledRejection);
   }
   
   /**

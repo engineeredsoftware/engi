@@ -128,6 +128,7 @@ Required system families:
 - retained-package admissibility proof
 - active-source product naming retirement
 - fifth-gate closure witnesses for retained app/package/runtime carriers
+- proof-bearing closure for newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package systems at the same standard as the earlier proved Bitcode core
 
 Required coverage posture:
 - spec:
@@ -144,12 +145,18 @@ Required system families:
 - need-measuring agency reform for retained execution/tool/agent carriers
 - webhook and web-search role adjudication
 - compatibility-carrier retirement where reform does not justify survival
+- explicit post-cut-over Bitcode application map:
+  - `activity`
+  - `transactions`
+  - `conversations`
+  - `auxillaries`
+- ChatGPT-style parity expectations for the in-app conversations surface and the retained ChatGPT app surface
 
 Required coverage posture:
 - spec:
   retained old-world systems have explicit Bitcode roles or cut decisions
 - tests:
-  reformed systems are still exercised where admitted, and cut systems are not silently required by active carriers
+  reformed systems are still exercised where admitted, cut systems are not silently required by active carriers, and the post-cut-over application map is covered as explicit Bitcode product truth rather than residual route glue
 - proof surface:
   later-gate reform artifacts explicitly name what was kept, cut, or isolated
 

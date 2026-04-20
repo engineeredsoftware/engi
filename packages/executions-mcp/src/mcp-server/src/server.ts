@@ -758,6 +758,7 @@ export class BitcodeMCPServer {
   async cleanup(): Promise<void> {
     // Clean up auth cache
     this.authContextCache.destroy();
+    this.shutdownManager?.dispose();
     
     // Stop monitoring
     productionMonitor.stop();
@@ -775,6 +776,7 @@ export class BitcodeMCPServer {
     
     // Clean up auth cache
     this.authContextCache.destroy();
+    this.shutdownManager?.dispose();
     
     // Stop monitoring
     productionMonitor.stop();

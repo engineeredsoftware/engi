@@ -451,11 +451,14 @@ Current fifth-gate reminders:
 - active public-shell outbound references must not rely on unreplaced Engi-era social handles; where no confirmed Bitcode social replacement exists, live product surfaces should prefer stable Bitcode-owned destinations like the canonical repository or protocol spec
 - active orbital styling identifiers that still carry Engi-era naming, even when buried in CSS selectors, count as unclosed fifth-gate residue and must be retired under proof like any other active code carrier
 - shared runtime and conversational primitives are part of the same closure boundary: active conversation-agent identity strings, repo-root helpers, LLM mock flags, and search-reservation globals must read as Bitcode because they are inherited infrastructure now driving the production application rather than isolated package internals
+- fifth-gate proof closure is not allowed to stop at rename cleanup; the newly admitted application, API, MCP, prompt, ChatGPT-app, and retained package surfaces have to prove to the same rigorous standard the earlier Bitcode core already established
 
 Current sixth-gate reminders:
 - retained old-world agentic systems should not survive because they are “useful”; they survive only if they have a precise Bitcode role after need-measuring, transaction-linked, or support-system reform
 - retained webhook systems must be reviewed for canonical place versus later-version or cut scope rather than silently surviving as generic automation
 - retained web-search behavior must be evaluated the same way: if it is not part of Bitcode need measurement, support tooling, or other explicit market-infrastructure behavior, it is sixth-gate cut pressure
+- the post-cut-over application map must become explicit and stable: `activity` as the dominant searchable transaction master/detail surface, `transactions` as the write-space for Bitcode operations, `conversations` as the ChatGPT-style Bitcode read/write surface, and `auxillaries` as the non-duplicative settings/connections/identity/`$BTD` system around the network core
+- conversations should aim for interface and tool-registration parity with the ChatGPT app surface rather than drifting into a lesser in-app chat adjunct
 
 Current seventh-gate reminders:
 - V26 is not fully done when fifth-gate naming residue reaches zero; the whole repository still has to prove as one Bitcode system
