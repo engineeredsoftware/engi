@@ -1,7 +1,7 @@
+import { postConversationBranchRoute } from '@bitcode/api/src/routes/conversations';
 import { NextResponse } from 'next/server';
-import { branchConversation } from '../../../../../packages/api/src/conversations';
 
-import { branchMockConversation, getConversationRouteUserId, isConversationMockMode } from '../_shared';
+import { branchMockConversation, isConversationMockMode } from '../_shared';
 
 export const runtime = 'nodejs';
 
@@ -24,16 +24,5 @@ export async function POST(request: Request) {
     return NextResponse.json(branchMockConversation(sourceConversationId, body.title));
   }
 
-  const userId = await getConversationRouteUserId();
-  if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  return NextResponse.json(
-    await branchConversation(userId, sourceConversationId, {
-      title: body.title,
-      branchMessageId: body.branchMessageId,
-      copyMessages: body.copyMessages,
-    }),
-  );
+  return postConversationBranchRoute(request);
 }

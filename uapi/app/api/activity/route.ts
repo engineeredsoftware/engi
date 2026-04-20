@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { normalizeExecutionHistoryRow } from '@bitcode/api/src/routes/executions';
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -13,7 +14,6 @@ import {
   getMockOrbitalNotifications,
   isOrbitalNotificationsMockMode,
 } from '@/app/api/auxillaries/notifications/_shared';
-import { normalizeExecutionHistoryRow } from '@/app/api/executions/_shared';
 
 export const runtime = 'nodejs';
 

@@ -719,8 +719,10 @@ Current major retained owners:
   Preserved deterministic shell/runtime/proof baseline from first-gate.
 - `packages/api/src/routes/deliverables.ts`
   Current deliverable and run-oriented backend surface being ported inward.
-- `packages/api/src/conversations/*`
-  Current conversation/message/streaming backend surface.
+- `packages/api/src/routes/executions.ts`
+  Current execution-history route-orchestration and normalization surface, with `uapi/app/api/executions/*` kept as thin interface bindings.
+- `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*`
+  Current conversation route-orchestration plus message/streaming backend surface, with `uapi/app/api/conversations/*` kept as thin interface bindings.
 - `packages/prompts/src/*`
   Prompt abstraction and future proved prompt-space carrier.
 - `packages/vcs/*`

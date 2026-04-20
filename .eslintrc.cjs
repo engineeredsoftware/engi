@@ -9,13 +9,13 @@ module.exports = {
     ecmaVersion: 2020,
   },
   env: { node: true, es6: true, jest: true },
-  plugins: ['@typescript-eslint', 'engi', 'react'],
+  plugins: ['@typescript-eslint', 'bitcode', 'react'],
   extends: [
     'eslint:recommended'
   ],
   rules: {
-    'engi/no-write-tools-outside-conquer': 'error',
-    'engi/require-prompt-hierarchy': 'error',
+    'bitcode/no-write-tools-outside-conquer': 'error',
+    'bitcode/require-prompt-hierarchy': 'error',
     // Forbid legacy deep-imports into prompts using /src in consumer code.
     // Canonical pattern is: @bitcode/prompts/raw_promptparts/*
     'no-restricted-imports': ['error', {

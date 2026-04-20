@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/api",
   "version": "1.0.0",
-  "description": "Comprehensive API routes package for engi - the unified backend API layer",
+  "description": "Comprehensive Bitcode API routes package - the unified backend route-orchestration layer",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {

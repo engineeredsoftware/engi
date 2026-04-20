@@ -4,9 +4,12 @@
 
 Unified Bitcode API orchestration layer. This package owns route-level request lifecycle management while delegating domain logic to retained package owners such as `@bitcode/orm`, `@bitcode/supabase`, `@bitcode/execution-generics`, `@bitcode/conversations-generics`, and the pipeline packages.
 
+Interface-owned route bindings such as `uapi/app/api/*` should stay thin. They import formal route handlers from `packages/api` entry modules such as `@bitcode/api/src/routes/*`, while those handlers import narrower functionality from the appropriate subsystem packages.
+
 In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - `/conversations` continuity
 - `/executions` compatibility and pipeline-run APIs
+- `/executions/history` route-orchestration and normalization ownership
 - `/edgetimes` storage/schema witness APIs
 - retained need-ingestion and settle-write boundaries
 
@@ -16,6 +19,7 @@ In V26 fourth-gate this package is where merged-world Bitcode becomes concrete:
 - **Domain-Based Organization**: Routes structured by functional domains (auth, deliverables, integrations)
 - **Bitcode Surface Ownership**: Route sets map onto merged-world Bitcode surfaces such as conversations, executions, activity, auxillaries, and persistence witnesses
 - **Handler Composition**: Clean orchestration of package functionality without business logic implementation
+- **Thin Interface Bindings**: Next.js FS routes and other interfaces stay as thin bindings over handlers exported here
 - **Middleware Integration**: Standardized authentication, rate limiting, and error handling
 - **Protocol Agnostic**: Support for REST, streaming, and webhook endpoints
 
@@ -49,6 +53,24 @@ export * as user from './routes/user';
 
 // Pipeline Operations  
 export * as deliverables from './routes/deliverables';
+
+// Execution History Route Handlers
+export {
+  getExecutionHistoryRoute,
+  postExecutionHistoryRoute,
+  getExecutionHistoryRunRoute,
+  normalizeExecutionHistoryRow,
+  normalizeExecutionEventRow,
+} from './routes/executions';
+
+// Conversation Route Handlers
+export {
+  getConversationsRoute,
+  postConversationsRoute,
+  postConversationBranchRoute,
+  postConversationStreamRoute,
+  postConversationThreadStreamRoute,
+} from './routes/conversations';
 
 // Organization Management
 export * as organizations from './routes/organizations';

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { postConversationThreadStreamRoute } from '@bitcode/api/src/routes/conversations';
 
 import { createMockConversationStreamResponse, isConversationMockMode } from '../../_shared';
 
@@ -10,7 +10,10 @@ type ConversationStreamRequest = {
   tokens?: Array<{ type?: string; value?: string; metadata?: Record<string, unknown> }>;
 };
 
-export async function POST(request: Request) {
+export async function POST(
+  request: Request,
+  context: { params: Promise<{ conversationId: string }> | { conversationId: string } },
+) {
   const body = await request.json().catch(() => ({} as ConversationStreamRequest));
 
   if (isConversationMockMode()) {
@@ -20,8 +23,12 @@ export async function POST(request: Request) {
     });
   }
 
-  return NextResponse.json(
-    { error: 'Conversation streaming is not yet mounted outside mock mode in the App Router surface.' },
-    { status: 501 },
+  return postConversationThreadStreamRoute(
+    new Request(request.url, {
+      method: request.method,
+      headers: request.headers,
+      body: JSON.stringify(body),
+    }),
+    context,
   );
 }

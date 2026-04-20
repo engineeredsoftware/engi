@@ -1,29 +1,35 @@
 /**
- * ENGI API - Kitchen sink of all API business logic
- * 
- * This package contains all business logic for the engi platform.
- * Routes in the Next.js app import from this package.
- * 
+ * Bitcode API - Kitchen sink of route-level API orchestration
+ *
+ * This package contains route handlers and orchestration logic for the Bitcode
+ * system. Interface owners such as the Next.js App Router or the ChatGPT app
+ * import handlers from here, while narrower subsystem behavior remains in the
+ * appropriate packages and is consumed by these route handlers.
+ *
  * Key principles:
- * - Business logic lives here, routes orchestrate
+ * - Route ownership lives here; FS interface bindings stay thin
+ * - Deeper functionality stays in narrower packages
  * - All database operations use @bitcode/orm
  * - All auth uses @bitcode/auth
  * - All VCS operations use @bitcode/vcs
- * 
+ *
  * Architecture:
- * - Each module exports business logic functions
- * - Functions are designed to be framework-agnostic
- * - All functions have comprehensive error handling
- * - User scoping is enforced at this layer
+ * - Route modules export interface-ready handlers
+ * - Lower-level modules export framework-agnostic business logic
+ * - All handlers have comprehensive error handling
+ * - User scoping is enforced at the route-orchestration layer
  */
 
 // Conversations - Message-centric with attachments
 export * from './conversations';
+export * from './routes/conversations';
+export * from './routes/executions';
 export * from './pipelines/branch';
 
 // VCS - Version control system operations
 export * from './vcs';
 export * from './routes/auth';
+export * as deliverables from './routes/deliverables';
 
 // Additional business logic modules will be added here as they're migrated
 // from routes to this package
