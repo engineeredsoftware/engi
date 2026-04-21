@@ -44,7 +44,7 @@ interface RichTextInputProps {
 
 export default function RichTextInput({
   onSend,
-  placeholder = "Type a message... Use ^ @ + # ! for references",
+  placeholder = "Type a Bitcode Terminal instruction... Use @ + # ! for asset packs, attachments, source connects, and output destinations",
   disabled = false,
   enablePickers = true,
   className = '',
@@ -319,7 +319,15 @@ export default function RichTextInput({
       case 'command':
         return token.data?.shortcut ? token.data.shortcut : '';
       case 'pipeline_run':
-        return token.data?.pipelineType ? `${token.data.pipelineType}` : '';
+        if (!token.data?.pipelineType) return '';
+        if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'need-measurement';
+        if (
+          String(token.data.pipelineType).toLowerCase().includes('deliverable') ||
+          String(token.data.pipelineType).toLowerCase().includes('artifact')
+        ) {
+          return 'branch-artifact';
+        }
+        return `${token.data.pipelineType}`;
       default:
         return '';
     }
@@ -454,15 +462,15 @@ export default function RichTextInput({
       case 'ai_document':
         return 'AI Document';
       case 'deliverable':
-        return 'Deliverable';
+        return 'Asset pack';
       case 'attachment':
         return 'Attachment';
       case 'source':
-        return 'Source';
+        return 'Connect source';
       case 'command':
         return 'Command';
       case 'pipeline_run':
-        return 'OTF Target';
+        return 'Output destination';
       default:
         return type.charAt(0).toUpperCase() + type.slice(1);
     }

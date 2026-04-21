@@ -923,6 +923,11 @@ Required closure posture:
   `packages/digest/caching/__tests__/caching.test.ts`, `packages/digest/run/__tests__/generateDigest.test.ts`, and `protocol-demonstration/test/v26-active-product-naming.test.js`
   proof surface:
   fifth-gate digest runtime-path closure so cache roots, digest output dirs, clone dirs, logger mock paths, and service docs all converge on `/tmp/protocol-demonstration/*` and canonical Bitcode mock ownership instead of preserving `/tmp/engi/*` or `__mocks__/engi/*` in active runtime and test carriers
+- `{uapi/app/conversations/{ConversationsRouteClient.tsx,README.md},uapi/app/conversations/components/{ConversationsOverlay.tsx,ConversationsEnhancedRichTextInput.tsx,ConversationsList.tsx,ConversationsSidebarLogs.tsx},uapi/app/api/conversations/_shared.ts,uapi/tests/{conversationsRouteClient,conversationMockShared}.test.ts*}`
+  test coverage:
+  `uapi/tests/{conversationsRouteClient,conversationMockShared}.test.ts*` and `protocol-demonstration/test/v26-active-product-naming.test.js`
+  proof surface:
+  fifth-gate conversations write-surface closure so the Bitcode Terminal fullscreen route, mock stream carrier, rich-input labels, and execution-log selectors now teach source attachments, asset packs, output destinations, and canonical `agentic-execution:*` posture while preserving retained deliverable/measure primitives as the compatibility substrate
 
 ## Module namespace proof note
 

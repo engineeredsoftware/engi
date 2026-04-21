@@ -137,6 +137,28 @@ const executionReadmeSource = readFileSync(
 );
 const marketingScreenshotSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingScreenshotSection.tsx', import.meta.url), 'utf8');
 const conversationsStylesSource = readFileSync(new URL('../../uapi/styles/conversations.css', import.meta.url), 'utf8');
+const conversationsRouteClientSource = readFileSync(
+  new URL('../../uapi/app/conversations/ConversationsRouteClient.tsx', import.meta.url),
+  'utf8',
+);
+const conversationsReadmeSource = readFileSync(new URL('../../uapi/app/conversations/README.md', import.meta.url), 'utf8');
+const conversationsOverlaySource = readFileSync(
+  new URL('../../uapi/app/conversations/components/ConversationsOverlay.tsx', import.meta.url),
+  'utf8',
+);
+const conversationsEnhancedRichTextInputSource = readFileSync(
+  new URL('../../uapi/app/conversations/components/ConversationsEnhancedRichTextInput.tsx', import.meta.url),
+  'utf8',
+);
+const conversationsListSource = readFileSync(
+  new URL('../../uapi/app/conversations/components/ConversationsList.tsx', import.meta.url),
+  'utf8',
+);
+const conversationsSidebarLogsSource = readFileSync(
+  new URL('../../uapi/app/conversations/components/ConversationsSidebarLogs.tsx', import.meta.url),
+  'utf8',
+);
+const conversationSharedSource = readFileSync(new URL('../../uapi/app/api/conversations/_shared.ts', import.meta.url), 'utf8');
 const orbitalStylesSource = readFileSync(new URL('../../uapi/styles/orbital.css', import.meta.url), 'utf8');
 const webhookRouteSource = readFileSync(new URL('../../uapi/app/api/webhook/route.ts', import.meta.url), 'utf8');
 const webhookVerifySource = readFileSync(new URL('../../uapi/app/api/webhook/verify.ts', import.meta.url), 'utf8');
@@ -1140,6 +1162,26 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(agenticExecutionSource, /need measurement execution/);
   assert.match(applicationPageSource, /Bitcode Terminal/);
   assert.match(applicationPageClientSource, /Bitcode Terminal/);
+  assert.match(conversationsRouteClientSource, /Bitcode Terminal write path/);
+  assert.match(conversationsRouteClientSource, /Bitcode activity ledger/);
+  assert.match(
+    conversationsRouteClientSource,
+    /rich\s+inputs, source attachments, output destinations, and agentic execution updates/,
+  );
+  assert.doesNotMatch(conversationsRouteClientSource, /Step back into transactions/);
+  assert.match(conversationsReadmeSource, /return flow back into the Bitcode activity ledger/);
+  assert.match(conversationsReadmeSource, /source attachments, asset-pack references, and output destinations/);
+  assert.match(conversationsOverlaySource, /Rich write input with source attachments and output destinations/);
+  assert.match(conversationsOverlaySource, /agentic execution events/);
+  assert.match(conversationsEnhancedRichTextInputSource, /asset packs, attachments, source connects, and output destinations/);
+  assert.match(conversationsEnhancedRichTextInputSource, /Asset pack/);
+  assert.match(conversationsEnhancedRichTextInputSource, /Output destination/);
+  assert.match(conversationsListSource, /execution run/);
+  assert.match(conversationsSidebarLogsSource, /execution/);
+  assert.match(conversationSharedSource, /agentic-execution:branch-artifact/);
+  assert.match(conversationSharedSource, /agentic-execution:need-measurement/);
+  assert.match(conversationSharedSource, /Mock Bitcode agentic execution/);
+  assert.match(conversationSharedSource, /source attachments, asset packs, output destinations, and settlement-bound proofs/);
   assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal experience map/);
   assert.match(applicationWorkspaceExplainersSource, /Bitcode Terminal activity map/);
   assert.doesNotMatch(applicationWorkspaceExplainersSource, /Transactions experience map/);

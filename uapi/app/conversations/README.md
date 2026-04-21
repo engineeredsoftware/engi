@@ -17,6 +17,7 @@ Current owners:
 
 This route should stay explicit about:
 - fullscreen application-mode continuity,
-- return flow back into transactions,
+- return flow back into the Bitcode activity ledger,
+- rich-input continuity for source attachments, asset-pack references, and output destinations,
 - retained conversation API boundaries,
 - and fourth-gate ownership of the chat-based interface rather than treating it as brochure or sidebar residue.

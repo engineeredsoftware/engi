@@ -55,6 +55,12 @@ export function SidebarLogs({
   const headerError = error ? error.message : null;
   const isComplete = activeRun ? activeRun.status !== 'running' : !isProcessing;
 
+  const formatRunType = (value?: string) => {
+    const normalized = String(value || '').trim();
+    if (!normalized) return 'execution';
+    return normalized.replace('agentic-execution:', '') || 'execution';
+  };
+
   if (!show) return null;
 
   return (
@@ -68,7 +74,7 @@ export function SidebarLogs({
           >
             {runs.map((r) => (
               <option key={r.id} value={r.id}>
-                {`${r.pipelineType ?? 'pipeline'}-${r.id.substring(0, 4)} · ${new Date(
+                {`${formatRunType(r.pipelineType ?? r.kind)}-${r.id.substring(0, 4)} · ${new Date(
                   r.started_at
                 ).toLocaleString()} · ${r.status}`}
               </option>

@@ -8,7 +8,7 @@
  * - **Real-time streaming**: Token-by-token response delivery
  * - **Performance optimization**: Adaptive throttling and memory management
  * - **Error resilience**: Circuit breaker pattern with automatic recovery
- * - **Pipeline integration**: Automatic tracking of deliverable and need-measurement pipelines
+ * - **Agentic execution integration**: Automatic tracking of branch-artifact and need-measurement executions
  * - **Memory efficiency**: Smart token buffering with auto-pruning
  * - **Health monitoring**: Real-time performance metrics and health checks
  * 
@@ -51,10 +51,19 @@ export type StreamEvent =
   | { type: 'error'; data: { message: string; code?: string } };
 
 /**
- * Token types for pipeline triggering
+ * Token types for rich-input execution triggering and reference binding.
  */
 export interface StreamToken {
-  type: 'deliverable' | 'measure' | 'attachment' | 'command';
+  type:
+    | 'asset_pack'
+    | 'need_measurement'
+    | 'deliverable'
+    | 'measure'
+    | 'attachment'
+    | 'source'
+    | 'pipeline_run'
+    | 'destination'
+    | 'command';
   value: string;
   metadata?: Record<string, any>;
 }
@@ -127,11 +136,11 @@ function createThrottle<T extends (...args: any[]) => void>(
  * Custom React hook for managing real-time conversation streaming with Conversations.
  * 
  * This hook provides a complete interface for streaming conversations with automatic
- * pipeline integration, performance optimization, and comprehensive error handling.
+ * agentic-execution integration, performance optimization, and comprehensive error handling.
  * 
  * ## Features
  * - **Real-time streaming**: Token-by-token response delivery via Server-Sent Events
- * - **Pipeline integration**: Automatic tracking and triggering of deliverable and need-measurement pipelines
+ * - **Agentic execution integration**: Automatic tracking and triggering of branch-artifact and need-measurement executions
  * - **Performance optimization**: Adaptive throttling (default 20 FPS) and memory management
  * - **Error resilience**: Circuit breaker pattern with automatic recovery
  * - **Memory efficiency**: Smart token buffering with configurable limits
@@ -143,7 +152,7 @@ function createThrottle<T extends (...args: any[]) => void>(
  *   conversationId: 'conv-123',
  *   onToken: (token) => console.log('Received token:', token),
  *   onPipelineTriggered: (runId, type) => {
- *     console.log(`Pipeline ${type} started with ID: ${runId}`);
+ *     console.log(`Execution ${type} started with ID: ${runId}`);
  *   },
  *   throttleMs: 50 // Adjust for performance
  * });
@@ -163,8 +172,8 @@ function createThrottle<T extends (...args: any[]) => void>(
  * - `isStreaming`: Boolean indicating if currently streaming
  * - `currentContent`: Current accumulated response content
  * - `error`: Current error message or null
- * - `activePipelines`: Set of active pipeline run IDs
- * - `completedPipelines`: Set of completed pipeline run IDs
+ * - `activePipelines`: Set of active execution run IDs
+ * - `completedPipelines`: Set of completed execution run IDs
  * - `sendMessage`: Function to send messages with optional tokens
  * - `cleanup`: Function to cleanup resources
  * 

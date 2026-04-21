@@ -46,9 +46,11 @@ export const ConversationsList: React.FC<ConversationsListProps> = ({
   };
 
   const renderRunIndicator = (chat: Chat) => {
-    const runCount = chat.runs?.filter(r => 
-      r.pipelineType === 'deliverable' || r.pipelineType === 'ai_document'
-    ).length || 0;
+    const runCount =
+      chat.runs?.filter((r) => {
+        const normalized = String(r.pipelineType || r.kind || '').trim().toLowerCase();
+        return Boolean(normalized);
+      }).length || 0;
 
     if (chat.latest_run?.status === 'running') {
       return (
@@ -63,7 +65,7 @@ export const ConversationsList: React.FC<ConversationsListProps> = ({
       return (
         <span
           className="text-[10px] font-semibold leading-[14px] bg-gray-700 rounded px-1.5 text-gray-200"
-          title={`${runCount} pipeline run${runCount === 1 ? '' : 's'}`}
+          title={`${runCount} execution run${runCount === 1 ? '' : 's'}`}
         >
           {runCount}
         </span>

@@ -1,14 +1,26 @@
 /**
- * Pipeline execution state management hook
+ * Agentic execution state management hook
  * 
  * Manages:
- * - Active pipeline executions
+ * - Active agentic executions
  * - Execution logs and status
- * - Pipeline events from SSE
+ * - Execution events from SSE
  * - Thinking logs for UI feedback
  */
 
 import { useState, useCallback } from 'react';
+
+function formatExecutionLabel(value?: string) {
+  const normalized = String(value || '').trim().toLowerCase();
+
+  if (!normalized) return 'agentic execution';
+  if (normalized.includes('measure')) return 'need-measurement execution';
+  if (normalized.includes('deliverable') || normalized.includes('artifact')) {
+    return 'branch-artifact execution';
+  }
+
+  return normalized.replace('agentic-execution:', '').replace(/^pipeline:/, '') || 'agentic execution';
+}
 
 export interface RunRow {
   id: string;
@@ -34,7 +46,7 @@ interface UsePipelineStateOptions {
 export function usePipelineState(options: UsePipelineStateOptions = {}) {
   const { onPipelineStart, onPipelineComplete } = options;
 
-  // Pipeline run state
+  // Execution run state
   const [runs, setRuns] = useState<RunRow[]>([]);
   const [activeRunId, setActiveRunId] = useState<string | null>(null);
   const [runLog, setRunLog] = useState<string>('');
@@ -64,7 +76,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     setThinkingLog([]);
   }, []);
 
-  // Start a new pipeline run
+  // Start a new execution run
   const startPipelineRun = useCallback((
     runId: string,
     pipelineType: string,
@@ -86,7 +98,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     // Add to thinking log
     appendThinkingLog({
       type: 'success',
-      content: `Pipeline ${pipelineType} started`
+      content: `${formatExecutionLabel(pipelineType)} started`
     });
 
     // Callback
@@ -95,12 +107,14 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     }
   }, [onPipelineStart, appendThinkingLog]);
 
-  // Complete a pipeline run
+  // Complete an execution run
   const completePipelineRun = useCallback((
     runId: string,
     success: boolean,
     summary?: string
   ) => {
+    const executionLabel = formatExecutionLabel(runs.find((run) => run.id === runId)?.pipelineType);
+
     setRuns(prev => prev.map(run => 
       run.id === runId ? {
         ...run,
@@ -113,7 +127,7 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     const status = success ? 'completed successfully' : 'failed';
     appendThinkingLog({
       type: success ? 'success' : 'error',
-      content: `Pipeline ${status}${summary ? ': ' + summary : ''}`
+      content: `${executionLabel} ${status}${summary ? ': ' + summary : ''}`
     });
 
     // Clear active run if it was this one
@@ -125,14 +139,14 @@ export function usePipelineState(options: UsePipelineStateOptions = {}) {
     if (onPipelineComplete) {
       onPipelineComplete(runId, success);
     }
-  }, [activeRunId, onPipelineComplete, appendThinkingLog]);
+  }, [activeRunId, onPipelineComplete, appendThinkingLog, runs]);
 
   // Append to run log
   const appendRunLog = useCallback((content: string) => {
     setRunLog(prev => prev + content + '\n');
   }, []);
 
-  // Handle pipeline event from SSE
+  // Handle execution event from SSE
   const handlePipelineEvent = useCallback((runId: string, event: any) => {
     if (activeRunId !== runId) return;
 

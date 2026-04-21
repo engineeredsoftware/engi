@@ -45,15 +45,16 @@ describe('ConversationsRouteClient', () => {
     mockOverlayClose.mockReset();
   });
 
-  it('renders first-class application-mode copy and returns closed flow to transactions', () => {
+  it('renders first-class application-mode copy and returns closed flow to the Bitcode activity ledger', () => {
     render(<ConversationsRouteClient />);
 
     expect(screen.getByText('Conversations fullscreen')).toBeTruthy();
     expect(
       screen.getByRole('heading', {
-        name: /Keep the chat-based Bitcode read as a first-class application mode\./i,
+        name: /Keep the Bitcode Terminal write path as a first-class application mode\./i,
       }),
     ).toBeTruthy();
+    expect(screen.getByText(/Step back into the Bitcode activity ledger/i)).toBeTruthy();
     expect(screen.getByRole('link', { name: /Open Bitcode Terminal/i })).toHaveAttribute(
       'href',
       '/application',

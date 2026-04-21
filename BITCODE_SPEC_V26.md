@@ -450,6 +450,8 @@ For V26, those mean:
 The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main Bitcode actions.
 The read experience is the Bitcode activity ledger window inside `/application`, with `transactions` retained as the route/query-owned master-detail substructure id.
 The write experience moves through `give`, `need`, and auxillaries/interfaces posture via conversations and auxillaries entered from application context.
+Conversations are the canonical rich-input write carrier for V26. They must accept source attachments, asset-pack references, need-measurement intent, and output-destination or execution-target references as structured tokens or PromptPart-compatible parts rather than relying on plain-text-only prompting.
+Message-level attachments and execution references remain the retained primitive abstractions for these writes; operator-facing copy should read them as Connects-bound inputs, asset-pack synthesis requests, and settlement or output destinations.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
 Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels; operator-facing copy should read these as the Bitcode activity ledger, asset-pack outputs, proofs, and history.
 The transactions master itself must stay query-owned, searchable, filterable, and paginatable rather than falling back to component-local table state.

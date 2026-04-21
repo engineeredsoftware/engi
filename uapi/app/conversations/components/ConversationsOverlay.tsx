@@ -5,8 +5,8 @@
  * 
  * A sophisticated conversation interface with:
  * - Multiple view modes (floating, sidebar, fullscreen, split-screen)
- * - Rich text input with tokens and attachments
- * - Real-time SSE streaming for messages and pipeline events
+ * - Rich write input with source attachments and output destinations
+ * - Real-time SSE streaming for messages and agentic execution events
  * - Embedded process logs with live updates
  * - Keyboard shortcuts for power users
  * - Smooth animations and transitions
@@ -158,21 +158,34 @@ function getEntranceInitial(
   return initial;
 }
 
+function formatConversationExecutionLabel(value?: string) {
+  const normalized = String(value || '').trim().toLowerCase();
+
+  if (!normalized) return 'agentic execution';
+  if (normalized.includes('measure')) return 'need-measurement execution';
+  if (normalized.includes('deliverable') || normalized.includes('artifact')) {
+    return 'branch-artifact execution';
+  }
+
+  return normalized.replace('agentic-execution:', '').replace(/^pipeline:/, '') || 'agentic execution';
+}
+
 // Token rendering helper
 function renderTokenInMessageHelper(content: string, tokens?: any[]): string {
   if (!tokens || tokens.length === 0) return content;
   
   let result = content;
   
-  // Process pipeline tokens
+  // Process execution tokens
   tokens.forEach(token => {
-    const pipelineMatch = token.text?.match(/\[\[(deliverable|ai_document):([^\]]+)\]\]/);
+    const pipelineMatch = token.text?.match(/\[\[(deliverable|asset_pack|ai_document):([^\]]+)\]\]/);
     if (!pipelineMatch) return;
     
     const [fullMatch, kind, title] = pipelineMatch;
     const regex = new RegExp(`(^|\\s)${fullMatch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g');
     
-    const kindLabel = kind === 'deliverable' ? 'Deliverable' : 'AI Document';
+    const isAssetPack = kind === 'deliverable' || kind === 'asset_pack';
+    const kindLabel = isAssetPack ? 'Asset pack' : 'AI Document';
     const status = token.metadata?.status || '';
     const sourceLine = token.metadata?.source ? 
       `<svg class="inline w-3 h-3 mr-1" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>${token.metadata.source}` 
@@ -183,7 +196,7 @@ function renderTokenInMessageHelper(content: string, tokens?: any[]): string {
     const replacement = 
       ` <div class="inline-block align-middle mx-1 border border-gray-600 rounded-md bg-gray-800/50 overflow-hidden">` +
       `   <div class="px-2 pt-1 flex items-center gap-1.5 border-b border-gray-700">` +
-      `     <span class="inline-block w-2 h-2 rounded-full ${kind === 'deliverable' ? 'bg-emerald-400' : 'bg-blue-400'}"></span>` +
+      `     <span class="inline-block w-2 h-2 rounded-full ${isAssetPack ? 'bg-emerald-400' : 'bg-blue-400'}"></span>` +
       `     <span class="font-semibold text-gray-200">${title}</span>` +
       `   </div>` +
       `   <div class="px-2 text-gray-400 pb-1">${kindLabel}${status ? ' · ' + status : ''}</div>` +
@@ -352,10 +365,10 @@ const Conversation = memo(function Conversation({
       }
     },
     onPipelineTriggered: (runId, pipelineType) => {
-      startPipelineRun(runId, pipelineType as 'deliverable' | 'measure');
+      startPipelineRun(runId, pipelineType);
       appendThinkingLog({
         type: 'success',
-        content: `${pipelineType} pipeline started (${runId})`
+        content: `${formatConversationExecutionLabel(pipelineType)} started (${runId})`
       });
     },
     onPipelineEvent: (runId, event) => {

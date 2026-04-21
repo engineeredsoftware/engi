@@ -20,13 +20,14 @@ export default function ConversationsRouteClient() {
                   Conversations fullscreen
                 </p>
                 <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                  Keep the chat-based Bitcode read as a first-class application mode.
+                  Keep the Bitcode Terminal write path as a first-class application mode.
                 </h1>
                 <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
                   This direct route keeps the fullscreen conversations surface available without
-                  treating it as a separate product. Step back into transactions when you need the
-                  full ledger context or keep reading the same flow through chat, sources, and
-                  execution updates here.
+                  treating it as a separate product. Step back into the Bitcode activity ledger
+                  when you need searchable master-detail context, or keep writing through rich
+                  inputs, source attachments, output destinations, and agentic execution updates
+                  here.
                 </p>
               </div>
 

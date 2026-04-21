@@ -1,4 +1,8 @@
 import { createClient } from '@bitcode/supabase/ssr/server';
+import {
+  formatAgenticExecutionLabel,
+  normalizeAgenticExecutionType,
+} from '@bitcode/api/src/executions/agentic-execution';
 
 import { ENABLE_MOCKS, MOCK_CHAT_STREAM } from '../../../config/featureFlags';
 import { buildMockReviewUser, isUserOrbitalMockMode } from '../../../lib/mock-review-mode';
@@ -30,7 +34,7 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     updated_at: '2026-04-16T12:07:00.000Z',
     message_count: 14,
     attachment_count: 3,
-    last_message: 'Bound the remaining V26 proof layers to conversations, runs, and deliverables.',
+    last_message: 'Bound the remaining V26 proof layers to conversations, runs, asset packs, and settlement evidence.',
   },
   {
     id: 'conv-application-second-gate',
@@ -40,17 +44,17 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     updated_at: '2026-04-16T11:42:00.000Z',
     message_count: 9,
     attachment_count: 1,
-    last_message: 'Port the fullscreen conversations and run-detail reservoirs inward to /application.',
+    last_message: 'Port the fullscreen conversations, activity runs, and write-side reservoirs inward to /application.',
   },
   {
     id: 'conv-run-deliverable-reuse',
     user_id: MOCK_USER.id,
-    title: 'Run and deliverable inward reuse',
+    title: 'Run and asset-pack inward reuse',
     created_at: '2026-04-16T09:08:00.000Z',
     updated_at: '2026-04-16T10:21:00.000Z',
     message_count: 7,
     attachment_count: 2,
-    last_message: 'Preserve the master-detail reading surfaces while removing peer-product routing.',
+    last_message: 'Preserve the master-detail reading surfaces while removing peer-product routing and sealing output destinations.',
   },
 ];
 
@@ -104,7 +108,7 @@ export function createMockConversation(title?: string) {
   return {
     id: `conv-${Date.now()}`,
     user_id: MOCK_USER.id,
-    title: (title || 'New Bitcode conversation').trim(),
+    title: (title || 'New Bitcode Terminal conversation').trim(),
     created_at: timestamp,
     updated_at: timestamp,
     message_count: 0,
@@ -140,21 +144,40 @@ function buildMockAssistantReply(content: string) {
   const normalized = content.trim();
 
   if (!normalized) {
-    return 'Bitcode mock mode is active. Ask for a run, pipeline, or deliverable operation to inspect the fullscreen conversation flow.';
+    return 'Bitcode mock mode is active. Ask for need measurement, branch-artifact execution, source attachment, or settlement-bound output to inspect the fullscreen conversation flow.';
   }
 
-  return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside /application and can attach runs, deliverables, and proof-bearing outputs as V26 converges.`;
+  return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode Terminal and can bind source attachments, asset packs, output destinations, and settlement-bound proofs as V26 converges.`;
+}
+
+function normalizeConversationExecutionType(token?: ConversationToken) {
+  const normalized = String(token?.type || '').trim().toLowerCase();
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (normalized === 'asset_pack') {
+    return 'agentic-execution:branch-artifact';
+  }
+
+  if (normalized === 'need_measurement') {
+    return 'agentic-execution:need-measurement';
+  }
+
+  return normalizeAgenticExecutionType(normalized);
 }
 
 function buildPipelineEvents(tokens: ConversationToken[]) {
-  const pipelineToken = tokens.find((token) => token.type === 'deliverable' || token.type === 'measure');
+  const pipelineToken = tokens.find((token) => Boolean(normalizeConversationExecutionType(token)));
 
   if (!pipelineToken) {
     return null;
   }
 
   const runId = `run-${Date.now()}`;
-  const pipelineType = pipelineToken.type === 'measure' ? 'measure' : 'deliverable';
+  const pipelineType = normalizeConversationExecutionType(pipelineToken)!;
+  const executionLabel = formatAgenticExecutionLabel(pipelineType);
 
   return {
     runId,
@@ -171,8 +194,8 @@ function buildPipelineEvents(tokens: ConversationToken[]) {
           event: {
             type: 'phase',
             phase: 'mock_execution',
-            title: 'Mock Bitcode pipeline execution',
-            summary: `Prepared ${pipelineType} evidence under the current Bitcode Terminal.`,
+            title: 'Mock Bitcode agentic execution',
+            summary: `Prepared ${executionLabel} evidence under the current Bitcode Terminal.`,
           },
         },
       },
@@ -181,7 +204,7 @@ function buildPipelineEvents(tokens: ConversationToken[]) {
         data: {
           runId,
           success: true,
-          summary: `Mock ${pipelineType} pipeline completed for the current Bitcode application review.`,
+          summary: `Mock ${executionLabel} completed for the current Bitcode Terminal review.`,
         },
       },
     ],
@@ -193,41 +216,21 @@ export function createMockConversationStreamResponse(input: {
   tokens?: ConversationToken[];
 }) {
   const encoder = new TextEncoder();
-  const content = String(input.content || '');
-  const tokens = Array.isArray(input.tokens) ? input.tokens : [];
-  const assistantReply = buildMockAssistantReply(content);
-  const messageId = `msg-${Date.now()}`;
-  const pipeline = buildPipelineEvents(tokens);
-  const tokenChunks = assistantReply.match(/.{1,28}/g) || [assistantReply];
+  const envelope = buildMockConversationStreamEnvelope(input);
 
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
-      const queue = [
-        ...(pipeline?.events || []),
-        ...tokenChunks.map((chunk) => ({
-          type: 'token',
-          data: chunk,
-        })),
-        {
-          type: 'message_complete',
-          data: {
-            messageId,
-            content: assistantReply,
-          },
-        },
-      ];
-
       let index = 0;
 
       const pushNext = () => {
-        if (index >= queue.length) {
+        if (index >= envelope.queue.length) {
           controller.close();
           return;
         }
 
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify(queue[index])}\n\n`));
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(envelope.queue[index])}\n\n`));
         index += 1;
-        setTimeout(pushNext, index <= (pipeline?.events.length || 0) ? 70 : 45);
+        setTimeout(pushNext, index <= (envelope.pipeline?.events.length || 0) ? 70 : 45);
       };
 
       pushNext();
@@ -241,4 +244,37 @@ export function createMockConversationStreamResponse(input: {
       Connection: 'keep-alive',
     },
   });
+}
+
+export function buildMockConversationStreamEnvelope(input: {
+  content?: string;
+  tokens?: ConversationToken[];
+}) {
+  const content = String(input.content || '');
+  const tokens = Array.isArray(input.tokens) ? input.tokens : [];
+  const assistantReply = buildMockAssistantReply(content);
+  const messageId = `msg-${Date.now()}`;
+  const pipeline = buildPipelineEvents(tokens);
+  const tokenChunks = assistantReply.match(/.{1,28}/g) || [assistantReply];
+  const queue = [
+    ...(pipeline?.events || []),
+    ...tokenChunks.map((chunk) => ({
+      type: 'token',
+      data: chunk,
+    })),
+    {
+      type: 'message_complete',
+      data: {
+        messageId,
+        content: assistantReply,
+      },
+    },
+  ];
+
+  return {
+    assistantReply,
+    messageId,
+    pipeline,
+    queue,
+  };
 }
