@@ -16,6 +16,10 @@ import {
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts';
 import { z } from 'zod';
+import {
+  type CanonicalTechnologyProfile,
+  buildEmptyTechnologyProfile,
+} from './technology-profile-contract';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for tech identification
@@ -38,7 +42,7 @@ const TechTypesIdentifierInputSchema = z.object({
   contextHints: z.array(z.string()).optional().describe('Additional context about the technology stack')
 });
 
-const CanonicalTechnologyProfileSchema = z.object({
+const CanonicalTechnologyProfileSchema: z.ZodType<CanonicalTechnologyProfile> = z.object({
   // `technologyProfile` is the canonical Bitcode envelope for normalized stack evidence.
   stackHints: z.array(z.string()),
   languages: z.array(z.string()),
@@ -334,12 +338,7 @@ const quickTechIdentification = factoryAgentWithSingleStep<
     // Return matches the Retry schema for consistency
     return {
       finalResults: {
-        technologyProfile: {
-          stackHints: [],
-          languages: [],
-          technologies: [],
-          brands: [],
-        },
+        technologyProfile: buildEmptyTechnologyProfile(),
         identifiedTechnologies: [],
         techStackSummary: {
           primaryStack: 'Unknown',
@@ -411,6 +410,11 @@ export type TechTypesIdentifierPlanOutput = z.infer<typeof TechTypesIdentifierPl
 export type TechTypesIdentifierTryOutput = z.infer<typeof TechTypesIdentifierTrySchema>;
 export type TechTypesIdentifierRefineOutput = z.infer<typeof TechTypesIdentifierRefineSchema>;
 export type TechTypesIdentifierRetryOutput = z.infer<typeof TechTypesIdentifierRetrySchema>;
+export type { CanonicalTechnologyProfile } from './technology-profile-contract';
+export {
+  buildEmptyTechnologyProfile,
+  isCanonicalTechnologyProfile,
+} from './technology-profile-contract';
 
 /**
  * THE MAGIC EXPLAINED:
