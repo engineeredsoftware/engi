@@ -9,6 +9,10 @@ import { VCSRepositorySelector } from '@/components/base/bitcode/vcs/VCSReposito
 
 import ApplicationOpenOrbitalsButton from './ApplicationOpenOrbitalsButton';
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  buildApplicationRepositoryAnchorDraft,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import {
   APPLICATION_REPOSITORY_PROVIDERS,
@@ -32,11 +36,13 @@ async function readJsonResponse(response: Response) {
 interface ApplicationRepositoryContextPanelProps {
   preferredRepository?: string | null;
   onContextChange?: (context: ApplicationRepositoryContextState) => void;
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
 }
 
 export default function ApplicationRepositoryContextPanel({
   preferredRepository,
   onContextChange,
+  onRecordActivity,
 }: ApplicationRepositoryContextPanelProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -51,6 +57,8 @@ export default function ApplicationRepositoryContextPanel({
   const [isLoadingRepositories, setIsLoadingRepositories] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [refreshNonce, setRefreshNonce] = useState(0);
+  const [recordMessage, setRecordMessage] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   const selectedRepository = useMemo(
     () => deriveSelectedRepository(repositories, requestedRepository, preferredRepository),
@@ -166,6 +174,31 @@ export default function ApplicationRepositoryContextPanel({
     setRefreshNonce((value) => value + 1);
   };
 
+  const handleRecordRepositoryAnchor = async () => {
+    if (!selectedRepository || !onRecordActivity) return;
+
+    setIsRecording(true);
+    setRecordMessage(null);
+
+    try {
+      await onRecordActivity(
+        buildApplicationRepositoryAnchorDraft({
+          provider,
+          connectionStatus,
+          repositories,
+          selectedRepository,
+        }),
+      );
+      setRecordMessage('Repository anchor recorded into the Bitcode activity ledger.');
+    } catch (nextError) {
+      setRecordMessage(
+        nextError instanceof Error ? nextError.message : 'Unable to record the repository anchor posture.',
+      );
+    } finally {
+      setIsRecording(false);
+    }
+  };
+
   return (
     <ApplicationWorkspaceCard
       id="applicationRepositorySupply"
@@ -175,6 +208,12 @@ export default function ApplicationRepositoryContextPanel({
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.repositorySupply}
       tone="emerald"
     >
+      {recordMessage ? (
+        <div className="mb-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+          {recordMessage}
+        </div>
+      ) : null}
+
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
           <p className="text-emerald-300/85">Main action</p>
@@ -245,6 +284,16 @@ export default function ApplicationRepositoryContextPanel({
                 className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
               >
                 Continue to give
+              </button>
+              <button
+                type="button"
+                disabled={!selectedRepository || isRecording}
+                onClick={() => {
+                  void handleRecordRepositoryAnchor();
+                }}
+                className="rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isRecording ? 'Recording anchor…' : 'Record repository anchor'}
               </button>
             </div>
           </div>
@@ -360,6 +409,16 @@ export default function ApplicationRepositoryContextPanel({
                       className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15"
                     >
                       Open deposit draft
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isRecording}
+                      onClick={() => {
+                        void handleRecordRepositoryAnchor();
+                      }}
+                      className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {isRecording ? 'Recording anchor…' : 'Record anchor'}
                     </button>
                     <a
                       href={selectedRepository.url}

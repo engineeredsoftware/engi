@@ -143,7 +143,7 @@ export function buildApplicationTransactionClosurePayload(
       closureFocus: detail?.closureFocus || selectedRun.closureFocus || null,
     },
     closure: {
-      canonLabel: closureState?.canonLabel || null,
+      canonLabel: closureState?.canonLabel || detail?.closureFollowThrough?.canonLabel || null,
       processingStats: detail?.processingStats || null,
       rows: buildApplicationTransactionClosureRows(detail),
       settlementMetrics: closureFollowThrough.settlementMetrics,

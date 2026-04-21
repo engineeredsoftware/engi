@@ -2,11 +2,14 @@ import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agenti
 
 import type { PipelineExecution } from '@/types/api';
 
+import type { ApplicationClosureState } from './application-closure-state';
 import type { ApplicationGiveNeedWorkbench } from './application-give-need-workbench';
 import type { ApplicationNeedScenariosState } from './application-need-scenarios';
+import type { ApplicationExternalRuntimeSnapshot } from './application-external-runtime';
 import type { WorkspaceRun } from './application-run-data';
 import type { ApplicationRepositoryContextState } from './application-repository-context';
 import type { ApplicationSupplySelectionState } from './application-supply-selection';
+import type { ApplicationRunDetailSnapshot } from './application-transaction-detail-snapshot';
 import type { ApplicationTransactionDetailSection } from './application-transaction-query';
 
 export interface ApplicationActivityRecordDraft {
@@ -30,6 +33,10 @@ function splitRepositoryFullName(value?: string | null) {
   const [org, repo] = fullName.split('/', 2);
   if (!org || !repo) return null;
   return { org, repo };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 function readRowValue(rows: Array<{ label: string; value: string }>, label: string) {
@@ -71,14 +78,20 @@ export function buildApplicationExecutionHistoryRequest(
 ) {
   const summary = normalizeWhitespace(draft.summary) || 'Bitcode activity recorded from the Bitcode Terminal.';
   const repoSnapshot = buildRepoSnapshot(options.repositoryContext, options.fallbackRun);
+  const draftOutput = isRecord(draft.output) ? draft.output : null;
+  const finalWorkSummaryPatch = isRecord(draftOutput?.finalWorkSummary) ? draftOutput.finalWorkSummary : null;
+  const outputWithoutFinalWorkSummary = draftOutput
+    ? Object.fromEntries(Object.entries(draftOutput).filter(([key]) => key !== 'finalWorkSummary'))
+    : null;
   const output = {
     summary,
     ...(repoSnapshot ? { repo_snapshot: repoSnapshot } : {}),
     final_work_summary: {
       summary,
       ...(repoSnapshot ? { repoSnapshot } : {}),
+      ...(finalWorkSummaryPatch || {}),
     },
-    ...(draft.output || {}),
+    ...(outputWithoutFinalWorkSummary || {}),
   };
   const context = {
     source: 'application-terminal',
@@ -95,6 +108,61 @@ export function buildApplicationExecutionHistoryRequest(
     output,
     context,
     items: draft.items || [],
+  };
+}
+
+function serializeProcessingStats(
+  processingStats?: Pick<ApplicationRunDetailSnapshot, 'processingStats'>['processingStats'] | null,
+) {
+  if (!processingStats) return null;
+
+  return {
+    ...(processingStats.time ? { time: processingStats.time } : {}),
+    ...(typeof processingStats.tokenTotal === 'number'
+      ? { tokens: { total: processingStats.tokenTotal } }
+      : {}),
+    ...(typeof processingStats.btdUsed === 'number' ? { btdUsed: processingStats.btdUsed } : {}),
+    ...(typeof processingStats.usdTotal === 'number' ? { usdTotal: processingStats.usdTotal } : {}),
+    ...(typeof processingStats.averageLatencyMs === 'number'
+      ? { averageLatencyMs: processingStats.averageLatencyMs }
+      : {}),
+  };
+}
+
+export function buildApplicationClosureFinalWorkSummary(
+  closureState: ApplicationClosureState | null,
+  detail?: Pick<ApplicationRunDetailSnapshot, 'summary' | 'processingStats'> | null,
+) {
+  const closureFollowThrough = closureState
+    ? {
+        canonLabel: closureState.canonLabel,
+        settlementMetrics: closureState.settlement.metrics.slice(0, 4),
+        branchArtifacts: closureState.branch.chips.slice(0, 6),
+        proofFamilies: closureState.settlement.proofFamilies?.slice(0, 4) || [],
+        recentHistory: closureState.ledger.recentRuns?.slice(0, 4) || [],
+      }
+    : null;
+  const processingStats = serializeProcessingStats(detail?.processingStats);
+
+  if (!closureFollowThrough && !processingStats && !normalizeWhitespace(detail?.summary)) {
+    return null;
+  }
+
+  return {
+    ...(normalizeWhitespace(detail?.summary) ? { summary: normalizeWhitespace(detail?.summary) } : {}),
+    ...(processingStats ? { processingStats } : {}),
+    ...(closureState
+      ? {
+          closurePanels: {
+            canonLabel: closureState.canonLabel,
+            verification: closureState.verification,
+            branch: closureState.branch,
+            settlement: closureState.settlement,
+            ledger: closureState.ledger,
+          },
+        }
+      : {}),
+    ...(closureFollowThrough ? { closureFollowThrough } : {}),
   };
 }
 
@@ -235,6 +303,78 @@ export function buildApplicationFitWorkbenchDraft(
   };
 }
 
+export function buildApplicationRepositoryAnchorDraft(
+  repositoryContext: ApplicationRepositoryContextState,
+): ApplicationActivityRecordDraft {
+  const selectedRepository = repositoryContext.selectedRepository;
+  const connectionStatus = repositoryContext.connectionStatus;
+  const providerAccount =
+    connectionStatus?.username || connectionStatus?.metadata?.account || selectedRepository?.owner.username || 'connected account';
+
+  return {
+    type: 'agentic-execution:branch-artifact',
+    detailSection: 'transaction',
+    summary: `Recorded repository anchor for ${selectedRepository?.fullName || 'the current Bitcode supply boundary'}.`,
+    output: {
+      repositoryAnchor: {
+        provider: repositoryContext.provider,
+        repository: selectedRepository
+          ? {
+              id: selectedRepository.id,
+              fullName: selectedRepository.fullName,
+              defaultBranch: selectedRepository.defaultBranch || 'main',
+              private: Boolean(selectedRepository.private),
+              language: selectedRepository.language || null,
+              topics: selectedRepository.topics || [],
+            }
+          : null,
+        connection: {
+          connected: Boolean(connectionStatus?.connected),
+          valid: Boolean(connectionStatus?.valid),
+          mode: connectionStatus?.metadata?.mock_mode ? 'mock review' : 'live connection',
+        },
+      },
+    },
+    context: {
+      source: 'application-repository-context-panel',
+      provider: repositoryContext.provider,
+      providerAccount,
+      repositoryFullName: selectedRepository?.fullName || null,
+    },
+  };
+}
+
+export function buildApplicationExternalInterfacingDraft(
+  snapshot: ApplicationExternalRuntimeSnapshot,
+): ApplicationActivityRecordDraft {
+  return {
+    type: 'agentic-execution:proof-refresh',
+    detailSection: 'closure',
+    summary: `Recorded external interface readiness for ${snapshot.configuredEnvironmentMode} Bitcode posture.`,
+    output: {
+      externalInterfacing: {
+        configuredEnvironmentMode: snapshot.configuredEnvironmentMode,
+        actualityDisposition: snapshot.actualityDisposition,
+        counts: snapshot.counts,
+        interfaces: snapshot.interfaces.map((entry) => ({
+          interfaceId: entry.interfaceId,
+          runtimeState: entry.runtimeState,
+          resultClass: entry.resultClass,
+          reconciliationState: entry.reconciliationState,
+          blocking: entry.blocking,
+        })),
+      },
+    },
+    context: {
+      source: 'application-external-interfacing-panel',
+      configuredEnvironmentMode: snapshot.configuredEnvironmentMode,
+      actualityDisposition: snapshot.actualityDisposition,
+      blockingInterfaces: snapshot.counts.blocking,
+      liveConfiguredInterfaces: snapshot.counts.liveConfigured,
+    },
+  };
+}
+
 export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): WorkspaceRun {
   const agenticExecution =
     run.agentic_execution ||
@@ -249,6 +389,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     status: run.status,
     type: agenticExecution.canonicalType,
     agentic_execution: agenticExecution,
+    sourceModel: 'execution-history',
     summary:
       run.summary || run.final_work_summary?.summary || run.final_work_summary?.deliverables?.summary || null,
     repository:

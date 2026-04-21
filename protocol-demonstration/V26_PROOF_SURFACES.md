@@ -953,6 +953,26 @@ Required closure posture:
   `uapi/tests/applicationActivityHistory.test.ts`
   proof surface:
   fifth-gate give-need workbench closure so Bitcode Terminal give-side selection, active need measurement, and fit/settlement posture can all be explicitly recorded back into the same Bitcode activity ledger, keeping repository/supply/need/fit decision boundaries on the protocol-owned write/read path rather than leaving them as preserved-shell-only state
+- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationExternalInterfacingPanel.tsx,application-activity-history.ts},uapi/tests/applicationActivityHistory.test.ts}`
+  test coverage:
+  `uapi/tests/applicationActivityHistory.test.ts`
+  proof surface:
+  fifth-gate repository-anchor and boundary-readiness closure so the Bitcode Terminal panels that establish repository supply anchoring and external-interface honesty can now be recorded into the same Bitcode activity ledger as the rest of the write surfaces, instead of remaining read-only orientation panels outside the protocol-owned reread path
+- `{uapi/app/application/{ApplicationPageClient.tsx,ApplicationTransactionWorkspace.tsx,application-transaction-source.ts,application-protocol-projection.ts,application-run-data.ts},uapi/tests/{applicationTransactionSource.test.ts,applicationProtocolProjection.test.ts}}`
+  test coverage:
+  `uapi/tests/applicationTransactionSource.test.ts` and `uapi/tests/applicationProtocolProjection.test.ts`
+  proof surface:
+  fifth-gate protocol-ledger state-unification closure so the Bitcode Terminal central ledger can project live protocol posture into the same searchable master-detail activity window, suppress review-fallback collapse when protocol state is present, and treat projected rows as first-class selected detail even before retained execution-history persistence catches up
+- `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
+  test coverage:
+  `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  fifth-gate closure-follow-through persistence closure so branch/closure/detail-triggered Bitcode writes now persist settlement metrics, branch artifacts, proof families, and recent history into `final_work_summary`, allowing the Bitcode Terminal selected-detail surface to reread closure posture from saved activity rows instead of depending on a still-live shell snapshot
+- `{uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationClosureControlDeck.tsx,ApplicationTransactionDetailSurface.tsx,application-activity-history.ts,application-transaction-detail-snapshot.ts,application-transaction-detail.ts},uapi/tests/{applicationActivityHistory.test.ts,applicationTransactionDetailSnapshot.test.ts,applicationTransactionDetail.test.ts}}`
+  test coverage:
+  `uapi/tests/applicationActivityHistory.test.ts`, `uapi/tests/applicationTransactionDetailSnapshot.test.ts`, and `uapi/tests/applicationTransactionDetail.test.ts`
+  proof surface:
+  fifth-gate persisted-closure-panel reread closure so the Bitcode Terminal selected-detail surface can reconstruct verification, branch, settlement, and ledger panels from persisted activity rows when live shell state is absent, reducing the split between runtime shell truth and saved activity truth
 
 ## Module namespace proof note
 

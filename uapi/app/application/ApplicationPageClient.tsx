@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { mountBitcodeApplicationShell } from '@bitcode/protocol-demonstration/src/client-entry.js';
+import { mountBitcodeApplicationShell, readBitcodeApplicationShellSnapshot } from '@bitcode/protocol-demonstration/src/client-entry.js';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 import ConversationsOverlay from '@/app/conversations/components/ConversationsOverlay';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
@@ -50,6 +50,7 @@ import {
 } from './application-transaction-query';
 import { resolveApplicationTransactionSource } from './application-transaction-source';
 import type { WorkspaceRun } from './application-run-data';
+import { buildProtocolProjectedWorkspaceRun } from './application-protocol-projection';
 
 const FIRST_GATE_STYLESHEET_ID = 'bitcode-first-gate-stylesheet';
 const FIRST_GATE_STYLESHEET_HREF = '/application/first-gate-styles';
@@ -71,6 +72,7 @@ export default function ApplicationPageClient() {
   const [isLoadingRuns, setIsLoadingRuns] = useState(!mockMode);
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
   const [repositoryContext, setRepositoryContext] = useState<ApplicationRepositoryContextState | null>(null);
+  const [projectedProtocolRun, setProjectedProtocolRun] = useState<WorkspaceRun | null>(null);
 
   const transactionSource = useMemo(
     () =>
@@ -78,8 +80,9 @@ export default function ApplicationPageClient() {
         liveRuns,
         mockMode,
         selectedTransactionId,
+        projectedRun: projectedProtocolRun,
       }),
-    [liveRuns, mockMode, selectedTransactionId],
+    [liveRuns, mockMode, projectedProtocolRun, selectedTransactionId],
   );
   const runs = transactionSource.runs;
   const transactionDataMode: TransactionDataMode = transactionSource.dataMode;
@@ -155,6 +158,39 @@ export default function ApplicationPageClient() {
   useEffect(() => {
     void refreshLiveRuns();
   }, [refreshLiveRuns]);
+
+  useEffect(() => {
+    let disposed = false;
+
+    if (mockMode) {
+      setProjectedProtocolRun(null);
+      return () => {
+        disposed = true;
+      };
+    }
+
+    const refreshProjectedRun = async () => {
+      try {
+        const snapshot = await readBitcodeApplicationShellSnapshot();
+        if (disposed) return;
+        setProjectedProtocolRun(buildProtocolProjectedWorkspaceRun(snapshot, repositoryContext));
+      } catch {
+        if (!disposed) {
+          setProjectedProtocolRun(null);
+        }
+      }
+    };
+
+    void refreshProjectedRun();
+    const intervalId = window.setInterval(() => {
+      void refreshProjectedRun();
+    }, 1200);
+
+    return () => {
+      disposed = true;
+      window.clearInterval(intervalId);
+    };
+  }, [mockMode, repositoryContext]);
 
   useEffect(() => {
     if (!runs.length) return;
@@ -323,7 +359,7 @@ export default function ApplicationPageClient() {
                     <ApplicationLiveSummaryStrip />
                   </div>
                   <div className="space-y-6">
-                    <ApplicationExternalInterfacingPanel />
+                    <ApplicationExternalInterfacingPanel onRecordActivity={handleRecordActivity} />
                     <ApplicationSectionAtlas />
                   </div>
                 </div>
@@ -341,6 +377,7 @@ export default function ApplicationPageClient() {
                     <ApplicationRepositoryContextPanel
                       preferredRepository={selectedRun?.repository || null}
                       onContextChange={setRepositoryContext}
+                      onRecordActivity={handleRecordActivity}
                     />
                     <ApplicationSupplySelectionPanel onRecordActivity={handleRecordActivity} />
                     <ApplicationDepositComposer onRecordActivity={handleRecordActivity} />

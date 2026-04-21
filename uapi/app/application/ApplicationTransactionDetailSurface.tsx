@@ -23,6 +23,7 @@ import ApplicationTransactionHistoryCard from './ApplicationTransactionHistoryCa
 import ApplicationTransactionIdentityCard from './ApplicationTransactionIdentityCard';
 import ApplicationTransactionProofsCard from './ApplicationTransactionProofsCard';
 import {
+  buildApplicationClosureFinalWorkSummary,
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
@@ -76,10 +77,13 @@ export default function ApplicationTransactionDetailSurface({
   const [actionError, setActionError] = useState<string | null>(null);
   const { snapshot, runControl, controls } = useApplicationShellBridge();
   const usesMockTransactions = isMockTransactionDataMode(transactionDataMode);
-  const closureState = useMemo(() => normalizeApplicationClosureState(snapshot), [snapshot]);
+  const runtimeClosureState = useMemo(() => normalizeApplicationClosureState(snapshot), [snapshot]);
+  const closureState = runtimeClosureState || detail?.closureState || null;
   const closureFollowThrough = useMemo(
-    () => buildApplicationTransactionClosureFollowThrough(closureState),
-    [closureState],
+    () =>
+      detail?.closureFollowThrough ||
+      buildApplicationTransactionClosureFollowThrough(closureState),
+    [closureState, detail?.closureFollowThrough],
   );
   const shellReady = Boolean(controls);
   const showDeliverables = detailSection === 'deliverables';
@@ -230,13 +234,14 @@ export default function ApplicationTransactionDetailSurface({
           selectedRunType: selectedRun.type || null,
           specVersion: payload.specVersion ?? null,
         },
-        output: {
-          protocol: {
-            ok: payload.ok ?? true,
-            latestRun: payload.latestRun ?? null,
+          output: {
+            protocol: {
+              ok: payload.ok ?? true,
+              latestRun: payload.latestRun ?? null,
+            },
+            finalWorkSummary: buildApplicationClosureFinalWorkSummary(runtimeClosureState, detail),
           },
-        },
-      });
+        });
     } catch (error) {
       setActionError(
         error instanceof Error ? error.message : 'Unable to run the selected closure activity.',

@@ -96,4 +96,58 @@ describe('application-transaction-source', () => {
       dataMode: 'mock-review',
     });
   });
+
+  it('treats a projected protocol row as live ledger state and suppresses review fallback', () => {
+    const projectedRun: WorkspaceRun = {
+      id: 'protocol-live-posture::bitcode-terminal',
+      created_at: '2026-04-21T18:00:00.000Z',
+      type: 'agentic-execution:need-measurement',
+      status: 'running',
+      sourceModel: 'protocol-projection',
+      summary: 'Live Bitcode need measurement for auth-remediation.',
+    };
+
+    expect(
+      resolveApplicationTransactionSource({
+        liveRuns: [],
+        mockMode: false,
+        selectedTransactionId: null,
+        mocksEnabled: false,
+        projectedRun,
+      }),
+    ).toEqual({
+      dataMode: 'live',
+      runs: [projectedRun],
+    });
+  });
+
+  it('prioritizes the projected protocol row ahead of persisted execution history', () => {
+    const liveRun: WorkspaceRun = {
+      id: 'live-run-123',
+      created_at: '2026-04-16T12:00:00.000Z',
+      type: 'agentic-execution:branch-artifact',
+      status: 'completed',
+      sourceModel: 'execution-history',
+    };
+    const projectedRun: WorkspaceRun = {
+      id: 'protocol-live-posture::bitcode-terminal',
+      created_at: '2026-04-21T18:00:00.000Z',
+      type: 'agentic-execution:proof-refresh',
+      status: 'running',
+      sourceModel: 'protocol-projection',
+    };
+
+    expect(
+      resolveApplicationTransactionSource({
+        liveRuns: [liveRun],
+        mockMode: false,
+        selectedTransactionId: liveRun.id,
+        mocksEnabled: false,
+        projectedRun,
+      }),
+    ).toEqual({
+      dataMode: 'live',
+      runs: [projectedRun, liveRun],
+    });
+  });
 });

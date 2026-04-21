@@ -60,6 +60,64 @@ describe('application-transaction-detail-snapshot helpers', () => {
           output: {
             final_work_summary: {
               summary: 'Final work summary.',
+              closurePanels: {
+                canonLabel: 'Bitcode active posture',
+                verification: {
+                  id: 'verification',
+                  label: 'Verification + ranked candidates',
+                  summary: 'Verification summary.',
+                  metrics: [{ label: 'Candidates', value: '5' }],
+                  rows: [{ label: 'Verification state', value: 'allowed-with-policy' }],
+                  chips: ['rollback runbook'],
+                },
+                branch: {
+                  id: 'branch',
+                  label: 'Branch artifacts',
+                  summary: 'Branch summary.',
+                  metrics: [{ label: 'Visible artifacts', value: '7' }],
+                  rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
+                  chips: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+                },
+                settlement: {
+                  id: 'settlement',
+                  label: 'Settlement + proof',
+                  summary: 'Settlement summary.',
+                  metrics: [{ label: 'Credited assets', value: '2' }],
+                  rows: [{ label: 'Bundle', value: 'bundle-001' }],
+                  chips: ['selection-materialization'],
+                  proofFamilies: [
+                    {
+                      label: 'selection-materialization',
+                      artifactPath: '.bitcode/selection-and-materialization-proof.json',
+                      theoremStatus: 'passed',
+                      replayArtifacts: '3',
+                    },
+                  ],
+                },
+                ledger: {
+                  id: 'ledger',
+                  label: 'Ledger + run history',
+                  summary: 'Ledger summary.',
+                  metrics: [{ label: 'History count', value: '1' }],
+                  rows: [{ label: 'buyer pools', value: '120 BTD' }],
+                  chips: [],
+                  recentRuns: [{ label: 'run-001', summary: 'bitcode/bitcode · completed · credited 2' }],
+                },
+              },
+              closureFollowThrough: {
+                canonLabel: 'Bitcode active posture',
+                settlementMetrics: [{ label: 'Credited assets', value: '2' }],
+                branchArtifacts: ['BITCODE_NEED.md'],
+                proofFamilies: [
+                  {
+                    label: 'selection-materialization',
+                    artifactPath: '.bitcode/selection-and-materialization-proof.json',
+                    theoremStatus: 'passed',
+                    replayArtifacts: '3',
+                  },
+                ],
+                recentHistory: [{ label: 'run-001', summary: 'bitcode/bitcode · completed · credited 2' }],
+              },
               deliverables: {
                 summary: 'Deliverable bundle summary.',
                 pullRequest: { title: 'Live PR', url: 'https://example.com/pr/2', number: 2 },
@@ -79,6 +137,40 @@ describe('application-transaction-detail-snapshot helpers', () => {
     expect(snapshot.repoSnapshot?.branch).toBe('main');
     expect(snapshot.processingStats.time).toBe('4m 12s');
     expect(snapshot.processingStats.tokenTotal).toBe(2200);
+    expect(snapshot.closureState).toMatchObject({
+      canonLabel: 'Bitcode active posture',
+      verification: {
+        id: 'verification',
+        label: 'Verification + ranked candidates',
+      },
+      settlement: {
+        id: 'settlement',
+        proofFamilies: [
+          {
+            label: 'selection-materialization',
+            theoremStatus: 'passed',
+          },
+        ],
+      },
+      ledger: {
+        id: 'ledger',
+        recentRuns: [{ label: 'run-001', summary: 'bitcode/bitcode · completed · credited 2' }],
+      },
+    });
+    expect(snapshot.closureFollowThrough).toEqual({
+      canonLabel: 'Bitcode active posture',
+      settlementMetrics: [{ label: 'Credited assets', value: '2' }],
+      branchArtifacts: ['BITCODE_NEED.md'],
+      proofFamilies: [
+        {
+          label: 'selection-materialization',
+          artifactPath: '.bitcode/selection-and-materialization-proof.json',
+          theoremStatus: 'passed',
+          replayArtifacts: '3',
+        },
+      ],
+      recentHistory: [{ label: 'run-001', summary: 'bitcode/bitcode · completed · credited 2' }],
+    });
     expect(snapshot.historyItemCount).toBe(2);
     expect(snapshot.eventCount).toBe(3);
   });

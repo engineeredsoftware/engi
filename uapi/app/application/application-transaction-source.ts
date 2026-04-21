@@ -2,6 +2,7 @@ import { ENABLE_MOCKS } from '@/config/featureFlags';
 import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
 
 import { isMockWorkspaceRunId, MOCK_RUNS, type WorkspaceRun } from './application-run-data';
+import { mergeProtocolProjectedRun } from './application-protocol-projection';
 
 export type ApplicationTransactionDataMode = TransactionDataMode;
 
@@ -10,6 +11,7 @@ type ReviewFallbackOptions = {
   mockMode: boolean;
   selectedTransactionId?: string | null;
   mocksEnabled?: boolean;
+  projectedRunPresent?: boolean;
 };
 
 export function shouldUseReviewFallbackTransactions({
@@ -17,8 +19,9 @@ export function shouldUseReviewFallbackTransactions({
   mockMode,
   selectedTransactionId,
   mocksEnabled = ENABLE_MOCKS,
+  projectedRunPresent = false,
 }: ReviewFallbackOptions) {
-  return !mockMode && liveHistoryCount === 0 && (mocksEnabled || isMockWorkspaceRunId(selectedTransactionId));
+  return !mockMode && !projectedRunPresent && liveHistoryCount === 0 && (mocksEnabled || isMockWorkspaceRunId(selectedTransactionId));
 }
 
 type ResolveTransactionSourceOptions = {
@@ -26,6 +29,7 @@ type ResolveTransactionSourceOptions = {
   mockMode: boolean;
   selectedTransactionId?: string | null;
   mocksEnabled?: boolean;
+  projectedRun?: WorkspaceRun | null;
 };
 
 export function resolveApplicationTransactionSource({
@@ -33,6 +37,7 @@ export function resolveApplicationTransactionSource({
   mockMode,
   selectedTransactionId,
   mocksEnabled = ENABLE_MOCKS,
+  projectedRun = null,
 }: ResolveTransactionSourceOptions): {
   dataMode: ApplicationTransactionDataMode;
   runs: WorkspaceRun[];
@@ -44,12 +49,15 @@ export function resolveApplicationTransactionSource({
     };
   }
 
+  const mergedRuns = mergeProtocolProjectedRun(liveRuns, projectedRun);
+
   if (
     shouldUseReviewFallbackTransactions({
       liveHistoryCount: liveRuns.length,
       mockMode,
       selectedTransactionId,
       mocksEnabled,
+      projectedRunPresent: Boolean(projectedRun),
     })
   ) {
     return {
@@ -60,6 +68,6 @@ export function resolveApplicationTransactionSource({
 
   return {
     dataMode: 'live',
-    runs: liveRuns,
+    runs: mergedRuns,
   };
 }

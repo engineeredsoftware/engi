@@ -1,7 +1,27 @@
 import type { DeliverablesDoc } from '@/components/base/bitcode/execution/DeliverablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
 
+import type {
+  ApplicationClosureCandidate,
+  ApplicationClosureHistoryEntry,
+  ApplicationClosurePanel,
+  ApplicationClosureProofFamily,
+  ApplicationClosureState,
+} from './application-closure-state';
 import type { WorkspaceRun } from './application-run-data';
+
+export type ApplicationRunDetailClosureFollowThrough = {
+  canonLabel: string | null;
+  settlementMetrics: Array<{ label: string; value: string }>;
+  branchArtifacts: string[];
+  proofFamilies: Array<{
+    label: string;
+    artifactPath: string;
+    theoremStatus: string;
+    replayArtifacts: string;
+  }>;
+  recentHistory: Array<{ label: string; summary: string }>;
+};
 
 type RepoSnapshot = {
   org: string;
@@ -25,6 +45,8 @@ export interface ApplicationRunDetailSnapshot {
   processingStats: ProcessingStats;
   proofStatus: string | null;
   closureFocus: string | null;
+  closureFollowThrough: ApplicationRunDetailClosureFollowThrough | null;
+  closureState: ApplicationClosureState | null;
   historyItemCount: number;
   eventCount: number;
 }
@@ -131,6 +153,143 @@ function coerceDeliverables(value: unknown): DeliverablesDoc | null {
   };
 }
 
+function coerceRows(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter(isRecord)
+    .map((entry) => ({
+      label: coerceString(entry.label) || '—',
+      value: coerceString(entry.value) || '—',
+    }));
+}
+
+function coerceMetrics(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter(isRecord)
+    .map((entry) => ({
+      label: coerceString(entry.label) || '—',
+      value: coerceString(entry.value) || '—',
+    }));
+}
+
+function coerceChips(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.filter((entry): entry is string => typeof entry === 'string' && entry.trim().length > 0);
+}
+
+function coerceCandidates(value: unknown): ApplicationClosureCandidate[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  return value
+    .filter(isRecord)
+    .map((entry) => ({
+      title: coerceString(entry.title) || 'Evaluated candidate',
+      artifactKind: coerceString(entry.artifactKind) || 'n/a',
+      score: coerceString(entry.score) || 'n/a',
+      rights: coerceString(entry.rights) || 'n/a',
+      strongestSignals: Array.isArray(entry.strongestSignals)
+        ? entry.strongestSignals.filter((signal): signal is string => typeof signal === 'string' && signal.trim().length > 0)
+        : [],
+    }));
+}
+
+function coerceProofFamilies(value: unknown): ApplicationClosureProofFamily[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  return value
+    .filter(isRecord)
+    .map((entry) => ({
+      label: coerceString(entry.label) || 'Proof family',
+      artifactPath: coerceString(entry.artifactPath) || 'n/a',
+      theoremStatus: coerceString(entry.theoremStatus) || 'n/a',
+      replayArtifacts: coerceString(entry.replayArtifacts) || 'n/a',
+    }));
+}
+
+function coerceRecentHistory(value: unknown): ApplicationClosureHistoryEntry[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  return value
+    .filter(isRecord)
+    .map((entry) => ({
+      label: coerceString(entry.label) || 'Activity',
+      summary: coerceString(entry.summary) || 'n/a',
+    }));
+}
+
+function coerceClosurePanel(value: unknown): ApplicationClosurePanel | null {
+  if (!isRecord(value)) return null;
+  const id = coerceString(value.id);
+  if (id !== 'verification' && id !== 'branch' && id !== 'settlement' && id !== 'ledger') return null;
+
+  return {
+    id,
+    label: coerceString(value.label) || 'Panel',
+    summary: coerceString(value.summary) || 'n/a',
+    metrics: coerceMetrics(value.metrics),
+    rows: coerceRows(value.rows),
+    chips: coerceChips(value.chips),
+    candidates: coerceCandidates(value.candidates),
+    proofFamilies: coerceProofFamilies(value.proofFamilies),
+    recentRuns: coerceRecentHistory(value.recentRuns),
+  };
+}
+
+function coerceClosureFollowThrough(value: unknown): ApplicationRunDetailClosureFollowThrough | null {
+  if (!isRecord(value)) return null;
+
+  const settlementMetrics = coerceRows(value.settlementMetrics);
+  const branchArtifacts = Array.isArray(value.branchArtifacts)
+    ? value.branchArtifacts.filter((entry): entry is string => typeof entry === 'string' && entry.trim().length > 0)
+    : [];
+  const proofFamilies = Array.isArray(value.proofFamilies)
+    ? value.proofFamilies
+        .filter(isRecord)
+        .map((entry) => ({
+          label: coerceString(entry.label) || 'Proof family',
+          artifactPath: coerceString(entry.artifactPath) || 'n/a',
+          theoremStatus: coerceString(entry.theoremStatus) || 'n/a',
+          replayArtifacts: coerceString(entry.replayArtifacts) || 'n/a',
+        }))
+    : [];
+  const recentHistory = Array.isArray(value.recentHistory)
+    ? value.recentHistory
+        .filter(isRecord)
+        .map((entry) => ({
+          label: coerceString(entry.label) || 'Activity',
+          summary: coerceString(entry.summary) || 'n/a',
+        }))
+    : [];
+
+  if (!settlementMetrics.length && !branchArtifacts.length && !proofFamilies.length && !recentHistory.length) {
+    return null;
+  }
+
+  return {
+    canonLabel: coerceString(value.canonLabel),
+    settlementMetrics,
+    branchArtifacts,
+    proofFamilies,
+    recentHistory,
+  };
+}
+
+function coerceClosureState(value: unknown): ApplicationClosureState | null {
+  if (!isRecord(value)) return null;
+  const verification = coerceClosurePanel(value.verification);
+  const branch = coerceClosurePanel(value.branch);
+  const settlement = coerceClosurePanel(value.settlement);
+  const ledger = coerceClosurePanel(value.ledger);
+
+  if (!verification || !branch || !settlement || !ledger) return null;
+
+  return {
+    canonLabel: coerceString(value.canonLabel) || 'Bitcode active posture',
+    verification,
+    branch,
+    settlement,
+    ledger,
+  };
+}
+
 function readFinalWorkSummary(run: Record<string, unknown>) {
   if (isRecord(run.output) && isRecord(run.output.final_work_summary)) return run.output.final_work_summary;
   if (isRecord(run.output_data) && isRecord(run.output_data.final_work_summary)) return run.output_data.final_work_summary;
@@ -155,6 +314,8 @@ export function buildApplicationRunDetailFromSelectedRun(
     },
     proofStatus: selectedRun.proofStatus || null,
     closureFocus: selectedRun.closureFocus || null,
+    closureFollowThrough: null,
+    closureState: null,
     historyItemCount: selectedRun.itemCount || 0,
     eventCount: 0,
   };
@@ -177,6 +338,9 @@ export function normalizeApplicationRunDetailPayload(
   const deliverables = coerceDeliverables(finalWorkSummary?.deliverables) || base.deliverables;
   const repoSnapshot =
     coerceRepoSnapshot(run.repo_snapshot) || coerceRepoSnapshot(finalWorkSummary?.repoSnapshot) || base.repoSnapshot;
+  const closureFollowThrough =
+    coerceClosureFollowThrough(finalWorkSummary?.closureFollowThrough) || base.closureFollowThrough;
+  const closureState = coerceClosureState(finalWorkSummary?.closurePanels) || base.closureState;
   const runProcessingStats = coerceProcessingStats(run.processing_stats);
   const finalWorkSummaryProcessingStats = coerceProcessingStats(finalWorkSummary?.processingStats);
   const hasRunProcessingStats =
@@ -200,6 +364,8 @@ export function normalizeApplicationRunDetailPayload(
     },
     proofStatus: base.proofStatus,
     closureFocus: base.closureFocus,
+    closureFollowThrough,
+    closureState,
     historyItemCount: Array.isArray(run.items) ? run.items.length : base.historyItemCount,
     eventCount: Array.isArray((payload as ApplicationRunHistoryPayload).events)
       ? (payload as ApplicationRunHistoryPayload).events!.length

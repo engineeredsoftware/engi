@@ -6,6 +6,7 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   repository?: string | null;
   branch?: string | null;
   participant?: string | null;
+  sourceModel?: 'execution-history' | 'protocol-projection' | 'mock-review';
   isOwnTransaction?: boolean;
   transactionLens?: 'give' | 'need' | 'closure';
   itemCount?: number;

@@ -239,8 +239,9 @@ export default function ApplicationTransactionWorkspace({
     setRunDetail(fallbackDetail);
     setRunDetailError(null);
 
-    if (usesMockTransactions) {
+    if (usesMockTransactions || selectedRun.sourceModel === 'protocol-projection') {
       setIsLoadingRunDetail(false);
+      setRunDetailError(null);
       return () => {
         disposed = true;
       };

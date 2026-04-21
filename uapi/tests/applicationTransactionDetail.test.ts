@@ -49,6 +49,74 @@ const detail: ApplicationRunDetailSnapshot = {
   },
   proofStatus: 'proof witness ready',
   closureFocus: 'bounded disclosure',
+  closureFollowThrough: {
+    canonLabel: 'persisted closure posture',
+    settlementMetrics: [{ label: 'Credited assets', value: '2' }],
+    branchArtifacts: ['BITCODE_NEED.md', '.bitcode/settlement-preview.json'],
+    proofFamilies: [
+      {
+        label: 'selection-materialization',
+        artifactPath: '.bitcode/selection-and-materialization-proof.json',
+        theoremStatus: 'passed',
+        replayArtifacts: '3',
+      },
+    ],
+    recentHistory: [
+      {
+        label: 'run-001',
+        summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
+      },
+    ],
+  },
+  closureState: {
+    canonLabel: 'persisted closure posture',
+    verification: {
+      id: 'verification',
+      label: 'Persisted verification',
+      summary: 'Persisted verification summary.',
+      metrics: [{ label: 'Candidates', value: '5' }],
+      rows: [{ label: 'Verification state', value: 'allowed-with-policy' }],
+      chips: ['rollback runbook'],
+    },
+    branch: {
+      id: 'branch',
+      label: 'Persisted branch',
+      summary: 'Persisted branch summary.',
+      metrics: [{ label: 'Visible artifacts', value: '2' }],
+      rows: [{ label: 'Branch', value: 'bitcode/persisted-branch' }],
+      chips: ['BITCODE_NEED.md'],
+    },
+    settlement: {
+      id: 'settlement',
+      label: 'Persisted settlement',
+      summary: 'Persisted settlement summary.',
+      metrics: [{ label: 'Credited assets', value: '2' }],
+      rows: [{ label: 'Bundle', value: 'bundle-001' }],
+      chips: ['selection-materialization'],
+      proofFamilies: [
+        {
+          label: 'selection-materialization',
+          artifactPath: '.bitcode/selection-and-materialization-proof.json',
+          theoremStatus: 'passed',
+          replayArtifacts: '3',
+        },
+      ],
+    },
+    ledger: {
+      id: 'ledger',
+      label: 'Persisted ledger',
+      summary: 'Persisted ledger summary.',
+      metrics: [{ label: 'History count', value: '1' }],
+      rows: [{ label: 'Buyer pool', value: '120 BTD' }],
+      chips: [],
+      recentRuns: [
+        {
+          label: 'run-001',
+          summary: 'bitcode/bitcode · bitcode/auth-rollback · completed · credited 2',
+        },
+      ],
+    },
+  },
   historyItemCount: 5,
   eventCount: 3,
 };
@@ -219,6 +287,24 @@ describe('application-transaction-detail helpers', () => {
         branch: closureState.branch,
         settlement: closureState.settlement,
         ledger: closureState.ledger,
+      },
+    });
+  });
+
+  it('falls back to persisted closure canon when live closure state is absent', () => {
+    const closureFollowThrough = buildApplicationTransactionClosureFollowThrough(null);
+
+    expect(buildApplicationTransactionClosurePayload(selectedTransaction, detail, detail.closureState, closureFollowThrough)).toMatchObject({
+      closure: {
+        canonLabel: 'persisted closure posture',
+        verification: {
+          id: 'verification',
+          label: 'Persisted verification',
+        },
+        settlement: {
+          id: 'settlement',
+          label: 'Persisted settlement',
+        },
       },
     });
   });

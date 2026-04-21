@@ -739,6 +739,7 @@ It is the joined deployment of:
 The following are required for fifth-gate minimum functionality:
 - activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
 - `/application` write surfaces for give, need, deposit, branch, and closure round-trip back into that same activity ledger rather than leaving the Bitcode Terminal for a separate write/read model,
+- when live protocol posture exists before retained execution-history persistence catches up, the Bitcode Terminal may project that posture into the same activity ledger as a protocol-owned live row rather than dropping back to review-only or mock-only state,
 - conversations are a real rich-input write surface with source attachments, execution intent, and output destinations,
 - auxillaries hold the real preconditions for transacting and settling,
 - wallet identity in `Profile` plus GitHub or equivalent repository scope in `Connects` are enforced as the minimum transactional readiness posture,

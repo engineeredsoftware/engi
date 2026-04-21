@@ -4,6 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
+import {
+  buildApplicationExternalInterfacingDraft,
+  type ApplicationActivityRecordDraft,
+} from './application-activity-history';
 import { APPLICATION_WORKSPACE_EXPLAINERS } from './application-workspace-explainers';
 import { jumpToShellSection } from './application-shell-reading';
 import {
@@ -32,10 +36,18 @@ function runtimeTone(runtimeState: string, blocking: boolean) {
   return 'border-white/10 bg-white/5 text-neutral-200';
 }
 
-export default function ApplicationExternalInterfacingPanel() {
+interface ApplicationExternalInterfacingPanelProps {
+  onRecordActivity?: (draft: ApplicationActivityRecordDraft) => Promise<unknown>;
+}
+
+export default function ApplicationExternalInterfacingPanel({
+  onRecordActivity,
+}: ApplicationExternalInterfacingPanelProps) {
   const [snapshot, setSnapshot] = useState<ApplicationExternalRuntimeSnapshot | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [recordMessage, setRecordMessage] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   const refresh = useCallback((preserveSnapshot = true) => {
     let disposed = false;
@@ -86,6 +98,24 @@ export default function ApplicationExternalInterfacingPanel() {
     };
   }, [refresh]);
 
+  const handleRecordBoundaryReadiness = async () => {
+    if (!snapshot || !onRecordActivity) return;
+
+    setIsRecording(true);
+    setRecordMessage(null);
+
+    try {
+      await onRecordActivity(buildApplicationExternalInterfacingDraft(snapshot));
+      setRecordMessage('External interface readiness recorded into the Bitcode activity ledger.');
+    } catch (nextError) {
+      setRecordMessage(
+        nextError instanceof Error ? nextError.message : 'Unable to record external interface readiness.',
+      );
+    } finally {
+      setIsRecording(false);
+    }
+  };
+
   const counts = snapshot?.counts;
 
   return (
@@ -95,6 +125,12 @@ export default function ApplicationExternalInterfacingPanel() {
       summary="Check what is live, modeled, or blocked before you trust the rest of the operating chain."
       explainer={APPLICATION_WORKSPACE_EXPLAINERS.boundaryRuntime}
     >
+      {recordMessage ? (
+        <div className="mb-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+          {recordMessage}
+        </div>
+      ) : null}
+
       <div className="grid gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400 tablet:grid-cols-2">
         <div className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4">
           <p className="text-emerald-300/85">Runtime scope</p>
@@ -118,6 +154,16 @@ export default function ApplicationExternalInterfacingPanel() {
               className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-white/18 hover:bg-white/10"
             >
               Refresh
+            </button>
+            <button
+              type="button"
+              disabled={!snapshot || isRecording}
+              onClick={() => {
+                void handleRecordBoundaryReadiness();
+              }}
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isRecording ? 'Recording…' : 'Record readiness'}
             </button>
           </div>
 

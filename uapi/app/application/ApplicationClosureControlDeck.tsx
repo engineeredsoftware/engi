@@ -6,6 +6,7 @@ import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetric
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
+  buildApplicationClosureFinalWorkSummary,
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
@@ -95,13 +96,14 @@ export default function ApplicationClosureControlDeck({
           scenario: commandState?.scenario || null,
           specVersion: payload.specVersion ?? null,
         },
-        output: {
-          protocol: {
-            ok: payload.ok ?? true,
-            latestRun: payload.latestRun ?? null,
+          output: {
+            protocol: {
+              ok: payload.ok ?? true,
+              latestRun: payload.latestRun ?? null,
+            },
+            finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState),
           },
-        },
-      });
+        });
     } catch (error) {
       setActionError(
         error instanceof Error ? error.message : 'Unable to run the closure branch activity.',

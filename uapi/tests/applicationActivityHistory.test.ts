@@ -1,14 +1,19 @@
 import {
+  buildApplicationClosureFinalWorkSummary,
+  buildApplicationExternalInterfacingDraft,
   buildApplicationFitWorkbenchDraft,
   buildApplicationGiveWorkbenchDraft,
   buildApplicationNeedMeasurementDraft,
+  buildApplicationRepositoryAnchorDraft,
   buildApplicationSupplySelectionDraft,
   buildApplicationExecutionHistoryRequest,
   mapExecutionHistoryRunToWorkspaceRun,
   upsertWorkspaceRun,
 } from '@/app/application/application-activity-history';
+import type { ApplicationExternalRuntimeSnapshot } from '@/app/application/application-external-runtime';
 import type { ApplicationRepositoryContextState } from '@/app/application/application-repository-context';
 import type { WorkspaceRun } from '@/app/application/application-run-data';
+import type { ApplicationClosureState } from '@/app/application/application-closure-state';
 import type { PipelineExecution } from '@/types/api';
 
 describe('application-activity-history', () => {
@@ -29,6 +34,51 @@ describe('application-activity-history', () => {
         username: 'bitcode',
         type: 'organization',
       },
+    },
+  };
+
+  const closureState: ApplicationClosureState = {
+    canonLabel: 'Bitcode active posture',
+    verification: {
+      id: 'verification',
+      label: 'Verification',
+      summary: 'Verification summary.',
+      metrics: [{ label: 'Candidates', value: '3' }],
+      rows: [{ label: 'Verification state', value: 'allowed-with-policy' }],
+      chips: ['rollback runbook'],
+    },
+    branch: {
+      id: 'branch',
+      label: 'Branch artifacts',
+      summary: 'Branch summary.',
+      metrics: [{ label: 'Visible artifacts', value: '4' }],
+      rows: [{ label: 'Branch', value: 'bitcode/auth-rollback' }],
+      chips: ['BITCODE_NEED.md'],
+    },
+    settlement: {
+      id: 'settlement',
+      label: 'Settlement + proof',
+      summary: 'Settlement summary.',
+      metrics: [{ label: 'Credited assets', value: '2' }],
+      rows: [{ label: 'Bundle', value: 'bundle-001' }],
+      chips: ['selection-materialization'],
+      proofFamilies: [
+        {
+          label: 'selection-materialization',
+          artifactPath: '.bitcode/selection-and-materialization-proof.json',
+          theoremStatus: 'passed',
+          replayArtifacts: '3',
+        },
+      ],
+    },
+    ledger: {
+      id: 'ledger',
+      label: 'Ledger + run history',
+      summary: 'Ledger summary.',
+      metrics: [{ label: 'History count', value: '1' }],
+      rows: [{ label: 'Buyer pool', value: '120 BTD' }],
+      chips: [],
+      recentRuns: [{ label: 'run-001', summary: 'bitcode/terminal · completed · credited 2' }],
     },
   };
 
@@ -62,6 +112,60 @@ describe('application-activity-history', () => {
         repo: 'terminal',
         branch: 'main',
         commit: '',
+      },
+    });
+  });
+
+  it('merges closure follow-through into final_work_summary for persisted reread', () => {
+    const request = buildApplicationExecutionHistoryRequest(
+      {
+        type: 'agentic-execution:proof-refresh',
+        summary: 'Recorded closure posture.',
+        output: {
+          protocol: { ok: true },
+          finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState, {
+            summary: 'Recorded closure posture.',
+            processingStats: {
+              time: '4m 12s',
+              tokenTotal: 2200,
+              btdUsed: 24.5,
+              usdTotal: 1.62,
+              averageLatencyMs: 930,
+            },
+          }),
+        },
+      },
+      { repositoryContext },
+    );
+
+    expect(request.output).toMatchObject({
+      protocol: { ok: true },
+      final_work_summary: {
+        summary: 'Recorded closure posture.',
+        closurePanels: {
+          canonLabel: 'Bitcode active posture',
+          verification: {
+            id: 'verification',
+            label: 'Verification',
+          },
+          settlement: {
+            id: 'settlement',
+            label: 'Settlement + proof',
+          },
+        },
+        closureFollowThrough: {
+          canonLabel: 'Bitcode active posture',
+          branchArtifacts: ['BITCODE_NEED.md'],
+          settlementMetrics: [{ label: 'Credited assets', value: '2' }],
+          recentHistory: [{ label: 'run-001', summary: 'bitcode/terminal · completed · credited 2' }],
+        },
+        processingStats: {
+          time: '4m 12s',
+          tokens: { total: 2200 },
+          btdUsed: 24.5,
+          usdTotal: 1.62,
+          averageLatencyMs: 930,
+        },
       },
     });
   });
@@ -276,6 +380,69 @@ describe('application-activity-history', () => {
       type: 'agentic-execution:proof-refresh',
       detailSection: 'closure',
       summary: 'Recorded asset-pack fit and settlement posture for auth-remediation.',
+    });
+  });
+
+  it('builds repository anchor and boundary-readiness drafts for the ledger', () => {
+    const repositoryDraft = buildApplicationRepositoryAnchorDraft(repositoryContext);
+    const externalSnapshot: ApplicationExternalRuntimeSnapshot = {
+      configuredEnvironmentMode: 'review',
+      actualityDisposition: 'boundary-honest',
+      counts: {
+        total: 2,
+        liveConfigured: 1,
+        liveMisconfigured: 0,
+        boundaryOnly: 1,
+        mock: 0,
+        blocking: 0,
+      },
+      interfaces: [
+        {
+          interfaceId: 'github-live-interface',
+          label: 'GitHub',
+          runtimeState: 'live-configured',
+          resultClass: 'live',
+          reconciliationState: 'in-sync',
+          telemetryCoverageState: 'covered',
+          liveEnabled: true,
+          missingBindingKeys: [],
+          missingSecretEnvKeys: [],
+          environmentIdentityRef: 'github://bitcode',
+          environmentResourceRef: 'repo://bitcode/terminal',
+          blocking: false,
+        },
+      ],
+    };
+    const externalDraft = buildApplicationExternalInterfacingDraft(externalSnapshot);
+
+    expect(repositoryDraft).toMatchObject({
+      type: 'agentic-execution:branch-artifact',
+      detailSection: 'transaction',
+      summary: 'Recorded repository anchor for bitcode/terminal.',
+    });
+    expect(repositoryDraft.output).toMatchObject({
+      repositoryAnchor: {
+        provider: 'github',
+        repository: {
+          fullName: 'bitcode/terminal',
+          defaultBranch: 'main',
+        },
+      },
+    });
+    expect(externalDraft).toMatchObject({
+      type: 'agentic-execution:proof-refresh',
+      detailSection: 'closure',
+      summary: 'Recorded external interface readiness for review Bitcode posture.',
+    });
+    expect(externalDraft.output).toMatchObject({
+      externalInterfacing: {
+        configuredEnvironmentMode: 'review',
+        actualityDisposition: 'boundary-honest',
+        counts: {
+          total: 2,
+          liveConfigured: 1,
+        },
+      },
     });
   });
 });

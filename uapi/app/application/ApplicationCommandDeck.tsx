@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 
 import ApplicationWorkspaceCard from './ApplicationWorkspaceCard';
 import {
+  buildApplicationClosureFinalWorkSummary,
   readApplicationRouteError,
   type ApplicationActivityRecordDraft,
 } from './application-activity-history';
@@ -14,6 +15,7 @@ import {
   normalizeApplicationCommandState,
   type ApplicationCommandState,
 } from './application-command-state';
+import { normalizeApplicationClosureState } from './application-closure-state';
 import { deriveApplicationCommandPresentation } from './application-command-presentation';
 import ApplicationFlowGuideCard from './ApplicationFlowGuideCard';
 import { useApplicationShellBridge } from './application-shell-bridge';
@@ -42,6 +44,7 @@ export default function ApplicationCommandDeck({ onRecordActivity }: Application
     () => normalizeApplicationCommandState(snapshot),
     [snapshot],
   );
+  const closureState = useMemo(() => normalizeApplicationClosureState(snapshot), [snapshot]);
 
   const scenarioOptions = commandState?.scenarioOptions || [];
   const projectionOptions = commandState?.projectionOptions || [];
@@ -109,6 +112,7 @@ export default function ApplicationCommandDeck({ onRecordActivity }: Application
               ok: payload.ok ?? true,
               latestRun: payload.latestRun ?? null,
             },
+            finalWorkSummary: buildApplicationClosureFinalWorkSummary(closureState),
           },
         });
         setActionMessage('Branch-artifact activity recorded into the Bitcode ledger.');
