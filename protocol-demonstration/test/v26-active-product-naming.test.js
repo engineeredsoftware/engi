@@ -38,6 +38,10 @@ const applicationTransactionActivitySurfaceSource = readFileSync(
   new URL('../../uapi/app/application/ApplicationTransactionActivitySurface.tsx', import.meta.url),
   'utf8',
 );
+const applicationTransactionWorkspaceSource = readFileSync(
+  new URL('../../uapi/app/application/ApplicationTransactionWorkspace.tsx', import.meta.url),
+  'utf8',
+);
 const applicationGiveNeedWorkbenchSource = readFileSync(
   new URL('../../uapi/app/application/ApplicationGiveNeedWorkbench.tsx', import.meta.url),
   'utf8',
@@ -1085,12 +1089,18 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.match(applicationWorkspaceCopySource, /asset-pack posture/);
   assert.match(applicationWorkspaceCopySource, /asset pack, proofs, and history/);
   assert.match(applicationTransactionActivitySurfaceSource, /Bitcode Terminal/);
+  assert.match(applicationTransactionWorkspaceSource, /Master-detail activity, asset packs, proofs, and history/);
+  assert.match(applicationTransactionWorkspaceSource, /select Bitcode activity, inspect its asset packs/);
   assert.match(applicationGiveNeedWorkbenchSource, /need measurement/);
   assert.match(applicationGiveNeedWorkbenchSource, /Asset-pack fit and settlement intent/);
   assert.match(applicationNeedScenarioPanelSource, /Choose the active need measurement/);
   assert.match(applicationNeedScenarioPanelSource, /asset-pack fit, proof, or settlement posture/);
   assert.match(applicationClosureNativeSectionsSource, /Verification, asset pack, settlement, and ledger/);
   assert.match(applicationExperienceArchitectureSource, /label: 'Bitcode Terminal'/);
+  assert.match(applicationExperienceArchitectureSource, /Bitcode activity ledger/);
+  assert.match(applicationExperienceArchitectureSource, /label: 'Asset packs'/);
+  assert.match(applicationWorkspaceExplainersSource, /selected activity/);
+  assert.match(applicationWorkspaceExplainersSource, /asset packs or settlement/);
   assert.match(bitcodePublicCopySource, /Open Bitcode Terminal/);
   assert.match(bitcodePublicCopySource, /Bitcode Terminal/);
   assert.doesNotMatch(bitcodePublicCopySource, /Open transactions/);

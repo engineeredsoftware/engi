@@ -11,9 +11,9 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'The Bitcode Terminal is organized around one central ledger window, with dedicated writing and auxillary modes available only when deeper action is needed.',
     detail:
-      'Use this map to keep the main Bitcode Terminal reading surface stable: transactions and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations.',
+      'Use this map to keep the main Bitcode Terminal reading surface stable: Bitcode activity and selected detail stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations.',
     points: [
-      'Keeps the ledger and selected transaction central',
+      'Keeps the ledger and selected activity central',
       'Treats conversations and Auxillaries as deliberate follow-through modes',
       'Keeps Give and Need legible as the two primary actions',
     ],
@@ -32,12 +32,12 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     ],
   }),
   needScenarios: buildExplainer({
-    kicker: 'Demand framing',
-    title: 'Need scenario selection',
+    kicker: 'Need measurement',
+    title: 'Need measurement selection',
     summary:
-      'The active demand frame should be explicit and switchable before you judge fit, proof, or settlement posture.',
+      'The active needer demand frame should be explicit and switchable before you judge fit, proof, or settlement posture.',
     detail:
-      'This surface keeps the currently measured demand visible as a first-class transaction choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into execution plumbing.',
+      'This surface keeps the currently measured demand visible as a first-class Bitcode choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into execution plumbing.',
     points: [
       'Keeps the active demand frame explicit',
       'Makes scenario switching part of the Bitcode Terminal',
@@ -74,12 +74,12 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     kicker: 'Operating chain',
     title: 'Give, need, and fit in one read',
     summary:
-      'Supply, demand, and fit should read as one operating chain so you can judge why the current transaction is or is not moving forward.',
+      'Supply, need measurement, and fit should read as one operating chain so you can judge why the current Bitcode activity is or is not moving forward.',
     detail:
       'The Bitcode Terminal is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
     points: [
-      'Keeps give and need in one transactions read',
-      'Makes fit legible before proof and settlement',
+      'Keeps give and need in one Bitcode Terminal read',
+      'Makes asset-pack fit legible before proof and settlement',
       'Supports quick orientation before opening the exact proof view',
     ],
   }),
@@ -87,11 +87,11 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     kicker: 'Closure operation',
     title: 'Run and review closure follow-through',
     summary:
-      'Closure work should stay adjacent to the active transaction detail so verification, branch execution, settlement, and ledger follow-through are one continuous operation.',
+      'Closure work should stay adjacent to the active Bitcode activity detail so verification, branch execution, settlement, and ledger follow-through are one continuous operation.',
     detail:
       'This surface is where you run closure, refresh the current state, and reopen the exact follow-through path without rebuilding context.',
     points: [
-      'Keeps closure controls near the active transaction',
+      'Keeps closure controls near the active activity',
       'Makes refresh and reset explicit instead of hidden',
       'Preserves continuity into verification, branch, settlement, and ledger reads',
     ],
@@ -127,7 +127,7 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     summary:
       'Bitcode should show what is live, modeled, boundary-only, or blocked without making you infer that state from failures later in the flow.',
     detail:
-      'Use this read before trusting downstream deliverables or settlement. A healthy Bitcode Terminal keeps boundary truth visible and fail-closed.',
+      'Use this read before trusting downstream asset packs or settlement. A healthy Bitcode Terminal keeps boundary truth visible and fail-closed.',
     points: [
       'Shows blocked interfaces early',
       'Keeps modeled and live states separate',
@@ -188,38 +188,38 @@ export const APPLICATION_SURFACE_EXPLAINERS = {
     kicker: 'Reading modes',
     title: 'Read here, open deeper modes when needed',
     summary:
-      'The right rail should keep mode changes obvious without competing with the central transaction window.',
+      'The right rail should keep mode changes obvious without competing with the central activity ledger window.',
     detail:
-      'Use the rail to open conversations or Auxillaries deliberately, while the ledger and selected transaction remain the primary read surface.',
+      'Use the rail to open conversations or Auxillaries deliberately, while the ledger and selected activity remain the primary read surface.',
     points: [
       'Keeps deeper drafting deliberate',
-      'Avoids splitting attention away from the transaction window',
+      'Avoids splitting attention away from the activity ledger',
       'Preserves orientation when switching modes',
     ],
   }),
   railSupport: buildExplainer({
     kicker: 'Support context',
-    title: 'Keep key transaction context close',
+    title: 'Keep key activity context close',
     summary:
-      'Mode, count, timing, and selected-transaction support should stay nearby without replacing the central reading work.',
+      'Mode, count, timing, and selected-activity support should stay nearby without replacing the central reading work.',
     detail:
-      'The support rail is for quick orientation only. It should keep you anchored while deeper proof, deliverable, and history reading stays in the main detail surface.',
+      'The support rail is for quick orientation only. It should keep you anchored while deeper proof, asset-pack, and history reading stays in the main detail surface.',
     points: [
       'Supports quick orientation without duplication',
       'Keeps the main reading surface primary',
-      'Makes selected transaction context easy to recover',
+      'Makes selected activity context easy to recover',
     ],
   }),
   railFocus: buildExplainer({
     kicker: 'Selected detail anchor',
-    title: 'Reconfirm the active transaction',
+    title: 'Reconfirm the active activity',
     summary:
-      'The rail should make it easy to confirm which transaction is active before you continue reading or switch into a dedicated mode.',
+      'The rail should make it easy to confirm which activity is active before you continue reading or switch into a dedicated mode.',
     detail:
-      'This card keeps the transaction id and short summary close at hand so you can safely resume work after changing filters, modes, or detail tabs.',
+      'This card keeps the activity id and short summary close at hand so you can safely resume work after changing filters, modes, or detail tabs.',
     points: [
       'Prevents context loss while moving around the Bitcode Terminal',
-      'Keeps the active transaction obvious',
+      'Keeps the active activity obvious',
       'Supports resumable work',
     ],
   }),

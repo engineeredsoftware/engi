@@ -7,26 +7,26 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
   search: buildExplainer({
     kicker: 'Master table control',
-    title: 'Search transactions',
-    summary: 'Find transactions by id, repository, branch, participant, proof posture, or summary language from one terminal-style search field.',
+    title: 'Search Bitcode activity',
+    summary: 'Find Bitcode activity by id, repository, branch, participant, proof posture, or summary language from one terminal-style search field.',
     detail:
-      'Use this first when you know the transaction context but not the exact row position. The selected detail route stays intact while the master window narrows around it.',
+      'Use this first when you know the activity context but not the exact row position. The selected detail route stays intact while the master window narrows around it.',
     points: [
-      'Searches across core surfaced transaction fields',
+      'Searches across core surfaced activity fields',
       'Keeps the Bitcode Terminal fast without route changes',
     ],
   }),
   status: buildExplainer({
     kicker: 'Lifecycle filter',
     title: 'Status filter',
-    summary: 'Narrow the ledger to transactions that are running, completed, or fail-closed.',
+    summary: 'Narrow the ledger to Bitcode activity that is running, completed, or fail-closed.',
     detail: 'Use status when the question is operational posture rather than repository or participant ownership.',
     points: ['Running work stays distinct from settled history', 'Fail-closed rows remain easy to isolate'],
   }),
   ownership: buildExplainer({
     kicker: 'Perspective filter',
     title: 'Ownership filter',
-    summary: 'Switch between your own transactions and broader network-visible activity without changing the detail surface.',
+    summary: 'Switch between your own Bitcode activity and broader network-visible activity without changing the detail surface.',
     detail: 'This keeps one shared read surface while still letting you separate personal work from wider participation.',
     points: ['Supports mine vs network posture', 'Preserves the same detail route and tools'],
   }),
@@ -77,8 +77,8 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
 export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
   transaction: buildExplainer({
     kicker: 'Master column',
-    title: 'Transaction column',
-    summary: 'Shows the transaction id, transaction type, and one-line summary that anchors the selected detail view.',
+    title: 'Activity column',
+    summary: 'Shows the activity id, activity type, and one-line summary that anchors the selected detail view.',
     detail: 'Selecting a row here loads the central detail surface without pushing you out to another surface.',
     points: ['Primary row selector', 'Carries the human-readable summary'],
   }),
@@ -99,15 +99,15 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
   participant: buildExplainer({
     kicker: 'Principal column',
     title: 'Participant column',
-    summary: 'Shows the surfaced principal plus whether the transaction is yours or broader network activity.',
-    detail: 'This is the quickest way to see who the row belongs to before reading proofs, history, or deliverables.',
+    summary: 'Shows the surfaced principal plus whether the activity is yours or broader network activity.',
+    detail: 'This is the quickest way to see who the row belongs to before reading proofs, history, or asset packs.',
     points: ['Carries both label and mine/network context'],
   }),
   repository: buildExplainer({
     kicker: 'Boundary column',
     title: 'Repository column',
-    summary: 'Shows the repository and branch or ref tied to the transaction row.',
-    detail: 'Repository context keeps the transaction ledger tied back to concrete source boundaries.',
+    summary: 'Shows the repository and branch or ref tied to the activity row.',
+    detail: 'Repository context keeps the Bitcode activity ledger tied back to concrete source boundaries.',
     points: ['Useful during multi-repo review', 'Useful during branch artifact inspection'],
   }),
   proof: buildExplainer({
@@ -121,7 +121,7 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
     kicker: 'Time column',
     title: 'Started column',
     summary: 'Shows the surfaced start time so the master table reads as a time-aware operating ledger.',
-    detail: 'Time ordering matters when the same repository or participant has multiple adjacent runs in motion.',
+    detail: 'Time ordering matters when the same repository or participant has multiple adjacent Bitcode activity runs in motion.',
     points: ['Useful with newest/oldest sort', 'Useful during incident or replay review'],
   }),
 } as const;

@@ -413,7 +413,7 @@ The V26 application architecture is centered on exactly three main experiences:
 
 For V26, those mean:
 - `master detail`
-  The primary Bitcode application workspace inside `/application`, carrying the give/need operating chain, a rich transactions master surface, transaction detail, deliverables, proofs, history, and consequence reading.
+  The primary Bitcode application workspace inside `/application`, carrying the give/need operating chain, a rich Bitcode activity ledger (`transactions` master surface), selected activity detail, asset-pack outputs (`deliverables`), proofs, history, and consequence reading.
 - `conversations`
   The fullscreen conversational workspace entered from within `/application`, retaining chat-based and ChatGPT-like interaction, tool usage, and run/pipeline attachment as first-class Bitcode behavior.
 - `auxillaries`
@@ -448,10 +448,10 @@ For V26, those mean:
   Scenario framing, measured demand, fit pressure, selection pressure, and the actions that make explicit what the system is trying to satisfy before settlement and proof closure.
 
 The command frame, section decomposition, and master-detail workspace must make `give` and `need` legible as the two main Bitcode actions.
-The read experience is the transactions master-detail window inside `/application`.
+The read experience is the Bitcode activity ledger window inside `/application`, with `transactions` retained as the route/query-owned master-detail substructure id.
 The write experience moves through `give`, `need`, and auxillaries/interfaces posture via conversations and auxillaries entered from application context.
 Verification, branch artifacts, settlement, proofs, deliverables, and history remain required, but they are consequence and closure stages of the give/need chain rather than additional top-level actions.
-Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels.
+Within that master-detail experience, V26 now treats `transactions`, `deliverables`, `proofs`, and `history` as the four required substructures rather than as optional auxiliary panels; operator-facing copy should read these as the Bitcode activity ledger, asset-pack outputs, proofs, and history.
 The transactions master itself must stay query-owned, searchable, filterable, and paginatable rather than falling back to component-local table state.
 Selected-transaction proof, history, and identity detail must also support a reusable visual-vs-raw payload reading posture rather than leaving JSON-bearing detail stranded in ad hoc prose cards.
 The auxillary ring model is also fixed for V26:
@@ -471,7 +471,7 @@ Profile-owned repository knowledge sharing should also fail closed through an ap
 
 The second-gate target structure is:
 - `uapi/app/application/*`
-  The only primary Bitcode destination and the master-detail carrier for give/need operations, a rich transactions table, transaction detail, deliverables, proofs, and history.
+  The only primary Bitcode destination and the master-detail carrier for give/need operations, a rich activity ledger (`transactions` table), selected activity detail, asset-pack outputs (`deliverables`), proofs, and history.
 - `uapi/components/base/bitcode/layout/nav.tsx`
   The retained pre-Bitcode navigation frame that continues to anchor the application.
 - `uapi/app/auxillaries/components/*`

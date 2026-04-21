@@ -94,13 +94,13 @@ function buildMasterDetailSubstructures(
         summary:
           detail?.summary ||
           selectedRun.summary ||
-          'This selected transaction is the active detail surface inside the Bitcode Terminal.',
+          'This selected Bitcode activity is the active detail surface inside the Bitcode Terminal.',
         metrics: [
           { label: 'Status', value: selectedRun.status || 'running' },
           { label: 'Started', value: formatRunTimestamp(selectedRun.created_at) },
         ],
         rows: [
-          { label: 'Transaction id', value: selectedRun.id },
+          { label: 'Activity id', value: selectedRun.id },
           ...(selectedRun.repository ? [{ label: 'Repository', value: selectedRun.repository }] : []),
           ...(selectedRun.branch ? [{ label: 'Branch', value: selectedRun.branch }] : []),
         ],
@@ -112,7 +112,7 @@ function buildMasterDetailSubstructures(
         ...substructure,
         summary:
           detail?.deliverables?.summary ||
-          'Deliverable surfaces stay inside the selected transaction context so you can inspect output without leaving transactions.',
+          'Asset-pack surfaces stay inside the selected Bitcode activity context so you can inspect output without leaving the Bitcode Terminal.',
         metrics: [
           { label: 'Surfaced outputs', value: formatNumber(deliverableSurfaceCount) },
           { label: 'Closure focus', value: detail?.closureFocus || selectedRun.closureFocus || 'materialized output' },
@@ -136,7 +136,7 @@ function buildMasterDetailSubstructures(
         summary:
           detail?.proofStatus ||
           selectedRun.proofStatus ||
-          'Verification, settlement, and bounded proof remain explicit closure stages of the selected transaction.',
+          'Verification, settlement, and bounded proof remain explicit closure stages of the selected Bitcode activity.',
         metrics: [
           { label: 'Proof posture', value: detail?.proofStatus || selectedRun.proofStatus || 'in flight' },
           { label: 'Tokens', value: formatNumber(detail?.processingStats.tokenTotal ?? selectedRun.tokenTotal) },
@@ -158,7 +158,7 @@ function buildMasterDetailSubstructures(
     return {
       ...substructure,
       summary:
-        'Transaction history, ledger reading, and processing posture remain part of the same Bitcode Terminal surface.',
+        'Activity history, ledger reading, and processing posture remain part of the same Bitcode Terminal surface.',
       metrics: [
         { label: 'History items', value: formatNumber(detail?.historyItemCount ?? selectedRun.itemCount) },
         {
@@ -248,7 +248,7 @@ export default function ApplicationTransactionWorkspace({
     fetch(`/api/executions/history/${selectedRun.id}`)
       .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`Unable to load selected transaction detail (${response.status})`);
+          throw new Error(`Unable to load selected Bitcode activity detail (${response.status})`);
         }
         return response.json();
       })
@@ -261,8 +261,8 @@ export default function ApplicationTransactionWorkspace({
         setRunDetail(fallbackDetail);
         setRunDetailError(
           error instanceof Error
-            ? `${error.message}. Falling back to the transaction summary while live detail stays unavailable.`
-            : 'Unable to load live selected-transaction detail. Falling back to the transaction summary.',
+            ? `${error.message}. Falling back to the activity summary while live detail stays unavailable.`
+            : 'Unable to load live selected activity detail. Falling back to the activity summary.',
         );
       })
       .finally(() => {
@@ -289,11 +289,11 @@ export default function ApplicationTransactionWorkspace({
           <div className="max-w-4xl">
             <p className="text-[0.7rem] uppercase tracking-[0.28em] text-neutral-400">Bitcode Terminal</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
-              Master-detail transactions, deliverables, proofs, and history
+              Master-detail activity, asset packs, proofs, and history
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-300">
-              Use the central ledger as the main read surface: select a transaction, inspect its deliverables, proofs,
-              and history, and keep the full operating chain readable without leaving the page.
+              Use the central ledger as the main read surface: select Bitcode activity, inspect its asset packs,
+              proofs, and history, and keep the full operating chain readable without leaving the page.
             </p>
           </div>
           {selectedRun ? (

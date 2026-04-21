@@ -470,11 +470,11 @@ Current active assignments:
   focused lint on retained execution carriers plus `uapi/tests/applicationSurfaceCopy.test.ts`
   proof surface:
   canonical `agentic-execution:branch-artifact` route/query posture now reaches the retained `/executions` surface and live callers while mapping back onto the preserved raw `pipeline:*` storage substrate, proving that Bitcode product routing can be canonical without discarding the reusable execution implementation basis
-- `uapi/app/application/application-workspace-explainers.ts`, `uapi/app/application/{ApplicationCommandDeck.tsx,application-flow-guide.ts,application-command-presentation.ts,ApplicationCoreNativeSections.tsx,ApplicationDepositComposer.tsx,ApplicationPreservedShellSurface.tsx}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,bitcode-transaction-explainers.ts}`, and `uapi/app/auxillaries/components/{auxillary-pane-explainers.ts,AuxillariesBTDPane.tsx}`
+- `uapi/app/application/application-workspace-explainers.ts`, `uapi/app/application/{ApplicationCommandDeck.tsx,ApplicationTransactionWorkspace.tsx,application-flow-guide.ts,application-command-presentation.ts,ApplicationCoreNativeSections.tsx,ApplicationDepositComposer.tsx,ApplicationPreservedShellSurface.tsx}`, `uapi/components/base/bitcode/execution/{BitcodeTransactionsTable.tsx,bitcode-transaction-explainers.ts}`, and `uapi/app/auxillaries/components/{auxillary-pane-explainers.ts,AuxillariesBTDPane.tsx}`
   test coverage:
   `uapi/tests/applicationSurfaceCopy.test.ts`
   proof surface:
-  active `/application`, retained `/executions`, and auxillary product copy now teach the `Bitcode Terminal` directly instead of a generic `transactions surface`, keeping live product language aligned with V26 specification canon
+  active `/application`, retained `/executions`, and auxillary product copy now teach the `Bitcode Terminal` directly instead of a generic `transactions surface`, and the visible explainer/detail layer now reads as Bitcode activity plus asset-pack/proof/history consequence rather than raw transaction/deliverable product wording
 - `uapi/app/application/{application-run-data.ts,ApplicationLiveSummaryStrip.tsx,ApplicationTransactionActivitySurface.tsx,application-workspace-copy.ts}`, `uapi/app/auxillaries/components/auxillary-pane-meta.ts`, and `uapi/app/api/conversations/_shared.ts`
   test coverage:
   `uapi/tests/{applicationTransactions,applicationTransactionDetail,applicationTransactionDetailSnapshot,applicationTransactionSource,bitcodeDetailPanel}.test.*`
@@ -484,6 +484,7 @@ Current active assignments:
   test coverage:
   `uapi/tests/{applicationSurfaceCopy,connectionsStep.static}.test.*`
   proof surface:
+  active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
   active V26 specification and live give/need/connects carriers now teach Bitcode as protocol, product, and proofs across `Bitcode Mainnet`, the `Bitcode Terminal`, need measurement, asset-pack synthesis, settlement follow-through, and wallet-plus-GitHub transacting prerequisites instead of generic transaction or deliverable posture
 - `uapi/app/application/ApplicationTransactionsTable.tsx`
   test coverage:

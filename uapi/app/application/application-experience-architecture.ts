@@ -6,7 +6,7 @@ export const APPLICATION_EXPERIENCES = [
     label: 'Master detail',
     badge: 'primary',
     description:
-      'The central Bitcode ledger window: a searchable transactions table with the selected transaction opened into deliverables, proofs, and history.',
+      'The central Bitcode activity ledger: a searchable activity table with the selected activity opened into asset packs, proofs, and history.',
     targetId: 'applicationTransactionWorkspace',
   },
   {
@@ -57,10 +57,10 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
   },
   {
     id: 'deliverables',
-    label: 'Deliverables',
+    label: 'Asset packs',
     badge: 'materialized output',
     description:
-      'Read pull requests, reviews, issues, comments, and artifact bundles inside the selected transaction context.',
+      'Read pull requests, reviews, issues, comments, and artifact bundles inside the selected activity context.',
     targetId: 'applicationTransactionDeliverables',
   },
   {
@@ -68,7 +68,7 @@ export const MASTER_DETAIL_SUBSTRUCTURES = [
     label: 'Proofs',
     badge: 'closure',
     description:
-      'Keep verification, settlement proof, and bounded disclosure inside the same consequence chain as the selected transaction.',
+      'Keep verification, settlement proof, and bounded disclosure inside the same consequence chain as the selected activity.',
     targetId: 'applicationTransactionProofs',
   },
   {
